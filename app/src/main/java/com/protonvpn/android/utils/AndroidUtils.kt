@@ -35,7 +35,6 @@ import android.text.Editable
 import android.text.TextUtils.getChars
 import android.util.DisplayMetrics
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
@@ -50,7 +49,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
-import androidx.viewbinding.ViewBinding
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.tv.TvGenericDialogActivity

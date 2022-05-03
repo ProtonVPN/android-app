@@ -61,6 +61,8 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.UserCertRefresh
 import com.protonvpn.android.logging.UserCertRevoked
 import com.protonvpn.android.utils.LiveEvent
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 private const val SCAN_TIMEOUT_MILLIS = 5000L
 
@@ -247,11 +249,16 @@ abstract class VpnBackend(
     private val agentConstants = LocalAgent.constants()
 
     init {
-        mainScope.launch {
-            networkManager.observe().collect { status ->
-                agent?.setConnectivity(status != NetworkStatus.Disconnected)
+        networkManager.observe().onEach { status ->
+            agent?.setConnectivity(status != NetworkStatus.Disconnected)
+        }.launchIn(mainScope)
+
+        certificateRepository.currentCertUpdateFlow.onEach {
+            if (agent != null) {
+                closeAgentConnection()
+                connectToLocalAgent()
             }
-        }
+        }.launchIn(mainScope)
 
         initFeatures()
     }
