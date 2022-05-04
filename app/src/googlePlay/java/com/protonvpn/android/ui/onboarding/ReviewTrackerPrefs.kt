@@ -37,6 +37,7 @@ class ReviewTrackerPrefs @Inject constructor(
     // So it may be worth having this in future
     var installTimestamp: Long by long(System.currentTimeMillis())
 
+    var firstConnectionTimestamp: Long by long(0)
     var lastReviewTimestamp: Long by long(0)
     var longSessionReached: Boolean by boolean(false)
     var successConnectionsInRow: Int by int(0)
