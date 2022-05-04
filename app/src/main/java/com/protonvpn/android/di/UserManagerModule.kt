@@ -38,7 +38,6 @@ import me.proton.core.key.domain.repository.KeySaltRepository
 import me.proton.core.key.domain.repository.PrivateKeyRepository
 import me.proton.core.key.domain.repository.PublicAddressRepository
 import me.proton.core.network.data.ApiProvider
-import me.proton.core.user.data.DefaultDomainHost
 import me.proton.core.user.data.UserAddressKeySecretProvider
 import me.proton.core.user.data.UserAddressManagerImpl
 import me.proton.core.user.data.UserManagerImpl
@@ -49,7 +48,6 @@ import me.proton.core.user.data.repository.UserAddressRepositoryImpl
 import me.proton.core.user.data.repository.UserRepositoryImpl
 import me.proton.core.user.domain.UserAddressManager
 import me.proton.core.user.domain.UserManager
-import me.proton.core.user.domain.entity.Domain
 import me.proton.core.user.domain.repository.DomainRepository
 import me.proton.core.user.domain.repository.PassphraseRepository
 import me.proton.core.user.domain.repository.UserAddressRepository
@@ -59,10 +57,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object UserManagerModule {
-
-    @Provides
-    @DefaultDomainHost
-    fun provideDefaultDomainHost() = BuildConfig.API_DOMAIN.removePrefix("api.")
 
     @Provides
     @Singleton
@@ -95,9 +89,8 @@ object UserManagerModule {
     @Provides
     @Singleton
     fun provideDomainRepository(
-        @DefaultDomainHost defaultDomain: Domain,
         provider: ApiProvider
-    ): DomainRepository = DomainRepositoryImpl(defaultDomain, provider)
+    ): DomainRepository = DomainRepositoryImpl(provider)
 
     @Provides
     @Singleton
