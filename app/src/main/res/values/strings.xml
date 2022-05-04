@@ -108,7 +108,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[To manage your subscription, you have to go to the <font color="%1$s">protonvpn.com</font> webpanel.]]></string>
     <string name="accountButtonManage">Manage account</string>
     <string name="accountButtonUseCoupon">Use coupon</string>
-    <string name="accountFree">ProtonVPN Free</string>
+    <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Profile</string>
     <string name="activityAccountTitle">Account</string>
     <string name="activitySettingsTitle">Settings</string>

@@ -97,7 +97,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[Untuk mengelola langganan Anda, Anda harus menuju ke panel web <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Kelola akun</string>
     <string name="accountButtonUseCoupon">Gunakan kupon</string>
-    <string name="accountFree">ProtonVPN Gratis</string>
+    <string name="accountFree">Proton VPN Gratis</string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Akun</string>
     <string name="activitySettingsTitle">Pengaturan</string>

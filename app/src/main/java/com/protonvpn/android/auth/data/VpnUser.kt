@@ -63,7 +63,7 @@ data class VpnUser(
     val sessionId: SessionId
 ) {
     val accountType get() = if (services == 4)
-        "ProtonVPN Account" else "ProtonMail Account"
+        "Proton VPN Account" else "Proton Mail Account"
 
     val isFreeUser get() = maxTier == 0
     val isBasicUser get() = userTier == 1

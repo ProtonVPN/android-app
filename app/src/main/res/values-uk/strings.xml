@@ -97,7 +97,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[Щоб керувати передплатою, перейдіть на вебпанель <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Керувати обліковим записом</string>
     <string name="accountButtonUseCoupon">Використати купон</string>
-    <string name="accountFree">ProtonVPN Free</string>
+    <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Профіль</string>
     <string name="activityAccountTitle">Обліковий запис</string>
     <string name="activitySettingsTitle">Налаштування</string>

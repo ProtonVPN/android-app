@@ -97,7 +97,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[Per gestire il tuo abbonamento, devi andare nel pannello web <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Gestione Account</string>
     <string name="accountButtonUseCoupon">Utilizza coupon</string>
-    <string name="accountFree">ProtonVPN Free</string>
+    <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Profilo</string>
     <string name="activityAccountTitle">Account</string>
     <string name="activitySettingsTitle">Impostazioni</string>
