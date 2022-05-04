@@ -103,7 +103,7 @@ class ReviewTracker @Inject constructor(
 
     private fun log(message: String) {
         ProtonLogger.logCustom(
-            LogLevel.INFO,
+            LogLevel.DEBUG,
             LogCategory.APP_REVIEW,
             message
         )
