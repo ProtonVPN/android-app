@@ -97,7 +97,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[Pour gérer votre abonnement, allez dans le menu <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Gérer le compte</string>
     <string name="accountButtonUseCoupon">Utiliser un code promotionnel</string>
-    <string name="accountFree">ProtonVPN FREE</string>
+    <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Compte</string>
     <string name="activitySettingsTitle">Paramètres</string>
