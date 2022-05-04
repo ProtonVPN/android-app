@@ -75,6 +75,9 @@ class ReviewTracker @Inject constructor(
 
         vpnMonitor.status.onEach {
             if (it.state == VpnState.Connected) {
+                if (reviewTrackerPrefs.firstConnectionTimestamp == 0L)
+                    reviewTrackerPrefs.firstConnectionTimestamp = wallClock()
+
                 reviewTrackerPrefs.successConnectionsInRow++
                 if (shouldRate()) {
                     createInAppReview()
@@ -106,23 +109,27 @@ class ReviewTracker @Inject constructor(
         )
     }
 
+    private fun getWithDefaultMaxValue(value: Long): Long {
+        return if (value == 0L)
+            Long.MAX_VALUE
+        else
+            TimeUnit.MILLISECONDS.toDays(wallClock() - value)
+    }
+
     suspend fun shouldRate(): Boolean {
         val ratingConfig = appConfig.getRatingConfig()
-        val lastReviewDaysAgo =
-            reviewTrackerPrefs.lastReviewTimestamp.let {
-                // If was not reviewed at all, initialize with high number to trigger first review
-                if (it == 0L) {
-                    ratingConfig.daysSinceLastRatingCount.toLong()
-                } else {
-                    TimeUnit.MILLISECONDS.toDays(wallClock() - it)
-                }
-            }
-
-        // Do not trigger in-app review if it was called recently
-        if (ratingConfig.daysSinceLastRatingCount > lastReviewDaysAgo) return false
 
         log("User plan eligable for review suggestion: " + ratingConfig.eligiblePlans.contains(currentUser.vpnUser()?.planName))
         if (!ratingConfig.eligiblePlans.contains(currentUser.vpnUser()?.planName)) return false
+
+        val firstConnectionDaysAgo = getWithDefaultMaxValue(reviewTrackerPrefs.firstConnectionTimestamp)
+        val lastReviewDaysAgo = getWithDefaultMaxValue(reviewTrackerPrefs.lastReviewTimestamp)
+        log("First connection attempt days ago: $firstConnectionDaysAgo")
+        // Do not trigger if first connection attempt was recent
+        if (ratingConfig.daysFromFirstConnectionCount > firstConnectionDaysAgo) return false
+        log("Last review days ago: $lastReviewDaysAgo")
+        // Do not trigger in-app review if it was called recently
+        if (ratingConfig.daysSinceLastRatingCount > lastReviewDaysAgo) return false
 
         // Do not ask to rate if user is not within our app
         foregroundActivityTracker.foregroundActivity ?: return false
