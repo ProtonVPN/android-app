@@ -97,7 +97,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[برای مدیریت اشتراک خود، شما باید بروید به <font color="%1$s">protonvpn.com</font>webpanel.]]></string>
     <string name="accountButtonManage">مدیریت حساب کاربری</string>
     <string name="accountButtonUseCoupon">Use coupon</string>
-    <string name="accountFree">طرح ProtonVPN رایگان</string>
+    <string name="accountFree">طرح Proton VPN رایگان</string>
     <string name="activityProfileTitle">پروفایل</string>
     <string name="activityAccountTitle">حساب کاربری</string>
     <string name="activitySettingsTitle">تنظیمات</string>

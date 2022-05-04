@@ -97,7 +97,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[U kunt uw abonnement beheren via het <font color="%1$s">protonvpn.com</font> dashboard.]]></string>
     <string name="accountButtonManage">Account beheren</string>
     <string name="accountButtonUseCoupon">Gebruik kortingscode</string>
-    <string name="accountFree">ProtonVPN Free</string>
+    <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Profiel</string>
     <string name="activityAccountTitle">Account</string>
     <string name="activitySettingsTitle">Instellingen</string>

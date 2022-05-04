@@ -97,7 +97,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[Para gerenciar sua assinatura, você deve ir para o painel da web <font color="%1$s"> protonvpn.com </font>.]]></string>
     <string name="accountButtonManage">Gerenciar conta</string>
     <string name="accountButtonUseCoupon">Usar cupom</string>
-    <string name="accountFree">ProtonVPN Free</string>
+    <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Perfil</string>
     <string name="activityAccountTitle">Conta</string>
     <string name="activitySettingsTitle">Configurações</string>

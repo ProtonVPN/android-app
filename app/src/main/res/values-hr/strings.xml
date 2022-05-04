@@ -97,7 +97,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[Da biste upravljali pretplatom, morate posjetiti <font color="%1$s">protonvpn.com</font> web stranicu.]]></string>
     <string name="accountButtonManage">Upravljanje korisničkim računom</string>
     <string name="accountButtonUseCoupon">Use coupon</string>
-    <string name="accountFree">ProtonVPN Free</string>
+    <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Korisnički račun</string>
     <string name="activitySettingsTitle">Postavke</string>

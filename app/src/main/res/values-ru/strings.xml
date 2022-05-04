@@ -97,7 +97,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[Чтобы управлять подпиской, вы должны перейти в веб-панель <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Управление аккаунтом</string>
     <string name="accountButtonUseCoupon">Использовать купон</string>
-    <string name="accountFree">ProtonVPN Free</string>
+    <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Профиль</string>
     <string name="activityAccountTitle">Аккаунт</string>
     <string name="activitySettingsTitle">Настройки</string>
