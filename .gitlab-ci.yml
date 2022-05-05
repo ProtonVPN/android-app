@@ -278,6 +278,7 @@ publish-apk-internal:
   tags:
     - xlarge-k8s
   extends: .gradle-job
+  when: manual
   only:
     refs:
       - development
