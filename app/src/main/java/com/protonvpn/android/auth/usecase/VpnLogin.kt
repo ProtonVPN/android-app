@@ -58,6 +58,13 @@ class VpnLogin @Inject constructor(
         val sessionId = sessionProvider.getSessionId(user.userId)
         requireNotNull(sessionId)
         return when (val vpnResult = api.getVPNInfo(sessionId)) {
+            is ApiResult.Error.Http -> {
+                if (vpnResult.proton?.code == ERROR_CODE_NO_CONNECTIONS_ASSIGNED) {
+                    Result.AssignConnections
+                } else {
+                    Result.Error(vpnResult.proton?.error ?: context.getString(R.string.auth_login_general_error))
+                }
+            }
             is ApiResult.Error ->
                 Result.Error(context.getString(R.string.auth_login_general_error))
             is ApiResult.Success -> {
@@ -101,6 +108,7 @@ class VpnLogin @Inject constructor(
 
     companion object {
         const val ONBOARDING_SHOW_CONNECT_FEATURE = "OnboardingShowFirstConnection"
+        private const val ERROR_CODE_NO_CONNECTIONS_ASSIGNED = 86_300
     }
 }
 
