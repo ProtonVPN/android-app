@@ -276,6 +276,7 @@ publish-apk-internal:
   tags:
     - large
   extends: .gradle-job
+  when: manual
   only:
     refs:
       - development
