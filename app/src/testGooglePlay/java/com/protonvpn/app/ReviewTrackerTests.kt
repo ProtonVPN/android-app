@@ -79,6 +79,8 @@ class ReviewTrackerTests {
     private val vpnConnectionNotificationFlow = MutableSharedFlow<VpnFallbackResult>()
     private val trafficStatus = MutableLiveData<TrafficUpdate?>()
     private val trackerPrefs = ReviewTrackerPrefs(MockSharedPreferencesProvider())
+    private val CURRENT_TIME = 1651736648L
+    private val CURRENT_TIME_BEFORE = CURRENT_TIME - 500
 
     @get:Rule
     var rule = InstantTaskExecutorRule()
@@ -105,7 +107,7 @@ class ReviewTrackerTests {
         currentUser.mockVpnUser { vpnUser }
         reviewTracker = ReviewTracker(
             mockk(relaxed = true),
-            { System.currentTimeMillis() },
+            { CURRENT_TIME },
             TestCoroutineScope(),
             appConfig,
             currentUser,
@@ -125,7 +127,7 @@ class ReviewTrackerTests {
 
     @Test
     fun `do not trigger if was triggered recently`() = runBlockingTest {
-        trackerPrefs.lastReviewTimestamp = System.currentTimeMillis()
+        trackerPrefs.lastReviewTimestamp = CURRENT_TIME_BEFORE
         mockOldConnectionSuccess()
         addLongSession()
         assertFalse(reviewTracker.shouldRate())
@@ -133,7 +135,7 @@ class ReviewTrackerTests {
 
     @Test
     fun `trigger if last review was triggered earlier than daysSinceLastRatingCount`() = runBlockingTest {
-        val fakeTimestamp = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(appConfig.getRatingConfig().daysSinceLastRatingCount.toLong())
+        val fakeTimestamp = CURRENT_TIME - TimeUnit.DAYS.toMillis(appConfig.getRatingConfig().daysSinceLastRatingCount.toLong())
         mockOldConnectionSuccess()
         trackerPrefs.lastReviewTimestamp = fakeTimestamp
         addLongSession()
@@ -173,7 +175,7 @@ class ReviewTrackerTests {
     @Test
     fun `do not trigger if first connection was recent`() = runBlockingTest {
         addSuccessfulConnections()
-        trackerPrefs.firstConnectionTimestamp = System.currentTimeMillis()
+        trackerPrefs.firstConnectionTimestamp = CURRENT_TIME_BEFORE
         assertFalse(reviewTracker.shouldRate())
     }
 
@@ -186,7 +188,7 @@ class ReviewTrackerTests {
     }
 
     private fun mockOldConnectionSuccess() {
-        trackerPrefs.firstConnectionTimestamp = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(appConfig.getRatingConfig().daysFromFirstConnectionCount.toLong())
+        trackerPrefs.firstConnectionTimestamp = CURRENT_TIME - TimeUnit.DAYS.toMillis(appConfig.getRatingConfig().daysFromFirstConnectionCount.toLong())
     }
 
     private fun addLongSession() {
