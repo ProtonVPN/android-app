@@ -379,9 +379,10 @@ task publishGenerateReleaseNotes {
 
 task publishInternal {
     if (name in project.gradle.startParameter.taskNames) {
-        if (rootProject.extensions.extraProperties.properties["useCoreGitSubmodule"].toString().toBoolean()) {
-            throw new GradleException("Core snapshot builds should not be published")
-        }
+        // Allow publishing with snapshots for the time being.
+        // if (rootProject.extensions.extraProperties.properties["useCoreGitSubmodule"].toString().toBoolean()) {
+        //    throw new GradleException("Core snapshot builds should not be published")
+        // }
         def lastSha = System.getenv("CI_COMMIT_BEFORE_SHA")
         if (lastSha == null || lastSha.matches("0*") ||
                 Helpers.exec("git rev-list --count ${lastSha}..HEAD").trim().toInteger() == 0) {
