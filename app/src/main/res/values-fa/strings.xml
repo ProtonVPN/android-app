@@ -54,7 +54,7 @@
     <string name="dialogLearnMore">بیشتر بدانید</string>
     <string name="dialog_read_more">بیشتر بخوانید</string>
     <string name="dialog_apply">اعمال</string>
-    <string name="dialog_applying">Applying</string>
+    <string name="dialog_applying">در حال اعمال</string>
     <string name="secureCoreConnectVia">از طریق %1$s</string>
     <string name="connected">متصل</string>
     <string name="buttonConnect">اتصال</string>
@@ -96,8 +96,8 @@
     <string name="accountVersion">نسخه:</string>
     <string name="accountSubscriptionDetails"><![CDATA[برای مدیریت اشتراک خود، شما باید بروید به <font color="%1$s">protonvpn.com</font>webpanel.]]></string>
     <string name="accountButtonManage">مدیریت حساب کاربری</string>
-    <string name="accountButtonUseCoupon">Use coupon</string>
-    <string name="accountFree">طرح Proton VPN رایگان</string>
+    <string name="accountButtonUseCoupon">استفاده از کد تخفیف</string>
+    <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">پروفایل</string>
     <string name="activityAccountTitle">حساب کاربری</string>
     <string name="activitySettingsTitle">تنظیمات</string>
@@ -120,10 +120,10 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[از ProtonVPN برای هر گونه کاربری خاص با اجازهٔ عبور ترافیک از درگاه‌های غیر-استاندارد در شبکهٔ VPN استفاده کنید. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
-    <string name="use_coupon_title">Use coupon</string>
-    <string name="use_coupon_code_label">Coupon code</string>
-    <string name="use_coupon_success">Coupon has been applied successfully</string>
-    <string name="use_coupon_success_no_upgrade_yet">Coupon has been applied successfully. Your subscription will be upgraded within a few minutes.</string>
+    <string name="use_coupon_title">استفاده از کد تخفیف</string>
+    <string name="use_coupon_code_label">کد تخفیف</string>
+    <string name="use_coupon_success">کد تخفیف با موفقیت اعمال شد</string>
+    <string name="use_coupon_success_no_upgrade_yet">کد تخفیف با موفقیت اعمال شد. اشتراک شما در چند دقیقه آینده ارتقا خواهد یافت.</string>
     <string name="restrictedMaintenanceTitle">تحت عملیات نگهداری</string>
     <string name="restrictedMaintenanceDescription">سروری که می‌خواهید به آن متصل شوید، در دست تعمیر است لطفاً سرور دیگری را انتخاب کنید.</string>
     <string name="errorUserDelinquent"><![CDATA[حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.]]></string>
@@ -143,7 +143,7 @@
     <string name="onboardingNext">بعدی</string>
     <string name="offerTooltipShowOffer">دیدن پیشنهاد</string>
     <string name="listItemMaintenance">تحت عملیات نگهداری</string>
-    <string name="listAllCountries">All locations (%1$d)</string>
+    <string name="listAllCountries">همهٔ مکان‌ها (%1$d)</string>
     <string name="listFreeCountries">مکان‌های رایگان (%1$d)</string>
     <string name="listPremiumCountries">مکان‌های BASIC و PLUS (%1$d)</string>
     <string name="listFastestServer">سریع‌ترین سرور</string>
@@ -380,7 +380,7 @@
     <string name="tv_login_title_refresh">نشست شما منقضی شده است. دکمه نوسازی را زده تا دوباره از نو شروع کنید.</string>
     <string name="tv_upgrade_title">شروع به پخش کنید با Plus</string>
     <string name="back">بازگشت</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to ProtonVPN Plus now.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[بروید به <b>%1$s</b> تا هم اکنون به ProtonVPN Plus ارتقا دهید.]]></string>
     <string name="tv_upgrade_description">یک طرح ProtonVPN Plus بگیرید تا به +۵۰۰ سرور در سراسر جهان و انتخابهای بهینه شده برای پخش و دیدن Netflix, Amazon Prime Video, Disney+, و خیلی موارد دیگر دست یابید.</string>
     <string name="tv_vpn_error_dialog_title">ﺍﺗﺼﺎﻝ VPN ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
     <string name="tv_signout_label">خروج</string>
@@ -422,12 +422,12 @@
     <string name="notification_max_sessions_title">شما به حداکثر محدودیت دستگاه خود رسیدید</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Please disconnect another device to connect this one or upgrade to Plus to get up to %1$d device connected at the same time.</item>
-        <item quantity="other">Please disconnect another device to connect this one or upgrade to Plus to get up to %1$d devices connected at the same time.</item>
+        <item quantity="one">لطفاً اتصال یک دستگاه دیگر را قطع کنید تا این دستگاه متصل شود یا به طرح Plus ارتقا دهید تا %1$d دستگاه را همزمان متصل نگه دارید.</item>
+        <item quantity="other">لطفاً اتصال یک دستگاه دیگر را قطع کنید تا این دستگاه متصل شود یا به طرح Plus ارتقا دهید تا %1$d دستگاه را همزمان متصل نگه دارید.</item>
     </plurals>
     <string name="notification_max_sessions_content">لطفاً یک دستگاه دیگر را قطع کنید تا این دستگاه را وصل کنید.</string>
-    <string name="notification_cancel_to_free">You are on the Free plan. Free servers and features are available.</string>
-    <string name="notification_cancel_to_basic">You are on the Basic plan. Basic &amp; Free servers and features are available.</string>
+    <string name="notification_cancel_to_free">شما در طرح رایگان هستید. سرورها و قابلیت‌های رایگان موجود هستند.</string>
+    <string name="notification_cancel_to_basic">شما در طرح Basic هستید. سرورها و قابلیت‌های Basic و رایگان موجود هستند.</string>
     <string name="notification_cancel_to_delinquent">شما پس از پرداخت صورت‌حساب‌های در حال انتظار دوباره قادر به دسترسی به قابلیت‌های ویژه خواهید بود.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">از سرور: </string>
@@ -459,15 +459,15 @@
     <string name="upsell_upgrade_again">برای استفاده از همهٔ ویژگی‌ها دوباره ارتقا دهید:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">When you upgrade to Plus</string>
-    <string name="upgrade_netshield_title_new">Enjoy ad-free browsing with NetShield</string>
-    <string name="upgrade_secure_core_title_new">Double the encryption with Secure Core</string>
-    <string name="upgrade_secure_core_countries">Route through ultra secure servers in Switzerland, Sweden, and Iceland</string>
-    <string name="upgrade_secure_core_encryption">Add another layer of encryption to your VPN connection</string>
-    <string name="upgrade_secure_core_protect">Protect yourself from network attacks</string>
-    <string name="upgrade_netshield_block_ads">Block ads and trackers</string>
-    <string name="upgrade_netshield_block_malware">Protect your device from malware</string>
-    <string name="upgrade_netshield_speed">Browse at the highest speeds</string>
+    <string name="upgrade_plus_subtitle">زمانی که شما به Plus ارتقا دهید</string>
+    <string name="upgrade_netshield_title_new">با NetShield از وبگردی بدون تبلیغات لذا ببرید</string>
+    <string name="upgrade_secure_core_title_new">با Secure Core دو بار رمزنگاری کنید</string>
+    <string name="upgrade_secure_core_countries">مسیریابی از طریق سرورهای فوق امن در سوییس، سوئد و ایسلند</string>
+    <string name="upgrade_secure_core_encryption">اضافه کردن یک لایه دیگر رمزنگاری به ارتباط VPN شما</string>
+    <string name="upgrade_secure_core_protect">از خودتان در برابر حملات شبکه محافظت کنید</string>
+    <string name="upgrade_netshield_block_ads">مسدود کردن تبلیغات و ردیاب‌ها</string>
+    <string name="upgrade_netshield_block_malware">دستگاه خود را از بدافزارها محافظت کنید</string>
+    <string name="upgrade_netshield_speed">با بالاترین سرعت وبگردی کنید</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -475,8 +475,8 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d secure server</item>
-        <item quantity="other">%d secure servers</item>
+        <item quantity="one">%d سرور امن</item>
+        <item quantity="other">%d سرور امن</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -504,7 +504,7 @@
      Example:
      Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
+    <string name="upgrade_plus_countries_title_new">دسترسی به %1$s سرور در %2$s کشور</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -512,16 +512,16 @@
      You now have access to 1300+ secure servers and other premium features.
      -->
     <string name="onboarding_plan_congrats_description">حالا شما به %1$s و دیگر ویژگی های پولی دسترسی دارید.</string>
-    <string name="upgrade_plus_countries_streaming">Access global streaming services</string>
+    <string name="upgrade_plus_countries_streaming">دسترسی به سرویس‌های استریم جهانی</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="one">اتصال %d دستگاه</item>
         <item quantity="other">اتصال %d دستگاه به صورت همزمان</item>
     </plurals>
     <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
-    <string name="upgrade_plus_countries_speeds">Browse at the highest speeds (10 Gbps)</string>
-    <string name="upgrade_plus_countries_more">And many more premium features</string>
-    <string name="upgrade_safe_mode_title">Allow traffic to non-standard ports</string>
+    <string name="upgrade_plus_countries_speeds">با بالاترین سرعت وبگردی کنید (10 گیگابیت بر ثانیه)</string>
+    <string name="upgrade_plus_countries_more">و بسیاری از ویژگی‌های دیگر</string>
+    <string name="upgrade_safe_mode_title">امکان عبور ترافیک از پورت‌های غیر استاندارد</string>
     <string name="upgrade_safe_mode_message">Have advanced or professional computing needs that require non-standard ports? Upgrade to VPN Plus to access this and other premium features.</string>
     <string name="upgrade_moderate_nat_title">Enable Moderate NAT</string>
     <string name="upgrade_moderate_nat_message">Moderate NAT, also known as NAT Type 2, can improve your online experience with various applications and online video games. Unlock this and other features with a Plus plan.</string>
@@ -556,7 +556,7 @@
     <string name="onboarding_welcome_title">به ProtonVPN خوش آمدید</string>
     <string name="onboarding_welcome_description">تنها در چند ثانیه با ProtonVPN آشنا شوید.</string>
     <string name="onboarding_welcome_action">شروع کنید</string>
-    <string name="onboarding_available_on_plus">Available with Plus</string>
+    <string name="onboarding_available_on_plus">در دسترس برای Plus</string>
     <string name="onboarding_streaming_title">رفع انسداد پخش آنلاین</string>
     <string name="onboarding_streaming_description">دسترسی امن به هر گونه محتوا، حتی وقتی در حال سفر در کشورهای دیگر هستید. دسترسی امن در AndroidTV نیز برقرار است.</string>
     <string name="onboarding_protection_title">همه‌جا محافظت شوید</string>
@@ -564,30 +564,30 @@
     <string name="onboarding_netshield_title">مسدود کردن تبلیغات و خیلی بیشتر</string>
     <string name="onboarding_netshield_description">بدافزارها، تبلیغات و ردیاب ها را در مرورگر و در تمام برنامه ها مسدود کنید.</string>
     <string name="onboarding_connection_title">اولین اتصال خود را برقرار کنید</string>
-    <string name="onboarding_connection_description">Free subscription offers %1$d servers in %2$d countries</string>
+    <string name="onboarding_connection_description">اشتراک رایگان %1$d سرور را در %2$d کشور ارائه می‌دهد</string>
     <string name="onboarding_connection_info">ما شما را به سریع‌ترین و پایدارترین سرور برای موقعیت شما، متصل می‌کنیم.</string>
     <string name="onboading_connect_now">اتصال</string>
     <string name="onboading_connecting_now">در حال اتصال</string>
     <string name="onboarding_congrats_description">اتصال شما محافظت شده است و آماده برای مرور وب هستید. \n\n با امنیت.</string>
     <string name="onboarding_congrats_title">تبریک!</string>
     <string name="onboarding_plan_congrats_description_privacy">از دنیای حریم خصوصی لذت ببرید.</string>
-    <string name="onboading_connect_to_plus">Connect to a Plus server</string>
-    <string name="upgrade_use_limited_free_button">Use limited Free plan</string>
-    <string name="dynamic_report_suggestion_didnt_work">Didn\'t work?</string>
+    <string name="onboading_connect_to_plus">اتصال به یک سرور Plus</string>
+    <string name="upgrade_use_limited_free_button">استفاده از طرح رایگان محدود</string>
+    <string name="dynamic_report_suggestion_didnt_work">کار نکرد؟</string>
     <string name="dynamic_report_contact_us">تماس با ما</string>
     <string name="dynamic_report_tips_description">These tips could help to solve your issue faster.</string>
-    <string name="dynamic_report_tips_title">Quick fixes</string>
-    <string name="dynamic_report_logs_title">Send error logs</string>
+    <string name="dynamic_report_tips_title">راه‌حل‌های سریع</string>
+    <string name="dynamic_report_logs_title">ارسال لاگ خطا</string>
     <string name="dynamic_report_success_title">از بازخورتان شما سپاسگزاریم</string>
     <string name="dynamic_report_success_description">We’ll get back to you as soon as we can.</string>
-    <string name="dynamic_report_field_mandatory">This field is mandatory</string>
+    <string name="dynamic_report_field_mandatory">این بخش اجباری است</string>
     <string name="dynamic_report_logs_description">A log is a type of file that shows us the actions you took that led to an error. We’ll only ever use them to help our engineers fix bugs.</string>
     <string name="dynamic_report_logs_missing">Error logs help us to get to the bottom of your issue. If you don’t include them, we might not be able to investigate fully.</string>
-    <string name="dynamic_report_step1">Step 1 of 3</string>
-    <string name="dynamic_report_step2">Step 2 of 3</string>
-    <string name="dynamic_report_step3">Step 3 of 3</string>
-    <string name="dynamic_report_your_issue_headline">What is your issue</string>
-    <string name="update_screen_title">Update ProtonVPN</string>
+    <string name="dynamic_report_step1">مرحله ۱ از ۳</string>
+    <string name="dynamic_report_step2">مرحله ۲ از ۳</string>
+    <string name="dynamic_report_step3">مرحله ۳ از ۳</string>
+    <string name="dynamic_report_your_issue_headline">مشکل شما چیست؟</string>
+    <string name="update_screen_title">به‌روزرسانی ProtonVPN</string>
     <string name="update_screen_description">You’re more likely to have issues on older versions of ProtonVPN.</string>
     <string name="server_search_menu_title">جستجو</string>
     <string name="server_search_hint">Country, city, server</string>
@@ -600,30 +600,30 @@
     <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
-    <string name="server_search_cities_header">Cities (%1$d)</string>
+    <string name="server_search_cities_header">شهرها (%1$d)</string>
     <!-- The parameter is the number of server displayed in search results.
          Examples: "Servers (5)", "Servers (1)" -->
-    <string name="server_search_servers_header">Servers (%1$d)</string>
-    <string name="search_empty_title">Search for any location</string>
+    <string name="server_search_servers_header">سرورها (%1$d)</string>
+    <string name="search_empty_title">جستجو برای هر مکانی</string>
     <string name="search_empty_hint_countries"><![CDATA[Countries: <font color="%1$s">Switzerland, United States, Italy…</font>]]></string>
     <string name="search_empty_hint_countries_secure_core"><![CDATA[Countries: <font color="%1$s">France, United States, Italy…</font>]]></string>
     <string name="search_empty_hint_cities"><![CDATA[Cities: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
     <string name="search_empty_hint_usa_regions"><![CDATA[US regions: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
     <string name="search_empty_hint_servers"><![CDATA[Servers: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
-    <string name="search_empty_result_subtitle">Please try a different keyword</string>
+    <string name="search_empty_result_subtitle">لطفا کلمه کلیدی دیگری را امتحان کنید</string>
     <string name="search_empty_result_title">هیچ نتیجه‌ای یافت نشد</string>
-    <string name="search_recents_header_title">Recently viewed (%1$d)</string>
-    <string name="search_clear_history">Clear history</string>
-    <string name="search_clear_history_dialog">Your search history will be lost. Continue?</string>
+    <string name="search_recents_header_title">اخیرا مشاهده شده (%1$d)</string>
+    <string name="search_clear_history">پاک کردن تاریخچه</string>
+    <string name="search_clear_history_dialog">تاریخچه جستجو از دست خواهد رفت. ادامه می‌دهید؟</string>
     <!-- Parameters:
      %1$s - number of countries. It is never 1.
 
      Example: Access all 63 countries. -->
     <plurals name="search_upgrade_banner_title">
-        <item quantity="one">Access %1$d country</item>
-        <item quantity="other">Access all %1$d countries</item>
+        <item quantity="one">دسترسی به %1$d کشور</item>
+        <item quantity="other">دسترسی به %1$d کشور</item>
     </plurals>
-    <string name="search_upgrade_banner_subtitle">More locations = more unblocked content + extra security + faster speeds</string>
+    <string name="search_upgrade_banner_subtitle">محل‌های بیشتر = محتوای رفع مسدودی شده بیشتر + امنیت بیشتر + سرعت بیشتر</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">از <a href="https://protonvpn.com/pricing">protonvpn.com</a> برای اطلاعات بیشتر بازدید کنید.</string>
 </resources>

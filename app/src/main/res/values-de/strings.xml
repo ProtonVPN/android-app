@@ -21,7 +21,7 @@
     <!-- Strings related to login -->
     <string name="hintUsername">Benutzername</string>
     <string name="hintPassword">Passwort</string>
-    <string name="splitTunnellingSwitch">Tunnel-Schalter teilen</string>
+    <string name="splitTunnellingSwitch">Split-Tunneling-Schalter</string>
     <string name="login">Anmelden</string>
     <string name="hamburgerMenu">Menüleiste</string>
     <string name="error_field_required">Dieses Feld ist erforderlich</string>
@@ -67,7 +67,7 @@
     <string name="loaderConnectedToLabel">Verbunden mit:</string>
     <string name="loaderDisconnecting">Verbindung wird getrennt</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
-    <string name="loaderReconnecting">Verbindung wiederherstellen</string>
+    <string name="loaderReconnecting">Verbindung wird wiederhergestellt</string>
     <string name="loaderReconnectingSuggestion">Oder tippen Sie auf „Erneut versuchen”, um die Verbindung manuell wiederherzustellen</string>
     <string name="loaderReconnectNoNetwork">Warte auf nutzbares Netzwerk</string>
     <string name="loaderReconnectNoNetworkSuggestion">Bitte überprüfen Sie Ihre Netzwerkverbindung</string>
@@ -97,7 +97,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[Um dein Abonnement zu verwalten, öffne bitte die Webseite: <font color="%1$s">protonvpn.com</font>]]></string>
     <string name="accountButtonManage">Konto verwalten</string>
     <string name="accountButtonUseCoupon">Gutschein verwenden</string>
-    <string name="accountFree">Proton VPN Free</string>
+    <string name="accountFree">Proton VPN-Free</string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Konto</string>
     <string name="activitySettingsTitle">Einstellungen</string>
@@ -151,7 +151,7 @@
     <string name="listBasicServers">Standard-Server (%1$d)</string>
     <string name="listPlusServers">Plus-Server (%1$d)</string>
     <string name="insufficientPermissionsTitle">Benutzereingabe erforderlich</string>
-    <string name="insufficientPermissionsDetails">Das automatische Aufbauen einer VPN-Verbindung fehlgeschlagen. Bitte verbinden Sie sich einmal manuell, um die Berechtigungen erteilen zu können.</string>
+    <string name="insufficientPermissionsDetails">Das automatische Aufbauen einer VPN-Verbindung fehlgeschlagen. Bitte verbinde dich einmal manuell, um die Berechtigungen erteilen zu können.</string>
     <string name="tabsCountries">Länder</string>
     <string name="tabsMap">Karte</string>
     <string name="tabsProfiles">Profile</string>
@@ -233,8 +233,8 @@
     <string name="session_time">Sitzungszeit:</string>
     <string name="download_volume">Menge:</string>
     <string name="download_speed">Geschwindigkeit:</string>
-    <string name="save_to_profile">In Profil speichern</string>
-    <string name="notConnected">Sie sind mit keinem\nServer verbunden</string>
+    <string name="save_to_profile">Im Profil speichern</string>
+    <string name="notConnected">Du bist mit keinem \n Server verbunden</string>
     <string name="activityLicensesTitle">Drittanbieter-Lizenzen</string>
     <string name="stateFragmentUnknownIp">Unbekannt</string>
     <string name="noVpnPermissionMainTitle">Maßnahmen erforderlich, um eine Verbindung zum VPN herzustellen</string>
@@ -246,14 +246,14 @@
     <string name="noVpnPermissionProtonAppLabel">ProtonVPN-App</string>
     <string name="noVpnPermissionOtherAppLabel">Andere VPN-Apps</string>
     <string name="noVpnPermissionOpenSettings">Android VPN-Einstellungen öffnen</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Bitte deaktivieren Sie Always-on-VPN für alle anderen VPN-Anwendungen in den Android-VPN-Systemeinstellungen, da dies ProtonVPN daran hindert, eine VPN-Verbindung aufzubauen. Bitte gewähren Sie auch VPN Berechtigungen, wenn ein Dialog zur Anforderung von VPN-Berechtigungen angezeigt wird. Andere VPN-Anwendungen müssen möglicherweise ebenfalls deinstalliert werden, um Konflikte zu vermeiden. Versuchen Sie es danach bitte erneut. <a href="%1$s">Mehr erfahren</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Bitte deaktiviere Always-on-VPN für alle anderen VPN-Anwendungen in den Android-VPN-Systemeinstellungen, da dies ProtonVPN daran hindert, eine VPN-Verbindung aufzubauen. Bitte gewähre auch VPN Berechtigungen, wenn ein Dialog zur Anforderung von VPN-Berechtigungen angezeigt wird. Andere VPN-Anwendungen müssen möglicherweise ebenfalls deinstalliert werden, um Konflikte zu vermeiden. Versuche es danach bitte erneut. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="error_prepare_vpn_settings">Android VPN-Einstellungen aufrufen</string>
     <string name="error_prepare_vpn_title">Fehler: VPN-Berechtigungsproblem</string>
     <string name="error_server_not_set">Server nicht mehr verfügbar</string>
-    <string name="bugReportThankYouToast">Vielen Dank für Ihren Bericht</string>
+    <string name="bugReportThankYouToast">Vielen Dank für deinen Bericht</string>
     <string name="bugReportErrorEmptyEmail">Bitte E-Mail-Adresse angeben</string>
     <string name="bugReportErrorInvalidEmail">Ungültige E-Mail-Adresse</string>
-    <string name="bugReportErrorEmptyDescription">Bitte schreiben Sie uns, was passiert ist</string>
+    <string name="bugReportErrorEmptyDescription">Bitte schreibe uns, was passiert ist</string>
     <string name="bugReportLabelVpnLogsTitle">Fehlerprotokolle einbeziehen</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Dadurch werden lokale Fehlerprotokolle gesendet (wir protokollieren keine Aktivitäten), die uns bei der Lösung Ihres Problems behilflich sind.</string>
     <string name="profileFastest">Schnellster Server</string>
@@ -283,7 +283,7 @@
         <item quantity="one">%1$s und %2$d weitere</item>
         <item quantity="other">%1$s und %2$d weitere</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Kann nicht während einer Verbindung geändert werden</string>
+    <string name="settingsCannotChangeWhileConnected">Kann während der Verbindung nicht geändert werden</string>
     <string name="excludeAlreadyExcluded">Bereits ausgeschlossen</string>
     <string name="removeExcludedIpDialogDescription">IP-Adresse aus der Liste entfernen?</string>
     <string name="loaderFetchingServers">Server werden abgerufen ...</string>
@@ -291,28 +291,28 @@
     <string name="tileConnected">Verbunden: %1$s</string>
     <string name="dialogTitleAttention">Wichtiger Hinweis</string>
     <string name="saveProfileAlreadySaved">Bereits gespeichert</string>
-    <string name="openUrlError">%1$s konnte nicht geöffnet werden. Kein Webbrowser wurde auf Ihrem Gerät erkannt.</string>
-    <string name="toastLoginAuthVersionError">Anmeldung aufgrund nicht unterstützter Authentifizierungsversion nicht möglich. Bitte kontaktieren Sie den Support.</string>
-    <string name="loaderErrorTimeout">Zeitüberschreitung der Verbindung. Bitte versuchen Sie es erneut.</string>
+    <string name="openUrlError">%1$s konnte nicht geöffnet werden. Auf deinem Gerät wurde kein Webbrowser erkannt.</string>
+    <string name="toastLoginAuthVersionError">Anmeldung aufgrund nicht unterstützter Authentifizierungsversion nicht möglich. Bitte kontaktiere den Support.</string>
+    <string name="loaderErrorTimeout">Zeitüberschreitung der Verbindung. Bitte versuche es erneut.</string>
     <string name="troubleshootButton">Fehlerbehebung</string>
     <string name="activityTroubleshootTitle">Problembehebung</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Mögliche Lösungen</string>
-    <string name="troubleshootNoInternetDescription">Bitte stellen Sie sicher, dass Ihre Internetverbindung funktioniert.</string>
+    <string name="troubleshootNoInternetDescription">Stelle bitte sicher, dass deine Internetverbindung funktioniert.</string>
     <string name="troubleshootNoInternetTitle">Keine Internetverbindung</string>
     <string name="troubleshootIspProblemTitle">Problem des Internet-Dienstanbieters (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Versuchen Sie, sich von einem anderen Netzwerk aus mit Proton zu verbinden (oder verwenden Sie <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Versuche, dich von einem anderen Netzwerk aus mit Proton zu verbinden (oder verwende <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Antivirusstörung</string>
-    <string name="troubleshootAntivirusProblemDescription">Deaktivieren oder entfernen Sie Ihre Antiviren-Software vorübergehend.</string>
-    <string name="troubleshootProxyFirewallProblemTitle">Proxy/Firewall-Probleme</string>
-    <string name="troubleshootProxyFirewallProblemDescription">Deaktivieren Sie alle Proxy- und/oder Firewall-Einstellungen, oder wenden Sie sich an Ihren Netzwerkadministrator.</string>
+    <string name="troubleshootAntivirusProblemDescription">Deaktiviere oder entferne vorübergehend deine Antiviren-Software.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Proxy/Firewall-Störung</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Deaktiviere alle Proxy- und/oder Firewall-Einstellungen, oder wende dich an deinen Netzwerkadministrator.</string>
     <string name="troubleshootProtonDownTitle">Proton ist ausgefallen</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[Prüfen Sie den <a href=\"%1$s\">Proton Status</a> für unseren Systemstatus.]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Prüfe den <a href=\"%1$s\">Proton-Status</a> für unseren Systemstatus.]]></string>
     <string name="troubleshootContactUsSectionTitle">Benötigen Sie noch Hilfe? Kontaktieren Sie uns direkt</string>
     <string name="troubleshootCustomerSupport">Kundensupport</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternatives Routing</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Falls Proton gesperrt wurde, erlaube der App es mit alternativen Pfaden zu versuchen, um die Proton-Server zu erreichen. <a href="%1$s">Mehr erfahren</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regierungssperren</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ihr Land sperrt möglicherweise den Zugang zu Proton. Versuchen Sie, mit <a href=\'%1$s\'>Tor</a> auf Proton zuzugreifen.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Dein Land sperrt möglicherweise den Zugang zu Proton. Versuche, mit <a href=\'%1$s\'>Tor</a> auf Proton zuzugreifen.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Dauerhaft aktives VPN und Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Legen Sie fest, wie sich ProtonVPN verhalten soll, wenn die Verbindung zum VPN unterbrochen wird</string>
     <string name="settingsAlwaysOnWindowHeader">So aktivieren Sie Always-on VPN (dauerhaft aktives VPN) und Kill Switch (Risiko-Trennung):</string>
