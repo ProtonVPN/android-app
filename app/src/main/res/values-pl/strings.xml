@@ -54,7 +54,7 @@
     <string name="dialogLearnMore">Dowiedz się więcej</string>
     <string name="dialog_read_more">Dowiedz się więcej</string>
     <string name="dialog_apply">Zastosuj</string>
-    <string name="dialog_applying">Applying</string>
+    <string name="dialog_applying">Trwa zastosowanie</string>
     <string name="secureCoreConnectVia">przez %1$s</string>
     <string name="connected">Połączono</string>
     <string name="buttonConnect">Połącz</string>
@@ -122,7 +122,7 @@
     <string name="settingsModerateNatDescription"><![CDATA[Umiarkowany NAT wyłącza losowe mapowanie adresów lokalnych, co może nieco zmniejszyć bezpieczeństwo, ale umożliwia stosowanie technik takich, jak bezpośrednie połączenia aplikacji, np. gier online. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="use_coupon_title">Użyj kuponu</string>
     <string name="use_coupon_code_label">Kod kuponu</string>
-    <string name="use_coupon_success">Coupon has been applied successfully</string>
+    <string name="use_coupon_success">Kupon został naliczony</string>
     <string name="use_coupon_success_no_upgrade_yet">Kupon został naliczony. Subskrypcja zostanie ulepszona w ciągu kilku minut.</string>
     <string name="restrictedMaintenanceTitle">W trakcie przerwy technicznej</string>
     <string name="restrictedMaintenanceDescription">Serwer, z którym próbujesz się połączyć, jest w trakcie przerwy technicznej. Wybierz inny serwer.</string>
