@@ -21,6 +21,7 @@ package com.protonvpn.android.vpn
 
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ConnServerSwitchFailed
 import com.protonvpn.android.logging.ConnServerSwitchServerSelected
@@ -193,8 +194,9 @@ class VpnConnectionErrorHandler(
             return null
         }
 
+        val vpnUser = currentUser.vpnUser()
         val orgPhysicalServer = orgParams?.connectingDomain?.let { PhysicalServer(orgParams.server, it) }
-        val candidates = getCandidateServers(orgProfile, orgPhysicalServer, includeOriginalServer)
+        val candidates = getCandidateServers(orgProfile, orgPhysicalServer, vpnUser, includeOriginalServer)
 
         candidates.forEach {
             ProtonLogger.logCustom(
@@ -221,7 +223,7 @@ class VpnConnectionErrorHandler(
         }
 
         val expectedProtocolConnection = pingResult.getExpectedProtocolConnection(orgProfile)
-        val score = getServerScore(pingResult.physicalServer.server, orgProfile)
+        val score = getServerScore(pingResult.physicalServer.server, orgProfile, vpnUser)
         val secureCoreExpected = orgProfile.isSecureCore || userData.secureCoreEnabled
         val switchedSecureCore = secureCoreExpected && !hasCompatibility(score, CompatibilityAspect.SecureCore)
         val isCompatible = isCompatibleServer(score, pingResult.physicalServer, orgPhysicalServer) &&
@@ -264,6 +266,7 @@ class VpnConnectionErrorHandler(
     private fun getCandidateServers(
         orgProfile: Profile,
         orgPhysicalServer: PhysicalServer?,
+        vpnUser: VpnUser?,
         includeOrgServer: Boolean
     ): List<PhysicalServer> {
         val candidateList = mutableListOf<PhysicalServer>()
@@ -271,8 +274,8 @@ class VpnConnectionErrorHandler(
             candidateList += orgPhysicalServer
 
         val secureCoreExpected = orgProfile.isSecureCore || userData.secureCoreEnabled
-        val onlineServers = serverManager.getOnlineAccessibleServers(secureCoreExpected)
-        val scoredServers = sortServersByScore(onlineServers, orgProfile).run {
+        val onlineServers = serverManager.getOnlineAccessibleServers(secureCoreExpected, vpnUser)
+        val scoredServers = sortServersByScore(onlineServers, orgProfile, vpnUser).run {
             if (orgPhysicalServer != null) {
                 // Only include servers that have IP that differ from current connection.
                 filter {
@@ -317,7 +320,7 @@ class VpnConnectionErrorHandler(
 
         // For secure core add best scoring non-secure server as a last resort fallback
         if (secureCoreExpected) {
-            sortServersByScore(serverManager.getOnlineAccessibleServers(false), orgProfile)
+            sortServersByScore(serverManager.getOnlineAccessibleServers(false, vpnUser), orgProfile, vpnUser)
                 .firstOrNull()?.let { fallbacks += it }
         }
 
@@ -329,6 +332,7 @@ class VpnConnectionErrorHandler(
     private fun getServerScore(
         server: Server,
         orgProfile: Profile,
+        vpnUser: VpnUser?,
     ): Int {
         var score = 0
 
@@ -338,7 +342,7 @@ class VpnConnectionErrorHandler(
         if (orgProfile.city.isNullOrBlank() || orgProfile.city == server.city)
             score += 1 shl CompatibilityAspect.City.ordinal
 
-        if (currentUser.vpnUserCached()?.userTier == server.tier)
+        if (vpnUser?.userTier == server.tier)
             // Prefer servers from user tier
             score += 1 shl CompatibilityAspect.Tier.ordinal
 
@@ -355,7 +359,8 @@ class VpnConnectionErrorHandler(
     private fun sortServersByScore(
         servers: List<Server>,
         profile: Profile,
-    ) = sortByScore(servers) { getServerScore(it, profile) }
+        vpnUser: VpnUser?,
+    ) = sortByScore(servers) { getServerScore(it, profile, vpnUser) }
 
     private fun <T> sortByScore(servers: List<T>, scoreFun: (T) -> Int) =
         servers.map { Pair(it, scoreFun(it)) }.sortedByDescending { it.second }.map { it.first }
