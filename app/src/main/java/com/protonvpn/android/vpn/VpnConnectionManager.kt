@@ -434,18 +434,26 @@ open class VpnConnectionManager(
         profile: Profile,
         triggerAction: String
     ) {
+        clearOngoingConnection()
+        ongoingConnect = scope.launch {
+            connectWithPermissionSync(delegate, profile, triggerAction)
+            ongoingConnect = null
+        }
+    }
+
+    private suspend fun connectWithPermissionSync(
+        delegate: VpnUiDelegate,
+        profile: Profile,
+        triggerAction: String
+    ) {
         ProtonLogger.log(ConnConnectTrigger, "${profile.toLog(userData)}, reason: $triggerAction")
-        val server = profile.server
-        val vpnUser = currentUser.vpnUserCached()
+        val vpnUser = currentUser.vpnUser()
+        val server = serverManager.getServerForProfile(profile, vpnUser)
         if (server?.online == true &&
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {
             if (server.supportsProtocol(profile.getProtocol(userData))) {
-                clearOngoingConnection()
-                ongoingConnect = scope.launch {
-                    smartConnect(profile, server)
-                    ongoingConnect = null
-                }
+                smartConnect(profile, server)
             } else {
                 delegate.onProtocolNotSupported()
             }

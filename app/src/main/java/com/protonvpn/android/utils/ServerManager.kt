@@ -21,6 +21,7 @@ package com.protonvpn.android.utils
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.models.config.UserData
@@ -265,36 +266,57 @@ class ServerManager @Inject constructor(
     fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
         getExitCountries(secureCoreCountry).firstOrNull { it.flag == countryCode }
 
+    fun getBestScoreServer(country: VpnCountry, vpnUser: VpnUser?): Server? =
+        getBestScoreServer(country.serverList, vpnUser)
+
+    @Deprecated(
+        "This method uses a cached VpnUser that could be stale.",
+        ReplaceWith("getBestScoreServer(country, vpnUser)")
+    )
     fun getBestScoreServer(country: VpnCountry): Server? =
         getBestScoreServer(country.serverList)
 
-    fun getBestScoreServer(secureCore: Boolean): Server? {
+    fun getBestScoreServer(secureCore: Boolean, vpnUser: VpnUser?): Server? {
         val countries = getExitCountries(secureCore)
         val map = countries.asSequence()
             .map(VpnCountry::serverList)
-            .mapNotNull(::getBestScoreServer)
-            .groupBy(::hasAccessToServer)
+            .mapNotNull { getBestScoreServer(it, vpnUser) }
+            .groupBy { vpnUser.hasAccessToServer(it) }
             .mapValues { it.value.minByOrNull(Server::score) }
         return map[true] ?: map[false]
     }
 
-    fun getBestScoreServer(serverList: List<Server>): Server? {
+    @Deprecated(
+        "This method uses a cached VpnUser that could be stale.",
+        ReplaceWith("getBestScoreServer(secureCore, vpnUser)")
+    )
+    fun getBestScoreServer(secureCore: Boolean): Server? =
+        getBestScoreServer(secureCore, currentUser.vpnUserCached())
+
+    fun getBestScoreServer(serverList: List<Server>, vpnUser: VpnUser?): Server? {
         val map = serverList.asSequence()
             .filter { Server.Keyword.TOR !in it.keywords && it.online }
-            .groupBy(::hasAccessToServer)
+            .groupBy { vpnUser.hasAccessToServer(it) }
             .mapValues { it.value.minByOrNull(Server::score) }
         return map[true] ?: map[false]
     }
 
-    private fun getRandomServer(): Server? {
+    @Deprecated(
+        "This method uses a cached VpnUser that could be stale.",
+        ReplaceWith("getBestScoreServer(serverList, vpnUser)")
+    )
+    fun getBestScoreServer(serverList: List<Server>): Server? =
+        getBestScoreServer(serverList, currentUser.vpnUserCached())
+
+    private fun getRandomServer(vpnUser: VpnUser?): Server? {
         val allCountries = getExitCountries(userData.secureCoreEnabled)
         val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
-        return accessibleCountries.ifEmpty { allCountries }.randomNullable()?.let(::getRandomServer)
+        return accessibleCountries.ifEmpty { allCountries }.randomNullable()?.let { getRandomServer(it, vpnUser) }
     }
 
-    private fun getRandomServer(country: VpnCountry): Server? {
+    private fun getRandomServer(country: VpnCountry, vpnUser: VpnUser?): Server? {
         val online = country.serverList.filter(Server::online)
-        val accessible = online.filter(::hasAccessToServer)
+        val accessible = online.filter { vpnUser.hasAccessToServer(it) }
         return accessible.ifEmpty { online }.randomNullable()
     }
 
@@ -345,24 +367,34 @@ class ServerManager @Inject constructor(
     fun getSecureCoreExitCountries(): List<VpnCountry> =
         filteredSecureCoreExitCountries.sortedByLocaleAware { it.countryName }
 
-    override fun getServer(wrapper: ServerWrapper): Server? = when (wrapper.type) {
+    fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? =
+        getServerForWrapper(profile.wrapper, vpnUser)
+
+    override fun getServer(wrapper: ServerWrapper): Server? =
+        getServerForWrapper(wrapper, currentUser.vpnUserCached())
+
+    private fun getServerForWrapper(wrapper: ServerWrapper, vpnUser: VpnUser?): Server? = when (wrapper.type) {
         ProfileType.FASTEST ->
-            getBestScoreServer(userData.secureCoreEnabled)
+            getBestScoreServer(userData.secureCoreEnabled, vpnUser)
         ProfileType.RANDOM ->
-            getRandomServer()
+            getRandomServer(vpnUser)
         ProfileType.RANDOM_IN_COUNTRY ->
             getVpnExitCountry(wrapper.country, wrapper.isSecureCore)?.let {
-                getRandomServer(it)
+                getRandomServer(it, vpnUser)
             }
         ProfileType.FASTEST_IN_COUNTRY ->
             getVpnExitCountry(wrapper.country, wrapper.isSecureCore)?.let {
-                getBestScoreServer(it)
+                getBestScoreServer(it, vpnUser)
             }
         ProfileType.DIRECT ->
             getServerById(wrapper.serverId!!)
     }
 
-    override fun hasAccessToServer(server: Server): Boolean =
+    @Deprecated(
+        "This method uses a cached VpnUser that could be stale.",
+        ReplaceWith("vpnUser.hasAccessToServer(server)")
+    )
+    fun hasAccessToServer(server: Server): Boolean =
         currentUser.vpnUserCached().hasAccessToServer(server)
 
     fun setStreamingServices(value: StreamingServicesResponse) {
@@ -371,9 +403,9 @@ class ServerManager @Inject constructor(
     }
 
     // Sorted by score (best at front)
-    fun getOnlineAccessibleServers(secureCore: Boolean): List<Server> =
+    fun getOnlineAccessibleServers(secureCore: Boolean, vpnUser: VpnUser?): List<Server> =
         getExitCountries(secureCore).asSequence().flatMap { country ->
-            country.serverList.filter { it.online && hasAccessToServer(it) }.asSequence()
+            country.serverList.filter { it.online && vpnUser.hasAccessToServer(it) }.asSequence()
         }.sortedBy { it.score }.toList()
 
     private fun haveWireGuardSupport() =

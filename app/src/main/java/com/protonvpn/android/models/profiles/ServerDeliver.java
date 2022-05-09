@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.models.profiles;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.protonvpn.android.models.vpn.Server;
@@ -25,7 +26,5 @@ import com.protonvpn.android.models.vpn.Server;
 public interface ServerDeliver {
 
     @Nullable
-    Server getServer(ServerWrapper wrapper);
-
-    boolean hasAccessToServer(Server server);
+    Server getServer(@NonNull ServerWrapper wrapper);
 }

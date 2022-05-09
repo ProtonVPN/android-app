@@ -48,6 +48,7 @@ class UserPlanManager @Inject constructor(
         override fun toString(): String = this.javaClass.simpleName
     }
 
+    // Note: don't use CurrentUser.vpnUserCached in code observing this flow. The cached value is updated later.
     val infoChangeFlow = MutableSharedFlow<List<InfoChange>>()
 
     val planChangeFlow = infoChangeFlow.mapNotNull { changes ->
