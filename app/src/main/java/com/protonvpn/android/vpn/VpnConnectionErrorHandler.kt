@@ -70,10 +70,12 @@ sealed class VpnFallbackResult : Serializable {
         abstract val reason: SwitchServerReason?
         abstract val notifyUser: Boolean
         abstract val fromServer: Server?
+        abstract val toServer: Server
         abstract val toProfile: Profile
 
         data class SwitchProfile(
             override val fromServer: Server?,
+            override val toServer: Server,
             override val toProfile: Profile,
             override val reason: SwitchServerReason? = null,
         ) : Switch() {
@@ -90,6 +92,7 @@ sealed class VpnFallbackResult : Serializable {
             val switchedSecureCore: Boolean,
             override val notifyUser: Boolean
         ) : Switch() {
+            override val toServer get() = preparedConnection.connectionParams.server
             override val log get() = "SwitchServer ${preparedConnection.connectionParams.info} " +
                 "reason: $reason compatibleProtocol: $compatibleProtocol"
         }
@@ -122,7 +125,11 @@ class VpnConnectionErrorHandler(
         scope.launch {
             userPlanManager.infoChangeFlow.collect { changes ->
                 if (!handlingAuthError && stateMonitor.isEstablishingOrConnected) {
-                    getCommonFallbackForInfoChanges(stateMonitor.connectionParams!!.server, changes)?.let {
+                    getCommonFallbackForInfoChanges(
+                        stateMonitor.connectionParams!!.server,
+                        changes,
+                        currentUser.vpnUser()
+                    )?.let {
                         switchConnectionFlow.emit(it)
                     }
                 }
@@ -133,20 +140,25 @@ class VpnConnectionErrorHandler(
     @SuppressWarnings("ReturnCount")
     private fun getCommonFallbackForInfoChanges(
         currentServer: Server,
-        changes: List<UserPlanManager.InfoChange>
+        changes: List<UserPlanManager.InfoChange>,
+        vpnUser: VpnUser?
     ): VpnFallbackResult.Switch? {
+        val fallbackProfile = serverManager.defaultFallbackConnection
+        val fallbackServer = serverManager.getServerForProfile(fallbackProfile, vpnUser) ?: return null
         for (change in changes) when (change) {
             is PlanChange.Downgrade -> {
                 return VpnFallbackResult.Switch.SwitchProfile(
                     currentServer,
-                    serverManager.defaultFallbackConnection,
+                    fallbackServer,
+                    fallbackProfile,
                     SwitchServerReason.Downgrade(change.fromPlan, change.toPlan)
                 )
             }
             UserBecameDelinquent ->
                 return VpnFallbackResult.Switch.SwitchProfile(
                     currentServer,
-                    serverManager.defaultFallbackConnection,
+                    fallbackServer,
+                    fallbackProfile,
                     SwitchServerReason.UserBecameDelinquent
                 )
             else -> {}
@@ -370,15 +382,19 @@ class VpnConnectionErrorHandler(
         try {
             handlingAuthError = true
             userPlanManager.refreshVpnInfo()?.let { infoChanges ->
-                getCommonFallbackForInfoChanges(connectionParams.server, infoChanges)?.let {
+                val vpnUser = currentUser.vpnUser()
+                getCommonFallbackForInfoChanges(connectionParams.server, infoChanges, vpnUser)?.let {
                     return it
                 }
 
-                if (VpnCredentials in infoChanges)
+                if (VpnCredentials in infoChanges) {
                     // Now that credentials are refreshed we can try reconnecting.
-                    return VpnFallbackResult.Switch.SwitchProfile(connectionParams.server, connectionParams.profile)
+                    return with(connectionParams) {
+                        VpnFallbackResult.Switch.SwitchProfile(server, server, profile)
+                    }
+                }
 
-                val maxSessions = requireNotNull(currentUser.vpnUser()?.maxConnect)
+                val maxSessions = requireNotNull(vpnUser).maxConnect
                 val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
                 if (maxSessions <= sessionCount)
                     return VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
@@ -418,10 +434,11 @@ class VpnConnectionErrorHandler(
                         ConnServerSwitchServerSelected,
                         "Smart reconnect disabled, fall back to default connection"
                     )
-                    VpnFallbackResult.Switch.SwitchProfile(
-                        connectionParams.server,
-                        serverManager.defaultFallbackConnection
-                    )
+                    val fallbackProfile = serverManager.defaultFallbackConnection
+                    val fallbackServer = serverManager.getServerForProfile(fallbackProfile, currentUser.vpnUser())
+                    fallbackServer?.let {
+                        VpnFallbackResult.Switch.SwitchProfile(connectionParams.server, fallbackServer, fallbackProfile)
+                    }
                 }
             }
         }

@@ -274,7 +274,12 @@ open class VpnConnectionManager(
 
         when (fallback) {
             is VpnFallbackResult.Switch.SwitchProfile ->
-                connectWithPermission(vpnBackgroundUiDelegate, fallback.toProfile, fallback.log)
+                connectWithPermission(
+                    vpnBackgroundUiDelegate,
+                    fallback.toProfile,
+                    preferredServer = fallback.toServer,
+                    triggerAction = fallback.log
+                )
             is VpnFallbackResult.Switch.SwitchServer -> {
                 // Do not reconnect if user becomes delinquent
                 if (fallback.reason !is SwitchServerReason.UserBecameDelinquent) {
@@ -432,11 +437,12 @@ open class VpnConnectionManager(
     private fun connectWithPermission(
         delegate: VpnUiDelegate,
         profile: Profile,
-        triggerAction: String
+        triggerAction: String,
+        preferredServer: Server? = null
     ) {
         clearOngoingConnection()
         ongoingConnect = scope.launch {
-            connectWithPermissionSync(delegate, profile, triggerAction)
+            connectWithPermissionSync(delegate, profile, triggerAction, preferredServer)
             ongoingConnect = null
         }
     }
@@ -444,11 +450,12 @@ open class VpnConnectionManager(
     private suspend fun connectWithPermissionSync(
         delegate: VpnUiDelegate,
         profile: Profile,
-        triggerAction: String
+        triggerAction: String,
+        preferredServer: Server? = null
     ) {
         ProtonLogger.log(ConnConnectTrigger, "${profile.toLog(userData)}, reason: $triggerAction")
         val vpnUser = currentUser.vpnUser()
-        val server = serverManager.getServerForProfile(profile, vpnUser)
+        val server = preferredServer ?: serverManager.getServerForProfile(profile, vpnUser)
         if (server?.online == true &&
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {
