@@ -85,6 +85,7 @@ class VpnConnectionErrorHandlerTests {
     private lateinit var directProfile: Profile
     private lateinit var directConnectionParams: ConnectionParams
     private val defaultFallbackConnection = Profile("fastest", null, mockk(), null)
+    private val defaultFallbackServer = MockedServers.serverList[1] // Use a different server than MockedServers.server
     private val infoChangeFlow = MutableSharedFlow<List<UserPlanManager.InfoChange>>()
 
     @MockK private lateinit var api: ProtonApiRetroFit
@@ -104,8 +105,12 @@ class VpnConnectionErrorHandlerTests {
 
     private fun prepareServerManager() {
         val servers = MockedServers.serverList.sortedBy { it.score }
-        every { serverManager.getOnlineAccessibleServers(false) } returns servers.filter { !it.isSecureCoreServer }
-        every { serverManager.getOnlineAccessibleServers(true) } returns servers.filter { it.isSecureCoreServer }
+        every { serverManager.getOnlineAccessibleServers(false, any()) } returns servers.filter { !it.isSecureCoreServer }
+        every { serverManager.getOnlineAccessibleServers(true, any()) } returns servers.filter { it.isSecureCoreServer }
+        every { serverManager.defaultFallbackConnection } returns defaultFallbackConnection
+        every { serverManager.getServerForProfile(defaultFallbackConnection, any()) } returns defaultFallbackServer
+
+        // Needed for VpnConnectionErrorHandler.getCandidateServers which uses Profile.isSecureCore, Profile.city etc.
         val wrapperSlot = slot<ServerWrapper>()
         every { serverManager.getServer(capture(wrapperSlot)) } answers {
             val id = wrapperSlot.captured.serverId
@@ -124,7 +129,6 @@ class VpnConnectionErrorHandlerTests {
         every { CountryTools.getFullName(capture(countryCapture)) } answers { countryCapture.captured }
 
         every { userPlanManager.infoChangeFlow } returns infoChangeFlow
-        every { serverManager.defaultFallbackConnection } returns defaultFallbackConnection
         currentUser.mockVpnUser { vpnUser }
         every { vpnUser.maxConnect } returns 2
         every { vpnUser.userTier } returns 2
@@ -151,8 +155,14 @@ class VpnConnectionErrorHandlerTests {
     fun testAuthErrorDelinquent() = runBlockingTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.UserBecameDelinquent)
         assertEquals(
-            VpnFallbackResult.Switch.SwitchProfile(directConnectionParams.server, defaultFallbackConnection, SwitchServerReason.UserBecameDelinquent),
-            handler.onAuthError(directConnectionParams))
+            VpnFallbackResult.Switch.SwitchProfile(
+                directConnectionParams.server,
+                defaultFallbackServer,
+                defaultFallbackConnection,
+                SwitchServerReason.UserBecameDelinquent
+            ),
+            handler.onAuthError(directConnectionParams)
+        )
     }
 
     @Test
@@ -164,6 +174,7 @@ class VpnConnectionErrorHandlerTests {
         assertEquals(
             VpnFallbackResult.Switch.SwitchProfile(
                 directConnectionParams.server,
+                defaultFallbackServer,
                 defaultFallbackConnection,
                 SwitchServerReason.Downgrade("vpnplus", "free")
             ),
@@ -175,6 +186,7 @@ class VpnConnectionErrorHandlerTests {
         assertEquals(
             VpnFallbackResult.Switch.SwitchProfile(
                 directConnectionParams.server,
+                defaultFallbackServer,
                 defaultFallbackConnection,
                 SwitchServerReason.Downgrade("vpnplus", "free")
             ),
@@ -185,7 +197,12 @@ class VpnConnectionErrorHandlerTests {
     fun testAuthErrorVpnCredentials() = runBlockingTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.VpnCredentials)
         assertEquals(
-            VpnFallbackResult.Switch.SwitchProfile(directConnectionParams.server, directProfile, null),
+            VpnFallbackResult.Switch.SwitchProfile(
+                directConnectionParams.server,
+                directConnectionParams.server,
+                directProfile,
+                null
+            ),
             handler.onAuthError(directConnectionParams))
     }
 
@@ -272,7 +289,7 @@ class VpnConnectionErrorHandlerTests {
 
         val fallback = handler.onUnreachableError(directConnectionParams) as VpnFallbackResult.Switch.SwitchServer
         assertEquals("CA#1", directConnectionParams.server.serverName)
-        assertEquals("CA#2", fallback.toProfile.directServer?.serverName)
+        assertEquals("CA#2", fallback.toServer.serverName)
         assertEquals(
             VpnFallbackResult.Switch.SwitchServer(
                 directConnectionParams.server,
@@ -312,8 +329,8 @@ class VpnConnectionErrorHandlerTests {
         val secureCoreServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
         val secureCoreProfile = Profile.getTempProfile(secureCoreServer, serverManager)
         secureCoreProfile.setProtocol(VpnProtocol.IKEv2)
-        val scConnectionParams = ConnectionParamsIKEv2(
-            secureCoreProfile, secureCoreServer, secureCoreServer.connectingDomains.first())
+        val scConnectionParams =
+            ConnectionParamsIKEv2(secureCoreProfile, secureCoreServer, secureCoreServer.connectingDomains.first())
 
         preparePings(failServerName = secureCoreServer.serverName)
         val fallback = handler.onUnreachableError(scConnectionParams) as VpnFallbackResult.Switch.SwitchServer
@@ -346,12 +363,22 @@ class VpnConnectionErrorHandlerTests {
         every { vpnUser.isBasicUser } returns false
         testTrackingVpnInfoChanges(
             listOf(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free")),
-            VpnFallbackResult.Switch.SwitchProfile(mockedServer, defaultFallbackConnection, SwitchServerReason.Downgrade("vpnplus", "free"))
+            VpnFallbackResult.Switch.SwitchProfile(
+                mockedServer,
+                defaultFallbackServer,
+                defaultFallbackConnection,
+                SwitchServerReason.Downgrade("vpnplus", "free")
+            )
         )
 
         testTrackingVpnInfoChanges(
             listOf(UserPlanManager.InfoChange.UserBecameDelinquent),
-            VpnFallbackResult.Switch.SwitchProfile(mockedServer, defaultFallbackConnection, SwitchServerReason.UserBecameDelinquent)
+            VpnFallbackResult.Switch.SwitchProfile(
+                mockedServer,
+                defaultFallbackServer,
+                defaultFallbackConnection,
+                SwitchServerReason.UserBecameDelinquent
+            )
         )
     }
 

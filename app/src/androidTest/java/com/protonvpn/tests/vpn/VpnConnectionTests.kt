@@ -28,7 +28,6 @@ import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.AgentConnectionInterface
 import com.protonvpn.android.vpn.CertificateRepository
@@ -66,6 +65,7 @@ import me.proton.core.network.domain.session.SessionId
 import com.proton.gopenpgp.localAgent.LocalAgent
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.vpn.ReasonRestricted
@@ -81,10 +81,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 
-@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 // These tests use mocking of final classes that's not available on API < 28
 @SdkSuppress(minSdkVersion = 28)
+@OptIn(ExperimentalCoroutinesApi::class)
 class VpnConnectionTests {
 
     @get:Rule
@@ -137,6 +137,9 @@ class VpnConnectionTests {
     private lateinit var profileWireguard: Profile
     private lateinit var fallbackOpenVpnProfile: Profile
 
+    private lateinit var serverIKEv2: Server
+    private lateinit var fallbackServer: Server
+
     private val switchServerFlow = MutableSharedFlow<VpnFallbackResult.Switch>()
 
     private val agentConsts = LocalAgent.constants()
@@ -184,19 +187,22 @@ class VpnConnectionTests {
 
         monitor = VpnStateMonitor()
         manager = MockVpnConnectionManager(userData, backendProvider, networkManager, vpnErrorHandler, monitor,
-            mockk(relaxed = true), mockVpnBackgroundUiDelegate, mockk(relaxed = true), certificateRepository, scope, ::time, currentUser)
+            mockk(relaxed = true), mockVpnBackgroundUiDelegate, serverManager, certificateRepository, scope, ::time, currentUser)
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
         val server = MockedServers.server
+        serverIKEv2 = MockedServers.serverList[1]
+        fallbackServer = MockedServers.serverList[2]
+
         profileSmart = MockedServers.getProfile(VpnProtocol.Smart, server)
-        profileIKEv2 = MockedServers.getProfile(VpnProtocol.IKEv2, server)
+        profileIKEv2 = MockedServers.getProfile(VpnProtocol.IKEv2, serverIKEv2)
         profileOpenVPN = MockedServers.getProfile(VpnProtocol.OpenVPN, server)
         profileWireguard = MockedServers.getProfile(VpnProtocol.WireGuard, server)
-        fallbackOpenVpnProfile = MockedServers.getProfile(VpnProtocol.OpenVPN, server, "fallback")
-        val wrapperSlot = slot<ServerWrapper>()
-        every { serverManager.getServer(capture(wrapperSlot)) } answers {
-            MockedServers.serverList.find { it.serverId == wrapperSlot.captured.serverId } ?: server
+        fallbackOpenVpnProfile = MockedServers.getProfile(VpnProtocol.OpenVPN, fallbackServer, "fallback")
+        val profileSlot = slot<Profile>()
+        every { serverManager.getServerForProfile(capture(profileSlot), any()) } answers {
+            profileSlot.captured.server
         }
 
         setupMockAgent()
@@ -359,8 +365,12 @@ class VpnConnectionTests {
     fun authErrorHandleDowngrade() = scope.runBlockingTest {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
         mockOpenVpn.stateOnConnect = VpnState.Connected
-        val fallbackResult =
-            VpnFallbackResult.Switch.SwitchProfile(profileIKEv2.server, fallbackOpenVpnProfile, SwitchServerReason.Downgrade("PLUS", "FREE"))
+        val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
+            profileIKEv2.server,
+            fallbackServer,
+            fallbackOpenVpnProfile,
+            SwitchServerReason.Downgrade("PLUS", "FREE")
+        )
         coEvery { vpnErrorHandler.onAuthError(any()) } returns fallbackResult
 
         val fallbacks = mutableListOf<VpnFallbackResult>()
@@ -455,6 +465,7 @@ class VpnConnectionTests {
 
         val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
             profileIKEv2.server,
+            fallbackServer,
             fallbackOpenVpnProfile,
             SwitchServerReason.Downgrade("PLUS", "FREE")
         )
@@ -475,6 +486,7 @@ class VpnConnectionTests {
             vpnErrorHandler.onServerInMaintenance(profile, null)
         } returns VpnFallbackResult.Switch.SwitchProfile(
             profile.server,
+            serverIKEv2,
             profileIKEv2,
             SwitchServerReason.ServerInMaintenance
         )
@@ -501,6 +513,7 @@ class VpnConnectionTests {
         }
         val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
             profileIKEv2.server,
+            fallbackServer,
             fallbackOpenVpnProfile,
             SwitchServerReason.Downgrade("PLUS", "FREE")
         )
