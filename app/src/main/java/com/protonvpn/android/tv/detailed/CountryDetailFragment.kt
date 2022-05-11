@@ -51,7 +51,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
     private val binding by viewBinding(FragmentTvCountryDetailsBinding::bind)
     private val viewModel: TvMainViewModel by viewModels()
 
-    lateinit var card: CountryCard
+    private lateinit var card: CountryCard
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,8 +77,11 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
 
     private fun setupUi() = with(binding) {
         val extras = arguments
-        if (extras != null && extras.containsKey(EXTRA_CARD)) {
-            card = extras[EXTRA_CARD] as CountryCard
+        if (extras != null && extras.containsKey(EXTRA_COUNTRY_CODE)) {
+            val countryCode = extras.getString(EXTRA_COUNTRY_CODE)
+            card = requireNotNull(
+                viewModel.getCountryCard(requireContext(), requireNotNull(countryCode))
+            )
         }
 
         postponeEnterTransition()
@@ -183,7 +186,8 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
 
     companion object {
         fun transitionNameForCountry(code: String) = "transition_$code"
+        fun createArguments(countryCode: String) = Bundle().apply { putString(EXTRA_COUNTRY_CODE, countryCode) }
 
-        const val EXTRA_CARD = "card"
+        private const val EXTRA_COUNTRY_CODE = "country_code"
     }
 }

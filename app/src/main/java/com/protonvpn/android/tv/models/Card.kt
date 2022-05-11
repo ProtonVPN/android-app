@@ -23,13 +23,12 @@ import androidx.annotation.DrawableRes
 import com.protonvpn.android.R
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.VpnCountry
-import java.io.Serializable
 
 sealed class Card(
     var title: Title? = null,
     var bottomTitle: Title? = null,
     val backgroundImage: DrawableImage?
-) : Serializable
+)
 
 class CountryCard(
     val countryName: String,
@@ -69,9 +68,9 @@ class Title(
     val text: String,
     @DrawableRes val resId: Int? = null,
     @ColorRes var backgroundColorRes: Int = R.color.tvGridItemOverlay
-) : Serializable
+)
 
 class DrawableImage(
     @DrawableRes val resId: Int,
     @ColorRes val tint: Int? = null
-) : Serializable
+)

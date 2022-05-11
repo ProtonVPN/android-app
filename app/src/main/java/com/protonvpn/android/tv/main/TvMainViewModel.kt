@@ -174,18 +174,17 @@ class TvMainViewModel @Inject constructor(
             DebugUtils.debugAssert { continent != null }
             continent
         }, { country ->
-            CountryCard(
-                countryName = country.countryName,
-                hasStreamingService = streamingServices(country.flag).isNotEmpty(),
-                backgroundImage = DrawableImage(CountryTools.getLargeFlagResource(context, country.flag)),
-                bottomTitleResId = countryListItemIcon(country),
-                vpnCountry = country
-            )
+            getCountryCard(context, country)
         }).mapValues { continent ->
             continent.value.sortedWith(compareBy {
                 !it.vpnCountry.hasAccessibleOnlineServer(currentUser.vpnUserCached())
             })
         }
+    }
+
+    fun getCountryCard(context: Context, vpnCountryFlag: String): CountryCard? {
+        val country = serverManager.getVpnExitCountry(vpnCountryFlag, false) ?: return null
+        return getCountryCard(context, country)
     }
 
     fun getRecentCardList(context: Context): List<Card> {
@@ -225,6 +224,15 @@ class TvMainViewModel @Inject constructor(
             }
         return recentsList
     }
+
+    private fun getCountryCard(context: Context, country: VpnCountry): CountryCard =
+        CountryCard(
+            countryName = country.countryName,
+            hasStreamingService = streamingServices(country.flag).isNotEmpty(),
+            backgroundImage = DrawableImage(CountryTools.getLargeFlagResource(context, country.flag)),
+            bottomTitleResId = countryListItemIcon(country),
+            vpnCountry = country
+        )
 
     @DrawableRes
     private fun profileCardTitleIcon(profile: Profile): Int {
