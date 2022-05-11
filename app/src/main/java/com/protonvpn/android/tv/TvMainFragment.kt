@@ -126,7 +126,6 @@ class TvMainFragment : BaseTvBrowseFragment() {
                         return@OnItemViewClickedListener
                     }
                     val imageView = (viewHolder.view as TvItemCardView).binding.imageBackground
-                    val bundle = Bundle().apply { putSerializable(CountryDetailFragment.EXTRA_CARD, item) }
 
                     CountryTools.locationMap[item.vpnCountry.flag]?.let {
                         val x = it.x * CountryTools.LOCATION_TO_TV_MAP_COORDINATES_RATIO / TvMapRenderer.WIDTH
@@ -137,9 +136,14 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
                     activity?.supportFragmentManager?.commit {
                         setReorderingAllowed(true)
-                        addSharedElement(imageView,
-                                CountryDetailFragment.transitionNameForCountry(item.vpnCountry.flag))
-                        replace(R.id.container, CountryDetailFragment::class.java, bundle)
+                        addSharedElement(
+                            imageView, CountryDetailFragment.transitionNameForCountry(item.vpnCountry.flag)
+                        )
+                        replace(
+                            R.id.container,
+                            CountryDetailFragment::class.java,
+                            CountryDetailFragment.createArguments(item.vpnCountry.flag)
+                        )
                         addToBackStack(null)
                     }
                 }
