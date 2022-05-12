@@ -228,8 +228,10 @@ abstract class VpnBackend(
             ProtonLogger.log(ConnError, it)
         }
         mainScope.launch {
-            if (disconnectVPN)
+            if (disconnectVPN) {
+                closeAgentConnection()
                 closeVpnTunnel(withStateChange = false)
+            }
 
             selfStateObservable.setValue(VpnState.Error(error, description))
         }
@@ -333,7 +335,7 @@ abstract class VpnBackend(
             agentConstants.stateConnectionError,
             agentConstants.stateServerUnreachable ->
                 // When unreachable comes from local agent it means VPN tunnel is still active, set UNREACHABLE
-                // instead of UNREACHABLE_INETRNAL to skip recovery with pings, as those won't help in this situation.
+                // instead of UNREACHABLE_INTERNAL to skip recovery with pings, as those won't help in this situation.
                 VpnState.Error(ErrorType.UNREACHABLE)
             agentConstants.stateClientCertificateExpiredError -> {
                 refreshCertOnLocalAgent("local agent: certificate expired", force = false)
