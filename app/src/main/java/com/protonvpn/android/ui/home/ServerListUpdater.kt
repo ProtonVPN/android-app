@@ -87,8 +87,8 @@ class ServerListUpdater(
                 updateServerList(networkLoader)
             }
 
-            if (vpnStateMonitor.isDisabled && now() >= lastIpCheck + LOCATION_CALL_DELAY) {
-                if (updateLocation())
+            if (now() >= lastIpCheck + LOCATION_CALL_DELAY) {
+                if (updateLocationIfVpnOff())
                     updateServerList(networkLoader)
             }
             if (serverManager.isOutdated || inForeground && now() >= lastServerListUpdate + LIST_CALL_DELAY)
@@ -148,10 +148,13 @@ class ServerListUpdater(
     }
 
     // Returns true if IP has changed
-    suspend fun updateLocation(): Boolean {
+    suspend fun updateLocationIfVpnOff(): Boolean {
+        if (vpnStateMonitor.isDisabled)
+            return false
+
         val result = api.getLocation()
         var ipChanged = false
-        if (result is ApiResult.Success) {
+        if (result is ApiResult.Success && vpnStateMonitor.isDisabled) {
             val newIp = result.value.ipAddress
             if (newIp.isNotEmpty() && newIp != prefs.ipAddress) {
                 prefs.ipAddress = newIp
