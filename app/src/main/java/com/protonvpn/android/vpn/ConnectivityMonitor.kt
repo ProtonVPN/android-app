@@ -55,11 +55,13 @@ import android.net.NetworkCapabilities.TRANSPORT_WIFI_AWARE
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.NetworkChanged
 import com.protonvpn.android.logging.NetworkUnavailable
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Singleton
@@ -68,7 +70,7 @@ private const val NOT_VPN = "NOT_VPN"
 
 @Singleton
 class ConnectivityMonitor(
-    coroutineScope: CoroutineScope,
+    mainScope: CoroutineScope,
     context: Context
 ) {
     private val connectivityManager =
@@ -143,7 +145,7 @@ class ConnectivityMonitor(
                 currentTransports = newTransports
             }
             if (capabilitiesChanged) {
-                coroutineScope.launch {
+                mainScope.launch {
                     networkCapabilitiesFlow.emit(newCapabilities)
                 }
                 currentCapabilities = newCapabilities
@@ -182,7 +184,9 @@ class ConnectivityMonitor(
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            connectivityManager.registerDefaultNetworkCallback(networkCallback)
+            mainScope.launch {
+                registerNetworkCallbacksWithRetry()
+            }
         }
         context.registerBroadcastReceiver(IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)) {
             ProtonLogger.logCustom(
@@ -199,4 +203,20 @@ class ConnectivityMonitor(
         transportConstantsMap.entries.mapNotNullTo(mutableSetOf()) {
             if (networkCapabilities.hasTransport(it.value)) it.key else null
         }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private suspend fun registerNetworkCallbacksWithRetry() {
+        try {
+            connectivityManager.registerDefaultNetworkCallback(networkCallback)
+        } catch (e: SecurityException) {
+            ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.APP, "SecurityException from ConnectivityManager: $e")
+            // Android 11 bug: https://issuetracker.google.com/issues/175055271
+            if (e.message?.startsWith("Package android does not belong to") == true) {
+                delay(1000)
+                connectivityManager.registerDefaultNetworkCallback(networkCallback)
+            } else {
+                throw e
+            }
+        }
+    }
 }
