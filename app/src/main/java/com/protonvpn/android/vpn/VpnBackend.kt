@@ -129,7 +129,12 @@ abstract class VpnBackend(
 
     protected abstract suspend fun closeVpnTunnel(withStateChange: Boolean = true)
 
-    abstract suspend fun reconnect()
+    open suspend fun reconnect() {
+        lastConnectionParams?.let { params ->
+            disconnect()
+            connect(params)
+        }
+    }
 
     open fun createAgentConnection(
         certInfo: CertificateRepository.CertificateResult.Success,

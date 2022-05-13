@@ -134,13 +134,6 @@ class WireguardBackend(
         withContext(Dispatchers.IO) { backend.setState(testTunnel, Tunnel.State.DOWN, null) }
     }
 
-    override suspend fun reconnect() {
-        lastConnectionParams?.let {
-            disconnect()
-            connect(it)
-        }
-    }
-
     fun serviceCreated(vpnService: WireguardWrapperService) {
         service = vpnService
     }
