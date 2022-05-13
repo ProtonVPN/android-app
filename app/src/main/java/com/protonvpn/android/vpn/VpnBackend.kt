@@ -36,7 +36,6 @@ import com.protonvpn.android.utils.takeRandomStable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
@@ -380,7 +379,8 @@ abstract class VpnBackend(
         }
     }
 
-    private fun revokeCertificateAndReconnect(reason: String) {
+    @VisibleForTesting
+    fun revokeCertificateAndReconnect(reason: String) {
         selfStateObservable.postValue(VpnState.Connecting)
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
@@ -421,12 +421,16 @@ abstract class VpnBackend(
     }
 
     private fun closeAgentConnection() {
-        reconnectionJob?.cancel()
-        agentConnectionJob?.cancel()
-        agentConnectionJob = null
-        reconnectionJob = null
-        agent?.close()
-        agent = null
+        // Don't cancel any of the jobs if there is no agent connection. Otherwise it's possible to incorrectly cancel a
+        // running reconnection job.
+        if (agent != null || agentConnectionJob != null) {
+            reconnectionJob?.cancel()
+            reconnectionJob = null
+            agentConnectionJob?.cancel()
+            agentConnectionJob = null
+            agent?.close()
+            agent = null
+        }
     }
 
     protected suspend fun waitForDisconnect() {
