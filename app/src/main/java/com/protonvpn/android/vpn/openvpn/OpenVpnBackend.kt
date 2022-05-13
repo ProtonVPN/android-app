@@ -209,11 +209,6 @@ class OpenVpnBackend(
         waitForDisconnect()
     }
 
-    override suspend fun reconnect() {
-        disconnect()
-        startOpenVPN(null)
-    }
-
     // No retry info available for open vpn
     override val retryInfo: RetryInfo? get() = null
 

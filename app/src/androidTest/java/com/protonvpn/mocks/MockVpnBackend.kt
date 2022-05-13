@@ -92,14 +92,6 @@ class MockVpnBackend(
         vpnProtocolState = VpnState.Disabled
     }
 
-    override suspend fun reconnect() {
-        // Each real backend implements this differently. This implementation is the same as in WireGuard.
-        lastConnectionParams?.let { params ->
-            disconnect()
-            connect(params)
-        }
-    }
-
     override fun createAgentConnection(
         certInfo: CertificateRepository.CertificateResult.Success,
         hostname: String?,
