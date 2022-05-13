@@ -20,6 +20,9 @@ package com.protonvpn.tests.vpn
 
 import androidx.activity.ComponentActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.distinctUntilChanged
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import com.protonvpn.android.api.GuestHole
@@ -75,6 +78,7 @@ import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.verify
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Assert
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -218,9 +222,9 @@ class VpnConnectionTests {
             scope.launch {
                 yield()
                 client.onState(agentState)
-                if (agentState == agentConsts.stateHardJailed)
+                if (agentState == agentConsts.stateHardJailed) {
                     client.onError(agentConsts.errorCodeCertificateExpired, "")
-                else {
+                } else {
                     client.onState(agentConsts.stateConnecting)
                     client.onState(agentConsts.stateConnected)
                 }
@@ -249,7 +253,6 @@ class VpnConnectionTests {
         mockWireguard.failScanning = true
         mockStrongSwan.failScanning = true
         manager.connect(mockVpnUiDelegate, profileSmart, "test")
-        yield()
         advanceUntilIdle()
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -263,13 +266,13 @@ class VpnConnectionTests {
         mockOpenVpn.failScanning = true
         userData.setProtocols(VpnProtocol.OpenVPN, null)
         manager.connect(mockVpnUiDelegate, profileSmart, "test")
-        yield()
+        advanceUntilIdle()
 
         // When scanning fails we'll fallback to attempt connecting with IKEv2 regardless of
         // selected protocol
         coVerify(exactly = 1) {
             mockStrongSwan.prepareForConnection(any(), any(), false)
-            mockStrongSwan.connect(any())
+            mockStrongSwan.connect(not(isNull()))
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -280,7 +283,7 @@ class VpnConnectionTests {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         userData.setProtocols(VpnProtocol.OpenVPN, null)
         manager.connect(mockVpnUiDelegate, profileSmart, "test")
-        yield()
+        advanceUntilIdle()
 
         // Always fall back to StrongSwan, regardless of selected protocol.
         coVerify(exactly = 0) {
@@ -288,7 +291,7 @@ class VpnConnectionTests {
         }
         coVerify(exactly = 1) {
             mockStrongSwan.prepareForConnection(any(), any(), any())
-            mockStrongSwan.connect(any())
+            mockStrongSwan.connect(not(isNull()))
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -311,6 +314,7 @@ class VpnConnectionTests {
     fun localAgentNotUsedForIKEv2() = scope.runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         manager.connect(mockVpnUiDelegate, profileIKEv2, "test")
+        advanceUntilIdle()
 
         coVerify(exactly = 1) {
             mockStrongSwan.prepareForConnection(any(), any(), false)
@@ -327,6 +331,7 @@ class VpnConnectionTests {
         coEvery { currentUser.sessionId() } returns null
         every { currentUser.sessionIdCached() } returns null
         manager.connect(mockVpnUiDelegate, profileWireguard, "test")
+        advanceUntilIdle()
 
         coVerify(exactly = 1) {
             mockWireguard.prepareForConnection(any(), any(), false)
@@ -385,10 +390,10 @@ class VpnConnectionTests {
         collectJob.cancel()
 
         coVerify(exactly = 1) {
-            mockStrongSwan.connect(any())
+            mockStrongSwan.connect(not(isNull()))
         }
         coVerify(exactly = 1) {
-            mockOpenVpn.connect(any())
+            mockOpenVpn.connect(not(isNull()))
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -413,7 +418,7 @@ class VpnConnectionTests {
         collectJob.cancel()
 
         coVerify(exactly = 1) {
-            mockStrongSwan.connect(any())
+            mockStrongSwan.connect(not(isNull()))
         }
 
         Assert.assertEquals(VpnState.Disabled, monitor.state)
@@ -443,7 +448,7 @@ class VpnConnectionTests {
         collectJob.cancel()
 
         coVerify(exactly = 1) {
-            mockStrongSwan.connect(any())
+            mockStrongSwan.connect(not(isNull()))
         }
 
         Assert.assertEquals(listOf(fallbackResult), fallbacks)
@@ -547,6 +552,26 @@ class VpnConnectionTests {
     }
 
     @Test
+    fun testRevokeAndReconnect() = scope.runBlockingTest {
+        manager.connect(mockVpnUiDelegate, profileWireguard, "Test")
+        advanceUntilIdle()
+
+        assertEquals(VpnState.Connected, mockWireguard.selfState)
+
+        val vpnReonnectStates = collectVpnStates(mockWireguard.selfStateObservable) {
+            mockWireguard.revokeCertificateAndReconnect("test")
+            advanceUntilIdle()
+        }
+
+        coVerify(exactly = 1) {
+            certificateRepository.updateCertificate(any(), any())
+        }
+
+        assertEquals(VpnState.Connected, mockWireguard.selfState)
+        assertTrue(vpnReonnectStates.contains(VpnState.Disabled))
+    }
+
+    @Test
     fun testDowngradeWithLocalAgent() = scope.runBlockingTest {
         mockWireguard.setAgentProvider { certificate, _, client ->
             client.onState(agentConsts.stateHardJailed)
@@ -557,5 +582,18 @@ class VpnConnectionTests {
         advanceUntilIdle()
 
         assertEquals(ErrorType.POLICY_VIOLATION_LOW_PLAN, (mockWireguard.selfState as? VpnState.Error)?.type)
+    }
+
+    private fun collectVpnStates(statesLiveData: LiveData<VpnState>, block: () -> Unit): List<VpnState> {
+        val collectedStates = mutableListOf<VpnState>()
+        val observer = Observer<VpnState> { collectedStates.add(it) }
+        val liveData = statesLiveData.distinctUntilChanged()
+        liveData.observeForever(observer)
+        try {
+            block()
+            return collectedStates
+        } finally {
+            liveData.removeObserver(observer)
+        }
     }
 }

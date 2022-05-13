@@ -35,6 +35,7 @@ import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.NetworkManager
 import com.proton.gopenpgp.localAgent.NativeClient
 import com.protonvpn.android.auth.usecase.CurrentUser
+import kotlinx.coroutines.yield
 
 typealias MockAgentProvider = (
     certInfo: CertificateRepository.CertificateResult.Success,
@@ -80,18 +81,23 @@ class MockVpnBackend(
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
+        yield() // Simulate a real suspending function, giving it a chance to be cancelled.
         vpnProtocolState = VpnState.Connecting
         vpnProtocolState = stateOnConnect
     }
 
     override suspend fun closeVpnTunnel(withStateChange: Boolean) {
+        yield() // Simulate a real suspending function, giving it a chance to be cancelled.
         vpnProtocolState = VpnState.Disconnecting
         vpnProtocolState = VpnState.Disabled
     }
 
     override suspend fun reconnect() {
-        vpnProtocolState = VpnState.Connecting
-        vpnProtocolState = stateOnConnect
+        // Each real backend implements this differently. This implementation is the same as in WireGuard.
+        lastConnectionParams?.let { params ->
+            disconnect()
+            connect(params)
+        }
     }
 
     override fun createAgentConnection(
