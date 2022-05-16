@@ -157,6 +157,13 @@ class ReviewTrackerTests {
     }
 
     @Test
+    fun `trigger also if connection count exceeds required limit`() = runBlockingTest {
+        mockOldConnectionSuccess()
+        trackerPrefs.successConnectionsInRow = appConfig.getRatingConfig().successfulConnectionCount * 2
+        assertTrue(reviewTracker.shouldRate())
+    }
+
+    @Test
     fun `shouldRate never return true if app is in background`() = runBlockingTest {
         every { foregroundActivityTracker.foregroundActivity } returns null
         addLongSession()
