@@ -24,6 +24,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.suspendForPermissions
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
@@ -33,6 +34,7 @@ import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnState
@@ -95,7 +97,7 @@ class GuestHole @Inject constructor(
                 suspendCancellableCoroutine<Boolean> { continuation ->
                     val profile = Profile.getTempProfile(server)
                         .apply {
-                            setProtocol(VpnProtocol.OpenVPN)
+                            setProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
                         }
                     vpnConnectionManager.get().connect(vpnUiDelegate, profile, "Guest hole")
                     val observerJob = scope.launch {
