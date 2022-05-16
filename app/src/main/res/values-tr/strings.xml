@@ -116,8 +116,8 @@
     <string name="settingsMtuRangeInvalid">MTU değeri 1280 ile 1500 aralığında olmalıdır</string>
     <string name="settingsDefaultConnectionTitle">Hızlı bağlan</string>
     <string name="settingsDefaultConnectionDescription">Hızlı Bağlan düğmesi sizi seçilmiş profile bağlar</string>
-    <string name="settingsAllowNonStandardPortsTitle">Standart olmayan kapı numaraları</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN ağı üzerinden standart olmayan kapı numaralarından trafik akışına izin vererek herhangi bir özel gereksinim için ProtonVPN kullanabilirsiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="settingsAllowNonStandardPortsTitle">Standart olmayan bağlantı noktaları</string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN ağı üzerinde standart olmayan bağlantı noktalarından trafik akışına izin vererek herhangi bir özel gereksinim için ProtonVPN kullanabilirsiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="settingsModerateNatTitle">Ilımlı NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrimiçi oyunlar gibi uygulamalar için doğrudan bağlantı kurma gibi tekniklere izin veren yerel adres eşlemelerinin rastgeleleştirilmesi özelliğini devre dışı bırakır. <a href="%1$s">Ayrıntrılı bilgi alın</a>]]></string>
     <string name="use_coupon_title">Kupon kullan</string>
@@ -330,7 +330,7 @@
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Bağlantı kesiciyi etkinleştirmek için <b>VPN olmadan bağlantıları engelle</b> seçeneğinin yanındaki anahtara dokunun]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android ayarlarını aç</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Bağlantı kesici etkinleştirildiğinde, VPN tüneli dışındaki tüm bağlantılar engelleneceğinden bölünmüş tünel devre dışı bırakılır</string>
-    <string name="settingsSmartProtocolDescription">En iyi bağlantıyı sağlayan iletişim kuralı ve kapı numarası otomatik olarak seçilsin.</string>
+    <string name="settingsSmartProtocolDescription">En iyi bağlantıyı sağlayan iletişim kuralı ve bağlantı noktası otomatik olarak seçilsin.</string>
     <string name="settingsSendCrashReportsTitle">Anonim çökme bildirimleri</string>
     <string name="settingsSendCrashReportsDescription">Uygulamanız beklenmedik şekilde çöker ya da kapanırsa, geliştirici ekibimize sorunu aktaran bir bildirim gönderilir. Bu bildirimi yalnızca uygulamanın geliştirilmesi için kullanırız.</string>
     <string name="netShieldEnabledWarning">Engellenen içerikler nedeniyle bazı web sitelerinin tam olarak çalışmayacağını unutmayın.</string>
@@ -521,8 +521,8 @@
     <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
     <string name="upgrade_plus_countries_speeds">En yüksek hızlarda gezinin (10 Gb/sn)</string>
     <string name="upgrade_plus_countries_more">Ve pek çok diğer ücretli özellikler</string>
-    <string name="upgrade_safe_mode_title">Standart olmayan kapı numaralarından trafik akabilsin</string>
-    <string name="upgrade_safe_mode_message">Standart olmayan kapı numaraları kullanmanızı gerektiren gelişmiş veya profesyonel bilgi işlem gereksinimleriniz mi var? Bu ve diğer ücretli özelliklere erişmek için VPN Plus tarifesine yükseltin.</string>
+    <string name="upgrade_safe_mode_title">Standart olmayan bağlantı noktalarından trafik geçebilsin</string>
+    <string name="upgrade_safe_mode_message">Standart olmayan bağlantı noktaları kullanmanızı gerektiren gelişmiş veya profesyonel bilgi işlem gereksinimleriniz mi var? Bu ve diğer ücretli özelliklere erişmek için VPN Plus tarifesine yükseltin.</string>
     <string name="upgrade_moderate_nat_title">Ilımlı NAT özelliğini etkinleştirebilirsiniz</string>
     <string name="upgrade_moderate_nat_message">Ilımlı NAT, 2. tür NAT olarak da bilinir ve çeşitli uygulamalar ve çevrimiçi video oyunlarıyla ilgili çevrimiçi deneyiminizi iyileştirebilir. Plus tarifesi ile bu ve başka özellikleri kullanabilirsiniz.</string>
     <string name="upgrade_moderate_nat_learn_more">Ilımlı NAT nedir?</string>
