@@ -54,7 +54,7 @@
     <string name="dialogLearnMore">En savoir plus</string>
     <string name="dialog_read_more">En lire plus</string>
     <string name="dialog_apply">Appliquer</string>
-    <string name="dialog_applying">Activation</string>
+    <string name="dialog_applying">En cours d\'application</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Connecté</string>
     <string name="buttonConnect">Se connecter</string>

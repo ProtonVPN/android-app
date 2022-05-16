@@ -310,7 +310,7 @@
     <string name="troubleshootContactUsSectionTitle">Ainda precisa de ajuda? Contate-nos diretamente</string>
     <string name="troubleshootCustomerSupport">Suporte ao cliente</string>
     <string name="settingsAllowAlternativeRoutingTitle">Roteamento alternativo</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permita que o aplicativo tente caminhos alternativos para acessar os servidores Proton. <a href="%1$s">Saiba mais</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permita que o aplicativo tenta caminhos alternativos para acessar os servidores Proton. <a href="%1$s">Saiba mais</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueio governamental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Seu país pode estar bloqueando o acesso ao Proton. Tente usar o <a href=\'%1$s\'>Tor</a> para acessar o Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN sempre ativa e Kill Switch</string>

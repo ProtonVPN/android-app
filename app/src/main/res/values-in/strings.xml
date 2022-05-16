@@ -112,7 +112,7 @@
     <string name="settingsDnsLeakDescription">Cegah kebocoran rincian permintaan DNS kepada pihak ketiga (selalu menyala)</string>
     <string name="settingsDefaultMtu">1375</string>
     <string name="settingsMtuSizeTitle">Ukuran MTU</string>
-    <string name="settingsMtuDescription">Jika nilai asali tidak sesuai untuk jaringan tertentu, masukan nilai dalam rentang 1280-1500. Ubah hanya jika Anda tahu apa yang Anda kerjakan.</string>
+    <string name="settingsMtuDescription">Apabila nilai asli yang tertera tidak sesuai untuk jaringan tertentu, masukan nilai dalam rentang 1280-1500. Harap ubah nilai ini hanya apabila Anda paham akan apa yang Anda kerjakan.</string>
     <string name="settingsMtuRangeInvalid">Nilai MTU harus dalam kisaran 1280–1500</string>
     <string name="settingsDefaultConnectionTitle">Quick Connect</string>
     <string name="settingsDefaultConnectionDescription">Tombol sambung cepat menyambungkan Anda ke profil terpilih</string>
@@ -192,7 +192,7 @@
     <string name="report_bug_message_hint">Mohon deskripsikan bug dan bagaimana Anda menemukannya</string>
     <string name="send_report">Kirim laporan</string>
     <string name="excludeIpTitle">Kecualikan alamat IP</string>
-    <string name="discardChanges">Batalkan perubahan tak tersimpan?</string>
+    <string name="discardChanges">Urungkan perubahan yang belum disimpan?</string>
     <string name="discard">Buang</string>
     <string name="selectedProfileColor">Mohon memilih warna profil Anda</string>
     <string name="excludeIpDescription">Tambahkan alamat IP yang ingin Anda kecualikan dari lalu lintas VPN.</string>
@@ -213,10 +213,10 @@
     <string name="doneButton">Selesai</string>
     <string name="saveButton">Simpan</string>
     <string name="recommendedHeader">Disarankan</string>
-    <string name="countryServersHeader">Server-server negara</string>
+    <string name="countryServersHeader">Server negara</string>
     <string name="secureCoreCountriesHeader">Negara dengan server Secure Core</string>
-    <string name="recommendedProfilesHeader">Profil-profil yang disarankan</string>
-    <string name="yourProfilesHeader">Profil-profil Anda</string>
+    <string name="recommendedProfilesHeader">Profil yang disarankan</string>
+    <string name="yourProfilesHeader">Profil Anda</string>
     <string name="exitCountry">Keluar dari negara</string>
     <string name="entryCountry">Negara masuk</string>
     <string name="country">Negara</string>
@@ -412,10 +412,10 @@
     <string name="notification_subscription_expired_title">Paket langganan ProtonVPN anda telah berakhir</string>
     <string name="notification_subscription_expired_content">Kami telah menurunkan paket Anda, namun kami menghubungkan ulang Anda ke server tercepat yang tersedia di paket tesebut.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Langganan Anda telah diturunkan. </string>
-    <string name="notification_delinquent_title">Akun ProtonVPN Anda memiliki tagihan tertunda</string>
+    <string name="notification_delinquent_title">Akun ProtonVPN Anda memiliki tagihan yang belum dilunasi</string>
     <string name="notification_delinquent_content">Silakan perbarui informasi tagihan Anda agar langganan Anda dianggap aktif.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
-    <string name="notification_server_unreachable_content">Anda telah pindah ke server yang lebih cepat yang mirip seperti yang tadi dipilih.</string>
+    <string name="notification_server_unreachable_content">Anda telah dipindahkan ke server lebih cepat yang serupa dengan server pilihan Anda sebelumnya.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Anda telah mencapai batas jumlah perangkat maksimum yang dapat Anda sambungkan</string>
     <!-- The number of devices will always be greater than 1. -->
@@ -425,7 +425,7 @@
     <string name="notification_max_sessions_content">Silakan putuskan perangkat lain untuk menyambung ke sini.</string>
     <string name="notification_cancel_to_free">Anda sedang menggunakan layanan Gratis. Anda akan dapat menikmati berbagai fitur dan server Gratis yang tersedia.</string>
     <string name="notification_cancel_to_basic">Anda sedang menggunakan layanan Basic. Anda akan dapat menikmati berbagai fitur dan server Basic &amp; Gratis yang tersedia.</string>
-    <string name="notification_cancel_to_delinquent">Anda akan dapat mengakses fitur premium lagi setelah tagihan tertunda dibayar.</string>
+    <string name="notification_cancel_to_delinquent">Anda akan kembali dapat mengakses berbagai fitur premium setelah seluruh tagihan yang tertunda dilunasi.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Dari server: </string>
     <string name="reconnect_to_server">Ke server: </string>
@@ -457,7 +457,7 @@
     <string name="upgrade_plus_subtitle">Pada saat Anda meningkatkan akun Anda ke Plus</string>
     <string name="upgrade_netshield_title_new">Nikmati penjelajahan tanpa iklan dengan NetShield</string>
     <string name="upgrade_secure_core_title_new">Enkripsi berganda dengan Secure Core</string>
-    <string name="upgrade_secure_core_countries">Alihkan lalu lintas jaringan Anda melalui server-server super aman di Swiss, Swedia, dan Islandia</string>
+    <string name="upgrade_secure_core_countries">Alihkan lalu lintas jaringan Anda melalui berbagai server ultra aman di Swiss, Swedia, dan Islandia</string>
     <string name="upgrade_secure_core_encryption">Terapkan lapisan perlindungan tambahan pada koneksi VPN Anda</string>
     <string name="upgrade_secure_core_protect">Lindungi diri Anda dari serangan berbasis jaringan</string>
     <string name="upgrade_netshield_block_ads">Blokir iklan dan program pelacak</string>
@@ -515,7 +515,7 @@
     <string name="upgrade_safe_mode_title">Izinkan lalu lintas data melalui port non-standar</string>
     <string name="upgrade_safe_mode_message">Memiliki keperluan tertentu yang memerlukan penggunaan port non-standar? Tingkatkan akun Anda ke VPN Plus agar Anda dapat menggunakan fitur ini dan berbagai fitur premium lainnya.</string>
     <string name="upgrade_moderate_nat_title">Aktifkan NAT Moderat</string>
-    <string name="upgrade_moderate_nat_message">NAT Moderat, yang juga dikenal sebagai NAT Type 2, merupakan sebuah fitur yang dapat memperkaya pengalaman online Anda dalam berbagai aplikasi dan permainan online.Nikmati fitur ini dan berbagai fitur lainnya dengan akun Plus.</string>
+    <string name="upgrade_moderate_nat_message">NAT Moderat, yang juga dikenal sebagai NAT Type 2, merupakan sebuah fitur yang dapat memperkaya pengalaman online Anda dalam berbagai aplikasi dan permainan online. Nikmati fitur ini dan berbagai fitur lainnya dengan akun Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">Apa itu NAT Moderat?</string>
     <string name="upgrade_see_plans_button">Lihat daftar paket dan harga</string>
     <string name="upgrade_not_now_button">Tidak sekarang</string>
@@ -532,7 +532,7 @@
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Server ini memberikan performa terbaik untuk BitTorrent dan berbagi berkas.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Alihkan lalu lintas Internet Anda lewat jaringan Tor. Lebih lambat, tapi lebih privat.</string>
+    <string name="tor_description">Alihkan lalu lintas Internet Anda melalui jaringan Tor. Lebih lambat, namun lebih privat.</string>
     <string name="info_performance">Performa</string>
     <string name="server_load_title">Beban Server</string>
     <string name="server_load_description">Server dengan beban tinggi lebih lambat daripada server dengan beban rendah.</string>
@@ -567,7 +567,7 @@
     <string name="dynamic_report_suggestion_didnt_work">Apakah langkah-langkah di atas tidak membantu?</string>
     <string name="dynamic_report_contact_us">Hubungi kami</string>
     <string name="dynamic_report_tips_description">Tips-tips berikut dapat membantu Anda untuk menyelesaikan masalah yang Anda hadapi dengan cepat.</string>
-    <string name="dynamic_report_tips_title">Solusi-solusi instan</string>
+    <string name="dynamic_report_tips_title">Solusi instan</string>
     <string name="dynamic_report_logs_title">Kirimkan log-log error</string>
     <string name="dynamic_report_success_title">Terima kasih atas tanggapan Anda</string>
     <string name="dynamic_report_success_description">Kami akan kembali menghubungi Anda sesegera mungkin.</string>
