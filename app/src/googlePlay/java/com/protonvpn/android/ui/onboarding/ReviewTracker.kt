@@ -89,12 +89,16 @@ class ReviewTracker @Inject constructor(
     private suspend fun createInAppReview() {
         foregroundActivityTracker.foregroundActivity?.let {
             log("Suggest in app review")
-            val manager = ReviewManagerFactory.create(appContext)
-            val reviewInfo = manager.requestReview()
-            manager.launchReviewFlow(it, reviewInfo).addOnCompleteListener {
-                reviewTrackerPrefs.lastReviewTimestamp = wallClock()
-                reviewTrackerPrefs.longSessionReached = false
-                log("Review flow was triggered " + reviewTrackerPrefs.lastReviewTimestamp)
+            try {
+                val manager = ReviewManagerFactory.create(appContext)
+                val reviewInfo = manager.requestReview()
+                manager.launchReviewFlow(it, reviewInfo).addOnCompleteListener {
+                    reviewTrackerPrefs.lastReviewTimestamp = wallClock()
+                    reviewTrackerPrefs.longSessionReached = false
+                    log("Review flow was triggered " + reviewTrackerPrefs.lastReviewTimestamp)
+                }
+            } catch (e: Exception) {
+                log("Failure to contact google play: ${e.message}")
             }
         }
     }
