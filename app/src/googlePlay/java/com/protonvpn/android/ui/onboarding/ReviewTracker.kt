@@ -134,11 +134,11 @@ class ReviewTracker @Inject constructor(
         // Do not ask to rate if user is not within our app
         foregroundActivityTracker.foregroundActivity ?: return false
 
-        log("Connections in queue: " + (reviewTrackerPrefs.successConnectionsInRow == ratingConfig.successfulConnectionCount))
+        log("Connections in queue: " + (reviewTrackerPrefs.successConnectionsInRow >= ratingConfig.successfulConnectionCount))
         log("Long session reached: " + (reviewTrackerPrefs.longSessionReached))
         log("---------")
 
-        return (reviewTrackerPrefs.successConnectionsInRow == ratingConfig.successfulConnectionCount ||
+        return (reviewTrackerPrefs.successConnectionsInRow >= ratingConfig.successfulConnectionCount ||
             reviewTrackerPrefs.longSessionReached)
     }
 }
