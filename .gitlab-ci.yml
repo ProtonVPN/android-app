@@ -274,9 +274,8 @@ sync-app:
 publish-apk-internal:
   stage: publish
   tags:
-    - large
+    - xlarge-k8s
   extends: .gradle-job
-  when: manual
   only:
     refs:
       - development
