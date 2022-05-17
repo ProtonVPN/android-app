@@ -96,7 +96,7 @@ class TvMainViewModel @Inject constructor(
         purchaseEnabled),
     StreamingViewModelHelper {
 
-    private val selectedCountryFlag = MutableLiveData<String?>()
+    val selectedCountryFlag = MutableLiveData<String?>()
     val connectedCountryFlag = MutableLiveData<String>()
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
 
@@ -114,16 +114,6 @@ class TvMainViewModel @Inject constructor(
             else -> ConnectionState.Connected
         }
     }.distinctUntilChanged().asLiveData()
-
-    val highlightedCountryFlag =
-        if (limitedCountryHighlighting()) {
-            mapMany(selectedCountryFlag, mapRegion) { selected, mapRegion ->
-                selected.takeIf { mapRegion.isZoomedIn() }
-            }
-        } else {
-            selectedCountryFlag
-        }
-
 
     init {
         viewModelScope.launch {
@@ -377,10 +367,6 @@ class TvMainViewModel @Inject constructor(
             .negativeText(R.string.ok)
             .show()
     }
-
-    private fun limitedCountryHighlighting(): Boolean =
-        // nVidia Shield crashes when the map is rendered too often :-/
-        Build.MANUFACTURER == "NVIDIA" && Build.MODEL == "SHIELD Android TV"
 
     fun onLastRowSelection(selected: Boolean) {
         showVersion.value = selected
