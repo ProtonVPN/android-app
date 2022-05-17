@@ -219,7 +219,7 @@ abstract class VpnBackend(
 
         override fun onState(state: String) {
             ProtonLogger.log(LocalAgentStateChanged, state)
-            selfStateObservable.postValue(getGlobalVpnState(vpnProtocolState, state))
+            processCombinedState(vpnProtocolState, state)
         }
 
         override fun onStatusUpdate(status: StatusMessage) {
@@ -244,7 +244,7 @@ abstract class VpnBackend(
     protected var vpnProtocolState: VpnState = VpnState.Disabled
         set(value) {
             field = value
-            selfStateObservable.postValue(getGlobalVpnState(value, agent?.state))
+            processCombinedState(value, agent?.state)
         }
 
     override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
@@ -319,8 +319,9 @@ abstract class VpnBackend(
             features.setString(FEATURES_BOUNCING, bouncing)
     }
 
-    private fun getGlobalVpnState(vpnState: VpnState, localAgentState: String?): VpnState =
-        if (vpnProtocol.localAgentEnabled() && currentUser.sessionIdCached() != null) {
+    // Handle updates to both VpnState and local agent's state.
+    private fun processCombinedState(vpnState: VpnState, localAgentState: String?) {
+        val newSelfState = if (vpnProtocol.localAgentEnabled() && currentUser.sessionIdCached() != null) {
             when (vpnState) {
                 VpnState.Connected -> handleLocalAgentStates(localAgentState)
                 VpnState.Disabled, VpnState.Disconnecting -> {
@@ -330,6 +331,8 @@ abstract class VpnBackend(
                 else -> vpnState
             }
         } else vpnState
+        selfStateObservable.postValue(newSelfState)
+    }
 
     private fun handleLocalAgentStates(localAgentState: String?): VpnState {
         connectToLocalAgent()
