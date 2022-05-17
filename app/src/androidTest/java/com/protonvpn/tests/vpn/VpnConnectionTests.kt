@@ -76,6 +76,8 @@ import com.protonvpn.mocks.MockAgentProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Assert
 import org.junit.Assert.assertTrue
@@ -378,16 +380,10 @@ class VpnConnectionTests {
         )
         coEvery { vpnErrorHandler.onAuthError(any()) } returns fallbackResult
 
-        val fallbacks = mutableListOf<VpnFallbackResult>()
-        val collectJob = launch {
-            monitor.vpnConnectionNotificationFlow.collect {
-                fallbacks += it
-            }
+        val fallbacks = runWhileCollecting(monitor.vpnConnectionNotificationFlow) {
+            manager.connect(mockVpnUiDelegate, profileIKEv2, "test")
+            advanceUntilIdle()
         }
-
-        manager.connect(mockVpnUiDelegate, profileIKEv2, "test")
-        advanceUntilIdle()
-        collectJob.cancel()
 
         coVerify(exactly = 1) {
             mockStrongSwan.connect(not(isNull()))
@@ -406,16 +402,10 @@ class VpnConnectionTests {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
         coEvery { vpnErrorHandler.onAuthError(any()) } returns VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
 
-        val fallbacks = mutableListOf<VpnFallbackResult>()
-        val collectJob = launch {
-            monitor.vpnConnectionNotificationFlow.collect {
-                fallbacks += it
-            }
+        val fallbacks = runWhileCollecting(monitor.vpnConnectionNotificationFlow) {
+            manager.connect(mockVpnUiDelegate, profileIKEv2, "test")
+            advanceUntilIdle()
         }
-
-        manager.connect(mockVpnUiDelegate, profileIKEv2, "test")
-        advanceUntilIdle()
-        collectJob.cancel()
 
         coVerify(exactly = 1) {
             mockStrongSwan.connect(not(isNull()))
@@ -423,6 +413,22 @@ class VpnConnectionTests {
 
         Assert.assertEquals(VpnState.Disabled, monitor.state)
         Assert.assertTrue(fallbacks.isNotEmpty())
+    }
+
+    @Test
+    fun testMaxSessionsFromLocalAgent() = scope.runBlockingTest {
+        mockWireguard.setAgentProvider { certificate, _, client ->
+            client.onState(agentConsts.stateHardJailed)
+            client.onError(agentConsts.errorCodeMaxSessionsPlus, "")
+            mockAgent
+        }
+        val notifications = runWhileCollecting(monitor.vpnConnectionNotificationFlow) {
+            manager.connect(mockVpnUiDelegate, profileWireguard, "test")
+            advanceUntilIdle()
+        }
+
+        assertEquals(VpnState.Disabled, monitor.state)
+        assertEquals(listOf(VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)), notifications)
     }
 
     @Test
@@ -594,6 +600,21 @@ class VpnConnectionTests {
             return collectedStates
         } finally {
             liveData.removeObserver(observer)
+        }
+    }
+
+    private fun <T> CoroutineScope.runWhileCollecting(flow: Flow<T>, block: () -> Unit): List<T> {
+        val collectedValues = mutableListOf<T>()
+        val collectJob = launch {
+            flow.collect {
+                collectedValues += it
+            }
+        }
+        try {
+            block()
+            return collectedValues
+        } finally {
+            collectJob.cancel()
         }
     }
 }
