@@ -36,6 +36,7 @@ import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
+import com.wireguard.android.backend.BackendException
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
 import kotlinx.coroutines.CoroutineScope
@@ -46,6 +47,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.util.kotlin.DispatcherProvider
+import java.util.concurrent.TimeoutException
 
 class WireguardBackend(
     val context: Context,
@@ -115,7 +117,16 @@ class WireguardBackend(
                 context, userData, currentUser.sessionId(), certificateRepository
             )
             withContext(Dispatchers.IO) {
-                backend.setState(testTunnel, Tunnel.State.UP, config)
+                try {
+                    backend.setState(testTunnel, Tunnel.State.UP, config)
+                } catch (e: BackendException) {
+                    if (e.reason == BackendException.Reason.UNABLE_TO_START_VPN && e.cause is TimeoutException) {
+                        // GoBackend waits only 2s for the VPN service to start. Sometimes this is not enough, retry.
+                        backend.setState(testTunnel, Tunnel.State.UP, config)
+                    } else {
+                        throw e
+                    }
+                }
             }
         } catch (e: IllegalStateException) {
             // TODO do not use generic error here (depends on other branch)
