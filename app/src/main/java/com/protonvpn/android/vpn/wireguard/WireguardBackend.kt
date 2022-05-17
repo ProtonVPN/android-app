@@ -22,6 +22,8 @@ package com.protonvpn.android.vpn.wireguard
 import android.content.Context
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ConnError
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -47,6 +49,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.util.kotlin.DispatcherProvider
+import java.io.PrintWriter
+import java.io.StringWriter
+import java.lang.IllegalStateException
 import java.util.concurrent.TimeoutException
 
 class WireguardBackend(
@@ -129,8 +134,9 @@ class WireguardBackend(
                 }
             }
         } catch (e: IllegalStateException) {
-            // TODO do not use generic error here (depends on other branch)
-            selfStateObservable.value = VpnState.Error(ErrorType.GENERIC_ERROR)
+            handleConnectException(e)
+        } catch (e: BackendException) {
+            handleConnectException(e)
         }
     }
 
@@ -154,4 +160,14 @@ class WireguardBackend(
     }
 
     override val retryInfo: RetryInfo? get() = null
+
+    private fun handleConnectException(e: Exception) {
+        ProtonLogger.log(
+            ConnError,
+            "Caught exception while connecting with WireGuard\n" +
+                StringWriter().apply { e.printStackTrace(PrintWriter(this)) }.toString()
+        )
+        // TODO do not use generic error here (depends on other branch)
+        selfStateObservable.value = VpnState.Error(ErrorType.GENERIC_ERROR)
+    }
 }
