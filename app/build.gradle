@@ -595,7 +595,7 @@ dependencies {
 
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     implementation 'commons-codec:commons-codec:1.15'
-    implementation 'com.qozix:tileview:2.2.7'
+    implementation 'com.github.moagrius:TileView:2.2.7'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.jakewharton:butterknife:10.2.3'
     implementation 'com.google.code.gson:gson:2.8.9'
@@ -747,7 +747,6 @@ dependencies {
     androidTestImplementation('androidx.test.espresso:espresso-idling-resource:3.4.0') {
         exclude module: 'support-annotations'
     }
-    androidTestImplementation 'com.azimolabs.conditionwatcher:conditionwatcher:0.2'
 
     // Core library
     androidTestImplementation 'androidx.test:core:1.4.0'
