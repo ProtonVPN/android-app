@@ -24,7 +24,6 @@ buildscript {
     ext.hilt_version = '2.40.5'
     ext.detekt_version = '1.19.0'
     repositories {
-        jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
         google()
@@ -45,7 +44,6 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
         mavenCentral()
         google()
         maven { url "https://jitpack.io" }
