@@ -240,7 +240,6 @@ class NotificationHelper(
                         .setSmallIcon(getIconForState(state))
                         .setContentTitle(getStringFromState(vpnStatus))
                         .setContentText(notificationContentString)
-                        .setStyle(NotificationCompat.BigTextStyle())
                         .setOngoing(true)
                         .setOnlyAlertOnce(true)
                         .setCategory(NotificationCompat.CATEGORY_SERVICE)
