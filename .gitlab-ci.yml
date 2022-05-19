@@ -191,6 +191,7 @@ build amazon release:
   only:
     refs:
       - master
+      - release/4.0
   tags:
     - xlarge-k8s
   script:
