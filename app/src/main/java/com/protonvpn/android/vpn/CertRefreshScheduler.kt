@@ -32,6 +32,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
+import me.proton.core.network.domain.NetworkManager
 import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -64,10 +65,13 @@ class CertRefreshWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val dispatcherProvider: DispatcherProvider,
-    private val certificateRepository: CertificateRepository
+    private val certificateRepository: CertificateRepository,
+    private val networkManager: NetworkManager
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
+        if (!networkManager.isConnectedToNetwork())
+            return Result.failure()
         withContext(dispatcherProvider.Main) {
             certificateRepository.updateCertificateIfNeeded()
         }

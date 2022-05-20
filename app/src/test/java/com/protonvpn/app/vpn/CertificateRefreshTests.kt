@@ -44,6 +44,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
 import org.junit.Before
 import org.junit.Test
@@ -59,6 +61,7 @@ class CertificateRefreshTests {
     private var currentTimeMs: Long = 0
     private lateinit var infoChangeFlow: MutableStateFlow<List<UserPlanManager.InfoChange>>
     private lateinit var appInUseFlow: MutableStateFlow<Boolean>
+    private lateinit var networkStateFlow: MutableStateFlow<NetworkStatus>
 
     @RelaxedMockK
     private lateinit var mockStorage: CertificateStorage
@@ -81,6 +84,9 @@ class CertificateRefreshTests {
     @MockK
     private lateinit var mockAppInUseMonitor: AppInUseMonitor
 
+    @MockK
+    private lateinit var networkManager: NetworkManager
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -88,11 +94,13 @@ class CertificateRefreshTests {
         currentTimeMs = NOW_MS
         infoChangeFlow = MutableStateFlow(emptyList())
         appInUseFlow = MutableStateFlow(false)
+        networkStateFlow = MutableStateFlow(NetworkStatus.Unmetered)
 
         every { mockKeyProvider.generateCertInfo() } returns CertInfo("private", "public", "x25519")
         every { mockPlanManager.infoChangeFlow } returns infoChangeFlow
         every { mockAppInUseMonitor.isInUseFlow } returns appInUseFlow
         every { mockAppInUseMonitor.isInUse } returns appInUseFlow.value
+        every { networkManager.observe() } returns networkStateFlow
         coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Success(CERTIFICATE_RESPONSE)
         coEvery { mockCurrentUser.sessionId() } returns SESSION_ID
         coEvery { mockStorage.get(any()) } returns CERT_INFO
@@ -149,6 +157,17 @@ class CertificateRefreshTests {
         }
     }
 
+    @Test
+    fun certificateRepository_refreshes_certificate_when_network_is_available() = runBlockingTest {
+        currentTimeMs = CERT_INFO.refreshAt + 1
+        networkStateFlow.value = NetworkStatus.Disconnected
+        withTestRepository {
+            coVerify { mockApi wasNot Called }
+            networkStateFlow.value = NetworkStatus.Unmetered
+            coVerify { mockApi.getCertificate(any(), any()) }
+        }
+    }
+
     /**
      * Create a CertificateRepository for testing and run testBlock.
      *
@@ -172,7 +191,8 @@ class CertificateRefreshTests {
             mockPlanManager,
             mockCurrentUser,
             mockRefeshScheduler,
-            mockAppInUseMonitor
+            mockAppInUseMonitor,
+            networkManager
         )
 
     companion object {

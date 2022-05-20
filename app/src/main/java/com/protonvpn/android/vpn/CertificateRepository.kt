@@ -44,11 +44,15 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import me.proton.core.crypto.validator.domain.prefs.CryptoPrefs
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
@@ -144,7 +148,8 @@ class CertificateRepository @Inject constructor(
     private val userPlanManager: UserPlanManager,
     private val currentUser: CurrentUser,
     private val certRefreshScheduler: CertRefreshScheduler,
-    private val appInUseMonitor: AppInUseMonitor
+    private val appInUseMonitor: AppInUseMonitor,
+    networkManager: NetworkManager
 ) {
     sealed class CertificateResult {
         data class Error(val error: ApiResult.Error?) : CertificateResult()
@@ -158,9 +163,10 @@ class CertificateRepository @Inject constructor(
     val currentCertUpdateFlow = MutableSharedFlow<CertificateResult.Success>()
 
     init {
-        mainScope.launch {
-            updateCertificateIfNeeded()
-        }
+        networkManager.observe().onEach { status ->
+            if (status != NetworkStatus.Disconnected)
+                updateCertificateIfNeeded()
+        }.launchIn(mainScope)
         mainScope.launch {
             appInUseMonitor.isInUseFlow.collect { isInUse ->
                 if (isInUse) onAppInUse()
