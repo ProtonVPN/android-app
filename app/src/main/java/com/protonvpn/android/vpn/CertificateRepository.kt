@@ -63,7 +63,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val MAX_REFRESH_COUNT = 2
+private const val MAX_REFRESH_COUNT = 4
 private val MIN_REFRESH_DELAY = TimeUnit.SECONDS.toMillis(30)
 
 @Serializable
