@@ -32,7 +32,7 @@
     <string name="loginCreateAccount">Nieuw account aanmaken</string>
     <string name="loginNeedHelp">Heeft u hulp nodig?</string>
     <string name="connectionAllocationHelpTitle">Bedankt voor de upgrade naar\nProfessioneel/Visionary</string>
-    <string name="connectionAllocationHelpDescription1">Om uw reis met ProtonVPN te beginnen wijst u VPN-verbindingen toe aan uw account of een ander sub-account.</string>
+    <string name="connectionAllocationHelpDescription1">Om uw reis met Proton VPN te beginnen wijst u VPN-verbindingen toe aan uw account of een ander sub-account.</string>
     <string name="connectionAllocationHelpDescription2">Deze stap duurt slechts een paar minuten. Daarna kunt u zich aanmelden en al uw apparaten beveiligen.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">VPN-verbindingen toewijzen</string>
     <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
@@ -106,7 +106,7 @@
     <string name="settingsSectionSecurity">Beveiliging</string>
     <string name="settingsSectionAdvanced">Geavanceerd</string>
     <string name="settingsAutoStartTitle">Starten samen met Android</string>
-    <string name="settingsAutoStartDescription">ProtonVPN zal automatisch starten tijdens het starten van uw systeem</string>
+    <string name="settingsAutoStartDescription">Proton VPN zal automatisch starten tijdens het starten van uw systeem</string>
     <string name="settingsBypassLocalTitle">LAN-verbindingen</string>
     <string name="settingsDnsLeakProtectionTitle">DNS-lekbescherming</string>
     <string name="settingsDnsLeakDescription">Voorkom lekkage van DNS query\'s naar derden (altijd aan)</string>
@@ -127,14 +127,14 @@
     <string name="restrictedMaintenanceTitle">In onderhoud</string>
     <string name="restrictedMaintenanceDescription">De server waarmee u wil verbinden is momenteel in onderhoud. Kies een andere server.</string>
     <string name="errorUserDelinquent"><![CDATA[Uw account heeft momenteel een achterstallige factuur. Gelieve alle onbetaalde facturen te betalen op&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">U heeft het maximum aantal gelijktijdige verbindingen bereikt dat is toegestaan voor uw account. Upgrade uw ProtonVPN-abonnement om meer verbindingen te krijgen.</string>
+    <string name="errorMaxSessions">U heeft het maximum aantal gelijktijdige verbindingen bereikt dat is toegestaan voor uw account. Upgrade uw Proton VPN-abonnement om meer verbindingen te krijgen.</string>
     <string name="errorEmptyName">Het profielnaam veld kan niet leeg zijn</string>
     <string name="errorEmptyCountry">Het land veld mag niet leeg zijn</string>
     <string name="errorEmptyServer">Het server veld mag niet leeg zijn</string>
     <string name="errorEmptyEntryCountry">Het land veld mag niet leeg zijn</string>
     <string name="errorEmptyExitCountry">Het uitgaande land veld mag niet leeg zijn</string>
     <string name="onboardingDialogMapView">Gebruik de Kaartweergave om te verbinden en virtueel te zien waar de VPN-server zich bevindt.</string>
-    <string name="onboardingDialogProfiles">Maak profielen van uw favoriete servers en heb gemakkelijke toegang tot ze. Een lange tik op ProtonVPN-pictogram op het onderkant scherm zal al uw profielen tonen. Een tik op een van de profielen zal u verbinden met de VPN.</string>
+    <string name="onboardingDialogProfiles">Maak profielen van uw favoriete servers en heb gemakkelijke toegang tot ze. Een lange tik op het Proton VPN-pictogram op de onderkant van het scherm zal al uw profielen tonen. Een tik op een van de profielen zal u verbinden met de VPN.</string>
     <string name="onboardingNetshield">Houdt u beschermd tegen malware, advertenties en trackers.\nOpmerking: als sommige sites niet laden, probeer NetShield uit te schakelen. </string>
     <string name="onboardingFAB">Snel verbinden / Profielen</string>
     <string name="onboardingFABDescription">Druk op deze knop voor de snelste manier om te verbinden</string>
@@ -166,7 +166,7 @@
     <string name="error_auth_failed">Gebruikersauthenticatie mislukt.</string>
     <string name="error_assessment_failed">Beveiligingsbeoordeling mislukt.</string>
     <string name="error_generic">Niet-gespecifieerde fout tijdens het verbinden.</string>
-    <string name="error_generic_with_reason">ProtonVPN kon geen VPN-verbinding tot stand brengen. Probeer het over een paar seconden opnieuw.<br/><br/> Details: %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN kon geen VPN-verbinding tot stand brengen. Probeer het over een paar seconden opnieuw.<br/><br/> Details: %1$s</string>
     <string name="reconnect">Opnieuw verbinden</string>
     <string name="reconnect_now">Verbind nu opnieuw</string>
     <string name="try_reconnecting">Probeer opnieuw te verbinden</string>
@@ -238,15 +238,15 @@
     <string name="activityLicensesTitle">Licenties van derden</string>
     <string name="stateFragmentUnknownIp">Onbekend</string>
     <string name="noVpnPermissionMainTitle">Actie nodig om verbinding te maken met VPN</string>
-    <string name="noVpnPermissionMainMessage">Om verbinding te maken met ProtonVPN, gelieve het volgende te doen:</string>
+    <string name="noVpnPermissionMainMessage">Om verbinding te maken met Proton VPN, gelieve het volgende te doen:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Verleen VPN toestemming</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Android heeft uw toestemming nodig om verbinding te maken met ProtonVPN. Geef deze toestemming door op \"OK\" te tikken wanneer u het venster \"Verbindingsverzoek\" van Android krijgt.</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android heeft uw toestemming nodig om verbinding te maken met Proton VPN. Geef deze toestemming door op \"OK\" te tikken wanneer u het venster \"Verbindingsverzoek\" van Android krijgt.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Schakel Altijd-aan uit voor andere apps</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ondersteunt geen meerdere VPN apps. Schakel Always-on uit voor elke andere VPN-app dan ProtonVPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ondersteunt geen meerdere VPN apps. Schakel Altijd-actief uit voor elke andere VPN-app dan Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">ProtonVPN app</string>
     <string name="noVpnPermissionOtherAppLabel">Andere VPN apps</string>
     <string name="noVpnPermissionOpenSettings">Android VPN instellingen openen</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Schakel Always-on VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit ProtonVPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen als een dialoogvenster om VPN-machtigingen verschijnt. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href="%1$s">Meer informatie</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Schakel Altijd-actieve VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit Proton VPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen als een dialoogvenster om VPN-machtigingen verschijnt. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href="%1$s">Meer informatie</a>]]></string>
     <string name="error_prepare_vpn_settings">Ga naar Android VPN instellingen</string>
     <string name="error_prepare_vpn_title">Fout: VPN permissie probleem</string>
     <string name="error_server_not_set">Server niet langer beschikbaar</string>
@@ -314,18 +314,18 @@
     <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Uw land kan de toegang tot Proton geblokkeerd hebben. Probeer <a href=\'%1$s\'>Tor</a> om Proton te raadplegen.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Instellen hoe ProtonVPN zich gedraagt als uw verbinding wordt onderbroken</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Instellen hoe Proton VPN zich gedraagt als uw verbinding wordt onderbroken</string>
     <string name="settingsAlwaysOnWindowHeader">Hoe zet u Always-on VPN en Kill Switch aan:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open de <b>Instellingen</b> van uw toestel door op de onderstaande knop te tikken]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Zoek ProtonVPN en tik op %1$s</string>
+    <string name="settingsAlwaysOnWindowStep2">2. Zoek Proton VPN en tik op %1$s</string>
     <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
-         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tik op de schakelaar naast <b>Altijd-aan VPN</b> om het in te schakelen]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
-         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tik op de schakelaar naast <b>Verblokkeer verbindingen zonder VPN</b> om Kill Switch in te schakelen]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android instellingen openen</string>
@@ -340,8 +340,8 @@
     <string name="netShieldFullBlock">Malware, tracking, advertenties blokkeren</string>
     <string name="dialogDontShowAgain">Niet meer weergeven</string>
     <string name="paidFeature">Functie tegen betaling</string>
-    <string name="guestHoleActivated">De toegang tot ProtonVPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
-    <string name="guestHoleNotificationContent">Proberen om de netwerkproblemen te omzeilen. Dit zal u helpen toegang te verkrijgen tot ProtonVPN.</string>
+    <string name="guestHoleActivated">De toegang tot Proton VPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
+    <string name="guestHoleNotificationContent">Proberen om de netwerkproblemen te omzeilen. Dit zal u helpen toegang te verkrijgen tot Proton VPN.</string>
     <string name="onMaintenanceDetected">De VPN-server waarmee u verbonden was, is in onderhoud. We hebben u automatisch opnieuw verbonden met de snelst beschikbare server.</string>
     <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en Split Tunneling. Schakel een van deze uit en herstart uw apparaat.</string>
     <string name="errorTorrentNotAllowed">P2P is niet toegestaan op deze server</string>
@@ -362,17 +362,17 @@
     <string name="tv_detail_default_connection_checkbox_short">Favoriet</string>
     <string name="tv_detail_connect_streaming">Stream met Plus</string>
     <string name="tv_detail_connect">Verbind</string>
-    <string name="tv_detail_description_streaming_country">Stream uw favoriete inhoud. Krijg toegang tot meer apps met een ProtonVPN Plus abonnement.</string>
-    <string name="tv_detail_description_no_streaming_country">Stream meer van uw favoriete inhoud met een ProtonVPN Plus-abonnement.</string>
-    <string name="tv_detail_description_country_not_available">Dit land is niet beschikbaar. Krijg meer streaming-opties met een ProtonVPN Plus-abonnement.</string>
+    <string name="tv_detail_description_streaming_country">Stream uw favoriete inhoud. Krijg toegang tot meer apps met een Proton VPN Plus-abonnement.</string>
+    <string name="tv_detail_description_no_streaming_country">Stream meer van uw favoriete inhoud met een Proton VPN Plus-abonnement.</string>
+    <string name="tv_detail_description_country_not_available">Dit land is niet beschikbaar. Krijg meer streaming-opties met een Proton VPN Plus-abonnement.</string>
     <string name="tv_detail_description_plus">Stream uw favoriete video\'s, films of sport met uw apps.</string>
-    <string name="tv_login_title_signin">Inloggen bij ProtonVPN</string>
+    <string name="tv_login_title_signin">Inloggen bij Proton VPN</string>
     <string name="tv_login_title_welcome">Stream uw favoriete video-inhoud</string>
-    <string name="tv_login_welcome_description">Bekijk videocontent van meer dan 50 landen, waaronder YouTube en Twitch. Stream Netflix, Amazon Prime en Hulu met ProtonVPN Plus.</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[Ontvang uw ProtonVPN-account op <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_description">Bekijk videocontent van meer dan 50 landen, waaronder YouTube en Twitch. Stream Netflix, Amazon Prime en Hulu met Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Ontvang uw Proton VPN-account op <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Log in</string>
     <string name="tv_login_step1_description"><![CDATA[Ga naar <b>%1$s</b> op uw mobiele apparaat of computer]]></string>
-    <string name="tv_login_step2_description">Inloggen bij ProtonVPN</string>
+    <string name="tv_login_step2_description">Inloggen bij Proton VPN</string>
     <string name="tv_login_step3_description">Voer de code in:</string>
     <string name="tv_login_timer_label">Deze code vervalt over:</string>
     <string name="tv_login_refresh">Vernieuwen</string>
@@ -380,8 +380,8 @@
     <string name="tv_login_title_refresh">Uw sessie is verlopen. Klik op vernieuwen om opnieuw te starten.</string>
     <string name="tv_upgrade_title">Start streamen met Plus</string>
     <string name="back">Vorige</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Bezoek <b>%1$s</b> om nu te upgraden naar ProtonVPN Plus.]]></string>
-    <string name="tv_upgrade_description">Neem een ProtonVPN Plus-plan om wereldwijd toegang te krijgen tot 500+ servers en geoptimaliseerde streaming-opties voor Netflix, Amazon Prime Video, Disney+ en nog veel meer.</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Bezoek <b>%1$s</b> om nu te upgraden naar Proton VPN Plus.]]></string>
+    <string name="tv_upgrade_description">Neem een Proton VPN Plus-plan om wereldwijd toegang te krijgen tot 500+ servers en geoptimaliseerde streaming-opties voor Netflix, Amazon Prime Video, Disney+ en nog veel meer.</string>
     <string name="tv_vpn_error_dialog_title">VPN-verbinding mislukt</string>
     <string name="tv_signout_label">Uitloggen</string>
     <string name="tv_signout_dialog_title">Weet u zeker dat u zich wilt afmelden?</string>
@@ -411,10 +411,10 @@
     <string name="settingsReconnectToApplySettingsDialogContent">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
     <string name="settingsReconnectToChangeDialogContent">Dit zal uw verbinding herstarten.</string>
     <string name="reconnectToEnableNetshield">Hierdoor wordt uw verbinding opnieuw opgestart.\n\nLet op: Sommige sites worden mogelijk niet geladen als NetShield is ingeschakeld.</string>
-    <string name="notification_subscription_expired_title">Uw ProtonVPN abonnement is verlopen</string>
+    <string name="notification_subscription_expired_title">Uw Proton VPN-abonnement is verlopen</string>
     <string name="notification_subscription_expired_content">We moesten uw plan degraderen, maar we verbinden u opnieuw met de snelste server die beschikbaar is voor dat plan.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Uw abonnement is gedegradeerd. </string>
-    <string name="notification_delinquent_title">Uw ProtonVPN-account heeft openstaande facturen</string>
+    <string name="notification_delinquent_title">Uw Proton VPN-account heeft openstaande facturen</string>
     <string name="notification_delinquent_content">Neem even de tijd om uw factuurgegevens bij te werken om uw abonnement actief te houden.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">U bent overgestapt naar een snellere server die lijkt op de server die u heeft geselecteerd.</string>
@@ -435,7 +435,7 @@
     <string name="no_thanks">Nee, bedankt</string>
     <string name="enable">Inschakelen</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol is momenteel uitgeschakeld</string>
-    <string name="notification_smart_protocol_disabled_content">ProtonVPN heeft gedetecteerd dat uw huidige netwerk een verbinding met de VPN blokkeert. Inschakelen van Smart Protocol kan deze beperkingen omzeilen.</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN heeft gedetecteerd dat uw huidige netwerk een verbinding met de VPN blokkeert. Inschakelen van Smart Protocol kan deze beperkingen omzeilen.</string>
     <string name="upsell_advanced_features">Geavanceerde functies: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Overal ter wereld toegang tot streamingdiensten (Netflix, Disney+ etc.)</string>
     <!-- Number of servers available in the service. This phrase will be combined with
@@ -535,7 +535,7 @@
     <string name="activity_information_plus_title">%1$s - Plus servers</string>
     <string name="info_features">Functies</string>
     <string name="smart_routing_title">Slimme routering</string>
-    <string name="smart_routing_description">Met deze technologie kan ProtonVPN hogere snelheid en beveiliging bieden in moeilijkheids-tot-dienstlanden.</string>
+    <string name="smart_routing_description">Met deze technologie kan Proton VPN hogere snelheid en beveiliging bieden in landen waar de toegang tot VPNs beperkt is.</string>
     <string name="streaming_title">Streamen</string>
     <string name="streaming_description">Plus servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
@@ -553,14 +553,14 @@
     <string name="server_load_high">Hoog</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Welkom bij ProtonVPN</string>
-    <string name="onboarding_welcome_description">Ontdek in enkele seconden hoe u het meeste uit ProtonVPN haalt.</string>
+    <string name="onboarding_welcome_title">Welkom bij Proton VPN</string>
+    <string name="onboarding_welcome_description">Ontdek in enkele seconden hoe u het meeste uit Proton VPN haalt.</string>
     <string name="onboarding_welcome_action">Aan de slag</string>
     <string name="onboarding_available_on_plus">Beschikbaar met Plus</string>
     <string name="onboarding_streaming_title">Deblokkeer streamingdiensten</string>
     <string name="onboarding_streaming_description">Verkrijg veilige toegang tot elke inhoud, zelfs wanneer u naar andere landen reist. Nu ook op Android TV.</string>
     <string name="onboarding_protection_title">Wees overal beveiligd</string>
-    <string name="onboarding_protection_description">ProtonVPN ondersteunt alle toestellen, inclusief Windows, macOS en vele anderen.</string>
+    <string name="onboarding_protection_description">Proton VPN ondersteunt alle toestellen, inclusief Windows, macOS en vele anderen.</string>
     <string name="onboarding_netshield_title">Blokkeer advertenties en veel meer</string>
     <string name="onboarding_netshield_description">Blokkeer malware, advertenties, en trackers in browser en in alle apps.</string>
     <string name="onboarding_connection_title">Uw eerste verbinding tot stand brengen</string>
@@ -587,8 +587,8 @@
     <string name="dynamic_report_step2">Stap 2 van de 3</string>
     <string name="dynamic_report_step3">Stap 3 van de 3</string>
     <string name="dynamic_report_your_issue_headline">Wat is uw probleem</string>
-    <string name="update_screen_title">Update ProtonVPN</string>
-    <string name="update_screen_description">U heeft meer kans op problemen op oudere versies van ProtonVPN.</string>
+    <string name="update_screen_title">Update Proton VPN</string>
+    <string name="update_screen_description">U heeft meer kans op problemen op oudere versies van Proton VPN.</string>
     <string name="server_search_menu_title">Zoek</string>
     <string name="server_search_hint">Country, city, server</string>
     <string name="server_search_hint_secure_core">Land</string>
@@ -626,4 +626,7 @@
     <string name="search_upgrade_banner_subtitle">Meer locaties = meer ongeblokkeerde inhoud + extra beveiliging + hogere snelheden</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Bezoek <a href="https://protonvpn.com/pricing">protonvpn.com</a> voor meer informatie.</string>
+    <string name="listPremiumCountries_new_plans">Plus-locaties (%1$d)</string>
+    <string name="new_look_dialog_title_new_plans">Vernieuwde Proton, uniforme beveiliging</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Ontdek de nieuwe look van Proton. Veel diensten, één missie. Welkom in een internetomgeving waar privacy de standaard is. <a href="%1$s">Meer&nbsp;informatie</a>]]></string>
 </resources>

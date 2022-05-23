@@ -32,7 +32,7 @@
     <string name="loginCreateAccount">Stvori novi račun</string>
     <string name="loginNeedHelp">Trebate pomoć?</string>
     <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nProfessional\u00a0/\u00a0Visionary</string>
-    <string name="connectionAllocationHelpDescription1">To start your journey in ProtonVPN please assign VPN connections to your account or any other sub-account.</string>
+    <string name="connectionAllocationHelpDescription1">To start your journey in Proton VPN please assign VPN connections to your account or any other sub-account.</string>
     <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Dodijeli VPN veze</string>
     <string name="connectionAllocationHelpLoginAgainButton">Ponovna prijava</string>
@@ -106,7 +106,7 @@
     <string name="settingsSectionSecurity">Sigurnost</string>
     <string name="settingsSectionAdvanced">Napredno</string>
     <string name="settingsAutoStartTitle">Pokreni s Androidom</string>
-    <string name="settingsAutoStartDescription">ProtonVPN će se automatski pokrenuti pri svakom pokretanju sustava</string>
+    <string name="settingsAutoStartDescription">Proton VPN će se automatski pokrenuti pri svakom pokretanju sustava</string>
     <string name="settingsBypassLocalTitle">LAN connections</string>
     <string name="settingsDnsLeakProtectionTitle">Zaštita od curenja DNS-a</string>
     <string name="settingsDnsLeakDescription">Spriječite curenje detalja DNS upita trećim stranama (uvijek uključeno)</string>
@@ -117,7 +117,7 @@
     <string name="settingsDefaultConnectionTitle">Brzo povezivanje</string>
     <string name="settingsDefaultConnectionDescription">Dugme za brzo povezivanje povezuje vas s odabranim profilom</string>
     <string name="settingsAllowNonStandardPortsTitle">Non-standard ports</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use ProtonVPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use Proton VPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
     <string name="use_coupon_title">Use coupon</string>
@@ -127,14 +127,14 @@
     <string name="restrictedMaintenanceTitle">Održavanje u tijeku</string>
     <string name="restrictedMaintenanceDescription">Poslužitelj na koji se trenutno pokušavate povezati je u procesu održavanja. Pokušajte s drugim poslužiteljem.</string>
     <string name="errorUserDelinquent"><![CDATA[Tvoj račun trenutno ima neplaćenu fakturu. Molimo platite sve neplaćene fakture na &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Dosegnuli ste maksimalni broj istodobnih veza dopuštenih za vaš račun. Nadogradite svoj plan ProtonVPN da biste dobili više veza.</string>
+    <string name="errorMaxSessions">Dosegnuli ste maksimalni broj istodobnih veza dopuštenih za vaš račun. Nadogradite svoj plan Proton VPN da biste dobili više veza.</string>
     <string name="errorEmptyName">Polje naziva profila ne može biti prazno</string>
     <string name="errorEmptyCountry">Polje države ne može biti prazno</string>
     <string name="errorEmptyServer">Polje poslužitelja ne može biti prazno</string>
     <string name="errorEmptyEntryCountry">Polje države ulaska ne može biti prazno</string>
     <string name="errorEmptyExitCountry">Polje države izlaska ne može biti prazno</string>
     <string name="onboardingDialogMapView">Koristite opciju Karta za povezivanje i virtualno vidite gdje se nalazi VPN poslužitelj.</string>
-    <string name="onboardingDialogProfiles">Stvorite profile za svoje omiljene poslužitelje i imajte lagan pristup do njih. Također, duže pritisnite na ikonu ProtonVPN-a u donjem dijelu zaslona i prikazat će vam se svi vaši profili. Pritiskom na jedan od profila povezivat će te se s VPN-om.</string>
+    <string name="onboardingDialogProfiles">Stvorite profile za svoje omiljene poslužitelje i imajte lagan pristup do njih. Također, duže pritisnite na ikonu Proton VPN-a u donjem dijelu zaslona i prikazat će vam se svi vaši profili. Pritiskom na jedan od profila povezivat će te se s VPN-om.</string>
     <string name="onboardingNetshield">Štiti vas od zlonamjernog softvera, oglasa i pratitelja.\nNapomena: ako se neke web stranice ne učitaju, pokušajte onemogućiti NetShield. </string>
     <string name="onboardingFAB">Brzo povezivanje / Profili</string>
     <string name="onboardingFABDescription">Dodirnite ovo dugme za najbrži način povezivanja</string>
@@ -166,7 +166,7 @@
     <string name="error_auth_failed">Provjera autentičnosti nije uspjela.</string>
     <string name="error_assessment_failed">Procjena sigurnosti nije uspjela.</string>
     <string name="error_generic">Neodređeni kvar tijekom povezivanja.</string>
-    <string name="error_generic_with_reason">ProtonVPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
     <string name="reconnect">Ponovno povezivanje</string>
     <string name="reconnect_now">Reconnect now</string>
     <string name="try_reconnecting">Try reconnecting</string>
@@ -239,15 +239,15 @@
     <string name="activityLicensesTitle">Licence trećih strana</string>
     <string name="stateFragmentUnknownIp">Nepoznato</string>
     <string name="noVpnPermissionMainTitle">Action needed to connect to VPN</string>
-    <string name="noVpnPermissionMainMessage">To connect to ProtonVPN, please do the following:</string>
+    <string name="noVpnPermissionMainMessage">To connect to Proton VPN, please do the following:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Grant VPN permission</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Android needs your permission to connect to ProtonVPN. Grant it by tapping \"OK\" when you get the \"Connection request\" window from Android.</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android needs your permission to connect to Proton VPN. Grant it by tapping \"OK\" when you get the \"Connection request\" window from Android.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Disable Always-on for other apps</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android does not support multiple VPN apps. Disable Always-on for any VPN app other than ProtonVPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android does not support multiple VPN apps. Disable Always-on for any VPN app other than Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">ProtonVpn app</string>
     <string name="noVpnPermissionOtherAppLabel">Other VPN apps</string>
     <string name="noVpnPermissionOpenSettings">Open Android VPN settings</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Onemogućite Always-On VPN za sve ostale VPN aplikacije u Android VPN postavkama sustava jer to spriječava ProtonVPN da uspostavi VPN vezu. Odobrite i VPN dopuštenja ako se pojavi dijalog koji zahtijeva dopuštenja VPN-a. Za uklanjanje konflikata možda će trebati deinstalirati i druge VPN aplikacije. Nakon toga, pokušajte ponovo. <a href="%1$s">Saznajte više</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Onemogućite Always-On VPN za sve ostale VPN aplikacije u Android VPN postavkama sustava jer to spriječava Proton VPN da uspostavi VPN vezu. Odobrite i VPN dopuštenja ako se pojavi dijalog koji zahtijeva dopuštenja VPN-a. Za uklanjanje konflikata možda će trebati deinstalirati i druge VPN aplikacije. Nakon toga, pokušajte ponovo. <a href="%1$s">Saznajte više</a>]]></string>
     <string name="error_prepare_vpn_settings">Idite u VPN postavke Androida</string>
     <string name="error_prepare_vpn_title">Pogreška: problem s VPN dopuštenjima</string>
     <string name="error_server_not_set">Poslužitelj više nije dostupan</string>
@@ -316,18 +316,18 @@
     <string name="troubleshootGovernmentBlockTitle">Državna cenzura</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaša država možda blokira pristup Protonu. Pokušajte koristiti <a href=\'%1$s\'>Tor</a> za pristup Protonu.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN i Kill Switch</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Set up how ProtonVPN behaves if your connection is disrupted</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Set up how Proton VPN behaves if your connection is disrupted</string>
     <string name="settingsAlwaysOnWindowHeader">How to turn on Always-on VPN and Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open your device’s <b>Settings</b> by tapping the button below]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Find ProtonVPN and tap %1$s</string>
+    <string name="settingsAlwaysOnWindowStep2">2. Find Proton VPN and tap %1$s</string>
     <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
-         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tap the switch next to <b>Always-On VPN</b> to enable it]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
-         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable Kill Switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otvori postavke Androida</string>
@@ -342,8 +342,8 @@
     <string name="netShieldFullBlock">Blokirajte zlonamjerne programe, pratitelje, oglase</string>
     <string name="dialogDontShowAgain">Ne prikazuj ponovno</string>
     <string name="paidFeature">Plaćene značajke</string>
-    <string name="guestHoleActivated">Pristup ProtonVPN-u možda je ograničen na vašem području, tako da će ovo trajati duže nego inače. Pričekajte dok riješimo ovaj problem.</string>
-    <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access ProtonVPN.</string>
+    <string name="guestHoleActivated">Pristup Proton VPN-u možda je ograničen na vašem području, tako da će ovo trajati duže nego inače. Pričekajte dok riješimo ovaj problem.</string>
+    <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access Proton VPN.</string>
     <string name="onMaintenanceDetected">VPN poslužitelj na koji ste bili povezani je u procesu održavanja. Automatski smo vas povezali s najbržim dostupnim poslužiteljem.</string>
     <string name="errorTunMultiUserPermission">VPN vezu nije moguće započeti zbog sukoba između dvostrukih aplikacije (npr. Dual Messenger) i Podijeljenog tuneliranja. Onemogućite jedno od njih i ponovno pokrenite uređaj.</string>
     <string name="errorTorrentNotAllowed">P2P is not allowed on this server</string>
@@ -364,17 +364,17 @@
     <string name="tv_detail_default_connection_checkbox_short">Omiljeno</string>
     <string name="tv_detail_connect_streaming">Streamajte s Plus</string>
     <string name="tv_detail_connect">Poveži</string>
-    <string name="tv_detail_description_streaming_country">Streamajte vaš omiljeni sadržaj. Pristupite većem broju aplikacija pomoću ProtonVPN Plus plana.</string>
-    <string name="tv_detail_description_no_streaming_country">Streamajte više vaših omiljenih sadržaja pomoću ProtonVPN Plus plana.</string>
-    <string name="tv_detail_description_country_not_available">Ova država nije dostupna. Nabavite više opcija za streamanje uz plan ProtonVPN Plus.</string>
+    <string name="tv_detail_description_streaming_country">Streamajte vaš omiljeni sadržaj. Pristupite većem broju aplikacija pomoću Proton VPN Plus plana.</string>
+    <string name="tv_detail_description_no_streaming_country">Streamajte više vaših omiljenih sadržaja pomoću Proton VPN Plus plana.</string>
+    <string name="tv_detail_description_country_not_available">Ova država nije dostupna. Nabavite više opcija za streamanje uz plan Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Streamajte svoje omiljene videozapise, filmove ili sport u vašim aplikacijama.</string>
-    <string name="tv_login_title_signin">Prijavite se u ProtonVPN</string>
+    <string name="tv_login_title_signin">Prijavite se u Proton VPN</string>
     <string name="tv_login_title_welcome">Streamajte svoj omiljeni video sadržaj</string>
-    <string name="tv_login_welcome_description">Gledajte video sadržaje iz preko 50 zemalja, uključujući YouTube i Twitch. Streamajte Netflix, Amazon Prime i Hulu s ProtonVPN Plus.</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[Nabavite svoj ProtonVPN račun na <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_description">Gledajte video sadržaje iz preko 50 zemalja, uključujući YouTube i Twitch. Streamajte Netflix, Amazon Prime i Hulu s Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Nabavite svoj Proton VPN račun na <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Prijavite se</string>
     <string name="tv_login_step1_description"><![CDATA[Idite na <b>%1$s</b> na vašem mobilnom uređaju ili računalu]]></string>
-    <string name="tv_login_step2_description">Prijavite se u ProtonVPN</string>
+    <string name="tv_login_step2_description">Prijavite se u Proton VPN</string>
     <string name="tv_login_step3_description">Unesite kôd:</string>
     <string name="tv_login_timer_label">Ovaj kôd istječe za:</string>
     <string name="tv_login_refresh">Osvježi</string>
@@ -382,8 +382,8 @@
     <string name="tv_login_title_refresh">Vaša sesija je istekla. Pritisnite osvježi da biste započeli ispočetka.</string>
     <string name="tv_upgrade_title">Započnite streamanje s Plusom</string>
     <string name="back">Natrag</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to ProtonVPN Plus now.]]></string>
-    <string name="tv_upgrade_description">Nabavite ProtonVPN Plus plan za pristup više od 500 poslužitelja širom svijeta i optimizirane mogućnosti streaminga za Netflix, Amazon Prime Video, Disney+ i mnoge druge.</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Visit <b>%1$s</b> to upgrade to Proton VPN Plus now.]]></string>
+    <string name="tv_upgrade_description">Nabavite Proton VPN Plus plan za pristup više od 500 poslužitelja širom svijeta i optimizirane mogućnosti streaminga za Netflix, Amazon Prime Video, Disney+ i mnoge druge.</string>
     <string name="tv_vpn_error_dialog_title">VPN veza je neuspješna</string>
     <string name="tv_signout_label">Odjava</string>
     <string name="tv_signout_dialog_title">Da li ste sigurni da se želite odjaviti?</string>
@@ -413,10 +413,10 @@
     <string name="settingsReconnectToApplySettingsDialogContent">New settings will apply next time you connect.</string>
     <string name="settingsReconnectToChangeDialogContent">This will restart your connection.</string>
     <string name="reconnectToEnableNetshield">This will restart your connection.\n\nNote: Some sites may not load with NetShield on.</string>
-    <string name="notification_subscription_expired_title">Your ProtonVPN subscription plan has expired</string>
+    <string name="notification_subscription_expired_title">Your Proton VPN subscription plan has expired</string>
     <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Vaša pretplata je snižena na niži plan. </string>
-    <string name="notification_delinquent_title">Vaš ProtonVPN račun ima neplaćene fakture</string>
+    <string name="notification_delinquent_title">Vaš Proton VPN račun ima neplaćene fakture</string>
     <string name="notification_delinquent_content">Odvojite trenutak da ažurirate podatke o naplati kako biste zadržali pretplatu aktivnom.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Prebačeni ste na brži poslužitelj sličan onome koji ste odabrali.</string>
@@ -438,7 +438,7 @@
     <string name="no_thanks">Ne, hvala</string>
     <string name="enable">Omogući</string>
     <string name="notification_smart_protocol_disabled_title">Pametni protokol je trenutno onemogućen</string>
-    <string name="notification_smart_protocol_disabled_content">ProtonVPN je otkrio da vaša trenutna mreža spriječava vezu s VPN-om. Omogućavanje pametnog protokola moglo bi zaobići ta ograničenja.</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN je otkrio da vaša trenutna mreža spriječava vezu s VPN-om. Omogućavanje pametnog protokola moglo bi zaobići ta ograničenja.</string>
     <string name="upsell_advanced_features">Napredne značajke: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Access streaming services (Netflix, Disney+, etc) anywhere in the world</string>
     <!-- Number of servers available in the service. This phrase will be combined with
@@ -544,7 +544,7 @@
     <string name="activity_information_plus_title">%1$s - Plus poslužitelji</string>
     <string name="info_features">Značajke</string>
     <string name="smart_routing_title">Pametno preusmjeravanje</string>
-    <string name="smart_routing_description">Ova tehnologija omogućuje ProtonVPN-u da pruža veću brzinu i sigurnost u zemljama koje je teško uslužiti.</string>
+    <string name="smart_routing_description">Ova tehnologija omogućuje Proton VPN-u da pruža veću brzinu i sigurnost u zemljama koje je teško uslužiti.</string>
     <string name="streaming_title">Streamanje</string>
     <string name="streaming_description">Plus servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
@@ -562,14 +562,14 @@
     <string name="server_load_high">Visoko</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Welcome to ProtonVPN</string>
-    <string name="onboarding_welcome_description">Learn how to get the most out of ProtonVPN in just a few seconds.</string>
+    <string name="onboarding_welcome_title">Welcome to Proton VPN</string>
+    <string name="onboarding_welcome_description">Learn how to get the most out of Proton VPN in just a few seconds.</string>
     <string name="onboarding_welcome_action">Započnite</string>
     <string name="onboarding_available_on_plus">Available with Plus</string>
     <string name="onboarding_streaming_title">Unblock streaming</string>
     <string name="onboarding_streaming_description">Securely access any content, even while traveling to other countries. Now also on AndroidTV.</string>
     <string name="onboarding_protection_title">Be protected everywhere</string>
-    <string name="onboarding_protection_description">ProtonVPN supports all devices, including Windows, macOS, and many others.</string>
+    <string name="onboarding_protection_description">Proton VPN supports all devices, including Windows, macOS, and many others.</string>
     <string name="onboarding_netshield_title">Block ads and much more</string>
     <string name="onboarding_netshield_description">Block malware, ads, and trackers in browser and in all apps.</string>
     <string name="onboarding_connection_title">Establish your first connection</string>
@@ -596,8 +596,8 @@
     <string name="dynamic_report_step2">Step 2 of 3</string>
     <string name="dynamic_report_step3">Step 3 of 3</string>
     <string name="dynamic_report_your_issue_headline">What is your issue</string>
-    <string name="update_screen_title">Update ProtonVPN</string>
-    <string name="update_screen_description">You’re more likely to have issues on older versions of ProtonVPN.</string>
+    <string name="update_screen_title">Update Proton VPN</string>
+    <string name="update_screen_description">You’re more likely to have issues on older versions of Proton VPN.</string>
     <string name="server_search_menu_title">Pretraga</string>
     <string name="server_search_hint">Country, city, server</string>
     <string name="server_search_hint_secure_core">Država</string>

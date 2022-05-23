@@ -32,7 +32,7 @@
     <string name="loginCreateAccount">Créer un nouveau compte</string>
     <string name="loginNeedHelp">Besoin d\'aide ?</string>
     <string name="connectionAllocationHelpTitle">Merci d\'être passé à l’offre\nProfessional\u00a0/\u00a0Visionary</string>
-    <string name="connectionAllocationHelpDescription1">Pour commencer votre expérience dans ProtonVPN, veuillez attribuer des connexions VPN à votre compte ou à tout autre sous-compte.</string>
+    <string name="connectionAllocationHelpDescription1">Pour commencer votre expérience dans Proton VPN, veuillez attribuer des connexions VPN à votre compte ou à n\'importe lequel de vos sous-comptes.</string>
     <string name="connectionAllocationHelpDescription2">Cette étape ne prendra que quelques minutes. Après cela, vous pourrez vous connecter et protéger tous vos appareils.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Affecter des connexions VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Se reconnecter</string>
@@ -106,7 +106,7 @@
     <string name="settingsSectionSecurity">Sécurité</string>
     <string name="settingsSectionAdvanced">Avancé</string>
     <string name="settingsAutoStartTitle">Démarrer avec Android</string>
-    <string name="settingsAutoStartDescription">ProtonVPN se lancera automatiquement à chaque démarrage du système</string>
+    <string name="settingsAutoStartDescription">Proton VPN se lancera automatiquement à chaque démarrage du système</string>
     <string name="settingsBypassLocalTitle">Connexions LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Protection contre les fuites DNS</string>
     <string name="settingsDnsLeakDescription">Empêche la fuite des détails de requête DNS vers des tiers (toujours actif)</string>
@@ -117,7 +117,7 @@
     <string name="settingsDefaultConnectionTitle">Connexion rapide</string>
     <string name="settingsDefaultConnectionDescription">Le bouton connexion rapide vous connecte au profil sélectionné</string>
     <string name="settingsAllowNonStandardPortsTitle">Ports non standards</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilisez ProtonVPN pour tout besoin particulier en autorisant le trafic vers les ports non-standards à travers le réseau VPN. <a href="%1$s">En savoir plus</a>]]></string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilisez Proton VPN pour répondre à tout besoin particulier en autorisant le trafic vers des ports non standard à travers le réseau VPN. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="settingsModerateNatTitle">NAT modéré</string>
     <string name="settingsModerateNatDescription"><![CDATA[Le NAT modéré désactive la distribution aléatoire des adresses locales, ce qui peut réduire légèrement votre sécurité, mais permet des utilisations telles que les connexions directes pour des applications comme les jeux en ligne. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="use_coupon_title">Utiliser un code promotionnel</string>
@@ -127,14 +127,14 @@
     <string name="restrictedMaintenanceTitle">En maintenance</string>
     <string name="restrictedMaintenanceDescription">Le serveur auquel vous essayez de vous connecter est en cours de maintenance. Veuillez essayer un autre serveur.</string>
     <string name="errorUserDelinquent"><![CDATA[Votre compte possède actuellement une facture en attente. Veuillez régler toutes les factures impayées sur &#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Vous avez atteint le nombre maximum de connexions simultanées autorisées pour votre compte. Veuillez changer d\'offre ProtonVPN pour obtenir plus de connexions.</string>
+    <string name="errorMaxSessions">Vous avez atteint le nombre maximum de connexions simultanées autorisées pour votre compte. Veuillez changer d\'offre Proton VPN pour obtenir plus de connexions.</string>
     <string name="errorEmptyName">Le champ du nom du profil ne peut pas être vide</string>
     <string name="errorEmptyCountry">Le champ Pays ne peut pas être vide</string>
     <string name="errorEmptyServer">Le champ Serveur ne peut pas être vide</string>
     <string name="errorEmptyEntryCountry">Le champ du pays de départ ne peut pas être vide</string>
     <string name="errorEmptyExitCountry">Le champ du pays de sortie ne peut pas être vide</string>
     <string name="onboardingDialogMapView">Utilisez la carte pour vous connecter et voir où se trouve le serveur VPN.</string>
-    <string name="onboardingDialogProfiles">Créez des profils pour vos serveurs favoris et accédez facilement à ceux-ci. De plus, un clic long sur l\'icône ProtonVPN en bas de l\'écran vous montrera tous vos profils. Un clic sur l\'un de ces profils vous connectera au VPN.</string>
+    <string name="onboardingDialogProfiles">Créez des profils pour vos serveurs favoris et accédez facilement à ceux-ci. De plus, un clic long sur l\'icône Proton VPN en bas de l\'écran vous montrera tous vos profils. Un clic sur l\'un de ces profils vous connectera au VPN.</string>
     <string name="onboardingNetshield">Vous protège contre les logiciels malveillants, les publicités et les traqueurs.\nNote : si certains sites ne se chargent pas, essayez de désactiver NetShield. </string>
     <string name="onboardingFAB">Connexion rapide / Profils</string>
     <string name="onboardingFABDescription">Appuyez sur ce bouton pour vous connecter plus rapidement</string>
@@ -166,7 +166,7 @@
     <string name="error_auth_failed">Échec d\'authentification de l\'utilisateur.</string>
     <string name="error_assessment_failed">Échec de l\'évaluation de sécurité.</string>
     <string name="error_generic">Échec indéterminé lors de la connexion.</string>
-    <string name="error_generic_with_reason">ProtonVPN n\'a pas pu établir de connexion VPN. Veuillez réessayer dans quelques secondes.<br/><br/> Détails : %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN n\'a pas pu établir de connexion VPN. Veuillez réessayer dans quelques secondes.<br/><br/> Détails : %1$s</string>
     <string name="reconnect">Nouvelle connexion</string>
     <string name="reconnect_now">Se reconnecter maintenant</string>
     <string name="try_reconnecting">Essayez de vous reconnecter</string>
@@ -238,15 +238,15 @@
     <string name="activityLicensesTitle">Licences tierces</string>
     <string name="stateFragmentUnknownIp">Inconnu</string>
     <string name="noVpnPermissionMainTitle">Action nécessaire pour se connecter au VPN</string>
-    <string name="noVpnPermissionMainMessage">Pour vous connecter à ProtonVPN, procédez comme suit :</string>
+    <string name="noVpnPermissionMainMessage">Pour vous connecter à Proton VPN, procédez comme suit :</string>
     <string name="noVpnPermissionGrantPermissionTitle">Accorder l\'autorisation au VPN</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Android a besoin de votre autorisation pour se connecter à ProtonVPN. Accordez-la en appuyant sur « OK » lorsque vous obtenez la fenêtre « Demande de connexion » d\'Android.</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android a besoin de votre autorisation pour se connecter à Proton VPN. Accordez-la en appuyant sur « OK » lorsque vous obtenez la fenêtre « Demande de connexion » d\'Android.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Désactiver le VPN permanent pour les autres applications</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ne prend pas en charge plusieurs applications VPN. Désactivez le VPN permanent pour toute application VPN autre que ProtonVPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ne prend pas en charge plusieurs applications VPN. Désactivez le VPN permanent pour toute application VPN autre que Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Application ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Autres applications VPN</string>
     <string name="noVpnPermissionOpenSettings">Ouvrir les paramètres VPN Android</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Veuillez désactiver le VPN permanent pour toutes les autres applications VPN dans les paramètres VPN du système Android, car cela empêche ProtonVPN d\'établir une connexion. Veuillez également accorder les autorisations VPN si une boîte de dialogue demandant ces autorisations apparaît. D\'autres applications VPN peuvent également devoir être désinstallées afin d’éviter les conflits. Ensuite, veuillez réessayer. <a href="%1$s">En savoir plus</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Veuillez désactiver le VPN permanent pour toutes les autres applications VPN dans les paramètres VPN du système Android, car cela empêche Proton VPN d\'établir une connexion. Veuillez également accorder les autorisations VPN si une boîte de dialogue demandant ces autorisations apparaît. D\'autres applications VPN peuvent également devoir être désinstallées afin d’éviter les conflits. Ensuite, veuillez réessayer. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="error_prepare_vpn_settings">Accéder aux paramètres VPN Android</string>
     <string name="error_prepare_vpn_title">Erreur : problème de permission VPN</string>
     <string name="error_server_not_set">Le serveur n\'est plus disponible</string>
@@ -314,18 +314,18 @@
     <string name="troubleshootGovernmentBlockTitle">Blocage gouvernemental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Votre pays bloque peut-être l\'accès à Proton. Essayez d\'utiliser <a href=\'%1$s\'>Tor</a> pour accéder à Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN permanent &amp; Kill Switch</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Configurez le comportement de ProtonVPN si votre connexion est interrompue</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Configurez le comportement de Proton VPN si votre connexion est interrompue</string>
     <string name="settingsAlwaysOnWindowHeader">Comment activer le VPN permanent et kill switch :</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Ouvrez les <b>Paramètres</b> de votre appareil en appuyant sur le bouton ci-dessous]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Trouvez ProtonVPN et appuyez sur %1$s</string>
+    <string name="settingsAlwaysOnWindowStep2">2. Trouvez Proton VPN et appuyez sur %1$s</string>
     <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
-         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Appuyez sur le commutateur à côté de <b>VPN permanent</b> pour l\'activer]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
-         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Appuyez sur le commutateur à côté de <b>Bloquer les connexions sans VPN</b> pour activer kill switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Ouvrir les paramètres Android</string>
@@ -340,8 +340,8 @@
     <string name="netShieldFullBlock">Bloquer les logiciels malveillants, le suivi, les publicités</string>
     <string name="dialogDontShowAgain">Ne plus afficher</string>
     <string name="paidFeature">Fonctionnalité payante</string>
-    <string name="guestHoleActivated">L\'accès à ProtonVPN peut être restreint dans votre région et cela prendra donc plus de temps que d\'habitude. Veuillez patienter pendant que nous contournons ce problème.</string>
-    <string name="guestHoleNotificationContent">Nous essayons de contourner les problèmes de réseau. Cela vous aidera à accéder à ProtonVPN.</string>
+    <string name="guestHoleActivated">L\'accès à Proton VPN peut être restreint dans votre région et cela prendra donc plus de temps que d\'habitude. Veuillez patienter pendant que nous contournons ce problème.</string>
+    <string name="guestHoleNotificationContent">Nous essayons de contourner les problèmes de réseau. Cela vous aidera à accéder à Proton VPN.</string>
     <string name="onMaintenanceDetected">Le serveur VPN auquel vous étiez connecté est en cours de maintenance. Nous vous avons automatiquement reconnecté au serveur disponible le plus rapide.</string>
     <string name="errorTunMultiUserPermission">Impossible d\'initialiser la connexion VPN en raison d\'un conflit entre une double application (par exemple Dual Messenger) et Split Tunneling. Veuillez désactiver l\'un d\'entre eux et redémarrer votre appareil.</string>
     <string name="errorTorrentNotAllowed">Le P2P n\'est pas autorisé sur ce serveur</string>
@@ -362,17 +362,17 @@
     <string name="tv_detail_default_connection_checkbox_short">Favori</string>
     <string name="tv_detail_connect_streaming">Regardez avec Plus</string>
     <string name="tv_detail_connect">Connecter</string>
-    <string name="tv_detail_description_streaming_country">Regardez votre contenu favori. Accédez à plus d\'applications avec un abonnement ProtonVPN Plus.</string>
-    <string name="tv_detail_description_no_streaming_country">Regardez plus de vos contenus favoris avec un abonnement ProtonVPN Plus.</string>
-    <string name="tv_detail_description_country_not_available">Ce pays n\'est pas disponible. Obtenez plus d\'options de streaming avec un abonnement ProtonVPN Plus.</string>
+    <string name="tv_detail_description_streaming_country">Regardez votre contenu favori. Accédez à plus d\'applications avec un abonnement Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Regardez plus de vos contenus favoris avec un abonnement Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Ce pays n\'est pas disponible. Obtenez plus d\'options de streaming avec un abonnement Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Regardez vos vidéos, vos films ou vos sports préférés avec vos applications.</string>
-    <string name="tv_login_title_signin">Se connecter à ProtonVPN</string>
+    <string name="tv_login_title_signin">Se connecter à Proton VPN</string>
     <string name="tv_login_title_welcome">Visionnez votre contenu vidéo favori</string>
-    <string name="tv_login_welcome_description">Visionnez du contenu vidéo de plus de 50 pays, y compris de YouTube et Twitch. Regardez Netflix, Amazon Prime, et Hulu avec ProtonVPN Plus.</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[Obtenez votre compte ProtonVPN à <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_description">Visionnez du contenu vidéo de plus de 50 pays, y compris de YouTube et Twitch. Regardez Netflix, Amazon Prime et Hulu avec Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Obtenez votre compte Proton VPN à <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Se connecter</string>
     <string name="tv_login_step1_description"><![CDATA[Allez à <b>%1$s</b> sur votre appareil mobile ou votre ordinateur]]></string>
-    <string name="tv_login_step2_description">Se connecter à ProtonVPN</string>
+    <string name="tv_login_step2_description">Se connecter à Proton VPN</string>
     <string name="tv_login_step3_description">Saisissez le code :</string>
     <string name="tv_login_timer_label">Ce code expire dans :</string>
     <string name="tv_login_refresh">Actualiser</string>
@@ -380,8 +380,8 @@
     <string name="tv_login_title_refresh">Votre session a expiré. Cliquez sur Actualiser pour recommencer.</string>
     <string name="tv_upgrade_title">Commencez à regarder avec Plus</string>
     <string name="back">Retour</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visitez <b>%1$s</b> pour passer à ProtonVPN Plus dès maintenant.]]></string>
-    <string name="tv_upgrade_description">Obtenez une offre ProtonVPN Plus pour accéder à plus de 500 serveurs dans le monde entier et optimiser les options de streaming pour Netflix, Amazon Prime Video, Disney+ et bien d\'autres.</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Visitez <b>%1$s</b> pour passer à Proton VPN Plus dès maintenant.]]></string>
+    <string name="tv_upgrade_description">Obtenez une offre Proton VPN Plus pour accéder à plus de 500 serveurs dans le monde entier et optimisez les options de streaming pour Netflix, Amazon Prime Video, Disney+ et bien d\'autres.</string>
     <string name="tv_vpn_error_dialog_title">Échec de la connexion au VPN</string>
     <string name="tv_signout_label">Se déconnecter</string>
     <string name="tv_signout_dialog_title">Êtes-vous sûr de vouloir vous déconnecter ?</string>
@@ -411,10 +411,10 @@
     <string name="settingsReconnectToApplySettingsDialogContent">Les nouveaux paramètres s\'appliqueront lors de votre prochaine connexion.</string>
     <string name="settingsReconnectToChangeDialogContent">Ceci redémarrera votre connexion.</string>
     <string name="reconnectToEnableNetshield">Cela redémarrera votre connexion.\n\nRemarque : certains sites peuvent ne pas se charger avec NetShield activé.</string>
-    <string name="notification_subscription_expired_title">Votre abonnement ProtonVPN a expiré</string>
+    <string name="notification_subscription_expired_title">Votre abonnement Proton VPN a expiré</string>
     <string name="notification_subscription_expired_content">Nous avons dû rétrograder votre abonnement, mais nous vous reconnectons au serveur le plus rapide disponible sur cet abonnement.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Votre abonnement a été rétrogradé. </string>
-    <string name="notification_delinquent_title">Votre compte ProtonVPN contient des factures en attente</string>
+    <string name="notification_delinquent_title">Votre compte Proton VPN contient des factures en attente</string>
     <string name="notification_delinquent_content">Veuillez prendre un moment pour mettre à jour vos informations de facturation afin de garder votre abonnement actif.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Vous avez été basculé vers un serveur plus rapide qui est similaire à celui que vous avez sélectionné.</string>
@@ -435,7 +435,7 @@
     <string name="no_thanks">Non merci</string>
     <string name="enable">Activer</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol est actuellement désactivé</string>
-    <string name="notification_smart_protocol_disabled_content">ProtonVPN a détecté que votre réseau actuel empêche une connexion au VPN. L\'activation de Smart Protocol pourrait contourner ces limitations.</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN a détecté que votre réseau actuel empêche une connexion au VPN. L\'activation de Smart Protocol pourrait contourner ces limitations.</string>
     <string name="upsell_advanced_features">Fonctionnalités avancées : NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Accédez aux services de streaming (Netflix, Disney+, etc.) partout dans le monde</string>
     <!-- Number of servers available in the service. This phrase will be combined with
@@ -462,7 +462,7 @@
     <string name="upgrade_plus_subtitle">Lorsque vous mettez à niveau vers Plus</string>
     <string name="upgrade_netshield_title_new">Profitez d\'une navigation sans publicités avec NetShield</string>
     <string name="upgrade_secure_core_title_new">Doublez le chiffrement avec Secure Core</string>
-    <string name="upgrade_secure_core_countries">Routé via des serveurs ultrasécurisés en Suisse, en Suède et en Islande</string>
+    <string name="upgrade_secure_core_countries">Routez via des serveurs ultrasécurisés en Suisse, en Suède et en Islande</string>
     <string name="upgrade_secure_core_encryption">Ajoutez une autre couche de chiffrement à votre connexion VPN</string>
     <string name="upgrade_secure_core_protect">Protégez-vous des attaques réseau</string>
     <string name="upgrade_netshield_block_ads">Bloquez les publicités et les traqueurs</string>
@@ -523,7 +523,7 @@
     <string name="upgrade_plus_countries_more">Et bien plus de fonctionnalités premium</string>
     <string name="upgrade_safe_mode_title">Autoriser le trafic vers les ports non-standards</string>
     <string name="upgrade_safe_mode_message">Vous avez des besoins informatiques avancés ou professionnels qui nécessitent des ports non standard ? Passez à VPN Plus pour accéder à cette fonctionnalité et à d\'autres fonctionnalités premium.</string>
-    <string name="upgrade_moderate_nat_title">Activer le NAT modéré</string>
+    <string name="upgrade_moderate_nat_title">Activez le NAT modéré</string>
     <string name="upgrade_moderate_nat_message">Le NAT modéré, aussi connu comme NAT Type 2, peut améliorer votre expérience en ligne avec différentes applications et jeux vidéos en ligne. Déverrouillez cette fonctionnalité et d\'autres avec un abonnement Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">Qu\'est-ce que le NAT modéré ?</string>
     <string name="upgrade_see_plans_button">Voir les abonnements et les tarifs</string>
@@ -535,7 +535,7 @@
     <string name="activity_information_plus_title">%1$s - serveurs Plus</string>
     <string name="info_features">Fonctionnalités</string>
     <string name="smart_routing_title">Smart Routing</string>
-    <string name="smart_routing_description">Cette technologie permet à ProtonVPN de fournir une vitesse et une sécurité plus élevées dans les pays difficiles à desservir.</string>
+    <string name="smart_routing_description">Cette technologie permet à Proton VPN de fournir une vitesse et une sécurité plus élevées dans les pays difficiles à desservir.</string>
     <string name="streaming_title">Streaming</string>
     <string name="streaming_description">Les serveurs Plus prennent en charge le streaming (Netflix, Disney+, etc.) depuis n\'importe où dans le monde.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
@@ -553,14 +553,14 @@
     <string name="server_load_high">Élevée</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Bienvenue sur ProtonVPN</string>
-    <string name="onboarding_welcome_description">Apprenez à tirer le meilleur parti de ProtonVPN en quelques secondes seulement.</string>
+    <string name="onboarding_welcome_title">Bienvenue sur Proton VPN</string>
+    <string name="onboarding_welcome_description">Apprenez à tirer le meilleur parti de Proton VPN en quelques secondes seulement.</string>
     <string name="onboarding_welcome_action">Commencer</string>
     <string name="onboarding_available_on_plus">Disponible avec Plus</string>
     <string name="onboarding_streaming_title">Débloquez le streaming</string>
     <string name="onboarding_streaming_description">Accédez en toute sécurité à n\'importe quel contenu, même lorsque vous voyagez dans d\'autres pays. Maintenant aussi sur Android TV.</string>
     <string name="onboarding_protection_title">Soyez protégé partout</string>
-    <string name="onboarding_protection_description">ProtonVPN prend en charge tous les appareils, y compris Windows, macOS et bien d\'autres.</string>
+    <string name="onboarding_protection_description">Proton VPN prend en charge tous les appareils, y compris Windows, macOS et bien d\'autres.</string>
     <string name="onboarding_netshield_title">Bloquez les publicités et bien plus encore</string>
     <string name="onboarding_netshield_description">Bloquez les logiciels malveillants, les publicités et les traqueurs dans le navigateur et dans toutes les applications.</string>
     <string name="onboarding_connection_title">Établissez votre première connexion</string>
@@ -581,14 +581,14 @@
     <string name="dynamic_report_success_title">Merci pour vos commentaires</string>
     <string name="dynamic_report_success_description">Nous vous répondrons dès que possible.</string>
     <string name="dynamic_report_field_mandatory">Ce champ est obligatoire</string>
-    <string name="dynamic_report_logs_description">Un journal est un type de fichier qui nous montre les actions que vous avez effectuées et qui ont conduit à une erreur. Nous ne les utiliserons que pour aider nos ingénieurs à corriger des bugs.</string>
+    <string name="dynamic_report_logs_description">Un journal est un type de fichier qui nous montre les actions que vous avez effectuées et qui ont conduit à une erreur. Nous ne les utiliserons que pour aider nos ingénieurs à corriger des bogues.</string>
     <string name="dynamic_report_logs_missing">Les journaux d\'erreurs nous aident à aller au fond de votre problème. Si vous ne les incluez pas, il se peut que nous ne soyons pas en mesure de mener une enquête approfondie.</string>
     <string name="dynamic_report_step1">Étape 1 sur 3</string>
     <string name="dynamic_report_step2">Étape 2 sur 3</string>
     <string name="dynamic_report_step3">Étape 3 sur 3</string>
     <string name="dynamic_report_your_issue_headline">Quel est votre problème</string>
-    <string name="update_screen_title">Mettre à jour ProtonVPN</string>
-    <string name="update_screen_description">Vous avez plus de chance d\'avoir des problèmes sur les anciennes versions de ProtonVPN.</string>
+    <string name="update_screen_title">Mettre à jour Proton VPN</string>
+    <string name="update_screen_description">Vous avez plus de chance d\'avoir des problèmes sur les anciennes versions de Proton VPN.</string>
     <string name="server_search_menu_title">Rechercher</string>
     <string name="server_search_hint">Country, city, server</string>
     <string name="server_search_hint_secure_core">Pays</string>
@@ -604,7 +604,7 @@
     <!-- The parameter is the number of server displayed in search results.
          Examples: "Servers (5)", "Servers (1)" -->
     <string name="server_search_servers_header">Serveurs (%1$d)</string>
-    <string name="search_empty_title">Rechercher n\'importe quel endroit</string>
+    <string name="search_empty_title">Recherchez n\'importe quel endroit</string>
     <string name="search_empty_hint_countries"><![CDATA[Pays : <font color="%1$s">Suisse, Etats-Unis, Italie…</font>]]></string>
     <string name="search_empty_hint_countries_secure_core"><![CDATA[Pays : <font color="%1$s">France, Etats-Unis, Italie…</font>]]></string>
     <string name="search_empty_hint_cities"><![CDATA[Villes : <font color="%1$s">New York, Londres, Tokyo…</font>]]></string>
@@ -626,4 +626,7 @@
     <string name="search_upgrade_banner_subtitle">Plus d\'emplacements = plus de contenu débloqué + sécurité supplémentaire + vitesses plus rapides</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visitez <a href="https://protonvpn.com/fr/pricing">protonvpn.com</a> pour obtenir plus d\'informations.</string>
+    <string name="listPremiumCountries_new_plans">Emplacements Plus (%1$d)</string>
+    <string name="new_look_dialog_title_new_plans">Nouvelle version, protection unifiée</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Voici le nouveau look de Proton. Plusieurs services, une seule mission. Bienvenue sur un internet où la protection de la vie privée est la règle absolue. <a href="%1$s">En savoir plus</a>]]></string>
 </resources>
