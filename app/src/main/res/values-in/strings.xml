@@ -32,7 +32,7 @@
     <string name="loginCreateAccount">Buat akun baru</string>
     <string name="loginNeedHelp">Butuh bantuan?</string>
     <string name="connectionAllocationHelpTitle">Terima kasih karena telah meningkatkan jenis akun Anda ke \nProfessional\u00a0/\u00a0Visionary</string>
-    <string name="connectionAllocationHelpDescription1">Untuk dapat mulai menggunakan ProtonVPN, harap tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
+    <string name="connectionAllocationHelpDescription1">Untuk dapat mulai menggunakan Proton VPN, harap tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
     <string name="connectionAllocationHelpDescription2">Langkah ini akan memakan waktu beberapa menit. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Tetapkan koneksi VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Masuk lagi</string>
@@ -106,7 +106,7 @@
     <string name="settingsSectionSecurity">Keamanan</string>
     <string name="settingsSectionAdvanced">Lanjutan</string>
     <string name="settingsAutoStartTitle">Awali dengan Android</string>
-    <string name="settingsAutoStartDescription">ProtonVPN akan berjalan secara otomatis di setiap awalan sistem</string>
+    <string name="settingsAutoStartDescription">Proton VPN akan berjalan secara otomatis setiap kali sistem Android dinyalakan</string>
     <string name="settingsBypassLocalTitle">Koneksi LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Perlindungan Kebocoran DNS</string>
     <string name="settingsDnsLeakDescription">Cegah kebocoran rincian permintaan DNS kepada pihak ketiga (selalu menyala)</string>
@@ -117,7 +117,7 @@
     <string name="settingsDefaultConnectionTitle">Quick Connect</string>
     <string name="settingsDefaultConnectionDescription">Tombol sambung cepat menyambungkan Anda ke profil terpilih</string>
     <string name="settingsAllowNonStandardPortsTitle">Port non-standar</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Alihkan lalu lintas data yang tertuju pada port-port non-standar melalui jaringan VPN. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Alihkan lalu lintas data yang tertuju pada port non-standar melalui jaringan VPN. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="settingsModerateNatTitle">NAT Moderat</string>
     <string name="settingsModerateNatDescription"><![CDATA[Pengaturan NAT moderat akan menonaktifkan pengacakan alamat IP lokal, yang dapat membuat Anda lebih rentan namun memungkinkan Anda untuk dapat terhubung langsung dengan para pengguna lainnya pada berbagai aplikasi dan permainan online. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="use_coupon_title">Gunakan kupon</string>
@@ -127,14 +127,14 @@
     <string name="restrictedMaintenanceTitle">Sedang dalam pemeliharaan</string>
     <string name="restrictedMaintenanceDescription">Server yang Anda coba sambungkan sedang dalam pemeliharaan. Mohon coba server lainnya.</string>
     <string name="errorUserDelinquent"><![CDATA[Saat ini akun Anda memiliki tagihan tertunda. Mohon membayar semua tagihan yang belum dibayar pada&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Anda sudah mencapai jumlah maksimum pemakaian sambungan serentak yang diizinkan bagi akun Anda. Mohon tingkatkan paket berlangganan ProtonVPN untuk mendapatkan lebih banyak sambungan.</string>
+    <string name="errorMaxSessions">Anda telah mencapai jumlah sambungan serentak yang diizinkan bagi akun Anda. Mohon tingkatkan jenis akun Proton VPN Anda untuk memperoleh lebih banyak sambungan.</string>
     <string name="errorEmptyName">Bidang nama profil tidak boleh kosong</string>
     <string name="errorEmptyCountry">Bidang negara tidak boleh kosong</string>
     <string name="errorEmptyServer">Bidang server tidak boleh kosong</string>
     <string name="errorEmptyEntryCountry">Bidang masukan negara tidak boleh kosong</string>
     <string name="errorEmptyExitCountry">Bidang keluaran negara tidak boleh kosong</string>
     <string name="onboardingDialogMapView">Gunakan Tampilan Peta untuk menyambungkan dan melihat secara virtual di mana server VPN berada.</string>
-    <string name="onboardingDialogProfiles">Buat profil untuk server kesukaan Anda dan mengaksesnya dengan mudah. Sentuh lama lambang ProtonVPN di bagian bawah layar juga memperlihatkan semua profil Anda. Satu sentuhan di salah satu profil menyambungkan Anda ke VPN.</string>
+    <string name="onboardingDialogProfiles">Buat profil untuk server kesukaan Anda dan mengaksesnya dengan mudah. Sentuh lama lambang Proton VPN di bagian bawah layar juga memperlihatkan semua profil Anda. Satu sentuhan di salah satu profil menyambungkan Anda ke VPN.</string>
     <string name="onboardingNetshield">Mengamankan Anda dari malware, iklan, dan pelacak.\nCatatan: jika beberapa situs tidak termuat, coba nonaktifkan NetShield. </string>
     <string name="onboardingFAB">Sambung cepat / Profil</string>
     <string name="onboardingFABDescription">Sentuh tombol ini untuk cara tersambung paling cepat</string>
@@ -166,7 +166,7 @@
     <string name="error_auth_failed">Otentikasi pengguna gagal.</string>
     <string name="error_assessment_failed">Penilaian keamanan gagal.</string>
     <string name="error_generic">Kegagalan tidak jelas saat menyambungkan.</string>
-    <string name="error_generic_with_reason">ProtonVPN tidak dapat membuat sambungan VPN. Silakan coba beberapa saat lagi.<br/><br/>Detail: %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN tidak dapat membuat sambungan VPN. Silakan coba beberapa saat lagi.<br/><br/>Rincian: %1$s</string>
     <string name="reconnect">Menyambung kembali</string>
     <string name="reconnect_now">Hubungkan ulang sekarang</string>
     <string name="try_reconnecting">Cobalah untuk menghubungkan ulang</string>
@@ -237,15 +237,15 @@
     <string name="activityLicensesTitle">Lisensi pihak ketiga</string>
     <string name="stateFragmentUnknownIp">Tidak diketahui</string>
     <string name="noVpnPermissionMainTitle">Tindakan diperlukan untuk menghubungkan ke VPN</string>
-    <string name="noVpnPermissionMainMessage">Untuk dapat terhubung ke ProtonVPN, harap lakukan hal-hal berikut:</string>
+    <string name="noVpnPermissionMainMessage">Untuk dapat terhubung ke Proton VPN, harap lakukan hal-hal berikut:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Berikan VPN izin</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Sistem Android membutuhkan izin Anda untuk dapat terhubung ke ProtonVPN. Untuk dapat memberikan izin, ketuk \"OK\" pada saat Android menampilkan layar \"Connection request\".</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Sistem Android membutuhkan izin Anda untuk dapat terhubung ke Proton VPN. Untuk memberikan izin, ketuk \"OK\" pada saat Android menampilkan layar \"Connection request\".</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Nonaktifkan fitur Always-on milik aplikasi-aplikasi lainnya</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Sistem Android tidak mendukung penggunaan beberapa aplikasi VPN secara bersamaan. Harap nonaktifkan fitur Always-on milik aplikasi-aplikasi VPN lainnya.</string>
-    <string name="noVpnPermissionProtonAppLabel">Aplikasi ProtonVPN</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Sistem Android tidak mendukung penggunaan beberapa aplikasi VPN secara bersamaan. Harap nonaktifkan fitur Always-on milik aplikasi selain Proton VPN.</string>
+    <string name="noVpnPermissionProtonAppLabel">Aplikasi Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Aplikasi-aplikasi VPN lain</string>
     <string name="noVpnPermissionOpenSettings">Buka pengaturan VPN Android</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Mohon menonaktifkan VPN Selalu-aktif untuk seluruh aplikasi VPN lainnya dalam pengaturan sistem VPN Android, karena hal tersebut dapat mencegah ProtonVPN menciptakan sambungan VPN. Mohon juga memberika izin VPN jika muncul sebuah dialog perizinan VPN muncul. Seluruh aplikasi VPN juga mungkin perlu dicopot untuk menghindari konflik. Setelah itu, mohon coba lagi <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Mohon menonaktifkan VPN Selalu-aktif untuk seluruh aplikasi VPN lainnya dalam pengaturan sistem VPN Android, karena hal tersebut dapat mencegah Proton VPN menciptakan sambungan VPN. Mohon juga memberika izin VPN jika muncul sebuah dialog perizinan VPN muncul. Seluruh aplikasi VPN juga mungkin perlu dicopot untuk menghindari konflik. Setelah itu, mohon coba lagi <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="error_prepare_vpn_settings">Pergi ke pengaturan VPN Android</string>
     <string name="error_prepare_vpn_title">Eror: masalah perizinan VPN</string>
     <string name="error_server_not_set">Server tidak lagi tersedia</string>
@@ -312,18 +312,18 @@
     <string name="troubleshootGovernmentBlockTitle">Blokir dari Pemerintah</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Negara anda mungkin memblokir akses ke Proton. Coba gunakan <a href=\'%1$s\'>Tor</a> untuk mengakses Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Atur bagaimana ProtonVPN berperilaku jika koneksi Anda terganggu</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Atur bagaimana Proton VPN berperilaku apabila koneksi Anda terganggu</string>
     <string name="settingsAlwaysOnWindowHeader">Cara mengaktifkan VPN Selalu Aktif dan Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Buka jendela <b>Pengaturan</b> piranti Anda dengan mengetuk tombol di bawah ini]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Temukan ProtonVPN dan ketuk %1$s</string>
+    <string name="settingsAlwaysOnWindowStep2">2. Temukan Proton VPN dan ketuk %1$s</string>
     <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
-         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Ketuk tombol yang ada di samping tulisan <b>Always-On VPN</b> untuk mengaktifkannya]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
-         Open ProtonVPN -> Settings -> Always-on and follow the instructions you are translating to
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Ketuk tombol yang ada di samping tulisan <b>Block connections without VPN</b> untuk mengaktifkan Kill Switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Buka pengaturan Android</string>
@@ -338,8 +338,8 @@
     <string name="netShieldFullBlock">Blokir malware, pelacak, iklan</string>
     <string name="dialogDontShowAgain">Jangan tampilkan lagi</string>
     <string name="paidFeature">Fitur berbayar</string>
-    <string name="guestHoleActivated">Akses menuju PotonVPN mungkin terbatas di wilayah Anda sehingga ini akan memakan waktu lebih lama dibanding biasanya. Mohon tunggu saat kamu mencoba memperbaiki masalah ini.</string>
-    <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah-masalah jaringan yang ada. Tindakan ini dapat melancarkan koneksi ProtonVPN Anda.</string>
+    <string name="guestHoleActivated">Akses menuju Proton VPN di wilayah Anda sedang terbatas, sehingga tindakan ini akan memakan waktu yang lebih lama dibanding biasanya. Mohon tunggu selagi kami memperbaiki masalah ini.</string>
+    <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah-masalah jaringan yang ada. Tindakan ini dapat melancarkan koneksi Proton VPN Anda.</string>
     <string name="onMaintenanceDetected">Server VPN yang terhubung dengan Anda sedang dalam pemeliharaan. Kami menghubungkan ulang Anda secara otomatis ke server tercepat yang tersedia.</string>
     <string name="errorTunMultiUserPermission">Tidak dapat menginisialisasi sambungan VPN karena konflik antar dua aplikasi (contohnya Dual Messenger) dan Split Tunneling. Mohon nonaktifkan salah satunya dan mulai ulang perangkat Anda.</string>
     <string name="errorTorrentNotAllowed">Koneksi P2P tidak diizinkan di server ini</string>
@@ -360,17 +360,17 @@
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
     <string name="tv_detail_connect_streaming">Tonton dengan Plus</string>
     <string name="tv_detail_connect">Sambungkan</string>
-    <string name="tv_detail_description_streaming_country">Tonton konten favorit Anda. Akses lebih banyak aplikasi dengan paket ProtonVPN Plus.</string>
-    <string name="tv_detail_description_no_streaming_country">Tonton lebih banyak konten favorit Anda dengan paket ProtonVPN Plus.</string>
-    <string name="tv_detail_description_country_not_available">Negara ini tidak tersedia. Dapatkan lebih banyak opsi tontonan dengan paket ProtonVPN Plus.</string>
+    <string name="tv_detail_description_streaming_country">Tonton konten favorit Anda. Akses lebih banyak aplikasi dengan paket Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Tonton lebih banyak konten favorit Anda dengan paket Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Negara ini tidak tersedia. Dapatkan lebih banyak opsi tontonan dengan paket Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Tonton video, film, atau olahraga favorit dengan aplikasi Anda.</string>
-    <string name="tv_login_title_signin">Masuk ke ProtonVPN</string>
+    <string name="tv_login_title_signin">Masuk ke Proton VPN</string>
     <string name="tv_login_title_welcome">Tonton konten video favorit Anda</string>
-    <string name="tv_login_welcome_description">Tonton konten video dari 50 negara lebih, termasuk YouTube dan Twitch. Tonton Netflix, Amazon Prime, dan Hulu dengan ProtonVPN Plus.</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[Dapatkan akun ProtonVPN Anda di <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_description">Tonton berbagai konten video dari lebih dari 50 negara, termasuk YouTube dan Twitch. Tonton Netflix, Amazon Prime, dan Hulu dengan Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Dapatkan akun Proton VPN Anda di <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Masuk</string>
     <string name="tv_login_step1_description"><![CDATA[Ke <b>%1$s</b> di komputer atau perangkat seluler Anda]]></string>
-    <string name="tv_login_step2_description">Masuk ke ProtonVPN</string>
+    <string name="tv_login_step2_description">Masuk ke Proton VPN</string>
     <string name="tv_login_step3_description">Masukkan kode:</string>
     <string name="tv_login_timer_label">Kode ini akan kedaluwarsa dalam:</string>
     <string name="tv_login_refresh">Muat Ulang</string>
@@ -378,8 +378,8 @@
     <string name="tv_login_title_refresh">Sesi Anda telah habis. Muat ulang halaman untuk dapat kembali menonton.</string>
     <string name="tv_upgrade_title">Mulai menonton dengan Plus</string>
     <string name="back">Kembali</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Kunjungi <b>%1$s</b> untuk meningkatkan ke ProtonVPN Plus sekarang.]]></string>
-    <string name="tv_upgrade_description">Dapatkan paket ProtonVPN Plus untuk mengakses 500+ server di seluruh dunia dan optimalkan opsi tontonan untuk Netflix, Amazon Prime Video, Disney+, dan lainnya.</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Kunjungi <b>%1$s</b> untuk meningkatkan akun Anda ke Proton VPN Plus sekarang juga.]]></string>
+    <string name="tv_upgrade_description">Dapatkan paket Proton VPN Plus untuk mengakses 500+ server di seluruh dunia dan optimalkan opsi tontonan untuk Netflix, Amazon Prime Video, Disney+, dan lainnya.</string>
     <string name="tv_vpn_error_dialog_title">Sambungan VPN gagal</string>
     <string name="tv_signout_label">Keluar</string>
     <string name="tv_signout_dialog_title">Apakah Anda yakin ingin keluar?</string>
@@ -409,10 +409,10 @@
     <string name="settingsReconnectToApplySettingsDialogContent">Pengaturan baru akan diterapkan saat Anda terhubung lagi.</string>
     <string name="settingsReconnectToChangeDialogContent">Tindakan ini akan menyambungkan ulang koneksi internet Anda.</string>
     <string name="reconnectToEnableNetshield">Ini akan memulai ulang koneksi Anda.\n\nCatatan: Beberapa situs mungkin tidak bisa dimuat dengan NetShield aktif.</string>
-    <string name="notification_subscription_expired_title">Paket langganan ProtonVPN anda telah berakhir</string>
+    <string name="notification_subscription_expired_title">Paket langganan Proton VPN Anda telah berakhir</string>
     <string name="notification_subscription_expired_content">Kami telah menurunkan paket Anda, namun kami menghubungkan ulang Anda ke server tercepat yang tersedia di paket tesebut.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Langganan Anda telah diturunkan. </string>
-    <string name="notification_delinquent_title">Akun ProtonVPN Anda memiliki tagihan yang belum dilunasi</string>
+    <string name="notification_delinquent_title">Akun Proton VPN Anda memiliki tagihan yang belum dilunasi</string>
     <string name="notification_delinquent_content">Silakan perbarui informasi tagihan Anda agar langganan Anda dianggap aktif.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Anda telah dipindahkan ke server lebih cepat yang serupa dengan server pilihan Anda sebelumnya.</string>
@@ -432,7 +432,7 @@
     <string name="no_thanks">Tidak, terima kasih</string>
     <string name="enable">Aktifkan</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol saat ini sedang tidak aktif</string>
-    <string name="notification_smart_protocol_disabled_content">ProtonVPN mendeteksi bahwa jaringan Anda sedang mencegah Anda untuk dapat terhubung ke layanan VPN. Aktifkan Smart Protocol untuk melewati batasan ini.</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN mendeteksi bahwa jaringan Anda sedang mencegah Anda untuk dapat terhubung ke layanan VPN. Aktifkan Smart Protocol untuk melewati batasan ini.</string>
     <string name="upsell_advanced_features">Fitur lanjutan: Netshield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Akses berbagai layanan streaming (Netflix, Disney+, dll.) di manapun Anda berada</string>
     <!-- Number of servers available in the service. This phrase will be combined with
@@ -526,7 +526,7 @@
     <string name="activity_information_plus_title">%1$s - Server-server plus</string>
     <string name="info_features">Fitur</string>
     <string name="smart_routing_title">Pengalihan Cerdas</string>
-    <string name="smart_routing_description">Teknologi ini mengizinkan ProtonVPN menyediakan kecepatan dan keamanan yang lebih tinggi di negara yang kesulitan mendapatkannya.</string>
+    <string name="smart_routing_description">Teknologi ini memungkinkan Proton VPN untuk menyediakan kecepatan dan keamanan layanan yang lebih tinggi di negara yang masih berkembang.</string>
     <string name="streaming_title">Tontonan</string>
     <string name="streaming_description">Server Plus memungkinkan Anda untuk dapat mengakses berbagai layanan streaming (Netflix, Disney+, dll) di manapun Anda berada.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
@@ -544,14 +544,14 @@
     <string name="server_load_high">Tinggi</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Selamat datang di ProtonVPN</string>
-    <string name="onboarding_welcome_description">Pelajari berbagai fitur mutakhir yang dimiliki oleh ProtonVPN hanya dalam beberapa detik.</string>
+    <string name="onboarding_welcome_title">Selamat datang di Proton VPN</string>
+    <string name="onboarding_welcome_description">Pelajari cara untuk memaksimalkan Proton VPN hanya dalam beberapa detik.</string>
     <string name="onboarding_welcome_action">Mulai</string>
     <string name="onboarding_available_on_plus">Tersedia dengan Plus</string>
     <string name="onboarding_streaming_title">Akses situs-situs streaming yang terblokir</string>
     <string name="onboarding_streaming_description">Akses konten streaming apapun secara aman, bahkan ketika Anda sedang bepergian ke luar negeri sekalipun. Kini juga tersedia untuk perangkat AndroidTV.</string>
     <string name="onboarding_protection_title">Lindungi diri Anda di manapun Anda berada</string>
-    <string name="onboarding_protection_description">ProtonVPN dapat digunakan di berbagai perangkat, mulai dari Windows, macOS, dan masih banyak lagi.</string>
+    <string name="onboarding_protection_description">Proton VPN mendukung berbagai perangkat, mulai dari Windows, macOS, dan masih banyak lagi.</string>
     <string name="onboarding_netshield_title">Blokir iklan dan lain sebagainya</string>
     <string name="onboarding_netshield_description">Lindungi browser dan aplikasi-aplikasi Anda dari gangguan malware, iklan, dan program-program pelacak lainnya.</string>
     <string name="onboarding_connection_title">Hubungkan diri Anda untuk pertama kalinya</string>
@@ -578,8 +578,8 @@
     <string name="dynamic_report_step2">Langkah 2 dari 3</string>
     <string name="dynamic_report_step3">Langkah 3 dari 3</string>
     <string name="dynamic_report_your_issue_headline">Masalah apa yang Anda hadapi</string>
-    <string name="update_screen_title">Perbarui ProtonVPN</string>
-    <string name="update_screen_description">Anda akan cenderung lebih rentan terhadap berbagai masalah apabila Anda menggunakan ProtonVPN versi lama.</string>
+    <string name="update_screen_title">Perbarui Proton VPN</string>
+    <string name="update_screen_description">Anda akan cenderung lebih rentan terhadap berbagai masalah apabila Anda menggunakan Proton VPN versi lama.</string>
     <string name="server_search_menu_title">Pencarian</string>
     <string name="server_search_hint">Country, city, server</string>
     <string name="server_search_hint_secure_core">Negara</string>
