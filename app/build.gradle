@@ -587,8 +587,8 @@ dependencies {
         exclude module: 'support-annotations'
     }
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.8.1'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.9.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version"
     detektPlugins project(":detekt-gitlab-output-plugin")
@@ -596,14 +596,14 @@ dependencies {
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'com.github.moagrius:TileView:2.2.7'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.6.0'
     implementation 'com.jakewharton:butterknife:10.2.3'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'com.daimajia.easing:library:2.4@aar'
     implementation 'androidx.activity:activity-ktx:1.4.0'
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
@@ -633,14 +633,14 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.github.tony19:logback-android:2.0.0'
     implementation 'com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.0'
-    implementation 'org.slf4j:slf4j-api:1.7.30'
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3'
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'com.airbnb.android:lottie:4.2.2'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation "androidx.security:security-crypto:1.0.0"
     implementation "androidx.viewpager2:viewpager2:1.1.0-beta01"
-    implementation "androidx.core:core-splashscreen:1.0.0-beta01"
+    implementation "androidx.core:core-splashscreen:1.0.0-rc01"
 
     // Play core
     googlePlayImplementation("com.google.android.play:core:1.10.3")
@@ -736,8 +736,8 @@ dependencies {
 
     testImplementation 'joda-time:joda-time:2.10.13'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'io.mockk:mockk:1.12.2'
-    androidTestImplementation 'io.mockk:mockk-android:1.12.2'
+    testImplementation 'io.mockk:mockk:1.12.3'
+    androidTestImplementation 'io.mockk:mockk-android:1.12.3'
     androidTestImplementation 'com.github.tmurakami:dexopener:2.0.5'
     androidTestImplementation('org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2') {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
