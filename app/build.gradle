@@ -42,7 +42,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'io.gitlab.arturbosch.detekt'
 
 jacoco {
-    toolVersion = '0.8.7'
+    toolVersion = '0.8.8'
 }
 
 tasks.withType(Test) {
@@ -50,7 +50,7 @@ tasks.withType(Test) {
 }
 
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDirectDebugUnitTest']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTest']) {
 
     reports {
         xml.enabled = true
@@ -58,12 +58,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDirectDebugUnitTest']
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', 'ch.protonmail.android.utils.nativelib']
-    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/directDebug", excludes: fileFilter)
-    def mainSrc = "${project.projectDir}/src/main/java"
-
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/googlePlayDebug", excludes: fileFilter)
+    def mainSrc = files(["src/main/java","src/googlePlay/java"])
     sourceDirectories.setFrom files([mainSrc])
     classDirectories.setFrom files([debugTree])
-    executionData.setFrom fileTree(dir: "$buildDir", includes: [
+    executionData.setFrom fileTree(dir: "$project.projectDir", includes: [
             "**/*.exec",
             "**/*.ec"
     ])
