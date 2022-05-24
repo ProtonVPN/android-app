@@ -26,21 +26,27 @@
       --use-orchestrator
       --num-uniform-shards=${NUM_SHARDS}
       --num-flaky-test-attempts=2
-      --environment-variables coverage=true,coverageFile="/sdcard/$COVERAGE_FILE_NAME.ec",listener=com.protonvpn.testsHelper.ToastingRunListener
+      --environment-variables coverage=true,coverageFile="/sdcard/Download/$COVERAGE_FILE_NAME.ec",listener=com.protonvpn.testsHelper.ToastingRunListener
       --directories-to-pull /sdcard
-      --test-targets "class $TEST_SUITE"
-    - coverageFile=`gsutil ls gs://test-lab-5w5jc16j2t3nz-wzxvv7m6j0vt6/**/$COVERAGE_FILE_NAME.ec | tail -1`
-    - gsutil cp $coverageFile app/build/outputs/apk | true
+      --test-targets "class $TEST_SUITE" 2>&1 | tee results.txt
+    - gcsbucket=$(cat results.txt | grep 'Raw results will be stored' | awk -F/ '{print "gs://" $6 "/" $7}')
+    - filename=$COVERAGE_FILE_NAME
+    - i=1
+    - echo $gcsbucket
+    - gsutil ls $gcsbucket
+        | grep '/$'
+        | while read -r line; do gsutil ls ${line}artifacts/sdcard/Download/ | grep .ec; done
+        | while read -r line; do gsutil cp $line app/build/outputs/coverage/${filename}_${i}.ec; ((i++)); done
   artifacts:
     expire_in: 1 week
     paths:
-      - app/build/outputs/apk
+      - app/build/outputs/
 
 firebase quick tests:
   extends: .tests_preparation_script
   variables:
     TESTS_TYPE: quickTest
-    NUM_SHARDS: 3
+    NUM_SHARDS: 4
     APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
     APP_TYPE: "googlePlay-debug.apk"
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
@@ -52,13 +58,13 @@ firebase full tests:
   extends: .tests_preparation_script
   variables:
     TESTS_TYPE: fullTest
-    NUM_SHARDS: 3
+    NUM_SHARDS: 4
     APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
     APP_TYPE: "googlePlay-debug.apk"
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
     TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
-    COVERAGE_FILE_NAME: "coverageMobileFull.ec"
+    COVERAGE_FILE_NAME: "coverageMobileFull"
   when: manual
 
 firebase tv tests:
