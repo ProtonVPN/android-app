@@ -94,7 +94,6 @@ class GuestHole @Inject constructor(
                     val profile = Profile.getTempProfile(server, serverManager.get())
                         .apply {
                             setProtocol(VpnProtocol.OpenVPN)
-                            setGuestHole(true)
                         }
                     vpnConnectionManager.get().connect(vpnUiDelegate, profile, "Guest hole")
                     val observerJob = scope.launch {
