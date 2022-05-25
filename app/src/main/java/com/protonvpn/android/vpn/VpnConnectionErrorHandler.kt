@@ -236,7 +236,7 @@ class VpnConnectionErrorHandler(
 
         val expectedProtocolConnection = pingResult.getExpectedProtocolConnection(orgProfile)
         val score = getServerScore(pingResult.physicalServer.server, orgProfile, vpnUser)
-        val secureCoreExpected = orgProfile.isSecureCore || userData.secureCoreEnabled
+        val secureCoreExpected = orgProfile.isSecureCore ?: userData.secureCoreEnabled
         val switchedSecureCore = secureCoreExpected && !hasCompatibility(score, CompatibilityAspect.SecureCore)
         val isCompatible = isCompatibleServer(score, pingResult.physicalServer, orgPhysicalServer) &&
             expectedProtocolConnection != null && !switchedSecureCore
@@ -285,7 +285,7 @@ class VpnConnectionErrorHandler(
         if (orgPhysicalServer != null && includeOrgServer)
             candidateList += orgPhysicalServer
 
-        val secureCoreExpected = orgProfile.isSecureCore || userData.secureCoreEnabled
+        val secureCoreExpected = orgProfile.isSecureCore ?: userData.secureCoreEnabled
         val onlineServers = serverManager.getOnlineAccessibleServers(secureCoreExpected, vpnUser)
         val scoredServers = sortServersByScore(onlineServers, orgProfile, vpnUser).run {
             if (orgPhysicalServer != null) {
@@ -361,7 +361,7 @@ class VpnConnectionErrorHandler(
         if (orgProfile.directServer == null || server.features == orgProfile.directServer?.features)
             score += 1 shl CompatibilityAspect.Features.ordinal
 
-        val secureCoreExpected = orgProfile.isSecureCore || userData.secureCoreEnabled
+        val secureCoreExpected = orgProfile.isSecureCore ?: userData.secureCoreEnabled
         if (!secureCoreExpected || server.isSecureCoreServer)
             score += 1 shl CompatibilityAspect.SecureCore.ordinal
 

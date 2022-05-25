@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.models.profiles
 
+import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.models.vpn.Server
 import java.io.Serializable
 
@@ -33,32 +34,27 @@ data class ServerWrapper(
         FASTEST, RANDOM, RANDOM_IN_COUNTRY, FASTEST_IN_COUNTRY, DIRECT
     }
 
-    private var secureCoreCountry = false
+    @SerializedName("secureCoreCountry") val migrateSecureCoreCountry = false
 
     override fun toString() =
-        "type: $type country: $country serverId: $serverId secureCore: $secureCoreCountry deliverer: $deliver"
+        "type: $type country: $country serverId: $serverId deliverer: $deliver"
 
     fun setDeliverer(deliverer: ServerDeliver) {
         deliver = deliverer
     }
 
-    fun setSecureCore(value: Boolean) {
-        secureCoreCountry = value
-    }
-
-    val isSecureCore get() = directServer?.isSecureCoreServer ?: secureCoreCountry
     val isPreBakedFastest get() = type == ProfileType.FASTEST
     val isPreBakedRandom get() = type == ProfileType.RANDOM
     val isFastestInCountry get() = type == ProfileType.FASTEST_IN_COUNTRY
     val isRandomInCountry get() = type == ProfileType.RANDOM_IN_COUNTRY
     val isPreBakedProfile get() = type == ProfileType.FASTEST || type == ProfileType.RANDOM
-    val server get() = deliver.getServer(this)
-    val directServer get() = if (type == ProfileType.DIRECT) server else null
+    fun getServer(secureCore: Boolean?) = deliver.getServer(this, secureCore)
+    val directServer get() = if (type == ProfileType.DIRECT) getServer(null) else null
     val city get() = directServer?.city
 
     // Country to which this profile would connect
     val connectCountry get() = when (type) {
-        ProfileType.FASTEST -> server?.exitCountry ?: ""
+        ProfileType.FASTEST -> getServer(null)?.exitCountry ?: ""
         ProfileType.RANDOM -> ""
         else -> country
     }

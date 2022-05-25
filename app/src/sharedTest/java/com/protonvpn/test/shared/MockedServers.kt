@@ -41,8 +41,8 @@ object MockedServers {
 
     fun getProfile(protocol: VpnProtocol, server: Server, name: String = protocol.name) =
         Profile(name, null, ServerWrapper.makeWithServer(server, object : ServerDeliver {
-            override fun getServer(wrapper: ServerWrapper): Server = server
-        }), ProfileColor.CARROT.id).apply {
+            override fun getServer(wrapper: ServerWrapper, secureCore: Boolean?): Server = server
+        }), ProfileColor.CARROT.id, null).apply {
             setProtocol(protocol)
         }
 

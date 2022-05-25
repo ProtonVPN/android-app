@@ -48,9 +48,7 @@ class RecentsManagerTests {
         serverName: String = country,
         profileName: String = ""
     ): ConnectionParams {
-        val profile = Profile(profileName, null, mockk(relaxed = true), null)
-        every { profile.server?.exitCountry }.returns(country)
-        every { profile.country }.returns(country)
+        val profile = Profile(profileName, null, mockk(relaxed = true), null, null)
         val server = mockk<Server>()
         every { server.flag }.returns(country)
         every { server.serverName }.returns(serverName)
@@ -82,9 +80,9 @@ class RecentsManagerTests {
         addRecent(mockk(relaxed = true))
         addRecent(connectionParams)
         addRecent(mockedConnectionParams("Test2"))
-        Assert.assertNotEquals(connectionParams.profile.country, manager.getRecentCountries()[0].country)
+        Assert.assertNotEquals(connectionParams.profile, manager.getRecentCountries()[0])
         addRecent(connectionParams)
-        Assert.assertEquals(connectionParams.profile.country, manager.getRecentCountries()[0].country)
+        Assert.assertEquals(connectionParams.profile, manager.getRecentCountries()[0])
     }
 
     @Test

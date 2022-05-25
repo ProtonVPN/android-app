@@ -83,7 +83,7 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
         override fun bind(viewBinding: ItemProfileListBinding, position: Int) = with(viewBinding) {
             super.bind(viewBinding, position)
             val profile = item.profile
-            val server = profile.server
+            val server = item.server
             val online = server?.online == true
 
             textServer.text = profile.getDisplayName(textServer.context)

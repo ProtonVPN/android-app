@@ -43,6 +43,7 @@ class ProfilesViewModel @Inject constructor(
 
     data class ProfileItem(
         val profile: Profile,
+        val server: Server?,
         val isConnected: Boolean,
         val hasAccess: Boolean
     )
@@ -50,11 +51,12 @@ class ProfilesViewModel @Inject constructor(
     private val profiles = combine(
         serverManager.profiles,
         serverManager.serverListVersion,
-        stateMonitor.status
-    ) { allProfiles, _, _ ->
+        stateMonitor.status,
+        currentUser.vpnUserFlow
+    ) { allProfiles, _, _, vpnUser ->
         allProfiles.map {
-            val server = it.server
-            ProfileItem(it, isConnected = isConnectedTo(server), hasAccess = hasAccessToServer(server))
+            val server = serverManager.getServerForProfile(it, vpnUser)
+            ProfileItem(it, server, isConnected = isConnectedTo(it), hasAccess = vpnUser.hasAccessToServer(server))
         }
     }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
@@ -65,7 +67,5 @@ class ProfilesViewModel @Inject constructor(
         allProfiles.filter { it.profile.isPreBakedProfile.not() }
     }
 
-    private fun isConnectedTo(server: Server?) = server != null && stateMonitor.isConnectedTo(server)
-
-    private fun hasAccessToServer(server: Server?) = currentUser.vpnUserCached().hasAccessToServer(server)
+    private fun isConnectedTo(profile: Profile) = stateMonitor.isConnectedTo(profile)
 }

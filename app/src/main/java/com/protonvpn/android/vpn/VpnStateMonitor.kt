@@ -19,6 +19,7 @@
 package com.protonvpn.android.vpn
 
 import androidx.lifecycle.asLiveData
+import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.vpn.VpnState.Connected
@@ -52,6 +53,11 @@ class VpnStateMonitor {
             state == Connected || state.isEstablishingConnection
         }
 
+    val connectingToProfile
+        get() = connectionParams?.profile?.takeIf {
+            state == Connected || state.isEstablishingConnection
+        }
+
     val connectionProfile
         get() = connectionParams?.profile
 
@@ -66,6 +72,9 @@ class VpnStateMonitor {
 
     fun isConnectedTo(server: Server?) =
         isConnected && connectionParams?.server?.serverId == server?.serverId
+
+    fun isConnectedTo(profile: Profile) =
+        isConnected && connectionParams?.profile == profile
 
     fun isConnectingToCountry(country: String) =
         connectingToServer?.exitCountry == country

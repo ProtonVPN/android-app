@@ -26,13 +26,9 @@ import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.OnSessionClosed
-import com.protonvpn.android.logging.ConnError
-import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.Profile.Companion.getTempProfile
-import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.DebugUtils
@@ -40,7 +36,6 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertificateRepository
-import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -53,7 +48,6 @@ class HomeViewModel @Inject constructor(
     mainScope: CoroutineScope,
     val userData: UserData,
     private val vpnStateMonitor: VpnStateMonitor,
-    private val vpnConnectionManager: VpnConnectionManager,
     private val serverManager: ServerManager,
     userPlanManager: UserPlanManager,
     certificateRepository: CertificateRepository,
@@ -72,25 +66,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    // Convert to a suspend method and remove the callback once HomeActivity is in Kotlin.
-    fun reconnectToSameCountry(triggerAction: String, connectCallback: (newProfile: Profile) -> Unit) {
-        ProtonLogger.log(UiReconnect, triggerAction)
+    fun getReconnectProfileOnSecureCoreChange(): Profile {
         DebugUtils.debugAssert("Is connected") { vpnStateMonitor.isConnected }
-        val connectedCountry: String = vpnStateMonitor.connectionParams!!.server.exitCountry
-        val exitCountry: VpnCountry? =
-            serverManager.getVpnExitCountry(connectedCountry, userData.secureCoreEnabled)
-        val newServer = if (exitCountry != null) {
-            serverManager.getBestScoreServer(exitCountry)
+        val connectedProfile = vpnStateMonitor.connectionParams!!.profile
+        return if (connectedProfile.isSecureCore == null) {
+            // Connect to the same profile, it doesn't enforce Secure Core.
+            connectedProfile
         } else {
-            serverManager.getBestScoreServer(userData.secureCoreEnabled)
-        }
-        if (newServer != null) {
-            val newProfile = getTempProfile(newServer, serverManager)
-            vpnConnectionManager.disconnectWithCallback(triggerAction) { connectCallback(newProfile) }
-        } else {
-            val toOrFrom = if (userData.secureCoreEnabled) "to" else "from"
-            ProtonLogger.log(ConnError, "Unable to find a server to connect to when switching $toOrFrom Secure Core")
-            vpnConnectionManager.disconnect(triggerAction)
+            Profile.getTempProfile(ServerWrapper.makeFastestForCountry(connectedProfile.country, serverManager))
         }
     }
 

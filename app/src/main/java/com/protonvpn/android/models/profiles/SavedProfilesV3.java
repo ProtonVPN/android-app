@@ -18,10 +18,6 @@
  */
 package com.protonvpn.android.models.profiles;
 
-import android.content.Context;
-
-import com.protonvpn.android.R;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,17 +37,17 @@ public class SavedProfilesV3 implements Serializable {
     public static SavedProfilesV3 defaultProfiles(ServerDeliver deliver) {
         SavedProfilesV3 defaultProfiles = new SavedProfilesV3(new ArrayList<>());
         defaultProfiles.getProfileList()
-            .add(new Profile("fastest", null, ServerWrapper.makePreBakedFastest(deliver), null));
+            .add(new Profile("fastest", null, ServerWrapper.makePreBakedFastest(deliver), null, null));
         defaultProfiles.getProfileList()
             .add(new Profile("random", null,
-                ServerWrapper.makePreBakedRandom(deliver), null));
+                ServerWrapper.makePreBakedRandom(deliver), null, null));
         return defaultProfiles;
     }
 
-    public SavedProfilesV3 migrateColors() {
+    public SavedProfilesV3 migrateProfiles() {
         List<Profile> migrated = new ArrayList<Profile>(profileList.size());
         for (Profile profile : profileList) {
-            migrated.add(profile.migrateColor());
+            migrated.add(profile.migrateFromOlderVersion());
         }
         return new SavedProfilesV3(migrated);
     }
