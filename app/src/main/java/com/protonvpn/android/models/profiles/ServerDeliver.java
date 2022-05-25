@@ -26,5 +26,5 @@ import com.protonvpn.android.models.vpn.Server;
 public interface ServerDeliver {
 
     @Nullable
-    Server getServer(@NonNull ServerWrapper wrapper);
+    Server getServer(@NonNull ServerWrapper wrapper, @Nullable Boolean secureCore);
 }

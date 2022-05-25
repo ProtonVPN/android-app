@@ -29,7 +29,6 @@ import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.ProfileColor.Companion.random
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnState

@@ -65,6 +65,8 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.util.ObjectsCompat;
+
 import butterknife.BindView;
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -131,12 +133,12 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
             serverManager.getVpnCountries());
         if (userData.getSecureCoreEnabled()) {
             if (stateMonitor.isConnected()) {
-                addPins(false, Collections.singletonList(stateMonitor.getConnectionProfile() != null ?
-                    stateMonitor.getConnectionProfile().getServer() : null));
-                paintPaths(stateMonitor.getConnectionProfile().getServer().getEntryCountryCoordinates(),
-                    Collections.singletonList(stateMonitor.getConnectionProfile().getServer()));
-            }
-            else {
+                Server connectedServer = ObjectsCompat.requireNonNull(stateMonitor.getConnectionParams().getServer());
+
+                addPins(false, Collections.singletonList(connectedServer));
+                paintPaths(connectedServer.getEntryCountryCoordinates(),
+                        Collections.singletonList(connectedServer));
+            } else {
                 paintCorePaths();
             }
         }

@@ -84,7 +84,7 @@ class VpnConnectionErrorHandlerTests {
     private lateinit var handler: VpnConnectionErrorHandler
     private lateinit var directProfile: Profile
     private lateinit var directConnectionParams: ConnectionParams
-    private val defaultFallbackConnection = Profile("fastest", null, mockk(), null)
+    private val defaultFallbackConnection = Profile("fastest", null, mockk(), null, null)
     private val defaultFallbackServer = MockedServers.serverList[1] // Use a different server than MockedServers.server
     private val infoChangeFlow = MutableSharedFlow<List<UserPlanManager.InfoChange>>()
 
@@ -112,7 +112,7 @@ class VpnConnectionErrorHandlerTests {
 
         // Needed for VpnConnectionErrorHandler.getCandidateServers which uses Profile.isSecureCore, Profile.city etc.
         val wrapperSlot = slot<ServerWrapper>()
-        every { serverManager.getServer(capture(wrapperSlot)) } answers {
+        every { serverManager.getServer(capture(wrapperSlot), any()) } answers {
             val id = wrapperSlot.captured.serverId
             MockedServers.serverList.find { it.serverId == id }
         }
@@ -327,7 +327,7 @@ class VpnConnectionErrorHandlerTests {
     @Test
     fun testUnreachableSecureCoreSwitch() = runBlockingTest {
         val secureCoreServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
-        val secureCoreProfile = Profile.getTempProfile(secureCoreServer, serverManager)
+        val secureCoreProfile = Profile.getTempProfile(secureCoreServer, serverManager, true)
         secureCoreProfile.setProtocol(VpnProtocol.IKEv2)
         val scConnectionParams =
             ConnectionParamsIKEv2(secureCoreProfile, secureCoreServer, secureCoreServer.connectingDomains.first())
@@ -341,7 +341,7 @@ class VpnConnectionErrorHandlerTests {
     @Test
     fun testUnreachableSecureCoreSwitchToNonSecureCore() = runBlockingTest {
         val scServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
-        val scProfie = Profile.getTempProfile(scServer, serverManager)
+        val scProfie = Profile.getTempProfile(scServer, serverManager, true)
         scProfie.setProtocol(VpnProtocol.IKEv2)
         val scConnectionParams = ConnectionParamsIKEv2(scProfie, scServer, scServer.connectingDomains.first())
 

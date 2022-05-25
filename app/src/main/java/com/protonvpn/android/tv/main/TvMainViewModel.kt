@@ -354,6 +354,7 @@ class TvMainViewModel @Inject constructor(
             vpnCountry.countryName,
             null,
             ServerWrapper.makeFastestForCountry(vpnCountry.flag, serverManager),
+            null,
             null
         ) else null
     }

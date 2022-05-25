@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.ui.home;
 
+import static com.protonvpn.android.logging.LogEventsKt.UiReconnect;
 import static com.protonvpn.android.utils.AndroidUtilsKt.openProtonUrl;
 
 import android.annotation.SuppressLint;
@@ -273,10 +274,10 @@ public class HomeActivity extends VpnActivity {
                 && vpnStateMonitor.isConnectingToSecureCore() == switchSecureCore.isChecked()) {
             switchSecureCore.toggle();
             postSecureCoreSwitched(switchSecureCore);
-            viewModel.reconnectToSameCountry("user toggled SC switch", newProfile -> {
-                onConnect(newProfile, "Secure Core switch");
-                return Unit.INSTANCE;
-            });
+
+            ProtonLogger.INSTANCE.log(UiReconnect, "user toggled SC switch");
+            Profile newProfile = viewModel.getReconnectProfileOnSecureCoreChange();
+            onConnect(newProfile, "Secure Core switch");
         } else {
             switchSecureCore.toggle();
             postSecureCoreSwitched(switchSecureCore);

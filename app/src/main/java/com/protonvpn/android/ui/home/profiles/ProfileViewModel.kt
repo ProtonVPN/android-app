@@ -102,7 +102,7 @@ class ProfileViewModel @Inject constructor(
             editedProfile = profile
             profileNameInput = profile.getDisplayName(context)
             profileColor.value = requireNotNull(profile.profileColor)
-            secureCore.value = profile.isSecureCore
+            secureCore.value = profile.isSecureCore ?: userData.secureCoreEnabled
             server.value = getServerSelection(profile)
             country.value = profile.server?.let { getServerCountry(it) }
             protocol.value = ProtocolSelection.from(
@@ -200,12 +200,17 @@ class ProfileViewModel @Inject constructor(
         val serverWrapper = createServerWrapper(
             requireNotNull(server.value),
             requireNotNull(country.value),
-            secureCore.value,
             serverManager
         )
         val transmissionProtocol = (protocol.value as? ProtocolSelection.OpenVPN)?.transmission
         val newProfile =
-            Profile(profileNameInput, null, serverWrapper, requireNotNull(profileColor.value).id).apply {
+            Profile(
+                profileNameInput,
+                null,
+                serverWrapper,
+                requireNotNull(profileColor.value).id,
+                secureCore.value
+            ).apply {
                 setTransmissionProtocol(transmissionProtocol?.toString())
                 setProtocol(protocol.value.protocol)
             }
@@ -241,7 +246,6 @@ class ProfileViewModel @Inject constructor(
     private fun createServerWrapper(
         serverSelection: ServerSelection,
         country: VpnCountry,
-        isSecureCore: Boolean,
         serverManager: ServerManager
     ): ServerWrapper = when (serverSelection) {
         ServerSelection.FastestInCountry ->
@@ -250,7 +254,5 @@ class ProfileViewModel @Inject constructor(
             ServerWrapper.makeRandomForCountry(country.flag, serverManager)
         is ServerSelection.Specific ->
             ServerWrapper.makeWithServer(serverSelection.server, serverManager)
-    }.apply {
-        setSecureCore(isSecureCore)
     }
 }

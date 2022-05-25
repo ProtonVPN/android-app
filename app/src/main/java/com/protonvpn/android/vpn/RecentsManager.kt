@@ -81,9 +81,8 @@ class RecentsManager(
     }
 
     fun getRecentCountries(): List<Profile> = recentConnections
-        .filter {
-            it.server?.exitCountry != serverManager.defaultConnection.server?.exitCountry &&
-                it.server?.exitCountry != stateMonitor.connectingToServer?.exitCountry
+        .filter { profile ->
+            profile != serverManager.defaultConnection && profile != stateMonitor.connectingToProfile
         }
 
     private fun addToRecentServers(server: Server) {

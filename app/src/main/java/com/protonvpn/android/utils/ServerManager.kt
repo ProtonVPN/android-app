@@ -73,7 +73,7 @@ class ServerManager @Inject constructor(
     @Transient
     private val savedProfiles: SavedProfilesV3 =
         Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles(this))
-            .migrateColors()
+            .migrateProfiles()
 
     // Expose a version number of the server list so that it can be used in flow operators like
     // combine to react to updates.
@@ -112,7 +112,7 @@ class ServerManager @Inject constructor(
             .filterNotNull()
             .first {
                 it.wrapper.setDeliverer(this)
-                it.isSecureCore.implies(currentUser.vpnUserCached()?.isUserPlusOrAbove == true)
+                (it.isSecureCore == true).implies(currentUser.vpnUserCached()?.isUserPlusOrAbove == true)
             }
 
     init {
@@ -334,8 +334,7 @@ class ServerManager @Inject constructor(
 
     fun addToProfileList(serverName: String?, color: ProfileColor, server: Server) {
         val newProfile =
-            Profile(serverName!!, null, ServerWrapper.makeWithServer(server, this), color.id)
-        newProfile.wrapper.setSecureCore(userData.secureCoreEnabled)
+            Profile(serverName!!, null, ServerWrapper.makeWithServer(server, this), color.id, server.isSecureCoreServer)
         addToProfileList(newProfile)
     }
 
@@ -368,26 +367,29 @@ class ServerManager @Inject constructor(
         filteredSecureCoreExitCountries.sortedByLocaleAware { it.countryName }
 
     fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? =
-        getServerForWrapper(profile.wrapper, vpnUser)
+        getServerForWrapper(profile.wrapper, profile.isSecureCore, vpnUser)
 
-    override fun getServer(wrapper: ServerWrapper): Server? =
-        getServerForWrapper(wrapper, currentUser.vpnUserCached())
+    override fun getServer(wrapper: ServerWrapper, secureCore: Boolean?): Server? =
+        getServerForWrapper(wrapper, secureCore, currentUser.vpnUserCached())
 
-    private fun getServerForWrapper(wrapper: ServerWrapper, vpnUser: VpnUser?): Server? = when (wrapper.type) {
-        ProfileType.FASTEST ->
-            getBestScoreServer(userData.secureCoreEnabled, vpnUser)
-        ProfileType.RANDOM ->
-            getRandomServer(vpnUser)
-        ProfileType.RANDOM_IN_COUNTRY ->
-            getVpnExitCountry(wrapper.country, wrapper.isSecureCore)?.let {
-                getRandomServer(it, vpnUser)
-            }
-        ProfileType.FASTEST_IN_COUNTRY ->
-            getVpnExitCountry(wrapper.country, wrapper.isSecureCore)?.let {
-                getBestScoreServer(it, vpnUser)
-            }
-        ProfileType.DIRECT ->
-            getServerById(wrapper.serverId!!)
+    private fun getServerForWrapper(wrapper: ServerWrapper, secureCore: Boolean?, vpnUser: VpnUser?): Server? {
+        val needsSecureCore = secureCore ?: userData.secureCoreEnabled
+        return when (wrapper.type) {
+            ProfileType.FASTEST ->
+                getBestScoreServer(userData.secureCoreEnabled, vpnUser)
+            ProfileType.RANDOM ->
+                getRandomServer(vpnUser)
+            ProfileType.RANDOM_IN_COUNTRY ->
+                getVpnExitCountry(wrapper.country, needsSecureCore)?.let {
+                    getRandomServer(it, vpnUser)
+                }
+            ProfileType.FASTEST_IN_COUNTRY ->
+                getVpnExitCountry(wrapper.country, needsSecureCore)?.let {
+                    getBestScoreServer(it, vpnUser)
+                }
+            ProfileType.DIRECT ->
+                getServerById(wrapper.serverId!!)
+        }
     }
 
     @Deprecated(

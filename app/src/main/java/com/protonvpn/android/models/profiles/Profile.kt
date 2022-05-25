@@ -36,13 +36,17 @@ data class Profile @JvmOverloads constructor(
     private val color: String?,
     val wrapper: ServerWrapper,
     private val colorId: Int?,
+    val isSecureCore: Boolean?,
     private var protocol: String? = null,
     private var transmissionProtocol: String? = null,
 ) : Serializable {
 
     val profileColor: ProfileColor? = colorId?.let { ProfileColor.byId(it) }
 
-    fun migrateColor(): Profile =
+    fun migrateFromOlderVersion(): Profile =
+        migrateColor().migrateSecureCore()
+
+    private fun migrateColor(): Profile =
         if (color != null && colorId == null && !isPreBakedProfile) {
             val profileColor = ProfileColor.legacyColors.getOrElse(color.uppercase(Locale.US)) {
                 ProfileColor.random() // Should not happen.
@@ -53,6 +57,13 @@ data class Profile @JvmOverloads constructor(
         } else if (color == null && colorId != null && ProfileColor.byId(colorId) == null) {
             // Internal tester migration.
             copy(color = null, colorId = ProfileColor.values().first().id)
+        } else {
+            this
+        }
+
+    private fun migrateSecureCore(): Profile =
+        if (isSecureCore == null && !isPreBakedProfile && !isPreBakedFastest) {
+            copy(isSecureCore = wrapper.migrateSecureCoreCountry)
         } else {
             this
         }
@@ -73,13 +84,11 @@ data class Profile @JvmOverloads constructor(
     val isPreBakedFastest: Boolean
         get() = wrapper.isPreBakedFastest
 
-    val server: Server? get() = wrapper.server
+    val server: Server? get() = wrapper.getServer(isSecureCore)
     val city: String? get() = wrapper.city
     val country: String get() = wrapper.country
     val connectCountry: String get() = wrapper.connectCountry
     val directServer: Server? get() = wrapper.directServer
-
-    val isSecureCore get() = wrapper.isSecureCore
 
     fun getTransmissionProtocol(userData: UserData): TransmissionProtocol =
         transmissionProtocol?.let { TransmissionProtocol.valueOf(it) } ?: userData.transmissionProtocol
@@ -105,9 +114,39 @@ data class Profile @JvmOverloads constructor(
 
     fun hasCustomProtocol() = protocol != null
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Profile
+
+        if (name != other.name) return false
+        if (wrapper != other.wrapper) return false
+        if (protocol != other.protocol) return false
+        if (transmissionProtocol != other.transmissionProtocol) return false
+        if (profileColor != other.profileColor) return false
+        if (isSecureCore != other.isSecureCore) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + wrapper.hashCode()
+        result = 31 * result + (protocol?.hashCode() ?: 0)
+        result = 31 * result + (transmissionProtocol?.hashCode() ?: 0)
+        result = 31 * result + (profileColor?.hashCode() ?: 0)
+        result = 31 * result + (isSecureCore?.hashCode() ?: 0)
+        return result
+    }
+
+
     companion object {
         @JvmStatic
-        fun getTempProfile(server: Server, serverDeliver: ServerDeliver) =
-            Profile("", null, ServerWrapper.makeWithServer(server, serverDeliver), null)
+        fun getTempProfile(server: Server, serverDeliver: ServerDeliver) = getTempProfile(server, serverDeliver, null)
+        fun getTempProfile(server: Server, serverDeliver: ServerDeliver, isSecureCore: Boolean?) =
+            getTempProfile(ServerWrapper.makeWithServer(server, serverDeliver), isSecureCore)
+        fun getTempProfile(serverWrapper: ServerWrapper, isSecureCore: Boolean? = null) =
+            Profile("", null, serverWrapper, null, isSecureCore)
     }
 }

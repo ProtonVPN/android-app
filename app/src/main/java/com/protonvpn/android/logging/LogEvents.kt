@@ -94,6 +94,7 @@ val SettingsCurrent = LogEventType(LogCategory.SETTINGS, "CURRENT", LogLevel.INF
 
 @JvmField
 val UiConnect = LogEventType(LogCategory.UI, "CONNECT", LogLevel.INFO)
+@JvmField
 val UiReconnect = LogEventType(LogCategory.UI, "RECONNECT", LogLevel.INFO)
 @JvmField
 val UiDisconnect = LogEventType(LogCategory.UI, "DISCONNECT", LogLevel.INFO)
