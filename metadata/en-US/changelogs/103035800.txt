@@ -1,0 +1,10 @@
+What's new:
+* Adds a new Search feature to quickly connect to the best server in a given country or city or to access directly a specific server
+* Improves the app stability in poor network conditions
+* Allows to create a new Proton account in-app
+* Allows to purchase a paid ProtonVPN subscription in-app
+* Introduces a renovated on-boarding experience
+* Supports 2-Factor-Authentication
+* Adds a new setting to allow non-standard ports usage through the VPN tunnel
+* Introduces a new guided wizard for reporting an issue, on both ProtonVPN for mobile and Android-TV
+* ProtonVPN is now available in Ukrainian
