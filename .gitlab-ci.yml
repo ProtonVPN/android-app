@@ -15,7 +15,7 @@ default:
 
 variables:
   GIT_FETCH_EXTRA_FLAGS: --tags
-  ORG_GRADLE_PROJECT_useCoreGitSubmodule: "true"
+  ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
 
 stages:
   - image
