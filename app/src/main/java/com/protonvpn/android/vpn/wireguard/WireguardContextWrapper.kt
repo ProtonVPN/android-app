@@ -23,14 +23,19 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.os.Build
+import com.protonvpn.android.utils.DebugUtils
+import com.wireguard.android.backend.GoBackend
 
 class WireguardContextWrapper(context: Context) : ContextWrapper(context) {
     override fun startService(serviceIntent: Intent?): ComponentName? {
+        DebugUtils.debugAssert {
+            serviceIntent?.component == ComponentName(applicationContext, GoBackend.VpnService::class.java)
+        }
+        val ourIntent = Intent(this, WireguardWrapperService::class.java)
         return if (Build.VERSION.SDK_INT >= 26) {
-            val ourIntent = Intent(this, WireguardWrapperService::class.java)
             baseContext.startForegroundService(ourIntent)
         } else {
-            baseContext.startService(serviceIntent)
+            baseContext.startService(ourIntent)
         }
     }
 }
