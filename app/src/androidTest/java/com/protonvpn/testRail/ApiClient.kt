@@ -20,18 +20,19 @@
 package com.protonvpn.testRail
 
 import com.protonvpn.android.utils.Log
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
-import org.json.simple.JSONValue
 import java.util.*
 
 class ApiClient(private val baseUrl: String, private val email: String, private val apiKey: String) {
 
     fun sendPost(uri: String, data: Any?): JSONObject {
-        val requestBody = JSONValue.toJSONString(data)
+        val requestBody = Json.encodeToString(data)
             .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
         val request = Request.Builder()
