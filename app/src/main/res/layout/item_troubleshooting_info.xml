@@ -32,7 +32,8 @@
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:layout_marginTop="12dp"
         android:drawablePadding="20dp"
-        app:drawableStartCompat="@drawable/ic_check_circle"
+        app:drawableStartCompat="@drawable/ic_proton_lightbulb"
+        app:drawableTint="?attr/proton_notification_warning"
         tools:text="@string/troubleshootNoInternetTitle" />
 
     <TextView

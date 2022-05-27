@@ -28,7 +28,7 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.LogItemBinding
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -36,9 +36,11 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LogActivity : BaseActivityV2() {
 
+    private val binding by viewBinding(ActivityRecyclerWithToolbarBinding::inflate)
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = setContentViewBinding(ActivityRecyclerWithToolbarBinding::inflate)
+        setContentView(binding.root)
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
         setupLogDisplay(binding.recyclerItems)
     }

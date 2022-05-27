@@ -27,6 +27,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -53,10 +54,6 @@ import androidx.core.view.ViewCompat
 import androidx.viewbinding.ViewBinding
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
-import com.protonvpn.android.tv.TvGenericDialogActivity
-import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_DESCRIPTION
-import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_ICON_RES
-import com.protonvpn.android.tv.TvGenericDialogActivity.Companion.EXTRA_TITLE
 import me.proton.core.util.kotlin.times
 import okhttp3.internal.toHexString
 import java.nio.CharBuffer
@@ -66,12 +63,6 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 object AndroidUtils {
-
-    fun <T : ViewBinding> Activity.setContentViewBinding(inflater: (LayoutInflater) -> T): T {
-        val binding = inflater(LayoutInflater.from(this))
-        setContentView(binding.root)
-        return binding
-    }
 
     fun isPackageSignedWith(
         context: Context,
@@ -122,18 +113,6 @@ object AndroidUtils {
         val intent = Intent(this, T::class.java)
         intent.init()
         startActivity(intent, options)
-    }
-
-    fun Context.launchTvDialog(
-        titleRes: String? = null,
-        descriptionRes: String? = null,
-        iconRes: Int? = null,
-    ) {
-        val intent = Intent(this, TvGenericDialogActivity::class.java)
-        titleRes?.let { intent.putExtra(EXTRA_TITLE, titleRes) }
-        descriptionRes?.let { intent.putExtra(EXTRA_DESCRIPTION, descriptionRes) }
-        iconRes?.let { intent.putExtra(EXTRA_ICON_RES, iconRes) }
-        startActivity(intent)
     }
 
     fun isPackageInstalled(context: Context, packageName: String) =

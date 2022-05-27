@@ -22,6 +22,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModel
+import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.utils.Constants
@@ -41,6 +42,7 @@ open class MainViewModel @Inject constructor(
     private val certificateRepository: CertificateRepository,
     private val logoutUseCase: Logout,
     protected val currentUser: CurrentUser,
+    val purchaseEnabled: CachedPurchaseEnabled
 ) : ViewModel(), LifecycleObserver {
 
     val userPlanChangeEvent = userPlanManager.planChangeFlow
@@ -48,6 +50,7 @@ open class MainViewModel @Inject constructor(
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onResumed() {
         mainScope.launch {
+            purchaseEnabled.refresh()
             refreshVPNInfo()
             certificateRepository.updateCertificateIfNeeded()
         }

@@ -84,12 +84,12 @@ class ServerSelectionActivity : BaseActivityV2() {
             listOf(
                 RecommendedServerViewHolder(
                     R.string.profileFastest,
-                    R.drawable.ic_fast,
+                    R.drawable.ic_proton_bolt,
                     ServerIdSelection.FastestInCountry
                 ),
                 RecommendedServerViewHolder(
                     R.string.profileRandom,
-                    R.drawable.ic_arrows,
+                    R.drawable.ic_proton_arrows_swap_right,
                     ServerIdSelection.RandomInCountry
                 )
             )
@@ -155,7 +155,7 @@ class ServerSelectionActivity : BaseActivityV2() {
             with(viewBinding) {
                 textLabel.text = server.name
                 imageIcon.setImageResource(CountryTools.getFlagResource(root.context, server.flag))
-                val trailingIcon = if (secureCoreArrow) R.drawable.ic_secure_core_arrow_color else 0
+                val trailingIcon = if (secureCoreArrow) R.drawable.ic_proton_chevrons_right_16 else 0
                 textLabel.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, trailingIcon, 0)
                 imageIcon.alpha =
                     if (server.accessible) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)

@@ -1,50 +1,35 @@
 <!--
  Copyright (c) 2017 Proton Technologies AG
- 
+
  This file is part of ProtonVPN.
- 
+
  ProtonVPN is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  ProtonVPN is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/mobilePrimary</item>
-        <item name="colorPrimaryDark">@color/bgStatusBar</item>
-        <item name="colorAccent">@color/mobileAccent</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
+    <!-- TV themes -->
     <style name="AppTheme.TV.Leanback" parent="Theme.AppCompat.Leanback">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Leanback</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@drawable/tv_background</item>
+        <item name="android:windowBackground">@color/tvBackground</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:colorPrimary">#4B4B57</item>
-        <item name="android:colorBackground">@color/dimmedGrey</item>
         <item name="guidedActionsBackground">@color/tvGuidedActionsBackground</item>
         <item name="guidedActionsBackgroundDark">@color/tvGuidedActionsBackgroundDark</item>
         <item name="colorAccent">@color/tvAccent</item>
         <item name="android:colorControlActivated">?colorAccent</item>
-        <item name="android:colorForeground">#4B4B57</item>
         <item name="android:textSize">16sp</item>
         <item name="serverLoadLow">@color/tvServerLoadLow</item>
         <item name="serverLoadMedium">@color/tvServerLoadMedium</item>
@@ -53,8 +38,7 @@
     </style>
 
     <style name="AppTheme.TV.Browse" parent="Theme.AppCompat.Leanback.Browse">
-        <item name="android:windowBackground">@drawable/tv_background</item>
-        <item name="defaultBrandColor">@color/grey</item>
+        <item name="android:windowBackground">@color/tvBackground</item>
         <item name="defaultSearchColor">?colorAccent</item>
         <item name="defaultSearchIconColor">@color/white</item>
         <item name="defaultSearchBrightColor">?colorAccent</item>
@@ -105,6 +89,7 @@
         <item name="android:paddingBottom">14dp</item>
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:textAppearance">@style/Proton.Text.DefaultSmall</item>
+        <item name="drawableTint">?attr/proton_icon_weak</item>
     </style>
 
     <style name="DefaultCardImageStyle" parent="Widget.Leanback.ImageCardView.ImageStyle">
@@ -172,7 +157,7 @@
       Notifications should not use the application styles.
       -->
     <style name="ThemeOverlay.ProtonItemServerSwitch" parent="">
-        <item name="serverSwitchArrowDrawable">@drawable/ic_arrow_forward</item>
+        <item name="serverSwitchArrowDrawable">@drawable/ic_proton_arrow_right</item>
         <item name="serverSwitchLabelTextStyle">@style/Proton.Text.Caption</item>
         <item name="serverSwitchServerTextStyle">@style/Proton.Text.DefaultSmall</item>
     </style>
@@ -201,7 +186,7 @@
     </style>
 
     <style name="SectionHeadlineText.Brand">
-        <item name="android:textColor">?attr/brand_norm</item>
+        <item name="android:textColor">?attr/proton_text_accent</item>
     </style>
 
     <style name="PowerButton" parent="">
@@ -209,7 +194,7 @@
         <item name="android:minHeight">40dp</item>
         <item name="backgroundTint">@color/power_button_bg</item>
         <item name="android:padding">8dp</item>
-        <item name="icon">@drawable/ic_power_off</item>
+        <item name="icon">@drawable/ic_proton_power_off</item>
         <item name="iconTint">?attr/proton_icon_norm</item>
         <item name="rippleColor">@color/power_button_ripple</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Oval</item>
@@ -226,14 +211,18 @@
     </style>
 
     <style name="ProtonTheme.Vpn.Mobile">
-        <!-- text-disabled has too little contrast for the dark theme, override it with text-hint
-             for now. -->
-        <item name="proton_text_disabled">?attr/proton_text_hint</item>
         <item name="protonVpnPowerButtonStyle">@style/PowerButton</item>
-        <item name="serverLoadLow">?attr/proton_notification_success</item>
-        <item name="serverLoadMedium">?attr/proton_notification_warning</item>
-        <item name="serverLoadHigh">?attr/proton_notification_error</item>
+        <item name="serverLoadLow">@color/puerto_rico</item>
+        <item name="serverLoadMedium">@color/texas_Rose</item>
+        <item name="serverLoadHigh">@color/pomegranate</item>
         <item name="serverInMaintenance">#989DA9</item>
+        <item name="strong_red_color">@color/pomegranate</item>
+    </style>
+
+    <!-- Force dark splash screen even if system uses light mode -->
+    <style name="ProtonTheme.Splash.Vpn.Dark">
+        <!-- baltic_sea corresponds to shade_0 in dark mode -->
+        <item name="windowSplashScreenBackground">@color/baltic_sea</item>
     </style>
 
     <!-- An outlined button that isn't green - used for non-positive actions like "Cancel" -->
@@ -242,7 +231,6 @@
     </style>
 
     <style name="ThemeOverlay.ProtonButton.Warning" parent="">
-        <item name="colorPrimary">?attr/proton_notification_error</item>
+        <item name="colorPrimary">?attr/strong_red_color</item>
     </style>
-
 </resources>

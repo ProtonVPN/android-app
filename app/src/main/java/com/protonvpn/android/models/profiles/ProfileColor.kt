@@ -20,7 +20,7 @@
 package com.protonvpn.android.models.profiles
 
 import androidx.annotation.ColorRes
-import com.protonvpn.android.R
+import me.proton.core.presentation.R
 
 enum class ProfileColor(
     val id: Int,

@@ -30,7 +30,7 @@
         android:layout_height="16dp"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/offer_panel_feature_spacing"
-        app:tint="?attr/brand_norm" />
+        app:tint="?attr/proton_icon_accent" />
 
     <TextView
         android:id="@+id/text"

@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/onboarding_connection"/>
+            app:srcCompat="@drawable/onboarding_establish_first_connection" />
 
         <TextView
             style="@style/Proton.Text.Headline"

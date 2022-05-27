@@ -15,7 +15,7 @@ default:
 
 variables:
   GIT_FETCH_EXTRA_FLAGS: --tags
-  ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
+  ORG_GRADLE_PROJECT_useCoreGitSubmodule: "true"
 
 stages:
   - image
@@ -123,7 +123,7 @@ detekt analysis:
     reports:
       codequality: app/build/reports/detekt/detekt.json
 
-build debug:
+build google debug:
   stage: build
   extends: .gradle-job
   cache:
@@ -142,8 +142,8 @@ build debug:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew assembleDirectDebug
-    - ./gradlew assembleDirectDebugAndroidTest
+    - ./gradlew assembleGooglePlayDebug
+    - ./gradlew assembleGooglePlayDebugAndroidTest
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
     - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" > deploy.env
@@ -161,6 +161,7 @@ build black:
   extends: .gradle-job
   script:
     - export BLACK_TOKEN="$(curl --silent $BLACK_TOKEN_URL)"
+    - echo "Black url ${BLACK_DOMAIN}"
     - ./gradlew assembleBlackDebug
   when: manual
   artifacts:
@@ -190,6 +191,7 @@ build amazon release:
   only:
     refs:
       - master
+      - release/4.0
   tags:
     - xlarge-k8s
   script:
@@ -222,7 +224,7 @@ unit tests:
   tags:
     - large
   script:
-    - ./gradlew testDirectDebug
+    - ./gradlew testGooglePlayDebug
 
 coverage report:
   stage: report
@@ -270,8 +272,7 @@ sync-app:
     - git remote add public $PUBLIC_REPO_URL
     - git push public master
     # Push the latest tag we can find
-    # Temporarily as force push, due to f-droid hotfix
-    - git push public "$(git describe --abbrev=0)" -f
+    - git push public "$(git describe --abbrev=0)"
 
 publish-apk-internal:
   stage: publish
@@ -287,7 +288,7 @@ publish-apk-internal:
 
 startReview:
   before_script:
-    - export REVIEW_APP_ARTIFACT_PATH="app/build/outputs/apk/direct/debug/"${ARCHIVES_BASE_NAME}-direct-debug.apk
+    - export REVIEW_APP_ARTIFACT_PATH="app/build/outputs/apk/googlePlay/debug/"${ARCHIVES_BASE_NAME}-googlePlay-debug.apk
     - echo ${REVIEW_APP_ARTIFACT_PATH}
   extends: .startReview
 
@@ -328,6 +329,12 @@ i18n-commit-locales:
       I18N_COMMIT_BRANCH_ALLOWED: development
       I18N_COMMIT_CROWDIN_PROJECT: 'android-vpn'
   extends: .i18n-commit-locales-shared
+
+i18n-sync-crowdin-new-plans:
+  variables:
+    I18N_SYNC_BRANCH: feat/rebranding-main
+    I18N_SYNC_CROWDIN_PROJECT: 'android-vpn'
+  extends: .i18n-sync-crowdin-shared
 
 publish-github:
   stage: publish

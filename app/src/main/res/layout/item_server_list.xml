@@ -38,7 +38,6 @@
             android:layout_width="@dimen/server_list_flag_size"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/server_list_flag_margin"
-            android:layout_marginStart="16dp"
             tools:src="@drawable/flag_de"/>
 
         <LinearLayout
@@ -57,6 +56,7 @@
                 android:drawablePadding="@dimen/server_list_flag_margin"
                 android:ellipsize="end"
                 android:lines="1"
+                app:drawableTint="?attr/proton_icon_accent"
                 tools:text="DE#1" />
 
             <TextView

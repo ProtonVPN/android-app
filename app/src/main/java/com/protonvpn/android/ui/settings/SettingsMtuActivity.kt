@@ -26,10 +26,10 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.activity.viewModels
-import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ActivitySettingsMtuBinding
 import com.protonvpn.android.ui.SaveableSettingsActivity
+import com.protonvpn.android.utils.DefaultTextWatcher
 import com.protonvpn.android.utils.launchAndCollectIn
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.RuntimeException
@@ -49,7 +49,7 @@ class SettingsMtuActivity : SaveableSettingsActivity<SettingsMtuViewModel>() {
 
         with(binding) {
             inputMtu.text = viewModel.mtu
-            inputMtu.addTextChangedListener(object : TextWatcherAdapter() {
+            inputMtu.addTextChangedListener(object : DefaultTextWatcher() {
                 override fun afterTextChanged(s: Editable) {
                     viewModel.onMtuTextChanged(s.toString())
                 }

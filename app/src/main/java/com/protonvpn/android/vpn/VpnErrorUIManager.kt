@@ -61,7 +61,7 @@ class VpnErrorUIManager @Inject constructor(
                     notificationHelper.showInformationNotification(
                         content = R.string.notification_smart_protocol_disabled_content,
                         title = R.string.notification_smart_protocol_disabled_title,
-                        icon = R.drawable.ic_proton_green,
+                        icon = R.drawable.ic_vpn_status_information,
                         action = ActionItem.BgAction(
                             title = appContext.getString(R.string.enable),
                             pendingIntent = PendingIntent.getBroadcast(
@@ -136,9 +136,9 @@ class VpnErrorUIManager @Inject constructor(
                         action = if (!isUserPlusOrAbove) createPlanUpgradeAction() else null,
                         fullScreenDialog = FullScreenDialog(
                             fullScreenIcon = if (isUserPlusOrAbove)
-                                R.drawable.ic_exclamation_tunnel_illustration
+                                R.drawable.maximum_device_limit_warning
                             else
-                                R.drawable.ic_upsell_tunnel_illustration
+                                R.drawable.maximum_device_limit_upsell
                         )
                     )
                 } else null

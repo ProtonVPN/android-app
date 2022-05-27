@@ -35,7 +35,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_history_back"
+            app:srcCompat="@drawable/ic_proton_clock_rotate_left"
             app:tint="?attr/proton_icon_hint" />
 
         <TextView

@@ -61,9 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="@null"
-                app:strokeColor="?attr/proton_interaction_strong"
-                app:strokeWidth="@dimen/mtrl_btn_stroke_size"
+                android:backgroundTint="?attr/strong_red_color"
                 android:text="@string/mapCalloutDisconnect" />
 
             <me.proton.core.presentation.ui.view.ProtonButton

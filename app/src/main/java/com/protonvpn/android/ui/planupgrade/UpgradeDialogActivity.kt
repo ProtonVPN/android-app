@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.planupgrade
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
@@ -37,19 +38,20 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpgradeDialogBinding
 import com.protonvpn.android.databinding.ItemUpgradeFeatureBinding
-import com.protonvpn.android.utils.AndroidUtils.setContentViewBinding
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.openProtonUrl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 abstract class UpgradeDialogActivity : BaseActivityV2() {
 
-    val viewModel by viewModels<UpgradeDialogViewModel>()
+    private val viewModel by viewModels<UpgradeDialogViewModel>()
+    private val binding by viewBinding(ActivityUpgradeDialogBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = setContentViewBinding(ActivityUpgradeDialogBinding::inflate)
+        setContentView(binding.root)
         viewModel.setupOrchestrators(this)
         viewModel.state.asLiveData().observe(this, Observer { state ->
             if (state == UpgradeDialogViewModel.State.Success) {
@@ -59,15 +61,27 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
             }
         })
 
-        binding.buttonOther.setOnClickListener { finish() }
-        binding.buttonUpgrade.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.planUpgrade()
+        with(binding) {
+            buttonOther.setOnClickListener { finish() }
+            val showUpgrade = viewModel.showUpgrade()
+            buttonUpgrade.visibility = View.VISIBLE
+            buttonUpgrade.setText(if (showUpgrade) R.string.upgrade else R.string.close)
+            buttonUpgrade.setOnClickListener {
+                if (showUpgrade) {
+                    lifecycleScope.launch {
+                        viewModel.planUpgrade()
+                    }
+                } else {
+                    finish()
+                }
             }
+            buttonOther.isVisible = isOtherButtonVisible(showUpgrade)
         }
 
         setViews(binding)
     }
+
+    protected open fun isOtherButtonVisible(showUpgrade: Boolean) = showUpgrade
 
     protected fun showToolbar(toolbar: Toolbar) {
         initToolbarWithUpEnabled(toolbar)
@@ -84,7 +98,7 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
     protected fun ViewGroup.addFeature(text: String, @DrawableRes iconRes: Int) {
         val views = ItemUpgradeFeatureBinding.inflate(LayoutInflater.from(context), this, true)
         views.text.text = text
-        views.text.setCompoundDrawablesRelativeWithIntrinsicBounds(iconRes, 0, 0, 0)
+        views.icon.setImageResource(iconRes)
     }
 }
 
@@ -119,9 +133,9 @@ class UpgradeNetShieldDialogActivity : UpgradeDialogActivity() {
         textTitle.setText(R.string.upgrade_netshield_title_new)
         textMessage.setText(R.string.upgrade_plus_subtitle)
         with(layoutFeatureItems) {
-            addFeature(R.string.upgrade_netshield_block_ads, R.drawable.ic_unavailable_circle)
-            addFeature(R.string.upgrade_netshield_block_malware, R.drawable.ic_shield)
-            addFeature(R.string.upgrade_netshield_speed, R.drawable.ic_rocket)
+            addFeature(R.string.upgrade_netshield_block_ads, R.drawable.ic_proton_circle_slash)
+            addFeature(R.string.upgrade_netshield_block_malware, R.drawable.ic_proton_shield)
+            addFeature(R.string.upgrade_netshield_speed, R.drawable.ic_proton_rocket)
             isVisible = true
         }
     }
@@ -135,9 +149,9 @@ class UpgradeSecureCoreDialogActivity : UpgradeDialogActivity() {
         textTitle.setText(R.string.upgrade_secure_core_title_new)
         textMessage.setText(R.string.upgrade_plus_subtitle)
         with(layoutFeatureItems) {
-            addFeature(R.string.upgrade_secure_core_countries, R.drawable.ic_imap_smtp)
-            addFeature(R.string.upgrade_secure_core_encryption, R.drawable.ic_lock)
-            addFeature(R.string.upgrade_secure_core_protect, R.drawable.ic_alias)
+            addFeature(R.string.upgrade_secure_core_countries, R.drawable.ic_proton_servers)
+            addFeature(R.string.upgrade_secure_core_encryption, R.drawable.ic_proton_lock)
+            addFeature(R.string.upgrade_secure_core_protect, R.drawable.ic_proton_alias)
             isVisible = true
         }
     }
@@ -159,10 +173,10 @@ open class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
                 Constants.MAX_CONNECTIONS_IN_PLUS_PLAN,
                 Constants.MAX_CONNECTIONS_IN_PLUS_PLAN
             )
-            addFeature(R.string.upgrade_plus_countries_streaming, R.drawable.ic_play)
-            addFeature(manyDevices, R.drawable.ic_mobile_add)
-            addFeature(R.string.upgrade_plus_countries_netshield, R.drawable.ic_shield)
-            addFeature(R.string.upgrade_plus_countries_speeds, R.drawable.ic_rocket)
+            addFeature(R.string.upgrade_plus_countries_streaming, R.drawable.ic_proton_play)
+            addFeature(manyDevices, R.drawable.ic_proton_power_off)
+            addFeature(R.string.upgrade_plus_countries_netshield, R.drawable.ic_proton_shield)
+            addFeature(R.string.upgrade_plus_countries_speeds, R.drawable.ic_proton_rocket)
             isVisible = true
         }
         upgradeCountriesMoreCaption.isVisible = true
@@ -200,11 +214,13 @@ class UpgradePlusOnboardingDialogActivity : UpgradePlusCountriesDialogActivity()
 @AndroidEntryPoint
 class UpgradeSafeModeDialogActivity : UpgradeDialogActivity() {
 
+    override fun isOtherButtonVisible(showUpgrade: Boolean) = true
+
     override fun setViews(binding: ActivityUpgradeDialogBinding) {
         with(binding) {
             showToolbar(toolbar)
 
-            imagePicture.setImageResource(R.drawable.upgrade_safemode)
+            imagePicture.setImageResource(R.drawable.upgrade_non_standard_ports)
             textTitle.setText(R.string.upgrade_safe_mode_title)
             textMessage.setText(R.string.upgrade_safe_mode_message)
 
@@ -217,6 +233,8 @@ class UpgradeSafeModeDialogActivity : UpgradeDialogActivity() {
 @AndroidEntryPoint
 class UpgradeModerateNatDialogActivity : UpgradeDialogActivity() {
 
+    override fun isOtherButtonVisible(showUpgrade: Boolean) = true
+
     override fun setViews(binding: ActivityUpgradeDialogBinding) {
         with(binding) {
             showToolbar(toolbar)
@@ -226,7 +244,7 @@ class UpgradeModerateNatDialogActivity : UpgradeDialogActivity() {
             textMessage.setText(R.string.upgrade_moderate_nat_message)
 
             buttonOther.setText(R.string.upgrade_moderate_nat_learn_more)
-            buttonOther.setOnClickListener { openProtonUrl(Constants.MODERATE_NAT_INFO_URL) }
+            buttonOther.setOnClickListener { openProtonUrl(com.protonvpn.android.utils.Constants.MODERATE_NAT_INFO_URL) }
         }
     }
 }

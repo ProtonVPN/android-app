@@ -81,7 +81,7 @@ class CountryExpandedViewHolder(
                 textServer.setCompoundDrawablesRelativeWithIntrinsicBounds(
                     0,
                     0,
-                    R.drawable.ic_secure_core_arrow_color,
+                    R.drawable.ic_proton_chevrons_right_16,
                     0
                 )
                 imageCountry.setImageResource(

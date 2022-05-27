@@ -98,8 +98,8 @@ class PromoOfferActivity : BaseActivityV2() {
         views.text.text = feature.text
         Glide.with(this)
             .load(feature.iconUrl)
-            .placeholder(R.drawable.ic_check)
-            .error(R.drawable.ic_check)
+            .placeholder(R.drawable.ic_proton_checkmark)
+            .error(R.drawable.ic_proton_checkmark)
             .into(views.imageIcon)
     }
 

@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
+import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -55,12 +56,14 @@ import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.ReportBugCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
+import com.protonvpn.android.ui.NewLookDialogProvider
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TvMainFragment : BaseTvBrowseFragment() {
@@ -68,6 +71,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
     private val viewModel by activityViewModels<TvMainViewModel>()
 
     private var rowsAdapter: ArrayObjectAdapter? = null
+
+    @Inject
+    lateinit var newLookDialogProvider: NewLookDialogProvider
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -98,6 +104,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 setupRowAdapter()
             }
         }
+        newLookDialogProvider.show(requireContext(), true)
     }
 
     override fun onResume() {
@@ -119,7 +126,6 @@ class TvMainFragment : BaseTvBrowseFragment() {
                         return@OnItemViewClickedListener
                     }
                     val imageView = (viewHolder.view as TvItemCardView).binding.imageBackground
-                    val bundle = Bundle().apply { putSerializable(CountryDetailFragment.EXTRA_CARD, item) }
 
                     CountryTools.locationMap[item.vpnCountry.flag]?.let {
                         val x = it.x * CountryTools.LOCATION_TO_TV_MAP_COORDINATES_RATIO / TvMapRenderer.WIDTH
@@ -130,9 +136,14 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
                     activity?.supportFragmentManager?.commit {
                         setReorderingAllowed(true)
-                        addSharedElement(imageView,
-                                CountryDetailFragment.transitionNameForCountry(item.vpnCountry.flag))
-                        replace(R.id.container, CountryDetailFragment::class.java, bundle)
+                        addSharedElement(
+                            imageView, CountryDetailFragment.transitionNameForCountry(item.vpnCountry.flag)
+                        )
+                        replace(
+                            R.id.container,
+                            CountryDetailFragment::class.java,
+                            CountryDetailFragment.createArguments(item.vpnCountry.flag)
+                        )
                         addToBackStack(null)
                     }
                 }
@@ -180,9 +191,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
     private fun ArrayObjectAdapter.updateRecentsRow() {
         val recentsRow = CardRow(
-            title = R.string.recents,
-            icon = R.drawable.ic_recent,
-            cards = viewModel.getRecentCardList(requireContext())
+            title = R.string.quickConnect,
+            icon = R.drawable.ic_proton_power_off_32,
+            cards = viewModel.getRecentCardList(requireContext()),
+            tintIcon = true
         )
         addOrReplace(0, createRow(recentsRow, 0))
     }
@@ -210,8 +222,10 @@ class TvMainFragment : BaseTvBrowseFragment() {
 
         val settingsRow = CardRow(
             title = R.string.tvRowMore,
-            icon = R.drawable.row_more_icon,
-            cards = listOf(LogoutCard(getString(R.string.tv_signout_label)), ReportBugCard(getString(R.string.drawerReportProblem))))
+            icon = R.drawable.ic_proton_three_dots_horizontal_32,
+            cards = listOf(LogoutCard(getString(R.string.tv_signout_label)), ReportBugCard(getString(R.string.drawerReportProblem))),
+            tintIcon = true
+        )
         addOrReplace(index, createRow(settingsRow, index))
         index++
     }
@@ -271,6 +285,11 @@ class TvMainFragment : BaseTvBrowseFragment() {
             with(holder as RowViewHolder) {
                 binding.icon.setImageResource(row.icon)
                 binding.label.setText(row.title)
+                if (row.tintIcon) {
+                    binding.icon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.tvCardRowIconColor))
+                } else {
+                    binding.icon.colorFilter = null
+                }
             }
         }
 

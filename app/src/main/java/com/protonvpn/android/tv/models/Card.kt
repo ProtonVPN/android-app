@@ -23,13 +23,12 @@ import androidx.annotation.DrawableRes
 import com.protonvpn.android.R
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.VpnCountry
-import java.io.Serializable
 
 sealed class Card(
     var title: Title? = null,
     var bottomTitle: Title? = null,
     val backgroundImage: DrawableImage?
-) : Serializable
+)
 
 class CountryCard(
     val countryName: String,
@@ -45,7 +44,7 @@ class CountryCard(
 
 class ProfileCard(
     title: String = "",
-    @DrawableRes titleDrawable: Int = R.drawable.ic_thunder,
+    @DrawableRes titleDrawable: Int = R.drawable.ic_proton_bolt,
     @DrawableRes backgroundImage: Int,
     val profile: Profile
 ) : Card(
@@ -62,16 +61,16 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
     title = Title(title), backgroundImage = DrawableImage(image)
 )
 
-class LogoutCard(title: String) : IconCard(title, R.drawable.ic_sign_out_tv)
-class ReportBugCard(title: String) : IconCard(title, R.drawable.ic_report_issue_tv)
+class LogoutCard(title: String) : IconCard(title, R.drawable.ic_proton_arrow_out_from_rectangle)
+class ReportBugCard(title: String) : IconCard(title, R.drawable.ic_proton_bug)
 
 class Title(
     val text: String,
     @DrawableRes val resId: Int? = null,
     @ColorRes var backgroundColorRes: Int = R.color.tvGridItemOverlay
-) : Serializable
+)
 
 class DrawableImage(
     @DrawableRes val resId: Int,
     @ColorRes val tint: Int? = null
-) : Serializable
+)

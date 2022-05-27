@@ -18,6 +18,7 @@
   -->
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
@@ -28,7 +29,7 @@
         android:layout_marginEnd="8dp"
         android:adjustViewBounds="true"
         android:visibility="gone"
-        tools:src="@drawable/se" />
+        tools:src="@drawable/flag_se" />
 
     <ImageView
         android:id="@+id/imageSCArrow"
@@ -36,8 +37,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_secure_core_arrow_color"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_proton_chevrons_right_16"
+        app:tint="?attr/proton_icon_accent" />
 
     <ImageView
         android:id="@+id/imageExitCountry"
@@ -46,7 +48,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="8dp"
         android:adjustViewBounds="true"
-        tools:src="@drawable/de" />
+        tools:src="@drawable/flag_de" />
 
     <TextView
         android:id="@+id/textCountry"

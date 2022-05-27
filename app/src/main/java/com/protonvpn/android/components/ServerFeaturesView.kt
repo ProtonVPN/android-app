@@ -36,7 +36,7 @@ class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(
     private val binding = ServerFeaturesViewBinding.inflate(LayoutInflater.from(context), this)
 
     @ColorInt
-    var color: Int = MaterialColors.getColor(this, R.attr.proton_icon_hint)
+    var color: Int = MaterialColors.getColor(this, R.attr.proton_icon_norm)
         set(value) {
             field = value
             update()

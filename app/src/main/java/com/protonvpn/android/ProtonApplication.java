@@ -23,6 +23,8 @@ import static kotlinx.coroutines.CoroutineScopeKt.MainScope;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
@@ -39,23 +41,21 @@ import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.logging.ProtonLoggerImpl;
 import com.protonvpn.android.logging.SettingChangesLogger;
 import com.protonvpn.android.search.UpdateServersOnLocaleChange;
-import com.protonvpn.android.utils.AndroidUtils;
+import com.protonvpn.android.ui.onboarding.ReviewTracker;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.VpnCoreLogger;
 import com.protonvpn.android.vpn.CertificateRepository;
 import com.protonvpn.android.vpn.LogcatLogCapture;
-import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
 import com.protonvpn.android.vpn.MaintenanceTracker;
+import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.jetbrains.annotations.NotNull;
 import org.strongswan.android.logic.StrongSwanApplication;
-
-import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,6 @@ import dagger.hilt.android.EntryPointAccessors;
 import dagger.hilt.components.SingletonComponent;
 import go.Seq;
 import kotlinx.coroutines.ExecutorsKt;
-import leakcanary.AppWatcher;
 import me.proton.core.accountmanager.data.AccountStateHandler;
 import me.proton.core.util.kotlin.CoreLogger;
 
@@ -89,6 +88,7 @@ public class ProtonApplication extends Application {
         CoreLoginMigration getCoreLoginMigration();
         CurrentStateLogger getCurrentStateLogger();
         LogcatLogCapture getLogcatLogCapture();
+        ReviewTracker getReviewTracker();
         MaintenanceTracker getMaintenanceTracker();
         SettingChangesLogger getSettingChangesLogger();
         UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
@@ -110,9 +110,6 @@ public class ProtonApplication extends Application {
         TrustKit.initializeWithNetworkSecurityConfiguration(this);
 
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
-
-        if (BuildConfig.DEBUG)
-            initLeakCanary();
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
@@ -139,6 +136,7 @@ public class ProtonApplication extends Application {
         dependencies.getLogcatLogCapture();
         dependencies.getSettingChangesLogger();
 
+        dependencies.getReviewTracker();
         dependencies.getAccountStateHandler().start();
         dependencies.getCertificateRepository();
         dependencies.getMaintenanceTracker();
@@ -159,16 +157,6 @@ public class ProtonApplication extends Application {
         ProtonPreferences preferences =
             new ProtonPreferences(this, BuildConfig.PREF_SALT, BuildConfig.PREF_KEY, "Proton-Secured");
         Storage.setPreferences(preferences);
-    }
-
-    private void initLeakCanary() {
-         if (AndroidUtils.INSTANCE.isTV(this)) {
-            // Leanback seems to have issues with leaking fragment views
-            AppWatcher.Config config = AppWatcher.getConfig().newBuilder()
-                .watchFragmentViews(false)
-                .build();
-            AppWatcher.setConfig(config);
-        }
     }
 
     private void initLogger() {

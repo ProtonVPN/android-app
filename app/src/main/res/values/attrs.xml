@@ -24,6 +24,7 @@
     <attr name="serverLoadLow" format="color"/>
     <attr name="serverLoadMedium" format="color"/>
     <attr name="serverLoadHigh" format="color"/>
+    <attr name="strong_red_color" format="color" />
 
     <declare-styleable name="CountryWithFlagsView">
         <attr name="android:textAppearance" />

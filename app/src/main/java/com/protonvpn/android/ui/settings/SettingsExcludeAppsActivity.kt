@@ -110,10 +110,10 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
         val selectedViewHolders = if (selectedItems.isEmpty()) {
             listOf(EmptyStateItem())
         } else {
-            selectedItems.map { LabeledItemActionViewHolder(it, R.drawable.ic_clear, actionRemove) }
+            selectedItems.map { LabeledItemActionViewHolder(it, R.drawable.ic_proton_cross, actionRemove) }
         }
         val availableRegularViewHolders = availableRegularItems.map {
-            LabeledItemActionViewHolder(it, R.drawable.ic_plus, actionAdd)
+            LabeledItemActionViewHolder(it, R.drawable.ic_proton_plus, actionAdd)
         }
         val availableSystemViewHolders = when (availableSystemItems) {
             is SettingsExcludeAppsViewModel.SystemAppsState.NotLoaded ->
@@ -122,7 +122,7 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
                 listOf(LoadSystemAppsSpinnerItem())
             is SettingsExcludeAppsViewModel.SystemAppsState.Content -> {
                 availableSystemItems.apps.map {
-                    LabeledItemActionViewHolder(it, R.drawable.ic_plus, actionAdd)
+                    LabeledItemActionViewHolder(it, R.drawable.ic_proton_plus, actionAdd)
                 }
             }
         }

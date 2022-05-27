@@ -56,7 +56,8 @@
 
         <activity
             android:name=".ui.onboarding.SplashActivity"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:theme="@style/ProtonTheme.Splash.Vpn.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -71,12 +72,6 @@
             android:theme="@style/AppTheme.TV.Browse"/>
         <activity
             android:name=".tv.TvUpgradeActivity"
-            android:theme="@style/AppTheme.TV.Browse" />
-        <activity
-            android:name=".tv.TvTrialDialogActivity"
-            android:theme="@style/AppTheme.TV.Browse" />
-        <activity
-            android:name=".tv.TvGenericDialogActivity"
             android:theme="@style/AppTheme.TV.Browse" />
 
         <activity
@@ -107,7 +102,7 @@
         <activity
             android:name=".ui.main.MobileMainActivity"
             android:label="@string/app_name"
-            android:theme="@style/ProtonTheme.Splash.Vpn"
+            android:theme="@style/ProtonTheme.Splash.Vpn.Dark"
             android:screenOrientation="portrait" />
 
         <activity
@@ -162,7 +157,7 @@
         </service>
         <service
             android:name=".components.QuickTileService"
-            android:icon="@drawable/ic_proton"
+            android:icon="@drawable/ic_vpn_status_information"
             android:label="Quick connect"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
@@ -212,8 +207,12 @@
             android:name=".ui.ProtocolSelectionActivity"
             android:label="@string/protocolLabel"/>
         <activity
-            android:name=".ui.drawer.AccountActivity"
+            android:name=".ui.account.AccountActivity"
             android:label="@string/activityAccountTitle" />
+        <activity
+            android:name=".ui.account.UseCouponActivity"
+            android:label="@string/use_coupon_title"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.settings.OssLicensesActivity"
             android:label="@string/activityLicensesTitle" />

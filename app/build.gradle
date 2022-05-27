@@ -193,7 +193,8 @@ android {
         }
 
         black {
-            versionNameSuffix "-black"
+            versionNameSuffix "+black"
+            applicationIdSuffix '.black'
             def blackToken = System.getenv("BLACK_TOKEN")
             def blackDomain = System.getenv("BLACK_DOMAIN")
             buildConfigField "String", "STORE_SUFFIX", "\"\""
@@ -585,7 +586,7 @@ dependencies {
         exclude module: 'support-annotations'
     }
 
-    implementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.8.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.8.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version"
@@ -638,6 +639,7 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation "androidx.security:security-crypto:1.0.0"
     implementation "androidx.viewpager2:viewpager2:1.1.0-beta01"
+    implementation "androidx.core:core-splashscreen:1.0.0-beta01"
 
     // Play core
     googlePlayImplementation("com.google.android.play:core:1.10.3")
@@ -656,7 +658,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Proton Core libs
-    def core_version = "7.1.11"
+    def core_version = "7.2.1"
     implementation 'me.proton.vpn:go-vpn-lib:0.1.10'
     implementation "me.proton.core:domain:$core_version"
     implementation "me.proton.core:network:$core_version"

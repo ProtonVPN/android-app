@@ -24,7 +24,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.protonvpn.android.ui.drawer.AccountActivity"
+    tools:context="com.protonvpn.android.ui.account.AccountActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp"
     tools:showIn="@layout/activity_account">
@@ -108,7 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:layout_marginEnd="@dimen/gap_medium"
-            app:srcCompat="@drawable/ic_info_circle_24" />
+            app:srcCompat="@drawable/ic_proton_info_circle"
+            app:tint="?attr/proton_icon_weak" />
 
         <TextView
             android:id="@+id/subscriptionDetails"
@@ -125,6 +126,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:visibility="gone"
         android:text="@string/accountButtonManage" />
+
+    <me.proton.core.presentation.ui.view.ProtonButton
+        android:id="@+id/buttonCoupon"
+        style="@style/ProtonButton.Borderless.Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+        android:visibility="gone"
+        android:text="@string/accountButtonUseCoupon" />
 
 </LinearLayout>

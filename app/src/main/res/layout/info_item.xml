@@ -33,8 +33,7 @@
         android:layout_height="16dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
-        app:tint="@color/icon_norm"
-        tools:src="@drawable/ic_smart_routing" />
+        tools:src="@drawable/ic_proton_globe" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -73,7 +72,8 @@
             android:background="?attr/selectableItemBackground"
             android:drawablePadding="8dp"
             android:text="@string/activity_information_learn_more"
-            android:textColor="?attr/brand_norm"
-            app:drawableEndCompat="@drawable/ic_external_link_brand" />
+            android:textColor="?attr/proton_text_accent"
+            app:drawableEndCompat="@drawable/ic_proton_arrow_out_square_20"
+            app:drawableTint="?attr/proton_icon_accent" />
     </LinearLayout>
 </LinearLayout>

@@ -30,9 +30,8 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.protonvpn.android.components.ProtonLoader
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <include
+            layout="@layout/item_proton_loader" />
 
         <TextView
             android:id="@+id/textLoading"

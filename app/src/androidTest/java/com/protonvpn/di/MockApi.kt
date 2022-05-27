@@ -29,6 +29,7 @@ import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.DefaultPortsConfig
 import com.protonvpn.android.appconfig.FeatureFlags
+import com.protonvpn.android.appconfig.RatingConfig
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -117,7 +118,8 @@ class MockApi(
                 openVPNEnabled = true,
                 wireguardEnabled = false
             ),
-            defaultPortsConfig = DefaultPortsConfig.defaultConfig
+            defaultPortsConfig = DefaultPortsConfig.defaultConfig,
+            ratingConfig = RatingConfig(listOf("vpnplus"), 3, 14, 3, 14)
         ))
 
     override suspend fun getSession(): ApiResult<SessionListResponse> =

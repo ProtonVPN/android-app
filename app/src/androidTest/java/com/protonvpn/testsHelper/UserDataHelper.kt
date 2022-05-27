@@ -125,4 +125,4 @@ class UserDataHelper {
 }
 
 fun VpnUser.toVpnInfoResponse() = VpnInfoResponse(1000, VPNInfo(status, expirationTime, planName, planDisplayName, maxTier,
-    maxConnect, name, groupId, password), subscribed, services, delinquent)
+    maxConnect, name, groupId, password), subscribed, services, delinquent, credit, hasPaymentMethod)

@@ -23,8 +23,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/tvBackground"
     android:padding="32dp">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/logo_vpn_tv"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -41,53 +53,26 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="sans-serif-thin"
             android:text="@string/tv_upgrade_title"
             android:textColor="@color/white"
-            android:textSize="22sp" />
-
+            android:textSize="24sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:gravity="center_horizontal"
+            android:maxWidth="600dp"
             android:text="@string/tv_upgrade_description"
             android:textColor="@color/white" />
 
-        <LinearLayout
+        <include
+            android:id="@+id/stream_icons"
+            layout="@layout/tv_login_stream_icons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal">
-
-            <com.protonvpn.android.components.StreamingIcon
-                android:id="@+id/streamingNetflix"
-                android:layout_width="64dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp" />
-
-            <com.protonvpn.android.components.StreamingIcon
-                android:id="@+id/streamingPrime"
-                android:layout_width="64dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp" />
-
-            <com.protonvpn.android.components.StreamingIcon
-                android:id="@+id/streamingDisney"
-                android:layout_width="64dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textUpgradeDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textColor="@color/white"
-            tools:text="@string/tv_upgrade_url_details" />
+            android:layout_marginTop="4dp" />
 
         <Button
             android:id="@+id/backButton"
@@ -98,5 +83,16 @@
             android:foreground="@drawable/tv_focus_foreground"
             android:text="@string/back" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textUpgradeDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/tv_upgrade_url_details" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -70,7 +70,7 @@
             android:drawablePadding="12dp"
             android:paddingVertical="12dp"
             android:text="@string/noVpnPermissionGrantPermissionTitle"
-            app:drawableStartCompat="@drawable/ic_key" />
+            app:drawableStartCompat="@drawable/ic_proton_key" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="12dp"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_chevron_right"
+            app:srcCompat="@drawable/ic_proton_chevron_right"
             app:tint="?attr/proton_icon_hint" />
     </LinearLayout>
 
@@ -98,7 +98,7 @@
             android:drawablePadding="12dp"
             android:paddingVertical="12dp"
             android:text="@string/noVpnPermissionDisableAlwaysOnTitle"
-            app:drawableStartCompat="@drawable/ic_unavailable_circle" />
+            app:drawableStartCompat="@drawable/ic_proton_circle_slash" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="12dp"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_chevron_right"
+            app:srcCompat="@drawable/ic_proton_chevron_right"
             app:tint="?attr/proton_icon_hint" />
     </LinearLayout>
 

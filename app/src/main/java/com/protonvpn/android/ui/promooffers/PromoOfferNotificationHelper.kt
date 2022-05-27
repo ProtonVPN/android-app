@@ -53,7 +53,7 @@ class PromoOfferNotificationHelper(
             Glide.with(activity)
                 .asDrawable()
                 .load(notification.iconUrl)
-                .error(R.drawable.ic_gift)
+                .error(R.drawable.ic_proton_gift)
                 .into(object : DrawableImageViewTarget(imageNotification) {
                     override fun setDrawable(drawable: Drawable?) {
                         // setDrawable is called to set the error drawable.

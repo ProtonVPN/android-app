@@ -34,7 +34,7 @@
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toTopOf="@+id/openServerList"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@drawable/au" />
+        tools:srcCompat="@drawable/flag_au" />
 
     <TextView
         android:id="@+id/countryName"
@@ -96,7 +96,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_detail_connect_streaming"
-            android:drawableStart="@drawable/connect_streaming_drawable"
+            android:drawableStart="@drawable/ic_proton_lock_filled"
+            android:drawableTint="@color/white"
             android:drawablePadding="4dp" />
 
         <CheckBox
@@ -140,14 +141,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/transparent"
+        android:drawablePadding="4dp"
         android:focusable="true"
         android:text="@string/tv_server_list"
-        android:backgroundTint="@color/transparent"
         android:textAllCaps="false"
-        android:drawableEnd="@drawable/ic_white_down"
-        android:drawableTint="@color/white"
+        app:drawableEndCompat="@drawable/ic_proton_chevron_down"
+        app:drawableTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

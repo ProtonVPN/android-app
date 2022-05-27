@@ -17,12 +17,28 @@
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Can't use TextView with compound drawable because the icons need to be scaled to 16dp -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/text"
-    style="@style/Proton.Text.DefaultSmall"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:drawablePadding="8dp"
-    app:drawableTint="?attr/brand_norm" />
+    android:layout_marginBottom="12dp"
+    tools:ignore="UseCompoundDrawables">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:importantForAccessibility="no"
+        app:tint="?attr/proton_icon_accent" />
+
+    <TextView
+        android:id="@+id/text"
+        style="@style/Proton.Text.DefaultSmall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1" />
+</LinearLayout>

@@ -28,5 +28,6 @@ class AppConfigResponse(
     val underMaintenanceDetectionDelay: Long = Constants.DEFAULT_MAINTENANCE_CHECK_MINUTES,
     @SerialName(value = "DefaultPorts") val defaultPortsConfig: DefaultPortsConfig?,
     @SerialName(value = "FeatureFlags") val featureFlags: FeatureFlags,
-    @SerialName(value = "SmartProtocol") val smartProtocolConfig: SmartProtocolConfig?
+    @SerialName(value = "SmartProtocol") val smartProtocolConfig: SmartProtocolConfig?,
+    @SerialName(value = "RatingSettings") val ratingConfig: RatingConfig?
 )

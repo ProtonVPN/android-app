@@ -30,9 +30,8 @@
         app:layout_constraintBottom_toTopOf="@id/buttonCancel"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.protonvpn.android.components.ProtonLoader
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <include
+            layout="@layout/item_proton_loader" />
 
         <TextView
             style="@style/Proton.Text.Default"

@@ -31,11 +31,11 @@
         android:layout_weight="55"
         android:background="@color/background_secondary">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/image"
             android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="36dp"
-            app:srcCompat="@drawable/ic_welcome_to_protonvpn"
+            app:srcCompat="@drawable/onboarding_welcome_to_protonvpn"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

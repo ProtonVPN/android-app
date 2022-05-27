@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.auth.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
@@ -47,6 +48,8 @@ data class VpnUser(
     val subscribed: Int,
     val services: Int,
     val delinquent: Int,
+    @ColumnInfo(defaultValue = "0") val credit: Int,
+    @ColumnInfo(defaultValue = "false") val hasPaymentMethod: Boolean,
     val status: Int,
     val expirationTime: Int,
     val planName: String?,
@@ -60,7 +63,7 @@ data class VpnUser(
     val sessionId: SessionId
 ) {
     val accountType get() = if (services == 4)
-        "ProtonVPN Account" else "ProtonMail Account"
+        "Proton VPN Account" else "Proton Mail Account"
 
     val isFreeUser get() = maxTier == 0
     val isBasicUser get() = userTier == 1

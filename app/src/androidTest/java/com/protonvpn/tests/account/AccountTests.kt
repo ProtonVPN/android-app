@@ -60,8 +60,6 @@ class AccountTests {
     fun checkIfUserNameDisplayedInAccountSection() {
         homeRobot.openAccountView()
         accountRobot.verify { checkIfCorrectUsernameIsDisplayed(testUser) }
-        accountRobot.clickManageAccount()
-            .verify { checkIfAccountButtonHasCorrectUrl() }
     }
 
     @Test

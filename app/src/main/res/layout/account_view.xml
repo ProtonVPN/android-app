@@ -24,7 +24,7 @@
     android:clickable="true"
     android:descendantFocusability="afterDescendants"
     android:focusable="true"
-    android:padding="@dimen/gap_large">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/textUserInitials"

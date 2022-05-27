@@ -28,7 +28,7 @@ import me.proton.core.test.android.instrumented.ui.espresso.OnView
  */
 class TvLoginRobot : BaseRobot() {
 
-    fun waitUntilLoggedIn(): TvCountryListRobot = waitUntilDisplayedByText(R.string.recents)
+    fun waitUntilLoggedIn(): TvCountryListRobot = waitUntilDisplayedByText(R.string.quickConnect)
     fun waitUntilLoginCodeIsDisplayed(): TvLoginRobot =
             waitUntilDisplayedByText(R.string.tv_login_step3_description)
 

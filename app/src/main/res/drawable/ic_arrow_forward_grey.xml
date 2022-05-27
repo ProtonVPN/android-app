@@ -19,10 +19,13 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="16dp"
     android:height="16dp"
-    android:viewportWidth="16"
-    android:viewportHeight="16">
+    android:autoMirrored="true"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
     <path
-        android:fillColor="#9CA0AA"
-        android:fillType="evenOdd"
-        android:pathData="M9.02,2.81L8.31,3.52L12.79,8H2V9H12.79L8.31,13.48L9.02,14.19L14.71,8.5L9.02,2.81Z" />
+        android:pathData="M2.75,11.9991L21.25,11.9991M15.6398,17.6914L21.1661,12.2004C21.278,12.0892 21.278,11.909 21.1661,11.7978L15.6398,6.3068"
+        android:strokeWidth="1.5"
+        android:fillColor="#00000000"
+        android:strokeColor="#9CA0AA"
+        android:strokeLineCap="round"/>
 </vector>

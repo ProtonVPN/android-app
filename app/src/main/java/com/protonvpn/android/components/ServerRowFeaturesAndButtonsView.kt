@@ -91,7 +91,7 @@ class ServerRowFeaturesAndButtonsView : LinearLayout {
 
         serverFeatures.isVisible = featuresEnabled && userHasAccess
         val featuresColorAttr =
-            if (isOnline && userHasAccess) R.attr.proton_icon_hint else R.attr.proton_icon_disabled
+            if (isOnline && userHasAccess) R.attr.proton_icon_norm else R.attr.proton_icon_disabled
         serverFeatures.color = MaterialColors.getColor(serverFeatures, featuresColorAttr)
         serverFeatures.keywords = featureKeywords
 

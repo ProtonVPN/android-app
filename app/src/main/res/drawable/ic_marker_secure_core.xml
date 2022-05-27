@@ -22,8 +22,8 @@
     android:viewportWidth="24.0"
     android:viewportHeight="24.0">
     <path
-        android:fillColor="@color/grey"
+        android:fillColor="?attr/proton_background_norm"
         android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z"
-        android:strokeColor="?colorAccent"
-        android:strokeWidth="1" />
+        android:strokeColor="?attr/proton_icon_accent"
+        android:strokeWidth="2" />
 </vector>
