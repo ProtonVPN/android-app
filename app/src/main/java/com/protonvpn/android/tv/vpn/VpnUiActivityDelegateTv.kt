@@ -52,6 +52,7 @@ class VpnUiActivityDelegateTv(
         MaterialDialog.Builder(activity).theme(Theme.DARK)
             .title(R.string.restrictedMaintenanceTitle)
             .content(R.string.restrictedMaintenanceDescription)
+            .negativeFocus(true)
             .negativeText(R.string.got_it)
             .show()
     }

@@ -19,7 +19,6 @@
 package com.protonvpn.android.tv.main
 
 import android.content.Context
-import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
@@ -31,7 +30,6 @@ import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
-import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.components.BaseTvActivity
@@ -57,7 +55,6 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.StreamingViewModelHelper
 import com.protonvpn.android.utils.UserPlanManager
-import com.protonvpn.android.utils.mapMany
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -88,13 +85,13 @@ class TvMainViewModel @Inject constructor(
     certificateRepository: CertificateRepository,
     purchaseEnabled: CachedPurchaseEnabled
 ) : MainViewModel(
-        mainScope,
-        userPlanManager,
-        certificateRepository,
-        logoutUseCase,
-        currentUser,
-        purchaseEnabled),
-    StreamingViewModelHelper {
+    mainScope,
+    userPlanManager,
+    certificateRepository,
+    logoutUseCase,
+    currentUser,
+    purchaseEnabled
+), StreamingViewModelHelper {
 
     val selectedCountryFlag = MutableLiveData<String?>()
     val connectedCountryFlag = MutableLiveData<String>()
@@ -314,25 +311,22 @@ class TvMainViewModel @Inject constructor(
     }
 
     fun connect(activity: BaseTvActivity, card: CountryCard?) {
-        val profile = if (card != null)
+        val profile = if (card != null) {
             serverManager.getBestScoreServer(card.vpnCountry)?.let {
                 Profile.getTempProfile(it, serverManager)
             }
-        else
+        } else {
             serverManager.defaultConnection
+        }
         connect(activity, profile, "country card (TV)")
     }
 
     private fun connect(activity: BaseTvActivity, profile: Profile?, uiElement: String) {
-        if (profile?.server?.online != true) {
-            showMaintenanceDialog(activity)
+        if (profile != null) {
+            ProtonLogger.log(UiConnect, uiElement)
+            vpnConnectionManager.connect(activity.getVpnUiDelegate(), profile, "user via $uiElement")
         } else {
-            if (currentUser.vpnUserCached().hasAccessToServer(profile.server)) {
-                ProtonLogger.log(UiConnect, uiElement)
-                vpnConnectionManager.connect(activity.getVpnUiDelegate(), profile, "user via $uiElement")
-            } else {
-                activity.launchActivity<TvUpgradeActivity>()
-            }
+            showMaintenanceDialog(activity)
         }
     }
 
