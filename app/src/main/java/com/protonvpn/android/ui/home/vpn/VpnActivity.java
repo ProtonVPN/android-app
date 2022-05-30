@@ -57,8 +57,4 @@ public abstract class VpnActivity extends BaseActivity {
         ProtonLogger.INSTANCE.log(LogEventsKt.UiConnect, uiElement);
         vpnConnectionManager.connect(getVpnUiDelegate(), profileToConnect, "user via " + uiElement);
     }
-
-    protected void showSecureCoreUpgradeDialog() {
-        startActivity(new Intent(this, UpgradeSecureCoreDialogActivity.class));
-    }
 }

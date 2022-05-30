@@ -32,6 +32,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.HtmlTools
 
 class VpnUiActivityDelegateTv(
@@ -46,6 +47,11 @@ class VpnUiActivityDelegateTv(
 
     override fun showPlusUpgradeDialog() {
         activity.startActivity(Intent(activity, TvUpgradeActivity::class.java))
+    }
+
+    override fun showSecureCoreUpgradeDialog() {
+        DebugUtils.debugAssert("Secure Core not supported on TV") { false }
+        showPlusUpgradeDialog()
     }
 
     override fun showMaintenanceDialog() {

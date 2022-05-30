@@ -27,6 +27,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity
 import com.protonvpn.android.vpn.PermissionContract
 import com.protonvpn.android.vpn.ReasonRestricted
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -52,10 +53,12 @@ abstract class VpnUiActivityDelegate(
 
     abstract fun showPlusUpgradeDialog()
     abstract fun showMaintenanceDialog()
+    abstract fun showSecureCoreUpgradeDialog()
 
     override fun onServerRestricted(reason: ReasonRestricted): Boolean {
         when (reason) {
-            ReasonRestricted.UpgradeNeeded -> showPlusUpgradeDialog()
+            ReasonRestricted.SecureCoreUpgradeNeeded -> showSecureCoreUpgradeDialog()
+            ReasonRestricted.PlusUpgradeNeeded -> showPlusUpgradeDialog()
             ReasonRestricted.Maintenance -> showMaintenanceDialog()
         }
         return true
@@ -84,6 +87,10 @@ class VpnUiActivityDelegateMobile(
 
     override fun showPlusUpgradeDialog() {
         activity.startActivity(Intent(activity, UpgradePlusCountriesDialogActivity::class.java))
+    }
+
+    override fun showSecureCoreUpgradeDialog() {
+        activity.startActivity(Intent(activity, UpgradeSecureCoreDialogActivity::class.java))
     }
 
     override fun showMaintenanceDialog() {
