@@ -145,7 +145,7 @@
     <string name="listItemMaintenance">Em manutenção</string>
     <string name="listAllCountries">Todas as localizações (%1$d)</string>
     <string name="listFreeCountries">Localizações Free (%1$d)</string>
-    <string name="listPremiumCountries">Basic &amp; Plus locations (%1$d)</string>
+    <string name="listPremiumCountries">Localizações Basic e Plus (%1$d)</string>
     <string name="listFastestServer">Servidor mais rápido</string>
     <string name="listFreeServers">Servidores gratuitos (%1$d)</string>
     <string name="listBasicServers">Servidores Basic (%1$d)</string>
@@ -169,7 +169,7 @@
     <string name="error_generic_with_reason">O Proton VPN não pôde estabelecer uma conexão. Por favor, tente novamente em alguns segundos.<br/><br/> Detalhes: %1$s</string>
     <string name="reconnect">Reconectar</string>
     <string name="reconnect_now">Reconectar agora</string>
-    <string name="try_reconnecting">Try reconnecting</string>
+    <string name="try_reconnecting">Tentar reconectar</string>
     <string name="connect">Conectar</string>
     <string name="upgrade">Upgrade</string>
     <string name="retry">Tentar novamente</string>

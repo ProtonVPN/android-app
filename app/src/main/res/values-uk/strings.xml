@@ -106,7 +106,7 @@
     <string name="settingsSectionSecurity">Безпека</string>
     <string name="settingsSectionAdvanced">Додатково</string>
     <string name="settingsAutoStartTitle">Запускати з Android</string>
-    <string name="settingsAutoStartDescription">Proton VPN автоматично запускатиметься при запуску системи</string>
+    <string name="settingsAutoStartDescription">Proton VPN автоматично запускатиметься під час запуску системи</string>
     <string name="settingsBypassLocalTitle">LAN-з’єднання</string>
     <string name="settingsDnsLeakProtectionTitle">Захист від витоку DNS</string>
     <string name="settingsDnsLeakDescription">Запобігання витоку даних DNS-запитів (завжди увімкнено)</string>
@@ -166,7 +166,7 @@
     <string name="error_auth_failed">Помилка автентифікації користувача.</string>
     <string name="error_assessment_failed">Не вдалося перевірити безпеку.</string>
     <string name="error_generic">Невідома помилка під час з\'єднання.</string>
-    <string name="error_generic_with_reason">Proton VPN не зміг встановити VPN-з\'єднання. Будь ласка, повторіть спробу через кілька секунд.<br/><br/> Докладніше: %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN не зміг встановити VPN-з\'єднання. Спробуйте знову через декілька секунд.<br/><br/> Докладніше: %1$s</string>
     <string name="reconnect">Повторно з\'єднатись</string>
     <string name="reconnect_now">Повторно з\'єднатися</string>
     <string name="try_reconnecting">Try reconnecting</string>
@@ -242,13 +242,13 @@
     <string name="noVpnPermissionMainTitle">Дії, необхідні для з\'єднання з VPN</string>
     <string name="noVpnPermissionMainMessage">Щоб з\'єднатися з Proton VPN, виконайте такі дії:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Надати дозвіл VPN</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Androіd вимагає вашого дозволу для з\'єднання з Proton VPN. Надайте дозвіл, натиснувши \"OK\", коли з\'явиться вікно \"Запит з\'єднання\" від Androіd.</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android вимагає вашого дозволу для з\'єднання з Proton VPN. Надайте дозвіл, торкнувшись \"Гаразд\", коли з\'явиться вікно \"Запит з\'єднання\" від Android.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Вимкніть функцію \"Постійна VPN\" для інших додатків</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Androіd не підтримує кілька додатків VPN. Вимкніть функцію \"Постійна VPN\" для будь-якого додатка VPN, крім Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Додаток ProtonVpn</string>
     <string name="noVpnPermissionOtherAppLabel">Інші додатки VPN</string>
     <string name="noVpnPermissionOpenSettings">Відкрити налаштування Android VPN</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Будь ласка, вимкніть Постійну VPN для всіх інших додатків VPN у системних налаштуваннях Androіd VPN, тому що це не дозволяє Proton VPN встановити VPN-з\'єднання. Також дозвольте VPN, якщо з\'явиться діалогове вікно із запитом на дозвіл VPN. Також може знадобитися видалити інші додатки VPN, щоб уникнути конфліктів. Після цього, повторіть спробу. <a href="%1$s">Докладніше</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Будь ласка, вимкніть Постійну VPN для всіх інших додатків VPN у системних налаштуваннях Androіd, тому що це не дозволяє Proton VPN встановити з\'єднання. Також дозвольте VPN, якщо з\'явиться діалогове вікно із запитом про дозвіл. Можливо, також доведеться видалити інші додатки VPN, щоб уникнути конфліктів. Після цього повторіть спробу. <a href="%1$s">Докладніше</a>]]></string>
     <string name="error_prepare_vpn_settings">Перейти до налаштувань VPN Android</string>
     <string name="error_prepare_vpn_title">Помилка: Проблема з дозволами VPN</string>
     <string name="error_server_not_set">Сервер більше не доступний</string>
@@ -333,7 +333,7 @@
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Торкніться перемикача поруч із <b>Блокувати з\'єднання без VPN</b>, щоб увімкнути Kіll Swіtch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Відкрити налаштування Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Увімкнення Аварійного стопу вимкне роздільне тунелювання, оскільки Аварійний стоп блокує усі з\'єднання поза тунелем VPN</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Увімкнення Kill Switch вимкне роздільне тунелювання, оскільки Kill Switch блокує усі з\'єднання поза тунелем VPN</string>
     <string name="settingsSmartProtocolDescription">Автоматично застосовувати протокол і порт для найкращого підключення.</string>
     <string name="settingsSendCrashReportsTitle">Анонімні звіти про збої</string>
     <string name="settingsSendCrashReportsDescription">Якщо застосунок аварійно завершує роботу або неочікувано закривається, нашим інженерам надсилатиметься звіт, який міститиме інформацію про можливі причини помилки. Ми використовуємо ці дані лише для поліпшення застосунку.</string>
@@ -372,7 +372,7 @@
     <string name="tv_detail_description_plus">Дивіться улюблене відео, фільми або спортивні передачі в своїх додатках.</string>
     <string name="tv_login_title_signin">Увійти до Proton VPN</string>
     <string name="tv_login_title_welcome">Переглядайте свої улюблені відеоматеріали</string>
-    <string name="tv_login_welcome_description">Дивіться відеоматеріали з понад 50 країн, включно з YouTube і Twіtch. Транслюйте Netflіx, Amazon Prіme і Hulu з Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description">Дивіться відеоматеріали з понад 50 країн, включно з YouTube і Twitch. Транслюйте Netflix, Amazon Prime і Hulu з Proton VPN Plus.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Отримайте свій обліковий запис Proton VPN на <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Увійти</string>
     <string name="tv_login_step1_description"><![CDATA[Перейдіть на <b>%1$s</b> на своєму мобільному пристрої чи комп\'ютері]]></string>
@@ -416,12 +416,12 @@
     <string name="settingsReconnectToChangeDialogContent">Це перезапустить ваше з\'єднання.</string>
     <string name="reconnectToEnableNetshield">Це перезапустить ваше з\'єднання.\n\nПримітка: Деякі сайти можуть не завантажуватися з увімкненим NetShіeld.</string>
     <string name="notification_subscription_expired_title">Ваша передплата тарифного плану Proton VPN завершилася</string>
-    <string name="notification_subscription_expired_content">Нам довелося понизити ваш тарифний план, але ми знову з\'єднуємо вас із найшвидшим сервером, доступним в цьому тарифному плані.</string>
+    <string name="notification_subscription_expired_content">Нам довелося понизити ваш тарифний план, але ми знову з\'єднуємо вас із найшвидшим сервером, доступним у цьому тарифному плані.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Вашу передплату було змінено на нижчий рівень. </string>
     <string name="notification_delinquent_title">У вашому обліковому записі Proton VPN є несплачені рахунки</string>
     <string name="notification_delinquent_content">Знайдіть хвилинку та оновіть платіжні дані, щоб вашу передплата залишалася активною.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
-    <string name="notification_server_unreachable_content">Вас під\'єднано до швидшого сервера, який схожий на обраний вами.</string>
+    <string name="notification_server_unreachable_content">Вас під\'єднано до іншого швидшого сервера, схожого на обраний вами.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Ви досягли обмеження кількості пристроїв</string>
     <!-- The number of devices will always be greater than 1. -->
@@ -434,7 +434,7 @@
     <string name="notification_max_sessions_content">Від’єднайте інший пристрій, щоб під\'єднати цей.</string>
     <string name="notification_cancel_to_free">У вас зараз тарифний план Free. Доступні сервери та функції Free.</string>
     <string name="notification_cancel_to_basic">У вас зараз тарифний план Basic. Доступні сервери й функції Basic і Free.</string>
-    <string name="notification_cancel_to_delinquent">Ви зможете знову отримати доступ до преміум-функцій після сплати рахунків.</string>
+    <string name="notification_cancel_to_delinquent">Ви зможете знову отримати доступ до преміумфункцій після сплати рахунків.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Із сервера: </string>
     <string name="reconnect_to_server">До сервера: </string>
@@ -470,7 +470,7 @@
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
     <string name="upgrade_plus_subtitle">У разі оновлення до тарифного плану Plus</string>
-    <string name="upgrade_netshield_title_new">Насолоджуйтесь переглядом контенту без реклами за допомогою NetShield</string>
+    <string name="upgrade_netshield_title_new">Насолоджуйтесь переглядом без реклами з NetShield</string>
     <string name="upgrade_secure_core_title_new">Подвійне шифрування за допомогою Secure Core</string>
     <string name="upgrade_secure_core_countries">Спрямовуйте передачу даних через найзахищеніші сервери у Швейцарії, Швеції та Ісландії</string>
     <string name="upgrade_secure_core_encryption">Додайте ще один рівень шифрування до свого VPN-з\'єднання</string>
@@ -542,7 +542,7 @@
     <string name="upgrade_safe_mode_title">Дозволити трафік до нестандартних портів</string>
     <string name="upgrade_safe_mode_message">Маєте додаткові чи професійні обчислювальні потреби, які потребують нестандартних портів? Перейдіть до VPN Plus, щоб отримати доступ до цієї та інших преміальних функцій.</string>
     <string name="upgrade_moderate_nat_title">Увімкнути помірне NAT</string>
-    <string name="upgrade_moderate_nat_message">Помірне NAT або NAT 2 типу може покращити ваш досвід онлайн-роботи з різними програмами та онлайн-відеоіграми. Розблокуйте цю та інші функції за допомогою тарифного плану Plus.</string>
+    <string name="upgrade_moderate_nat_message">Помірне NAT, також відоме як NAT 2, може вдосконалити вашу роботу онлайн із різними застосунками та онлайн-відеоіграми. Розблокуйте цю та інші функції за допомогою тарифного плану Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">Що таке помірне NAT?</string>
     <string name="upgrade_see_plans_button">Перегляньте тарифні плани та ціни</string>
     <string name="upgrade_not_now_button">Не зараз</string>
@@ -553,7 +553,7 @@
     <string name="activity_information_plus_title">%1$s — сервери Plus</string>
     <string name="info_features">Можливості</string>
     <string name="smart_routing_title">Smart Routing</string>
-    <string name="smart_routing_description">Ця технологія дозволяє Proton VPN забезпечити вищу швидкість та безпеку у країнах з ускладненим обслуговуванням.</string>
+    <string name="smart_routing_description">Ця технологія дає змогу Proton VPN забезпечити вищу швидкість та безпеку в країнах з ускладненим обслуговуванням.</string>
     <string name="streaming_title">Потокове передавання</string>
     <string name="streaming_description">Сервери Plus підтримують трансляції (Netflix, Disney+ тощо) звідусіль у світі.</string>
     <string name="p2p_title">P2P/BitTorrent</string>

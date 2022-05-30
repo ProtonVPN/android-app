@@ -85,7 +85,7 @@
     <string name="drawerAccount">Conta</string>
     <string name="drawerHelp">Ajuda</string>
     <string name="drawerShowLog">Mostrar diário</string>
-    <string name="drawerReportProblem">Report an issue</string>
+    <string name="drawerReportProblem">Reportar um problema</string>
     <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">Detalhes da conta</string>
@@ -459,7 +459,7 @@
     <string name="upsell_upgrade_again">Actualize novamente para aproveitar todas as funcionalidades:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">When you upgrade to Plus</string>
+    <string name="upgrade_plus_subtitle">Quando actualizar para o Plus</string>
     <string name="upgrade_netshield_title_new">Enjoy ad-free browsing with NetShield</string>
     <string name="upgrade_secure_core_title_new">Double the encryption with Secure Core</string>
     <string name="upgrade_secure_core_countries">Route through ultra secure servers in Switzerland, Sweden, and Iceland</string>
@@ -574,15 +574,15 @@
     <string name="onboading_connect_to_plus">Connect to a Plus server</string>
     <string name="upgrade_use_limited_free_button">Use limited Free plan</string>
     <string name="dynamic_report_suggestion_didnt_work">Didn\'t work?</string>
-    <string name="dynamic_report_contact_us">Contact us</string>
-    <string name="dynamic_report_tips_description">These tips could help to solve your issue faster.</string>
-    <string name="dynamic_report_tips_title">Quick fixes</string>
-    <string name="dynamic_report_logs_title">Send error logs</string>
-    <string name="dynamic_report_success_title">Thanks for your feedback</string>
-    <string name="dynamic_report_success_description">We’ll get back to you as soon as we can.</string>
+    <string name="dynamic_report_contact_us">Contacte-nos</string>
+    <string name="dynamic_report_tips_description">Estas dicas poderão ajudá-lo a resolver o seu problema mais rapidamente.</string>
+    <string name="dynamic_report_tips_title">Correcções rápidas</string>
+    <string name="dynamic_report_logs_title">Enviar diários de erro</string>
+    <string name="dynamic_report_success_title">Obrigado pelo seu contacto</string>
+    <string name="dynamic_report_success_description">Contactaremos de volta o mais rapidamente possível.</string>
     <string name="dynamic_report_field_mandatory">This field is mandatory</string>
-    <string name="dynamic_report_logs_description">A log is a type of file that shows us the actions you took that led to an error. We’ll only ever use them to help our engineers fix bugs.</string>
-    <string name="dynamic_report_logs_missing">Error logs help us to get to the bottom of your issue. If you don’t include them, we might not be able to investigate fully.</string>
+    <string name="dynamic_report_logs_description">Um diário é um tipo de ficheiro que lista todas as acções que levaram a um erro. Estes ficheiros serão apenas consultados pelos nossos engenheiros para corrigir erros.</string>
+    <string name="dynamic_report_logs_missing">Os diários de erro ajudam-nos a chegar à raíz do seu problema. Se não os incluir, poderemos não conseguir investigar.</string>
     <string name="dynamic_report_step1">Step 1 of 3</string>
     <string name="dynamic_report_step2">Step 2 of 3</string>
     <string name="dynamic_report_step3">Step 3 of 3</string>
