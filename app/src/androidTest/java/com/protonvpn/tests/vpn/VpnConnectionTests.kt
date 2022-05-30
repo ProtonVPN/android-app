@@ -583,6 +583,18 @@ class VpnConnectionTests {
         assertEquals(ErrorType.POLICY_VIOLATION_LOW_PLAN, (mockWireguard.selfState as? VpnState.Error)?.type)
     }
 
+    @Test
+    fun testConnectToScServerByFreeUser() = scope.runBlockingTest {
+        val secureCoreProfile =
+            MockedServers.getProfile(VpnProtocol.WireGuard, MockedServers.serverList.find { it.isSecureCoreServer }!!)
+        every { vpnUser.userTier } returns 0
+        every { mockVpnUiDelegate.onServerRestricted(any()) } returns true
+
+        manager.connect(mockVpnUiDelegate, secureCoreProfile, "test")
+
+        verify { mockVpnUiDelegate.onServerRestricted(ReasonRestricted.SecureCoreUpgradeNeeded) }
+    }
+
     private fun collectVpnStates(statesLiveData: LiveData<VpnState>, block: () -> Unit): List<VpnState> {
         val collectedStates = mutableListOf<VpnState>()
         val observer = Observer<VpnState> { collectedStates.add(it) }

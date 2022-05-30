@@ -74,7 +74,7 @@ import kotlin.coroutines.coroutineContext
 private val FALLBACK_PROTOCOL = VpnProtocol.IKEv2
 private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
 
-enum class ReasonRestricted { UpgradeNeeded, Maintenance }
+enum class ReasonRestricted { SecureCoreUpgradeNeeded, PlusUpgradeNeeded, Maintenance }
 
 interface VpnUiDelegate {
     fun askForPermissions(intent: Intent, profile: Profile, onPermissionGranted: () -> Unit)
@@ -467,8 +467,11 @@ open class VpnConnectionManager(
         } else {
             val needsFallback = server == null ||
                 delegate.onServerRestricted(
-                    if (!server.online) ReasonRestricted.Maintenance
-                    else ReasonRestricted.UpgradeNeeded
+                    when {
+                        !server.online -> ReasonRestricted.Maintenance
+                        server.isSecureCoreServer && !vpnUser.hasAccessToServer(server) -> ReasonRestricted.SecureCoreUpgradeNeeded
+                        else -> ReasonRestricted.PlusUpgradeNeeded
+                    }
                 ).not()
             if (needsFallback) {
                 ongoingFallback = scope.launch {

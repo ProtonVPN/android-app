@@ -94,6 +94,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.ui.onboarding.TooltipManager;
+import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
 import com.protonvpn.android.ui.settings.SettingsActivity;
@@ -258,7 +259,7 @@ public class HomeActivity extends VpnActivity {
         switchSecureCore.setChecked(userData.getSecureCoreEnabled());
         switchSecureCore.setSwitchClickInterceptor((switchView) -> {
             if (!switchView.isChecked() && !viewModel.hasAccessToSecureCore()) {
-                showSecureCoreUpgradeDialog();
+                startActivity(new Intent(this, UpgradeSecureCoreDialogActivity.class));
             } else if (!switchView.isChecked()) {
                 secureCoreSpeedInfoDialog.launch(Unit.INSTANCE);
             } else {
@@ -694,16 +695,6 @@ public class HomeActivity extends VpnActivity {
     public void onBackPressed() {
         if (!shouldCloseDrawer() && !fragment.collapseBottomSheet() && !shouldCloseFab()) {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    public void onConnect(@NotNull Profile profile, @NonNull String connectionCauseLog) {
-        boolean secureCoreServer = profile.getServer() != null && profile.getServer().isSecureCoreServer();
-        if (secureCoreServer && !viewModel.hasAccessToSecureCore()) {
-            showSecureCoreUpgradeDialog();
-        } else {
-            super.onConnect(profile, connectionCauseLog);
         }
     }
 

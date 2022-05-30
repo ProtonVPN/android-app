@@ -181,6 +181,7 @@ class GuestHole @Inject constructor(
 
     class GuestHoleVpnUiDelegate(activity: ComponentActivity) : VpnUiActivityDelegate(activity) {
         override fun onPermissionDenied(profile: Profile) {}
+        override fun showSecureCoreUpgradeDialog() {}
         override fun showPlusUpgradeDialog() {}
         override fun showMaintenanceDialog() {}
         override fun shouldSkipAccessRestrictions() = true
