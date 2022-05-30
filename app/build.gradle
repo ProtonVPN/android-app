@@ -91,9 +91,9 @@ task coverageReport() {
         def total = missed + covered
         def percentage = covered / total * 100
 
-        printf "Missed %.0f branches%n", missed
-        printf "Covered %.0f branches%n", covered
-        printf "Total %.0f%%%n", percentage
+        printf "Missed %.2f branches%n", missed
+        printf "Covered %.2f branches%n", covered
+        printf "Total %.2f%%%n", percentage
     }
 }
 
