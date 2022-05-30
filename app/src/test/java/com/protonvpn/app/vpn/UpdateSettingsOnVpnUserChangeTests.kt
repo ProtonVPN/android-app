@@ -34,6 +34,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineScope
@@ -75,9 +76,13 @@ class UpdateSettingsOnVpnUserChangeTests {
         scope = TestCoroutineScope(TestDispatcherProvider.Main)
         vpnUserFlow = MutableStateFlow(null)
 
-        every { mockDefaultProfile.server } returns mockDefaultServer
         every { mockServerManager.defaultConnection } returns mockDefaultProfile
         every { mockDefaultServer.tier } returns 0
+
+        val vpnUserSlot = slot<VpnUser>()
+        every { mockServerManager.getServerForProfile(mockDefaultProfile, capture(vpnUserSlot)) } answers {
+            mockDefaultServer.takeIf { vpnUserSlot.captured.maxTier ?: 0 >= it.tier }
+        }
 
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
 
