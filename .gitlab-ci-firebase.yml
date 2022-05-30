@@ -26,7 +26,7 @@
       --use-orchestrator
       --num-uniform-shards=${NUM_SHARDS}
       --num-flaky-test-attempts=2
-      --environment-variables coverage=true,coverageFile="/sdcard/Download/$COVERAGE_FILE_NAME.ec",listener=com.protonvpn.testsHelper.ToastingRunListener
+      --environment-variables coverage=true,coverageFilePath="/sdcard/Download/",listener=com.protonvpn.testsHelper.ToastingRunListener
       --directories-to-pull /sdcard
       --test-targets "class $TEST_SUITE" 2>&1 | tee results.txt
     - gcsbucket=$(cat results.txt | grep 'Raw results will be stored' | awk -F/ '{print "gs://" $6 "/" $7}')
