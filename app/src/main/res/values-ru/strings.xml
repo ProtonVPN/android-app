@@ -127,7 +127,7 @@
     <string name="restrictedMaintenanceTitle">На техобслуживании</string>
     <string name="restrictedMaintenanceDescription">Сервер, к которому вы сейчас пытаетесь подключиться, находится на техобслуживании. Пожалуйста, попробуйте другой сервер.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш аккаунт имеет не оплаченный счет. Пожалуйста, оплатите все неоплаченные счета на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Вы одновременно подключили максимальное разрешенное для вашего аккаунта количество устройств. Чтобы подключить больше устройств, пожалуйста, улучшите свой тарифный план Proton VPN.</string>
+    <string name="errorMaxSessions">Вы одновременно подключили максимальное разрешенное для вашего аккаунта количество устройств. Чтобы подключить больше устройств, пожалуйста, улучшите свой тариф Proton VPN.</string>
     <string name="errorEmptyName">Поле названия профиля не может быть пустым</string>
     <string name="errorEmptyCountry">Поле страны не может быть пустым</string>
     <string name="errorEmptyServer">Поле сервера не может быть пустым</string>
@@ -244,11 +244,11 @@
     <string name="noVpnPermissionGrantPermissionTitle">Предоставить разрешение VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android требует вашего разрешения на подключение к Proton VPN. Дайте разрешение, нажав \"OK\", когда появится окно \"Запрос на подключение\" от Android.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянный VPN в других приложениях</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянный VPN для всех остальных приложений VPN, кроме Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянную VPN для всех остальных приложений VPN, кроме Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
     <string name="noVpnPermissionOpenSettings">Открыть настройки Android VPN</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянный VPN для всех других VPN-приложений в настройках системы Android, так как это мешает Proton VPN устанавливать VPN-соединение. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянную VPN для всех других приложений VPN в настройках системы Android, так как это мешает Proton VPN устанавливать подключение к VPN. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
     <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
     <string name="error_prepare_vpn_title">Ошибка: проблема VPN разрешений</string>
     <string name="error_server_not_set">Сервер больше недоступен</string>
@@ -366,13 +366,13 @@
     <string name="tv_detail_default_connection_checkbox_short">Избранная</string>
     <string name="tv_detail_connect_streaming">Стримить с Plus</string>
     <string name="tv_detail_connect">Подключиться</string>
-    <string name="tv_detail_description_streaming_country">Доступ к трансляциям вашего любимого контента. Получите доступ к большему количеству приложений на тарифе Proton VPN Plus.</string>
-    <string name="tv_detail_description_no_streaming_country">Смотрите больше любимых трансляций с тарифным планом Proton VPN Plus.</string>
+    <string name="tv_detail_description_streaming_country">Доступ к трансляциям вашего любимого содержимого. Получите доступ к большему количеству приложений на тарифе Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Смотрите больше любимых трансляций с тарифом Proton VPN Plus.</string>
     <string name="tv_detail_description_country_not_available">Страна недоступна. Получите больше возможностей стриминга с планом Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Смотрите ваши любимые видео, фильмы или спортивные передачи в ваших приложениях.</string>
     <string name="tv_login_title_signin">Войдите в Proton VPN</string>
     <string name="tv_login_title_welcome">Стриминг вашего любимого видеоконтента</string>
-    <string name="tv_login_welcome_description">Смотрите видеоконтент более чем из 50 стран, включая YouTube и Twitch. Сриминг Netflix, Amazon Prime и Hulu с помощью Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description">Смотрите видеосодержимое более чем из 50 стран, включая YouTube и Twitch. Смотрите трансляции Netflix, Amazon Prime и Hulu с помощью Proton VPN Plus.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Получите свой аккаунт Proton VPN по адресу <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Войти</string>
     <string name="tv_login_step1_description"><![CDATA[Откройте <b>%1$s</b> на вашем мобильном устройстве или компьютере]]></string>
@@ -415,7 +415,7 @@
     <string name="settingsReconnectToApplySettingsDialogContent">Новые настройки будут применены при следующем подключении.</string>
     <string name="settingsReconnectToChangeDialogContent">Ваше подключение перезапустится.</string>
     <string name="reconnectToEnableNetshield">Ваше подключение перезапустится.\n\nУчтите, что некоторые сайты могут не загружаться при включенном NetShield.</string>
-    <string name="notification_subscription_expired_title">Ваша подписка на Proton VPN истекла</string>
+    <string name="notification_subscription_expired_title">Срок действия вашей подписки на тариф Proton VPN истек</string>
     <string name="notification_subscription_expired_content">Нам пришлось понизить ваш тариф, но мы вновь подключаем вас к самому быстрому серверу, доступному на этом тарифе.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Ваша подписка понижена. </string>
     <string name="notification_delinquent_title">В Вашем аккаунте Proton VPN есть неоплаченные счета</string>
