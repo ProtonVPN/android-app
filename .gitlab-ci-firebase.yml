@@ -19,6 +19,7 @@
     NUM_SHARDS: 1
   script:
     - *firebase_authenticate_script
+    - awk 'BEGIN { print strftime()  }'
     - gcloud --quiet beta firebase test android
       run firebase-device-config.yml:${TESTS_TYPE}
       --app "$APP"
@@ -29,6 +30,8 @@
       --environment-variables coverage=true,coverageFilePath="/sdcard/Download/",listener=com.protonvpn.testsHelper.ToastingRunListener
       --directories-to-pull /sdcard
       --test-targets "class $TEST_SUITE" 2>&1 | tee results.txt
+    - echo gcloud end time
+    - awk 'BEGIN { print strftime()  }'
     - gcsbucket=$(cat results.txt | grep 'Raw results will be stored' | awk -F/ '{print "gs://" $6 "/" $7}')
     - filename=$COVERAGE_FILE_NAME
     - i=1
@@ -37,6 +40,7 @@
         | grep '/$'
         | while read -r line; do gsutil ls ${line}artifacts/sdcard/Download/ | grep .ec; done
         | while read -r line; do gsutil cp $line app/build/outputs/coverage/${filename}_${i}.ec; ((i++)); done
+    - awk 'BEGIN { print strftime()  }'
   artifacts:
     expire_in: 1 week
     paths:
