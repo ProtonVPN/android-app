@@ -372,7 +372,7 @@ class VpnConnectionTests {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
         mockOpenVpn.stateOnConnect = VpnState.Connected
         val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
-            profileIKEv2.server,
+            serverIKEv2,
             fallbackServer,
             fallbackOpenVpnProfile,
             SwitchServerReason.Downgrade("PLUS", "FREE")
@@ -435,8 +435,8 @@ class VpnConnectionTests {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
 
         val fallbackConnection = mockOpenVpn.prepareForConnection(
-            fallbackOpenVpnProfile, fallbackOpenVpnProfile.server!!, true).first()
-        val fallbackResult = VpnFallbackResult.Switch.SwitchServer(profileIKEv2.server,
+            fallbackOpenVpnProfile, fallbackServer, true).first()
+        val fallbackResult = VpnFallbackResult.Switch.SwitchServer(serverIKEv2,
             fallbackOpenVpnProfile, fallbackConnection, SwitchServerReason.ServerUnreachable,
             compatibleProtocol = false, switchedSecureCore = false, notifyUser = true)
         coEvery { vpnErrorHandler.onUnreachableError(any()) } returns fallbackResult
@@ -468,7 +468,7 @@ class VpnConnectionTests {
         Assert.assertEquals(VpnState.Connected, monitor.state)
 
         val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
-            profileIKEv2.server,
+            serverIKEv2,
             fallbackServer,
             fallbackOpenVpnProfile,
             SwitchServerReason.Downgrade("PLUS", "FREE")
@@ -489,7 +489,7 @@ class VpnConnectionTests {
         coEvery {
             vpnErrorHandler.onServerInMaintenance(profile, null)
         } returns VpnFallbackResult.Switch.SwitchProfile(
-            profile.server,
+            offlineServer,
             serverIKEv2,
             profileIKEv2,
             SwitchServerReason.ServerInMaintenance
@@ -516,7 +516,7 @@ class VpnConnectionTests {
             }
         }
         val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
-            profileIKEv2.server,
+            serverIKEv2,
             fallbackServer,
             fallbackOpenVpnProfile,
             SwitchServerReason.Downgrade("PLUS", "FREE")
