@@ -34,7 +34,7 @@
         android:layout_height="36dp"
         android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/logo_vpn_tv"
+        app:srcCompat="@drawable/logo_vpn_tv"
         android:contentDescription="@string/app_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
