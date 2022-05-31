@@ -224,11 +224,12 @@ class TvMainViewModel @Inject constructor(
     @DrawableRes
     private fun profileCardTitleIcon(profile: Profile): Int {
         val defaultConnection = serverManager.defaultConnection
+        val server = serverManager.getServerForProfile(profile, currentUser.vpnUserCached())
         return when {
-            !currentUser.vpnUserCached().hasAccessToServer(profile.server) -> R.drawable.ic_proton_lock_filled
-            profile.server?.online == true && profile.isPreBakedProfile -> R.drawable.ic_proton_bolt
-            profile.server?.online == true && profile.server == defaultConnection.server -> R.drawable.ic_proton_star
-            profile.server?.online == true -> R.drawable.ic_proton_clock_rotate_left
+            server == null -> R.drawable.ic_proton_lock_filled
+            server.online && profile.isPreBakedProfile -> R.drawable.ic_proton_bolt
+            server.online && profile == defaultConnection -> R.drawable.ic_proton_star
+            server.online -> R.drawable.ic_proton_clock_rotate_left
             else -> R.drawable.ic_proton_wrench
         }
     }
@@ -236,9 +237,10 @@ class TvMainViewModel @Inject constructor(
     @DrawableRes
     private fun quickConnectTitleIcon(): Int {
         val defaultConnection = serverManager.defaultConnection
+        val server = serverManager.getServerForProfile(defaultConnection, currentUser.vpnUserCached())
         return when {
             isConnected() || isEstablishingConnection() -> 0
-            defaultConnection.server?.online == true ->
+            server?.online == true ->
                 if (defaultConnection.isPreBakedProfile) R.drawable.ic_proton_bolt else R.drawable.ic_proton_star
             else -> R.drawable.ic_proton_wrench
         }
