@@ -53,7 +53,7 @@ data class Server(
     private var isOnline: Boolean
 ) : Markable, java.io.Serializable {
 
-    val online get() = isOnline && connectingDomains.any { it.isOnline }
+    val online: Boolean get() = isOnline && connectingDomains.any { it.isOnline }
 
     @Transient
     private val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(exitCountry)
