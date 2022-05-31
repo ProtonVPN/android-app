@@ -30,7 +30,7 @@
     <ImageView
         android:layout_width="8dp"
         android:layout_height="8dp"
-        android:src="@drawable/oval"
+        app:srcCompat="@drawable/oval"
         app:tint="?attr/serverLoadLow" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:layout_marginStart="16dp"
-        android:src="@drawable/oval"
+        app:srcCompat="@drawable/oval"
         app:tint="?attr/serverLoadMedium" />
 
    <TextView
@@ -60,7 +60,7 @@
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:layout_marginStart="16dp"
-        android:src="@drawable/oval"
+        app:srcCompat="@drawable/oval"
         app:tint="?attr/serverLoadHigh" />
 
     <TextView
