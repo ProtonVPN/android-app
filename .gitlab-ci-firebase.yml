@@ -33,13 +33,14 @@
     - echo gcloud end time
     - awk 'BEGIN { print strftime()  }'
     - gcsbucket=$(cat results.txt | grep 'Raw results will be stored' | awk -F/ '{print "gs://" $6 "/" $7}')
-    - filename=$COVERAGE_FILE_NAME
-    - i=1
     - echo $gcsbucket
     - gsutil ls $gcsbucket
         | grep '/$'
-        | while read -r line; do gsutil ls ${line}artifacts/sdcard/Download/ | grep .ec; done
-        | while read -r line; do gsutil cp $line app/build/outputs/coverage/${filename}_${i}.ec; ((i++)); done
+        | while read -r line; do
+            dst=app/build/outputs/coverage/${COVERAGE_FOLDER}/`basename "$line"`;
+            mkdir -p "$dst";
+            gsutil -m cp ${line}artifacts/sdcard/Download/*.ec "$dst";
+          done
     - awk 'BEGIN { print strftime()  }'
   artifacts:
     expire_in: 1 week
@@ -56,7 +57,7 @@ firebase quick tests:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
     TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
-    COVERAGE_FILE_NAME: "coverageMobile.ec"
+    COVERAGE_FOLDER: "mobile_quick"
 
 firebase full tests:
   extends: .tests_preparation_script
@@ -68,7 +69,7 @@ firebase full tests:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
     TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
-    COVERAGE_FILE_NAME: "coverageMobileFull"
+    COVERAGE_FOLDER: "mobile_full"
   when: manual
 
 firebase tv tests:
@@ -80,7 +81,7 @@ firebase tv tests:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
     TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
-    COVERAGE_FILE_NAME: "coverageTv.ec"
+    COVERAGE_FOLDER: "tv"
 
 firebase real connection tests:
   extends: .tests_preparation_script
@@ -91,7 +92,7 @@ firebase real connection tests:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
     TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
-    COVERAGE_FILE_NAME: "coverageRealConnection.ec"
+    COVERAGE_FOLDER: "real_connection"
 
 firebase robo tests:
   stage: test
