@@ -23,7 +23,6 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
 
 fun Profile.toLog(userData: UserData): String {
     val type = when {
@@ -33,12 +32,9 @@ fun Profile.toLog(userData: UserData): String {
         else -> "None"
     }
     val protocol = getProtocol(userData)
-    val serverInfo = if (wrapper.type == ServerWrapper.ProfileType.DIRECT) {
-        server?.serverName ?: "server is not available"
-    } else {
-        if (wrapper.country.isNotBlank()) "${wrapper.type} ${wrapper.country}"
-        else wrapper.type
-    }
+    val serverInfo = arrayOf(wrapper.type.toString(), wrapper.country, wrapper.serverId)
+        .filterNot { it.isNullOrBlank() }
+        .joinToString(" ")
     return "Profile: $type, protocol: $protocol, server: $serverInfo"
 }
 

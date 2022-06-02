@@ -241,7 +241,12 @@ class VpnConnectionErrorHandler(
         val isCompatible = isCompatibleServer(score, pingResult.physicalServer, orgPhysicalServer) &&
             expectedProtocolConnection != null && !switchedSecureCore
 
-        ProtonLogger.log(ConnServerSwitchServerSelected, pingResult.profile.toLog(userData))
+
+        ProtonLogger.log(
+            ConnServerSwitchServerSelected,
+            pingResult.profile.toLog(userData) + " " +
+                with(pingResult.physicalServer) { "${server.serverName} ${connectingDomain.entryDomain}" }
+        )
         return VpnFallbackResult.Switch.SwitchServer(
             orgParams?.server,
             pingResult.profile,

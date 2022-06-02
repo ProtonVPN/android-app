@@ -54,7 +54,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
-import io.mockk.slot
 import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -205,9 +204,8 @@ class VpnConnectionTests {
         profileOpenVPN = MockedServers.getProfile(VpnProtocol.OpenVPN, server)
         profileWireguard = MockedServers.getProfile(VpnProtocol.WireGuard, server)
         fallbackOpenVpnProfile = MockedServers.getProfile(VpnProtocol.OpenVPN, fallbackServer, "fallback")
-        val profileSlot = slot<Profile>()
-        every { serverManager.getServerForProfile(capture(profileSlot), any()) } answers {
-            profileSlot.captured.server
+        every { serverManager.getServerForProfile(any(), any()) } answers {
+            MockedServers.serverList.find { it.serverId == arg<Profile>(0).wrapper.serverId }
         }
 
         setupMockAgent()
