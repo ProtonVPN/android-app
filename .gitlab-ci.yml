@@ -242,6 +242,20 @@ coverage report:
     reports:
       cobertura: app/build/reports/cobertura-coverage.xml
 
+pages:
+  stage: publish
+  tags:
+    - small
+  only:
+    refs:
+      - development
+  script:
+    - mkdir public
+    - mv app/build/reports/jacoco/jacocoTestReport/html/* public
+  artifacts:
+    paths:
+      - public
+
 owasp check:
   stage: report
   extends: .gradle-job
