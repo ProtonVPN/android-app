@@ -75,4 +75,13 @@ class ServerManagerTests {
         Assert.assertEquals(1, canada.serverList.size)
         Assert.assertEquals(1, canada.serverList.first().connectingDomains.size)
     }
+
+    @Test
+    fun testGetServerById() {
+        val server = manager.getServerById(
+            "1H8EGg3J1QpSDL6K8hGsTvwmHXdtQvnxplUMePE7Hruen5JsRXvaQ75-sXptu03f0TCO-he3ymk0uhrHx6nnGQ=="
+        )
+        Assert.assertNotNull(server)
+        Assert.assertEquals("CA#2", server?.serverName)
+    }
 }

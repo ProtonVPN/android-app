@@ -46,7 +46,8 @@ class ProfileCard(
     title: String = "",
     @DrawableRes titleDrawable: Int = R.drawable.ic_proton_bolt,
     @DrawableRes backgroundImage: Int,
-    val profile: Profile
+    val profile: Profile,
+    val connectCountry: String
 ) : Card(
     bottomTitle = Title(title, titleDrawable),
     backgroundImage = DrawableImage(backgroundImage)
