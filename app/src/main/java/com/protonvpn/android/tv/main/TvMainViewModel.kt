@@ -204,9 +204,13 @@ class TvMainViewModel @Inject constructor(
             .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
             .forEach { profile ->
                 val connectCountry = getConnectCountry(profile)
+                val title = profile.getDisplayName(context).ifEmpty {
+                    // Note: it would be better if all profiles used in TV had a display name.
+                    serverManager.getServerForProfile(profile, currentUser.vpnUserCached())?.displayName ?: ""
+                }
                 recentsList.add(
                     ProfileCard(
-                        title = profile.getDisplayName(context).ifEmpty { profile.server?.displayName ?: "" },
+                        title = title,
                         titleDrawable = profileCardTitleIcon(profile),
                         backgroundImage = CountryTools.getLargeFlagResource(context, connectCountry),
                         profile = profile,
