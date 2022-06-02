@@ -149,7 +149,7 @@ class ServerListUpdater(
 
     // Returns true if IP has changed
     suspend fun updateLocationIfVpnOff(): Boolean {
-        if (vpnStateMonitor.isDisabled)
+        if (!vpnStateMonitor.isDisabled)
             return false
 
         val result = api.getLocation()
