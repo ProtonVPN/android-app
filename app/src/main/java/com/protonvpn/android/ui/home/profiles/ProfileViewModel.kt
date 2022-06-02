@@ -13,7 +13,6 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.ProtocolSelection
 import com.protonvpn.android.ui.SaveableSettingsViewModel
@@ -59,7 +58,7 @@ class ProfileViewModel @Inject constructor(
     val eventValidationFailed = MutableSharedFlow<InputValidation>(extraBufferCapacity = 1)
     private val secureCore = MutableStateFlow(userData.secureCoreEnabled)
     private val country = MutableStateFlow<VpnCountry?>(null)
-    private val server = MutableStateFlow<ServerSelection?>(null)
+    private val serverSelection = MutableStateFlow<ServerIdSelection?>(null)
 
     val isSecureCoreAvailable: Boolean get() = currentUser.vpnUserCached()?.isUserPlusOrAbove == true
     val isSecureCoreEnabled: Boolean get() = secureCore.value
@@ -71,19 +70,20 @@ class ProfileViewModel @Inject constructor(
     val serverViewState: Flow<ServerViewState> = combine(
         secureCore,
         country,
-        server
-    ) { secureCore, country, server ->
-        val serverNameRes = when (server) {
-            ServerSelection.FastestInCountry -> R.string.profileFastest
-            ServerSelection.RandomInCountry -> R.string.profileRandom
-            is ServerSelection.Specific -> if (secureCore) R.string.secureCoreConnectVia else 0
+        serverSelection
+    ) { secureCore, country, serverSelection ->
+        val serverNameRes = when (serverSelection) {
+            ServerIdSelection.FastestInCountry -> R.string.profileFastest
+            ServerIdSelection.RandomInCountry -> R.string.profileRandom
+            is ServerIdSelection.Specific -> if (secureCore) R.string.secureCoreConnectVia else 0
             null -> 0
         }
-        val serverName = if (server is ServerSelection.Specific) {
-            if (secureCore) CountryTools.getFullName(server.server.entryCountry) else server.server.serverName
-        } else {
-            ""
-        }
+        val serverName = (serverSelection as? ServerIdSelection.Specific)?.let {
+            serverManager.getServerById(serverSelection.id)?.let { server ->
+                if (secureCore) CountryTools.getFullName(server.entryCountry) else server.serverName
+            }
+        } ?: ""
+
         ServerViewState(
             secureCore,
             country?.countryName ?: "",
@@ -103,8 +103,8 @@ class ProfileViewModel @Inject constructor(
             profileNameInput = profile.getDisplayName(context)
             profileColor.value = requireNotNull(profile.profileColor)
             secureCore.value = profile.isSecureCore ?: userData.secureCoreEnabled
-            server.value = getServerSelection(profile)
-            country.value = profile.server?.let { getServerCountry(it) }
+            serverSelection.value = getServerSelection(profile)
+            country.value = serverManager.getVpnExitCountry(profile.country, secureCore.value)
             protocol.value = ProtocolSelection.from(
                 profile.getProtocol(userData),
                 profile.getTransmissionProtocol(userData)
@@ -126,7 +126,7 @@ class ProfileViewModel @Inject constructor(
             val currentCountry = country.value
             if (currentCountry == null || serverManager.getVpnExitCountry(currentCountry.flag, enabled) == null)
                 country.value = null
-            server.value = ServerSelection.FastestInCountry
+            serverSelection.value = ServerIdSelection.FastestInCountry
         }
     }
 
@@ -141,25 +141,11 @@ class ProfileViewModel @Inject constructor(
             eventSomethingWrong.tryEmit(Unit)
         }
         country.value = newCountry
-        server.value = ServerSelection.FastestInCountry
+        serverSelection.value = ServerIdSelection.FastestInCountry
     }
 
     fun setServer(serverIdSelection: ServerIdSelection) {
-        val serverSelection: ServerSelection? = when (serverIdSelection) {
-            ServerIdSelection.FastestInCountry -> ServerSelection.FastestInCountry
-            ServerIdSelection.RandomInCountry -> ServerSelection.RandomInCountry
-            is ServerIdSelection.Specific ->
-                serverManager.getServerById(serverIdSelection.id)?.let { ServerSelection.Specific(it) }
-        }
-        if (serverSelection == null) {
-            ProtonLogger.logCustom(
-                LogLevel.ERROR,
-                LogCategory.APP,
-                "ProfileViewModel: no server found for $serverIdSelection"
-            )
-            eventSomethingWrong.tryEmit(Unit)
-        }
-        server.value = serverSelection
+        this.serverSelection.value = serverIdSelection
     }
 
     fun setProtocol(newProtocol: ProtocolSelection) {
@@ -173,14 +159,28 @@ class ProfileViewModel @Inject constructor(
         } else {
             0
         }
-        val serverError = if (server.value == null && country.value != null) {
+        val serverError = if (serverSelection.value == null && country.value != null) {
             if (secureCore.value) R.string.errorEmptyEntryCountry else R.string.errorEmptyServer
         } else {
             0
         }
         val isValid = profileNameError == 0 && countryError == 0 && serverError == 0
-        if (!isValid)
+        if (!isValid) {
             eventValidationFailed.tryEmit(InputValidation(profileNameError, countryError, serverError))
+        } else {
+            val serverValue = serverSelection.value
+            val countryValue = country.value
+            if (serverValue != null &&
+                countryValue != null &&
+                createServerWrapper(serverValue, countryValue, serverManager) == null
+            ) {
+                // There is no server. This should be extremely rare, only when the user picks a specific server that
+                // happens to be removed before the profile is saved.
+                serverSelection.value = null
+                eventSomethingWrong.tryEmit(Unit)
+                return false
+            }
+        }
         return isValid
     }
 
@@ -190,18 +190,19 @@ class ProfileViewModel @Inject constructor(
             profileNameInput != currentProfile.name ||
                 profileColor.value != currentProfile.profileColor ||
                 currentProfile.country != country.value?.flag ||
-                server.value != getServerSelection(currentProfile)
+                serverSelection.value != getServerSelection(currentProfile)
         } else {
-            profileNameInput.isNotBlank() || country.value != null || server.value != null
+            profileNameInput.isNotBlank() || country.value != null || serverSelection.value != null
         }
     }
 
     override fun saveChanges() {
         val serverWrapper = createServerWrapper(
-            requireNotNull(server.value),
+            requireNotNull(serverSelection.value),
             requireNotNull(country.value),
             serverManager
-        )
+        ) ?: return // validate() checks for this too.
+
         val transmissionProtocol = (protocol.value as? ProtocolSelection.OpenVPN)?.transmission
         val newProfile =
             Profile(
@@ -226,17 +227,10 @@ class ProfileViewModel @Inject constructor(
         serverManager.deleteProfile(editedProfile)
     }
 
-    private fun getServerCountry(server: Server): VpnCountry? {
-        return serverManager.getVpnExitCountry(
-            if (secureCore.value) server.exitCountry else server.flag,
-            secureCore.value
-        )
-    }
-
-    private fun getServerSelection(profile: Profile): ServerSelection? = when {
-        profile.wrapper.isFastestInCountry -> ServerSelection.FastestInCountry
-        profile.wrapper.isRandomInCountry -> ServerSelection.RandomInCountry
-        profile.server != null -> ServerSelection.Specific(profile.server!!)
+    private fun getServerSelection(profile: Profile): ServerIdSelection? = when {
+        profile.wrapper.isFastestInCountry -> ServerIdSelection.FastestInCountry
+        profile.wrapper.isRandomInCountry -> ServerIdSelection.RandomInCountry
+        !profile.wrapper.serverId.isNullOrBlank() -> ServerIdSelection.Specific(profile.wrapper.serverId)
         else -> null
     }
 
@@ -244,15 +238,26 @@ class ProfileViewModel @Inject constructor(
         ProtocolSelection.from(userData.selectedProtocol, userData.transmissionProtocol)
 
     private fun createServerWrapper(
-        serverSelection: ServerSelection,
+        serverSelection: ServerIdSelection,
         country: VpnCountry,
         serverManager: ServerManager
-    ): ServerWrapper = when (serverSelection) {
-        ServerSelection.FastestInCountry ->
+    ): ServerWrapper? = when (serverSelection) {
+        ServerIdSelection.FastestInCountry ->
             ServerWrapper.makeFastestForCountry(country.flag, serverManager)
-        ServerSelection.RandomInCountry ->
+        ServerIdSelection.RandomInCountry ->
             ServerWrapper.makeRandomForCountry(country.flag, serverManager)
-        is ServerSelection.Specific ->
-            ServerWrapper.makeWithServer(serverSelection.server, serverManager)
+        is ServerIdSelection.Specific -> {
+            val server = serverManager.getServerById(serverSelection.id)
+            if (server != null) {
+                ServerWrapper.makeWithServer(server, serverManager)
+            } else {
+                ProtonLogger.logCustom(
+                    LogLevel.ERROR,
+                    LogCategory.APP,
+                    "ProfileViewModel: no server found for ${serverSelection.id}"
+                )
+                null
+            }
+        }
     }
 }

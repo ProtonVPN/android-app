@@ -20,14 +20,7 @@
 package com.protonvpn.android.ui.home.profiles
 
 import android.os.Parcelable
-import com.protonvpn.android.models.vpn.Server
 import kotlinx.parcelize.Parcelize
-
-sealed class ServerSelection {
-    object FastestInCountry : ServerSelection()
-    object RandomInCountry : ServerSelection()
-    data class Specific(val server: Server) : ServerSelection()
-}
 
 sealed class ServerIdSelection : Parcelable {
     @Parcelize
