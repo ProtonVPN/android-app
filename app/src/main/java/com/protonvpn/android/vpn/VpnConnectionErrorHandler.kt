@@ -351,14 +351,15 @@ class VpnConnectionErrorHandler(
         if (orgProfile.country.isBlank() || orgProfile.country == server.exitCountry)
             score += 1 shl CompatibilityAspect.Country.ordinal
 
-        if (orgProfile.city.isNullOrBlank() || orgProfile.city == server.city)
+        val orgDirectServer = orgProfile.directServerId?.let { serverManager.getServerById(it) }
+        if (orgDirectServer?.city.isNullOrBlank() || orgDirectServer?.city == server.city)
             score += 1 shl CompatibilityAspect.City.ordinal
 
         if (vpnUser?.userTier == server.tier)
             // Prefer servers from user tier
             score += 1 shl CompatibilityAspect.Tier.ordinal
 
-        if (orgProfile.directServer == null || server.features == orgProfile.directServer?.features)
+        if (orgDirectServer == null || server.features == orgDirectServer.features)
             score += 1 shl CompatibilityAspect.Features.ordinal
 
         val secureCoreExpected = orgProfile.isSecureCore ?: userData.secureCoreEnabled

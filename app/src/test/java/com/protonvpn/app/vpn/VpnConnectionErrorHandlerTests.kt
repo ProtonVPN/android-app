@@ -104,6 +104,7 @@ class VpnConnectionErrorHandlerTests {
     @get:Rule var rule = InstantTaskExecutorRule()
 
     private fun prepareServerManager() {
+        // TODO: consider using the real ServerManager
         val servers = MockedServers.serverList.sortedBy { it.score }
         every { serverManager.getOnlineAccessibleServers(false, any()) } returns servers.filter { !it.isSecureCoreServer }
         every { serverManager.getOnlineAccessibleServers(true, any()) } returns servers.filter { it.isSecureCoreServer }
@@ -111,10 +112,12 @@ class VpnConnectionErrorHandlerTests {
         every { serverManager.getServerForProfile(defaultFallbackConnection, any()) } returns defaultFallbackServer
 
         // Needed for VpnConnectionErrorHandler.getCandidateServers which uses Profile.isSecureCore, Profile.city etc.
-        val wrapperSlot = slot<ServerWrapper>()
-        every { serverManager.getServer(capture(wrapperSlot), any()) } answers {
-            val id = wrapperSlot.captured.serverId
+        every { serverManager.getServer(any(), any()) } answers {
+            val id = arg<ServerWrapper>(0).serverId
             MockedServers.serverList.find { it.serverId == id }
+        }
+        every { serverManager.getServerById(any()) } answers {
+            MockedServers.serverList.find { it.serverId == arg(0) }
         }
     }
 

@@ -21,6 +21,7 @@ package com.protonvpn.android.vpn
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
@@ -99,7 +100,7 @@ class RecentsManager(
     private fun addToRecentCountries(profile: Profile) {
         recentConnections.removeFirst {
             (profile.name.isNotBlank() && profile.name == it.name)
-                    || profile.connectCountry == it.connectCountry
+                    || profile.country == it.country
         }
         if (recentConnections.size > RECENT_MAX_SIZE) {
             recentConnections.removeLast()

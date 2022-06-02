@@ -67,6 +67,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
 
 @HiltViewModel
@@ -180,9 +181,10 @@ class TvMainViewModel @Inject constructor(
 
         val defaultConnection = serverManager.defaultConnection
         val shouldAddFavorite = (isConnected() || isEstablishingConnection()) &&
-            !vpnStateMonitor.isConnectingToCountry(defaultConnection.connectCountry)
+            !vpnStateMonitor.isConnectingToCountry(getConnectCountry(defaultConnection))
 
         if (shouldAddFavorite) {
+            val connectCountry = getConnectCountry(defaultConnection)
             recentsList.add(
                 ProfileCard(
                     title = context.getString(
@@ -192,20 +194,23 @@ class TvMainViewModel @Inject constructor(
                             R.string.tv_quick_connect_favourite
                     ),
                     titleDrawable = profileCardTitleIcon(defaultConnection),
-                    backgroundImage = CountryTools.getLargeFlagResource(context, defaultConnection.connectCountry),
-                    profile = defaultConnection
+                    backgroundImage = CountryTools.getLargeFlagResource(context, connectCountry),
+                    profile = defaultConnection,
+                    connectCountry = connectCountry
                 )
             )
         }
         recentsManager.getRecentCountries()
             .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
-            .forEach {
+            .forEach { profile ->
+                val connectCountry = getConnectCountry(profile)
                 recentsList.add(
                     ProfileCard(
-                        title = it.getDisplayName(context).ifEmpty { it.server?.displayName ?: "" },
-                        titleDrawable = profileCardTitleIcon(it),
-                        backgroundImage = CountryTools.getLargeFlagResource(context, it.connectCountry),
-                        profile = it
+                        title = profile.getDisplayName(context).ifEmpty { profile.server?.displayName ?: "" },
+                        titleDrawable = profileCardTitleIcon(profile),
+                        backgroundImage = CountryTools.getLargeFlagResource(context, connectCountry),
+                        profile = profile,
+                        connectCountry = connectCountry
                     )
                 )
             }
@@ -299,7 +304,7 @@ class TvMainViewModel @Inject constructor(
     val quickConnectFlag get() = if (isConnected() || isEstablishingConnection())
         vpnStateMonitor.connectingToServer?.flag
     else
-        serverManager.defaultConnection.connectCountry
+        getConnectCountry(serverManager.defaultConnection)
 
     private fun quickConnectBackground(context: Context) =
         CountryTools.getLargeFlagResource(context, quickConnectFlag)
@@ -367,5 +372,14 @@ class TvMainViewModel @Inject constructor(
 
     fun onLastRowSelection(selected: Boolean) {
         showVersion.value = selected
+    }
+
+    private fun getConnectCountry(profile: Profile): String {
+        DebugUtils.debugAssert("Random profile not supported in TV") {
+            profile.wrapper.type != ServerWrapper.ProfileType.RANDOM
+        }
+        return profile.country.takeIfNotBlank()
+            ?: serverManager.getServerForProfile(profile, currentUser.vpnUserCached())?.exitCountry
+            ?: ""
     }
 }

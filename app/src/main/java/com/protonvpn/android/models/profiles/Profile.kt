@@ -85,10 +85,8 @@ data class Profile @JvmOverloads constructor(
         get() = wrapper.isPreBakedFastest
 
     val server: Server? get() = wrapper.getServer(isSecureCore)
-    val city: String? get() = wrapper.city
     val country: String get() = wrapper.country
-    val connectCountry: String get() = wrapper.connectCountry
-    val directServer: Server? get() = wrapper.directServer
+    val directServerId: String? get() = wrapper.serverId
 
     fun getTransmissionProtocol(userData: UserData): TransmissionProtocol =
         transmissionProtocol?.let { TransmissionProtocol.valueOf(it) } ?: userData.transmissionProtocol

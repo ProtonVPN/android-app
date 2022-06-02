@@ -49,15 +49,6 @@ data class ServerWrapper(
     val isRandomInCountry get() = type == ProfileType.RANDOM_IN_COUNTRY
     val isPreBakedProfile get() = type == ProfileType.FASTEST || type == ProfileType.RANDOM
     fun getServer(secureCore: Boolean?) = deliver.getServer(this, secureCore)
-    val directServer get() = if (type == ProfileType.DIRECT) getServer(null) else null
-    val city get() = directServer?.city
-
-    // Country to which this profile would connect
-    val connectCountry get() = when (type) {
-        ProfileType.FASTEST -> getServer(null)?.exitCountry ?: ""
-        ProfileType.RANDOM -> ""
-        else -> country
-    }
 
     companion object {
 
