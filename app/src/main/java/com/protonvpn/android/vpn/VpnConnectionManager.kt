@@ -139,7 +139,6 @@ open class VpnConnectionManager(
         }
         appContext.registerBroadcastReceiver(IntentFilter(NotificationHelper.SMART_PROTOCOL_ACTION)) { intent ->
             val profileToSwitch = intent?.getSerializableExtra(EXTRA_SWITCH_PROFILE) as Profile
-            profileToSwitch.wrapper.setDeliverer(serverManager)
             notificationHelper.cancelInformationNotification()
             ProtonLogger.logUiSettingChange(Setting.DEFAULT_PROTOCOL, "notification action")
             userData.setProtocols(VpnProtocol.Smart, null)

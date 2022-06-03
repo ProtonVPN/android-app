@@ -21,28 +21,16 @@ package com.protonvpn.app.models.profiles
 
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
-import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
-import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
-import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class ProfileTests {
 
-    @MockK
-    private lateinit var mockServerDeliver: ServerDeliver
-
-    @Before
-    fun setup() {
-        MockKAnnotations.init(this)
-    }
-
     @Test
     fun `when migrating old profiles isSecureCore is set on user profiles`() {
-        val wrapper = ServerWrapper.makeFastestForCountry("sw", mockServerDeliver)
+        val wrapper = ServerWrapper.makeFastestForCountry("sw")
         val profile = Profile("test", null, wrapper, ProfileColor.FERN.id, null)
 
         val migratedProfile = profile.migrateFromOlderVersion()
@@ -51,7 +39,7 @@ class ProfileTests {
 
     @Test
     fun `when migrating old profiles isSecureCore is not set on prebaked profiles`() {
-        val wrapper = ServerWrapper.makePreBakedFastest(mockServerDeliver)
+        val wrapper = ServerWrapper.makePreBakedFastest()
         val profile = Profile("test", null, wrapper, ProfileColor.FERN.id, null)
 
         val migratedProfile = profile.migrateFromOlderVersion()

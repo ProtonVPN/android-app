@@ -21,7 +21,6 @@ package com.protonvpn.android.models.vpn
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.components.Markable
-import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.utils.CountryTools
 import java.io.Serializable
 import java.util.Collections
@@ -29,19 +28,15 @@ import java.util.Collections
 class VpnCountry(
     val flag: String,
     serverList: List<Server>,
-    deliverer: ServerDeliver
 ) : Markable, Serializable {
     val serverList: List<Server>
     val translatedCoordinates: TranslatedCoordinates
-
-    @Transient var deliverer: ServerDeliver
 
     val countryName: String
         get() = CountryTools.getFullName(flag)
 
     init {
         this.serverList = sortServers(serverList)
-        this.deliverer = deliverer
         this.translatedCoordinates = TranslatedCoordinates(flag)
     }
 

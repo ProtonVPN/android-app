@@ -35,16 +35,14 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import me.proton.core.presentation.utils.SnackType
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class VpnStateConnectedViewModelTests {
 
     private val colorId = ProfileColor.CARROT.id
@@ -81,8 +79,8 @@ class VpnStateConnectedViewModelTests {
         val server = MockedServers.server
         every { mockConnectionParams.server } returns server
         val existingProfiles = listOf(
-            Profile("Fastest", null, ServerWrapper.makePreBakedFastest(mockServerManager), colorId, null),
-            Profile("Server", null, ServerWrapper.makeWithServer(server, mockServerManager), colorId, false)
+            Profile("Fastest", null, ServerWrapper.makePreBakedFastest(), colorId, null),
+            Profile("Server", null, ServerWrapper.makeWithServer(server), colorId, false)
         )
         every { mockServerManager.getSavedProfiles() } returns existingProfiles
 

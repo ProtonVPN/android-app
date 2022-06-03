@@ -28,7 +28,6 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.SavedProfilesV3
-import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.profiles.ServerWrapper.ProfileType
 import com.protonvpn.android.models.vpn.ConnectingDomain
@@ -49,7 +48,7 @@ import javax.inject.Singleton
 class ServerManager @Inject constructor(
     @Transient val userData: UserData,
     @Transient val currentUser: CurrentUser,
-) : Serializable, ServerDeliver {
+) : Serializable {
 
     private var serverListAppVersionCode = 0
     private val vpnCountries = mutableListOf<VpnCountry>()
@@ -72,7 +71,7 @@ class ServerManager @Inject constructor(
 
     @Transient
     private val savedProfiles: SavedProfilesV3 =
-        Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles(this))
+        Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles())
             .migrateProfiles()
 
     // Expose a version number of the server list so that it can be used in flow operators like
@@ -103,15 +102,12 @@ class ServerManager @Inject constructor(
     val defaultFallbackConnection = getSavedProfiles()[0]
 
     val defaultConnection: Profile get() =
-        (userData.defaultConnection ?: getSavedProfiles().first()).also {
-            it.wrapper.setDeliverer(this)
-        }
+        (userData.defaultConnection ?: getSavedProfiles().first())
 
     val defaultAvailableConnection: Profile get() =
         (listOf(userData.defaultConnection) + getSavedProfiles())
             .filterNotNull()
             .first {
-                it.wrapper.setDeliverer(this)
                 (it.isSecureCore == true).implies(currentUser.vpnUserCached()?.isUserPlusOrAbove == true)
             }
 
@@ -127,7 +123,6 @@ class ServerManager @Inject constructor(
             serverListAppVersionCode = oldManager.serverListAppVersionCode
             translationsLang = oldManager.translationsLang
         }
-        reInitProfiles()
 
         userData.selectedProtocolLiveData.observeForever {
             onServersUpdate()
@@ -150,7 +145,7 @@ class ServerManager @Inject constructor(
                             connectingDomains = filteredDomains)
                     }
                 if (servers.isNotEmpty())
-                    VpnCountry(country.flag, servers, this)
+                    VpnCountry(country.flag, servers)
                 else
                     null
             }
@@ -170,17 +165,6 @@ class ServerManager @Inject constructor(
     override fun toString() = "vpnCountries: ${vpnCountries.size} entry: ${secureCoreEntryCountries.size}" +
         " exit: ${secureCoreExitCountries.size} saved: ${savedProfiles.profileList?.size} " +
         "ServerManager Updated: $updatedAt "
-
-    // TODO Remove this logic.
-    // Whole profile providing should be moved to separate class outside of ServerManager
-    private fun reInitProfiles() {
-        savedProfiles.profileList.forEach {
-            it.wrapper.setDeliverer(this)
-        }
-        sequenceOf(vpnCountries, secureCoreEntryCountries, secureCoreExitCountries).flatten().forEach {
-            it.deliverer = this
-        }
-    }
 
     fun clearCache() {
         updatedAt = null
@@ -206,14 +190,14 @@ class ServerManager @Inject constructor(
             val servers = serverList.filter { server ->
                 !server.isSecureCoreServer && server.flag == country
             }
-            vpnCountries.add(VpnCountry(country, servers, this))
+            vpnCountries.add(VpnCountry(country, servers))
         }
         for (country in countries) {
             if (country == "IS" || country == "SE" || country == "CH") {
                 val servers = serverList.filter { server ->
                     server.isSecureCoreServer && server.entryCountry.equals(country, ignoreCase = true)
                 }
-                secureCoreEntryCountries.add(VpnCountry(country, servers, this))
+                secureCoreEntryCountries.add(VpnCountry(country, servers))
             }
         }
         for (country in countries) {
@@ -221,7 +205,7 @@ class ServerManager @Inject constructor(
                 server.isSecureCoreServer && server.exitCountry.equals(country, ignoreCase = true)
             }
             if (servers.isNotEmpty())
-                secureCoreExitCountries.add(VpnCountry(country, servers, this))
+                secureCoreExitCountries.add(VpnCountry(country, servers))
         }
         updatedAt = DateTime()
         serverListAppVersionCode = BuildConfig.VERSION_CODE
@@ -265,9 +249,6 @@ class ServerManager @Inject constructor(
 
     fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
         getExitCountries(secureCoreCountry).firstOrNull { it.flag == countryCode }
-
-    fun getBestScoreServer(country: VpnCountry, vpnUser: VpnUser?): Server? =
-        getBestScoreServer(country.serverList, vpnUser)
 
     @Deprecated(
         "This method uses a cached VpnUser that could be stale.",
@@ -324,7 +305,7 @@ class ServerManager @Inject constructor(
         savedProfiles.profileList
 
     fun deleteSavedProfiles() {
-        val defaultProfiles = SavedProfilesV3.defaultProfiles(this).profileList
+        val defaultProfiles = SavedProfilesV3.defaultProfiles().profileList
         for (profile in getSavedProfiles().toList()) {
             if (profile !in defaultProfiles) {
                 deleteProfile(profile)
@@ -334,7 +315,7 @@ class ServerManager @Inject constructor(
 
     fun addToProfileList(serverName: String?, color: ProfileColor, server: Server) {
         val newProfile =
-            Profile(serverName!!, null, ServerWrapper.makeWithServer(server, this), color.id, server.isSecureCoreServer)
+            Profile(serverName!!, null, ServerWrapper.makeWithServer(server), color.id, server.isSecureCoreServer)
         addToProfileList(newProfile)
     }
 
@@ -366,14 +347,9 @@ class ServerManager @Inject constructor(
     fun getSecureCoreExitCountries(): List<VpnCountry> =
         filteredSecureCoreExitCountries.sortedByLocaleAware { it.countryName }
 
-    fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? =
-        getServerForWrapper(profile.wrapper, profile.isSecureCore, vpnUser)
-
-    override fun getServer(wrapper: ServerWrapper, secureCore: Boolean?): Server? =
-        getServerForWrapper(wrapper, secureCore, currentUser.vpnUserCached())
-
-    private fun getServerForWrapper(wrapper: ServerWrapper, secureCore: Boolean?, vpnUser: VpnUser?): Server? {
-        val needsSecureCore = secureCore ?: userData.secureCoreEnabled
+    fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
+        val wrapper = profile.wrapper
+        val needsSecureCore = profile.isSecureCore ?: userData.secureCoreEnabled
         return when (wrapper.type) {
             ProfileType.FASTEST ->
                 getBestScoreServer(userData.secureCoreEnabled, vpnUser)
@@ -385,7 +361,7 @@ class ServerManager @Inject constructor(
                 }
             ProfileType.FASTEST_IN_COUNTRY ->
                 getVpnExitCountry(wrapper.country, needsSecureCore)?.let {
-                    getBestScoreServer(it, vpnUser)
+                    getBestScoreServer(it.serverList, vpnUser)
                 }
             ProfileType.DIRECT ->
                 getServerById(wrapper.serverId!!)

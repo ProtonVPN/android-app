@@ -30,7 +30,6 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.login.Session
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -111,11 +110,6 @@ class VpnConnectionErrorHandlerTests {
         every { serverManager.defaultFallbackConnection } returns defaultFallbackConnection
         every { serverManager.getServerForProfile(defaultFallbackConnection, any()) } returns defaultFallbackServer
 
-        // Needed for VpnConnectionErrorHandler.getCandidateServers which uses Profile.isSecureCore, Profile.city etc.
-        every { serverManager.getServer(any(), any()) } answers {
-            val id = arg<ServerWrapper>(0).serverId
-            MockedServers.serverList.find { it.serverId == id }
-        }
         every { serverManager.getServerById(any()) } answers {
             MockedServers.serverList.find { it.serverId == arg(0) }
         }
@@ -145,7 +139,7 @@ class VpnConnectionErrorHandlerTests {
         prepareServerManager()
 
         val server = MockedServers.server
-        directProfile = Profile.getTempProfile(server, serverManager)
+        directProfile = Profile.getTempProfile(server)
         directProfile.setProtocol(VpnProtocol.IKEv2)
         directConnectionParams = ConnectionParamsIKEv2(directProfile, server, server.getRandomConnectingDomain())
 
@@ -236,7 +230,7 @@ class VpnConnectionErrorHandlerTests {
                     !(failSecureCore && it.server.isSecureCoreServer) &&
                         it.server.exitCountry != failCountry && it.server.serverName != failServerName
                 }
-                val profile = Profile.getTempProfile(server.server, serverManager)
+                val profile = Profile.getTempProfile(server.server)
                 val connectionParams = if (useOpenVPN) {
                     ConnectionParamsOpenVpn(
                         profile, server.server, server.connectingDomain, TransmissionProtocol.UDP, 443)
@@ -330,7 +324,7 @@ class VpnConnectionErrorHandlerTests {
     @Test
     fun testUnreachableSecureCoreSwitch() = runBlockingTest {
         val secureCoreServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
-        val secureCoreProfile = Profile.getTempProfile(secureCoreServer, serverManager, true)
+        val secureCoreProfile = Profile.getTempProfile(secureCoreServer, true)
         secureCoreProfile.setProtocol(VpnProtocol.IKEv2)
         val scConnectionParams =
             ConnectionParamsIKEv2(secureCoreProfile, secureCoreServer, secureCoreServer.connectingDomains.first())
@@ -344,7 +338,7 @@ class VpnConnectionErrorHandlerTests {
     @Test
     fun testUnreachableSecureCoreSwitchToNonSecureCore() = runBlockingTest {
         val scServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
-        val scProfie = Profile.getTempProfile(scServer, serverManager, true)
+        val scProfie = Profile.getTempProfile(scServer, true)
         scProfie.setProtocol(VpnProtocol.IKEv2)
         val scConnectionParams = ConnectionParamsIKEv2(scProfie, scServer, scServer.connectingDomains.first())
 

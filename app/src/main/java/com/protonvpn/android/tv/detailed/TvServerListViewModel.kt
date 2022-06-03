@@ -159,7 +159,7 @@ class TvServerListViewModel @Inject constructor(
 
         fun click(vpnUiDelegate: VpnUiDelegate, onUpgrade: () -> Unit) = when (actionState) {
             ServerActionState.DISCONNECTED -> {
-                val profile = Profile.getTempProfile(server, serverManager)
+                val profile = Profile.getTempProfile(server)
                 ProtonLogger.log(UiConnect, "server tile (TV)")
                 vpnConnectionManager.connect(vpnUiDelegate, profile, "user via server tile (TV)")
             }

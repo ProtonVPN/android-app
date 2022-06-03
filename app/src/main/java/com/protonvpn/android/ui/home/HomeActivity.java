@@ -493,7 +493,7 @@ public class HomeActivity extends VpnActivity {
             disconnect(connectTo.getUiElement());
         } else {
             Server server = connectTo.getServer();
-            onConnect(connectTo.getUiElement(), Profile.getTempProfile(server, serverManager));
+            onConnect(connectTo.getUiElement(), Profile.getTempProfile(server));
         }
     }
 

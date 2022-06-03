@@ -98,7 +98,6 @@ class ProfileViewModel @Inject constructor(
 
     fun initWithProfile(context: Context, profile: Profile?) {
         if (profile != null) {
-            profile.wrapper.setDeliverer(serverManager)
             editedProfile = profile
             profileNameInput = profile.getDisplayName(context)
             profileColor.value = requireNotNull(profile.profileColor)
@@ -243,13 +242,13 @@ class ProfileViewModel @Inject constructor(
         serverManager: ServerManager
     ): ServerWrapper? = when (serverSelection) {
         ServerIdSelection.FastestInCountry ->
-            ServerWrapper.makeFastestForCountry(country.flag, serverManager)
+            ServerWrapper.makeFastestForCountry(country.flag)
         ServerIdSelection.RandomInCountry ->
-            ServerWrapper.makeRandomForCountry(country.flag, serverManager)
+            ServerWrapper.makeRandomForCountry(country.flag)
         is ServerIdSelection.Specific -> {
             val server = serverManager.getServerById(serverSelection.id)
             if (server != null) {
-                ServerWrapper.makeWithServer(server, serverManager)
+                ServerWrapper.makeWithServer(server)
             } else {
                 ProtonLogger.logCustom(
                     LogLevel.ERROR,

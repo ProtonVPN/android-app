@@ -34,13 +34,13 @@ public class SavedProfilesV3 implements Serializable {
         return profileList;
     }
 
-    public static SavedProfilesV3 defaultProfiles(ServerDeliver deliver) {
+    public static SavedProfilesV3 defaultProfiles() {
         SavedProfilesV3 defaultProfiles = new SavedProfilesV3(new ArrayList<>());
         defaultProfiles.getProfileList()
-            .add(new Profile("fastest", null, ServerWrapper.makePreBakedFastest(deliver), null, null));
+            .add(new Profile("fastest", null, ServerWrapper.makePreBakedFastest(), null, null));
         defaultProfiles.getProfileList()
             .add(new Profile("random", null,
-                ServerWrapper.makePreBakedRandom(deliver), null, null));
+                ServerWrapper.makePreBakedRandom(), null, null));
         return defaultProfiles;
     }
 

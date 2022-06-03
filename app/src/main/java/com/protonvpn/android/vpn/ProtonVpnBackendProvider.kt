@@ -23,7 +23,6 @@ import com.protonvpn.android.logging.ConnConnectScanResult
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.logging.ProtonLogger
@@ -38,7 +37,6 @@ class ProtonVpnBackendProvider(
     val strongSwan: VpnBackend,
     val openVpn: VpnBackend,
     val wireGuard: VpnBackend,
-    val serverDeliver: ServerDeliver,
 ) : VpnBackendProvider {
 
     override suspend fun prepareConnection(
@@ -77,7 +75,7 @@ class ProtonVpnBackendProvider(
     ): VpnBackendProvider.PingResult? {
         val responses = coroutineScope {
             preferenceList.mapAsync { server ->
-                val profile = Profile.getTempProfile(server.server, serverDeliver)
+                val profile = Profile.getTempProfile(server.server)
                 val fullScan = server === fullScanServer
                 val portsLimit = if (fullScan) Int.MAX_VALUE else PING_ALL_MAX_PORTS
 

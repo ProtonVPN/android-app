@@ -185,7 +185,6 @@ class VpnConnectionTests {
             strongSwan = mockStrongSwan,
             openVpn = mockOpenVpn,
             wireGuard = mockWireguard,
-            serverDeliver = serverManager,
             config = appConfig
         )
 
@@ -483,7 +482,7 @@ class VpnConnectionTests {
     @Test
     fun testSwitchOfflineServer() = scope.runBlockingTest {
         val offlineServer = MockedServers.serverList.first { it.serverName == "SE#3" }
-        val profile = Profile.getTempProfile(offlineServer, serverManager)
+        val profile = Profile.getTempProfile(offlineServer)
         coEvery {
             vpnErrorHandler.onServerInMaintenance(profile, null)
         } returns VpnFallbackResult.Switch.SwitchProfile(

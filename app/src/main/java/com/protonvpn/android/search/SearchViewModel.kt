@@ -157,7 +157,7 @@ class SearchViewModel @Inject constructor(
     private fun connectServer(vpnUiDelegate: VpnUiDelegate, server: Server?) {
         query.value?.let { saveSearchQuery(it) }
         if (server != null) {
-            vpnConnectionManager.connect(vpnUiDelegate, Profile.getTempProfile(server, serverManager), "Search UI")
+            vpnConnectionManager.connect(vpnUiDelegate, Profile.getTempProfile(server), "Search UI")
             eventCloseFlow.tryEmit(Unit)
         } else {
             DebugUtils.debugAssert("No server found, should never happen") { true }

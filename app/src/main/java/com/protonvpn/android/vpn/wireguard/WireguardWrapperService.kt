@@ -24,7 +24,6 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.wireguard.android.backend.GoBackend
@@ -37,7 +36,6 @@ class WireguardWrapperService : GoBackend.VpnService() {
     @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var wireguardBackend: WireguardBackend
     @Inject lateinit var connectionManager: VpnConnectionManager
-    @Inject lateinit var serverManager: ServerManager
 
     override fun onCreate() {
         super.onCreate()
@@ -57,7 +55,6 @@ class WireguardWrapperService : GoBackend.VpnService() {
 
     private fun handleProcessRestore(): Boolean {
         Storage.load(ConnectionParams::class.java)?.profile?.let { profile ->
-            profile.wrapper.setDeliverer(serverManager)
             return connectionManager.onRestoreProcess(profile)
         }
         return false
