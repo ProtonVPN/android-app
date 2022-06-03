@@ -42,7 +42,6 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
@@ -108,6 +107,10 @@ import okhttp3.OkHttpClient
 import java.util.Random
 import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ElapsedRealtimeClock
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
@@ -289,6 +292,10 @@ object AppModule {
     fun provideWallClock(): () -> Long = System::currentTimeMillis
 
     @Provides
+    @ElapsedRealtimeClock
+    fun provideElapsedRealtimeClock(): () -> Long = SystemClock::elapsedRealtime
+
+    @Provides
     @Singleton
     fun provideExtraHeaderProvider(): ExtraHeaderProvider = ExtraHeaderProviderImpl().apply {
         BuildConfig.BLACK_TOKEN?.takeIfNotBlank()?.let {
@@ -315,17 +322,6 @@ object AppModule {
     fun provideActivityManager(): ActivityManager =
         ProtonApplication.getAppContext()
             .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-
-    @Singleton
-    @Provides
-    fun provideServerListUpdater(
-        api: ProtonApiRetroFit,
-        serverManager: ServerManager,
-        currentUser: CurrentUser,
-        vpnStateMonitor: VpnStateMonitor,
-        userPlanManager: UserPlanManager,
-        prefs: ServerListUpdaterPrefs
-    ) = ServerListUpdater(scope, api, serverManager, currentUser, vpnStateMonitor, userPlanManager, prefs)
 
     @Singleton
     @Provides

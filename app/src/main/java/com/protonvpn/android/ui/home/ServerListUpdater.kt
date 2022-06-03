@@ -18,13 +18,14 @@
  */
 package com.protonvpn.android.ui.home
 
-import android.os.SystemClock
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
@@ -40,8 +41,11 @@ import me.proton.core.network.domain.ApiResult
 import org.joda.time.DateTime
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ServerListUpdater(
+@Singleton
+class ServerListUpdater @Inject constructor(
     val scope: CoroutineScope,
     val api: ProtonApiRetroFit,
     val serverManager: ServerManager,
@@ -49,6 +53,7 @@ class ServerListUpdater(
     val vpnStateMonitor: VpnStateMonitor,
     userPlanManager: UserPlanManager,
     private val prefs: ServerListUpdaterPrefs,
+    @ElapsedRealtimeClock private val elapsedRealtimeMs: () -> Long
 ) {
     private var networkLoader: NetworkLoader? = null
     private var inForeground = false
@@ -80,32 +85,16 @@ class ServerListUpdater(
         }
     }
 
-    private val task = ReschedulableTask(scope, ::now) {
-        if (currentUser.isLoggedIn()) {
-            // force downloading serverlist first time for guesthole case
-            if (!serverManager.isDownloadedAtLeastOnce) {
-                updateServerList(networkLoader)
-            }
-
-            if (now() >= lastIpCheck + LOCATION_CALL_DELAY) {
-                if (updateLocationIfVpnOff())
-                    updateServerList(networkLoader)
-            }
-            if (serverManager.isOutdated || inForeground && now() >= lastServerListUpdate + LIST_CALL_DELAY)
-                updateServerList(networkLoader)
-            else if (inForeground && now() >= lastLoadsUpdate + LOADS_CALL_DELAY)
-                updateLoads()
-
-            if (inForeground)
-                scheduleIn(jitterMs(MIN_CALL_DELAY))
-        }
+    private val task = ReschedulableTask(scope, elapsedRealtimeMs) {
+        val nextScheduleDelay = updateTask()
+        if (nextScheduleDelay > 0) scheduleIn(nextScheduleDelay)
     }
 
     private val lastLoadsUpdate
         get() = lastLoadsUpdateInternal.coerceAtLeast(lastServerListUpdate)
 
     private fun dateToRealtime(date: Long) =
-        now() - (DateTime().millis - date).coerceAtLeast(0)
+        elapsedRealtimeMs() - (DateTime().millis - date).coerceAtLeast(0)
 
     fun startSchedule(lifecycle: Lifecycle, loader: NetworkLoader?) {
         networkLoader = loader
@@ -136,11 +125,35 @@ class ServerListUpdater(
         updateServerList(networkLoader)
     }
 
+    @VisibleForTesting
+    suspend fun updateTask(): Long {
+        if (currentUser.isLoggedIn()) {
+            // force downloading serverlist first time for guesthole case
+            if (!serverManager.isDownloadedAtLeastOnce) {
+                updateServerList(networkLoader)
+            }
+
+            val now = elapsedRealtimeMs()
+            if (now >= lastIpCheck + LOCATION_CALL_DELAY) {
+                if (updateLocationIfVpnOff())
+                    updateServerList(networkLoader)
+            }
+            if (serverManager.isOutdated || inForeground && now >= lastServerListUpdate + LIST_CALL_DELAY)
+                updateServerList(networkLoader)
+            else if (inForeground && now >= lastLoadsUpdate + LOADS_CALL_DELAY)
+                updateLoads()
+
+            if (inForeground)
+                return jitterMs(MIN_CALL_DELAY)
+        }
+        return -1
+    }
+
     private suspend fun updateLoads(): Boolean {
         val result = api.getLoads(prefs.ipAddress)
         if (result is ApiResult.Success) {
             serverManager.updateLoads(result.value.loadsList)
-            lastLoadsUpdateInternal = now()
+            lastLoadsUpdateInternal = elapsedRealtimeMs()
             prefs.loadsUpdateTimestamp = DateTime().millis
             return true
         }
@@ -164,7 +177,7 @@ class ServerListUpdater(
                 prefs.lastKnownCountry = country
                 prefs.lastKnownIsp = isp
             }
-            lastIpCheck = now()
+            lastIpCheck = elapsedRealtimeMs()
             prefs.ipAddressCheckTimestamp = DateTime().millis
         }
         return ipChanged
@@ -195,12 +208,15 @@ class ServerListUpdater(
         return result
     }
 
+    @VisibleForTesting
+    fun setInForegroundForTest(foreground: Boolean) {
+        inForeground = foreground
+    }
+
     companion object {
         private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
         private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
         val LIST_CALL_DELAY = TimeUnit.HOURS.toMillis(3)
         private val MIN_CALL_DELAY = minOf(LOCATION_CALL_DELAY, LOADS_CALL_DELAY, LIST_CALL_DELAY)
-
-        private fun now() = SystemClock.elapsedRealtime()
     }
 }
