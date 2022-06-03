@@ -324,7 +324,7 @@ class TvMainViewModel @Inject constructor(
     fun connect(activity: BaseTvActivity, card: CountryCard?) {
         val profile = if (card != null) {
             serverManager.getBestScoreServer(card.vpnCountry)?.let {
-                Profile.getTempProfile(it, serverManager)
+                Profile.getTempProfile(it)
             }
         } else {
             serverManager.defaultConnection
@@ -358,7 +358,7 @@ class TvMainViewModel @Inject constructor(
         userData.defaultConnection = if (checked) Profile(
             vpnCountry.countryName,
             null,
-            ServerWrapper.makeFastestForCountry(vpnCountry.flag, serverManager),
+            ServerWrapper.makeFastestForCountry(vpnCountry.flag),
             null,
             null
         ) else null

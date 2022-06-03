@@ -26,8 +26,7 @@ import java.io.Serializable
 data class ServerWrapper(
     val type: ProfileType,
     val country: String,
-    val serverId: String?,
-    @Transient private var deliver: ServerDeliver,
+    val serverId: String?
 ) : Serializable {
 
     enum class ProfileType {
@@ -37,39 +36,34 @@ data class ServerWrapper(
     @SerializedName("secureCoreCountry") val migrateSecureCoreCountry = false
 
     override fun toString() =
-        "type: $type country: $country serverId: $serverId deliverer: $deliver"
-
-    fun setDeliverer(deliverer: ServerDeliver) {
-        deliver = deliverer
-    }
+        "type: $type country: $country serverId: $serverId"
 
     val isPreBakedFastest get() = type == ProfileType.FASTEST
     val isPreBakedRandom get() = type == ProfileType.RANDOM
     val isFastestInCountry get() = type == ProfileType.FASTEST_IN_COUNTRY
     val isRandomInCountry get() = type == ProfileType.RANDOM_IN_COUNTRY
     val isPreBakedProfile get() = type == ProfileType.FASTEST || type == ProfileType.RANDOM
-    fun getServer(secureCore: Boolean?) = deliver.getServer(this, secureCore)
 
     companion object {
 
         @JvmStatic
-        fun makePreBakedFastest(deliver: ServerDeliver) =
-            ServerWrapper(ProfileType.FASTEST, "", "", deliver)
+        fun makePreBakedFastest() =
+            ServerWrapper(ProfileType.FASTEST, "", "")
 
         @JvmStatic
-        fun makePreBakedRandom(deliver: ServerDeliver) =
-            ServerWrapper(ProfileType.RANDOM, "", "", deliver)
+        fun makePreBakedRandom() =
+            ServerWrapper(ProfileType.RANDOM, "", "")
 
         @JvmStatic
-        fun makeWithServer(server: Server, deliver: ServerDeliver) =
-            ServerWrapper(ProfileType.DIRECT, server.exitCountry, server.serverId, deliver)
+        fun makeWithServer(server: Server) =
+            ServerWrapper(ProfileType.DIRECT, server.exitCountry, server.serverId)
 
         @JvmStatic
-        fun makeFastestForCountry(country: String, deliver: ServerDeliver) =
-            ServerWrapper(ProfileType.FASTEST_IN_COUNTRY, country, "", deliver)
+        fun makeFastestForCountry(country: String) =
+            ServerWrapper(ProfileType.FASTEST_IN_COUNTRY, country, "")
 
         @JvmStatic
-        fun makeRandomForCountry(country: String, deliver: ServerDeliver) =
-            ServerWrapper(ProfileType.RANDOM_IN_COUNTRY, country, "", deliver)
+        fun makeRandomForCountry(country: String) =
+            ServerWrapper(ProfileType.RANDOM_IN_COUNTRY, country, "")
     }
 }

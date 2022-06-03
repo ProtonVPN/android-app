@@ -60,6 +60,7 @@ import com.protonvpn.android.utils.ColorUtils.mixDstOver
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.SentryIntegration
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -89,6 +90,7 @@ class SettingsActivity : BaseActivityV2() {
     @Inject lateinit var appConfig: AppConfig
     @Inject lateinit var installedAppsProvider: InstalledAppsProvider
     @Inject lateinit var currentUser: CurrentUser
+    @Inject lateinit var serverManager: ServerManager
 
     private val binding by viewBinding(ActivitySettingsBinding::inflate)
     private var loadExcludedAppsJob: Job? = null

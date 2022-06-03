@@ -232,7 +232,6 @@ class MockAppModule {
                         VpnProtocol.OpenVPN, currentUser),
                 wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
                         VpnProtocol.WireGuard, currentUser),
-                serverDeliver = serverManager,
                 config = appConfig
         )
     } else {
@@ -240,7 +239,6 @@ class MockAppModule {
                 strongSwan = strongSwanBackend,
                 openVpn = openVpnBackend,
                 wireGuard = wireguardBackend,
-                serverDeliver = serverManager,
                 config = appConfig
         )
     }

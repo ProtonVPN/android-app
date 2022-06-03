@@ -84,7 +84,6 @@ data class Profile @JvmOverloads constructor(
     val isPreBakedFastest: Boolean
         get() = wrapper.isPreBakedFastest
 
-    val server: Server? get() = wrapper.getServer(isSecureCore)
     val country: String get() = wrapper.country
     val directServerId: String? get() = wrapper.serverId
 
@@ -141,9 +140,9 @@ data class Profile @JvmOverloads constructor(
 
     companion object {
         @JvmStatic
-        fun getTempProfile(server: Server, serverDeliver: ServerDeliver) = getTempProfile(server, serverDeliver, null)
-        fun getTempProfile(server: Server, serverDeliver: ServerDeliver, isSecureCore: Boolean?) =
-            getTempProfile(ServerWrapper.makeWithServer(server, serverDeliver), isSecureCore)
+        fun getTempProfile(server: Server) = getTempProfile(server, null)
+        fun getTempProfile(server: Server, isSecureCore: Boolean?) =
+            getTempProfile(ServerWrapper.makeWithServer(server), isSecureCore)
         fun getTempProfile(serverWrapper: ServerWrapper, isSecureCore: Boolean? = null) =
             Profile("", null, serverWrapper, null, isSecureCore)
     }

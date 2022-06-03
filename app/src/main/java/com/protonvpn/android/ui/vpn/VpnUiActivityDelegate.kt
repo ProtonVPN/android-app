@@ -25,7 +25,6 @@ import androidx.activity.ComponentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity
 import com.protonvpn.android.vpn.PermissionContract
@@ -67,7 +66,6 @@ abstract class VpnUiActivityDelegate(
 
 class VpnUiActivityDelegateMobile(
     activity: ComponentActivity,
-    serverDeliver: ServerDeliver,
     retryConnection: ((Profile) -> Unit)? = null
 ) : VpnUiActivityDelegate(activity) {
 
@@ -75,7 +73,6 @@ class VpnUiActivityDelegateMobile(
         NoVpnPermissionActivity.Companion.Contract()
     ) { retryProfile ->
         if (retryProfile != null) {
-            retryProfile.wrapper.setDeliverer(serverDeliver)
             retryConnection?.invoke(retryProfile)
         }
     }

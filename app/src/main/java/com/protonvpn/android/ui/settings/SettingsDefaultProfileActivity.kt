@@ -31,6 +31,7 @@ import com.protonvpn.android.databinding.ItemProfileSelectionBinding
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.HeaderViewHolder
+import com.protonvpn.android.utils.ServerManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -42,6 +43,7 @@ import javax.inject.Inject
 class SettingsDefaultProfileActivity : BaseActivityV2() {
 
     @Inject lateinit var userData: UserData
+    @Inject lateinit var serverManager: ServerManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

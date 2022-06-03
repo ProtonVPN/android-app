@@ -21,7 +21,6 @@ package com.protonvpn.app.ui.home
 
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
-import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.ui.home.profiles.HomeViewModel
@@ -38,8 +37,6 @@ import kotlin.test.assertEquals
 
 class HomeViewModelTests {
 
-    @MockK
-    private lateinit var mockServerDeliver: ServerDeliver
     @MockK
     private lateinit var mockStateMonitor: VpnStateMonitor
     @MockK
@@ -67,7 +64,7 @@ class HomeViewModelTests {
 
     @Test
     fun `when switching Secure Core while connected to fastest profile use the same profile to reconnect`() {
-        val wrapper = ServerWrapper.makePreBakedFastest(mockServerDeliver)
+        val wrapper = ServerWrapper.makePreBakedFastest()
         val fastestProfile = Profile("fastest", null, wrapper, ProfileColor.FERN.id, null)
         every { mockConnectionParams.profile } returns fastestProfile
         every { mockStateMonitor.connectionParams } returns mockConnectionParams
@@ -80,7 +77,7 @@ class HomeViewModelTests {
     @Test
     fun `when switching Secure Core while connected to server profile use fastest in country profile to reconnect`() {
         val wrapper =
-            ServerWrapper.makeWithServer(MockedServers.serverList.find { it.serverName == "FR#1" }!!, mockServerDeliver)
+            ServerWrapper.makeWithServer(MockedServers.serverList.find { it.serverName == "FR#1" }!!)
         val profile = Profile("FR#1", null, wrapper, ProfileColor.FERN.id, false)
         every { mockConnectionParams.profile } returns profile
         every { mockStateMonitor.connectionParams } returns mockConnectionParams

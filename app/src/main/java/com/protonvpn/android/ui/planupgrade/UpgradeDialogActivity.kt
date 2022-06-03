@@ -39,10 +39,12 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpgradeDialogBinding
 import com.protonvpn.android.databinding.ItemUpgradeFeatureBinding
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.openProtonUrl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 abstract class UpgradeDialogActivity : BaseActivityV2() {
 
@@ -159,6 +161,8 @@ class UpgradeSecureCoreDialogActivity : UpgradeDialogActivity() {
 
 @AndroidEntryPoint
 open class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
+
+    @Inject lateinit var serverManager: ServerManager
 
     override fun setViews(binding: ActivityUpgradeDialogBinding) = with(binding) {
         imagePicture.setImageResource(R.drawable.upgrade_plus_countries)

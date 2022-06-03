@@ -27,7 +27,6 @@ import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,7 +40,6 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
 
     @Inject lateinit var userData: UserData
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
-    @Inject lateinit var serverManager: ServerManager
     @Inject lateinit var notificationHelper: NotificationHelper
 
     override fun onCreate() {
@@ -61,7 +59,6 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
     override fun onProcessRestore(): Boolean {
         val lastServer = Storage.load(ConnectionParams::class.java, ConnectionParamsOpenVpn::class.java)
                 ?: return false
-        lastServer.profile.wrapper.setDeliverer(serverManager)
         return vpnConnectionManager.onRestoreProcess(lastServer.profile)
     }
 

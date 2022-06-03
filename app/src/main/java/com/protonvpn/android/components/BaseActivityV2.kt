@@ -35,7 +35,6 @@ import com.protonvpn.android.ui.snackbar.SnackbarHelper
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
 import com.protonvpn.android.utils.AndroidUtils.isTV
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.PermissionContract
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
@@ -48,7 +47,6 @@ interface VpnUiDelegateProvider {
 abstract class BaseActivityV2 : AppCompatActivity(), VpnUiDelegateProvider {
 
     @Inject lateinit var delegatedSnackManager: DelegatedSnackManager
-    @Inject lateinit var serverManager: ServerManager
 
     lateinit var snackbarHelper: SnackbarHelper
         private set
@@ -66,7 +64,7 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnUiDelegateProvider {
         requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTV())
             SCREEN_ORIENTATION_FULL_USER else SCREEN_ORIENTATION_PORTRAIT
         snackbarHelper = DelegatedSnackbarHelper(this, getContentView(), delegatedSnackManager)
-        vpnUiDelegate = VpnUiActivityDelegateMobile(this, serverManager) { retryConnection(it) }
+        vpnUiDelegate = VpnUiActivityDelegateMobile(this) { retryConnection(it) }
     }
 
     fun initToolbarWithUpEnabled(toolbar: Toolbar) {

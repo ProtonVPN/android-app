@@ -65,7 +65,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
     private DelegatedSnackbarHelper snackbarHelper;
     @Inject public DelegatedSnackManager delegatedSnackManager;
-    @Inject protected ServerManager serverManager;
 
     public void navigateTo(Class<? extends AppCompatActivity> className) {
         Intent intent = new Intent(this, className);
@@ -77,8 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         checkOrientation();
 
-        vpnUiDelegate = new VpnUiActivityDelegateMobile(
-            this, serverManager, this::retryConnection);
+        vpnUiDelegate = new VpnUiActivityDelegateMobile(this, this::retryConnection);
 
         setContentView(AnnotationParser.getAnnotatedLayout(this));
         ButterKnife.bind(this);

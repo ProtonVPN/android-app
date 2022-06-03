@@ -33,13 +33,17 @@ import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.databinding.ActivitySwitchDialogBinding
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.SnackType
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SwitchDialogActivity : BaseActivityV2() {
 
     private val viewModel: SwitchDialogViewModel by viewModels()
+
+    @Inject lateinit var serverManager: ServerManager
 
     class CloseOnSuccessContract(val intent: Intent) : ActivityResultContract<Unit, Boolean>() {
         override fun createIntent(context: Context, input: Unit) = intent

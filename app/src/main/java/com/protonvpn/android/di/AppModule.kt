@@ -223,7 +223,6 @@ object AppModuleProd {
     @Provides
     fun provideVpnBackendManager(
         appConfig: AppConfig,
-        serverManager: ServerManager,
         wireguardBackend: WireguardBackend,
         openVpnBackend: OpenVpnBackend,
         strongSwanBackend: StrongSwanBackend
@@ -233,7 +232,6 @@ object AppModuleProd {
             strongSwanBackend,
             openVpnBackend,
             wireguardBackend,
-            serverManager
         )
 
     @Singleton

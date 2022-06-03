@@ -21,7 +21,6 @@ package com.protonvpn.test.shared
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
-import com.protonvpn.android.models.profiles.ServerDeliver
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.Server
 import kotlinx.serialization.decodeFromString
@@ -40,9 +39,7 @@ object MockedServers {
     val server by lazy { serverList.first() }
 
     fun getProfile(protocol: VpnProtocol, server: Server, name: String = protocol.name) =
-        Profile(name, null, ServerWrapper.makeWithServer(server, object : ServerDeliver {
-            override fun getServer(wrapper: ServerWrapper, secureCore: Boolean?): Server = server
-        }), ProfileColor.CARROT.id, null).apply {
+        Profile(name, null, ServerWrapper.makeWithServer(server), ProfileColor.CARROT.id, null).apply {
             setProtocol(protocol)
         }
 

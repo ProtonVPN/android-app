@@ -91,7 +91,7 @@ class GuestHole @Inject constructor(
             val vpnStatus = vpnMonitor.status
             connected = withTimeoutOrNull(GUEST_HOLE_SERVER_TIMEOUT) {
                 suspendCancellableCoroutine<Boolean> { continuation ->
-                    val profile = Profile.getTempProfile(server, serverManager.get())
+                    val profile = Profile.getTempProfile(server)
                         .apply {
                             setProtocol(VpnProtocol.OpenVPN)
                         }

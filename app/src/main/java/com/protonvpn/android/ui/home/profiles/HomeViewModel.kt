@@ -73,7 +73,7 @@ class HomeViewModel @Inject constructor(
             // Connect to the same profile, it doesn't enforce Secure Core.
             connectedProfile
         } else {
-            Profile.getTempProfile(ServerWrapper.makeFastestForCountry(connectedProfile.country, serverManager))
+            Profile.getTempProfile(ServerWrapper.makeFastestForCountry(connectedProfile.country))
         }
     }
 

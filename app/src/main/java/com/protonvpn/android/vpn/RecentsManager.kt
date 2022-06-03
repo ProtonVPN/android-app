@@ -21,7 +21,6 @@ package com.protonvpn.android.vpn
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
@@ -56,7 +55,6 @@ class RecentsManager(
             if (it.recentServers != null)
                 recentServers.putAll(it.recentServers)
         }
-        recentConnections.forEach { it.wrapper.setDeliverer(serverManager) }
 
         scope.launch {
             stateMonitor.status.collect { status ->

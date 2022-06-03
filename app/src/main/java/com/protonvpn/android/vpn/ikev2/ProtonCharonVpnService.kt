@@ -111,7 +111,6 @@ class ProtonCharonVpnService : CharonVpnService() {
         if (lastServer == null)
             stopSelf()
         else {
-            lastServer.profile.wrapper.setDeliverer(manager)
             if (!vpnConnectionManager.onRestoreProcess(lastServer.profile))
                 stopSelf()
         }
