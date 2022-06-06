@@ -30,8 +30,8 @@
         android:layout_height="match_parent"
         android:layout_marginVertical="24dp"
         android:orientation="vertical"
-        tools:context="com.protonvpn.android.ui.home.profiles.ProfileActivity"
-        tools:showIn="@layout/activity_profile">
+        tools:context="com.protonvpn.android.ui.home.profiles.ProfileEditActivity"
+        tools:showIn="@layout/activity_profile_edit">
 
         <me.proton.core.presentation.ui.view.ProtonInput
             android:id="@+id/inputName"

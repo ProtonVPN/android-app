@@ -35,7 +35,7 @@ import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
 import com.protonvpn.android.components.IntentExtras
 import com.protonvpn.android.components.ProtonColorCircle
-import com.protonvpn.android.databinding.ActivityProfileBinding
+import com.protonvpn.android.databinding.ActivityProfileEditBinding
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.ui.ProtocolSelection
@@ -50,9 +50,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 
 @AndroidEntryPoint
-class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
+class ProfileEditActivity : SaveableSettingsActivity<ProfileEditViewModel>() {
 
-    private val binding by viewBinding(ActivityProfileBinding::inflate)
+    private val binding by viewBinding(ActivityProfileEditBinding::inflate)
     private val paletteViews = mutableMapOf<ProtonColorCircle, ProfileColor>()
 
     private val countrySelection = registerForActivityResult(CountrySelectionActivity.createContract()) {
@@ -65,7 +65,7 @@ class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
         if (it != null) viewModel.setProtocol(it)
     }
 
-    override val viewModel: ProfileViewModel by viewModels()
+    override val viewModel: ProfileEditViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +93,7 @@ class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
     }
 
     private fun initProfileName(profile: Profile?) = with(binding.contentProfile) {
-        if (profile != null) inputName.text = profile.getDisplayName(this@ProfileActivity)
+        if (profile != null) inputName.text = profile.getDisplayName(this@ProfileEditActivity)
         inputName.addTextChangedListener(object : TextWatcherAdapter() {
             override fun afterTextChanged(s: Editable) {
                 viewModel.onProfileNameTextChanged(s.toString())
@@ -153,7 +153,7 @@ class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
         binding.contentProfile.inputProtocol.text = getString(protocol.displayName)
     }
 
-    private fun updateServerFields(state: ProfileViewModel.ServerViewState) {
+    private fun updateServerFields(state: ProfileEditViewModel.ServerViewState) {
         with(binding.contentProfile) {
             checkboxSecureCore.isChecked = state.secureCore
             inputCountry.text = state.countryName
@@ -176,7 +176,7 @@ class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
             with(binding.contentProfile.buttonDelete) {
                 isVisible = true
                 setOnClickListener {
-                    MaterialAlertDialogBuilder(this@ProfileActivity)
+                    MaterialAlertDialogBuilder(this@ProfileEditActivity)
                         .setMessage(R.string.deleteProfile)
                         .setPositiveButton(R.string.delete) { _, _ ->
                             viewModel.deleteProfile()
@@ -199,7 +199,7 @@ class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
         checkboxSecureCore.isVisible = viewModel.isSecureCoreAvailable
     }
 
-    private fun updateErrors(errors: ProfileViewModel.InputValidation) {
+    private fun updateErrors(errors: ProfileEditViewModel.InputValidation) {
         with(binding.contentProfile) {
             if (errors.profileNameError != 0)
                 inputName.setInputError(getString(errors.profileNameError))
@@ -223,11 +223,11 @@ class ProfileActivity : SaveableSettingsActivity<ProfileViewModel>() {
     companion object {
 
         fun navigateForCreation(fragment: ProfilesFragment) {
-            fragment.startActivity(Intent(fragment.activity, ProfileActivity::class.java))
+            fragment.startActivity(Intent(fragment.activity, ProfileEditActivity::class.java))
         }
 
         fun navigateForEdit(fragment: ProfilesFragment, profileToEdit: Profile) {
-            val intent = Intent(fragment.activity, ProfileActivity::class.java)
+            val intent = Intent(fragment.activity, ProfileEditActivity::class.java)
             intent.putExtra(IntentExtras.EXTRA_PROFILE, profileToEdit)
             fragment.startActivity(intent)
         }

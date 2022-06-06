@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
+class ProfileEditViewModel @Inject constructor(
     private val serverManager: ServerManager,
     private val userData: UserData,
     private val currentUser: CurrentUser
