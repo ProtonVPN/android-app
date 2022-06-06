@@ -234,11 +234,13 @@ coverage report:
     - ./gradlew jacocoTestReport
     - ./gradlew coverageReport
     - python3 jacocoConverter.py app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml app/src/main/java > app/build/reports/cobertura-coverage.xml
+  only:
+    - branches
   allow_failure: true
   artifacts:
     expire_in: 1 week
-    paths:
-      - app/build/reports
+    expose_as: 'Coverage html'
+    paths: ['app/build/reports/jacoco/jacocoTestReport/html/']
     reports:
       cobertura: app/build/reports/cobertura-coverage.xml
 
