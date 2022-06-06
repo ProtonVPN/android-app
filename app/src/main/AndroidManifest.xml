@@ -186,7 +186,7 @@
         </receiver>
 
         <activity
-            android:name=".ui.home.profiles.ProfileActivity"
+            android:name=".ui.home.profiles.ProfileEditActivity"
             android:label="@string/activityProfileTitle"
             android:parentActivityName=".ui.home.HomeActivity"
             android:windowSoftInputMode="adjustResize">
@@ -197,18 +197,18 @@
         <activity
             android:name=".ui.home.profiles.CountrySelectionActivity"
             android:label="@string/country"
-            android:parentActivityName=".ui.home.profiles.ProfileActivity">
+            android:parentActivityName=".ui.home.profiles.ProfileEditActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.protonvpn.android.ui.home.profiles.ProfileActivity" />
+                android:value="com.protonvpn.android.ui.home.profiles.ProfileEditActivity" />
         </activity>
         <activity
             android:name=".ui.home.profiles.ServerSelectionActivity"
             android:label="@string/serverSelection"
-            android:parentActivityName=".ui.home.profiles.ProfileActivity">
+            android:parentActivityName=".ui.home.profiles.ProfileEditActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.protonvpn.android.ui.home.profiles.ProfileActivity" />
+                android:value="com.protonvpn.android.ui.home.profiles.ProfileEditActivity" />
         </activity>
         <activity
             android:name=".ui.ProtocolSelectionActivity"

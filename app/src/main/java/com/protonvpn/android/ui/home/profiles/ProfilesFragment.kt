@@ -34,7 +34,6 @@ import com.protonvpn.android.databinding.FragmentProfilesBinding
 import com.protonvpn.android.databinding.ItemProfileListBinding
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.HeaderViewHolder
-import com.protonvpn.android.ui.home.profiles.ProfileActivity.Companion.navigateForCreation
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
 import com.xwray.groupie.GroupAdapter
@@ -60,13 +59,13 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
         with(binding) {
             list.adapter = adapter
             textCreateProfile.setOnClickListener {
-                navigateForCreation(this@ProfilesFragment)
+                ProfileEditActivity.navigateForCreation(this@ProfilesFragment)
             }
             // Profiles don't have IDs so they always animate as remove + add which doesn't look
             // good, let's disable animations.
             list.itemAnimator = null
         }
-        val editAction = { profile: Profile -> ProfileActivity.navigateForEdit(this, profile) }
+        val editAction = { profile: Profile -> ProfileEditActivity.navigateForEdit(this, profile) }
         viewModel.preBakedProfiles.asLiveData().observe(viewLifecycleOwner, Observer {
             prebakedProfilesSection.update(it.map { ProfileViewHolder(it, editAction) })
         })

@@ -26,7 +26,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.VpnCountry
-import com.protonvpn.android.ui.home.profiles.ProfileViewModel
+import com.protonvpn.android.ui.home.profiles.ProfileEditViewModel
 import com.protonvpn.android.ui.home.profiles.ServerIdSelection
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
@@ -63,7 +63,7 @@ class ProfileViewModelTests {
     private val server = MockedServers.server
     private val country = VpnCountry(COUNTRY_CODE, listOf(server))
 
-    private lateinit var viewModel: ProfileViewModel
+    private lateinit var viewModel: ProfileEditViewModel
 
     @Before
     fun setup() {
@@ -78,7 +78,7 @@ class ProfileViewModelTests {
         every { mockServerManager.getServerById(server.serverId) } returns server
 
         userData = UserData.create()
-        viewModel = ProfileViewModel(mockServerManager, userData, mockCurrentUser)
+        viewModel = ProfileEditViewModel(mockServerManager, userData, mockCurrentUser)
     }
 
     @Test
