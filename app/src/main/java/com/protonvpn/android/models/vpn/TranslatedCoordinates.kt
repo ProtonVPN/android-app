@@ -18,8 +18,10 @@
  */
 package com.protonvpn.android.models.vpn
 
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.Log
 import java.io.Serializable
 
 class TranslatedCoordinates(forFlag: String) : Serializable {
@@ -42,7 +44,7 @@ class TranslatedCoordinates(forFlag: String) : Serializable {
 
     init {
         if (positionX == null || positionY == null) {
-            Log.d("Can't translate coordinates for: $forFlag")
+            ProtonLogger.logCustom(LogLevel.DEBUG, LogCategory.APP, "Can't translate coordinates for: $forFlag")
         }
     }
 }
