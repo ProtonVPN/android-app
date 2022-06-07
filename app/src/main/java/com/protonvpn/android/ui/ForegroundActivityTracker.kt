@@ -21,7 +21,6 @@ package com.protonvpn.android.ui
 
 import android.app.Activity
 import android.app.Application
-import android.os.PowerManager
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks
@@ -43,7 +42,6 @@ import javax.inject.Singleton
 class ForegroundActivityTracker @Inject constructor(
     mainScope: CoroutineScope,
     app: Application,
-    powerManager: PowerManager
 ) {
     private val dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK)
 
@@ -58,8 +56,6 @@ class ForegroundActivityTracker @Inject constructor(
                     val activityName = activity::class.java.simpleName
                     val date = dateFormat.format(Date())
                     ProtonLogger.logCustom(LogCategory.UI, "App in foreground: $activityName $date")
-                    val batteryOptimizationsIgnored = powerManager.isIgnoringBatteryOptimizations(activity.packageName)
-                    ProtonLogger.logCustom(LogCategory.APP,"Battery optimization ignored: $batteryOptimizationsIgnored")
                 }
             }
         }

@@ -58,6 +58,7 @@ class CurrentStateLogger @Inject constructor(
     private val vpnStateMonitor: VpnStateMonitor,
     private val connectivityMonitor: ConnectivityMonitor,
     private val currentUser: CurrentUser,
+    private val powerStateLogger: PowerStateLogger,
     private val settingChangesLogger: SettingChangesLogger
 ) {
     fun logCurrentState() {
@@ -67,6 +68,7 @@ class CurrentStateLogger @Inject constructor(
             ProtonLogger.log(UserPlanCurrent, vpnUser?.toLog() ?: "no user logged in")
             ProtonLogger.log(NetworkCurrent, connectivityMonitor.getCurrentStateForLog())
             ProtonLogger.log(ConnCurrentState, vpnStateMonitor.state.toString())
+            ProtonLogger.log(OsPowerCurrent, powerStateLogger.getStatusString())
             ProtonLogger.log(SettingsCurrent, "\n$settings")
         }
     }

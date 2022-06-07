@@ -21,6 +21,7 @@ package com.protonvpn.android.di
 import android.app.ActivityManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.BatteryManager
 import android.os.PowerManager
 import android.os.SystemClock
 import com.google.gson.Gson
@@ -305,6 +306,10 @@ object AppModule {
     @Provides
     fun providePowerManager(@ApplicationContext appContext: Context): PowerManager =
         appContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+
+    @Provides
+    fun provideBatteryManager(@ApplicationContext appContext: Context): BatteryManager =
+        appContext.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
     @Provides
     fun provideActivityManager(): ActivityManager =

@@ -32,6 +32,7 @@ enum class LogCategory(private val categoryName: String) {
     LOCAL_AGENT("LOCAL_AGENT"),
     NETWORK("NETWORK"),
     OS("OS"),
+    OS_POWER("OS.POWER"),
     PROTOCOL("PROTOCOL"),
     SECURE_STORE("SECURE_STORE"),
     SETTINGS("SETTINGS"),
@@ -84,6 +85,9 @@ val LocalAgentStatus = LogEventType(LogCategory.LOCAL_AGENT, "STATUS", LogLevel.
 val NetworkCurrent = LogEventType(LogCategory.NETWORK, "CURRENT", LogLevel.INFO)
 val NetworkChanged = LogEventType(LogCategory.NETWORK, "CHANGED", LogLevel.INFO)
 val NetworkUnavailable = LogEventType(LogCategory.NETWORK, "UNAVAILABLE", LogLevel.INFO)
+
+val OsPowerCurrent = LogEventType(LogCategory.OS_POWER, "CURRENT", LogLevel.INFO)
+val OsPowerChanged = LogEventType(LogCategory.OS_POWER, "CHANGED", LogLevel.INFO)
 
 val SettingsChanged = LogEventType(LogCategory.SETTINGS, "CHANGED", LogLevel.INFO)
 val SettingsCurrent = LogEventType(LogCategory.SETTINGS, "CURRENT", LogLevel.INFO)
