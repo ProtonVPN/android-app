@@ -33,10 +33,17 @@ class OnboardingRobot : BaseRobot() {
         return this
     }
 
-    fun skipOnboarding(): OnboardingRobot = clickElementById(R.id.skip)
+    fun skipOnboarding(): HomeRobot = clickElementById(R.id.skip)
 
     //TODO: Make it handle PaymentsDisabled case and update element ID
-    fun closeOnboarding(): OnboardingRobot = clickElementById(R.id.buttonUpgrade)
+    fun closeOnboarding(paymentsDisabledFlag: Boolean): HomeRobot {
+        if(paymentsDisabledFlag){
+            clickElementById<OnboardingRobot>(R.id.buttonOther)
+        } else{
+            clickElementById<OnboardingRobot>(R.id.buttonUpgrade)
+        }
+        return HomeRobot()
+    }
 
 
     class Verify : BaseVerify() {

@@ -94,10 +94,10 @@ firebase real connection tests:
     TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
     COVERAGE_FOLDER: "real_connection"
 
-firebase signup tests:
+firebase black env tests:
   extends: .tests_preparation_script
   variables:
-    TESTS_TYPE: signupTest
+    TESTS_TYPE: blackEnvTest
     APP_LOCATION: "app/build/outputs/apk/black/debug/"
     APP_TYPE: "black-debug.apk"
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"

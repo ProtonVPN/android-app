@@ -22,24 +22,23 @@ package com.protonvpn.tests.signup
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.actions.OnboardingRobot
-import com.protonvpn.android.tv.TvLoginActivity
+import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
-import me.proton.core.auth.presentation.ui.AddAccountActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
+import javax.inject.Inject
 import kotlin.random.Random
 
 @LargeTest
@@ -51,8 +50,12 @@ class SignupTests {
     private lateinit var loginRobot: LoginRobot
     private lateinit var homeRobot: HomeRobot
     private lateinit var onboardingRobot: OnboardingRobot
-    private val activityRule = ActivityScenarioRule(MobileMainActivity::class.java)
     private lateinit var testUsername: String
+    private val activityRule = ActivityScenarioRule(MobileMainActivity::class.java)
+    private val hiltRule = ProtonHiltAndroidRule(this)
+
+    @Inject
+    lateinit var purchaseEnabled: CachedPurchaseEnabled
 
     @get:Rule
     val rules = RuleChain
@@ -61,6 +64,7 @@ class SignupTests {
 
     @Before
     fun setUp() {
+        hiltRule.inject()
         TestSetup.setCompletedOnboarding()
         TestSetup.clearJails()
         addAccountRobot = AddAccountRobot()
@@ -79,8 +83,10 @@ class SignupTests {
             .verifyViaEmail(DefaultData.ATLAS_VERIFICATION_CODE)
             .verify { welcomeScreenIsDisplayed() }
         onboardingRobot.completeOnboarding()
-            .closeOnboarding()
-            .verify { onboardingIsClosed() }
+            .closeOnboarding(purchaseEnabled())
+            .verify { isInMainScreen() }
+        homeRobot.openAccountView()
+            .verify { checkIfCorrectUsernameIsDisplayed(testUsername) }
     }
 
     @Test
@@ -92,7 +98,6 @@ class SignupTests {
             .verifyViaEmail(DefaultData.ATLAS_VERIFICATION_CODE)
             .verify { welcomeScreenIsDisplayed() }
         onboardingRobot.skipOnboarding()
-            .skipOnboarding()
-            .verify { onboardingIsClosed() }
+            .verify { isInMainScreen() }
     }
 }

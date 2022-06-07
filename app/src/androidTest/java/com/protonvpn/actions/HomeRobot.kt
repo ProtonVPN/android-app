@@ -132,7 +132,7 @@ class HomeRobot : BaseRobot() {
     }
 
     class Verify : BaseVerify() {
-        fun successfullyLoggedIn() = checkIfElementIsDisplayedById(R.id.fabQuickConnect)
+        fun isInMainScreen() = checkIfElementIsDisplayedById(R.id.fabQuickConnect)
 
         fun dialogUpgradeVisible() {
             checkIfElementIsDisplayedByStringId(R.string.upgrade_secure_core_title_new)
