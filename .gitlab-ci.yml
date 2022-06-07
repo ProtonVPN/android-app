@@ -233,14 +233,19 @@ coverage report:
   script:
     - ./gradlew jacocoTestReport
     - ./gradlew coverageReport
-    - python3 jacocoConverter.py app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml app/src/main/java > app/build/reports/cobertura-coverage.xml
+    - python3 jacocoConverter.py app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml app/src/main/java > app/build/reports/cobertura-coverage.xml    
+    # create top level artifact index to direct users to the deep index
+    - echo "<script>window.location='app/build/reports/jacoco/jacocoTestReport/html/index.html'</script>" > index.html
+    - echo "<a href='app/build/reports/jacoco/jacocoTestReport/html/index.html'>go here</a>" >> index.html
   only:
     - branches
   allow_failure: true
   artifacts:
     expire_in: 1 week
     expose_as: 'Coverage html'
-    paths: ['app/build/reports/jacoco/jacocoTestReport/html/']
+    paths: 
+      - app/build/reports/jacoco/jacocoTestReport/html
+      - index.html
     reports:
       cobertura: app/build/reports/cobertura-coverage.xml
 
