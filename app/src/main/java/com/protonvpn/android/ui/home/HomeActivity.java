@@ -183,7 +183,6 @@ public class HomeActivity extends VpnActivity {
             initOnboarding();
         }
 
-        checkForOnboarding();
         serverManager.getServerListVersionLiveData().observe(this, (ignored) -> {
             checkForOnboarding();
             if (canShowPopups()) {

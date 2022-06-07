@@ -170,8 +170,6 @@ class OnboardingActivity : BaseActivityV2() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        viewModel.init()
-
         initSteps()
 
         with(binding) {
