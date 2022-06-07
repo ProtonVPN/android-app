@@ -35,8 +35,8 @@ class AccountRobot : BaseRobot() {
     fun clickManageAccount(): AccountRobot = clickElementById(R.id.buttonManageAccount)
 
     class Verify : BaseVerify() {
-        fun checkIfCorrectUsernameIsDisplayed(testUser: TestUser) =
-            checkIfElementByIdContainsText(R.id.textUser, testUser.email)
+        fun checkIfCorrectUsernameIsDisplayed(testUser: String) =
+            checkIfElementByIdContainsText(R.id.textUser, testUser)
 
         fun checkIfAccountButtonHasCorrectUrl() {
             intended(hasData(Constants.ACCOUNT_LOGIN_URL + "?utm_source=" + Constants.PROTON_URL_UTM_SOURCE))

@@ -69,7 +69,7 @@ class LoginTests {
     @TestID(51)
     fun loginWithPlusUser(){
         loginRobot.signIn(TestUser.plusUser)
-            .verify { successfullyLoggedIn() }
+            .verify { isInMainScreen() }
     }
 
     @Test
@@ -99,7 +99,7 @@ class LoginTests {
     @TestID(103959)
     fun rememberMeFunctionality() {
         loginRobot.signIn(TestUser.plusUser)
-            .verify { successfullyLoggedIn() }
+            .verify { isInMainScreen() }
         homeRobot.logout()
             .selectSignInOption()
             .verify { userNameIsVisible(TestUser.plusUser) }
@@ -109,6 +109,6 @@ class LoginTests {
     @TestID(53)
     fun loginWithSpecialCharsUser(){
         loginRobot.signIn(TestUser.specialCharUser)
-            .verify { successfullyLoggedIn() }
+            .verify { isInMainScreen() }
     }
 }

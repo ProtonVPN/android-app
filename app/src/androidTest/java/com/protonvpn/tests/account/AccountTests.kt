@@ -66,7 +66,7 @@ class AccountTests {
     @TestID(86)
     fun checkIfUserNameDisplayedInAccountSection() {
         homeRobot.openAccountView()
-        accountRobot.verify { checkIfCorrectUsernameIsDisplayed(testUser) }
+        accountRobot.verify { checkIfCorrectUsernameIsDisplayed(testUser.email) }
         if (purchaseEnabled()) {
             accountRobot.clickManageAccount()
                 .verify { checkIfAccountButtonHasCorrectUrl() }
@@ -77,7 +77,7 @@ class AccountTests {
     @TestID(121424)
     fun checkHamburgerAccountOptionNavigation(){
         homeRobot.clickOnDrawerMenuAccountOption()
-            .verify { checkIfCorrectUsernameIsDisplayed(testUser) }
+            .verify { checkIfCorrectUsernameIsDisplayed(testUser.email) }
     }
 
     @Test
