@@ -104,7 +104,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <me.proton.core.presentation.ui.view.ProtonButton
-        android:id="@+id/buttonUpgrade"
+        android:id="@+id/buttonMainAction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"

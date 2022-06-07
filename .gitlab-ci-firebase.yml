@@ -103,7 +103,7 @@ firebase black env tests:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
     TEST_APP_TYPE: "black-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.BlackEnvSuite"
-    COVERAGE_FILE_NAME: "coverageRealConnection.ec"
+    COVERAGE_FOLDER: "mobile_black_quick"
 
 firebase robo tests:
   stage: test

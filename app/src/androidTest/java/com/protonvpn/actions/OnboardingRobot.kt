@@ -29,34 +29,30 @@ class OnboardingRobot : BaseRobot() {
     fun proceedToOnboardingNextStep(): OnboardingRobot = clickElementById(R.id.next)
 
     fun completeOnboarding(): OnboardingRobot {
-        for (i in 0..3) { proceedToOnboardingNextStep() }
+        for (i in 0..3) {
+            proceedToOnboardingNextStep()
+        }
         return this
     }
 
     fun skipOnboarding(): HomeRobot = clickElementById(R.id.skip)
 
-    //TODO: Make it handle PaymentsDisabled case and update element ID
     fun closeOnboarding(paymentsDisabledFlag: Boolean): HomeRobot {
-        if(paymentsDisabledFlag){
-            clickElementById<OnboardingRobot>(R.id.buttonOther)
-        } else{
-            clickElementById<OnboardingRobot>(R.id.buttonUpgrade)
+        return if (paymentsDisabledFlag) {
+            clickElementById(R.id.buttonOther)
+        } else {
+            clickElementById(R.id.buttonMainAction)
         }
-        return HomeRobot()
     }
 
 
     class Verify : BaseVerify() {
-        fun welcomeScreenIsDisplayed(){
-            view.withText(R.string.onboarding_welcome_title).withTimeout(Timeouts.LONG_TIMEOUT).checkDisplayed()
+        fun welcomeScreenIsDisplayed() {
+            view.withText(R.string.onboarding_welcome_title).withTimeout(Timeouts.LONG_TIMEOUT)
+                .checkDisplayed()
             checkIfElementIsDisplayedByStringId(R.string.onboarding_welcome_description)
-        }
-
-        fun onboardingIsClosed(){
-            checkIfElementIsDisplayedById(R.id.fabQuickConnect)
         }
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
-
 }

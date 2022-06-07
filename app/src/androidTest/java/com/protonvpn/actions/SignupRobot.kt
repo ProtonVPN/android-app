@@ -53,7 +53,7 @@ class SignupRobot : BaseRobot() {
 
     fun verifyViaEmail(code: String): OnboardingRobot {
         //When HV3 will be introduced check if hardcoded selector can be removed
-        view.withText("email").click()
+        clickElementByText<SignupRobot>("email")
         clickElementById<SignupRobot>(R.id.getVerificationCodeButton)
         replaceText<SignupRobot>(R.id.verificationCodeEditText, code)
         return clickElementById(R.id.verifyButton)

@@ -66,9 +66,9 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
         with(binding) {
             buttonOther.setOnClickListener { finish() }
             val showUpgrade = viewModel.showUpgrade()
-            buttonUpgrade.visibility = View.VISIBLE
-            buttonUpgrade.setText(if (showUpgrade) R.string.upgrade else R.string.close)
-            buttonUpgrade.setOnClickListener {
+            buttonMainAction.visibility = View.VISIBLE
+            buttonMainAction.setText(if (showUpgrade) R.string.upgrade else R.string.close)
+            buttonMainAction.setOnClickListener {
                 if (showUpgrade) {
                     lifecycleScope.launch {
                         viewModel.planUpgrade()
