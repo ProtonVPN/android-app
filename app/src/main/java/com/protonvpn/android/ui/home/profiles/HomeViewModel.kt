@@ -39,6 +39,8 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -56,6 +58,8 @@ class HomeViewModel @Inject constructor(
     onSessionClosed: OnSessionClosed,
     purchaseEnabled: CachedPurchaseEnabled
 ) : MainViewModel(mainScope, userPlanManager, certificateRepository, logoutUseCase, currentUser, purchaseEnabled) {
+
+    private var startOnboardingJob: Job? = null
 
     // Temporary method to help java activity collect a flow
     fun collectPlanChange(activity: AppCompatActivity, onChange: (UserPlanManager.InfoChange.PlanChange) -> Unit) {
@@ -77,12 +81,19 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun handleUserOnboarding(block: () -> Unit) = viewModelScope.launch {
-        val onboardingId = Storage.getString(OnboardingPreferences.ONBOARDING_USER_ID, null)
-        if (serverManager.isDownloadedAtLeastOnce &&
+    fun handleUserOnboarding(block: () -> Unit) {
+        startOnboardingJob?.cancel()
+        startOnboardingJob = viewModelScope.launch {
+            val onboardingId = Storage.getString(OnboardingPreferences.ONBOARDING_USER_ID, null)
+            if (serverManager.isDownloadedAtLeastOnce &&
                 onboardingId != null &&
-                currentUser.user()?.userId?.id == onboardingId)
-            block()
+                currentUser.user()?.userId?.id == onboardingId
+            ) {
+                ensureActive()
+                Storage.saveString(OnboardingPreferences.ONBOARDING_USER_ID, null)
+                block()
+            }
+        }
     }
 
     val userLiveData = currentUser.userFlow.asLiveData()

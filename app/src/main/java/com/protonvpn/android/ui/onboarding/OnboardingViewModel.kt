@@ -56,10 +56,6 @@ class OnboardingViewModel @Inject constructor(
     private val vpnStateMonitor: VpnStateMonitor
 ) : ViewModel() {
 
-    fun init() {
-        Storage.saveString(OnboardingPreferences.ONBOARDING_USER_ID, null)
-    }
-
     private val freeServers = viewModelScope.async(start = CoroutineStart.LAZY) {
         serverManager.getVpnCountries().flatMap { country ->
             country.serverList.filter { it.isFreeServer }

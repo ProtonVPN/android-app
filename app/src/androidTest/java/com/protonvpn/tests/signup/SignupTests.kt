@@ -80,7 +80,6 @@ class SignupTests {
             .verify { welcomeScreenIsDisplayed() }
         onboardingRobot.completeOnboarding()
             .closeOnboarding()
-            .skipOnboarding()
             .verify { onboardingIsClosed() }
     }
 
