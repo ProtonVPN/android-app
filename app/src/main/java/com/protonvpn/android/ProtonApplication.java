@@ -37,6 +37,7 @@ import com.protonvpn.android.logging.GlobalSentryLogWriter;
 import com.protonvpn.android.logging.LogEventsKt;
 import com.protonvpn.android.logging.LogWriter;
 import com.protonvpn.android.logging.LogcatLogWriter;
+import com.protonvpn.android.logging.PowerStateLogger;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.logging.ProtonLoggerImpl;
 import com.protonvpn.android.logging.SettingChangesLogger;
@@ -88,8 +89,9 @@ public class ProtonApplication extends Application {
         CoreLoginMigration getCoreLoginMigration();
         CurrentStateLogger getCurrentStateLogger();
         LogcatLogCapture getLogcatLogCapture();
-        ReviewTracker getReviewTracker();
         MaintenanceTracker getMaintenanceTracker();
+        PowerStateLogger getPowerStateLogger();
+        ReviewTracker getReviewTracker();
         SettingChangesLogger getSettingChangesLogger();
         UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
         UpdateServersOnLocaleChange getUpdateServersOnLocaleChange();
@@ -134,6 +136,7 @@ public class ProtonApplication extends Application {
         // Logging
         dependencies.getCurrentStateLogger().logCurrentState();
         dependencies.getLogcatLogCapture();
+        dependencies.getPowerStateLogger();
         dependencies.getSettingChangesLogger();
 
         dependencies.getReviewTracker();
