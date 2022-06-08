@@ -66,4 +66,9 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
         super.onTrimMemory(level)
         ProtonLogger.logCustom(LogCategory.APP, "OpenVPNWrapperService: onTrimMemory level $level")
     }
+
+    override fun onDestroy() {
+        vpnConnectionManager.onVpnServiceDestroyed()
+        super.onDestroy()
+    }
 }

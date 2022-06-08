@@ -25,12 +25,14 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.Constants
+import java.util.UUID
 
 open class ConnectionParams(
     val profile: Profile,
     val server: Server,
     val connectingDomain: ConnectingDomain?,
-    val protocol: VpnProtocol?
+    val protocol: VpnProtocol?,
+    val uuid: UUID = UUID.randomUUID()
 ) : java.io.Serializable {
 
     open val info get() = "IP: ${connectingDomain?.entryDomain} Protocol: $protocol"

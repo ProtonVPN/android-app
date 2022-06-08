@@ -43,6 +43,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Wireguard service started with intent: $intent")
         if (intent == null) {
             if (handleProcessRestore())
                 return START_STICKY
@@ -62,6 +63,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
 
     override fun onDestroy() {
         wireguardBackend.serviceDestroyed()
+        connectionManager.onVpnServiceDestroyed()
         super.onDestroy()
     }
 

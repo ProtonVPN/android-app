@@ -35,6 +35,8 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.Storage
+import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -68,6 +70,7 @@ class ConnectionParamsTests {
 
         mockkObject(AndroidUtils)
         every { context.isTV() } returns false
+        Storage.setPreferences(MockSharedPreference())
 
         mockkObject(Constants)
         every { Constants.VPN_USERNAME_PRODUCT_SUFFIX } returns "+pa"
@@ -153,5 +156,18 @@ class ConnectionParamsTests {
             setOf("user", "f2", "pa", "b:label", "nr"),
             params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet()
         )
+    }
+
+    @Test
+    fun testUuidIsRestoredWhenLoadedFromStorage() {
+        Storage.save(params, ConnectionParams::class.java)
+        val restoredParams = Storage.load(ConnectionParams::class.java)
+
+        Assert.assertEquals(params.uuid, restoredParams?.uuid)
+    }
+
+    @Test
+    fun testUuidIsDifferentForEachInstance() {
+        Assert.assertNotEquals(params.uuid, ConnectionParams(profile, server, connectingDomain, VpnProtocol.Smart).uuid)
     }
 }

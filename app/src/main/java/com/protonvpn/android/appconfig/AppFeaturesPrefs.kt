@@ -23,6 +23,7 @@ import android.content.SharedPreferences
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
 import me.proton.core.util.android.sharedpreferences.boolean
+import me.proton.core.util.android.sharedpreferences.long
 import javax.inject.Inject
 
 class AppFeaturesPrefs @Inject constructor(
@@ -31,6 +32,7 @@ class AppFeaturesPrefs @Inject constructor(
     override val preferences: SharedPreferences get() = prefsProvider.getPrefs(PREFS_NAME)
 
     var purchaseEnabled: Boolean by boolean(false)
+    var lastAppStartTimestamp: Long by long(0)
 
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"

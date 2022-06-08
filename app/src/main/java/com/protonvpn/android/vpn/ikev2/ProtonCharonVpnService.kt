@@ -60,6 +60,7 @@ class ProtonCharonVpnService : CharonVpnService() {
 
     override fun onDestroy() {
         Log.i("[IKEv2] onDestroy")
+        vpnConnectionManager.onVpnServiceDestroyed()
         super.onDestroy()
     }
 

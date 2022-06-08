@@ -536,6 +536,15 @@ open class VpnConnectionManager(
         lastProfile?.let { connect(uiDelegate, it, "reconnection") }
     }
 
+    fun onVpnServiceDestroyed() {
+        Storage.load(ConnectionParams::class.java)?.takeIf { it.uuid == connectionParams?.uuid }?.let {
+            ProtonLogger.logCustom(
+                LogCategory.CONN_DISCONNECT, "onDestroy called for current VpnService, deleting ConnectionParams"
+            )
+            Storage.delete(ConnectionParams::class.java)
+        }
+    }
+
     private fun unifiedState(vpnState: VpnState): String = when (vpnState) {
         VpnState.Disabled -> "Disconnected"
         VpnState.ScanningPorts,
