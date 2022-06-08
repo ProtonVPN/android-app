@@ -20,6 +20,7 @@
 package com.protonvpn.android.utils
 
 import android.app.Application
+import android.os.Build
 import com.protonvpn.android.BuildConfig
 import io.sentry.Sentry
 import io.sentry.android.core.SentryAndroid
@@ -69,5 +70,8 @@ object SentryIntegration {
             }
         }
         Sentry.setUser(User().apply { id = getInstallationId() })
+        // Add manufacturer because some devices report device model for "device.family" which isn't very useful for
+        // vendor-specific issues.
+        Sentry.setTag("device.manufacturer", Build.MANUFACTURER)
     }
 }
