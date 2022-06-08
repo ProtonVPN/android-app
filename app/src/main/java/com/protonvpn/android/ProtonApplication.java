@@ -30,6 +30,7 @@ import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
 import com.protonvpn.android.auth.usecase.CoreLoginMigration;
 import com.protonvpn.android.components.NotificationHelper;
+import com.protonvpn.android.components.RestartHandler;
 import com.protonvpn.android.logging.CurrentStateLogger;
 import com.protonvpn.android.logging.CurrentStateLoggerGlobal;
 import com.protonvpn.android.logging.FileLogWriter;
@@ -91,6 +92,7 @@ public class ProtonApplication extends Application {
         LogcatLogCapture getLogcatLogCapture();
         MaintenanceTracker getMaintenanceTracker();
         PowerStateLogger getPowerStateLogger();
+        RestartHandler getRestartHandler();
         ReviewTracker getReviewTracker();
         SettingChangesLogger getSettingChangesLogger();
         UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
@@ -145,6 +147,8 @@ public class ProtonApplication extends Application {
         dependencies.getMaintenanceTracker();
         dependencies.getUpdateSettingsOnVpnUserChange();
         dependencies.getUpdateServersOnLocaleChange();
+
+        dependencies.getRestartHandler().onAppStarted();
     }
 
     private void initStrongSwan() {
