@@ -146,6 +146,7 @@
     <string name="listAllCountries">Все местоположения (%1$d)</string>
     <string name="listFreeCountries">Местоположения Free (%1$d)</string>
     <string name="listPremiumCountries">Местоположения Basic &amp; Plus (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Местоположения Plus (%1$d)</string>
     <string name="listFastestServer">Самый быстрый сервер</string>
     <string name="listFreeServers">Серверы Free (%1$d)</string>
     <string name="listBasicServers">Серверы Basic (%1$d)</string>
@@ -317,9 +318,9 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае если Proton заблокирован, позвольте приложению попытаться использовать альтернативные пути для получения доступа к серверам Proton. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Возможно, ваша страна блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для доступа к Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянный VPN &amp; Kill Switch</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянная VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Настроить действия Proton VPN при нарушении подключения</string>
-    <string name="settingsAlwaysOnWindowHeader">Как включить постоянный VPN и Kill Switch:</string>
+    <string name="settingsAlwaysOnWindowHeader">Как включить постоянную VPN и Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>Настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Найдите Proton VPN и нажмите %1$s</string>
@@ -417,7 +418,7 @@
     <string name="reconnectToEnableNetshield">Ваше подключение перезапустится.\n\nУчтите, что некоторые сайты могут не загружаться при включенном NetShield.</string>
     <string name="notification_subscription_expired_title">Срок действия вашей подписки на тариф Proton VPN истек</string>
     <string name="notification_subscription_expired_content">Нам пришлось понизить ваш тариф, но мы вновь подключаем вас к самому быстрому серверу, доступному на этом тарифе.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">Ваша подписка понижена. </string>
+    <string name="notification_subscription_expired_no_reconnection_content">Вы перешли на более дешевую версию подписки. </string>
     <string name="notification_delinquent_title">В Вашем аккаунте Proton VPN есть неоплаченные счета</string>
     <string name="notification_delinquent_content">Пожалуйста, обновите платежную информацию, чтобы сохранить вашу подписку.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
@@ -644,9 +645,8 @@
         <item quantity="other">Получите доступ к %1$d стране</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Больше местоположений = больше разблокированного содержимого + дополнительная безопасность + более высокая скорость</string>
-    <!-- Core strings overrides -->
-    <string name="plans_customizable_features">Посетите <a href="https://protonvpn.com/pricing">protonvpn.com</a> для получения дополнительной информации.</string>
-    <string name="listPremiumCountries_new_plans">Местоположения Plus (%1$d)</string>
     <string name="new_look_dialog_title_new_plans">Обновленный Proton и комплексная защита</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Мы обновили внешний вид Proton. У наших сервисов общая миссия — создать Интернет, в котором конфиденциальность будет на первом месте. <a href="%1$s">Подробнее…</a>]]></string>
+    <!-- Core strings overrides -->
+    <string name="plans_customizable_features">Посетите <a href="https://protonvpn.com/pricing">protonvpn.com</a> для получения дополнительной информации.</string>
 </resources>

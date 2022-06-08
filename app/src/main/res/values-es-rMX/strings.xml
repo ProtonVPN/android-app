@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">vía %1$s</string>
     <string name="connected">Conectado</string>
     <string name="buttonConnect">Conectar</string>
-    <string name="loaderInitializing">Inicializando la conexión…</string>
+    <string name="loaderInitializing">Inicializando conexión…</string>
     <string name="loaderConnectingTo">Conectando a %1$s</string>
     <string name="loaderConnectingToLabel">Conectando a…</string>
     <string name="loaderNotConnected">No conectado (no protegido)</string>
@@ -146,6 +146,7 @@
     <string name="listAllCountries">Todas las ubicaciones (%1$d)</string>
     <string name="listFreeCountries">Ubicaciones gratuitas (%1$d)</string>
     <string name="listPremiumCountries">Ubicaciones Basic y Plus (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Ubicaciones Plus (%1$d)</string>
     <string name="listFastestServer">Servidor más rápido</string>
     <string name="listFreeServers">Servidores gratuitos (%1$d)</string>
     <string name="listBasicServers">Servidores Basic (%1$d)</string>
@@ -624,6 +625,8 @@
         <item quantity="other">Acceso a %1$d países</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Más ubicaciones = más contenido desbloqueado + seguridad adicional + velocidades altas</string>
+    <string name="new_look_dialog_title_new_plans">Proton actualizado, protección unificada</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Presentamos el aspecto renovado de Proton. Muchos servicios, una misión. Bienvenido a una Internet donde la privacidad es la norma. <a href="%1$s">Más&nbsp;información</a>]]></string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obtener más información.</string>
 </resources>

@@ -134,8 +134,8 @@
     <string name="errorEmptyEntryCountry">Kolom negara tujuan awal tidak boleh kosong</string>
     <string name="errorEmptyExitCountry">Kolom negara tujuan akhir tidak boleh kosong</string>
     <string name="onboardingDialogMapView">Gunakan Tampilan Peta untuk menyambungkan dan melihat secara virtual di mana server VPN berada.</string>
-    <string name="onboardingDialogProfiles">Buat profil untuk server kesukaan Anda dan mengaksesnya dengan mudah. Sentuh lama lambang Proton VPN di bagian bawah layar juga memperlihatkan semua profil Anda. Satu sentuhan di salah satu profil menyambungkan Anda ke VPN.</string>
-    <string name="onboardingNetshield">Mengamankan Anda dari malware, iklan, dan pelacak.\nCatatan: jika beberapa situs tidak termuat, coba nonaktifkan NetShield. </string>
+    <string name="onboardingDialogProfiles">Berikan server favorit Anda profil khusus agar Anda dapat mengaksesnya kembali dengan mudah ke depannya. Untuk melihat daftar seluruh profil yang ada, sentuh dan tahan ikon Proton VPN yang tertera pada bagian bawah layar selama beberapa waktu. Setelahnya, sentuh salah satu profil untuk dapat tersambung ke VPN.</string>
+    <string name="onboardingNetshield">Melindungi Anda dari malware, iklan, dan program pelacak.\nCatatan: apabila beberapa situs tidak termuat, cobalah untuk menonaktifkan NetShield. </string>
     <string name="onboardingFAB">Quick connect / Profil</string>
     <string name="onboardingFABDescription">Sentuh tombol ini untuk cara tersambung paling cepat</string>
     <string name="onboardingSignup">Daftar</string>
@@ -146,6 +146,7 @@
     <string name="listAllCountries">Seluruh lokasi (%1$d)</string>
     <string name="listFreeCountries">Lokasi Free (%1$d)</string>
     <string name="listPremiumCountries">Lokasi Basic &amp; Plus (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Lokasi Plus (%1$d)</string>
     <string name="listFastestServer">Server tercepat</string>
     <string name="listFreeServers">Server Free (%1$d)</string>
     <string name="listBasicServers">Server Basic (%1$d)</string>
@@ -157,7 +158,7 @@
     <string name="tabsProfiles">Profil</string>
     <string name="log_title">Log</string>
     <string name="disconnect">Putuskan</string>
-    <string name="state_connecting">Menyambungkan…</string>
+    <string name="state_connecting">Menghubungkan…</string>
     <string name="state_connected">Terhubung</string>
     <string name="state_disconnecting">Memutus sambungan…</string>
     <string name="state_error">Error</string>
@@ -257,10 +258,10 @@
     <string name="bugReportErrorLabelVpnLogsDescription">Aplikasi kami akan mengirimkan log error lokal (tanpa catatan rekam jejak aktivitas) untuk membantu kami dalam menangani masalah Anda</string>
     <string name="profileFastest">Tercepat</string>
     <string name="profileRandom">Acak</string>
-    <string name="settingsSplitTunnelingDescription">Split tunneling memungkinkan aplikasi atau alamat IP tertentu untuk dikecualikan dari lalu lintas VPN.</string>
+    <string name="settingsSplitTunnelingDescription">Split Tunneling memungkinkan aplikasi atau alamat IP tertentu untuk dikecualikan dari lalu lintas VPN.</string>
     <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
     <string name="loaderAuthenticatingUser">Mengotentikasi pengguna…</string>
-    <string name="loaderErrorNoInternet">Tidak ada sambungan Internet</string>
+    <string name="loaderErrorNoInternet">Tidak ada koneksi internet</string>
     <string name="loaderErrorGeneric">Ada yang salah</string>
     <string name="loaderLoadingServers">Memuat server…</string>
     <string name="inputIpAddressLabel">Alamat IP</string>
@@ -304,7 +305,7 @@
     <string name="troubleshootProxyFirewallProblemTitle">Halangan Proxy/Firewall</string>
     <string name="troubleshootProxyFirewallProblemDescription">Nonaktifkan seluruh proxy atau firewall yang aktif, atau hubungi pengelola jaringan Anda.</string>
     <string name="troubleshootProtonDownTitle">Proton sedang offline</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[Cek <a href=\"%1$s\">Proton Status</a> untuk status sistem kami.]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Periksa <a href=\"%1$s\">Proton Status</a> untuk status sistem kami.]]></string>
     <string name="troubleshootContactUsSectionTitle">Masih butuh bantuan lebih lanjut? Hubungi kami secara langsung</string>
     <string name="troubleshootCustomerSupport">Layanan dukungan</string>
     <string name="settingsAllowAlternativeRoutingTitle">Pengalihan lalu lintas alternatif</string>
@@ -413,7 +414,7 @@
     <string name="notification_subscription_expired_content">Kami telah menurunkan paket Anda, namun kami menghubungkan ulang Anda ke server tercepat yang tersedia di paket tesebut.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Jenis akun Anda telah diturunkan. </string>
     <string name="notification_delinquent_title">Akun Proton VPN Anda memiliki tagihan yang belum dilunasi</string>
-    <string name="notification_delinquent_content">Silakan perbarui informasi tagihan Anda agar langganan Anda dianggap aktif.</string>
+    <string name="notification_delinquent_content">Silakan perbarui informasi tagihan Anda agar langganan Anda tetap aktif.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Anda telah dipindahkan ke server lebih cepat yang serupa dengan server pilihan Anda sebelumnya.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
@@ -525,7 +526,7 @@
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Server plus</string>
     <string name="info_features">Fitur</string>
-    <string name="smart_routing_title">Pengalihan Cerdas</string>
+    <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Teknologi ini memungkinkan Proton VPN untuk menyediakan kecepatan dan keamanan layanan yang lebih tinggi di negara yang masih berkembang.</string>
     <string name="streaming_title">Tontonan</string>
     <string name="streaming_description">Server Plus memungkinkan Anda untuk dapat mengakses berbagai layanan streaming (Netflix, Disney+, dll) di manapun Anda berada.</string>
@@ -535,7 +536,7 @@
     <string name="tor_description">Alihkan lalu lintas Internet Anda melalui jaringan Tor. Lebih lambat, namun lebih privat.</string>
     <string name="info_performance">Performa</string>
     <string name="server_load_title">Beban Server</string>
-    <string name="server_load_description">Server dengan beban tinggi lebih lambat daripada server dengan beban rendah.</string>
+    <string name="server_load_description">Server dengan beban yang tinggi akan memberikan koneksi yang lebih lambat dibanding server dengan beban yang rendah.</string>
     <string name="streaming_title_with_country">Streaming - %1$s</string>
     <string name="streaming_services_description">Hubungkan VPN Anda ke server Plus yang terletak di negara ini untuk dapat memulai streaming.\n\Tips: Bersihkan cache aplikasi streaming yang Anda gunakan untuk memuat konten baru.</string>
     <string name="activity_information_learn_more">Pelajari Lebih Lanjut</string>
@@ -614,6 +615,8 @@
         <item quantity="other">Akses %1$d negara</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Lebih banyak lokasi = lebih banyak konten yang tidak terblokir + keamanan ekstra + kecepatan yang lebih</string>
+    <string name="new_look_dialog_title_new_plans">Proton yang baru, dengan perlindungan yang tersatukan</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Memperkenalkan tampilan baru Proton. Beragam layanan, satu misi. Selamat datang di Internet yang menjunjung privasi sebagai hal yang baku. <a href="%1$s">Pelajari&nbsp;lebih lanjut</a>]]></string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Kunjungi <a href="https://protonvpn.com/pricing">protonvpn.com</a> untuk info lebih lanjut.</string>
 </resources>

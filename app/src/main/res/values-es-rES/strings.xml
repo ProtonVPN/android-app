@@ -146,6 +146,7 @@
     <string name="listAllCountries">All locations (%1$d)</string>
     <string name="listFreeCountries">Free locations (%1$d)</string>
     <string name="listPremiumCountries">Basic &amp; Plus locations (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Ubicaciones Plus (%1$d)</string>
     <string name="listFastestServer">Fastest server</string>
     <string name="listFreeServers">Free servers (%1$d)</string>
     <string name="listBasicServers">Basic servers (%1$d)</string>
@@ -159,7 +160,7 @@
     <string name="disconnect">Desconectar</string>
     <string name="state_connecting">Conectando…</string>
     <string name="state_connected">Conectado</string>
-    <string name="state_disconnecting">Desconectado…</string>
+    <string name="state_disconnecting">Desconectando…</string>
     <string name="state_error">Error</string>
     <string name="error_server_unreachable">Couldn\'t connect to the VPN. Please check your connection and try again.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -624,9 +625,8 @@
         <item quantity="other">Access all %1$d countries</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">More locations = more unblocked content + extra security + faster speeds</string>
-    <!-- Core strings overrides -->
-    <string name="plans_customizable_features">Visit <a href="https://protonvpn.com/pricing">protonvpn.com</a> for more info.</string>
-    <string name="listPremiumCountries_new_plans">Ubicaciones Plus (%1$d)</string>
     <string name="new_look_dialog_title_new_plans">Proton actualizado, protección unificada</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Presentamos la nueva imagen de Proton, con varios servicios, pero una misma misión. Has llegado al internet cimentado sobre la base de la privacidad. <a href="%1$s">Más información</a>]]></string>
+    <!-- Core strings overrides -->
+    <string name="plans_customizable_features">Visit <a href="https://protonvpn.com/pricing">protonvpn.com</a> for more info.</string>
 </resources>

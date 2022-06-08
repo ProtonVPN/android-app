@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">tramite %1$s</string>
     <string name="connected">Connesso</string>
     <string name="buttonConnect">Connetti</string>
-    <string name="loaderInitializing">Inizializzando la connessione…</string>
+    <string name="loaderInitializing">Inizializzazione della connessione…</string>
     <string name="loaderConnectingTo">Collegamento a %1$s</string>
     <string name="loaderConnectingToLabel">Connessione a…</string>
     <string name="loaderNotConnected">Non connesso (non protetto)</string>
@@ -146,6 +146,7 @@
     <string name="listAllCountries">Tutte le località (%1$d)</string>
     <string name="listFreeCountries">Località gratuite (%1$d)</string>
     <string name="listPremiumCountries">Località Basic &amp; Plus (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Località Plus (%1$d)</string>
     <string name="listFastestServer">Server più veloce</string>
     <string name="listFreeServers">Server gratuiti (%1$d)</string>
     <string name="listBasicServers">Server Basic (%1$d)</string>
@@ -624,9 +625,8 @@
         <item quantity="other">Accesso a tutti i %1$d paesi</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Più località = più contenuti sbloccati + sicurezza extra + velocità più elevate</string>
-    <!-- Core strings overrides -->
-    <string name="plans_customizable_features">Visita <a href="https://protonvpn.com/pricing">protonvpn.com</a> per altre info.</string>
-    <string name="listPremiumCountries_new_plans">Località Plus (%1$d)</string>
     <string name="new_look_dialog_title_new_plans">Nuovo Proton, protezione unificata</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Ti presentiamo il nuovo look di Proton. Molti servizi, una sola missione. Benvenuto in un Internet dove la privacy è la regola. <a href="%1$s">Scopri&nbsp;di più</a>]]></string>
+    <!-- Core strings overrides -->
+    <string name="plans_customizable_features">Visita <a href="https://protonvpn.com/pricing">protonvpn.com</a> per altre info.</string>
 </resources>

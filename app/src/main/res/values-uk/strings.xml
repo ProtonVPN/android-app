@@ -146,6 +146,7 @@
     <string name="listAllCountries">Усі розташування (%1$d)</string>
     <string name="listFreeCountries">Безплатні розташування (%1$d)</string>
     <string name="listPremiumCountries">Розташування Basic і Plus (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Розташування Plus (%1$d)</string>
     <string name="listFastestServer">Найшвидший сервер</string>
     <string name="listFreeServers">Безплатні сервери (%1$d)</string>
     <string name="listBasicServers">Сервери Basic (%1$d)</string>
@@ -644,6 +645,8 @@
         <item quantity="other">Доступ до %1$d країн</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Більше розташувань = більше розблокованого вмісту + додаткова безпека + вища швидкість</string>
+    <string name="new_look_dialog_title_new_plans">Оновлений Proton, єдиний захист</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Представляємо оновлений вигляд Proton. Багато служб, одна місія. Ласкаво просимо до Інтернету, де приватність — це стандарт. <a href="%1$s">Докладніше</a>]]></string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Відвідайте <a href="https://protonvpn.com/prіcіng">protonvpn.com</a> для докладнішої інформації.</string>
 </resources>
