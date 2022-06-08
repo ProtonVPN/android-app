@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">%1$s üzerinden</string>
     <string name="connected">Bağlandı</string>
     <string name="buttonConnect">Bağlan</string>
-    <string name="loaderInitializing">Bağlantı başlatılıyor…</string>
+    <string name="loaderInitializing">Bağlantı kuruluyor…</string>
     <string name="loaderConnectingTo">%1$s sunucusuna bağlanılıyor</string>
     <string name="loaderConnectingToLabel">Sunucuya bağlanılıyor…</string>
     <string name="loaderNotConnected">Bağlı değil (korunmuyor)</string>
@@ -146,6 +146,7 @@
     <string name="listAllCountries">Tüm konumlar (%1$d)</string>
     <string name="listFreeCountries">Free konumları (%1$d)</string>
     <string name="listPremiumCountries">Basic ve Plus konumları (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Plus konumları (%1$d)</string>
     <string name="listFastestServer">En hızlı sunucu</string>
     <string name="listFreeServers">Free sunucuları (%1$d)</string>
     <string name="listBasicServers">Basic sunucuları (%1$d)</string>
@@ -258,7 +259,7 @@
     <string name="bugReportErrorLabelVpnLogsDescription">Bu seçenek, sorunu çözmemize yardımcı olması için yerel hata günlüklerini gönderir (etkinlik kaydı tutmuyoruz)</string>
     <string name="profileFastest">En hızlı</string>
     <string name="profileRandom">Rastgele</string>
-    <string name="settingsSplitTunnelingDescription">Bölünmüş tünel, belirli uygulamaların veya IP adreslerinin VPN trafiğine katılmamasını sağlar.</string>
+    <string name="settingsSplitTunnelingDescription">Bölünmüş tünelleme, belirli uygulamaların veya IP adreslerinin VPN trafiğine katılmamasını sağlar.</string>
     <string name="settingsSplitTunnelingTitle">Bölünmüş tünelleme</string>
     <string name="loaderAuthenticatingUser">Kullanıcının kimliği doğrulanıyor…</string>
     <string name="loaderErrorNoInternet">İnternet bağlantısı yok</string>
@@ -329,7 +330,7 @@
          find this phrase in your phone's settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Bağlantı kesiciyi etkinleştirmek için <b>VPN olmadan bağlantıları engelle</b> seçeneğinin yanındaki anahtara dokunun]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android ayarlarını aç</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Bağlantı kesici etkinleştirildiğinde, VPN tüneli dışındaki tüm bağlantılar engelleneceğinden bölünmüş tünel devre dışı bırakılır</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Bağlantı kesici etkinleştirildiğinde, VPN tüneli dışındaki tüm bağlantılar engelleneceğinden bölünmüş tünelleme devre dışı bırakılır</string>
     <string name="settingsSmartProtocolDescription">En iyi bağlantıyı sağlayan iletişim kuralı ve bağlantı noktası otomatik olarak seçilsin.</string>
     <string name="settingsSendCrashReportsTitle">Anonim çökme bildirimleri</string>
     <string name="settingsSendCrashReportsDescription">Uygulamanız beklenmedik şekilde çöker ya da kapanırsa, geliştirici ekibimize sorunu aktaran bir bildirim gönderilir. Bu bildirimi yalnızca uygulamanın geliştirilmesi için kullanırız.</string>
@@ -343,7 +344,7 @@
     <string name="guestHoleActivated">Bölgenizde Proton VPN erişimi sınırlı olabilir. Bu nedenle bu işlem normalden daha uzun sürecek. Lütfen biz bu sorunu çözerken bekleyin.</string>
     <string name="guestHoleNotificationContent">Ağ sorunları aşılmaya çalışılıyor. Bu işlem Proton VPN hizmetine erişmenize yardımcı olacak.</string>
     <string name="onMaintenanceDetected">Bağlandığınız VPN sunucusunda bakım yapılıyor. Bağlantınızı otomatik olarak en hızlı sunucuya geçirdik.</string>
-    <string name="errorTunMultiUserPermission">Çift uygulama (örneğin Dual Messenger) ve Bölünmüş tünel arasındaki bir çakışma nedeniyle VPN bağlantısı başlatılamadı. Lütfen bunlardan birini devre dışı bırakıp aygıtınızı yeniden başlatın.</string>
+    <string name="errorTunMultiUserPermission">Çift uygulama (örneğin Dual Messenger) ve Bölünmüş tünelleme arasındaki bir çakışma nedeniyle VPN bağlantısı başlatılamadı. Lütfen bunlardan birini devre dışı bırakıp aygıtınızı yeniden başlatın.</string>
     <string name="errorTorrentNotAllowed">Bu sunucu üzerinde P2P kullanımına izin verilmiyor</string>
     <string name="errorWireguardWithPlaceholder">WireGuard hatası: %1$s</string>
     <string name="serverNoWireguardSupport">Bu profilin sunucusu henüz WireGuard desteklemiyor. Bağlanmak için başka bir iletişim kuralı ya da WireGuard destekleyen bir sunucu seçin.</string>
@@ -624,6 +625,8 @@
         <item quantity="other">%1$d ülkeye erişin</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Daha fazla konum = daha fazla engelsiz içerik + ek güvenlik + daha yüksek hız</string>
+    <string name="new_look_dialog_title_new_plans">Güncellenmiş Proton, birleşik koruma</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Yenilenmiş Proton böyle görünüyor. Birçok hizmet, tek amaç. Kişisel gizliliğin doğal sayıldığı internet fikrine hoş geldiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Ayrıntılı bilgi almak için <a href="https://protonvpn.com/pricing">protonvpn.com</a> sayfasına bakın.</string>
 </resources>

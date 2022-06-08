@@ -38,7 +38,7 @@
     <string name="connectionAllocationHelpLoginAgainButton">Iniciar sessão novamente</string>
     <string name="mapCalloutConnect">Conectar</string>
     <string name="mapCalloutDisconnect">Desconectar</string>
-    <string name="mapSwitchSecureCore">Seguro Core</string>
+    <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Aviso</string>
     <string name="secureCoreSpeedInfoTitle">Uma nota sobre velocidade…</string>
     <string name="secureCoreSpeedInfoMessage">O Secure Core oferece o mais alto nível de segurança e privacidade, mas pode reduzir a velocidade da sua internet. Se precisar de mais desempenho, você pode desabilitar o Secure Core.</string>
@@ -146,6 +146,7 @@
     <string name="listAllCountries">Todas as localizações (%1$d)</string>
     <string name="listFreeCountries">Localizações Free (%1$d)</string>
     <string name="listPremiumCountries">Localizações Basic e Plus (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Locais com o Plus (%1$d)</string>
     <string name="listFastestServer">Servidor mais rápido</string>
     <string name="listFreeServers">Servidores gratuitos (%1$d)</string>
     <string name="listBasicServers">Servidores Basic (%1$d)</string>
@@ -184,7 +185,7 @@
     <string name="profile_name">Nome do perfil</string>
     <string name="profile_name_hint">Escreva o nome do perfil</string>
     <string name="profile_color">Cor do perfil</string>
-    <string name="secure_core">Seguro Core</string>
+    <string name="secure_core">Secure Core</string>
     <string name="attachments">Anexos</string>
     <string name="report_message">Mensagem</string>
     <string name="report_bug_email_label">Seu email</string>
@@ -522,7 +523,7 @@
     <string name="upgrade_plus_countries_speeds">Navegue com velocidade máxima (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">E muitos outros recursos premium</string>
     <string name="upgrade_safe_mode_title">Permitir tráfego para portas não padrão</string>
-    <string name="upgrade_safe_mode_message">Have advanced or professional computing needs that require non-standard ports? Upgrade to VPN Plus to access this and other premium features.</string>
+    <string name="upgrade_safe_mode_message">Tem alguma necessidade avançada ou profissional que requer portas não padrões? Atualize para o VPN Plus e tenha acesso a esse e outros recursos premium.</string>
     <string name="upgrade_moderate_nat_title">Ativar NAT moderado</string>
     <string name="upgrade_moderate_nat_message">NAT moderado, também conhecido como NAT Tipo 2, pode melhorar sua experiência online com várias aplicações e videogames online. Desbloqueie esse e outros recursos com um plano Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">O que é NAT moderado?</string>
@@ -624,9 +625,8 @@
         <item quantity="other">Acesse todos os %1$d países</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Mais localizações = mais conteúdo desbloqueado + segurança adicional + velocidade superior</string>
-    <!-- Core strings overrides -->
-    <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obter mais informações.</string>
-    <string name="listPremiumCountries_new_plans">Locais com o Plus (%1$d)</string>
     <string name="new_look_dialog_title_new_plans">Proton atualizado, proteção unificada</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Apresentando a aparência renovada do Proton. Muitos serviços, uma missão. Boas-vindas a uma internet onde a privacidade é o padrão. <a href="%1$s">Saiba&nbsp;mais</a>]]></string>
+    <!-- Core strings overrides -->
+    <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obter mais informações.</string>
 </resources>

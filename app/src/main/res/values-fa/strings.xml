@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">از طریق %1$s</string>
     <string name="connected">متصل</string>
     <string name="buttonConnect">اتصال</string>
-    <string name="loaderInitializing">در حال راه‌اندازی اتصال…</string>
+    <string name="loaderInitializing">راه‌اندازی اتصال…</string>
     <string name="loaderConnectingTo">در حال اتصال به %1$s</string>
     <string name="loaderConnectingToLabel">درحال اتصال به…</string>
     <string name="loaderNotConnected">متصل نیست (ناامن)</string>
@@ -146,6 +146,7 @@
     <string name="listAllCountries">همهٔ مکان‌ها (%1$d)</string>
     <string name="listFreeCountries">مکان‌های رایگان (%1$d)</string>
     <string name="listPremiumCountries">مکان‌های BASIC و PLUS (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Plus locations (%1$d)</string>
     <string name="listFastestServer">سریع‌ترین سرور</string>
     <string name="listFreeServers">سرورهای رایگان (%1$d)</string>
     <string name="listBasicServers">سرورهای BASIC (%1$d)</string>
@@ -157,9 +158,9 @@
     <string name="tabsProfiles">پروفایل‌ها</string>
     <string name="log_title">گزارش</string>
     <string name="disconnect">قطع ارتباط</string>
-    <string name="state_connecting">در حال اتصال...</string>
+    <string name="state_connecting">در حال اتصال به…</string>
     <string name="state_connected">متصل</string>
-    <string name="state_disconnecting">در حال قطع اتصال...</string>
+    <string name="state_disconnecting">در حال قطع اتصال از…</string>
     <string name="state_error">خطا</string>
     <string name="error_server_unreachable">اتصال به VPN ممکن نبود. لطفاً اتصال خود را بررسی و دوباره امتحان کنید.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -624,6 +625,8 @@
         <item quantity="other">دسترسی به %1$d کشور</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">محل‌های بیشتر = محتوای رفع مسدودی شده بیشتر + امنیت بیشتر + سرعت بیشتر</string>
+    <string name="new_look_dialog_title_new_plans">Proton به روز شده، محافظت یکپارچه</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Introducing Proton’s refreshed look. Many services, one mission. Welcome to an Internet where privacy is the default. <a href="%1$s">Learn&nbsp;more</a>]]></string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">از <a href="https://protonvpn.com/pricing">protonvpn.com</a> برای اطلاعات بیشتر بازدید کنید.</string>
 </resources>

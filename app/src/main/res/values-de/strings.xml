@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">über %1$s</string>
     <string name="connected">Verbunden</string>
     <string name="buttonConnect">Verbinden</string>
-    <string name="loaderInitializing">Verbindung wird initialisiert…</string>
+    <string name="loaderInitializing">Verbindung wird initialisiert …</string>
     <string name="loaderConnectingTo">Mit %1$s verbinden</string>
     <string name="loaderConnectingToLabel">Verbindet mit …</string>
     <string name="loaderNotConnected">Nicht verbunden (ungeschützt)</string>
@@ -146,6 +146,7 @@
     <string name="listAllCountries">Alle Standorte (%1$d)</string>
     <string name="listFreeCountries">Free-Standorte (%1$d)</string>
     <string name="listPremiumCountries">Basic &amp; Plus Standorte (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Plus-Standorte (%1$d)</string>
     <string name="listFastestServer">Schnellster Server</string>
     <string name="listFreeServers">Free-Server (%1$d)</string>
     <string name="listBasicServers">Standard-Server (%1$d)</string>
@@ -157,9 +158,9 @@
     <string name="tabsProfiles">Profile</string>
     <string name="log_title">Protokoll</string>
     <string name="disconnect">Trennen</string>
-    <string name="state_connecting">Verbindung wird hergestellt…</string>
+    <string name="state_connecting">Verbindung wird hergestellt …</string>
     <string name="state_connected">Verbunden</string>
-    <string name="state_disconnecting">Verbindung wird getrennt…</string>
+    <string name="state_disconnecting">Verbindung wird getrennt …</string>
     <string name="state_error">Fehler</string>
     <string name="error_server_unreachable">Verbindung zum VPN fehlgeschlagen. Bitte überprüfe deine Verbindung und versuche es erneut.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -624,9 +625,8 @@
         <item quantity="other">Zugriff auf %1$d Länder</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Mehr Standorte = mehr ungeblockte Inhalte + zusätzliche Sicherheit + höhere Geschwindigkeiten</string>
-    <!-- Core strings overrides -->
-    <string name="plans_customizable_features">Besuche <a href="https://protonvpn.com/de/pricing">protonvpn.com</a> für mehr Informationen.</string>
-    <string name="listPremiumCountries_new_plans">Plus-Standorte (%1$d)</string>
     <string name="new_look_dialog_title_new_plans">Verbessertes Proton, einheitlicher Schutz</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Proton präsentiert sein neues Design. Viele Dienste, eine Mission. Willkommen bei einem Internet, bei dem der Schutz der Privatsphäre Standard ist.<a href="%1$s">Mehr&nbsp;erfahren</a>]]></string>
+    <!-- Core strings overrides -->
+    <string name="plans_customizable_features">Besuche <a href="https://protonvpn.com/de/pricing">protonvpn.com</a> für mehr Informationen.</string>
 </resources>

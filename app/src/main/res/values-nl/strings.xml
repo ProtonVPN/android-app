@@ -119,7 +119,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Niet-standaard poorten</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Gebruik Proton voor elke speciale nood door verkeer naar niet-standaard poorten toe te laten via het VPN-netwerk. <a href="%1$s">Meer leren</a>]]></string>
     <string name="settingsModerateNatTitle">Gemiddelde NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT schakelt de randomisatie van de lokale adressen mapping uit, wat uw veiligheid enigszins kan verminderen, maar laat technieken toe zoals rechtstreekse verbindingen voor toepassingen zoals online games. <a href="%1$s">Meer informatie</a>]]></string>
     <string name="use_coupon_title">Gebruik kortingscode</string>
     <string name="use_coupon_code_label">Kortingscode</string>
     <string name="use_coupon_success">Kortingscode werd succesvol toegepast</string>
@@ -146,6 +146,7 @@
     <string name="listAllCountries">Alle locaties (%1$d)</string>
     <string name="listFreeCountries">Gratis locaties (%1$d)</string>
     <string name="listPremiumCountries">Basic &amp; Plus locaties (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Plus-locaties (%1$d)</string>
     <string name="listFastestServer">Snelste server</string>
     <string name="listFreeServers">Gratis servers (%1$d)</string>
     <string name="listBasicServers">Basic servers (%1$d)</string>
@@ -157,9 +158,9 @@
     <string name="tabsProfiles">Profielen</string>
     <string name="log_title">Log</string>
     <string name="disconnect">Verbinding verbreken</string>
-    <string name="state_connecting">Verbinden…</string>
+    <string name="state_connecting">Verbinding aan het maken…</string>
     <string name="state_connected">Verbonden</string>
-    <string name="state_disconnecting">Verbinding verbreken…</string>
+    <string name="state_disconnecting">Verbinding aan het verbreken…</string>
     <string name="state_error">Fout</string>
     <string name="error_server_unreachable">Kon geen verbinding maken met de VPN. Controleer uw verbinding en probeer het opnieuw.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -426,8 +427,8 @@
         <item quantity="other">Koppel een ander toestel los om dit toestel te verbinden of upgrade naar Plus om tot %1$d toestellen te verbinden tegelijkertijd.</item>
     </plurals>
     <string name="notification_max_sessions_content">Verbreek een ander apparaat om deze te verbinden.</string>
-    <string name="notification_cancel_to_free">You are on the Free plan. Free servers and features are available.</string>
-    <string name="notification_cancel_to_basic">You are on the Basic plan. Basic &amp; Free servers and features are available.</string>
+    <string name="notification_cancel_to_free">U hebt een Gratis abonnement. Gratis servers en functies zijn beschikbaar.</string>
+    <string name="notification_cancel_to_basic">U hebt het Basic abonnement. Basic &amp; Gartis servers en functies zijn beschikbaar.</string>
     <string name="notification_cancel_to_delinquent">U heeft weer toegang tot premium functies nadat openstaande facturen betaald zijn.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Van server: </string>
@@ -504,7 +505,7 @@
      Example:
      Access over 1300 secure servers in 61 countries
      -->
-    <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
+    <string name="upgrade_plus_countries_title_new">Toegang tot %1$s in %2$s</string>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_secure_servers"
 
@@ -537,7 +538,7 @@
     <string name="smart_routing_title">Slimme routering</string>
     <string name="smart_routing_description">Met deze technologie kan Proton VPN hogere snelheid en beveiliging bieden in landen waar de toegang tot VPNs beperkt is.</string>
     <string name="streaming_title">Streamen</string>
-    <string name="streaming_description">Plus servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
+    <string name="streaming_description">Plus-servers ondersteunen mediastreaming (Netflix, Disney+, enz.) wereldwijd.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Deze servers geven de beste prestaties voor BitTorrent en het delen van bestanden.</string>
     <string name="tor_title">Tor</string>
@@ -624,9 +625,8 @@
         <item quantity="other">Toegang tot alle %1$d landen</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Meer locaties = meer ongeblokkeerde inhoud + extra beveiliging + hogere snelheden</string>
-    <!-- Core strings overrides -->
-    <string name="plans_customizable_features">Bezoek <a href="https://protonvpn.com/pricing">protonvpn.com</a> voor meer informatie.</string>
-    <string name="listPremiumCountries_new_plans">Plus-locaties (%1$d)</string>
     <string name="new_look_dialog_title_new_plans">Vernieuwde Proton, uniforme beveiliging</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Ontdek de nieuwe look van Proton. Veel diensten, één missie. Welkom in een internetomgeving waar privacy de standaard is. <a href="%1$s">Meer&nbsp;informatie</a>]]></string>
+    <!-- Core strings overrides -->
+    <string name="plans_customizable_features">Bezoek <a href="https://protonvpn.com/pricing">protonvpn.com</a> voor meer informatie.</string>
 </resources>
