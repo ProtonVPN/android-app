@@ -223,7 +223,7 @@ unit tests:
   tags:
     - large
   script:
-    - ./gradlew testGooglePlayDebug
+    - ./gradlew testBlackDebug
 
 coverage report:
   stage: report

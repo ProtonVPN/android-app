@@ -21,7 +21,8 @@ package com.protonvpn.testsHelper
 
 import com.protonvpn.annotations.TestID
 import com.protonvpn.testRail.TestRailClient
-import com.protonvpn.testSuites.MobileSuite
+import com.protonvpn.testSuites.MobileBlackSuite
+import com.protonvpn.testSuites.MobileMainSuite
 import org.junit.runner.Description
 import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunListener
@@ -35,7 +36,7 @@ class ProtonReportingRunListener : RunListener() {
 
     override fun testSuiteStarted(description: Description?) {
         super.testSuiteStarted(description)
-        if(description?.testClass == MobileSuite::class.java){
+        if(description?.testClass == MobileBlackSuite::class.java || description?.testClass == MobileMainSuite::class.java){
             if(testRailClient.shouldReport()){
                 runId = testRailClient.createTestRun()
             }
@@ -72,7 +73,7 @@ class ProtonReportingRunListener : RunListener() {
 
     override fun testSuiteFinished(description: Description?) {
         super.testSuiteFinished(description)
-        if(description?.testClass == MobileSuite::class.java){
+        if(description?.testClass == MobileBlackSuite::class.java || description?.testClass == MobileMainSuite::class.java){
             if(testRailClient.shouldReport()){
                 runId = null
             }

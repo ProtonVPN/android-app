@@ -30,6 +30,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import me.proton.core.network.domain.session.SessionId
 import java.util.Arrays
+import me.proton.core.util.kotlin.takeIfNotBlank
 
 class TestUser private constructor(
     val email: String,
@@ -55,12 +56,11 @@ class TestUser private constructor(
         val basicUser: TestUser
             get() = TestUser("Testas2", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas2", "vpnbasic", "vpnbasic", 1, 2)
         @JvmStatic val plusUser: TestUser
-            get() = TestUser("Testas3", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", "vpnplus", 2, 5)
+            get() = getPlusPlanUser()
         val badUser: TestUser
             get() = TestUser("Testas3", "r4nd0m", "rand", "vpnplus", "vpnplus", 2, 5)
         @JvmStatic val specialCharUser: TestUser
-            get() = TestUser("specialChars", BuildConfig.SPECIAL_CHAR_PASSWORD, "testas", "free", "free",0, 1)
-
+            get() = TestUser("testSpecChar", BuildConfig.SPECIAL_CHAR_PASSWORD, "testas", "free", "free",0, 1)
         val forkedSessionResponse: ForkedSessionResponse
             get() = ForkedSessionResponse(
                 864000,
@@ -70,6 +70,13 @@ class TestUser private constructor(
                 "null",
                 0, Arrays.asList("self", "user", "loggedin", "vpn").toTypedArray(),
                 "UserId")
+
+        private fun getPlusPlanUser(): TestUser {
+            BuildConfig.BLACK_TOKEN?.takeIfNotBlank()?.let {
+                return TestUser("vpnplus", "12341234", "test", "vpnplus", "vpnplus", 2, 10)
+            }
+            return TestUser("Testas3", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", "vpnplus", 2, 5)
+        }
     }
 }
 

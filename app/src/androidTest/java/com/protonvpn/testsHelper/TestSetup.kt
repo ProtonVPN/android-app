@@ -23,9 +23,13 @@ import com.protonvpn.android.test.BuildConfig
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.testRail.ApiClient
+import me.proton.core.util.kotlin.takeIfNotBlank
 
 class TestSetup {
     companion object {
+
+        private val apiClient = ApiClient(BuildConfig.API_DOMAIN)
+
         fun setCompletedOnboarding() {
             //set flag to slide show to be visible
             Storage.saveBoolean(OnboardingPreferences.MAPVIEW_DIALOG, true)
@@ -35,9 +39,20 @@ class TestSetup {
             Storage.saveBoolean(OnboardingPreferences.NETSHIELD_DIALOG, true)
         }
 
-        fun clearJails(){
-            val apiClient = ApiClient(BuildConfig.API_DOMAIN)
-            apiClient.sendGet("/internal/quark/jail:unban")
+        fun clearJails() {
+            sendGetWithBlackEnvVerification("/internal/quark/jail:unban")
+        }
+
+        fun createUser(username: String, password: String) {
+            sendGetWithBlackEnvVerification("/internal/quark/user:create?-N=$username&-p=$password")
+        }
+
+        fun isBlackEnv() = !BuildConfig.BLACK_TOKEN.isNullOrBlank()
+
+        private fun sendGetWithBlackEnvVerification(endpoint: String){
+            if (isBlackEnv()) {
+                apiClient.sendGet(endpoint)
+            }
         }
     }
 }

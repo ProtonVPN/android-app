@@ -50,7 +50,7 @@ tasks.withType(Test) {
 }
 
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTest']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testBlackDebugUnitTest']) {
 
     reports {
         xml.enabled = true
@@ -58,7 +58,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTe
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', 'ch.protonmail.android.utils.nativelib']
-    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/googlePlayDebug", excludes: fileFilter)
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/blackDebug", excludes: fileFilter)
     def mainSrc = files(["src/main/java","src/googlePlay/java"])
     sourceDirectories.setFrom files([mainSrc])
     classDirectories.setFrom files([debugTree])

@@ -20,11 +20,13 @@
 package com.protonvpn.testSuites
 
 import com.protonvpn.tests.signup.SignupTests
+import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
+    MobileMainSuite::class,
     SignupTests::class
 )
-class BlackEnvSuite
+class MobileBlackSuite
