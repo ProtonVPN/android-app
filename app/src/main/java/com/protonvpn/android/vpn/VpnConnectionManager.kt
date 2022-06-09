@@ -71,7 +71,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import kotlin.coroutines.coroutineContext
 
-private val FALLBACK_PROTOCOL = VpnProtocol.IKEv2
+private val FALLBACK_PROTOCOL = VpnProtocol.WireGuard
 private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
 
 enum class ReasonRestricted { SecureCoreUpgradeNeeded, PlusUpgradeNeeded, Maintenance }
