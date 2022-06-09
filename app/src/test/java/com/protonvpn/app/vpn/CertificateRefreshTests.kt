@@ -29,6 +29,7 @@ import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertificateKeyProvider
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.CertificateStorage
+import com.protonvpn.android.vpn.MIN_CERT_REFRESH_DELAY
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -49,13 +50,14 @@ import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
 import org.junit.Before
 import org.junit.Test
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Unit tests for certificate refresh tests.
  *
  * These tests need to be executed with instrumentation because CertificateRepository uses go libraries.
  */
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, kotlin.time.ExperimentalTime::class)
 class CertificateRefreshTests {
 
     private var currentTimeMs: Long = 0
@@ -99,7 +101,7 @@ class CertificateRefreshTests {
         every { mockKeyProvider.generateCertInfo() } returns CertInfo("private", "public", "x25519")
         every { mockPlanManager.infoChangeFlow } returns infoChangeFlow
         every { mockAppInUseMonitor.isInUseFlow } returns appInUseFlow
-        every { mockAppInUseMonitor.isInUse } returns appInUseFlow.value
+        every { mockAppInUseMonitor.isInUse } answers { appInUseFlow.value }
         every { networkManager.observe() } returns networkStateFlow
         coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Success(CERTIFICATE_RESPONSE)
         coEvery { mockCurrentUser.sessionId() } returns SESSION_ID
@@ -168,6 +170,37 @@ class CertificateRefreshTests {
         }
     }
 
+    @Test
+    fun `error triggers reschedule`() = runBlockingTest {
+        currentTimeMs = CERT_INFO.refreshAt
+        appInUseFlow.value = true
+        coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Error.Timeout(true)
+        withTestRepository {
+            verify { mockRefeshScheduler.rescheduleAt((currentTimeMs + CERT_INFO.expiresAt) / 2) }
+        }
+    }
+
+    @Test
+    fun `error triggers reschedule with min delay`() = runBlockingTest {
+        currentTimeMs = CERT_INFO.expiresAt - 10
+        appInUseFlow.value = true
+        coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Error.Timeout(true)
+        withTestRepository {
+            verify { mockRefeshScheduler.rescheduleAt(currentTimeMs + MIN_CERT_REFRESH_DELAY) }
+        }
+    }
+
+    @Test
+    fun `retry-after error triggers reschedule`() = runBlockingTest {
+        currentTimeMs = CERT_INFO.refreshAt
+        appInUseFlow.value = true
+        val retryAfter = 2.seconds
+        coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Error.Http(429, "", retryAfter = retryAfter)
+        withTestRepository {
+            verify { mockRefeshScheduler.rescheduleAt(currentTimeMs + retryAfter.inWholeMilliseconds) }
+        }
+    }
+
     /**
      * Create a CertificateRepository for testing and run testBlock.
      *
@@ -203,14 +236,14 @@ class CertificateRefreshTests {
             "fake private key",
             "fake public key",
             "fake x25519",
-            refreshAt = NOW_MS + 10,
-            expiresAt = NOW_MS + 20,
+            refreshAt = NOW_MS + 100_000,
+            expiresAt = NOW_MS + 200_000,
             certificatePem = "fake certificate data"
         )
         private val CERTIFICATE_RESPONSE = CertificateResponse(
             "fake certificate data",
-            refreshTime = NOW_MS + 10,
-            expirationTime = NOW_MS + 200,
+            refreshTime = NOW_MS + 100_000,
+            expirationTime = NOW_MS + 2_000_000,
         )
     }
 }

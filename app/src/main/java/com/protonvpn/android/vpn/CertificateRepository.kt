@@ -64,7 +64,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val MAX_REFRESH_COUNT = 4
-private val MIN_REFRESH_DELAY = TimeUnit.SECONDS.toMillis(30)
+val MIN_CERT_REFRESH_DELAY = TimeUnit.SECONDS.toMillis(30)
 
 @Serializable
 data class CertInfo(
@@ -139,6 +139,7 @@ class CertificateKeyProvider @Inject constructor() {
 }
 
 @Singleton
+@OptIn(kotlin.time.ExperimentalTime::class)
 class CertificateRepository @Inject constructor(
     private val mainScope: CoroutineScope,
     private val certificateStorage: CertificateStorage,
@@ -292,16 +293,26 @@ class CertificateRepository @Inject constructor(
                     UserCertRefreshError,
                     "$certString, retry count: ${info.refreshCount}, error: $response"
                 )
+                handleRefreshError(sessionId, info, response)
+                return CertificateResult.Error(response)
+            }
+        }
+    }
 
-                if (info.refreshCount < MAX_REFRESH_COUNT && appInUseMonitor.isInUse) {
-                    certificateStorage.put(sessionId, info.copy(refreshCount = info.refreshCount + 1))
-
-                    val now = wallClock()
-                    val newRefresh = ((now + info.expiresAt) / 2)
-                        .coerceAtLeast(now + MIN_REFRESH_DELAY)
-                    rescheduleRefreshTo(newRefresh)
-                }
-                CertificateResult.Error(response)
+    private suspend fun handleRefreshError(
+        sessionId: SessionId,
+        info: CertInfo,
+        error: ApiResult.Error
+    ) {
+        if (info.refreshCount < MAX_REFRESH_COUNT && appInUseMonitor.isInUse) {
+            certificateStorage.put(sessionId, info.copy(refreshCount = info.refreshCount + 1))
+            if (error is ApiResult.Error.Http && error.retryAfter != null) {
+                rescheduleRefreshTo(wallClock() + error.retryAfter!!.inWholeMilliseconds)
+            } else {
+                val now = wallClock()
+                val newRefresh = ((now + info.expiresAt) / 2)
+                    .coerceAtLeast(now + MIN_CERT_REFRESH_DELAY)
+                rescheduleRefreshTo(newRefresh)
             }
         }
     }
