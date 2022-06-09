@@ -325,7 +325,6 @@ public class HomeActivity extends VpnActivity {
         });
 
         initStatusBar();
-        fabQuickConnect.setVisibility(View.VISIBLE);
         initQuickConnectFab();
         initFullScreenNotification(getIntent());
 
