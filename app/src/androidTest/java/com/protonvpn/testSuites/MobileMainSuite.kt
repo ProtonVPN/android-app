@@ -48,4 +48,4 @@ import org.junit.runners.Suite
     VpnConnectionTests::class,
     LiveEventTests::class
 )
-class MobileSuite
+class MobileMainSuite

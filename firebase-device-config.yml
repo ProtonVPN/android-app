@@ -1,14 +1,4 @@
-fullTest:
-  device:
-  - model: flame
-    version: 29
-  - model: walleye
-    version: 27
-  - model: starqltechn
-    version: 26
-  - model: G8142
-    version: 25
-quickTest:
+mobileTest:
   timeout: 30m
   device:
   - model: Pixel2
@@ -26,8 +16,3 @@ tvTest:
   - model: GoogleTvEmulator
     orientation: landscape
     version: 30
-blackEnvTest:
-  timeout: 30m
-  device:
-    - model: Pixel2
-      version: 28

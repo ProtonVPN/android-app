@@ -63,9 +63,7 @@ class LoginRobot : BaseRobot() {
             checkIfElementIsDisplayedByText(testUser.password, TextInputEditText::class.java)
         }
 
-        fun userNameIsVisible(testUser: TestUser) = checkIfElementByIdContainsText(
-            R.id.usernameInput, testUser.email
-        )
+        fun userNameIsVisible(testUser: TestUser) = checkIfElementIsDisplayedByText(testUser.email)
 
         fun needHelpOptionsAreDisplayed() {
             checkIfElementIsDisplayedById(R.id.helpOptionForgotUsername)
