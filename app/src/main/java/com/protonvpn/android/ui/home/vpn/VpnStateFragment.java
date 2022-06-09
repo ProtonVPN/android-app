@@ -70,6 +70,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 @ContentLayout(R.layout.fragment_vpn_state)
 public class VpnStateFragment extends BaseFragment {
 
+    private final static String STATE_KEY_IS_EXPANDED = "bottom_sheet_is_expanded";
+
     @BindView(R.id.layoutStatusHeader) View layoutStatusHeader;
     @BindView(R.id.imageExpand) ImageView imageExpand;
     @BindView(R.id.dividerTop) View dividerTop;
@@ -156,7 +158,7 @@ public class VpnStateFragment extends BaseFragment {
                 fab.setAlpha(1 - slideOffset);
                 fab.setVisibility(slideOffset == 1 ? View.GONE : View.VISIBLE);
                 if (imageExpand != null) {
-                    imageExpand.animate().rotation(180 * slideOffset).setDuration(0).start();
+                    imageExpand.setRotation(180 * slideOffset);
                 }
                 if (dividerTop != null) {
                     dividerTop.setVisibility(slideOffset == 1f ? View.GONE : View.VISIBLE);
@@ -167,6 +169,24 @@ public class VpnStateFragment extends BaseFragment {
             }
         });
         viewModel.onBottomStateChanges(bottomSheetBehavior.getState());
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // View visibility and rotation are not automaticall saved and restored with instance state.
+        outState.putBoolean(STATE_KEY_IS_EXPANDED, isBottomSheetExpanded());
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null && savedInstanceState.getBoolean(STATE_KEY_IS_EXPANDED)) {
+            imageExpand.setRotation(180);
+            dividerTop.setVisibility(View.GONE);
+        } else {
+            fab.setVisibility(View.VISIBLE);
+        }
     }
 
     public boolean collapseBottomSheet() {
