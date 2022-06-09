@@ -266,11 +266,11 @@ class VpnConnectionTests {
         manager.connect(mockVpnUiDelegate, profileSmart, "test")
         advanceUntilIdle()
 
-        // When scanning fails we'll fallback to attempt connecting with IKEv2 regardless of
+        // When scanning fails we'll fallback to attempt connecting with WireGuard regardless of
         // selected protocol
         coVerify(exactly = 1) {
-            mockStrongSwan.prepareForConnection(any(), any(), false)
-            mockStrongSwan.connect(not(isNull()))
+            mockWireguard.prepareForConnection(any(), any(), false)
+            mockWireguard.connect(not(isNull()))
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -283,13 +283,13 @@ class VpnConnectionTests {
         manager.connect(mockVpnUiDelegate, profileSmart, "test")
         advanceUntilIdle()
 
-        // Always fall back to StrongSwan, regardless of selected protocol.
+        // Always fall back to WireGuard, regardless of selected protocol.
         coVerify(exactly = 0) {
             mockOpenVpn.prepareForConnection(any(), any(), false)
         }
         coVerify(exactly = 1) {
-            mockStrongSwan.prepareForConnection(any(), any(), any())
-            mockStrongSwan.connect(not(isNull()))
+            mockWireguard.prepareForConnection(any(), any(), any())
+            mockWireguard.connect(not(isNull()))
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
