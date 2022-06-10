@@ -131,11 +131,6 @@ class ServerListUpdater @Inject constructor(
     @VisibleForTesting
     suspend fun updateTask(): Long {
         if (currentUser.isLoggedIn()) {
-            // force downloading serverlist first time for guesthole case
-            if (!serverManager.isDownloadedAtLeastOnce) {
-                updateServerList(networkLoader)
-            }
-
             val now = elapsedRealtimeMs()
             if (now >= lastIpCheck + LOCATION_CALL_DELAY) {
                 if (updateLocationIfVpnOff())
