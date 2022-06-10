@@ -28,6 +28,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.jitterMs
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -65,6 +66,8 @@ class ServerListUpdater(
     val lastKnownIsp: String? get() = prefs.lastKnownIsp
 
     init {
+        migrateIpAddress()
+
         lastIpCheck = dateToRealtime(prefs.ipAddressCheckTimestamp)
         lastLoadsUpdateInternal = dateToRealtime(prefs.loadsUpdateTimestamp)
 
@@ -193,6 +196,15 @@ class ServerListUpdater(
         }
         loaderUI?.switchToEmpty()
         return result
+    }
+
+    private fun migrateIpAddress() {
+        if (prefs.ipAddress.isEmpty()) {
+            val oldKey = "IP_ADDRESS"
+            val oldValue = Storage.getString(oldKey, "")
+            prefs.ipAddress = oldValue
+            Storage.delete(oldKey)
+        }
     }
 
     companion object {
