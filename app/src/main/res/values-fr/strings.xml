@@ -298,7 +298,7 @@
     <string name="troubleshootButton">Dépannage</string>
     <string name="activityTroubleshootTitle">Dépannage</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Solutions potentielles</string>
-    <string name="troubleshootNoInternetDescription">Veuillez vérifier que votre connexion internet fonctionne.</string>
+    <string name="troubleshootNoInternetDescription">Vérifiez que votre connexion internet fonctionne.</string>
     <string name="troubleshootNoInternetTitle">Aucune connexion internet</string>
     <string name="troubleshootIspProblemTitle">Problème de fournisseur d\'accès internet (FAI)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Essayez de vous connecter à Proton depuis un autre réseau (ou utilisez <a href=\'%1$s\'>Tor</a>)]]></string>
