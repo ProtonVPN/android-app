@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.ui.drawer.bugreport
 
-import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
 import android.util.Patterns
@@ -39,7 +38,6 @@ import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.SentryIntegration
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
@@ -52,12 +50,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReportBugActivityViewModel @Inject constructor(
-    @ApplicationContext private val appContext: Context,
     private val mainScope: CoroutineScope,
     private val appConfig: AppConfig,
     private val api: ProtonApiRetroFit,
     private val currentUser: CurrentUser,
-    private val serverListUpdater: ServerListUpdater
+    private val serverListUpdater: ServerListUpdater,
+    private val telephony: TelephonyManager?
 ) : ViewModel() {
 
     interface DynamicInputUI {
@@ -132,7 +130,8 @@ class ReportBugActivityViewModel @Inject constructor(
         attachLog: Boolean
     ) {
         mainScope.launch {
-            if (hasMissingFields(emailField, dynamicInputMap.filter { it.key.isMandatory }.values.toList())) return@launch
+            if (hasMissingFields(emailField, dynamicInputMap.filter { it.key.isMandatory }.values.toList()))
+                return@launch
             _state.value = ViewState.SubmittingReport
             val email = emailField.text.toString().trim { it <= ' ' }
             val userGeneratedDescription = generateReportDescription(category, dynamicInputMap)
@@ -180,7 +179,6 @@ class ReportBugActivityViewModel @Inject constructor(
 
     private fun getIspValue(): String {
         val lastKnownIsp = serverListUpdater.lastKnownIsp ?: "Unknown"
-        val telephony: TelephonyManager? = appContext.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
         val mobileNetwork = telephony?.networkOperatorName
         return if (mobileNetwork != null) {
             "$lastKnownIsp, mobile network: $mobileNetwork"

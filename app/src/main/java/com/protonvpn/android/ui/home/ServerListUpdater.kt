@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.ui.home
 
+import android.telephony.TelephonyManager
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -26,7 +27,9 @@ import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -39,7 +42,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
-import org.joda.time.DateTime
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -54,7 +56,9 @@ class ServerListUpdater @Inject constructor(
     val vpnStateMonitor: VpnStateMonitor,
     userPlanManager: UserPlanManager,
     private val prefs: ServerListUpdaterPrefs,
-    @ElapsedRealtimeClock private val elapsedRealtimeMs: () -> Long
+    private val telephonyManager: TelephonyManager?,
+    @WallClock private val wallClock: () -> Long,
+    @ElapsedRealtimeClock private val elapsedRealtimeMs: () -> Long,
 ) {
     private var networkLoader: NetworkLoader? = null
     private var inForeground = false
@@ -97,7 +101,7 @@ class ServerListUpdater @Inject constructor(
         get() = lastLoadsUpdateInternal.coerceAtLeast(lastServerListUpdate)
 
     private fun dateToRealtime(date: Long) =
-        elapsedRealtimeMs() - (DateTime().millis - date).coerceAtLeast(0)
+        elapsedRealtimeMs() - (wallClock() - date).coerceAtLeast(0)
 
     fun startSchedule(lifecycle: Lifecycle, loader: NetworkLoader?) {
         networkLoader = loader
@@ -148,11 +152,11 @@ class ServerListUpdater @Inject constructor(
     }
 
     private suspend fun updateLoads(): Boolean {
-        val result = api.getLoads(prefs.ipAddress)
+        val result = api.getLoads(getNetZone())
         if (result is ApiResult.Success) {
             serverManager.updateLoads(result.value.loadsList)
             lastLoadsUpdateInternal = elapsedRealtimeMs()
-            prefs.loadsUpdateTimestamp = DateTime().millis
+            prefs.loadsUpdateTimestamp = wallClock()
             return true
         }
         return false
@@ -176,7 +180,7 @@ class ServerListUpdater @Inject constructor(
                 prefs.lastKnownIsp = isp
             }
             lastIpCheck = elapsedRealtimeMs()
-            prefs.ipAddressCheckTimestamp = DateTime().millis
+            prefs.ipAddressCheckTimestamp = wallClock()
         }
         return ipChanged
     }
@@ -198,7 +202,7 @@ class ServerListUpdater @Inject constructor(
         }
 
         val lang = Locale.getDefault().language
-        val result = api.getServerList(null, prefs.ipAddress, lang)
+        val result = api.getServerList(null, getNetZone(), lang)
         if (result is ApiResult.Success) {
             serverManager.setServers(result.value.serverList, lang)
         }
@@ -220,10 +224,27 @@ class ServerListUpdater @Inject constructor(
         }
     }
 
+    // Used in routes that provide server information including a score of how good a server is
+    // for the particular user to connect to.
+    // To provide relevant scores even when connected to VPN, we send a truncated version of
+    // the user's public IP address. In keeping with our no-logs policy, this partial IP address
+    // is not stored on the server and is only used to fulfill this one-off API request. If IP
+    // is not available/outdated we send network's MCC.
+    private fun getNetZone() = when {
+        prefs.ipAddress.isNotBlank() && lastIpCheck >= wallClock() - IP_VALIDITY_MS ->
+            NetUtils.stripIP(prefs.ipAddress)
+        telephonyManager != null && telephonyManager.phoneType != TelephonyManager.PHONE_TYPE_CDMA ->
+            telephonyManager.networkCountryIso
+        prefs.ipAddress.isNotBlank() ->
+            NetUtils.stripIP(prefs.ipAddress)
+        else -> null
+    }
+
     companion object {
         private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
         private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
         val LIST_CALL_DELAY = TimeUnit.HOURS.toMillis(3)
         private val MIN_CALL_DELAY = minOf(LOCATION_CALL_DELAY, LOADS_CALL_DELAY, LIST_CALL_DELAY)
+        val IP_VALIDITY_MS = TimeUnit.DAYS.toMillis(1)
     }
 }
