@@ -24,6 +24,7 @@ import android.content.pm.PackageManager
 import android.os.BatteryManager
 import android.os.PowerManager
 import android.os.SystemClock
+import android.telephony.TelephonyManager
 import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
@@ -320,6 +321,10 @@ object AppModule {
     fun provideActivityManager(): ActivityManager =
         ProtonApplication.getAppContext()
             .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+    @Provides
+    fun provideTelephonyManager(@ApplicationContext appContext: Context) =
+        appContext.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
 
     @Singleton
     @Provides

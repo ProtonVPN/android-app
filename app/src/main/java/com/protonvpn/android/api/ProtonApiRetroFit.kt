@@ -29,10 +29,8 @@ import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
-import com.protonvpn.android.utils.NetUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import me.proton.core.domain.entity.Product
 import me.proton.core.network.data.protonApi.RefreshTokenRequest
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
@@ -57,11 +55,11 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Vpn
         params: RequestBody,
     ) = manager { postBugReport(params) }
 
-    open suspend fun getServerList(loader: LoaderUI?, ip: String?, lang: String) =
-        makeCall(loader) { it.getServers(createNetZoneHeaders(ip), lang) }
+    open suspend fun getServerList(loader: LoaderUI?, netzone: String?, lang: String) =
+        makeCall(loader) { it.getServers(createNetZoneHeaders(netzone), lang) }
 
-    open suspend fun getLoads(ip: String?) =
-        manager { getLoads(createNetZoneHeaders(ip)) }
+    open suspend fun getLoads(netzone: String?) =
+        manager { getLoads(createNetZoneHeaders(netzone)) }
 
     open suspend fun getStreamingServices() =
         manager { getStreamingServices() }
@@ -149,14 +147,8 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Vpn
         }
     }
 
-    // Used in routes that provide server information including a score of how good a server is
-    // for the particular user to connect to.
-    // To provide relevant scores even when connected to VPN, we send a truncated version of
-    // the user's public IP address. In keeping with our no-logs policy, this partial IP address
-    // is not stored on the server and is only used to fulfill this one-off API request.
-    private fun createNetZoneHeaders(ip: String?) =
-        if (!ip.isNullOrEmpty()) {
-            val netzone = NetUtils.stripIP(ip)
+    private fun createNetZoneHeaders(netzone: String?) =
+        if (!netzone.isNullOrEmpty()) {
             mapOf(ProtonVPNRetrofit.HEADER_NETZONE to netzone)
         } else {
             emptyMap()
