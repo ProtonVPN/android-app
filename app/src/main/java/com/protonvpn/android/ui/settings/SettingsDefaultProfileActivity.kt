@@ -69,7 +69,7 @@ class SettingsDefaultProfileActivity : BaseActivityV2() {
 
         groupAdapter.setOnItemClickListener { item, _ ->
             if (item is ProfileViewHolder) {
-                userData.defaultConnection = item.profile
+                userData.defaultProfileId = item.profile.id
                 finish()
             }
         }
@@ -101,6 +101,7 @@ class SettingsDefaultProfileActivity : BaseActivityV2() {
             }
         }
 
+        override fun getId(): Long = profile.id.hashCode().toLong()
         override fun getLayout(): Int = R.layout.item_profile_selection
         override fun initializeViewBinding(view: View) = ItemProfileSelectionBinding.bind(view)
     }

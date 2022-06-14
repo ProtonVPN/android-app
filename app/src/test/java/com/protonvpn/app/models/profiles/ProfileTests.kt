@@ -33,7 +33,7 @@ class ProfileTests {
         val wrapper = ServerWrapper.makeFastestForCountry("sw")
         val profile = Profile("test", null, wrapper, ProfileColor.FERN.id, null)
 
-        val migratedProfile = profile.migrateFromOlderVersion()
+        val migratedProfile = profile.migrateFromOlderVersion(null)
         assertEquals(false, migratedProfile.isSecureCore)
     }
 
@@ -42,7 +42,7 @@ class ProfileTests {
         val wrapper = ServerWrapper.makePreBakedFastest()
         val profile = Profile("test", null, wrapper, ProfileColor.FERN.id, null)
 
-        val migratedProfile = profile.migrateFromOlderVersion()
+        val migratedProfile = profile.migrateFromOlderVersion(null)
         assertNull(migratedProfile.isSecureCore)
     }
 }

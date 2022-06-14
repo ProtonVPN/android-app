@@ -52,7 +52,7 @@ class ServiceTestHelper {
 
     fun deleteCreatedProfiles() {
         serverManager.deleteSavedProfiles()
-        userData.defaultConnection = null
+        userData.defaultProfileId = null
     }
 
     fun checkIfConnectedToVPN() = runBlocking(Dispatchers.Main) {

@@ -49,11 +49,15 @@ class RecentsManager(
     @Transient val update = MutableSharedFlow<Unit>()
 
     init {
-        Storage.load(RecentsManager::class.java)?.let {
-            recentConnections.addAll(it.recentConnections)
+        Storage.load(RecentsManager::class.java)?.let { loadedRecents ->
+            recentConnections.addAll(
+                loadedRecents.recentConnections
+                    .filterNot { it.isPreBakedProfile }
+                    .map { it.migrateFromOlderVersion(null) }
+            )
             // Older version might have this field missing
-            if (it.recentServers != null)
-                recentServers.putAll(it.recentServers)
+            if (loadedRecents.recentServers != null)
+                recentServers.putAll(loadedRecents.recentServers)
         }
 
         scope.launch {

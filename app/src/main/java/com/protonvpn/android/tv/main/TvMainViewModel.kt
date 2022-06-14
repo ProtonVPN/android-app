@@ -352,16 +352,21 @@ class TvMainViewModel @Inject constructor(
     private fun TvMapRenderer.MapRegion.isZoomedIn() = x != 0f || y != 0f || w != 1f
 
     fun isDefaultCountry(vpnCountry: VpnCountry) =
-        userData.defaultConnection?.wrapper?.country == vpnCountry.flag
+        serverManager.findDefaultProfile()?.wrapper?.country == vpnCountry.flag
 
     fun setAsDefaultCountry(checked: Boolean, vpnCountry: VpnCountry) {
-        userData.defaultConnection = if (checked) Profile(
-            vpnCountry.countryName,
-            null,
-            ServerWrapper.makeFastestForCountry(vpnCountry.flag),
-            null,
-            null
-        ) else null
+        serverManager.deleteProfile(serverManager.findDefaultProfile())
+        if (checked) {
+            val newDefaultProfile = Profile(
+                vpnCountry.countryName,
+                null,
+                ServerWrapper.makeFastestForCountry(vpnCountry.flag),
+                null,
+                null
+            )
+            serverManager.addToProfileList(newDefaultProfile)
+            userData.defaultProfileId = newDefaultProfile.id
+        }
     }
 
     fun showMaintenanceDialog(context: Context) {

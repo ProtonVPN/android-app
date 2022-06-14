@@ -28,9 +28,11 @@ import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.LiveEvent
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import java.io.Serializable
+import java.util.UUID
 
 enum class Setting(val logName: String) {
     QUICK_CONNECT_PROFILE("Quick connect"),
@@ -57,6 +59,8 @@ class UserData private constructor() : Serializable {
     @SerializedName("isLoggedIn") var migrateIsLoggedIn = false
     @SerializedName("vpnInfoResponse") var migrateVpnInfoResponse: VpnInfoResponse? = null
 
+    @SerializedName("defaultConnection") var migrateDefaultConnection: Profile? = null
+
     var connectOnBoot = false
         get() = Build.VERSION.SDK_INT < 26 && field
         set(value) { field = value; commitUpdate(Setting.CONNECT_ON_BOOT) }
@@ -73,7 +77,7 @@ class UserData private constructor() : Serializable {
     var splitTunnelIpAddresses: List<String> = emptyList()
         set(value) { field = value; commitUpdate(Setting.SPLIT_TUNNEL_IPS) }
 
-    var defaultConnection: Profile? = null
+    var defaultProfileId: UUID? = null
         set(value) { field = value; commitUpdate(Setting.QUICK_CONNECT_PROFILE) }
 
     var showVpnAcceleratorNotifications = true
@@ -179,6 +183,28 @@ class UserData private constructor() : Serializable {
         migrateUser = null
         migrateVpnInfoResponse = null
         Storage.save(this)
+    }
+
+    fun migrateDefaultProfile(serverManager: ServerManager) {
+        val oldProfile = migrateDefaultConnection?.migrateFromOlderVersion(null)
+        migrateDefaultConnection = null
+        if (oldProfile != null) {
+            val matchingProfile = serverManager.getSavedProfiles().find {
+                it.name == oldProfile.name &&
+                    it.wrapper == oldProfile.wrapper &&
+                    it.isSecureCore == oldProfile.isSecureCore &&
+                    it.profileColor == oldProfile.profileColor &&
+                    it.getProtocol(this) == oldProfile.getProtocol(this) &&
+                    it.getTransmissionProtocol(this) == oldProfile.getTransmissionProtocol(this)
+            }
+            if (matchingProfile == null) {
+                // On TV the default profile was not on the list of saved profiles, add it.
+                serverManager.addToProfileList(oldProfile)
+                defaultProfileId = oldProfile.id
+            } else {
+                defaultProfileId = matchingProfile.id
+            }
+        }
     }
 
     companion object {

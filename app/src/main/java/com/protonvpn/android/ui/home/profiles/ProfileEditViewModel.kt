@@ -215,7 +215,7 @@ class ProfileEditViewModel @Inject constructor(
                 setProtocol(protocol.value.protocol)
             }
         editedProfile?.let {
-            if (it == userData.defaultConnection) {
+            if (it.id == userData.defaultProfileId) {
                 ProtonLogger.logUiSettingChange(Setting.QUICK_CONNECT_PROFILE, "profile edit")
             }
             serverManager.editProfile(it, newProfile)

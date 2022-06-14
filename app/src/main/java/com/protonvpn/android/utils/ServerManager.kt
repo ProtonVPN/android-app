@@ -103,11 +103,10 @@ class ServerManager @Inject constructor(
 
     val defaultFallbackConnection = getSavedProfiles()[0]
 
-    val defaultConnection: Profile get() =
-        (userData.defaultConnection ?: getSavedProfiles().first())
+    val defaultConnection: Profile get() = findDefaultProfile() ?: getSavedProfiles().first()
 
     val defaultAvailableConnection: Profile get() =
-        (listOf(userData.defaultConnection) + getSavedProfiles())
+        (listOf(findDefaultProfile()) + getSavedProfiles())
             .filterNotNull()
             .first {
                 (it.isSecureCore == true).implies(currentUser.vpnUserCached()?.isUserPlusOrAbove == true)
@@ -125,6 +124,7 @@ class ServerManager @Inject constructor(
             serverListAppVersionCode = oldManager.serverListAppVersionCode
             translationsLang = oldManager.translationsLang
         }
+        userData.migrateDefaultProfile(this)
 
         userData.selectedProtocolLiveData.observeForever {
             onServersUpdate()
@@ -310,9 +310,8 @@ class ServerManager @Inject constructor(
         savedProfiles.profileList
 
     fun deleteSavedProfiles() {
-        val defaultProfiles = SavedProfilesV3.defaultProfiles().profileList
         for (profile in getSavedProfiles().toList()) {
-            if (profile !in defaultProfiles) {
+            if (!profile.isPreBakedProfile) {
                 deleteProfile(profile)
             }
         }
@@ -324,20 +323,15 @@ class ServerManager @Inject constructor(
         addToProfileList(newProfile)
     }
 
-    fun addToProfileList(profileToSave: Profile?): Boolean {
+    fun addToProfileList(profileToSave: Profile?) {
         if (!savedProfiles.profileList.contains(profileToSave)) {
             savedProfiles.profileList.add(profileToSave)
             Storage.save(savedProfiles)
             profiles.value = getSavedProfiles().toList()
-            return true
         }
-        return false
     }
 
-    fun editProfile(oldProfile: Profile, profileToSave: Profile?) {
-        if (oldProfile == defaultConnection) {
-            userData.defaultConnection = profileToSave
-        }
+    fun editProfile(oldProfile: Profile, profileToSave: Profile) {
         savedProfiles.profileList[savedProfiles.profileList.indexOf(oldProfile)] = profileToSave
         Storage.save(savedProfiles)
         profiles.value = getSavedProfiles().toList()
@@ -345,6 +339,7 @@ class ServerManager @Inject constructor(
 
     fun deleteProfile(profileToSave: Profile?) {
         savedProfiles.profileList.remove(profileToSave)
+        if (userData.defaultProfileId == profileToSave?.id) userData.defaultProfileId = null
         Storage.save(savedProfiles)
         profiles.value = getSavedProfiles().toList()
     }
@@ -390,6 +385,9 @@ class ServerManager @Inject constructor(
         getExitCountries(secureCore).asSequence().flatMap { country ->
             country.serverList.filter { it.online && vpnUser.hasAccessToServer(it) }.asSequence()
         }.sortedBy { it.score }.toList()
+
+    fun findDefaultProfile(): Profile? =
+        userData.defaultProfileId?.let { defaultId -> getSavedProfiles().find { it.id == defaultId } }
 
     private fun haveWireGuardSupport() =
         vpnCountries.any { country ->
