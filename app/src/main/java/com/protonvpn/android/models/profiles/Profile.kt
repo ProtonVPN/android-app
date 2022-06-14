@@ -30,6 +30,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.Server
 import java.io.Serializable
 import java.util.Locale
+import java.util.UUID
 
 data class Profile @JvmOverloads constructor(
     val name: String,
@@ -39,12 +40,13 @@ data class Profile @JvmOverloads constructor(
     val isSecureCore: Boolean?,
     private var protocol: String? = null,
     private var transmissionProtocol: String? = null,
+    val id: UUID? = UUID.randomUUID()
 ) : Serializable {
 
     val profileColor: ProfileColor? = colorId?.let { ProfileColor.byId(it) }
 
-    fun migrateFromOlderVersion(): Profile =
-        migrateColor().migrateSecureCore()
+    fun migrateFromOlderVersion(uuid: UUID?): Profile =
+        migrateColor().migrateSecureCore().migrateUUID(uuid)
 
     private fun migrateColor(): Profile =
         if (color != null && colorId == null && !isPreBakedProfile) {
@@ -67,6 +69,8 @@ data class Profile @JvmOverloads constructor(
         } else {
             this
         }
+
+    private fun migrateUUID(uuid: UUID?): Profile = if (id == null) copy(id = uuid ?: UUID.randomUUID()) else this
 
     fun getDisplayName(context: Context): String = if (isPreBakedProfile)
         context.getString(if (wrapper.isPreBakedFastest) R.string.profileFastest else R.string.profileRandom)
@@ -117,26 +121,10 @@ data class Profile @JvmOverloads constructor(
 
         other as Profile
 
-        if (name != other.name) return false
-        if (wrapper != other.wrapper) return false
-        if (protocol != other.protocol) return false
-        if (transmissionProtocol != other.transmissionProtocol) return false
-        if (profileColor != other.profileColor) return false
-        if (isSecureCore != other.isSecureCore) return false
-
-        return true
+        return id == other.id
     }
 
-    override fun hashCode(): Int {
-        var result = name.hashCode()
-        result = 31 * result + wrapper.hashCode()
-        result = 31 * result + (protocol?.hashCode() ?: 0)
-        result = 31 * result + (transmissionProtocol?.hashCode() ?: 0)
-        result = 31 * result + (profileColor?.hashCode() ?: 0)
-        result = 31 * result + (isSecureCore?.hashCode() ?: 0)
-        return result
-    }
-
+    override fun hashCode(): Int = id.hashCode()
 
     companion object {
         @JvmStatic

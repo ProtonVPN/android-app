@@ -52,7 +52,7 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
                         userData.secureCoreEnabled = false
                     }
                     if (serverManager.getServerForProfile(serverManager.defaultConnection, vpnUser) == null) {
-                        userData.defaultConnection = null
+                        userData.defaultProfileId = null
                     }
                 }
             }

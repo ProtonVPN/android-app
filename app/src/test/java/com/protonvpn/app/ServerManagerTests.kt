@@ -3,8 +3,12 @@ package com.protonvpn.app
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ProfileColor
+import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
@@ -15,7 +19,8 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockkObject
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNull
 import kotlinx.serialization.builtins.ListSerializer
 import me.proton.core.util.kotlin.deserialize
 import org.junit.Assert
@@ -24,23 +29,25 @@ import org.junit.Rule
 import org.junit.Test
 import java.io.File
 import java.util.Locale
+import java.util.UUID
 
 class ServerManagerTests {
 
     private lateinit var manager: ServerManager
 
-    @RelaxedMockK private lateinit var userData: UserData
     @RelaxedMockK private lateinit var currentUser: CurrentUser
     @RelaxedMockK private lateinit var vpnUser: VpnUser
+
+    private lateinit var userData: UserData
 
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
+        userData = UserData.create()
         mockkObject(CountryTools)
         currentUser.mockVpnUser { vpnUser }
         every { vpnUser.userTier } returns 2
@@ -68,7 +75,7 @@ class ServerManagerTests {
 
     @Test
     fun testFilterForProtocol() {
-        every { userData.selectedProtocol } returns VpnProtocol.WireGuard
+        userData.setProtocols(VpnProtocol.WireGuard, TransmissionProtocol.TCP)
         val filtered = manager.filterForProtocol(manager.getVpnCountries())
         Assert.assertEquals(listOf("CA#1", "DE#1"), filtered.flatMap { it.serverList.map { it.serverName } })
         val canada = filtered.first { it.flag == "CA" }
@@ -83,5 +90,30 @@ class ServerManagerTests {
         )
         Assert.assertNotNull(server)
         Assert.assertEquals("CA#2", server?.serverName)
+    }
+
+    @Test
+    fun `deleting default profile clears UserData defaultProfileId`() {
+        val profile = Profile(
+            "test",
+            null,
+            ServerWrapper.makeFastestForCountry("pl"),
+            ProfileColor.OLIVE.id,
+            false,
+            "WireGuard",
+            null
+        )
+
+        userData.defaultProfileId = profile.id
+        manager.deleteProfile(profile)
+
+        assertNull(userData.defaultProfileId)
+    }
+
+    @Test
+    fun `when defaultProfileId is invalid then defaultConnection falls back to saved profiles`() {
+        userData.defaultProfileId = UUID.randomUUID()
+        val profile = manager.defaultConnection
+        assertEquals(manager.getSavedProfiles().first(), profile)
     }
 }

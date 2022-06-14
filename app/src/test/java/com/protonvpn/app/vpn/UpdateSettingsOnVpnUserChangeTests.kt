@@ -29,6 +29,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange
+import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -59,10 +60,9 @@ class UpdateSettingsOnVpnUserChangeTests {
 
     @MockK private lateinit var mockServerManager: ServerManager
 
-    @MockK private lateinit var mockDefaultProfile: Profile
-
     @MockK private lateinit var mockDefaultServer: Server
 
+    private lateinit var defaultProfile: Profile
     private lateinit var userData: UserData
     private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
 
@@ -75,12 +75,13 @@ class UpdateSettingsOnVpnUserChangeTests {
         userData = UserData.create()
         scope = TestCoroutineScope(TestDispatcherProvider.Main)
         vpnUserFlow = MutableStateFlow(null)
+        defaultProfile = Profile.getTempProfile(MockedServers.server)
 
-        every { mockServerManager.defaultConnection } returns mockDefaultProfile
+        every { mockServerManager.defaultConnection } returns defaultProfile
         every { mockDefaultServer.tier } returns 0
 
         val vpnUserSlot = slot<VpnUser>()
-        every { mockServerManager.getServerForProfile(mockDefaultProfile, capture(vpnUserSlot)) } answers {
+        every { mockServerManager.getServerForProfile(defaultProfile, capture(vpnUserSlot)) } answers {
             mockDefaultServer.takeIf { vpnUserSlot.captured.maxTier ?: 0 >= it.tier }
         }
 
@@ -130,23 +131,23 @@ class UpdateSettingsOnVpnUserChangeTests {
     @Test
     fun `default profile cleared when plan downgraded below server's tier`() {
         vpnUserFlow.value = TestUser.plusUser.vpnUser
-        userData.defaultConnection = mockDefaultProfile
+        userData.defaultProfileId = defaultProfile.id
         every { mockDefaultServer.tier } returns 2
 
         vpnUserFlow.value = TestUser.basicUser.vpnUser
 
-        assertNull(userData.defaultConnection)
+        assertNull(userData.defaultProfileId)
     }
 
     @Test
     fun `default profile not cleared when plan downgraded at server's tier`() {
         vpnUserFlow.value = TestUser.plusUser.vpnUser
-        userData.defaultConnection = mockDefaultProfile
+        userData.defaultProfileId = defaultProfile.id
         every { mockDefaultServer.tier } returns 1
 
         vpnUserFlow.value = TestUser.basicUser.vpnUser
 
-        assertEquals(mockDefaultProfile, userData.defaultConnection)
+        assertEquals(defaultProfile.id, userData.defaultProfileId)
     }
 
     @Test
@@ -156,7 +157,7 @@ class UpdateSettingsOnVpnUserChangeTests {
         userData.setNetShieldProtocol(NetShieldProtocol.ENABLED_EXTENDED)
         userData.safeModeEnabled = false
         userData.randomizedNatEnabled = false
-        userData.defaultConnection = mockDefaultProfile
+        userData.defaultProfileId = defaultProfile.id
         every { mockDefaultServer.tier } returns 1
 
         vpnUserFlow.value = null // Simulate logout.
@@ -166,6 +167,6 @@ class UpdateSettingsOnVpnUserChangeTests {
         assertFalse(userData.safeModeEnabled)
         assertFalse(userData.randomizedNatEnabled)
         assertEquals(NetShieldProtocol.ENABLED_EXTENDED, userData.getNetShieldProtocol(vpnUserFlow.value))
-        assertEquals(mockDefaultProfile, userData.defaultConnection)
+        assertEquals(defaultProfile.id, userData.defaultProfileId)
     }
 }
