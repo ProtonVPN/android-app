@@ -18,15 +18,14 @@
  */
 package com.protonvpn.testsHelper
 
-import android.os.Handler
-import android.os.Looper
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.test.shared.MockedServers.getProfile
 import com.protonvpn.test.shared.MockedServers.serverList
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 class ServiceTestHelper {
 
@@ -38,41 +37,33 @@ class ServiceTestHelper {
     @JvmField var mockVpnBackend = helper.backend
 
     @JvmField var connectionManager = helper.vpnConnectionManager
-    private val mainThreadHandler = Handler(Looper.getMainLooper())
 
     val isSecureCoreEnabled get() = userData.secureCoreEnabled
 
-    fun addProfile(protocol: VpnProtocol, name: String, serverDomain: String): Profile {
+    fun addProfile(protocol: VpnProtocol, name: String, serverDomain: String) = runBlocking(Dispatchers.Main){
         var server: Server? = null
         for (s in serverList) {
             if (s.domain == serverDomain) server = s
         }
         checkNotNull(server) { "No mocked server for domain: $serverDomain" }
         val profile = getProfile(protocol, server, name)
-        Handler(Looper.getMainLooper()).post { helper.serverManager.addToProfileList(profile) }
-        return profile
-    }
-
-    fun setDefaultProfile(profile: Profile) {
-        mainThreadHandler.post { userData.defaultConnection = profile }
+        serverManager.addToProfileList(profile)
     }
 
     fun deleteCreatedProfiles() {
-        mainThreadHandler.post {
-            serverManager.deleteSavedProfiles()
-            userData.defaultConnection = null
-        }
+        serverManager.deleteSavedProfiles()
+        userData.defaultConnection = null
     }
 
-    fun checkIfConnectedToVPN() {
+    fun checkIfConnectedToVPN() = runBlocking(Dispatchers.Main) {
         assertTrue("User was not connected to VPN", stateMonitor.isConnected)
     }
 
     fun enableSecureCore(state: Boolean) {
-        mainThreadHandler.postDelayed({ userData.secureCoreEnabled = state }, 100)
+        userData.secureCoreEnabled = state
     }
 
-    fun checkIfDisconnectedFromVPN() {
+    fun checkIfDisconnectedFromVPN() = runBlocking(Dispatchers.Main) {
         assertFalse("User was not disconnected from VPN", stateMonitor.isConnected)
     }
 }
