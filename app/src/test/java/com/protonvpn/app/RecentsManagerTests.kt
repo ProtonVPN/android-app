@@ -2,6 +2,7 @@ package com.protonvpn.app
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Storage
@@ -35,7 +36,7 @@ class RecentsManagerTests {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
         every { vpnStateMonitor.status } returns vpnStatus
-        manager = RecentsManager(TestCoroutineScope(), vpnStateMonitor, mockk(relaxed = true), mockk(relaxed = true))
+        manager = RecentsManager(TestCoroutineScope(), vpnStateMonitor, mockk(relaxed = true))
     }
 
     private fun addRecent(connectionParams: ConnectionParams) {
@@ -48,7 +49,8 @@ class RecentsManagerTests {
         serverName: String = country,
         profileName: String = ""
     ): ConnectionParams {
-        val profile = Profile(profileName, null, mockk(relaxed = true), null, null)
+        val wrapper = ServerWrapper.makeFastestForCountry(country)
+        val profile = Profile(profileName, null, wrapper, null, null)
         val server = mockk<Server>()
         every { server.flag }.returns(country)
         every { server.serverName }.returns(serverName)
@@ -76,13 +78,11 @@ class RecentsManagerTests {
     @Test
     fun testNewlyUsedRecentsMovedToFront() {
         val connectionParams = mockedConnectionParams("Test")
-        addRecent(mockk(relaxed = true))
-        addRecent(mockk(relaxed = true))
         addRecent(connectionParams)
         addRecent(mockedConnectionParams("Test2"))
-        Assert.assertNotEquals(connectionParams.profile, manager.getRecentCountries()[0])
+        Assert.assertEquals("Test2", manager.getRecentCountries()[0])
         addRecent(connectionParams)
-        Assert.assertEquals(connectionParams.profile, manager.getRecentCountries()[0])
+        Assert.assertEquals("Test", manager.getRecentCountries()[0])
     }
 
     @Test

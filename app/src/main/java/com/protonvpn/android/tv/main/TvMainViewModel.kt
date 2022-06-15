@@ -201,20 +201,20 @@ class TvMainViewModel @Inject constructor(
             )
         }
         recentsManager.getRecentCountries()
+            .filterNot { country ->
+                vpnStateMonitor.isConnectingToCountry(country) ||
+                    getConnectCountry(serverManager.defaultConnection) == country
+            }
             .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
-            .forEach { profile ->
-                val connectCountry = getConnectCountry(profile)
-                val title = profile.getDisplayName(context).ifEmpty {
-                    // Note: it would be better if all profiles used in TV had a display name.
-                    serverManager.getServerForProfile(profile, currentUser.vpnUserCached())?.displayName ?: ""
-                }
+            .forEach { country ->
+                val profile = createProfileForCountry(country)
                 recentsList.add(
                     ProfileCard(
-                        title = title,
+                        title = CountryTools.getFullName(country),
                         titleDrawable = profileCardTitleIcon(profile),
-                        backgroundImage = CountryTools.getLargeFlagResource(context, connectCountry),
+                        backgroundImage = CountryTools.getLargeFlagResource(context, country),
                         profile = profile,
-                        connectCountry = connectCountry
+                        connectCountry = country
                     )
                 )
             }
@@ -321,15 +321,12 @@ class TvMainViewModel @Inject constructor(
         }
     }
 
-    fun connect(activity: BaseTvActivity, card: CountryCard?) {
-        val profile = if (card != null) {
-            serverManager.getBestScoreServer(card.vpnCountry)?.let {
-                Profile.getTempProfile(it)
-            }
-        } else {
-            serverManager.defaultConnection
-        }
-        connect(activity, profile, "country card (TV)")
+    fun connect(activity: BaseTvActivity, countryCode: String, uiElement: String) {
+        connect(activity, createProfileForCountry(countryCode), uiElement)
+    }
+
+    fun connect(activity: BaseTvActivity, card: ProfileCard) {
+        connect(activity, card.connectCountry, "recents (TV)")
     }
 
     private fun connect(activity: BaseTvActivity, profile: Profile?, uiElement: String) {
@@ -339,10 +336,6 @@ class TvMainViewModel @Inject constructor(
         } else {
             showMaintenanceDialog(activity)
         }
-    }
-
-    fun connect(activity: BaseTvActivity, card: ProfileCard) {
-        connect(activity, card.profile, "recents (TV)")
     }
 
     fun resetMap() {
@@ -357,13 +350,7 @@ class TvMainViewModel @Inject constructor(
     fun setAsDefaultCountry(checked: Boolean, vpnCountry: VpnCountry) {
         serverManager.deleteProfile(serverManager.findDefaultProfile())
         if (checked) {
-            val newDefaultProfile = Profile(
-                vpnCountry.countryName,
-                null,
-                ServerWrapper.makeFastestForCountry(vpnCountry.flag),
-                null,
-                null
-            )
+            val newDefaultProfile = createProfileForCountry(vpnCountry.flag)
             serverManager.addToProfileList(newDefaultProfile)
             userData.defaultProfileId = newDefaultProfile.id
         }
@@ -391,4 +378,13 @@ class TvMainViewModel @Inject constructor(
             ?: serverManager.getServerForProfile(profile, currentUser.vpnUserCached())?.exitCountry
             ?: ""
     }
+
+    private fun createProfileForCountry(countryCode: String): Profile =
+        Profile(
+            CountryTools.getFullName(countryCode),
+            null,
+            ServerWrapper.makeFastestForCountry(countryCode),
+            null,
+            null
+        )
 }

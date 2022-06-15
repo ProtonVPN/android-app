@@ -18,10 +18,10 @@
  */
 package com.protonvpn.android.vpn
 
+import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -31,17 +31,19 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.removeFirst
 import java.util.LinkedList
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RecentsManager(
+class RecentsManager @Inject constructor(
     @Transient private val scope: CoroutineScope,
     @Transient private val stateMonitor: VpnStateMonitor,
-    @Transient private val serverManager: ServerManager,
     @Transient private val onSessionClosed: OnSessionClosed,
 ) {
 
-    private val recentConnections = LinkedList<Profile>()
+    @SerializedName("recentConnections")
+    private val migrateRecentConnections = LinkedList<Profile>()
+    private val recentCountries = ArrayList<String>()
 
     // Country code -> Servers
     private val recentServers = LinkedHashMap<String, ArrayDeque<Server>>()
@@ -50,12 +52,17 @@ class RecentsManager(
 
     init {
         Storage.load(RecentsManager::class.java)?.let { loadedRecents ->
-            recentConnections.addAll(
-                loadedRecents.recentConnections
-                    .filterNot { it.isPreBakedProfile }
-                    .map { it.migrateFromOlderVersion(null) }
-            )
-            // Older version might have this field missing
+            // Remove migration in some time.
+            if (loadedRecents.migrateRecentConnections.isNotEmpty()) {
+                recentCountries.addAll(
+                    loadedRecents.migrateRecentConnections.filter { it.country.isNotBlank() }.map { it.country }
+                )
+                // This migration will be saved when the recents are updated. Let's not do this here, while still
+                // executing the constructor.
+            }
+            // Older version might have these fields missing.
+            if (loadedRecents.recentCountries != null)
+                recentCountries.addAll(loadedRecents.recentCountries)
             if (loadedRecents.recentServers != null)
                 recentServers.putAll(loadedRecents.recentServers)
         }
@@ -78,15 +85,12 @@ class RecentsManager(
     }
 
     fun clear() {
-        recentConnections.clear()
+        recentCountries.clear()
         recentServers.clear()
         Storage.delete(RecentsManager::class.java)
     }
 
-    fun getRecentCountries(): List<Profile> = recentConnections
-        .filter { profile ->
-            profile != serverManager.defaultConnection && profile != stateMonitor.connectingToProfile
-        }
+    fun getRecentCountries(): List<String> = recentCountries
 
     private fun addToRecentServers(server: Server) {
         recentServers.getOrPut(server.flag) {
@@ -100,14 +104,13 @@ class RecentsManager(
     }
 
     private fun addToRecentCountries(profile: Profile) {
-        recentConnections.removeFirst {
-            (profile.name.isNotBlank() && profile.name == it.name)
-                    || profile.country == it.country
+        if (profile.country.isNotEmpty()) {
+            recentCountries.remove(profile.country)
+            if (recentCountries.size > RECENT_MAX_SIZE) {
+                recentCountries.removeLast()
+            }
+            recentCountries.add(0, profile.country)
         }
-        if (recentConnections.size > RECENT_MAX_SIZE) {
-            recentConnections.removeLast()
-        }
-        recentConnections.push(profile)
     }
 
     fun getRecentServers(country: String): List<Server>? = recentServers[country]

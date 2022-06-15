@@ -251,9 +251,8 @@ class MockAppModule {
     fun provideRecentManager(
         scope: CoroutineScope,
         vpnStateMonitor: VpnStateMonitor,
-        serverManager: ServerManager,
         onSessionClosed: OnSessionClosed
-    ) = RecentsManager(scope, vpnStateMonitor, serverManager, onSessionClosed).apply { clear() }
+    ) = RecentsManager(scope, vpnStateMonitor, onSessionClosed).apply { clear() }
 
     @Singleton
     @Provides

@@ -36,7 +36,6 @@ import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.models.config.UserData
@@ -58,7 +57,6 @@ import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.LogcatLogCapture
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
-import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -234,15 +232,6 @@ object AppModuleProd {
             openVpnBackend,
             wireguardBackend,
         )
-
-    @Singleton
-    @Provides
-    fun provideRecentManager(
-        scope: CoroutineScope,
-        vpnStateMonitor: VpnStateMonitor,
-        serverManager: ServerManager,
-        onSessionClosed: OnSessionClosed
-    ) = RecentsManager(scope, vpnStateMonitor, serverManager, onSessionClosed)
 
     @Singleton
     @Provides

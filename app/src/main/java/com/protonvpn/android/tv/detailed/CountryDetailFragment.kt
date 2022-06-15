@@ -106,7 +106,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
         connectStreaming.setStartDrawable(if (viewModel.isPlusUser()) 0 else R.drawable.ic_proton_lock_filled)
         connectStreaming.setOnClickListener {
             if (viewModel.isPlusUser()) {
-                viewModel.connect(requireActivity() as BaseTvActivity, card)
+                viewModel.connect(requireActivity() as BaseTvActivity, card.vpnCountry.flag, "country details (TV)")
             } else {
                 viewModel.onUpgradeClicked(requireContext())
             }
@@ -116,7 +116,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
 
         connectFastest.initLolipopButtonFocus()
         connectFastest.setOnClickListener {
-            viewModel.connect(requireActivity() as BaseTvActivity, card)
+            viewModel.connect(requireActivity() as BaseTvActivity, card.vpnCountry.flag, "country details (TV)")
         }
 
         disconnect.initLolipopButtonFocus()
