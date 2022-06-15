@@ -96,13 +96,12 @@ class SecureCoreSecurityTests {
     @Test
     @TestID(103973)
     fun tryToConnectToSecureCoreThroughQuickConnectAsFreeUser() {
-        val testProfile =
-            serviceTestHelper.addProfile(
-                VpnProtocol.Smart,
-                DefaultData.PROFILE_NAME,
-                secureCoreServerDomain
-            )
-        serviceTestHelper.setDefaultProfile(testProfile)
+        serviceTestHelper.addProfile(
+            VpnProtocol.Smart,
+            DefaultData.PROFILE_NAME,
+            secureCoreServerDomain
+        )
+
         homeRobot.connectThroughQuickConnect(DefaultData.PROFILE_NAME)
         homeRobot.verify { dialogUpgradeVisible() }
         connectionRobot.verify { isDisconnectedServiceHelper() }
