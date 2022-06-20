@@ -45,7 +45,7 @@ class ServerManagerTests {
         currentUser.mockVpnUser { vpnUser }
         every { vpnUser.userTier } returns 2
         every { CountryTools.getPreferredLocale() } returns Locale.US
-        manager = ServerManager(userData, currentUser)
+        manager = ServerManager(userData, currentUser) { 0L }
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         val list = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 

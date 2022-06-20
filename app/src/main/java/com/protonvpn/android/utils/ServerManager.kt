@@ -24,6 +24,8 @@ import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
@@ -38,7 +40,6 @@ import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.home.ServerListUpdater
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.jetbrains.annotations.TestOnly
-import org.joda.time.DateTime
 import java.io.Serializable
 import java.util.Locale
 import javax.inject.Inject
@@ -48,6 +49,7 @@ import javax.inject.Singleton
 class ServerManager @Inject constructor(
     @Transient val userData: UserData,
     @Transient val currentUser: CurrentUser,
+    @Transient @WallClock private val wallClock: () -> Long,
 ) : Serializable {
 
     private var serverListAppVersionCode = 0
@@ -63,7 +65,7 @@ class ServerManager @Inject constructor(
     val streamingServicesModel: StreamingServicesModel?
         get() = streamingServices?.let { StreamingServicesModel(it) }
 
-    var updatedAt: DateTime? = null
+    var lastUpdateTimestamp: Long = 0L
         private set
 
     var translationsLang: String? = null
@@ -83,11 +85,11 @@ class ServerManager @Inject constructor(
     @Transient val profilesLiveData = profiles.asLiveData()
 
     val isDownloadedAtLeastOnce: Boolean
-        get() = updatedAt != null && vpnCountries.isNotEmpty()
+        get() = lastUpdateTimestamp > 0L && vpnCountries.isNotEmpty()
 
     val isOutdated: Boolean
-        get() = updatedAt == null || vpnCountries.isEmpty() ||
-            DateTime().millis - updatedAt!!.millis >= ServerListUpdater.LIST_CALL_DELAY ||
+        get() = lastUpdateTimestamp == 0L || vpnCountries.isEmpty() ||
+            wallClock() - lastUpdateTimestamp >= ServerListUpdater.LIST_CALL_DELAY ||
             !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE ||
             translationsLang != Locale.getDefault().language
 
@@ -119,7 +121,7 @@ class ServerManager @Inject constructor(
             secureCoreExitCountries.addAll(oldManager.secureCoreExitCountries)
             secureCoreEntryCountries.addAll(oldManager.secureCoreEntryCountries)
             streamingServices = oldManager.streamingServices
-            updatedAt = oldManager.updatedAt
+            lastUpdateTimestamp = oldManager.lastUpdateTimestamp
             serverListAppVersionCode = oldManager.serverListAppVersionCode
             translationsLang = oldManager.translationsLang
         }
@@ -162,18 +164,21 @@ class ServerManager @Inject constructor(
         filteredSecureCoreExitCountries = filterForProtocol(secureCoreExitCountries)
     }
 
-    override fun toString() = "vpnCountries: ${vpnCountries.size} entry: ${secureCoreEntryCountries.size}" +
-        " exit: ${secureCoreExitCountries.size} saved: ${savedProfiles.profileList?.size} " +
-        "ServerManager Updated: $updatedAt "
+    override fun toString(): String {
+        val lastUpdateTimestampLog = lastUpdateTimestamp.takeIf { it != 0L }?.let { ProtonLogger.formatTime(it) }
+        return "vpnCountries: ${vpnCountries.size} entry: ${secureCoreEntryCountries.size}" +
+            " exit: ${secureCoreExitCountries.size} saved: ${savedProfiles.profileList?.size} " +
+            "ServerManager Updated: $lastUpdateTimestampLog"
+    }
 
     fun clearCache() {
-        updatedAt = null
+        lastUpdateTimestamp = 0L
         Storage.delete(ServerManager::class.java)
     }
 
     fun setGuestHoleServers(serverList: List<Server>) {
         setServers(serverList, null)
-        updatedAt = null
+        lastUpdateTimestamp = 0L
     }
 
     fun getServersForGuestHole(serverCount: Int) =
@@ -207,7 +212,7 @@ class ServerManager @Inject constructor(
             if (servers.isNotEmpty())
                 secureCoreExitCountries.add(VpnCountry(country, servers))
         }
-        updatedAt = DateTime()
+        lastUpdateTimestamp = wallClock()
         serverListAppVersionCode = BuildConfig.VERSION_CODE
         translationsLang = language
         Storage.save(this)

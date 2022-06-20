@@ -58,7 +58,7 @@ class SearchTests {
         mockkObject(CountryTools)
         every { CountryTools.getPreferredLocale() } returns Locale.US
 
-        val serverManager = ServerManager(mockUserData, mockCurrentUser)
+        val serverManager = ServerManager(mockUserData, mockCurrentUser) { 0 }
         serverManager.setServers(MockedServers.serverList, Locale.getDefault().language)
         search = Search(serverManager)
     }
