@@ -512,7 +512,7 @@
      Example:
      You now have access to 1300+ secure servers and other premium features.
      -->
-    <string name="onboarding_plan_congrats_description">You now have access to %1$s and other premium features.</string>
+    <string name="onboarding_plan_congrats_description">حالا شما به %1$s و دیگر قابلیت‌های ویژه دسترسی دارید.</string>
     <string name="upgrade_plus_countries_streaming">دسترسی به سرویس‌های استریم جهانی</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
