@@ -21,63 +21,79 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingHorizontal="@dimen/screen_padding_horizontal">
+    android:orientation="vertical">
 
-    <Space
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/secure_core_speed" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:orientation="vertical">
 
-    <TextView
-        style="@style/Proton.Text.Headline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/secureCoreSpeedInfoTitle"
-        android:textAlignment="center" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-    <TextView
-        style="@style/Proton.Text.DefaultSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/secureCoreSpeedInfoMessage"
-        android:textAlignment="center" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/secure_core_speed" />
 
-    <TextView
-        android:id="@+id/textLearnMore"
-        style="@style/Proton.Text.DefaultSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/dialogLearnMore"
-        android:textAlignment="center"
-        android:textColor="?attr/proton_text_accent" />
+            <TextView
+                style="@style/Proton.Text.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/secureCoreSpeedInfoTitle"
+                android:textAlignment="center" />
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkboxDontShowAgain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:checked="true"
-        android:text="@string/dialogDontShowAgain" />
+            <TextView
+                style="@style/Proton.Text.DefaultSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/secureCoreSpeedInfoMessage"
+                android:textAlignment="center" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+            <TextView
+                android:id="@+id/textLearnMore"
+                style="@style/Proton.Text.DefaultSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/dialogLearnMore"
+                android:textAlignment="center"
+                android:textColor="?attr/proton_text_accent" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkboxDontShowAgain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:checked="true"
+                android:text="@string/dialogDontShowAgain" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonActivate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:layout_marginTop="8dp"
         android:text="@string/secureCoreActivateDialogButton" />
 
@@ -86,6 +102,7 @@
         style="@style/ProtonButton.Borderless.Text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="24dp"
         android:text="@string/cancel" />
