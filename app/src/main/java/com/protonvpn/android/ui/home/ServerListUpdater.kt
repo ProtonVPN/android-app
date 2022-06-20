@@ -65,7 +65,7 @@ class ServerListUpdater @Inject constructor(
 
     private var lastIpCheck = Long.MIN_VALUE
     private val lastServerListUpdate get() =
-        dateToRealtime(serverManager.updatedAt?.millis ?: 0L)
+        dateToRealtime(serverManager.lastUpdateTimestamp)
     private var lastLoadsUpdateInternal = Long.MIN_VALUE
 
     val ipAddress = prefs.ipAddressFlow

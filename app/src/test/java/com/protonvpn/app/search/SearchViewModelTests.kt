@@ -90,7 +90,7 @@ class SearchViewModelTests : CoroutinesTest {
         vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
 
-        val serverManager = ServerManager(mockUserData, mockCurrentUser)
+        val serverManager = ServerManager(mockUserData, mockCurrentUser) { 0 }
         serverManager.setServers(MockedServers.serverList, null)
         val search = Search(serverManager)
 

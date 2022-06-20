@@ -48,7 +48,6 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import me.proton.core.network.domain.ApiResult
-import org.joda.time.DateTime
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -225,7 +224,7 @@ class ServerListUpdaterTests {
     @Test
     fun `update task updates loads when in foreground`() = testScope.runBlockingTest {
         coEvery { mockApi.getLoads(any()) } returns ApiResult.Success(LoadsResponse(emptyList()))
-        every { mockServerManager.updatedAt } returns DateTime.now().minusMinutes(20)
+        every { mockServerManager.lastUpdateTimestamp } returns clockMs - TimeUnit.MINUTES.toMillis(20)
         serverListUpdater.setInForegroundForTest(true)
         serverListUpdater.updateTask()
         coVerify(exactly = 1) { mockApi.getLoads(any()) }
