@@ -72,7 +72,7 @@ class RecentsManager @Inject constructor(
                 if (status.state == VpnState.Connected) {
                     status.connectionParams?.let { params ->
                         addToRecentServers(params.server)
-                        addToRecentCountries(params.profile)
+                        addToRecentCountries(params.server)
                         Storage.save(this@RecentsManager)
                         update.emit(Unit)
                     }
@@ -103,13 +103,13 @@ class RecentsManager @Inject constructor(
         }
     }
 
-    private fun addToRecentCountries(profile: Profile) {
-        if (profile.country.isNotEmpty()) {
-            recentCountries.remove(profile.country)
+    private fun addToRecentCountries(server: Server) {
+        if (server.exitCountry.isNotEmpty()) {
+            recentCountries.remove(server.exitCountry)
             if (recentCountries.size > RECENT_MAX_SIZE) {
                 recentCountries.removeLast()
             }
-            recentCountries.add(0, profile.country)
+            recentCountries.add(0, server.exitCountry)
         }
     }
 
