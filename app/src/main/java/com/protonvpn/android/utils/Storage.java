@@ -98,6 +98,7 @@ public final class Storage {
             return preferences.getInt(key, 0);
         }
         catch (ClassCastException e) {
+            DebugUtils.INSTANCE.fail("Int format exception for key: " + key + ": " + e.getMessage());
             return 0;
         }
     }
@@ -157,6 +158,7 @@ public final class Storage {
             fromJson = GSON.fromJson(json, objClass);
         }
         catch (Exception e) {
+            DebugUtils.INSTANCE.fail("GSON load exception: " + e.getMessage());
             return null;
         }
         return fromJson;

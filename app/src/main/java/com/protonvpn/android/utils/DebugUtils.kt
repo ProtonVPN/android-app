@@ -29,4 +29,8 @@ object DebugUtils {
             throw RuntimeException("assertion failed: $message")
         }
     }
+
+    fun fail(message: String = "") {
+        debugAssert(message) { false }
+    }
 }
