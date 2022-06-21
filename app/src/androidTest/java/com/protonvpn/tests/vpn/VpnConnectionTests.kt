@@ -365,6 +365,30 @@ class VpnConnectionTests {
     }
 
     @Test
+    fun dontExecuteGuestHoleOnVpn() = scope.runBlockingTest {
+        mockOpenVpn.stateOnConnect = VpnState.Connected
+        val guestHole = GuestHole(
+            this,
+            TestDispatcherProvider(testDispatcher),
+            dagger.Lazy { serverManager },
+            monitor,
+            dagger.Lazy { manager },
+            mockk(relaxed = true),
+            foregroundActivityTracker
+        )
+
+        manager.connect(mockVpnUiDelegate, profileIKEv2, "test")
+        advanceUntilIdle()
+
+        every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
+        guestHole.onAlternativesUnblock {
+            Assert.fail()
+        }
+
+        Assert.assertTrue(monitor.isConnected)
+    }
+
+    @Test
     fun authErrorHandleDowngrade() = scope.runBlockingTest {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
         mockOpenVpn.stateOnConnect = VpnState.Connected

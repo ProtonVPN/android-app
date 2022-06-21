@@ -118,6 +118,10 @@ class GuestHole @Inject constructor(
 
     @WorkerThread
     override suspend fun onAlternativesUnblock(alternativesBlockCall: suspend () -> Unit) {
+        if (!vpnMonitor.isDisabled) {
+            logMessage("Ignoring Guest-hole on VPN connection")
+            return
+        }
         logMessage("Guesthole for DOH")
 
         withContext(dispatcherProvider.Main) {
