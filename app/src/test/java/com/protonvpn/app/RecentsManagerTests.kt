@@ -52,8 +52,9 @@ class RecentsManagerTests {
         val wrapper = ServerWrapper.makeFastestForCountry(country)
         val profile = Profile(profileName, null, wrapper, null, null)
         val server = mockk<Server>()
-        every { server.flag }.returns(country)
-        every { server.serverName }.returns(serverName)
+        every { server.flag } returns country
+        every { server.exitCountry } returns country
+        every { server.serverName } returns serverName
         return ConnectionParams(profile, server, mockk(), mockk())
     }
 

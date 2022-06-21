@@ -58,6 +58,7 @@ import org.junit.Rule
 import org.junit.Test
 import java.util.Locale
 import kotlin.test.assertIs
+import kotlin.test.assertNotEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TvMainViewModelTests {
@@ -149,7 +150,6 @@ class TvMainViewModelTests {
     @Test
     fun `favorite hides recommended profile`() {
         val server = MockedServers.server
-        val connectionParams = ConnectionParams(countryProfile(server.exitCountry), server, null, null)
 
         viewModel.setAsDefaultCountry(true, serverManager.getVpnExitCountry(server.exitCountry, false)!!)
 
@@ -198,6 +198,39 @@ class TvMainViewModelTests {
         assertEquals("Disconnect", recentsAfter[0].bottomTitle?.text)
         assertIs<ProfileCard>(recentsAfter[1])
         assertEquals("Recommended", recentsAfter[1].bottomTitle?.text)
+    }
+
+    @Test
+    fun `country of fastest profile is added to recents and shown when fastest country changes`() {
+        val server1 = MockedServers.server
+        val server2 = MockedServers.serverList[2]
+        assertNotEquals("Servers in this test need to be in different countries", server1.exitCountry, server2.exitCountry)
+        serverManager.setServers(listOf(server1), null)
+
+        val firstDefaultServer = serverManager.getServerForProfile(serverManager.defaultConnection, vpnUserFlow.value)!!
+        val firstConnectionParams = ConnectionParams(serverManager.defaultConnection, firstDefaultServer, null, null)
+        val firstCountry = firstDefaultServer.exitCountry
+
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, firstConnectionParams))
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
+
+        val recentsBefore = viewModel.getRecentCardList(mockContext)
+        assertEquals(1, recentsBefore.size)
+        assertIs<QuickConnectCard>(recentsBefore[0])
+
+        serverManager.setServers(listOf(server2), null)
+        val secondDefaultServer = serverManager.getServerForProfile(serverManager.defaultConnection, vpnUserFlow.value)!!
+        val secondConnectionParams = ConnectionParams(serverManager.defaultConnection, secondDefaultServer, null, null)
+
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, secondConnectionParams))
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
+
+        val recentsAfter = viewModel.getRecentCardList(mockContext)
+        assertEquals(2, recentsAfter.size)
+        assertIs<QuickConnectCard>(recentsAfter[0])
+        val secondCard = recentsAfter[1]
+        assertIs<ProfileCard>(secondCard)
+        assertEquals(firstCountry, secondCard.profile.country)
     }
 
     private fun countryProfile(countryCode: String) = Profile(
