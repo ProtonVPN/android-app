@@ -98,7 +98,6 @@ import javax.inject.Singleton
 )
 class MockAppModule {
 
-    private val scope = CoroutineScope(Main)
 
     @Singleton
     @Provides
@@ -149,6 +148,7 @@ class MockAppModule {
     @Singleton
     @Provides
     fun provideAPI(
+        scope: CoroutineScope,
         apiManager: VpnApiManager,
         apiProvider: ApiProvider,
         userData: UserData,
@@ -170,6 +170,7 @@ class MockAppModule {
     @Singleton
     @Provides
     fun provideVpnConnectionManager(
+        scope: CoroutineScope,
         userData: UserData,
         backendManager: VpnBackendProvider,
         networkManager: NetworkManager,
@@ -217,8 +218,8 @@ class MockAppModule {
     @Singleton
     @Provides
     fun provideVpnBackendManager(
+        scope: CoroutineScope,
         appConfig: AppConfig,
-        serverManager: ServerManager,
         networkManager: NetworkManager,
         certificateRepository: CertificateRepository,
         userData: UserData,
