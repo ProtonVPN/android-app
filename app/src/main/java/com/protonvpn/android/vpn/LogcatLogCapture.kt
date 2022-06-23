@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.vpn
 
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
+import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
@@ -26,11 +28,11 @@ import com.protonvpn.android.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import me.proton.core.util.kotlin.DispatcherProvider
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val TAG_MESSAGE_SEPARATOR = ": " // This is what logcat uses.
@@ -39,14 +41,14 @@ private const val TAG_MESSAGE_SEPARATOR = ": " // This is what logcat uses.
  * Capture logcat messages from VPN libraries and the secondary process and log them to ProtonLogger.
  */
 @Singleton
-class LogcatLogCapture(
-    val mainScope: CoroutineScope,
-    val dispatcherProvider: DispatcherProvider,
-    val monoClock: () -> Long
+class LogcatLogCapture @Inject constructor(
+    private val mainScope: CoroutineScope,
+    private val dispatcherProvider: VpnDispatcherProvider,
+    @ElapsedRealtimeClock private val monoClock: () -> Long
 ) {
 
     init {
-        mainScope.launch(dispatcherProvider.Io) {
+        mainScope.launch(dispatcherProvider.infiniteIo) {
             captureCharonWireguardLogs()
         }
     }

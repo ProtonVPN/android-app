@@ -32,6 +32,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.di.AppDatabaseModule
@@ -60,6 +61,7 @@ import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.NoopCertRefreshScheduler
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
+import com.protonvpn.testsHelper.EspressoDispatcherProvider
 import com.protonvpn.testsHelper.IdlingResourceHelper
 import dagger.Binds
 import dagger.Module
@@ -68,7 +70,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.asExecutor
 import me.proton.core.network.data.ApiManagerFactory
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.NetworkPrefsImpl
@@ -87,7 +89,7 @@ import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.user.data.repository.UserRepositoryImpl
 import me.proton.core.user.domain.repository.PassphraseRepository
 import me.proton.core.user.domain.repository.UserRepository
-import java.util.concurrent.Executors
+import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -98,6 +100,9 @@ import javax.inject.Singleton
 )
 class MockAppModule {
 
+    @Provides
+    @Singleton
+    fun provideDispatcherProvider(): VpnDispatcherProvider = EspressoDispatcherProvider()
 
     @Singleton
     @Provides
@@ -290,11 +295,11 @@ object AppDatabaseModuleTest {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
+    fun provideAppDatabase(@ApplicationContext context: Context, dispatcherProvider: DispatcherProvider): AppDatabase =
         Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             // Below are needed for room to work with InstantTaskExecutorRule
             .allowMainThreadQueries()
-            .setTransactionExecutor(Executors.newSingleThreadExecutor())
+            .setTransactionExecutor(dispatcherProvider.Io.asExecutor())
             .buildDatabase()
 }
 

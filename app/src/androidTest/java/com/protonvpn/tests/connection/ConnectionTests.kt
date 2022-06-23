@@ -32,6 +32,7 @@ import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.EspressoDispatcherRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.testRules.SetUserPreferencesRule
@@ -58,6 +59,7 @@ class ConnectionTests {
     var rules = RuleChain
         .outerRule(ProtonHiltAndroidRule(this))
         .around(SetUserPreferencesRule(TestUser.plusUser))
+        .around(EspressoDispatcherRule())
         .around(testRule)
 
     private lateinit var homeRobot: HomeRobot

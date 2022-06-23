@@ -30,7 +30,7 @@ import kotlinx.coroutines.runBlocking
 class ServiceTestHelper {
 
     private val helper = ServerManagerHelper()
-    val stateMonitor = helper.vpnStateMonitor
+    private val stateMonitor = helper.vpnStateMonitor
 
     val serverManager = helper.serverManager
     val userData = helper.userData
