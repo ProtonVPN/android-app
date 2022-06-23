@@ -74,7 +74,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import me.proton.core.account.domain.entity.AccountType
 import me.proton.core.domain.entity.Product
 import me.proton.core.humanverification.data.utils.NetworkRequestOverriderImpl
@@ -254,7 +254,7 @@ object AppModuleProd {
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private val scope = CoroutineScope(Dispatchers.Main)
+    private val scope = MainScope()
     private val random = Random()
 
     @Provides
