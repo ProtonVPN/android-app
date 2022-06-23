@@ -35,7 +35,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineScope
@@ -80,9 +79,8 @@ class UpdateSettingsOnVpnUserChangeTests {
         every { mockServerManager.defaultConnection } returns defaultProfile
         every { mockDefaultServer.tier } returns 0
 
-        val vpnUserSlot = slot<VpnUser>()
-        every { mockServerManager.getServerForProfile(defaultProfile, capture(vpnUserSlot)) } answers {
-            mockDefaultServer.takeIf { vpnUserSlot.captured.maxTier ?: 0 >= it.tier }
+        every { mockServerManager.getServerForProfile(defaultProfile, any()) } answers {
+            mockDefaultServer.takeIf { (arg<VpnUser>(1).maxTier ?: 0) >= it.tier }
         }
 
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
@@ -133,6 +131,22 @@ class UpdateSettingsOnVpnUserChangeTests {
         vpnUserFlow.value = TestUser.plusUser.vpnUser
         userData.defaultProfileId = defaultProfile.id
         every { mockDefaultServer.tier } returns 2
+
+        vpnUserFlow.value = TestUser.basicUser.vpnUser
+
+        assertNull(userData.defaultProfileId)
+    }
+
+    @Test
+    fun `default profile cleared when plan downgraded below server's tier and ServerManager returns inaccessible server`() {
+        vpnUserFlow.value = TestUser.plusUser.vpnUser
+        userData.defaultProfileId = defaultProfile.id
+        every { mockDefaultServer.tier } returns 2
+
+        // The real ServerManager may return a server that the user has no access too, see getBestScoreServer.
+        every { mockServerManager.getServerForProfile(defaultProfile, any()) } answers {
+            mockDefaultServer
+        }
 
         vpnUserFlow.value = TestUser.basicUser.vpnUser
 

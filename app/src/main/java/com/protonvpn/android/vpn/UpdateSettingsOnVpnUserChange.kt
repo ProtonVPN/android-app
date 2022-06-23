@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.vpn
 
+import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.ServerManager
@@ -51,7 +52,9 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
                     if (!vpnUser.isUserPlusOrAbove) {
                         userData.secureCoreEnabled = false
                     }
-                    if (serverManager.getServerForProfile(serverManager.defaultConnection, vpnUser) == null) {
+                    val defaultProfileServer =
+                        serverManager.getServerForProfile(serverManager.defaultConnection, vpnUser)
+                    if (defaultProfileServer == null || !vpnUser.hasAccessToServer(defaultProfileServer)) {
                         userData.defaultProfileId = null
                     }
                 }
