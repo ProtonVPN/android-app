@@ -38,6 +38,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
@@ -54,7 +55,6 @@ import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertRefreshWorkerScheduler
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ConnectivityMonitor
-import com.protonvpn.android.vpn.LogcatLogCapture
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnBackendProvider
@@ -118,6 +118,10 @@ annotation class WallClock
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModuleProd {
+
+    @Provides
+    @Singleton
+    fun provideVpnDispatcherProvider(): VpnDispatcherProvider = DefaultDispatcherProvider()
 
     @Singleton
     @Provides
@@ -290,10 +294,6 @@ object AppModule {
             addHeaders("X-atlas-secret" to it)
         }
     }
-
-    @Provides
-    @Singleton
-    fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
 
     @Provides
     fun providePackageManager(): PackageManager = ProtonApplication.getAppContext().packageManager
@@ -499,11 +499,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideLogCapture(dispatcherProvider: DispatcherProvider) =
-        LogcatLogCapture(scope, dispatcherProvider, SystemClock::elapsedRealtime)
-
-    @Provides
-    @Singleton
     fun provideDelegatedSnackManager() = DelegatedSnackManager(SystemClock::elapsedRealtime)
 
     @Provides
@@ -516,5 +511,9 @@ object AppModule {
         @Singleton
         @Binds
         fun provideGuestHoleFallbackListener(guestHole: GuestHole): DohAlternativesListener
+
+        @Singleton
+        @Binds
+        fun bindDispatcherProvider(provider: VpnDispatcherProvider): DispatcherProvider
     }
 }

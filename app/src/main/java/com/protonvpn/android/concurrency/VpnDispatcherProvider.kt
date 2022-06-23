@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Proton Technologies AG
+ * Copyright (c) 2022. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -19,11 +19,13 @@
 
 package com.protonvpn.android.concurrency
 
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
+import me.proton.core.util.kotlin.DispatcherProvider
 
-class DefaultDispatcherProvider : VpnDispatcherProvider {
-    override val Main = Dispatchers.Main
-    override val Comp = Dispatchers.Default
-    override val Io = Dispatchers.IO
-    override val infiniteIo = Io
+interface VpnDispatcherProvider : DispatcherProvider {
+    /**
+     * A dispatcher for running tasks that block (almost) infinitely, like reading from logcat.
+     * Use the Io dispatcher for regular IO tasks.
+     */
+    val infiniteIo: CoroutineDispatcher
 }
