@@ -231,7 +231,7 @@ class ServerListUpdater @Inject constructor(
     // is not stored on the server and is only used to fulfill this one-off API request. If IP
     // is not available/outdated we send network's MCC.
     private fun getNetZone() = when {
-        prefs.ipAddress.isNotBlank() && lastIpCheck >= wallClock() - IP_VALIDITY_MS ->
+        prefs.ipAddress.isNotBlank() && lastIpCheck >= elapsedRealtimeMs() - IP_VALIDITY_MS ->
             NetUtils.stripIP(prefs.ipAddress)
         telephonyManager != null && telephonyManager.phoneType != TelephonyManager.PHONE_TYPE_CDMA ->
             telephonyManager.networkCountryIso
