@@ -60,6 +60,25 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        parentViewModel.bottomSheetFullyExpanded.observe(viewLifecycleOwner, Observer { isExpanded ->
+            if (isExpanded) {
+                // Once we migrate to Hilt we should be able to inject Tooltips easily.
+                val tooltips = (requireActivity() as HomeActivity).tooltips
+                OnboardingDialogs.showDialogOnView(
+                    tooltips, netShieldSwitch(), netShieldSwitch(),
+                    getString(R.string.netshield), getString(R.string.onboardingNetshield),
+                    OnboardingPreferences.NETSHIELD_DIALOG
+                )
+            }
+        })
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        // Initialize NetShieldSwitch after saved state is restored to prevent state restoration from triggering
+        // changeCallback and changing settings with old values.
+        // The NetShieldSwitch has way too much logic and should be replaced with much simpler implementation so that
+        // this hack is not needed.
         netShieldSwitch().init(
             userData.getNetShieldProtocol(currentUser.vpnUserCached()),
             appConfig,
@@ -75,6 +94,7 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
             userData.setNetShieldProtocol(s)
         }
         netShieldSwitch().onRadiosExpandClicked = { parentViewModel.onNetShieldExpandClicked() }
+
         parentViewModel.netShieldExpandStatus.asLiveData()
             .observe(viewLifecycleOwner, Observer { netShieldSwitch().radiosExpanded = it })
         userData.netShieldSettingUpdateEvent.observe(viewLifecycleOwner) {
@@ -83,18 +103,6 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
         currentUser.vpnUserFlow.launchAndCollectIn(viewLifecycleOwner) {
             netShieldSwitch().setNetShieldValue(userData.getNetShieldProtocol(it))
         }
-
-        parentViewModel.bottomSheetFullyExpanded.observe(viewLifecycleOwner, Observer { isExpanded ->
-            if (isExpanded) {
-                // Once we migrate to Hilt we should be able to inject Tooltips easily.
-                val tooltips = (requireActivity() as HomeActivity).tooltips
-                OnboardingDialogs.showDialogOnView(
-                    tooltips, netShieldSwitch(), netShieldSwitch(),
-                    getString(R.string.netshield), getString(R.string.onboardingNetshield),
-                    OnboardingPreferences.NETSHIELD_DIALOG
-                )
-            }
-        })
     }
 
     protected abstract fun netShieldSwitch(): NetShieldSwitch
