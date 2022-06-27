@@ -127,7 +127,7 @@
     <string name="restrictedMaintenanceTitle">Dalam pemeliharaan</string>
     <string name="restrictedMaintenanceDescription">Server yang Anda coba sambungkan sedang dalam pemeliharaan. Mohon coba server lainnya.</string>
     <string name="errorUserDelinquent"><![CDATA[Saat ini akun Anda memiliki tagihan tertunda. Mohon membayar semua tagihan yang belum dibayar pada&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Anda telah mencapai jumlah sambungan serentak yang diizinkan bagi akun Anda. Mohon tingkatkan jenis akun Proton VPN Anda untuk memperoleh lebih banyak sambungan.</string>
+    <string name="errorMaxSessions">Anda telah mencapai jumlah sambungan serentak yang diizinkan bagi akun Anda. Silakan tingkatkan jenis akun Proton VPN Anda untuk memperoleh lebih banyak sambungan.</string>
     <string name="errorEmptyName">Kolom nama profil tidak boleh kosong</string>
     <string name="errorEmptyCountry">Kolom negara tidak boleh kosong</string>
     <string name="errorEmptyServer">Kolom server tidak boleh kosong</string>
