@@ -20,6 +20,7 @@ package com.protonvpn.android.utils
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.asLiveData
+import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -40,6 +41,7 @@ import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.home.ServerListUpdater
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.jetbrains.annotations.TestOnly
+import org.joda.time.DateTime
 import java.io.Serializable
 import java.util.Locale
 import javax.inject.Inject
@@ -84,8 +86,10 @@ class ServerManager @Inject constructor(
     @Transient val serverListVersionLiveData = serverListVersion.asLiveData()
     @Transient val profilesLiveData = profiles.asLiveData()
 
+    // isDownloadedAtLeastOnce should be true if there was an updateAt value. Remove after most users update.
+    @SerializedName("updatedAt") private var migrateUpdatedAt: DateTime? = null
     val isDownloadedAtLeastOnce: Boolean
-        get() = lastUpdateTimestamp > 0L && vpnCountries.isNotEmpty()
+        get() = (lastUpdateTimestamp > 0L || migrateUpdatedAt != null) && vpnCountries.isNotEmpty()
 
     val isOutdated: Boolean
         get() = lastUpdateTimestamp == 0L || vpnCountries.isEmpty() ||
@@ -120,6 +124,7 @@ class ServerManager @Inject constructor(
             secureCoreExitCountries.addAll(oldManager.secureCoreExitCountries)
             secureCoreEntryCountries.addAll(oldManager.secureCoreEntryCountries)
             streamingServices = oldManager.streamingServices
+            migrateUpdatedAt = oldManager.migrateUpdatedAt
             lastUpdateTimestamp = oldManager.lastUpdateTimestamp
             serverListAppVersionCode = oldManager.serverListAppVersionCode
             translationsLang = oldManager.translationsLang
