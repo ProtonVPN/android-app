@@ -22,10 +22,9 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
+import androidx.work.WorkManager
 import com.protonvpn.TestSettings
-import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -35,7 +34,6 @@ import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.di.AppDatabaseModule
 import com.protonvpn.android.di.AppModuleProd
-import com.protonvpn.android.di.UserManagerBindsModule
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
@@ -69,85 +67,77 @@ import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asExecutor
-import me.proton.core.network.data.ApiManagerFactory
+import me.proton.core.network.dagger.CoreBaseNetworkModule
 import me.proton.core.network.data.ApiProvider
-import me.proton.core.network.data.NetworkPrefsImpl
-import me.proton.core.network.data.ProtonCookieStore
+import me.proton.core.network.data.di.AlternativeApiPins
+import me.proton.core.network.data.di.BaseProtonApiUrl
+import me.proton.core.network.data.di.CertificatePins
+import me.proton.core.network.data.di.DohProviderUrls
+import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
-import me.proton.core.network.domain.NetworkPrefs
-import me.proton.core.network.domain.client.ClientIdProvider
-import me.proton.core.network.domain.client.ClientVersionValidator
-import me.proton.core.network.domain.client.ExtraHeaderProvider
-import me.proton.core.network.domain.humanverification.HumanVerificationListener
-import me.proton.core.network.domain.humanverification.HumanVerificationProvider
-import me.proton.core.network.domain.scopes.MissingScopeListener
-import me.proton.core.network.domain.server.ServerTimeListener
-import me.proton.core.network.domain.session.SessionListener
-import me.proton.core.network.domain.session.SessionProvider
-import me.proton.core.user.data.repository.UserRepositoryImpl
+import me.proton.core.presentation.app.AppLifecycleObserver
+import me.proton.core.presentation.app.AppLifecycleProvider
+import me.proton.core.user.dagger.CoreUserRepositoriesModule
+import me.proton.core.user.data.repository.DomainRepositoryImpl
+import me.proton.core.user.data.repository.UserAddressRepositoryImpl
+import me.proton.core.user.domain.repository.DomainRepository
 import me.proton.core.user.domain.repository.PassphraseRepository
+import me.proton.core.user.domain.repository.UserAddressRepository
 import me.proton.core.user.domain.repository.UserRepository
+import me.proton.core.util.android.dagger.CoreAndroidModule
+import me.proton.core.util.kotlin.CoroutineScopeProvider
+import me.proton.core.util.kotlin.DefaultCoroutineScopeProvider
 import me.proton.core.util.kotlin.DispatcherProvider
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import me.proton.core.network.data.di.Constants as CoreConstants
 
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [AppModuleProd::class]
+    replaces = [AppModuleProd::class, CoreBaseNetworkModule::class]
 )
 class MockAppModule {
 
+    // https://jira.protontech.ch/browse/CP-4334 - Provide an abstraction over `WorkManager`
     @Provides
     @Singleton
-    fun provideDispatcherProvider(): VpnDispatcherProvider = EspressoDispatcherProvider()
+    fun provideWorkManager(): WorkManager = mockk()
 
     @Singleton
     @Provides
     fun provideNetworkManager(): NetworkManager = MockNetworkManager()
 
     @Provides
-    fun provideNetworkPrefs(@ApplicationContext context: Context): NetworkPrefs =
-        NetworkPrefsImpl(context)
+    @BaseProtonApiUrl
+    fun provideProtonApiUrl(): HttpUrl = Constants.PRIMARY_VPN_API_URL.toHttpUrl()
 
-    @Singleton
     @Provides
-    fun provideApiFactory(
-        networkManager: NetworkManager,
-        apiClient: VpnApiClient,
-        clientIdProvider: ClientIdProvider,
-        cookieStore: ProtonCookieStore,
-        scope: CoroutineScope,
-        sessionProvider: SessionProvider,
-        sessionListener: SessionListener,
-        missingScopeListener: MissingScopeListener,
-        humanVerificationProvider: HumanVerificationProvider,
-        humanVerificationListener: HumanVerificationListener,
-        networkPrefs: NetworkPrefs,
-        clientVersionValidator: ClientVersionValidator,
-        guestHoleFallbackListener: GuestHole,
-        extraHeaderProvider: ExtraHeaderProvider
-    ): ApiManagerFactory {
-        val serverTimeListener = object : ServerTimeListener {
-            // We'd need to implement that when we start using core's crypto module.
-            override fun onServerTimeUpdated(epochSeconds: Long) {}
-        }
-        val apiFactory = ApiManagerFactory(Constants.PRIMARY_VPN_API_URL, apiClient, clientIdProvider, serverTimeListener,
-            networkManager, networkPrefs, sessionProvider, sessionListener, humanVerificationProvider,
-            humanVerificationListener, missingScopeListener, cookieStore, scope, certificatePins = emptyArray(),
-            alternativeApiPins = emptyList(),
-            clientVersionValidator = clientVersionValidator,
-            dohAlternativesListener = guestHoleFallbackListener,
-            extraHeaderProvider = extraHeaderProvider
-        )
+    @CertificatePins
+    fun provideCertificatePins(): Array<String> = emptyArray()
 
-        val resource: IdlingResource =
-            IdlingResourceHelper.create("OkHttp", apiFactory.baseOkHttpClient)
+    @Provides
+    @AlternativeApiPins
+    fun provideAlternativeApiPins(): List<String> = emptyList()
+
+    @Provides
+    @DohProviderUrls
+    fun provideDohProviderUrls(): Array<String> = CoreConstants.DOH_PROVIDERS_URLS
+
+    @Provides
+    @Singleton
+    @SharedOkHttpClient
+    internal fun provideOkHttpClient(): OkHttpClient {
+        val client = OkHttpClient()
+        val resource: IdlingResource = IdlingResourceHelper.create("OkHttp", client)
         IdlingRegistry.getInstance().register(resource)
-
-        return apiFactory
+        return client
     }
 
     @Singleton
@@ -177,7 +167,8 @@ class MockAppModule {
         if (TestSettings.mockedConnectionUsed) {
             VpnPermissionDelegate { null }
         } else {
-            VpnServicePermissionDelegate(context)
+            VpnServicePermissionDelegate(context
+            )
         }
 
     @Singleton
@@ -198,24 +189,30 @@ class MockAppModule {
     ): VpnBackendProvider =
     if (TestSettings.mockedConnectionUsed) {
         ProtonVpnBackendProvider(
-            strongSwan = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                    VpnProtocol.IKEv2, serverPing, localAgentUnreachableTracker, currentUser, getNetZone),
-            openVpn = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                    VpnProtocol.OpenVPN, serverPing, localAgentUnreachableTracker, currentUser, getNetZone),
-            wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                    VpnProtocol.WireGuard, serverPing, localAgentUnreachableTracker, currentUser, getNetZone),
+            strongSwan = MockVpnBackend(
+                scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.IKEv2, serverPing,
+                localAgentUnreachableTracker, currentUser, getNetZone
+            ),
+            openVpn = MockVpnBackend(
+                scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.OpenVPN, serverPing,
+                localAgentUnreachableTracker, currentUser, getNetZone
+            ),
+            wireGuard = MockVpnBackend(
+                scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.WireGuard, serverPing,
+                localAgentUnreachableTracker, currentUser, getNetZone
+            ),
             config = appConfig,
             userData = userData
-        )
-    } else {
-        ProtonVpnBackendProvider(
-            strongSwan = strongSwanBackend,
-            openVpn = openVpnBackend,
-            wireGuard = wireguardBackend,
-            config = appConfig,
+            )
+        } else {
+            ProtonVpnBackendProvider(
+                strongSwan = strongSwanBackend,
+                openVpn = openVpnBackend,
+                wireGuard = wireguardBackend,
+                config = appConfig,
             userData = userData
-        )
-    }
+            )
+        }
 
     @Singleton
     @Provides
@@ -241,7 +238,7 @@ class MockAppModule {
     @Module
     @TestInstallIn(
         components = [SingletonComponent::class],
-        replaces = [AppModuleProd.Bindings::class]
+        replaces = [AppModuleProd.Bindings::class, CoreAndroidModule::class]
     )
     interface Bindings {
         @Binds
@@ -249,18 +246,38 @@ class MockAppModule {
 
         @Binds
         fun bindSharedPrefsProvider(provider: MockSharedPreferencesProvider): SharedPreferencesProvider
+
+        @Binds
+        @Singleton
+        fun bindAppLifecycleProvider(impl: AppLifecycleObserver): AppLifecycleProvider
+
+        @Binds
+        @Singleton
+        fun bindCoroutineScopeProvider(impl: DefaultCoroutineScopeProvider): CoroutineScopeProvider
+
+        @Binds
+        @Singleton
+        fun provideDispatcherProvider(impl: VpnDispatcherProvider): DispatcherProvider
+
+        @Binds
+        @Singleton
+        fun provideVpnDispatcherProvider(impl: EspressoDispatcherProvider): VpnDispatcherProvider
     }
 }
 
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [AppDatabaseModule::class])
+    replaces = [AppDatabaseModule::class]
+)
 object AppDatabaseModuleTest {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context, dispatcherProvider: DispatcherProvider): AppDatabase =
+    fun provideAppDatabase(
+        @ApplicationContext context: Context,
+        dispatcherProvider: DispatcherProvider
+    ): AppDatabase =
         Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             // Below are needed for room to work with InstantTaskExecutorRule
             .allowMainThreadQueries()
@@ -271,13 +288,22 @@ object AppDatabaseModuleTest {
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [UserManagerBindsModule::class])
-abstract class MockUserManagerBindsModule {
+    replaces = [CoreUserRepositoriesModule::class]
+)
+interface MockUserRepositoriesModule {
+    @Binds
+    @Singleton
+    fun provideUserRepository(impl: MockUserRepository): UserRepository
 
     @Binds
-    abstract fun provideUserRepository(mockUserRepository: MockUserRepository): UserRepository
+    @Singleton
+    fun providePassphraseRepository(impl: UserRepository): PassphraseRepository
 
     @Binds
-    abstract fun providePassphraseRepository(userRepositoryImpl: UserRepositoryImpl): PassphraseRepository
+    @Singleton
+    fun provideDomainRepository(impl: DomainRepositoryImpl): DomainRepository
+
+    @Binds
+    @Singleton
+    fun provideUserAddressRepository(impl: UserAddressRepositoryImpl): UserAddressRepository
 }
-

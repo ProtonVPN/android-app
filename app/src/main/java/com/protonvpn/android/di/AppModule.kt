@@ -25,6 +25,7 @@ import android.os.BatteryManager
 import android.os.PowerManager
 import android.os.SystemClock
 import android.telephony.TelephonyManager
+import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
@@ -81,32 +82,22 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import me.proton.core.account.domain.entity.AccountType
 import me.proton.core.domain.entity.Product
-import me.proton.core.humanverification.data.utils.NetworkRequestOverriderImpl
-import me.proton.core.humanverification.domain.utils.NetworkRequestOverrider
-import me.proton.core.network.data.ApiManagerFactory
 import me.proton.core.network.data.ApiProvider
-import me.proton.core.network.data.NetworkManager
-import me.proton.core.network.data.NetworkPrefsImpl
-import me.proton.core.network.data.ProtonCookieStore
-import me.proton.core.network.data.client.ClientIdProviderImpl
 import me.proton.core.network.data.client.ExtraHeaderProviderImpl
+import me.proton.core.network.data.di.AlternativeApiPins
+import me.proton.core.network.data.di.BaseProtonApiUrl
+import me.proton.core.network.data.di.CertificatePins
 import me.proton.core.network.data.di.Constants
+import me.proton.core.network.data.di.DohProviderUrls
+import me.proton.core.network.domain.ApiClient
 import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
-import me.proton.core.network.domain.NetworkPrefs
-import me.proton.core.network.domain.client.ClientIdProvider
-import me.proton.core.network.domain.client.ClientVersionValidator
 import me.proton.core.network.domain.client.ExtraHeaderProvider
-import me.proton.core.network.domain.humanverification.HumanVerificationListener
-import me.proton.core.network.domain.humanverification.HumanVerificationProvider
-import me.proton.core.network.domain.scopes.MissingScopeListener
-import me.proton.core.network.domain.server.ServerTimeListener
 import me.proton.core.network.domain.serverconnection.DohAlternativesListener
-import me.proton.core.network.domain.session.SessionListener
-import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.takeIfNotBlank
-import okhttp3.OkHttpClient
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import java.util.Random
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -122,67 +113,34 @@ annotation class WallClock
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModuleProd {
-
-    @Provides
-    @Singleton
-    fun provideVpnDispatcherProvider(): VpnDispatcherProvider = DefaultDispatcherProvider()
-
-    @Singleton
-    @Provides
-    fun provideNetworkManager(@ApplicationContext appContext: Context): NetworkManager =
-        NetworkManager(appContext)
-
-    @Provides
-    fun provideNetworkPrefs(@ApplicationContext context: Context): NetworkPrefs =
-        NetworkPrefsImpl(context)
-
-    @Singleton
-    @Provides
-    fun provideApiFactory(
-        networkManager: NetworkManager,
-        apiClient: VpnApiClient,
-        clientIdProvider: ClientIdProvider,
-        cookieStore: ProtonCookieStore,
-        scope: CoroutineScope,
-        sessionProvider: SessionProvider,
-        sessionListener: SessionListener,
-        humanVerificationProvider: HumanVerificationProvider,
-        humanVerificationListener: HumanVerificationListener,
-        missingScopeListener: MissingScopeListener,
-        extraHeaderProvider: ExtraHeaderProvider,
-        networkPrefs: NetworkPrefs,
-        clientVersionValidator: ClientVersionValidator,
-        guestHoleFallbackListener: GuestHole
-    ): ApiManagerFactory {
-        val serverTimeListener = object : ServerTimeListener {
-            // We'd need to implement that when we start using core's crypto module.
-            override fun onServerTimeUpdated(epochSeconds: Long) {}
-        }
+    private fun isDevelopmentFlavor(): Boolean {
         val developmentFlavors = listOf("dev", "black")
-        val isDevelopmentFlavor = developmentFlavors.any { BuildConfig.FLAVOR.startsWith(it) }
-        val certificatePins = if (!isDevelopmentFlavor) Constants.DEFAULT_SPKI_PINS else emptyArray()
-        val alternativeCertificatePins =
-            if (!isDevelopmentFlavor) Constants.ALTERNATIVE_API_SPKI_PINS else emptyList()
-        return ApiManagerFactory(
-                PRIMARY_VPN_API_URL,
-                apiClient,
-                clientIdProvider,
-                serverTimeListener,
-                networkManager,
-                networkPrefs,
-                sessionProvider,
-                sessionListener,
-                humanVerificationProvider,
-                humanVerificationListener,
-                missingScopeListener,
-                cookieStore,
-                scope,
-                certificatePins = certificatePins,
-                alternativeApiPins = alternativeCertificatePins,
-                extraHeaderProvider = extraHeaderProvider,
-                clientVersionValidator = clientVersionValidator,
-                dohAlternativesListener = guestHoleFallbackListener
-            )
+        return developmentFlavors.any { BuildConfig.FLAVOR.startsWith(it) }
+    }
+
+    @Singleton
+    @Provides
+    @BaseProtonApiUrl
+    fun provideProtonApiUrl(): HttpUrl = PRIMARY_VPN_API_URL.toHttpUrl()
+
+    @Provides
+    @DohProviderUrls
+    fun provideDohProviderUrls(): Array<String> = Constants.DOH_PROVIDERS_URLS
+
+    @Provides
+    @CertificatePins
+    fun provideCertificatePins(): Array<String> = if (!isDevelopmentFlavor()) {
+        Constants.DEFAULT_SPKI_PINS
+    } else {
+        emptyArray()
+    }
+
+    @Provides
+    @AlternativeApiPins
+    fun provideAlternativeApiPins(): List<String> = if (!isDevelopmentFlavor()) {
+        Constants.ALTERNATIVE_API_SPKI_PINS
+    } else {
+        emptyList()
     }
 
     @Singleton
@@ -219,6 +177,11 @@ object AppModuleProd {
     @TvLoginPollDelayMs
     fun provideTvLoginPollDelayMs() = TvLoginViewModel.POLL_DELAY_MS
 
+    @Provides
+    @Singleton
+    fun provideWorkManager(@ApplicationContext context: Context): WorkManager =
+        WorkManager.getInstance(context)
+
     @Module
     @InstallIn(SingletonComponent::class)
     interface Bindings {
@@ -227,6 +190,10 @@ object AppModuleProd {
 
         @Binds
         fun bindSharedPrefsProvider(provider: AndroidSharedPreferencesProvider): SharedPreferencesProvider
+
+        @Binds
+        @Singleton
+        fun provideVpnDispatcherProvider(impl: DefaultDispatcherProvider): VpnDispatcherProvider
 
         @Binds
         fun bindVpnPrepareDelegate(delegate: VpnServicePermissionDelegate): VpnPermissionDelegate
@@ -300,16 +267,6 @@ object AppModule {
     fun provideVpnApiManager(apiProvider: ApiProvider, currentUser: CurrentUser) =
         VpnApiManager(apiProvider, currentUser)
 
-    @Provides
-    @Singleton
-    fun provideClientIdProvider(protonCookieStore: ProtonCookieStore): ClientIdProvider =
-        ClientIdProviderImpl(PRIMARY_VPN_API_URL, protonCookieStore)
-
-    @Singleton
-    @Provides
-    fun provideApiProvider(apiFactory: ApiManagerFactory, sessionProvider: SessionProvider): ApiProvider =
-        ApiProvider(apiFactory, sessionProvider)
-
     @Singleton
     @Provides
     fun provideApiManager(
@@ -318,8 +275,12 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideApiClient(userData: UserData, vpnStateMonitor: VpnStateMonitor): VpnApiClient =
+    fun provideVpnApiClient(userData: UserData, vpnStateMonitor: VpnStateMonitor): VpnApiClient =
         VpnApiClient(scope, userData, vpnStateMonitor)
+
+    @Singleton
+    @Provides
+    fun provideApiClient(vpnApiClient: VpnApiClient): ApiClient = vpnApiClient
 
     @Singleton
     @Provides
@@ -432,20 +393,12 @@ object AppModule {
     @Singleton
     fun provideDelegatedSnackManager() = DelegatedSnackManager(SystemClock::elapsedRealtime)
 
-    @Provides
-    fun provideNetworkRequestOverrider(): NetworkRequestOverrider =
-        NetworkRequestOverriderImpl(OkHttpClient())
-
     @Module
     @InstallIn(SingletonComponent::class)
     interface Bindings {
         @Singleton
         @Binds
         fun provideGuestHoleFallbackListener(guestHole: GuestHole): DohAlternativesListener
-
-        @Singleton
-        @Binds
-        fun bindDispatcherProvider(provider: VpnDispatcherProvider): DispatcherProvider
 
         @Singleton
         @Binds

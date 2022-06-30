@@ -19,11 +19,10 @@
 
 package com.protonvpn.android.concurrency
 
-import kotlinx.coroutines.Dispatchers
+import me.proton.core.util.kotlin.DispatcherProvider
+import javax.inject.Inject
 
-class DefaultDispatcherProvider : VpnDispatcherProvider {
-    override val Main = Dispatchers.Main
-    override val Comp = Dispatchers.Default
-    override val Io = Dispatchers.IO
+class DefaultDispatcherProvider @Inject constructor(dispatcherProvider: DispatcherProvider) :
+    VpnDispatcherProvider, DispatcherProvider by dispatcherProvider {
     override val infiniteIo = Io
 }

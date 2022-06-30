@@ -25,6 +25,7 @@ import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -33,7 +34,7 @@ import kotlin.coroutines.CoroutineContext
  *
  * @see EspressoDispatcherRule for registering the idling resource.
  */
-class EspressoDispatcherProvider : VpnDispatcherProvider {
+class EspressoDispatcherProvider @Inject constructor() : VpnDispatcherProvider {
     override val Main: CoroutineDispatcher = IdlingResourceDispatcher(Dispatchers.Main)
     override val Comp: CoroutineDispatcher = IdlingResourceDispatcher(Dispatchers.Default)
     override val Io: CoroutineDispatcher = IdlingResourceDispatcher(Dispatchers.IO)

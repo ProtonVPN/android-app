@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.utils
 
-import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,6 +29,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
+import me.proton.core.util.kotlin.DefaultDispatcherProvider
 import me.proton.core.util.kotlin.DispatcherProvider
 import kotlin.reflect.KProperty
 
