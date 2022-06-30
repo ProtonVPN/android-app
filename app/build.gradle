@@ -653,7 +653,6 @@ dependencies {
     implementation 'me.proton.vpn:go-vpn-lib:0.1.16'
     implementation "me.proton.core:domain:$core_version"
     implementation "me.proton.core:network:$core_version"
-    implementation "me.proton.core:network-dagger:$core_version"
     implementation "me.proton.core:util-kotlin:$core_version"
     implementation "me.proton.core:presentation:$core_version"
     implementation "me.proton.core:human-verification:$core_version"
@@ -663,7 +662,6 @@ dependencies {
     implementation "me.proton.core:user-settings:$core_version"
     implementation "me.proton.core:account:$core_version"
     implementation "me.proton.core:account-manager:$core_version"
-    implementation "me.proton.core:account-manager-dagger:$core_version"
     implementation "me.proton.core:auth:$core_version"
     implementation "me.proton.core:challenge:$core_version"
     implementation "me.proton.core:crypto:$core_version"
