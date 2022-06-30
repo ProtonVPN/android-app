@@ -20,7 +20,6 @@ package com.protonvpn.mocks
 
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -38,6 +37,7 @@ import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.yield
+import me.proton.core.util.kotlin.DefaultDispatcherProvider
 import me.proton.core.network.domain.NetworkManager
 
 typealias MockAgentProvider = (

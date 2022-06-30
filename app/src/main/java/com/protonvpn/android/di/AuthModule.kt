@@ -31,26 +31,14 @@ import com.protonvpn.android.vpn.CertificateRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.accountmanager.domain.AccountManager
-import me.proton.core.auth.data.MissingScopeListenerImpl
-import me.proton.core.auth.data.repository.AuthRepositoryImpl
 import me.proton.core.auth.domain.ClientSecret
-import me.proton.core.auth.domain.repository.AuthRepository
-import me.proton.core.auth.domain.usecase.LoginChallengeConfig
 import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
-import me.proton.core.auth.domain.usecase.signup.SignupChallengeConfig
-import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.HelpOptionHandler
 import me.proton.core.auth.presentation.ui.LoginActivity
-import me.proton.core.crypto.android.srp.GOpenPGPSrpCrypto
-import me.proton.core.crypto.common.srp.SrpCrypto
-import me.proton.core.domain.entity.Product
-import me.proton.core.network.data.ApiProvider
-import me.proton.core.network.domain.scopes.MissingScopeListener
 import me.proton.core.user.domain.UserManager
 import javax.inject.Singleton
 
@@ -59,33 +47,12 @@ import javax.inject.Singleton
 object AuthModule {
 
     @Provides
-    @Singleton
-    fun provideAuthRepository(apiProvider: ApiProvider, @ApplicationContext context: Context): AuthRepository = AuthRepositoryImpl(
-        apiProvider,
-        context,
-        Product.Vpn
-    )
-
-    @Provides
-    @Singleton
-    fun provideSrpCrypto(): SrpCrypto =
-        GOpenPGPSrpCrypto()
-
-    @Provides
     @ClientSecret
     fun provideClientSecret(): String = ""
 
     @Provides
     @Singleton
-    fun provideChallengeConfig(): SignupChallengeConfig = SignupChallengeConfig()
-
-    @Provides
-    @Singleton
     fun provideHelpOptionHandler(): HelpOptionHandler = VpnHelpOptionHandler()
-
-    @Provides
-    @Singleton
-    fun provideLoginChallengeConfig(): LoginChallengeConfig = LoginChallengeConfig()
 
     @Provides
     @Singleton
@@ -110,16 +77,4 @@ object AuthModule {
     @Provides
     @Singleton
     fun provideUserCheck(vpnUserCheck: VpnUserCheck): PostLoginAccountSetup.UserCheck = vpnUserCheck
-
-    @Provides
-    @Singleton
-    fun provideMissingScopeListener(): MissingScopeListener = MissingScopeListenerImpl()
-}
-
-@Module
-@InstallIn(ActivityRetainedComponent::class)
-object AuthActivityRetainedModule {
-
-    @Provides
-    fun provideAuthOrchestrator(): AuthOrchestrator = AuthOrchestrator()
 }
