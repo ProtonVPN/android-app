@@ -23,6 +23,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -40,7 +41,7 @@ object MockedServers {
 
     fun getProfile(protocol: VpnProtocol, server: Server, name: String = protocol.name) =
         Profile(name, null, ServerWrapper.makeWithServer(server), ProfileColor.CARROT.id, null).apply {
-            setProtocol(protocol)
+            setProtocol(ProtocolSelection(protocol))
         }
 
     @Suppress("ClassOrdering")

@@ -96,11 +96,11 @@ class SettingsActivity : BaseActivityV2() {
     private var loadExcludedAppsJob: Job? = null
 
     private val protocolSelection =
-        registerForActivityResult(ProtocolSelectionActivity.createContract()) {
-            if (it != null) {
-                val settingsUpdated = getProtocolSelection(userPrefs) != it
+        registerForActivityResult(ProtocolSelectionActivity.createContract()) { protocol ->
+            if (protocol != null) {
+                val settingsUpdated = getProtocolSelection(userPrefs) != protocol
                 logUiEvent(Setting.DEFAULT_PROTOCOL)
-                userPrefs.setProtocols(it.protocol, (it as? ProtocolSelection.OpenVPN)?.transmission)
+                userPrefs.protocol = protocol
                 if (settingsUpdated && stateMonitor.connectionProfile?.hasCustomProtocol() == false) {
                     onConnectionSettingsChanged(PREF_SHOW_PROTOCOL_RECONNECT_DIALOG)
                 }
@@ -418,8 +418,7 @@ class SettingsActivity : BaseActivityV2() {
         }
     }
 
-    private fun getProtocolSelection(userData: UserData) =
-        ProtocolSelection.from(userData.selectedProtocol, userData.transmissionProtocol)
+    private fun getProtocolSelection(userData: UserData) = userData.protocol
 
     private fun onConnectionSettingsChanged(showReconnectDialogPrefKey: String) {
         if (stateMonitor.isEstablishingOrConnected) {

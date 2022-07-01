@@ -129,7 +129,9 @@ class AppConfig(
         val defaultSmartProtocolConfig = SmartProtocolConfig(
             ikeV2Enabled = true,
             openVPNEnabled = true,
-            wireguardEnabled = false
+            wireguardEnabled = false,
+            wireguardTcpEnabled = false,
+            wireguardTlsEnabled = false,
         )
 
         return AppConfigResponse(

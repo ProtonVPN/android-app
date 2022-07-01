@@ -104,10 +104,7 @@ class ProfileEditViewModel @Inject constructor(
             secureCore.value = profile.isSecureCore ?: userData.secureCoreEnabled
             serverSelection.value = getServerSelection(profile)
             country.value = serverManager.getVpnExitCountry(profile.country, secureCore.value)
-            protocol.value = ProtocolSelection.from(
-                profile.getProtocol(userData),
-                profile.getTransmissionProtocol(userData)
-            )
+            protocol.value = profile.getProtocol(userData)
         }
     }
 
@@ -201,8 +198,6 @@ class ProfileEditViewModel @Inject constructor(
             requireNotNull(country.value),
             serverManager
         ) ?: return // validate() checks for this too.
-
-        val transmissionProtocol = (protocol.value as? ProtocolSelection.OpenVPN)?.transmission
         val newProfile =
             Profile(
                 profileNameInput,
@@ -211,8 +206,7 @@ class ProfileEditViewModel @Inject constructor(
                 requireNotNull(profileColor.value).id,
                 secureCore.value
             ).apply {
-                setTransmissionProtocol(transmissionProtocol?.toString())
-                setProtocol(protocol.value.protocol)
+                setProtocol(protocol.value)
             }
         editedProfile?.let {
             if (it.id == userData.defaultProfileId) {
@@ -233,8 +227,7 @@ class ProfileEditViewModel @Inject constructor(
         else -> null
     }
 
-    private fun getDefaultProtocol(userData: UserData) =
-        ProtocolSelection.from(userData.selectedProtocol, userData.transmissionProtocol)
+    private fun getDefaultProtocol(userData: UserData) = userData.protocol
 
     private fun createServerWrapper(
         serverSelection: ServerIdSelection,

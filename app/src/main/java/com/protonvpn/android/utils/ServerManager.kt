@@ -131,7 +131,7 @@ class ServerManager @Inject constructor(
         }
         userData.migrateDefaultProfile(this)
 
-        userData.selectedProtocolLiveData.observeForever {
+        userData.protocolLiveData.observeForever {
             onServersUpdate()
         }
     }
@@ -140,13 +140,13 @@ class ServerManager @Inject constructor(
         filteredSecureCoreExitCountries else filteredVpnCountries
 
     @VisibleForTesting fun filterForProtocol(countries: List<VpnCountry>) =
-        userData.selectedProtocol.let { protocol ->
+        userData.protocol.let { protocol ->
             countries.mapNotNull { country ->
                 val servers = country.serverList
                     .filter {
-                        it.supportsProtocol(protocol)
+                        it.supportsProtocol(protocol.vpn)
                     }.map { server ->
-                        val filteredDomains = server.connectingDomains.filter { it.supportsProtocol(protocol) }
+                        val filteredDomains = server.connectingDomains.filter { it.supportsProtocol(protocol.vpn) }
                         server.copy(
                             isOnline = server.online && filteredDomains.any { it.isOnline },
                             connectingDomains = filteredDomains)

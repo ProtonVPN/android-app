@@ -28,6 +28,7 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.vpn.ProtocolSelection
 import java.io.Serializable
 import java.util.Locale
 import java.util.UUID
@@ -93,11 +94,13 @@ data class Profile @JvmOverloads constructor(
     val country: String get() = wrapper.country
     val directServerId: String? get() = wrapper.serverId
 
-    fun getTransmissionProtocol(userData: UserData): TransmissionProtocol =
-        transmissionProtocol?.let { TransmissionProtocol.valueOf(it) } ?: userData.transmissionProtocol
+    fun getProtocol(userData: UserData) = protocol?.let {
+        ProtocolSelection(VpnProtocol.valueOf(it), transmissionProtocol?.let(TransmissionProtocol::valueOf))
+    } ?: userData.protocol
 
-    fun setTransmissionProtocol(value: String?) {
-        transmissionProtocol = value
+    fun setProtocol(protocol: ProtocolSelection) {
+        this.protocol = protocol.vpn.toString()
+        this.transmissionProtocol = protocol.transmission?.toString()
     }
 
     fun getNetShieldProtocol(userData: UserData, vpnUser: VpnUser?, appConfig: AppConfig): NetShieldProtocol {
@@ -106,13 +109,6 @@ data class Profile @JvmOverloads constructor(
         } else {
             NetShieldProtocol.DISABLED
         }
-    }
-
-    fun getProtocol(userData: UserData): VpnProtocol =
-        protocol?.let { VpnProtocol.valueOf(it) } ?: userData.selectedProtocol
-
-    fun setProtocol(protocol: VpnProtocol) {
-        this.protocol = protocol.toString()
     }
 
     fun hasCustomProtocol() = protocol != null

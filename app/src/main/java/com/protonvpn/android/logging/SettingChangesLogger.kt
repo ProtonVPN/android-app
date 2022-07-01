@@ -25,7 +25,6 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.utils.ServerManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
@@ -78,12 +77,7 @@ class SettingChangesLogger @Inject constructor(
             userData.connectOnBoot.takeIf { Build.VERSION.SDK_INT < Build.VERSION_CODES.O }
     }
 
-    private fun protocolDescription(userData: UserData): String {
-        val transmission =
-            if (userData.selectedProtocol == VpnProtocol.OpenVPN) userData.transmissionProtocol.toString()
-            else ""
-        return "${userData.selectedProtocol} $transmission"
-    }
+    private fun protocolDescription(userData: UserData) = userData.protocol.displayName
 
     private fun List<*>.toLog() = if (isEmpty()) "None" else joinToString()
 }

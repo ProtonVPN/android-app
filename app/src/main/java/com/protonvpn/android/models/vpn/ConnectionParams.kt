@@ -25,21 +25,24 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.vpn.ProtocolSelection
 import java.util.UUID
 
 open class ConnectionParams(
     val profile: Profile,
     val server: Server,
     val connectingDomain: ConnectingDomain?,
-    val protocol: VpnProtocol?,
+    private val protocol: VpnProtocol?,
+    protected val transmissionProtocol: TransmissionProtocol? = null,
     val uuid: UUID = UUID.randomUUID()
 ) : java.io.Serializable {
 
     open val info get() = "IP: ${connectingDomain?.entryDomain} Protocol: $protocol"
-    open val transmission: TransmissionProtocol? get() = null
 
     val exitIpAddress: String?
         get() = connectingDomain?.getExitIP()
+
+    val protocolSelection get() = protocol?.let { ProtocolSelection(it, transmissionProtocol) }
 
     fun getVpnUsername(userData: UserData, vpnUser: VpnUser, appConfig: AppConfig): String {
         var username = vpnUser.name + profile.getNetShieldProtocol(userData, vpnUser, appConfig).protocolString +

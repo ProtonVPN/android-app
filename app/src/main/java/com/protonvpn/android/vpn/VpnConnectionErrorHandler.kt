@@ -276,13 +276,10 @@ class VpnConnectionErrorHandler(
     // Return first response that's has compatible protocol with [profile] or null
     private fun VpnBackendProvider.PingResult.getExpectedProtocolConnection(profile: Profile): PrepareResult? {
         val expectedProtocol = profile.getProtocol(userData)
-        if (expectedProtocol == VpnProtocol.Smart)
+        if (expectedProtocol.vpn == VpnProtocol.Smart)
             return responses.first()
 
-        return responses.firstOrNull {
-            it.connectionParams.protocol == expectedProtocol && (it.connectionParams.transmission == null ||
-                it.connectionParams.transmission == profile.getTransmissionProtocol(userData))
-        }
+        return responses.firstOrNull { it.connectionParams.protocolSelection == expectedProtocol }
     }
 
     private fun getCandidateServers(

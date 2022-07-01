@@ -30,12 +30,11 @@ class ConnectionParamsOpenVpn(
     profile: Profile,
     server: Server,
     connectingDomain: ConnectingDomain,
-    private val transmissionProtocol: TransmissionProtocol,
+    transmission: TransmissionProtocol,
     private val port: Int
-) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.OpenVPN), java.io.Serializable {
+) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.OpenVPN, transmission), java.io.Serializable {
 
     override val info get() = "${super.info} $transmissionProtocol port: $port"
-    override val transmission get() = transmissionProtocol
 
     fun openVpnProfile(
         userData: UserData,

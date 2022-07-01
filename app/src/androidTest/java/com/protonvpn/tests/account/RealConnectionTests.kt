@@ -78,26 +78,26 @@ class RealConnectionTests {
 
     @Test
     fun realConnectionIKEv2() {
-        realConnection(ProtocolSelection.from(VpnProtocol.IKEv2))
+        realConnection(ProtocolSelection(VpnProtocol.IKEv2))
     }
 
     @Test
     fun realConnectionOpenVpnUDP() {
-        realConnection(ProtocolSelection.from(VpnProtocol.OpenVPN, TransmissionProtocol.UDP))
+        realConnection(ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP))
     }
 
     @Test
     fun realConnectionOpenVpnTCP() {
-        realConnection(ProtocolSelection.from(VpnProtocol.OpenVPN, TransmissionProtocol.TCP))
+        realConnection(ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP))
     }
 
     @Test
     fun realConnectionWireguard() {
-        realConnection(ProtocolSelection.from(VpnProtocol.WireGuard))
+        realConnection(ProtocolSelection(VpnProtocol.WireGuard))
     }
 
     private fun realConnection(protocol: ProtocolSelection) {
-        userDataHelper.setProtocol(protocol.protocol, protocol.transmission)
+        userDataHelper.setProtocol(protocol.vpn, protocol.transmission)
         addAccountRobot.selectSignInOption()
         loginRobot.signInAndWaitForCountryInCountryList(TestUser.plusUser, "Austria")
         connectionRobot.connectThroughQuickConnectRealConnection()

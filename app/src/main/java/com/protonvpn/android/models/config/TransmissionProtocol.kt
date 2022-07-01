@@ -20,5 +20,6 @@ package com.protonvpn.android.models.config
 
 enum class TransmissionProtocol {
     UDP,
-    TCP
+    TCP,
+    TLS
 }

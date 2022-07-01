@@ -33,7 +33,7 @@ class ConnectionParamsIKEv2(
     profile: Profile,
     server: Server,
     connectingDomain: ConnectingDomain
-) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.IKEv2), java.io.Serializable {
+) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.IKEv2, null), java.io.Serializable {
 
     fun getStrongSwanProfile(
         context: Context,

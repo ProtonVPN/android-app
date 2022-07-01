@@ -22,7 +22,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class DefaultPorts(
+data class DefaultPorts(
     @SerialName(value = "UDP") val udpPorts: List<Int>,
     @SerialName(value = "TCP") val tcpPorts: List<Int> = emptyList()
 )

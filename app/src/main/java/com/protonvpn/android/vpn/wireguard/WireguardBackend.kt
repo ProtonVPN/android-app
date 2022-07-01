@@ -24,6 +24,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -36,6 +37,7 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
@@ -96,12 +98,17 @@ class WireguardBackend(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
+        protocol: ProtocolSelection?,
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean
     ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
-        val ports = appConfig.getWireguardPorts().udpPorts
+        val transmission = protocol?.transmission
+        val ports = if (transmission == TransmissionProtocol.UDP)
+            appConfig.getWireguardPorts().udpPorts
+        else
+            appConfig.getWireguardPorts().tcpPorts
         val selectedPorts = if (scan)
             scanUdpPorts(connectingDomain, ports, numberOfPorts, waitForAll)
         else
@@ -113,7 +120,8 @@ class WireguardBackend(
                     profile,
                     server,
                     port,
-                    connectingDomain
+                    connectingDomain,
+                    transmission ?: TransmissionProtocol.UDP
                 )
             )
         }
@@ -126,13 +134,15 @@ class WireguardBackend(
             val config = wireguardParams.getTunnelConfig(
                 context, userData, currentUser.sessionId(), certificateRepository
             )
+            val transmission = (wireguardParams.protocolSelection?.transmission ?: TransmissionProtocol.UDP)
+                .toString().lowercase()
             withContext(Dispatchers.IO) {
                 try {
-                    backend.setState(testTunnel, Tunnel.State.UP, config)
+                    backend.setState(testTunnel, Tunnel.State.UP, config, transmission)
                 } catch (e: BackendException) {
                     if (e.reason == BackendException.Reason.UNABLE_TO_START_VPN && e.cause is TimeoutException) {
                         // GoBackend waits only 2s for the VPN service to start. Sometimes this is not enough, retry.
-                        backend.setState(testTunnel, Tunnel.State.UP, config)
+                        backend.setState(testTunnel, Tunnel.State.UP, config, transmission)
                     } else {
                         throw e
                     }

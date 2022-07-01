@@ -22,6 +22,7 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -38,16 +39,17 @@ class ConnectionParamsWireguard(
     profile: Profile,
     server: Server,
     val port: Int,
-    connectingDomain: ConnectingDomain
+    connectingDomain: ConnectingDomain,
+    transmission: TransmissionProtocol
 ) : ConnectionParams(
     profile,
     server,
     connectingDomain,
-    VpnProtocol.WireGuard
-),
-    java.io.Serializable {
+    VpnProtocol.WireGuard,
+    transmission
+), java.io.Serializable {
 
-    override val info get() = "${super.info} port: $port"
+    override val info get() = "${super.info} $transmissionProtocol port: $port"
 
     @Throws(IllegalStateException::class)
     suspend fun getTunnelConfig(

@@ -19,49 +19,43 @@
 
 package com.protonvpn.android.vpn
 
-import android.os.Parcelable
-
 import com.protonvpn.android.R
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
-sealed class ProtocolSelection(val protocol: VpnProtocol) : Parcelable {
-    @Parcelize
-    object Smart : ProtocolSelection(VpnProtocol.Smart) {
-        override val displayName: Int = R.string.settingsProtocolNameSmart
-    }
+data class ProtocolSelection private constructor(
+    val vpn: VpnProtocol,
+    val transmission: TransmissionProtocol?
+) : Serializable {
 
-    @Parcelize
-    object WireGuard : ProtocolSelection(VpnProtocol.WireGuard) {
-        override val displayName: Int = R.string.settingsProtocolNameWireguard
-    }
+    fun localAgentEnabled() = vpn.localAgentEnabled()
 
-    @Parcelize
-    object IKEv2 : ProtocolSelection(VpnProtocol.IKEv2) {
-        override val displayName: Int = R.string.settingsProtocolNameIkeV2
-    }
-
-    @Parcelize
-    data class OpenVPN(val transmissionProtocol: TransmissionProtocol) : ProtocolSelection(VpnProtocol.OpenVPN) {
-        override val displayName: Int = when (transmissionProtocol) {
+    val displayName: Int get() = when (vpn) {
+        VpnProtocol.Smart -> R.string.settingsProtocolNameSmart
+        VpnProtocol.WireGuard -> when (transmission) {
+            TransmissionProtocol.TCP -> R.string.settingsProtocolNameWireguardTCP
+            TransmissionProtocol.TLS -> R.string.settingsProtocolNameWireguardTLS
+            else -> R.string.settingsProtocolNameWireguard
+        }
+        VpnProtocol.IKEv2 -> R.string.settingsProtocolNameIkeV2
+        VpnProtocol.OpenVPN -> when (transmission) {
             TransmissionProtocol.TCP -> R.string.settingsProtocolNameOpenVpnTcp
-            TransmissionProtocol.UDP -> R.string.settingsProtocolNameOpenVpnUdp
+            else -> R.string.settingsProtocolNameOpenVpnUdp
         }
     }
 
-    abstract val displayName: Int
-
-    val transmission get() = (this as? OpenVPN)?.transmissionProtocol
-
     companion object {
         @JvmStatic
-        fun from(protocol: VpnProtocol, transmissionProtocol: TransmissionProtocol? = null): ProtocolSelection =
-            when (protocol) {
-                VpnProtocol.Smart -> Smart
-                VpnProtocol.WireGuard -> WireGuard
-                VpnProtocol.IKEv2 -> IKEv2
-                VpnProtocol.OpenVPN -> OpenVPN(requireNotNull(transmissionProtocol))
-            }
+        operator fun invoke(
+            vpn: VpnProtocol,
+            transmission: TransmissionProtocol? = null
+        ) = ProtocolSelection(
+            vpn,
+            if (vpn == VpnProtocol.Smart)
+                null
+            else
+                transmission ?: TransmissionProtocol.UDP
+        )
     }
 }

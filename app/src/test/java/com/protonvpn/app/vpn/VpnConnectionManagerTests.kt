@@ -23,6 +23,7 @@ import android.os.PowerManager
 import android.os.PowerManager.PARTIAL_WAKE_LOCK
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -89,6 +90,8 @@ class VpnConnectionManagerTests {
     private lateinit var mockBackend: VpnBackend
     @MockK
     private lateinit var mockVpnUiDelegate: VpnUiDelegate
+    @MockK
+    private lateinit var appConfig: AppConfig
 
     private lateinit var userData: UserData
     private lateinit var vpnStateMonitor: VpnStateMonitor
@@ -125,7 +128,7 @@ class VpnConnectionManagerTests {
         every { mockWakeLock.isHeld } returns true
         every { mockPowerManager.newWakeLock(PARTIAL_WAKE_LOCK, any()) } returns mockWakeLock
         every { mockNetworkManager.isConnectedToNetwork() } returns true
-        every { mockBackend.vpnProtocol } returns connectionParams.protocol!!
+        every { mockBackend.vpnProtocol } returns connectionParams.protocolSelection!!.vpn
         every { mockBackend.selfStateObservable } returns mockBackendSelfState
         every { mockVpnUiDelegate.askForPermissions(any(), any(), any()) } answers {
             arg<() -> Unit>(2).invoke()
@@ -142,6 +145,7 @@ class VpnConnectionManagerTests {
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = mockk(relaxed = true),
             userData = userData,
+            appConfig = appConfig,
             backendProvider = mockBackendProvider,
             networkManager = mockNetworkManager,
             vpnErrorHandler = mockVpnErrorHandler,

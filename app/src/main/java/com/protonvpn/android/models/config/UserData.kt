@@ -30,6 +30,7 @@ import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.flow.MutableSharedFlow
 import java.io.Serializable
 import java.util.UUID
@@ -58,6 +59,9 @@ class UserData private constructor() : Serializable {
     @SerializedName("user") var migrateUser: String? = null
     @SerializedName("isLoggedIn") var migrateIsLoggedIn = false
     @SerializedName("vpnInfoResponse") var migrateVpnInfoResponse: VpnInfoResponse? = null
+
+    @SerializedName("selectedProtocol") var migrateProtocol: VpnProtocol? = null
+    @SerializedName("transmissionProtocol") var migrateOpenVpnTransmissionProtocol: TransmissionProtocol? = null
 
     @SerializedName("defaultConnection") var migrateDefaultConnection: Profile? = null
 
@@ -99,7 +103,7 @@ class UserData private constructor() : Serializable {
     var vpnAcceleratorEnabled: Boolean = true
         set(value) {
             field = value
-            vpnAcceleratorLiveData.postValue(value)
+            vpnAcceleratorLiveData.value = value
             commitUpdate(Setting.VPN_ACCELERATOR_ENABLED)
         }
 
@@ -117,18 +121,19 @@ class UserData private constructor() : Serializable {
             commitUpdate(Setting.RESTRICTED_NAT)
         }
 
-    var selectedProtocol: VpnProtocol = VpnProtocol.Smart
-        private set
-
-    var transmissionProtocol: TransmissionProtocol = TransmissionProtocol.TCP
-        private set
+    var protocol: ProtocolSelection = ProtocolSelection(VpnProtocol.Smart)
+        set(value) {
+            field = value
+            protocolLiveData.value = protocol
+            commitUpdate(Setting.DEFAULT_PROTOCOL)
+        }
 
     private var netShieldProtocol: NetShieldProtocol? = null
 
     @Transient val netShieldSettingUpdateEvent = LiveEvent()
     // Note: remember to initialize LiveData values in init().
     @Transient val vpnAcceleratorLiveData = MutableLiveData<Boolean>()
-    @Transient val selectedProtocolLiveData = MutableLiveData<VpnProtocol>()
+    @Transient val protocolLiveData = MutableLiveData<ProtocolSelection>()
     @Transient val safeModeLiveData = MutableLiveData<Boolean?>()
     @Transient val secureCoreLiveData = MutableLiveData<Boolean>()
     @Transient val randomizedNatLiveData = MutableLiveData<Boolean>()
@@ -139,10 +144,17 @@ class UserData private constructor() : Serializable {
 
     // Handles post-deserialization initialization
     private fun init() {
+        migrateProtocol?.let {
+            protocol = ProtocolSelection(it, migrateOpenVpnTransmissionProtocol ?: TransmissionProtocol.UDP)
+            migrateProtocol = null
+            migrateOpenVpnTransmissionProtocol = null
+            Storage.save(this)
+        }
+
+        protocolLiveData.value = protocol
         randomizedNatLiveData.value = randomizedNatEnabled
         safeModeLiveData.value = safeModeEnabled
         secureCoreLiveData.value = secureCoreEnabled
-        selectedProtocolLiveData.value = selectedProtocol
         vpnAcceleratorLiveData.value = vpnAcceleratorEnabled
     }
 
@@ -163,15 +175,6 @@ class UserData private constructor() : Serializable {
 
     fun isSafeModeEnabled(featureFlags: FeatureFlags): Boolean? =
         safeModeEnabled.takeIf { featureFlags.safeMode }
-
-    fun setProtocols(protocol: VpnProtocol, transmissionProtocol: TransmissionProtocol?) {
-        if (transmissionProtocol != null) {
-            this.transmissionProtocol = transmissionProtocol
-        }
-        selectedProtocol = protocol
-        selectedProtocolLiveData.postValue(selectedProtocol)
-        commitUpdate(Setting.DEFAULT_PROTOCOL)
-    }
 
     fun shouldBypassLocalTraffic() =
         ProtonApplication.getAppContext().isTV() || bypassLocalTraffic
@@ -203,8 +206,7 @@ class UserData private constructor() : Serializable {
                     it.wrapper == oldProfile.wrapper &&
                     it.isSecureCore == oldProfile.isSecureCore &&
                     it.profileColor == oldProfile.profileColor &&
-                    it.getProtocol(this) == oldProfile.getProtocol(this) &&
-                    it.getTransmissionProtocol(this) == oldProfile.getTransmissionProtocol(this)
+                    it.getProtocol(this) == oldProfile.getProtocol(this)
             }
             if (matchingProfile == null) {
                 // On TV the default profile was not on the list of saved profiles, add it.

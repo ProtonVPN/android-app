@@ -37,6 +37,7 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
@@ -101,6 +102,7 @@ class StrongSwanBackend @Inject constructor(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
+        protocol: ProtocolSelection?,
         scan: Boolean,
         numberOfPorts: Int, // unused, IKEv2 uses 2 ports and both need to be functional
         waitForAll: Boolean // as above

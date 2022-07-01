@@ -44,6 +44,7 @@ import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PhysicalServer
 import com.protonvpn.android.vpn.PrepareResult
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
@@ -132,14 +133,14 @@ class VpnConnectionErrorHandlerTests {
         every { appConfig.getFeatureFlags().vpnAccelerator } returns true
         every { networkManager.isConnectedToNetwork() } returns true
         every { userData.secureCoreEnabled } returns false
-        every { userData.selectedProtocol } returns VpnProtocol.Smart
+        every { userData.protocol } returns ProtocolSelection(VpnProtocol.Smart)
         every { vpnStateMonitor.isEstablishingOrConnected } returns false
         coEvery { api.getSession() } returns ApiResult.Success(SessionListResponse(1000, listOf()))
         prepareServerManager(MockedServers.serverList)
 
         val server = MockedServers.server
         directProfile = Profile.getTempProfile(server)
-        directProfile.setProtocol(VpnProtocol.IKEv2)
+        directProfile.setProtocol(ProtocolSelection(VpnProtocol.IKEv2))
         directConnectionParams = ConnectionParamsIKEv2(directProfile, server, server.getRandomConnectingDomain())
 
         handler = VpnConnectionErrorHandler(TestCoroutineScope(), api, appConfig,
@@ -332,7 +333,7 @@ class VpnConnectionErrorHandlerTests {
     fun testUnreachableSecureCoreSwitch() = runBlockingTest {
         val secureCoreServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
         val secureCoreProfile = Profile.getTempProfile(secureCoreServer, true)
-        secureCoreProfile.setProtocol(VpnProtocol.IKEv2)
+        secureCoreProfile.setProtocol(ProtocolSelection(VpnProtocol.IKEv2))
         val scConnectionParams =
             ConnectionParamsIKEv2(secureCoreProfile, secureCoreServer, secureCoreServer.connectingDomains.first())
 
@@ -346,7 +347,7 @@ class VpnConnectionErrorHandlerTests {
     fun testUnreachableSecureCoreSwitchToNonSecureCore() = runBlockingTest {
         val scServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
         val scProfie = Profile.getTempProfile(scServer, true)
-        scProfie.setProtocol(VpnProtocol.IKEv2)
+        scProfie.setProtocol(ProtocolSelection(VpnProtocol.IKEv2))
         val scConnectionParams = ConnectionParamsIKEv2(scProfie, scServer, scServer.connectingDomains.first())
 
         // All secure core servers failed to respond, switch to non-sc in the same country.

@@ -72,7 +72,7 @@ class VpnStateMonitor {
         get() = connectingToServer?.isSecureCoreServer == true
 
     val connectionProtocol
-        get() = connectionParams?.protocol
+        get() = connectionParams?.protocolSelection
 
     val exitIP
         get() = connectionParams?.exitIpAddress
