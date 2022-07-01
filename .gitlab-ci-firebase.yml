@@ -107,6 +107,7 @@ firebase black env tests:
 
 firebase robo tests:
   stage: test
+  when: manual
   tags:
     - small
   script:
