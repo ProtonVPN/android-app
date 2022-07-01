@@ -45,6 +45,7 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
@@ -103,20 +104,19 @@ class OpenVpnBackend @Inject constructor(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
+        protocol: ProtocolSelection?,
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean
     ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
         val openVpnPorts = appConfig.getOpenVPNPorts()
-        val protocol = profile.getProtocol(userData)
-        val transmissionProtocol = profile.getTransmissionProtocol(userData)
         val protocolInfo = if (!scan) {
-            val port = (if (transmissionProtocol == TransmissionProtocol.UDP)
-                openVpnPorts.udpPorts else openVpnPorts.tcpPorts).random()
-            listOf(ProtocolInfo(transmissionProtocol, port))
+            val transmission = protocol?.transmission ?: TransmissionProtocol.UDP
+            listOf(ProtocolInfo(transmission, (if (transmission == TransmissionProtocol.TCP)
+                openVpnPorts.tcpPorts else openVpnPorts.udpPorts).random()))
         } else {
-            scanPorts(connectingDomain, numberOfPorts, transmissionProtocol.takeIf { protocol != VpnProtocol.Smart }, waitForAll)
+            scanPorts(connectingDomain, numberOfPorts, protocol?.transmission, waitForAll)
         }
         return protocolInfo.map {
             PrepareResult(this, ConnectionParamsOpenVpn(
@@ -127,7 +127,7 @@ class OpenVpnBackend @Inject constructor(
     private suspend fun scanPorts(
         connectingDomain: ConnectingDomain,
         numberOfPorts: Int,
-        transmissionProtocol: TransmissionProtocol? = null,
+        transmissionProtocol: TransmissionProtocol?, // if null ping both UDP and TCP
         waitForAll: Boolean
     ): List<ProtocolInfo> {
         val openVpnPorts = appConfig.getOpenVPNPorts()
@@ -135,7 +135,8 @@ class OpenVpnBackend @Inject constructor(
         coroutineScope {
             val udpPorts = if (transmissionProtocol == null || transmissionProtocol == TransmissionProtocol.UDP)
                 async {
-                    scanUdpPorts(connectingDomain, samplePorts(openVpnPorts.udpPorts, numberOfPorts), numberOfPorts, waitForAll)
+                    scanUdpPorts(
+                        connectingDomain, samplePorts(openVpnPorts.udpPorts, numberOfPorts), numberOfPorts, waitForAll)
                 } else null
 
             val tcpPingData = getPingData(tcp = true)

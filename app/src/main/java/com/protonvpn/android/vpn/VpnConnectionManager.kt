@@ -27,6 +27,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.distinctUntilChanged
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
@@ -41,6 +42,7 @@ import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanMaxSessionsReached
 import com.protonvpn.android.logging.toLog
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -64,7 +66,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.coroutineContext
 
-private val FALLBACK_PROTOCOL = VpnProtocol.WireGuard
 private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
 
 enum class ReasonRestricted { SecureCoreUpgradeNeeded, PlusUpgradeNeeded, Maintenance }
@@ -85,6 +86,7 @@ interface VpnUiDelegate {
 class VpnConnectionManager @Inject constructor(
     private val permissionDelegate: VpnPermissionDelegate,
     private val userData: UserData,
+    private val appConfig: AppConfig,
     private val backendProvider: VpnBackendProvider,
     private val networkManager: NetworkManager,
     private val vpnErrorHandler: VpnConnectionErrorHandler,
@@ -293,7 +295,7 @@ class VpnConnectionManager @Inject constructor(
     }
 
     private suspend fun smartConnect(profile: Profile, server: Server) {
-        connectionParams = ConnectionParams(profile, server, null, null)
+        connectionParams = ConnectionParams(profile, server, null, null, null)
 
         if (activeBackend != null) {
             ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnecting first...")
@@ -305,15 +307,15 @@ class VpnConnectionManager @Inject constructor(
 
         setSelfState(VpnState.ScanningPorts)
 
-        var protocol = profile.getProtocol(userData)
+        var protocol: ProtocolSelection = profile.getProtocol(userData)
         val hasNetwork = networkManager.isConnectedToNetwork()
-        if (!hasNetwork && protocol == VpnProtocol.Smart)
-            protocol = FALLBACK_PROTOCOL
+        if (!hasNetwork && protocol.vpn == VpnProtocol.Smart)
+            protocol = getFallbackSmartProtocol(server)
         var preparedConnection =
             backendProvider.prepareConnection(protocol, profile, server, alwaysScan = hasNetwork)
         if (preparedConnection == null) {
-            val fallbackProtocol =
-                if (protocol == VpnProtocol.Smart) FALLBACK_PROTOCOL else protocol
+            val fallbackProtocol = if (protocol.vpn == VpnProtocol.Smart)
+                getFallbackSmartProtocol(server) else protocol
             ProtonLogger.logCustom(
                 LogCategory.CONN_CONNECT,
                 "No response for ${server.domain}, using fallback $fallbackProtocol"
@@ -325,6 +327,16 @@ class VpnConnectionManager @Inject constructor(
         }
 
         preparedConnect(preparedConnection)
+    }
+
+    private fun getFallbackSmartProtocol(server: Server): ProtocolSelection {
+        val config = appConfig.getSmartProtocolConfig()
+        return when {
+            config.wireguardEnabled && server.supportsProtocol(VpnProtocol.WireGuard) ->
+                ProtocolSelection(VpnProtocol.WireGuard)
+            config.ikeV2Enabled -> ProtocolSelection(VpnProtocol.IKEv2)
+            else -> ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP)
+        }
     }
 
     private suspend fun preparedConnect(preparedConnection: PrepareResult) {
@@ -430,7 +442,7 @@ class VpnConnectionManager @Inject constructor(
         if (server?.online == true &&
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {
-            if (server.supportsProtocol(profile.getProtocol(userData))) {
+            if (server.supportsProtocol(profile.getProtocol(userData).vpn)) {
                 smartConnect(profile, server)
             } else {
                 delegate.onProtocolNotSupported()

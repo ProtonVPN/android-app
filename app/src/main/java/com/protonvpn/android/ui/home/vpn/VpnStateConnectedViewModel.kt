@@ -53,7 +53,7 @@ class VpnStateConnectedViewModel @Inject constructor(
         val serverName: String,
         val serverLoad: Float,
         val exitIp: String,
-        val protocolDisplay: String
+        @StringRes val protocolDisplay: Int?
     )
 
     data class TrafficSpeedChartData(
@@ -92,11 +92,11 @@ class VpnStateConnectedViewModel @Inject constructor(
                     upToDateServer.serverName,
                     upToDateServer.load,
                     exitIpAddress ?: "-",
-                    protocolDisplay(protocol, transmission)
+                    protocolSelection?.displayName
                 )
             }
         } else {
-            ConnectionState("-", 0f, "-", "-")
+            ConnectionState("-", 0f, "-", null)
         }
 
     private fun speedHistoryToChartData(
@@ -125,9 +125,4 @@ class VpnStateConnectedViewModel @Inject constructor(
             (update.timestampMs - lastTimestampMs).toFloat() / MILLIS_IN_SECOND,
             getter(update).toFloat() / BYTES_IN_KBYTE
         )
-
-    companion object {
-        fun protocolDisplay(protocol: VpnProtocol?, transmission: TransmissionProtocol?): String =
-            (protocol?.displayName() ?: "") + " " + (transmission ?: "")
-    }
 }

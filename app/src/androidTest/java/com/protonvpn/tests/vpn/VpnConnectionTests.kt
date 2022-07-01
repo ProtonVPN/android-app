@@ -40,6 +40,7 @@ import com.protonvpn.android.vpn.AgentConnectionInterface
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.ReasonRestricted
 import com.protonvpn.android.vpn.ServerPing
@@ -207,7 +208,7 @@ class VpnConnectionTests {
         )
 
         monitor = VpnStateMonitor()
-        manager = VpnConnectionManager(permissionDelegate, userData, backendProvider, networkManager, vpnErrorHandler, monitor,
+        manager = VpnConnectionManager(permissionDelegate, userData, appConfig, backendProvider, networkManager, vpnErrorHandler, monitor,
             mockVpnBackgroundUiDelegate, serverManager, certificateRepository, scope, ::time, mockk(relaxed = true),
             currentUser, mockk(relaxed = true))
 
@@ -265,7 +266,7 @@ class VpnConnectionTests {
         advanceUntilIdle()
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
-        Assert.assertEquals(VpnProtocol.OpenVPN, monitor.status.value.connectionParams?.protocol)
+        Assert.assertEquals(VpnProtocol.OpenVPN, monitor.status.value.connectionParams?.protocolSelection?.vpn)
     }
 
     @Test
@@ -273,14 +274,14 @@ class VpnConnectionTests {
         mockWireguard.failScanning = true
         mockStrongSwan.failScanning = true
         mockOpenVpn.failScanning = true
-        userData.setProtocols(VpnProtocol.OpenVPN, null)
+        userData.protocol = ProtocolSelection(VpnProtocol.OpenVPN)
         manager.connect(mockVpnUiDelegate, profileSmart, "test")
         advanceUntilIdle()
 
         // When scanning fails we'll fallback to attempt connecting with WireGuard regardless of
         // selected protocol
         coVerify(exactly = 1) {
-            mockWireguard.prepareForConnection(any(), any(), false)
+            mockWireguard.prepareForConnection(any(), any(), any(),false)
             mockWireguard.connect(not(isNull()))
         }
 
@@ -290,16 +291,16 @@ class VpnConnectionTests {
     @Test
     fun whenNoInternetWhileConnectingUseWireguard() = scope.runBlockingTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        userData.setProtocols(VpnProtocol.OpenVPN, null)
+        userData.protocol = ProtocolSelection(VpnProtocol.OpenVPN, null)
         manager.connect(mockVpnUiDelegate, profileSmart, "test")
         advanceUntilIdle()
 
         // Always fall back to WireGuard, regardless of selected protocol.
         coVerify(exactly = 0) {
-            mockOpenVpn.prepareForConnection(any(), any(), false)
+            mockOpenVpn.prepareForConnection(any(), any(), any(),false)
         }
         coVerify(exactly = 1) {
-            mockWireguard.prepareForConnection(any(), any(), any())
+            mockWireguard.prepareForConnection(any(), any(), any(), any())
             mockWireguard.connect(not(isNull()))
         }
 
@@ -313,7 +314,7 @@ class VpnConnectionTests {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            mockWireguard.prepareForConnection(any(), any(), false)
+            mockWireguard.prepareForConnection(any(), any(), any(),false)
             mockWireguard.createAgentConnection(any(), any(), any())
         }
         Assert.assertEquals(VpnState.Connected, monitor.state)
@@ -326,7 +327,7 @@ class VpnConnectionTests {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            mockStrongSwan.prepareForConnection(any(), any(), false)
+            mockStrongSwan.prepareForConnection(any(), any(), any(), false)
         }
         coVerify(exactly = 0) {
             mockStrongSwan.connectToLocalAgent()
@@ -343,7 +344,7 @@ class VpnConnectionTests {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            mockWireguard.prepareForConnection(any(), any(), false)
+            mockWireguard.prepareForConnection(any(), any(), any(),false)
         }
         coVerify(exactly = 0) {
             mockWireguard.connectToLocalAgent()
@@ -468,7 +469,7 @@ class VpnConnectionTests {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
 
         val fallbackConnection = mockOpenVpn.prepareForConnection(
-            fallbackOpenVpnProfile, fallbackServer, true).first()
+            fallbackOpenVpnProfile, fallbackServer, null,true).first()
         val fallbackResult = VpnFallbackResult.Switch.SwitchServer(serverIKEv2,
             fallbackOpenVpnProfile, fallbackConnection, SwitchServerReason.ServerUnreachable,
             compatibleProtocol = false, switchedSecureCore = false, notifyUser = true)

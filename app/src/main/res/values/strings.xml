@@ -339,6 +339,8 @@
     <string name="settingsSmartProtocolDescription">Automatically use the protocol and port that offer the best connectivity.</string>
     <string name="settingsProtocolNameSmart" translatable="false">Smart (auto)</string>
     <string name="settingsProtocolNameWireguard" translatable="false">WireGuard</string>
+    <string name="settingsProtocolNameWireguardTCP" translatable="false">WireGuard TCP</string>
+    <string name="settingsProtocolNameWireguardTLS" translatable="false">WireGuard TLS</string>
     <string name="settingsProtocolNameOpenVpnTcp" translatable="false">OpenVPN TCP</string>
     <string name="settingsProtocolNameOpenVpnUdp" translatable="false">OpenVPN UDP</string>
     <string name="settingsProtocolNameIkeV2" translatable="false">IKEv2</string>

@@ -35,6 +35,7 @@ import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.NetworkManager
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.ServerPing
 import kotlinx.coroutines.yield
 
@@ -75,6 +76,7 @@ class MockVpnBackend(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
+        protocol: ProtocolSelection?,
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean
@@ -82,7 +84,7 @@ class MockVpnBackend(
         if (scan && failScanning)
             emptyList()
         else listOf(PrepareResult(this, object : ConnectionParams(
-                profile, server, server.getRandomConnectingDomain(), protocol) {}))
+                profile, server, server.getRandomConnectingDomain(), this.protocol, null) {}))
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)

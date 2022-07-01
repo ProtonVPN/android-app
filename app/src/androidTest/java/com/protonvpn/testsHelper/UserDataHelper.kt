@@ -32,6 +32,7 @@ import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.utils.AndroidUtils.isTV
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.di.MockUserRepository
 import com.protonvpn.test.shared.TestUser
 import dagger.hilt.EntryPoint
@@ -101,7 +102,7 @@ class UserDataHelper {
     }
 
     fun setProtocol(protocol: VpnProtocol, transmission: TransmissionProtocol? = null) = runBlocking(Main) {
-        userData.setProtocols(protocol, transmission)
+        userData.protocol = ProtocolSelection(protocol, transmission)
     }
 
     fun logoutUser() {

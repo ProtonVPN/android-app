@@ -33,14 +33,14 @@ class DefaultPortsConfig(
             openVpnPorts
 
     fun getWireguardPorts() =
-        if (wireguardPorts.udpPorts.isEmpty())
+        if (wireguardPorts.udpPorts.isEmpty() || wireguardPorts.tcpPorts.isEmpty())
             wireguardDefaults
         else
             wireguardPorts
 
     companion object {
         private val wireguardDefaults =
-            DefaultPorts(listOf(51820), emptyList())
+            DefaultPorts(listOf(51820), listOf(443))
         private val openVPNDefaults =
             DefaultPorts(listOf(443), listOf(443))
         val defaultConfig = DefaultPortsConfig(openVPNDefaults, wireguardDefaults)

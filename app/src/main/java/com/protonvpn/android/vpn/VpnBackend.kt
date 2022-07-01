@@ -70,7 +70,7 @@ data class PrepareResult(val backend: VpnBackend, val connectionParams: Connecti
 
 interface VpnBackendProvider {
     suspend fun prepareConnection(
-        protocol: VpnProtocol,
+        protocol: ProtocolSelection,
         profile: Profile,
         server: Server,
         alwaysScan: Boolean = true
@@ -165,6 +165,7 @@ abstract class VpnBackend(
     abstract suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
+        protocol: ProtocolSelection?,
         scan: Boolean,
         numberOfPorts: Int = Int.MAX_VALUE, // Max number of ports to be scanned
         waitForAll: Boolean = false // wait for all ports to respond if true, otherwise just wait for first successful

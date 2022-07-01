@@ -29,6 +29,7 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemProtocolBinding
 import com.protonvpn.android.models.config.TransmissionProtocol
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.utils.ActivityResultUtils
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,11 +68,13 @@ class ProtocolSelectionActivity : BaseActivityV2() {
     ) : RecyclerView.Adapter<ProtocolViewHolder>() {
 
         private val items = listOf(
-            ProtocolSelection.Smart,
-            ProtocolSelection.WireGuard,
-            ProtocolSelection.IKEv2,
-            ProtocolSelection.OpenVPN(TransmissionProtocol.UDP),
-            ProtocolSelection.OpenVPN(TransmissionProtocol.TCP),
+            ProtocolSelection(VpnProtocol.Smart),
+            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
+            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
+            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
+            ProtocolSelection(VpnProtocol.IKEv2),
+            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
+            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
         )
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProtocolViewHolder =
@@ -92,11 +95,11 @@ class ProtocolSelectionActivity : BaseActivityV2() {
 
     companion object {
         fun createContract() =
-            ActivityResultUtils.createContract<ProtocolSelection, ProtocolSelection>(
+            ActivityResultUtils.createSerializableContract<ProtocolSelection, ProtocolSelection>(
                 ProtocolSelectionActivity::class
             )
 
         fun getInitialSelection(intent: Intent): ProtocolSelection? =
-            ActivityResultUtils.getInput(intent)
+            ActivityResultUtils.getSerializableInput(intent)
     }
 }

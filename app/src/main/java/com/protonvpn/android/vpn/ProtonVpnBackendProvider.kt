@@ -40,25 +40,26 @@ class ProtonVpnBackendProvider(
 ) : VpnBackendProvider {
 
     override suspend fun prepareConnection(
-        protocol: VpnProtocol,
+        protocol: ProtocolSelection,
         profile: Profile,
         server: Server,
         alwaysScan: Boolean
     ): PrepareResult? {
-        ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Preparing connection with protocol: " + protocol.name)
-        val scan = when (protocol) {
+        ProtonLogger.logCustom(LogCategory.CONN_CONNECT,
+            "Preparing connection with protocol: " + protocol.vpn.name)
+        val scan = when (protocol.vpn) {
             VpnProtocol.IKEv2 -> false
             VpnProtocol.OpenVPN -> alwaysScan
             VpnProtocol.WireGuard -> alwaysScan
             VpnProtocol.Smart -> true
         }
-        return when (protocol) {
-            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, scan)
-            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, scan)
-            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, scan)
+        return when (protocol.vpn) {
+            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, protocol, scan)
+            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, protocol, scan)
+            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, protocol, scan)
             VpnProtocol.Smart -> {
                 getEnabledBackends(server).asFlow().map {
-                    it.prepareForConnection(profile, server, scan)
+                    it.prepareForConnection(profile, server, protocol, scan)
                 }.firstOrNull {
                     it.isNotEmpty()
                 }
@@ -80,7 +81,7 @@ class ProtonVpnBackendProvider(
                 val portsLimit = if (fullScan) Int.MAX_VALUE else PING_ALL_MAX_PORTS
 
                 val responses = listOf(wireGuard, strongSwan, openVpn).mapAsync {
-                    it.prepareForConnection(profile, server.server, true, portsLimit, waitForAll = fullScan)
+                    it.prepareForConnection(profile, server.server, null, true, portsLimit, waitForAll = fullScan)
                 }.flatten()
                 server to responses
             }.toMap()

@@ -13,6 +13,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
@@ -75,7 +76,7 @@ class ServerManagerTests {
 
     @Test
     fun testFilterForProtocol() {
-        userData.setProtocols(VpnProtocol.WireGuard, TransmissionProtocol.TCP)
+        userData.protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP)
         val filtered = manager.filterForProtocol(manager.getVpnCountries())
         Assert.assertEquals(listOf("CA#1", "DE#1"), filtered.flatMap { it.serverList.map { it.serverName } })
         val canada = filtered.first { it.flag == "CA" }

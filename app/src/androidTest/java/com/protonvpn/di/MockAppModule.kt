@@ -46,6 +46,7 @@ import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.ServerPing
@@ -167,7 +168,7 @@ class MockAppModule {
     @Singleton
     @Provides
     fun provideUserPrefs(): UserData = UserData.create().apply {
-        setProtocols(VpnProtocol.IKEv2, null)
+        protocol = ProtocolSelection(VpnProtocol.IKEv2)
     }
 
     @Provides
