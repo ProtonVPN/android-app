@@ -135,7 +135,7 @@
     <string name="errorEmptyExitCountry">Необхідно заповнити поле країни виходу</string>
     <string name="onboardingDialogMapView">Користуйтеся вкладкою \"Карта\" для з\'єднання та віртуального огляду розташування сервера VPN.</string>
     <string name="onboardingDialogProfiles">Створіть профілі для ваших улюблених серверів та отримайте до них простий доступ. Крім того, тривалий дотик до піктограми Proton VPN у нижній частині екрана покаже всі ваші профілі. Дотик до одного з профілів з\'єднає вас з VPN.</string>
-    <string name="onboardingNetshield">Захищає вас від зловмисних програм, реклами та стеження.\nПримітка: якщо деякі сайти не завантажуються, спробуйте вимкнути NetShіeld. </string>
+    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
     <string name="onboardingFAB">Швидке з\'єднання / Профілі</string>
     <string name="onboardingFABDescription">Натисніть на цю кнопку для швидкого під\'єднання</string>
     <string name="onboardingSignup">Зареєструватися</string>

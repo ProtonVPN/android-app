@@ -115,7 +115,7 @@
     <string name="settingsMtuDescription">Apabila nilai asli yang tertera tidak sesuai untuk jaringan tertentu, masukan nilai dalam rentang 1280-1500. Harap ubah nilai ini hanya apabila Anda paham akan apa yang Anda kerjakan.</string>
     <string name="settingsMtuRangeInvalid">Nilai MTU harus dalam kisaran 1280–1500</string>
     <string name="settingsDefaultConnectionTitle">Quick Connect</string>
-    <string name="settingsDefaultConnectionDescription">Tombol sambung cepat menyambungkan Anda ke profil terpilih</string>
+    <string name="settingsDefaultConnectionDescription">Tombol quick connect akan menyambungkan Anda ke profil yang dipilih</string>
     <string name="settingsAllowNonStandardPortsTitle">Port non-standar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Alihkan lalu lintas data yang tertuju pada port non-standar melalui jaringan VPN. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="settingsModerateNatTitle">NAT Moderat</string>
@@ -135,7 +135,7 @@
     <string name="errorEmptyExitCountry">Kolom negara tujuan akhir tidak boleh kosong</string>
     <string name="onboardingDialogMapView">Gunakan Tampilan Peta untuk menyambungkan dan melihat secara virtual di mana server VPN berada.</string>
     <string name="onboardingDialogProfiles">Berikan server favorit Anda profil khusus agar Anda dapat mengaksesnya kembali dengan mudah ke depannya. Untuk melihat daftar seluruh profil yang ada, sentuh dan tahan ikon Proton VPN yang tertera pada bagian bawah layar selama beberapa waktu. Setelahnya, sentuh salah satu profil untuk dapat tersambung ke VPN.</string>
-    <string name="onboardingNetshield">Melindungi Anda dari malware, iklan, dan program pelacak.\nCatatan: apabila beberapa situs tidak termuat, cobalah untuk menonaktifkan NetShield. </string>
+    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
     <string name="onboardingFAB">Quick connect / Profil</string>
     <string name="onboardingFABDescription">Sentuh tombol ini untuk cara tersambung paling cepat</string>
     <string name="onboardingSignup">Daftar</string>
