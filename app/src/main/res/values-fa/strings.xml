@@ -135,7 +135,7 @@
     <string name="errorEmptyExitCountry">وارد کردن کشور خروجی الزامی است</string>
     <string name="onboardingDialogMapView">از نقشه برای اتصال استفاده کنید و محل سرور VPN را ببینید.</string>
     <string name="onboardingDialogProfiles">برای سرورهای مورد علاقه‌ی خود پروفایل بسازید تا به آن‌ها دسترسی راحت‌تری داشته باشید. همچنین لمس طولانی آیکون Proton VPN در پایین صفحه تمامی پروفایل‌هایتان را به شما نشان می‌دهد. لمس هر یک از پروفایل‌ها شما را به VPN متصل می‌کند.</string>
-    <string name="onboardingNetshield">شما را از بدافزار، آگهی، و ردیابها محافظت می‌‌کند.\nتوجه: اگر بعضی سایتها بارگذاری نمی‌شوند، غیر فعال کردن NetShield را امتحان کنید. </string>
+    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
     <string name="onboardingFAB">اتصال سریع / پروفایل‌ها</string>
     <string name="onboardingFABDescription">برای سریع‌ترین راه اتصال، روی این دکمه ضربه بزنید</string>
     <string name="onboardingSignup">ثبت نام</string>
