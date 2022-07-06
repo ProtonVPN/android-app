@@ -43,6 +43,7 @@ import com.protonvpn.android.utils.parallelSearch
 import com.protonvpn.android.utils.takeRandomStable
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
+import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.ServerPing
@@ -77,6 +78,7 @@ class OpenVpnBackend @Inject constructor(
     mainScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     serverPing: ServerPing,
+    localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser
 ) : VpnBackend(
     userData,
@@ -87,6 +89,7 @@ class OpenVpnBackend @Inject constructor(
     mainScope,
     dispatcherProvider,
     serverPing,
+    localAgentUnreachableTracker,
     currentUser
 ), VpnStatus.StateListener {
 

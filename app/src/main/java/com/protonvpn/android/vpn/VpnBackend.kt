@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.vpn
 
-import android.content.ComponentName
 import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
@@ -100,6 +99,7 @@ abstract class VpnBackend(
     val mainScope: CoroutineScope,
     val dispatcherProvider: DispatcherProvider,
     val serverPing: ServerPing,
+    val localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     val currentUser: CurrentUser
 ) : VpnStateSource {
 
@@ -340,13 +340,22 @@ abstract class VpnBackend(
     private fun handleLocalAgentStates(localAgentState: String?): VpnState {
         connectToLocalAgent()
         return when (localAgentState) {
-            agentConstants.stateConnected ->
+            agentConstants.stateConnected -> {
+                localAgentUnreachableTracker.reset()
                 VpnState.Connected
+            }
             agentConstants.stateConnectionError,
-            agentConstants.stateServerUnreachable ->
-                // When unreachable comes from local agent it means VPN tunnel is still active, set UNREACHABLE
-                // instead of UNREACHABLE_INTERNAL to skip recovery with pings, as those won't help in this situation.
-                VpnState.Error(ErrorType.UNREACHABLE)
+            agentConstants.stateServerUnreachable -> {
+                // When unreachable comes from local agent it means VPN tunnel is still active, set either
+                // UNREACHABLE or UNREACHABLE_INTERNAL to fallback with pings.
+                val shouldFallback = localAgentUnreachableTracker.onUnreachable()
+                if (shouldFallback) {
+                    localAgentUnreachableTracker.onFallbackTriggered()
+                    VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
+                } else {
+                    VpnState.Error(ErrorType.UNREACHABLE)
+                }
+            }
             agentConstants.stateClientCertificateExpiredError -> {
                 reconnectLocalAgent("local agent: certificate expired", updateCertificate = false)
                 VpnState.Connecting
@@ -381,7 +390,7 @@ abstract class VpnBackend(
         }
     }
 
-    private fun revokeCertificateAndReconnect(reason: String) {
+    fun revokeCertificateAndReconnect(reason: String) {
         selfStateObservable.postValue(VpnState.Connecting)
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
@@ -429,6 +438,7 @@ abstract class VpnBackend(
             reconnectionJob = null
             agentConnectionJob?.cancel()
             agentConnectionJob = null
+            localAgentUnreachableTracker.reset()
             agent?.close()
             agent = null
         }

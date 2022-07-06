@@ -35,6 +35,7 @@ import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
+import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.ServerPing
@@ -64,6 +65,7 @@ class StrongSwanBackend @Inject constructor(
     certificateRepository: CertificateRepository,
     dispatcherProvider: DispatcherProvider,
     serverPing: ServerPing,
+    localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser
 ) : VpnBackend(
     userData,
@@ -74,6 +76,7 @@ class StrongSwanBackend @Inject constructor(
     mainScope,
     dispatcherProvider,
     serverPing,
+    localAgentUnreachableTracker,
     currentUser
 ), VpnStateService.VpnStateListener {
 

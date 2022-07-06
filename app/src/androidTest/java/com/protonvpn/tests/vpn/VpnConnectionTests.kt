@@ -39,9 +39,12 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.AgentConnectionInterface
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
+import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.ReasonRestricted
+import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.SwitchServerReason
+import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnFallbackResult
@@ -76,13 +79,13 @@ import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
-import com.protonvpn.android.vpn.ServerPing
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 @RunWith(AndroidJUnit4::class)
 // These tests use mocking of final classes that's not available on API < 28
@@ -133,6 +136,9 @@ class VpnConnectionTests {
 
     @MockK
     lateinit var foregroundActivityTracker: ForegroundActivityTracker
+
+    @RelaxedMockK
+    lateinit var mockLocalAgentUnreachableTracker: LocalAgentUnreachableTracker
 
     private lateinit var mockStrongSwan: MockVpnBackend
     private lateinit var mockOpenVpn: MockVpnBackend
@@ -697,8 +703,34 @@ class VpnConnectionTests {
         verify { mockVpnUiDelegate.onServerRestricted(ReasonRestricted.SecureCoreUpgradeNeeded) }
     }
 
+    @Test
+    fun testUnreachableInternalWhenLocalAgentUnreachableTrackerSignalsFallback() = scope.runBlockingTest {
+        var nativeClient: VpnBackend.VpnAgentClient? = null
+        mockWireguard.setAgentProvider { certificate, _, client ->
+            nativeClient = client
+            mockAgent
+        }
+        manager.connect(mockVpnUiDelegate, profileWireguard, "test")
+        advanceUntilIdle()
+        assertNotNull(nativeClient)
+        nativeClient!!.onState(agentConsts.stateConnected)
+        advanceUntilIdle()
+        assertEquals(VpnState.Connected, mockWireguard.selfState)
+
+        every { mockLocalAgentUnreachableTracker.onUnreachable() } returns false
+        nativeClient!!.onState(agentConsts.stateServerUnreachable)
+        advanceUntilIdle()
+        assertEquals(ErrorType.UNREACHABLE, (mockWireguard.selfState as? VpnState.Error)?.type)
+
+        every { mockLocalAgentUnreachableTracker.onUnreachable() } returns true
+        nativeClient!!.onState(agentConsts.stateServerUnreachable)
+        advanceUntilIdle()
+        assertEquals(ErrorType.UNREACHABLE_INTERNAL, (mockWireguard.selfState as? VpnState.Error)?.type)
+    }
+
     private fun createMockVpnBackend(protocol: VpnProtocol): MockVpnBackend =
         MockVpnBackend(
-            scope, networkManager, certificateRepository, userData, appConfig, protocol, mockServerPing, currentUser
+            scope, networkManager, certificateRepository, userData, appConfig, protocol, mockServerPing,
+            mockLocalAgentUnreachableTracker, currentUser
         )
 }

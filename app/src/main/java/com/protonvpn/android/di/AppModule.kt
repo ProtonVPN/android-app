@@ -54,6 +54,7 @@ import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertRefreshWorkerScheduler
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ConnectivityMonitor
+import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.ServerPing
@@ -391,6 +392,7 @@ object AppModule {
         certificateRepository: CertificateRepository,
         dispatcherProvider: DispatcherProvider,
         serverPing: ServerPing,
+        localAgentUnreachableTracker: LocalAgentUnreachableTracker,
         currentUser: CurrentUser
     ) = WireguardBackend(
         ProtonApplication.getAppContext(),
@@ -402,6 +404,7 @@ object AppModule {
         dispatcherProvider,
         scope,
         serverPing,
+        localAgentUnreachableTracker,
         currentUser
     )
 

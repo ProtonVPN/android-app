@@ -34,6 +34,7 @@ import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
+import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.ServerPing
@@ -66,10 +67,11 @@ class WireguardBackend(
     dispatcherProvider: DispatcherProvider,
     mainScope: CoroutineScope,
     serverPing: ServerPing,
+    localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser
 ) : VpnBackend(
     userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
-    dispatcherProvider, serverPing, currentUser
+    dispatcherProvider, serverPing, localAgentUnreachableTracker, currentUser
 ) {
 
     private var service: WireguardWrapperService? = null
