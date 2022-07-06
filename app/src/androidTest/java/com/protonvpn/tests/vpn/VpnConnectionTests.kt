@@ -71,6 +71,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.vpn.ReasonRestricted
+import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.mocks.MockAgentProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.mockVpnUser
@@ -84,6 +85,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 @RunWith(AndroidJUnit4::class)
 // These tests use mocking of final classes that's not available on API < 28
@@ -614,6 +616,32 @@ class VpnConnectionTests {
         manager.connect(mockVpnUiDelegate, secureCoreProfile, "test")
 
         verify { mockVpnUiDelegate.onServerRestricted(ReasonRestricted.SecureCoreUpgradeNeeded) }
+    }
+
+    @Test
+    fun testReconnectWhenLocalAgentUnreachableMultipleTimes() = scope.runBlockingTest {
+        var nativeClient: VpnBackend.VpnAgentClient? = null
+        mockWireguard.setAgentProvider { certificate, _, client ->
+            nativeClient = client
+            mockAgent
+        }
+        manager.connect(mockVpnUiDelegate, profileWireguard, "test")
+        advanceUntilIdle()
+        assertNotNull(nativeClient)
+        every { mockAgent.unableToConnect } answers { nativeClient?.failedTooManyTimes ?: false }
+        nativeClient!!.onState(agentConsts.stateConnected)
+        advanceUntilIdle()
+        assertEquals(VpnState.Connected, mockWireguard.selfState)
+
+        repeat(2) {
+            nativeClient!!.onState(agentConsts.stateServerUnreachable)
+            advanceUntilIdle()
+            assertEquals(ErrorType.UNREACHABLE, (mockWireguard.selfState as? VpnState.Error)?.type)
+        }
+
+        nativeClient!!.onState(agentConsts.stateServerUnreachable)
+        advanceUntilIdle()
+        assertEquals(ErrorType.UNREACHABLE_INTERNAL, (mockWireguard.selfState as? VpnState.Error)?.type)
     }
 
     private fun collectVpnStates(statesLiveData: LiveData<VpnState>, block: () -> Unit): List<VpnState> {
