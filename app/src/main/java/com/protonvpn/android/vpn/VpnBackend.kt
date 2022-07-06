@@ -1,18 +1,18 @@
 /*
  * Copyright (c) 2019 Proton Technologies AG
- * 
+ *
  * This file is part of ProtonVPN.
- * 
+ *
  * ProtonVPN is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * ProtonVPN is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
@@ -102,77 +102,9 @@ abstract class VpnBackend(
     val currentUser: CurrentUser
 ) : VpnStateSource {
 
-    abstract suspend fun prepareForConnection(
-        profile: Profile,
-        server: Server,
-        scan: Boolean,
-        numberOfPorts: Int = Int.MAX_VALUE, // Max number of ports to be scanned
-        waitForAll: Boolean = false // wait for all ports to respond if true, otherwise just wait for first successful
-                                    // response
-    ): List<PrepareResult>
+    inner class VpnAgentClient : NativeClient {
+        private val agentConstants = LocalAgent.constants()
 
-    protected var lastConnectionParams: ConnectionParams? = null
-
-    @CallSuper
-    open suspend fun connect(connectionParams: ConnectionParams) {
-        closeAgentConnection()
-        lastConnectionParams = connectionParams
-    }
-
-    suspend fun disconnect() {
-        if (vpnProtocolState != VpnState.Disabled)
-            vpnProtocolState = VpnState.Disconnecting
-
-        closeAgentConnection()
-        closeVpnTunnel()
-    }
-
-    protected abstract suspend fun closeVpnTunnel(withStateChange: Boolean = true)
-
-    open suspend fun reconnect() {
-        lastConnectionParams?.let { params ->
-            disconnect()
-            connect(params)
-        }
-    }
-
-    open fun createAgentConnection(
-        certInfo: CertificateRepository.CertificateResult.Success,
-        hostname: String?,
-        nativeClient: NativeClient
-    ) = object : AgentConnectionInterface {
-        val agent = AgentConnection(
-            certInfo.certificate,
-            certInfo.privateKeyPem,
-            Constants.VPN_ROOT_CERTS,
-            Constants.LOCAL_AGENT_ADDRESS,
-            hostname,
-            nativeClient,
-            features,
-            networkManager.isConnectedToNetwork()
-        )
-
-        override val state: String get() = agent.state
-        override val status: StatusMessage? get() = agent.status
-
-        override fun setFeatures(features: Features) {
-            agent.setFeatures(features)
-        }
-
-        override fun setConnectivity(connectivity: Boolean) {
-            agent.setConnectivity(connectivity)
-        }
-
-        override fun close() {
-            agent.close()
-        }
-    }
-
-    abstract val retryInfo: RetryInfo?
-
-    // This is not a val because of how spyk() works in testing code: it creates a copy of the wrapped object and when
-    // original object have "this" reference in a field, copy of that field in spyk() will point to the old object.
-    private fun createNativeClient() = object : NativeClient {
         override fun log(msg: String) {
             ProtonLogger.logCustom(LogCategory.LOCAL_AGENT, msg)
         }
@@ -226,6 +158,78 @@ abstract class VpnBackend(
             ProtonLogger.log(LocalAgentStatus, status.toString())
         }
     }
+
+    protected var lastConnectionParams: ConnectionParams? = null
+
+    abstract suspend fun prepareForConnection(
+        profile: Profile,
+        server: Server,
+        scan: Boolean,
+        numberOfPorts: Int = Int.MAX_VALUE, // Max number of ports to be scanned
+        waitForAll: Boolean = false // wait for all ports to respond if true, otherwise just wait for first successful
+                                    // response
+    ): List<PrepareResult>
+
+    @CallSuper
+    open suspend fun connect(connectionParams: ConnectionParams) {
+        closeAgentConnection()
+        lastConnectionParams = connectionParams
+    }
+
+    suspend fun disconnect() {
+        if (vpnProtocolState != VpnState.Disabled)
+            vpnProtocolState = VpnState.Disconnecting
+
+        closeAgentConnection()
+        closeVpnTunnel()
+    }
+
+    protected abstract suspend fun closeVpnTunnel(withStateChange: Boolean = true)
+
+    open suspend fun reconnect() {
+        lastConnectionParams?.let { params ->
+            disconnect()
+            connect(params)
+        }
+    }
+
+    open fun createAgentConnection(
+        certInfo: CertificateRepository.CertificateResult.Success,
+        hostname: String?,
+        nativeClient: VpnAgentClient
+    ) = object : AgentConnectionInterface {
+        val agent = AgentConnection(
+            certInfo.certificate,
+            certInfo.privateKeyPem,
+            Constants.VPN_ROOT_CERTS,
+            Constants.LOCAL_AGENT_ADDRESS,
+            hostname,
+            nativeClient,
+            features,
+            networkManager.isConnectedToNetwork()
+        )
+
+        override val state: String get() = agent.state
+        override val status: StatusMessage? get() = agent.status
+
+        override fun setFeatures(features: Features) {
+            agent.setFeatures(features)
+        }
+
+        override fun setConnectivity(connectivity: Boolean) {
+            agent.setConnectivity(connectivity)
+        }
+
+        override fun close() {
+            agent.close()
+        }
+    }
+
+    abstract val retryInfo: RetryInfo?
+
+    // This is not a val because of how spyk() works in testing code: it creates a copy of the wrapped object and when
+    // original object have "this" reference in a field, copy of that field in spyk() will point to the old object.
+    private fun createNativeClient() = VpnAgentClient()
 
     private fun setError(error: ErrorType, disconnectVPN: Boolean = true, description: String? = null) {
         description?.let {

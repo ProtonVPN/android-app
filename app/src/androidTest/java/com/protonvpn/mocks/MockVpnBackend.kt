@@ -95,7 +95,7 @@ class MockVpnBackend(
     override fun createAgentConnection(
         certInfo: CertificateRepository.CertificateResult.Success,
         hostname: String?,
-        nativeClient: NativeClient
+        nativeClient: VpnAgentClient
     ) = agentProvider?.invoke(certInfo, hostname, nativeClient)
             ?: super.createAgentConnection(certInfo, hostname, nativeClient)
 
