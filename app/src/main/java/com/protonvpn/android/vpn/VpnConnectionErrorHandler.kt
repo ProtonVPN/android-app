@@ -206,6 +206,10 @@ class VpnConnectionErrorHandler(
             return null
         }
 
+        if (serverManager.isOutdated) {
+            serverListUpdater.updateServerList()
+        }
+
         val vpnUser = currentUser.vpnUser()
         val orgPhysicalServer = orgParams?.connectingDomain?.let { PhysicalServer(orgParams.server, it) }
         val candidates = getCandidateServers(orgProfile, orgPhysicalServer, vpnUser, includeOriginalServer)
