@@ -211,7 +211,8 @@ class VpnConnectionErrorHandler(
         }
 
         val vpnUser = currentUser.vpnUser()
-        val orgPhysicalServer = orgParams?.connectingDomain?.let { PhysicalServer(orgParams.server, it) }
+        val orgPhysicalServer =
+            orgParams?.connectingDomain?.let { PhysicalServer(orgParams.server, it) }?.takeIf { it.exists() }
         val candidates = getCandidateServers(orgProfile, orgPhysicalServer, vpnUser, includeOriginalServer)
 
         candidates.forEach {
@@ -454,6 +455,9 @@ class VpnConnectionErrorHandler(
         }
         return null
     }
+
+    private fun PhysicalServer.exists(): Boolean =
+        serverManager.getServerById(server.serverId)?.connectingDomains?.contains(connectingDomain) == true
 
     suspend fun maintenanceCheck() {
         stateMonitor.connectionParams?.let { params ->
