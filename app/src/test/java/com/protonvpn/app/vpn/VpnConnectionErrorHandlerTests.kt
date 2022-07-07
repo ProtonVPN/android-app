@@ -30,12 +30,14 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.login.Session
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
@@ -102,16 +104,16 @@ class VpnConnectionErrorHandlerTests {
 
     @get:Rule var rule = InstantTaskExecutorRule()
 
-    private fun prepareServerManager() {
+    private fun prepareServerManager(serverList: List<Server>) {
         // TODO: consider using the real ServerManager
-        val servers = MockedServers.serverList.sortedBy { it.score }
+        val servers = serverList.sortedBy { it.score }
         every { serverManager.getOnlineAccessibleServers(false, any()) } returns servers.filter { !it.isSecureCoreServer }
         every { serverManager.getOnlineAccessibleServers(true, any()) } returns servers.filter { it.isSecureCoreServer }
         every { serverManager.defaultFallbackConnection } returns defaultFallbackConnection
         every { serverManager.getServerForProfile(defaultFallbackConnection, any()) } returns defaultFallbackServer
 
         every { serverManager.getServerById(any()) } answers {
-            MockedServers.serverList.find { it.serverId == arg(0) }
+            servers.find { it.serverId == arg(0) }
         }
     }
 
@@ -136,7 +138,7 @@ class VpnConnectionErrorHandlerTests {
         every { userData.selectedProtocol } returns VpnProtocol.Smart
         every { vpnStateMonitor.isEstablishingOrConnected } returns false
         coEvery { api.getSession() } returns ApiResult.Success(SessionListResponse(1000, listOf()))
-        prepareServerManager()
+        prepareServerManager(MockedServers.serverList)
 
         val server = MockedServers.server
         directProfile = Profile.getTempProfile(server)
@@ -187,7 +189,8 @@ class VpnConnectionErrorHandlerTests {
                 defaultFallbackConnection,
                 SwitchServerReason.Downgrade("vpnplus", "free")
             ),
-            handler.onAuthError(directConnectionParams))
+            handler.onAuthError(directConnectionParams)
+        )
     }
 
     @Test
@@ -200,22 +203,26 @@ class VpnConnectionErrorHandlerTests {
                 directProfile,
                 null
             ),
-            handler.onAuthError(directConnectionParams))
+            handler.onAuthError(directConnectionParams)
+        )
     }
 
     @Test
     fun testAuthErrorMaxSessions() = runBlockingTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf()
-        coEvery { api.getSession() } returns ApiResult.Success(SessionListResponse(1000,
-            listOf(Session("1", "1"), Session("2", "2"))))
+        coEvery { api.getSession() } returns ApiResult.Success(
+            SessionListResponse(1000, listOf(Session("1", "1"), Session("2", "2")))
+        )
         assertEquals(
             VpnFallbackResult.Error(ErrorType.MAX_SESSIONS),
-            handler.onAuthError(directConnectionParams))
+            handler.onAuthError(directConnectionParams)
+        )
     }
 
     private fun preparePings(
         failCountry: String? = null,
         failServerName: String? = null,
+        failServerEntryIp: String? = null,
         failAll: Boolean = false,
         useOpenVPN: Boolean = false,
         failSecureCore: Boolean = false,
@@ -226,9 +233,12 @@ class VpnConnectionErrorHandlerTests {
             if (failAll)
                 null
             else {
-                val server = pingedServers.captured.first {
-                    !(failSecureCore && it.server.isSecureCoreServer) &&
-                        it.server.exitCountry != failCountry && it.server.serverName != failServerName
+                val server = pingedServers.captured.first { physicalServer ->
+                    with(physicalServer.server) {
+                        !(failSecureCore && isSecureCoreServer) &&
+                            exitCountry != failCountry && serverName != failServerName &&
+                            connectingDomains.any { it.entryIp != failServerEntryIp }
+                    }
                 }
                 val profile = Profile.getTempProfile(server.server)
                 val connectionParams = if (useOpenVPN) {
@@ -274,7 +284,8 @@ class VpnConnectionErrorHandlerTests {
                 notifyUser = true, // Country is not compatible
                 compatibleProtocol = true,
                 switchedSecureCore = false),
-            fallback)
+            fallback
+        )
 
         coVerify(exactly = 1) { serverListUpdater.updateServerList() }
         coVerify(exactly = 1) { serverManager.updateServerDomainStatus(any()) }
@@ -296,7 +307,8 @@ class VpnConnectionErrorHandlerTests {
                 notifyUser = false, // CA#2 is compatible with CA#1, switch silently
                 compatibleProtocol = true,
                 switchedSecureCore = false),
-            fallback)
+            fallback
+        )
     }
 
     @Test
@@ -348,6 +360,49 @@ class VpnConnectionErrorHandlerTests {
         assertEquals("FI#1", fallback.preparedConnection.connectionParams.server.serverName)
         assertEquals(SwitchServerReason.ServerUnreachable, fallback.reason)
         assertTrue(fallback.switchedSecureCore)
+    }
+
+    @Test
+    fun testUnreachableSwitchesToSameServerWithDifferentIp() = runBlockingTest {
+        val initialServers = listOf(MockedServers.serverList[0], MockedServers.serverList[1])
+        assertEquals(1, initialServers[0].connectingDomains.size)
+        val initialServer1Domain = initialServers[0].connectingDomains[0]
+        val updatedServers = listOf(
+            initialServers[0].copy(
+                connectingDomains = listOf(
+                    initialServers[0].connectingDomains[0].copy(
+                        entryIp = "123.0.0.3"
+                    )
+                )
+            ),
+            initialServers[1].copy()
+        )
+        every { serverManager.isOutdated } returns true
+        coEvery { serverListUpdater.updateServerList(any()) } answers {
+            prepareServerManager(updatedServers)
+            ApiResult.Success(ServerList(updatedServers))
+        }
+
+        prepareServerManager(initialServers)
+        val fastestProfile = Profile.getTempProfile(ServerWrapper.makePreBakedFastest(), null)
+        val connectionParams = ConnectionParams(fastestProfile, initialServers[0], initialServer1Domain, null)
+
+        val prepareResult = preparePings()
+        val fallback = handler.onUnreachableError(connectionParams)
+        val preparedProfileId = prepareResult.captured.connectionParams.profile.id
+        assertEquals(
+            VpnFallbackResult.Switch.SwitchServer(
+                initialServers[0],
+                Profile("", null, ServerWrapper.makeWithServer(updatedServers[0]), null, null, null, null, preparedProfileId),
+                prepareResult.captured,
+                SwitchServerReason.ServerUnreachable,
+                compatibleProtocol = true,
+                switchedSecureCore = false,
+                notifyUser = false
+            ),
+            fallback
+        )
+        assertEquals(updatedServers[0], prepareResult.captured.connectionParams.server)
     }
 
     @Test
