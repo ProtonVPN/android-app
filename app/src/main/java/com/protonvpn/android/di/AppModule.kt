@@ -502,8 +502,8 @@ object AppModule {
     fun provideDelegatedSnackManager() = DelegatedSnackManager(SystemClock::elapsedRealtime)
 
     @Provides
-    fun provideNetworkRequestOverrider(@ApplicationContext context: Context): NetworkRequestOverrider =
-        NetworkRequestOverriderImpl(OkHttpClient(), context)
+    fun provideNetworkRequestOverrider(): NetworkRequestOverrider =
+        NetworkRequestOverriderImpl(OkHttpClient())
 
     @Module
     @InstallIn(SingletonComponent::class)

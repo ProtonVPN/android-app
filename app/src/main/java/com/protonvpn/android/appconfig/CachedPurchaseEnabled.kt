@@ -26,7 +26,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -51,7 +50,11 @@ class CachedPurchaseEnabled @Inject constructor(
                         refresh = true
                     )?.value
                     prefs.purchaseEnabled = paymentsDisabled == false
-                } catch (exception: IOException) {
+                } catch (
+                    // Core used to throw IOException, more recently ApiException. There are many layers involved,
+                    // better catch all - we don't want to crash on network errors.
+                    exception: Throwable
+                ) {
                     ProtonLogger.log(ApiLogError,
                         "failed to refresh $PAYMENTS_ANDROID_DISABLED_FEATURE_FLAG flag: ${exception.message}")
                 }
