@@ -105,14 +105,14 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
 abstract class AppDatabase :
     BaseDatabase(),
     AccountDatabase,
-    ChallengeDatabase,
-    UserDatabase,
     AddressDatabase,
+    ChallengeDatabase,
     FeatureFlagDatabase,
-    KeySaltDatabase,
     HumanVerificationDatabase,
-    UserSettingsDatabase,
+    KeySaltDatabase,
     OrganizationDatabase,
+    UserDatabase,
+    UserSettingsDatabase,
     VpnUserDatabase {
 
     companion object {
