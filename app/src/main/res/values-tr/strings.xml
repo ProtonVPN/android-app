@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">%1$s üzerinden</string>
     <string name="connected">Bağlandı</string>
     <string name="buttonConnect">Bağlan</string>
-    <string name="loaderInitializing">Bağlantı kuruluyor…</string>
+    <string name="loaderInitializing">Bağlantı başlatılıyor…</string>
     <string name="loaderConnectingTo">%1$s sunucusuna bağlanılıyor</string>
     <string name="loaderConnectingToLabel">Sunucuya bağlanılıyor…</string>
     <string name="loaderNotConnected">Bağlı değil (korunmuyor)</string>
@@ -135,7 +135,7 @@
     <string name="errorEmptyExitCountry">Çıkış ülkesi alanı boş olamaz</string>
     <string name="onboardingDialogMapView">Bağlantının ve VPN sunucusunun nerede olduğunu görmek için garita görünümünü kullanın.</string>
     <string name="onboardingDialogProfiles">Beğendiğiniz sunucular için profiller oluşturarak bunlara kolayca erişin. Ayrıca, alt ekrandaki Proton VPN simgesine uzunca dokunarak tüm profillerinizi görebilirsiniz. Profillerden birine dokunarak VPN bağlantısı kurabilirsiniz.</string>
-    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
+    <string name="onboardingNetshield">Kötü amaçlı yazılımlardan, reklamlardan ve etkinlik izleyicilerden korunmanızı sağlar. \nNot: Bazı siteler yüklenmezse, NetShield korumasını devre dışı bırakmayı deneyin.</string>
     <string name="onboardingFAB">Hızlı bağlan / Profiller</string>
     <string name="onboardingFABDescription">En hızlı şekilde bağlanmak için bu düğmeye tıklayın</string>
     <string name="onboardingSignup">Hesap açın</string>
@@ -519,7 +519,7 @@
         <item quantity="one">%d aygıt bağlayın</item>
         <item quantity="other">Aynı anda %d aygıt bağlayın</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">NetShield ile reklam ve kötü amaçlı yazılımları engelleyin</string>
     <string name="upgrade_plus_countries_speeds">En yüksek hızlarda gezinin (10 Gb/sn)</string>
     <string name="upgrade_plus_countries_more">Ve pek çok diğer ücretli özellik</string>
     <string name="upgrade_safe_mode_title">Standart olmayan bağlantı noktalarından trafik geçebilsin</string>
@@ -591,14 +591,14 @@
     <string name="update_screen_title">Proton VPN uygulamasını güncelle</string>
     <string name="update_screen_description">Eski Proton VPN sürümlerinde sorun yaşamanız daha olasıdır.</string>
     <string name="server_search_menu_title">Arama</string>
-    <string name="server_search_hint">Country, city, server</string>
+    <string name="server_search_hint">Ülke, il, sunucu</string>
     <string name="server_search_hint_secure_core">Ülke</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
     <string name="server_search_countries_header">Ülkeler (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
+    <string name="server_search_sc_countries_header">Secure Core ülkeleri (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
     <string name="server_search_cities_header">İller (%1$d)</string>

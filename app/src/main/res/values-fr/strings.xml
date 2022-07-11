@@ -135,7 +135,7 @@
     <string name="errorEmptyExitCountry">Le champ du pays de sortie ne peut pas être vide</string>
     <string name="onboardingDialogMapView">Utilisez la carte pour vous connecter et voir où se trouve le serveur VPN.</string>
     <string name="onboardingDialogProfiles">Créez des profils pour vos serveurs favoris et accédez facilement à ceux-ci. De plus, un clic long sur l\'icône Proton VPN en bas de l\'écran vous montrera tous vos profils. Un clic sur l\'un de ces profils vous connectera au VPN.</string>
-    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
+    <string name="onboardingNetshield">Vous protège contre les logiciels malveillants, les publicités et les traqueurs.\nNote : si certains sites ne se chargent pas, essayez de désactiver NetShield.</string>
     <string name="onboardingFAB">Connexion rapide / Profils</string>
     <string name="onboardingFABDescription">Appuyez sur ce bouton pour vous connecter plus rapidement</string>
     <string name="onboardingSignup">S\'inscrire</string>
@@ -519,7 +519,7 @@
         <item quantity="one">Connecter %d appareil</item>
         <item quantity="other">Connecter %d appareils simultanément</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Bloquez les publicités et les malwares avec NetShield</string>
     <string name="upgrade_plus_countries_speeds">Naviguez aux vitesses les plus élevées (10 Gbit/s)</string>
     <string name="upgrade_plus_countries_more">Et bien plus de fonctionnalités premium</string>
     <string name="upgrade_safe_mode_title">Autoriser le trafic vers les ports non-standards</string>
@@ -591,14 +591,14 @@
     <string name="update_screen_title">Mettre à jour Proton VPN</string>
     <string name="update_screen_description">Vous avez plus de chance d\'avoir des problèmes sur les anciennes versions de Proton VPN.</string>
     <string name="server_search_menu_title">Rechercher</string>
-    <string name="server_search_hint">Country, city, server</string>
+    <string name="server_search_hint">Pays, ville, serveur</string>
     <string name="server_search_hint_secure_core">Pays</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
     <string name="server_search_countries_header">Pays (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
+    <string name="server_search_sc_countries_header">Pays Secure Core (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
     <string name="server_search_cities_header">Villes (%1$d)</string>

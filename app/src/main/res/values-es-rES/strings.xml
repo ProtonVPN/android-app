@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">vía %1$s</string>
     <string name="connected">Conectado</string>
     <string name="buttonConnect">Conectar</string>
-    <string name="loaderInitializing">Inicializando conexión…</string>
+    <string name="loaderInitializing">Initializing connection…</string>
     <string name="loaderConnectingTo">Conectando a %1$s</string>
     <string name="loaderConnectingToLabel">Connecting to…</string>
     <string name="loaderNotConnected">No conectado (sin protección)</string>
@@ -158,9 +158,9 @@
     <string name="tabsProfiles">Perfiles</string>
     <string name="log_title">Registro</string>
     <string name="disconnect">Desconectar</string>
-    <string name="state_connecting">Conectando…</string>
+    <string name="state_connecting">Connecting…</string>
     <string name="state_connected">Conectado</string>
-    <string name="state_disconnecting">Desconectando…</string>
+    <string name="state_disconnecting">Disconnecting…</string>
     <string name="state_error">Error</string>
     <string name="error_server_unreachable">Couldn\'t connect to the VPN. Please check your connection and try again.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>

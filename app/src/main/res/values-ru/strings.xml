@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">через %1$s</string>
     <string name="connected">Подключено</string>
     <string name="buttonConnect">Подключиться</string>
-    <string name="loaderInitializing">Инициализация подключения…</string>
+    <string name="loaderInitializing">Initializing connection…</string>
     <string name="loaderConnectingTo">Подключение к %1$s</string>
     <string name="loaderConnectingToLabel">Подключение к…</string>
     <string name="loaderNotConnected">Не подключен (не защищен)</string>
@@ -158,9 +158,9 @@
     <string name="tabsProfiles">Профили</string>
     <string name="log_title">Журнал</string>
     <string name="disconnect">Отключиться</string>
-    <string name="state_connecting">Подключение…</string>
+    <string name="state_connecting">Connecting…</string>
     <string name="state_connected">Подключено</string>
-    <string name="state_disconnecting">Отключение…</string>
+    <string name="state_disconnecting">Disconnecting…</string>
     <string name="state_error">Ошибка</string>
     <string name="error_server_unreachable">Не могу подключиться к VPN. Пожалуйста, проверьте своё подключение и попробуйте снова.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -537,7 +537,7 @@
         <item quantity="many">Подключайте %d устройств одновременно</item>
         <item quantity="other">Подключайте %d устройств одновременно</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Блокировка рекламы и вредоносного ПО с помощь NetShield</string>
     <string name="upgrade_plus_countries_speeds">Просматривайте сайты на самых высоких скоростях (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">И много других платных функций</string>
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
