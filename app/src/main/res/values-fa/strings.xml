@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">از طریق %1$s</string>
     <string name="connected">متصل</string>
     <string name="buttonConnect">اتصال</string>
-    <string name="loaderInitializing">راه‌اندازی اتصال…</string>
+    <string name="loaderInitializing">Initializing connection…</string>
     <string name="loaderConnectingTo">در حال اتصال به %1$s</string>
     <string name="loaderConnectingToLabel">درحال اتصال به…</string>
     <string name="loaderNotConnected">متصل نیست (ناامن)</string>
@@ -158,9 +158,9 @@
     <string name="tabsProfiles">پروفایل‌ها</string>
     <string name="log_title">گزارش</string>
     <string name="disconnect">قطع ارتباط</string>
-    <string name="state_connecting">در حال اتصال به…</string>
+    <string name="state_connecting">Connecting…</string>
     <string name="state_connected">متصل</string>
-    <string name="state_disconnecting">در حال قطع اتصال از…</string>
+    <string name="state_disconnecting">Disconnecting…</string>
     <string name="state_error">خطا</string>
     <string name="error_server_unreachable">اتصال به VPN ممکن نبود. لطفاً اتصال خود را بررسی و دوباره امتحان کنید.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -519,7 +519,7 @@
         <item quantity="one">اتصال %d دستگاه</item>
         <item quantity="other">اتصال %d دستگاه به صورت همزمان</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">مسدود کردن تبلیغات و بدافزارها با NetShield</string>
     <string name="upgrade_plus_countries_speeds">با بالاترین سرعت وبگردی کنید (10 گیگابیت بر ثانیه)</string>
     <string name="upgrade_plus_countries_more">و بسیاری از ویژگی‌های دیگر</string>
     <string name="upgrade_safe_mode_title">امکان عبور ترافیک از پورت‌های غیر استاندارد</string>

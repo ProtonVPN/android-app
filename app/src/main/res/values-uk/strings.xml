@@ -135,7 +135,7 @@
     <string name="errorEmptyExitCountry">Необхідно заповнити поле країни виходу</string>
     <string name="onboardingDialogMapView">Користуйтеся вкладкою \"Карта\" для з\'єднання та віртуального огляду розташування сервера VPN.</string>
     <string name="onboardingDialogProfiles">Створіть профілі для ваших улюблених серверів та отримайте до них простий доступ. Крім того, тривалий дотик до піктограми Proton VPN у нижній частині екрана покаже всі ваші профілі. Дотик до одного з профілів з\'єднає вас з VPN.</string>
-    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
+    <string name="onboardingNetshield">Захищає вас від зловмисних програм, реклами та стеження.\nПримітка: якщо деякі сайти не завантажуються, спробуйте вимкнути NetShield.</string>
     <string name="onboardingFAB">Швидке з\'єднання / Профілі</string>
     <string name="onboardingFABDescription">Натисніть на цю кнопку для швидкого під\'єднання</string>
     <string name="onboardingSignup">Зареєструватися</string>
@@ -537,7 +537,7 @@
         <item quantity="many">Під\'єднайте %d пристроїв одночасно</item>
         <item quantity="other">Під\'єднайте %d пристроїв одночасно</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Блокуйте рекламу та зловмисні програми за допомогою NetShield</string>
     <string name="upgrade_plus_countries_speeds">Переглядайте контент на найвищій швидкості (10 Гбіт/с)</string>
     <string name="upgrade_plus_countries_more">І більше преміальних функцій</string>
     <string name="upgrade_safe_mode_title">Дозволити трафік до нестандартних портів</string>
@@ -609,14 +609,14 @@
     <string name="update_screen_title">Оновити Proton VPN</string>
     <string name="update_screen_description">Швидше за все у вас виникли проблеми з застарілою версією Proton VPN.</string>
     <string name="server_search_menu_title">Пошук</string>
-    <string name="server_search_hint">Country, city, server</string>
+    <string name="server_search_hint">Країна, місто, сервер</string>
     <string name="server_search_hint_secure_core">Країна</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
     <string name="server_search_countries_header">Країни (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
+    <string name="server_search_sc_countries_header">Країни Secure Core (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
     <string name="server_search_cities_header">Міста (%1$d)</string>

@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Ligado</string>
     <string name="buttonConnect">Ligar</string>
-    <string name="loaderInitializing">A inicializar ligação…</string>
+    <string name="loaderInitializing">Initializing connection…</string>
     <string name="loaderConnectingTo">A ligar a %1$s</string>
     <string name="loaderConnectingToLabel">Connecting to…</string>
     <string name="loaderNotConnected">Não ligado (desprotegido)</string>
@@ -158,9 +158,9 @@
     <string name="tabsProfiles">Perfis</string>
     <string name="log_title">Diário</string>
     <string name="disconnect">Desligar</string>
-    <string name="state_connecting">A ligar…</string>
+    <string name="state_connecting">Connecting…</string>
     <string name="state_connected">Ligado</string>
-    <string name="state_disconnecting">A desligar…</string>
+    <string name="state_disconnecting">Disconnecting…</string>
     <string name="state_error">Erro</string>
     <string name="error_server_unreachable">Impossível ligar à VPN. Por favor, verifique a sua ligação e tente novamente.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -519,7 +519,7 @@
         <item quantity="one">Connect %d device</item>
         <item quantity="other">Connect up to %d devices at once</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Bloqueie publicidades e malware com o NetShield</string>
     <string name="upgrade_plus_countries_speeds">Browse at the highest speeds (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">And many more premium features</string>
     <string name="upgrade_safe_mode_title">Allow traffic to non-standard ports</string>

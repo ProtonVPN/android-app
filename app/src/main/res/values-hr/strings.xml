@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">putem %1$s</string>
     <string name="connected">Povezano</string>
     <string name="buttonConnect">Poveži</string>
-    <string name="loaderInitializing">Pokretanje veze…</string>
+    <string name="loaderInitializing">Initializing connection…</string>
     <string name="loaderConnectingTo">Povezivanje s %1$s</string>
     <string name="loaderConnectingToLabel">Connecting to…</string>
     <string name="loaderNotConnected">Nije povezan (Nezaštićen)</string>
@@ -158,9 +158,9 @@
     <string name="tabsProfiles">Profili</string>
     <string name="log_title">Zapisnik</string>
     <string name="disconnect">Odspoji</string>
-    <string name="state_connecting">Povezivanje…</string>
+    <string name="state_connecting">Connecting…</string>
     <string name="state_connected">Povezano</string>
-    <string name="state_disconnecting">Odspajanje…</string>
+    <string name="state_disconnecting">Disconnecting…</string>
     <string name="state_error">Pogreška</string>
     <string name="error_server_unreachable">Couldn\'t connect to the VPN. Please check your connection and try again.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>

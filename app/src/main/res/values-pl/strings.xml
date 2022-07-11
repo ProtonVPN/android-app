@@ -135,7 +135,7 @@
     <string name="errorEmptyExitCountry">Kraj wyjścia nie może być pusty</string>
     <string name="onboardingDialogMapView">Użyj widoku mapy, aby połączyć się i sprawdzić lokalizację serwera VPN.</string>
     <string name="onboardingDialogProfiles">Utwórz profile dla swoich ulubionych serwerów i miej do nich łatwy dostęp. Długie naciśnięcie ikony Proton VPN na dole ekranu wyświetli wszystkie profile. Po wybraniu profilu połączysz się z usługą VPN.</string>
-    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
+    <string name="onboardingNetshield">Chroń się przed złośliwym oprogramowaniem, reklamami i skryptami śledzącymi.\nUwaga: Wyłącz tę funkcję, jeśli niektóre strony internetowe przestaną działać.</string>
     <string name="onboardingFAB">Szybkie połączenie / profile</string>
     <string name="onboardingFABDescription">Kliknij na ten przycisk, aby połączyć się najszybciej</string>
     <string name="onboardingSignup">Zarejestruj się</string>
@@ -537,7 +537,7 @@
         <item quantity="many">Połącz %d urządzeń jednocześnie</item>
         <item quantity="other">Połącz %d urządzeń jednocześnie</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Zablokuj reklamy i złośliwe oprogramowanie dzięki funkcji NetShield</string>
     <string name="upgrade_plus_countries_speeds">Przeglądaj Internet z najwyższą prędkością (10 Gb/s)</string>
     <string name="upgrade_plus_countries_more">I wiele więcej funkcji premium</string>
     <string name="upgrade_safe_mode_title">Zezwalaj na ruch do niestandardowych portów</string>
@@ -609,14 +609,14 @@
     <string name="update_screen_title">Zaktualizuj aplikację Proton VPN</string>
     <string name="update_screen_description">Problemy są bardziej prawdopodobne w starszych wersjach aplikacji Proton VPN.</string>
     <string name="server_search_menu_title">Szukaj</string>
-    <string name="server_search_hint">Country, city, server</string>
+    <string name="server_search_hint">Kraj, miasto, serwer</string>
     <string name="server_search_hint_secure_core">Kraj</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
     <string name="server_search_countries_header">Kraje (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
+    <string name="server_search_sc_countries_header">Kraje Secure Core (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
     <string name="server_search_cities_header">Miasta (%1$d)</string>

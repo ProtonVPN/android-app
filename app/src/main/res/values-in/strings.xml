@@ -135,7 +135,7 @@
     <string name="errorEmptyExitCountry">Kolom negara tujuan akhir tidak boleh kosong</string>
     <string name="onboardingDialogMapView">Gunakan Tampilan Peta untuk menyambungkan dan melihat secara virtual di mana server VPN berada.</string>
     <string name="onboardingDialogProfiles">Berikan server favorit Anda profil khusus agar Anda dapat mengaksesnya kembali dengan mudah ke depannya. Untuk melihat daftar seluruh profil yang ada, sentuh dan tahan ikon Proton VPN yang tertera pada bagian bawah layar selama beberapa waktu. Setelahnya, sentuh salah satu profil untuk dapat tersambung ke VPN.</string>
-    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
+    <string name="onboardingNetshield">Melindungi Anda dari malware, iklan, dan program pelacak.\nCatatan: apabila beberapa situs tidak termuat, cobalah untuk menonaktifkan NetShield.</string>
     <string name="onboardingFAB">Quick connect / Profil</string>
     <string name="onboardingFABDescription">Sentuh tombol ini untuk cara tersambung paling cepat</string>
     <string name="onboardingSignup">Daftar</string>
@@ -510,7 +510,7 @@
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="other">Hubungkan %d perangkat secara bersamaan</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Blokir iklan dan malware dengan NetShield</string>
     <string name="upgrade_plus_countries_speeds">Jelajahi internet pada kecepatan tertinggi (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">Dan berbagai fitur premium lainnya</string>
     <string name="upgrade_safe_mode_title">Izinkan lalu lintas data melalui port non-standar</string>
@@ -582,14 +582,14 @@
     <string name="update_screen_title">Perbarui Proton VPN</string>
     <string name="update_screen_description">Anda akan cenderung lebih rentan terhadap berbagai masalah apabila Anda menggunakan Proton VPN versi lama.</string>
     <string name="server_search_menu_title">Pencarian</string>
-    <string name="server_search_hint">Country, city, server</string>
+    <string name="server_search_hint">Negara, kota, server</string>
     <string name="server_search_hint_secure_core">Negara</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
     <string name="server_search_countries_header">Negara (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
+    <string name="server_search_sc_countries_header">Negara Secure Core (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
     <string name="server_search_cities_header">Kota (%1$d)</string>

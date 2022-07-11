@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Verbonden</string>
     <string name="buttonConnect">Verbinden</string>
-    <string name="loaderInitializing">Verbinding opzetten…</string>
+    <string name="loaderInitializing">Initializing connection…</string>
     <string name="loaderConnectingTo">Verbinden met %1$s</string>
     <string name="loaderConnectingToLabel">Verbinding maken met…</string>
     <string name="loaderNotConnected">Niet verbonden (Onbeschermd)</string>
@@ -158,9 +158,9 @@
     <string name="tabsProfiles">Profielen</string>
     <string name="log_title">Log</string>
     <string name="disconnect">Verbinding verbreken</string>
-    <string name="state_connecting">Verbinding aan het maken…</string>
+    <string name="state_connecting">Connecting…</string>
     <string name="state_connected">Verbonden</string>
-    <string name="state_disconnecting">Verbinding aan het verbreken…</string>
+    <string name="state_disconnecting">Disconnecting…</string>
     <string name="state_error">Fout</string>
     <string name="error_server_unreachable">Kon geen verbinding maken met de VPN. Controleer uw verbinding en probeer het opnieuw.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -519,7 +519,7 @@
         <item quantity="one">%d apparaat aansluiten</item>
         <item quantity="other">Sluit %d apparaten tegelijk aan</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Blokkeer advertenties en malware met NetShield</string>
     <string name="upgrade_plus_countries_speeds">Browse aan de hoogste snelheden (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">En veel meer premium functies</string>
     <string name="upgrade_safe_mode_title">Laat verkeer toe naar niet-standaard poorten</string>
