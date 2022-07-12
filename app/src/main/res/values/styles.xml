@@ -225,12 +225,16 @@
         <item name="windowSplashScreenBackground">@color/baltic_sea</item>
     </style>
 
-    <!-- An outlined button that isn't green - used for non-positive actions like "Cancel" -->
+    <!-- Custom color buttons -->
     <style name="ThemeOverlay.ProtonButton.Neutral" parent="">
         <item name="colorPrimary">?attr/proton_interaction_strong</item>
+        <item name="proton_interaction_norm">?attr/proton_interaction_strong</item>
+        <item name="proton_text_accent">?attr/proton_text_norm</item>
     </style>
 
-    <style name="ThemeOverlay.ProtonButton.Warning" parent="">
+    <style name="ThemeOverlay.ProtonButton.Red" parent="">
         <item name="colorPrimary">?attr/strong_red_color</item>
+        <item name="proton_interaction_norm">?attr/strong_red_color</item>
+        <item name="proton_text_accent">?attr/strong_red_color</item>
     </style>
 </resources>

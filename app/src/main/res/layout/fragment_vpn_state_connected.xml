@@ -137,7 +137,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="@dimen/connection_bottom_sheet_button_distance"
         android:text="@string/disconnect"
-        android:theme="@style/ThemeOverlay.ProtonButton.Warning" />
+        android:theme="@style/ThemeOverlay.ProtonButton.Red" />
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonSaveToProfile"
