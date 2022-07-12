@@ -61,8 +61,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="?attr/strong_red_color"
-                android:text="@string/mapCalloutDisconnect" />
+                android:text="@string/mapCalloutDisconnect"
+                android:theme="@style/ThemeOverlay.ProtonButton.Red" />
 
             <me.proton.core.presentation.ui.view.ProtonButton
                 android:id="@+id/buttonUpgrade"
