@@ -20,6 +20,8 @@
 package com.protonvpn.android.vpn
 
 import android.content.Intent
+import android.os.PowerManager
+import android.os.PowerManager.PARTIAL_WAKE_LOCK
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -46,7 +48,6 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.DebugUtils
-import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
@@ -92,13 +93,16 @@ class VpnConnectionManager @Inject constructor(
     private val certificateRepository: CertificateRepository,
     private val scope: CoroutineScope,
     @WallClock private val now: () -> Long,
-    private val currentUser: CurrentUser
+    private val currentUser: CurrentUser,
+    powerManager: PowerManager
 ) : VpnStateSource {
 
+    // Note: the jobs are not set to "null" upon completion, check "isActive" to see if still running.
     private var ongoingConnect: Job? = null
     private var ongoingFallback: Job? = null
     private val activeBackendObservable = MutableLiveData<VpnBackend?>()
     private val activeBackend: VpnBackend? get() = activeBackendObservable.value
+    private val connectWakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:connect")
 
     private var connectionParams: ConnectionParams? = null
     private var lastProfile: Profile? = null
@@ -117,8 +121,6 @@ class VpnConnectionManager @Inject constructor(
     var initialized = false
 
     init {
-        Log.i("create state monitor")
-
         stateInternal.observeForever {
             if (initialized) {
                 Storage.saveString(STORAGE_KEY_STATE, state.name)
@@ -129,17 +131,15 @@ class VpnConnectionManager @Inject constructor(
                 if (errorType != null && errorType in RECOVERABLE_ERRORS) {
                     if (ongoingFallback?.isActive != true) {
                         if (!skipFallback(errorType)) {
-                            ongoingFallback = scope.launch {
+                            launchFallback {
                                 handleRecoverableError(errorType, connectionParams!!)
-                                ongoingFallback = null
                             }
                         }
                     }
                 } else {
                     if (errorType != null) {
-                        ongoingFallback = scope.launch {
+                        launchFallback {
                             handleUnrecoverableError(errorType)
-                            ongoingFallback = null
                         }
                     }
 
@@ -279,7 +279,7 @@ class VpnConnectionManager @Inject constructor(
     private fun switchServerConnect(switch: VpnFallbackResult.Switch.SwitchServer) {
         clearOngoingConnection()
         ProtonLogger.log(ConnConnectTrigger, switch.log)
-        ongoingConnect = scope.launch {
+        launchConnect {
             preparedConnect(switch.preparedConnection)
         }
     }
@@ -361,7 +361,6 @@ class VpnConnectionManager @Inject constructor(
         Storage.save(connectionParams, ConnectionParams::class.java)
         activateBackend(newBackend)
         activeBackend?.connect(preparedConnection.connectionParams)
-        ongoingConnect = null
     }
 
     private fun clearOngoingFallback() {
@@ -406,9 +405,8 @@ class VpnConnectionManager @Inject constructor(
         preferredServer: Server? = null
     ) {
         clearOngoingConnection()
-        ongoingConnect = scope.launch {
+        launchConnect {
             connectWithPermissionSync(delegate, profile, triggerAction, preferredServer)
-            ongoingConnect = null
         }
     }
 
@@ -439,9 +437,8 @@ class VpnConnectionManager @Inject constructor(
                     }
                 ).not()
             if (needsFallback) {
-                ongoingFallback = scope.launch {
+                launchFallback {
                     onServerNotAvailable(profile, server)
-                    ongoingFallback = null
                 }
             }
         }
@@ -509,6 +506,25 @@ class VpnConnectionManager @Inject constructor(
         }
     }
 
+    private fun launchConnect(block: suspend () -> Unit) {
+        ongoingConnect = launchWithWakeLock(block)
+    }
+
+    private fun launchFallback(block: suspend () -> Unit) {
+        ongoingFallback = launchWithWakeLock(block)
+    }
+
+    private fun launchWithWakeLock(block: suspend () -> Unit): Job {
+        connectWakeLock.acquire(WAKELOCK_MAX_MS)
+        return scope.launch {
+            block()
+        }.apply {
+            invokeOnCompletion {
+                connectWakeLock.release()
+            }
+        }
+    }
+
     private fun unifiedState(vpnState: VpnState): String = when (vpnState) {
         VpnState.Disabled -> "Disconnected"
         VpnState.ScanningPorts,
@@ -523,6 +539,8 @@ class VpnConnectionManager @Inject constructor(
 
     companion object {
         private const val STORAGE_KEY_STATE = "VpnStateMonitor.VPN_STATE_NAME"
+        // 2 minutes should be enough even on an unstable network when some requests fail.
+        private val WAKELOCK_MAX_MS = TimeUnit.MINUTES.toMillis(2)
 
         private val RECOVERABLE_ERRORS = listOf(
             ErrorType.AUTH_FAILED_INTERNAL,
