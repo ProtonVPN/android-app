@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import me.proton.core.user.domain.entity.User
+import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -101,9 +102,9 @@ class SentryLogWriter @Inject constructor(
         // All IPs are scrubbed by the backend, no need to scrub them here.
         var scrubbed = message
         val user = cachedUser.value
-        user?.name?.let { scrubbed = scrubbed.replace(it, "<username>") }
-        user?.displayName?.let { scrubbed = scrubbed.replace(it, "<username>") }
-        user?.email?.let { scrubbed = scrubbed.replace(it, "<email>") }
+        user?.name?.takeIfNotBlank()?.let { scrubbed = scrubbed.replace(it, "<username>") }
+        user?.displayName?.takeIfNotBlank()?.let { scrubbed = scrubbed.replace(it, "<username>") }
+        user?.email?.takeIfNotBlank()?.let { scrubbed = scrubbed.replace(it, "<email>") }
         return scrubbed
     }
 
