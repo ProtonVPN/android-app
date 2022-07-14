@@ -1,0 +1,185 @@
+/*
+ * Copyright (c) 2022. Proton AG
+ *
+ * This file is part of ProtonVPN.
+ *
+ * ProtonVPN is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProtonVPN is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package com.protonvpn.app.vpn
+
+import android.os.PowerManager
+import android.os.PowerManager.PARTIAL_WAKE_LOCK
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ServerWrapper
+import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.PrepareResult
+import com.protonvpn.android.vpn.VpnBackend
+import com.protonvpn.android.vpn.VpnBackendProvider
+import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.test.shared.TestVpnUser
+import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.MockedServers
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
+import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.runBlockingTest
+import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.session.SessionId
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+
+// See also VpnConnectionTests in androidTests.
+@OptIn(ExperimentalCoroutinesApi::class)
+class VpnConnectionManagerTests {
+
+    @get:Rule
+    var rule = InstantTaskExecutorRule()
+
+    private lateinit var vpnConnectionManager: VpnConnectionManager
+
+    @MockK
+    private lateinit var mockNetworkManager: NetworkManager
+    @MockK
+    private lateinit var mockPowerManager: PowerManager
+    @RelaxedMockK
+    private lateinit var mockWakeLock: PowerManager.WakeLock
+    @MockK
+    private lateinit var mockBackendProvider: VpnBackendProvider
+    @MockK
+    private lateinit var mockCurrentUser: CurrentUser
+    @RelaxedMockK
+    private lateinit var mockBackend: VpnBackend
+    @MockK
+    private lateinit var mockVpnUiDelegate: VpnUiDelegate
+
+    private lateinit var userData: UserData
+    private lateinit var vpnStateMonitor: VpnStateMonitor
+    private lateinit var serverManager: ServerManager
+
+    private lateinit var testDispatcher: TestCoroutineDispatcher
+    private lateinit var testScope: TestCoroutineScope
+
+    private var time: Long = 1000
+    private val clock = { time }
+
+    private val vpnUser = TestVpnUser.create(maxTier = 2)
+    private val connectionParams = ConnectionParams(
+        Profile.getTempProfile(ServerWrapper.makePreBakedFastest()),
+        MockedServers.server,
+        MockedServers.server.connectingDomains.first(),
+        VpnProtocol.WireGuard
+    )
+
+    @Before
+    fun setup() {
+        MockKAnnotations.init(this)
+        time = 1000
+
+        testDispatcher = TestCoroutineDispatcher()
+        testScope = TestCoroutineScope(testDispatcher)
+
+        coEvery { mockCurrentUser.sessionId() } returns SessionId("session id")
+        coEvery { mockCurrentUser.vpnUser() } returns vpnUser
+
+        every { mockPowerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:connect") } returns mockWakeLock
+        every { mockNetworkManager.isConnectedToNetwork() } returns true
+        every { mockBackend.vpnProtocol } returns connectionParams.protocol!!
+        every { mockVpnUiDelegate.askForPermissions(any(), any(), any()) } answers {
+            arg<() -> Unit>(2).invoke()
+        }
+        every { mockVpnUiDelegate.shouldSkipAccessRestrictions() } returns false
+
+        Storage.setPreferences(MockSharedPreference())
+        userData = UserData.create()
+        vpnStateMonitor = VpnStateMonitor()
+        serverManager = ServerManager(userData, mockCurrentUser, clock).apply {
+            setServers(MockedServers.serverList, null)
+        }
+
+        vpnConnectionManager = VpnConnectionManager(
+            permissionDelegate = mockk(relaxed = true),
+            userData = userData,
+            backendProvider = mockBackendProvider,
+            networkManager = mockNetworkManager,
+            vpnErrorHandler = mockk(relaxed = true),
+            vpnStateMonitor = vpnStateMonitor,
+            vpnBackgroundUiDelegate = mockk(),
+            serverManager = serverManager,
+            certificateRepository = mockk(),
+            currentUser = mockCurrentUser,
+            scope = testScope,
+            now = clock,
+            powerManager = mockPowerManager
+        )
+    }
+
+    @Test
+    fun `when server is selected and protocol connection starts wake lock is released`() = testScope.runBlockingTest {
+        coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
+            PrepareResult(mockBackend, connectionParams)
+        }
+
+        vpnConnectionManager.connect(
+            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), "Test"
+        )
+        coVerify { mockBackend.connect(connectionParams) }
+        verify(exactly = 1) { mockWakeLock.acquire(any()) }
+        verify(exactly = 1) { mockWakeLock.release() }
+    }
+
+    @Test
+    fun `when connection is aborted wake lock is released`() = testScope.runBlockingTest {
+        coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
+            vpnConnectionManager.disconnect("Test")
+            PrepareResult(mockBackend, connectionParams)
+        }
+
+        vpnConnectionManager.connect(
+            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), "Test"
+        )
+        verify(exactly = 1) { mockWakeLock.acquire(any()) }
+        verify(exactly = 1) { mockWakeLock.release() }
+    }
+
+    @Test
+    fun `when fallback finishes wake lock is released`() = testScope.runBlockingTest {
+        // No servers triggers fallback connections
+        serverManager.setServers(emptyList(), null)
+
+        vpnConnectionManager.connect(
+            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), "Test"
+        )
+        // Wake lock is acquired twice, once to prepare connection, second time for fallback logic.
+        verify(exactly = 2) { mockWakeLock.acquire(any()) }
+        verify(exactly = 2) { mockWakeLock.release() }
+    }
+}

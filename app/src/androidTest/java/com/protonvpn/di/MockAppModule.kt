@@ -19,7 +19,6 @@
 package com.protonvpn.di
 
 import android.content.Context
-import android.content.Intent
 import androidx.room.Room
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
