@@ -23,6 +23,7 @@ variables:
     value: fe-vpn:main
     description: List of components to deploy (fe-vpn:v4.7.0:prod+t to use a tag)
   TEST_ENV_DOMAIN: $DYNAMIC_DOMAIN/api
+  TEST_ENV_HV3_DOMAIN: verify.$DYNAMIC_DOMAIN
   GIT_FETCH_EXTRA_FLAGS: --tags
   ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
 
@@ -164,6 +165,7 @@ build black:
   script:
     - export BLACK_TOKEN="$(curl --silent $BLACK_TOKEN_URL)"
     - echo "Black url ${TEST_ENV_DOMAIN}"
+    - echo "Black HV3 url ${TEST_ENV_HV3_DOMAIN}"
     - mkdir -p app/src/androidTest/assets/sensitive
     - cat $TEST_INTERNAL_API > app/src/androidTest/assets/sensitive/internal_apis.json
     - ./gradlew assembleBlackDebug

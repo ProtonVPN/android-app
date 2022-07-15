@@ -32,16 +32,16 @@ import me.proton.core.humanverification.presentation.utils.HumanVerificationVers
 @InstallIn(SingletonComponent::class)
 object HumanVerificationModule {
 
-    @Provides
-    fun provideHumanVerificationVersion() = HumanVerificationVersion.HV2 // TODO
-
     // HV3
     @Provides
     @HumanVerificationApiHost
-    fun provideHumanVerificationApiHost(): String = "https://verify.protonvpn.com"
+    fun provideHumanVerificationApiHost(): String = "https://${BuildConfig.HV3_DOMAIN}"
 
     // HV2
     @Provides
     @CaptchaApiHost
     fun provideCaptchaApiHost(): String = BuildConfig.API_DOMAIN.removeSuffix("/api")
+
+    @Provides
+    fun provideHumanVerificationVersion(): HumanVerificationVersion = HumanVerificationVersion.HV3
 }
