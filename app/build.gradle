@@ -114,6 +114,7 @@ licenseReport {
 }
 
 def productionServer = "\"api.protonvpn.ch\""
+def productionHv3Server = "\"verify.protonvpn.com\""
 def storeFilePath = project.hasProperty('keyStoreFilePath') ? keyStoreFilePath : "protonkey.jks"
 def storeKeyAlias = project.hasProperty('keyStoreKeyAlias') ? keyStoreKeyAlias : 'proton'
 def storePass = project.hasProperty('keyStorePassword') ? keyStorePassword : "\"Store password\""
@@ -188,6 +189,7 @@ android {
             applicationIdSuffix '.dev'
             buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "String", "API_DOMAIN", productionServer
+            buildConfigField "String", "HV3_DOMAIN", productionHv3Server
         }
 
         black {
@@ -195,25 +197,31 @@ android {
             applicationIdSuffix '.black'
             def blackToken = System.getenv("BLACK_TOKEN")
             def blackDomain = System.getenv("TEST_ENV_DOMAIN") // TODO: support for builds with BLACK_DOMAIN
+            def blackHv3Domain = System.getenv("TEST_ENV_HV3_DOMAIN")
             buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "String", "BLACK_TOKEN", "\"${StringEscapeUtils.escapeJava(blackToken)}\""
             buildConfigField "String", "API_DOMAIN", "\"${StringEscapeUtils.escapeJava(blackDomain)}\""
+            buildConfigField "String", "HV3_DOMAIN", "\"${StringEscapeUtils.escapeJava(blackHv3Domain)}\""
         }
         googlePlay {
             buildConfigField "String", "STORE_SUFFIX", "\"+play\""
             buildConfigField "String", "API_DOMAIN", productionServer
+            buildConfigField "String", "HV3_DOMAIN", productionHv3Server
         }
         amazon {
             buildConfigField "String", "STORE_SUFFIX", "\"+aws\""
             buildConfigField "String", "API_DOMAIN", productionServer
+            buildConfigField "String", "HV3_DOMAIN", productionHv3Server
         }
         direct {
             buildConfigField "String", "STORE_SUFFIX", "\"+apk\""
             buildConfigField "String", "API_DOMAIN", productionServer
+            buildConfigField "String", "HV3_DOMAIN", productionHv3Server
         }
         prod {
             buildConfigField "String", "STORE_SUFFIX", "\"+os\""
             buildConfigField "String", "API_DOMAIN", productionServer
+            buildConfigField "String", "HV3_DOMAIN", productionHv3Server
         }
     }
     buildTypes {
