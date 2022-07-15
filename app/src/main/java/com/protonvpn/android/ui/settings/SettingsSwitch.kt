@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.settings
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.TouchDelegate
@@ -30,6 +31,7 @@ import android.widget.CompoundButton
 import androidx.core.content.res.use
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.SettingsSwitchBinding
+import kotlinx.parcelize.Parcelize
 
 class SettingsSwitch : SettingsItemBase<SettingsSwitchBinding>, Checkable {
     constructor(context: Context) : super(context)
@@ -64,6 +66,8 @@ class SettingsSwitch : SettingsItemBase<SettingsSwitchBinding>, Checkable {
 
     var switchClickInterceptor by binding.switchButton::switchClickInterceptor
     val switchView = binding.switchButton
+
+    private var isCheckedRestored: Boolean? = null
 
     override fun inflate(context: Context): SettingsSwitchBinding =
         SettingsSwitchBinding.inflate(LayoutInflater.from(context), this)
@@ -100,4 +104,26 @@ class SettingsSwitch : SettingsItemBase<SettingsSwitchBinding>, Checkable {
         super.onLayout(changed, l, t, r, b)
         touchDelegate = TouchDelegate(Rect(0, 0, width, height), binding.switchButton)
     }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        // Restore proper state after the default restoration.
+        isCheckedRestored?.let { isChecked = it }
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        return SavedState(
+            super.onSaveInstanceState(),
+            isChecked
+        )
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val savedState = state as? SavedState
+        super.onRestoreInstanceState(savedState?.superState)
+        isCheckedRestored = savedState?.isChecked
+    }
+
+    @Parcelize
+    data class SavedState(val superState: Parcelable?, val isChecked: Boolean) : Parcelable
 }
