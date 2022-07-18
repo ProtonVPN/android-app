@@ -245,7 +245,7 @@
     <string name="noVpnPermissionGrantPemrissionMessage">Android needs your permission to connect to Proton VPN. Grant it by tapping \"OK\" when you get the \"Connection request\" window from Android.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Disable Always-on for other apps</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android does not support multiple VPN apps. Disable Always-on for any VPN app other than Proton VPN.</string>
-    <string name="noVpnPermissionProtonAppLabel">ProtonVpn app</string>
+    <string name="noVpnPermissionProtonAppLabel">Proton VPN app</string>
     <string name="noVpnPermissionOtherAppLabel">Other VPN apps</string>
     <string name="noVpnPermissionOpenSettings">Open Android VPN settings</string>
     <string name="error_prepare_vpn_description"><![CDATA[Onemogućite Always-On VPN za sve ostale VPN aplikacije u Android VPN postavkama sustava jer to spriječava Proton VPN da uspostavi VPN vezu. Odobrite i VPN dopuštenja ako se pojavi dijalog koji zahtijeva dopuštenja VPN-a. Za uklanjanje konflikata možda će trebati deinstalirati i druge VPN aplikacije. Nakon toga, pokušajte ponovo. <a href="%1$s">Saznajte više</a>]]></string>
