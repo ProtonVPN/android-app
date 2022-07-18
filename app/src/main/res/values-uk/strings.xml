@@ -119,7 +119,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Нестандартні порти</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Використовуйте Proton VPN для будь-якої спеціальної потреби, дозволяючи трафік до нестандартних портів через мережу VPN. <a href="%1$s">Докладніше</a>]]></string>
     <string name="settingsModerateNatTitle">Помірне NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Помірне NAT вимикає рандомізацію показу локальних адрес, що може трохи знизити вашу безпеку, але дозволяє використовувати такі методи, як пряме підключення до програм, наприклад онлайн-ігор. <a href="%1$s">Дізнатися більше</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Помірне NAT вимикає рандомізацію показу локальних адрес, що може трохи знизити вашу безпеку, але дає змогу використовувати такі методи, як пряме підключення до програм, наприклад онлайн-ігор. <a href="%1$s">Докладніше</a>]]></string>
     <string name="use_coupon_title">Використати купон</string>
     <string name="use_coupon_code_label">Код купону</string>
     <string name="use_coupon_success">Купон успішно застосовано</string>
