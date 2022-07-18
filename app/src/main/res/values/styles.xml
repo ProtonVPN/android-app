@@ -228,13 +228,15 @@
     <!-- Custom color buttons -->
     <style name="ThemeOverlay.ProtonButton.Neutral" parent="">
         <item name="colorPrimary">?attr/proton_interaction_strong</item>
-        <item name="proton_interaction_norm">?attr/proton_interaction_strong</item>
+        <item name="proton_icon_accent">?attr/proton_interaction_strong</item>
         <item name="proton_text_accent">?attr/proton_text_norm</item>
     </style>
 
     <style name="ThemeOverlay.ProtonButton.Red" parent="">
         <item name="colorPrimary">?attr/strong_red_color</item>
         <item name="proton_interaction_norm">?attr/strong_red_color</item>
+        <item name="proton_interaction_weak">?attr/strong_red_color</item>
+        <item name="proton_icon_accent">?attr/strong_red_color</item>
         <item name="proton_text_accent">?attr/strong_red_color</item>
     </style>
 </resources>
