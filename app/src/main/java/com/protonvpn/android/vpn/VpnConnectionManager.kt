@@ -27,8 +27,6 @@ import androidx.lifecycle.distinctUntilChanged
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.bus.ConnectedToServer
-import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ConnConnectConnected
 import com.protonvpn.android.logging.ConnConnectStart
@@ -164,15 +162,6 @@ class VpnConnectionManager @Inject constructor(
                         VpnState.Reconnecting
                     )
                     isConnectedOrConnecting.implies(connectionParams != null && activeBackend != null)
-                }
-
-                when (state) {
-                    VpnState.Connected -> {
-                        EventBus.post(ConnectedToServer(connectionParams!!.server))
-                    }
-                    VpnState.Disabled -> {
-                        EventBus.post(ConnectedToServer(null))
-                    }
                 }
             }
         }

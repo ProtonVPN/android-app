@@ -39,7 +39,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -58,9 +57,6 @@ import com.protonvpn.android.R;
 import com.protonvpn.android.auth.usecase.CurrentUserKt;
 import com.protonvpn.android.bus.ConnectToProfile;
 import com.protonvpn.android.bus.ConnectToServer;
-import com.protonvpn.android.bus.ConnectedToServer;
-import com.protonvpn.android.bus.EventBus;
-import com.protonvpn.android.bus.VpnStateChanged;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.LoaderUI;
 import com.protonvpn.android.components.MinimizedNetworkLayout;
@@ -103,7 +99,6 @@ import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
-import com.protonvpn.android.utils.UserPlanManager;
 import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.squareup.otto.Subscribe;
 
@@ -116,7 +111,6 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import dagger.hilt.android.AndroidEntryPoint;
 import kotlin.Unit;
@@ -188,7 +182,6 @@ public class HomeActivity extends VpnActivity {
             if (canShowPopups()) {
                 initOnboarding();
                 notificationHelper.cancelInformationNotification(Constants.NOTIFICATION_GUESTHOLE_ID);
-                EventBus.post(new VpnStateChanged(userData.getSecureCoreEnabled()));
             }
             else {
                 initLayout();
@@ -203,10 +196,6 @@ public class HomeActivity extends VpnActivity {
             finish();
         });
 
-        viewModel.collectPlanChange(this, changes -> {
-            onPlanChanged(changes);
-            return Unit.INSTANCE;
-        });
         new PromoOfferNotificationHelper(this, imageNotification,
             new ViewModelProvider(this).get(PromoOfferNotificationViewModel.class));
 
@@ -255,7 +244,6 @@ public class HomeActivity extends VpnActivity {
     }
 
     private void initSecureCoreSwitch() {
-        switchSecureCore.setChecked(userData.getSecureCoreEnabled());
         switchSecureCore.setSwitchClickInterceptor((switchView) -> {
             if (!switchView.isChecked() && !viewModel.hasAccessToSecureCore()) {
                 startActivity(new Intent(this, UpgradeSecureCoreDialogActivity.class));
@@ -266,21 +254,21 @@ public class HomeActivity extends VpnActivity {
             }
             return true;
         });
+        userData.getSecureCoreLiveData().observe(
+                this, isEnabled -> switchSecureCore.setChecked(isEnabled));
     }
 
     private void toggleSecureCore() {
         LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "main screen");
         if (vpnStateMonitor.isConnected()
                 && vpnStateMonitor.isConnectingToSecureCore() == switchSecureCore.isChecked()) {
-            switchSecureCore.toggle();
-            postSecureCoreSwitched(switchSecureCore);
+            userData.setSecureCoreEnabled(!switchSecureCore.isChecked());
 
             ProtonLogger.INSTANCE.log(UiReconnect, "user toggled SC switch");
             Profile newProfile = viewModel.getReconnectProfileOnSecureCoreChange();
             onConnect(newProfile, "Secure Core switch");
         } else {
-            switchSecureCore.toggle();
-            postSecureCoreSwitched(switchSecureCore);
+            userData.setSecureCoreEnabled(!switchSecureCore.isChecked());
         }
     }
 
@@ -327,6 +315,8 @@ public class HomeActivity extends VpnActivity {
         initStatusBar();
         initQuickConnectFab();
         initFullScreenNotification(getIntent());
+
+        vpnStateMonitor.isConnectedOrDisconnectedLiveData().observe(this, isConnected -> initQuickConnectFab());
 
         newLookDialogProvider.show(this, false);
     }
@@ -628,22 +618,6 @@ public class HomeActivity extends VpnActivity {
         onConnectToProfile(new ConnectToProfile("quick connect", profile));
     }
 
-    @OnCheckedChanged(R.id.switchSecureCore)
-    public void switchSecureCore(final SwitchCompat switchCompat, final boolean isChecked) {
-        LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "main screen");
-        postSecureCoreSwitched(switchCompat);
-    }
-
-    private void onPlanChanged(UserPlanManager.InfoChange.PlanChange change) {
-        switchSecureCore.setChecked(userData.getSecureCoreEnabled());
-        EventBus.post(new VpnStateChanged(userData.getSecureCoreEnabled()));
-    }
-
-    private void postSecureCoreSwitched(final SwitchCompat switchCompat) {
-        userData.setSecureCoreEnabled(switchCompat.isChecked());
-        EventBus.post(new VpnStateChanged(switchCompat.isChecked()));
-    }
-
     @Override
     public LoaderUI getNetworkFrameLayout() {
         if (serverManager.isDownloadedAtLeastOnce()) {
@@ -652,21 +626,6 @@ public class HomeActivity extends VpnActivity {
         else {
             return getLoadingContainer();
         }
-    }
-
-    @Subscribe
-    public void onConnectedToServer(@NonNull ConnectedToServer server) {
-        if (server.getServer() != null) {
-            userData.setSecureCoreEnabled(server.getServer().isSecureCoreServer());
-        }
-        EventBus.post(new VpnStateChanged(userData.getSecureCoreEnabled()));
-        switchSecureCore.setChecked(userData.getSecureCoreEnabled());
-        initQuickConnectFab();
-    }
-
-    @Subscribe
-    public void onVpnStateChange(VpnStateChanged change) {
-        switchSecureCore.setChecked(change.isSecureCoreEnabled());
     }
 
     public TooltipManager getTooltips() {

@@ -21,8 +21,6 @@ package com.protonvpn.tests.vpn
 import androidx.activity.ComponentActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.distinctUntilChanged
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import com.protonvpn.android.api.GuestHole
@@ -75,6 +73,7 @@ import com.protonvpn.mocks.MockAgentProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.mockVpnUser
 import com.protonvpn.test.shared.runWhileCollecting
+import com.protonvpn.test.shared.runWhileCollectingLiveData
 import io.mockk.verify
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import me.proton.core.test.kotlin.TestDispatcherProvider
@@ -620,16 +619,6 @@ class VpnConnectionTests {
         verify { mockVpnUiDelegate.onServerRestricted(ReasonRestricted.SecureCoreUpgradeNeeded) }
     }
 
-    private fun collectVpnStates(statesLiveData: LiveData<VpnState>, block: () -> Unit): List<VpnState> {
-        val collectedStates = mutableListOf<VpnState>()
-        val observer = Observer<VpnState> { collectedStates.add(it) }
-        val liveData = statesLiveData.distinctUntilChanged()
-        liveData.observeForever(observer)
-        try {
-            block()
-            return collectedStates
-        } finally {
-            liveData.removeObserver(observer)
-        }
-    }
+    private fun collectVpnStates(statesLiveData: LiveData<VpnState>, block: () -> Unit): List<VpnState> =
+        runWhileCollectingLiveData(statesLiveData, true, block)
 }

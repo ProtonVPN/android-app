@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton Technologies AG
+ * Copyright (c) 2022. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,17 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.bus;
 
-public class VpnStateChanged {
+package com.protonvpn.test.shared
 
-    private final boolean secureCoreEnabled;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.distinctUntilChanged
 
-    public VpnStateChanged(boolean secureCoreEnabled) {
-        this.secureCoreEnabled = secureCoreEnabled;
-    }
-
-    public boolean isSecureCoreEnabled() {
-        return secureCoreEnabled;
+fun <T> runWhileCollectingLiveData(liveData: LiveData<T>, distinct: Boolean = false, block: () -> Unit): List<T> {
+    val collectedStates = mutableListOf<T>()
+    val observer = Observer<T> { collectedStates.add(it) }
+    val observedLiveData = if (distinct) liveData.distinctUntilChanged() else liveData
+    observedLiveData.observeForever(observer)
+    try {
+        block()
+        return collectedStates
+    } finally {
+        observedLiveData.removeObserver(observer)
     }
 }
+

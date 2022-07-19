@@ -29,8 +29,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.protonvpn.android.R;
 import com.protonvpn.android.appconfig.AppConfig;
-import com.protonvpn.android.bus.ConnectedToServer;
-import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.bus.TrafficUpdate;
 import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
@@ -123,7 +121,6 @@ public class VpnStateFragment extends BaseFragment {
 
     @Override
     public void onViewCreated() {
-        registerForEvents();
         initPeekHeightLayoutListener();
 
         stateMonitor.getStatusLiveData().observe(getViewLifecycleOwner(), state -> updateView(false, state));
@@ -299,7 +296,6 @@ public class VpnStateFragment extends BaseFragment {
                 }
             }
             else if (VpnState.Disabled.INSTANCE.equals(state)) {
-                checkDisconnectFromOutside();
                 showNotConnectedHeaderState(R.string.loaderNotConnected, R.string.loaderNotConnectedSuggestion);
                 updateNotConnectedView();
             }
@@ -332,12 +328,6 @@ public class VpnStateFragment extends BaseFragment {
 
             boolean isConnected = VpnState.Connected.INSTANCE.equals(state);
             updateSessionTimeObserver(isConnected);
-        }
-    }
-
-    private void checkDisconnectFromOutside() {
-        if (stateMonitor.isConnected()) {
-            EventBus.getInstance().post(new ConnectedToServer(null));
         }
     }
 

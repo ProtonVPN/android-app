@@ -34,7 +34,6 @@ import com.protonvpn.android.auth.data.VpnUser;
 import com.protonvpn.android.auth.data.VpnUserKt;
 import com.protonvpn.android.bus.ConnectToServer;
 import com.protonvpn.android.bus.EventBus;
-import com.protonvpn.android.bus.VpnStateChanged;
 import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.Markable;
@@ -54,7 +53,6 @@ import com.qozix.tileview.TileView;
 import com.qozix.tileview.markers.MarkerLayout;
 import com.qozix.tileview.paths.CompositePathView;
 import com.qozix.tileview.widgets.ZoomPanLayout;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,12 +98,13 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     @Override
     public void onViewCreated() {
         initMap();
-        registerForEvents();
-    }
 
-    @Subscribe
-    public void onVpnStateChanged(VpnStateChanged change) {
-        initMapState();
+        stateMonitor.isConnectedOrDisconnectedLiveData().observe(
+                getViewLifecycleOwner(), isConnected -> updateMapState());
+        serverManager.getServerListVersionLiveData().observe(
+                getViewLifecycleOwner(), v -> updateMapState());
+        userData.getSecureCoreLiveData().observe(
+                getViewLifecycleOwner(), isSecureCore -> updateMapState());
     }
 
     private void initMap() {
@@ -125,10 +124,10 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         mapView.setViewportPadding(256);
         mapView.setShouldRenderWhilePanning(true);
         mapView.setAnimationDuration(1000);
-        initMapState();
+        updateMapState();
     }
 
-    private void initMapState() {
+    private void updateMapState() {
         addPins(true, userData.getSecureCoreEnabled() ? serverManager.getSecureCoreEntryCountries() :
             serverManager.getVpnCountries());
         if (userData.getSecureCoreEnabled()) {
@@ -265,7 +264,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
             VpnCountry country = (VpnCountry) view.getTag();
             if (userData.getSecureCoreEnabled() && country.isSecureCoreCountry()) {
                 removePaths();
-                initMapState();
+                updateMapState();
                 addPins(false, serverManager.getSecureCoreEntryCountries(), country);
                 addPins(false, country.getServerList());
                 paintPaths(country.getCoordinates(), country.getServerList());
@@ -300,13 +299,13 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                 EventBus.post(
                         new ConnectToServer("map marker",
                                 serverManager.getBestScoreServer(country.getConnectableServers())));
-                initMapState();
+                updateMapState();
                 mapView.getCalloutLayout().removeAllViews();
             });
             binding.buttonDisconnect.setOnClickListener(v -> {
                 ProtonLogger.INSTANCE.log(LogEventsKt.UiDisconnect, "map marker");
                 vpnConnectionManager.disconnect("user via map marker");
-                initMapState();
+                updateMapState();
                 mapView.getCalloutLayout().removeAllViews();
             });
 

@@ -87,7 +87,11 @@ class UserData private constructor() : Serializable {
         set(value) { field = value; commitUpdate(Setting.LAN_CONNECTIONS) }
 
     var secureCoreEnabled = false
-        set(value) { field = value; commitUpdate(Setting.SECURE_CORE) }
+        set(value) {
+            field = value
+            secureCoreLiveData.value = value
+            commitUpdate(Setting.SECURE_CORE)
+        }
 
     var apiUseDoH: Boolean = true
         set(value) { field = value; commitUpdate(Setting.API_DOH) }
@@ -122,9 +126,11 @@ class UserData private constructor() : Serializable {
     private var netShieldProtocol: NetShieldProtocol? = null
 
     @Transient val netShieldSettingUpdateEvent = LiveEvent()
+    // Note: remember to initialize LiveData values in init().
     @Transient val vpnAcceleratorLiveData = MutableLiveData<Boolean>()
     @Transient val selectedProtocolLiveData = MutableLiveData<VpnProtocol>()
     @Transient val safeModeLiveData = MutableLiveData<Boolean?>()
+    @Transient val secureCoreLiveData = MutableLiveData<Boolean>()
     @Transient val randomizedNatLiveData = MutableLiveData<Boolean>()
     @Transient val updateEvent = LiveEvent()
     // settingChangeEvent is not equivalent to updateEvent because it doesn't emit events
@@ -133,8 +139,11 @@ class UserData private constructor() : Serializable {
 
     // Handles post-deserialization initialization
     private fun init() {
-        vpnAcceleratorLiveData.value = vpnAcceleratorEnabled
+        randomizedNatLiveData.value = randomizedNatEnabled
+        safeModeLiveData.value = safeModeEnabled
+        secureCoreLiveData.value = secureCoreEnabled
         selectedProtocolLiveData.value = selectedProtocol
+        vpnAcceleratorLiveData.value = vpnAcceleratorEnabled
     }
 
     private fun commitUpdate(setting: Setting) {
