@@ -21,8 +21,8 @@ package com.protonvpn.android.ui.vpn
 
 import android.content.Intent
 import com.protonvpn.android.R
-import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.vpn.ReasonRestricted
 import com.protonvpn.android.vpn.VpnUiDelegate
 import javax.inject.Inject

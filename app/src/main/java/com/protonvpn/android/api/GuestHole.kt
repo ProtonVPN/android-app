@@ -21,13 +21,13 @@ package com.protonvpn.android.api
 import androidx.activity.ComponentActivity
 import androidx.annotation.WorkerThread
 import com.protonvpn.android.R
-import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.suspendForPermissions
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants

@@ -22,7 +22,6 @@ package com.protonvpn.android.notifications
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.logging.logUiSettingChange

@@ -21,7 +21,6 @@ package com.protonvpn.android.vpn
 
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.VpnService
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -32,8 +31,6 @@ import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
-import com.protonvpn.android.components.NotificationHelper
-import com.protonvpn.android.components.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
 import com.protonvpn.android.logging.ConnConnectConnected
 import com.protonvpn.android.logging.ConnConnectStart
 import com.protonvpn.android.logging.ConnConnectTrigger
@@ -42,19 +39,16 @@ import com.protonvpn.android.logging.ConnServerSwitchFailed
 import com.protonvpn.android.logging.ConnStateChanged
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.logging.UserPlanMaxSessionsReached
-import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.logging.toLog
-import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
-import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ServerManager

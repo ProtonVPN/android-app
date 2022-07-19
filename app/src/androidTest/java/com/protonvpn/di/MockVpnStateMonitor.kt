@@ -22,8 +22,8 @@ import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.CertificateRepository
