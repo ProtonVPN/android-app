@@ -19,9 +19,7 @@
 
 package com.protonvpn.android.vpn
 
-import android.content.Context
 import android.content.Intent
-import android.net.VpnService
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -55,7 +53,6 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -85,8 +82,8 @@ interface VpnUiDelegate {
 }
 
 @Singleton
-open class VpnConnectionManager @Inject constructor(
-    @ApplicationContext private val appContext: Context,
+class VpnConnectionManager @Inject constructor(
+    private val permissionDelegate: VpnPermissionDelegate,
     private val userData: UserData,
     private val backendProvider: VpnBackendProvider,
     private val networkManager: NetworkManager,
@@ -399,7 +396,7 @@ open class VpnConnectionManager @Inject constructor(
     }
 
     fun connect(uiDelegate: VpnUiDelegate, profile: Profile, triggerAction: String) {
-        val intent = prepare(appContext) // TODO: can this be appContext?
+        val intent = permissionDelegate.prepareVpnPermission()
         scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
             uiDelegate.askForPermissions(intent, profile) {
@@ -461,8 +458,6 @@ open class VpnConnectionManager @Inject constructor(
         }
     }
 
-    open fun prepare(context: Context): Intent? = VpnService.prepare(context)
-
     private suspend fun disconnectBlocking(triggerAction: String) {
         ProtonLogger.log(ConnDisconnectTrigger, "reason: $triggerAction")
         Storage.delete(ConnectionParams::class.java)
@@ -485,7 +480,7 @@ open class VpnConnectionManager @Inject constructor(
         previousBackend?.disconnect()
     }
 
-    open fun disconnect(triggerAction: String) {
+    fun disconnect(triggerAction: String) {
         disconnectWithCallback(triggerAction)
     }
 
@@ -494,7 +489,7 @@ open class VpnConnectionManager @Inject constructor(
         disconnectBlocking(triggerAction)
     }
 
-    open fun disconnectWithCallback(triggerAction: String, afterDisconnect: (() -> Unit)? = null) {
+    private fun disconnectWithCallback(triggerAction: String, afterDisconnect: (() -> Unit)? = null) {
         clearOngoingConnection()
         scope.launch {
             disconnectBlocking(triggerAction)
