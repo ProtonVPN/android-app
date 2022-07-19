@@ -194,36 +194,6 @@ object AppModuleProd {
 
     @Singleton
     @Provides
-    fun provideVpnConnectionManager(
-        scope: CoroutineScope,
-        userData: UserData,
-        backendManager: VpnBackendProvider,
-        networkManager: NetworkManager,
-        vpnConnectionErrorHandler: VpnConnectionErrorHandler,
-        vpnStateMonitor: VpnStateMonitor,
-        notificationHelper: NotificationHelper,
-        vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
-        serverManager: ServerManager,
-        currentUser: CurrentUser,
-        certificateRepository: CertificateRepository
-    ) = VpnConnectionManager(
-        ProtonApplication.getAppContext(),
-        userData,
-        backendManager,
-        networkManager,
-        vpnConnectionErrorHandler,
-        vpnStateMonitor,
-        notificationHelper,
-        vpnBackgroundUiDelegate,
-        serverManager,
-        certificateRepository,
-        scope,
-        System::currentTimeMillis,
-        currentUser
-    )
-
-    @Singleton
-    @Provides
     fun provideVpnBackendManager(
         appConfig: AppConfig,
         wireguardBackend: WireguardBackend,

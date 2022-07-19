@@ -31,6 +31,7 @@ import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bus.ConnectedToServer
 import com.protonvpn.android.bus.EventBus
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ConnConnectConnected
 import com.protonvpn.android.logging.ConnConnectStart
 import com.protonvpn.android.logging.ConnConnectTrigger
@@ -47,7 +48,6 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
@@ -55,6 +55,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -62,6 +63,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.coroutineContext
 
@@ -83,19 +85,18 @@ interface VpnUiDelegate {
 }
 
 @Singleton
-open class VpnConnectionManager(
-    private val appContext: Context,
+open class VpnConnectionManager @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val userData: UserData,
     private val backendProvider: VpnBackendProvider,
     private val networkManager: NetworkManager,
     private val vpnErrorHandler: VpnConnectionErrorHandler,
     private val vpnStateMonitor: VpnStateMonitor,
-    private val notificationHelper: NotificationHelper,
     private val vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
     private val serverManager: ServerManager,
     private val certificateRepository: CertificateRepository,
     private val scope: CoroutineScope,
-    private val now: () -> Long,
+    @WallClock private val now: () -> Long,
     private val currentUser: CurrentUser
 ) : VpnStateSource {
 
@@ -282,7 +283,7 @@ open class VpnConnectionManager(
         if (fallback != null) {
             fallbackConnect(fallback)
         } else {
-            notificationHelper.showInformationNotification(
+            vpnBackgroundUiDelegate.showInfoNotification(
                 if (server == null) R.string.error_server_not_set
                 else R.string.restrictedMaintenanceDescription
             )

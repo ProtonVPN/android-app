@@ -190,7 +190,7 @@ class VpnConnectionTests {
 
         monitor = VpnStateMonitor()
         manager = MockVpnConnectionManager(userData, backendProvider, networkManager, vpnErrorHandler, monitor,
-            mockk(relaxed = true), mockVpnBackgroundUiDelegate, serverManager, certificateRepository, scope, ::time, currentUser)
+            mockVpnBackgroundUiDelegate, serverManager, certificateRepository, scope, ::time, currentUser)
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
