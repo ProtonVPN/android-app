@@ -185,6 +185,11 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".notifications.NotificationActionReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+
         <activity
             android:name=".ui.home.profiles.ProfileEditActivity"
             android:label="@string/activityProfileTitle"
