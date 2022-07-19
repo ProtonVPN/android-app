@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.components
 
-import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build.VERSION_CODES
 import android.service.quicksettings.Tile
@@ -30,7 +29,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState

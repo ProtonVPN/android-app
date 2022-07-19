@@ -31,7 +31,6 @@ import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.OnSessionClosed
-import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
@@ -40,6 +39,7 @@ import com.protonvpn.android.di.AppModuleProd
 import com.protonvpn.android.di.UserManagerBindsModule
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.NewLookDialogProvider
