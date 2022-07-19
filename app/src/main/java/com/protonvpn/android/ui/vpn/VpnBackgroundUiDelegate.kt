@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.vpn
 
 import android.content.Intent
+import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.notifications.NotificationHelper
@@ -49,5 +50,9 @@ class VpnBackgroundUiDelegate @Inject constructor (
             R.string.serverNoWireguardSupport,
             icon = R.drawable.ic_vpn_status_disconnected
         )
+    }
+
+    fun showInfoNotification(@StringRes textRes: Int) {
+        notificationHelper.showInformationNotification(textRes)
     }
 }
