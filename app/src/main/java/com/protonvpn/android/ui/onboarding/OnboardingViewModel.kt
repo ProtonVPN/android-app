@@ -33,6 +33,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.displayText
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -52,6 +53,7 @@ class OnboardingViewModel @Inject constructor(
     @ApplicationContext val app: Context,
     private val serverManager: ServerManager,
     private val serverListUpdater: ServerListUpdater,
+    private val vpnPermissionDelegate: VpnPermissionDelegate,
     private val vpnConnectionManager: VpnConnectionManager,
     private val vpnStateMonitor: VpnStateMonitor
 ) : ViewModel() {
@@ -71,7 +73,7 @@ class OnboardingViewModel @Inject constructor(
     data class Error(val html: String?, @StringRes val res: Int = R.string.something_went_wrong)
 
     suspend fun connect(activity: ComponentActivity, delegate: VpnUiActivityDelegate): Error? {
-        val intent = vpnConnectionManager.prepare(activity)
+        val intent = vpnPermissionDelegate.prepareVpnPermission()
         val profile = serverManager.defaultAvailableConnection
         return if (activity.suspendForPermissions(intent))
             connectInternal(delegate, profile)

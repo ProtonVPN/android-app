@@ -44,7 +44,6 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.di.MockNetworkManager
-import com.protonvpn.di.MockVpnConnectionManager
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.test.shared.MockedServers
 import io.mockk.MockKAnnotations
@@ -71,12 +70,14 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.vpn.ReasonRestricted
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.mocks.MockAgentProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.mockVpnUser
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.verify
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import me.proton.core.test.kotlin.TestDispatcherProvider
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -94,6 +95,7 @@ class VpnConnectionTests {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
+    private val permissionDelegate = VpnPermissionDelegate { null }
     private lateinit var testDispatcher: TestCoroutineDispatcher
     private lateinit var scope: TestCoroutineScope
     private lateinit var userData: UserData
@@ -189,7 +191,7 @@ class VpnConnectionTests {
         )
 
         monitor = VpnStateMonitor()
-        manager = MockVpnConnectionManager(userData, backendProvider, networkManager, vpnErrorHandler, monitor,
+        manager = VpnConnectionManager(permissionDelegate, userData, backendProvider, networkManager, vpnErrorHandler, monitor,
             mockVpnBackgroundUiDelegate, serverManager, certificateRepository, scope, ::time, currentUser)
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
@@ -352,6 +354,7 @@ class VpnConnectionTests {
             TestDispatcherProvider(testDispatcher),
             dagger.Lazy { serverManager },
             monitor,
+            permissionDelegate,
             dagger.Lazy { manager },
             mockk(relaxed = true),
             foregroundActivityTracker
@@ -372,6 +375,7 @@ class VpnConnectionTests {
             TestDispatcherProvider(testDispatcher),
             dagger.Lazy { serverManager },
             monitor,
+            permissionDelegate,
             dagger.Lazy { manager },
             mockk(relaxed = true),
             foregroundActivityTracker
