@@ -33,10 +33,10 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.notifications.NotificationActionReceiver
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity.Companion.EXTRA_NOTIFICATION_DETAILS
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
@@ -224,7 +224,8 @@ class NotificationHelper(
         trafficUpdate: TrafficUpdate?
     ): Notification {
         val context = ProtonApplication.getAppContext()
-        val disconnectIntent = Intent(DISCONNECT_ACTION)
+        val disconnectIntent =
+            NotificationActionReceiver.createIntent(context, NotificationActionReceiver.DISCONNECT_ACTION)
         val disconnectPendingIntent = PendingIntent.getBroadcast(
             context, Constants.NOTIFICATION_ID, disconnectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         val state = vpnStatus.state
@@ -367,8 +368,6 @@ class NotificationHelper(
 
     companion object {
         const val CHANNEL_ID = "com.protonvpn.android"
-        const val DISCONNECT_ACTION = "DISCONNECT_ACTION"
-        const val SMART_PROTOCOL_ACTION = "SMART_PROTOCOL_ACTION"
         const val EXTRA_SWITCH_PROFILE = "SWITCH_INFORMATION"
         const val PENDING_REQUEST_STATUS = 0
         const val PENDING_REQUEST_OTHER = 1

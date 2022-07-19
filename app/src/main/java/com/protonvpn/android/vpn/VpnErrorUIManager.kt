@@ -9,10 +9,10 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.NotificationHelper.ActionItem
 import com.protonvpn.android.components.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
-import com.protonvpn.android.components.NotificationHelper.Companion.SMART_PROTOCOL_ACTION
 import com.protonvpn.android.components.NotificationHelper.FullScreenDialog
 import com.protonvpn.android.components.NotificationHelper.ReconnectionNotification
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.notifications.NotificationActionReceiver
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
 import com.protonvpn.android.ui.planupgrade.EmptyUpgradeDialogActivity
@@ -58,6 +58,12 @@ class VpnErrorUIManager @Inject constructor(
         scope.launch {
             stateMonitor.vpnConnectionNotificationFlow.collect { switch ->
                 if (switch is VpnFallbackResult.Switch.SwitchServer && !switch.compatibleProtocol) {
+                    val actionIntent = NotificationActionReceiver.createIntent(
+                        appContext,
+                        NotificationActionReceiver.SMART_PROTOCOL_ACTION
+                    ).apply {
+                        putExtra(EXTRA_SWITCH_PROFILE, switch.toProfile)
+                    }
                     notificationHelper.showInformationNotification(
                         content = R.string.notification_smart_protocol_disabled_content,
                         title = R.string.notification_smart_protocol_disabled_title,
@@ -67,10 +73,11 @@ class VpnErrorUIManager @Inject constructor(
                             pendingIntent = PendingIntent.getBroadcast(
                                 appContext,
                                 Constants.NOTIFICATION_INFO_ID,
-                                Intent(SMART_PROTOCOL_ACTION).apply {
-                                    putExtra(EXTRA_SWITCH_PROFILE, switch.toProfile) },
+                                actionIntent,
                                 PendingIntent.FLAG_UPDATE_CURRENT
-                            )))
+                            )
+                        )
+                    )
                 } else if (shouldAlwaysInform(switch) || vpnAcceleratorNotificationsEnabled()) {
                     buildNotificationInformation(switch)?.let {
                         displayInformation(it)

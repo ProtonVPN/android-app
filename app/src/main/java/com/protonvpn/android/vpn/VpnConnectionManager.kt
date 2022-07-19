@@ -129,21 +129,6 @@ open class VpnConnectionManager(
     init {
         Log.i("create state monitor")
 
-        appContext.registerBroadcastReceiver(IntentFilter(NotificationHelper.DISCONNECT_ACTION)) { intent ->
-            when (intent?.action) {
-                NotificationHelper.DISCONNECT_ACTION -> {
-                    ProtonLogger.log(UiDisconnect, "notification")
-                    disconnect("user via notification")
-                }
-            }
-        }
-        appContext.registerBroadcastReceiver(IntentFilter(NotificationHelper.SMART_PROTOCOL_ACTION)) { intent ->
-            val profileToSwitch = intent?.getSerializableExtra(EXTRA_SWITCH_PROFILE) as Profile
-            notificationHelper.cancelInformationNotification()
-            ProtonLogger.logUiSettingChange(Setting.DEFAULT_PROTOCOL, "notification action")
-            userData.setProtocols(VpnProtocol.Smart, null)
-            connect(vpnBackgroundUiDelegate, profileToSwitch, "Enable Smart protocol from notification")
-        }
         stateInternal.observeForever {
             if (initialized) {
                 Storage.saveString(STORAGE_KEY_STATE, state.name)
