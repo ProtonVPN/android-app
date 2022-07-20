@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.models.profiles;
 
+import com.protonvpn.android.utils.Storage;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +55,7 @@ public class SavedProfilesV3 implements Serializable {
 
     public SavedProfilesV3 migrateProfiles() {
         List<Profile> migrated = new ArrayList<Profile>(profileList.size());
+        boolean hasChanged = false;
         for (Profile profile : profileList) {
             final UUID profileId;
             if (profile.getWrapper().isPreBakedFastest())
@@ -61,8 +64,13 @@ public class SavedProfilesV3 implements Serializable {
                 profileId = RANDOM_PROFILE_ID;
             else
                 profileId = null;
-            migrated.add(profile.migrateFromOlderVersion(profileId));
+            Profile migratedProfile = profile.migrateFromOlderVersion(profileId);
+            hasChanged |= migratedProfile != profile;
+            migrated.add(migratedProfile);
         }
-        return new SavedProfilesV3(migrated);
+        SavedProfilesV3 migratedProfiles = new SavedProfilesV3(migrated);
+        if (hasChanged)
+            Storage.save(migratedProfiles);
+        return migratedProfiles;
     }
 }
