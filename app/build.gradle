@@ -244,6 +244,7 @@ android {
     }
 
     packagingOptions {
+        exclude "DebugProbesKt.bin"
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
