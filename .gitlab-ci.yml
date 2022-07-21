@@ -247,7 +247,9 @@ coverage report:
       - app/build/reports/jacoco/jacocoTestReport/html
       - index.html
     reports:
-      cobertura: app/build/reports/cobertura-coverage.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: app/build/reports/cobertura-coverage.xml
 
 pages:
   stage: publish
