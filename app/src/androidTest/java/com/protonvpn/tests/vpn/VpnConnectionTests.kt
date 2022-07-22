@@ -20,10 +20,10 @@ package com.protonvpn.tests.vpn
 
 import androidx.activity.ComponentActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import com.proton.gopenpgp.localAgent.LocalAgent
+import com.proton.gopenpgp.localAgent.NativeClient
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.SmartProtocolConfig
@@ -56,7 +56,6 @@ import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.mockVpnUser
 import com.protonvpn.test.shared.runWhileCollecting
-import com.protonvpn.test.shared.runWhileCollectingLiveData
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -69,6 +68,7 @@ import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
@@ -77,7 +77,6 @@ import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
 import org.junit.Assert
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -110,7 +109,7 @@ class VpnConnectionTests {
     @RelaxedMockK
     lateinit var appConfig: AppConfig
 
-    @RelaxedMockK
+    @MockK
     lateinit var certificateRepository: CertificateRepository
 
     @RelaxedMockK
@@ -149,8 +148,6 @@ class VpnConnectionTests {
     private val agentConsts = LocalAgent.constants()
     private val validCert =
         CertificateRepository.CertificateResult.Success("good_cert", "good_key")
-    private val badCert =
-        CertificateRepository.CertificateResult.Success("bad_cert", "bad_key")
     private lateinit var currentCert: CertificateRepository.CertificateResult.Success
     private var time = 0L
 
@@ -167,6 +164,20 @@ class VpnConnectionTests {
 
         every { mockVpnUiDelegate.shouldSkipAccessRestrictions() } returns false
         every { mockVpnBackgroundUiDelegate.shouldSkipAccessRestrictions() } returns false
+
+        currentCert = validCert
+        coEvery { certificateRepository.getCertificate(any(), any()) } answers {
+            currentCert
+        }
+        coEvery { certificateRepository.getCertificateWithoutRefresh(any()) } answers {
+            currentCert
+        }
+        coEvery { certificateRepository.updateCertificate(any(), any()) } answers {
+            currentCert = validCert
+            currentCert
+        }
+        coEvery { certificateRepository.generateNewKey(any()) } returns mockk()
+        every { certificateRepository.currentCertUpdateFlow } returns emptyFlow()
 
         networkManager = MockNetworkManager()
 
@@ -208,43 +219,35 @@ class VpnConnectionTests {
             MockedServers.serverList.find { it.serverId == arg<Profile>(0).wrapper.serverId }
         }
 
-        setupMockAgent()
+        setupMockAgent { client ->
+            client.onState(agentConsts.stateConnecting)
+            client.onState(agentConsts.stateConnected)
+        }
     }
 
-    private fun setupMockAgent() {
-        var agentState = agentConsts.stateDisconnected
-        every { mockAgent.state } answers { agentState }
+    private fun setupMockAgent(action: (NativeClient) -> Unit) {
+        class NativeClientWrapper(private val client: NativeClient) : NativeClient by client {
+            var lastState: String = LocalAgent.constants().stateDisconnected
+                private set
 
-        val mockAgentProvider: MockAgentProvider = { certificate, _, client ->
-            agentState = if (certificate == validCert)
-                agentConsts.stateConnected else agentConsts.stateHardJailed
-            scope.launch {
-                yield()
-                client.onState(agentState)
-                if (agentState == agentConsts.stateHardJailed) {
-                    client.onError(agentConsts.errorCodeCertificateExpired, "")
-                } else {
-                    client.onState(agentConsts.stateConnecting)
-                    client.onState(agentConsts.stateConnected)
-                }
+            override fun onState(state: String) {
+                lastState = state
+                client.onState(state)
             }
+        }
+
+        val mockAgentProvider: MockAgentProvider = { _, _, client ->
+            val wrappedClient = NativeClientWrapper(client)
+            scope.launch {
+                yield() // Don't set state immediately, yield for mockAgent to be returned first.
+                action(client)
+            }
+            every { mockAgent.state } answers { wrappedClient.lastState }
             mockAgent
         }
 
         mockWireguard.setAgentProvider(mockAgentProvider)
         mockOpenVpn.setAgentProvider(mockAgentProvider)
-
-        currentCert = validCert
-        coEvery { certificateRepository.getCertificate(any(), any()) } answers {
-            currentCert
-        }
-        coEvery { certificateRepository.getCertificateWithoutRefresh(any()) } answers {
-            currentCert
-        }
-        coEvery { certificateRepository.updateCertificate(any(), any()) } answers {
-            currentCert = validCert
-            currentCert
-        }
     }
 
     @Test
@@ -440,10 +443,9 @@ class VpnConnectionTests {
 
     @Test
     fun testMaxSessionsFromLocalAgent() = scope.runBlockingTest {
-        mockWireguard.setAgentProvider { certificate, _, client ->
+        setupMockAgent { client ->
             client.onState(agentConsts.stateHardJailed)
             client.onError(agentConsts.errorCodeMaxSessionsPlus, "")
-            mockAgent
         }
         val notifications = runWhileCollecting(monitor.vpnConnectionNotificationFlow) {
             manager.connect(mockVpnUiDelegate, profileWireguard, "test")
@@ -555,56 +557,130 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun testExpiredCert() = scope.runBlockingTest {
-        coEvery { certificateRepository.getCertificate(any(), any()) } coAnswers {
-            if (currentCert == badCert)
-                certificateRepository.updateCertificate(currentUser.sessionId()!!, false)
-            else
-                currentCert
-        }
-
-        currentCert = badCert
-        manager.connect(mockVpnUiDelegate, profileWireguard, "test")
-        advanceUntilIdle()
-
-        coVerify(exactly = 1) {
-            certificateRepository.updateCertificate(any(), any())
-        }
-
-        assertEquals(VpnState.Connected, mockWireguard.selfState)
-    }
-
-    @Test
-    fun testRevokeAndReconnect() = scope.runBlockingTest {
-        manager.connect(mockVpnUiDelegate, profileWireguard, "Test")
-        advanceUntilIdle()
-
-        assertEquals(VpnState.Connected, mockWireguard.selfState)
-
-        val vpnReonnectStates = collectVpnStates(mockWireguard.selfStateObservable) {
-            mockWireguard.revokeCertificateAndReconnect("test")
-            advanceUntilIdle()
-        }
-
-        coVerify(exactly = 1) {
-            certificateRepository.updateCertificate(any(), any())
-        }
-
-        assertEquals(VpnState.Connected, mockWireguard.selfState)
-        assertTrue(vpnReonnectStates.contains(VpnState.Disabled))
-    }
-
-    @Test
     fun testDowngradeWithLocalAgent() = scope.runBlockingTest {
-        mockWireguard.setAgentProvider { certificate, _, client ->
+        setupMockAgent { client ->
             client.onState(agentConsts.stateHardJailed)
             client.onError(agentConsts.errorCodePolicyViolationLowPlan, "")
-            mockAgent
         }
         manager.connect(mockVpnUiDelegate, profileWireguard, "test")
         advanceUntilIdle()
 
         assertEquals(ErrorType.POLICY_VIOLATION_LOW_PLAN, (mockWireguard.selfState as? VpnState.Error)?.type)
+    }
+
+    @Test
+    fun testRefreshCertAndReconnectWhenBadSignature() = scope.runBlockingTest {
+        mockLocalAgentErrorAndAssertStates(
+            agentErrorState = { client ->
+                client.onState(agentConsts.stateHardJailed)
+                client.onError(agentConsts.errorCodeBadCertSignature, "")
+            },
+            expectedVpnStates = listOf(
+                VpnState.Disabled,
+                VpnState.ScanningPorts,
+                VpnState.Connecting,
+                VpnState.Disconnecting,
+                VpnState.Disabled, // Full reconnection.
+                VpnState.Connecting,
+                VpnState.Connected
+            )
+        )
+        coVerify(exactly = 1) { certificateRepository.generateNewKey(any()) }
+        coVerify(exactly = 1) { certificateRepository.updateCertificate(any(), any()) }
+    }
+
+    @Test
+    fun testRefreshCertAndReconnectWhenCertRevoked() = scope.runBlockingTest {
+        mockLocalAgentErrorAndAssertStates(
+            agentErrorState = { client ->
+                client.onState(agentConsts.stateHardJailed)
+                client.onError(agentConsts.errorCodeCertificateRevoked, "")
+            },
+            expectedVpnStates = listOf(
+                VpnState.Disabled,
+                VpnState.ScanningPorts,
+                VpnState.Connecting,
+                VpnState.Disconnecting,
+                VpnState.Disabled, // Full reconnection.
+                VpnState.Connecting,
+                VpnState.Connected
+            )
+        )
+        coVerify(exactly = 1) { certificateRepository.generateNewKey(any()) }
+        coVerify(exactly = 1) { certificateRepository.updateCertificate(any(), any()) }
+    }
+
+    @Test
+    fun testReconnectLocalAgentOnCertificateExpired() = scope.runBlockingTest {
+        mockLocalAgentErrorAndAssertStates(
+            agentErrorState = { client ->
+                client.onState(agentConsts.stateClientCertificateExpiredError)
+            },
+            expectedVpnStates = listOf(
+                VpnState.Disabled,
+                VpnState.ScanningPorts,
+                VpnState.Connecting,
+                VpnState.Connected
+            )
+        )
+        coVerify(exactly = 2) { certificateRepository.getCertificate(any(), any()) }
+    }
+
+    @Test
+    fun testReconnectLocalAgentOnJailWithExpiredCertificate() = scope.runBlockingTest {
+        mockLocalAgentErrorAndAssertStates(
+            agentErrorState = { client ->
+                client.onState(agentConsts.stateHardJailed)
+                client.onError(agentConsts.errorCodeCertificateExpired, "")
+            },
+            expectedVpnStates = listOf(
+                VpnState.Disabled,
+                VpnState.ScanningPorts,
+                VpnState.Connecting,
+                VpnState.Connected
+            )
+        )
+        coVerify(exactly = 2) { certificateRepository.getCertificate(any(), any()) }
+    }
+
+    @Test
+    fun testRefreshCertOnCertificateUnknownCA() = scope.runBlockingTest{
+        mockLocalAgentErrorAndAssertStates(
+            agentErrorState = { client ->
+                client.onState(agentConsts.stateClientCertificateUnknownCA)
+            },
+            expectedVpnStates = listOf(
+                VpnState.Disabled,
+                VpnState.ScanningPorts,
+                VpnState.Connecting,
+                VpnState.Connected
+            )
+        )
+        // Unknown CA forces update.
+        coVerify(exactly = 1) { certificateRepository.updateCertificate(any(), any()) }
+    }
+
+    private fun TestCoroutineScope.mockLocalAgentErrorAndAssertStates(
+        agentErrorState: (NativeClient) -> Unit,
+        expectedVpnStates: List<VpnState>
+    ) {
+        var localAgentConnectAttempt = 0
+        setupMockAgent { client ->
+            if (localAgentConnectAttempt == 0) {
+                agentErrorState(client)
+            } else {
+                client.onState(agentConsts.stateConnecting)
+                client.onState(agentConsts.stateConnected)
+            }
+            localAgentConnectAttempt++
+        }
+        val vpnStates = runWhileCollecting(monitor.status) {
+            manager.connect(mockVpnUiDelegate, profileWireguard, "test")
+            advanceUntilIdle()
+        }
+        assertEquals(2, localAgentConnectAttempt)
+        assertEquals(expectedVpnStates, vpnStates.map { it.state })
+        assertEquals(VpnState.Connected, mockWireguard.selfState)
     }
 
     @Test
@@ -618,7 +694,4 @@ class VpnConnectionTests {
 
         verify { mockVpnUiDelegate.onServerRestricted(ReasonRestricted.SecureCoreUpgradeNeeded) }
     }
-
-    private fun collectVpnStates(statesLiveData: LiveData<VpnState>, block: () -> Unit): List<VpnState> =
-        runWhileCollectingLiveData(statesLiveData, true, block)
 }
