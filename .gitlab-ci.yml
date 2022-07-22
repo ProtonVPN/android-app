@@ -240,6 +240,7 @@ coverage report:
   only:
     - branches
   allow_failure: true
+  coverage: '/Total coverage: \d+.\d+/'
   artifacts:
     expire_in: 1 week
     expose_as: 'Coverage html'

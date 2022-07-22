@@ -93,7 +93,7 @@ task coverageReport() {
 
         printf "Missed %.2f branches%n", missed
         printf "Covered %.2f branches%n", covered
-        printf "Total %.2f%%%n", percentage
+        printf "Total coverage: %.2f%%%n", percentage
     }
 }
 
