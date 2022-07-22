@@ -1,0 +1,87 @@
+/*
+ * Copyright (c) 2022. Proton AG
+ *
+ * This file is part of ProtonVPN.
+ *
+ * ProtonVPN is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProtonVPN is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdk rootProject.ext.compileSdkVersion
+
+    flavorDimensions "default"
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+    productFlavors {
+        dev {}
+        black {}
+        googlePlay {}
+        amazon {}
+        direct {}
+        prod {}
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs += [
+                // There are internal compiler errors with new inference engine. Let's wait with enabling
+                // that.
+                "-XXLanguage:-NewInference",
+                "-Xopt-in=kotlin.RequiresOptIn"
+        ]
+    }
+}
+
+dependencies {
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+
+    implementation project(':app')
+    implementation "me.proton.core:domain:$core_version"
+    implementation "me.proton.core:network:$core_version"
+    implementation "me.proton.core:util-kotlin:$core_version"
+
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version") {
+        // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
+        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+    }
+
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_json_version"
+
+    compileOnly "io.mockk:mockk:$mockk_version" // Tests will include mockk or mockk-android depending on type.
+}

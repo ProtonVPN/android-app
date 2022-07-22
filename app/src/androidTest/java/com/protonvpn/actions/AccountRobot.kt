@@ -20,12 +20,10 @@ package com.protonvpn.actions
 
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
-import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import com.protonvpn.android.R
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import com.protonvpn.test.shared.TestUser
 
 /**
  * [AccountRobot] Contains all actions related to account component
