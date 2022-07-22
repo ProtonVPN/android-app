@@ -125,7 +125,7 @@ abstract class VpnBackend(
                     revokeCertificateAndReconnect("local agent error: $description ($code)")
 
                 agentConstants.errorCodeCertificateExpired ->
-                    refreshCertOnLocalAgent(force = false, reason = "local agent: certificate expired")
+                    reconnectLocalAgent(updateCertificate = false, reason = "local agent: certificate expired")
 
                 agentConstants.errorCodeKeyUsedMultipleTimes ->
                     setError(ErrorType.KEY_USED_MULTIPLE_TIMES)
@@ -349,11 +349,11 @@ abstract class VpnBackend(
                 // instead of UNREACHABLE_INTERNAL to skip recovery with pings, as those won't help in this situation.
                 VpnState.Error(ErrorType.UNREACHABLE)
             agentConstants.stateClientCertificateExpiredError -> {
-                refreshCertOnLocalAgent("local agent: certificate expired", force = false)
+                reconnectLocalAgent("local agent: certificate expired", updateCertificate = false)
                 VpnState.Connecting
             }
             agentConstants.stateClientCertificateUnknownCA -> {
-                refreshCertOnLocalAgent("local agent: unknown CA", force = true)
+                reconnectLocalAgent("local agent: unknown CA", updateCertificate = true)
                 VpnState.Connecting
             }
             agentConstants.stateServerCertificateError ->
@@ -369,30 +369,20 @@ abstract class VpnBackend(
         }
     }
 
-    private fun refreshCertOnLocalAgent(reason: String, force: Boolean) {
+    private fun reconnectLocalAgent(reason: String, updateCertificate: Boolean) {
         ProtonLogger.log(UserCertRefresh, "reason: $reason")
         selfStateObservable.postValue(VpnState.Connecting)
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
             currentUser.sessionId()?.let { sessionId ->
-                val result = if (force)
+                if (updateCertificate)
                     certificateRepository.updateCertificate(sessionId, false)
-                else
-                    certificateRepository.getCertificate(sessionId, false)
-                when (result) {
-                    is CertificateRepository.CertificateResult.Success ->
-                        connectToLocalAgent()
-                    is CertificateRepository.CertificateResult.Error -> {
-                        // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
-                        setError(ErrorType.LOCAL_AGENT_ERROR, description = "Failed to refresh certificate")
-                    }
-                }
+                connectToLocalAgent()
             }
         }
     }
 
-    @VisibleForTesting
-    fun revokeCertificateAndReconnect(reason: String) {
+    private fun revokeCertificateAndReconnect(reason: String) {
         selfStateObservable.postValue(VpnState.Connecting)
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
