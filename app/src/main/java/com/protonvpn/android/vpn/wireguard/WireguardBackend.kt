@@ -20,9 +20,12 @@ package com.protonvpn.android.vpn.wireguard
  */
 
 import android.content.Context
+import android.util.Log
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ConnError
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
@@ -33,11 +36,11 @@ import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
-import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
@@ -46,23 +49,26 @@ import com.wireguard.android.backend.BackendException
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.util.kotlin.DispatcherProvider
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.lang.IllegalStateException
+import java.util.concurrent.Executors
 import java.util.concurrent.CancellationException
 import java.util.concurrent.TimeoutException
 
 class WireguardBackend(
     val context: Context,
     val backend: GoBackend,
-    networkManager: NetworkManager,
+    val networkManager: NetworkManager,
     userData: UserData,
     appConfig: AppConfig,
     certificateRepository: CertificateRepository,
@@ -75,25 +81,15 @@ class WireguardBackend(
     userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
     dispatcherProvider, serverPing, localAgentUnreachableTracker, currentUser
 ) {
+    private val wireGuardIo = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
+    private var monitoringJob: Job? = null
     private var service: WireguardWrapperService? = null
     private val testTunnel = WireGuardTunnel(
         name = Constants.WIREGUARD_TUNNEL_NAME,
         config = null,
         state = Tunnel.State.DOWN
     )
-
-    init {
-        mainScope.launch {
-            testTunnel.stateFlow.collect {
-                vpnProtocolState = when (it) {
-                    Tunnel.State.DOWN -> VpnState.Disabled
-                    Tunnel.State.TOGGLE -> VpnState.Connecting
-                    Tunnel.State.UP -> VpnState.Connected
-                }
-            }
-        }
-    }
 
     override suspend fun prepareForConnection(
         profile: Profile,
@@ -129,30 +125,99 @@ class WireguardBackend(
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
+        vpnProtocolState = VpnState.Connecting
         val wireguardParams = connectionParams as ConnectionParamsWireguard
         try {
             val config = wireguardParams.getTunnelConfig(
                 context, userData, currentUser.sessionId(), certificateRepository
             )
-            val transmission = (wireguardParams.protocolSelection?.transmission ?: TransmissionProtocol.UDP)
-                .toString().lowercase()
-            withContext(Dispatchers.IO) {
+            val transmission = wireguardParams.protocolSelection?.transmission ?: TransmissionProtocol.UDP
+            val transmissionStr = transmission.toString().lowercase()
+            withContext(wireGuardIo) {
                 try {
-                    backend.setState(testTunnel, Tunnel.State.UP, config, transmission)
+                    backend.setState(testTunnel, Tunnel.State.UP, config, transmissionStr)
                 } catch (e: BackendException) {
                     if (e.reason == BackendException.Reason.UNABLE_TO_START_VPN && e.cause is TimeoutException) {
                         // GoBackend waits only 2s for the VPN service to start. Sometimes this is not enough, retry.
-                        backend.setState(testTunnel, Tunnel.State.UP, config, transmission)
+                        backend.setState(testTunnel, Tunnel.State.UP, config, transmissionStr)
                     } else {
                         throw e
                     }
                 }
+                startMonitoringJob()
             }
+        } catch (e: SecurityException) {
+            if (e.message?.contains("INTERACT_ACROSS_USERS") == true)
+                selfStateObservable.value = VpnState.Error(ErrorType.MULTI_USER_PERMISSION)
+            else
+                handleConnectException(e)
         } catch (e: IllegalStateException) {
             if (e is CancellationException) throw e
             else handleConnectException(e)
         } catch (e: BackendException) {
             handleConnectException(e)
+        }
+    }
+
+    private suspend fun startMonitoringJob() {
+        monitoringJob = mainScope.launch(dispatcherProvider.Io) {
+            ProtonLogger.logCustom(LogCategory.CONN_WIREGUARD, "start monitoring job")
+            val networkJob = launch(wireGuardIo) {
+                networkManager.observe().collect { status ->
+                    val isConnected = status != NetworkStatus.Disconnected
+                    backend.setNetworkAvailable(isConnected)
+                }
+            }
+            try {
+                var failCountdown = FAIL_COUNTDOWN_INIT
+                var keepRunning = true
+                while (keepRunning) {
+                    // NOTE: backend.state call is blocking
+                    val newState = when (val state = backend.state) {
+                        WG_STATE_DISABLED -> {
+                            if (vpnProtocolState !is VpnState.Error)
+                                VpnState.Disabled else null
+                        }
+                        WG_STATE_CONNECTING ->
+                            VpnState.Connecting
+                        WG_STATE_CONNECTED ->
+                            VpnState.Connected
+                        WG_STATE_ERROR -> {
+                            failCountdown--
+                            if (failCountdown <= 0) {
+                                failCountdown = FAIL_COUNTDOWN_INIT
+                                VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
+                            } else {
+                                VpnState.Connecting
+                            }
+                        }
+                        WG_STATE_WAITING_FOR_NETWORK -> {
+                            VpnState.WaitingForNetwork
+                        }
+                        WG_STATE_CLOSED -> {
+                            keepRunning = false
+                            VpnState.Disabled
+                        }
+                        else -> {
+                            DebugUtils.fail("unexpected WireGuard state $state")
+                            ProtonLogger.logCustom(
+                                LogLevel.ERROR, LogCategory.CONN_WIREGUARD, "unexpected WireGuard state $state"
+                            )
+                            VpnState.Error(ErrorType.GENERIC_ERROR)
+                        }
+                    }
+                    mainScope.launch {
+                        newState?.let { state ->
+                            if (state != vpnProtocolState ||
+                                    (state as? VpnState.Error)?.type == ErrorType.UNREACHABLE_INTERNAL)
+                                vpnProtocolState = state
+                        }
+                    }
+                }
+            } finally {
+                networkJob.cancel()
+                ProtonLogger.logCustom(LogCategory.CONN_WIREGUARD, "stop monitoring job")
+            }
         }
     }
 
@@ -164,7 +229,9 @@ class WireguardBackend(
             vpnProtocolState = VpnState.Disabled
             delay(10)
         }
-        withContext(Dispatchers.IO) { backend.setState(testTunnel, Tunnel.State.DOWN, null) }
+        withContext(wireGuardIo) {
+            backend.setState(testTunnel, Tunnel.State.DOWN, null)
+        }
     }
 
     fun serviceCreated(vpnService: WireguardWrapperService) {
@@ -185,5 +252,16 @@ class WireguardBackend(
         )
         // TODO do not use generic error here (depends on other branch)
         selfStateObservable.value = VpnState.Error(ErrorType.GENERIC_ERROR)
+    }
+
+    companion object {
+        const val WG_STATE_CLOSED = -1
+        const val WG_STATE_DISABLED = 0
+        const val WG_STATE_CONNECTING = 1
+        const val WG_STATE_CONNECTED = 2
+        const val WG_STATE_ERROR = 3
+        const val WG_STATE_WAITING_FOR_NETWORK = 4
+
+        const val FAIL_COUNTDOWN_INIT = 5
     }
 }

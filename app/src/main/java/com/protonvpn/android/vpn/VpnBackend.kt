@@ -419,8 +419,6 @@ abstract class VpnBackend(
             agentConnectionJob = mainScope.launch {
                 val certInfo = certificateRepository.getCertificate(currentUser.sessionId()!!)
                 if (certInfo is CertificateRepository.CertificateResult.Success) {
-                    // Tunnel needs a moment to become functional
-                    delay(500)
 
                     prepareFeaturesForAgentConnection()
                     agent = createAgentConnection(certInfo, hostname, createNativeClient())
