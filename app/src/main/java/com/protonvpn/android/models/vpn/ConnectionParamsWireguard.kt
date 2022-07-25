@@ -62,7 +62,9 @@ class ConnectionParamsWireguard(
             throw IllegalStateException("Null server public key. Cannot connect to wireguard")
         }
 
-        val excludedIPs = mutableListOf<String>()
+        // Our modified WireGuard requires server IP excluded as we replaced
+        // VpnService.protect with split tunneling to have TCP/TLS socket support.
+        val excludedIPs = mutableListOf(connectingDomain.entryIp)
         var excludedApps: Set<String> = emptySet()
         if (userData.useSplitTunneling) {
             userData.splitTunnelIpAddresses.takeIf { it.isNotEmpty() }?.let {
