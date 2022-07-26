@@ -64,7 +64,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 private const val SCAN_TIMEOUT_MILLIS = 5000L
-private const val MAX_LOCAL_AGENT_CONNECTION_FAILURES = 3
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
@@ -87,7 +86,6 @@ interface VpnBackendProvider {
 interface AgentConnectionInterface {
     val state: String
     val status: StatusMessage?
-    val unableToConnect: Boolean
     fun setFeatures(features: Features)
     fun setConnectivity(connectivity: Boolean)
     fun close()
@@ -106,9 +104,6 @@ abstract class VpnBackend(
 
     inner class VpnAgentClient : NativeClient {
         private val agentConstants = LocalAgent.constants()
-
-        @Volatile private var unreachableCount = 0
-        val failedTooManyTimes: Boolean get() = unreachableCount >= MAX_LOCAL_AGENT_CONNECTION_FAILURES
 
         override fun log(msg: String) {
             ProtonLogger.logCustom(LogCategory.LOCAL_AGENT, msg)
@@ -156,14 +151,6 @@ abstract class VpnBackend(
 
         override fun onState(state: String) {
             ProtonLogger.log(LocalAgentStateChanged, state)
-            when (state) {
-                agentConstants.stateServerUnreachable,
-                agentConstants.stateConnectionError ->
-                    unreachableCount++
-                agentConstants.stateConnected,
-                agentConstants.stateDisconnected ->
-                    unreachableCount = 0
-            }
             processCombinedState(vpnProtocolState, state)
         }
 
@@ -224,7 +211,6 @@ abstract class VpnBackend(
 
         override val state: String get() = agent.state
         override val status: StatusMessage? get() = agent.status
-        override val unableToConnect: Boolean get() = nativeClient.failedTooManyTimes
 
         override fun setFeatures(features: Features) {
             agent.setFeatures(features)
@@ -358,14 +344,10 @@ abstract class VpnBackend(
             agentConstants.stateConnected ->
                 VpnState.Connected
             agentConstants.stateConnectionError,
-            agentConstants.stateServerUnreachable -> {
-                if (agent?.unableToConnect == true) {
-                    reconnectOnLocalAgentUnreachable()
-                }
+            agentConstants.stateServerUnreachable ->
                 // When unreachable comes from local agent it means VPN tunnel is still active, set UNREACHABLE
                 // instead of UNREACHABLE_INTERNAL to skip recovery with pings, as those won't help in this situation.
                 VpnState.Error(ErrorType.UNREACHABLE)
-            }
             agentConstants.stateClientCertificateExpiredError -> {
                 refreshCertOnLocalAgent("local agent: certificate expired", force = false)
                 VpnState.Connecting
@@ -407,11 +389,6 @@ abstract class VpnBackend(
                 }
             }
         }
-    }
-
-    private fun reconnectOnLocalAgentUnreachable() {
-        closeAgentConnection()
-        setError(ErrorType.UNREACHABLE_INTERNAL)
     }
 
     @VisibleForTesting
