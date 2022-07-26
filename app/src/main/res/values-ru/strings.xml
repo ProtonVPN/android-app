@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">через %1$s</string>
     <string name="connected">Подключено</string>
     <string name="buttonConnect">Подключиться</string>
-    <string name="loaderInitializing">Initializing connection…</string>
+    <string name="loaderInitializing">Инициализация подключения…</string>
     <string name="loaderConnectingTo">Подключение к %1$s</string>
     <string name="loaderConnectingToLabel">Подключение к…</string>
     <string name="loaderNotConnected">Не подключен (не защищен)</string>
@@ -135,7 +135,7 @@
     <string name="errorEmptyExitCountry">Поле \"Страна выхода\" не может быть пустым</string>
     <string name="onboardingDialogMapView">Используйте \"Просмотр карты\", чтобы подключиться и фактически увидеть, где находится VPN-сервер.</string>
     <string name="onboardingDialogProfiles">Создавайте профили для ваших любимых серверов и получайте к ним легкий доступ. Кроме того, долгое нажатие на значок Proton VPN в нижней части экрана покажет вам все ваши профили. Нажатие на один из профилей соединит вас с VPN.</string>
-    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
+    <string name="onboardingNetshield">Защищает вас от вредоносных программ, рекламы и трекеров.\nУчтите: если какие-нибудь сайты не загружаются, попробуйте отключить NetShield.</string>
     <string name="onboardingFAB">Быстрое подключение / Профили</string>
     <string name="onboardingFABDescription">Нажмите на эту кнопку, чтобы быстро подключиться</string>
     <string name="onboardingSignup">Зарегистрироваться</string>
@@ -158,9 +158,9 @@
     <string name="tabsProfiles">Профили</string>
     <string name="log_title">Журнал</string>
     <string name="disconnect">Отключиться</string>
-    <string name="state_connecting">Connecting…</string>
+    <string name="state_connecting">Подключение…</string>
     <string name="state_connected">Подключено</string>
-    <string name="state_disconnecting">Disconnecting…</string>
+    <string name="state_disconnecting">Отключение…</string>
     <string name="state_error">Ошибка</string>
     <string name="error_server_unreachable">Не могу подключиться к VPN. Пожалуйста, проверьте своё подключение и попробуйте снова.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -609,14 +609,14 @@
     <string name="update_screen_title">Обновить Proton VPN</string>
     <string name="update_screen_description">Вероятность возникновения проблем выше на старых версиях Proton VPN.</string>
     <string name="server_search_menu_title">Поиск</string>
-    <string name="server_search_hint">Country, city, server</string>
+    <string name="server_search_hint">Страна, город, сервер</string>
     <string name="server_search_hint_secure_core">Страна</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
     <string name="server_search_countries_header">Страны (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
+    <string name="server_search_sc_countries_header">Страны с серверами Secure Core (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
     <string name="server_search_cities_header">Города (%1$d)</string>
