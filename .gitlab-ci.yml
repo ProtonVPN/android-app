@@ -336,7 +336,9 @@ include:
     ref: main
     file: '/ci/templates/checkout-core.gitlab-ci.yml'
 
-  - local: '/appetize-integration.yml'
+  - project: 'proton/mobile/android/proton-libs'
+    ref: main
+    file: '/ci/templates-shared/appetize-integration.yml'
 
   - local: '/.gitlab-ci-firebase.yml'
 
