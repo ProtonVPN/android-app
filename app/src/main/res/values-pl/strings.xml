@@ -372,7 +372,7 @@
     <string name="tv_detail_description_country_not_available">Ten kraj nie jest dostępny. Uzyskaj więcej opcji streamingu z planem Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Odtwarzaj swoje ulubione nagrania, filmy i wydarzenia sportowe w swoich aplikacjach.</string>
     <string name="tv_login_title_signin">Zaloguj się do Proton VPN</string>
-    <string name="tv_login_title_welcome">Uzyskaj dostęp do streamingu swoich ulubionych treści wideo</string>
+    <string name="tv_login_title_welcome">Odtwarzaj ulubione treści wideo</string>
     <string name="tv_login_welcome_description">Oglądaj treści wideo z serwisów takich jak YouTube, Twitch, Netflix, Amazon Prime i Hulu z planem Proton VPN Plus.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Załóż konto Proton VPN na <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Zaloguj się</string>

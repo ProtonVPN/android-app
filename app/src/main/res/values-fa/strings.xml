@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">از طریق %1$s</string>
     <string name="connected">متصل</string>
     <string name="buttonConnect">اتصال</string>
-    <string name="loaderInitializing">Initializing connection…</string>
+    <string name="loaderInitializing">در حال راه‌اندازی اتصال…</string>
     <string name="loaderConnectingTo">در حال اتصال به %1$s</string>
     <string name="loaderConnectingToLabel">درحال اتصال به…</string>
     <string name="loaderNotConnected">متصل نیست (ناامن)</string>
@@ -135,7 +135,7 @@
     <string name="errorEmptyExitCountry">وارد کردن کشور خروجی الزامی است</string>
     <string name="onboardingDialogMapView">از نقشه برای اتصال استفاده کنید و محل سرور VPN را ببینید.</string>
     <string name="onboardingDialogProfiles">برای سرورهای مورد علاقه‌ی خود پروفایل بسازید تا به آن‌ها دسترسی راحت‌تری داشته باشید. همچنین لمس طولانی آیکون Proton VPN در پایین صفحه تمامی پروفایل‌هایتان را به شما نشان می‌دهد. لمس هر یک از پروفایل‌ها شما را به VPN متصل می‌کند.</string>
-    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
+    <string name="onboardingNetshield">از شما در برابر بدافزار، آگهی‌ها، و ردیاب‌ها محافظت می‌‌کند.\nتوجه: اگر برخی سایت‌ها بارگذاری نمی‌شوند، غیرفعال کردن NetShield را امتحان کنید.</string>
     <string name="onboardingFAB">اتصال سریع / پروفایل‌ها</string>
     <string name="onboardingFABDescription">برای سریع‌ترین راه اتصال، روی این دکمه ضربه بزنید</string>
     <string name="onboardingSignup">ثبت نام</string>
@@ -158,9 +158,9 @@
     <string name="tabsProfiles">پروفایل‌ها</string>
     <string name="log_title">گزارش</string>
     <string name="disconnect">قطع ارتباط</string>
-    <string name="state_connecting">Connecting…</string>
+    <string name="state_connecting">در حال اتصال...</string>
     <string name="state_connected">متصل</string>
-    <string name="state_disconnecting">Disconnecting…</string>
+    <string name="state_disconnecting">در حال قطع اتصال...</string>
     <string name="state_error">خطا</string>
     <string name="error_server_unreachable">اتصال به VPN ممکن نبود. لطفاً اتصال خود را بررسی و دوباره امتحان کنید.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -591,14 +591,14 @@
     <string name="update_screen_title">به‌روزرسانی Proton VPN</string>
     <string name="update_screen_description">اگر از نسخه‌های قدیمی‌تر Proton VPN استفاده می‌کنید احتمال برخورد با اشکال برای شما بالاتر است.</string>
     <string name="server_search_menu_title">جستجو</string>
-    <string name="server_search_hint">Country, city, server</string>
+    <string name="server_search_hint">کشور، شهر، سرور</string>
     <string name="server_search_hint_secure_core">کشور</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
     <string name="server_search_countries_header">کشورها (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
+    <string name="server_search_sc_countries_header">کشورهای Secure Core (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
     <string name="server_search_cities_header">شهرها (%1$d)</string>
