@@ -18,11 +18,12 @@
  */
 package com.protonvpn.android.vpn.openvpn
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ConnConnectScan
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
@@ -44,8 +45,10 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
+import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.blinkt.openvpn.core.ConnectionStatus
 import de.blinkt.openvpn.core.LogItem
 import de.blinkt.openvpn.core.OpenVPNService.PAUSE_VPN
@@ -58,19 +61,22 @@ import me.proton.core.util.kotlin.DispatcherProvider
 import org.apache.commons.codec.binary.Hex
 import org.apache.commons.codec.digest.HmacAlgorithms
 import org.apache.commons.codec.digest.HmacUtils
-import java.io.ByteArrayOutputStream
-import java.io.DataOutputStream
 import java.util.Random
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class OpenVpnBackend(
+@Singleton
+class OpenVpnBackend @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     val random: Random,
     networkManager: NetworkManager,
     userData: UserData,
     appConfig: AppConfig,
-    val unixTime: () -> Long,
+    @WallClock val unixTime: () -> Long,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
+    serverPing: ServerPing,
     currentUser: CurrentUser
 ) : VpnBackend(
     userData,
@@ -80,6 +86,7 @@ class OpenVpnBackend(
     VpnProtocol.OpenVPN,
     mainScope,
     dispatcherProvider,
+    serverPing,
     currentUser
 ), VpnStatus.StateListener {
 
@@ -137,7 +144,7 @@ class OpenVpnBackend(
                         "${connectingDomain.entryDomain}/$vpnProtocol, TCP ports: $ports"
                     )
                     ports.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
-                        NetUtils.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
+                        serverPing.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
                     }
                 } else null
 
@@ -161,7 +168,7 @@ class OpenVpnBackend(
         random.nextBytes(sessionId)
         val timestamp = (unixTime() / 1000).toInt()
 
-        val packet = byteArrayBuilder {
+        val packet = NetUtils.byteArrayBuilder {
             writeInt(1)
             writeInt(timestamp)
             write(7 shl 3)
@@ -174,7 +181,7 @@ class OpenVpnBackend(
         val tlsAuthKey = Hex.decodeHex(tlsAuthKeyHex.toCharArray()).drop(192).take(64).toByteArray()
         val hmac = HmacUtils.getInitializedMac(HmacAlgorithms.HMAC_SHA_512, tlsAuthKey).doFinal(packet)
 
-        val authenticatedPacket = byteArrayBuilder {
+        val authenticatedPacket = NetUtils.byteArrayBuilder {
             write(7 shl 3)
             write(sessionId)
             write(hmac)
@@ -184,17 +191,11 @@ class OpenVpnBackend(
             writeInt(0)
         }
 
-        return if (tcp) byteArrayBuilder {
+        return if (tcp) NetUtils.byteArrayBuilder {
             writeShort(authenticatedPacket.size)
             write(authenticatedPacket)
         } else
             authenticatedPacket
-    }
-
-    private fun byteArrayBuilder(block: DataOutputStream.() -> Unit): ByteArray {
-        val byteStream = ByteArrayOutputStream()
-        DataOutputStream(byteStream).use(block)
-        return byteStream.toByteArray()
     }
 
     override suspend fun connect(connectionParams: ConnectionParams) {
@@ -214,13 +215,13 @@ class OpenVpnBackend(
 
     private fun startOpenVPN(action: String?) {
         val ovpnService =
-                Intent(ProtonApplication.getAppContext(), OpenVPNWrapperService::class.java)
+                Intent(appContext, OpenVPNWrapperService::class.java)
         if (action != null)
             ovpnService.action = action
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            ProtonApplication.getAppContext().startForegroundService(ovpnService)
+            appContext.startForegroundService(ovpnService)
         } else {
-            ProtonApplication.getAppContext().startService(ovpnService)
+            appContext.startService(ovpnService)
         }
     }
 
@@ -280,7 +281,7 @@ class OpenVpnBackend(
             VpnStatus.LogLevel.ERROR -> LogLevel.ERROR
             null -> LogLevel.INFO
         }
-        ProtonLogger.logCustom(logLevel, LogCategory.PROTOCOL, item.getString(ProtonApplication.getAppContext()))
+        ProtonLogger.logCustom(logLevel, LogCategory.PROTOCOL, item.getString(appContext))
     }
 
     companion object {

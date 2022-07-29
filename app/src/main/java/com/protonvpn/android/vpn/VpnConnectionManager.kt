@@ -93,6 +93,7 @@ class VpnConnectionManager @Inject constructor(
     private val certificateRepository: CertificateRepository,
     private val scope: CoroutineScope,
     @WallClock private val now: () -> Long,
+    private val currentVpnServiceProvider: CurrentVpnServiceProvider,
     private val currentUser: CurrentUser,
     powerManager: PowerManager
 ) : VpnStateSource {
@@ -174,6 +175,11 @@ class VpnConnectionManager @Inject constructor(
                 if (vpnStateMonitor.isEstablishingOrConnected)
                     fallbackConnect(fallback)
             }
+        }
+        activeBackendObservable.observeForever {
+            // Note: it should be CurrentVpnServiceProvider that observes activeBackendObservable but this would cause
+            // dependency cycle.
+            currentVpnServiceProvider.activeVpnBackend = it?.let { it::class }
         }
 
         initialized = true

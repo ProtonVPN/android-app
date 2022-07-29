@@ -135,6 +135,7 @@ class VpnConnectionManagerTests {
             vpnBackgroundUiDelegate = mockk(),
             serverManager = serverManager,
             certificateRepository = mockk(),
+            currentVpnServiceProvider = mockk(relaxed = true),
             currentUser = mockCurrentUser,
             scope = testScope,
             now = clock,

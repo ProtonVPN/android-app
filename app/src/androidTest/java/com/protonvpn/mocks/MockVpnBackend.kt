@@ -35,6 +35,7 @@ import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.NetworkManager
 import com.proton.gopenpgp.localAgent.NativeClient
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.vpn.ServerPing
 import kotlinx.coroutines.yield
 
 typealias MockAgentProvider = (
@@ -50,6 +51,7 @@ class MockVpnBackend(
     userData: UserData,
     appConfig: AppConfig,
     val protocol: VpnProtocol,
+    serverPing: ServerPing,
     currentUser: CurrentUser
 ) : VpnBackend(
     userData = userData,
@@ -59,6 +61,7 @@ class MockVpnBackend(
     vpnProtocol = protocol,
     mainScope = scope,
     dispatcherProvider = DefaultDispatcherProvider(),
+    serverPing = serverPing,
     currentUser = currentUser
 ) {
     private var agentProvider: MockAgentProvider? = null

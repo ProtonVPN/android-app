@@ -25,6 +25,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.CurrentVpnServiceProvider
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.wireguard.android.backend.GoBackend
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,10 +37,12 @@ class WireguardWrapperService : GoBackend.VpnService() {
     @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var wireguardBackend: WireguardBackend
     @Inject lateinit var connectionManager: VpnConnectionManager
+    @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
 
     override fun onCreate() {
         super.onCreate()
         wireguardBackend.serviceCreated(this)
+        currentVpnServiceProvider.onVpnServiceCreated(WireguardBackend::class, this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -64,6 +67,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
     override fun onDestroy() {
         wireguardBackend.serviceDestroyed()
         connectionManager.onVpnServiceDestroyed()
+        currentVpnServiceProvider.onVpnServiceDestroyed(WireguardBackend::class)
         super.onDestroy()
     }
 

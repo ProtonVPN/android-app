@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.vpn
 
+import android.content.ComponentName
 import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
@@ -48,7 +49,6 @@ import com.proton.gopenpgp.localAgent.Features
 import com.proton.gopenpgp.localAgent.LocalAgent
 import com.proton.gopenpgp.localAgent.NativeClient
 import com.proton.gopenpgp.localAgent.StatusMessage
-import com.proton.gopenpgp.vpnPing.VpnPing
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ConnConnectScan
 import com.protonvpn.android.logging.ConnConnectScanFailed
@@ -63,7 +63,7 @@ import com.protonvpn.android.utils.LiveEvent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-private const val SCAN_TIMEOUT_MILLIS = 5000L
+private const val SCAN_TIMEOUT_MILLIS = 5000
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
@@ -99,6 +99,7 @@ abstract class VpnBackend(
     val vpnProtocol: VpnProtocol,
     val mainScope: CoroutineScope,
     val dispatcherProvider: DispatcherProvider,
+    val serverPing: ServerPing,
     val currentUser: CurrentUser
 ) : VpnStateSource {
 
@@ -466,12 +467,9 @@ abstract class VpnBackend(
         }
     }
 
-    private fun pingUdp(ip: String, port: Int, publicKeyX25519: String?): Boolean {
-        val responds = VpnPing.pingSync(ip, port.toLong(), publicKeyX25519, SCAN_TIMEOUT_MILLIS)
-        if (!responds) {
-            ProtonLogger.log(ConnConnectScanFailed, "destination: $ip:$port (UDP)")
-        }
-        return responds
+    private suspend fun pingUdp(ip: String, port: Int, publicKeyX25519: String?): Boolean {
+        val data = serverPing.buildUdpPingData(publicKeyX25519)
+        return serverPing.ping(ip, port, data, tcp = false, timeout = SCAN_TIMEOUT_MILLIS)
     }
 
     companion object {

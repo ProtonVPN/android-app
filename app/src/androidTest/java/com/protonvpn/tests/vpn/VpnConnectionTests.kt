@@ -76,6 +76,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
+import com.protonvpn.android.vpn.ServerPing
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -123,6 +124,9 @@ class VpnConnectionTests {
 
     @MockK
     lateinit var mockVpnBackgroundUiDelegate: VpnBackgroundUiDelegate
+
+    @RelaxedMockK
+    lateinit var mockServerPing: ServerPing
 
     @RelaxedMockK
     lateinit var vpnUser: VpnUser
@@ -183,12 +187,9 @@ class VpnConnectionTests {
 
         every { appConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
             ikeV2Enabled = true, openVPNEnabled = true, wireguardEnabled = true)
-        mockStrongSwan = spyk(MockVpnBackend(
-            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.IKEv2, currentUser))
-        mockOpenVpn = spyk(MockVpnBackend(
-            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.OpenVPN, currentUser))
-        mockWireguard = spyk(MockVpnBackend(
-            scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.WireGuard, currentUser))
+        mockStrongSwan = spyk(createMockVpnBackend(VpnProtocol.IKEv2))
+        mockOpenVpn = spyk(createMockVpnBackend(VpnProtocol.OpenVPN))
+        mockWireguard = spyk(createMockVpnBackend(VpnProtocol.WireGuard))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
@@ -201,8 +202,8 @@ class VpnConnectionTests {
 
         monitor = VpnStateMonitor()
         manager = VpnConnectionManager(permissionDelegate, userData, backendProvider, networkManager, vpnErrorHandler, monitor,
-            mockVpnBackgroundUiDelegate, serverManager, certificateRepository, scope, ::time, currentUser,
-            mockk(relaxed = true))
+            mockVpnBackgroundUiDelegate, serverManager, certificateRepository, scope, ::time, mockk(relaxed = true),
+            currentUser, mockk(relaxed = true))
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
@@ -695,4 +696,9 @@ class VpnConnectionTests {
 
         verify { mockVpnUiDelegate.onServerRestricted(ReasonRestricted.SecureCoreUpgradeNeeded) }
     }
+
+    private fun createMockVpnBackend(protocol: VpnProtocol): MockVpnBackend =
+        MockVpnBackend(
+            scope, networkManager, certificateRepository, userData, appConfig, protocol, mockServerPing, currentUser
+        )
 }
