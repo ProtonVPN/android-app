@@ -56,6 +56,7 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
+import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnErrorUIManager
@@ -389,6 +390,7 @@ object AppModule {
         appConfig: AppConfig,
         certificateRepository: CertificateRepository,
         dispatcherProvider: DispatcherProvider,
+        serverPing: ServerPing,
         currentUser: CurrentUser
     ) = WireguardBackend(
         ProtonApplication.getAppContext(),
@@ -399,47 +401,7 @@ object AppModule {
         certificateRepository,
         dispatcherProvider,
         scope,
-        currentUser
-    )
-
-    @Singleton
-    @Provides
-    fun provideStrongSwanBackend(
-        userData: UserData,
-        networkManager: NetworkManager,
-        appConfig: AppConfig,
-        certificateRepository: CertificateRepository,
-        dispatcherProvider: DispatcherProvider,
-        currentUser: CurrentUser
-    ) = StrongSwanBackend(
-        random,
-        networkManager,
-        scope,
-        userData,
-        appConfig,
-        certificateRepository,
-        dispatcherProvider,
-        currentUser
-    )
-
-    @Singleton
-    @Provides
-    fun provideOpenVpnBackend(
-        userData: UserData,
-        networkManager: NetworkManager,
-        appConfig: AppConfig,
-        certificateRepository: CertificateRepository,
-        dispatcherProvider: DispatcherProvider,
-        currentUser: CurrentUser
-    ) = OpenVpnBackend(
-        random,
-        networkManager,
-        userData,
-        appConfig,
-        System::currentTimeMillis,
-        certificateRepository,
-        scope,
-        dispatcherProvider,
+        serverPing,
         currentUser
     )
 

@@ -36,6 +36,7 @@ import com.protonvpn.android.utils.Constants.MAIN_ACTIVITY_CLASS
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.CurrentVpnServiceProvider
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.strongswan.android.logic.CharonVpnService
@@ -50,17 +51,19 @@ class ProtonCharonVpnService : CharonVpnService() {
     @Inject lateinit var manager: ServerManager
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var notificationHelper: NotificationHelper
+    @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
     @Inject lateinit var currentUser: CurrentUser
 
     override fun onCreate() {
         super.onCreate()
-
+        currentVpnServiceProvider.onVpnServiceCreated(StrongSwanBackend::class, this)
         Log.i("[IKEv2] onCreate")
     }
 
     override fun onDestroy() {
         Log.i("[IKEv2] onDestroy")
         vpnConnectionManager.onVpnServiceDestroyed()
+        currentVpnServiceProvider.onVpnServiceDestroyed(StrongSwanBackend::class)
         super.onDestroy()
     }
 

@@ -28,6 +28,7 @@ import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.CurrentVpnServiceProvider
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
 import de.blinkt.openvpn.VpnProfile
@@ -41,10 +42,12 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
     @Inject lateinit var userData: UserData
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var notificationHelper: NotificationHelper
+    @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
 
     override fun onCreate() {
         super.onCreate()
         NotificationHelper.initNotificationChannel(applicationContext)
+        currentVpnServiceProvider.onVpnServiceCreated(OpenVpnBackend::class, this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -69,6 +72,7 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
 
     override fun onDestroy() {
         vpnConnectionManager.onVpnServiceDestroyed()
+        currentVpnServiceProvider.onVpnServiceDestroyed(OpenVpnBackend::class)
         super.onDestroy()
     }
 }

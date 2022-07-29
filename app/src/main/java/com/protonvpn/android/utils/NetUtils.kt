@@ -18,23 +18,11 @@
  */
 package com.protonvpn.android.utils
 
-import com.protonvpn.android.logging.ConnConnectScanFailed
-import com.protonvpn.android.logging.ProtonLogger
-import kotlinx.coroutines.CancellableContinuation
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.ApiResult
-import java.io.IOException
+import java.io.ByteArrayOutputStream
+import java.io.DataOutputStream
 import java.lang.Long.min
-import java.net.DatagramPacket
-import java.net.DatagramSocket
-import java.net.InetAddress
-import java.net.InetSocketAddress
-import java.net.Socket
-import java.net.SocketAddress
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.resume
 import kotlin.random.Random
 
 object NetUtils {
@@ -49,70 +37,10 @@ object NetUtils {
             } ?: ip
     }
 
-    suspend fun ping(
-        ip: String,
-        port: Int,
-        pingData: ByteArray,
-        tcp: Boolean,
-        timeout: Int = 5000
-    ): Boolean = withContext(Dispatchers.IO) {
-        suspendCancellableCoroutine<Boolean> { continuation ->
-            val result = try {
-                val address = InetSocketAddress(InetAddress.getByName(ip), port)
-                val result = if (tcp)
-                    pingTcp(pingData, address, continuation, timeout)
-                else
-                    pingUdp(pingData, address, continuation, timeout)
-                result
-            } catch (e: IOException) {
-                val protocol = (if (tcp) "TCP" else "UDP")
-                ProtonLogger.log(
-                    ConnConnectScanFailed,
-                    "destination: $ip:$port ($protocol); error: $e"
-                )
-                false
-            }
-            continuation.resume(result)
-        }
-    }
-
-    private fun pingTcp(
-        pingData: ByteArray,
-        socketAddress: SocketAddress,
-        continuation: CancellableContinuation<*>,
-        timeout: Int
-    ): Boolean {
-        Socket().use { socket ->
-            continuation.invokeOnCancellation {
-                socket.close()
-            }
-            socket.soTimeout = timeout
-            socket.connect(socketAddress, timeout)
-            socket.getOutputStream().apply {
-                write(pingData)
-                flush()
-            }
-            return socket.getInputStream().read() != -1
-        }
-    }
-
-    private fun pingUdp(
-        pingData: ByteArray,
-        socketAddress: SocketAddress,
-        continuation: CancellableContinuation<*>,
-        timeout: Int
-    ): Boolean {
-        DatagramSocket().use { socket ->
-            continuation.invokeOnCancellation {
-                socket.close()
-            }
-            val packet = DatagramPacket(pingData, pingData.size, socketAddress)
-            socket.soTimeout = timeout
-            socket.send(packet)
-            val returnPacket = DatagramPacket(ByteArray(1), 1)
-            socket.receive(returnPacket)
-            return returnPacket.length > 0
-        }
+    fun byteArrayBuilder(block: DataOutputStream.() -> Unit): ByteArray {
+        val byteStream = ByteArrayOutputStream()
+        DataOutputStream(byteStream).use(block)
+        return byteStream.toByteArray()
     }
 }
 

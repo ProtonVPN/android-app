@@ -36,6 +36,7 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
+import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import com.wireguard.android.backend.BackendException
@@ -64,10 +65,11 @@ class WireguardBackend(
     certificateRepository: CertificateRepository,
     dispatcherProvider: DispatcherProvider,
     mainScope: CoroutineScope,
+    serverPing: ServerPing,
     currentUser: CurrentUser
 ) : VpnBackend(
     userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
-    dispatcherProvider, currentUser
+    dispatcherProvider, serverPing, currentUser
 ) {
 
     private var service: WireguardWrapperService? = null
