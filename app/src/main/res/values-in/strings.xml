@@ -550,7 +550,7 @@
     <string name="onboarding_welcome_action">Mulai</string>
     <string name="onboarding_available_on_plus">Tersedia dengan Plus</string>
     <string name="onboarding_streaming_title">Akses layanan streaming yang terblokir</string>
-    <string name="onboarding_streaming_description">Akses konten streaming apapun secara aman, bahkan ketika Anda sedang bepergian ke luar negeri sekalipun. Kini juga tersedia untuk perangkat AndroidTV.</string>
+    <string name="onboarding_streaming_description">Securely access any content, even while traveling to other countries. Now also on Android TV.</string>
     <string name="onboarding_protection_title">Lindungi diri Anda di manapun Anda berada</string>
     <string name="onboarding_protection_description">Proton VPN mendukung berbagai perangkat, mulai dari Windows, macOS, dan masih banyak lagi.</string>
     <string name="onboarding_netshield_title">Blokir iklan dan lain sebagainya</string>
