@@ -52,6 +52,7 @@ import me.proton.core.util.kotlin.DispatcherProvider
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.lang.IllegalStateException
+import java.util.concurrent.CancellationException
 import java.util.concurrent.TimeoutException
 
 class WireguardBackend(
@@ -134,7 +135,8 @@ class WireguardBackend(
                 }
             }
         } catch (e: IllegalStateException) {
-            handleConnectException(e)
+            if (e is CancellationException) throw e
+            else handleConnectException(e)
         } catch (e: BackendException) {
             handleConnectException(e)
         }
