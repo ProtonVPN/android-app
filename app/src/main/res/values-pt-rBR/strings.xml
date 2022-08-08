@@ -226,7 +226,7 @@
     <string name="serverSelection">Servidor</string>
     <string name="selectServer">Selecione o servidor</string>
     <string name="protocolLabel">Protocolo</string>
-    <string name="selectProtocol">Selecione o protocolo</string>
+    <string name="selectProtocol">Selecionar protocolo</string>
     <string name="protocol">Protocolo:</string>
     <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>

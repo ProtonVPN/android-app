@@ -537,7 +537,7 @@
         <item quantity="many">Під\'єднайте %d пристроїв одночасно</item>
         <item quantity="other">Під\'єднайте %d пристроїв одночасно</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Блокуйте рекламу та зловмисні програми за допомогою NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
     <string name="upgrade_plus_countries_speeds">Переглядайте контент на найвищій швидкості (10 Гбіт/с)</string>
     <string name="upgrade_plus_countries_more">І більше преміальних функцій</string>
     <string name="upgrade_safe_mode_title">Дозволити трафік до нестандартних портів</string>
