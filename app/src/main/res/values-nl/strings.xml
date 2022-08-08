@@ -519,7 +519,7 @@
         <item quantity="one">%d apparaat aansluiten</item>
         <item quantity="other">Sluit %d apparaten tegelijk aan</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Blokkeer advertenties en malware met NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
     <string name="upgrade_plus_countries_speeds">Browse aan de hoogste snelheden (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">En veel meer premium functies</string>
     <string name="upgrade_safe_mode_title">Laat verkeer toe naar niet-standaard poorten</string>

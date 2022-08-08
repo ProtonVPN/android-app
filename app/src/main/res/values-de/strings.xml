@@ -519,7 +519,7 @@
         <item quantity="one">%d Gerät verbinden</item>
         <item quantity="other">Bis zu %d Geräte gleichzeitig verbinden</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Blockiere Werbung und Malware mit NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Werbung und Malware mit NetShield sperren</string>
     <string name="upgrade_plus_countries_speeds">Surfe mit höchster Geschwindigkeit (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">Sowie viele weitere Premium-Funktionen</string>
     <string name="upgrade_safe_mode_title">Datenverkehr zu nicht Standardisierten Ports zulassen</string>

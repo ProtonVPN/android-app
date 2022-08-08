@@ -519,7 +519,7 @@
         <item quantity="one">Collega %d dispositivo</item>
         <item quantity="other">Collega %d dispositivi contemporaneamente</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Blocca pubblicità e malware con NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
     <string name="upgrade_plus_countries_speeds">Naviga alla massima velocità (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">E molte altre funzionalità premium</string>
     <string name="upgrade_safe_mode_title">Consenti il ​​traffico verso porte non standard</string>

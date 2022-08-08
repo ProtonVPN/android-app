@@ -519,7 +519,7 @@
         <item quantity="one">اتصال %d دستگاه</item>
         <item quantity="other">اتصال %d دستگاه به صورت همزمان</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">مسدود کردن تبلیغات و بدافزارها با NetShield</string>
+    <string name="upgrade_plus_countries_netshield">مسدود کردن آگهی‌ها و بدافزارها با NetShield</string>
     <string name="upgrade_plus_countries_speeds">با بالاترین سرعت وبگردی کنید (10 گیگابیت بر ثانیه)</string>
     <string name="upgrade_plus_countries_more">و بسیاری از ویژگی‌های دیگر</string>
     <string name="upgrade_safe_mode_title">امکان عبور ترافیک از پورت‌های غیر استاندارد</string>
