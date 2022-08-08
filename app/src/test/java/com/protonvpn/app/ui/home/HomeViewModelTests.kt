@@ -78,6 +78,20 @@ class HomeViewModelTests {
     fun `when switching Secure Core while connected to server profile use fastest in country profile to reconnect`() {
         val wrapper =
             ServerWrapper.makeWithServer(MockedServers.serverList.find { it.serverName == "FR#1" }!!)
+        val profile = Profile("FR#1", null, wrapper, ProfileColor.FERN.id, null)
+        every { mockConnectionParams.profile } returns profile
+        every { mockStateMonitor.connectionParams } returns mockConnectionParams
+        every { mockStateMonitor.isConnected } returns true
+
+        val profileToReconnectTo = homeViewModel.getReconnectProfileOnSecureCoreChange()
+        assertEquals("FR", profileToReconnectTo.country)
+        assertTrue(profileToReconnectTo.wrapper.isFastestInCountry)
+    }
+
+    @Test
+    fun `when switching Secure Core while connected to profile enforcing SC use fastest in country profile to reconnect`() {
+        val wrapper =
+            ServerWrapper.makeWithServer(MockedServers.serverList.find { it.serverName == "FR#1" }!!)
         val profile = Profile("FR#1", null, wrapper, ProfileColor.FERN.id, false)
         every { mockConnectionParams.profile } returns profile
         every { mockStateMonitor.connectionParams } returns mockConnectionParams
