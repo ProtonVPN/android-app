@@ -24,6 +24,7 @@ import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.ui.home.profiles.HomeViewModel
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockedServers
 import io.mockk.MockKAnnotations
@@ -41,24 +42,29 @@ class HomeViewModelTests {
     private lateinit var mockStateMonitor: VpnStateMonitor
     @MockK
     private lateinit var mockConnectionParams: ConnectionParams
+    @MockK
+    private lateinit var mockServerManager: ServerManager
 
     private lateinit var homeViewModel: HomeViewModel
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+
+        every { mockServerManager.getServerForProfile(any(), any()) } returns MockedServers.server
+
         // Note: once more tests are added remove the mockk() calls here and use named dependencies.
         homeViewModel = HomeViewModel(
-            mockk(),
-            mockk(),
-            mockStateMonitor,
-            mockk(),
-            mockk(relaxed = true),
-            mockk(),
-            mockk(relaxed = true),
-            mockk(),
-            mockk(relaxed = true),
-            mockk()
+            mainScope = mockk(),
+            userData = mockk(),
+            vpnStateMonitor = mockStateMonitor,
+            serverManager = mockServerManager,
+            userPlanManager = mockk(relaxed = true),
+            certificateRepository = mockk(),
+            currentUser = mockk(relaxed = true),
+            logoutUseCase = mockk(),
+            onSessionClosed = mockk(relaxed = true),
+            purchaseEnabled = mockk()
         )
     }
 
@@ -66,9 +72,7 @@ class HomeViewModelTests {
     fun `when switching Secure Core while connected to fastest profile use the same profile to reconnect`() {
         val wrapper = ServerWrapper.makePreBakedFastest()
         val fastestProfile = Profile("fastest", null, wrapper, ProfileColor.FERN.id, null)
-        every { mockConnectionParams.profile } returns fastestProfile
-        every { mockStateMonitor.connectionParams } returns mockConnectionParams
-        every { mockStateMonitor.isConnected } returns true
+        setupMockConnection(fastestProfile)
 
         val profileToReconnectTo = homeViewModel.getReconnectProfileOnSecureCoreChange()
         assertEquals(fastestProfile, profileToReconnectTo)
@@ -79,9 +83,7 @@ class HomeViewModelTests {
         val wrapper =
             ServerWrapper.makeWithServer(MockedServers.serverList.find { it.serverName == "FR#1" }!!)
         val profile = Profile("FR#1", null, wrapper, ProfileColor.FERN.id, null)
-        every { mockConnectionParams.profile } returns profile
-        every { mockStateMonitor.connectionParams } returns mockConnectionParams
-        every { mockStateMonitor.isConnected } returns true
+        setupMockConnection(profile)
 
         val profileToReconnectTo = homeViewModel.getReconnectProfileOnSecureCoreChange()
         assertEquals("FR", profileToReconnectTo.country)
@@ -93,12 +95,33 @@ class HomeViewModelTests {
         val wrapper =
             ServerWrapper.makeWithServer(MockedServers.serverList.find { it.serverName == "FR#1" }!!)
         val profile = Profile("FR#1", null, wrapper, ProfileColor.FERN.id, false)
-        every { mockConnectionParams.profile } returns profile
-        every { mockStateMonitor.connectionParams } returns mockConnectionParams
-        every { mockStateMonitor.isConnected } returns true
+        setupMockConnection(profile)
 
         val profileToReconnectTo = homeViewModel.getReconnectProfileOnSecureCoreChange()
         assertEquals("FR", profileToReconnectTo.country)
         assertTrue(profileToReconnectTo.wrapper.isFastestInCountry)
+    }
+
+    @Test
+    fun `when switching Secure Core while connected and there's no server for the same country then connect to fallback profile`() {
+        val fastestWrapper = ServerWrapper.makePreBakedFastest()
+        val fallbackProfile = Profile("fastest", null, fastestWrapper, ProfileColor.FERN.id, null)
+
+        val wrapper =
+            ServerWrapper.makeWithServer(MockedServers.serverList.find { it.serverName == "FR#1" }!!)
+        val profile = Profile("FR#1", null, wrapper, ProfileColor.FERN.id, false)
+        setupMockConnection(profile)
+
+        every { mockServerManager.getServerForProfile(any(), any()) } returns null
+        every { mockServerManager.defaultFallbackConnection } returns fallbackProfile
+
+        val profileToReconnectTo = homeViewModel.getReconnectProfileOnSecureCoreChange()
+        assertEquals(fallbackProfile, profileToReconnectTo)
+    }
+
+    private fun setupMockConnection(profile: Profile) {
+        every { mockConnectionParams.profile } returns profile
+        every { mockStateMonitor.connectionParams } returns mockConnectionParams
+        every { mockStateMonitor.isConnected } returns true
     }
 }
