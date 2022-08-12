@@ -22,6 +22,7 @@ package com.protonvpn.app.vpn
 import android.os.PowerManager
 import android.os.PowerManager.PARTIAL_WAKE_LOCK
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -30,10 +31,14 @@ import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
+import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnFallbackResult
+import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.test.shared.TestVpnUser
@@ -48,11 +53,13 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.session.SessionId
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -68,6 +75,8 @@ class VpnConnectionManagerTests {
 
     @MockK
     private lateinit var mockNetworkManager: NetworkManager
+    @RelaxedMockK
+    private lateinit var mockVpnErrorHandler: VpnConnectionErrorHandler
     @MockK
     private lateinit var mockPowerManager: PowerManager
     @RelaxedMockK
@@ -84,6 +93,8 @@ class VpnConnectionManagerTests {
     private lateinit var userData: UserData
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var serverManager: ServerManager
+
+    private lateinit var mockBackendSelfState: MutableLiveData<VpnState>
 
     private lateinit var testDispatcher: TestCoroutineDispatcher
     private lateinit var testScope: TestCoroutineScope
@@ -106,6 +117,7 @@ class VpnConnectionManagerTests {
 
         testDispatcher = TestCoroutineDispatcher()
         testScope = TestCoroutineScope(testDispatcher)
+        mockBackendSelfState = MutableLiveData()
 
         coEvery { mockCurrentUser.sessionId() } returns SessionId("session id")
         coEvery { mockCurrentUser.vpnUser() } returns vpnUser
@@ -113,6 +125,7 @@ class VpnConnectionManagerTests {
         every { mockPowerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:connect") } returns mockWakeLock
         every { mockNetworkManager.isConnectedToNetwork() } returns true
         every { mockBackend.vpnProtocol } returns connectionParams.protocol!!
+        every { mockBackend.selfStateObservable } returns mockBackendSelfState
         every { mockVpnUiDelegate.askForPermissions(any(), any(), any()) } answers {
             arg<() -> Unit>(2).invoke()
         }
@@ -130,7 +143,7 @@ class VpnConnectionManagerTests {
             userData = userData,
             backendProvider = mockBackendProvider,
             networkManager = mockNetworkManager,
-            vpnErrorHandler = mockk(relaxed = true),
+            vpnErrorHandler = mockVpnErrorHandler,
             vpnStateMonitor = vpnStateMonitor,
             vpnBackgroundUiDelegate = mockk(),
             serverManager = serverManager,
@@ -182,5 +195,37 @@ class VpnConnectionManagerTests {
         // Wake lock is acquired twice, once to prepare connection, second time for fallback logic.
         verify(exactly = 2) { mockWakeLock.acquire(any()) }
         verify(exactly = 2) { mockWakeLock.release() }
+    }
+
+    @Test
+    fun `when error is reported during fallback then ongoing fallback is not overridden`() = testScope.runBlockingTest {
+        coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
+            PrepareResult(mockBackend, connectionParams)
+        }
+
+        val fallbackDurationMs = 1000L
+        coEvery { mockVpnErrorHandler.onUnreachableError(any()) } coAnswers {
+            delay(fallbackDurationMs)
+            assertTrue(false)
+            VpnFallbackResult.Error(ErrorType.UNREACHABLE) // Needed for compilation, should not be reached.
+        }
+
+        vpnConnectionManager.connect(
+            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), "Test"
+        )
+
+        pauseDispatcher()
+        with(mockBackendSelfState) {
+            // Triggers fallback that calls onUnreachableError.
+            value = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
+            advanceTimeBy(fallbackDurationMs / 2)
+            coVerify { mockVpnErrorHandler.onUnreachableError(any()) }
+
+            // Tries to start a second fallback handleUnrecoverableError.
+            value = VpnState.Error(ErrorType.UNREACHABLE)
+            // Cancels the current ongoing fallback.
+            value = VpnState.Connected
+        }
+        advanceTimeBy(fallbackDurationMs)
     }
 }

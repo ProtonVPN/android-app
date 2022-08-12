@@ -37,6 +37,7 @@ import com.protonvpn.android.logging.ConnDisconnectTrigger
 import com.protonvpn.android.logging.ConnServerSwitchFailed
 import com.protonvpn.android.logging.ConnStateChanged
 import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanMaxSessionsReached
 import com.protonvpn.android.logging.toLog
@@ -138,7 +139,7 @@ class VpnConnectionManager @Inject constructor(
                         }
                     }
                 } else {
-                    if (errorType != null) {
+                    if (errorType != null && ongoingFallback?.isActive != true) {
                         launchFallback {
                             handleUnrecoverableError(errorType)
                         }
@@ -513,11 +514,19 @@ class VpnConnectionManager @Inject constructor(
     }
 
     private fun launchConnect(block: suspend () -> Unit) {
-        ongoingConnect = launchWithWakeLock(block)
+        if (ongoingConnect?.isActive != true) {
+            ongoingConnect = launchWithWakeLock(block)
+        } else {
+            failInDebugAndLogError("Trying to start connect job while previous is still running")
+        }
     }
 
     private fun launchFallback(block: suspend () -> Unit) {
-        ongoingFallback = launchWithWakeLock(block)
+        if (ongoingFallback?.isActive != true) {
+            ongoingFallback = launchWithWakeLock(block)
+        } else {
+            failInDebugAndLogError("Trying to start fallback job while previous is still running")
+        }
     }
 
     private fun launchWithWakeLock(block: suspend () -> Unit): Job {
@@ -529,6 +538,11 @@ class VpnConnectionManager @Inject constructor(
                 connectWakeLock.release()
             }
         }
+    }
+
+    private fun failInDebugAndLogError(message: String) {
+        DebugUtils.fail(message)
+        ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.CONN, message)
     }
 
     private fun unifiedState(vpnState: VpnState): String = when (vpnState) {
