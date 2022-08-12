@@ -565,7 +565,6 @@
     <string name="onboarding_netshield_title">Blokkeer advertenties en veel meer</string>
     <string name="onboarding_netshield_description">Blokkeer malware, advertenties, en trackers in browser en in alle apps.</string>
     <string name="onboarding_connection_title">Uw eerste verbinding tot stand brengen</string>
-    <string name="onboarding_connection_description">Gratis abonnement biedt %1$d servers aan in %2$d landen</string>
     <string name="onboarding_connection_info">We verbinden u met de snelste en meest stabiele server voor uw locatie.</string>
     <string name="onboading_connect_now">Nu verbinden</string>
     <string name="onboading_connecting_now">Verbinden</string>

@@ -565,7 +565,6 @@
     <string name="onboarding_netshield_title">مسدود کردن تبلیغات و خیلی بیشتر</string>
     <string name="onboarding_netshield_description">بدافزارها، تبلیغات و ردیاب ها را در مرورگر و در تمام برنامه ها مسدود کنید.</string>
     <string name="onboarding_connection_title">اولین اتصال خود را برقرار کنید</string>
-    <string name="onboarding_connection_description">اشتراک رایگان %1$d سرور را در %2$d کشور ارائه می‌دهد</string>
     <string name="onboarding_connection_info">ما شما را به سریع‌ترین و پایدارترین سرور برای محل شما، متصل می‌کنیم.</string>
     <string name="onboading_connect_now">اتصال</string>
     <string name="onboading_connecting_now">در حال اتصال</string>

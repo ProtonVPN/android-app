@@ -91,8 +91,14 @@ class FirstConnection : Fragment(R.layout.fragment_onboarding_connection) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
-            binding.description.text = getString(R.string.onboarding_connection_description,
-                viewModel.serversCount(), viewModel.countriesCount())
+            val servers = viewModel.serversCount()
+            val countries = viewModel.countriesCount()
+            val serversString =
+                resources.getQuantityString(R.plurals.onboarding_connection_description_servers, servers, servers)
+            val countriesString =
+                resources.getQuantityString(R.plurals.onboarding_connection_description_countries, countries, countries)
+            binding.description.text =
+                getString(R.string.onboarding_connection_description, serversString, countriesString)
         }
     }
 }

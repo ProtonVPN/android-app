@@ -565,7 +565,6 @@
     <string name="onboarding_netshield_title">Reklamları ve çok daha fazlasını engelleyin</string>
     <string name="onboarding_netshield_description">Web tarayıcıda ve tüm uygulamalarda kötü amaçlı yazılımları, reklamları ve etkinlik izleyicileri engelleyin.</string>
     <string name="onboarding_connection_title">İlk bağlantınızı kurun</string>
-    <string name="onboarding_connection_description">Free aboneliğinde %2$d ülkeden %1$d sunucu bulunur</string>
     <string name="onboarding_connection_info">Sizi konumunuz için en hızlı ve en kararlı sunucuya bağlayacağız.</string>
     <string name="onboading_connect_now">Bağlan</string>
     <string name="onboading_connecting_now">Bağlanıyor</string>

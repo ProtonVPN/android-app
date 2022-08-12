@@ -565,7 +565,6 @@
     <string name="onboarding_netshield_title">Bloquee anuncios y más</string>
     <string name="onboarding_netshield_description">Bloquee malware, anuncios y rastreadores en el navegador y en todas las apps.</string>
     <string name="onboarding_connection_title">Establezca su primera conexión</string>
-    <string name="onboarding_connection_description">La suscripción gratuita ofrece %1$d servidores en %2$d países</string>
     <string name="onboarding_connection_info">Le conectaremos al servidor más rápido y estable para su ubicación.</string>
     <string name="onboading_connect_now">Conectar ahora</string>
     <string name="onboading_connecting_now">Conectando ahora</string>
