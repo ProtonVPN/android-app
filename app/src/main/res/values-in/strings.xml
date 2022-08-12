@@ -556,7 +556,6 @@
     <string name="onboarding_netshield_title">Blokir iklan dan lain sebagainya</string>
     <string name="onboarding_netshield_description">Lindungi seluruh browser dan aplikasi Anda dari gangguan malware, iklan, dan program pelacak lainnya.</string>
     <string name="onboarding_connection_title">Hubungkan diri Anda untuk pertama kalinya</string>
-    <string name="onboarding_connection_description">Akun Free kami menawarkan %1$d server di %2$d negara</string>
     <string name="onboarding_connection_info">Kami akan menghubungkan Anda ke server yang tercepat dan terstabil untuk lokasi Anda.</string>
     <string name="onboading_connect_now">Hubungkan sekarang</string>
     <string name="onboading_connecting_now">Sedang menghubungkan</string>

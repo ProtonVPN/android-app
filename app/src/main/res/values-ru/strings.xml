@@ -583,7 +583,6 @@
     <string name="onboarding_netshield_title">Блокируйте рекламу и многое другое</string>
     <string name="onboarding_netshield_description">Блокируйте вредоносные программы, рекламу и трекеры в браузере и во всех приложениях.</string>
     <string name="onboarding_connection_title">Установите первое подключение</string>
-    <string name="onboarding_connection_description">Подписка Free предлагает %1$d серверов в %2$d странах</string>
     <string name="onboarding_connection_info">Мы подключим вас к самому быстрому и стабильному серверу для вашего местоположения.</string>
     <string name="onboading_connect_now">Подключить сейчас</string>
     <string name="onboading_connecting_now">Подключается сейчас</string>

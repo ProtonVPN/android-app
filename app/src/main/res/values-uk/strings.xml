@@ -583,7 +583,6 @@
     <string name="onboarding_netshield_title">Блокуйте рекламу і багато чого іншого</string>
     <string name="onboarding_netshield_description">Блокуйте зловмисні програми, рекламу й елементи стеження в браузері та в усіх застосунках.</string>
     <string name="onboarding_connection_title">Встановіть ваше перше з\'єднання</string>
-    <string name="onboarding_connection_description">Безплатний тарифний план пропонує %1$d серверів у %2$d країнах</string>
     <string name="onboarding_connection_info">Ми під\'єднаємо вас до найшвидшого і найстабільнішого сервера для вашого розташування.</string>
     <string name="onboading_connect_now">З\'єднатися зараз</string>
     <string name="onboading_connecting_now">Триває з\'єднання</string>
