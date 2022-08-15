@@ -519,7 +519,7 @@
         <item quantity="one">Collega %d dispositivo</item>
         <item quantity="other">Collega %d dispositivi contemporaneamente</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Blocca pubblicità e malware con NetShield</string>
     <string name="upgrade_plus_countries_speeds">Naviga alla massima velocità (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">E molte altre funzionalità premium</string>
     <string name="upgrade_safe_mode_title">Consenti il ​​traffico verso porte non standard</string>
@@ -559,7 +559,7 @@
     <string name="onboarding_welcome_action">Per iniziare</string>
     <string name="onboarding_available_on_plus">Disponibile con Plus</string>
     <string name="onboarding_streaming_title">Sblocca streaming</string>
-    <string name="onboarding_streaming_description">Securely access any content, even while traveling to other countries. Now also on Android TV.</string>
+    <string name="onboarding_streaming_description">Accedi in modo sicuro a qualsiasi contenuto, anche durante un viaggio in altri paesi. Ora anche su Android TV.</string>
     <string name="onboarding_protection_title">Resta protetto ovunque</string>
     <string name="onboarding_protection_description">Proton VPN supporta tutti i dispositivi, inclusi Windows, macOS e molti altri.</string>
     <string name="onboarding_netshield_title">Blocca annunci e molto altro</string>

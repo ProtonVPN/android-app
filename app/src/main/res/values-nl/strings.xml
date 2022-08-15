@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Verbonden</string>
     <string name="buttonConnect">Verbinden</string>
-    <string name="loaderInitializing">Initializing connection…</string>
+    <string name="loaderInitializing">Verbinding opzetten…</string>
     <string name="loaderConnectingTo">Verbinden met %1$s</string>
     <string name="loaderConnectingToLabel">Verbinding maken met…</string>
     <string name="loaderNotConnected">Niet verbonden (Onbeschermd)</string>
@@ -135,7 +135,7 @@
     <string name="errorEmptyExitCountry">Het uitgaande land veld mag niet leeg zijn</string>
     <string name="onboardingDialogMapView">Gebruik de Kaartweergave om te verbinden en virtueel te zien waar de VPN-server zich bevindt.</string>
     <string name="onboardingDialogProfiles">Maak profielen van uw favoriete servers en heb gemakkelijke toegang tot ze. Een lange tik op het Proton VPN-pictogram op de onderkant van het scherm zal al uw profielen tonen. Een tik op een van de profielen zal u verbinden met de VPN.</string>
-    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
+    <string name="onboardingNetshield">Houdt u beschermd tegen malware, advertenties en trackers.\nOpmerking: als sommige sites niet laden, probeer NetShield uit te schakelen.</string>
     <string name="onboardingFAB">Snel verbinden / Profielen</string>
     <string name="onboardingFABDescription">Druk op deze knop voor de snelste manier om te verbinden</string>
     <string name="onboardingSignup">Registreren</string>
@@ -158,9 +158,9 @@
     <string name="tabsProfiles">Profielen</string>
     <string name="log_title">Log</string>
     <string name="disconnect">Verbinding verbreken</string>
-    <string name="state_connecting">Connecting…</string>
+    <string name="state_connecting">Verbinden…</string>
     <string name="state_connected">Verbonden</string>
-    <string name="state_disconnecting">Disconnecting…</string>
+    <string name="state_disconnecting">Verbinding verbreken…</string>
     <string name="state_error">Fout</string>
     <string name="error_server_unreachable">Kon geen verbinding maken met de VPN. Controleer uw verbinding en probeer het opnieuw.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -428,7 +428,7 @@
     </plurals>
     <string name="notification_max_sessions_content">Verbreek een ander apparaat om deze te verbinden.</string>
     <string name="notification_cancel_to_free">U hebt een Gratis abonnement. Gratis servers en functies zijn beschikbaar.</string>
-    <string name="notification_cancel_to_basic">U hebt het Basic abonnement. Basic &amp; Gartis servers en functies zijn beschikbaar.</string>
+    <string name="notification_cancel_to_basic">U hebt het Basic abonnement. Basic &amp; Gratis servers en functies zijn beschikbaar.</string>
     <string name="notification_cancel_to_delinquent">U heeft weer toegang tot premium functies nadat openstaande facturen betaald zijn.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Van server: </string>
@@ -519,7 +519,7 @@
         <item quantity="one">%d apparaat aansluiten</item>
         <item quantity="other">Sluit %d apparaten tegelijk aan</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Blokkeer advertenties en malware met NetShield</string>
     <string name="upgrade_plus_countries_speeds">Browse aan de hoogste snelheden (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">En veel meer premium functies</string>
     <string name="upgrade_safe_mode_title">Laat verkeer toe naar niet-standaard poorten</string>
@@ -559,7 +559,7 @@
     <string name="onboarding_welcome_action">Aan de slag</string>
     <string name="onboarding_available_on_plus">Beschikbaar met Plus</string>
     <string name="onboarding_streaming_title">Deblokkeer streamingdiensten</string>
-    <string name="onboarding_streaming_description">Securely access any content, even while traveling to other countries. Now also on Android TV.</string>
+    <string name="onboarding_streaming_description">Verkrijg veilige toegang tot elke inhoud, zelfs wanneer u naar andere landen reist. Nu ook op Android TV.</string>
     <string name="onboarding_protection_title">Wees overal beveiligd</string>
     <string name="onboarding_protection_description">Proton VPN ondersteunt alle toestellen, inclusief Windows, macOS en vele anderen.</string>
     <string name="onboarding_netshield_title">Blokkeer advertenties en veel meer</string>
@@ -591,14 +591,14 @@
     <string name="update_screen_title">Update Proton VPN</string>
     <string name="update_screen_description">U heeft meer kans op problemen op oudere versies van Proton VPN.</string>
     <string name="server_search_menu_title">Zoek</string>
-    <string name="server_search_hint">Country, city, server</string>
+    <string name="server_search_hint">Land, stad, server</string>
     <string name="server_search_hint_secure_core">Land</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
     <string name="server_search_countries_header">Landen (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Secure Core countries (%1$d)</string>
+    <string name="server_search_sc_countries_header">Secure Core landen (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
     <string name="server_search_cities_header">Steden (%1$d)</string>

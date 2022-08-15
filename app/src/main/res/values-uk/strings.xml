@@ -537,7 +537,7 @@
         <item quantity="many">Під\'єднайте %d пристроїв одночасно</item>
         <item quantity="other">Під\'єднайте %d пристроїв одночасно</item>
     </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
+    <string name="upgrade_plus_countries_netshield">Блокуйте рекламу та зловмисні програми за допомогою NetShield</string>
     <string name="upgrade_plus_countries_speeds">Переглядайте контент на найвищій швидкості (10 Гбіт/с)</string>
     <string name="upgrade_plus_countries_more">І більше преміальних функцій</string>
     <string name="upgrade_safe_mode_title">Дозволити трафік до нестандартних портів</string>
@@ -577,7 +577,7 @@
     <string name="onboarding_welcome_action">Розпочнімо</string>
     <string name="onboarding_available_on_plus">Доступно з Plus</string>
     <string name="onboarding_streaming_title">Розблокувати трансляції</string>
-    <string name="onboarding_streaming_description">Securely access any content, even while traveling to other countries. Now also on Android TV.</string>
+    <string name="onboarding_streaming_description">Захищений доступ до будь-якого вмісту навіть під час подорожей в інші країни. Тепер і на Android TV.</string>
     <string name="onboarding_protection_title">Будьте захищені всюди</string>
     <string name="onboarding_protection_description">Proton VPN підтримує всі пристрої, включно з Windows, macOS і багатьма іншими.</string>
     <string name="onboarding_netshield_title">Блокуйте рекламу і багато чого іншого</string>
