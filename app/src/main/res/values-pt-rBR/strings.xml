@@ -559,7 +559,7 @@
     <string name="onboarding_welcome_action">Comece</string>
     <string name="onboarding_available_on_plus">Disponível com o plano Plus</string>
     <string name="onboarding_streaming_title">Desbloquear streaming</string>
-    <string name="onboarding_streaming_description">Securely access any content, even while traveling to other countries. Now also on Android TV.</string>
+    <string name="onboarding_streaming_description">Acesse com segurança qualquer conteúdo, mesmo viajando para outros países. Agora também no Android TV.</string>
     <string name="onboarding_protection_title">Esteja protegido em todos os lugares</string>
     <string name="onboarding_protection_description">O Proton VPN suporta todos os dispositivos, incluindo Windows, macOS e muitos outros.</string>
     <string name="onboarding_netshield_title">Bloqueie anúncios e muito mais</string>
