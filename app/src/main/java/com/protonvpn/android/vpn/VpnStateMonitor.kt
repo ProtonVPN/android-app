@@ -37,6 +37,7 @@ class VpnStateMonitor {
 
     val status: StateFlow<Status> = statusInternal
     val onDisconnectedByUser = MutableSharedFlow<Unit>()
+    val onDisconnectedByReconnection = MutableSharedFlow<Unit>()
     val vpnConnectionNotificationFlow = MutableSharedFlow<VpnFallbackResult>()
     val newSessionEvent = MutableSharedFlow<Unit>()
 

@@ -41,11 +41,15 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.builtins.ListSerializer
@@ -53,8 +57,8 @@ import me.proton.core.network.domain.serverconnection.DohAlternativesListener
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.resume
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
 class GuestHole @Inject constructor(
     private val scope: CoroutineScope,
@@ -68,6 +72,7 @@ class GuestHole @Inject constructor(
 ) : DohAlternativesListener {
 
     private var lastGuestHoleServer: Server? = null
+    var job: Job? = null
 
     private fun getGuestHoleServers(): List<Server> {
         lastGuestHoleServer?.let {
@@ -94,25 +99,15 @@ class GuestHole @Inject constructor(
         if (!connected) {
             val vpnStatus = vpnMonitor.status
             connected = withTimeoutOrNull(GUEST_HOLE_SERVER_TIMEOUT) {
-                suspendCancellableCoroutine<Boolean> { continuation ->
-                    val profile = Profile.getTempProfile(server)
-                        .apply {
-                            setProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
-                        }
-                    vpnConnectionManager.get().connect(vpnUiDelegate, profile, "Guest hole")
-                    val observerJob = scope.launch {
-                        vpnStatus.collect { newState ->
-                            if (newState.state.let { it is VpnState.Connected || it is VpnState.Error }) {
-                                coroutineContext.cancel()
-                                continuation.resume(newState.state == VpnState.Connected)
-                            }
-                        }
+                val profile = Profile.getTempProfile(server)
+                    .apply {
+                        setProtocol(ProtocolSelection(VpnProtocol.OpenVPN))
                     }
-                    continuation.invokeOnCancellation {
-                        observerJob.cancel()
-                    }
-                }
-            } == true
+                vpnConnectionManager.get().connect(vpnUiDelegate, profile, "Guest hole")
+                vpnStatus
+                    .map { it.state }
+                    .first { it is VpnState.Connected || it is VpnState.Error }
+            } == VpnState.Connected
         }
         if (connected) {
             block()
@@ -127,22 +122,24 @@ class GuestHole @Inject constructor(
             return
         }
         logMessage("Guesthole for DOH")
-
         withContext(dispatcherProvider.Main) {
-            // Do not execute guesthole for calls running in background, due to inability to call permission intent
-            val currentActivity =
-                foregroundActivityTracker.foregroundActivity as? ComponentActivity ?: return@withContext
-            val delegate = GuestHoleVpnUiDelegate(currentActivity)
-            val intent = vpnPermissionDelegate.prepareVpnPermission()
+            job = launch {
+                // Do not execute guesthole for calls running in background, due to inability to call permission intent
+                val currentActivity =
+                    foregroundActivityTracker.foregroundActivity as? ComponentActivity ?: return@launch
+                val delegate = GuestHoleVpnUiDelegate(currentActivity)
+                val intent = vpnPermissionDelegate.prepareVpnPermission()
 
-            // Ask for permissions and if granted execute original method and return it back to core
-            if (currentActivity.suspendForPermissions(intent)) {
-                withTimeoutOrNull(GUEST_HOLE_ATTEMPT_TIMEOUT) {
-                    unblockCall(delegate, alternativesBlockCall)
+                // Ask for permissions and if granted execute original method and return it back to core
+                if (currentActivity.suspendForPermissions(intent)) {
+                    withTimeoutOrNull(GUEST_HOLE_ATTEMPT_TIMEOUT) {
+                        unblockCall(delegate, alternativesBlockCall)
+                    }
+                } else {
+                    logMessage("Missing permissions")
                 }
-            } else {
-                logMessage("Missing permissions")
             }
+            job?.join()
         }
     }
 
@@ -150,6 +147,14 @@ class GuestHole @Inject constructor(
         delegate: VpnUiActivityDelegate,
         backendCall: suspend () -> Unit
     ) {
+        val userActionJob = scope.launch {
+            merge(vpnMonitor.onDisconnectedByUser, vpnMonitor.onDisconnectedByReconnection).collect {
+                job?.let {
+                    logMessage("Guesthole canceled due to user action")
+                    it.cancelAndJoin()
+                }
+            }
+        }
         try {
             notificationHelper.showInformationNotification(
                 R.string.guestHoleNotificationContent,
@@ -161,19 +166,19 @@ class GuestHole @Inject constructor(
                     delay(500)
                     lastGuestHoleServer = server
                     backendCall()
-                    logMessage("Succesful DOH alternatives unblock")
+                    logMessage("Successful DOH alternatives unblock")
                 }
             }
         } finally {
             logMessage("Disconnecting")
             if (!vpnMonitor.isDisabled) {
-                withContext(dispatcherProvider.Main) {
+                scope.launch {
                     vpnConnectionManager.get().disconnectSync("guest hole call completed")
                 }
             }
+            userActionJob.cancel()
         }
     }
-
 
     private fun logMessage(message: String) {
         ProtonLogger.logCustom(LogCategory.CONN_GUEST_HOLE, message)

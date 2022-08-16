@@ -229,7 +229,7 @@ class VpnConnectionTests {
         profileWireguardTls = MockedServers.getProfile(server, VpnProtocol.WireGuard, transmissionProtocol = TransmissionProtocol.TLS)
         fallbackOpenVpnProfile = MockedServers.getProfile(fallbackServer, VpnProtocol.OpenVPN, "fallback")
         every { serverManager.getServerForProfile(any(), any()) } answers {
-            MockedServers.serverList.find { it.serverId == arg<Profile>(0).wrapper.serverId }
+            MockedServers.serverList.find { it.serverId == arg<Profile>(0).wrapper.serverId } ?: MockedServers.server
         }
 
         setupMockAgent { client ->
@@ -385,10 +385,43 @@ class VpnConnectionTests {
         )
 
         every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
-        guestHole.onAlternativesUnblock {
+        var wasExecuted = false
+        val block: suspend () -> Unit = {
             Assert.assertTrue(monitor.isConnected)
+            wasExecuted = true
         }
+        guestHole.onAlternativesUnblock(block)
+        advanceUntilIdle() // Wait for disconnection to finish.
+
+        Assert.assertTrue(wasExecuted)
         Assert.assertTrue(monitor.isDisabled)
+    }
+
+    @Test
+    fun whenUserActionTriggeredGuestholeIsCanceled() = scope.runBlockingTest {
+        val guestHole = GuestHole(
+            scope,
+            TestDispatcherProvider(testDispatcher),
+            dagger.Lazy { serverManager },
+            monitor,
+            permissionDelegate,
+            dagger.Lazy { manager },
+            mockk(relaxed = true),
+            foregroundActivityTracker
+        )
+        every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
+        mockOpenVpn.stateOnConnect = VpnState.Connected
+
+        var wasExecuted = false
+        val block: suspend () -> Unit = {
+            wasExecuted = true
+            monitor.onDisconnectedByUser.emit(Unit)
+            Assert.assertFalse(!guestHole.job!!.isActive)
+        }
+        guestHole.onAlternativesUnblock(block)
+        advanceUntilIdle()
+        
+        Assert.assertTrue(wasExecuted)
     }
 
     @Test
@@ -591,7 +624,6 @@ class VpnConnectionTests {
     }
 
     @Test
-
     fun whenLocalAgentReportsBadCertSignatureThenGenerateNewKeyAndReconnect() = scope.runBlockingTest {
         mockLocalAgentErrorAndAssertStates(
             agentErrorState = { client ->
@@ -667,7 +699,7 @@ class VpnConnectionTests {
     }
 
     @Test
-    fun whenLocalAgentReportsUnknownCaThenUpdateCertificateAndReconnectLocalAgent() = scope.runBlockingTest{
+    fun whenLocalAgentReportsUnknownCaThenUpdateCertificateAndReconnectLocalAgent() = scope.runBlockingTest {
         mockLocalAgentErrorAndAssertStates(
             agentErrorState = { client ->
                 client.onState(agentConsts.stateClientCertificateUnknownCA)
