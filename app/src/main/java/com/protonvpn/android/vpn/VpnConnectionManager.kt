@@ -475,6 +475,7 @@ class VpnConnectionManager @Inject constructor(
 
     private suspend fun disconnectForNewConnection() {
         ProtonLogger.log(ConnDisconnectTrigger, "reason: new connection")
+        vpnStateMonitor.onDisconnectedByReconnection.emit(Unit)
         Storage.delete(ConnectionParams::class.java)
         // The UI relies on going through this state to properly show that a new connection is
         // being established (as opposed to reconnecting to the same server).
