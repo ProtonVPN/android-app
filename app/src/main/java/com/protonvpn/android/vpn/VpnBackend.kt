@@ -48,6 +48,7 @@ import com.proton.gopenpgp.localAgent.Features
 import com.proton.gopenpgp.localAgent.LocalAgent
 import com.proton.gopenpgp.localAgent.NativeClient
 import com.proton.gopenpgp.localAgent.StatusMessage
+import com.protonvpn.android.appconfig.DefaultPorts
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ConnConnectScan
 import com.protonvpn.android.logging.ConnConnectScanFailed
@@ -58,7 +59,10 @@ import com.protonvpn.android.logging.LocalAgentStatus
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.UserCertRefresh
 import com.protonvpn.android.logging.UserCertRevoked
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.utils.LiveEvent
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -102,6 +106,8 @@ abstract class VpnBackend(
     val localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     val currentUser: CurrentUser
 ) : VpnStateSource {
+
+    data class ProtocolInfo(val transmissionProtocol: TransmissionProtocol, val port: Int)
 
     inner class VpnAgentClient : NativeClient {
         private val agentConstants = LocalAgent.constants()
@@ -165,7 +171,7 @@ abstract class VpnBackend(
     abstract suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
-        protocol: ProtocolSelection?,
+        transmissionProtocol: TransmissionProtocol?,
         scan: Boolean,
         numberOfPorts: Int = Int.MAX_VALUE, // Max number of ports to be scanned
         waitForAll: Boolean = false // wait for all ports to respond if true, otherwise just wait for first successful
@@ -478,6 +484,53 @@ abstract class VpnBackend(
         val data = serverPing.buildUdpPingData(publicKeyX25519)
         return serverPing.ping(ip, port, data, tcp = false, timeout = SCAN_TIMEOUT_MILLIS)
     }
+
+    protected suspend fun scanPorts(
+        connectingDomain: ConnectingDomain,
+        numberOfPorts: Int,
+        transmissionProtocol: TransmissionProtocol?, // if null ping both UDP and TCP
+        waitForAll: Boolean,
+        ports: DefaultPorts,
+        primaryTcpPort: Int,
+        includeTls: Boolean = false // true for protocols that support TLS transport
+    ): List<ProtocolInfo> {
+        val result = mutableListOf<ProtocolInfo>()
+        coroutineScope {
+            val udpPorts = if (transmissionProtocol == null || transmissionProtocol == TransmissionProtocol.UDP)
+                async {
+                    scanUdpPorts(
+                        connectingDomain, samplePorts(ports.udpPorts, numberOfPorts), numberOfPorts, waitForAll)
+                } else null
+            val isTcpOrTls =
+                transmissionProtocol == TransmissionProtocol.TCP || transmissionProtocol == TransmissionProtocol.TLS
+            val tcpPorts = if (transmissionProtocol == null || isTcpOrTls)
+                async {
+                    val tcpPorts = samplePorts(ports.tcpPorts, numberOfPorts, primaryTcpPort)
+                    ProtonLogger.log(
+                        ConnConnectScan,
+                        "${connectingDomain.entryDomain}/$vpnProtocol, TCP ports: $tcpPorts"
+                    )
+                    tcpPorts.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
+                        serverPing.ping(connectingDomain.entryIp, port, ByteArray(0), tcp = true)
+                    }
+                } else null
+
+            udpPorts?.await()?.map { ProtocolInfo(TransmissionProtocol.UDP, it) }?.let { result += it }
+            val tcpResult = tcpPorts?.await()
+            if (transmissionProtocol != TransmissionProtocol.TLS)
+                tcpResult?.map { ProtocolInfo(TransmissionProtocol.TCP, it) }?.let { result += it }
+            // When protocol supports TLS add all TCP results as TLS
+            if (includeTls && transmissionProtocol != TransmissionProtocol.TCP)
+                tcpResult?.map { ProtocolInfo(TransmissionProtocol.TLS, it) }?.let { result += it }
+        }
+        return result
+    }
+
+    private fun samplePorts(list: List<Int>, count: Int, primaryPort: Int? = null) =
+        if (primaryPort != null && list.contains(primaryPort))
+            list.filter { it != primaryPort }.takeRandomStable(count - 1) + primaryPort
+        else
+            list.takeRandomStable(count)
 
     companion object {
         // During this time pings will prefer ports in order in which they were defined
