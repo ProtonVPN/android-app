@@ -54,12 +54,12 @@ class ProtonVpnBackendProvider(
             VpnProtocol.Smart -> true
         }
         return when (protocol.vpn) {
-            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, protocol, scan)
-            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, protocol, scan)
-            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, protocol, scan)
+            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, protocol.transmission, scan)
+            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, protocol.transmission, scan)
+            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, protocol.transmission, scan)
             VpnProtocol.Smart -> {
                 getEnabledBackends(server).asFlow().map {
-                    it.prepareForConnection(profile, server, protocol, scan)
+                    it.prepareForConnection(profile, server, protocol.transmission, scan)
                 }.firstOrNull {
                     it.isNotEmpty()
                 }

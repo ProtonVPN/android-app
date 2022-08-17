@@ -23,8 +23,6 @@ import android.content.Intent
 import android.os.Build
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.di.WallClock
-import com.protonvpn.android.logging.ConnConnectScan
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
@@ -32,15 +30,10 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Log
-import com.protonvpn.android.utils.NetUtils
-import com.protonvpn.android.utils.parallelSearch
-import com.protonvpn.android.utils.takeRandomStable
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
@@ -56,13 +49,8 @@ import de.blinkt.openvpn.core.LogItem
 import de.blinkt.openvpn.core.OpenVPNService.PAUSE_VPN
 import de.blinkt.openvpn.core.VpnStatus
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.util.kotlin.DispatcherProvider
-import org.apache.commons.codec.binary.Hex
-import org.apache.commons.codec.digest.HmacAlgorithms
-import org.apache.commons.codec.digest.HmacUtils
 import java.util.Random
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -74,7 +62,6 @@ class OpenVpnBackend @Inject constructor(
     networkManager: NetworkManager,
     userData: UserData,
     appConfig: AppConfig,
-    @WallClock val unixTime: () -> Long,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
@@ -99,12 +86,10 @@ class OpenVpnBackend @Inject constructor(
         VpnStatus.addLogListener(this::vpnLog)
     }
 
-    data class ProtocolInfo(val transmissionProtocol: TransmissionProtocol, val port: Int)
-
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
-        protocol: ProtocolSelection?,
+        transmissionProtocol: TransmissionProtocol?,
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean
@@ -112,94 +97,16 @@ class OpenVpnBackend @Inject constructor(
         val connectingDomain = server.getRandomConnectingDomain()
         val openVpnPorts = appConfig.getOpenVPNPorts()
         val protocolInfo = if (!scan) {
-            val transmission = protocol?.transmission ?: TransmissionProtocol.UDP
+            val transmission = transmissionProtocol ?: TransmissionProtocol.UDP
             listOf(ProtocolInfo(transmission, (if (transmission == TransmissionProtocol.TCP)
                 openVpnPorts.tcpPorts else openVpnPorts.udpPorts).random()))
         } else {
-            scanPorts(connectingDomain, numberOfPorts, protocol?.transmission, waitForAll)
+            scanPorts(connectingDomain, numberOfPorts, transmissionProtocol, waitForAll, openVpnPorts, PRIMARY_PORT)
         }
         return protocolInfo.map {
             PrepareResult(this, ConnectionParamsOpenVpn(
                 profile, server, connectingDomain, it.transmissionProtocol, it.port))
         }
-    }
-
-    private suspend fun scanPorts(
-        connectingDomain: ConnectingDomain,
-        numberOfPorts: Int,
-        transmissionProtocol: TransmissionProtocol?, // if null ping both UDP and TCP
-        waitForAll: Boolean
-    ): List<ProtocolInfo> {
-        val openVpnPorts = appConfig.getOpenVPNPorts()
-        val result = mutableListOf<ProtocolInfo>()
-        coroutineScope {
-            val udpPorts = if (transmissionProtocol == null || transmissionProtocol == TransmissionProtocol.UDP)
-                async {
-                    scanUdpPorts(
-                        connectingDomain, samplePorts(openVpnPorts.udpPorts, numberOfPorts), numberOfPorts, waitForAll)
-                } else null
-
-            val tcpPingData = getPingData(tcp = true)
-            val tcpPorts = if (transmissionProtocol == null || transmissionProtocol == TransmissionProtocol.TCP)
-                async {
-                    val ports = samplePorts(openVpnPorts.tcpPorts, numberOfPorts)
-                    ProtonLogger.log(
-                        ConnConnectScan,
-                        "${connectingDomain.entryDomain}/$vpnProtocol, TCP ports: $ports"
-                    )
-                    ports.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
-                        serverPing.ping(connectingDomain.entryIp, port, tcpPingData, tcp = true)
-                    }
-                } else null
-
-            udpPorts?.await()?.map { ProtocolInfo(TransmissionProtocol.UDP, it) }?.let { result += it }
-            tcpPorts?.await()?.map { ProtocolInfo(TransmissionProtocol.TCP, it) }?.let { result += it }
-        }
-        return result
-    }
-
-    private fun samplePorts(list: List<Int>, count: Int) =
-        if (list.contains(PRIMARY_PORT))
-            list.filter { it != PRIMARY_PORT }.takeRandomStable(count - 1) + PRIMARY_PORT
-        else
-            list.takeRandomStable(count)
-
-    private fun getPingData(tcp: Boolean): ByteArray {
-        // P_CONTROL_HARD_RESET_CLIENT_V2 TLS message.
-        // see: https://build.openvpn.net/doxygen/network_protocol.html
-
-        val sessionId = ByteArray(8)
-        random.nextBytes(sessionId)
-        val timestamp = (unixTime() / 1000).toInt()
-
-        val packet = NetUtils.byteArrayBuilder {
-            writeInt(1)
-            writeInt(timestamp)
-            write(7 shl 3)
-            write(sessionId)
-            write(0)
-            writeInt(0)
-        }
-
-        val tlsAuthKeyHex = Constants.TLS_AUTH_KEY_HEX.replace("\n", "")
-        val tlsAuthKey = Hex.decodeHex(tlsAuthKeyHex.toCharArray()).drop(192).take(64).toByteArray()
-        val hmac = HmacUtils.getInitializedMac(HmacAlgorithms.HMAC_SHA_512, tlsAuthKey).doFinal(packet)
-
-        val authenticatedPacket = NetUtils.byteArrayBuilder {
-            write(7 shl 3)
-            write(sessionId)
-            write(hmac)
-            writeInt(1)
-            writeInt(timestamp)
-            write(0)
-            writeInt(0)
-        }
-
-        return if (tcp) NetUtils.byteArrayBuilder {
-            writeShort(authenticatedPacket.size)
-            write(authenticatedPacket)
-        } else
-            authenticatedPacket
     }
 
     override suspend fun connect(connectionParams: ConnectionParams) {

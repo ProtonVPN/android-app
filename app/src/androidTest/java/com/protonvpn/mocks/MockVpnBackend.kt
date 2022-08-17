@@ -19,7 +19,9 @@
 package com.protonvpn.mocks
 
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -27,17 +29,15 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.vpn.AgentConnectionInterface
 import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
+import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import kotlinx.coroutines.CoroutineScope
-import me.proton.core.network.domain.NetworkManager
-import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
-import com.protonvpn.android.vpn.ProtocolSelection
-import com.protonvpn.android.vpn.ServerPing
 import kotlinx.coroutines.yield
+import me.proton.core.network.domain.NetworkManager
 
 typealias MockAgentProvider = (
     certInfo: CertificateRepository.CertificateResult.Success,
@@ -76,7 +76,7 @@ class MockVpnBackend(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
-        protocol: ProtocolSelection?,
+        transmissionProtocol: TransmissionProtocol?,
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean
@@ -84,7 +84,8 @@ class MockVpnBackend(
         if (scan && failScanning)
             emptyList()
         else listOf(PrepareResult(this, object : ConnectionParams(
-                profile, server, server.getRandomConnectingDomain(), this.protocol, null) {}))
+            profile, server, server.getRandomConnectingDomain(), this.protocol, null
+        ) {}))
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
@@ -104,7 +105,7 @@ class MockVpnBackend(
         hostname: String?,
         nativeClient: VpnAgentClient
     ) = agentProvider?.invoke(certInfo, hostname, nativeClient)
-            ?: super.createAgentConnection(certInfo, hostname, nativeClient)
+        ?: super.createAgentConnection(certInfo, hostname, nativeClient)
 
     override val retryInfo get() = RetryInfo(10, 10)
 

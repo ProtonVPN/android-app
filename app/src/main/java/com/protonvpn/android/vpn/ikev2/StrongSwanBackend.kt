@@ -20,13 +20,13 @@ package com.protonvpn.android.vpn.ikev2
 
 import android.app.Service
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -42,7 +42,6 @@ import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
@@ -57,7 +56,6 @@ import javax.inject.Singleton
 
 @Singleton
 class StrongSwanBackend @Inject constructor(
-    @ApplicationContext private val appContext: Context,
     val random: Random,
     networkManager: NetworkManager,
     mainScope: CoroutineScope,
@@ -102,7 +100,7 @@ class StrongSwanBackend @Inject constructor(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
-        protocol: ProtocolSelection?,
+        transmissionProtocol: TransmissionProtocol?,
         scan: Boolean,
         numberOfPorts: Int, // unused, IKEv2 uses 2 ports and both need to be functional
         waitForAll: Boolean // as above

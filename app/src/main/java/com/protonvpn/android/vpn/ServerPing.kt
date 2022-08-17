@@ -110,11 +110,15 @@ class ServerPing @Inject constructor(
             socket.soTimeout = timeout
             protectSocket(socket)
             socket.connect(socketAddress, timeout)
-            socket.getOutputStream().apply {
-                write(pingData)
-                flush()
+            return if (pingData.isEmpty()) {
+                socket.isConnected
+            } else {
+                socket.getOutputStream().apply {
+                    write(pingData)
+                    flush()
+                }
+                socket.getInputStream().read() != -1
             }
-            return socket.getInputStream().read() != -1
         }
     }
 

@@ -94,31 +94,31 @@ class WireguardBackend(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
-        protocol: ProtocolSelection?,
+        transmissionProtocol: TransmissionProtocol?,
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean
     ): List<PrepareResult> {
         val connectingDomain = server.getRandomConnectingDomain()
-        val transmission = protocol?.transmission
-        val ports = if (transmission == TransmissionProtocol.UDP)
-            appConfig.getWireguardPorts().udpPorts
-        else
-            appConfig.getWireguardPorts().tcpPorts
-        val selectedPorts = if (scan)
-            scanUdpPorts(connectingDomain, ports, numberOfPorts, waitForAll)
-        else
-            listOfNotNull(ports.first())
-        return selectedPorts.map { port ->
+        val wireguardPorts = appConfig.getWireguardPorts()
+        val protocolInfo = if (!scan) {
+            val transmission = transmissionProtocol ?: TransmissionProtocol.UDP
+            val ports = if (transmission == TransmissionProtocol.UDP)
+                wireguardPorts.udpPorts else wireguardPorts.tcpPorts
+            listOf(ProtocolInfo(transmission, ports.random()))
+        } else {
+            scanPorts(connectingDomain, numberOfPorts, transmissionProtocol, waitForAll, wireguardPorts, PRIMARY_PORT,
+                includeTls = true)
+        }
+        return protocolInfo.map {
             PrepareResult(
                 this,
                 ConnectionParamsWireguard(
                     profile,
                     server,
-                    port,
+                    it.port,
                     connectingDomain,
-                    transmission ?: TransmissionProtocol.UDP
-                )
+                    it.transmissionProtocol)
             )
         }
     }
@@ -263,5 +263,7 @@ class WireguardBackend(
         const val WG_STATE_WAITING_FOR_NETWORK = 4
 
         const val FAIL_COUNTDOWN_INIT = 5
+
+        private const val PRIMARY_PORT = 449
     }
 }
