@@ -96,6 +96,16 @@ class RealConnectionTests {
         realConnection(ProtocolSelection(VpnProtocol.WireGuard))
     }
 
+    @Test
+    fun realConnectionWireguardTCP() {
+        realConnection(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP))
+    }
+
+    @Test
+    fun realConnectionWireguardTLS() {
+        realConnection(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
+    }
+
     private fun realConnection(protocol: ProtocolSelection) {
         userDataHelper.setProtocol(protocol.vpn, protocol.transmission)
         addAccountRobot.selectSignInOption()
