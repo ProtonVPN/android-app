@@ -277,8 +277,8 @@ object AppModule {
         appContext.getSystemService(Context.POWER_SERVICE) as PowerManager
 
     @Provides
-    fun provideBatteryManager(@ApplicationContext appContext: Context): BatteryManager =
-        appContext.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+    fun provideBatteryManager(@ApplicationContext appContext: Context): BatteryManager? =
+        appContext.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
 
     @Provides
     fun provideActivityManager(): ActivityManager =
