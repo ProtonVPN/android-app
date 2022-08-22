@@ -475,7 +475,7 @@
     <string name="upgrade_secure_core_title_new">Podwójne szyfrowanie dzięki funkcji Secure Core</string>
     <string name="upgrade_secure_core_countries">Przekieruj ruch przez ultra bezpieczne serwery w Szwajcarii, Szwecji i Islandii</string>
     <string name="upgrade_secure_core_encryption">Dodatkowa warstwa szyfrowania połączenia VPN</string>
-    <string name="upgrade_secure_core_protect">Chroń siebie przed atakami sieciowymi</string>
+    <string name="upgrade_secure_core_protect">Chroń się przed atakami sieciowymi</string>
     <string name="upgrade_netshield_block_ads">Zablokuj reklamy i skrypty śledzące</string>
     <string name="upgrade_netshield_block_malware">Chroń swoje urządzenie przed złośliwym oprogramowaniem</string>
     <string name="upgrade_netshield_speed">Przeglądaj Internet z najwyższą prędkością</string>
