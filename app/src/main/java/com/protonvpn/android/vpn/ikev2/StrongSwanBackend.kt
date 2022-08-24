@@ -100,7 +100,7 @@ class StrongSwanBackend @Inject constructor(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
-        transmissionProtocol: TransmissionProtocol?,
+        transmissionProtocols: Set<TransmissionProtocol>,
         scan: Boolean,
         numberOfPorts: Int, // unused, IKEv2 uses 2 ports and both need to be functional
         waitForAll: Boolean // as above

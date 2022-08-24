@@ -171,7 +171,7 @@ abstract class VpnBackend(
     abstract suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
-        transmissionProtocol: TransmissionProtocol?,
+        transmissionProtocols: Set<TransmissionProtocol>,
         scan: Boolean,
         numberOfPorts: Int = Int.MAX_VALUE, // Max number of ports to be scanned
         waitForAll: Boolean = false // wait for all ports to respond if true, otherwise just wait for first successful
@@ -488,7 +488,7 @@ abstract class VpnBackend(
     protected suspend fun scanPorts(
         connectingDomain: ConnectingDomain,
         numberOfPorts: Int,
-        transmissionProtocol: TransmissionProtocol?, // if null ping both UDP and TCP
+        transmissionProtocols: Set<TransmissionProtocol>,
         waitForAll: Boolean,
         ports: DefaultPorts,
         primaryTcpPort: Int,
@@ -496,14 +496,14 @@ abstract class VpnBackend(
     ): List<ProtocolInfo> {
         val result = mutableListOf<ProtocolInfo>()
         coroutineScope {
-            val udpPorts = if (transmissionProtocol == null || transmissionProtocol == TransmissionProtocol.UDP)
+            val udpPorts = if (transmissionProtocols.contains(TransmissionProtocol.UDP))
                 async {
                     scanUdpPorts(
                         connectingDomain, samplePorts(ports.udpPorts, numberOfPorts), numberOfPorts, waitForAll)
                 } else null
-            val isTcpOrTls =
-                transmissionProtocol == TransmissionProtocol.TCP || transmissionProtocol == TransmissionProtocol.TLS
-            val tcpPorts = if (transmissionProtocol == null || isTcpOrTls)
+            val isTcpOrTls = transmissionProtocols.contains(TransmissionProtocol.TCP)
+                || transmissionProtocols.contains(TransmissionProtocol.TLS)
+            val tcpPorts = if (isTcpOrTls)
                 async {
                     val tcpPorts = samplePorts(ports.tcpPorts, numberOfPorts, primaryTcpPort)
                     ProtonLogger.log(
@@ -517,10 +517,10 @@ abstract class VpnBackend(
 
             udpPorts?.await()?.map { ProtocolInfo(TransmissionProtocol.UDP, it) }?.let { result += it }
             val tcpResult = tcpPorts?.await()
-            if (transmissionProtocol != TransmissionProtocol.TLS)
+            if (transmissionProtocols.contains(TransmissionProtocol.TCP))
                 tcpResult?.map { ProtocolInfo(TransmissionProtocol.TCP, it) }?.let { result += it }
             // When protocol supports TLS add all TCP results as TLS
-            if (includeTls && transmissionProtocol != TransmissionProtocol.TCP)
+            if (includeTls && transmissionProtocols.contains(TransmissionProtocol.TLS))
                 tcpResult?.map { ProtocolInfo(TransmissionProtocol.TLS, it) }?.let { result += it }
         }
         return result

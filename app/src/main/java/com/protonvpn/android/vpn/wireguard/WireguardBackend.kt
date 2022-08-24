@@ -20,7 +20,6 @@ package com.protonvpn.android.vpn.wireguard
  */
 
 import android.content.Context
-import android.util.Log
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ConnError
@@ -94,7 +93,7 @@ class WireguardBackend(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
-        transmissionProtocol: TransmissionProtocol?,
+        transmissionProtocols: Set<TransmissionProtocol>,
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean
@@ -102,12 +101,13 @@ class WireguardBackend(
         val connectingDomain = server.getRandomConnectingDomain()
         val wireguardPorts = appConfig.getWireguardPorts()
         val protocolInfo = if (!scan) {
-            val transmission = transmissionProtocol ?: TransmissionProtocol.UDP
+            DebugUtils.debugAssert { transmissionProtocols.size == 1 }
+            val transmission = transmissionProtocols.first()
             val ports = if (transmission == TransmissionProtocol.UDP)
                 wireguardPorts.udpPorts else wireguardPorts.tcpPorts
             listOf(ProtocolInfo(transmission, ports.random()))
         } else {
-            scanPorts(connectingDomain, numberOfPorts, transmissionProtocol, waitForAll, wireguardPorts, PRIMARY_PORT,
+            scanPorts(connectingDomain, numberOfPorts, transmissionProtocols, waitForAll, wireguardPorts, PRIMARY_PORT,
                 includeTls = true)
         }
         return protocolInfo.map {

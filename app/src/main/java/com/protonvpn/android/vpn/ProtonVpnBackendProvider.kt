@@ -1,18 +1,18 @@
 /*
  * Copyright (c) 2019 Proton Technologies AG
- * 
+ *
  * This file is part of ProtonVPN.
- * 
+ *
  * ProtonVPN is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * ProtonVPN is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
@@ -26,11 +26,14 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.models.config.TransmissionProtocol
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import me.proton.core.util.kotlin.mapAsync
+
+private val ALL_TRANSMISSION_PROTOCOLS = TransmissionProtocol.values().toSet()
 
 class ProtonVpnBackendProvider(
     val config: AppConfig,
@@ -53,13 +56,16 @@ class ProtonVpnBackendProvider(
             VpnProtocol.WireGuard -> alwaysScan
             VpnProtocol.Smart -> true
         }
+        val transmissionProtocols =
+            if (protocol.vpn == VpnProtocol.Smart) ALL_TRANSMISSION_PROTOCOLS
+            else setOf(protocol.transmission!!)
         return when (protocol.vpn) {
-            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, protocol.transmission, scan)
-            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, protocol.transmission, scan)
-            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, protocol.transmission, scan)
+            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, transmissionProtocols, scan)
+            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, transmissionProtocols, scan)
+            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, transmissionProtocols, scan)
             VpnProtocol.Smart -> {
                 getEnabledBackends(server).asFlow().map {
-                    it.prepareForConnection(profile, server, protocol.transmission, scan)
+                    it.prepareForConnection(profile, server, transmissionProtocols, scan)
                 }.firstOrNull {
                     it.isNotEmpty()
                 }
@@ -81,7 +87,9 @@ class ProtonVpnBackendProvider(
                 val portsLimit = if (fullScan) Int.MAX_VALUE else PING_ALL_MAX_PORTS
 
                 val responses = listOf(wireGuard, strongSwan, openVpn).mapAsync {
-                    it.prepareForConnection(profile, server.server, null, true, portsLimit, waitForAll = fullScan)
+                    it.prepareForConnection(
+                        profile, server.server, ALL_TRANSMISSION_PROTOCOLS, true, portsLimit, waitForAll = fullScan
+                    )
                 }.flatten()
                 server to responses
             }.toMap()

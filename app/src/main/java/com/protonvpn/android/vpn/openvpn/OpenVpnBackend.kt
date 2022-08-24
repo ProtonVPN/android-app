@@ -33,12 +33,12 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
-import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
@@ -89,7 +89,7 @@ class OpenVpnBackend @Inject constructor(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
-        transmissionProtocol: TransmissionProtocol?,
+        transmissionProtocols: Set<TransmissionProtocol>,
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean
@@ -97,11 +97,12 @@ class OpenVpnBackend @Inject constructor(
         val connectingDomain = server.getRandomConnectingDomain()
         val openVpnPorts = appConfig.getOpenVPNPorts()
         val protocolInfo = if (!scan) {
-            val transmission = transmissionProtocol ?: TransmissionProtocol.UDP
-            listOf(ProtocolInfo(transmission, (if (transmission == TransmissionProtocol.TCP)
-                openVpnPorts.tcpPorts else openVpnPorts.udpPorts).random()))
+            DebugUtils.debugAssert { transmissionProtocols.size == 1 }
+            val transmission = transmissionProtocols.first()
+            val ports = if (transmission == TransmissionProtocol.TCP) openVpnPorts.tcpPorts else openVpnPorts.udpPorts
+            listOf(ProtocolInfo(transmission, ports.random()))
         } else {
-            scanPorts(connectingDomain, numberOfPorts, transmissionProtocol, waitForAll, openVpnPorts, PRIMARY_PORT)
+            scanPorts(connectingDomain, numberOfPorts, transmissionProtocols, waitForAll, openVpnPorts, PRIMARY_PORT)
         }
         return protocolInfo.map {
             PrepareResult(this, ConnectionParamsOpenVpn(
