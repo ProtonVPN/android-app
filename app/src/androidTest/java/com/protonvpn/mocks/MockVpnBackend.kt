@@ -76,7 +76,7 @@ class MockVpnBackend(
     override suspend fun prepareForConnection(
         profile: Profile,
         server: Server,
-        transmissionProtocol: TransmissionProtocol?,
+        transmissionProtocols: Set<TransmissionProtocol>,
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean

@@ -469,7 +469,7 @@ class VpnConnectionTests {
         mockStrongSwan.stateOnConnect = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
 
         val fallbackConnection = mockOpenVpn.prepareForConnection(
-            fallbackOpenVpnProfile, fallbackServer, null, true).first()
+            fallbackOpenVpnProfile, fallbackServer, emptySet(), true).first()
         val fallbackResult = VpnFallbackResult.Switch.SwitchServer(serverIKEv2,
             fallbackOpenVpnProfile, fallbackConnection, SwitchServerReason.ServerUnreachable,
             compatibleProtocol = false, switchedSecureCore = false, notifyUser = true)
