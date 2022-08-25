@@ -136,7 +136,7 @@ class SearchViewModelTests : CoroutinesTest {
     @Test
     fun `when connected to CA#1 Toronto result is shown connected`() = coroutinesTest {
         val server = MockedServers.serverList.first { it.serverName == "CA#1" }
-        val profile = MockedServers.getProfile(VpnProtocol.Smart, server)
+        val profile = MockedServers.getProfile(server, VpnProtocol.Smart)
         vpnStateFlow.value = VpnStateMonitor.Status(VpnState.Connected, ConnectionParams(profile, server, null, null))
 
         searchViewModel.setQuery("tor")
@@ -150,7 +150,7 @@ class SearchViewModelTests : CoroutinesTest {
     @Test
     fun `when connected to CA#1 Canada result is shown connected`() = coroutinesTest {
         val server = MockedServers.serverList.first { it.serverName == "CA#1" }
-        val profile = MockedServers.getProfile(VpnProtocol.Smart, server)
+        val profile = MockedServers.getProfile(server, VpnProtocol.Smart)
         vpnStateFlow.value = VpnStateMonitor.Status(VpnState.Connected, ConnectionParams(profile, server, null, null))
 
         searchViewModel.setQuery("can")

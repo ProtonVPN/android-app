@@ -26,9 +26,11 @@ import com.proton.gopenpgp.localAgent.LocalAgent
 import com.proton.gopenpgp.localAgent.NativeClient
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -123,7 +125,7 @@ class VpnConnectionTests {
     @RelaxedMockK
     lateinit var mockAgent: AgentConnectionInterface
 
-    @MockK
+    @RelaxedMockK
     lateinit var mockVpnUiDelegate: VpnUiDelegate
 
     @MockK
@@ -149,6 +151,7 @@ class VpnConnectionTests {
     private lateinit var profileIKEv2: Profile
     private lateinit var profileOpenVPN: Profile
     private lateinit var profileWireguard: Profile
+    private lateinit var profileWireguardTls: Profile
     private lateinit var fallbackOpenVpnProfile: Profile
 
     private lateinit var serverIKEv2: Server
@@ -219,11 +222,12 @@ class VpnConnectionTests {
         serverIKEv2 = MockedServers.serverList[1]
         fallbackServer = MockedServers.serverList[2]
 
-        profileSmart = MockedServers.getProfile(VpnProtocol.Smart, server)
-        profileIKEv2 = MockedServers.getProfile(VpnProtocol.IKEv2, serverIKEv2)
-        profileOpenVPN = MockedServers.getProfile(VpnProtocol.OpenVPN, server)
-        profileWireguard = MockedServers.getProfile(VpnProtocol.WireGuard, server)
-        fallbackOpenVpnProfile = MockedServers.getProfile(VpnProtocol.OpenVPN, fallbackServer, "fallback")
+        profileSmart = MockedServers.getProfile(server, VpnProtocol.Smart)
+        profileIKEv2 = MockedServers.getProfile(serverIKEv2, VpnProtocol.IKEv2)
+        profileOpenVPN = MockedServers.getProfile(server, VpnProtocol.OpenVPN)
+        profileWireguard = MockedServers.getProfile(server, VpnProtocol.WireGuard)
+        profileWireguardTls = MockedServers.getProfile(server, VpnProtocol.WireGuard, transmissionProtocol = TransmissionProtocol.TLS)
+        fallbackOpenVpnProfile = MockedServers.getProfile(fallbackServer, VpnProtocol.OpenVPN, "fallback")
         every { serverManager.getServerForProfile(any(), any()) } answers {
             MockedServers.serverList.find { it.serverId == arg<Profile>(0).wrapper.serverId }
         }
@@ -268,6 +272,15 @@ class VpnConnectionTests {
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
         Assert.assertEquals(VpnProtocol.OpenVPN, monitor.status.value.connectionParams?.protocolSelection?.vpn)
+    }
+
+    @Test
+    fun whenFeatureFlagIsOffNoConnectionIsMade() = scope.runBlockingTest {
+        every { appConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = false)
+        manager.connect(mockVpnUiDelegate, profileWireguardTls, "test")
+
+        verify { mockVpnUiDelegate.onProtocolNotSupported() }
+        Assert.assertEquals(VpnState.Disabled, monitor.state)
     }
 
     @Test
@@ -696,7 +709,7 @@ class VpnConnectionTests {
     @Test
     fun whenFreeUserConnectsToSecureCoreServerThenUserIsNotified() = scope.runBlockingTest {
         val secureCoreProfile =
-            MockedServers.getProfile(VpnProtocol.WireGuard, MockedServers.serverList.find { it.isSecureCoreServer }!!)
+            MockedServers.getProfile(MockedServers.serverList.find { it.isSecureCoreServer }!!, VpnProtocol.WireGuard)
         every { vpnUser.userTier } returns 0
         every { mockVpnUiDelegate.onServerRestricted(any()) } returns true
 

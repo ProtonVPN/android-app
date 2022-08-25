@@ -18,6 +18,7 @@
  */
 package com.protonvpn.test.shared
 
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
@@ -39,9 +40,9 @@ object MockedServers {
 
     val server by lazy { serverList.first() }
 
-    fun getProfile(protocol: VpnProtocol, server: Server, name: String = protocol.name) =
+    fun getProfile(server: Server, protocol: VpnProtocol, name: String = protocol.name, transmissionProtocol: TransmissionProtocol? = null) =
         Profile(name, null, ServerWrapper.makeWithServer(server), ProfileColor.CARROT.id, null).apply {
-            setProtocol(ProtocolSelection(protocol))
+            setProtocol(ProtocolSelection(protocol, transmissionProtocol))
         }
 
     @Suppress("ClassOrdering")

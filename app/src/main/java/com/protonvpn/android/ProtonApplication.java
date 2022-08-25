@@ -52,6 +52,7 @@ import com.protonvpn.android.vpn.CertificateRepository;
 import com.protonvpn.android.vpn.LogcatLogCapture;
 import com.protonvpn.android.vpn.MaintenanceTracker;
 import com.protonvpn.android.vpn.UpdateSecureCoreToMatchConnectedServer;
+import com.protonvpn.android.vpn.UpdateSettingsOnFeatureFlagChange;
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
@@ -99,6 +100,7 @@ public class ProtonApplication extends Application {
         UpdateSecureCoreToMatchConnectedServer getUpdateSecureCoreToMatchConnectedServer();
         UpdateServersOnLocaleChange getUpdateServersOnLocaleChange();
         UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
+        UpdateSettingsOnFeatureFlagChange getUpdateSettingsOnFeatureFlagChange();
     }
 
     @Override
@@ -150,6 +152,7 @@ public class ProtonApplication extends Application {
         dependencies.getUpdateSecureCoreToMatchConnectedServer();
         dependencies.getUpdateServersOnLocaleChange();
         dependencies.getUpdateSettingsOnVpnUserChange();
+        dependencies.getUpdateSettingsOnFeatureFlagChange();
 
         dependencies.getRestartHandler().onAppStarted();
     }

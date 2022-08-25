@@ -442,7 +442,7 @@ class VpnConnectionManager @Inject constructor(
         if (server?.online == true &&
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {
-            if (server.supportsProtocol(profile.getProtocol(userData).vpn)) {
+            if (server.supportsProtocol(profile.getProtocol(userData).vpn) && profile.getProtocol(userData).isSupported(appConfig.getFeatureFlags())) {
                 smartConnect(profile, server)
             } else {
                 delegate.onProtocolNotSupported()
