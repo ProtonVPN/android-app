@@ -20,6 +20,7 @@
 package com.protonvpn.android.vpn
 
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import java.io.Serializable
@@ -30,6 +31,18 @@ data class ProtocolSelection private constructor(
 ) : Serializable {
 
     fun localAgentEnabled() = vpn.localAgentEnabled()
+
+    fun isSupported(featureFlags: FeatureFlags): Boolean {
+        return when (vpn) {
+            VpnProtocol.OpenVPN -> true
+            VpnProtocol.IKEv2 -> true
+            VpnProtocol.WireGuard -> when (transmission) {
+                TransmissionProtocol.TCP, TransmissionProtocol.TLS -> featureFlags.wireguardTlsEnabled
+                else -> true
+            }
+            VpnProtocol.Smart -> true
+        }
+    }
 
     val displayName: Int get() = when (vpn) {
         VpnProtocol.Smart -> R.string.settingsProtocolNameSmart

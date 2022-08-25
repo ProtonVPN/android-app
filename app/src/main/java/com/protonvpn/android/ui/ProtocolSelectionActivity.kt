@@ -23,19 +23,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemProtocolBinding
-import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.utils.ActivityResultUtils
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProtocolSelectionActivity : BaseActivityV2() {
+
+    val viewModel: ProtocolSelectionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ class ProtocolSelectionActivity : BaseActivityV2() {
     }
 
     private fun initProtocols(recyclerView: RecyclerView, initialSelection: ProtocolSelection) {
-        val protocolsAdapter = ProtocolsAdapter(initialSelection) { selection ->
+        val protocolsAdapter = ProtocolsAdapter(viewModel.supportedProtocols, initialSelection) { selection ->
             ActivityResultUtils.setResult(this, selection)
             finish()
         }
@@ -63,19 +64,10 @@ class ProtocolSelectionActivity : BaseActivityV2() {
         : RecyclerView.ViewHolder(binding.root)
 
     private class ProtocolsAdapter(
+        private val items: List<ProtocolSelection>,
         private val initialSelection: ProtocolSelection,
         private val onSelection: (ProtocolSelection) -> Unit
     ) : RecyclerView.Adapter<ProtocolViewHolder>() {
-
-        private val items = listOf(
-            ProtocolSelection(VpnProtocol.Smart),
-            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
-            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
-            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
-            ProtocolSelection(VpnProtocol.IKEv2),
-            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
-            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
-        )
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProtocolViewHolder =
             ProtocolViewHolder(

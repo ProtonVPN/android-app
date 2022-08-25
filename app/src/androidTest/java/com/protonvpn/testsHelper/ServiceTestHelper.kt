@@ -46,7 +46,7 @@ class ServiceTestHelper {
             if (s.domain == serverDomain) server = s
         }
         checkNotNull(server) { "No mocked server for domain: $serverDomain" }
-        val profile = getProfile(protocol, server, name)
+        val profile = getProfile(server, protocol, name)
         serverManager.addToProfileList(profile)
     }
 

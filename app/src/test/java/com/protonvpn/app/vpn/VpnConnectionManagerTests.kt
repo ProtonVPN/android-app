@@ -24,6 +24,7 @@ import android.os.PowerManager.PARTIAL_WAKE_LOCK
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -127,6 +128,7 @@ class VpnConnectionManagerTests {
 
         every { mockWakeLock.isHeld } returns true
         every { mockPowerManager.newWakeLock(PARTIAL_WAKE_LOCK, any()) } returns mockWakeLock
+        every { appConfig.getFeatureFlags() } returns FeatureFlags()
         every { mockNetworkManager.isConnectedToNetwork() } returns true
         every { mockBackend.vpnProtocol } returns connectionParams.protocolSelection!!.vpn
         every { mockBackend.selfStateObservable } returns mockBackendSelfState
