@@ -122,7 +122,8 @@ class VpnConnectionManagerTests {
         coEvery { mockCurrentUser.sessionId() } returns SessionId("session id")
         coEvery { mockCurrentUser.vpnUser() } returns vpnUser
 
-        every { mockPowerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:connect") } returns mockWakeLock
+        every { mockWakeLock.isHeld } returns true
+        every { mockPowerManager.newWakeLock(PARTIAL_WAKE_LOCK, any()) } returns mockWakeLock
         every { mockNetworkManager.isConnectedToNetwork() } returns true
         every { mockBackend.vpnProtocol } returns connectionParams.protocol!!
         every { mockBackend.selfStateObservable } returns mockBackendSelfState
