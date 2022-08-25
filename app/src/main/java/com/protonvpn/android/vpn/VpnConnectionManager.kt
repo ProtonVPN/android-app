@@ -105,6 +105,7 @@ class VpnConnectionManager @Inject constructor(
     private val activeBackendObservable = MutableLiveData<VpnBackend?>()
     private val activeBackend: VpnBackend? get() = activeBackendObservable.value
     private val connectWakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:connect")
+    private val fallbackWakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:fallback")
 
     private var connectionParams: ConnectionParams? = null
     private var lastProfile: Profile? = null
@@ -515,7 +516,7 @@ class VpnConnectionManager @Inject constructor(
 
     private fun launchConnect(block: suspend () -> Unit) {
         if (ongoingConnect?.isActive != true) {
-            ongoingConnect = launchWithWakeLock(block)
+            ongoingConnect = launchWithWakeLock(connectWakeLock, block)
         } else {
             failInDebugAndLogError("Trying to start connect job while previous is still running")
         }
@@ -523,19 +524,20 @@ class VpnConnectionManager @Inject constructor(
 
     private fun launchFallback(block: suspend () -> Unit) {
         if (ongoingFallback?.isActive != true) {
-            ongoingFallback = launchWithWakeLock(block)
+            ongoingFallback = launchWithWakeLock(fallbackWakeLock, block)
         } else {
             failInDebugAndLogError("Trying to start fallback job while previous is still running")
         }
     }
 
-    private fun launchWithWakeLock(block: suspend () -> Unit): Job {
-        connectWakeLock.acquire(WAKELOCK_MAX_MS)
+    private fun launchWithWakeLock(wakeLock: PowerManager.WakeLock, block: suspend () -> Unit): Job {
+        wakeLock.acquire(WAKELOCK_MAX_MS)
         return scope.launch {
             block()
         }.apply {
             invokeOnCompletion {
-                connectWakeLock.release()
+                if (wakeLock.isHeld)
+                    wakeLock.release()
             }
         }
     }
