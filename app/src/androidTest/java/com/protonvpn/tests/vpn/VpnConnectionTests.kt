@@ -204,7 +204,8 @@ class VpnConnectionTests {
             strongSwan = mockStrongSwan,
             openVpn = mockOpenVpn,
             wireGuard = mockWireguard,
-            config = appConfig
+            config = appConfig,
+            userData = userData
         )
 
         monitor = VpnStateMonitor()
