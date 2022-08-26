@@ -130,8 +130,6 @@ class AppConfig(
             ikeV2Enabled = true,
             openVPNEnabled = true,
             wireguardEnabled = false,
-            wireguardTcpEnabled = false,
-            wireguardTlsEnabled = false,
         )
 
         return AppConfigResponse(

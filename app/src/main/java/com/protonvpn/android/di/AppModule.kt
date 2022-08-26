@@ -200,13 +200,15 @@ object AppModuleProd {
         appConfig: AppConfig,
         wireguardBackend: WireguardBackend,
         openVpnBackend: OpenVpnBackend,
-        strongSwanBackend: StrongSwanBackend
+        strongSwanBackend: StrongSwanBackend,
+        userData: UserData,
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
             appConfig,
             strongSwanBackend,
             openVpnBackend,
             wireguardBackend,
+            userData,
         )
 
     @Singleton
