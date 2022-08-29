@@ -50,7 +50,7 @@
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
     <string name="ok">Tamam</string>
-    <string name="dialogContinue">Devam et</string>
+    <string name="dialogContinue">İlerle</string>
     <string name="dialogLearnMore">Ayrıntılı bilgi alın</string>
     <string name="dialog_read_more">Devamını oku</string>
     <string name="dialog_apply">Uygula</string>
@@ -242,12 +242,12 @@
     <string name="noVpnPermissionMainMessage">Proton VPN bağlantısı kurmak için şunları yapın:</string>
     <string name="noVpnPermissionGrantPermissionTitle">VPN izni verin</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Proton VPN bağlantısı kurmak için Android izinleri vermeniz gerekir. Android \"Bağlantı isteği\" yapıldığında \"Tamam\" üzerine tıklayın.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Diğer uygulamalar her zaman açık olmasın</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android birden fazla VPN uygulamasını desteklemez. Proton VPN dışındaki diğer VPN uygulamalarının her zaman açık ayarını devre dışı bırakın.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android birden fazla VPN uygulamasını desteklemez. Proton VPN dışındaki diğer VPN uygulamaları için her zaman açık seçeneğini devre dışı bırakın.</string>
     <string name="noVpnPermissionProtonAppLabel">ProtonVPN uygulaması</string>
     <string name="noVpnPermissionOtherAppLabel">Diğer VPN uygulamaları</string>
     <string name="noVpnPermissionOpenSettings">Android VPN ayarlarını açın</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için Her zaman açık seçeneğini devre dışı bırakın. VPN izinleri isteyen bir pencere görürseniz VPN izinleri verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından, lütfen yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için her zaman açık seçeneğini devre dışı bırakın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="error_prepare_vpn_settings">Android VPN ayarlarına git</string>
     <string name="error_prepare_vpn_title">Hata: VPN izni sorunu</string>
     <string name="error_server_not_set">Sunucu artık kullanılamıyor</string>
@@ -314,16 +314,16 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton erişimi engelleniyorsa, uygulamanın Proton sunucularına erişmesi için alternatif yollar kullanmasına izin verin. <a href="%1$s">Ayrıntılı bilgi alın</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hükümet engellemesi</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ülkeniz Proton ağına erişimi engelliyor olabilir. Proton ağına erişmek için <a href=\'%1$s\'>Tor</a> kullanmayı deneyin.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Her zaman açık VPN ve Bağlantı kesici</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Her zaman açık VPN ve bağlantı kesici</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Bağlantınız kesilirse Proton VPN uygulamasının nasıl davranacağını ayarlayın</string>
-    <string name="settingsAlwaysOnWindowHeader">Her zaman açık VPN ve Bağlantı kesici nasıl etkinleştirilir:</string>
+    <string name="settingsAlwaysOnWindowHeader">Her zaman açık VPN ve bağlantı kesici nasıl etkinleştirilir:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Aşağıdaki düğmeye dokunarak aygıtınızın <b>Ayarlarını</b> açın]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Proton VPN uygulamasını bulun ve %1$s seçeneğine dokunun</string>
-    <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
+    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[2. Etkinleştirmek için <b>Her zaman açık VPN</b> seçeneğinin yanındaki anahtara dokunun]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Etkinleştirmek için <b>Her zaman açık VPN</b> seçeneğinin yanındaki anahtara dokunun]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
@@ -414,7 +414,7 @@
     <string name="reconnectToEnableNetshield">Bu işlem bağlantınızı yeniden başlatacak.\n\nNot: Bazı siteler NetShield açık iken yüklenemeyebilir.</string>
     <string name="notification_subscription_expired_title">Proton VPN abonelik tarifenizin süresi dolmuş</string>
     <string name="notification_subscription_expired_content">Tarifenizi düşürmek zorunda kaldık. Bağlantınızı bu tarifedeki en hızlı sunucuya geçiriyoruz.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">Abonelik tarifeniz düşürüldü. </string>
+    <string name="notification_subscription_expired_no_reconnection_content">Aboneliğiniz düşürüldü.</string>
     <string name="notification_delinquent_title">Proton VPN hesabınızda ödenmemiş faturalar var</string>
     <string name="notification_delinquent_content">Aboneliğinizi kullanmayı sürdürebilmek için bir dakika ayırarak fatura bilgilerinizi güncelleyin.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
@@ -439,8 +439,8 @@
     <string name="notification_smart_protocol_disabled_content">ProtonVPN, kullandığınız ağın VPN bağlantısı engellediğini algıladı. Smart Protocol özelliğini etkinleştirmek bu kısıtlamaları aşabilir.</string>
     <string name="upsell_advanced_features">Gelişmiş özellikler: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Dünyanın her yerinden yayın akışı hizmetlerine erişim (Netflix, Disney+, vb)</string>
-    <!-- Number of servers available in the service. This phrase will be combined with
-         "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->
@@ -448,14 +448,14 @@
         <item quantity="one">%1$d sunucu</item>
         <item quantity="other">%1$d sunucu</item>
     </plurals>
-    <!-- Number of countries available in the service. This phrase will be combined with
-         "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d ülke</item>
-        <item quantity="other">%1$d ülke</item>
+        <item quantity="one">%1$d ülkede</item>
+        <item quantity="other">%1$d ülkede</item>
     </plurals>
     <string name="upsell_upgrade_again">Tüm özelliklerin tadını çıkarmak için yeniden yükseltin:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
@@ -469,7 +469,7 @@
     <string name="upgrade_netshield_block_ads">Reklam ve etkinlik izleyicileri engelleyebilirsiniz</string>
     <string name="upgrade_netshield_block_malware">Aygıtınızı kötü amaçlı yazılımlardan koruyabilirsiniz</string>
     <string name="upgrade_netshield_speed">En yüksek hızlarda gezinebilirsiniz</string>
-    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
          Example:
@@ -489,7 +489,7 @@
         <item quantity="one">%d güvenli sunucu</item>
         <item quantity="other">%d+ güvenli sunucu</item>
     </plurals>
-    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
          Example:
          55 countries
@@ -542,7 +542,7 @@
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Bu sunucular, BitTorrent ve dosya paylaşımı için en iyi başarımı sağlar.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">İnternet trafiğinizi Tor ağı üzerinden yöneltin. Yavaş ama daha güvenli.</string>
+    <string name="tor_description">İnternet trafiğinizi Tor ağı üzerinden yöneltin. Daha yavaş ama daha güvenli.</string>
     <string name="info_performance">Başarım</string>
     <string name="server_load_title">Sunucu yükü</string>
     <string name="server_load_description">Yükü yüksek olan sunucular, düşük olanlara göre daha yavaştır.</string>
@@ -565,6 +565,32 @@
     <string name="onboarding_netshield_title">Reklamları ve çok daha fazlasını engelleyin</string>
     <string name="onboarding_netshield_description">Web tarayıcıda ve tüm uygulamalarda kötü amaçlı yazılımları, reklamları ve etkinlik izleyicileri engelleyin.</string>
     <string name="onboarding_connection_title">İlk bağlantınızı kurun</string>
+    <!-- Parameters:
+         %1$s - replaced with "onboarding_connection_description_servers"
+         %2$s - replaced with "onboarding_connection_description_countries"
+
+         Example:
+         Free subscription offers 65 servers in 3 countries
+    -->
+    <string name="onboarding_connection_description">Free aboneliği ile %2$s bulunan %1$s kullanılabilir</string>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         65 servers -->
+    <plurals name="onboarding_connection_description_servers">
+        <item quantity="one">%1$d sunucu</item>
+        <item quantity="other">%1$d sunucu</item>
+    </plurals>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         3 countries -->
+    <plurals name="onboarding_connection_description_countries">
+        <item quantity="one">%1$d ülkede</item>
+        <item quantity="other">%1$d ülkede</item>
+    </plurals>
     <string name="onboarding_connection_info">Sizi konumunuz için en hızlı ve en kararlı sunucuya bağlayacağız.</string>
     <string name="onboading_connect_now">Bağlan</string>
     <string name="onboading_connecting_now">Bağlanıyor</string>
@@ -614,7 +640,7 @@
     <string name="search_empty_result_title">Herhangi bir sonuç bulunamadı</string>
     <string name="search_recents_header_title">Son bakılanlar (%1$d)</string>
     <string name="search_clear_history">Geçmişi temizle</string>
-    <string name="search_clear_history_dialog">Arama geçmişiniz kaybolacak. Devam edilsin mi?</string>
+    <string name="search_clear_history_dialog">Arama geçmişiniz kaybolacak. İlerlensin mi?</string>
     <!-- Parameters:
      %1$s - number of countries. It is never 1.
 
@@ -625,7 +651,7 @@
     </plurals>
     <string name="search_upgrade_banner_subtitle">Daha fazla konum = daha fazla engelsiz içerik + ek güvenlik + daha yüksek hız</string>
     <string name="new_look_dialog_title_new_plans">Güncellenmiş Proton, birleşik koruma</string>
-    <string name="new_look_dialog_message_new_plans"><![CDATA[Yenilenmiş Proton böyle görünüyor. Birçok hizmet, tek amaç. Kişisel gizliliğin doğal sayıldığı internet fikrine hoş geldiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Yenilenmiş Proton böyle görünüyor. Birçok hizmet, tek amaç. Kişisel gizliliğin doğal sayıldığı internet fikrine hoş geldiniz. <a href="%1$s">Ayrıntılı&nbsp;bilgi&nbsp;alın</a>]]></string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Ayrıntılı bilgi almak için <a href="https://protonvpn.com/pricing">protonvpn.com</a> sayfasına bakın.</string>
 </resources>

@@ -247,7 +247,7 @@
     <string name="noVpnPermissionMainMessage">To connect to Proton VPN, please do the following:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Grant VPN permission</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android needs your permission to connect to Proton VPN. Grant it by tapping \"OK\" when you get the \"Connection request\" window from Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android does not support multiple VPN apps. Disable always-on for any VPN app other than Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Proton VPN app</string>
     <string name="noVpnPermissionOtherAppLabel">Other VPN apps</string>
@@ -450,8 +450,7 @@
     <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Access streaming services (Netflix, Disney+, etc) anywhere in the world</string>
     <!-- Number of servers available in the service.
-         This phrase will be combined with "upsell_many_countries" to form:
-         <upsell_many_servers>, <upsell_many_countries>.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->
@@ -460,8 +459,7 @@
         <item quantity="other">%1$d servers</item>
     </plurals>
     <!-- Number of countries available in the service.
-         This phrase will be combined with "upsell_many_countries" to form:
-         <upsell_many_servers>, <upsell_many_countries>.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->

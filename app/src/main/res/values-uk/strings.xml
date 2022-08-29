@@ -244,12 +244,12 @@
     <string name="noVpnPermissionMainMessage">Щоб з\'єднатися з Proton VPN, виконайте такі дії:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Надати дозвіл VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android вимагає вашого дозволу для з\'єднання з Proton VPN. Надайте дозвіл, торкнувшись \"Гаразд\", коли з\'явиться вікно \"Запит з\'єднання\" від Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Вимкніть функцію \"Постійна VPN\" для інших додатків</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Androіd не підтримує кілька додатків VPN. Вимкніть функцію \"Постійна VPN\" для будь-якого додатка VPN, крім Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android не підтримує кілька застосунків VPN. Вимкніть функцію «always-on» для будь-якого застосунку VPN, крім Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Додаток ProtonVpn</string>
     <string name="noVpnPermissionOtherAppLabel">Інші додатки VPN</string>
     <string name="noVpnPermissionOpenSettings">Відкрити налаштування Android VPN</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Будь ласка, вимкніть Постійну VPN для всіх інших додатків VPN у системних налаштуваннях Androіd, тому що це не дозволяє Proton VPN встановити з\'єднання. Також дозвольте VPN, якщо з\'явиться діалогове вікно із запитом про дозвіл. Можливо, також доведеться видалити інші додатки VPN, щоб уникнути конфліктів. Після цього повторіть спробу. <a href="%1$s">Докладніше</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Вимкніть always-on VPN для всіх інших застосунків VPN у системних налаштуваннях Android, тому що це не дає Proton VPN встановити з\'єднання. Також дозвольте VPN, якщо з\'явиться запит про дозвіл. Можливо, також доведеться видалити інші застосунки VPN, щоб уникнути конфліктів. Після цього повторіть спробу. <a href="%1$s">Докладніше</a>]]></string>
     <string name="error_prepare_vpn_settings">Перейти до налаштувань VPN Android</string>
     <string name="error_prepare_vpn_title">Помилка: Проблема з дозволами VPN</string>
     <string name="error_server_not_set">Сервер більше не доступний</string>
@@ -318,21 +318,21 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[У випадку якщо Proton заблокований, дозвольте застосунку спробувати альтернативні шляхи для з\'єднання з серверами Proton. <a href="%1$s">Докладніше</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Блокування урядом</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ваша країна може блокувати доступ до Proton. Спробуйте скористатися <a href=\'%1$s\'>Tor</a> для доступу до Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Постійна VPN та Kill Switch</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Always-on VPN і kill switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Налаштуйте поведінку Proton VPN у випадку розриву з\'єднання</string>
-    <string name="settingsAlwaysOnWindowHeader">Як увімкнути постійну VPN та Kill Switch:</string>
+    <string name="settingsAlwaysOnWindowHeader">Як увімкнути always-on VPN і kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Відкрийте <b>Налаштування</b> вашого пристрою, торкнувшись кнопки нижче]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Знайдіть Proton VPN і торкніться %1$s</string>
-    <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
+    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Торкніться перемикача поруч із <b>Постійна VPN</b> для увімкнення]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Торкніться перемикача поруч із <b>Always-on VPN</b> для увімкнення]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Торкніться перемикача поруч із <b>Блокувати з\'єднання без VPN</b>, щоб увімкнути Kіll Swіtch]]></string>
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Торкніться перемикача поруч із <b>Блокувати з\'єднання без VPN</b>, щоб увімкнути kill switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Відкрити налаштування Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Увімкнення Kill Switch вимкне роздільне тунелювання, оскільки Kill Switch блокує усі з\'єднання поза тунелем VPN</string>
     <string name="settingsSmartProtocolDescription">Автоматично застосовувати протокол і порт для найкращого підключення.</string>
@@ -418,7 +418,7 @@
     <string name="reconnectToEnableNetshield">Це перезапустить ваше з\'єднання.\n\nПримітка: Деякі сайти можуть не завантажуватися з увімкненим NetShіeld.</string>
     <string name="notification_subscription_expired_title">Ваша передплата тарифного плану Proton VPN завершилася</string>
     <string name="notification_subscription_expired_content">Нам довелося понизити ваш тарифний план, але ми знову з\'єднуємо вас із найшвидшим сервером, доступним у цьому тарифному плані.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">Вашу передплату було змінено на нижчий рівень. </string>
+    <string name="notification_subscription_expired_no_reconnection_content">Ваша передплата була понижена.</string>
     <string name="notification_delinquent_title">У вашому обліковому записі Proton VPN є несплачені рахунки</string>
     <string name="notification_delinquent_content">Знайдіть хвилинку та оновіть платіжні дані, щоб вашу передплата залишалася активною.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
@@ -445,8 +445,8 @@
     <string name="notification_smart_protocol_disabled_content">Proton VPN виявив, що ваша мережа запобігає з\'єднанню з VPN. Увімкнення Smart Protocol допоможе обійти це обмеження.</string>
     <string name="upsell_advanced_features">Додаткові функції: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ до потокових сервісів (Netflіx, Dіsney+ та ін.) будь-де у світі</string>
-    <!-- Number of servers available in the service. This phrase will be combined with
-         "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->
@@ -456,8 +456,8 @@
         <item quantity="many">%1$d серверів</item>
         <item quantity="other">%1$d серверів</item>
     </plurals>
-    <!-- Number of countries available in the service. This phrase will be combined with
-         "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->
@@ -479,7 +479,7 @@
     <string name="upgrade_netshield_block_ads">Блокування реклами та стеження</string>
     <string name="upgrade_netshield_block_malware">Захистіть свій пристрій від зловмисних програм</string>
     <string name="upgrade_netshield_speed">Переглядайте контент на найвищій швидкості</string>
-    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
          Example:
@@ -503,7 +503,7 @@
         <item quantity="many">%d захищених серверів</item>
         <item quantity="other">%d захищені сервери</item>
     </plurals>
-    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
          Example:
          55 countries
@@ -560,7 +560,7 @@
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Ці сервери забезпечують найкращу швидкодію для BitTorrent та обміну файлами.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Спрямовуйте свій Інтернет-трафік через мережу Tor. Повільніше, але приватніше.</string>
+    <string name="tor_description">Спрямовуйте свій інтернет-трафік через мережу Tor. Повільніше, але приватніше.</string>
     <string name="info_performance">Швидкодія</string>
     <string name="server_load_title">Завантаження сервера</string>
     <string name="server_load_description">Високозавантажені сервери повільніші за малонавантажені сервери.</string>
@@ -583,6 +583,36 @@
     <string name="onboarding_netshield_title">Блокуйте рекламу і багато чого іншого</string>
     <string name="onboarding_netshield_description">Блокуйте зловмисні програми, рекламу й елементи стеження в браузері та в усіх застосунках.</string>
     <string name="onboarding_connection_title">Встановіть ваше перше з\'єднання</string>
+    <!-- Parameters:
+         %1$s - replaced with "onboarding_connection_description_servers"
+         %2$s - replaced with "onboarding_connection_description_countries"
+
+         Example:
+         Free subscription offers 65 servers in 3 countries
+    -->
+    <string name="onboarding_connection_description">Безплатна підписка пропонує %1$s в %2$s</string>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         65 servers -->
+    <plurals name="onboarding_connection_description_servers">
+        <item quantity="one">%1$d сервер</item>
+        <item quantity="few">%1$d сервери</item>
+        <item quantity="many">%1$d серверів</item>
+        <item quantity="other">%1$d сервери</item>
+    </plurals>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         3 countries -->
+    <plurals name="onboarding_connection_description_countries">
+        <item quantity="one">%1$d країні</item>
+        <item quantity="few">%1$d країнах</item>
+        <item quantity="many">%1$d країнах</item>
+        <item quantity="other">%1$d країнах</item>
+    </plurals>
     <string name="onboarding_connection_info">Ми під\'єднаємо вас до найшвидшого і найстабільнішого сервера для вашого розташування.</string>
     <string name="onboading_connect_now">З\'єднатися зараз</string>
     <string name="onboading_connecting_now">Триває з\'єднання</string>
@@ -645,7 +675,7 @@
     </plurals>
     <string name="search_upgrade_banner_subtitle">Більше розташувань = більше розблокованого вмісту + додаткова безпека + вища швидкість</string>
     <string name="new_look_dialog_title_new_plans">Оновлений Proton, єдиний захист</string>
-    <string name="new_look_dialog_message_new_plans"><![CDATA[Представляємо оновлений вигляд Proton. Багато служб, одна місія. Ласкаво просимо до Інтернету, де приватність — це стандарт. <a href="%1$s">Докладніше</a>]]></string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Представляємо оновлений вигляд Proton. Багато служб, одна місія. Ласкаво просимо до інтернету, де приватність — це стандарт. <a href="%1$s">Докладніше</a>]]></string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Відвідайте <a href="https://protonvpn.com/prіcіng">protonvpn.com</a> для докладнішої інформації.</string>
 </resources>

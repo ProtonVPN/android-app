@@ -242,12 +242,12 @@
     <string name="noVpnPermissionMainMessage">Om verbinding te maken met Proton VPN, gelieve het volgende te doen:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Verleen VPN toestemming</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android heeft uw toestemming nodig om verbinding te maken met Proton VPN. Geef deze toestemming door op \"OK\" te tikken wanneer u het venster \"Verbindingsverzoek\" van Android krijgt.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Schakel Altijd-aan uit voor andere apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android ondersteunt geen meerdere VPN apps. Schakel Altijd-actief uit voor elke andere VPN-app dan Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">ProtonVPN app</string>
     <string name="noVpnPermissionOtherAppLabel">Andere VPN apps</string>
     <string name="noVpnPermissionOpenSettings">Android VPN instellingen openen</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Schakel Altijd-actieve VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit Proton VPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen als een dialoogvenster om VPN-machtigingen verschijnt. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href="%1$s">Meer informatie</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Schakel Altijd-actieve VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit Proton VPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen wanneer een dialoogvenster verschijnt die vraagt om VPN-machtigingen. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href="%1$s">Meer&nbsp;informatie</a>]]></string>
     <string name="error_prepare_vpn_settings">Ga naar Android VPN instellingen</string>
     <string name="error_prepare_vpn_title">Fout: VPN permissie probleem</string>
     <string name="error_server_not_set">Server niet langer beschikbaar</string>
@@ -314,21 +314,21 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Als Proton geblokkeerd is, laat de app dan alternatieve paden proberen om de Protonservers te bereiken. <a href="%1$s">Meer leren</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Uw land kan de toegang tot Proton geblokkeerd hebben. Probeer <a href=\'%1$s\'>Tor</a> om Proton te raadplegen.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Altijd-actief VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Instellen hoe Proton VPN zich gedraagt als uw verbinding wordt onderbroken</string>
-    <string name="settingsAlwaysOnWindowHeader">Hoe zet u Always-on VPN en Kill Switch aan:</string>
+    <string name="settingsAlwaysOnWindowHeader">Hoe zet u Altijd-actief VPN en Kill Switch aan:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open de <b>Instellingen</b> van uw toestel door op de onderstaande knop te tikken]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Zoek Proton VPN en tik op %1$s</string>
-    <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
+    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tik op de schakelaar naast <b>Altijd-aan VPN</b> om het in te schakelen]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tap the switch next to <b>Always-on VPN</b> to enable it]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tik op de schakelaar naast <b>Verblokkeer verbindingen zonder VPN</b> om Kill Switch in te schakelen]]></string>
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable kill switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android instellingen openen</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Kill switch activeren schakelt split tunneling uit, aangezien kill switch alle verbindingen buiten de VPN-tunnel blokkeert</string>
     <string name="settingsSmartProtocolDescription">Gebruik automatisch het protocol en poort die de beste verbinding bieden.</string>
@@ -414,7 +414,7 @@
     <string name="reconnectToEnableNetshield">Hierdoor wordt uw verbinding opnieuw opgestart.\n\nLet op: Sommige sites worden mogelijk niet geladen als NetShield is ingeschakeld.</string>
     <string name="notification_subscription_expired_title">Uw Proton VPN-abonnement is verlopen</string>
     <string name="notification_subscription_expired_content">We moesten uw plan degraderen, maar we verbinden u opnieuw met de snelste server die beschikbaar is voor dat plan.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">Uw abonnement is gedegradeerd. </string>
+    <string name="notification_subscription_expired_no_reconnection_content">Uw abonnement is naar omlaag geschaald.</string>
     <string name="notification_delinquent_title">Uw Proton VPN-account heeft openstaande facturen</string>
     <string name="notification_delinquent_content">Neem even de tijd om uw factuurgegevens bij te werken om uw abonnement actief te houden.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
@@ -439,8 +439,8 @@
     <string name="notification_smart_protocol_disabled_content">Proton VPN heeft gedetecteerd dat uw huidige netwerk een verbinding met de VPN blokkeert. Inschakelen van Smart Protocol kan deze beperkingen omzeilen.</string>
     <string name="upsell_advanced_features">Geavanceerde functies: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Overal ter wereld toegang tot streamingdiensten (Netflix, Disney+ etc.)</string>
-    <!-- Number of servers available in the service. This phrase will be combined with
-         "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->
@@ -448,8 +448,8 @@
         <item quantity="one">%1$d server</item>
         <item quantity="other">%1$d servers</item>
     </plurals>
-    <!-- Number of countries available in the service. This phrase will be combined with
-         "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->
@@ -469,7 +469,7 @@
     <string name="upgrade_netshield_block_ads">Blokkeer advertenties en trackers</string>
     <string name="upgrade_netshield_block_malware">Bescherm uw apparaat tegen malware</string>
     <string name="upgrade_netshield_speed">Browse aan de hoogste snelheden</string>
-    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
          Example:
@@ -489,7 +489,7 @@
         <item quantity="one">%d beveiligde server</item>
         <item quantity="other">%d beveiligde servers</item>
     </plurals>
-    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
          Example:
          55 countries
@@ -542,7 +542,7 @@
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Deze servers geven de beste prestaties voor BitTorrent en het delen van bestanden.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Routeer uw internetverkeer via het Tor-netwerk. Langer, maar meer privé.</string>
+    <string name="tor_description">Leidt uw internetverkeer om via het Tor-netwerk. Trager, maar meer privé.</string>
     <string name="info_performance">Prestaties</string>
     <string name="server_load_title">Serverbelasting</string>
     <string name="server_load_description">Servers met hoge belasting zijn langzamer dan servers met lage belasting.</string>
@@ -565,6 +565,32 @@
     <string name="onboarding_netshield_title">Blokkeer advertenties en veel meer</string>
     <string name="onboarding_netshield_description">Blokkeer malware, advertenties, en trackers in browser en in alle apps.</string>
     <string name="onboarding_connection_title">Uw eerste verbinding tot stand brengen</string>
+    <!-- Parameters:
+         %1$s - replaced with "onboarding_connection_description_servers"
+         %2$s - replaced with "onboarding_connection_description_countries"
+
+         Example:
+         Free subscription offers 65 servers in 3 countries
+    -->
+    <string name="onboarding_connection_description">Het gratis abonnement biedt %1$s aan in %2$s</string>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         65 servers -->
+    <plurals name="onboarding_connection_description_servers">
+        <item quantity="one">%1$d server</item>
+        <item quantity="other">%1$d servers</item>
+    </plurals>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         3 countries -->
+    <plurals name="onboarding_connection_description_countries">
+        <item quantity="one">%1$d land</item>
+        <item quantity="other">%1$d countries</item>
+    </plurals>
     <string name="onboarding_connection_info">We verbinden u met de snelste en meest stabiele server voor uw locatie.</string>
     <string name="onboading_connect_now">Nu verbinden</string>
     <string name="onboading_connecting_now">Verbinden</string>
