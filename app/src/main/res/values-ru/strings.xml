@@ -119,7 +119,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Нестандартные порты</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Используйте Proton VPN для любых особых нужд, разрешая трафик на нестандартные порты через VPN. <a href="%1$s">Подробнее</a>]]></string>
     <string name="settingsModerateNatTitle">Умеренное NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Умеренный NAT отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать технологии подобные прямому подключению приложений, таких как сетевые игры. <a href="%1$s">Подробнее</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Умеренное NAT отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать такие методы, как прямые соединения для таких приложений, как онлайн-игры. <a href="%1$s">Подробнее</a>]]></string>
     <string name="use_coupon_title">Использовать купон</string>
     <string name="use_coupon_code_label">Код купона</string>
     <string name="use_coupon_success">Купон успешно применен</string>
@@ -244,12 +244,12 @@
     <string name="noVpnPermissionMainMessage">Чтобы подключиться к Proton VPN, сделайте следующее:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Предоставить разрешение VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android требует вашего разрешения на подключение к Proton VPN. Дайте разрешение, нажав \"OK\", когда появится окно \"Запрос на подключение\" от Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянный VPN в других приложениях</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянную VPN для всех остальных приложений VPN, кроме Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянный VPN во всех остальных приложениях VPN, кроме Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
     <string name="noVpnPermissionOpenSettings">Открыть настройки Android VPN</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянную VPN для всех других приложений VPN в настройках системы Android, так как это мешает Proton VPN устанавливать подключение к VPN. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянный VPN во всех других приложениях VPN в настройках системы Android, так как это мешает Proton VPN устанавливать подключение к VPN. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее это разрешение. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
     <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
     <string name="error_prepare_vpn_title">Ошибка: проблема VPN разрешений</string>
     <string name="error_server_not_set">Сервер больше недоступен</string>
@@ -320,19 +320,19 @@
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Возможно, ваша страна блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для доступа к Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянная VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Настроить действия Proton VPN при нарушении подключения</string>
-    <string name="settingsAlwaysOnWindowHeader">Как включить постоянную VPN и Kill Switch:</string>
+    <string name="settingsAlwaysOnWindowHeader">Как включить постоянный VPN и Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>Настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Найдите Proton VPN и нажмите %1$s</string>
-    <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
+    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Нажмите переключатель рядом с пунктом <b>Постоянный VPN</b>, чтобы включить его]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Нажмите на переключатель рядом с <b>"Постоянным VPN"</b>, чтобы включить его]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Нажмите на переключатель рядом с <b>Блокировать соединения без VPN</b>, чтобы включить Аварийный стоп]]></string>
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Нажмите переключатель рядом с пунктом <b>Блокировать соединения без VPN</b>, чтобы включить Kill Switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Открыть настройки Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Активация Kill Switch отключит раздельное туннелирование, так как Kill Switch блокирует все соединения за пределами тунеля VPN</string>
     <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
@@ -418,7 +418,7 @@
     <string name="reconnectToEnableNetshield">Ваше подключение перезапустится.\n\nУчтите, что некоторые сайты могут не загружаться при включенном NetShield.</string>
     <string name="notification_subscription_expired_title">Срок действия вашей подписки на тариф Proton VPN истек</string>
     <string name="notification_subscription_expired_content">Нам пришлось понизить ваш тариф, но мы вновь подключаем вас к самому быстрому серверу, доступному на этом тарифе.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">Вы перешли на более дешевую версию подписки. </string>
+    <string name="notification_subscription_expired_no_reconnection_content">Вы перешли на более дешевую версию подписки.</string>
     <string name="notification_delinquent_title">В Вашем аккаунте Proton VPN есть неоплаченные счета</string>
     <string name="notification_delinquent_content">Пожалуйста, обновите платежную информацию, чтобы сохранить вашу подписку.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
@@ -445,8 +445,8 @@
     <string name="notification_smart_protocol_disabled_content">Proton VPN обнаружила, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
     <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ к потоковым сервисам (Netflix, Disney+ и т. д.) в любой точке мира</string>
-    <!-- Number of servers available in the service. This phrase will be combined with
-         "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->
@@ -456,8 +456,8 @@
         <item quantity="many">%1$d серверов</item>
         <item quantity="other">%1$d серверов</item>
     </plurals>
-    <!-- Number of countries available in the service. This phrase will be combined with
-         "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->
@@ -479,7 +479,7 @@
     <string name="upgrade_netshield_block_ads">Блокируйте рекламу и трекеры</string>
     <string name="upgrade_netshield_block_malware">Защитите свое устройство от вредоносных программ</string>
     <string name="upgrade_netshield_speed">Просматривайте сайты на самых высоких скоростях</string>
-    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
          Example:
@@ -503,7 +503,7 @@
         <item quantity="many">%d защищенных серверов</item>
         <item quantity="other">%d защищенного сервера</item>
     </plurals>
-    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
          Example:
          55 countries
@@ -560,7 +560,7 @@
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Эти серверы обеспечивают лучшую производительность для BitTorrent и обмена файлами.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Направляйте ваш Интернет трафик через сеть Tor. Медленнее, но приватнее.</string>
+    <string name="tor_description">Направляйте ваш трафик через сеть Tor. Медленнее, но конфиденциальнее.</string>
     <string name="info_performance">Производительность</string>
     <string name="server_load_title">Нагрузка сервера</string>
     <string name="server_load_description">Серверы с высокой нагрузкой медленнее, чем серверы с низкой нагрузкой.</string>
@@ -583,6 +583,36 @@
     <string name="onboarding_netshield_title">Блокируйте рекламу и многое другое</string>
     <string name="onboarding_netshield_description">Блокируйте вредоносные программы, рекламу и трекеры в браузере и во всех приложениях.</string>
     <string name="onboarding_connection_title">Установите первое подключение</string>
+    <!-- Parameters:
+         %1$s - replaced with "onboarding_connection_description_servers"
+         %2$s - replaced with "onboarding_connection_description_countries"
+
+         Example:
+         Free subscription offers 65 servers in 3 countries
+    -->
+    <string name="onboarding_connection_description">Подписка Free предлагает %1$s в %2$s</string>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         65 servers -->
+    <plurals name="onboarding_connection_description_servers">
+        <item quantity="one">%1$d сервер</item>
+        <item quantity="few">%1$d сервера</item>
+        <item quantity="many">%1$d серверов</item>
+        <item quantity="other">%1$d сервера</item>
+    </plurals>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         3 countries -->
+    <plurals name="onboarding_connection_description_countries">
+        <item quantity="one">%1$d страна</item>
+        <item quantity="few">%1$d страны</item>
+        <item quantity="many">%1$d+ стран</item>
+        <item quantity="other">%1$d страны</item>
+    </plurals>
     <string name="onboarding_connection_info">Мы подключим вас к самому быстрому и стабильному серверу для вашего местоположения.</string>
     <string name="onboading_connect_now">Подключить сейчас</string>
     <string name="onboading_connecting_now">Подключается сейчас</string>
@@ -645,7 +675,7 @@
     </plurals>
     <string name="search_upgrade_banner_subtitle">Больше местоположений = больше разблокированного содержимого + дополнительная безопасность + более высокая скорость</string>
     <string name="new_look_dialog_title_new_plans">Обновленный Proton и комплексная защита</string>
-    <string name="new_look_dialog_message_new_plans"><![CDATA[Мы обновили внешний вид Proton. У наших сервисов общая миссия — создать Интернет, в котором конфиденциальность будет на первом месте. <a href="%1$s">Подробнее…</a>]]></string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Представляем обновленный вид Proton. Много сервисов, одна миссия. Добро пожаловать Интернет, конфиденциальный по умолчанию. <a href="%1$s">Подробнее</a>]]></string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Посетите <a href="https://protonvpn.com/pricing">protonvpn.com</a> для получения дополнительной информации.</string>
 </resources>

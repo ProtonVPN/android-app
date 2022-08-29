@@ -242,12 +242,12 @@
     <string name="noVpnPermissionMainMessage">برای اتصال به Proton VPN، لطفاً کارهای زیر را انجام دهید:</string>
     <string name="noVpnPermissionGrantPermissionTitle">مجوز VPN را اعطا کنید</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android به اجازهٔ شما برای اتصال به Proton VPN نیاز دارد. آن را با ضربه زدن روی «قبول» هنگامی که پنجرهٔ «درخواست اتصال» را از Android دریافت می‌کنید، اعطا کنید.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">همیشه-روشن را برای برنامه‌های دیگر غیرفعال کنید</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">اندروید از برنامه‌های VPN متعدد پشتیبانی نمی‌کند. همیشه-روشن را برای هر برنامهٔ VPNای به غیر از Proton VPN غیرفعال کنید.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">اندروید از برنامه‌های VPN متعدد پشتیبانی نمی‌کند. همیشه روشن را برای برنامه های VPN دیگر به غیر از Proton VPN غیرفعال کنید.</string>
     <string name="noVpnPermissionProtonAppLabel">برنامهٔ ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">برنامه‌های VPN دیگر</string>
     <string name="noVpnPermissionOpenSettings">تنظیمات VPN را در Android باز کنید</string>
-    <string name="error_prepare_vpn_description"><![CDATA[لطفاً حالت همیشه روشن VPN را برای تمام برنامه‌های VPN دیگر در تنظیمات VPN سیستم اندروید غیرفعال کنید، زیرا مانع برقراری اتصال Proton VPN می‌شود. لطفاً همچنین در صورت ظاهر شدن صفحهٔ درخواست مجوز‌های VPN، اجازهٔ VPN اعطا نمایید. ممکن است نیاز باشد برنامه‌های VPN دیگر را نیز برای جلوگیری از تداخل به کلی حذف کنید. سپس، لطفاً دوباره امتحان کنید. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[لطفاً حالت همیشه روشن VPN را برای تمام برنامه‌های VPN دیگر در تنظیمات VPN سیستم اندروید غیرفعال کنید، زیرا مانع برقراری اتصال Proton VPN می‌شود. لطفاً همچنین در صورت ظاهر شدن صفحهٔ درخواست مجوز‌های VPN، اجازهٔ VPN را اعطا نمایید. ممکن است نیاز باشد برنامه‌های VPN دیگر را برای جلوگیری از تداخل به کلی حذف کنید. سپس، لطفاً دوباره امتحان کنید. <a href="%1$s">بیشتر بدانید</a>]]></string>
     <string name="error_prepare_vpn_settings">به تنظیمات VPN اندروید بروید</string>
     <string name="error_prepare_vpn_title">خطا: مشکل مجوز VPN</string>
     <string name="error_server_not_set">سرور دیگر در دسترس نیست</string>
@@ -314,16 +314,16 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[در صورتی که Proton مسدود است، به برنامه اجازه دهید که مسیرهای جایگزین را برای دستیابی به سرورهای Proton امتحان کند. <a href="%1$s">اطلاعات بیشتر</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">محدودیت حکومتی</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[کشور شما ممکن است دسترسی به Proton را مسدود کرده باشد. سعی کنید از <a href=\'%1$s\'>Tor</a> برای دسترسی به Proton استفاده کنید.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">قابلیت VPN همیشه روشن و Kill Switch</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">VPN همیشه روشن &amp; kill switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">تنظیم کنید Proton VPN در صورت مختل شدن اتصال شما چگونه رفتار کند</string>
-    <string name="settingsAlwaysOnWindowHeader">چگونگی روشن کردن VPN همیشه-روشن و Kill Switch:</string>
+    <string name="settingsAlwaysOnWindowHeader">چگونگی VPN همیشه روشن و Kill Switch را روشن کنید:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[۱. <b>تنظیمات</b> دستگاه خود را با ضربه زدن روی دکمهٔ زیر باز کنید]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">۲. Proton VPN را پیدا کنید و روی %1$s ضربه بزنید</string>
-    <!-- The phrase "Always-On VPN" needs to be translated exactly the same as in Android settings.
+    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[۳. روی کلید کنار <b>VPN همیشه-روشن</b> ضربه بزنید تا آن را فعال کنید]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[۳. روی کلید کنار <b>VPN همیشه روشن</b> ضربه بزنید تا آن را فعال کنید]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
@@ -414,7 +414,7 @@
     <string name="reconnectToEnableNetshield">این کار اتصال شما را مجدداً راه‌اندازی خواهد کرد.\n\nتوجه: ممکن است برخی از سایت‌ها در صورت روشن بودن NetShield بارگذاری نشوند.</string>
     <string name="notification_subscription_expired_title">اشتراک Proton VPN شما به پایان رسیده است</string>
     <string name="notification_subscription_expired_content">ما مجبور بودیم تا اشتراک شما را تنزیل دهیم، اما در حال اتصال شما به سریع‌ترین سرور در آن اشتراک هستیم.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">اشتراک شما تنزیل یافته است. </string>
+    <string name="notification_subscription_expired_no_reconnection_content">اشتراک شما تنزل یافته است.</string>
     <string name="notification_delinquent_title">حساب کاربری Proton VPN شما دارای چند صورت‌حساب در حال انتظار است</string>
     <string name="notification_delinquent_content">لطفاً لحظه‌ای را به به‌روزرسانی اطلاعات پرداخت خود اختصاص دهید تا اشتراک شما فعال بماند.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
@@ -439,8 +439,8 @@
     <string name="notification_smart_protocol_disabled_content">Proton VPN تشخیص داد که شبکهٔ فعلی شما از اتصال VPN جلوگیری می‌کند. فعال‌سازی پروتکل هوشمند ممکن است بتواند این محدودیت‌ها را دور بزند.</string>
     <string name="upsell_advanced_features">قابلیت‌های پیشرفته: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">به سرویس‌های پخش آنلاین (Netflix و Disney+ و...) از هرجایی از دنیا دسترسی پیدا کنید</string>
-    <!-- Number of servers available in the service. This phrase will be combined with
-         "upsell_many_countries" to form: <upsell_many_servers>, <upsell_many_countries>.
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->
@@ -448,8 +448,8 @@
         <item quantity="one">%1$d سرور</item>
         <item quantity="other">%1$d سرور</item>
     </plurals>
-    <!-- Number of countries available in the service. This phrase will be combined with
-         "upsell_many_servers" to form: <upsell_many_servers>, <upsell_many_countries>.
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
 
          Example: 1364 servers, 55 countries -->
@@ -469,7 +469,7 @@
     <string name="upgrade_netshield_block_ads">مسدود کردن تبلیغات و ردیاب‌ها</string>
     <string name="upgrade_netshield_block_malware">دستگاه خود را از بدافزارها محافظت کنید</string>
     <string name="upgrade_netshield_speed">با بالاترین سرعت وبگردی کنید</string>
-    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title".
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
          Example:
@@ -489,7 +489,7 @@
         <item quantity="one">%d سرور امن</item>
         <item quantity="other">%d+ سرور امن</item>
     </plurals>
-    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title".
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
          Example:
          55 countries
@@ -542,7 +542,7 @@
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">این سرورها بهترین عملکرد را برای BitTorrent و اشتراک فایل ارائه می‌دهند.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">عبور ترافیک اینترنتی شما از شبکهٔ Tor، کندتر، اما با حریم خصوصی بالاتر.</string>
+    <string name="tor_description">ترافیک اینترنت خود را از شبکهٔ Tor عبور دهید. کندتر، اما با حریم خصوصی بالاتر.</string>
     <string name="info_performance">عملکرد</string>
     <string name="server_load_title">بار ترافیکی سرور</string>
     <string name="server_load_description">سرورها با بار ترافیکی بالا از سرورها با بار ترافیکی پایین کندتر هستند.</string>
@@ -565,6 +565,32 @@
     <string name="onboarding_netshield_title">مسدود کردن تبلیغات و خیلی بیشتر</string>
     <string name="onboarding_netshield_description">بدافزارها، تبلیغات و ردیاب ها را در مرورگر و در تمام برنامه ها مسدود کنید.</string>
     <string name="onboarding_connection_title">اولین اتصال خود را برقرار کنید</string>
+    <!-- Parameters:
+         %1$s - replaced with "onboarding_connection_description_servers"
+         %2$s - replaced with "onboarding_connection_description_countries"
+
+         Example:
+         Free subscription offers 65 servers in 3 countries
+    -->
+    <string name="onboarding_connection_description">اشتراک رایگان %1$s در %2$s را ارائه میکند</string>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         65 servers -->
+    <plurals name="onboarding_connection_description_servers">
+        <item quantity="one">%1$d سرور</item>
+        <item quantity="other">%1$d سرور</item>
+    </plurals>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         3 countries -->
+    <plurals name="onboarding_connection_description_countries">
+        <item quantity="one">%1$d کشور</item>
+        <item quantity="other">%1$d کشور</item>
+    </plurals>
     <string name="onboarding_connection_info">ما شما را به سریع‌ترین و پایدارترین سرور برای محل شما، متصل می‌کنیم.</string>
     <string name="onboading_connect_now">اتصال</string>
     <string name="onboading_connecting_now">در حال اتصال</string>
@@ -625,7 +651,7 @@
     </plurals>
     <string name="search_upgrade_banner_subtitle">محل‌های بیشتر = محتوای باز شدهٔ بیشتر + امنیت بهتر + سرعت بالاتر</string>
     <string name="new_look_dialog_title_new_plans">Proton به روز شده، محافظت یکپارچه</string>
-    <string name="new_look_dialog_message_new_plans"><![CDATA[معرفی نمای تازه‌سازی شدهٔ Proton. سرویس‌های متعدد، مأموریت واحد. خوش آمدید به اینترنتی که حریم خصوصی در آن پیش‌فرض است. <a href="%1$s">بیشتر&nbsp;یاد بگیرید</a>]]></string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[معرفی نمای تازه‌سازی شدهٔ Proton. سرویس‌های متعدد، مأموریت واحد. خوش آمدید به اینترنتی که حریم خصوصی در آن پیش‌فرض است. <a href="%1$s">بیشتر&nbsp;بدانید</a>]]></string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">از <a href="https://protonvpn.com/pricing">protonvpn.com</a> برای اطلاعات بیشتر بازدید کنید.</string>
 </resources>
