@@ -131,6 +131,8 @@ detekt analysis:
       policy: pull-push
       paths:
         - .gradle
+  except:
+    - schedules
   tags:
     - medium
   script:
@@ -158,6 +160,8 @@ build google debug:
 
     - <<: *gradle-build-cache
       policy: pull-push
+  except:
+    - schedules
   tags:
     - xlarge-k8s
   script:
@@ -178,6 +182,8 @@ build black:
   tags:
     - xlarge-k8s
   extends: .gradle-job
+  except:
+    - schedules
   script:
     - export BLACK_TOKEN="$(curl --silent $BLACK_TOKEN_URL)"
     - echo "Black url ${BLACK_DOMAIN}"
@@ -193,6 +199,7 @@ build google play release:
   extends: .gradle-job
   except:
     - master
+    - schedules
   tags:
     - xlarge-k8s
   script:
@@ -211,6 +218,8 @@ build amazon release:
   only:
     refs:
       - master
+  except:
+    - schedules
   tags:
     - xlarge-k8s
   script:
@@ -227,6 +236,8 @@ build release (auto):
   only:
     refs:
       - master
+  except:
+    - schedules
   tags:
     - xlarge-k8s
   script:
@@ -242,6 +253,8 @@ unit tests:
   extends: .gradle-job
   tags:
     - large
+  except:
+    - schedules
   script:
     - ./gradlew testBlackDebug
 
@@ -259,6 +272,8 @@ coverage report:
     - echo "<a href='app/build/reports/jacoco/jacocoTestReport/html/index.html'>go here</a>" >> index.html
   only:
     - branches
+  except:
+    - schedules
   allow_failure: true
   coverage: '/Total coverage: \d+.\d+/'
   artifacts:
@@ -279,6 +294,8 @@ pages:
   only:
     refs:
       - development
+  except:
+    - schedules
   script:
     - mkdir public
     - mv app/build/reports/jacoco/jacocoTestReport/html/* public
@@ -326,6 +343,8 @@ publish-apk-internal:
   only:
     refs:
       - development
+  except:
+    - schedules
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew publishInternal -PabiSplit
@@ -335,6 +354,8 @@ startReview:
     - export REVIEW_APP_ARTIFACT_PATH="app/build/outputs/apk/googlePlay/debug/"${ARCHIVES_BASE_NAME}-googlePlay-debug.apk
     - echo ${REVIEW_APP_ARTIFACT_PATH}
   extends: .startReview
+  except:
+    - schedules
 
 stopReview:
   before_script: []

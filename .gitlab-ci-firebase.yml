@@ -14,6 +14,8 @@
   stage: test
   tags:
     - small
+  except:
+    - schedules
   variables:
     CHECKOUT_CORE_SUBMODULE: "true"
     NUM_SHARDS: 1
