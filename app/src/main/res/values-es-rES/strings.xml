@@ -242,7 +242,7 @@
     <string name="noVpnPermissionMainMessage">Para conectarse a Proton VPN, haga lo siguiente:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Conceder permiso de VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android necesita su permiso para conectarse a Proton VPN. Concédelo tocando \"OK\" cuando recibas la ventana de \"Solicitud de conexión\" de Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Desactivar la opción de siempre-conectado para otras aplicaciones</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android no soporta múltiples aplicaciones VPN. Deshabilita la opción siempre-conectado para cualquier aplicación VPN que no sea Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Aplicación Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Otras aplicaciones VPN</string>

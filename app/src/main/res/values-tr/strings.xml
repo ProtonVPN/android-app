@@ -242,7 +242,7 @@
     <string name="noVpnPermissionMainMessage">Proton VPN bağlantısı kurmak için şunları yapın:</string>
     <string name="noVpnPermissionGrantPermissionTitle">VPN izni verin</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Proton VPN bağlantısı kurmak için Android izinleri vermeniz gerekir. Android \"Bağlantı isteği\" yapıldığında \"Tamam\" üzerine tıklayın.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Diğer VPN uygulamalarının her zaman açık seçeneğini devre dışı bırakın</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android birden fazla VPN uygulamasını desteklemez. Proton VPN dışındaki diğer VPN uygulamaları için her zaman açık seçeneğini devre dışı bırakın.</string>
     <string name="noVpnPermissionProtonAppLabel">ProtonVPN uygulaması</string>
     <string name="noVpnPermissionOtherAppLabel">Diğer VPN uygulamaları</string>
