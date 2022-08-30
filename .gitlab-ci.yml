@@ -60,56 +60,6 @@ prevent-interrupt:
   variables:
     CHECKOUT_CORE_SUBMODULE: "true"
 
-########## Manage the Image ##########
-.common-image:
-  cache: {}
-  stage: image
-  image: $CI_REGISTRY/infra/kubernetes/images/docker:stable
-  tags:
-    - medium
-  interruptible: true
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-  services:
-    - name: $CI_REGISTRY/infra/kubernetes/images/docker:dind
-      alias: docker
-  before_script:
-    - apk update
-    - apk add make bash
-  except:
-    - schedules
-    - triggers
-  script:
-    - make image branch=$CI_COMMIT_REF_SLUG
-
-
-# Make image when we push to a branch -> run tests on top of this one
-create-ci-image-auto:
-  extends: .common-image
-  only:
-    refs:
-      - development
-    changes:
-      - entrypoint
-      - Dockerfile
-
-# If we want to force regenerate the image
-create-ci-image-manual:
-  when: manual
-  extends: .common-image
-
-# Once the CI is green, we retag the current branch-development to latest
-create-ci-image-latest:
-  stage: publish
-  extends: create-ci-image-auto
-  tags:
-    - small
-  dependencies: [] # Prevent download + extract artifacts
-  only:
-    - development
-  script:
-    - make latest
-
 cache:
   - key: $CI_COMMIT_REF_SLUG
     policy: pull
