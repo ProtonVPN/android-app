@@ -12,12 +12,14 @@ default:
     - git fetch origin development
     - !reference [.checkout-core-submodule, before_script]
     - if [[ -f /load-env.sh ]]; then source /load-env.sh; fi
+  interruptible: true
 
 variables:
   GIT_FETCH_EXTRA_FLAGS: --tags
   ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
 
 stages:
+  - prevent-interrupt
   - image
   - analyze
   - build
@@ -27,6 +29,23 @@ stages:
   - bot
   - mirror
   - publish
+
+# Make development and master uninterruptible.
+# Based on https://gitlab.com/gitlab-org/gitlab/-/issues/194023#note_928958193
+prevent-interrupt:
+  stage: prevent-interrupt
+  tags:
+    - small
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "master"
+      when: always
+  interruptible: false
+  cache: []
+  before_script: []
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - echo "$CI_COMMIT_BRANCH is uninterruptible"
 
 .gradle-build-cache: &gradle-build-cache
   key:
@@ -180,6 +199,7 @@ build google play release:
     - ./gradlew openvpn:assemble
     - ./gradlew assembleGooglePlayRelease -PabiSplit -PbuildUniversalApk
   when: manual
+  interruptible: false
   artifacts:
     expire_in: 1 week
     paths:
@@ -274,6 +294,7 @@ owasp check:
   script:
     - ./gradlew dependencyCheckAggregate
   when: manual
+  interruptible: false
   artifacts:
     expire_in: 1 week
     paths:
@@ -366,6 +387,7 @@ publish-github:
   only:
     refs:
       - master
+  interruptible: false
   variables:
     RELEASE_APP: android-vpn
     RELEASE_GITHUB_REPOSITORY: $PUBLIC_REPO_URL
