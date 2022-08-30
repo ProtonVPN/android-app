@@ -32,7 +32,7 @@
     <string name="loginCreateAccount">Créer un nouveau compte</string>
     <string name="loginNeedHelp">Besoin d\'aide ?</string>
     <string name="connectionAllocationHelpTitle">Merci d\'être passé à l’offre\nProfessional\u00a0/\u00a0Visionary</string>
-    <string name="connectionAllocationHelpDescription1">Pour commencer votre expérience dans Proton VPN, veuillez attribuer des connexions VPN à votre compte ou à n\'importe lequel de vos sous-comptes.</string>
+    <string name="connectionAllocationHelpDescription1">Pour démarrer votre expérience avec Proton VPN, attribuez des connexions VPN à votre compte ou à tout autre sous-compte.</string>
     <string name="connectionAllocationHelpDescription2">Cette étape ne prendra que quelques minutes. Après cela, vous pourrez vous connecter et protéger tous vos appareils.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Affecter des connexions VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Se reconnecter</string>
@@ -242,8 +242,8 @@
     <string name="noVpnPermissionMainMessage">Pour vous connecter à Proton VPN, procédez comme suit :</string>
     <string name="noVpnPermissionGrantPermissionTitle">Accorder l\'autorisation au VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android a besoin de votre autorisation pour se connecter à Proton VPN. Accordez-la en appuyant sur « OK » lorsque vous obtenez la fenêtre « Demande de connexion » d\'Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ne prend pas en charge plusieurs applications VPN. Désactivez le VPN permanent pour toute application VPN autre que Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Désactiver le VPN permanent pour les autres applications VPN</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ne peut prendre en charge plusieurs applications VPN. Désactivez le VPN permanent pour toute application VPN autre que Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Application ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Autres applications VPN</string>
     <string name="noVpnPermissionOpenSettings">Ouvrir les paramètres VPN Android</string>

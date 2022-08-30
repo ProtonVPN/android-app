@@ -244,7 +244,7 @@
     <string name="noVpnPermissionMainMessage">Aby połączyć się z usługą Proton VPN, wykonaj następujące czynności:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Przyznaj uprawnienie VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Aby połączyć się z usługą Proton VPN, system Android potrzebuje Twojej zgody. Udziel jej, klikając przycisk \"OK\" w oknie systemowym \"Żądanie połączenia\".</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Wyłącz stale aktywny VPN innych aplikacji</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">System Android nie obsługuje wiele aplikacji VPN jednocześnie. Wyłącz stale aktywny VPN dla innych aplikacji.</string>
     <string name="noVpnPermissionProtonAppLabel">Aplikacja Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Inne aplikacje VPN</string>

@@ -242,7 +242,7 @@
     <string name="noVpnPermissionMainMessage">Um dich mit Proton VPN zu verbinden, gehe bitte wie folgt vor:</string>
     <string name="noVpnPermissionGrantPermissionTitle">VPN-Berechtigung erteilen</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android benötigt deine Erlaubnis, um sich mit Proton VPN zu verbinden. Erlaube dies, indem du auf „OK“ tippst, wenn das Fenster „Verbindungsanfrage“ von Android erscheint.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">„Dauerhaft aktives VPN“ für andere Apps deaktivieren</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android unterstützt keine gleichzeitige Nutzung mehrere VPN-Apps. Deaktiviere „Dauerhaft aktives VPN“ für alle VPN-Apps außer Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Proton VPN-App</string>
     <string name="noVpnPermissionOtherAppLabel">Andere VPN-Apps</string>

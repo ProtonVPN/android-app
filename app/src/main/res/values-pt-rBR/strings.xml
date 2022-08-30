@@ -242,7 +242,7 @@
     <string name="noVpnPermissionMainMessage">Para se conectar ao Proton VPN, faça o seguinte:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Conceder permissão de VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">O Android precisa da sua permissão para se conectar ao Proton VPN. Conceda-o tocando em \"OK\" quando você receber a janela \"Solicitação de conexão\" do Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Desativar o sempre ativo para outros aplicativos de VPN</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">O Android não suporta vários aplicativos VPN. Desative o \"sempre ativa\" para qualquer aplicativo VPN que não seja o Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Aplicativo ProtonVpn</string>
     <string name="noVpnPermissionOtherAppLabel">Outros aplicativos VPN</string>
@@ -273,8 +273,8 @@
     <string name="settingsExcludedApps">Aplicativos excluídos</string>
     <string name="settingsExcludedAppsEmpty">Adicione aplicativos a serem excluídos do tráfego VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplicativos excluídos (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Apps Comuns Permitidos (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Apps do Sistema Permitidos (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableRegularHeader">Aplicativos comuns permitidos (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableSystemHeader">Aplicativos do sistema permitidos (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar aplicativos do sistema</string>
     <string name="listNoItems">Nada</string>
     <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
@@ -572,7 +572,7 @@
          Example:
          Free subscription offers 65 servers in 3 countries
     -->
-    <string name="onboarding_connection_description">Free subscription offers %1$s in %2$s</string>
+    <string name="onboarding_connection_description">A assinatura gratuita oferece %1$s em %2$s</string>
     <!-- Embedded in "onboarding_connection_description", e.g.:
          Free subscription offers 65 servers in 3 countries
 
