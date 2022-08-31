@@ -32,6 +32,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.databinding.ItemNetshieldBinding
@@ -174,7 +175,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         reconnectDialogDelegate: ReconnectDialogDelegate,
         changeCallback: (protocol: NetShieldProtocol) -> Unit
     ) = with(binding) {
-        appConfig.getLiveConfig().observe(lifecycleOwner, Observer {
+        appConfig.appConfigFlow.asLiveData().observe(lifecycleOwner, Observer {
             root.isVisible = appConfig.getFeatureFlags().netShieldEnabled
         })
         netshieldFreeMode = isFreeUser

@@ -5,19 +5,25 @@ import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.utils.ServerManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class UpdateSettingsOnFeatureFlagChange @Inject constructor(
+    mainScope: CoroutineScope,
     appConfig: AppConfig,
     private val userData: UserData,
     private val serverManager: ServerManager
 ) {
     init {
-        appConfig.getLiveConfig().observeForever {
-            checkForProtocolSupport(it.featureFlags)
-        }
+        appConfig.appConfigUpdateEvent
+            .onEach {
+                checkForProtocolSupport(it.featureFlags)
+            }
+            .launchIn(mainScope)
     }
 
     private fun checkForProtocolSupport(featureFlags: FeatureFlags) {
