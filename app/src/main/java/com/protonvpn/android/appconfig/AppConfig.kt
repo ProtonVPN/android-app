@@ -19,7 +19,6 @@
 package com.protonvpn.android.appconfig
 
 import android.os.SystemClock
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -30,7 +29,10 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.jitterMs
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
@@ -42,7 +44,12 @@ class AppConfig(
     private val userPlanManager: UserPlanManager
 ) {
 
-    private var appConfigResponseObservable: MutableLiveData<AppConfigResponse>
+    val appConfigUpdateEvent = MutableSharedFlow<AppConfigResponse>(extraBufferCapacity = 1)
+    val appConfigFlow = appConfigUpdateEvent.stateIn(
+        scope,
+        started = SharingStarted.Eagerly,
+        initialValue = Storage.load(AppConfigResponse::class.java, getDefaultConfig())
+    )
 
     val dynamicReportModelObservable = MutableLiveData<DynamicReportModel>(
         Storage.load<DynamicReportModel>(
@@ -53,14 +60,13 @@ class AppConfig(
             Storage.load<ApiNotificationsResponse>(
                     ApiNotificationsResponse::class.java, ApiNotificationsResponse(emptyArray())))
 
-    private val appConfigResponse get() = appConfigResponseObservable.value!!
+    private val appConfigResponse get() = appConfigFlow.value
 
     private var updateTask = ReschedulableTask(scope, SystemClock::elapsedRealtime) {
         updateInternal()
     }
 
     init {
-        appConfigResponseObservable = MutableLiveData(Storage.load(AppConfigResponse::class.java, getDefaultConfig()))
         updateTask.scheduleIn(0)
 
         scope.launch {
@@ -97,8 +103,6 @@ class AppConfig(
 
     fun getRatingConfig(): RatingConfig = appConfigResponse.ratingConfig ?: getDefaultRatingConfig()
 
-    fun getLiveConfig(): LiveData<AppConfigResponse> = appConfigResponseObservable
-
     private suspend fun updateInternal() {
         val result = api.getAppConfig()
         val dynamicReportModel = api.getDynamicReportConfig()
@@ -108,7 +112,7 @@ class AppConfig(
         }
         result.valueOrNull?.let { config ->
             Storage.save(config)
-            appConfigResponseObservable.value = config
+            appConfigUpdateEvent.tryEmit(config)
             if (currentUser.isLoggedIn()) {
                 val notificationsResponse = if (config.featureFlags.pollApiNotifications)
                     api.getApiNotifications().valueOrNull
