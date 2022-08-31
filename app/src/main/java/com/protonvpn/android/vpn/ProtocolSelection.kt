@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.vpn
 
+import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.models.config.TransmissionProtocol
@@ -29,6 +30,16 @@ data class ProtocolSelection private constructor(
     val vpn: VpnProtocol,
     val transmission: TransmissionProtocol?
 ) : Serializable {
+
+    @SerializedName("protocol") private val migrateVpn: VpnProtocol? = null
+
+    // Migrate from custom test builds. We should be able to remove this fairly soon.
+    fun migrateFromCustomTestBuild(): ProtocolSelection =
+        when {
+            vpn == null && migrateVpn != null -> invoke(migrateVpn, transmission)
+            vpn == null -> invoke(VpnProtocol.Smart) // Unlikely, but let's cover all possibilities.
+            else -> this
+        }
 
     fun localAgentEnabled() = vpn.localAgentEnabled()
 
