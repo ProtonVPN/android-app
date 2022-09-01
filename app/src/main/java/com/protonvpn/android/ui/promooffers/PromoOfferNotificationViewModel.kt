@@ -43,7 +43,7 @@ class PromoOfferNotificationViewModel @Inject constructor(
     data class Notification(
         val id: String,
         val iconUrl: String,
-        val pictureUrlForPreload: String,
+        val pictureUrlForPreload: String?,
         val visited: Boolean
     )
 
@@ -66,7 +66,7 @@ class PromoOfferNotificationViewModel @Inject constructor(
             Notification(
                 notification.id,
                 notification.offer!!.iconUrl,
-                notification.offer.panel!!.pictureUrl,
+                notification.offer.panel?.pictureUrl,
                 visitedOffers.contains(notification.id)
             )
         }
@@ -76,7 +76,7 @@ class PromoOfferNotificationViewModel @Inject constructor(
         // Prefetch the main picture.
         viewModelScope.launch {
             offerNotification.collect { notification ->
-                if (notification?.visited == false) {
+                if (notification?.visited == false && notification.pictureUrlForPreload != null) {
                     Glide.with(ProtonApplication.getAppContext()).download(notification.pictureUrlForPreload).preload()
                 }
             }

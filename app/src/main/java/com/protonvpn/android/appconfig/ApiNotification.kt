@@ -45,15 +45,15 @@ class ApiNotificationOffer(
 
 @Serializable
 class ApiNotificationOfferPanel(
-    @SerialName("Incentive") val incentive: String,
-    @SerialName("IncentivePrice") val incentivePrice: String,
-    @SerialName("Pill") val pill: String,
-    @SerialName("PictureURL") val pictureUrl: String,
-    @SerialName("Title") val title: String,
-    @SerialName("Features") val features: List<ApiNotificationOfferFeature>,
-    @SerialName("FeaturesFooter") val featuresFooter: String,
-    @SerialName("Button") val button: ApiNotificationOfferButton,
-    @SerialName("PageFooter") val pageFooter: String
+    @SerialName("Incentive") val incentive: String? = null,
+    @SerialName("IncentivePrice") val incentivePrice: String? = null,
+    @SerialName("Pill") val pill: String? = null,
+    @SerialName("PictureURL") val pictureUrl: String? = null,
+    @SerialName("Title") val title: String? = null,
+    @SerialName("Features") val features: List<ApiNotificationOfferFeature>? = null,
+    @SerialName("FeaturesFooter") val featuresFooter: String? = null,
+    @SerialName("Button") val button: ApiNotificationOfferButton? = null,
+    @SerialName("PageFooter") val pageFooter: String? = null
 )
 
 @Serializable
