@@ -74,8 +74,10 @@ class PromoOfferNotificationHelper(
 
 
     private fun openOfferActivity(offer: PromoOfferNotificationViewModel.Notification) {
-        // The picture should already be on disk, start loading it to memory ASAP.
-        PromoOfferActivity.preloadPicture(activity, offer.pictureUrlForPreload)
+        if (offer.pictureUrlForPreload != null) {
+            // The picture should already be on disk, start loading it to memory ASAP.
+            PromoOfferActivity.preloadPicture(activity, offer.pictureUrlForPreload)
+        }
         activity.startActivity(PromoOfferActivity.createIntent(activity, offer.id))
     }
 }

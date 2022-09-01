@@ -26,7 +26,9 @@ import android.text.SpannableString
 import android.text.style.TextAppearanceSpan
 import android.util.Size
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -69,27 +71,42 @@ class PromoOfferActivity : BaseActivityV2() {
 
     private fun setViews(binding: ActivityPromoOfferBinding, panel: ApiNotificationOfferPanel) {
         with(binding) {
-            textIncentive.text = createIncentiveText(panel.incentive, panel.incentivePrice)
-            textPill.text = panel.pill
-            textTitle.text = panel.title
-            textFooter.text = panel.pageFooter
+            textIncentive.setTextOrGoneIfNull(createIncentiveText(panel.incentive, panel.incentivePrice))
+            textPill.setTextOrGoneIfNull(panel.pill)
+            textTitle.setTextOrGoneIfNull(panel.title)
+            textFooter.setTextOrGoneIfNull(panel.pageFooter)
 
-            panel.features.forEach { addFeatureLine(layoutFeatures, it) }
-            val activity = this@PromoOfferActivity
+            addFeatures(layoutFeatures, panel.features, panel.featuresFooter)
+
+            if (panel.pictureUrl != null) {
+                val activity = this@PromoOfferActivity
+                val maxSize = getPictureMaxSize(activity)
+                Glide.with(activity)
+                    .load(panel.pictureUrl)
+                    // Make sure the size is the same as for preload.
+                    .override(maxSize.width, maxSize.height)
+                    .into(imagePicture)
+            }
+
+            if (panel.button != null) {
+                buttonOpenOffer.visibility = View.VISIBLE
+                buttonOpenOffer.text = panel.button.text
+                buttonOpenOffer.setOnClickListener { openUrl(panel.button.url) }
+            }
+        }
+    }
+
+    private fun addFeatures(layout: ViewGroup, features: List<ApiNotificationOfferFeature>?, footer: String?) {
+        features
+            ?.forEach { addFeatureLine(layout, it) }
+            ?.also { layout.visibility = View.VISIBLE }
+
+        if (footer != null) {
             val featureFooterViews =
-                ItemPromoFeatureBinding.inflate(LayoutInflater.from(activity), layoutFeatures, true)
-            featureFooterViews.text.text = panel.featuresFooter
+                ItemPromoFeatureBinding.inflate(LayoutInflater.from(this), layout, true)
+            featureFooterViews.text.text = footer
             featureFooterViews.text.setTextAppearance(R.style.Proton_Text_Caption_Weak)
-
-            val maxSize = getPictureMaxSize(activity)
-            Glide.with(activity)
-                .load(panel.pictureUrl)
-                // Make sure the size is the same as for preload.
-                .override(maxSize.width, maxSize.height)
-                .into(imagePicture)
-
-            buttonOpenOffer.text = panel.button.text
-            buttonOpenOffer.setOnClickListener { openUrl(panel.button.url) }
+            layout.visibility = View.VISIBLE
         }
     }
 
@@ -103,19 +120,31 @@ class PromoOfferActivity : BaseActivityV2() {
             .into(views.imageIcon)
     }
 
-    private fun createIncentiveText(incentiveTemplate: String, price: String): CharSequence {
+    private fun createIncentiveText(incentiveTemplate: String?, price: String?): CharSequence? {
+        if (incentiveTemplate == null) return null
+
         // Protect the price text part from being broken into lines.
-        val nonBreakingPrice = price.replace(' ', '\u00a0')
+        val nonBreakingPrice = price?.replace(' ', '\u00a0')
         val nonBreakingTemplate = incentiveTemplate.replace("/", "/\u2060")
 
         val placeholderIndex = nonBreakingTemplate.indexOf(INCENTIVE_PRICE_PLACEHOLDER)
-        return if (placeholderIndex != -1) {
+        return if (placeholderIndex != -1 && nonBreakingPrice != null) {
             val richText = SpannableString(nonBreakingTemplate.replace(INCENTIVE_PRICE_PLACEHOLDER, nonBreakingPrice))
             val priceSpan = TextAppearanceSpan(this, R.style.Proton_Text_Hero)
             richText.setSpan(priceSpan, placeholderIndex, placeholderIndex + nonBreakingPrice.length, 0)
             richText
         } else {
             nonBreakingTemplate
+        }
+    }
+
+    // TODO: put it in a common place?
+    private fun TextView.setTextOrGoneIfNull(newText: CharSequence?) {
+        if (newText != null) {
+            visibility = View.VISIBLE
+            text = newText
+        } else {
+            visibility = View.GONE
         }
     }
 
