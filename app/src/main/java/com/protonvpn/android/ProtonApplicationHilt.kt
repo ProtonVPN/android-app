@@ -22,6 +22,7 @@ package com.protonvpn.android
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.startup.AppInitializer
 import androidx.work.Configuration
+import com.protonvpn.android.ui.promooffers.TestNotificationLoader
 import dagger.hilt.android.HiltAndroidApp
 import me.proton.core.crypto.validator.presentation.init.CryptoValidatorInitializer
 import javax.inject.Inject
@@ -30,6 +31,7 @@ import javax.inject.Inject
 class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
 
     @Inject lateinit var workerFactory: HiltWorkerFactory
+    @Inject lateinit var testNotificationLoader: dagger.Lazy<TestNotificationLoader>
 
     override fun onCreate() {
         super.onCreate()
@@ -37,6 +39,10 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
 
         // Manual triggering of androidx.startup initializers
         AppInitializer.getInstance(this).initializeComponent(CryptoValidatorInitializer::class.java)
+
+        if (BuildConfig.DEBUG) {
+            testNotificationLoader.get().loadTestFile()
+        }
     }
 
     override fun getWorkManagerConfiguration(): Configuration =

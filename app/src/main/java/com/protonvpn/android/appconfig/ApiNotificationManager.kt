@@ -19,11 +19,17 @@
 
 package com.protonvpn.android.appconfig
 
+import android.util.Log
 import androidx.lifecycle.asFlow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import java.util.concurrent.TimeUnit
 
 class ApiNotificationManager(
@@ -31,10 +37,16 @@ class ApiNotificationManager(
     appConfig: AppConfig
 ) {
 
+    private val testNotification = MutableStateFlow<ApiNotification?>(null)
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val activeListFlow = appConfig.apiNotificationsResponseObservable.asFlow()
-        .flatMapLatest { response ->
-            val notifications = response.notifications
+        .map { response -> response.notifications }
+        .combine(testNotification) { notifications, testNotification ->
+            if (testNotification != null) notifications + testNotification
+            else notifications
+        }
+        .flatMapLatest { notifications ->
             flow {
                 var nextUpdateDelayS: Long? = 0
                 while(nextUpdateDelayS != null) {
@@ -57,4 +69,12 @@ class ApiNotificationManager(
                 else -> null
             }
         }.minOrNull()
+
+    fun setTestNotificationJson(json: String) {
+        try {
+            testNotification.value = Json.decodeFromString<ApiNotification>(json)
+        } catch(e: Throwable) {
+            Log.e("ApiNotificationManager", "Error parsing JSON", e)
+        }
+    }
 }
