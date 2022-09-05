@@ -98,7 +98,11 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     suspend fun getAppConfig(): AppConfigResponse
 
     @GET("core/v4/notifications")
-    suspend fun getApiNotifications(): ApiNotificationsResponse
+    suspend fun getApiNotifications(
+        @Query("FullScreenImageSupport") supportedFormats: String,
+        @Query("FullScreenImageWidth") fullScreenImageWidthPx: Int,
+        @Query("FullScreenImageHeight") fullScreenImageHeightPx: Int
+    ): ApiNotificationsResponse
 
     @GET("domains/available")
     suspend fun getAvailableDomains(@Query("Type") type: String = "login"): GenericResponse

@@ -25,6 +25,7 @@ import com.protonvpn.tests.login.LoginTests
 import com.protonvpn.tests.login.LogoutTests
 import com.protonvpn.tests.map.MapTests
 import com.protonvpn.tests.profiles.ProfileTests
+import com.protonvpn.tests.promooffer.PromoOfferActivityTests
 import com.protonvpn.tests.secureCore.SecureCoreSecurityTests
 import com.protonvpn.tests.secureCore.SecureCoreTests
 import com.protonvpn.tests.settings.SettingsTests
@@ -41,6 +42,7 @@ import org.junit.runners.Suite
     LogoutTests::class,
     MapTests::class,
     ProfileTests::class,
+    PromoOfferActivityTests::class,
     ProtonLoggerImplTests::class,
     SecureCoreTests::class,
     SecureCoreSecurityTests::class,

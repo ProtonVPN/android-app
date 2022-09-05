@@ -26,105 +26,148 @@
     android:orientation="vertical"
     android:paddingBottom="@dimen/offer_panel_bottom_margin">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_proton_cross" />
-
-    <androidx.core.widget.NestedScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:fillViewport="true">
+        android:layout_weight="1">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fillViewport="true">
 
-            <TextView
-                android:id="@+id/textIncentive"
-                style="@style/Proton.Text.Caption.Strong"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-                android:gravity="center_horizontal"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/textPill"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:text="Upgrade to PLUS now for only $x.xx/mo*" />
-
-            <TextView
-                android:id="@+id/textPill"
-                style="@style/Proton.Text.Caption.Strong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_rounded"
-                android:backgroundTint="?attr/strong_red_color"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:textAllCaps="true"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/imagePicture"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textIncentive"
-                tools:text="Save xx%" />
-
-            <ImageView
-                android:id="@+id/imagePicture"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@id/layoutContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/offer_panel_picture_horizontal_margin"
-                android:adjustViewBounds="true"
-                android:maxHeight="@dimen/offer_panel_picture_max_height"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/textTitle"
-                app:layout_constraintTop_toBottomOf="@id/textPill" />
+                android:paddingBottom="@dimen/offer_panel_content_button_distance">
 
-            <TextView
-                android:id="@+id/textTitle"
-                style="@style/Proton.Text.Headline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-                android:gravity="center_horizontal"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/layoutFeatures"
-                app:layout_constraintTop_toBottomOf="@id/imagePicture"
-                tools:text="Special year-end offer" />
+                <TextView
+                    android:id="@+id/textIncentive"
+                    style="@style/Proton.Text.Caption.Strong"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:gravity="center_horizontal"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/textPill"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="Upgrade to PLUS now for only $x.xx/mo*" />
 
-            <LinearLayout
-                android:id="@+id/layoutFeatures"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingHorizontal="@dimen/screen_padding_horizontal"
-                android:layout_marginTop="@dimen/offer_panel_title_bottom_margin"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textTitle" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/textPill"
+                    style="@style/Proton.Text.Caption.Strong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_rounded"
+                    android:backgroundTint="?attr/strong_red_color"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:textAllCaps="true"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/imagePicture"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textIncentive"
+                    tools:text="Save xx%" />
 
-    </androidx.core.widget.NestedScrollView>
+                <ImageView
+                    android:id="@+id/imagePicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/offer_panel_picture_horizontal_margin"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="@dimen/offer_panel_picture_max_height"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/textTitle"
+                    app:layout_constraintTop_toBottomOf="@id/textPill" />
+
+                <TextView
+                    android:id="@+id/textTitle"
+                    style="@style/Proton.Text.Headline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:gravity="center_horizontal"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/layoutFeatures"
+                    app:layout_constraintTop_toBottomOf="@id/imagePicture"
+                    tools:text="Special year-end offer" />
+
+                <LinearLayout
+                    android:id="@+id/layoutFeatures"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingHorizontal="@dimen/screen_padding_horizontal"
+                    android:layout_marginTop="@dimen/offer_panel_title_bottom_margin"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textTitle" />
+
+                <ImageView
+                    android:id="@+id/imageFullScreen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_max="@dimen/offer_panel_fullscreen_image_max_width"/>
+
+                <TextView
+                    android:id="@+id/textFullScreenImageAlternative"
+                    style="@style/Proton.Text.Default"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_max="@dimen/offer_panel_fullscreen_image_max_width" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progressFullScreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/transparent"
+            app:navigationIcon="@drawable/ic_proton_cross" />
+    </FrameLayout>
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonOpenOffer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-        android:layout_marginTop="@dimen/offer_panel_content_button_distance"
         tools:text="Get the deal now" />
 
     <TextView

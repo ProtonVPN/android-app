@@ -32,6 +32,7 @@ import android.view.View
 import android.view.ViewPropertyAnimator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -176,6 +177,15 @@ fun View.setMinSizeTouchDelegate() {
 @SuppressLint("ClickableViewAccessibility")
 fun View.preventClickTrough() {
     setOnTouchListener { _, _ -> /* capture all events */ true }
+}
+
+fun TextView.setTextOrGoneIfNull(newText: CharSequence?) {
+    if (newText != null) {
+        visibility = View.VISIBLE
+        text = newText
+    } else {
+        visibility = View.GONE
+    }
 }
 
 private fun Rect.expandTo(minWidth: Int, minHeight: Int): Boolean {

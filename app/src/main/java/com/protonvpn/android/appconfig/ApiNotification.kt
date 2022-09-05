@@ -53,7 +53,8 @@ class ApiNotificationOfferPanel(
     @SerialName("Features") val features: List<ApiNotificationOfferFeature>? = null,
     @SerialName("FeaturesFooter") val featuresFooter: String? = null,
     @SerialName("Button") val button: ApiNotificationOfferButton? = null,
-    @SerialName("PageFooter") val pageFooter: String? = null
+    @SerialName("PageFooter") val pageFooter: String? = null,
+    @SerialName("FullScreenImage") val fullScreenImage: ApiNotificationOfferFullScreenImage? = null
 )
 
 @Serializable
@@ -66,4 +67,17 @@ class ApiNotificationOfferFeature(
 class ApiNotificationOfferButton(
     @SerialName("Text") val text: String,
     @SerialName("URL") val url: String
+)
+
+@Serializable
+class ApiNotificationOfferFullScreenImage(
+    @SerialName("Source") val source: List<ApiNotificationOfferImageSource> = emptyList(),
+    @SerialName("AlternativeText") val alternativeText: String = ""
+)
+
+@Serializable
+class ApiNotificationOfferImageSource(
+    @SerialName("URL") val url: String,
+    @SerialName("Type") val type: String,
+    @SerialName("Width") val width: Int? = null
 )

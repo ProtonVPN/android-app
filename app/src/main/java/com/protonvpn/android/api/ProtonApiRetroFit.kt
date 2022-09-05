@@ -88,8 +88,13 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Vpn
     open fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) =
         makeCall(callback) { it.getVPNInfo() }
 
-    open suspend fun getApiNotifications() =
-        manager { getApiNotifications() }
+    open suspend fun getApiNotifications(
+        supportedFormats: List<String>,
+        fullScreenImageWidthPx: Int,
+        fullScreenImageHeightPx: Int
+    ) = manager {
+        getApiNotifications(supportedFormats.joinToString(","), fullScreenImageWidthPx, fullScreenImageHeightPx)
+    }
 
     open suspend fun logout() =
         manager { postLogout() }

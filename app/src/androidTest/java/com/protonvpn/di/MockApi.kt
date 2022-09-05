@@ -146,7 +146,11 @@ class MockApi(
     override suspend fun getForkedSession(selector: String): ApiResult<ForkedSessionResponse> =
         forkedUserResponse
 
-    override suspend fun getApiNotifications(): ApiResult<ApiNotificationsResponse> =
+    override suspend fun getApiNotifications(
+        supportedFormats: List<String>,
+        fullScreenImageWidthPx: Int,
+        fullScreenImageHeightPx: Int
+    ): ApiResult<ApiNotificationsResponse> =
         ApiResult.Success(ApiNotificationTestHelper.mockResponse(
             ApiNotificationTestHelper.mockOffer("1", Long.MIN_VALUE, Long.MIN_VALUE + 1, PAST_OFFER_LABEL),
             ApiNotificationTestHelper.mockOffer("2", Long.MIN_VALUE, Long.MAX_VALUE, OFFER_LABEL),
