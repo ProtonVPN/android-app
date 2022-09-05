@@ -19,14 +19,16 @@
 
 package com.protonvpn.android.ui.promooffers
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.ApiNotificationManager
+import com.protonvpn.android.appconfig.ApiNotificationOfferFullScreenImage
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.utils.Storage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
@@ -37,6 +39,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PromoOfferNotificationViewModel @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val apiNotificationManager: ApiNotificationManager,
 ) : ViewModel() {
 
@@ -44,6 +47,7 @@ class PromoOfferNotificationViewModel @Inject constructor(
         val id: String,
         val iconUrl: String,
         val pictureUrlForPreload: String?,
+        val fullScreenImageUrlForPreload: ApiNotificationOfferFullScreenImage?,
         val visited: Boolean
     )
 
@@ -67,6 +71,7 @@ class PromoOfferNotificationViewModel @Inject constructor(
                 notification.id,
                 notification.offer!!.iconUrl,
                 notification.offer.panel?.pictureUrl,
+                notification.offer.panel?.fullScreenImage,
                 visitedOffers.contains(notification.id)
             )
         }
@@ -76,8 +81,14 @@ class PromoOfferNotificationViewModel @Inject constructor(
         // Prefetch the main picture.
         viewModelScope.launch {
             offerNotification.collect { notification ->
-                if (notification?.visited == false && notification.pictureUrlForPreload != null) {
-                    Glide.with(ProtonApplication.getAppContext()).download(notification.pictureUrlForPreload).preload()
+                if (notification?.visited == false) {
+                    when {
+                        notification.pictureUrlForPreload != null ->
+                            prefetchImage(notification.pictureUrlForPreload)
+                        notification.fullScreenImageUrlForPreload != null ->
+                            PromoOfferImage.getFullScreenImageUrl(appContext, notification.fullScreenImageUrlForPreload)
+                                ?.let { url -> prefetchImage(url) }
+                    }
                 }
             }
         }
@@ -87,5 +98,9 @@ class PromoOfferNotificationViewModel @Inject constructor(
         visitedOffersFlow.value = VisitedOffers(visitedOffersFlow.value + offerNotification.id)
         Storage.save(visitedOffersFlow.value)
         eventOpenPromoOffer.tryEmit(offerNotification)
+    }
+
+    private fun prefetchImage(url: String) {
+        Glide.with(appContext).download(url).preload()
     }
 }

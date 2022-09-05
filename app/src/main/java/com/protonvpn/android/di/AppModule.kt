@@ -294,15 +294,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideAppConfig(
-        api: ProtonApiRetroFit,
-        currentUser: CurrentUser,
-        userPlanManager: UserPlanManager
-    ): AppConfig =
-        AppConfig(scope, api, currentUser, userPlanManager)
-
-    @Singleton
-    @Provides
     fun provideApiNotificationManager(appConfig: AppConfig): ApiNotificationManager =
         ApiNotificationManager(System::currentTimeMillis, appConfig)
 
