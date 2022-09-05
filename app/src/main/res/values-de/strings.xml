@@ -242,8 +242,8 @@
     <string name="noVpnPermissionMainMessage">Um dich mit Proton VPN zu verbinden, gehe bitte wie folgt vor:</string>
     <string name="noVpnPermissionGrantPermissionTitle">VPN-Berechtigung erteilen</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android benötigt deine Erlaubnis, um sich mit Proton VPN zu verbinden. Erlaube dies, indem du auf „OK“ tippst, wenn das Fenster „Verbindungsanfrage“ von Android erscheint.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">„Dauerhaft aktives VPN“ für andere Apps deaktivieren</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android unterstützt keine gleichzeitige Nutzung mehrere VPN-Apps. Deaktiviere „Dauerhaft aktives VPN“ für alle VPN-Apps außer Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">„VPN immer eingeschaltet“ für andere Apps deaktivieren</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android unterstützt keine gleichzeitige Nutzung mehrere VPN-Apps. Deaktiviere „VPN immer eingeschaltet“ für alle VPN-Apps außer Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Proton VPN-App</string>
     <string name="noVpnPermissionOtherAppLabel">Andere VPN-Apps</string>
     <string name="noVpnPermissionOpenSettings">Android VPN-Einstellungen öffnen</string>
@@ -316,14 +316,14 @@
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Dein Land sperrt möglicherweise den Zugang zu Proton. Versuche, mit <a href=\'%1$s\'>Tor</a> auf Proton zuzugreifen.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Dauerhaft aktives VPN und Not-Trennung</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Lege fest, wie sich Proton VPN verhalten soll, wenn die Verbindung zum VPN unterbrochen wird</string>
-    <string name="settingsAlwaysOnWindowHeader">So kann Always-on VPN (dauerhaft aktives VPN) und Kill Switch (Risiko-Trennung) aktiviert werden:</string>
+    <string name="settingsAlwaysOnWindowHeader">So kann Always-on-VPN (VPN immer eingeschaltet) und Kill Switch (Risiko-Trennung) aktiviert werden:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1.) Öffne die <b>Einstellungen</b> auf deinem Gerät, indem du auf die nachfolgende Schaltfläche tippst]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2.) Suche Proton VPN und tippe auf „%1$s“</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone's settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tap the switch next to <b>Always-on VPN</b> to enable it]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3.) Tippe auf den Schalter neben <b>Always-On-VPN</b> (VPN immer eingeschaltet), um es zu aktivieren]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to

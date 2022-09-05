@@ -244,7 +244,7 @@
     <string name="noVpnPermissionMainMessage">Чтобы подключиться к Proton VPN, сделайте следующее:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Предоставить разрешение VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android требует вашего разрешения на подключение к Proton VPN. Дайте разрешение, нажав \"OK\", когда появится окно \"Запрос на подключение\" от Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянную VPN для других приложений</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянный VPN для других приложений</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянную VPN во всех остальных приложениях VPN, кроме Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
