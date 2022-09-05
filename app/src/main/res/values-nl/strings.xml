@@ -242,7 +242,7 @@
     <string name="noVpnPermissionMainMessage">Om verbinding te maken met Proton VPN, gelieve het volgende te doen:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Verleen VPN toestemming</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android heeft uw toestemming nodig om verbinding te maken met Proton VPN. Geef deze toestemming door op \"OK\" te tikken wanneer u het venster \"Verbindingsverzoek\" van Android krijgt.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Schakel Altijd-actief uit voor andere VPN-apps</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android ondersteunt geen meerdere VPN apps. Schakel Altijd-actief uit voor elke andere VPN-app dan Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">ProtonVPN app</string>
     <string name="noVpnPermissionOtherAppLabel">Andere VPN apps</string>

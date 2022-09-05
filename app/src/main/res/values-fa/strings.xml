@@ -242,7 +242,7 @@
     <string name="noVpnPermissionMainMessage">برای اتصال به Proton VPN، لطفاً کارهای زیر را انجام دهید:</string>
     <string name="noVpnPermissionGrantPermissionTitle">مجوز VPN را اعطا کنید</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android به اجازهٔ شما برای اتصال به Proton VPN نیاز دارد. آن را با ضربه زدن روی «قبول» هنگامی که پنجرهٔ «درخواست اتصال» را از Android دریافت می‌کنید، اعطا کنید.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Disable always-on for other VPN apps</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">غیر فال کردن همیشه روشن برای برنامه‌های VPN دیگر</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">اندروید از برنامه‌های VPN متعدد پشتیبانی نمی‌کند. همیشه روشن را برای برنامه های VPN دیگر به غیر از Proton VPN غیرفعال کنید.</string>
     <string name="noVpnPermissionProtonAppLabel">برنامهٔ ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">برنامه‌های VPN دیگر</string>
