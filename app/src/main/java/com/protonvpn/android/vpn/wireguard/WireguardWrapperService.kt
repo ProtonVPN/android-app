@@ -59,7 +59,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
 
     private fun handleProcessRestore(): Boolean {
         Storage.load(ConnectionParams::class.java)?.profile?.let { profile ->
-            return connectionManager.onRestoreProcess(profile)
+            return connectionManager.onRestoreProcess(profile, "service restart")
         }
         return false
     }
