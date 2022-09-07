@@ -394,10 +394,11 @@ class VpnConnectionManager @Inject constructor(
         ongoingConnect = null
     }
 
-    fun onRestoreProcess(profile: Profile, reason: String = ""): Boolean {
+    fun onRestoreProcess(profile: Profile, reason: String): Boolean {
         val stateKey = Storage.getString(STORAGE_KEY_STATE, null)
-        if (state == VpnState.Disabled && stateKey == VpnState.Connected.name) {
-            connect(vpnBackgroundUiDelegate, profile, "Process restore: $reason")
+        val shouldReconnect = stateKey != VpnState.Disabled.name && stateKey != VpnState.Disconnecting.name
+        if (state == VpnState.Disabled && shouldReconnect) {
+            connect(vpnBackgroundUiDelegate, profile, "Process restore: $reason, previous state was: $stateKey")
             return true
         }
         return false

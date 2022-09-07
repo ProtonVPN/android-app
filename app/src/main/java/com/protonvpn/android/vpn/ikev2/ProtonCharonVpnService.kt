@@ -115,7 +115,7 @@ class ProtonCharonVpnService : CharonVpnService() {
         if (lastServer == null)
             stopSelf()
         else {
-            if (!vpnConnectionManager.onRestoreProcess(lastServer.profile))
+            if (!vpnConnectionManager.onRestoreProcess(lastServer.profile, "service restart"))
                 stopSelf()
         }
     }
