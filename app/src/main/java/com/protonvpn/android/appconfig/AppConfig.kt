@@ -18,19 +18,15 @@
  */
 package com.protonvpn.android.appconfig
 
-import android.content.Context
 import android.os.SystemClock
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
-import com.protonvpn.android.ui.promooffers.PromoOfferImage
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.jitterMs
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -44,10 +40,8 @@ import javax.inject.Singleton
 
 @Singleton
 class AppConfig @Inject constructor(
-    @ApplicationContext private val appContext: Context,
     private val scope: CoroutineScope,
     private val api: ProtonApiRetroFit,
-    private val currentUser: CurrentUser,
     private val userPlanManager: UserPlanManager
 ) {
 
@@ -62,10 +56,6 @@ class AppConfig @Inject constructor(
         Storage.load<DynamicReportModel>(
             DynamicReportModel::class.java
         ) { DynamicReportModel(DynamicReportModel.defaultCategories) })
-
-    val apiNotificationsResponseObservable = MutableLiveData<ApiNotificationsResponse>(
-            Storage.load<ApiNotificationsResponse>(
-                    ApiNotificationsResponse::class.java, ApiNotificationsResponse(emptyArray())))
 
     private val appConfigResponse get() = appConfigFlow.value
 
@@ -120,22 +110,6 @@ class AppConfig @Inject constructor(
         result.valueOrNull?.let { config ->
             Storage.save(config)
             appConfigUpdateEvent.tryEmit(config)
-            if (currentUser.isLoggedIn()) {
-                val notificationsResponse = if (config.featureFlags.pollApiNotifications) {
-                    val fullScreenImageSize = PromoOfferImage.getFullScreenImageMaxSizePx(appContext)
-                    api.getApiNotifications(
-                        PromoOfferImage.SupportedFormats.values().map { it.toString() },
-                        fullScreenImageSize.width,
-                        fullScreenImageSize.height
-                    ).valueOrNull
-                } else {
-                    ApiNotificationsResponse(emptyArray())
-                }
-                notificationsResponse?.let {
-                    apiNotificationsResponseObservable.value = it
-                    Storage.save(apiNotificationsResponseObservable.value)
-                }
-            }
         }
         updateTask.scheduleIn(jitterMs(if (result is ApiResult.Error.Connection) UPDATE_DELAY_FAIL else UPDATE_DELAY))
     }

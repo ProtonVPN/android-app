@@ -39,7 +39,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PromoOfferNotificationViewModel @Inject constructor(
-    @ApplicationContext private val appContext: Context,
     private val apiNotificationManager: ApiNotificationManager,
 ) : ViewModel() {
 
@@ -47,7 +46,6 @@ class PromoOfferNotificationViewModel @Inject constructor(
         val id: String,
         val iconUrl: String,
         val pictureUrlForPreload: String?,
-        val fullScreenImageUrlForPreload: ApiNotificationOfferFullScreenImage?,
         val visited: Boolean
     )
 
@@ -71,36 +69,14 @@ class PromoOfferNotificationViewModel @Inject constructor(
                 notification.id,
                 notification.offer!!.iconUrl,
                 notification.offer.panel?.pictureUrl,
-                notification.offer.panel?.fullScreenImage,
                 visitedOffers.contains(notification.id)
             )
         }
     }.distinctUntilChanged()
 
-    init {
-        // Prefetch the main picture.
-        viewModelScope.launch {
-            offerNotification.collect { notification ->
-                if (notification?.visited == false) {
-                    when {
-                        notification.pictureUrlForPreload != null ->
-                            prefetchImage(notification.pictureUrlForPreload)
-                        notification.fullScreenImageUrlForPreload != null ->
-                            PromoOfferImage.getFullScreenImageUrl(appContext, notification.fullScreenImageUrlForPreload)
-                                ?.let { url -> prefetchImage(url) }
-                    }
-                }
-            }
-        }
-    }
-
     fun onOpenOffer(offerNotification: Notification) {
         visitedOffersFlow.value = VisitedOffers(visitedOffersFlow.value + offerNotification.id)
         Storage.save(visitedOffersFlow.value)
         eventOpenPromoOffer.tryEmit(offerNotification)
-    }
-
-    private fun prefetchImage(url: String) {
-        Glide.with(appContext).download(url).preload()
     }
 }

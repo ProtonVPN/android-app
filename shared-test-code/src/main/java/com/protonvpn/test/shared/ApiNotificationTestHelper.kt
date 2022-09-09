@@ -21,17 +21,36 @@ package com.protonvpn.test.shared
 
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationOffer
+import com.protonvpn.android.appconfig.ApiNotificationOfferFullScreenImage
+import com.protonvpn.android.appconfig.ApiNotificationOfferImageSource
+import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
 
 object ApiNotificationTestHelper {
 
-    fun mockOffer(id: String, start: Long = 0L, end: Long = 0L, label: String = "Offer") =
+    fun mockOffer(
+        id: String,
+        start: Long = 0L,
+        end: Long = 0L,
+        label: String = "Offer",
+        iconUrl: String = "file:///android_asset/no_such_file.png",
+        panel: ApiNotificationOfferPanel? = null
+    ) =
         ApiNotification(
             id, start, end, ApiNotificationTypes.TYPE_OFFER, ApiNotificationOffer(
-                label, "https://protonvpn.com", "file:///android_asset/no_such_file.png"
+                label, "https://protonvpn.com", iconUrl, panel
             )
         )
+
+    fun mockFullScreenImagePanel(imageUrl: String?, alternativeText: String = ""): ApiNotificationOfferPanel {
+        val images =
+            if (imageUrl != null) listOf(ApiNotificationOfferImageSource(imageUrl, "png"))
+            else emptyList()
+        return ApiNotificationOfferPanel(
+            fullScreenImage = ApiNotificationOfferFullScreenImage(images, alternativeText)
+        )
+    }
 
     fun mockResponse(vararg items: ApiNotification) =
         ApiNotificationsResponse(arrayOf(*items))

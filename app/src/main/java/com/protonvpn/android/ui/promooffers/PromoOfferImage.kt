@@ -21,12 +21,10 @@ package com.protonvpn.android.ui.promooffers
 
 import android.content.Context
 import android.content.res.Configuration
-import android.util.Size
 import com.bumptech.glide.Glide
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.ApiNotificationOfferFullScreenImage
 import com.protonvpn.android.utils.AndroidUtils.isChromeOS
-import com.protonvpn.android.utils.ViewUtils.toPx
 
 object PromoOfferImage {
 
@@ -72,18 +70,21 @@ object PromoOfferImage {
     }
 
     fun getFullScreenImageMaxSizePx(context: Context) = with(context.resources) {
-        val portraitScreenSizeDp =
+        val portraitScreenSizePx =
             if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT || context.isChromeOS()) {
-                Size(configuration.screenWidthDp, configuration.screenHeightDp)
+                Size(displayMetrics.widthPixels, displayMetrics.heightPixels)
             } else {
-                Size(configuration.screenHeightDp, configuration.screenWidthDp)
+                Size(displayMetrics.heightPixels, displayMetrics.widthPixels)
             }
         Size(
             minOf(
-                portraitScreenSizeDp.width.toPx(),
+                portraitScreenSizePx.width,
                 getDimensionPixelSize(R.dimen.offer_panel_fullscreen_image_max_width)
             ),
-            portraitScreenSizeDp.height.toPx()
+            portraitScreenSizePx.height
         )
     }
+
+    // Avoid android.util.Size for the sake of unit tests.
+    data class Size(val width: Int, val height: Int)
 }
