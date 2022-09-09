@@ -342,6 +342,8 @@ include:
 
   - local: '/.gitlab-ci-firebase.yml'
 
+  - local: '.download-upload.gitlab-ci.yml'
+
 i18n-sync-crowdin:
   variables:
       I18N_SYNC_BRANCH: development
@@ -370,3 +372,16 @@ publish-github:
     RELEASE_APP: android-vpn
     RELEASE_GITHUB_REPOSITORY: $PUBLIC_REPO_URL
   extends: .release-make-release
+
+publish downloads:
+  extends: .publish-download-base
+  only:
+    refs:
+      - master
+  interruptible: false
+  variables:
+    ORIGIN_OAUTH_URL: "${OAUTH_DOWNLOADS_REPO_URL}"
+    ARTIFACT_PATH: "app/build/outputs/apk/direct/release/${ARCHIVES_BASE_NAME}-direct-universal-release.apk"
+    ARTIFACT_OUTPUT_NAME: "ProtonVPN.apk"
+    SLACK_HOOK: "${SLACK_HOOK_DEPLOY_CHANNEL}"
+    SLACK_MESSAGE: '{"text":"Updated ProtonVPN.apk. @infra-application-edge can someone deploy downloads? Thanks :)"}'
