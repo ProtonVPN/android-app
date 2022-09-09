@@ -18,85 +18,218 @@
  */
 package com.protonvpn.app
 
+import android.app.Activity
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
+import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
+import com.protonvpn.android.appconfig.FeatureFlags
+import com.protonvpn.android.appconfig.ImagePrefetcher
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.ui.promooffers.PromoOfferImage
+import com.protonvpn.android.utils.Storage
+import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
+import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import io.mockk.MockKAnnotations
+import io.mockk.called
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import me.proton.core.test.kotlin.CoroutinesTest
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.runBlockingTest
+import me.proton.core.network.domain.ApiResult
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ApiNotificationManagerTests : CoroutinesTest {
+class ApiNotificationManagerTests {
 
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
     @MockK
-    private lateinit var appConfig: AppConfig
+    private lateinit var mockAppConfig: AppConfig
+    @RelaxedMockK
+    private lateinit var mockContext: Context
+    @MockK
+    private lateinit var mockImagePrefercher: ImagePrefetcher
+    @MockK
+    private lateinit var mockCurrentUser: CurrentUser
+    @MockK
+    private lateinit var mockApi: ProtonApiRetroFit
+    @MockK
+    private lateinit var mockForegroundActivityTracker: ForegroundActivityTracker
 
-    var wallClockImpl: () -> Long = { 0 }
-    private fun wallClock() = wallClockImpl()
-    private val responseObservable = MutableLiveData<ApiNotificationsResponse>(mockResponse())
+    private lateinit var appFeaturesPrefs: AppFeaturesPrefs
+    private lateinit var testScope: TestCoroutineScope
+    private lateinit var foregroundActivityFlow: MutableStateFlow<Activity?>
 
-    private fun mockResponse(vararg items: ApiNotification) =
-        ApiNotificationsResponse(arrayOf(*items))
+    private fun mockResponse(vararg items: ApiNotification) {
+        coEvery {
+            mockApi.getApiNotifications(any(), any(), any())
+        } returns ApiResult.Success(ApiNotificationsResponse(arrayOf(*items)))
+    }
+
+    private lateinit var notificationManager: ApiNotificationManager
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        wallClockImpl = { 0L }
+        Storage.setPreferences(MockSharedPreference())
+        appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
+        appFeaturesPrefs.minNextNotificationUpdateTimestamp = -TimeUnit.DAYS.toMillis(2)
+        testScope = TestCoroutineScope()
 
-        every { appConfig.apiNotificationsResponseObservable } returns responseObservable
+        coEvery { mockCurrentUser.isLoggedIn() } returns true
+        every { mockAppConfig.appConfigUpdateEvent } returns MutableSharedFlow()
+        every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(pollApiNotifications = true)
+        coEvery { mockImagePrefercher.prefetch(any()) } returns true
+
+        foregroundActivityFlow = MutableStateFlow(null)
+        every { mockForegroundActivityTracker.foregroundActivityFlow } returns foregroundActivityFlow
+
+        mockkObject(PromoOfferImage)
+        every { PromoOfferImage.getFullScreenImageMaxSizePx(any()) } returns PromoOfferImage.Size(100, 100)
+
+        notificationManager = ApiNotificationManager(
+            mockContext,
+            testScope,
+            { testScope.currentTime },
+            mockAppConfig,
+            mockApi,
+            mockCurrentUser,
+            appFeaturesPrefs,
+            mockImagePrefercher,
+            mockForegroundActivityTracker
+        )
     }
 
     @Test
-    fun testFiltering() = coroutinesTest {
-        val manager = ApiNotificationManager(::wallClock, appConfig)
-        responseObservable.value = mockResponse(
+    fun testFiltering() = testScope.runBlockingTest {
+        mockResponse(
             mockOffer("active1", 0L, 1L),
             mockOffer("active2", -1L, 1L),
             mockOffer("future", 1L, 2L),
-            mockOffer("just ended", -1L, 0L))
+            mockOffer("just ended", -1L, 0L)
+        )
+        notificationManager.triggerUpdateIfNeeded()
 
-        Assert.assertEquals(listOf("active1", "active2"), manager.activeListFlow.first().map { it.id })
+        Assert.assertEquals(listOf("active1", "active2"), notificationManager.activeListFlow.first().map { it.id })
     }
 
     @Test
-    fun testScheduling() = coroutinesTest {
-        val manager = ApiNotificationManager(::wallClock, appConfig)
-        wallClockImpl = { currentTime }
+    fun testScheduling() = testScope.runBlockingTest {
         val apiTime = currentTime / 1000
-        responseObservable.value = mockResponse(
+        mockResponse(
             mockOffer("past", apiTime - 2, apiTime - 1),
             mockOffer("active", apiTime - 1, apiTime + 1),
             mockOffer("future", apiTime + 1, apiTime + 2))
+        notificationManager.triggerUpdateIfNeeded()
 
         val observedLists = mutableListOf<List<String>>()
         val collectJob = launch {
-            manager.activeListFlow
+            notificationManager.activeListFlow
                 .map { list -> list.map { it.id } }
                 .toList(observedLists)
         }
 
-        Assert.assertEquals(listOf("active"), manager.activeListFlow.first().map { it.id })
+        Assert.assertEquals(listOf("active"), notificationManager.activeListFlow.first().map { it.id })
         advanceTimeBy(1500)
-        Assert.assertEquals(listOf("future"), manager.activeListFlow.first().map { it.id })
+        Assert.assertEquals(listOf("future"), notificationManager.activeListFlow.first().map { it.id })
         Assert.assertEquals(listOf(listOf("active"), listOf("future")), observedLists)
 
         collectJob.cancel()
+    }
+
+    @Test
+    fun `when image prefetch fails notification is filtered out`() = testScope.runBlockingTest {
+        mockResponse(
+            mockOffer("success", -1, 1, iconUrl = "urlSuccess", panel = mockFullScreenImagePanel("urlSuccess")),
+            mockOffer("failure", -1, 1, iconUrl = "urlSuccess", panel = mockFullScreenImagePanel("urlFailure"))
+        )
+        notificationManager.triggerUpdateIfNeeded()
+
+        coEvery { mockImagePrefercher.prefetch(any()) } returns false
+        coEvery { mockImagePrefercher.prefetch("urlSuccess") } returns true
+
+        Assert.assertEquals(listOf("success"), notificationManager.activeListFlow.first().map { it.id })
+    }
+
+    @Test
+    fun `when there are no images no prefetch is triggered`() = testScope.runBlockingTest {
+        mockResponse(
+            mockOffer("success", -1, 1, iconUrl = "", panel = mockFullScreenImagePanel(null)),
+        )
+        notificationManager.triggerUpdateIfNeeded()
+
+        coEvery { mockImagePrefercher.prefetch(any()) } returns false
+
+        Assert.assertEquals(listOf("success"), notificationManager.activeListFlow.first().map { it.id })
+        coVerify { mockImagePrefercher wasNot called }
+    }
+
+    @Test
+    fun `prefetch is called each time activeListFlow is collected`() = testScope.runBlockingTest {
+        mockResponse(
+            mockOffer("id", -1, 1, iconUrl = "url")
+        )
+        notificationManager.triggerUpdateIfNeeded()
+        advanceUntilIdle()
+        coVerify(exactly = 0) { mockImagePrefercher.prefetch("url") }
+        notificationManager.activeListFlow.first()
+        coVerify(exactly = 1) { mockImagePrefercher.prefetch("url") }
+        notificationManager.activeListFlow.first()
+        coVerify(exactly = 2) { mockImagePrefercher.prefetch("url") }
+    }
+
+    @Test
+    fun `opening an activity triggers notifications update`() = testScope.runBlockingTest {
+        mockResponse()
+        foregroundActivityFlow.value = mockk()
+        coVerify(exactly = 1) { mockApi.getApiNotifications(any(), any(), any()) }
+
+        advanceTimeBy(TimeUnit.DAYS.toMillis(1))
+
+        foregroundActivityFlow.value = null
+        coVerify(exactly = 1) { mockApi.getApiNotifications(any(), any(), any()) }
+    }
+
+    @Test
+    fun `at least 3 hours must pass between updates`() = testScope.runBlockingTest {
+        val baseRefreshInterval = TimeUnit.HOURS.toMillis(3)
+        mockResponse()
+        notificationManager.triggerUpdateIfNeeded()
+        coVerify(exactly = 1) { mockApi.getApiNotifications(any(), any(), any()) }
+
+        advanceTimeBy(baseRefreshInterval - 1)
+        notificationManager.triggerUpdateIfNeeded()
+        coVerify(exactly = 1) { mockApi.getApiNotifications(any(), any(), any()) }
+
+        advanceTimeBy(
+            1L + (baseRefreshInterval * 0.2f).toLong() // Advance 20% of the interval to account for jitter.
+        )
+        notificationManager.triggerUpdateIfNeeded()
+        coVerify(exactly = 2) { mockApi.getApiNotifications(any(), any(), any()) }
     }
 }

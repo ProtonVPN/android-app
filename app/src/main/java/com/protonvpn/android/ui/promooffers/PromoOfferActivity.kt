@@ -99,6 +99,7 @@ class PromoOfferActivity : BaseActivityV2() {
             if (panel.pictureUrl != null) {
                 val activity = this@PromoOfferActivity
                 val maxSize = PromoOfferImage.getPictureMaxSize(activity)
+                imagePicture.visibility = View.VISIBLE
                 Glide.with(activity)
                     .load(panel.pictureUrl)
                     // Make sure the size is the same as for preload.
@@ -156,17 +157,14 @@ class PromoOfferActivity : BaseActivityV2() {
 
             val imageUrl = PromoOfferImage.getFullScreenImageUrl(this@PromoOfferActivity, imageSpec)
 
-            progressFullScreen.visibility = View.VISIBLE
             Glide.with(this@PromoOfferActivity)
                 .load(imageUrl)
-                .centerInside()
+                .optionalCenterInside()
                 .addListener(onSuccess = {
-                    progressFullScreen.visibility = View.GONE
                     imageFullScreen.visibility = View.VISIBLE
                     imageFullScreen.contentDescription = imageSpec.alternativeText
                     scheduleScrollDown()
                 }, onFail = {
-                    progressFullScreen.visibility = View.GONE
                     with(textFullScreenImageAlternative) {
                         visibility = View.VISIBLE
                         text = imageSpec.alternativeText

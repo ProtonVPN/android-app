@@ -19,6 +19,7 @@
 
 package com.protonvpn.tests.promooffer
 
+import android.util.Base64
 import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.R
@@ -69,7 +70,6 @@ class PromoOfferActivityTests {
         verify.checkIfElementIsNotDisplayedById(R.id.imagePicture)
         verify.checkIfElementIsNotDisplayedById(R.id.layoutFeatures)
         verify.checkIfElementIsNotDisplayedById(R.id.imageFullScreen)
-        verify.checkIfElementIsNotDisplayedById(R.id.progressFullScreen)
         verify.checkIfElementIsNotDisplayedById(R.id.textFooter)
     }
 
@@ -120,6 +120,33 @@ class PromoOfferActivityTests {
     }
 
     @Test
+    fun lottieIsSupportedInPicture() {
+        val lottieBase64 = loadLottieBase64()
+        val panelJson = """
+            "PictureURL": "data:image;base64,$lottieBase64"
+        """.trimIndent()
+        launchOfferActivityWithPanel(panelJson)
+        verify.checkIfElementIsDisplayedById(R.id.imagePicture)
+    }
+
+    @Test
+    fun lottieIsSupportedInFullScreenImage() {
+        val lottieBase64 = loadLottieBase64()
+        val panelJson = """
+            "FullScreenImage": {
+              "Source": [
+                {
+                  "Type": "LOTTIE",
+                  "URL": "data:image;base64,$lottieBase64"
+                }
+              ]
+            }
+        """.trimIndent()
+        launchOfferActivityWithPanel(panelJson)
+        verify.checkIfElementIsDisplayedById(R.id.imageFullScreen)
+    }
+
+    @Test
     fun fullScreenImageAndButton() {
         val panelJson = """
             "FullScreenImage": {
@@ -167,24 +194,7 @@ class PromoOfferActivityTests {
         verify.checkIfElementIsDisplayedByContentDesc("Image description")
     }
 
-    fun fullScreenAlternativeTextWhenImageDoesntLoad() {
-        val panelJson = """
-            "FullScreenImage": {
-              "Source": [
-                {
-                  "Type": "PNG",
-                  "URL": "invalid",
-                  "Width": 1
-                }
-              ],
-              "AlternativeText": "Image description"
-            }
-        """
-        launchOfferActivityWithPanel(panelJson)
-        verify.checkIfElementIsNotDisplayedById(R.id.progressFullScreen)
-        verify.checkIfElementIsDisplayedByText("Image description")
-    }
-
+    @Test
     fun fullScreenAlternativeTextWhenImageNotSpecified() {
         val panelJson = """
             "FullScreenImage": {
@@ -192,12 +202,11 @@ class PromoOfferActivityTests {
             }
         """
         launchOfferActivityWithPanel(panelJson)
-        verify.checkIfElementIsNotDisplayedById(R.id.progressFullScreen)
         verify.checkIfElementIsDisplayedByText("Image description")
     }
 
     private fun launchOfferActivityWithPanel(panelJson: String) {
-        val notificationJson = createNotificationJson(panelJson);
+        val notificationJson = createNotificationJson(panelJson)
         apiNotificationManager.setTestNotificationJson(notificationJson)
         val intent =
             PromoOfferActivity.createIntent(InstrumentationRegistry.getInstrumentation().targetContext, OFFER_ID)
@@ -220,4 +229,12 @@ class PromoOfferActivityTests {
           }
         }
     """.trimIndent()
+
+    private fun loadLottieBase64(): String {
+        val resources = InstrumentationRegistry.getInstrumentation().targetContext.resources
+        return resources.openRawResource(R.raw.vpn_pulsing_logo).bufferedReader().use { reader ->
+            val bytes = reader.readText().toByteArray()
+            String(Base64.encode(bytes, 0))
+        }
+    }
 }

@@ -35,6 +35,8 @@ import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.GlideImagePrefetcher
+import com.protonvpn.android.appconfig.ImagePrefetcher
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
@@ -294,11 +296,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideApiNotificationManager(appConfig: AppConfig): ApiNotificationManager =
-        ApiNotificationManager(System::currentTimeMillis, appConfig)
-
-    @Singleton
-    @Provides
     fun provideVpnApiManager(apiProvider: ApiProvider, currentUser: CurrentUser) =
         VpnApiManager(apiProvider, currentUser)
 
@@ -446,5 +443,9 @@ object AppModule {
         @Singleton
         @Binds
         fun bindDispatcherProvider(provider: VpnDispatcherProvider): DispatcherProvider
+
+        @Singleton
+        @Binds
+        fun bindImagePrefetcher(glide: GlideImagePrefetcher): ImagePrefetcher
     }
 }

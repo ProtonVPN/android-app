@@ -21,8 +21,6 @@ package com.protonvpn.android.ui.promooffers
 
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.appconfig.ApiNotificationManager
-import com.protonvpn.android.appconfig.ApiNotificationOfferFullScreenImage
-import com.protonvpn.android.appconfig.ApiNotificationOfferImageSource
 import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
