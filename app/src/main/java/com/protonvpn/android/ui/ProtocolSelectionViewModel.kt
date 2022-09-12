@@ -15,12 +15,12 @@ class ProtocolSelectionViewModel @Inject constructor(
 
     private val items = listOf(
         ProtocolSelection(VpnProtocol.Smart),
-        ProtocolSelection(VpnProtocol.IKEv2),
+        ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
+        ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
         ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
         ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+        ProtocolSelection(VpnProtocol.IKEv2),
         ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
-        ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
-        ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP)
     )
 
     val supportedProtocols = items.filter { it.isSupported(appConfig.getFeatureFlags()) }
