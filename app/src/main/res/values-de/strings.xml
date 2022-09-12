@@ -322,12 +322,12 @@
     <string name="settingsAlwaysOnWindowStep2">2.) Suche Proton VPN und tippe auf „%1$s“</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone's settings. -->
+         find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep3"><![CDATA[3.) Tippe auf den Schalter neben <b>Always-On-VPN</b> (VPN immer eingeschaltet), um es zu aktivieren]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone's settings. -->
+         find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[Tippe auf den Schalter neben <b>Verbindungen ohne VPN sperren</b>, um Kill Switch (Not‐Trennung) zu aktivieren]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android Einstellungen öffnen</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Aktivieren des Notausschalters wird Split-Tunneling deaktivieren, da der Notausschalter alle Verbindungen außerhalb des VPN Tunnels blockiert</string>

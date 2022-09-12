@@ -322,12 +322,12 @@
     <string name="settingsAlwaysOnWindowStep2">2. Zoek Proton VPN en tik op %1$s</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone's settings. -->
+         find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tap the switch next to <b>Always-on VPN</b> to enable it]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone's settings. -->
+         find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable kill switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android instellingen openen</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Kill switch activeren schakelt split tunneling uit, aangezien kill switch alle verbindingen buiten de VPN-tunnel blokkeert</string>

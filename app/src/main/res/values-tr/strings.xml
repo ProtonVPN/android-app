@@ -244,7 +244,7 @@
     <string name="noVpnPermissionGrantPemrissionMessage">Proton VPN bağlantısı kurmak için Android izinleri vermeniz gerekir. Android \"Bağlantı isteği\" yapıldığında \"Tamam\" üzerine tıklayın.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Diğer VPN uygulamalarının her zaman açık seçeneğini devre dışı bırakın</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android birden fazla VPN uygulamasını desteklemez. Proton VPN dışındaki diğer VPN uygulamaları için her zaman açık seçeneğini devre dışı bırakın.</string>
-    <string name="noVpnPermissionProtonAppLabel">ProtonVPN uygulaması</string>
+    <string name="noVpnPermissionProtonAppLabel">Proton VPN uygulaması</string>
     <string name="noVpnPermissionOtherAppLabel">Diğer VPN uygulamaları</string>
     <string name="noVpnPermissionOpenSettings">Android VPN ayarlarını açın</string>
     <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için her zaman açık seçeneğini devre dışı bırakın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
@@ -322,12 +322,12 @@
     <string name="settingsAlwaysOnWindowStep2">2. Proton VPN uygulamasını bulun ve %1$s seçeneğine dokunun</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone's settings. -->
+         find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Etkinleştirmek için <b>Her zaman açık VPN</b> seçeneğinin yanındaki anahtara dokunun]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone's settings. -->
+         find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Bağlantı kesiciyi etkinleştirmek için <b>VPN olmadan bağlantıları engelle</b> seçeneğinin yanındaki anahtara dokunun]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android ayarlarını aç</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Bağlantı kesici etkinleştirildiğinde, VPN tüneli dışındaki tüm bağlantılar engelleneceğinden bölünmüş tünelleme devre dışı bırakılır</string>
