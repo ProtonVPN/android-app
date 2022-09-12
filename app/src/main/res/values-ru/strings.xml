@@ -145,7 +145,7 @@
     <string name="listItemMaintenance">На техобслуживании</string>
     <string name="listAllCountries">Все местоположения (%1$d)</string>
     <string name="listFreeCountries">Местоположения Free (%1$d)</string>
-    <string name="listPremiumCountries">Местоположения Basic &amp; Plus (%1$d)</string>
+    <string name="listPremiumCountries">Местоположения Basic и Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Местоположения Plus (%1$d)</string>
     <string name="listFastestServer">Самый быстрый сервер</string>
     <string name="listFreeServers">Серверы Free (%1$d)</string>
@@ -311,7 +311,7 @@
     <string name="troubleshootProxyFirewallProblemTitle">Конфликт с прокси-сервером/брандмауэром</string>
     <string name="troubleshootProxyFirewallProblemDescription">Отключите все прокси-серверы или брандмауэры, или обратитесь к своему сетевому администратору.</string>
     <string name="troubleshootProtonDownTitle">Proton не работает</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[Посмотрите <a href=\"%1$s\">состояние ProtonVPN</a>, чтобы узнать состояние нашей системы.]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Посмотрите <a href=\"%1$s\">состояние Proton</a>, чтобы узнать состояние нашей системы.]]></string>
     <string name="troubleshootContactUsSectionTitle">Все еще нужна помощь? Свяжитесь с нами напрямую</string>
     <string name="troubleshootCustomerSupport">Поддержка клиентов</string>
     <string name="settingsAllowAlternativeRoutingTitle">Альтернативная маршрутизация</string>
@@ -326,12 +326,12 @@
     <string name="settingsAlwaysOnWindowStep2">2. Найдите Proton VPN и нажмите %1$s</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone's settings. -->
+         find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Нажмите на переключатель рядом с <b>"Постоянная VPN"</b>, чтобы включить его]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone's settings. -->
+         find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Нажмите переключатель рядом с пунктом <b>Блокировать соединения без VPN</b>, чтобы включить Kill Switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Открыть настройки Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Активация Kill Switch отключит раздельное туннелирование, так как Kill Switch блокирует все соединения за пределами тунеля VPN</string>
@@ -356,7 +356,7 @@
     <string name="stateNotConnected">Вы не подключены</string>
     <string name="recents">Недавние</string>
     <string name="tvQuickConnectDescription">Ближайшие страны</string>
-    <string name="tvQuickConnectSubDescription">Стриминговый сервер</string>
+    <string name="tvQuickConnectSubDescription">Сервер трансляции</string>
     <string name="nameEurope">Европа</string>
     <string name="nameAmerica">Америка</string>
     <string name="nameAsia">Азия</string>
@@ -369,10 +369,10 @@
     <string name="tv_detail_connect">Подключиться</string>
     <string name="tv_detail_description_streaming_country">Доступ к трансляциям вашего любимого содержимого. Получите доступ к большему количеству приложений на тарифе Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Смотрите больше любимых трансляций с тарифом Proton VPN Plus.</string>
-    <string name="tv_detail_description_country_not_available">Страна недоступна. Получите больше возможностей стриминга с планом Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Страна недоступна. Получите больше возможностей трансляции с планом Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Смотрите ваши любимые видео, фильмы или спортивные передачи в ваших приложениях.</string>
     <string name="tv_login_title_signin">Войдите в Proton VPN</string>
-    <string name="tv_login_title_welcome">Стриминг вашего любимого видеоконтента</string>
+    <string name="tv_login_title_welcome">Трансляция вашего любимого видеосодержимого</string>
     <string name="tv_login_welcome_description">Смотрите видеосодержимое более чем из 50 стран, включая YouTube и Twitch. Смотрите трансляции Netflix, Amazon Prime и Hulu с помощью Proton VPN Plus.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Получите свой аккаунт Proton VPN по адресу <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Войти</string>
@@ -434,7 +434,7 @@
     </plurals>
     <string name="notification_max_sessions_content">Пожалуйста, отключите другое устройство, чтобы подключить это.</string>
     <string name="notification_cancel_to_free">Вы используете тариф Free. Доступны серверы и функции Free.</string>
-    <string name="notification_cancel_to_basic">Вы используете тариф Basic. Вам доступны серверы и функции Basic &amp; Free.</string>
+    <string name="notification_cancel_to_basic">Вы используете тариф Basic. Вам доступны серверы и функции Basic и Free.</string>
     <string name="notification_cancel_to_delinquent">Вы сможете снова получить доступ к расширенным функциям после оплаты текущих счетов.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">С сервера: </string>
@@ -444,7 +444,7 @@
     <string name="notification_smart_protocol_disabled_title">Smart Protocol в настоящее время отключен</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN обнаружила, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
     <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, Tor, P2P</string>
-    <string name="upsell_streaming_services">Доступ к потоковым сервисам (Netflix, Disney+ и т. д.) в любой точке мира</string>
+    <string name="upsell_streaming_services">Доступ к службам трансляции (Netflix, Disney+ и т. д.) в любой точке мира</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
@@ -472,7 +472,7 @@
          upgrade screen -->
     <string name="upgrade_plus_subtitle">Когда вы улучшите до Plus</string>
     <string name="upgrade_netshield_title_new">Воспользуйтесь просмотром веб-страниц без рекламы с помощью NetShield</string>
-    <string name="upgrade_secure_core_title_new">Двойное шифрование с Secure Core</string>
+    <string name="upgrade_secure_core_title_new">Удвойте шифрование с помощью Secure Core</string>
     <string name="upgrade_secure_core_countries">Направляйте свой трафик через сверхзащищенные серверы в Швейцарии, Швеции и Исландии</string>
     <string name="upgrade_secure_core_encryption">Добавьте еще один уровень шифрования к вашему подключению VPN</string>
     <string name="upgrade_secure_core_protect">Защитите себя от сетевых атак</string>
@@ -510,9 +510,9 @@
          -->
     <plurals name="upgrade_plus_countries">
         <item quantity="one">%d страна</item>
-        <item quantity="few">%d+ стран</item>
-        <item quantity="many">%d+ стран</item>
-        <item quantity="other">%d+ стран</item>
+        <item quantity="few">%d страны</item>
+        <item quantity="many">%d стран</item>
+        <item quantity="other">%d страны</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_servers_new"
@@ -538,12 +538,12 @@
         <item quantity="other">Подключайте %d устройств одновременно</item>
     </plurals>
     <string name="upgrade_plus_countries_netshield">Блокируйте рекламу и вредоносные программы с помощью NetShield</string>
-    <string name="upgrade_plus_countries_speeds">Просматривайте сайты на самых высоких скоростях (10 Gbps)</string>
-    <string name="upgrade_plus_countries_more">И много других платных функций</string>
+    <string name="upgrade_plus_countries_speeds">Просматривайте сайты на самых высоких скоростях (10 Гбит/с)</string>
+    <string name="upgrade_plus_countries_more">И много других премиальных функций</string>
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
     <string name="upgrade_safe_mode_message">У вас есть расширенные или профессиональные потребности использовать нестандартные порты? Перейдите на VPN Plus, чтобы получить доступ к этой и другим премиальным функциям.</string>
-    <string name="upgrade_moderate_nat_title">Включить умеренное NAT</string>
-    <string name="upgrade_moderate_nat_message">Умеренный NAT, также известный как Nat Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
+    <string name="upgrade_moderate_nat_title">Включить умеренный NAT</string>
+    <string name="upgrade_moderate_nat_message">Умеренный NAT, также известный как NAT Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">Что такое Умеренное NAT?</string>
     <string name="upgrade_see_plans_button">Посмотрите тарифы и цены</string>
     <string name="upgrade_not_now_button">Не сейчас</string>
@@ -555,7 +555,7 @@
     <string name="info_features">Функции</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Эта технология позволяет Proton VPN обеспечивать более высокую скорость и безопасность в трудных для обслуживания странах.</string>
-    <string name="streaming_title">Стриминг</string>
+    <string name="streaming_title">Просмотр трансляций</string>
     <string name="streaming_description">Серверы Plus поддерживают просмотр трансляций (Netflix, Disney+, и т. д.) из любой точки мира.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Эти серверы обеспечивают лучшую производительность для BitTorrent и обмена файлами.</string>
@@ -564,7 +564,7 @@
     <string name="info_performance">Производительность</string>
     <string name="server_load_title">Нагрузка сервера</string>
     <string name="server_load_description">Серверы с высокой нагрузкой медленнее, чем серверы с низкой нагрузкой.</string>
-    <string name="streaming_title_with_country">Стриминг - %1$s</string>
+    <string name="streaming_title_with_country">Просмотр трансляций - %1$s</string>
     <string name="streaming_services_description">Подключитесь к серверу Plus в этой стране, чтобы начать трансляцию.\n\nПодсказка: очистите кэш приложений потокового вещания, чтобы убедиться, что появился новый контент.</string>
     <string name="activity_information_learn_more">Подробнее</string>
     <string name="server_load_low">Низкая</string>

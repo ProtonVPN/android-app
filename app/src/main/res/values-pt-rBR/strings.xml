@@ -256,10 +256,10 @@
     <string name="bugReportErrorInvalidEmail">Endereço de e-mail inválido</string>
     <string name="bugReportErrorEmptyDescription">Por favor, descreva o que está acontecendo</string>
     <string name="bugReportLabelVpnLogsTitle">Incluir registros de erros</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">Envia logs de erros locais (não registramos atividades) para nos ajudar a corrigir seu problema</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Envia registros de erros locais (não registramos atividades) para nos ajudar a corrigir seu problema</string>
     <string name="profileFastest">Mais rápido</string>
     <string name="profileRandom">Aleatório</string>
-    <string name="settingsSplitTunnelingDescription">O Split Tunneling permite que certos aplicativos ou IPs sejam excluídos do tráfego VPN.</string>
+    <string name="settingsSplitTunnelingDescription">O tunelamento dividido permite que certos aplicativos ou IPs sejam excluídos do tráfego VPN.</string>
     <string name="settingsSplitTunnelingTitle">Tunelamento split</string>
     <string name="loaderAuthenticatingUser">Autenticando usuário…</string>
     <string name="loaderErrorNoInternet">Sem conexão com a internet</string>
@@ -276,7 +276,7 @@
     <string name="settingsExcludedAppsAvailableRegularHeader">Aplicativos comuns permitidos (%1$d)</string>
     <string name="settingsExcludedAppsAvailableSystemHeader">Aplicativos do sistema permitidos (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar aplicativos do sistema</string>
-    <string name="listNoItems">Nada</string>
+    <string name="listNoItems">Nenhuma</string>
     <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
          %2$d - a number of remaining items.
          Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
@@ -322,15 +322,15 @@
     <string name="settingsAlwaysOnWindowStep2">2. Encontre o Proton VPN e toque em %1$s</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone's settings. -->
+         find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Toque no botão ao lado de <b>VPN sempre ativa</b> para habilitá-lo]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone's settings. -->
+         find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Toque no botão ao lado de <b>Bloquear conexões sem VPN</b> para ativar o kll switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abra as configurações do Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Ativar o kill switch desativará o túnel dividido, pois o kill switch bloqueia todas as conexões fora do túnel VPN</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Ativar o kill switch desativará o tunelamento dividido, pois o kill switch bloqueia todas as conexões fora do túnel VPN</string>
     <string name="settingsSmartProtocolDescription">Usar automaticamente o protocolo e a porta que oferecem a melhor conectividade.</string>
     <string name="settingsSendCrashReportsTitle">Relatórios de falhas anônimos</string>
     <string name="settingsSendCrashReportsDescription">Se o aplicativo travar ou encerrar inesperadamente, um relatório será enviado aos nossos engenheiros mostrando o que causou o erro. Nós só os utilizaremos para ajudar a melhorar o aplicativo.</string>
@@ -344,7 +344,7 @@
     <string name="guestHoleActivated">O acesso ao Proton VPN pode estar limitado em sua região, portanto isso levará mais tempo do que o normal. Por favor, aguarde enquanto nós trabalhamos em torno deste problema.</string>
     <string name="guestHoleNotificationContent">Tentando contornar problemas de rede. Isso ajudará você a acessar o Proton VPN.</string>
     <string name="onMaintenanceDetected">O servidor VPN ao qual você estava conectado está passando por uma manutenção. Vamos conectar você automaticamente ao servidor mais rápido disponível.</string>
-    <string name="errorTunMultiUserPermission">Não foi possível inicializar a conexão VPN devido a um conflito entre o Dual-app (por exemplo, o Dual Messenger) e o Split Tunneling. Por favor, desative um desses e reinicialize seu dispositivo.</string>
+    <string name="errorTunMultiUserPermission">Não foi possível iniciar a conexão VPN devido a um conflito entre o Dual-app (por exemplo, o Dual Messenger) e o Split Tunneling. Por favor, desative um desses e reinicie seu dispositivo.</string>
     <string name="errorTorrentNotAllowed">P2P não é permitido neste servidor</string>
     <string name="errorWireguardWithPlaceholder">Erro WireGuard%1$s</string>
     <string name="serverNoWireguardSupport">O servidor deste perfil ainda não oferece suporte ao WireGuard. Para se conectar, tente outro protocolo ou um servidor que o suporte.</string>
@@ -360,8 +360,8 @@
     <string name="nameOceania">Oceania</string>
     <string name="tvRowMore">Mais</string>
     <string name="tv_detail_default_connection_checkbox">Meu país favorito</string>
-    <string name="tv_detail_default_connection_checkbox_short">Favoritar</string>
-    <string name="tv_detail_connect_streaming">Stream com Plus</string>
+    <string name="tv_detail_default_connection_checkbox_short">Favorito</string>
+    <string name="tv_detail_connect_streaming">Transmissão com Plus</string>
     <string name="tv_detail_connect">Conectar</string>
     <string name="tv_detail_description_streaming_country">Transmita seu conteúdo favorito. Acesse mais aplicativos com um plano Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Transmita mais do seu conteúdo favorito com um plano Proton VPN Plus.</string>
@@ -557,7 +557,7 @@
     <string name="onboarding_welcome_title">Bem-vindo ao Proton VPN</string>
     <string name="onboarding_welcome_description">Saiba como aproveitar ao máximo o Proton VPN em apenas alguns segundos.</string>
     <string name="onboarding_welcome_action">Comece</string>
-    <string name="onboarding_available_on_plus">Disponível com o plano Plus</string>
+    <string name="onboarding_available_on_plus">Disponível com Plus</string>
     <string name="onboarding_streaming_title">Desbloquear streaming</string>
     <string name="onboarding_streaming_description">Acesse com segurança qualquer conteúdo, mesmo viajando para outros países. Agora também no Android TV.</string>
     <string name="onboarding_protection_title">Esteja protegido em todos os lugares</string>
@@ -593,7 +593,7 @@
     </plurals>
     <string name="onboarding_connection_info">Vamos conectá-lo ao servidor mais rápido e estável para a sua localização.</string>
     <string name="onboading_connect_now">Conectar agora</string>
-    <string name="onboading_connecting_now">Conectando</string>
+    <string name="onboading_connecting_now">Conectando agora</string>
     <string name="onboarding_congrats_description">Sua conexão está protegida e você está pronto para navegar na Web.\n\nCom segurança.</string>
     <string name="onboarding_congrats_title">Parabéns!</string>
     <string name="onboarding_plan_congrats_description_privacy">Aproveite o mundo da privacidade.</string>
