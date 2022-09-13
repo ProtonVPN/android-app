@@ -146,15 +146,25 @@ class ServerPing @Inject constructor(
     private fun protectSocket(socket: Socket) {
         if (!socket.isBound)
             socket.bind(InetSocketAddress(0))
-        val success = currentVpnServiceProvider.getCurrentVpnService()?.protect(socket)
-        if (success == false) logFailedProtect()
+        val success = try {
+            currentVpnServiceProvider.getCurrentVpnService()?.protect(socket) ?: false
+        } catch (e: NullPointerException) {
+            // NPE is thrown if the socket is closed. A socket can be closed e.g. by invokeOnCancellation in pingTcp.
+            false
+        }
+        if (!success) logFailedProtect()
     }
 
     private fun protectSocket(socket: DatagramSocket) {
         if (!socket.isBound)
             socket.bind(InetSocketAddress(0))
-        val success = currentVpnServiceProvider.getCurrentVpnService()?.protect(socket)
-        if (success == false) logFailedProtect()
+        val success = try {
+            currentVpnServiceProvider.getCurrentVpnService()?.protect(socket) ?: false
+        } catch (e: NullPointerException) {
+            // NPE is thrown if the socket is closed. A socket can be closed e.g. by invokeOnCancellation in pingUdp.
+            false
+        }
+        if (!success) logFailedProtect()
     }
 
     private fun logFailedProtect() {
