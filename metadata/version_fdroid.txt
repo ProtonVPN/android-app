@@ -1,2 +1,2 @@
-versionName=4.2.63.0
-versionCode=104026300
+versionName=4.2.93.0
+versionCode=104029300
