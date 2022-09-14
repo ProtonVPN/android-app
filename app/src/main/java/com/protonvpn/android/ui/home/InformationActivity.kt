@@ -139,8 +139,6 @@ class InformationActivity : BaseActivityV2() {
             icon.setImageResource(iconRes)
             title.text = titleString ?: getString(titleRes)
             description.setText(descriptionRes)
-            // More info at [VPNAND-1028]
-            learnMore.isVisible = false
             learnMore.onClick {
                 openBrowserLink(url)
             }

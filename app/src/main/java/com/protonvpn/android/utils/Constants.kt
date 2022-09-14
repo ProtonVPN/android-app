@@ -52,11 +52,11 @@ object Constants {
     val VPN_USERNAME_PRODUCT_SUFFIX: String
     val MAIN_ACTIVITY_CLASS: Class<out Activity>
 
-    const val SMART_ROUTING_INFO_URL = "https://protonvpn.com/support/smart-routing"
-    const val STREAMING_INFO_URL = "https://protonvpn.com/support/streaming-guide/"
-    const val P2P_INFO_URL = "https://protonvpn.com/support/bittorrent-vpn/"
-    const val TOR_INFO_URL = "https://protonvpn.com/support/tor-vpn/"
-    const val SERVER_LOAD_INFO_URL = "https://protonvpn.com/support/server-load-percentages-and-colors-explained/"
+    const val SMART_ROUTING_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+smart+routing+support&t=h_&ia=web"
+    const val STREAMING_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+streaming+guide&t=h_&ia=web"
+    const val P2P_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+share+files+securely+p2p+guide&t=h_&ia=web"
+    const val TOR_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+tor+guide&t=h_&ia=web"
+    const val SERVER_LOAD_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+server+load+support&t=h_&ia=web"
     const val VPN_ACCELERATOR_INFO_URL = "https://protonvpn.com/support/how-to-use-vpn-accelerator"
     const val SAFE_MODE_INFO_URL = "https://protonvpn.com/support/non-standard-ports"
     const val SECURE_CORE_INFO_URL = "https://protonvpn.com/support/secure-core-vpn/"
