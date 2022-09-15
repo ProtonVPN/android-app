@@ -74,6 +74,7 @@ import dagger.hilt.components.SingletonComponent;
 import go.Seq;
 import kotlinx.coroutines.ExecutorsKt;
 import me.proton.core.accountmanager.data.AccountStateHandler;
+import me.proton.core.humanverification.presentation.HumanVerificationStateHandler;
 import me.proton.core.util.kotlin.CoreLogger;
 
 /**
@@ -93,6 +94,7 @@ public class ProtonApplication extends Application {
         CertificateRepository getCertificateRepository();
         CoreLoginMigration getCoreLoginMigration();
         CurrentStateLogger getCurrentStateLogger();
+        HumanVerificationStateHandler getHumanVerificationStateHandler();
         LogcatLogCapture getLogcatLogCapture();
         MaintenanceTracker getMaintenanceTracker();
         OneTimePopupNotificationTrigger getOneTimePopupNotificationTrigger();
@@ -151,6 +153,7 @@ public class ProtonApplication extends Application {
         dependencies.getReviewTracker();
         dependencies.getAccountStateHandler().start();
         dependencies.getCertificateRepository();
+        dependencies.getHumanVerificationStateHandler().observe();
         dependencies.getMaintenanceTracker();
         dependencies.getUpdateSecureCoreToMatchConnectedServer();
         dependencies.getUpdateServersOnLocaleChange();
