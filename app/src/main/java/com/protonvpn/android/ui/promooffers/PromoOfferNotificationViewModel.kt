@@ -19,22 +19,15 @@
 
 package com.protonvpn.android.ui.promooffers
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.Glide
 import com.protonvpn.android.appconfig.ApiNotificationManager
-import com.protonvpn.android.appconfig.ApiNotificationOfferFullScreenImage
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.utils.Storage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,11 +35,19 @@ class PromoOfferNotificationViewModel @Inject constructor(
     private val apiNotificationManager: ApiNotificationManager,
 ) : ViewModel() {
 
-    data class Notification(
-        val id: String,
-        val iconUrl: String,
-        val pictureUrlForPreload: String?,
-        val visited: Boolean
+    // Represents a notification that is opened in a separate screen.
+    data class PanelNotification(
+        val notificationId: String,
+        val pictureUrlForPreload: String?
+    )
+
+    // Represents the notification icon in the toolbar.
+    data class ToolbarNotification(
+        val notificationId: String,
+        val iconUrl: String?,
+        val showUnreadBadge: Boolean,
+        val openUrl: String?,
+        val panel: PanelNotification?
     )
 
     // Distinct class needed so that storage can use it as key.
@@ -57,26 +58,37 @@ class PromoOfferNotificationViewModel @Inject constructor(
     private val visitedOffersFlow =
         MutableStateFlow<VisitedOffers>(Storage.load(VisitedOffers::class.java, VisitedOffers()))
 
-    val eventOpenPromoOffer = MutableSharedFlow<Notification>(extraBufferCapacity = 1)
-    val offerNotification get() = combine(
+    val eventOpenPanelNotification = MutableSharedFlow<PanelNotification>(extraBufferCapacity = 1)
+    val toolbarNotifications get() = combine(
         apiNotificationManager.activeListFlow,
         visitedOffersFlow
     ) { notifications, visitedOffers ->
         notifications.firstOrNull {
-            it.type == ApiNotificationTypes.TYPE_OFFER && it.offer != null && it.offer.panel != null
+            it.type == ApiNotificationTypes.TYPE_OFFER && it.offer != null &&
+                (it.offer.panel != null || it.offer.url != null)
         }?.let { notification ->
-            Notification(
+            val panel = notification.offer!!.panel?.let {
+                PanelNotification(notification.id, it.pictureUrl)
+            }
+            ToolbarNotification(
                 notification.id,
-                notification.offer!!.iconUrl,
-                notification.offer.panel?.pictureUrl,
-                visitedOffers.contains(notification.id)
+                notification.offer.iconUrl,
+                !visitedOffers.contains(notification.id),
+                notification.offer.url,
+                panel
             )
         }
     }.distinctUntilChanged()
 
-    fun onOpenOffer(offerNotification: Notification) {
-        visitedOffersFlow.value = VisitedOffers(visitedOffersFlow.value + offerNotification.id)
+    fun onOpenPanel(panelNotification: PanelNotification) {
+        markVisited(panelNotification.notificationId)
+        eventOpenPanelNotification.tryEmit(panelNotification)
+    }
+
+    fun onOpenNotificationUrl(notificationId: String) = markVisited(notificationId)
+
+    private fun markVisited(notificationId: String) {
+        visitedOffersFlow.value = VisitedOffers(visitedOffersFlow.value + notificationId)
         Storage.save(visitedOffersFlow.value)
-        eventOpenPromoOffer.tryEmit(offerNotification)
     }
 }

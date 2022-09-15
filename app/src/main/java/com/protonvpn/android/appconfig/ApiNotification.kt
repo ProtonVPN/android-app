@@ -36,11 +36,10 @@ class ApiNotification(
 
 @Serializable
 class ApiNotificationOffer(
-    @SerialName("Label") val label: String,
-    @SerialName("URL") val url: String,
-    @SerialName("Icon") val iconUrl: String,
+    @SerialName("Label") val label: String? = null,
+    @SerialName("URL") val url: String? = null,
+    @SerialName("Icon") val iconUrl: String? = null,
     @SerialName("Panel") val panel: ApiNotificationOfferPanel? = null
-
 )
 
 @Serializable
