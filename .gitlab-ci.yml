@@ -223,7 +223,7 @@ unit tests:
   tags:
     - large
   script:
-    - ./gradlew testGooglePlayDebug
+    - ./gradlew testBlackDebug
 
 coverage report:
   stage: report
@@ -336,9 +336,13 @@ include:
     ref: main
     file: '/ci/templates/checkout-core.gitlab-ci.yml'
 
-  - local: '/appetize-integration.yml'
+  - project: 'proton/mobile/android/proton-libs'
+    ref: main
+    file: '/ci/templates-shared/appetize-integration.yml'
 
   - local: '/.gitlab-ci-firebase.yml'
+
+  - local: '.download-upload.gitlab-ci.yml'
 
 i18n-sync-crowdin:
   variables:
@@ -368,3 +372,16 @@ publish-github:
     RELEASE_APP: android-vpn
     RELEASE_GITHUB_REPOSITORY: $PUBLIC_REPO_URL
   extends: .release-make-release
+
+publish downloads:
+  extends: .publish-download-base
+  only:
+    refs:
+      - master
+  interruptible: false
+  variables:
+    ORIGIN_OAUTH_URL: "${OAUTH_DOWNLOADS_REPO_URL}"
+    ARTIFACT_PATH: "app/build/outputs/apk/direct/release/${ARCHIVES_BASE_NAME}-direct-universal-release.apk"
+    ARTIFACT_OUTPUT_NAME: "ProtonVPN.apk"
+    SLACK_HOOK: "${SLACK_HOOK_DEPLOY_CHANNEL}"
+    SLACK_MESSAGE: '{"text":"Updated ProtonVPN.apk. @infra-application-edge can someone deploy downloads? Thanks :)"}'

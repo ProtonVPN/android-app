@@ -32,7 +32,7 @@ import javax.inject.Singleton
 class PowerStateLogger @Inject constructor(
     @ApplicationContext private val context: Context,
     private val powerManager: PowerManager,
-    private val batteryManager: BatteryManager
+    private val batteryManager: BatteryManager?
 ) {
     init {
         val filter = IntentFilter().apply {
@@ -49,7 +49,8 @@ class PowerStateLogger @Inject constructor(
 
     fun getStatusString(): String {
         val packageName = context.packageName
-        return "charging: ${batteryManager.isCharging}, device idle mode: ${powerManager.isDeviceIdleMode}, " +
+        val batteryStatus = batteryManager?.isCharging ?: "unknown"
+        return "charging: $batteryStatus, device idle mode: ${powerManager.isDeviceIdleMode}, " +
             "power save mode: ${powerManager.isPowerSaveMode}, " +
             "ignores optimizations: ${powerManager.isIgnoringBatteryOptimizations(packageName)}"
     }

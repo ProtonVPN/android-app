@@ -87,6 +87,8 @@ data class Profile @JvmOverloads constructor(
         get() = wrapper.isPreBakedProfile
     val isPreBakedFastest: Boolean
         get() = wrapper.isPreBakedFastest
+    val isDirectServer: Boolean
+        get() = !directServerId.isNullOrBlank()
 
     val country: String get() = wrapper.country
     val directServerId: String? get() = wrapper.serverId

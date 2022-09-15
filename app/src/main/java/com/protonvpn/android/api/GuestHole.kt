@@ -21,19 +21,20 @@ package com.protonvpn.android.api
 import androidx.activity.ComponentActivity
 import androidx.annotation.WorkerThread
 import com.protonvpn.android.R
-import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.components.suspendForPermissions
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -58,6 +59,7 @@ class GuestHole @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val serverManager: dagger.Lazy<ServerManager>,
     private val vpnMonitor: VpnStateMonitor,
+    private val vpnPermissionDelegate: VpnPermissionDelegate,
     private val vpnConnectionManager: dagger.Lazy<VpnConnectionManager>,
     private val notificationHelper: NotificationHelper,
     private val foregroundActivityTracker: ForegroundActivityTracker
@@ -129,7 +131,7 @@ class GuestHole @Inject constructor(
             val currentActivity =
                 foregroundActivityTracker.foregroundActivity as? ComponentActivity ?: return@withContext
             val delegate = GuestHoleVpnUiDelegate(currentActivity)
-            val intent = vpnConnectionManager.get().prepare(currentActivity)
+            val intent = vpnPermissionDelegate.prepareVpnPermission()
 
             // Ask for permissions and if granted execute original method and return it back to core
             if (currentActivity.suspendForPermissions(intent)) {

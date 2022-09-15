@@ -25,18 +25,20 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.annotations.TestID
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
+import me.proton.core.util.kotlin.takeIfNotBlank
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
+import java.net.URLEncoder
 
 /**
  * [LoginTests] contains UI tests for Login flow
@@ -59,6 +61,7 @@ class LoginTests {
     @Before
     fun setUp() {
         TestSetup.setCompletedOnboarding()
+        TestSetup.clearJails()
         addAccountRobot = AddAccountRobot()
         loginRobot = LoginRobot()
         homeRobot = HomeRobot()
@@ -67,7 +70,7 @@ class LoginTests {
 
     @Test
     @TestID(51)
-    fun loginWithPlusUser(){
+    fun loginWithPlusUser() {
         loginRobot.signIn(TestUser.plusUser)
             .verify { isInMainScreen() }
     }
@@ -94,7 +97,6 @@ class LoginTests {
             .verify { needHelpOptionsAreDisplayed() }
     }
 
-    @Ignore //Remove when https://jira.protontech.ch/browse/VPNAND-705 will be done
     @Test
     @TestID(103959)
     fun rememberMeFunctionality() {
@@ -107,7 +109,11 @@ class LoginTests {
 
     @Test
     @TestID(53)
-    fun loginWithSpecialCharsUser(){
+    fun loginWithSpecialCharsUser() {
+        TestSetup.createUser(
+            TestUser.specialCharUser.email,
+            URLEncoder.encode(BuildConfig.SPECIAL_CHAR_PASSWORD, "utf-8")
+        )
         loginRobot.signIn(TestUser.specialCharUser)
             .verify { isInMainScreen() }
     }

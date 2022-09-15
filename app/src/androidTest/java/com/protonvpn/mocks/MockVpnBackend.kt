@@ -1,18 +1,18 @@
 /*
  * Copyright (c) 2019 Proton Technologies AG
- * 
+ *
  * This file is part of ProtonVPN.
- * 
+ *
  * ProtonVPN is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * ProtonVPN is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
@@ -33,14 +33,15 @@ import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.NetworkManager
-import com.proton.gopenpgp.localAgent.NativeClient
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
+import com.protonvpn.android.vpn.ServerPing
 import kotlinx.coroutines.yield
 
 typealias MockAgentProvider = (
     certInfo: CertificateRepository.CertificateResult.Success,
     hostname: String?,
-    nativeClient: NativeClient
+    nativeClient: VpnBackend.VpnAgentClient
 ) -> AgentConnectionInterface
 
 class MockVpnBackend(
@@ -50,6 +51,8 @@ class MockVpnBackend(
     userData: UserData,
     appConfig: AppConfig,
     val protocol: VpnProtocol,
+    serverPing: ServerPing,
+    localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser
 ) : VpnBackend(
     userData = userData,
@@ -59,6 +62,8 @@ class MockVpnBackend(
     vpnProtocol = protocol,
     mainScope = scope,
     dispatcherProvider = DefaultDispatcherProvider(),
+    serverPing = serverPing,
+    localAgentUnreachableTracker = localAgentUnreachableTracker,
     currentUser = currentUser
 ) {
     private var agentProvider: MockAgentProvider? = null

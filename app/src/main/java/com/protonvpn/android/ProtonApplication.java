@@ -29,7 +29,6 @@ import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
 import com.protonvpn.android.auth.usecase.CoreLoginMigration;
-import com.protonvpn.android.components.NotificationHelper;
 import com.protonvpn.android.components.RestartHandler;
 import com.protonvpn.android.logging.CurrentStateLogger;
 import com.protonvpn.android.logging.CurrentStateLoggerGlobal;
@@ -42,6 +41,7 @@ import com.protonvpn.android.logging.PowerStateLogger;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.logging.ProtonLoggerImpl;
 import com.protonvpn.android.logging.SettingChangesLogger;
+import com.protonvpn.android.notifications.NotificationHelper;
 import com.protonvpn.android.search.UpdateServersOnLocaleChange;
 import com.protonvpn.android.ui.onboarding.ReviewTracker;
 import com.protonvpn.android.utils.ProtonPreferences;
@@ -51,6 +51,7 @@ import com.protonvpn.android.utils.VpnCoreLogger;
 import com.protonvpn.android.vpn.CertificateRepository;
 import com.protonvpn.android.vpn.LogcatLogCapture;
 import com.protonvpn.android.vpn.MaintenanceTracker;
+import com.protonvpn.android.vpn.UpdateSecureCoreToMatchConnectedServer;
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
 import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
@@ -95,8 +96,9 @@ public class ProtonApplication extends Application {
         RestartHandler getRestartHandler();
         ReviewTracker getReviewTracker();
         SettingChangesLogger getSettingChangesLogger();
-        UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
+        UpdateSecureCoreToMatchConnectedServer getUpdateSecureCoreToMatchConnectedServer();
         UpdateServersOnLocaleChange getUpdateServersOnLocaleChange();
+        UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
     }
 
     @Override
@@ -145,8 +147,9 @@ public class ProtonApplication extends Application {
         dependencies.getAccountStateHandler().start();
         dependencies.getCertificateRepository();
         dependencies.getMaintenanceTracker();
-        dependencies.getUpdateSettingsOnVpnUserChange();
+        dependencies.getUpdateSecureCoreToMatchConnectedServer();
         dependencies.getUpdateServersOnLocaleChange();
+        dependencies.getUpdateSettingsOnVpnUserChange();
 
         dependencies.getRestartHandler().onAppStarted();
     }

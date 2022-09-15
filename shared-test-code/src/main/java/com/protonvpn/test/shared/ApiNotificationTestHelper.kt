@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton Technologies AG
+ * Copyright (c) 2022. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -27,8 +27,11 @@ import com.protonvpn.android.appconfig.ApiNotificationsResponse
 object ApiNotificationTestHelper {
 
     fun mockOffer(id: String, start: Long = 0L, end: Long = 0L, label: String = "Offer") =
-        ApiNotification(id, start, end, ApiNotificationTypes.TYPE_OFFER, ApiNotificationOffer(
-            label, "https://protonvpn.com", "file:///android_asset/no_such_file.png"))
+        ApiNotification(
+            id, start, end, ApiNotificationTypes.TYPE_OFFER, ApiNotificationOffer(
+                label, "https://protonvpn.com", "file:///android_asset/no_such_file.png"
+            )
+        )
 
     fun mockResponse(vararg items: ApiNotification) =
         ApiNotificationsResponse(arrayOf(*items))

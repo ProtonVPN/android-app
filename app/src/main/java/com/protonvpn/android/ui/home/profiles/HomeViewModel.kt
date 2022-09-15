@@ -73,11 +73,17 @@ class HomeViewModel @Inject constructor(
     fun getReconnectProfileOnSecureCoreChange(): Profile {
         DebugUtils.debugAssert("Is connected") { vpnStateMonitor.isConnected }
         val connectedProfile = vpnStateMonitor.connectionParams!!.profile
-        return if (connectedProfile.isSecureCore == null) {
+        return if (connectedProfile.isSecureCore == null && !connectedProfile.isDirectServer) {
             // Connect to the same profile, it doesn't enforce Secure Core.
             connectedProfile
         } else {
-            Profile.getTempProfile(ServerWrapper.makeFastestForCountry(connectedProfile.country))
+            val newProfile = Profile.getTempProfile(ServerWrapper.makeFastestForCountry(connectedProfile.country))
+            // Check if there is a server for new profile and fall back if there isn't (e.g. when switching to Secure
+            // Core while connected to Switzerland). Otherwise fallback logic will trigger, find a server and show a
+            // notification, which we want to avoid.
+            newProfile
+                .takeIf { serverManager.getServerForProfile(newProfile, currentUser.vpnUserCached()) != null }
+                ?: serverManager.defaultFallbackConnection
         }
     }
 

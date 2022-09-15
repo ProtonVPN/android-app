@@ -22,7 +22,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
@@ -52,6 +51,7 @@ import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.CapturingSlot
 import io.mockk.MockKAnnotations
@@ -99,7 +99,6 @@ class VpnConnectionErrorHandlerTests {
     @RelaxedMockK private lateinit var networkManager: NetworkManager
     @RelaxedMockK private lateinit var vpnBackendProvider: VpnBackendProvider
     @RelaxedMockK private lateinit var currentUser: CurrentUser
-    @RelaxedMockK private lateinit var vpnUser: VpnUser
     @RelaxedMockK private lateinit var errorUIManager: VpnErrorUIManager
 
     @get:Rule var rule = InstantTaskExecutorRule()
@@ -128,9 +127,7 @@ class VpnConnectionErrorHandlerTests {
         every { CountryTools.getFullName(capture(countryCapture)) } answers { countryCapture.captured }
 
         every { userPlanManager.infoChangeFlow } returns infoChangeFlow
-        currentUser.mockVpnUser { vpnUser }
-        every { vpnUser.maxConnect } returns 2
-        every { vpnUser.userTier } returns 2
+        currentUser.mockVpnUser { TestVpnUser.create(maxTier = 2, maxConnect = 2) }
         every { appConfig.isMaintenanceTrackerEnabled() } returns true
         every { appConfig.getFeatureFlags().vpnAccelerator } returns true
         every { networkManager.isConnectedToNetwork() } returns true
@@ -167,8 +164,7 @@ class VpnConnectionErrorHandlerTests {
     @Test
     fun testAuthErrorDowngrade() = runBlockingTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free"))
-        every { vpnUser.isFreeUser } returns false
-        every { vpnUser.isBasicUser } returns true
+        currentUser.mockVpnUser { TestVpnUser.create(maxTier = 1) }
 
         assertEquals(
             VpnFallbackResult.Switch.SwitchProfile(
@@ -179,8 +175,7 @@ class VpnConnectionErrorHandlerTests {
             ),
             handler.onAuthError(directConnectionParams))
 
-        every { vpnUser.isFreeUser } returns true
-        every { vpnUser.isBasicUser } returns false
+        currentUser.mockVpnUser { TestVpnUser.create(maxTier = 0) }
 
         assertEquals(
             VpnFallbackResult.Switch.SwitchProfile(
@@ -411,8 +406,7 @@ class VpnConnectionErrorHandlerTests {
         every { vpnStateMonitor.connectionParams } returns directConnectionParams
         val mockedServer: Server = mockk()
 
-        every { vpnUser.isFreeUser } returns true
-        every { vpnUser.isBasicUser } returns false
+        currentUser.mockVpnUser { TestVpnUser.create(maxTier = 0) }
         testTrackingVpnInfoChanges(
             listOf(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free")),
             VpnFallbackResult.Switch.SwitchProfile(

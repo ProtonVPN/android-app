@@ -20,6 +20,7 @@ package com.protonvpn.android.vpn.ikev2
 
 import android.app.Service
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
@@ -34,10 +35,13 @@ import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
+import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
+import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
@@ -47,8 +51,12 @@ import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.util.kotlin.DispatcherProvider
 import org.strongswan.android.logic.VpnStateService
 import java.util.Random
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class StrongSwanBackend(
+@Singleton
+class StrongSwanBackend @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     val random: Random,
     networkManager: NetworkManager,
     mainScope: CoroutineScope,
@@ -56,6 +64,8 @@ class StrongSwanBackend(
     appConfig: AppConfig,
     certificateRepository: CertificateRepository,
     dispatcherProvider: DispatcherProvider,
+    serverPing: ServerPing,
+    localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser
 ) : VpnBackend(
     userData,
@@ -65,6 +75,8 @@ class StrongSwanBackend(
     VpnProtocol.IKEv2,
     mainScope,
     dispatcherProvider,
+    serverPing,
+    localAgentUnreachableTracker,
     currentUser
 ), VpnStateService.VpnStateListener {
 

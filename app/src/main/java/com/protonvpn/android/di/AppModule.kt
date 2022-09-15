@@ -36,7 +36,7 @@ import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.components.NotificationHelper
+import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.UserData
@@ -44,7 +44,6 @@ import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
-import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
 import com.protonvpn.android.utils.ServerManager
@@ -55,12 +54,15 @@ import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertRefreshWorkerScheduler
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ConnectivityMonitor
+import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
+import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
-import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnErrorUIManager
+import com.protonvpn.android.vpn.VpnPermissionDelegate
+import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
@@ -194,36 +196,6 @@ object AppModuleProd {
 
     @Singleton
     @Provides
-    fun provideVpnConnectionManager(
-        scope: CoroutineScope,
-        userData: UserData,
-        backendManager: VpnBackendProvider,
-        networkManager: NetworkManager,
-        vpnConnectionErrorHandler: VpnConnectionErrorHandler,
-        vpnStateMonitor: VpnStateMonitor,
-        notificationHelper: NotificationHelper,
-        vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
-        serverManager: ServerManager,
-        currentUser: CurrentUser,
-        certificateRepository: CertificateRepository
-    ) = VpnConnectionManager(
-        ProtonApplication.getAppContext(),
-        userData,
-        backendManager,
-        networkManager,
-        vpnConnectionErrorHandler,
-        vpnStateMonitor,
-        notificationHelper,
-        vpnBackgroundUiDelegate,
-        serverManager,
-        certificateRepository,
-        scope,
-        System::currentTimeMillis,
-        currentUser
-    )
-
-    @Singleton
-    @Provides
     fun provideVpnBackendManager(
         appConfig: AppConfig,
         wireguardBackend: WireguardBackend,
@@ -250,6 +222,9 @@ object AppModuleProd {
 
         @Binds
         fun bindSharedPrefsProvider(provider: AndroidSharedPreferencesProvider): SharedPreferencesProvider
+
+        @Binds
+        fun bindVpnPrepareDelegate(delegate: VpnServicePermissionDelegate): VpnPermissionDelegate
     }
 }
 
@@ -303,8 +278,8 @@ object AppModule {
         appContext.getSystemService(Context.POWER_SERVICE) as PowerManager
 
     @Provides
-    fun provideBatteryManager(@ApplicationContext appContext: Context): BatteryManager =
-        appContext.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+    fun provideBatteryManager(@ApplicationContext appContext: Context): BatteryManager? =
+        appContext.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
 
     @Provides
     fun provideActivityManager(): ActivityManager =
@@ -416,6 +391,8 @@ object AppModule {
         appConfig: AppConfig,
         certificateRepository: CertificateRepository,
         dispatcherProvider: DispatcherProvider,
+        serverPing: ServerPing,
+        localAgentUnreachableTracker: LocalAgentUnreachableTracker,
         currentUser: CurrentUser
     ) = WireguardBackend(
         ProtonApplication.getAppContext(),
@@ -426,47 +403,8 @@ object AppModule {
         certificateRepository,
         dispatcherProvider,
         scope,
-        currentUser
-    )
-
-    @Singleton
-    @Provides
-    fun provideStrongSwanBackend(
-        userData: UserData,
-        networkManager: NetworkManager,
-        appConfig: AppConfig,
-        certificateRepository: CertificateRepository,
-        dispatcherProvider: DispatcherProvider,
-        currentUser: CurrentUser
-    ) = StrongSwanBackend(
-        random,
-        networkManager,
-        scope,
-        userData,
-        appConfig,
-        certificateRepository,
-        dispatcherProvider,
-        currentUser
-    )
-
-    @Singleton
-    @Provides
-    fun provideOpenVpnBackend(
-        userData: UserData,
-        networkManager: NetworkManager,
-        appConfig: AppConfig,
-        certificateRepository: CertificateRepository,
-        dispatcherProvider: DispatcherProvider,
-        currentUser: CurrentUser
-    ) = OpenVpnBackend(
-        random,
-        networkManager,
-        userData,
-        appConfig,
-        System::currentTimeMillis,
-        certificateRepository,
-        scope,
-        dispatcherProvider,
+        serverPing,
+        localAgentUnreachableTracker,
         currentUser
     )
 

@@ -48,7 +48,6 @@ import com.proton.gopenpgp.localAgent.Features
 import com.proton.gopenpgp.localAgent.LocalAgent
 import com.proton.gopenpgp.localAgent.NativeClient
 import com.proton.gopenpgp.localAgent.StatusMessage
-import com.proton.gopenpgp.vpnPing.VpnPing
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ConnConnectScan
 import com.protonvpn.android.logging.ConnConnectScanFailed
@@ -63,7 +62,7 @@ import com.protonvpn.android.utils.LiveEvent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-private const val SCAN_TIMEOUT_MILLIS = 5000L
+private const val SCAN_TIMEOUT_MILLIS = 5000
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
@@ -99,6 +98,8 @@ abstract class VpnBackend(
     val vpnProtocol: VpnProtocol,
     val mainScope: CoroutineScope,
     val dispatcherProvider: DispatcherProvider,
+    val serverPing: ServerPing,
+    val localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     val currentUser: CurrentUser
 ) : VpnStateSource {
 
@@ -125,7 +126,7 @@ abstract class VpnBackend(
                     revokeCertificateAndReconnect("local agent error: $description ($code)")
 
                 agentConstants.errorCodeCertificateExpired ->
-                    refreshCertOnLocalAgent(force = false, reason = "local agent: certificate expired")
+                    reconnectLocalAgent(updateCertificate = false, reason = "local agent: certificate expired")
 
                 agentConstants.errorCodeKeyUsedMultipleTimes ->
                     setError(ErrorType.KEY_USED_MULTIPLE_TIMES)
@@ -326,13 +327,11 @@ abstract class VpnBackend(
     // Handle updates to both VpnState and local agent's state.
     private fun processCombinedState(vpnState: VpnState, localAgentState: String?) {
         val newSelfState = if (vpnProtocol.localAgentEnabled() && currentUser.sessionIdCached() != null) {
-            when (vpnState) {
-                VpnState.Connected -> handleLocalAgentStates(localAgentState)
-                VpnState.Disabled, VpnState.Disconnecting -> {
-                    closeAgentConnection()
-                    vpnState
-                }
-                else -> vpnState
+            if (vpnState == VpnState.Connected) {
+                handleLocalAgentStates(localAgentState)
+            } else {
+                closeAgentConnection()
+                vpnState
             }
         } else vpnState
         selfStateObservable.postValue(newSelfState)
@@ -341,19 +340,28 @@ abstract class VpnBackend(
     private fun handleLocalAgentStates(localAgentState: String?): VpnState {
         connectToLocalAgent()
         return when (localAgentState) {
-            agentConstants.stateConnected ->
+            agentConstants.stateConnected -> {
+                localAgentUnreachableTracker.reset()
                 VpnState.Connected
+            }
             agentConstants.stateConnectionError,
-            agentConstants.stateServerUnreachable ->
-                // When unreachable comes from local agent it means VPN tunnel is still active, set UNREACHABLE
-                // instead of UNREACHABLE_INTERNAL to skip recovery with pings, as those won't help in this situation.
-                VpnState.Error(ErrorType.UNREACHABLE)
+            agentConstants.stateServerUnreachable -> {
+                // When unreachable comes from local agent it means VPN tunnel is still active, set either
+                // UNREACHABLE or UNREACHABLE_INTERNAL to fallback with pings.
+                val shouldFallback = localAgentUnreachableTracker.onUnreachable()
+                if (shouldFallback) {
+                    localAgentUnreachableTracker.onFallbackTriggered()
+                    VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
+                } else {
+                    VpnState.Error(ErrorType.UNREACHABLE)
+                }
+            }
             agentConstants.stateClientCertificateExpiredError -> {
-                refreshCertOnLocalAgent("local agent: certificate expired", force = false)
+                reconnectLocalAgent("local agent: certificate expired", updateCertificate = false)
                 VpnState.Connecting
             }
             agentConstants.stateClientCertificateUnknownCA -> {
-                refreshCertOnLocalAgent("local agent: unknown CA", force = true)
+                reconnectLocalAgent("local agent: unknown CA", updateCertificate = true)
                 VpnState.Connecting
             }
             agentConstants.stateServerCertificateError ->
@@ -369,29 +377,19 @@ abstract class VpnBackend(
         }
     }
 
-    private fun refreshCertOnLocalAgent(reason: String, force: Boolean) {
+    private fun reconnectLocalAgent(reason: String, updateCertificate: Boolean) {
         ProtonLogger.log(UserCertRefresh, "reason: $reason")
         selfStateObservable.postValue(VpnState.Connecting)
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
             currentUser.sessionId()?.let { sessionId ->
-                val result = if (force)
+                if (updateCertificate)
                     certificateRepository.updateCertificate(sessionId, false)
-                else
-                    certificateRepository.getCertificate(sessionId, false)
-                when (result) {
-                    is CertificateRepository.CertificateResult.Success ->
-                        connectToLocalAgent()
-                    is CertificateRepository.CertificateResult.Error -> {
-                        // FIXME: eventually we'll need a more sophisticated logic that'd keep trying
-                        setError(ErrorType.LOCAL_AGENT_ERROR, description = "Failed to refresh certificate")
-                    }
-                }
+                connectToLocalAgent()
             }
         }
     }
 
-    @VisibleForTesting
     fun revokeCertificateAndReconnect(reason: String) {
         selfStateObservable.postValue(VpnState.Connecting)
         closeAgentConnection()
@@ -440,6 +438,7 @@ abstract class VpnBackend(
             reconnectionJob = null
             agentConnectionJob?.cancel()
             agentConnectionJob = null
+            localAgentUnreachableTracker.reset()
             agent?.close()
             agent = null
         }
@@ -476,12 +475,9 @@ abstract class VpnBackend(
         }
     }
 
-    private fun pingUdp(ip: String, port: Int, publicKeyX25519: String?): Boolean {
-        val responds = VpnPing.pingSync(ip, port.toLong(), publicKeyX25519, SCAN_TIMEOUT_MILLIS)
-        if (!responds) {
-            ProtonLogger.log(ConnConnectScanFailed, "destination: $ip:$port (UDP)")
-        }
-        return responds
+    private suspend fun pingUdp(ip: String, port: Int, publicKeyX25519: String?): Boolean {
+        val data = serverPing.buildUdpPingData(publicKeyX25519)
+        return serverPing.ping(ip, port, data, tcp = false, timeout = SCAN_TIMEOUT_MILLIS)
     }
 
     companion object {

@@ -34,8 +34,10 @@ import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
+import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
+import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import com.wireguard.android.backend.BackendException
@@ -52,6 +54,7 @@ import me.proton.core.util.kotlin.DispatcherProvider
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.lang.IllegalStateException
+import java.util.concurrent.CancellationException
 import java.util.concurrent.TimeoutException
 
 class WireguardBackend(
@@ -63,10 +66,12 @@ class WireguardBackend(
     certificateRepository: CertificateRepository,
     dispatcherProvider: DispatcherProvider,
     mainScope: CoroutineScope,
+    serverPing: ServerPing,
+    localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser
 ) : VpnBackend(
     userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
-    dispatcherProvider, currentUser
+    dispatcherProvider, serverPing, localAgentUnreachableTracker, currentUser
 ) {
 
     private var service: WireguardWrapperService? = null
@@ -134,7 +139,8 @@ class WireguardBackend(
                 }
             }
         } catch (e: IllegalStateException) {
-            handleConnectException(e)
+            if (e is CancellationException) throw e
+            else handleConnectException(e)
         } catch (e: BackendException) {
             handleConnectException(e)
         }

@@ -171,6 +171,18 @@ class CertificateRefreshTests {
     }
 
     @Test
+    fun `certificateRepository getCertificate refreshes certificate when it's expired`() = runBlockingTest {
+        currentTimeMs = CERT_INFO.refreshAt - 100
+        withTestRepository { repository ->
+            coVerify { mockApi wasNot Called }
+            currentTimeMs = CERT_INFO.expiresAt + 100
+            repository.getCertificate(SESSION_ID)
+
+            coVerify { mockApi.getCertificate(any(), any()) }
+        }
+    }
+
+    @Test
     fun `error triggers reschedule`() = runBlockingTest {
         currentTimeMs = CERT_INFO.refreshAt
         appInUseFlow.value = true

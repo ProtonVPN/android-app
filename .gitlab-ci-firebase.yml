@@ -47,43 +47,43 @@
     paths:
       - app/build/outputs/
 
-firebase quick tests:
+mobile tests prod:
   extends: .tests_preparation_script
+  when: manual
   variables:
-    TESTS_TYPE: quickTest
+    TESTS_TYPE: mobileTest
     NUM_SHARDS: 4
     APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
     APP_TYPE: "googlePlay-debug.apk"
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
     TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
-    TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
+    TEST_SUITE: "com.protonvpn.testSuites.MobileMainSuite"
     COVERAGE_FOLDER: "mobile_quick"
 
-firebase full tests:
+mobile tests black:
   extends: .tests_preparation_script
   variables:
-    TESTS_TYPE: fullTest
+    TESTS_TYPE: mobileTest
     NUM_SHARDS: 4
-    APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
-    APP_TYPE: "googlePlay-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
-    TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
-    TEST_SUITE: "com.protonvpn.testSuites.MobileSuite"
-    COVERAGE_FOLDER: "mobile_full"
-  when: manual
+    APP_LOCATION: "app/build/outputs/apk/black/debug/"
+    APP_TYPE: "black-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
+    TEST_APP_TYPE: "black-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.MobileBlackSuite"
+    COVERAGE_FOLDER: "mobile_black"
 
-firebase tv tests:
+tv tests:
   extends: .tests_preparation_script
   variables:
     TESTS_TYPE: tvTest
-    APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
-    APP_TYPE: "googlePlay-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
-    TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
+    APP_LOCATION: "app/build/outputs/apk/black/debug/"
+    APP_TYPE: "black-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
+    TEST_APP_TYPE: "black-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
     COVERAGE_FOLDER: "tv"
 
-firebase real connection tests:
+real connection mobile tests:
   extends: .tests_preparation_script
   variables:
     TESTS_TYPE: realConnectionTest
@@ -94,18 +94,7 @@ firebase real connection tests:
     TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
     COVERAGE_FOLDER: "real_connection"
 
-firebase black env tests:
-  extends: .tests_preparation_script
-  variables:
-    TESTS_TYPE: blackEnvTest
-    APP_LOCATION: "app/build/outputs/apk/black/debug/"
-    APP_TYPE: "black-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
-    TEST_APP_TYPE: "black-debug-androidTest.apk"
-    TEST_SUITE: "com.protonvpn.testSuites.BlackEnvSuite"
-    COVERAGE_FOLDER: "mobile_black_quick"
-
-firebase robo tests:
+robo tests:
   stage: test
   when: manual
   tags:

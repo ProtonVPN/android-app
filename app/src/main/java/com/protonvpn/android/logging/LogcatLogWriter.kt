@@ -20,6 +20,7 @@
 package com.protonvpn.android.logging
 
 import android.util.Log
+import com.protonvpn.android.BuildConfig
 
 class LogcatLogWriter : LogWriter {
     override fun write(
@@ -35,8 +36,35 @@ class LogcatLogWriter : LogWriter {
 
     private fun createLine(category: LogCategory, event: String?, message: String): String {
         val eventPart = event?.let { ":$it" }.orEmpty()
+
         val messagePart = message.replace("\n", "\n ")
-        return "${category.toLog()}$eventPart | $messagePart"
+        val withCaller = messagePart + getCallerInfo()
+        return "${category.toLog()}$eventPart | $withCaller"
+    }
+
+    private fun getCallerInfo(): String {
+        val stacks = if (BuildConfig.DEBUG) Throwable().stackTrace else null
+
+        if (stacks == null || stacks.isEmpty()) {
+            return ""
+        }
+        val callerInfo = kotlin.runCatching {
+            val protonLogger = stacks.indexOfLast { it.fileName?.contains("ProtonLogger") == true }
+            // Depth for core to land in meaningful class is +3, whereas for VPN it's +1 as of now
+            // May not be accurate in all the cases
+            val indexOfDepth = if (stacks[protonLogger + 1].fileName.contains("VpnCoreLogger")) 3 else 1
+            String.format(
+                    " (%s:%s)",
+                    stacks[protonLogger + indexOfDepth].fileName,
+                    stacks[protonLogger + indexOfDepth].lineNumber
+                )
+        }.getOrDefault("")
+
+        // Filter out LogcatCapture and LoggingUtils (from core OkHttp) as those are not useful
+        return if (!callerInfo.contains("LogcatLogCapture") && !callerInfo.contains("LoggingUtils"))
+            callerInfo
+        else
+            ""
     }
 
     private fun getPriority(level: LogLevel): Int = when (level) {

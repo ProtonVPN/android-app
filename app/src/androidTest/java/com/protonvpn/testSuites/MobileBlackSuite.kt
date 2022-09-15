@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton Technologies AG
+ *  Copyright (c) 2022 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.bus;
 
-public class VpnStateChanged {
+package com.protonvpn.testSuites
 
-    private final boolean secureCoreEnabled;
+import com.protonvpn.tests.signup.SignupTests
+import org.junit.experimental.categories.Category
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
 
-    public VpnStateChanged(boolean secureCoreEnabled) {
-        this.secureCoreEnabled = secureCoreEnabled;
-    }
-
-    public boolean isSecureCoreEnabled() {
-        return secureCoreEnabled;
-    }
-}
+@RunWith(Suite::class)
+@Suite.SuiteClasses(
+    MobileMainSuite::class,
+    SignupTests::class
+)
+class MobileBlackSuite

@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.vpn
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -27,6 +28,8 @@ import com.protonvpn.android.vpn.VpnState.Disabled
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 
 class VpnStateMonitor {
 
@@ -39,6 +42,10 @@ class VpnStateMonitor {
 
     // Temporary for poor java classes
     val statusLiveData = status.asLiveData()
+    val isConnectedOrDisconnectedLiveData: LiveData<Boolean> = status
+        .filter { it.state == Connected || it.state == Disabled }
+        .map { it.state == Connected }
+        .asLiveData()
 
     val state get() = status.value.state
     val connectionParams get() = status.value.connectionParams

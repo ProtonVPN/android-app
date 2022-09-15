@@ -25,17 +25,18 @@ import android.net.VpnService
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
+import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Constants.MAIN_ACTIVITY_CLASS
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.CurrentVpnServiceProvider
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.strongswan.android.logic.CharonVpnService
@@ -50,17 +51,19 @@ class ProtonCharonVpnService : CharonVpnService() {
     @Inject lateinit var manager: ServerManager
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var notificationHelper: NotificationHelper
+    @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
     @Inject lateinit var currentUser: CurrentUser
 
     override fun onCreate() {
         super.onCreate()
-
+        currentVpnServiceProvider.onVpnServiceCreated(StrongSwanBackend::class, this)
         Log.i("[IKEv2] onCreate")
     }
 
     override fun onDestroy() {
         Log.i("[IKEv2] onDestroy")
         vpnConnectionManager.onVpnServiceDestroyed()
+        currentVpnServiceProvider.onVpnServiceDestroyed(StrongSwanBackend::class)
         super.onDestroy()
     }
 

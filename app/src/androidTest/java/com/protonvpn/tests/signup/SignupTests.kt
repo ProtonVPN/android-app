@@ -22,6 +22,7 @@ package com.protonvpn.tests.signup
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
@@ -43,6 +44,7 @@ import kotlin.random.Random
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
+@SdkSuppress(minSdkVersion = 28) // Signups tests does not work on older versions due to animations bug
 @HiltAndroidTest
 class SignupTests {
 

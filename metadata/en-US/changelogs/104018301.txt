@@ -1,0 +1,9 @@
+What's new:
+Introducing Proton's refreshed look.
+As we continue to make privacy accessible to everyone, we've updated our apps to provide you with an even better experience with our services.
+Proton - Privacy by default
+
+Also:
+- Keeps the VPN connected after an application update
+- Fixes the captchas visualisation on poor network conditions
+- Improves the overall app stability

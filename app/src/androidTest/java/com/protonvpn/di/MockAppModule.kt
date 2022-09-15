@@ -23,7 +23,6 @@ import androidx.room.Room
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
 import com.protonvpn.TestSettings
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
@@ -31,7 +30,6 @@ import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.OnSessionClosed
-import com.protonvpn.android.components.NotificationHelper
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
@@ -43,17 +41,17 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.NewLookDialogProvider
-import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.RecentsManager
+import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackendProvider
-import com.protonvpn.android.vpn.VpnConnectionErrorHandler
-import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnPermissionDelegate
+import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
@@ -172,53 +170,13 @@ class MockAppModule {
         setProtocols(VpnProtocol.IKEv2, null)
     }
 
-    @Singleton
     @Provides
-    fun provideVpnConnectionManager(
-        scope: CoroutineScope,
-        userData: UserData,
-        backendManager: VpnBackendProvider,
-        networkManager: NetworkManager,
-        vpnConnectionErrorHandler: VpnConnectionErrorHandler,
-        vpnStateMonitor: VpnStateMonitor,
-        notificationHelper: NotificationHelper,
-        vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
-        serverManager: ServerManager,
-        currentUser: CurrentUser,
-        certificateRepository: CertificateRepository
-    ): VpnConnectionManager =
-            if (TestSettings.mockedConnectionUsed) {
-                MockVpnConnectionManager(
-                    userData,
-                    backendManager,
-                    networkManager,
-                    vpnConnectionErrorHandler,
-                    vpnStateMonitor,
-                    notificationHelper,
-                    vpnBackgroundUiDelegate,
-                    serverManager,
-                    certificateRepository,
-                    scope,
-                    System::currentTimeMillis,
-                    currentUser
-                )
-            } else {
-                VpnConnectionManager(
-                    ProtonApplication.getAppContext(),
-                    userData,
-                    backendManager,
-                    networkManager,
-                    vpnConnectionErrorHandler,
-                    vpnStateMonitor,
-                    notificationHelper,
-                    vpnBackgroundUiDelegate,
-                    serverManager,
-                    certificateRepository,
-                    scope,
-                    System::currentTimeMillis,
-                    currentUser
-                )
-            }
+    fun provideVpnPrepareDelegate(@ApplicationContext context: Context): VpnPermissionDelegate =
+        if (TestSettings.mockedConnectionUsed) {
+            VpnPermissionDelegate { null }
+        } else {
+            VpnServicePermissionDelegate(context)
+        }
 
     @Singleton
     @Provides
@@ -231,16 +189,18 @@ class MockAppModule {
         strongSwanBackend: StrongSwanBackend,
         openVpnBackend: OpenVpnBackend,
         wireguardBackend: WireguardBackend,
-        currentUser: CurrentUser
+        serverPing: ServerPing,
+        localAgentUnreachableTracker: LocalAgentUnreachableTracker,
+        currentUser: CurrentUser,
     ): VpnBackendProvider =
     if (TestSettings.mockedConnectionUsed) {
         ProtonVpnBackendProvider(
                 strongSwan = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                        VpnProtocol.IKEv2, currentUser),
+                        VpnProtocol.IKEv2, serverPing, localAgentUnreachableTracker, currentUser),
                 openVpn = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                        VpnProtocol.OpenVPN, currentUser),
+                        VpnProtocol.OpenVPN, serverPing, localAgentUnreachableTracker, currentUser),
                 wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                        VpnProtocol.WireGuard, currentUser),
+                        VpnProtocol.WireGuard, serverPing, localAgentUnreachableTracker, currentUser),
                 config = appConfig
         )
     } else {

@@ -35,14 +35,17 @@ object ProtonLogger : ProtonLoggerInterface {
 
     private var logger: ProtonLoggerInterface = NoopProtonLogger()
 
-    override fun log(event: LogEventType, message: String) = logger.log(event, message)
+    override fun log(event: LogEventType, message: String) =
+        logger.log(event, message)
 
-    override fun logCustom(category: LogCategory, message: String) = logger.logCustom(category, message)
+    override fun logCustom(category: LogCategory, message: String) =
+        logger.logCustom(category, message)
 
     override fun logCustom(level: LogLevel, category: LogCategory, message: String) =
         logger.logCustom(level, category, message)
 
-    override fun logBlocking(event: LogEventType, message: String) = logger.logBlocking(event, message)
+    override fun logBlocking(event: LogEventType, message: String) =
+        logger.logBlocking(event, message)
 
     override fun formatTime(timeMs: Long): String = logger.formatTime(timeMs)
 

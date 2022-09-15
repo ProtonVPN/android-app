@@ -1,22 +1,22 @@
 /*
- * Copyright (c) 2019 Proton Technologies AG
- * 
+ * Copyright (c) 2022. Proton AG
+ *
  * This file is part of ProtonVPN.
- * 
+ *
  * ProtonVPN is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * ProtonVPN is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.components
+package com.protonvpn.android.notifications
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -33,7 +33,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
@@ -224,7 +223,8 @@ class NotificationHelper(
         trafficUpdate: TrafficUpdate?
     ): Notification {
         val context = ProtonApplication.getAppContext()
-        val disconnectIntent = Intent(DISCONNECT_ACTION)
+        val disconnectIntent =
+            NotificationActionReceiver.createIntent(context, NotificationActionReceiver.DISCONNECT_ACTION)
         val disconnectPendingIntent = PendingIntent.getBroadcast(
             context, Constants.NOTIFICATION_ID, disconnectIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         val state = vpnStatus.state
@@ -367,8 +367,6 @@ class NotificationHelper(
 
     companion object {
         const val CHANNEL_ID = "com.protonvpn.android"
-        const val DISCONNECT_ACTION = "DISCONNECT_ACTION"
-        const val SMART_PROTOCOL_ACTION = "SMART_PROTOCOL_ACTION"
         const val EXTRA_SWITCH_PROFILE = "SWITCH_INFORMATION"
         const val PENDING_REQUEST_STATUS = 0
         const val PENDING_REQUEST_OTHER = 1
@@ -376,7 +374,8 @@ class NotificationHelper(
         fun initNotificationChannel(context: Context) {
             val channelOneName = "ProtonChannel"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val notificationChannel = NotificationChannel(CHANNEL_ID, channelOneName,
+                val notificationChannel = NotificationChannel(
+                    CHANNEL_ID, channelOneName,
                     NotificationManager.IMPORTANCE_LOW)
                 notificationChannel.enableLights(true)
                 notificationChannel.setShowBadge(true)

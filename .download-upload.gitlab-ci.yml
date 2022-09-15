@@ -1,0 +1,21 @@
+.publish-download-base:
+  stage: publish
+  tags:
+    - small
+  except:
+    - schedules
+  script:
+    - git config user.email "$GIT_CI_EMAIL"
+    - git config user.name "$GIT_CI_USERNAME"
+    - git remote add gitlab_origin "$ORIGIN_OAUTH_URL"
+    - git fetch gitlab_origin master:temp-branch --depth=1
+    - git checkout temp-branch
+    - mv "$ARTIFACT_PATH" "$ARTIFACT_OUTPUT_NAME"
+    - git add $ARTIFACT_OUTPUT_NAME -f
+    - git commit -m "Update $ARTIFACT_OUTPUT_NAME"
+    - git push gitlab_origin HEAD:master
+    - |
+      if [ ! -z "$SLACK_HOOK" ]; then
+          curl -X POST -H 'Content-type: application/json' --data "$SLACK_MESSAGE" "$SLACK_HOOK"
+          fi
+
