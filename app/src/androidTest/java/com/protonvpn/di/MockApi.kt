@@ -22,8 +22,6 @@ import com.protonvpn.android.api.NetworkResultCallback
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiManager
-import com.protonvpn.android.appconfig.ApiNotification
-import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.AppConfigResponse
@@ -106,6 +104,15 @@ class MockApi(
     var forkedUserResponse: ApiResult<ForkedSessionResponse> =
         ApiResult.Success(TestUser.forkedSessionResponse)
 
+    override suspend fun getApiNotifications(
+        supportedFormats: List<String>,
+        fullScreenImageWidthPx: Int,
+        fullScreenImageHeightPx: Int
+    ): ApiResult<ApiNotificationsResponse> =
+        // Empty response. Notifications tests use ApiNotificationsManager.setTestNotificationsResponseJson to test
+        // different notification types.
+        ApiResult.Success(ApiNotificationTestHelper.mockResponse())
+
     override suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
         ApiResult.Success(AppConfigResponse(
             featureFlags = FeatureFlags(
@@ -145,18 +152,6 @@ class MockApi(
 
     override suspend fun getForkedSession(selector: String): ApiResult<ForkedSessionResponse> =
         forkedUserResponse
-
-    override suspend fun getApiNotifications(
-        supportedFormats: List<String>,
-        fullScreenImageWidthPx: Int,
-        fullScreenImageHeightPx: Int
-    ): ApiResult<ApiNotificationsResponse> =
-        ApiResult.Success(ApiNotificationTestHelper.mockResponse(
-            ApiNotificationTestHelper.mockOffer("1", Long.MIN_VALUE, Long.MIN_VALUE + 1, PAST_OFFER_LABEL),
-            ApiNotificationTestHelper.mockOffer("2", Long.MIN_VALUE, Long.MAX_VALUE, OFFER_LABEL),
-            ApiNotificationTestHelper.mockOffer("3", Long.MAX_VALUE - 1, Long.MAX_VALUE, FUTURE_OFFER_LABEL),
-            ApiNotification("2", Long.MIN_VALUE, Long.MAX_VALUE, ApiNotificationTypes.TYPE_OFFER + 1)
-        ))
 
     override suspend fun getCertificate(sessionId: SessionId, clientPublicKey: String): ApiResult<CertificateResponse> {
         val now = System.currentTimeMillis()

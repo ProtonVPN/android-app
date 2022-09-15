@@ -25,6 +25,7 @@ import com.protonvpn.tests.login.LoginTests
 import com.protonvpn.tests.login.LogoutTests
 import com.protonvpn.tests.map.MapTests
 import com.protonvpn.tests.profiles.ProfileTests
+import com.protonvpn.tests.promooffer.HomeActivityPromoOfferTests
 import com.protonvpn.tests.promooffer.PromoOfferActivityTests
 import com.protonvpn.tests.secureCore.SecureCoreSecurityTests
 import com.protonvpn.tests.secureCore.SecureCoreTests
@@ -38,6 +39,7 @@ import org.junit.runners.Suite
 @Suite.SuiteClasses(
     AccountTests::class,
     ConnectionTests::class,
+    HomeActivityPromoOfferTests::class,
     LoginTests::class,
     LogoutTests::class,
     MapTests::class,

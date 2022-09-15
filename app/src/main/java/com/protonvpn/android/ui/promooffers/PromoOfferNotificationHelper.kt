@@ -28,6 +28,7 @@ import androidx.lifecycle.asLiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.protonvpn.android.R
+import com.protonvpn.android.utils.openUrl
 
 class PromoOfferNotificationHelper(
     private val activity: ComponentActivity,
@@ -35,16 +36,16 @@ class PromoOfferNotificationHelper(
     private val viewModel: PromoOfferNotificationViewModel
 ) {
     init {
-        viewModel.offerNotification.asLiveData().observe(
+        viewModel.toolbarNotifications.asLiveData().observe(
             activity,
-            Observer { notification -> this.updateOfferNotification(notification) }
+            Observer { notification -> this.updateToolbarNotification(notification) }
         )
-        viewModel.eventOpenPromoOffer.asLiveData().observe(
+        viewModel.eventOpenPanelNotification.asLiveData().observe(
             activity, Observer { offerId -> this.openOfferActivity(offerId) }
         )
     }
 
-    private fun updateOfferNotification(notification: PromoOfferNotificationViewModel.Notification?) {
+    private fun updateToolbarNotification(notification: PromoOfferNotificationViewModel.ToolbarNotification?) {
         imageNotification.visibility = if (notification != null) View.VISIBLE else View.GONE
         if (notification != null) {
             // Clear the target to force Glide to reevaluate the request even if it is for the same URL,
@@ -57,27 +58,34 @@ class PromoOfferNotificationHelper(
                 .into(object : DrawableImageViewTarget(imageNotification) {
                     override fun setDrawable(drawable: Drawable?) {
                         // setDrawable is called to set the error drawable.
-                        super.setDrawable(getNotificationDrawable(drawable, notification.visited))
+                        super.setDrawable(getNotificationDrawable(drawable, notification.showUnreadBadge))
                     }
 
                     override fun setResource(drawable: Drawable?) {
                         // setResource is called to set the downloaded image.
-                        super.setResource(getNotificationDrawable(drawable, notification.visited))
+                        super.setResource(getNotificationDrawable(drawable, notification.showUnreadBadge))
                     }
                 })
-            imageNotification.setOnClickListener { _ -> viewModel.onOpenOffer(notification) }
+            imageNotification.setOnClickListener { _ ->
+                if (notification.panel != null) {
+                    viewModel.onOpenPanel(notification.panel)
+                } else if (notification.openUrl != null) {
+                    viewModel.onOpenNotificationUrl(notification.notificationId)
+                    activity.openUrl(notification.openUrl)
+                }
+            }
         }
     }
 
-    private fun getNotificationDrawable(icon: Drawable?, isVisited: Boolean): Drawable? =
-        if (isVisited || icon == null) icon else NotificationDotDrawableWrapper(activity, icon)
+    private fun getNotificationDrawable(icon: Drawable?, addDot: Boolean): Drawable? =
+        if (addDot && icon != null) NotificationDotDrawableWrapper(activity, icon) else icon
 
 
-    private fun openOfferActivity(offer: PromoOfferNotificationViewModel.Notification) {
-        if (offer.pictureUrlForPreload != null) {
+    private fun openOfferActivity(panel: PromoOfferNotificationViewModel.PanelNotification) {
+        if (panel.pictureUrlForPreload != null) {
             // The picture should already be on disk, start loading it to memory ASAP.
-            PromoOfferImage.preloadPicture(activity, offer.pictureUrlForPreload)
+            PromoOfferImage.preloadPicture(activity, panel.pictureUrlForPreload)
         }
-        activity.startActivity(PromoOfferActivity.createIntent(activity, offer.id))
+        activity.startActivity(PromoOfferActivity.createIntent(activity, panel.notificationId))
     }
 }
