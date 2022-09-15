@@ -49,7 +49,6 @@ import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.presentation.observe
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressFailed
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressNeeded
-import me.proton.core.accountmanager.presentation.onAccountReady
 import me.proton.core.accountmanager.presentation.onSessionForceLogout
 import me.proton.core.accountmanager.presentation.onSessionSecondFactorNeeded
 import me.proton.core.accountmanager.presentation.onUserAddressKeyCheckFailed
@@ -59,18 +58,12 @@ import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
 import me.proton.core.auth.presentation.onSecondFactorResult
 import me.proton.core.domain.entity.Product
-import me.proton.core.humanverification.domain.HumanVerificationManager
-import me.proton.core.humanverification.presentation.HumanVerificationOrchestrator
-import me.proton.core.humanverification.presentation.observe
-import me.proton.core.humanverification.presentation.onHumanVerificationNeeded
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     val api: ProtonApiRetroFit,
     val authOrchestrator: AuthOrchestrator,
-    val humanVerificationOrchestrator: HumanVerificationOrchestrator,
-    val humanVerificationManager: HumanVerificationManager,
     val accountManager: AccountManager,
     val accountType: AccountType,
     val vpnApiClient: VpnApiClient,
@@ -97,7 +90,6 @@ class AccountViewModel @Inject constructor(
 
     fun init(activity: FragmentActivity) {
         authOrchestrator.register(activity)
-        humanVerificationOrchestrator.register(activity)
 
         accountManager.getAccounts()
             .flowWithLifecycle(activity.lifecycle)
@@ -130,11 +122,6 @@ class AccountViewModel @Inject constructor(
                 .onSessionForceLogout { onSessionClosed(it) }
                 .onUserKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER, "UserKeyCheckFailed") }
                 .onUserAddressKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER,"UserAddressKeyCheckFailed") }
-        }
-
-        with(humanVerificationOrchestrator) {
-            humanVerificationManager.observe(activity.lifecycle, minActiveState = Lifecycle.State.RESUMED)
-                .onHumanVerificationNeeded { startHumanVerificationWorkflow(it) }
         }
     }
 

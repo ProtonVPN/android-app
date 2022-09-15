@@ -98,7 +98,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="me.proton.core.presentation.ui.alert.ForceUpdateActivity"
-            android:theme="@style/ProtonTheme.Vpn.Transparent"
+            android:theme="@style/ProtonTheme.Transparent"
             tools:replace="android:theme" />
 
         <uses-library
@@ -283,14 +283,14 @@
         <activity android:name=".ui.planupgrade.UpgradeSafeModeDialogActivity" />
         <activity
             android:name=".ui.planupgrade.EmptyUpgradeDialogActivity"
-            android:theme="@style/ProtonTheme.Vpn.Transparent"/>
+            android:theme="@style/ProtonTheme.Transparent"/>
         <activity
             android:name=".tv.TvLoginActivity"
             android:theme="@style/AppTheme.TV.Leanback"/>
 
         <activity
             android:name="me.proton.core.crypto.validator.presentation.ui.CryptoValidatorErrorDialogActivity"
-            android:theme="@style/ProtonTheme.Vpn.Transparent" />
+            android:theme="@style/ProtonTheme.Transparent" />
 
         <meta-data
             android:name="android.max_aspect"
@@ -319,6 +319,16 @@
 
             <meta-data
                 android:name="me.proton.core.crypto.validator.presentation.init.CryptoValidatorInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+
+           <meta-data
+                android:name="me.proton.core.humanverification.presentation.HumanVerificationInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+
+           <meta-data
+                android:name="me.proton.core.auth.presentation.MissingScopeInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>

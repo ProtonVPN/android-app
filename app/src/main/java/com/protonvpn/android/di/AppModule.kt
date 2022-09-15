@@ -81,6 +81,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import me.proton.core.account.domain.entity.AccountType
+import me.proton.core.domain.entity.AppStore
 import me.proton.core.domain.entity.Product
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.client.ExtraHeaderProviderImpl
@@ -212,6 +213,10 @@ object AppModule {
     @Singleton
     fun provideProduct(): Product =
         Product.Vpn
+
+    @Provides
+    fun provideAppStore(): AppStore =
+        if (BuildConfig.STORE_SUFFIX == "+play") AppStore.GooglePlay else AppStore.FDroid
 
     @Provides
     @Singleton
