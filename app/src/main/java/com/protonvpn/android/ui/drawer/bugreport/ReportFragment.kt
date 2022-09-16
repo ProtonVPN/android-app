@@ -103,6 +103,7 @@ class ReportFragment : Fragment(R.layout.fragment_report) {
         input.hintText = inputField.placeholder
         if (multiLine) {
             input.minLines = MULTILINE_MIN_LINE
+            input.setSingleLine(false)
         }
         input.tag = inputField.isMandatory
 
