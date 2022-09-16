@@ -337,8 +337,6 @@ class VpnConnectionManager @Inject constructor(
         return when {
             config.wireguardEnabled && wireGuardServer ->
                 ProtocolSelection(VpnProtocol.WireGuard)
-            config.ikeV2Enabled ->
-                ProtocolSelection(VpnProtocol.IKEv2)
             config.openVPNEnabled ->
                 ProtocolSelection(VpnProtocol.OpenVPN)
             config.wireguardTcpEnabled && wireGuardServer && wireGuardTxxEnabled ->

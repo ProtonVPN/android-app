@@ -2,7 +2,6 @@ include ':app'
 include ':detekt-gitlab-output-plugin'
 include ':openvpn'
 include ':shared-test-code'
-include ':strongswan-android-complete'
 
 // Use core libs from maven artifacts or from git submodule using Gradle's included build:
 // - to enable/disable locally: gradle.properties > useCoreGitSubmodule

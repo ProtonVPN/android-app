@@ -26,7 +26,6 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import org.strongswan.android.utils.Constants
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,5 +59,10 @@ class SettingsMtuViewModel @Inject constructor(
     }
 
     private fun validMtu(): Int? =
-        mtu.toIntOrNull()?.takeIf { number -> number in Constants.MTU_MIN..Constants.MTU_MAX }
+        mtu.toIntOrNull()?.takeIf { number -> number in MTU_MIN..MTU_MAX }
+
+    companion object {
+        const val MTU_MAX = 1500
+        const val MTU_MIN = 1280
+    }
 }

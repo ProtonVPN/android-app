@@ -39,7 +39,6 @@ private val ALL_TRANSMISSION_PROTOCOLS = TransmissionProtocol.values().toSet()
 
 class ProtonVpnBackendProvider(
     val config: AppConfig,
-    val strongSwan: VpnBackend,
     val openVpn: VpnBackend,
     val wireGuard: VpnBackend,
     val userData: UserData,
@@ -54,14 +53,13 @@ class ProtonVpnBackendProvider(
         ProtonLogger.logCustom(LogCategory.CONN_CONNECT,
             "Preparing connection with protocol: ${protocol.toLog()}")
         val scan = when (protocol.vpn) {
-            VpnProtocol.IKEv2 -> false
             VpnProtocol.OpenVPN -> alwaysScan
             VpnProtocol.WireGuard -> alwaysScan
             VpnProtocol.Smart -> true
         }
         return when (protocol.vpn) {
-            VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, setOf(protocol.transmission!!), scan)
-            VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, setOf(protocol.transmission!!), scan)
+            VpnProtocol.OpenVPN ->
+                openVpn.prepareForConnection(profile, server, setOf(protocol.transmission!!), scan)
             VpnProtocol.WireGuard ->
                 wireGuard.prepareForConnection(profile, server, setOf(protocol.transmission!!), scan)
             VpnProtocol.Smart -> {
@@ -131,8 +129,6 @@ class ProtonVpnBackendProvider(
             val wireGuardEnabled = wireguardEnabled || wireGuardTxxEnabled
             if (wireGuardEnabled && server.supportsProtocol(VpnProtocol.WireGuard))
                 add(wireGuard)
-            if (ikeV2Enabled)
-                add(strongSwan)
             if (openVPNEnabled)
                 add(openVpn)
             if (orgVpnProtocol != null) {
@@ -146,7 +142,6 @@ class ProtonVpnBackendProvider(
 
     private fun getBackendFor(vpnProtocol: VpnProtocol) = when(vpnProtocol) {
         VpnProtocol.OpenVPN -> openVpn
-        VpnProtocol.IKEv2 -> strongSwan
         VpnProtocol.WireGuard -> wireGuard
         VpnProtocol.Smart -> null
     }

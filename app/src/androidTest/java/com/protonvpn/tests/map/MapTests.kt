@@ -27,6 +27,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.EspressoDispatcherRule
 import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
@@ -55,6 +56,7 @@ class MapTests {
         .outerRule(hiltRule)
         .around(LoginTestRule(TestUser.plusUser))
         .around(testRule)
+        .around(EspressoDispatcherRule())
 
     @Test
     @TestID(77)

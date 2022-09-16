@@ -56,8 +56,6 @@ class ProtonVpnBackendProviderTests {
     @RelaxedMockK
     private lateinit var mockOpenVpnBackend: VpnBackend
     @RelaxedMockK
-    private lateinit var mockIKEv2Backend: VpnBackend
-    @RelaxedMockK
     private lateinit var mockWireGuardBackend: VpnBackend
 
     @MockK
@@ -74,11 +72,10 @@ class ProtonVpnBackendProviderTests {
 
         every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = true)
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
-            true, true, true, wireguardTcpEnabled = true, wireguardTlsEnabled = true
+            true, true, wireguardTcpEnabled = true, wireguardTlsEnabled = true
         )
         vpnBackendProvider = ProtonVpnBackendProvider(
             mockAppConfig,
-            mockIKEv2Backend,
             mockOpenVpnBackend,
             mockWireGuardBackend,
             userData
@@ -88,7 +85,7 @@ class ProtonVpnBackendProviderTests {
     @Test
     fun `smart protocol uses only enabled protocols`() = runBlockingTest {
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
-            ikeV2Enabled = false, openVPNEnabled = false, wireguardEnabled = false,
+            openVPNEnabled = false, wireguardEnabled = false,
             wireguardTcpEnabled = false, wireguardTlsEnabled = true
         )
         val profile = Profile.getTempProfile(ServerWrapper.makePreBakedFastest(), null)
@@ -104,7 +101,6 @@ class ProtonVpnBackendProviderTests {
             mockWireGuardBackend.prepareForConnection(
                 profile, server, setOf(TransmissionProtocol.TLS), true, any(), any())
         }
-        coVerify(exactly = 0) { mockIKEv2Backend.prepareForConnection(any(), any(), any(), any(), any()) }
         coVerify(exactly = 0) { mockOpenVpnBackend.prepareForConnection(any(), any(), any(), any(), any()) }
     }
 
@@ -112,7 +108,7 @@ class ProtonVpnBackendProviderTests {
     fun `disabling WireGuard Txx removes it from Smart protocol`() = runBlockingTest {
         every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = false)
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
-            ikeV2Enabled = false, openVPNEnabled = false, wireguardEnabled = false,
+            openVPNEnabled = false, wireguardEnabled = false,
             wireguardTcpEnabled = true, wireguardTlsEnabled = true
         )
         val profile = Profile.getTempProfile(ServerWrapper.makePreBakedFastest(), null)
@@ -130,7 +126,7 @@ class ProtonVpnBackendProviderTests {
     @Test
     fun `org protocol is used by pingAll even when disabled for Smart protocol`() = runBlockingTest {
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
-            ikeV2Enabled = false, openVPNEnabled = false, wireguardEnabled = false,
+            openVPNEnabled = false, wireguardEnabled = false,
             wireguardTcpEnabled = false, wireguardTlsEnabled = false
         )
         val server = MockedServers.server

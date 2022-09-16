@@ -34,18 +34,6 @@ public final class Log {
 
     private Log() {}
 
-    public static void checkForLogTruncation(String filePath) {
-        File file = new File(filePath);
-        if (file.length() > Constants.MAX_LOG_SIZE) {
-            try (FileChannel outChan = new FileOutputStream(file, true).getChannel()) {
-                outChan.truncate(0);
-            }
-            catch (Exception e) {
-                Sentry.captureException(e);
-            }
-        }
-    }
-
     public static void e(String message, Exception e) {
         if (BuildConfig.DEBUG) {
             android.util.Log.e(tag(), message, e);

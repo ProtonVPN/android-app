@@ -18,20 +18,13 @@
  */
 package com.protonvpn.android.ui.home.vpn;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.logging.LogEventsKt;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.models.profiles.Profile;
-import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity;
-import com.protonvpn.android.utils.Log;
 import com.protonvpn.android.vpn.VpnConnectionManager;
-
-import org.strongswan.android.logic.CharonVpnService;
-
-import java.io.File;
 
 import javax.inject.Inject;
 
@@ -46,7 +39,6 @@ public abstract class VpnActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         registerForEvents();
-        Log.checkForLogTruncation(getFilesDir() + File.separator + CharonVpnService.LOG_FILE);
     }
 
     public final void onConnect(@Nullable String uiElement, @NonNull Profile profileToConnect) {

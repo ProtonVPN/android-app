@@ -19,7 +19,6 @@ class ProtocolSelectionViewModel @Inject constructor(
         ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
         ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
         ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
-        ProtocolSelection(VpnProtocol.IKEv2),
         ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
     )
 

@@ -630,6 +630,7 @@ dependencies {
     implementation "androidx.security:security-crypto:1.0.0"
     implementation "androidx.viewpager2:viewpager2:1.1.0-beta01"
     implementation "androidx.core:core-splashscreen:1.0.0"
+    implementation "com.github.seancfoley:ipaddress:5.3.4"
 
     // Play core
     googlePlayImplementation("com.google.android.play:core:1.10.3")

@@ -28,6 +28,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.EspressoDispatcherRule
 import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
@@ -55,6 +56,7 @@ class ProfileTests {
         .outerRule(ProtonHiltAndroidRule(this))
         .around(LoginTestRule(TestUser.plusUser))
         .around(testRule)
+        .around(EspressoDispatcherRule())
 
     private lateinit var homeRobot: HomeRobot
     private lateinit var profilesRobot: ProfilesRobot
@@ -244,7 +246,8 @@ class ProfileTests {
                 profileIsVisible(DefaultData.PROFILE_NAME)
             }
         profilesRobot.clickOnConnectButton(DefaultData.PROFILE_NAME)
-        connectionRobot.verify { isConnected() }
+        connectionRobot
+            .verify { isConnected() }
         connectionRobot.disconnectFromVPN()
             .verify { isDisconnected() }
     }

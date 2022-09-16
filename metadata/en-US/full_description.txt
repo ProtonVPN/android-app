@@ -18,7 +18,7 @@ ProtonVPN’s Free VPN Service includes:
 
 ✔ PERFECT FORWARD SECRECY - Your encrypted traffic cannot be captured and decrypted later.
 
-✔ MULTI-PROTOCOL SUPPORT - ProtonVPN supports two secure VPN protocols: IKEv2/IPSec and OpenVPN.
+✔ MULTI-PROTOCOL SUPPORT - ProtonVPN supports secure VPN protocols: WireGuard and OpenVPN.
 
 ✔ DNS LEAK PROTECTION - We encrypt your DNS to ensure your browsing activity cannot be exposed through DNS queries.
 

@@ -52,7 +52,7 @@ class ServerManagerHelper {
     @JvmField var mockVpnBackendProvider: VpnBackendProvider
 
     val backend: MockVpnBackend
-        get() = (mockVpnBackendProvider as ProtonVpnBackendProvider).strongSwan as MockVpnBackend
+        get() = (mockVpnBackendProvider as ProtonVpnBackendProvider).wireGuard as MockVpnBackend
 
     init {
         runBlocking(Dispatchers.Main) {

@@ -117,7 +117,6 @@ class MockApi(
                 pollApiNotifications = true,
                 vpnAccelerator = true),
             smartProtocolConfig = SmartProtocolConfig(
-                ikeV2Enabled = true,
                 openVPNEnabled = true,
                 wireguardEnabled = false,
                 wireguardTcpEnabled = false,

@@ -26,14 +26,16 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.CertificateRepository
 import com.wireguard.config.Config
 import com.wireguard.config.Interface
 import com.wireguard.config.Peer
 import de.blinkt.openvpn.core.NetworkUtils
+import inet.ipaddr.IPAddressString
+import inet.ipaddr.ipv4.IPv4Address
+import inet.ipaddr.ipv4.IPv4AddressSeqRange
 import me.proton.core.network.domain.session.SessionId
-import org.strongswan.android.utils.IPRange
-import org.strongswan.android.utils.IPRangeSet
 
 class ConnectionParamsWireguard(
     profile: Profile,
@@ -98,15 +100,32 @@ class ConnectionParamsWireguard(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun calculateAllowedIps(excludedIps: List<String>): String {
-        val ipRangeSet = IPRangeSet.fromString("0.0.0.0/0")
-        excludedIps.forEach {
-            ipRangeSet.remove(IPRange(it))
-        }
+        val excludedAddrs = excludedIps.asSequence()
+            .map { IPAddressString(it).address }
+        DebugUtils.debugAssert { excludedAddrs.none { it.isIPv6 } }
+        val excludedAddrs4 = excludedAddrs
+            .filter { it.isIPv4 }
+            .map { it as IPv4Address }
 
-        // IPRangeSet class does not support IPv6 so we need to add them here
-        // explicitly to not leak IPv6 for Wireguard then split tunneling is used
+        // Add all IPs
+        var ranges = listOf(IPv4AddressSeqRange(IPv4Address(0),
+            IPv4Address(byteArrayOf(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()))))
+        // Create IP ranges by removing excluded IPs
+        for (ip in excludedAddrs4) {
+            val toRemove = IPv4AddressSeqRange(ip, ip)
+            ranges = ranges.flatMap { range ->
+                if (range.contains(ip))
+                    range.subtract(toRemove).toList()
+                else
+                    listOf(range)
+            }
+        }
+        val allowedIps4 = ranges.flatMap { it.spanWithPrefixBlocks().toList() }
+            .joinToString(separator = ", ") { it.toCanonicalString() }
+
+        // Don't leak IPv6 for Wireguard when split tunneling is used
         // Also ::/0 CIDR should not be used for IPv6 as it causes LAN connection issues
-        return ipRangeSet.subnets().joinToString(", ") + ", 2000::/3"
+        return "$allowedIps4, 2000::/3"
     }
 
     override fun hasSameProtocolParams(other: ConnectionParams) =

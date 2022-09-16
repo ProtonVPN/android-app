@@ -16,22 +16,6 @@ extraDependencies = [
     ],
   },
   {
-    "project": "strongSwan",
-    "description": null,
-    "version": null,
-    "developers": [
-      "Andreas Steffen"
-    ],
-    "url": "https://www.strongswan.org/",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU General Public License, version 2",
-        "license_url": "https://git.strongswan.org/?p=strongswan.git;a=blob;f=LICENSE"
-      }
-    ],
-  },
-  {
     "project": "Apache Commons Lang",
     "description": "Apache Commons Lang, a package of Java utility classes for the\n  classes that are in java.lang\u0027s hierarchy, or are considered to be so\n  standard as to justify existence in java.lang.",
     "version": "3.12.0",

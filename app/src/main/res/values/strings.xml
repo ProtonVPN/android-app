@@ -343,7 +343,6 @@
     <string name="settingsProtocolNameWireguardTLS" translatable="false">Stealth</string>
     <string name="settingsProtocolNameOpenVpnTcp" translatable="false">OpenVPN TCP</string>
     <string name="settingsProtocolNameOpenVpnUdp" translatable="false">OpenVPN UDP</string>
-    <string name="settingsProtocolNameIkeV2" translatable="false">IKEv2</string>
     <string name="settingsSendCrashReportsTitle">Anonymous crash reports</string>
     <string name="settingsSendCrashReportsDescription">If the app crashes or shuts down unexpectedly, a report will be sent to our engineers that shows what caused the error. We’ll only ever use these to help improve the app.</string>
     <string name="netShieldEnabledWarning">Beware some websites might not fully work because of blocked contents.</string>
