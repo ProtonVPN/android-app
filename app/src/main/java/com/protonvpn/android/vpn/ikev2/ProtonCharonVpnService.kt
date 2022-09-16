@@ -85,8 +85,6 @@ class ProtonCharonVpnService : CharonVpnService() {
         when {
             intent == null ->
                 handleRestoreState()
-            intent.action == VpnService.SERVICE_INTERFACE && currentUser.isLoggedInCached() ->
-                handleAlwaysOn()
             intent.action == DISCONNECT_ACTION -> {
                 Log.i("[IKEv2] disconnecting")
                 setNextProfile(null)
@@ -118,10 +116,5 @@ class ProtonCharonVpnService : CharonVpnService() {
             if (!vpnConnectionManager.onRestoreProcess(lastServer.profile, "service restart"))
                 stopSelf()
         }
-    }
-
-    private fun handleAlwaysOn() {
-        Log.i("[IKEv2] handle always on")
-        vpnConnectionManager.connectInBackground(manager.defaultAvailableConnection, "always-on")
     }
 }

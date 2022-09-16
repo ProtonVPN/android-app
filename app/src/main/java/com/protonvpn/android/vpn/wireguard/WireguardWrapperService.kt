@@ -19,11 +19,14 @@ package com.protonvpn.android.vpn.wireguard
  */
 
 import android.content.Intent
+import android.net.VpnService
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CurrentVpnServiceProvider
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -38,6 +41,8 @@ class WireguardWrapperService : GoBackend.VpnService() {
     @Inject lateinit var wireguardBackend: WireguardBackend
     @Inject lateinit var connectionManager: VpnConnectionManager
     @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
+    @Inject lateinit var serverManager: ServerManager
+    @Inject lateinit var currentUser: CurrentUser
 
     override fun onCreate() {
         super.onCreate()
@@ -47,12 +52,22 @@ class WireguardWrapperService : GoBackend.VpnService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Wireguard service started with intent: $intent")
-        if (intent == null) {
-            if (handleProcessRestore())
-                return START_STICKY
-        } else {
+
+        // Decision whether to keep the service running might take a moment (e.g. due to Smart Protocol pings) so
+        // let's keep it in foreground to protect it from being killed by the system.
+        if (intent?.action != VpnService.SERVICE_INTERFACE) {
             startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
-            return START_STICKY
+        }
+
+        when {
+            intent == null -> {
+                if (handleProcessRestore())
+                    return START_STICKY
+            }
+            intent.action == VpnService.SERVICE_INTERFACE && currentUser.isLoggedInCached() ->
+                handleAlwaysOn()
+            else ->
+                return START_STICKY
         }
         return START_NOT_STICKY
     }
@@ -62,6 +77,10 @@ class WireguardWrapperService : GoBackend.VpnService() {
             return connectionManager.onRestoreProcess(profile, "service restart")
         }
         return false
+    }
+
+    private fun handleAlwaysOn() {
+        connectionManager.connectInBackground(serverManager.defaultAvailableConnection, "always-on")
     }
 
     override fun onDestroy() {
