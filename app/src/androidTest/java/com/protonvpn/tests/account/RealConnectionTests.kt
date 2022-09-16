@@ -77,11 +77,6 @@ class RealConnectionTests {
     }
 
     @Test
-    fun realConnectionIKEv2() {
-        realConnection(ProtocolSelection(VpnProtocol.IKEv2))
-    }
-
-    @Test
     fun realConnectionOpenVpnUDP() {
         realConnection(ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP))
     }

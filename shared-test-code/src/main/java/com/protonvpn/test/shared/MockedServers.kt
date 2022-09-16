@@ -85,7 +85,8 @@ object MockedServers {
         "EntryIP": "127.0.0.2",
         "Domain": "ca-02.protonvpn.com",
         "ExitIP": "127.0.0.2",
-        "ID": null
+        "ID": null,
+        "X25519PublicKey": "fake-key"
       }
     ],
     "Domain": "ca-02.protonvpn.com",
@@ -111,7 +112,8 @@ object MockedServers {
         "EntryIP": "127.0.0.3",
         "Domain": "us-ny-01.protonvpn.com",
         "ExitIP": "127.0.0.3",
-        "ID": null
+        "ID": null,
+        "X25519PublicKey": "fake-key"
       }
     ],
     "Domain": "us-ny-01.protonvpn.com",
@@ -137,7 +139,8 @@ object MockedServers {
         "EntryIP": "127.0.0.4",
         "Domain": "se-01.protonvpn.com",
         "ExitIP": "127.0.0.4",
-        "ID": null
+        "ID": null,
+        "X25519PublicKey": "fake-key"
       }
     ],
     "Domain": "se-01.protonvpn.com",
@@ -163,7 +166,8 @@ object MockedServers {
         "EntryIP": "127.0.0.5",
         "Domain": "fr-01.protonvpn.com",
         "ExitIP": "127.0.0.5",
-        "ID": null
+        "ID": null,
+        "X25519PublicKey": "fake-key"
       }
     ],
     "Domain": "fr-01.protonvpn.com",
@@ -192,7 +196,8 @@ object MockedServers {
         "EntryIP": "127.0.0.6",
         "Domain": "se-fr-01.protonvpn.com",
         "ExitIP": "127.0.0.6",
-        "ID": null
+        "ID": null,
+        "X25519PublicKey": "fake-key"
       }
     ],
     "Domain": "se-fr-01.protonvpn.com",
@@ -218,7 +223,8 @@ object MockedServers {
         "EntryIP": "127.0.0.7",
         "Domain": "se-fi-01.protonvpn.com",
         "ExitIP": "127.0.0.7",
-        "ID": null
+        "ID": null,
+        "X25519PublicKey": "fake-key"
       }
     ],
     "Domain": "se-fi-01.protonvpn.com",
@@ -244,7 +250,8 @@ object MockedServers {
         "EntryIP": "127.0.0.8",
         "Domain": "fr-fi-01.protonvpn.com",
         "ExitIP": "127.0.0.8",
-        "ID": null
+        "ID": null,
+        "X25519PublicKey": "fake-key"
       }
     ],
     "Domain": "fr-fi-01.protonvpn.com",
@@ -270,7 +277,8 @@ object MockedServers {
         "EntryIP": "127.0.0.9",
         "Domain": "fi-01.protonvpn.com",
         "ExitIP": "127.0.0.9",
-        "ID": null
+        "ID": null,
+        "X25519PublicKey": "fake-key"
       }
     ],
     "Domain": "fi-01.protonvpn.com",
@@ -296,7 +304,8 @@ object MockedServers {
         "EntryIP": "127.0.0.10",
         "Domain": "se-03.protonvpn.com",
         "ExitIP": "127.0.0.10",
-        "ID": null
+        "ID": null,
+        "X25519PublicKey": "fake-key"
       }
     ],
     "Domain": "se-03.protonvpn.com",

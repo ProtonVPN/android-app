@@ -11,13 +11,6 @@ Copyright (c) 2019 Proton Technologies AG
 To complete a release build signing keys need to be provided:
 ./gradlew assembleProdRelease -PkeyStoreFilePath=<keystore> -PkeyStoreKeyAlias=<alias> -PkeyStorePassword=<pass> -PkeyStoreKeyPassword=<key-pass>`
 
-### Rebuild strongswan
-This project is using native libraries from [open-source project Strongswan](https://www.strongswan.org/).
-To simplify the build process we include prebuilt copies of those libraries [here](app/src/main/jniLibs). To rebuild them follow these steps:
-- `git submodule init` followed by `git submodule update` in the main directory (we include original Strongswan repository as a git submodule)
-- `cd strongswan` and follow [build instructions](https://wiki.strongswan.org/projects/strongswan/wiki/AndroidVPNClientBuild) from Strongswan to rebuild native libraries
-- after a successful build, run `cp -r strongswan/src/frontends/android/app/src/main/libs/* app/src/main/jniLibs` in our main directory to copy the prebuilt libraries and rebuild the ProtonVPN client
-
 ## Code style
 Project uses agreed code style ProtonStyle.xml for java. Import it in Android studio via ```File>>Settings>>Editor>>Code style>>Import Scheme```
 For kotlin's code style we use ktlint with default rules

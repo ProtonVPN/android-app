@@ -41,7 +41,7 @@
         <TextView
             android:id="@+id/textProtocol"
             style="@style/TableValueText"
-            tools:text="IKEv2" />
+            tools:text="WireGuard" />
     </LinearLayout>
 
     <View style="@style/Divider.Small" />

@@ -67,7 +67,6 @@ import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import com.protonvpn.android.vpn.wireguard.WireguardContextWrapper
@@ -162,12 +161,10 @@ object AppModuleProd {
         appConfig: AppConfig,
         wireguardBackend: WireguardBackend,
         openVpnBackend: OpenVpnBackend,
-        strongSwanBackend: StrongSwanBackend,
         userData: UserData,
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
             appConfig,
-            strongSwanBackend,
             openVpnBackend,
             wireguardBackend,
             userData,

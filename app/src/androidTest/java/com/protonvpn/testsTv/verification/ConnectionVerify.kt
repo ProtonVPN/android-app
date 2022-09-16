@@ -18,10 +18,10 @@
 
 package com.protonvpn.testsTv.verification
 
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseVerify
 import me.proton.core.test.android.instrumented.ui.espresso.OnView
-import org.strongswan.android.logic.StrongSwanApplication.getContext
 
 /**
  * [ConnectionVerify] Contains common verification methods for connection
@@ -32,7 +32,8 @@ open class ConnectionVerify : BaseVerify() {
     fun connectionStatusDidNotChange(status: String): OnView = checkIfElementByIdContainsText(R.id.textStatus, status)
 
     fun userIsConnectedToCorrectCountry(country: String) {
-        val connectedToValue = String.format(getContext().getString(R.string.stateConnectedTo), country)
+        val connectedToValue =
+            String.format(ProtonApplication.getAppContext().getString(R.string.stateConnectedTo), country)
         checkIfElementByIdContainsText(R.id.textStatus, connectedToValue)
     }
 }

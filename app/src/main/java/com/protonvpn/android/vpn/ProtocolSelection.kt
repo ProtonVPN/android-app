@@ -46,7 +46,6 @@ data class ProtocolSelection private constructor(
     fun isSupported(featureFlags: FeatureFlags): Boolean {
         return when (vpn) {
             VpnProtocol.OpenVPN -> true
-            VpnProtocol.IKEv2 -> true
             VpnProtocol.WireGuard -> when (transmission) {
                 TransmissionProtocol.TCP, TransmissionProtocol.TLS -> featureFlags.wireguardTlsEnabled
                 else -> true
@@ -62,7 +61,6 @@ data class ProtocolSelection private constructor(
             TransmissionProtocol.TLS -> R.string.settingsProtocolNameWireguardTLS
             else -> R.string.settingsProtocolNameWireguard
         }
-        VpnProtocol.IKEv2 -> R.string.settingsProtocolNameIkeV2
         VpnProtocol.OpenVPN -> when (transmission) {
             TransmissionProtocol.TCP -> R.string.settingsProtocolNameOpenVpnTcp
             else -> R.string.settingsProtocolNameOpenVpnUdp

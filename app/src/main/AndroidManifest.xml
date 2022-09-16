@@ -144,17 +144,6 @@
             </intent-filter>
         </service>
         <service
-            android:name="org.strongswan.android.logic.VpnStateService"
-            android:exported="false" />
-        <service
-            android:name=".vpn.ikev2.ProtonCharonVpnService"
-            android:exported="false"
-            android:permission="android.permission.BIND_VPN_SERVICE">
-            <intent-filter>
-                <action android:name="android.net.VpnService" />
-            </intent-filter>
-        </service>
-        <service
             android:name=".vpn.openvpn.OpenVPNWrapperService"
             android:exported="false"
             android:permission="android.permission.BIND_VPN_SERVICE">

@@ -18,6 +18,9 @@
  */
 package com.protonvpn.mocks
 
+import com.proton.gopenpgp.localAgent.Features
+import com.proton.gopenpgp.localAgent.LocalAgent
+import com.proton.gopenpgp.localAgent.StatusMessage
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
@@ -36,6 +39,7 @@ import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import me.proton.core.util.kotlin.DefaultDispatcherProvider
 import me.proton.core.network.domain.NetworkManager
@@ -47,7 +51,7 @@ typealias MockAgentProvider = (
 ) -> AgentConnectionInterface
 
 class MockVpnBackend(
-    scope: CoroutineScope,
+    val scope: CoroutineScope,
     networkManager: NetworkManager,
     certificateRepository: CertificateRepository,
     userData: UserData,
@@ -87,7 +91,7 @@ class MockVpnBackend(
         if (scan && failScanning)
             emptyList()
         else listOf(PrepareResult(this, object : ConnectionParams(
-            profile, server, server.getRandomConnectingDomain(), this.protocol, null
+            profile, server, server.getRandomConnectingDomain(), protocol, null
         ) {}))
 
     override suspend fun connect(connectionParams: ConnectionParams) {
@@ -107,11 +111,33 @@ class MockVpnBackend(
         certInfo: CertificateRepository.CertificateResult.Success,
         hostname: String?,
         nativeClient: VpnAgentClient
-    ) = agentProvider?.invoke(certInfo, hostname, nativeClient)
-        ?: super.createAgentConnection(certInfo, hostname, nativeClient)
+    ) = agentProvider?.invoke(certInfo, hostname, nativeClient) ?: MockAgentConnection(scope, nativeClient)
 
     override val retryInfo get() = RetryInfo(10, 10)
 
     var stateOnConnect: VpnState = VpnState.Connected
     var failScanning = false
+}
+
+class MockAgentConnection(scope: CoroutineScope, val client: VpnBackend.VpnAgentClient) : AgentConnectionInterface {
+    private val constants = LocalAgent.constants()
+
+    init {
+        scope.launch {
+            yield()
+            state = constants.stateConnecting
+            state = constants.stateConnected
+        }
+    }
+
+    override var state: String = constants.stateDisconnected
+        set(value) {
+            field = value
+            client.onState(value)
+        }
+
+    override val status: StatusMessage? = null
+    override fun setFeatures(features: Features) {}
+    override fun setConnectivity(connectivity: Boolean) {}
+    override fun close() {}
 }

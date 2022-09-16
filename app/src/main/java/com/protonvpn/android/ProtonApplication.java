@@ -56,12 +56,10 @@ import com.protonvpn.android.vpn.MaintenanceTracker;
 import com.protonvpn.android.vpn.UpdateSecureCoreToMatchConnectedServer;
 import com.protonvpn.android.vpn.UpdateSettingsOnFeatureFlagChange;
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
-import com.protonvpn.android.vpn.ikev2.StrongswanCertificateManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.jetbrains.annotations.NotNull;
-import org.strongswan.android.logic.StrongSwanApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,9 +109,10 @@ public class ProtonApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        appContext = this;
+
         initPreferences();
         SentryIntegration.initSentry(this);
-        initStrongSwan();
 
         initLogger();
         ProtonLogger.INSTANCE.log(LogEventsKt.AppProcessStart, "version: " + BuildConfig.VERSION_NAME);
@@ -126,7 +125,7 @@ public class ProtonApplication extends Application {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
-        // Initialize go-libraries early to avoid crashes in StrongSwan
+        // Initialize go-libraries early
         Seq.touch();
 
         boolean isUpdated = handleUpdate();
@@ -167,15 +166,6 @@ public class ProtonApplication extends Application {
         }
     }
 
-    private void initStrongSwan() {
-        ReLinker.loadLibrary(this, "androidbridge");
-
-        // Static blocks from StrongSwanApplication will execute here loading native library and initializing
-        // certificate store.
-        StrongSwanApplication.setContext(getApplicationContext());
-        StrongswanCertificateManager.INSTANCE.init(getBaseContext());
-    }
-
     private void initPreferences() {
         ProtonPreferences preferences =
             new ProtonPreferences(this, BuildConfig.PREF_SALT, BuildConfig.PREF_KEY, "Proton-Secured");
@@ -211,12 +201,14 @@ public class ProtonApplication extends Application {
         return versionCode != 0 && versionCode != BuildConfig.VERSION_CODE;
     }
 
+    private static Context appContext;
+
     @NotNull
     public static Context getAppContext() {
-        return StrongSwanApplication.getContext();
+        return appContext;
     }
 
     public static void setAppContextForTest(@NotNull Context context) {
-        StrongSwanApplication.setContext(context);
+        appContext = context;
     }
 }

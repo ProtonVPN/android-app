@@ -53,7 +53,6 @@ import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import com.protonvpn.mocks.MockVpnBackend
@@ -159,7 +158,7 @@ class MockAppModule {
     @Singleton
     @Provides
     fun provideUserPrefs(): UserData = UserData.create().apply {
-        protocol = ProtocolSelection(VpnProtocol.IKEv2)
+        protocol = ProtocolSelection(VpnProtocol.WireGuard)
     }
 
     @Provides
@@ -179,7 +178,6 @@ class MockAppModule {
         networkManager: NetworkManager,
         certificateRepository: CertificateRepository,
         userData: UserData,
-        strongSwanBackend: StrongSwanBackend,
         openVpnBackend: OpenVpnBackend,
         wireguardBackend: WireguardBackend,
         serverPing: ServerPing,
@@ -189,10 +187,6 @@ class MockAppModule {
     ): VpnBackendProvider =
     if (TestSettings.mockedConnectionUsed) {
         ProtonVpnBackendProvider(
-            strongSwan = MockVpnBackend(
-                scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.IKEv2, serverPing,
-                localAgentUnreachableTracker, currentUser, getNetZone
-            ),
             openVpn = MockVpnBackend(
                 scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.OpenVPN, serverPing,
                 localAgentUnreachableTracker, currentUser, getNetZone
@@ -206,7 +200,6 @@ class MockAppModule {
             )
         } else {
             ProtonVpnBackendProvider(
-                strongSwan = strongSwanBackend,
                 openVpn = openVpnBackend,
                 wireGuard = wireguardBackend,
                 config = appConfig,
