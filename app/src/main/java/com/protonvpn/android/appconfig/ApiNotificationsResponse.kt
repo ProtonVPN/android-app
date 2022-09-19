@@ -22,6 +22,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class ApiNotificationsResponse(
-    @SerialName(value = "Notifications") val notifications: Array<ApiNotification>
+data class ApiNotificationsResponse(
+    @SerialName(value = "Notifications") val notifications: List<ApiNotification>
 )

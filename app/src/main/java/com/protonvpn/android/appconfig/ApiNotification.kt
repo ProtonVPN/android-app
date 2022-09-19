@@ -26,7 +26,7 @@ object ApiNotificationTypes {
 }
 
 @Serializable
-class ApiNotification(
+data class ApiNotification(
     @SerialName("NotificationID") val id: String,
     @SerialName("StartTime") val startTime: Long,
     @SerialName("EndTime") val endTime: Long,
@@ -35,7 +35,7 @@ class ApiNotification(
 )
 
 @Serializable
-class ApiNotificationOffer(
+data class ApiNotificationOffer(
     @SerialName("Label") val label: String? = null,
     @SerialName("URL") val url: String? = null,
     @SerialName("Icon") val iconUrl: String? = null,
@@ -43,7 +43,7 @@ class ApiNotificationOffer(
 )
 
 @Serializable
-class ApiNotificationOfferPanel(
+data class ApiNotificationOfferPanel(
     @SerialName("Incentive") val incentive: String? = null,
     @SerialName("IncentivePrice") val incentivePrice: String? = null,
     @SerialName("Pill") val pill: String? = null,
@@ -57,25 +57,25 @@ class ApiNotificationOfferPanel(
 )
 
 @Serializable
-class ApiNotificationOfferFeature(
+data class ApiNotificationOfferFeature(
     @SerialName("IconURL") val iconUrl: String,
     @SerialName("Text") val text: String
 )
 
 @Serializable
-class ApiNotificationOfferButton(
+data class ApiNotificationOfferButton(
     @SerialName("Text") val text: String,
     @SerialName("URL") val url: String
 )
 
 @Serializable
-class ApiNotificationOfferFullScreenImage(
+data class ApiNotificationOfferFullScreenImage(
     @SerialName("Source") val source: List<ApiNotificationOfferImageSource> = emptyList(),
     @SerialName("AlternativeText") val alternativeText: String = ""
 )
 
 @Serializable
-class ApiNotificationOfferImageSource(
+data class ApiNotificationOfferImageSource(
     @SerialName("URL") val url: String,
     @SerialName("Type") val type: String,
     @SerialName("Width") val width: Int? = null

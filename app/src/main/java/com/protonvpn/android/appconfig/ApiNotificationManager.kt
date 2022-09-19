@@ -93,7 +93,7 @@ class ApiNotificationManager @Inject constructor(
 
     private val apiNotificationsResponse = MutableStateFlow(
         Storage.load<ApiNotificationsResponse>(ApiNotificationsResponse::class.java) {
-            ApiNotificationsResponse(emptyArray())
+            ApiNotificationsResponse(emptyList())
         }
     )
 
@@ -155,7 +155,7 @@ class ApiNotificationManager @Inject constructor(
                     fullScreenImageSize.height
                 ).valueOrNull
             } else {
-                ApiNotificationsResponse(emptyArray())
+                ApiNotificationsResponse(emptyList())
             }
             response?.let {
                 apiNotificationsResponse.value = response
