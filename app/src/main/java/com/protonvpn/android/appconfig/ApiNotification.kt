@@ -22,7 +22,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 object ApiNotificationTypes {
-    const val TYPE_OFFER = 0
+    const val TYPE_TOOLBAR = 0
+    const val TYPE_ONE_TIME_POPUP = 1
 }
 
 @Serializable

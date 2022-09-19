@@ -29,16 +29,21 @@ import com.protonvpn.android.appconfig.ApiNotificationsResponse
 
 object ApiNotificationTestHelper {
 
+    const val OFFER_ID = "offer ID"
+    const val PNG_BASE64 =
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVQI12P4//8/AAX+Av7czFnnAAAAAElFTkSuQmCC"
+
     fun mockOffer(
         id: String,
         start: Long = 0L,
-        end: Long = 0L,
+        end: Long = Long.MAX_VALUE,
+        type: Int = ApiNotificationTypes.TYPE_TOOLBAR,
         label: String = "Offer",
         iconUrl: String = "file:///android_asset/no_such_file.png",
         panel: ApiNotificationOfferPanel? = null
     ) =
         ApiNotification(
-            id, start, end, ApiNotificationTypes.TYPE_OFFER, ApiNotificationOffer(
+            id, start, end, type, ApiNotificationOffer(
                 label, "https://protonvpn.com", iconUrl, panel
             )
         )

@@ -42,6 +42,9 @@ import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityPromoOfferBinding
 import com.protonvpn.android.databinding.ItemPromoFeatureBinding
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.addListener
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.setTextOrGoneIfNull
@@ -75,6 +78,7 @@ class PromoOfferActivity : BaseActivityV2() {
                 setViews(panel)
             } else {
                 Toast.makeText(this@PromoOfferActivity, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
+                ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.UI, "No notification with ID $offerId")
                 finish()
             }
         }

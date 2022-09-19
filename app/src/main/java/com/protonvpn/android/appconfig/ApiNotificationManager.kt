@@ -29,48 +29,53 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.utils.addListener
 import com.protonvpn.android.utils.jitterMs
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import me.proton.core.util.kotlin.DispatcherProvider
+import me.proton.core.util.kotlin.mapAsync
 import me.proton.core.util.kotlin.mapNotNullAsync
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.resume
 
 private val MIN_NOTIFICATION_REFRESH_INTERVAL_MS = TimeUnit.HOURS.toMillis(3)
 
 fun interface ImagePrefetcher {
-    suspend fun prefetch(url: String): Boolean
+    fun prefetch(url: String): Boolean
 }
 
 @Singleton
 class GlideImagePrefetcher @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) : ImagePrefetcher {
-    override suspend fun prefetch(url: String): Boolean = suspendCancellableCoroutine { continuation ->
-        val glide = Glide.with(appContext)
-        val target = glide.download(url).addListener(
-            onSuccess = { continuation.resume(true) },
-            onFail = { continuation.resume(false) }
-        ).preload()
-        continuation.invokeOnCancellation { glide.clear(target) }
+    override fun prefetch(url: String): Boolean {
+        val future = Glide.with(appContext).download(url).submit()
+        return try {
+            future.get()
+            true
+        } catch (e: Throwable) {
+            false
+        }
     }
 }
 
@@ -80,6 +85,7 @@ class GlideImagePrefetcher @Inject constructor(
 class ApiNotificationManager @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val mainScope: CoroutineScope,
+    private val dispatcherProvider: DispatcherProvider,
     @WallClock private val wallClockMs: () -> Long,
     private val appConfig: AppConfig,
     private val api: ProtonApiRetroFit,
@@ -97,26 +103,34 @@ class ApiNotificationManager @Inject constructor(
         }
     )
 
-    private val notificationsFlow = apiNotificationsResponse
+    private val prefetchTrigger = MutableSharedFlow<Unit>(replay = 1).apply { tryEmit(Unit) }
+
+    private val allNotificationsFlow = apiNotificationsResponse
         .map { response -> response.notifications }
         .combine(testNotification) { notifications, testNotification ->
             if (testNotification != null) notifications + testNotification
             else notifications
         }
+
+    private val notificationsFlow = allNotificationsFlow
+        .combine(prefetchTrigger) { notifications, _ -> notifications }
         .mapLatest { notifications ->
-            notifications.toList().mapNotNullAsync { notification ->
+            notifications.mapNotNullAsync { notification ->
                 notification.takeIf { notification.allImageUrls().ensureAllPrefetched() }
             }
-        }
+        }.flowOn(dispatcherProvider.Io)
+        .stateIn(mainScope, SharingStarted.Eagerly, emptyList())
 
     val activeListFlow = notificationsFlow
+        .onStart { prefetchTrigger.emit(Unit) }
         .flatMapLatest { notifications ->
             flow {
                 var nextUpdateDelayS: Long? = 0
                 while(nextUpdateDelayS != null) {
                     delay(TimeUnit.SECONDS.toMillis(nextUpdateDelayS))
                     val nowS = TimeUnit.MILLISECONDS.toSeconds(wallClockMs())
-                    emit(activeNotifications(nowS, notifications))
+                    val activeNotifications = activeNotifications(nowS, notifications)
+                    emit(activeNotifications)
                     nextUpdateDelayS = nextUpdateDelayS(nowS, notifications)
                 }
             }
@@ -192,7 +206,7 @@ class ApiNotificationManager @Inject constructor(
         offer?.iconUrl
     ).filter { it.isNotBlank() }
 
-    private suspend fun List<String>.ensureAllPrefetched(): Boolean = map { url ->
+    private suspend fun List<String>.ensureAllPrefetched(): Boolean = mapAsync { url ->
         imagePrefetcher.prefetch(url)
     }.all { isPrefetched -> isPrefetched }
 
