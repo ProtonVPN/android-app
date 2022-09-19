@@ -291,7 +291,7 @@
     <string name="dialogTitleAttention">Perhatian</string>
     <string name="saveProfileAlreadySaved">Sudah disimpan</string>
     <string name="openUrlError">%1$s tidak dapat dibuka. Aplikasi browser tidak terdeteksi pada perangkat Anda.</string>
-    <string name="toastLoginAuthVersionError">Tidak dapat masuk karena versi otentikasi tidak didukung. Mohon hubungi layanan dukungan.</string>
+    <string name="toastLoginAuthVersionError">Tidak dapat masuk karena versi otentikasi tidak didukung. Silakan hubungi layanan dukungan.</string>
     <string name="loaderErrorTimeout">Waktu sambungan habis. Mohon coba lagi.</string>
     <string name="troubleshootButton">Penyelesaian Masalah</string>
     <string name="activityTroubleshootTitle">Penyelesaian Masalah</string>
