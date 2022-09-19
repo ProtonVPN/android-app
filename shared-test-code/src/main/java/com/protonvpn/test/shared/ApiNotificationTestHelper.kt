@@ -53,5 +53,5 @@ object ApiNotificationTestHelper {
     }
 
     fun mockResponse(vararg items: ApiNotification) =
-        ApiNotificationsResponse(arrayOf(*items))
+        ApiNotificationsResponse(listOf(*items))
 }

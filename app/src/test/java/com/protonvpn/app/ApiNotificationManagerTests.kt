@@ -88,7 +88,7 @@ class ApiNotificationManagerTests {
     private fun mockResponse(vararg items: ApiNotification) {
         coEvery {
             mockApi.getApiNotifications(any(), any(), any())
-        } returns ApiResult.Success(ApiNotificationsResponse(arrayOf(*items)))
+        } returns ApiResult.Success(ApiNotificationsResponse(listOf(*items)))
     }
 
     private lateinit var notificationManager: ApiNotificationManager
