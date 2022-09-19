@@ -539,7 +539,7 @@
     </plurals>
     <string name="upgrade_plus_countries_netshield">Блокируйте рекламу и вредоносные программы с помощью NetShield</string>
     <string name="upgrade_plus_countries_speeds">Просматривайте сайты на самых высоких скоростях (10 Гбит/с)</string>
-    <string name="upgrade_plus_countries_more">И много других премиальных функций</string>
+    <string name="upgrade_plus_countries_more">И много других платных функций</string>
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
     <string name="upgrade_safe_mode_message">У вас есть расширенные или профессиональные потребности использовать нестандартные порты? Перейдите на VPN Plus, чтобы получить доступ к этой и другим премиальным функциям.</string>
     <string name="upgrade_moderate_nat_title">Включить умеренный NAT</string>
