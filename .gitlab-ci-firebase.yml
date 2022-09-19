@@ -99,17 +99,26 @@ real connection mobile tests:
 
 robo tests:
   stage: test
-  when: manual
   tags:
     - small
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == "development"
+      variables:
+        TIMEOUT: 1200s
+    - when: always
   script:
     - *firebase_authenticate_script
     - gcloud firebase test android run
       --type robo
       --app "$APP"
-      --device model=Pixel3,version=30,locale=en,orientation=portrait
-      --timeout 300s
+      --device model=Pixel2,version=30,locale=en,orientation=portrait
+      --timeout $TIMEOUT
+      --robo-script=gs://protonvpn-testing-scripts/ProtonVPN_Login_Robo_Script.json
+      --robo-directives ignore:R.id.drawerButtonLogout=
   variables:
+    TIMEOUT: 600s
     APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
     APP_TYPE: "googlePlay-debug.apk"
     CHECKOUT_CORE_SUBMODULE: "true"
