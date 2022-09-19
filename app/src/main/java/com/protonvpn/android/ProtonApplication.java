@@ -24,6 +24,7 @@ import android.app.Application;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextKt;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
@@ -44,6 +45,9 @@ import com.protonvpn.android.logging.SettingChangesLogger;
 import com.protonvpn.android.notifications.NotificationHelper;
 import com.protonvpn.android.search.UpdateServersOnLocaleChange;
 import com.protonvpn.android.ui.onboarding.ReviewTracker;
+import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger;
+import com.protonvpn.android.utils.AndroidUtils;
+import com.protonvpn.android.utils.AndroidUtilsKt;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
@@ -93,6 +97,7 @@ public class ProtonApplication extends Application {
         CurrentStateLogger getCurrentStateLogger();
         LogcatLogCapture getLogcatLogCapture();
         MaintenanceTracker getMaintenanceTracker();
+        OneTimePopupNotificationTrigger getOneTimePopupNotificationTrigger();
         PowerStateLogger getPowerStateLogger();
         RestartHandler getRestartHandler();
         ReviewTracker getReviewTracker();
@@ -155,6 +160,10 @@ public class ProtonApplication extends Application {
         dependencies.getUpdateSettingsOnFeatureFlagChange();
 
         dependencies.getRestartHandler().onAppStarted();
+
+        if (!AndroidUtils.INSTANCE.isTV(this)) {
+            dependencies.getOneTimePopupNotificationTrigger();
+        }
     }
 
     private void initStrongSwan() {

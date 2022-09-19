@@ -24,18 +24,20 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.ApiNotificationManager
+import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.ui.promooffers.PromoOfferActivity
 import com.protonvpn.base.BaseVerify
+import com.protonvpn.test.shared.ApiNotificationTestHelper.OFFER_ID
+import com.protonvpn.test.shared.ApiNotificationTestHelper.PNG_BASE64
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
-
-private const val OFFER_ID = "offer ID"
-private const val PNG_BASE64 =
-    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVQI12P4//8/AAX+Av7czFnnAAAAAElFTkSuQmCC"
 
 @HiltAndroidTest
 class PromoOfferActivityTests {
@@ -205,20 +207,48 @@ class PromoOfferActivityTests {
         verify.checkIfElementIsDisplayedByText("Image description")
     }
 
-    private fun launchOfferActivityWithPanel(panelJson: String) {
-        val notificationJson = createNotificationJson(panelJson)
+    @Test
+    fun fullScreenOneTimeNotification() {
+        val panelJson = """
+            "FullScreenImage": {
+              "Source": [
+                {
+                  "Type": "PNG",
+                  "URL": "data:image/png;base64,$PNG_BASE64",
+                  "Width": 1
+                }
+              ]
+            },
+            "Button": {
+              "Text": "Upgrade",
+              "URL": "https://proton.me"
+            }
+        """.trimIndent()
+        launchOfferActivityWithPanel(panelJson, ApiNotificationTypes.TYPE_ONE_TIME_POPUP)
+        verify.checkIfElementIsDisplayedById(R.id.imageFullScreen)
+        verify.checkIfElementIsDisplayedById(R.id.buttonOpenOffer)
+    }
+
+    private fun launchOfferActivityWithPanel(panelJson: String, type: Int = ApiNotificationTypes.TYPE_TOOLBAR) {
+        val notificationJson = createNotificationJson(panelJson, type)
         apiNotificationManager.setTestNotificationJson(notificationJson)
+        runBlocking {
+            // Wait for the notification to be processed and emitted before opening the activity.
+            withTimeout(1_000) {
+                apiNotificationManager.activeListFlow.first { notifications -> notifications.isNotEmpty() }
+            }
+        }
         val intent =
             PromoOfferActivity.createIntent(InstrumentationRegistry.getInstrumentation().targetContext, OFFER_ID)
         ActivityScenario.launch<PromoOfferActivity>(intent)
     }
 
-    private fun createNotificationJson(panelJson: String): String = """
+    private fun createNotificationJson(panelJson: String, type: Int): String = """
         {
           "NotificationID": "$OFFER_ID",
           "StartTime": 0,
           "EndTime": ${Integer.MAX_VALUE},
-          "Type": 0,
+          "Type": $type,
           "Offer": {
             "Icon": "",
             "URL": "https://proton.me",

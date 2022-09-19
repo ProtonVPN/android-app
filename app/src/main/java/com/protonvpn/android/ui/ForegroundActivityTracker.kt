@@ -56,6 +56,8 @@ class ForegroundActivityTracker @Inject constructor(
                     val activityName = activity::class.java.simpleName
                     val date = dateFormat.format(Date())
                     ProtonLogger.logCustom(LogCategory.UI, "App in foreground: $activityName $date")
+                } else {
+                    ProtonLogger.logCustom(LogCategory.UI, "App in background")
                 }
             }
         }
@@ -64,12 +66,16 @@ class ForegroundActivityTracker @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun createForegroundActivityFlow(app: Application) = callbackFlow {
         val lifecycleCallbacks = object : DefaultActivityLifecycleCallbacks {
-            override fun onActivityResumed(activity: Activity) {
+            private var currentActivity: Activity? = null
+            override fun onActivityStarted(activity: Activity) {
+                currentActivity = activity
                 trySend(activity)
             }
 
-            override fun onActivityPaused(activity: Activity) {
-                trySend(null)
+            override fun onActivityStopped(activity: Activity) {
+                if (activity == currentActivity) {
+                    trySend(null)
+                }
             }
         }
         app.registerActivityLifecycleCallbacks(lifecycleCallbacks)

@@ -28,11 +28,14 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 
 @HiltViewModel
 class PromoOfferNotificationViewModel @Inject constructor(
     private val apiNotificationManager: ApiNotificationManager,
+    private val promoOffersPrefs: PromoOffersPrefs
 ) : ViewModel() {
 
     // Represents a notification that is opened in a separate screen.
@@ -51,20 +54,18 @@ class PromoOfferNotificationViewModel @Inject constructor(
     )
 
     // Distinct class needed so that storage can use it as key.
-    private class VisitedOffers : HashSet<String> {
+    class VisitedOffers : HashSet<String> {
         constructor() : super()
         constructor(collection: Collection<String>) : super(collection)
     }
-    private val visitedOffersFlow =
-        MutableStateFlow<VisitedOffers>(Storage.load(VisitedOffers::class.java, VisitedOffers()))
 
     val eventOpenPanelNotification = MutableSharedFlow<PanelNotification>(extraBufferCapacity = 1)
     val toolbarNotifications get() = combine(
         apiNotificationManager.activeListFlow,
-        visitedOffersFlow
+        promoOffersPrefs.visitedOffersFlow
     ) { notifications, visitedOffers ->
         notifications.firstOrNull {
-            it.type == ApiNotificationTypes.TYPE_OFFER && it.offer != null &&
+            it.type == ApiNotificationTypes.TYPE_TOOLBAR && it.offer != null &&
                 (it.offer.panel != null || it.offer.url != null)
         }?.let { notification ->
             val panel = notification.offer!!.panel?.let {
@@ -88,7 +89,6 @@ class PromoOfferNotificationViewModel @Inject constructor(
     fun onOpenNotificationUrl(notificationId: String) = markVisited(notificationId)
 
     private fun markVisited(notificationId: String) {
-        visitedOffersFlow.value = VisitedOffers(visitedOffersFlow.value + notificationId)
-        Storage.save(visitedOffersFlow.value)
+        promoOffersPrefs.addVisitedOffer(notificationId)
     }
 }

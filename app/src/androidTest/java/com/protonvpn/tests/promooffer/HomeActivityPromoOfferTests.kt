@@ -37,6 +37,7 @@ import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.promooffers.PromoOfferActivity
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
+import com.protonvpn.test.shared.ApiNotificationTestHelper.OFFER_ID
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
@@ -46,8 +47,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
-
-private const val OFFER_ID = "offer ID" // TODO: move to common ApiNotificationTestHelper?
 
 @HiltAndroidTest
 class HomeActivityPromoOfferTests {
@@ -75,7 +74,7 @@ class HomeActivityPromoOfferTests {
     @Test
     fun toolbarNotificationWithNoPanel() {
         val json = createNotificationJsonWithOffer(
-            ApiNotificationTypes.TYPE_OFFER, """
+            ApiNotificationTypes.TYPE_TOOLBAR, """
                 {
                   "URL": "https://proton.me"
                 }
@@ -98,7 +97,7 @@ class HomeActivityPromoOfferTests {
     @Test
     fun toolbarNotificationWithPanel() {
         val json = createNotificationJsonWithOffer(
-            ApiNotificationTypes.TYPE_OFFER, """
+            ApiNotificationTypes.TYPE_TOOLBAR, """
                 {
                   "Panel": {}
                 }
@@ -119,7 +118,7 @@ class HomeActivityPromoOfferTests {
     @Test
     fun toolbarNotificationWithUrlAndPanelOpensPanel() {
         val json = createNotificationJsonWithOffer(
-            ApiNotificationTypes.TYPE_OFFER, """
+            ApiNotificationTypes.TYPE_TOOLBAR, """
                 {
                   "URL": "https://proton.me",
                   "Panel": {}
@@ -140,7 +139,20 @@ class HomeActivityPromoOfferTests {
 
     @Test
     fun noToolbarNotificationWhenBothUrlAndPanelAreMissing() {
-        val json = createNotificationJsonWithOffer(ApiNotificationTypes.TYPE_OFFER, "{}")
+        val json = createNotificationJsonWithOffer(ApiNotificationTypes.TYPE_TOOLBAR, "{}")
+        launchHomeActivityWithNotification(json)
+        verify.checkIfElementIsNotDisplayedById(R.id.imageNotification)
+    }
+
+    @Test
+    fun noToolbarNotificationForOneTimeNotification() {
+        val json = createNotificationJsonWithOffer(
+            ApiNotificationTypes.TYPE_ONE_TIME_POPUP, """
+                {
+                  "Panel": {}
+                }
+            """.trimIndent()
+        )
         launchHomeActivityWithNotification(json)
         verify.checkIfElementIsNotDisplayedById(R.id.imageNotification)
     }
