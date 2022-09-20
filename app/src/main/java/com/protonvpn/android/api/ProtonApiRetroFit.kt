@@ -24,6 +24,7 @@ import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoBody
+import com.protonvpn.android.models.login.SessionForkBody
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.CertificateRequestBody
@@ -72,6 +73,10 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Vpn
 
     open suspend fun getForkedSession(selector: String) =
         manager { getForkedSession(selector) }
+
+    open suspend fun postSessionFork(
+        childClientId: String, payload: String, isIndependent: Boolean, userCode: String? = null
+    ) = manager { postSessionFork(SessionForkBody(payload, childClientId, if (isIndependent) 1 else 0, userCode)) }
 
     open suspend fun getConnectingDomain(domainId: String) =
         manager { getServerDomain(domainId) }

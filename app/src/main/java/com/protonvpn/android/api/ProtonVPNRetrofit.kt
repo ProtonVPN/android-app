@@ -29,6 +29,8 @@ import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoBody
 import com.protonvpn.android.models.login.LoginInfoResponse
 import com.protonvpn.android.models.login.LoginResponse
+import com.protonvpn.android.models.login.SessionForkBody
+import com.protonvpn.android.models.login.SessionForkResponse
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.CertificateRequestBody
@@ -81,6 +83,9 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("auth/sessions/forks/{selector}")
     suspend fun getForkedSession(@Path(value = "selector", encoded = true) selector: String): ForkedSessionResponse
+
+    @POST("auth/sessions/forks")
+    suspend fun postSessionFork(@Body body: SessionForkBody): SessionForkResponse
 
     @GET("vpn/v2")
     suspend fun getVPNInfo(): VpnInfoResponse
