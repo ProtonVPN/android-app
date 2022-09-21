@@ -20,11 +20,9 @@
 package com.protonvpn.android.ui.promooffers
 
 import android.content.Context
-import android.content.res.Configuration
 import com.bumptech.glide.Glide
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.ApiNotificationOfferFullScreenImage
-import com.protonvpn.android.utils.AndroidUtils.isChromeOS
 
 object PromoOfferImage {
 
@@ -70,19 +68,15 @@ object PromoOfferImage {
     }
 
     fun getFullScreenImageMaxSizePx(context: Context) = with(context.resources) {
-        val portraitScreenSizePx =
-            if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT || context.isChromeOS()) {
-                Size(displayMetrics.widthPixels, displayMetrics.heightPixels)
-            } else {
-                Size(displayMetrics.heightPixels, displayMetrics.widthPixels)
-            }
-        Size(
-            minOf(
-                portraitScreenSizePx.width,
-                getDimensionPixelSize(R.dimen.offer_panel_fullscreen_image_max_width)
-            ),
-            portraitScreenSizePx.height
-        )
+        val longerDimensionPx = maxOf(displayMetrics.widthPixels, displayMetrics.heightPixels)
+        val shorterDimensionPx = minOf(displayMetrics.widthPixels, displayMetrics.heightPixels)
+        if (getBoolean(R.bool.isTablet)) {
+            // Always report landscape to get a horizontal image on larger screens.
+            Size(longerDimensionPx, shorterDimensionPx)
+        } else {
+            // Always report portrait to get a vertical image on phones.
+            Size(shorterDimensionPx, longerDimensionPx)
+        }
     }
 
     // Avoid android.util.Size for the sake of unit tests.

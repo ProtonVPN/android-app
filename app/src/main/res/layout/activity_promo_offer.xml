@@ -124,8 +124,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_max="@dimen/offer_panel_fullscreen_image_max_width"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textFullScreenImageAlternative"
@@ -138,7 +137,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_max="@dimen/offer_panel_fullscreen_image_max_width" />
+                    app:layout_constraintWidth_max="360dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
