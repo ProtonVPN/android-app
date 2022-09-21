@@ -35,8 +35,6 @@
     <item name="inactive_view_alpha" format="float" type="dimen">0.4</item>
     <item name="inactive_flag_alpha" format="float" type="dimen">0.5</item>
 
-    <!-- Promo offer panel -->
-    <dimen name="offer_panel_fullscreen_image_max_width">360dp</dimen>
     <!-- Promo offer panel (small screens) -->
     <dimen name="offer_panel_bottom_margin">4dp</dimen>
     <dimen name="offer_panel_picture_max_height">110dp</dimen>
