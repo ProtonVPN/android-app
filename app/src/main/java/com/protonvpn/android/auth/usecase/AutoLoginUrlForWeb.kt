@@ -35,7 +35,7 @@ private const val DEFAULT_TIMEOUT_MS = 5_000L
 class AutoLoginUrlForWeb @Inject constructor(
     private val api: ProtonApiRetroFit
 ) {
-    suspend fun invoke(
+    suspend operator fun invoke(
         url: String,
         timeoutMs: Long = DEFAULT_TIMEOUT_MS,
         fallbackUrl: String = FALLBACK_URL

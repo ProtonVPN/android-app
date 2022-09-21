@@ -43,6 +43,9 @@ class PromoOfferNotificationHelper(
         viewModel.eventOpenPanelNotification.asLiveData().observe(
             activity, Observer { offerId -> this.openOfferActivity(offerId) }
         )
+        viewModel.eventOpenUrl.asLiveData().observe(
+            activity, Observer { url -> activity.openUrl(url) }
+        )
     }
 
     private fun updateToolbarNotification(notification: PromoOfferNotificationViewModel.ToolbarNotification?) {
@@ -70,8 +73,7 @@ class PromoOfferNotificationHelper(
                 if (notification.panel != null) {
                     viewModel.onOpenPanel(notification.panel)
                 } else if (notification.openUrl != null) {
-                    viewModel.onOpenNotificationUrl(notification.notificationId)
-                    activity.openUrl(notification.openUrl)
+                    viewModel.onOpenNotificationUrl(notification)
                 }
             }
         }

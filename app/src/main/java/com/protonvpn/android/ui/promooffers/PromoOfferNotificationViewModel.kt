@@ -20,22 +20,22 @@
 package com.protonvpn.android.ui.promooffers
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
-import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.auth.usecase.AutoLoginUrlForWeb
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.withTimeoutOrNull
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PromoOfferNotificationViewModel @Inject constructor(
     private val apiNotificationManager: ApiNotificationManager,
-    private val promoOffersPrefs: PromoOffersPrefs
+    private val promoOffersPrefs: PromoOffersPrefs,
+    private val autoLoginUrlForWeb: AutoLoginUrlForWeb
 ) : ViewModel() {
 
     // Represents a notification that is opened in a separate screen.
@@ -50,6 +50,7 @@ class PromoOfferNotificationViewModel @Inject constructor(
         val iconUrl: String?,
         val showUnreadBadge: Boolean,
         val openUrl: String?,
+        val withAutologin: Boolean,
         val panel: PanelNotification?
     )
 
@@ -60,6 +61,8 @@ class PromoOfferNotificationViewModel @Inject constructor(
     }
 
     val eventOpenPanelNotification = MutableSharedFlow<PanelNotification>(extraBufferCapacity = 1)
+    val eventOpenUrl = MutableSharedFlow<String>(extraBufferCapacity = 1)
+
     val toolbarNotifications get() = combine(
         apiNotificationManager.activeListFlow,
         promoOffersPrefs.visitedOffersFlow
@@ -76,6 +79,7 @@ class PromoOfferNotificationViewModel @Inject constructor(
                 notification.offer.iconUrl,
                 !visitedOffers.contains(notification.id),
                 notification.offer.url,
+                PromoOfferButtonActions.hasAutologin(notification.offer.actionBehaviors),
                 panel
             )
         }
@@ -86,7 +90,19 @@ class PromoOfferNotificationViewModel @Inject constructor(
         eventOpenPanelNotification.tryEmit(panelNotification)
     }
 
-    fun onOpenNotificationUrl(notificationId: String) = markVisited(notificationId)
+    fun onOpenNotificationUrl(notification: ToolbarNotification) {
+        if (notification.openUrl == null) return
+
+        viewModelScope.launch {
+            val url = if (notification.withAutologin) {
+                autoLoginUrlForWeb(notification.openUrl)
+            } else {
+                notification.openUrl
+            }
+            markVisited(notification.notificationId)
+            eventOpenUrl.tryEmit(url)
+        }
+    }
 
     private fun markVisited(notificationId: String) {
         promoOffersPrefs.addVisitedOffer(notificationId)
