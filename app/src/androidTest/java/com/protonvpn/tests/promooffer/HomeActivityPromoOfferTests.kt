@@ -37,7 +37,8 @@ import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.promooffers.PromoOfferActivity
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import com.protonvpn.test.shared.ApiNotificationTestHelper.OFFER_ID
+import com.protonvpn.test.shared.ApiNotificationTestHelper.createNotificationJsonWithOffer
+import com.protonvpn.test.shared.ApiNotificationTestHelper.createNotificationsResponseJson
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
@@ -73,12 +74,12 @@ class HomeActivityPromoOfferTests {
 
     @Test
     fun toolbarNotificationWithNoPanel() {
-        val json = createNotificationJsonWithOffer(
-            ApiNotificationTypes.TYPE_TOOLBAR, """
+        val json = createNotificationJsonWithOffer("""
                 {
                   "URL": "https://proton.me"
                 }
-            """.trimIndent()
+            """.trimIndent(),
+            ApiNotificationTypes.TYPE_TOOLBAR
         )
         launchHomeActivityWithNotification(json)
         verify.checkIfElementIsDisplayedById(R.id.imageNotification)
@@ -96,12 +97,12 @@ class HomeActivityPromoOfferTests {
 
     @Test
     fun toolbarNotificationWithPanel() {
-        val json = createNotificationJsonWithOffer(
-            ApiNotificationTypes.TYPE_TOOLBAR, """
+        val json = createNotificationJsonWithOffer("""
                 {
                   "Panel": {}
                 }
-            """.trimIndent()
+            """.trimIndent(),
+            ApiNotificationTypes.TYPE_TOOLBAR
         )
         launchHomeActivityWithNotification(json)
         verify.checkIfElementIsDisplayedById(R.id.imageNotification)
@@ -117,13 +118,13 @@ class HomeActivityPromoOfferTests {
 
     @Test
     fun toolbarNotificationWithUrlAndPanelOpensPanel() {
-        val json = createNotificationJsonWithOffer(
-            ApiNotificationTypes.TYPE_TOOLBAR, """
+        val json = createNotificationJsonWithOffer("""
                 {
                   "URL": "https://proton.me",
                   "Panel": {}
                 }
-            """.trimIndent()
+            """.trimIndent(),
+            ApiNotificationTypes.TYPE_TOOLBAR
         )
         launchHomeActivityWithNotification(json)
         verify.checkIfElementIsDisplayedById(R.id.imageNotification)
@@ -139,36 +140,26 @@ class HomeActivityPromoOfferTests {
 
     @Test
     fun noToolbarNotificationWhenBothUrlAndPanelAreMissing() {
-        val json = createNotificationJsonWithOffer(ApiNotificationTypes.TYPE_TOOLBAR, "{}")
+        val json = createNotificationJsonWithOffer("{}", ApiNotificationTypes.TYPE_TOOLBAR)
         launchHomeActivityWithNotification(json)
         verify.checkIfElementIsNotDisplayedById(R.id.imageNotification)
     }
 
     @Test
     fun noToolbarNotificationForOneTimeNotification() {
-        val json = createNotificationJsonWithOffer(
-            ApiNotificationTypes.TYPE_ONE_TIME_POPUP, """
+        val json = createNotificationJsonWithOffer("""
                 {
                   "Panel": {}
                 }
-            """.trimIndent()
+            """.trimIndent(),
+            ApiNotificationTypes.TYPE_ONE_TIME_POPUP
         )
         launchHomeActivityWithNotification(json)
         verify.checkIfElementIsNotDisplayedById(R.id.imageNotification)
     }
 
-    private fun createNotificationJsonWithOffer(type: Int, offerJson: String): String = """
-        {
-          "NotificationID": "$OFFER_ID",
-          "StartTime": 0,
-          "EndTime": ${Integer.MAX_VALUE},
-          "Type": $type,
-          "Offer": $offerJson
-        }
-    """.trimIndent()
-
     private fun launchHomeActivityWithNotification(notificationJson: String) {
-        apiNotificationManager.setTestNotificationJson(notificationJson)
+        apiNotificationManager.setTestNotificationsResponseJson(createNotificationsResponseJson(notificationJson))
         val intent = Intent(InstrumentationRegistry.getInstrumentation().targetContext, HomeActivity::class.java)
         ActivityScenario.launch<HomeActivity>(intent)
     }

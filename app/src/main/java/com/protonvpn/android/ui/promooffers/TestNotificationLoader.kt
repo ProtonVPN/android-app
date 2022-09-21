@@ -29,6 +29,8 @@ import me.proton.core.util.kotlin.DispatcherProvider
 import java.io.File
 import javax.inject.Inject
 
+private const val FILE_NAME = "test_notifications_response.json"
+
 class TestNotificationLoader @Inject constructor(
     private val mainScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
@@ -38,13 +40,13 @@ class TestNotificationLoader @Inject constructor(
     fun loadTestFile() {
         mainScope.launch {
             val jsonString = withContext(dispatcherProvider.Io) {
-                val filePath = File(appContext.filesDir, "test_notification.json")
+                val filePath = File(appContext.filesDir, FILE_NAME)
                 if (filePath.exists())
                     filePath.readText()
                 else
                     null
             }
-            if (jsonString != null) notificationManager.setTestNotificationJson(jsonString)
+            if (jsonString != null) notificationManager.setTestNotificationsResponseJson(jsonString)
         }
     }
 }

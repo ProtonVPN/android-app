@@ -95,7 +95,7 @@ class ApiNotificationManager @Inject constructor(
     foregroundActivityTracker: ForegroundActivityTracker
 ) {
 
-    private val testNotification = MutableStateFlow<ApiNotification?>(null)
+    private val testNotifications = MutableStateFlow<List<ApiNotification>>(emptyList())
 
     private val apiNotificationsResponse = MutableStateFlow(
         Storage.load<ApiNotificationsResponse>(ApiNotificationsResponse::class.java) {
@@ -107,9 +107,8 @@ class ApiNotificationManager @Inject constructor(
 
     private val allNotificationsFlow = apiNotificationsResponse
         .map { response -> response.notifications }
-        .combine(testNotification) { notifications, testNotification ->
-            if (testNotification != null) notifications + testNotification
-            else notifications
+        .combine(testNotifications) { notifications, testNotifications ->
+            testNotifications.ifEmpty { notifications }
         }
 
     private val notificationsFlow = allNotificationsFlow
@@ -190,9 +189,9 @@ class ApiNotificationManager @Inject constructor(
             }
         }.minOrNull()
 
-    fun setTestNotificationJson(json: String) {
+    fun setTestNotificationsResponseJson(json: String) {
         try {
-            testNotification.value = Json.decodeFromString<ApiNotification>(json)
+            testNotifications.value = Json.decodeFromString<ApiNotificationsResponse>(json).notifications
         } catch(e: Throwable) {
             Log.e("ApiNotificationManager", "Error parsing JSON", e)
         }
