@@ -29,6 +29,8 @@ import com.protonvpn.android.ui.promooffers.PromoOfferActivity
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.test.shared.ApiNotificationTestHelper.OFFER_ID
 import com.protonvpn.test.shared.ApiNotificationTestHelper.PNG_BASE64
+import com.protonvpn.test.shared.ApiNotificationTestHelper.createNotificationJsonWithPanel
+import com.protonvpn.test.shared.ApiNotificationTestHelper.createNotificationsResponseJson
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.first
@@ -230,8 +232,8 @@ class PromoOfferActivityTests {
     }
 
     private fun launchOfferActivityWithPanel(panelJson: String, type: Int = ApiNotificationTypes.TYPE_TOOLBAR) {
-        val notificationJson = createNotificationJson(panelJson, type)
-        apiNotificationManager.setTestNotificationJson(notificationJson)
+        val notificationJson = createNotificationJsonWithPanel(panelJson, type)
+        apiNotificationManager.setTestNotificationsResponseJson(createNotificationsResponseJson(notificationJson))
         runBlocking {
             // Wait for the notification to be processed and emitted before opening the activity.
             withTimeout(1_000) {
@@ -242,23 +244,6 @@ class PromoOfferActivityTests {
             PromoOfferActivity.createIntent(InstrumentationRegistry.getInstrumentation().targetContext, OFFER_ID)
         ActivityScenario.launch<PromoOfferActivity>(intent)
     }
-
-    private fun createNotificationJson(panelJson: String, type: Int): String = """
-        {
-          "NotificationID": "$OFFER_ID",
-          "StartTime": 0,
-          "EndTime": ${Integer.MAX_VALUE},
-          "Type": $type,
-          "Offer": {
-            "Icon": "",
-            "URL": "https://proton.me",
-            "Label": "Test notification",
-            "Panel": {
-              $panelJson
-            }
-          }
-        }
-    """.trimIndent()
 
     private fun loadLottieBase64(): String {
         val resources = InstrumentationRegistry.getInstrumentation().targetContext.resources

@@ -59,4 +59,34 @@ object ApiNotificationTestHelper {
 
     fun mockResponse(vararg items: ApiNotification) =
         ApiNotificationsResponse(listOf(*items))
+
+    fun createNotificationJsonWithPanel(panelJson: String, type: Int, offerId: String = OFFER_ID) =
+        createNotificationJsonWithOffer("""
+            {
+              "Icon": "",
+              "URL": "https://proton.me",
+              "Label": "Test notification",
+              "Panel": {
+                $panelJson
+              }
+            }
+        """.trimIndent(), type, offerId)
+
+    fun createNotificationJsonWithOffer(offerJson: String, type: Int, offerId: String = OFFER_ID) = """
+        {
+          "NotificationID": "$offerId",
+          "StartTime": 0,
+          "EndTime": ${Integer.MAX_VALUE},
+          "Type": $type,
+          "Offer": $offerJson
+        }
+    """.trimIndent()
+
+    fun createNotificationsResponseJson(vararg notificationJsons: String) = """
+        {
+          "Notifications": [
+            ${notificationJsons.joinToString(",\n")}
+          ]
+        }
+    """.trimIndent()
 }
