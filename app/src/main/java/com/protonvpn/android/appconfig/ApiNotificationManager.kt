@@ -155,9 +155,11 @@ class ApiNotificationManager @Inject constructor(
     }
 
     private suspend fun updateIfNeeded() {
-        val needsUpdate =
-            wallClockMs() >= appFeaturesPrefs.minNextNotificationUpdateTimestamp
-        if (needsUpdate && currentUser.isLoggedIn()) {
+        // isLoggedIn() is async so get the value before checking the time, otherwise two calls to updateIfNeeded in a
+        // very short time can result in calling the API twice.
+        val isLoggedIn = currentUser.isLoggedIn()
+        val needsUpdate = wallClockMs() >= appFeaturesPrefs.minNextNotificationUpdateTimestamp
+        if (needsUpdate && isLoggedIn) {
             appFeaturesPrefs.minNextNotificationUpdateTimestamp =
                 wallClockMs() + jitterMs(MIN_NOTIFICATION_REFRESH_INTERVAL_MS)
             val response = if (appConfig.getFeatureFlags().pollApiNotifications) {
