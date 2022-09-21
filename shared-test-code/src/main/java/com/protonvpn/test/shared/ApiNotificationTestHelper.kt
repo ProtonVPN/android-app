@@ -44,7 +44,7 @@ object ApiNotificationTestHelper {
     ) =
         ApiNotification(
             id, start, end, type, ApiNotificationOffer(
-                label, "https://protonvpn.com", iconUrl, panel
+                label, "https://protonvpn.com", iconUrl = iconUrl, panel = panel
             )
         )
 

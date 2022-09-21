@@ -50,6 +50,8 @@ import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.setTextOrGoneIfNull
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.doOnApplyWindowInsets
 import me.proton.core.presentation.utils.viewBinding
@@ -73,7 +75,7 @@ class PromoOfferActivity : BaseActivityV2() {
 
         val offerId = getOfferId(intent)
         lifecycleScope.launch {
-            val panel = offerId?.let { viewModel.getPanel(offerId) }
+            val panel = offerId?.let { viewModel.init(offerId) }
             if (panel != null) {
                 setViews(panel)
             } else {
@@ -82,6 +84,14 @@ class PromoOfferActivity : BaseActivityV2() {
                 finish()
             }
         }
+        viewModel.openUrlEvent
+            .onEach { url -> openUrl(url) }
+            .launchIn(lifecycleScope)
+        viewModel.isLoading
+            .onEach { isLoading -> with(binding.buttonOpenOffer) {
+                if (isLoading) setLoading() else setIdle()
+            }}
+            .launchIn(lifecycleScope)
     }
 
     private fun setViews(panel: ApiNotificationOfferPanel) {
@@ -182,7 +192,7 @@ class PromoOfferActivity : BaseActivityV2() {
         with(binding.buttonOpenOffer) {
             visibility = View.VISIBLE
             text = button.text
-            setOnClickListener { openUrl(button.url) }
+            setOnClickListener { viewModel.onOpenOfferClicked() }
         }
     }
 

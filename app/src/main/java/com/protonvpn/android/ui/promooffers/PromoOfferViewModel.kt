@@ -20,21 +20,52 @@
 package com.protonvpn.android.ui.promooffers
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.ApiNotificationManager
+import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
+import com.protonvpn.android.auth.usecase.AutoLoginUrlForWeb
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
+import me.proton.core.util.kotlin.equalsNoCase
 import javax.inject.Inject
 
 @HiltViewModel
 class PromoOfferViewModel @Inject constructor(
-    private val apiNotificationManager: ApiNotificationManager
+    private val apiNotificationManager: ApiNotificationManager,
+    private val promoOfferButtonActions: PromoOfferButtonActions
 ): ViewModel() {
 
-    suspend fun getPanel(offerId: String): ApiNotificationOfferPanel? =
-        apiNotificationManager.activeListFlow
+    val openUrlEvent = MutableSharedFlow<String>(extraBufferCapacity = 1)
+    val isLoading = MutableStateFlow(false)
+
+    private lateinit var currentPanel: ApiNotificationOfferPanel
+
+    suspend fun init(offerId: String): ApiNotificationOfferPanel? {
+        val offerPanel = apiNotificationManager.activeListFlow
             .firstOrNull()
             ?.find { it.id == offerId }
             ?.offer
             ?.panel
+        if (offerPanel != null) currentPanel = offerPanel
+        return offerPanel
+    }
+
+    fun onOpenOfferClicked() {
+        val button = currentPanel.button ?: return
+
+        viewModelScope.launch {
+            isLoading.value = true
+            val urlToOpen = promoOfferButtonActions.getButtonUrl(button)
+            isLoading.value = false
+            if (urlToOpen != null)
+                openUrlEvent.tryEmit(urlToOpen)
+        }
+    }
 }

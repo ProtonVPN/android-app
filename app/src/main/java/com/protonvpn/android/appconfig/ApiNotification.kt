@@ -39,6 +39,8 @@ data class ApiNotification(
 data class ApiNotificationOffer(
     @SerialName("Label") val label: String? = null,
     @SerialName("URL") val url: String? = null,
+    @SerialName("Action") val action: String = "OpenURL",
+    @SerialName("Behaviors") val actionBehaviors: List<String> = emptyList(),
     @SerialName("Icon") val iconUrl: String? = null,
     @SerialName("Panel") val panel: ApiNotificationOfferPanel? = null
 )
@@ -65,8 +67,10 @@ data class ApiNotificationOfferFeature(
 
 @Serializable
 data class ApiNotificationOfferButton(
-    @SerialName("Text") val text: String,
-    @SerialName("URL") val url: String
+    @SerialName("Text") val text: String = "",
+    @SerialName("URL") val url: String? = null,
+    @SerialName("Action") val action: String = "OpenURL",
+    @SerialName("Behaviors") val actionBehaviors: List<String> = emptyList()
 )
 
 @Serializable

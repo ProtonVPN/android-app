@@ -152,7 +152,7 @@
             app:navigationIcon="@drawable/ic_proton_cross" />
     </FrameLayout>
 
-    <me.proton.core.presentation.ui.view.ProtonButton
+    <me.proton.core.presentation.ui.view.ProtonProgressButton
         android:id="@+id/buttonOpenOffer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
