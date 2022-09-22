@@ -85,7 +85,10 @@ class PromoOfferActivity : BaseActivityV2() {
             }
         }
         viewModel.openUrlEvent
-            .onEach { url -> openUrl(url) }
+            .onEach { url ->
+                openUrl(url)
+                finish()
+            }
             .launchIn(lifecycleScope)
         viewModel.isLoading
             .onEach { isLoading -> with(binding.buttonOpenOffer) {
