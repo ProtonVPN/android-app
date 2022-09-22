@@ -225,7 +225,7 @@ class VpnConnectionErrorHandlerTests {
     ): CapturingSlot<PrepareResult> {
         val result = CapturingSlot<PrepareResult>()
         val pingedServers = slot<List<PhysicalServer>>()
-        coEvery { vpnBackendProvider.pingAll(capture(pingedServers), any()) } answers {
+        coEvery { vpnBackendProvider.pingAll(any(), capture(pingedServers), any()) } answers {
             if (failAll)
                 null
             else {

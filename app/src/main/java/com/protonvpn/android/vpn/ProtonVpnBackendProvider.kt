@@ -61,11 +61,12 @@ class ProtonVpnBackendProvider(
         return when (protocol.vpn) {
             VpnProtocol.IKEv2 -> strongSwan.prepareForConnection(profile, server, setOf(protocol.transmission!!), scan)
             VpnProtocol.OpenVPN -> openVpn.prepareForConnection(profile, server, setOf(protocol.transmission!!), scan)
-            VpnProtocol.WireGuard -> wireGuard.prepareForConnection(profile, server, setOf(protocol.transmission!!), scan)
+            VpnProtocol.WireGuard ->
+                wireGuard.prepareForConnection(profile, server, setOf(protocol.transmission!!), scan)
             VpnProtocol.Smart -> {
-                getEnabledBackends(server).asFlow().map {
+                getSmartEnabledBackends(server, null).asFlow().map {
                     val transmissionProtocols =
-                        if (it == wireGuard) setOf(TransmissionProtocol.UDP)
+                        if (it == wireGuard) getSmartWireGuardTransmissionProtocols(null)
                         else ALL_TRANSMISSION_PROTOCOLS
                     it.prepareForConnection(profile, server, transmissionProtocols, scan)
                 }.firstOrNull {
@@ -78,7 +79,20 @@ class ProtonVpnBackendProvider(
             }
     }
 
+    private fun getSmartWireGuardTransmissionProtocols(orgProtocol: ProtocolSelection?) =
+        mutableSetOf<TransmissionProtocol>().apply {
+            val wireGuardTxxEnabled = config.getFeatureFlags().wireguardTlsEnabled
+            with(config.getSmartProtocolConfig()) {
+                if (wireguardEnabled) add(TransmissionProtocol.UDP)
+                if (wireguardTcpEnabled && wireGuardTxxEnabled) add(TransmissionProtocol.TCP)
+                if (wireguardTlsEnabled && wireGuardTxxEnabled) add(TransmissionProtocol.TLS)
+                if (orgProtocol?.vpn == VpnProtocol.WireGuard)
+                    add(orgProtocol.transmission ?: TransmissionProtocol.UDP)
+            }
+        }
+
     override suspend fun pingAll(
+        orgProtocol: ProtocolSelection,
         preferenceList: List<PhysicalServer>,
         fullScanServer: PhysicalServer?
     ): VpnBackendProvider.PingResult? {
@@ -87,13 +101,9 @@ class ProtonVpnBackendProvider(
                 val profile = Profile.getTempProfile(server.server)
                 val fullScan = server === fullScanServer
                 val portsLimit = if (fullScan) Int.MAX_VALUE else PING_ALL_MAX_PORTS
-                val profileProtocol = profile.getProtocol(userData)
-                val includeWireguardTcpOrTls = profileProtocol.vpn == VpnProtocol.WireGuard &&
-                    profileProtocol.transmission != TransmissionProtocol.UDP
-
-                val responses = listOf(wireGuard, strongSwan, openVpn).mapAsync {
+                val responses = getSmartEnabledBackends(server.server, orgProtocol.vpn).mapAsync {
                     val transmissionProtocols =
-                        if (it == wireGuard && !includeWireguardTcpOrTls) setOf(TransmissionProtocol.UDP)
+                        if (it == wireGuard) getSmartWireGuardTransmissionProtocols(orgProtocol)
                         else ALL_TRANSMISSION_PROTOCOLS
                     it.prepareForConnection(
                         profile, server.server, transmissionProtocols, true, portsLimit, waitForAll = fullScan
@@ -113,15 +123,31 @@ class ProtonVpnBackendProvider(
     }
 
     @OptIn(ExperimentalStdlibApi::class)
-    private fun getEnabledBackends(server: Server) = buildList {
+    private fun getSmartEnabledBackends(server: Server, orgVpnProtocol: VpnProtocol?): List<VpnBackend> = buildList {
         with(config.getSmartProtocolConfig()) {
-            if (wireguardEnabled && server.supportsProtocol(VpnProtocol.WireGuard))
+            val wireGuardTxxEnabled =
+                config.getFeatureFlags().wireguardTlsEnabled && (wireguardTcpEnabled || wireguardTlsEnabled)
+            val wireGuardEnabled = wireguardEnabled || wireGuardTxxEnabled
+            if (wireGuardEnabled && server.supportsProtocol(VpnProtocol.WireGuard))
                 add(wireGuard)
             if (ikeV2Enabled)
                 add(strongSwan)
             if (openVPNEnabled)
                 add(openVpn)
+            if (orgVpnProtocol != null) {
+                getBackendFor(orgVpnProtocol)?.let { orgBackend ->
+                    if (!contains(orgBackend))
+                        add(orgBackend)
+                }
+            }
         }
+    }
+
+    private fun getBackendFor(vpnProtocol: VpnProtocol) = when(vpnProtocol) {
+        VpnProtocol.OpenVPN -> openVpn
+        VpnProtocol.IKEv2 -> strongSwan
+        VpnProtocol.WireGuard -> wireGuard
+        VpnProtocol.Smart -> null
     }
 
     private fun logScanResult(result: PrepareResult?) {

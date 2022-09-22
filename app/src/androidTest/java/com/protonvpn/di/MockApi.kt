@@ -123,7 +123,9 @@ class MockApi(
             smartProtocolConfig = SmartProtocolConfig(
                 ikeV2Enabled = true,
                 openVPNEnabled = true,
-                wireguardEnabled = false
+                wireguardEnabled = false,
+                wireguardTcpEnabled = false,
+                wireguardTlsEnabled = false
             ),
             defaultPortsConfig = DefaultPortsConfig.defaultConfig,
             ratingConfig = RatingConfig(listOf("vpnplus"), 3, 14, 3, 14)

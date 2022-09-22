@@ -196,7 +196,7 @@ class VpnConnectionTests {
         networkManager = MockNetworkManager()
 
         every { appConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
-            ikeV2Enabled = true, openVPNEnabled = true, wireguardEnabled = true)
+            ikeV2Enabled = true, openVPNEnabled = true, wireguardEnabled = true, wireguardTcpEnabled = true, wireguardTlsEnabled = true)
         mockStrongSwan = spyk(createMockVpnBackend(VpnProtocol.IKEv2))
         mockOpenVpn = spyk(createMockVpnBackend(VpnProtocol.OpenVPN))
         mockWireguard = spyk(createMockVpnBackend(VpnProtocol.WireGuard))
