@@ -24,16 +24,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.protonvpn.android.tv.main.TvMainActivity
+import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.AndroidUtils.isTV
+import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.util.kotlin.equalsNoCase
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var deepLinkHandler: DeepLinkHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().setKeepOnScreenCondition(SplashScreen.KeepOnScreenCondition {
             true
         })
+
+        processDeepLink()
 
         val nextActivity = if (isTV())
             TvMainActivity::class.java
@@ -49,5 +59,12 @@ class SplashActivity : AppCompatActivity() {
         // Remove the task to make sure the main activity has its own. See VPNAND-763.
         finishAndRemoveTask()
         overridePendingTransition(0, 0) // Disable exit animation.
+    }
+
+    private fun processDeepLink() {
+        val intentUri = intent.data
+        if (intent.action == Intent.ACTION_VIEW && intentUri != null) {
+            deepLinkHandler.processDeepLink(intentUri)
+        }
     }
 }
