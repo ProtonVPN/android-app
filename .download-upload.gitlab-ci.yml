@@ -8,7 +8,7 @@
     - git config user.email "$GIT_CI_EMAIL"
     - git config user.name "$GIT_CI_USERNAME"
     - git remote add gitlab_origin "$ORIGIN_OAUTH_URL"
-    - git fetch gitlab_origin master:temp-branch --depth=1
+    - git fetch gitlab_origin deploy:temp-branch --depth=1
     - git reset --hard
     - git checkout temp-branch
     - mv "$ARTIFACT_PATH" "$ARTIFACT_OUTPUT_NAME"
