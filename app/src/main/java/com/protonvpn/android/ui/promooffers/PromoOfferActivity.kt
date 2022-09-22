@@ -47,7 +47,7 @@ import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.addListener
 import com.protonvpn.android.utils.openUrl
-import com.protonvpn.android.utils.setTextOrGoneIfNull
+import com.protonvpn.android.utils.setTextOrGoneIfNullOrEmpty
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -106,10 +106,10 @@ class PromoOfferActivity : BaseActivityV2() {
 
     private fun setDetailedOffer(panel: ApiNotificationOfferPanel) {
         with(binding) {
-            textIncentive.setTextOrGoneIfNull(createIncentiveText(panel.incentive, panel.incentivePrice))
-            textPill.setTextOrGoneIfNull(panel.pill)
-            textTitle.setTextOrGoneIfNull(panel.title)
-            textFooter.setTextOrGoneIfNull(panel.pageFooter)
+            textIncentive.setTextOrGoneIfNullOrEmpty(createIncentiveText(panel.incentive, panel.incentivePrice))
+            textPill.setTextOrGoneIfNullOrEmpty(panel.pill)
+            textTitle.setTextOrGoneIfNullOrEmpty(panel.title)
+            textFooter.setTextOrGoneIfNullOrEmpty(panel.pageFooter)
 
             addFeatures(layoutFeatures, panel.features, panel.featuresFooter)
 
@@ -131,7 +131,7 @@ class PromoOfferActivity : BaseActivityV2() {
             ?.forEach { addFeatureLine(layout, it) }
             ?.also { layout.visibility = View.VISIBLE }
 
-        if (footer != null) {
+        if (!footer.isNullOrEmpty()) {
             val featureFooterViews =
                 ItemPromoFeatureBinding.inflate(LayoutInflater.from(this), layout, true)
             featureFooterViews.text.text = footer
@@ -151,7 +151,7 @@ class PromoOfferActivity : BaseActivityV2() {
     }
 
     private fun createIncentiveText(incentiveTemplate: String?, price: String?): CharSequence? {
-        if (incentiveTemplate == null) return null
+        if (incentiveTemplate == null || incentiveTemplate.isEmpty()) return null
 
         // Protect the price text part from being broken into lines.
         val nonBreakingPrice = price?.replace(' ', '\u00a0')

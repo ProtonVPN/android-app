@@ -179,8 +179,8 @@ fun View.preventClickTrough() {
     setOnTouchListener { _, _ -> /* capture all events */ true }
 }
 
-fun TextView.setTextOrGoneIfNull(newText: CharSequence?) {
-    if (newText != null) {
+fun TextView.setTextOrGoneIfNullOrEmpty(newText: CharSequence?) {
+    if (!newText.isNullOrEmpty()) {
         visibility = View.VISIBLE
         text = newText
     } else {

@@ -78,6 +78,26 @@ class PromoOfferActivityTests {
     }
 
     @Test
+    fun fieldsWithEmptyTextAreNotShown() {
+        val panel = """
+            "Title": "",
+            "Incentive": "",
+            "Pill": "",
+            "PictureURL": "",
+            "FeaturesFooter": "",
+            "PageFooter": ""
+        """.trimIndent()
+        launchOfferActivityWithPanel(panel)
+        verify.checkIfElementIsNotDisplayedById(R.id.textTitle)
+        verify.checkIfElementIsNotDisplayedById(R.id.textIncentive)
+        verify.checkIfElementIsNotDisplayedById(R.id.textPill)
+        verify.checkIfElementIsNotDisplayedById(R.id.imagePicture)
+        verify.checkIfElementIsNotDisplayedById(R.id.layoutFeatures)
+        verify.checkIfElementIsNotDisplayedById(R.id.imageFullScreen)
+        verify.checkIfElementIsNotDisplayedById(R.id.textFooter)
+    }
+
+    @Test
     fun incentiveTextWithoutPrice() {
         val panelJson = """
             "Incentive": "Incentive text"
