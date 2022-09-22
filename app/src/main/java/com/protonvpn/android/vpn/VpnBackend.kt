@@ -82,7 +82,11 @@ interface VpnBackendProvider {
 
     // Returns first from [preferenceList] that responded in a given time frame or null
     // [fullScanServer] when set will have all ports scanned.
-    suspend fun pingAll(preferenceList: List<PhysicalServer>, fullScanServer: PhysicalServer? = null): PingResult?
+    suspend fun pingAll(
+        orgProtocol: ProtocolSelection,
+        preferenceList: List<PhysicalServer>,
+        fullScanServer: PhysicalServer? = null
+    ): PingResult?
     data class PingResult(val profile: Profile, val physicalServer: PhysicalServer, val responses: List<PrepareResult>)
 }
 

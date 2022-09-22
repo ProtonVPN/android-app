@@ -222,7 +222,8 @@ class VpnConnectionErrorHandler(
             )
         }
 
-        val pingResult = vpnBackendProvider.pingAll(candidates, orgPhysicalServer) ?: run {
+        val orgProtocol = orgProfile.getProtocol(userData)
+        val pingResult = vpnBackendProvider.pingAll(orgProtocol, candidates, orgPhysicalServer) ?: run {
             ProtonLogger.log(ConnServerSwitchFailed, "No server responded")
             return null
         }

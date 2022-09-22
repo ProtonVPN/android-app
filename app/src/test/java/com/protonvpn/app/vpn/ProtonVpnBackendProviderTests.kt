@@ -21,6 +21,7 @@ package com.protonvpn.app.vpn
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
@@ -71,8 +72,9 @@ class ProtonVpnBackendProviderTests {
         Storage.setPreferences(MockSharedPreference())
         userData = UserData.create()
 
+        every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = true)
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
-            true, true, true
+            true, true, true, wireguardTcpEnabled = true, wireguardTlsEnabled = true
         )
         vpnBackendProvider = ProtonVpnBackendProvider(
             mockAppConfig,
@@ -84,7 +86,11 @@ class ProtonVpnBackendProviderTests {
     }
 
     @Test
-    fun `smart protocol uses only UDP for WireGuard`() = runBlockingTest {
+    fun `smart protocol uses only enabled protocols`() = runBlockingTest {
+        every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
+            ikeV2Enabled = false, openVPNEnabled = false, wireguardEnabled = false,
+            wireguardTcpEnabled = false, wireguardTlsEnabled = true
+        )
         val profile = Profile.getTempProfile(ServerWrapper.makePreBakedFastest(), null)
         val server = MockedServers.server
         vpnBackendProvider.prepareConnection(
@@ -94,24 +100,48 @@ class ProtonVpnBackendProviderTests {
             false
         )
 
-        coVerify { mockWireGuardBackend.prepareForConnection(profile, server, setOf(TransmissionProtocol.UDP), true, any(), any()) }
+        coVerify {
+            mockWireGuardBackend.prepareForConnection(
+                profile, server, setOf(TransmissionProtocol.TLS), true, any(), any())
+        }
+        coVerify(exactly = 0) { mockIKEv2Backend.prepareForConnection(any(), any(), any(), any(), any()) }
+        coVerify(exactly = 0) { mockOpenVpnBackend.prepareForConnection(any(), any(), any(), any(), any()) }
     }
 
     @Test
-    fun `when default protocol is Smart pingAll uses only UDP for WireGuard`() = runBlockingTest {
+    fun `disabling WireGuard Txx removes it from Smart protocol`() = runBlockingTest {
+        every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = false)
+        every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
+            ikeV2Enabled = false, openVPNEnabled = false, wireguardEnabled = false,
+            wireguardTcpEnabled = true, wireguardTlsEnabled = true
+        )
+        val profile = Profile.getTempProfile(ServerWrapper.makePreBakedFastest(), null)
         val server = MockedServers.server
-        vpnBackendProvider.pingAll(listOf(PhysicalServer(server, server.connectingDomains.first())), null)
+        vpnBackendProvider.prepareConnection(
+            ProtocolSelection(VpnProtocol.Smart),
+            profile,
+            server,
+            false
+        )
 
-        coVerify { mockWireGuardBackend.prepareForConnection(any(), server, setOf(TransmissionProtocol.UDP), true, any(), any()) }
+        coVerify(exactly = 0) { mockWireGuardBackend.prepareForConnection(any(), any(), any(), any(), any()) }
     }
 
     @Test
-    fun `when default protocol is WireGuard TLS or TCP pingAll uses all TransmissonProtocols for WireGuard`() = runBlockingTest {
-        userData.protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
+    fun `org protocol is used by pingAll even when disabled for Smart protocol`() = runBlockingTest {
+        every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
+            ikeV2Enabled = false, openVPNEnabled = false, wireguardEnabled = false,
+            wireguardTcpEnabled = false, wireguardTlsEnabled = false
+        )
         val server = MockedServers.server
-        vpnBackendProvider.pingAll(listOf(PhysicalServer(server, server.connectingDomains.first())), null)
+        vpnBackendProvider.pingAll(
+            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
+            listOf(PhysicalServer(server, server.connectingDomains.first())),
+            null)
 
-        val allTransmissionProtocols = TransmissionProtocol.values().toSet()
-        coVerify { mockWireGuardBackend.prepareForConnection(any(), server, allTransmissionProtocols, true, any(), any()) }
+        coVerify {
+            mockWireGuardBackend.prepareForConnection(
+                any(), server, setOf(TransmissionProtocol.TCP), true, any(), any())
+        }
     }
 }

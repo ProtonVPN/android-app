@@ -331,11 +331,21 @@ class VpnConnectionManager @Inject constructor(
 
     private fun getFallbackSmartProtocol(server: Server): ProtocolSelection {
         val config = appConfig.getSmartProtocolConfig()
+        val wireGuardTxxEnabled = appConfig.getFeatureFlags().wireguardTlsEnabled
+        val wireGuardServer = server.supportsProtocol(VpnProtocol.WireGuard)
         return when {
-            config.wireguardEnabled && server.supportsProtocol(VpnProtocol.WireGuard) ->
+            config.wireguardEnabled && wireGuardServer ->
                 ProtocolSelection(VpnProtocol.WireGuard)
-            config.ikeV2Enabled -> ProtocolSelection(VpnProtocol.IKEv2)
-            else -> ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP)
+            config.ikeV2Enabled ->
+                ProtocolSelection(VpnProtocol.IKEv2)
+            config.openVPNEnabled ->
+                ProtocolSelection(VpnProtocol.OpenVPN)
+            config.wireguardTcpEnabled && wireGuardServer && wireGuardTxxEnabled ->
+                ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP)
+            config.wireguardTlsEnabled && wireGuardServer && wireGuardTxxEnabled->
+                ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
+            else ->
+                ProtocolSelection(VpnProtocol.WireGuard)
         }
     }
 

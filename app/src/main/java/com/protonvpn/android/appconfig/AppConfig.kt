@@ -120,7 +120,9 @@ class AppConfig @Inject constructor(
         val defaultSmartProtocolConfig = SmartProtocolConfig(
             ikeV2Enabled = true,
             openVPNEnabled = true,
-            wireguardEnabled = false,
+            wireguardEnabled = true,
+            wireguardTcpEnabled = false,
+            wireguardTlsEnabled = false,
         )
 
         return AppConfigResponse(
