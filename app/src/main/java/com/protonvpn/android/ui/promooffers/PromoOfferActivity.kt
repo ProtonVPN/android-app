@@ -71,7 +71,6 @@ class PromoOfferActivity : BaseActivityV2() {
         setContentView(binding.root)
         initToolbarWithUpEnabled(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        makeTransparentStatusBar(binding.root, binding.toolbar)
 
         val offerId = getOfferId(intent)
         lifecycleScope.launch {
@@ -171,6 +170,7 @@ class PromoOfferActivity : BaseActivityV2() {
     private fun setFullScreenImage(imageSpec: ApiNotificationOfferFullScreenImage) {
         with(binding) {
             layoutContent.setPadding(0, 0, 0, 0) // Full screen image is edge-to-edge.
+            makeTransparentStatusBar(root, toolbar)
 
             val imageUrl = PromoOfferImage.getFullScreenImageUrl(this@PromoOfferActivity, imageSpec)
 

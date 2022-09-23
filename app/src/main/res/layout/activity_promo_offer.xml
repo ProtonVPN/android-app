@@ -42,6 +42,7 @@
                 android:id="@id/layoutContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="?attr/actionBarSize"
                 android:paddingBottom="@dimen/offer_panel_content_button_distance">
 
                 <TextView
