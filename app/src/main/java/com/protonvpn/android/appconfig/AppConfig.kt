@@ -22,6 +22,7 @@ import android.os.SystemClock
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
+import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.Storage
@@ -42,7 +43,8 @@ import javax.inject.Singleton
 class AppConfig @Inject constructor(
     private val scope: CoroutineScope,
     private val api: ProtonApiRetroFit,
-    private val userPlanManager: UserPlanManager
+    private val userPlanManager: UserPlanManager,
+    private val getNetZone: GetNetZone,
 ) {
 
     val appConfigUpdateEvent = MutableSharedFlow<AppConfigResponse>(extraBufferCapacity = 1)
@@ -101,7 +103,7 @@ class AppConfig @Inject constructor(
     fun getRatingConfig(): RatingConfig = appConfigResponse.ratingConfig ?: getDefaultRatingConfig()
 
     private suspend fun updateInternal() {
-        val result = api.getAppConfig()
+        val result = api.getAppConfig(getNetZone())
         val dynamicReportModel = api.getDynamicReportConfig()
         dynamicReportModel.valueOrNull?.let {
             Storage.save(it)

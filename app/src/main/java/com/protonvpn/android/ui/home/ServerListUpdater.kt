@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.ui.home
 
-import android.telephony.TelephonyManager
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -29,7 +28,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.models.vpn.ServerList
-import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -56,14 +54,13 @@ class ServerListUpdater @Inject constructor(
     val vpnStateMonitor: VpnStateMonitor,
     userPlanManager: UserPlanManager,
     private val prefs: ServerListUpdaterPrefs,
-    private val telephonyManager: TelephonyManager?,
     @WallClock private val wallClock: () -> Long,
     @ElapsedRealtimeClock private val elapsedRealtimeMs: () -> Long,
+    private val getNetZone: GetNetZone,
 ) {
     private var networkLoader: NetworkLoader? = null
     private var inForeground = false
 
-    private var lastIpCheck = Long.MIN_VALUE
     private val lastServerListUpdate get() =
         dateToRealtime(serverManager.lastUpdateTimestamp)
     private var lastLoadsUpdateInternal = Long.MIN_VALUE
@@ -77,7 +74,6 @@ class ServerListUpdater @Inject constructor(
     init {
         migrateIpAddress()
 
-        lastIpCheck = dateToRealtime(prefs.ipAddressCheckTimestamp)
         lastLoadsUpdateInternal = dateToRealtime(prefs.loadsUpdateTimestamp)
 
         scope.launch {
@@ -136,7 +132,7 @@ class ServerListUpdater @Inject constructor(
     suspend fun updateTask(): Long {
         if (currentUser.isLoggedIn()) {
             val now = elapsedRealtimeMs()
-            if (now >= lastIpCheck + LOCATION_CALL_DELAY) {
+            if (now >= getNetZone.lastIpCheck + LOCATION_CALL_DELAY) {
                 if (updateLocationIfVpnOff())
                     updateServerList(networkLoader)
             }
@@ -179,7 +175,7 @@ class ServerListUpdater @Inject constructor(
                 prefs.lastKnownCountry = country
                 prefs.lastKnownIsp = isp
             }
-            lastIpCheck = elapsedRealtimeMs()
+            getNetZone.lastIpCheck = elapsedRealtimeMs()
             prefs.ipAddressCheckTimestamp = wallClock()
         }
         return ipChanged
@@ -222,22 +218,6 @@ class ServerListUpdater @Inject constructor(
             prefs.ipAddress = oldValue
             Storage.delete(oldKey)
         }
-    }
-
-    // Used in routes that provide server information including a score of how good a server is
-    // for the particular user to connect to.
-    // To provide relevant scores even when connected to VPN, we send a truncated version of
-    // the user's public IP address. In keeping with our no-logs policy, this partial IP address
-    // is not stored on the server and is only used to fulfill this one-off API request. If IP
-    // is not available/outdated we send network's MCC.
-    private fun getNetZone() = when {
-        prefs.ipAddress.isNotBlank() && lastIpCheck >= elapsedRealtimeMs() - IP_VALIDITY_MS ->
-            NetUtils.stripIP(prefs.ipAddress)
-        telephonyManager != null && telephonyManager.phoneType != TelephonyManager.PHONE_TYPE_CDMA ->
-            telephonyManager.networkCountryIso
-        prefs.ipAddress.isNotBlank() ->
-            NetUtils.stripIP(prefs.ipAddress)
-        else -> null
     }
 
     companion object {
