@@ -113,7 +113,7 @@ class MockApi(
         // different notification types.
         ApiResult.Success(ApiNotificationTestHelper.mockResponse())
 
-    override suspend fun getAppConfig(): ApiResult<AppConfigResponse> =
+    override suspend fun getAppConfig(netzone: String?): ApiResult<AppConfigResponse> =
         ApiResult.Success(AppConfigResponse(
             featureFlags = FeatureFlags(
                 maintenanceTrackerEnabled = true,

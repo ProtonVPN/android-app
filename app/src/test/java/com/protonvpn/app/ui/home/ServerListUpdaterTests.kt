@@ -26,6 +26,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
+import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.NetUtils
@@ -104,6 +105,7 @@ class ServerListUpdaterTests {
         every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_GSM
         every { mockTelephonyManager.networkCountryIso } returns "ch"
 
+        val getNetZone = GetNetZone(serverListUpdaterPrefs, mockTelephonyManager, { clockMs }, { clockMs })
         serverListUpdater = ServerListUpdater(
             testScope,
             mockApi,
@@ -112,9 +114,9 @@ class ServerListUpdaterTests {
             mockVpnStateMonitor,
             mockPlanManager,
             serverListUpdaterPrefs,
-            mockTelephonyManager,
             { clockMs },
-            { clockMs }
+            { clockMs },
+            getNetZone
         )
     }
 
