@@ -29,6 +29,7 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.jitterMs
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -90,6 +91,7 @@ class ApiNotificationManager @Inject constructor(
     private val appConfig: AppConfig,
     private val api: ProtonApiRetroFit,
     private val currentUser: CurrentUser,
+    private val userPlanManager: UserPlanManager,
     private val appFeaturesPrefs: AppFeaturesPrefs,
     private val imagePrefetcher: ImagePrefetcher,
     foregroundActivityTracker: ForegroundActivityTracker
@@ -136,6 +138,10 @@ class ApiNotificationManager @Inject constructor(
         }
 
     init {
+        userPlanManager.infoChangeFlow
+            .onEach {
+                forceUpdate()
+            }.launchIn(mainScope)
         appConfig.appConfigUpdateEvent
             .onEach {
                 triggerUpdateIfNeeded()
@@ -152,6 +158,11 @@ class ApiNotificationManager @Inject constructor(
         mainScope.launch {
             updateIfNeeded()
         }
+    }
+
+    private suspend fun forceUpdate() {
+        appFeaturesPrefs.minNextNotificationUpdateTimestamp = 0
+        updateIfNeeded()
     }
 
     private suspend fun updateIfNeeded() {

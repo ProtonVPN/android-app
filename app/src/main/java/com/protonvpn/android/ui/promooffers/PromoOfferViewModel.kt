@@ -22,18 +22,12 @@ package com.protonvpn.android.ui.promooffers
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.ApiNotificationManager
-import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
-import com.protonvpn.android.auth.usecase.AutoLoginUrlForWeb
-import com.protonvpn.android.logging.LogCategory
-import com.protonvpn.android.logging.LogLevel
-import com.protonvpn.android.logging.ProtonLogger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
-import me.proton.core.util.kotlin.equalsNoCase
 import javax.inject.Inject
 
 @HiltViewModel

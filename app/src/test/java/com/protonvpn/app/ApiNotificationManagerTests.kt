@@ -24,6 +24,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationManager
+import com.protonvpn.android.appconfig.ApiNotificationOffer
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
@@ -33,6 +34,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
 import com.protonvpn.test.shared.MockSharedPreference
@@ -80,6 +82,8 @@ class ApiNotificationManagerTests {
     @MockK
     private lateinit var mockCurrentUser: CurrentUser
     @MockK
+    private lateinit var mockUserPlanManager: UserPlanManager
+    @MockK
     private lateinit var mockApi: ProtonApiRetroFit
     @MockK
     private lateinit var mockForegroundActivityTracker: ForegroundActivityTracker
@@ -87,6 +91,7 @@ class ApiNotificationManagerTests {
     private lateinit var appFeaturesPrefs: AppFeaturesPrefs
     private lateinit var testScope: TestCoroutineScope
     private lateinit var foregroundActivityFlow: MutableStateFlow<Activity?>
+    private lateinit var planChangeFlow: MutableSharedFlow<List<UserPlanManager.InfoChange>>
 
     private fun mockResponse(vararg items: ApiNotification) {
         coEvery {
@@ -112,6 +117,8 @@ class ApiNotificationManagerTests {
 
         foregroundActivityFlow = MutableStateFlow(null)
         every { mockForegroundActivityTracker.foregroundActivityFlow } returns foregroundActivityFlow
+        planChangeFlow = MutableSharedFlow()
+        every { mockUserPlanManager.infoChangeFlow } returns planChangeFlow
 
         mockkObject(PromoOfferImage)
         every { PromoOfferImage.getFullScreenImageMaxSizePx(any()) } returns PromoOfferImage.Size(100, 100)
@@ -124,6 +131,7 @@ class ApiNotificationManagerTests {
             mockAppConfig,
             mockApi,
             mockCurrentUser,
+            mockUserPlanManager,
             appFeaturesPrefs,
             mockImagePrefercher,
             mockForegroundActivityTracker
@@ -243,5 +251,21 @@ class ApiNotificationManagerTests {
         )
         notificationManager.triggerUpdateIfNeeded()
         coVerify(exactly = 2) { mockApi.getApiNotifications(any(), any(), any()) }
+    }
+
+    @Test
+    fun `when user plan changes notifications are fetched again`() = testScope.runBlockingTest {
+        mockResponse(
+            mockOffer("id", -1, 1, iconUrl = "url")
+        )
+        notificationManager.triggerUpdateIfNeeded()
+        advanceUntilIdle()
+        coVerify(exactly = 1) { mockApi.getApiNotifications(any(), any(), any()) }
+
+        mockResponse()
+        planChangeFlow.emit(emptyList())
+        advanceUntilIdle()
+        coVerify(exactly = 2) { mockApi.getApiNotifications(any(), any(), any()) }
+        Assert.assertEquals(emptyList<ApiNotificationOffer>(), notificationManager.activeListFlow.first())
     }
 }
