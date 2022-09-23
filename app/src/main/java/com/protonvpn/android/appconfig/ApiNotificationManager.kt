@@ -50,9 +50,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import me.proton.core.util.kotlin.DispatcherProvider
+import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.mapAsync
 import me.proton.core.util.kotlin.mapNotNullAsync
 import java.util.concurrent.TimeUnit
@@ -204,7 +203,7 @@ class ApiNotificationManager @Inject constructor(
 
     fun setTestNotificationsResponseJson(json: String) {
         try {
-            testNotifications.value = Json.decodeFromString<ApiNotificationsResponse>(json).notifications
+            testNotifications.value = json.deserialize<ApiNotificationsResponse>().notifications
         } catch(e: Throwable) {
             Log.e("ApiNotificationManager", "Error parsing JSON", e)
         }
