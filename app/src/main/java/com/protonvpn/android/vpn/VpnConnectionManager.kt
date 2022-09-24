@@ -50,6 +50,7 @@ import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -453,7 +454,9 @@ class VpnConnectionManager @Inject constructor(
         if (server?.online == true &&
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {
-            if (server.supportsProtocol(profile.getProtocol(userData).vpn) && profile.getProtocol(userData).isSupported(appConfig.getFeatureFlags())) {
+            val protocolAllowed = triggerAction == Constants.REASON_GUEST_HOLE ||
+                profile.getProtocol(userData).isSupported(appConfig.getFeatureFlags())
+            if (server.supportsProtocol(profile.getProtocol(userData).vpn) && protocolAllowed) {
                 smartConnect(profile, server)
             } else {
                 delegate.onProtocolNotSupported()
