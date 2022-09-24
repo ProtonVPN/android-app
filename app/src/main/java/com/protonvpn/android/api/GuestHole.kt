@@ -101,9 +101,9 @@ class GuestHole @Inject constructor(
             connected = withTimeoutOrNull(GUEST_HOLE_SERVER_TIMEOUT) {
                 val profile = Profile.getTempProfile(server)
                     .apply {
-                        setProtocol(ProtocolSelection(VpnProtocol.OpenVPN))
+                        setProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
                     }
-                vpnConnectionManager.get().connect(vpnUiDelegate, profile, "Guest hole")
+                vpnConnectionManager.get().connect(vpnUiDelegate, profile, Constants.REASON_GUEST_HOLE)
                 vpnStatus
                     .map { it.state }
                     .first { it is VpnState.Connected || it is VpnState.Error }
