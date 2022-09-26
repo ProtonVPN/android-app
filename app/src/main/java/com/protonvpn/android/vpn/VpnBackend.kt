@@ -337,7 +337,9 @@ abstract class VpnBackend(
 
     // Handle updates to both VpnState and local agent's state.
     private fun processCombinedState(vpnState: VpnState, localAgentState: String?) {
-        val newSelfState = if (vpnProtocol.localAgentEnabled() && currentUser.sessionIdCached() != null) {
+        val newSelfState = if (vpnProtocol.localAgentEnabled() && currentUser.sessionIdCached() != null
+            && lastConnectionParams?.profile?.isGuestHoleProfile != true
+        ) {
             if (vpnState == VpnState.Connected) {
                 handleLocalAgentStates(localAgentState)
             } else {

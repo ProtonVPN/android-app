@@ -300,7 +300,7 @@ class VpnConnectionManager @Inject constructor(
 
         if (activeBackend != null) {
             ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnecting first...")
-            disconnectForNewConnection()
+            disconnectForNewConnection(profile.isGuestHoleProfile)
             if (!coroutineContext.isActive)
                 return // Don't connect if the scope has been cancelled.
             ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnected, start connecting to new server.")
@@ -487,9 +487,11 @@ class VpnConnectionManager @Inject constructor(
         connectionParams = null
     }
 
-    private suspend fun disconnectForNewConnection() {
+    private suspend fun disconnectForNewConnection(isGuestHoleConnection: Boolean = false) {
         ProtonLogger.log(ConnDisconnectTrigger, "reason: new connection")
-        vpnStateMonitor.onDisconnectedByReconnection.emit(Unit)
+        // GuestHole connections should not emit disconnect events to not trigger self canceling for guest hole
+        if (!isGuestHoleConnection)
+            vpnStateMonitor.onDisconnectedByReconnection.emit(Unit)
         Storage.delete(ConnectionParams::class.java)
         // The UI relies on going through this state to properly show that a new connection is
         // being established (as opposed to reconnecting to the same server).
