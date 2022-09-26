@@ -102,6 +102,7 @@ class GuestHole @Inject constructor(
                 val profile = Profile.getTempProfile(server)
                     .apply {
                         setProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
+                        isGuestHoleProfile = true
                     }
                 vpnConnectionManager.get().connect(vpnUiDelegate, profile, Constants.REASON_GUEST_HOLE)
                 vpnStatus

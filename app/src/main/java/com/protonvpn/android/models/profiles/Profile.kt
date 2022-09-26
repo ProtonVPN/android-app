@@ -41,7 +41,8 @@ data class Profile @JvmOverloads constructor(
     val isSecureCore: Boolean?,
     private var protocol: String? = null,
     private var transmissionProtocol: String? = null,
-    val id: UUID? = UUID.randomUUID()
+    val id: UUID? = UUID.randomUUID(),
+    var isGuestHoleProfile: Boolean = false
 ) : Serializable {
 
     val profileColor: ProfileColor? = colorId?.let { ProfileColor.byId(it) }
