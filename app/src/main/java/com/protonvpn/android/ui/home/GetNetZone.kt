@@ -22,6 +22,8 @@ package com.protonvpn.android.ui.home
 import android.telephony.TelephonyManager
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.NetUtils
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,6 +51,8 @@ class GetNetZone @Inject constructor(
         prefs.ipAddress.isNotBlank() ->
             NetUtils.stripIP(prefs.ipAddress)
         else -> null
+    }.also {
+        ProtonLogger.logCustom(LogCategory.API, "netzone: $it")
     }
 
     private fun dateToRealtime(date: Long) =
