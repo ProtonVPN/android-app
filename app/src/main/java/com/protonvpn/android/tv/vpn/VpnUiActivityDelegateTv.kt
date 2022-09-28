@@ -65,7 +65,7 @@ class VpnUiActivityDelegateTv(
 
     override fun onProtocolNotSupported() {
         MaterialDialog.Builder(activity).theme(Theme.DARK)
-            .content(R.string.serverNoWireguardSupport)
+            .content(R.string.profileProtocolNotAvailable)
             .positiveText(R.string.close)
             .show()
     }

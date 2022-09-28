@@ -347,7 +347,6 @@
     <string name="errorTunMultiUserPermission">نتوانست اتصال VPN را مقدماتی کند به دلیل یک درگیری بین برنامه دوتایی ( برای مثال Messenger دوتایی) و Split Tunneling. لطفاً یکی از آنها را غیر فعال کرده و دستگاه خود را reboot کنید.</string>
     <string name="errorTorrentNotAllowed">روی این سرور P2P اجازه داده نمی‌شود</string>
     <string name="errorWireguardWithPlaceholder">خطای WireGuard %1$s</string>
-    <string name="serverNoWireguardSupport">سرور این پروفایل هنوز از WireGuard پشتیبانی نمی‌کند. برای اتصال، از یک پروتکل دیگر یا سروری استفاده کنید که از WireGuard پشتیبانی می‌کند.</string>
     <string name="stateConnectedTo">متصل شده به %1$s</string>
     <string name="stateNotConnected">شما متصل نیستید</string>
     <string name="recents">اخیر</string>

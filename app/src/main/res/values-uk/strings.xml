@@ -351,7 +351,6 @@
     <string name="errorTunMultiUserPermission">Не вдалося ініціалізувати VPN-з\'єднання через конфлікт між подвійним додатком (наприклад, Dual Messenger) та роздільним тунелюванням. Від\'єднайте один з них і перезавантажте пристрій.</string>
     <string name="errorTorrentNotAllowed">P2P не дозволено на цьому сервері</string>
     <string name="errorWireguardWithPlaceholder">Помилка WireGuard %1$s</string>
-    <string name="serverNoWireguardSupport">Сервер цього профілю ще не підтримує WireGuard. Щоб з\'єднатися, спробуйте інший протокол чи сервер, який підтримує WireGuard.</string>
     <string name="stateConnectedTo">З\'єднано з %1$s</string>
     <string name="stateNotConnected">Ви не під\'єднані</string>
     <string name="recents">Нещодавні</string>
