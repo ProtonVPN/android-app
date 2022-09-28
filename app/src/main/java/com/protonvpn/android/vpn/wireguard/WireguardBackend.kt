@@ -162,10 +162,12 @@ class WireguardBackend(
     private suspend fun startMonitoringJob() {
         monitoringJob = mainScope.launch(dispatcherProvider.Io) {
             ProtonLogger.logCustom(LogCategory.CONN_WIREGUARD, "start monitoring job")
-            val networkJob = launch(wireGuardIo) {
+            val networkJob = launch(dispatcherProvider.Main) {
                 networkManager.observe().collect { status ->
                     val isConnected = status != NetworkStatus.Disconnected
-                    backend.setNetworkAvailable(isConnected)
+                    withContext(wireGuardIo) {
+                        backend.setNetworkAvailable(isConnected)
+                    }
                 }
             }
             try {
