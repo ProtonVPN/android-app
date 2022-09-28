@@ -349,7 +349,6 @@
     <string name="errorTunMultiUserPermission">VPN vezu nije moguće započeti zbog sukoba između dvostrukih aplikacije (npr. Dual Messenger) i Podijeljenog tuneliranja. Onemogućite jedno od njih i ponovno pokrenite uređaj.</string>
     <string name="errorTorrentNotAllowed">P2P is not allowed on this server</string>
     <string name="errorWireguardWithPlaceholder">WireGuard error %1$s</string>
-    <string name="serverNoWireguardSupport">This profile\'s server does not yet support WireGuard. To connect, try another protocol or a server supporting WireGuard.</string>
     <string name="stateConnectedTo">Povezan s %1$s</string>
     <string name="stateNotConnected">Niste povezani</string>
     <string name="recents">Nedavno</string>

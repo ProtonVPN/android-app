@@ -347,7 +347,6 @@
     <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en Split Tunneling. Schakel een van deze uit en herstart uw apparaat.</string>
     <string name="errorTorrentNotAllowed">P2P is niet toegestaan op deze server</string>
     <string name="errorWireguardWithPlaceholder">WireGuard fout %1$s</string>
-    <string name="serverNoWireguardSupport">De server van dit profiel ondersteunt nog geen WireGuard. Om verbinding te maken, probeer een ander protocol of een server die WireGuard ondersteunt.</string>
     <string name="stateConnectedTo">Verbonden met %1$s</string>
     <string name="stateNotConnected">U bent niet verbonden</string>
     <string name="recents">Recente oproepen</string>

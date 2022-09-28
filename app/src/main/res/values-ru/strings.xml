@@ -351,7 +351,6 @@
     <string name="errorTunMultiUserPermission">Не удалось инициализировать VPN соединение из-за конфликта между dual-app (например, Dual Messenger) и Split Tunneling. Пожалуйста, отключите одно из них и перезагрузите Ваше устройство.</string>
     <string name="errorTorrentNotAllowed">P2P не разрешен на этом сервере</string>
     <string name="errorWireguardWithPlaceholder">Ошибка WireGuard %1$s</string>
-    <string name="serverNoWireguardSupport">Сервер этого профиля еще не поддерживает WireGuard. Для подключения попробуйте использовать другой протокол или сервер, поддерживающий WireGuard.</string>
     <string name="stateConnectedTo">Подключение к %1$s</string>
     <string name="stateNotConnected">Вы не подключены</string>
     <string name="recents">Недавние</string>

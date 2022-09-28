@@ -100,7 +100,7 @@ class VpnUiActivityDelegateMobile(
 
     override fun onProtocolNotSupported() {
         MaterialAlertDialogBuilder(activity)
-            .setMessage(R.string.serverNoWireguardSupport)
+            .setMessage(R.string.profileProtocolNotAvailable)
             .setPositiveButton(R.string.close, null)
             .show()
     }
