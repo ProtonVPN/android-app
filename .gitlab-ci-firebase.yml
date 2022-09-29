@@ -87,6 +87,7 @@ tv tests:
 
 real connection mobile tests:
   extends: .tests_preparation_script
+  allow_failure: true
   variables:
     TESTS_TYPE: realConnectionTest
     APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
