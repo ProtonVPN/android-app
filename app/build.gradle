@@ -709,8 +709,7 @@ dependencies {
     implementation 'com.caverock:androidsvg:1.4'
 
     // Wireguard
-    //TODO: publish modified wireguard
-    //implementation 'com.wireguard.android:tunnel:1.0.20211029'
+    implementation 'me.proton.vpn:wireguard-android:1.0.20211029.6'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // Hilt
