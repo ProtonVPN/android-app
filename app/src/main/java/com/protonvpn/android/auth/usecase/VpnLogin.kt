@@ -22,6 +22,7 @@ package com.protonvpn.android.auth.usecase
 import android.content.Context
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
@@ -29,6 +30,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.login.toVpnUserEntity
+import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
@@ -45,7 +47,9 @@ class VpnLogin @Inject constructor(
     val vpnUserDao: VpnUserDao,
     val certificateRepository: CertificateRepository,
     val currentUser: CurrentUser,
-    val purchaseEnabled: CachedPurchaseEnabled
+    val purchaseEnabled: CachedPurchaseEnabled,
+    val appConfig: AppConfig,
+    val serverListUpdater: ServerListUpdater
 ) {
     sealed class Result {
         class Success(val vpnUser: VpnUser) : Result()
@@ -104,6 +108,8 @@ class VpnLogin @Inject constructor(
                 showConnectFeature.value.feature.value
             )
         }
+        serverListUpdater.updateLocationIfVpnOff()
+        appConfig.update().join()
     }
 
     companion object {

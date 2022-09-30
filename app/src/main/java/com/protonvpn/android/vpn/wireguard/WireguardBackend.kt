@@ -34,6 +34,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
+import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.CertificateRepository
@@ -75,10 +76,11 @@ class WireguardBackend(
     mainScope: CoroutineScope,
     serverPing: ServerPing,
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
-    currentUser: CurrentUser
+    currentUser: CurrentUser,
+    getNetZone: GetNetZone,
 ) : VpnBackend(
     userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
-    dispatcherProvider, serverPing, localAgentUnreachableTracker, currentUser
+    dispatcherProvider, serverPing, localAgentUnreachableTracker, currentUser, getNetZone
 ) {
     private val wireGuardIo = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 

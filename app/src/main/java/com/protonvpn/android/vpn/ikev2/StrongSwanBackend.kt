@@ -33,11 +33,11 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsIKEv2
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
-import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackend
@@ -65,7 +65,8 @@ class StrongSwanBackend @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     serverPing: ServerPing,
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
-    currentUser: CurrentUser
+    currentUser: CurrentUser,
+    getNetZone: GetNetZone,
 ) : VpnBackend(
     userData,
     appConfig,
@@ -76,7 +77,8 @@ class StrongSwanBackend @Inject constructor(
     dispatcherProvider,
     serverPing,
     localAgentUnreachableTracker,
-    currentUser
+    currentUser,
+    getNetZone
 ), VpnStateService.VpnStateListener {
 
     private var vpnService: VpnStateService? = null

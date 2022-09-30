@@ -60,6 +60,7 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.UserCertRefresh
 import com.protonvpn.android.logging.UserCertRevoked
 import com.protonvpn.android.models.config.TransmissionProtocol
+import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.LiveEvent
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -108,7 +109,8 @@ abstract class VpnBackend(
     val dispatcherProvider: DispatcherProvider,
     val serverPing: ServerPing,
     val localAgentUnreachableTracker: LocalAgentUnreachableTracker,
-    val currentUser: CurrentUser
+    val currentUser: CurrentUser,
+    val getNetZone: GetNetZone
 ) : VpnStateSource {
 
     data class ProtocolInfo(val transmissionProtocol: TransmissionProtocol, val port: Int)
@@ -166,6 +168,11 @@ abstract class VpnBackend(
         }
 
         override fun onStatusUpdate(status: StatusMessage) {
+            status.clientIP?.let { clientIP ->
+                // Local Agent's ClientIP is not accurate for secure core
+                if (lastConnectionParams?.profile?.isSecureCore == false)
+                    getNetZone.updateIpFromLocalAgent(clientIP)
+            }
             ProtonLogger.log(LocalAgentStatus, status.toString())
         }
     }

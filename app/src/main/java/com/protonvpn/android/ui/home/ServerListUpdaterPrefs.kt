@@ -39,10 +39,10 @@ class ServerListUpdaterPrefs @Inject constructor(
 
     val ipAddressFlow: Flow<String> = preferences.observe<String>(KEY_IP_ADDRESS).map { it ?: "" }
     var ipAddress: String by string(EMPTY_STRING, key = KEY_IP_ADDRESS)
-    var ipAddressCheckTimestamp: Long by long(0)
     var lastKnownCountry: String? by string()
     var lastKnownIsp: String? by string()
     var loadsUpdateTimestamp: Long by long(0)
+    var lastNetzoneForLogicals: String? by string()
 
     companion object {
         private const val PREFS_NAME = "ServerListUpdater"

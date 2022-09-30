@@ -105,7 +105,7 @@ class ServerListUpdaterTests {
         every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_GSM
         every { mockTelephonyManager.networkCountryIso } returns "ch"
 
-        val getNetZone = GetNetZone(serverListUpdaterPrefs, mockTelephonyManager, { clockMs }, { clockMs })
+        val getNetZone = GetNetZone(serverListUpdaterPrefs, mockTelephonyManager, { clockMs })
         serverListUpdater = ServerListUpdater(
             testScope,
             mockApi,
@@ -114,7 +114,6 @@ class ServerListUpdaterTests {
             mockVpnStateMonitor,
             mockPlanManager,
             serverListUpdaterPrefs,
-            { clockMs },
             { clockMs },
             getNetZone
         )
