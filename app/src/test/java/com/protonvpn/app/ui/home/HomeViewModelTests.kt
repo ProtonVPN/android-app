@@ -64,7 +64,8 @@ class HomeViewModelTests {
             currentUser = mockk(relaxed = true),
             logoutUseCase = mockk(),
             onSessionClosed = mockk(relaxed = true),
-            purchaseEnabled = mockk()
+            purchaseEnabled = mockk(),
+            appConfig = mockk()
         )
     }
 

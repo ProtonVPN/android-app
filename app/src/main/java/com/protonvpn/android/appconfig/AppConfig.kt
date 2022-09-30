@@ -18,9 +18,9 @@
  */
 package com.protonvpn.android.appconfig
 
-import android.os.SystemClock
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
@@ -31,9 +31,11 @@ import com.protonvpn.android.utils.jitterMs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -43,9 +45,11 @@ import javax.inject.Singleton
 class AppConfig @Inject constructor(
     private val scope: CoroutineScope,
     private val api: ProtonApiRetroFit,
-    private val userPlanManager: UserPlanManager,
+    userPlanManager: UserPlanManager,
     private val getNetZone: GetNetZone,
+    @ElapsedRealtimeClock private val now: () -> Long,
 ) {
+    private var lastUpdateAttempt = Long.MIN_VALUE
 
     val appConfigUpdateEvent = MutableSharedFlow<AppConfigResponse>(extraBufferCapacity = 1)
     val appConfigFlow = appConfigUpdateEvent.stateIn(
@@ -61,22 +65,25 @@ class AppConfig @Inject constructor(
 
     private val appConfigResponse get() = appConfigFlow.value
 
-    private var updateTask = ReschedulableTask(scope, SystemClock::elapsedRealtime) {
+    private var updateTask = ReschedulableTask(scope, now) {
         updateInternal()
     }
 
     init {
         updateTask.scheduleIn(0)
 
-        scope.launch {
-            userPlanManager.planChangeFlow.collect {
-                updateInternal()
-            }
-        }
+        userPlanManager.planChangeFlow.onEach {
+            updateInternal()
+        }.launchIn(scope)
     }
 
-    fun update() = scope.launch {
+    suspend fun forceUpdate() = withContext(scope.coroutineContext) {
         updateInternal()
+    }
+
+    fun updateFromUI() = scope.launch {
+        if (now() - lastUpdateAttempt > UPDATE_DELAY_UI)
+            updateTask.scheduleIn(0)
     }
 
     fun getMaintenanceTrackerDelay(): Long = maxOf(Constants.MINIMUM_MAINTENANCE_CHECK_MINUTES,
@@ -101,6 +108,7 @@ class AppConfig @Inject constructor(
     fun getRatingConfig(): RatingConfig = appConfigResponse.ratingConfig ?: getDefaultRatingConfig()
 
     private suspend fun updateInternal() {
+        lastUpdateAttempt = now()
         val result = api.getAppConfig(getNetZone())
         val dynamicReportModel = api.getDynamicReportConfig()
         dynamicReportModel.valueOrNull?.let {
@@ -142,7 +150,8 @@ class AppConfig @Inject constructor(
     )
 
     companion object {
-        private val UPDATE_DELAY = TimeUnit.DAYS.toMillis(1)
-        private val UPDATE_DELAY_FAIL = TimeUnit.HOURS.toMillis(3)
+        private val UPDATE_DELAY = TimeUnit.HOURS.toMillis(12)
+        private val UPDATE_DELAY_UI = TimeUnit.HOURS.toMillis(2)
+        private val UPDATE_DELAY_FAIL = TimeUnit.HOURS.toMillis(2)
     }
 }
