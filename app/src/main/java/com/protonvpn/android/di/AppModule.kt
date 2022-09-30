@@ -43,6 +43,7 @@ import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
+import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
@@ -382,7 +383,8 @@ object AppModule {
         dispatcherProvider: DispatcherProvider,
         serverPing: ServerPing,
         localAgentUnreachableTracker: LocalAgentUnreachableTracker,
-        currentUser: CurrentUser
+        currentUser: CurrentUser,
+        getNetZone: GetNetZone
     ) = WireguardBackend(
         ProtonApplication.getAppContext(),
         GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
@@ -394,7 +396,8 @@ object AppModule {
         scope,
         serverPing,
         localAgentUnreachableTracker,
-        currentUser
+        currentUser,
+        getNetZone
     )
 
     @Singleton

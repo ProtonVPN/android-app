@@ -33,6 +33,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.vpn.CertificateRepository
@@ -67,7 +68,8 @@ class OpenVpnBackend @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     serverPing: ServerPing,
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
-    currentUser: CurrentUser
+    currentUser: CurrentUser,
+    getNetZone: GetNetZone,
 ) : VpnBackend(
     userData,
     appConfig,
@@ -78,7 +80,8 @@ class OpenVpnBackend @Inject constructor(
     dispatcherProvider,
     serverPing,
     localAgentUnreachableTracker,
-    currentUser
+    currentUser,
+    getNetZone
 ), VpnStatus.StateListener {
 
     init {

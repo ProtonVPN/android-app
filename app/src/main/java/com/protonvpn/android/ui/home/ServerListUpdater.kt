@@ -25,7 +25,6 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.utils.ReschedulableTask
@@ -55,15 +54,12 @@ class ServerListUpdater @Inject constructor(
     userPlanManager: UserPlanManager,
     private val prefs: ServerListUpdaterPrefs,
     @WallClock private val wallClock: () -> Long,
-    @ElapsedRealtimeClock private val elapsedRealtimeMs: () -> Long,
     private val getNetZone: GetNetZone,
 ) {
     private var networkLoader: NetworkLoader? = null
     private var inForeground = false
 
-    private val lastServerListUpdate get() =
-        dateToRealtime(serverManager.lastUpdateTimestamp)
-    private var lastLoadsUpdateInternal = Long.MIN_VALUE
+    private val lastServerListUpdate get() = serverManager.lastUpdateTimestamp
 
     val ipAddress = prefs.ipAddressFlow
 
@@ -73,8 +69,6 @@ class ServerListUpdater @Inject constructor(
 
     init {
         migrateIpAddress()
-
-        lastLoadsUpdateInternal = dateToRealtime(prefs.loadsUpdateTimestamp)
 
         scope.launch {
             userPlanManager.planChangeFlow.collect {
@@ -88,16 +82,13 @@ class ServerListUpdater @Inject constructor(
         }
     }
 
-    private val task = ReschedulableTask(scope, elapsedRealtimeMs) {
+    private val task = ReschedulableTask(scope, wallClock) {
         val nextScheduleDelay = updateTask()
         if (nextScheduleDelay > 0) scheduleIn(nextScheduleDelay)
     }
 
     private val lastLoadsUpdate
-        get() = lastLoadsUpdateInternal.coerceAtLeast(lastServerListUpdate)
-
-    private fun dateToRealtime(date: Long) =
-        elapsedRealtimeMs() - (wallClock() - date).coerceAtLeast(0)
+        get() = prefs.loadsUpdateTimestamp.coerceAtLeast(lastServerListUpdate)
 
     fun startSchedule(lifecycle: Lifecycle, loader: NetworkLoader?) {
         networkLoader = loader
@@ -131,8 +122,8 @@ class ServerListUpdater @Inject constructor(
     @VisibleForTesting
     suspend fun updateTask(): Long {
         if (currentUser.isLoggedIn()) {
-            val now = elapsedRealtimeMs()
-            if (now >= getNetZone.lastIpCheck + LOCATION_CALL_DELAY) {
+            val now = wallClock()
+            if (now >= getNetZone.lastLocationIpCheck + LOCATION_CALL_DELAY) {
                 if (updateLocationIfVpnOff())
                     updateServerList(networkLoader)
             }
@@ -151,7 +142,6 @@ class ServerListUpdater @Inject constructor(
         val result = api.getLoads(getNetZone())
         if (result is ApiResult.Success) {
             serverManager.updateLoads(result.value.loadsList)
-            lastLoadsUpdateInternal = elapsedRealtimeMs()
             prefs.loadsUpdateTimestamp = wallClock()
             return true
         }
@@ -164,21 +154,21 @@ class ServerListUpdater @Inject constructor(
             return false
 
         val result = api.getLocation()
-        var ipChanged = false
+        var netzoneChanged = false
         if (result is ApiResult.Success && vpnStateMonitor.isDisabled) {
             val newIp = result.value.ipAddress
-            if (newIp.isNotEmpty() && newIp != prefs.ipAddress) {
-                prefs.ipAddress = newIp
-                ipChanged = true
+            netzoneChanged = false
+            if (newIp.isNotEmpty()) {
+                getNetZone.updateIpFromLocation(newIp)
+                if (newIp != prefs.lastNetzoneForLogicals)
+                    netzoneChanged = true
             }
             with(result.value) {
                 prefs.lastKnownCountry = country
                 prefs.lastKnownIsp = isp
             }
-            getNetZone.lastIpCheck = elapsedRealtimeMs()
-            prefs.ipAddressCheckTimestamp = wallClock()
         }
-        return ipChanged
+        return netzoneChanged
     }
 
     suspend fun updateServerList(
@@ -198,8 +188,10 @@ class ServerListUpdater @Inject constructor(
         }
 
         val lang = Locale.getDefault().language
-        val result = api.getServerList(null, getNetZone(), lang)
+        val netzone = getNetZone()
+        val result = api.getServerList(null, netzone, lang)
         if (result is ApiResult.Success) {
+            prefs.lastNetzoneForLogicals = netzone
             serverManager.setServers(result.value.serverList, lang)
         }
         loaderUI?.switchToEmpty()

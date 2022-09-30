@@ -36,6 +36,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.AgentConnectionInterface
@@ -136,6 +137,9 @@ class VpnConnectionTests {
 
     @RelaxedMockK
     lateinit var vpnUser: VpnUser
+
+    @RelaxedMockK
+    lateinit var getNetZone: GetNetZone
 
     @MockK
     lateinit var foregroundActivityTracker: ForegroundActivityTracker
@@ -778,6 +782,6 @@ class VpnConnectionTests {
     private fun createMockVpnBackend(protocol: VpnProtocol): MockVpnBackend =
         MockVpnBackend(
             scope, networkManager, certificateRepository, userData, appConfig, protocol, mockServerPing,
-            mockLocalAgentUnreachableTracker, currentUser
+            mockLocalAgentUnreachableTracker, currentUser, getNetZone
         )
 }

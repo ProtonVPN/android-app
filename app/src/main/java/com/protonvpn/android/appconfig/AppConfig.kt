@@ -75,10 +75,8 @@ class AppConfig @Inject constructor(
         }
     }
 
-    fun update() {
-        scope.launch {
-            updateInternal()
-        }
+    fun update() = scope.launch {
+        updateInternal()
     }
 
     fun getMaintenanceTrackerDelay(): Long = maxOf(Constants.MINIMUM_MAINTENANCE_CHECK_MINUTES,

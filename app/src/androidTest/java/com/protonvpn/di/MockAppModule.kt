@@ -41,6 +41,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.NewLookDialogProvider
+import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.CertRefreshScheduler
@@ -193,15 +194,16 @@ class MockAppModule {
         serverPing: ServerPing,
         localAgentUnreachableTracker: LocalAgentUnreachableTracker,
         currentUser: CurrentUser,
+        getNetZone: GetNetZone
     ): VpnBackendProvider =
     if (TestSettings.mockedConnectionUsed) {
         ProtonVpnBackendProvider(
             strongSwan = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                    VpnProtocol.IKEv2, serverPing, localAgentUnreachableTracker, currentUser),
+                    VpnProtocol.IKEv2, serverPing, localAgentUnreachableTracker, currentUser, getNetZone),
             openVpn = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                    VpnProtocol.OpenVPN, serverPing, localAgentUnreachableTracker, currentUser),
+                    VpnProtocol.OpenVPN, serverPing, localAgentUnreachableTracker, currentUser, getNetZone),
             wireGuard = MockVpnBackend(scope, networkManager, certificateRepository, userData, appConfig,
-                    VpnProtocol.WireGuard, serverPing, localAgentUnreachableTracker, currentUser),
+                    VpnProtocol.WireGuard, serverPing, localAgentUnreachableTracker, currentUser, getNetZone),
             config = appConfig,
             userData = userData
         )
