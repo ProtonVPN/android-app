@@ -72,7 +72,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TvMainViewModel @Inject constructor(
-    override val appConfig: AppConfig,
+    appConfig: AppConfig,
     override val serverManager: ServerManager,
     val mainScope: CoroutineScope,
     val serverListUpdater: ServerListUpdater,
@@ -91,7 +91,8 @@ class TvMainViewModel @Inject constructor(
     certificateRepository,
     logoutUseCase,
     currentUser,
-    purchaseEnabled
+    purchaseEnabled,
+    appConfig
 ), StreamingViewModelHelper {
 
     val selectedCountryFlag = MutableLiveData<String?>()

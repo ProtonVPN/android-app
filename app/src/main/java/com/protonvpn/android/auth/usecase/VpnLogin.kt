@@ -109,7 +109,7 @@ class VpnLogin @Inject constructor(
             )
         }
         serverListUpdater.updateLocationIfVpnOff()
-        appConfig.update().join()
+        appConfig.forceUpdate()
     }
 
     companion object {

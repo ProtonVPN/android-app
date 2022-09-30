@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
@@ -47,6 +48,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    appConfig: AppConfig,
     mainScope: CoroutineScope,
     val userData: UserData,
     private val vpnStateMonitor: VpnStateMonitor,
@@ -57,7 +59,15 @@ class HomeViewModel @Inject constructor(
     logoutUseCase: Logout,
     onSessionClosed: OnSessionClosed,
     purchaseEnabled: CachedPurchaseEnabled
-) : MainViewModel(mainScope, userPlanManager, certificateRepository, logoutUseCase, currentUser, purchaseEnabled) {
+) : MainViewModel(
+    mainScope,
+    userPlanManager,
+    certificateRepository,
+    logoutUseCase,
+    currentUser,
+    purchaseEnabled,
+    appConfig
+) {
 
     private var startOnboardingJob: Job? = null
 
