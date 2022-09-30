@@ -10,7 +10,7 @@
     - git remote add gitlab_origin "$ORIGIN_OAUTH_URL"
     - git fetch gitlab_origin deploy:temp-branch --depth=1
     - git reset --hard
-    - git checkout temp-branch
+    - git checkout -f temp-branch
     - mv "$ARTIFACT_PATH" "$ARTIFACT_OUTPUT_NAME"
     - git add $ARTIFACT_OUTPUT_NAME -f
     - git commit -m "Update $ARTIFACT_OUTPUT_NAME"
