@@ -84,7 +84,7 @@ data class Server(
     }
 
     val isFreeServer: Boolean
-        get() = domain.contains("-free")
+        get() = tier == 0
 
     val flag: String
         get() = if (exitCountry == "GB") "UK" else exitCountry
