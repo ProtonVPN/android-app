@@ -19,6 +19,7 @@
 
 package com.protonvpn.android
 
+import android.webkit.WebView
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.startup.AppInitializer
 import androidx.work.Configuration
@@ -44,6 +45,7 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
         AppInitializer.getInstance(this).initializeComponent(CryptoValidatorInitializer::class.java)
         AppInitializer.getInstance(this).initializeComponent(MissingScopeInitializer::class.java)
         AppInitializer.getInstance(this).initializeComponent(UnredeemedPurchaseInitializer::class.java)
+        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
 
         if (BuildConfig.DEBUG) {
             testNotificationLoader.get().loadTestFile()
