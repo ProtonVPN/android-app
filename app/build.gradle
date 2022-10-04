@@ -776,6 +776,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-web:3.4.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
     implementation project(path: ':openvpn')

@@ -20,16 +20,16 @@
 package com.protonvpn.actions
 
 import androidx.annotation.IdRes
-import androidx.annotation.StringRes
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.web.sugar.Web.onWebView
+import androidx.test.espresso.web.webdriver.DriverAtoms.findElement
+import androidx.test.espresso.web.webdriver.DriverAtoms.webClick
+import androidx.test.espresso.web.webdriver.Locator
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
 import com.protonvpn.android.R
-import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
-import com.protonvpn.testsHelper.ConditionalActionsHelper
+import java.util.concurrent.TimeUnit
 
 class SignupRobot : BaseRobot() {
 
@@ -52,11 +52,22 @@ class SignupRobot : BaseRobot() {
     }
 
     fun verifyViaEmail(code: String): OnboardingRobot {
-        //When HV3 will be introduced check if hardcoded selector can be removed
-        clickElementByText<SignupRobot>("email")
-        clickElementById<SignupRobot>(R.id.getVerificationCodeButton)
-        replaceText<SignupRobot>(R.id.verificationCodeEditText, code)
-        return clickElementById(R.id.verifyButton)
+        onWebView()
+            .withElement(findElement(Locator.ID, "label_1"))
+            .perform(webClick())
+            .withElement(findElement(Locator.XPATH, "//*[@id=\"key_1\"]/button"))
+            .perform(webClick())
+        Thread.sleep(3000)
+
+        // Workaround for inputing code
+        // as inputing with webkeys for some reason does not work correctly on code verification page
+        val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        repeat(7) { uiDevice.pressKeyCode(13) }
+        onWebView()
+            .withElement(findElement(Locator.XPATH, "/html/body/div[1]/main/button[1]"))
+            .perform(webClick())
+
+        return OnboardingRobot()
     }
 
     private fun clickOnNextButtonBySibling(@IdRes siblingId: Int) {
