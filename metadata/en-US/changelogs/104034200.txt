@@ -1,0 +1,3 @@
+What's new:
+* Improves the in-app notification visualization
+* Improves the overall app stability
