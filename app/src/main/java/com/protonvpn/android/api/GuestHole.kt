@@ -173,9 +173,7 @@ class GuestHole @Inject constructor(
         } finally {
             logMessage("Disconnecting")
             if (!vpnMonitor.isDisabled) {
-                scope.launch {
-                    vpnConnectionManager.get().disconnectSync("guest hole call completed")
-                }
+                vpnConnectionManager.get().disconnectSync("guest hole call completed")
             }
             userActionJob.cancel()
         }
