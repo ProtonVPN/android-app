@@ -88,7 +88,7 @@ suspend fun <T : Any> List<T>.parallelFirstOrNull(
                 val responses = Array<Boolean?>(size) { null }
                 withTimeoutOrNull(priorityWaitMs) {
                     do {
-                        resultChannel.receiveOrNull()?.also { result ->
+                        resultChannel.receiveCatching().getOrNull()?.also { result ->
                             responses[result.index] = result.success
                         }
                     } while (!responses.havePriorityResult())

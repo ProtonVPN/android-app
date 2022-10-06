@@ -44,8 +44,11 @@ abstract class BindableItemEx<T : ViewBinding> : BindableItem<T>() {
         // be able to do any cleanup. Force cleanup in items whose view holder is being taken over
         // by new item.
         val currentItem = viewHolder.item
-        if (currentItem != this && currentItem is BindableItemEx<*>)
-            currentItem.clear()
+        if (currentItem != this && currentItem is BindableItemEx<*>) {
+            // Do not remove cast even if IDE marks it as unnecessary
+            // If removed it results in internal compilation error
+            (currentItem as BindableItemEx<*>).clear()
+        }
 
         super.bind(viewHolder, position, payloads, onItemClickListener, onItemLongClickListener)
     }
