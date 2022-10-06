@@ -26,6 +26,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import kotlinx.coroutines.coroutineScope
@@ -51,7 +52,7 @@ class ProtonVpnBackendProvider(
         alwaysScan: Boolean
     ): PrepareResult? {
         ProtonLogger.logCustom(LogCategory.CONN_CONNECT,
-            "Preparing connection with protocol: " + protocol.vpn.name)
+            "Preparing connection with protocol: ${protocol.toLog()}")
         val scan = when (protocol.vpn) {
             VpnProtocol.IKEv2 -> false
             VpnProtocol.OpenVPN -> alwaysScan

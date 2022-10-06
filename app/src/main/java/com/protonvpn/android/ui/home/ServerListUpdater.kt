@@ -26,6 +26,8 @@ import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
@@ -163,12 +165,14 @@ class ServerListUpdater @Inject constructor(
             netzoneChanged = false
             if (newIp.isNotEmpty()) {
                 getNetZone.updateIpFromLocation(newIp)
-                if (newIp != prefs.lastNetzoneForLogicals)
+                val newNetZone = getNetZone()
+                if (newNetZone != prefs.lastNetzoneForLogicals)
                     netzoneChanged = true
             }
             with(result.value) {
                 prefs.lastKnownCountry = country
                 prefs.lastKnownIsp = isp
+                ProtonLogger.logCustom(LogCategory.API, "location: $country, isp: $isp")
             }
         }
         return netzoneChanged

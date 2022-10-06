@@ -162,7 +162,7 @@ class MockAppModule {
         if (TestSettings.mockedConnectionUsed) {
             MockApi(scope, apiProvider, userData, currentUser)
         } else {
-            ProtonApiRetroFit(scope, apiManager)
+            ProtonApiRetroFit(scope, apiManager, null)
         }
 
 

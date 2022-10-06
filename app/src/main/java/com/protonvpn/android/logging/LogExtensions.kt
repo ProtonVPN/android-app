@@ -23,6 +23,7 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.vpn.ProtocolSelection
 
 fun Profile.toLog(userData: UserData): String {
     val type = when {
@@ -45,3 +46,5 @@ fun VpnUser.toLog() =
 fun ProtonLogger.logUiSettingChange(setting: Setting, where: String) {
     log(UiSetting, "Changing \"${setting.logName}\" in $where.")
 }
+
+fun ProtocolSelection.toLog() = "$vpn ${transmission ?: ""}"
