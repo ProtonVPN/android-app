@@ -129,5 +129,6 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     companion object {
         const val HEADER_NETZONE = "x-pm-netzone"
+        const val HEADER_COUNTRY = "x-pm-country"
     }
 }

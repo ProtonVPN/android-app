@@ -19,8 +19,11 @@
 package com.protonvpn.android.api
 
 import android.os.Build
+import android.telephony.TelephonyManager
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.components.LoaderUI
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.LoginInfoBody
@@ -38,7 +41,11 @@ import me.proton.core.network.domain.session.SessionId
 import okhttp3.RequestBody
 
 //TODO: remove dependencies on activity/network loaders, refactor callbacks to suspending functions
-open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: VpnApiManager) {
+open class ProtonApiRetroFit(
+    val scope: CoroutineScope,
+    private val manager: VpnApiManager,
+    private val telephonyManager: TelephonyManager?
+) {
 
     open suspend fun getAppConfig(netzone: String?): ApiResult<AppConfigResponse> =
         manager { getAppConfig(createNetZoneHeaders(netzone)) }
@@ -158,9 +165,14 @@ open class ProtonApiRetroFit(val scope: CoroutineScope, private val manager: Vpn
     }
 
     private fun createNetZoneHeaders(netzone: String?) =
-        if (!netzone.isNullOrEmpty()) {
-            mapOf(ProtonVPNRetrofit.HEADER_NETZONE to netzone)
-        } else {
-            emptyMap()
+        mutableMapOf<String, String>().apply {
+            val mcc = if (telephonyManager != null && telephonyManager.phoneType != TelephonyManager.PHONE_TYPE_CDMA &&
+                    !telephonyManager.networkCountryIso.isNullOrBlank())
+                telephonyManager.networkCountryIso else null
+            if (mcc != null)
+                put(ProtonVPNRetrofit.HEADER_COUNTRY, mcc)
+            if (!netzone.isNullOrEmpty())
+                put(ProtonVPNRetrofit.HEADER_NETZONE, netzone)
+            ProtonLogger.logCustom(LogCategory.API, "netzone: $netzone, mcc: $mcc")
         }
 }

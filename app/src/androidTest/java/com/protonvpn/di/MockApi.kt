@@ -71,8 +71,8 @@ class MockApi(
     scope: CoroutineScope,
     apiProvider: ApiProvider,
     val userData: UserData,
-    val currentUser: CurrentUser
-) : ProtonApiRetroFit(scope, MockNetworkApiManager(apiProvider, currentUser)) {
+    val currentUser: CurrentUser,
+) : ProtonApiRetroFit(scope, MockNetworkApiManager(apiProvider, currentUser), null) {
 
     private class MockNetworkApiManager(
         apiProvider: ApiProvider,

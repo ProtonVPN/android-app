@@ -190,7 +190,8 @@ object AppModuleProd {
     fun provideAPI(
         scope: CoroutineScope,
         apiManager: VpnApiManager,
-    ) = ProtonApiRetroFit(scope, apiManager)
+        telephonyManager: TelephonyManager?
+    ) = ProtonApiRetroFit(scope, apiManager, telephonyManager)
 
     @Singleton
     @Provides

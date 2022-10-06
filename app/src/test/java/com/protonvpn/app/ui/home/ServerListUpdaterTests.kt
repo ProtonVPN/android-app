@@ -29,7 +29,6 @@ import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
-import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -105,7 +104,7 @@ class ServerListUpdaterTests {
         every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_GSM
         every { mockTelephonyManager.networkCountryIso } returns "ch"
 
-        val getNetZone = GetNetZone(serverListUpdaterPrefs, mockTelephonyManager, { clockMs })
+        val getNetZone = GetNetZone(serverListUpdaterPrefs, { clockMs })
         serverListUpdater = ServerListUpdater(
             testScope,
             mockApi,
@@ -185,41 +184,6 @@ class ServerListUpdaterTests {
         every { mockServerManager.isOutdated } returns true
         serverListUpdater.updateTask()
         verify { mockServerManager.setServers(servers, any()) }
-    }
-
-    @Test
-    fun `fresh IP is preferred to MCC`() = testScope.runBlockingTest {
-        every { mockVpnStateMonitor.isDisabled } returns true
-        coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
-        serverListUpdater.updateTask()
-        coVerify { mockApi.getServerList(any(), NetUtils.stripIP(TEST_IP), any()) }
-    }
-
-    @Test
-    fun `MCC is preferred to old IP`() = testScope.runBlockingTest {
-        every { mockVpnStateMonitor.isDisabled } returns true
-        coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
-        serverListUpdater.updateLocationIfVpnOff()
-
-        serverListUpdater.setInForegroundForTest(true)
-        every { mockVpnStateMonitor.isDisabled } returns false
-        clockMs += ServerListUpdater.IP_VALIDITY_MS + 1
-        serverListUpdater.updateTask()
-        coVerify { mockApi.getServerList(any(), "ch", any()) }
-    }
-
-    @Test
-    fun `old IP is used if MCC not available`() = testScope.runBlockingTest {
-        every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_CDMA
-        every { mockVpnStateMonitor.isDisabled } returns true
-        coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
-        serverListUpdater.updateLocationIfVpnOff()
-
-        serverListUpdater.setInForegroundForTest(true)
-        every { mockVpnStateMonitor.isDisabled } returns false
-        clockMs += ServerListUpdater.IP_VALIDITY_MS + 1
-        serverListUpdater.updateTask()
-        coVerify { mockApi.getServerList(any(), NetUtils.stripIP(TEST_IP), any()) }
     }
 
     @Test
