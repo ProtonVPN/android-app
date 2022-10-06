@@ -32,7 +32,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UpdateServersOnLocaleChange @Inject constructor(
+class UpdateServersOnStartAndLocaleChange @Inject constructor(
     scope: CoroutineScope,
     @ApplicationContext appContext: Context,
     serverListUpdater: ServerListUpdater,
@@ -40,6 +40,7 @@ class UpdateServersOnLocaleChange @Inject constructor(
 ) {
 
     init {
+        serverListUpdater.onAppStart()
         appContext.registerBroadcastReceiver(IntentFilter(Intent.ACTION_LOCALE_CHANGED)) {
             scope.launch {
                 if (currentUser.isLoggedIn())

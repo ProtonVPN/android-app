@@ -24,7 +24,6 @@ import android.app.Application;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextKt;
 
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
@@ -43,11 +42,10 @@ import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.logging.ProtonLoggerImpl;
 import com.protonvpn.android.logging.SettingChangesLogger;
 import com.protonvpn.android.notifications.NotificationHelper;
-import com.protonvpn.android.search.UpdateServersOnLocaleChange;
+import com.protonvpn.android.search.UpdateServersOnStartAndLocaleChange;
 import com.protonvpn.android.ui.onboarding.ReviewTracker;
 import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger;
 import com.protonvpn.android.utils.AndroidUtils;
-import com.protonvpn.android.utils.AndroidUtilsKt;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
@@ -103,7 +101,7 @@ public class ProtonApplication extends Application {
         ReviewTracker getReviewTracker();
         SettingChangesLogger getSettingChangesLogger();
         UpdateSecureCoreToMatchConnectedServer getUpdateSecureCoreToMatchConnectedServer();
-        UpdateServersOnLocaleChange getUpdateServersOnLocaleChange();
+        UpdateServersOnStartAndLocaleChange getUpdateServersOnLocaleChange();
         UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
         UpdateSettingsOnFeatureFlagChange getUpdateSettingsOnFeatureFlagChange();
     }

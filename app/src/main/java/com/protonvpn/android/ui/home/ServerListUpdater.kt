@@ -36,7 +36,8 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import java.util.Locale
@@ -67,28 +68,30 @@ class ServerListUpdater @Inject constructor(
     val lastKnownCountry: String? get() = prefs.lastKnownCountry
     val lastKnownIsp: String? get() = prefs.lastKnownIsp
 
-    init {
-        migrateIpAddress()
-
-        scope.launch {
-            userPlanManager.planChangeFlow.collect {
-                updateServerList()
-            }
-        }
-        scope.launch {
-            vpnStateMonitor.onDisconnectedByUser.collect {
-                task.scheduleIn(0)
-            }
-        }
-    }
-
     private val task = ReschedulableTask(scope, wallClock) {
         val nextScheduleDelay = updateTask()
         if (nextScheduleDelay > 0) scheduleIn(nextScheduleDelay)
     }
 
+    init {
+        migrateIpAddress()
+
+        userPlanManager.planChangeFlow.onEach {
+            updateServerList()
+        }.launchIn(scope)
+
+        vpnStateMonitor.onDisconnectedByUser.onEach {
+            task.scheduleIn(0)
+        }.launchIn(scope)
+    }
+
+
     private val lastLoadsUpdate
         get() = prefs.loadsUpdateTimestamp.coerceAtLeast(lastServerListUpdate)
+
+    fun onAppStart() {
+        task.scheduleIn(0)
+    }
 
     fun startSchedule(lifecycle: Lifecycle, loader: NetworkLoader?) {
         networkLoader = loader
