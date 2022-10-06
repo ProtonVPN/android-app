@@ -56,8 +56,11 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.pauseDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.session.SessionId
@@ -135,6 +138,7 @@ class VpnConnectionManagerTests {
         every { mockVpnUiDelegate.askForPermissions(any(), any(), any()) } answers {
             arg<() -> Unit>(2).invoke()
         }
+        every { mockVpnErrorHandler.switchConnectionFlow } returns MutableSharedFlow()
         every { mockVpnUiDelegate.shouldSkipAccessRestrictions() } returns false
 
         Storage.setPreferences(MockSharedPreference())

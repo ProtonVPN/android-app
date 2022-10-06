@@ -269,9 +269,6 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
         freeCompilerArgs += [
-                // There are internal compiler errors with new inference engine. Let's wait with enabling
-                // that.
-                "-XXLanguage:-NewInference",
                 "-Xopt-in=kotlin.RequiresOptIn"
         ]
     }

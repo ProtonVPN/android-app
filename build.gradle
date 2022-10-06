@@ -26,8 +26,8 @@ buildscript {
     ext.core_version = '9.0.2'
     ext.detekt_version = '1.19.0'
     ext.hilt_version = '2.42'
-    ext.kotlin_version = '1.5.30'
-    ext.kotlinx_coroutines_version = '1.5.2'
+    ext.kotlin_version = '1.6.21'
+    ext.kotlinx_coroutines_version = '1.6.4'
     ext.kotlinx_serialization_json_version = '1.3.3'
     ext.mockk_version = '1.12.3'
 

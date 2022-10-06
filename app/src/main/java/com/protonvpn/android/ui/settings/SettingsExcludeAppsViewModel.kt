@@ -91,7 +91,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     private val systemAppsState: Flow<SystemAppsState> = shouldLoadSystemApps.flatMapLatest { load ->
         if (load) {
-            flow {
+            flow<SystemAppsState> {
                 val packageNames = systemAppPackages.first()
                 emit(SystemAppsState.Loading(packageNames))
                 emit(SystemAppsState.Content(loadApps(packageNames)))

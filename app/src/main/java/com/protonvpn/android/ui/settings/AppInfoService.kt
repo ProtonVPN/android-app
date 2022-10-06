@@ -31,7 +31,7 @@ import com.protonvpn.android.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.ByteArrayOutputStream
@@ -59,7 +59,7 @@ class AppInfoService : IntentService("AppInfoService") {
             }
 
             packageNames.forEach { pkgName ->
-                appMetaDataChannel.sendBlocking(getAppMetaData(pkgName))
+                appMetaDataChannel.trySendBlocking(getAppMetaData(pkgName))
             }
 
             appMetaDataChannel.close()
