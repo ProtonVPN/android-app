@@ -104,6 +104,8 @@ robo tests:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: never
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
     - if: $CI_COMMIT_REF_NAME == "development"
       variables:
         TIMEOUT: 1200s
