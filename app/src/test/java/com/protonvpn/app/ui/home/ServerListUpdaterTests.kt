@@ -29,6 +29,7 @@ import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -49,8 +50,6 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import me.proton.core.network.domain.ApiResult
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -123,8 +122,8 @@ class ServerListUpdaterTests {
         coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
         every { mockVpnStateMonitor.isDisabled } returns true
 
-        val locationChanged = serverListUpdater.updateLocationIfVpnOff()
-        assertTrue(locationChanged)
+        val newNetzone = serverListUpdater.updateLocationIfVpnOff()
+        assertEquals(NetUtils.stripIP(TEST_IP), newNetzone)
         assertEquals(TEST_IP, serverListUpdater.ipAddress.first())
         assertEquals("pl", serverListUpdater.lastKnownCountry)
         assertEquals("ISP", serverListUpdater.lastKnownIsp)
@@ -134,8 +133,8 @@ class ServerListUpdaterTests {
     fun `location is not updated when VPN is connected`() = testScope.runBlockingTest {
         every { mockVpnStateMonitor.isDisabled } returns false
 
-        val locationChanged = serverListUpdater.updateLocationIfVpnOff()
-        assertFalse(locationChanged)
+        val newNetzone = serverListUpdater.updateLocationIfVpnOff()
+        assertEquals(null, newNetzone)
         assertEquals(OLD_IP, serverListUpdaterPrefs.ipAddress)
 
         coVerify { mockApi wasNot Called }
@@ -146,8 +145,8 @@ class ServerListUpdaterTests {
         coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
         every { mockVpnStateMonitor.isDisabled } returnsMany listOf(true, false)
 
-        val locationChanged = serverListUpdater.updateLocationIfVpnOff()
-        assertFalse(locationChanged)
+        val newNetzone = serverListUpdater.updateLocationIfVpnOff()
+        assertEquals(null, newNetzone)
         assertEquals(OLD_IP, serverListUpdater.ipAddress.first())
         assertEquals(OLD_IP, serverListUpdaterPrefs.ipAddress)
 

@@ -129,7 +129,8 @@ class ServerListUpdater @Inject constructor(
         if (currentUser.isLoggedIn()) {
             val now = wallClock()
             if (now >= getNetZone.lastLocationIpCheck + LOCATION_CALL_DELAY) {
-                if (updateLocationIfVpnOff())
+                val newNetZone = updateLocationIfVpnOff()
+                if (newNetZone != null && newNetZone != prefs.lastNetzoneForLogicals)
                     updateServerList(networkLoader)
             }
             if (serverManager.isOutdated || inForeground && now >= lastServerListUpdate + LIST_CALL_DELAY)
@@ -153,29 +154,26 @@ class ServerListUpdater @Inject constructor(
         return false
     }
 
-    // Returns true if IP has changed
-    suspend fun updateLocationIfVpnOff(): Boolean {
+    // Returns new netzone or null if not updated.
+    suspend fun updateLocationIfVpnOff(): String? {
         if (!vpnStateMonitor.isDisabled)
-            return false
+            return null
 
         val result = api.getLocation()
-        var netzoneChanged = false
         if (result is ApiResult.Success && vpnStateMonitor.isDisabled) {
-            val newIp = result.value.ipAddress
-            netzoneChanged = false
-            if (newIp.isNotEmpty()) {
-                getNetZone.updateIpFromLocation(newIp)
-                val newNetZone = getNetZone()
-                if (newNetZone != prefs.lastNetzoneForLogicals)
-                    netzoneChanged = true
-            }
             with(result.value) {
                 prefs.lastKnownCountry = country
                 prefs.lastKnownIsp = isp
-                ProtonLogger.logCustom(LogCategory.API, "location: $country, isp: $isp")
+                ProtonLogger.logCustom(LogCategory.APP, "location: $country, isp: $isp (as seen by API)")
+            }
+
+            val newIp = result.value.ipAddress
+            if (newIp.isNotEmpty()) {
+                getNetZone.updateIpFromLocation(newIp)
+                return getNetZone()
             }
         }
-        return netzoneChanged
+        return null
     }
 
     suspend fun updateServerList(
@@ -224,6 +222,5 @@ class ServerListUpdater @Inject constructor(
         private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
         val LIST_CALL_DELAY = TimeUnit.HOURS.toMillis(3)
         private val MIN_CALL_DELAY = minOf(LOCATION_CALL_DELAY, LOADS_CALL_DELAY, LIST_CALL_DELAY)
-        val IP_VALIDITY_MS = TimeUnit.DAYS.toMillis(1)
     }
 }
