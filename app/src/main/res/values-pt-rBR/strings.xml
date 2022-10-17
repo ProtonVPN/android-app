@@ -44,7 +44,7 @@
     <string name="secureCoreSpeedInfoMessage">O Secure Core oferece o mais alto nível de segurança e privacidade, mas pode reduzir a velocidade da sua internet. Se precisar de mais desempenho, você pode desabilitar o Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Ativar Secure Core</string>
     <string name="logoutConfirmDialogTitle">Encerrar sessão?</string>
-    <string name="logoutConfirmDialogMessage">Encerrar a sessão irá desconectar o seu dispositivo do servidor VPN.</string>
+    <string name="logoutConfirmDialogMessage">Encerrar a sessão irá desconectar o seu dispositivo da VPN.</string>
     <string name="logoutConfirmDialogButton">Encerrar sessão</string>
     <string name="showAllProfiles">Mostrar todos os perfis</string>
     <string name="yes">Sim</string>
@@ -162,7 +162,7 @@
     <string name="state_connected">Conectado</string>
     <string name="state_disconnecting">Desconectando…</string>
     <string name="state_error">Erro</string>
-    <string name="error_server_unreachable">Não foi possível conectar à VPN. Por favor verifique sua conexão e tente novamente.</string>
+    <string name="error_server_unreachable">Não foi possível conectar à VPN. Verifique sua conexão e tente novamente.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Falha na autenticação do usuário.</string>
     <string name="error_assessment_failed">Falha na auditoria de segurança.</string>
@@ -191,7 +191,7 @@
     <string name="report_bug_email_label">Seu email</string>
     <string name="report_bug_email_hint">Digite seu endereço de e-mail</string>
     <string name="report_bug_message_label">Mensagem</string>
-    <string name="report_bug_message_hint">Por favor, descreva o bug e como e onde você o encontrou</string>
+    <string name="report_bug_message_hint">Descreva o erro, e como e onde você o encontrou</string>
     <string name="send_report">Enviar relatório</string>
     <string name="excludeIpTitle">Excluir endereços de IP</string>
     <string name="discardChanges">Descartar alterações não salvas?</string>
@@ -240,13 +240,13 @@
     <string name="stateFragmentUnknownIp">Desconhecido</string>
     <string name="noVpnPermissionMainTitle">Ação necessária para se conectar à VPN</string>
     <string name="noVpnPermissionMainMessage">Para se conectar ao Proton VPN, faça o seguinte:</string>
-    <string name="noVpnPermissionGrantPermissionTitle">Conceder permissão de VPN</string>
+    <string name="noVpnPermissionGrantPermissionTitle">Conceda permissão de VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">O Android precisa da sua permissão para se conectar ao Proton VPN. Conceda-o tocando em \"OK\" quando você receber a janela \"Solicitação de conexão\" do Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Desativar o sempre ativo para outros aplicativos de VPN</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">O Android não suporta vários aplicativos VPN. Desative o \"sempre ativa\" para qualquer aplicativo VPN que não seja o Proton VPN.</string>
-    <string name="noVpnPermissionProtonAppLabel">Aplicativo ProtonVpn</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Desative o sempre ativo para outros aplicativos de VPN</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">O Android não suporta múltiplos aplicativos de VPN. Desative o VPN Sempre Ativa para qualquer outro aplicativo que não seja o Proton VPN.</string>
+    <string name="noVpnPermissionProtonAppLabel">Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Outros aplicativos VPN</string>
-    <string name="noVpnPermissionOpenSettings">Abra as configurações de VPN do Android</string>
+    <string name="noVpnPermissionOpenSettings">Abrir configurações de VPN do Android</string>
     <string name="error_prepare_vpn_description"><![CDATA[Por favor, desative a VPN sempre ativa para todos os outros aplicativos de VPN nas configurações de VPN no Android, pois isso impede que o Proton VPN estabeleça uma conexão VPN. Também conceda permissões para VPN no caso de aparecer uma janela solicitando permissões de VPN. Outros aplicativos VPN também podem ter que ser desinstalados para evitar conflitos. Após isso, tente novamente. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="error_prepare_vpn_settings">Vá para configurações da VPN no Android</string>
     <string name="error_prepare_vpn_title">Erro: problema de permissão na VPN</string>
@@ -260,7 +260,7 @@
     <string name="profileFastest">Mais rápido</string>
     <string name="profileRandom">Aleatório</string>
     <string name="settingsSplitTunnelingDescription">O tunelamento dividido permite que certos aplicativos ou IPs sejam excluídos do tráfego VPN.</string>
-    <string name="settingsSplitTunnelingTitle">Tunelamento split</string>
+    <string name="settingsSplitTunnelingTitle">Tunelamento dividido</string>
     <string name="loaderAuthenticatingUser">Autenticando usuário…</string>
     <string name="loaderErrorNoInternet">Sem conexão com a internet</string>
     <string name="loaderErrorGeneric">Algo deu errado</string>
@@ -311,7 +311,7 @@
     <string name="troubleshootContactUsSectionTitle">Ainda precisa de ajuda? Contate-nos diretamente</string>
     <string name="troubleshootCustomerSupport">Suporte ao cliente</string>
     <string name="settingsAllowAlternativeRoutingTitle">Roteamento alternativo</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permita que o aplicativo tenta caminhos alternativos para acessar os servidores Proton. <a href="%1$s">Saiba mais</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permite que o aplicativo tente caminhos alternativos para acessar os servidores Proton. <a href="%1$s">Saiba mais</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueio governamental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Seu país pode estar bloqueando o acesso ao Proton. Tente usar o <a href=\'%1$s\'>Tor</a> para acessar o Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN sempre ativa e kill switch</string>
@@ -328,7 +328,7 @@
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Toque no botão ao lado de <b>Bloquear conexões sem VPN</b> para ativar o kll switch]]></string>
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Toque no botão ao lado de <b>Bloquear conexões sem VPN</b> para ativar o kill switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abra as configurações do Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Ativar o kill switch desativará o tunelamento dividido, pois o kill switch bloqueia todas as conexões fora do túnel VPN</string>
     <string name="settingsSmartProtocolDescription">Usar automaticamente o protocolo e a porta que oferecem a melhor conectividade.</string>
@@ -347,6 +347,7 @@
     <string name="errorTunMultiUserPermission">Não foi possível iniciar a conexão VPN devido a um conflito entre o Dual-app (por exemplo, o Dual Messenger) e o Split Tunneling. Por favor, desative um desses e reinicie seu dispositivo.</string>
     <string name="errorTorrentNotAllowed">P2P não é permitido neste servidor</string>
     <string name="errorWireguardWithPlaceholder">Erro WireGuard%1$s</string>
+    <string name="profileProtocolNotAvailable">O protocolo VPN deste perfil não está disponível no momento. Para conectar, tente mudar o protocolo.</string>
     <string name="stateConnectedTo">Conectado a %1$s</string>
     <string name="stateNotConnected">Você não está conectado</string>
     <string name="recents">Recentes</string>
@@ -633,7 +634,7 @@
     <string name="search_empty_hint_countries"><![CDATA[Países: <font color="%1$s">Suíça, Estados Unidos, Itália…</font>]]></string>
     <string name="search_empty_hint_countries_secure_core"><![CDATA[Países: <font color="%1$s">França, Estados Unidos, Itália…</font>]]></string>
     <string name="search_empty_hint_cities"><![CDATA[Cidades: <font color="%1$s">Nova Iorque, Londres, Tóquio…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[Regiões de EUA: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[Regiões dos EUA: <font color="%1$s">Califórnia, Flórida, Colorado…</font>]]></string>
     <string name="search_empty_hint_servers"><![CDATA[Servidores: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Tente uma palavra chave diferente</string>
     <string name="search_empty_result_title">Nenhum resultado encontrado</string>

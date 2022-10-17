@@ -347,6 +347,7 @@
     <string name="errorTunMultiUserPermission">Çift uygulama (örneğin Dual Messenger) ve Bölünmüş tünelleme arasındaki bir çakışma nedeniyle VPN bağlantısı başlatılamadı. Lütfen bunlardan birini devre dışı bırakıp aygıtınızı yeniden başlatın.</string>
     <string name="errorTorrentNotAllowed">Bu sunucu üzerinde P2P kullanımına izin verilmiyor</string>
     <string name="errorWireguardWithPlaceholder">WireGuard hatası: %1$s</string>
+    <string name="profileProtocolNotAvailable">Profilin VPN iletişim kuralı şu anda kullanılamıyor. Bağlantı kurmak için iletişim kuralını değiştirmeyi deneyin.</string>
     <string name="stateConnectedTo">%1$s ile bağlantı kuruldu</string>
     <string name="stateNotConnected">Bağlı değilsiniz</string>
     <string name="recents">Son kullanılanlar</string>
