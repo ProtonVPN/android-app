@@ -347,6 +347,7 @@
     <string name="errorTunMultiUserPermission">No se ha podido inicializar la conexión VPN debido a un conflicto entre dos aplicaciones (por ejemplo Dual Messenger) y Split Tunneling. Por favor, desactiva uno de ellos y reinicia tu dispositivo.</string>
     <string name="errorTorrentNotAllowed">El P2P no está permitido en este servidor</string>
     <string name="errorWireguardWithPlaceholder">Error de WireGuard %1$s</string>
+    <string name="profileProtocolNotAvailable">El protocolo VPN de este perfil no está disponible actualmente. Para conectar, prueba a cambiar el protocolo.</string>
     <string name="stateConnectedTo">Conectado a %1$s</string>
     <string name="stateNotConnected">No estás conectado</string>
     <string name="recents">Recientes</string>

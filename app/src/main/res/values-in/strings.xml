@@ -345,6 +345,7 @@
     <string name="errorTunMultiUserPermission">Sambungan VPN tidak dapat dimulai karena terdapatnya konflik antar aplikasi dual-app (semisal Dual Messenger) dan Split Tunneling. Mohon nonaktifkan salah satunya dan nyalakan ulang perangkat Anda.</string>
     <string name="errorTorrentNotAllowed">Koneksi P2P tidak diizinkan di server ini</string>
     <string name="errorWireguardWithPlaceholder">Kesalahan WireGuard %1$s</string>
+    <string name="profileProtocolNotAvailable">Protokol VPN yang diusung oleh profil ini saat ini sedang tidak tersedia. Untuk dapat terhubung, cobalah untuk mengubah protokol.</string>
     <string name="stateConnectedTo">Terhubung ke %1$s</string>
     <string name="stateNotConnected">Anda tidak terhubung</string>
     <string name="recents">Baru saja</string>
