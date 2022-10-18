@@ -26,7 +26,7 @@ import com.protonvpn.android.ui.promooffers.TestNotificationLoader
 import dagger.hilt.android.HiltAndroidApp
 import me.proton.core.auth.presentation.MissingScopeInitializer
 import me.proton.core.crypto.validator.presentation.init.CryptoValidatorInitializer
-import me.proton.core.humanverification.presentation.HumanVerificationInitializer
+import me.proton.core.plan.presentation.UnredeemedPurchaseInitializer
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -43,6 +43,7 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
         // Initialize most objects in ProtonApplication.initDependencies().
         AppInitializer.getInstance(this).initializeComponent(CryptoValidatorInitializer::class.java)
         AppInitializer.getInstance(this).initializeComponent(MissingScopeInitializer::class.java)
+        AppInitializer.getInstance(this).initializeComponent(UnredeemedPurchaseInitializer::class.java)
 
         if (BuildConfig.DEBUG) {
             testNotificationLoader.get().loadTestFile()

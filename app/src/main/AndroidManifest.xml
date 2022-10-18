@@ -331,6 +331,11 @@
                 android:name="me.proton.core.auth.presentation.MissingScopeInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
+
+           <meta-data
+                android:name="me.proton.core.plan.presentation.UnredeemedPurchaseInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
         </provider>
     </application>
 

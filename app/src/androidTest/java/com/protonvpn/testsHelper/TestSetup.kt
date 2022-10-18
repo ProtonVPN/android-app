@@ -19,11 +19,10 @@
 
 package com.protonvpn.testsHelper
 
-import com.protonvpn.android.test.BuildConfig
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.testRail.ApiClient
-import me.proton.core.util.kotlin.takeIfNotBlank
 
 class TestSetup {
     companion object {
