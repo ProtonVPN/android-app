@@ -19,7 +19,7 @@
 
 package com.protonvpn.testRail
 
-import com.protonvpn.android.test.BuildConfig
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.utils.Log
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

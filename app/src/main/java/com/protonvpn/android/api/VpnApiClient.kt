@@ -49,6 +49,11 @@ class VpnApiClient(
         get() = String.format(Locale.US, "ProtonVPN/%s (Android %s; %s %s)",
                 BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.BRAND, Build.MODEL)
 
+    override val connectTimeoutSeconds get() = 10L
+    override val readTimeoutSeconds get() = 10L
+    override val writeTimeoutSeconds get() = 10L
+    override val callTimeoutSeconds get() = 15L
+
     override fun forceUpdate(errorMessage: String) {
         scope.launch {
             eventForceUpdate.emit(errorMessage)
