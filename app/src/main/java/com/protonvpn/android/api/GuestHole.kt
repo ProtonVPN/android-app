@@ -43,6 +43,7 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -173,7 +174,9 @@ class GuestHole @Inject constructor(
         } finally {
             logMessage("Disconnecting")
             if (!vpnMonitor.isDisabled) {
-                vpnConnectionManager.get().disconnectSync("guest hole call completed")
+                withContext(NonCancellable) {
+                    vpnConnectionManager.get().disconnectSync("guest hole call completed")
+                }
             }
             userActionJob.cancel()
         }
