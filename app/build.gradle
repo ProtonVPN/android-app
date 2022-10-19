@@ -584,23 +584,23 @@ dependencies {
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'com.github.moagrius:TileView:2.2.7'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation 'com.jakewharton:butterknife:10.2.3'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
     implementation 'com.daimajia.easing:library:2.4@aar'
-    implementation 'androidx.activity:activity-ktx:1.4.0'
-    implementation 'androidx.fragment:fragment-ktx:1.4.1'
+    implementation 'androidx.activity:activity-ktx:1.6.0'
+    implementation 'androidx.fragment:fragment-ktx:1.5.3'
     implementation 'com.squareup:otto:1.3.8'
     implementation 'io.sentry:sentry-android:5.5.2'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.scottyab:aes-crypto:0.0.5'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
@@ -628,7 +628,7 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation "androidx.security:security-crypto:1.0.0"
     implementation "androidx.viewpager2:viewpager2:1.1.0-beta01"
-    implementation "androidx.core:core-splashscreen:1.0.0-rc01"
+    implementation "androidx.core:core-splashscreen:1.0.0"
 
     // Play core
     googlePlayImplementation("com.google.android.play:core:1.10.3")
@@ -639,7 +639,7 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
     // Room
-    def room_version = "2.4.2"
+    def room_version = "2.4.3"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
@@ -754,10 +754,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.ext:truth:1.4.0'
     androidTestImplementation 'com.google.truth:truth:1.1.3'
-    testImplementation "org.jetbrains.kotlin:kotlin-test:1.5.32"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.5.32"
-    androidTestImplementation "org.jetbrains.kotlin:kotlin-test:1.5.32"
-    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.5.32"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:1.6.10"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.6.10"
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test:1.6.10"
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.6.10"
 
     // Espresso dependencies
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
