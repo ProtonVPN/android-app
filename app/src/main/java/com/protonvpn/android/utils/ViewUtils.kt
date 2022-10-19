@@ -108,10 +108,10 @@ object ViewUtils {
 
 fun LottieAnimationView.onAnimationEnd(onEnd: (Animator?) -> Unit) =
     addAnimatorListener(object : Animator.AnimatorListener {
-        override fun onAnimationRepeat(animation: Animator?) {}
-        override fun onAnimationStart(animation: Animator?) {}
-        override fun onAnimationCancel(animation: Animator?) {}
-        override fun onAnimationEnd(animation: Animator?) = onEnd(animation)
+        override fun onAnimationRepeat(animation: Animator) {}
+        override fun onAnimationStart(animation: Animator) {}
+        override fun onAnimationCancel(animation: Animator) {}
+        override fun onAnimationEnd(animation: Animator) = onEnd(animation)
     })
 
 fun <T> RequestBuilder<T>.addListener(
@@ -142,10 +142,10 @@ fun <T> RequestBuilder<T>.addListener(
 
 fun ViewPropertyAnimator.whenCancelled(action: () -> Unit) {
     setListener(object : Animator.AnimatorListener {
-        override fun onAnimationStart(animation: Animator?) {}
-        override fun onAnimationEnd(animation: Animator?) {}
-        override fun onAnimationRepeat(animation: Animator?) {}
-        override fun onAnimationCancel(animation: Animator?) {
+        override fun onAnimationStart(animation: Animator) {}
+        override fun onAnimationEnd(animation: Animator) {}
+        override fun onAnimationRepeat(animation: Animator) {}
+        override fun onAnimationCancel(animation: Animator) {
             action()
         }
     })

@@ -63,10 +63,10 @@ class MobileMainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         installSplashScreen().setKeepOnScreenCondition(SplashScreen.KeepOnScreenCondition {
             true
         })
+        super.onCreate(savedInstanceState)
         helper.onCreate(accountViewModel, newLookDialogProvider)
     }
 

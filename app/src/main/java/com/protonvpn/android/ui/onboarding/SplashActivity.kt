@@ -28,7 +28,6 @@ import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import dagger.hilt.android.AndroidEntryPoint
-import me.proton.core.util.kotlin.equalsNoCase
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,10 +37,10 @@ class SplashActivity : AppCompatActivity() {
     lateinit var deepLinkHandler: DeepLinkHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         installSplashScreen().setKeepOnScreenCondition(SplashScreen.KeepOnScreenCondition {
             true
         })
+        super.onCreate(savedInstanceState)
 
         processDeepLink()
 
