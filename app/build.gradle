@@ -735,10 +735,12 @@ dependencies {
     }
 
     // Core library
-    androidTestImplementation 'androidx.test:core:1.4.0'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version"
+    // debugImplementation as a workaround for ActivityScenario problem:
+    // https://github.com/android/android-test/issues/940#issuecomment-934406022
+    debugImplementation 'androidx.test:core:1.4.0'
 
     testImplementation project(':shared-test-code')
     androidTestImplementation project(':shared-test-code')
