@@ -134,6 +134,7 @@ android {
     def helpers = new Helpers()
 
     buildToolsVersion "31.0.0"
+    ndkVersion rootProject.ext.compileNdkVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
     useLibrary 'org.apache.http.legacy'
     flavorDimensions "default"
