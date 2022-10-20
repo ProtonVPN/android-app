@@ -161,7 +161,7 @@ class ConnectionParamsTests {
     @Test
     fun testUuidIsRestoredWhenLoadedFromStorage() {
         Storage.save(params, ConnectionParams::class.java)
-        val restoredParams = Storage.load(ConnectionParams::class.java)
+        val restoredParams = ConnectionParams.readFromStore()
 
         Assert.assertEquals(params.uuid, restoredParams?.uuid)
     }

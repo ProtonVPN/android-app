@@ -30,6 +30,7 @@ import com.protonvpn.test.shared.MockedServers
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import org.junit.Before
 import org.junit.Rule
@@ -58,7 +59,7 @@ class SearchTests {
         mockkObject(CountryTools)
         every { CountryTools.getPreferredLocale() } returns Locale.US
 
-        val serverManager = ServerManager(mockUserData, mockCurrentUser) { 0 }
+        val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, mockk(relaxed = true))
         serverManager.setServers(MockedServers.serverList, Locale.getDefault().language)
         search = Search(serverManager)
     }

@@ -22,6 +22,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.asLiveData
 import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
@@ -52,6 +53,7 @@ class ServerManager @Inject constructor(
     @Transient val userData: UserData,
     @Transient val currentUser: CurrentUser,
     @Transient @WallClock private val wallClock: () -> Long,
+    appFeaturesPrefs: AppFeaturesPrefs,
 ) : Serializable {
 
     private var serverListAppVersionCode = 0
@@ -76,7 +78,7 @@ class ServerManager @Inject constructor(
     @Transient
     private val savedProfiles: SavedProfilesV3 =
         Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles())
-            .migrateProfiles()
+            .migrateProfiles(appFeaturesPrefs)
 
     // Expose a version number of the server list so that it can be used in flow operators like
     // combine to react to updates.

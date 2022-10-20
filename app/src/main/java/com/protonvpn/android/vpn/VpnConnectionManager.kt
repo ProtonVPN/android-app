@@ -533,7 +533,7 @@ class VpnConnectionManager @Inject constructor(
     }
 
     fun onVpnServiceDestroyed() {
-        Storage.load(ConnectionParams::class.java)?.takeIf { it.uuid == connectionParams?.uuid }?.let {
+        ConnectionParams.readFromStore()?.takeIf { it.uuid == connectionParams?.uuid }?.let {
             ProtonLogger.logCustom(
                 LogCategory.CONN_DISCONNECT, "onDestroy called for current VpnService, deleting ConnectionParams"
             )

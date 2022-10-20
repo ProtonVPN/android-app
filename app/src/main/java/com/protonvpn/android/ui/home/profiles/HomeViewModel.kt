@@ -23,6 +23,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
@@ -42,7 +43,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -58,7 +58,8 @@ class HomeViewModel @Inject constructor(
     currentUser: CurrentUser,
     logoutUseCase: Logout,
     onSessionClosed: OnSessionClosed,
-    purchaseEnabled: CachedPurchaseEnabled
+    purchaseEnabled: CachedPurchaseEnabled,
+    val appFeaturesPrefs: AppFeaturesPrefs
 ) : MainViewModel(
     mainScope,
     userPlanManager,
@@ -70,6 +71,10 @@ class HomeViewModel @Inject constructor(
 ) {
 
     private var startOnboardingJob: Job? = null
+
+    var showIKEv2Migration
+        get() = appFeaturesPrefs.showIKEv2Migration
+        set(value) { appFeaturesPrefs.showIKEv2Migration = value }
 
     // Temporary method to help java activity collect a flow
     fun collectPlanChange(activity: AppCompatActivity, onChange: (UserPlanManager.InfoChange.PlanChange) -> Unit) {

@@ -145,7 +145,7 @@ class VpnConnectionManagerTests {
         Storage.setPreferences(MockSharedPreference())
         userData = UserData.create()
         vpnStateMonitor = VpnStateMonitor()
-        serverManager = ServerManager(userData, mockCurrentUser, clock).apply {
+        serverManager = ServerManager(userData, mockCurrentUser, clock, mockk(relaxed = true)).apply {
             setServers(MockedServers.serverList, null)
         }
 

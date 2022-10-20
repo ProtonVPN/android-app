@@ -35,6 +35,8 @@ class AppFeaturesPrefs @Inject constructor(
     var lastAppStartTimestamp: Long by long(0)
     var minNextNotificationUpdateTimestamp: Long by long(0)
 
+    var showIKEv2Migration: Boolean by boolean(false)
+
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
     }

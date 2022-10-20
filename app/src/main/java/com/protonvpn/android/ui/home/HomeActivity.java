@@ -204,6 +204,19 @@ public class HomeActivity extends VpnActivity {
         serverListUpdater.startSchedule(getLifecycle(), this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (viewModel.getShowIKEv2Migration()) {
+            new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.ikev2_removed_dialog_title)
+                .setMessage(R.string.ikev2_removed_dialog_message)
+                .setPositiveButton(R.string.ok, (dialog, button) -> viewModel.setShowIKEv2Migration(false))
+                .show();
+        }
+    }
+
     private void checkForOnboarding() {
         viewModel.handleUserOnboarding(() -> {
             navigateTo(OnboardingActivity.class);
