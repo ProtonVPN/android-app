@@ -53,6 +53,7 @@ buildscript {
 project.ext {
     minSdkVersion = 23
     compileSdkVersion = 33
+    compileNdkVersion = "23.1.7779620"
 }
 
 allprojects {
