@@ -41,7 +41,7 @@ class RestartHandler @Inject constructor(
         // Restore connection. This should be done automatically by Android by restarting VPN service that was last
         // connected (because they are "sticky") but it doesn't always work.
         // Don't connect if the last start was just a moment ago to avoid crash loops.
-        val storedParams = Storage.load(ConnectionParams::class.java)
+        val storedParams = ConnectionParams.readFromStore()
         if (storedParams != null && wallClock() - previousAppStartTimestamp >= MIN_RESTART_DELAY_FOR_RECONNECT_MS) {
             vpnConnectionManager.onRestoreProcess(storedParams.profile, "app start")
         }

@@ -19,6 +19,7 @@ import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNull
@@ -53,7 +54,7 @@ class ServerManagerTests {
         currentUser.mockVpnUser { vpnUser }
         every { vpnUser.userTier } returns 2
         every { CountryTools.getPreferredLocale() } returns Locale.US
-        manager = ServerManager(userData, currentUser) { 0L }
+        manager = ServerManager(userData, currentUser, { 0L }, mockk(relaxed = true))
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         val list = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 

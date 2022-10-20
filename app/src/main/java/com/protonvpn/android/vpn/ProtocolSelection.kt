@@ -33,11 +33,11 @@ data class ProtocolSelection private constructor(
 
     @SerializedName("protocol") private val migrateVpn: VpnProtocol? = null
 
-    // Migrate from custom test builds. We should be able to remove this fairly soon.
-    fun migrateFromCustomTestBuild(): ProtocolSelection =
+    // Migrate from custom test builds and after removing IKEv2.
+    fun migrate(): ProtocolSelection =
         when {
             vpn == null && migrateVpn != null -> invoke(migrateVpn, transmission)
-            vpn == null -> invoke(VpnProtocol.Smart) // Unlikely, but let's cover all possibilities.
+            vpn == null -> invoke(VpnProtocol.Smart) // Unsupported protocol, fallback to Smart
             else -> this
         }
 

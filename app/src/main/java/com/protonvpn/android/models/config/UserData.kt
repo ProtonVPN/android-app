@@ -150,7 +150,7 @@ class UserData private constructor() : Serializable {
             migrateOpenVpnTransmissionProtocol = null
             Storage.save(this)
         }
-        protocol = protocol.migrateFromCustomTestBuild()
+        protocol = protocol.migrate()
 
         protocolLiveData.value = protocol
         randomizedNatLiveData.value = randomizedNatEnabled

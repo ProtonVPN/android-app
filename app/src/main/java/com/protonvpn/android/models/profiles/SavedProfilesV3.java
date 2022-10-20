@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.models.profiles;
 
+import com.protonvpn.android.appconfig.AppFeaturesPrefs;
 import com.protonvpn.android.utils.Storage;
 
 import java.io.Serializable;
@@ -53,9 +54,10 @@ public class SavedProfilesV3 implements Serializable {
         return defaultProfiles;
     }
 
-    public SavedProfilesV3 migrateProfiles() {
+    public SavedProfilesV3 migrateProfiles(AppFeaturesPrefs appFeaturesPrefs) {
         List<Profile> migrated = new ArrayList<Profile>(profileList.size());
         boolean hasChanged = false;
+        boolean ikeV2Migration = false;
         for (Profile profile : profileList) {
             final UUID profileId;
             if (profile.getWrapper().isPreBakedFastest())
@@ -65,12 +67,18 @@ public class SavedProfilesV3 implements Serializable {
             else
                 profileId = null;
             Profile migratedProfile = profile.migrateFromOlderVersion(profileId);
+            if (migratedProfile.isUnsupportedIKEv2()) {
+                migratedProfile = migratedProfile.migrateProtocol();
+                ikeV2Migration = true;
+            }
             hasChanged |= migratedProfile != profile;
             migrated.add(migratedProfile);
         }
         SavedProfilesV3 migratedProfiles = new SavedProfilesV3(migrated);
         if (hasChanged)
             Storage.save(migratedProfiles);
+        if (ikeV2Migration)
+            appFeaturesPrefs.setShowIKEv2Migration(true);
         return migratedProfiles;
     }
 }

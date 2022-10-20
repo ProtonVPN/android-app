@@ -25,6 +25,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import java.util.UUID
 
@@ -64,4 +65,16 @@ open class ConnectionParams(
 
     open fun hasSameProtocolParams(other: ConnectionParams) =
         other.protocol == protocol
+
+    companion object {
+        fun readFromStore(): ConnectionParams? {
+            val value = Storage.load(ConnectionParams::class.java) ?: return null
+            // Ignore stored connection params for unsupported protocol
+            if (value.profile.isUnsupportedIKEv2()) {
+                Storage.delete(ConnectionParams::class.java)
+                return null
+            }
+            return value
+        }
+    }
 }

@@ -93,7 +93,7 @@ class TvMainViewModelTests {
         vpnStateMonitor = VpnStateMonitor()
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
 
-        serverManager = ServerManager(userData, mockCurrentUser) { 0 }.apply {
+        serverManager = ServerManager(userData, mockCurrentUser, { 0 }, mockk(relaxed = true)).apply {
             setServers(MockedServers.serverList, "us")
         }
         vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)

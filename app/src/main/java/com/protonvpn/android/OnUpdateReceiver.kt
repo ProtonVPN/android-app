@@ -23,7 +23,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -35,7 +34,7 @@ class OnUpdateReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_MY_PACKAGE_REPLACED) {
-            Storage.load(ConnectionParams::class.java)?.profile?.let { profile ->
+            ConnectionParams.readFromStore()?.profile?.let { profile ->
                 vpnConnectionManager.onRestoreProcess(profile, "app update")
             }
         }

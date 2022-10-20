@@ -74,6 +74,9 @@ data class Profile @JvmOverloads constructor(
 
     private fun migrateUUID(uuid: UUID?): Profile = if (id == null) copy(id = uuid ?: UUID.randomUUID()) else this
 
+    fun migrateProtocol(): Profile =
+        if (protocol == PROTOCOL_IKEv2) copy(protocol = VpnProtocol.Smart.name, transmissionProtocol = null) else this
+
     fun getDisplayName(context: Context): String = if (isPreBakedProfile)
         context.getString(if (wrapper.isPreBakedFastest) R.string.profileFastest else R.string.profileRandom)
     else
@@ -95,8 +98,10 @@ data class Profile @JvmOverloads constructor(
     val country: String get() = wrapper.country
     val directServerId: String? get() = wrapper.serverId
 
-    fun getProtocol(userData: UserData) = protocol?.let {
-        ProtocolSelection(VpnProtocol.valueOf(it), transmissionProtocol?.let(TransmissionProtocol::valueOf))
+    fun getProtocol(userData: UserData) = protocol?.let { protocol ->
+        val vpnProtocol = if (protocol == PROTOCOL_IKEv2)
+            VpnProtocol.Smart else VpnProtocol.valueOf(protocol)
+        ProtocolSelection(vpnProtocol, transmissionProtocol?.let(TransmissionProtocol::valueOf))
     } ?: userData.protocol
 
     fun setProtocol(protocol: ProtocolSelection) {
@@ -124,6 +129,7 @@ data class Profile @JvmOverloads constructor(
     }
 
     override fun hashCode(): Int = id.hashCode()
+    fun isUnsupportedIKEv2() = protocol == PROTOCOL_IKEv2
 
     companion object {
         @JvmStatic
@@ -132,5 +138,7 @@ data class Profile @JvmOverloads constructor(
             getTempProfile(ServerWrapper.makeWithServer(server), isSecureCore)
         fun getTempProfile(serverWrapper: ServerWrapper, isSecureCore: Boolean? = null) =
             Profile("", null, serverWrapper, null, isSecureCore)
+
+        const val PROTOCOL_IKEv2 = "IKEv2"
     }
 }
