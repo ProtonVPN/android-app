@@ -102,12 +102,15 @@ class QuickTileService : TileService() {
                     qsTile.state = Tile.STATE_INACTIVE
                 }
                 VpnState.CheckingAvailability,
-                VpnState.WaitingForNetwork,
                 VpnState.ScanningPorts,
                 VpnState.Reconnecting,
                 VpnState.Connecting -> {
                     qsTile.label = getString(R.string.state_connecting)
                     qsTile.state = Tile.STATE_UNAVAILABLE
+                }
+                VpnState.WaitingForNetwork -> {
+                    qsTile.label = getString(R.string.state_nonetwork)
+                    qsTile.state = Tile.STATE_ACTIVE
                 }
                 is VpnState.Error -> {
                     qsTile.label = getString(R.string.state_error)
