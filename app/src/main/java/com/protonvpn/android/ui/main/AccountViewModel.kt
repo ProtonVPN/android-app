@@ -36,6 +36,8 @@ import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.sentry.Sentry
+import io.sentry.SentryEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -119,7 +121,10 @@ class AccountViewModel @Inject constructor(
                 .onSessionSecondFactorNeeded { startSecondFactorWorkflow(it) }
                 .onAccountCreateAddressNeeded { startChooseAddressWorkflow(it) }
                 .onAccountCreateAddressFailed { accountManager.disableAccount(it.userId) }
-                .onSessionForceLogout { onSessionClosed(it) }
+                .onSessionForceLogout {
+                    Sentry.captureEvent(SentryEvent(Throwable("Session closed event")))
+                    onSessionClosed(it)
+                }
                 .onUserKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER, "UserKeyCheckFailed") }
                 .onUserAddressKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER,"UserAddressKeyCheckFailed") }
         }
