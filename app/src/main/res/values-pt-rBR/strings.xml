@@ -31,7 +31,7 @@
     <string name="loginStartWithDevice">Iniciar com o dispositivo</string>
     <string name="loginCreateAccount">Criar nova conta</string>
     <string name="loginNeedHelp">Precisa de ajuda?</string>
-    <string name="connectionAllocationHelpTitle">Obrigado por fazer upgrade para \nProfissional\u00a0/\u00a0Visionário</string>
+    <string name="connectionAllocationHelpTitle">Obrigado por fazer upgrade para \nProfessional\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Para iniciar sua jornada no Proton VPN, atribua conexões VPN à sua conta ou a qualquer outra subconta.</string>
     <string name="connectionAllocationHelpDescription2">Esta etapa levará apenas alguns minutos. Depois disso, você poderá fazer login e proteger todos os seus dispositivos.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Atribuir conexões VPN</string>
@@ -352,7 +352,7 @@
     <string name="stateNotConnected">Você não está conectado</string>
     <string name="recents">Recentes</string>
     <string name="tvQuickConnectDescription">Países próximos</string>
-    <string name="tvQuickConnectSubDescription">Servidor de transmissão</string>
+    <string name="tvQuickConnectSubDescription">Servidor de streaming</string>
     <string name="nameEurope">Europa</string>
     <string name="nameAmerica">América</string>
     <string name="nameAsia">Ásia</string>
