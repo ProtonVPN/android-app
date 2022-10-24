@@ -27,9 +27,9 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
-import com.protonvpn.testRules.SetUserPreferencesRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
@@ -48,10 +48,12 @@ class MapTests {
     private val homeRobot = HomeRobot()
     private val mapRobot = MapRobot()
 
+    private val hiltRule = ProtonHiltAndroidRule(this)
+
     @get:Rule
     var rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this))
-        .around(SetUserPreferencesRule(TestUser.plusUser))
+        .outerRule(hiltRule)
+        .around(LoginTestRule(TestUser.plusUser))
         .around(testRule)
 
     @Test

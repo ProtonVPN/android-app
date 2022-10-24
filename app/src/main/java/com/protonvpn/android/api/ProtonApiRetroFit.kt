@@ -26,21 +26,17 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.LoginBody
-import com.protonvpn.android.models.login.LoginInfoBody
 import com.protonvpn.android.models.login.SessionForkBody
 import com.protonvpn.android.models.login.SessionListResponse
-import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import me.proton.core.network.data.protonApi.RefreshTokenRequest
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
 import okhttp3.RequestBody
 
-//TODO: remove dependencies on activity/network loaders, refactor callbacks to suspending functions
 open class ProtonApiRetroFit(
     val scope: CoroutineScope,
     private val manager: VpnApiManager,
@@ -88,17 +84,11 @@ open class ProtonApiRetroFit(
     open suspend fun getConnectingDomain(domainId: String) =
         manager { getServerDomain(domainId) }
 
-    suspend fun postLoginInfo(email: String) =
-        manager { postLoginInfo(LoginInfoBody(email)) }
-
     suspend fun getFeature(feature: String) =
         manager { getFeature(feature) }
 
     open suspend fun getVPNInfo(sessionId: SessionId? = null) =
         manager(sessionId) { getVPNInfo() }
-
-    open fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) =
-        makeCall(callback) { it.getVPNInfo() }
 
     open suspend fun getApiNotifications(
         supportedFormats: List<String>,
@@ -144,24 +134,6 @@ open class ProtonApiRetroFit(
             }
         }
         return result
-    }
-
-    private fun <T> makeCall(
-        callback: NetworkResultCallback<T>,
-        loader: LoaderUI? = null,
-        callFun: suspend (ProtonVPNRetrofit) -> T
-    ) = scope.launch {
-        loader?.switchToLoading()
-        when (val result = manager(block = callFun)) {
-            is ApiResult.Success -> {
-                loader?.switchToEmpty()
-                callback.onSuccess(result.value)
-            }
-            is ApiResult.Error -> {
-                loader?.switchToRetry(result)
-                callback.onFailure()
-            }
-        }
     }
 
     private fun createNetZoneHeaders(netzone: String?) =

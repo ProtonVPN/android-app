@@ -21,15 +21,15 @@ package com.protonvpn.testsTv.tests.connection
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.protonvpn.android.tv.TvLoginActivity
+import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.EspressoDispatcherRule
+import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.ServiceTestHelper
 import com.protonvpn.testsHelper.UserDataHelper
 import com.protonvpn.testsTv.actions.TvCountryListRobot
 import com.protonvpn.testsTv.actions.TvDetailedCountryRobot
-import com.protonvpn.testsTv.actions.TvLoginRobot
 import com.protonvpn.testsTv.actions.TvServerListRobot
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.Dispatchers
@@ -49,16 +49,16 @@ import org.junit.runner.RunWith
 @HiltAndroidTest
 class ConnectionTestsTv {
 
-    private val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
+    private val activityRule = ActivityScenarioRule(TvMainActivity::class.java)
     @get:Rule val rules = RuleChain
         .outerRule(ProtonHiltAndroidRule(this))
         .around(EspressoDispatcherRule())
+        .around(LoginTestRule(TestUser.plusUser))
         .around(activityRule)
 
     private val homeRobot = TvCountryListRobot()
     private val countryRobot = TvDetailedCountryRobot()
     private val serverListRobot = TvServerListRobot()
-    private val loginRobot = TvLoginRobot()
 
     private lateinit var userDataHelper: UserDataHelper
     private lateinit var serviceTestHelper: ServiceTestHelper
@@ -67,12 +67,7 @@ class ConnectionTestsTv {
     fun setUp() {
         userDataHelper = UserDataHelper()
         serviceTestHelper = ServiceTestHelper()
-        userDataHelper
-                .setUserData(TestUser.plusUser)
         activityRule.scenario
-        loginRobot
-                .signIn()
-                .waitUntilLoggedIn()
     }
 
     @Test
