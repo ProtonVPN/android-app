@@ -18,7 +18,6 @@
  */
 package com.protonvpn.di
 
-import com.protonvpn.android.api.NetworkResultCallback
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiManager
@@ -35,7 +34,6 @@ import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.SessionListResponse
-import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
@@ -43,7 +41,6 @@ import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.test.shared.ApiNotificationTestHelper
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testsHelper.toVpnInfoResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -52,7 +49,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import me.proton.core.domain.arch.DataResult
 import me.proton.core.domain.arch.ResponseSource
 import me.proton.core.domain.entity.SessionUserId
@@ -139,15 +135,6 @@ class MockApi(
 
     override suspend fun getServerList(loader: LoaderUI?, ip: String?, lang: String) =
         ApiResult.Success(ServerList(MockedServers.serverList))
-
-    override suspend fun getVPNInfo(sessionId: SessionId?): ApiResult<VpnInfoResponse> =
-        ApiResult.Success(currentVpnInfoResponse ?: TestUser.basicUser.vpnInfoResponse)
-
-    override fun getVPNInfo(callback: NetworkResultCallback<VpnInfoResponse>) = scope.launch {
-        ApiResult.Success(currentVpnInfoResponse ?: TestUser.basicUser.vpnInfoResponse)
-    }
-
-    private val currentVpnInfoResponse get() = currentUser.vpnUserCached()?.toVpnInfoResponse()
 
     override suspend fun getSessionForkSelector(): ApiResult<SessionForkSelectorResponse> =
         ApiResult.Success(SessionForkSelectorResponse("dummy value", "1234ABCD"))

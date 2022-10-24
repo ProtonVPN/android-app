@@ -52,7 +52,7 @@ class TestUser private constructor(
 
     companion object {
         @JvmStatic val freeUser: TestUser
-            get() = TestUser("Testas1", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas", "free", "free",0, 1)
+            get() = getFreePlanUser()
         val basicUser: TestUser
             get() = TestUser("Testas2", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas2", "vpnbasic", "vpnbasic", 1, 2)
         @JvmStatic val plusUser: TestUser
@@ -70,6 +70,14 @@ class TestUser private constructor(
                 "null",
                 0, Arrays.asList("self", "user", "loggedin", "vpn").toTypedArray(),
                 "UserId")
+
+        private fun getFreePlanUser(): TestUser {
+            val blackToken = BuildConfig.BLACK_TOKEN?.takeIfNotBlank()
+            return if (blackToken != null)
+                TestUser("vpnfree", "12341234", "test", "free", "free", 0, 1)
+            else
+                TestUser("Testas1", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas", "free", "free", 0, 1)
+        }
 
         private fun getPlusPlanUser(): TestUser {
             BuildConfig.BLACK_TOKEN?.takeIfNotBlank()?.let {

@@ -16,8 +16,8 @@ import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.annotations.TestID
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
-import com.protonvpn.testRules.SetUserPreferencesRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.not
 import org.junit.After
@@ -48,7 +48,7 @@ class AccountTests {
     @get:Rule
     var rules = RuleChain
         .outerRule(hiltRule)
-        .around(SetUserPreferencesRule(TestUser.plusUser))
+        .around(LoginTestRule(TestUser.plusUser))
 
     @Inject lateinit var purchaseEnabled: CachedPurchaseEnabled
 

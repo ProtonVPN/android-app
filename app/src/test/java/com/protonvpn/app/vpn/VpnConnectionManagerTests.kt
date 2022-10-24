@@ -60,6 +60,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.pauseDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import me.proton.core.network.domain.NetworkManager
@@ -203,6 +204,7 @@ class VpnConnectionManagerTests {
         vpnConnectionManager.connect(
             mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), "Test"
         )
+        advanceUntilIdle()
         // Wake lock is acquired twice, once to prepare connection, second time for fallback logic.
         verify(exactly = 2) { mockWakeLock.acquire(any()) }
         verify(exactly = 2) { mockWakeLock.release() }

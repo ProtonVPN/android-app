@@ -28,9 +28,9 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
-import com.protonvpn.testRules.SetUserPreferencesRule
 import com.protonvpn.testsHelper.ServiceTestHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -53,7 +53,7 @@ class SecureCoreSecurityTests {
     @get:Rule
     var rules = RuleChain
         .outerRule(ProtonHiltAndroidRule(this))
-        .around(SetUserPreferencesRule(TestUser.freeUser))
+        .around(LoginTestRule(TestUser.freeUser))
         .around(testRule)
 
     private lateinit var homeRobot: HomeRobot

@@ -24,9 +24,9 @@ import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.SettingsRobot
 import com.protonvpn.annotations.TestID
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonSettingsActivityTestRule
-import com.protonvpn.testRules.SetUserPreferencesRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
@@ -46,7 +46,7 @@ class SettingsTests {
     @get:Rule
     var rules = RuleChain
         .outerRule(ProtonHiltAndroidRule(this))
-        .around(SetUserPreferencesRule(TestUser.plusUser))
+        .around(LoginTestRule(TestUser.plusUser))
         .around(ProtonSettingsActivityTestRule())
 
     @Test
