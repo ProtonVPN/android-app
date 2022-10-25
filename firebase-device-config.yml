@@ -1,5 +1,5 @@
 mobileTest:
-  timeout: 30m
+  timeout: 45m
   device:
   - model: Pixel2
     version: 28

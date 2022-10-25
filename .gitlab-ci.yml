@@ -15,6 +15,14 @@ default:
   interruptible: true
 
 variables:
+  ATLAS_DEPLOY_SCOPE: $CI_PIPELINE_ID
+  ATLAS_DEPLOY_END:
+    value: 'true'
+    description: Set to false if we do not need for a new deployed environment
+  ATLAS_DEPLOY_LIST:
+    value: fe-vpn:main
+    description: List of components to deploy (fe-vpn:v4.7.0:prod+t to use a tag)
+  TEST_ENV_DOMAIN: $DYNAMIC_DOMAIN/api
   GIT_FETCH_EXTRA_FLAGS: --tags
   ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
 
@@ -22,6 +30,7 @@ stages:
   - prevent-interrupt
   - image
   - analyze
+  - deploy
   - build
   - startReview
   - test
@@ -29,6 +38,7 @@ stages:
   - bot
   - mirror
   - publish
+  - cleanup
 
 # Make development and master uninterruptible.
 # Based on https://gitlab.com/gitlab-org/gitlab/-/issues/194023#note_928958193
@@ -72,6 +82,22 @@ cache:
       - '**/build/tmp/'
 
   - <<: *gradle-build-cache
+
+deploy:test-env:
+  extends: deploy:review
+  retry: 1
+  needs: []
+  rules: &rules_deploy_cleanup
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: on_success
+
+cleanup:test-env:
+  extends: cleanup:review
+  needs: ["deploy:test-env", "mobile tests black", "tv tests"]
+  rules: *rules_deploy_cleanup
 
 detekt analysis:
   stage: analyze
@@ -136,7 +162,7 @@ build black:
     - schedules
   script:
     - export BLACK_TOKEN="$(curl --silent $BLACK_TOKEN_URL)"
-    - echo "Black url ${BLACK_DOMAIN}"
+    - echo "Black url ${TEST_ENV_DOMAIN}"
     - ./gradlew assembleBlackDebug
     - ./gradlew assembleBlackDebugAndroidTest
   artifacts:
@@ -335,6 +361,10 @@ include:
   - local: '/.gitlab-ci-firebase.yml'
 
   - local: '.download-upload.gitlab-ci.yml'
+
+  - project: 'proton/devops/atlas-deploy'
+    ref: main
+    file: '/scenarios/pipeline-env.yml'
 
 i18n-sync-crowdin:
   variables:
