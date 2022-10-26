@@ -113,8 +113,8 @@ licenseReport {
     copyJsonReportToAssets = false
 }
 
-def productionServer = "\"api.protonvpn.ch\""
-def productionHv3Server = "\"verify.protonvpn.com\""
+def productionServer = "\"vpn-api.proton.me\""
+def productionHv3Server = "\"verify.proton.me\""
 def storeFilePath = project.hasProperty('keyStoreFilePath') ? keyStoreFilePath : "protonkey.jks"
 def storeKeyAlias = project.hasProperty('keyStoreKeyAlias') ? keyStoreKeyAlias : 'proton'
 def storePass = project.hasProperty('keyStorePassword') ? keyStorePassword : "\"Store password\""
@@ -624,7 +624,6 @@ dependencies {
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
-    implementation 'com.datatheorem.android.trustkit:trustkit:1.1.5'
     implementation 'com.github.lisawray.groupie:groupie:2.10.0'
     implementation 'com.github.lisawray.groupie:groupie-viewbinding:2.10.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'

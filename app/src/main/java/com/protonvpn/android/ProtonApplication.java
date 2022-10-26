@@ -25,9 +25,7 @@ import android.content.Context;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
-import com.getkeepsafe.relinker.ReLinker;
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout;
 import com.protonvpn.android.auth.usecase.CoreLoginMigration;
 import com.protonvpn.android.components.RestartHandler;
@@ -121,7 +119,6 @@ public class ProtonApplication extends Application {
 
         NotificationHelper.Companion.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
-        TrustKit.initializeWithNetworkSecurityConfiguration(this);
 
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
 
