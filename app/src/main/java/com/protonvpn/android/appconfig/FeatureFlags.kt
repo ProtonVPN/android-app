@@ -39,7 +39,7 @@ data class FeatureFlags(
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "VpnAccelerator") val vpnAccelerator: Boolean = false,
     @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "WireGuardTls") val wireguardTlsEnabled: Boolean = false,
+    @SerialName(value = "WireGuardTls") val wireguardTlsEnabled: Boolean = true,
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "SafeMode") val safeMode: Boolean = false,
 ) : java.io.Serializable
