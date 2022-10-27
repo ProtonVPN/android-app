@@ -170,7 +170,7 @@ abstract class VpnBackend(
         override fun onStatusUpdate(status: StatusMessage) {
             status.clientIP?.let { clientIP ->
                 // Local Agent's ClientIP is not accurate for secure core
-                if (lastConnectionParams?.profile?.isSecureCore == false)
+                if (lastConnectionParams?.server?.isSecureCoreServer != true && clientIP.isNotBlank())
                     getNetZone.updateIpFromLocalAgent(clientIP)
             }
             ProtonLogger.log(LocalAgentStatus, status.toString())
