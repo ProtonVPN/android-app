@@ -65,8 +65,8 @@ class SettingChangesLogger @Inject constructor(
         Setting.SECURE_CORE -> userData.secureCoreEnabled
         Setting.LAN_CONNECTIONS -> userData.shouldBypassLocalTraffic()
         Setting.SPLIT_TUNNEL_ENABLED -> userData.useSplitTunneling
-        Setting.SPLIT_TUNNEL_IPS -> userData.splitTunnelIpAddresses.toLog()
-        Setting.SPLIT_TUNNEL_APPS -> userData.splitTunnelApps.toLog()
+        Setting.SPLIT_TUNNEL_IPS -> userData.splitTunnelIpAddresses.itemCountToLog()
+        Setting.SPLIT_TUNNEL_APPS -> userData.splitTunnelApps.itemCountToLog()
         Setting.DEFAULT_MTU -> userData.mtuSize
         Setting.SAFE_MODE -> userData.safeModeEnabled ?: "default: " + appConfig.getFeatureFlags().safeMode
         Setting.RESTRICTED_NAT -> userData.randomizedNatEnabled
@@ -79,5 +79,5 @@ class SettingChangesLogger @Inject constructor(
 
     private fun protocolDescription(userData: UserData) = userData.protocol.displayName
 
-    private fun List<*>.toLog() = if (isEmpty()) "None" else joinToString()
+    private fun List<*>.itemCountToLog() = if (isEmpty()) "None" else "$size items"
 }
