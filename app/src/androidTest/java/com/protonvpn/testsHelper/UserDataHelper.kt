@@ -33,13 +33,12 @@ import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.vpn.ProtocolSelection
-import com.protonvpn.di.MockUserRepository
+import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.test.shared.TestUser
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.runBlocking
 import me.proton.core.account.domain.entity.Account

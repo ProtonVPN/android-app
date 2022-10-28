@@ -30,6 +30,7 @@ import com.protonvpn.actions.OnboardingRobot
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.data.DefaultData
+import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.TestSetup
@@ -54,14 +55,14 @@ class SignupTests {
     private lateinit var onboardingRobot: OnboardingRobot
     private lateinit var testUsername: String
     private val activityRule = ActivityScenarioRule(MobileMainActivity::class.java)
-    private val hiltRule = ProtonHiltAndroidRule(this)
+    private val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
 
     @Inject
     lateinit var purchaseEnabled: CachedPurchaseEnabled
 
     @get:Rule
     val rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this))
+        .outerRule(hiltRule)
         .around(activityRule)
 
     @Before

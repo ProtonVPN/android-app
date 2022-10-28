@@ -46,7 +46,7 @@ object MockedServers {
         }
 
     @Suppress("ClassOrdering")
-    private val serverListJson = """
+    val serverListJson = """
 [
   {
     "ID": "1",

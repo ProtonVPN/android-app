@@ -56,6 +56,8 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.ikev2.StrongSwanBackend
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
+import com.protonvpn.mocks.MockInterceptorWrapper
+import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.NoopCertRefreshScheduler
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
@@ -71,7 +73,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asExecutor
 import me.proton.core.network.dagger.CoreBaseNetworkModule
-import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.di.AlternativeApiPins
 import me.proton.core.network.data.di.BaseProtonApiUrl
 import me.proton.core.network.data.di.CertificatePins
@@ -132,9 +133,15 @@ class MockAppModule {
 
     @Provides
     @Singleton
+    fun provideMockApiInterceptor(): MockInterceptorWrapper = MockInterceptorWrapper()
+
+    @Provides
+    @Singleton
     @SharedOkHttpClient
-    internal fun provideOkHttpClient(): OkHttpClient {
-        val client = OkHttpClient()
+    internal fun provideOkHttpClient(mockInterceptor: MockInterceptorWrapper): OkHttpClient {
+        val client = OkHttpClient.Builder()
+            .addInterceptor(mockInterceptor)
+            .build()
         val resource: IdlingResource = IdlingResourceHelper.create("OkHttp", client)
         IdlingRegistry.getInstance().register(resource)
         return client
@@ -145,16 +152,7 @@ class MockAppModule {
     fun provideAPI(
         scope: CoroutineScope,
         apiManager: VpnApiManager,
-        apiProvider: ApiProvider,
-        userData: UserData,
-        currentUser: CurrentUser
-    ): ProtonApiRetroFit =
-        if (TestSettings.mockedConnectionUsed) {
-            MockApi(scope, apiProvider, userData, currentUser)
-        } else {
-            ProtonApiRetroFit(scope, apiManager, null)
-        }
-
+    ): ProtonApiRetroFit = ProtonApiRetroFit(scope, apiManager, null)
 
     @Singleton
     @Provides
