@@ -19,17 +19,16 @@
 package com.protonvpn.test.shared
 
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.login.VPNInfo
 import com.protonvpn.android.auth.data.VpnUser
 import me.proton.core.domain.entity.UserId
-import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.auth.usecase.CurrentUser
 import io.mockk.coEvery
 import io.mockk.every
 import me.proton.core.network.domain.session.SessionId
-import java.util.Arrays
 import me.proton.core.util.kotlin.takeIfNotBlank
 
 class TestUser private constructor(
@@ -68,8 +67,10 @@ class TestUser private constructor(
                 "UId",
                 "refreshToken",
                 "null",
-                0, Arrays.asList("self", "user", "loggedin", "vpn").toTypedArray(),
-                "UserId")
+                0,
+                arrayOf("self", "user", "loggedin", "vpn"),
+                "UserId"
+            )
 
         private fun getFreePlanUser(): TestUser {
             val blackToken = BuildConfig.BLACK_TOKEN?.takeIfNotBlank()

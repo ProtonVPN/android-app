@@ -15,9 +15,11 @@ import com.protonvpn.actions.HomeRobot
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.annotations.TestID
+import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testRules.LoginTestRule
+import com.protonvpn.testRules.EspressoDispatcherRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
+import com.protonvpn.testRules.SetLoggedInUserRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.not
 import org.junit.After
@@ -43,12 +45,13 @@ class AccountTests {
     private val intent =
         Intent(InstrumentationRegistry.getInstrumentation().targetContext, HomeActivity::class.java)
 
-    private val hiltRule = ProtonHiltAndroidRule(this)
+    private val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Mocked(TestUser.plusUser))
 
     @get:Rule
     var rules = RuleChain
         .outerRule(hiltRule)
-        .around(LoginTestRule(TestUser.plusUser))
+        .around(SetLoggedInUserRule(TestUser.plusUser))
+        .around(EspressoDispatcherRule())
 
     @Inject lateinit var purchaseEnabled: CachedPurchaseEnabled
 

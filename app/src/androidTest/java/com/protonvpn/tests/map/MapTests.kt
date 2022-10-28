@@ -26,11 +26,12 @@ import com.protonvpn.actions.MapRobot
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
+import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.EspressoDispatcherRule
-import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
+import com.protonvpn.testRules.SetLoggedInUserRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
@@ -49,14 +50,14 @@ class MapTests {
     private val homeRobot = HomeRobot()
     private val mapRobot = MapRobot()
 
-    private val hiltRule = ProtonHiltAndroidRule(this)
+    private val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Mocked(TestUser.plusUser))
 
     @get:Rule
     var rules = RuleChain
         .outerRule(hiltRule)
-        .around(LoginTestRule(TestUser.plusUser))
-        .around(testRule)
+        .around(SetLoggedInUserRule(TestUser.plusUser))
         .around(EspressoDispatcherRule())
+        .around(testRule)
 
     @Test
     @TestID(77)

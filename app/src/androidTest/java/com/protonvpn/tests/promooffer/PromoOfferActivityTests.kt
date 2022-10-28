@@ -27,6 +27,7 @@ import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.ui.promooffers.PromoOfferActivity
 import com.protonvpn.base.BaseVerify
+import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.ApiNotificationTestHelper.OFFER_ID
 import com.protonvpn.test.shared.ApiNotificationTestHelper.PNG_BASE64
 import com.protonvpn.test.shared.ApiNotificationTestHelper.createNotificationJsonWithPanel
@@ -45,7 +46,7 @@ import javax.inject.Inject
 class PromoOfferActivityTests {
 
     @get:Rule
-    var hiltRule = ProtonHiltAndroidRule(this)
+    var hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Mocked())
 
     @Inject lateinit var apiNotificationManager: ApiNotificationManager
 

@@ -37,6 +37,7 @@ import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.promooffers.PromoOfferActivity
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
+import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.ApiNotificationTestHelper.createNotificationJsonWithOffer
 import com.protonvpn.test.shared.ApiNotificationTestHelper.createNotificationsResponseJson
 import com.protonvpn.testRules.ProtonHiltAndroidRule
@@ -53,7 +54,7 @@ import javax.inject.Inject
 class HomeActivityPromoOfferTests {
 
     @get:Rule
-    var hiltRule = ProtonHiltAndroidRule(this)
+    var hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Mocked())
 
     @Inject
     lateinit var apiNotificationManager: ApiNotificationManager

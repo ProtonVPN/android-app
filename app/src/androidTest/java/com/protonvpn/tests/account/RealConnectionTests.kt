@@ -30,6 +30,7 @@ import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.data.DefaultData
+import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.TestSettingsOverrideRule
@@ -51,7 +52,7 @@ import javax.inject.Inject
 @HiltAndroidTest
 class RealConnectionTests {
 
-    private val hiltRule = ProtonHiltAndroidRule(this)
+    private val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
 
     @get:Rule
     val rules = RuleChain

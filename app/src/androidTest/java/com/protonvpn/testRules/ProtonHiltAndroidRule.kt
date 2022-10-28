@@ -19,10 +19,16 @@
 
 package com.protonvpn.testRules
 
+import android.app.Application
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.mocks.MockInterceptorWrapper
+import com.protonvpn.mocks.TestApiConfig
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.components.SingletonComponent
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
@@ -35,13 +41,31 @@ import org.junit.runners.model.Statement
  *
  * Use it instead of HiltAndroidRule.
  */
-class ProtonHiltAndroidRule(testInstance: Any) : TestRule {
+class ProtonHiltAndroidRule(
+    testInstance: Any,
+    private val apiConfig: TestApiConfig
+) : TestRule {
 
     private val hiltAndroidRule = HiltAndroidRule(testInstance)
+
+    @dagger.hilt.EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface MockInterceptorEntryPoint {
+        fun mockInterceptor(): MockInterceptorWrapper
+    }
 
     override fun apply(base: Statement, description: Description): Statement {
         val statement = object : Statement() {
             override fun evaluate() {
+                // Objects created in initDependencies may perform API calls, so setup the mock API rules earlier.
+                if (apiConfig is TestApiConfig.Mocked) {
+                    val entryPoint: MockInterceptorEntryPoint = EntryPointAccessors.fromApplication(
+                        ApplicationProvider.getApplicationContext<Application>(),
+                        MockInterceptorEntryPoint::class.java
+                    )
+                    apiConfig.addDefaultRules(entryPoint.mockInterceptor())
+                }
+
                 InstrumentationRegistry.getInstrumentation().runOnMainSync {
                     ApplicationProvider.getApplicationContext<ProtonApplication>().initDependencies()
                 }
