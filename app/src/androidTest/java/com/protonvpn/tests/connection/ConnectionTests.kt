@@ -30,12 +30,13 @@ import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
+import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.EspressoDispatcherRule
-import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
+import com.protonvpn.testRules.SetLoggedInUserRule
 import com.protonvpn.testsHelper.ServiceTestHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -57,8 +58,8 @@ class ConnectionTests {
 
     @get:Rule
     var rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this))
-        .around(LoginTestRule(TestUser.plusUser))
+        .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Mocked(TestUser.plusUser)))
+        .around(SetLoggedInUserRule(TestUser.plusUser))
         .around(EspressoDispatcherRule())
         .around(testRule)
 

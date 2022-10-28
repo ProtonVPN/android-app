@@ -28,11 +28,12 @@ import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.annotations.TestID
+import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.EspressoDispatcherRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
-import me.proton.core.util.kotlin.takeIfNotBlank
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -55,7 +56,8 @@ class LoginTests {
 
     @get:Rule
     val rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this))
+        .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Backend))
+        .around(EspressoDispatcherRule())
         .around(activityRule)
 
     @Before

@@ -21,25 +21,30 @@ package com.protonvpn.testsTv.tests.login
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.login.TvLoginViewModel
-import com.protonvpn.di.MockApi
+import com.protonvpn.mocks.MockInterceptorWrapper
+import com.protonvpn.mocks.TestApiConfig
+import com.protonvpn.mocks.respond
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.UserDataHelper
 import com.protonvpn.testsTv.actions.TvLoginRobot
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import me.proton.core.network.domain.ApiResult
-import org.junit.After
+import okhttp3.mock.endsWith
+import okhttp3.mock.get
+import okhttp3.mock.path
+import okhttp3.mock.rule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 import javax.inject.Inject
+
+private const val FORK_SELECTOR = "fork_selector"
+private const val FORK_USER_CODE = "1234ABCD"
 
 /**
  * [LoginTestsTv] Contains all tests related to Login actions.
@@ -49,8 +54,20 @@ import javax.inject.Inject
 @HiltAndroidTest
 class LoginTestsTv {
 
+    // Login tests start with mock API in logged out state.
+    private val mockApiConfig = TestApiConfig.Mocked(TestUser.plusUser) {
+        rule(get, path endsWith "/auth/sessions/forks") {
+            respond(SessionForkSelectorResponse(FORK_SELECTOR, FORK_USER_CODE))
+        }
+
+        rule(get, path endsWith "/auth/sessions/forks/$FORK_SELECTOR", times = Int.MAX_VALUE) {
+            respond(TvLoginViewModel.HTTP_CODE_KEEP_POLLING)
+        }
+    }
+
     private val activityRule = ActivityScenarioRule(TvLoginActivity::class.java)
-    private val hiltRule = ProtonHiltAndroidRule(this)
+    private val hiltRule = ProtonHiltAndroidRule(this, mockApiConfig)
+
     @get:Rule
     val rules = RuleChain
         .outerRule(hiltRule)
@@ -60,16 +77,11 @@ class LoginTestsTv {
     private lateinit var userDataHelper: UserDataHelper
 
     @Inject
-    lateinit var injectedApi: ProtonApiRetroFit
-    lateinit var mockApi: MockApi
+    lateinit var mockApi: MockInterceptorWrapper
 
     @Before
     fun setUp() {
         hiltRule.inject()
-        mockApi = injectedApi as MockApi
-        // Login tests start with mock API in logged out state.
-        mockApi.forkedUserResponse =
-            ApiResult.Error.Http(TvLoginViewModel.Companion.HTTP_CODE_KEEP_POLLING, "")
         userDataHelper = UserDataHelper()
         activityRule.scenario
     }
@@ -78,7 +90,11 @@ class LoginTestsTv {
     fun loginHappyPath() {
         loginRobot
             .signIn()
-        mockApi.forkedUserResponse = ApiResult.Success(TestUser.forkedSessionResponse)
+        mockApi.prependRules {
+            rule(get, path endsWith "/auth/sessions/forks/$FORK_SELECTOR") {
+                respond(TestUser.forkedSessionResponse)
+            }
+        }
         loginRobot
             .waitUntilLoggedIn()
             .verify { userIsLoggedIn() }

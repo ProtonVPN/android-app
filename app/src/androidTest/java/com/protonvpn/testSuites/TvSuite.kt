@@ -26,8 +26,7 @@ import org.junit.runners.Suite
 
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
-        // TODO: enable login TV tests once we figure out how to handle them (see VPNAND-1056).
-        //LoginTestsTv::class,
+        LoginTestsTv::class,
         LogoutTestsTv::class,
         ConnectionTestsTv::class
 )

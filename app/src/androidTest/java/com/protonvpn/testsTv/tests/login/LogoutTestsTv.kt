@@ -22,10 +22,11 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.android.tv.main.TvMainActivity
+import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.EspressoDispatcherRule
-import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
+import com.protonvpn.testRules.SetLoggedInUserRule
 import com.protonvpn.testsHelper.ServiceTestHelper
 import com.protonvpn.testsHelper.UserDataHelper
 import com.protonvpn.testsTv.actions.TvCountryListRobot
@@ -48,10 +49,11 @@ import org.junit.runner.RunWith
 class LogoutTestsTv {
 
     private val activityRule = ActivityScenarioRule(TvMainActivity::class.java)
+
     @get:Rule val rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this))
+        .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Mocked(TestUser.plusUser)))
         .around(EspressoDispatcherRule())
-        .around(LoginTestRule(TestUser.plusUser))
+        .around(SetLoggedInUserRule(TestUser.plusUser))
         .around(activityRule)
 
     private lateinit var homeRobot: TvCountryListRobot
