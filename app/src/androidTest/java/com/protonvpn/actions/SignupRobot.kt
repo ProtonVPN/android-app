@@ -57,7 +57,7 @@ class SignupRobot : BaseRobot() {
             .perform(webClick())
             .withElement(findElement(Locator.XPATH, "//*[@id=\"key_1\"]/button"))
             .perform(webClick())
-        Thread.sleep(3000)
+        Thread.sleep(6000)
 
         // Workaround for inputing code
         // as inputing with webkeys for some reason does not work correctly on code verification page
