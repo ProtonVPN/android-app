@@ -41,7 +41,7 @@ import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
-import com.protonvpn.android.vpn.ServerPing
+import com.protonvpn.android.vpn.ServerAvailabilityCheck
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -68,11 +68,11 @@ class OpenVpnBackend @Inject constructor(
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
-    serverPing: ServerPing,
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
-    @SharedOkHttpClient okHttp: OkHttpClient
+    serverAvailabilityCheck: ServerAvailabilityCheck,
+    @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
     userData,
     appConfig,
@@ -81,11 +81,11 @@ class OpenVpnBackend @Inject constructor(
     VpnProtocol.OpenVPN,
     mainScope,
     dispatcherProvider,
-    serverPing,
     localAgentUnreachableTracker,
     currentUser,
     getNetZone,
-    okHttp
+    serverAvailabilityCheck,
+    okHttp,
 ), VpnStatus.StateListener {
 
     init {

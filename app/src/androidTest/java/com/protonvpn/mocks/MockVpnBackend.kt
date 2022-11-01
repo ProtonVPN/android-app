@@ -35,7 +35,7 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.RetryInfo
-import com.protonvpn.android.vpn.ServerPing
+import com.protonvpn.android.vpn.ServerAvailabilityCheck
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import kotlinx.coroutines.CoroutineScope
@@ -58,10 +58,10 @@ class MockVpnBackend(
     userData: UserData,
     appConfig: AppConfig,
     val protocol: VpnProtocol,
-    serverPing: ServerPing,
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
-    getNetZone: GetNetZone
+    getNetZone: GetNetZone,
+    serverAvailabilityCheck: ServerAvailabilityCheck
 ) : VpnBackend(
     userData = userData,
     appConfig = appConfig,
@@ -70,10 +70,10 @@ class MockVpnBackend(
     vpnProtocol = protocol,
     mainScope = scope,
     dispatcherProvider = dispatcherProvider,
-    serverPing = serverPing,
     localAgentUnreachableTracker = localAgentUnreachableTracker,
     currentUser = currentUser,
-    getNetZone = getNetZone
+    getNetZone = getNetZone,
+    serverAvailabilityCheck = serverAvailabilityCheck
 ) {
     private var agentProvider: MockAgentProvider? = null
 

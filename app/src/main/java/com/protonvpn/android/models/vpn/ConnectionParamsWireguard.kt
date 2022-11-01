@@ -28,6 +28,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.wireguard.config.Config
 import com.wireguard.config.Interface
 import com.wireguard.config.Peer
@@ -64,9 +65,12 @@ class ConnectionParamsWireguard(
             throw IllegalStateException("Null server public key. Cannot connect to wireguard")
         }
 
+        val entryIp = connectingDomain.getEntryIp(
+            ProtocolSelection(VpnProtocol.WireGuard, transmissionProtocol))
+
         // Our modified WireGuard requires server IP excluded as we replaced
         // VpnService.protect with split tunneling to have TCP/TLS socket support.
-        val excludedIPs = mutableListOf(connectingDomain.entryIp)
+        val excludedIPs = mutableListOf(entryIp)
         var excludedApps: Set<String> = emptySet()
         if (userData.useSplitTunneling) {
             userData.splitTunnelIpAddresses.takeIf { it.isNotEmpty() }?.let {
@@ -84,7 +88,7 @@ class ConnectionParamsWireguard(
 
         val peer = Peer.Builder()
             .parsePublicKey(connectingDomain.publicKeyX25519)
-            .parseEndpoint(connectingDomain.entryIp + ":" + port)
+            .parseEndpoint("$entryIp:$port")
             .parseAllowedIPs(allowedIps)
             .build()
 

@@ -39,13 +39,12 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.GlideImagePrefetcher
 import com.protonvpn.android.appconfig.ImagePrefetcher
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
-import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
@@ -56,12 +55,9 @@ import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertRefreshWorkerScheduler
-import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ConnectivityMonitor
-import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
-import com.protonvpn.android.vpn.ServerPing
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnErrorUIManager
@@ -70,8 +66,6 @@ import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
-import com.protonvpn.android.vpn.wireguard.WireguardContextWrapper
-import com.wireguard.android.backend.GoBackend
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -95,7 +89,6 @@ import me.proton.core.network.domain.ApiManager
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.network.domain.serverconnection.DohAlternativesListener
-import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.takeIfNotBlank
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl

@@ -22,54 +22,48 @@ import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.proton.gopenpgp.localAgent.AgentConnection
+import com.proton.gopenpgp.localAgent.Features
+import com.proton.gopenpgp.localAgent.LocalAgent
+import com.proton.gopenpgp.localAgent.NativeClient
+import com.proton.gopenpgp.localAgent.StatusMessage
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.DefaultPorts
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ConnConnectScan
+import com.protonvpn.android.logging.ConnError
+import com.protonvpn.android.logging.LocalAgentError
+import com.protonvpn.android.logging.LocalAgentStateChanged
+import com.protonvpn.android.logging.LocalAgentStatus
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UserCertRefresh
+import com.protonvpn.android.logging.UserCertRevoked
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.parallelSearch
+import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.takeRandomStable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.yield
+import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.util.kotlin.DispatcherProvider
-import com.proton.gopenpgp.localAgent.AgentConnection
-import com.proton.gopenpgp.localAgent.Features
-import com.proton.gopenpgp.localAgent.LocalAgent
-import com.proton.gopenpgp.localAgent.NativeClient
-import com.proton.gopenpgp.localAgent.StatusMessage
-import com.protonvpn.android.appconfig.DefaultPorts
-import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.logging.ConnConnectScan
-import com.protonvpn.android.logging.ConnConnectScanFailed
-import com.protonvpn.android.logging.ConnError
-import com.protonvpn.android.logging.LocalAgentError
-import com.protonvpn.android.logging.LocalAgentStateChanged
-import com.protonvpn.android.logging.LocalAgentStatus
-import com.protonvpn.android.logging.LogCategory
-import com.protonvpn.android.logging.UserCertRefresh
-import com.protonvpn.android.logging.UserCertRevoked
-import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.ui.home.GetNetZone
-import com.protonvpn.android.utils.LiveEvent
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import me.proton.core.network.data.di.SharedOkHttpClient
 import okhttp3.OkHttpClient
-
-private const val SCAN_TIMEOUT_MILLIS = 5000
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
 
@@ -109,10 +103,10 @@ abstract class VpnBackend(
     val vpnProtocol: VpnProtocol,
     val mainScope: CoroutineScope,
     val dispatcherProvider: DispatcherProvider,
-    val serverPing: ServerPing,
     val localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     val currentUser: CurrentUser,
     val getNetZone: GetNetZone,
+    private val serverAvailabilityCheck: ServerAvailabilityCheck,
     @SharedOkHttpClient val okHttp: OkHttpClient? = null
 ) : VpnStateSource {
 
@@ -484,70 +478,41 @@ abstract class VpnBackend(
             setSelfState(VpnState.Disabled)
     }
 
-    protected suspend fun scanUdpPorts(
-        connectingDomain: ConnectingDomain,
-        ports: List<Int>,
-        numberOfPorts: Int,
-        waitForAll: Boolean
-    ): List<Int> = withContext(dispatcherProvider.Io) {
-        if (connectingDomain.publicKeyX25519 == null) {
-            ProtonLogger.log(ConnConnectScanFailed, "no public key")
-            emptyList()
-        } else {
-            val candidatePorts = ports.takeRandomStable(numberOfPorts)
-            ProtonLogger.log(
-                ConnConnectScan,
-                "${connectingDomain.entryDomain}/$vpnProtocol, UDP ports: ${candidatePorts}"
-            )
-            candidatePorts.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) {
-                pingUdp(connectingDomain.entryIp, it, connectingDomain.publicKeyX25519)
-            }
-        }
-    }
-
-    private suspend fun pingUdp(ip: String, port: Int, publicKeyX25519: String?): Boolean {
-        val data = serverPing.buildUdpPingData(publicKeyX25519)
-        return serverPing.ping(ip, port, data, tcp = false, timeout = SCAN_TIMEOUT_MILLIS)
-    }
-
     protected suspend fun scanPorts(
         connectingDomain: ConnectingDomain,
         numberOfPorts: Int,
         transmissionProtocols: Set<TransmissionProtocol>,
         waitForAll: Boolean,
-        ports: DefaultPorts,
+        defaultPorts: DefaultPorts,
         primaryTcpPort: Int,
         includeTls: Boolean = false // true for protocols that support TLS transport
     ): List<ProtocolInfo> {
         val result = mutableListOf<ProtocolInfo>()
-        coroutineScope {
-            val udpPorts = if (transmissionProtocols.contains(TransmissionProtocol.UDP))
-                async {
-                    scanUdpPorts(
-                        connectingDomain, samplePorts(ports.udpPorts, numberOfPorts), numberOfPorts, waitForAll)
-                } else null
-            val isTcpOrTls = transmissionProtocols.contains(TransmissionProtocol.TCP)
-                || transmissionProtocols.contains(TransmissionProtocol.TLS)
-            val tcpPorts = if (isTcpOrTls)
-                async {
-                    val tcpPorts = samplePorts(ports.tcpPorts, numberOfPorts, primaryTcpPort)
-                    ProtonLogger.log(
-                        ConnConnectScan,
-                        "${connectingDomain.entryDomain}/$vpnProtocol, TCP ports: $tcpPorts"
-                    )
-                    tcpPorts.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
-                        serverPing.ping(connectingDomain.entryIp, port, ByteArray(0), tcp = true)
-                    }
-                } else null
-
-            udpPorts?.await()?.map { ProtocolInfo(TransmissionProtocol.UDP, it) }?.let { result += it }
-            val tcpResult = tcpPorts?.await()
-            if (transmissionProtocols.contains(TransmissionProtocol.TCP))
-                tcpResult?.map { ProtocolInfo(TransmissionProtocol.TCP, it) }?.let { result += it }
-            // When protocol supports TLS add all TCP results as TLS
-            if (includeTls && transmissionProtocols.contains(TransmissionProtocol.TLS))
-                tcpResult?.map { ProtocolInfo(TransmissionProtocol.TLS, it) }?.let { result += it }
+        val transmissions =
+            if (includeTls) transmissionProtocols
+            else transmissionProtocols.minus(TransmissionProtocol.TLS)
+        val destinations = transmissions.associateWith { transmission ->
+            val protocol = ProtocolSelection(vpnProtocol, transmission)
+            val ip = connectingDomain.getEntryIp(protocol)
+            val allPorts = connectingDomain.getEntryPorts(protocol) ?: run {
+                if (transmission == TransmissionProtocol.UDP) defaultPorts.udpPorts
+                else defaultPorts.tcpPorts
+            }
+            val ports = samplePorts(
+                allPorts, numberOfPorts, if (transmission == TransmissionProtocol.UDP) null else primaryTcpPort)
+            ProtonLogger.log(
+                ConnConnectScan,
+                "${connectingDomain.entryDomain}/$ip/$vpnProtocol, ${transmission.name} ports: $ports"
+            )
+            ServerAvailabilityCheck.Destination(ip, ports)
         }
+        serverAvailabilityCheck
+            .pingInParallel(destinations, waitForAll, connectingDomain.publicKeyX25519)
+            .forEach { (transmission, destination) ->
+                destination.ports.forEach {
+                    result += ProtocolInfo(transmission, it)
+                }
+            }
         return result
     }
 
@@ -558,8 +523,6 @@ abstract class VpnBackend(
             list.takeRandomStable(count)
 
     companion object {
-        // During this time pings will prefer ports in order in which they were defined
-        const val PING_PRIORITY_WAIT_DELAY = 1000L
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
         private const val FEATURES_BOUNCING = "bouncing"
         private const val FEATURES_NETSHIELD = "netshield-level"

@@ -99,7 +99,7 @@ class ServerListUpdaterTests {
         every { mockServerManager.isDownloadedAtLeastOnce } returns true
         every { mockServerManager.isOutdated } returns false
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
-        coEvery { mockApi.getServerList(any(), any(), any()) } returns ApiResult.Success(ServerList(emptyList()))
+        coEvery { mockApi.getServerList(any(), any(), any(), any()) } returns ApiResult.Success(ServerList(emptyList()))
         every { mockVpnStateMonitor.onDisconnectedByUser } returns MutableSharedFlow()
 
         every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_GSM
@@ -178,7 +178,7 @@ class ServerListUpdaterTests {
     fun `update task updates server list when outdated`() = testScope.runBlockingTest {
         val servers = listOf(MockedServers.server)
         coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(OLD_IP, "pl", "ISP"))
-        coEvery { mockApi.getServerList(any(), any(), any()) } returns ApiResult.Success(ServerList(servers))
+        coEvery { mockApi.getServerList(any(), any(), any(), any()) } returns ApiResult.Success(ServerList(servers))
         every { mockVpnStateMonitor.isDisabled } returns true
         serverListUpdater.updateTask()
 
