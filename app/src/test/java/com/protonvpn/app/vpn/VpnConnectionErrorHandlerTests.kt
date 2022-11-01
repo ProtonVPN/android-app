@@ -234,7 +234,7 @@ class VpnConnectionErrorHandlerTests {
                     with(physicalServer.server) {
                         !(failSecureCore && isSecureCoreServer) &&
                             exitCountry != failCountry && serverName != failServerName &&
-                            connectingDomains.any { it.entryIp != failServerEntryIp }
+                            connectingDomains.any { it.getEntryIp(null) != failServerEntryIp }
                     }
                 }
                 val profile = Profile.getTempProfile(server.server)

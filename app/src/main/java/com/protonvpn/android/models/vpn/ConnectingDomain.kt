@@ -19,13 +19,21 @@
 package com.protonvpn.android.models.vpn
 
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.proton.core.network.data.protonApi.IntToBoolSerializer
 
 @Serializable
+data class ServerEntryInfo(
+    @SerialName(value = "IPv4") val ipv4: String,
+    @SerialName(value = "Ports") val ports: List<Int>? = null
+)
+
+@Serializable
 data class ConnectingDomain(
-    @SerialName(value = "EntryIP") val entryIp: String,
+    @SerialName(value = "EntryIP") private val entryIp: String,
+    @SerialName(value = "EntryPerProtocol") private val entryIpPerProtocol: Map<String, ServerEntryInfo>? = null,
     @SerialName(value = "Domain") val entryDomain: String,
     @SerialName(value = "ExitIP") private val exitIp: String? = null,
     // FIXME nullable id should be removed after some time, as it is needed only for migration
@@ -37,6 +45,12 @@ data class ConnectingDomain(
 ) : java.io.Serializable {
 
     fun getExitIP() = exitIp ?: entryIp
+
+    fun getEntryIp(protocol: ProtocolSelection?): String =
+        entryIpPerProtocol?.get(protocol?.apiName)?.ipv4 ?: entryIp
+
+    fun getEntryPorts(protocol: ProtocolSelection?): List<Int>? =
+        entryIpPerProtocol?.get(protocol?.apiName)?.ports
 
     fun supportsProtocol(protocol: VpnProtocol) =
         protocol != VpnProtocol.WireGuard || !publicKeyX25519.isNullOrBlank()

@@ -69,6 +69,9 @@ data class ProtocolSelection private constructor(
         }
     }
 
+    // Protocol name as used in API endpoints
+    val apiName: String get() = "${vpn.name}${transmission?.name ?: ""}"
+
     companion object {
         @JvmStatic
         operator fun invoke(
@@ -80,6 +83,14 @@ data class ProtocolSelection private constructor(
                 null
             else
                 transmission ?: TransmissionProtocol.UDP
+        )
+
+        val REAL_PROTOCOLS = listOf(
+            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
+            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
+            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
+            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
         )
     }
 }

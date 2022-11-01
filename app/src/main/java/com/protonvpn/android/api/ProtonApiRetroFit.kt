@@ -59,8 +59,12 @@ open class ProtonApiRetroFit(
         params: RequestBody,
     ) = manager { postBugReport(params) }
 
-    open suspend fun getServerList(loader: LoaderUI?, netzone: String?, lang: String) =
-        makeCall(loader) { it.getServers(createNetZoneHeaders(netzone), lang) }
+    open suspend fun getServerList(
+        loader: LoaderUI?,
+        netzone: String?,
+        lang: String,
+        protocols: List<String>
+    ) = makeCall(loader) { it.getServers(createNetZoneHeaders(netzone), lang, protocols.joinToString(",")) }
 
     open suspend fun getLoads(netzone: String?) =
         manager { getLoads(createNetZoneHeaders(netzone)) }

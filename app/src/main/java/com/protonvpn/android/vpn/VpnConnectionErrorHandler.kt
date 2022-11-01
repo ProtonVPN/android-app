@@ -43,7 +43,6 @@ import com.protonvpn.android.utils.UserPlanManager.InfoChange.UserBecameDelinque
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.VpnCredentials
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.NetworkManager
@@ -300,7 +299,7 @@ class VpnConnectionErrorHandler(
                 // Only include servers that have IP that differ from current connection.
                 filter {
                     it.onlineConnectingDomains.any { domain ->
-                        domain.entryIp != orgPhysicalServer.connectingDomain.entryIp
+                        domain.getEntryIp(null) != orgPhysicalServer.connectingDomain.getEntryIp(null)
                     }
                 }
             } else
@@ -310,7 +309,7 @@ class VpnConnectionErrorHandler(
         scoredServers.take(FALLBACK_SERVERS_COUNT - candidateList.size).map { server ->
             server.onlineConnectingDomains.filter {
                 // Ignore connecting domains with the same IP as current connection.
-                it.entryIp != orgPhysicalServer?.connectingDomain?.entryIp
+                it.getEntryIp(null) != orgPhysicalServer?.connectingDomain?.getEntryIp(null)
             }.randomOrNull()?.let { connectingDomain ->
                 candidateList += PhysicalServer(server, connectingDomain)
             }

@@ -34,6 +34,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.jitterMs
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -194,7 +195,10 @@ class ServerListUpdater @Inject constructor(
 
         val lang = Locale.getDefault().language
         val netzone = getNetZone()
-        val result = api.getServerList(null, netzone, lang)
+        val realProtocolsNames = ProtocolSelection.REAL_PROTOCOLS.map {
+            it.apiName
+        }
+        val result = api.getServerList(null, netzone, lang, realProtocolsNames)
         if (result is ApiResult.Success) {
             prefs.lastNetzoneForLogicals = netzone
             serverManager.setServers(result.value.serverList, lang)

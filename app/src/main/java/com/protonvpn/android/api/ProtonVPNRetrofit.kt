@@ -57,7 +57,8 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     @GET("vpn/logicals")
     suspend fun getServers(
         @HeaderMap headers: Map<String, String>,
-        @Query("WithTranslations") language: String
+        @Query("WithTranslations") language: String,
+        @Query("WithEntriesForProtocols") protocols: String,
     ): ServerList
 
     @GET("vpn/loads")

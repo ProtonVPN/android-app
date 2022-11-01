@@ -18,6 +18,7 @@
 
 package com.protonvpn.testsTv.verification
 
+import androidx.test.core.app.ApplicationProvider
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseVerify
@@ -32,8 +33,8 @@ open class ConnectionVerify : BaseVerify() {
     fun connectionStatusDidNotChange(status: String): OnView = checkIfElementByIdContainsText(R.id.textStatus, status)
 
     fun userIsConnectedToCorrectCountry(country: String) {
-        val connectedToValue =
-            String.format(ProtonApplication.getAppContext().getString(R.string.stateConnectedTo), country)
+        val appContext = ApplicationProvider.getApplicationContext<ProtonApplication>()
+        val connectedToValue = String.format(appContext.getString(R.string.stateConnectedTo), country)
         checkIfElementByIdContainsText(R.id.textStatus, connectedToValue)
     }
 }
