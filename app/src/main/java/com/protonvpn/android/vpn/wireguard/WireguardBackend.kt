@@ -20,6 +20,7 @@ package com.protonvpn.android.vpn.wireguard
  */
 
 import android.content.Context
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ConnError
@@ -48,26 +49,30 @@ import com.protonvpn.android.vpn.VpnState
 import com.wireguard.android.backend.BackendException
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.util.kotlin.DispatcherProvider
+import okhttp3.OkHttpClient
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.lang.IllegalStateException
 import java.util.concurrent.Executors
 import java.util.concurrent.CancellationException
 import java.util.concurrent.TimeoutException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class WireguardBackend(
-    val context: Context,
-    val backend: GoBackend,
+@Singleton
+class WireguardBackend @Inject constructor(
+    @ApplicationContext val context: Context,
     val networkManager: NetworkManager,
     userData: UserData,
     appConfig: AppConfig,
@@ -78,11 +83,13 @@ class WireguardBackend(
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
+    @SharedOkHttpClient okHttp: OkHttpClient
 ) : VpnBackend(
     userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
-    dispatcherProvider, serverPing, localAgentUnreachableTracker, currentUser, getNetZone
+    dispatcherProvider, serverPing, localAgentUnreachableTracker, currentUser, getNetZone, okHttp
 ) {
     private val wireGuardIo = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+    private val backend: GoBackend = GoBackend(WireguardContextWrapper(context))
 
     private var monitoringJob: Job? = null
     private var service: WireguardWrapperService? = null
