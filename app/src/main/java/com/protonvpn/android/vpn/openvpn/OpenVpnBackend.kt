@@ -50,8 +50,10 @@ import de.blinkt.openvpn.core.LogItem
 import de.blinkt.openvpn.core.OpenVPNService.PAUSE_VPN
 import de.blinkt.openvpn.core.VpnStatus
 import kotlinx.coroutines.CoroutineScope
+import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.util.kotlin.DispatcherProvider
+import okhttp3.OkHttpClient
 import java.util.Random
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -70,6 +72,7 @@ class OpenVpnBackend @Inject constructor(
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
+    @SharedOkHttpClient okHttp: OkHttpClient
 ) : VpnBackend(
     userData,
     appConfig,
@@ -81,7 +84,8 @@ class OpenVpnBackend @Inject constructor(
     serverPing,
     localAgentUnreachableTracker,
     currentUser,
-    getNetZone
+    getNetZone,
+    okHttp
 ), VpnStatus.StateListener {
 
     init {

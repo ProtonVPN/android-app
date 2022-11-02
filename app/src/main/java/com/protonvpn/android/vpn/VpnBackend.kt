@@ -66,6 +66,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import me.proton.core.network.data.di.SharedOkHttpClient
+import okhttp3.OkHttpClient
 
 private const val SCAN_TIMEOUT_MILLIS = 5000
 
@@ -110,7 +112,8 @@ abstract class VpnBackend(
     val serverPing: ServerPing,
     val localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     val currentUser: CurrentUser,
-    val getNetZone: GetNetZone
+    val getNetZone: GetNetZone,
+    @SharedOkHttpClient val okHttp: OkHttpClient? = null
 ) : VpnStateSource {
 
     data class ProtocolInfo(val transmissionProtocol: TransmissionProtocol, val port: Int)
@@ -267,7 +270,7 @@ abstract class VpnBackend(
     protected var vpnProtocolState: VpnState = VpnState.Disabled
         set(value) {
             field = value
-            processCombinedState(value, agent?.state)
+            onVpnProtocolStateChange(value)
         }
 
     override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
@@ -315,6 +318,15 @@ abstract class VpnBackend(
         featureChange.observeForever {
             features.update()
             agent?.setFeatures(features)
+        }
+    }
+
+    private fun onVpnProtocolStateChange(value: VpnState) {
+        mainScope.launch {
+            if (value == VpnState.Connected) withContext(dispatcherProvider.Io) {
+                okHttp?.connectionPool?.evictAll()
+            }
+            processCombinedState(value, agent?.state)
         }
     }
 

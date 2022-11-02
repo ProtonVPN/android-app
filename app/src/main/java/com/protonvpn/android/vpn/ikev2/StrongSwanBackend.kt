@@ -44,11 +44,12 @@ import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.util.kotlin.DispatcherProvider
+import okhttp3.OkHttpClient
 import org.strongswan.android.logic.VpnStateService
 import java.util.Random
 import javax.inject.Inject
@@ -67,6 +68,7 @@ class StrongSwanBackend @Inject constructor(
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
+    @SharedOkHttpClient okHttp: OkHttpClient
 ) : VpnBackend(
     userData,
     appConfig,
@@ -78,7 +80,8 @@ class StrongSwanBackend @Inject constructor(
     serverPing,
     localAgentUnreachableTracker,
     currentUser,
-    getNetZone
+    getNetZone,
+    okHttp
 ), VpnStateService.VpnStateListener {
 
     private var vpnService: VpnStateService? = null
