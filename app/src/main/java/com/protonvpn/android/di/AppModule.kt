@@ -339,33 +339,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideWireguardBackend(
-        userData: UserData,
-        networkManager: NetworkManager,
-        appConfig: AppConfig,
-        certificateRepository: CertificateRepository,
-        dispatcherProvider: DispatcherProvider,
-        serverPing: ServerPing,
-        localAgentUnreachableTracker: LocalAgentUnreachableTracker,
-        currentUser: CurrentUser,
-        getNetZone: GetNetZone
-    ) = WireguardBackend(
-        ProtonApplication.getAppContext(),
-        GoBackend(WireguardContextWrapper(ProtonApplication.getAppContext())),
-        networkManager,
-        userData,
-        appConfig,
-        certificateRepository,
-        dispatcherProvider,
-        scope,
-        serverPing,
-        localAgentUnreachableTracker,
-        currentUser,
-        getNetZone
-    )
-
-    @Singleton
-    @Provides
     fun provideMaintenanceTracker(
         appConfig: AppConfig,
         vpnStateMonitor: VpnStateMonitor,
