@@ -29,7 +29,7 @@
       --use-orchestrator
       --num-uniform-shards=${NUM_SHARDS}
       --num-flaky-test-attempts=2
-      --environment-variables coverage=true,coverageFilePath="/sdcard/Download/",listener=com.protonvpn.testsHelper.ToastingRunListener
+      --environment-variables clearPackageData=true,useTestStorageService=true,coverage=true,coverageFilePath="/coverage/",listener=com.protonvpn.testsHelper.ToastingRunListener
       --directories-to-pull /sdcard
       --test-targets "class $TEST_SUITE" 2>&1 | tee results.txt
     - echo gcloud end time
@@ -41,7 +41,7 @@
         | while read -r line; do
             dst=app/build/outputs/coverage/${COVERAGE_FOLDER}/`basename "$line"`;
             mkdir -p "$dst";
-            gsutil -m cp ${line}artifacts/sdcard/Download/*.ec "$dst";
+            gsutil -m cp ${line}artifacts/sdcard/googletest/internal_use/coverage/*.ec "$dst";
           done
     - awk 'BEGIN { print strftime()  }'
   artifacts:

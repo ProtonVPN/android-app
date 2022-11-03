@@ -159,6 +159,7 @@ android {
         archivesBaseName = helpers.archivesBaseName
         testInstrumentationRunner "com.protonvpn.TestsRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true' // Clear app data between tests.
+        testInstrumentationRunnerArguments useTestStorageService: 'true'
         vectorDrawables.useSupportLibrary = true
 
         resConfigs supportedLocales
@@ -751,6 +752,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestUtil 'androidx.test:orchestrator:1.4.1'
+    androidTestUtil 'androidx.test.services:test-services:1.4.1'
 
     // Assertions
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
