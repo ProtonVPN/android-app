@@ -74,7 +74,6 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -104,6 +103,7 @@ class VpnConnectionTests {
     private val permissionDelegate = VpnPermissionDelegate { null }
     private lateinit var testDispatcher: TestCoroutineDispatcher
     private lateinit var scope: TestCoroutineScope
+    private lateinit var testDispatcherProvider: TestDispatcherProvider
     private lateinit var userData: UserData
     private lateinit var monitor: VpnStateMonitor
     private lateinit var manager: VpnConnectionManager
@@ -173,6 +173,7 @@ class VpnConnectionTests {
         MockKAnnotations.init(this)
         testDispatcher = TestCoroutineDispatcher()
         scope = TestCoroutineScope(testDispatcher)
+        testDispatcherProvider = TestDispatcherProvider(testDispatcher)
         userData = spyk(UserData.create())
 
         coEvery { currentUser.sessionId() } returns SessionId("1")
@@ -358,7 +359,7 @@ class VpnConnectionTests {
         mockOpenVpn.stateOnConnect = VpnState.Connected
         val guestHole = GuestHole(
             this,
-            TestDispatcherProvider(testDispatcher),
+            testDispatcherProvider,
             dagger.Lazy { serverManager },
             monitor,
             permissionDelegate,
@@ -384,7 +385,7 @@ class VpnConnectionTests {
     fun whenUserActionTriggeredGuestholeIsCanceled() = scope.runBlockingTest {
         val guestHole = GuestHole(
             scope,
-            TestDispatcherProvider(testDispatcher),
+            testDispatcherProvider,
             dagger.Lazy { serverManager },
             monitor,
             permissionDelegate,
@@ -412,7 +413,7 @@ class VpnConnectionTests {
         mockOpenVpn.stateOnConnect = VpnState.Connected
         val guestHole = GuestHole(
             this,
-            TestDispatcherProvider(testDispatcher),
+            testDispatcherProvider,
             dagger.Lazy { serverManager },
             monitor,
             permissionDelegate,
@@ -760,7 +761,7 @@ class VpnConnectionTests {
 
     private fun createMockVpnBackend(protocol: VpnProtocol): MockVpnBackend =
         MockVpnBackend(
-            scope, networkManager, certificateRepository, userData, appConfig, protocol, mockServerPing,
-            mockLocalAgentUnreachableTracker, currentUser, getNetZone
+            scope, testDispatcherProvider, networkManager, certificateRepository, userData, appConfig, protocol,
+            mockServerPing, mockLocalAgentUnreachableTracker, currentUser, getNetZone
         )
 }
