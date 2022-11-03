@@ -87,6 +87,7 @@ deploy:test-env:
   extends: deploy:review
   retry: 1
   needs: []
+  cache: []
   rules: &rules_deploy_cleanup
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
