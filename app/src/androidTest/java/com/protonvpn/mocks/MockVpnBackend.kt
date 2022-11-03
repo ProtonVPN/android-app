@@ -41,8 +41,8 @@ import com.protonvpn.android.vpn.VpnState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
-import me.proton.core.util.kotlin.DefaultDispatcherProvider
 import me.proton.core.network.domain.NetworkManager
+import me.proton.core.util.kotlin.DispatcherProvider
 
 typealias MockAgentProvider = (
     certInfo: CertificateRepository.CertificateResult.Success,
@@ -52,6 +52,7 @@ typealias MockAgentProvider = (
 
 class MockVpnBackend(
     val scope: CoroutineScope,
+    dispatcherProvider: DispatcherProvider,
     networkManager: NetworkManager,
     certificateRepository: CertificateRepository,
     userData: UserData,
@@ -68,7 +69,7 @@ class MockVpnBackend(
     certificateRepository = certificateRepository,
     vpnProtocol = protocol,
     mainScope = scope,
-    dispatcherProvider = DefaultDispatcherProvider(),
+    dispatcherProvider = dispatcherProvider,
     serverPing = serverPing,
     localAgentUnreachableTracker = localAgentUnreachableTracker,
     currentUser = currentUser,

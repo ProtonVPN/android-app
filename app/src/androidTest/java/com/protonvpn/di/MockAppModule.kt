@@ -174,6 +174,7 @@ class MockAppModule {
     @Provides
     fun provideVpnBackendManager(
         scope: CoroutineScope,
+        dispatcherProvider: DispatcherProvider,
         appConfig: AppConfig,
         networkManager: NetworkManager,
         certificateRepository: CertificateRepository,
@@ -188,12 +189,12 @@ class MockAppModule {
     if (TestSettings.mockedConnectionUsed) {
         ProtonVpnBackendProvider(
             openVpn = MockVpnBackend(
-                scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.OpenVPN, serverPing,
-                localAgentUnreachableTracker, currentUser, getNetZone
+                scope, dispatcherProvider, networkManager, certificateRepository, userData, appConfig,
+                VpnProtocol.OpenVPN, serverPing, localAgentUnreachableTracker, currentUser, getNetZone
             ),
             wireGuard = MockVpnBackend(
-                scope, networkManager, certificateRepository, userData, appConfig, VpnProtocol.WireGuard, serverPing,
-                localAgentUnreachableTracker, currentUser, getNetZone
+                scope, dispatcherProvider, networkManager, certificateRepository, userData, appConfig,
+                VpnProtocol.WireGuard, serverPing, localAgentUnreachableTracker, currentUser, getNetZone
             ),
             config = appConfig,
             userData = userData
