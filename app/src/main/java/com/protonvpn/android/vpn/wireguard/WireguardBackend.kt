@@ -105,18 +105,8 @@ class WireguardBackend @Inject constructor(
         numberOfPorts: Int,
         waitForAll: Boolean
     ): List<PrepareResult> {
-        val connectingDomain = server.getRandomConnectingDomain()
-        val wireguardPorts = appConfig.getWireguardPorts()
-        val protocolInfo = if (!scan) {
-            DebugUtils.debugAssert { transmissionProtocols.size == 1 }
-            val transmission = transmissionProtocols.first()
-            val ports = if (transmission == TransmissionProtocol.UDP)
-                wireguardPorts.udpPorts else wireguardPorts.tcpPorts
-            listOf(ProtocolInfo(transmission, ports.random()))
-        } else {
-            scanPorts(connectingDomain, numberOfPorts, transmissionProtocols, waitForAll, wireguardPorts, PRIMARY_PORT,
-                includeTls = true)
-        }
+        val protocolInfo = prepareForConnectionInternal(
+            server, transmissionProtocols, scan, numberOfPorts, waitForAll, PRIMARY_PORT, includeTls = true)
         return protocolInfo.map {
             PrepareResult(
                 this,
@@ -124,7 +114,8 @@ class WireguardBackend @Inject constructor(
                     profile,
                     server,
                     it.port,
-                    connectingDomain,
+                    it.connectingDomain,
+                    it.entryIp,
                     it.transmissionProtocol)
             )
         }

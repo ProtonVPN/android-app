@@ -146,9 +146,9 @@ class ServerManager @Inject constructor(
             countries.mapNotNull { country ->
                 val servers = country.serverList
                     .filter {
-                        it.supportsProtocol(protocol.vpn)
+                        it.supportsProtocol(protocol)
                     }.map { server ->
-                        val filteredDomains = server.connectingDomains.filter { it.supportsProtocol(protocol.vpn) }
+                        val filteredDomains = server.connectingDomains.filter { it.supportsProtocol(protocol) }
                         server.copy(
                             isOnline = server.online && filteredDomains.any { it.isOnline },
                             connectingDomains = filteredDomains)

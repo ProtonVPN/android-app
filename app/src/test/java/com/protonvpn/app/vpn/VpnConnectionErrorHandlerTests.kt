@@ -139,10 +139,12 @@ class VpnConnectionErrorHandlerTests {
         prepareServerManager(MockedServers.serverList)
 
         val server = MockedServers.server
+        val protocol = ProtocolSelection(VpnProtocol.WireGuard)
+        val connectingDomain = server.getRandomConnectingDomain(protocol)!!
         directProfile = Profile.getTempProfile(server)
-        directProfile.setProtocol(ProtocolSelection(VpnProtocol.WireGuard))
+        directProfile.setProtocol(protocol)
         directConnectionParams = ConnectionParamsWireguard(directProfile, server, 443,
-            server.getRandomConnectingDomain(), TransmissionProtocol.UDP)
+            connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!)
 
         handler = VpnConnectionErrorHandler(TestCoroutineScope(), api, appConfig,
             userData, userPlanManager, serverManager, vpnStateMonitor, serverListUpdater,
@@ -240,9 +242,22 @@ class VpnConnectionErrorHandlerTests {
                 val profile = Profile.getTempProfile(server.server)
                 val connectionParams = if (useOpenVPN) {
                     ConnectionParamsOpenVpn(
-                        profile, server.server, server.connectingDomain, TransmissionProtocol.UDP, 443)
+                        profile,
+                        server.server,
+                        server.connectingDomain,
+                        server.connectingDomain.getEntryIp(
+                            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP)),
+                        TransmissionProtocol.UDP,
+                        443)
                 } else {
-                    ConnectionParamsWireguard(profile, server.server, 443, server.connectingDomain, TransmissionProtocol.UDP)
+                    ConnectionParamsWireguard(
+                        profile,
+                        server.server,
+                        443,
+                        server.connectingDomain,
+                        server.connectingDomain.getEntryIp(
+                            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP)),
+                        TransmissionProtocol.UDP)
                 }
                 result.captured = PrepareResult(mockk(), connectionParams)
                 VpnBackendProvider.PingResult(profile, server, listOf(result.captured))
@@ -334,9 +349,11 @@ class VpnConnectionErrorHandlerTests {
     fun testUnreachableSecureCoreSwitch() = runBlockingTest {
         val secureCoreServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
         val secureCoreProfile = Profile.getTempProfile(secureCoreServer, true)
-        secureCoreProfile.setProtocol(ProtocolSelection(VpnProtocol.WireGuard))
+        val protocol = ProtocolSelection(VpnProtocol.WireGuard)
+        secureCoreProfile.setProtocol(protocol)
+        val connectingDomain = secureCoreServer.connectingDomains.first()
         val scConnectionParams = ConnectionParamsWireguard(secureCoreProfile, secureCoreServer, 443,
-            secureCoreServer.connectingDomains.first(), TransmissionProtocol.UDP)
+            connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!)
 
         preparePings(failServerName = secureCoreServer.serverName)
         val fallback = handler.onUnreachableError(scConnectionParams) as VpnFallbackResult.Switch.SwitchServer
@@ -348,9 +365,11 @@ class VpnConnectionErrorHandlerTests {
     fun testUnreachableSecureCoreSwitchToNonSecureCore() = runBlockingTest {
         val scServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
         val scProfie = Profile.getTempProfile(scServer, true)
-        scProfie.setProtocol(ProtocolSelection(VpnProtocol.WireGuard))
+        val protocol = ProtocolSelection(VpnProtocol.WireGuard)
+        val connectingDomain = scServer.connectingDomains.first()
+        scProfie.setProtocol(protocol)
         val scConnectionParams = ConnectionParamsWireguard(scProfie, scServer, 443,
-            scServer.connectingDomains.first(), TransmissionProtocol.UDP)
+            connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!)
 
         // All secure core servers failed to respond, switch to non-sc in the same country.
         preparePings(failSecureCore = true)

@@ -32,7 +32,7 @@ data class ServerEntryInfo(
 
 @Serializable
 data class ConnectingDomain(
-    @SerialName(value = "EntryIP") private val entryIp: String,
+    @SerialName(value = "EntryIP") private val entryIp: String? = null,
     @SerialName(value = "EntryPerProtocol") private val entryIpPerProtocol: Map<String, ServerEntryInfo>? = null,
     @SerialName(value = "Domain") val entryDomain: String,
     @SerialName(value = "ExitIP") private val exitIp: String? = null,
@@ -46,12 +46,12 @@ data class ConnectingDomain(
 
     fun getExitIP() = exitIp ?: entryIp
 
-    fun getEntryIp(protocol: ProtocolSelection?): String =
+    fun getEntryIp(protocol: ProtocolSelection?): String? =
         entryIpPerProtocol?.get(protocol?.apiName)?.ipv4 ?: entryIp
 
     fun getEntryPorts(protocol: ProtocolSelection?): List<Int>? =
         entryIpPerProtocol?.get(protocol?.apiName)?.ports
 
-    fun supportsProtocol(protocol: VpnProtocol) =
-        protocol != VpnProtocol.WireGuard || !publicKeyX25519.isNullOrBlank()
+    fun supportsProtocol(protocol: ProtocolSelection?) =
+        getEntryIp(protocol) != null && (protocol?.vpn != VpnProtocol.WireGuard || !publicKeyX25519.isNullOrBlank())
 }

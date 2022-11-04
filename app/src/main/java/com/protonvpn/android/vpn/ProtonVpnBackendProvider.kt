@@ -121,7 +121,6 @@ class ProtonVpnBackendProvider(
         return null
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     private fun getSmartEnabledBackends(server: Server, orgVpnProtocol: VpnProtocol?): List<VpnBackend> = buildList {
         with(config.getSmartProtocolConfig()) {
             val wireGuardTxxEnabled =
@@ -129,7 +128,7 @@ class ProtonVpnBackendProvider(
             val wireGuardEnabled = wireguardEnabled || wireGuardTxxEnabled
             if (wireGuardEnabled && server.supportsProtocol(VpnProtocol.WireGuard))
                 add(wireGuard)
-            if (openVPNEnabled)
+            if (openVPNEnabled && server.supportsProtocol(VpnProtocol.OpenVPN))
                 add(openVpn)
             if (orgVpnProtocol != null) {
                 getBackendFor(orgVpnProtocol)?.let { orgBackend ->

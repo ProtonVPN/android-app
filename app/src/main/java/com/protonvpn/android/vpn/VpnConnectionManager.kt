@@ -296,7 +296,7 @@ class VpnConnectionManager @Inject constructor(
     }
 
     private suspend fun smartConnect(profile: Profile, server: Server) {
-        connectionParams = ConnectionParams(profile, server, null, null, null)
+        connectionParams = ConnectionParams(profile, server, null, null)
 
         if (activeBackend != null) {
             ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnecting first...")
@@ -324,24 +324,32 @@ class VpnConnectionManager @Inject constructor(
 
             // If port scanning fails (because e.g. some temporary network situation) just connect without pinging
             preparedConnection =
-                backendProvider.prepareConnection(fallbackProtocol, profile, server, false)!!
+                backendProvider.prepareConnection(fallbackProtocol, profile, server, false)
         }
 
-        preparedConnect(preparedConnection)
+        if (preparedConnection == null)
+            setSelfState(VpnState.Error(ErrorType.GENERIC_ERROR, "Server doesn't support selected protocol"))
+        else
+            preparedConnect(preparedConnection)
     }
 
     private fun getFallbackSmartProtocol(server: Server): ProtocolSelection {
         val config = appConfig.getSmartProtocolConfig()
         val wireGuardTxxEnabled = appConfig.getFeatureFlags().wireguardTlsEnabled
-        val wireGuardServer = server.supportsProtocol(VpnProtocol.WireGuard)
+        val wireGuardUdpServer =
+            server.supportsProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP))
+        val wireGuardTcpServer =
+            server.supportsProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP))
+        val wireGuardTlsServer =
+            server.supportsProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
         return when {
-            config.wireguardEnabled && wireGuardServer ->
+            config.wireguardEnabled && wireGuardUdpServer ->
                 ProtocolSelection(VpnProtocol.WireGuard)
-            config.openVPNEnabled ->
+            config.openVPNEnabled && server.supportsProtocol(ProtocolSelection(VpnProtocol.OpenVPN)) ->
                 ProtocolSelection(VpnProtocol.OpenVPN)
-            config.wireguardTcpEnabled && wireGuardServer && wireGuardTxxEnabled ->
+            config.wireguardTcpEnabled && wireGuardTcpServer && wireGuardTxxEnabled ->
                 ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP)
-            config.wireguardTlsEnabled && wireGuardServer && wireGuardTxxEnabled->
+            config.wireguardTlsEnabled && wireGuardTlsServer && wireGuardTxxEnabled ->
                 ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
             else ->
                 ProtocolSelection(VpnProtocol.WireGuard)

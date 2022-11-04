@@ -40,7 +40,7 @@ class WireguardParamsTests {
             " 134.209.78.100/30, 134.209.78.104/29, 134.209.78.112/28, 134.209.78.128/25, 134.209.79.0/24," +
             " 134.209.80.0/20, 134.209.96.0/19, 134.209.128.0/17, 134.210.0.0/15, 134.212.0.0/14," +
             " 134.216.0.0/13, 134.224.0.0/11, 135.0.0.0/8, 136.0.0.0/5, 144.0.0.0/4, 160.0.0.0/3, 192.0.0.0/2, 2000::/3"
-        val connectionParams = ConnectionParamsWireguard(mockk(), mockk(), 51820, mockk(), TransmissionProtocol.UDP)
+        val connectionParams = ConnectionParamsWireguard(mockk(), mockk(), 51820, mockk(), "1.1.1.1", TransmissionProtocol.UDP)
 
         Assert.assertEquals(
             connectionParams.calculateAllowedIps(emptyList()),

@@ -22,7 +22,6 @@ package com.protonvpn.android.components
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import javax.inject.Inject
 

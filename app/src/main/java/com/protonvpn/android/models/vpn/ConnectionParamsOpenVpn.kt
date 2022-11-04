@@ -23,7 +23,6 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.vpn.ProtocolSelection
 import de.blinkt.openvpn.VpnProfile
 import de.blinkt.openvpn.core.Connection
 
@@ -31,9 +30,18 @@ class ConnectionParamsOpenVpn(
     profile: Profile,
     server: Server,
     connectingDomain: ConnectingDomain,
+    entryIp: String?,
     transmission: TransmissionProtocol,
-    private val port: Int
-) : ConnectionParams(profile, server, connectingDomain, VpnProtocol.OpenVPN, transmission), java.io.Serializable {
+    port: Int
+) : ConnectionParams(
+    profile,
+    server,
+    connectingDomain,
+    VpnProtocol.OpenVPN,
+    entryIp,
+    port,
+    transmission
+), java.io.Serializable {
 
     override val info get() = "${super.info} $transmissionProtocol port: $port"
 
@@ -71,16 +79,12 @@ class ConnectionParamsOpenVpn(
         mConnections[0] = Connection().apply {
             if (userData.useSplitTunneling)
                 mAllowedAppsVpn = HashSet<String>(userData.splitTunnelApps)
-            mServerName = connectingDomain.getEntryIp(
-                ProtocolSelection(VpnProtocol.OpenVPN, transmissionProtocol))
+            mServerName = entryIp ?: requireNotNull(connectingDomain.getEntryIp(protocolSelection))
             mUseUdp = transmissionProtocol == TransmissionProtocol.UDP
             mServerPort = port.toString()
             mCustomConfiguration = ""
         }
     }
-
-    override fun hasSameProtocolParams(other: ConnectionParams) =
-        other is ConnectionParamsOpenVpn && other.transmissionProtocol == transmissionProtocol && other.port == port
 
     private fun inlineFile(data: String) = "[[INLINE]]$data"
 
