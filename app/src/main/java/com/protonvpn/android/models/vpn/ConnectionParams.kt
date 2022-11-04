@@ -34,6 +34,8 @@ open class ConnectionParams(
     val server: Server,
     val connectingDomain: ConnectingDomain?,
     private val protocol: VpnProtocol?,
+    val entryIp: String? = null,
+    protected val port: Int? = null,
     protected val transmissionProtocol: TransmissionProtocol? = null,
     val uuid: UUID = UUID.randomUUID()
 ) : java.io.Serializable {
@@ -63,8 +65,11 @@ open class ConnectionParams(
 
     override fun toString() = info
 
-    open fun hasSameProtocolParams(other: ConnectionParams) =
-        other.protocol == protocol
+    fun hasSameProtocolParams(other: ConnectionParams) =
+        this.javaClass == other.javaClass &&
+            other.protocol == protocol &&
+            other.transmissionProtocol == transmissionProtocol &&
+            other.port == port
 
     companion object {
         fun readFromStore(ignoreUnsupported: Boolean = true): ConnectionParams? {

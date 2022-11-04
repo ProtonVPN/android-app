@@ -92,7 +92,7 @@ class MockVpnBackend(
         if (scan && failScanning)
             emptyList()
         else listOf(PrepareResult(this, object : ConnectionParams(
-            profile, server, server.getRandomConnectingDomain(), protocol, null
+            profile, server, server.getRandomConnectingDomain(null), protocol, null
         ) {}))
 
     override suspend fun connect(connectionParams: ConnectionParams) {

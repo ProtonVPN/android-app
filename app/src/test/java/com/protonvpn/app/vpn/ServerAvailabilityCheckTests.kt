@@ -65,26 +65,26 @@ class ServerAvailabilityCheckTests {
 
     @Test
     fun `empty ping`() = runTest {
-        assertTrue(serverAvailabilityCheck.pingInParallel(emptyMap(), true, "key").isEmpty())
+        assertTrue(serverAvailabilityCheck.pingInParallel(emptyMap(), true).isEmpty())
     }
 
     @Test
     fun `ping returns only only accessible IPs and ports`() = runTest {
         val destinations = mapOf(
-            TransmissionProtocol.UDP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1, 100)),
-            TransmissionProtocol.TCP to ServerAvailabilityCheck.Destination(BAD_IP, listOf(2, 200)))
-        val result = serverAvailabilityCheck.pingInParallel(destinations, true, "key")
-        assertEquals(mapOf(TransmissionProtocol.UDP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1))), result)
+            TransmissionProtocol.UDP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1, 100), "key"),
+            TransmissionProtocol.TCP to ServerAvailabilityCheck.Destination(BAD_IP, listOf(2, 200), null))
+        val result = serverAvailabilityCheck.pingInParallel(destinations, true)
+        assertEquals(mapOf(TransmissionProtocol.UDP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1), "key")), result)
     }
 
     @Test
     fun `TLS is not pinged separately if destination same as TCP`() = runTest {
-        val destination = ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1, 100))
-        val resultDestination = ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1))
+        val destination = ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1, 100), "key")
+        val resultDestination = ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1), "key")
         val destinations = mapOf(
             TransmissionProtocol.TCP to destination,
             TransmissionProtocol.TLS to destination)
-        val result = serverAvailabilityCheck.pingInParallel(destinations, true, "key")
+        val result = serverAvailabilityCheck.pingInParallel(destinations, true)
         assertEquals(
             mapOf(TransmissionProtocol.TCP to resultDestination, TransmissionProtocol.TLS to resultDestination),
             result)
@@ -97,12 +97,12 @@ class ServerAvailabilityCheckTests {
             delay(1000)
             true
         }
-        val destination = ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1, 100))
+        val destination = ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1, 100), "key")
         val destinations = mapOf(
             TransmissionProtocol.UDP to destination,
             TransmissionProtocol.TCP to destination)
         val before = currentTime
-        serverAvailabilityCheck.pingInParallel(destinations, true, "key")
+        serverAvailabilityCheck.pingInParallel(destinations, true)
         assertEquals(1000, currentTime - before)
     }
 
@@ -115,21 +115,23 @@ class ServerAvailabilityCheckTests {
         }
         val before = currentTime
         val destinations = mapOf(
-            TransmissionProtocol.TCP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(3, 1, 2)),
-            TransmissionProtocol.TLS to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(5, 7, 4)))
-        val result = serverAvailabilityCheck.pingInParallel(destinations, false, "key")
+            TransmissionProtocol.TCP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(3, 1, 2), "key"),
+            TransmissionProtocol.TLS to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(5, 7, 4), "key"))
+        val result = serverAvailabilityCheck.pingInParallel(destinations, false)
         assertEquals(4000, currentTime - before)
         assertEquals(mapOf(
-            TransmissionProtocol.TCP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1)),
-            TransmissionProtocol.TLS to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(4))), result)
+            TransmissionProtocol.TCP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1), "key"),
+            TransmissionProtocol.TLS to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(4), "key")), result)
     }
 
     @Test
     fun `UDP pings fail without the key`() = runTest {
         val destinations = mapOf(
-            TransmissionProtocol.UDP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1)),
-            TransmissionProtocol.TCP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(2)))
-        val result = serverAvailabilityCheck.pingInParallel(destinations, true, null)
-        assertEquals(mapOf(TransmissionProtocol.TCP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(2))), result)
+            TransmissionProtocol.UDP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(1), null),
+            TransmissionProtocol.TCP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(2), null))
+        val result = serverAvailabilityCheck.pingInParallel(destinations, true)
+        assertEquals(
+            mapOf(TransmissionProtocol.TCP to ServerAvailabilityCheck.Destination(GOOD_IP, listOf(2), null)),
+            result)
     }
 }

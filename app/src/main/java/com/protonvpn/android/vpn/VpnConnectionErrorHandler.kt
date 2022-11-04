@@ -298,7 +298,7 @@ class VpnConnectionErrorHandler(
             if (orgPhysicalServer != null) {
                 // Only include servers that have IP that differ from current connection.
                 filter {
-                    it.onlineConnectingDomains.any { domain ->
+                    it.onlineConnectingDomains(null).any { domain ->
                         domain.getEntryIp(null) != orgPhysicalServer.connectingDomain.getEntryIp(null)
                     }
                 }
@@ -307,11 +307,11 @@ class VpnConnectionErrorHandler(
         }
 
         scoredServers.take(FALLBACK_SERVERS_COUNT - candidateList.size).map { server ->
-            server.onlineConnectingDomains.filter {
+            server.onlineConnectingDomains(null).filter {
                 // Ignore connecting domains with the same IP as current connection.
                 it.getEntryIp(null) != orgPhysicalServer?.connectingDomain?.getEntryIp(null)
             }.randomOrNull()?.let { connectingDomain ->
-                candidateList += PhysicalServer(server, connectingDomain)
+                candidateList += PhysicalServer(server, connectingDomain, )
             }
         }
 
@@ -343,8 +343,10 @@ class VpnConnectionErrorHandler(
                 .firstOrNull()?.let { fallbacks += it }
         }
 
-        return candidateList.take(FALLBACK_SERVERS_COUNT - fallbacks.size) + fallbacks.map { server ->
-            PhysicalServer(server, server.getRandomConnectingDomain())
+        return candidateList.take(FALLBACK_SERVERS_COUNT - fallbacks.size) + fallbacks.mapNotNull { server ->
+            server.getRandomConnectingDomain(null)?.let {
+                PhysicalServer(server, it)
+            }
         }
     }
 

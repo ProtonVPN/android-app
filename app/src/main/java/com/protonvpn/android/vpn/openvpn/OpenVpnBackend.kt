@@ -34,7 +34,6 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.GetNetZone
-import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
@@ -101,19 +100,19 @@ class OpenVpnBackend @Inject constructor(
         numberOfPorts: Int,
         waitForAll: Boolean
     ): List<PrepareResult> {
-        val connectingDomain = server.getRandomConnectingDomain()
-        val openVpnPorts = appConfig.getOpenVPNPorts()
-        val protocolInfo = if (!scan) {
-            DebugUtils.debugAssert { transmissionProtocols.size == 1 }
-            val transmission = transmissionProtocols.first()
-            val ports = if (transmission == TransmissionProtocol.TCP) openVpnPorts.tcpPorts else openVpnPorts.udpPorts
-            listOf(ProtocolInfo(transmission, ports.random()))
-        } else {
-            scanPorts(connectingDomain, numberOfPorts, transmissionProtocols, waitForAll, openVpnPorts, PRIMARY_PORT)
-        }
+        val protocolInfo = prepareForConnectionInternal(
+            server, transmissionProtocols, scan, numberOfPorts, waitForAll, PRIMARY_PORT, includeTls = false)
         return protocolInfo.map {
-            PrepareResult(this, ConnectionParamsOpenVpn(
-                profile, server, connectingDomain, it.transmissionProtocol, it.port))
+            PrepareResult(
+                this,
+                ConnectionParamsOpenVpn(
+                    profile,
+                    server,
+                    it.connectingDomain,
+                    it.entryIp,
+                    it.transmissionProtocol,
+                    it.port)
+            )
         }
     }
 

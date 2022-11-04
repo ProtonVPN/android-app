@@ -28,7 +28,6 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.CertificateRepository
-import com.protonvpn.android.vpn.ProtocolSelection
 import com.wireguard.config.Config
 import com.wireguard.config.Interface
 import com.wireguard.config.Peer
@@ -41,15 +40,18 @@ import me.proton.core.network.domain.session.SessionId
 class ConnectionParamsWireguard(
     profile: Profile,
     server: Server,
-    val port: Int,
+    port: Int,
     connectingDomain: ConnectingDomain,
+    entryIp: String?,
     transmission: TransmissionProtocol
 ) : ConnectionParams(
     profile,
     server,
     connectingDomain,
     VpnProtocol.WireGuard,
-    transmission
+    entryIp,
+    port,
+    transmission,
 ), java.io.Serializable {
 
     override val info get() = "${super.info} $transmissionProtocol port: $port"
@@ -61,12 +63,7 @@ class ConnectionParamsWireguard(
         sessionId: SessionId?,
         certificateRepository: CertificateRepository
     ): Config {
-        if (connectingDomain?.publicKeyX25519 == null) {
-            throw IllegalStateException("Null server public key. Cannot connect to wireguard")
-        }
-
-        val entryIp = connectingDomain.getEntryIp(
-            ProtocolSelection(VpnProtocol.WireGuard, transmissionProtocol))
+        val entryIp = entryIp ?: requireNotNull(connectingDomain?.getEntryIp(protocolSelection))
 
         // Our modified WireGuard requires server IP excluded as we replaced
         // VpnService.protect with split tunneling to have TCP/TLS socket support.
@@ -87,7 +84,7 @@ class ConnectionParamsWireguard(
         ProtonLogger.logCustom(LogCategory.CONN, "WireGuard port: $port, allowed IPs: $allowedIps")
 
         val peer = Peer.Builder()
-            .parsePublicKey(connectingDomain.publicKeyX25519)
+            .parsePublicKey(requireNotNull(connectingDomain?.publicKeyX25519))
             .parseEndpoint("$entryIp:$port")
             .parseAllowedIPs(allowedIps)
             .build()
@@ -131,7 +128,4 @@ class ConnectionParamsWireguard(
         // Also ::/0 CIDR should not be used for IPv6 as it causes LAN connection issues
         return "$allowedIps4, 2000::/3"
     }
-
-    override fun hasSameProtocolParams(other: ConnectionParams) =
-        super.hasSameProtocolParams(other) && other is ConnectionParamsWireguard && other.port == port
 }

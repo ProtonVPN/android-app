@@ -32,7 +32,7 @@ private const val SCAN_TIMEOUT_MILLIS = 5000
 
 class ServerAvailabilityCheck @Inject constructor(val serverPing: ServerPing) {
 
-    data class Destination(val ip: String, val ports: List<Int>)
+    data class Destination(val ip: String, val ports: List<Int>, val publicKeyX25519: String?)
 
     /**
      * Pings ports on multiple destinations in parallel.
@@ -43,24 +43,23 @@ class ServerAvailabilityCheck @Inject constructor(val serverPing: ServerPing) {
     suspend fun pingInParallel(
         destinations: Map<TransmissionProtocol, Destination>,
         waitForAll: Boolean,
-        publicKeyX25519: String?
     ): Map<TransmissionProtocol, Destination> = coroutineScope {
         // If IP and ports are the same for TCP and TLS let's only ping them once.
         val copyTlsResult = destinations[TransmissionProtocol.TCP] == destinations[TransmissionProtocol.TLS]
         destinations.mapValues { (transmission, dest) ->
             async {
-                if (transmission == TransmissionProtocol.UDP && publicKeyX25519 == null) {
+                if (transmission == TransmissionProtocol.UDP && dest.publicKeyX25519 == null) {
                     ProtonLogger.log(ConnConnectScanFailed, "no public key")
                     null
                 } else if (copyTlsResult && transmission == TransmissionProtocol.TLS) {
                     null
                 } else {
                     dest.ports.parallelSearch(waitForAll, priorityWaitMs = PING_PRIORITY_WAIT_DELAY) { port ->
-                        val data = getPingData(transmission, publicKeyX25519)
+                        val data = getPingData(transmission, dest.publicKeyX25519)
                         serverPing.ping(dest.ip, port, data, tcp = transmission != TransmissionProtocol.UDP,
                             timeout = SCAN_TIMEOUT_MILLIS)
                     }.takeIf { it.isNotEmpty() }?.let { livePorts ->
-                        Destination(dest.ip, livePorts)
+                        Destination(dest.ip, livePorts, dest.publicKeyX25519)
                     }
                 }
             }

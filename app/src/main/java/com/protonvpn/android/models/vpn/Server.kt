@@ -19,10 +19,12 @@
 package com.protonvpn.android.models.vpn
 
 import com.protonvpn.android.components.Markable
+import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.implies
+import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -115,8 +117,13 @@ data class Server(
             }
         }
 
-    fun supportsProtocol(protocol: VpnProtocol) =
+    fun supportsProtocol(protocol: ProtocolSelection) =
         connectingDomains.any { it.supportsProtocol(protocol) }
+
+    fun supportsProtocol(vpnProtocol: VpnProtocol) =
+        connectingDomains.any { connectingDomain ->
+            TransmissionProtocol.values().any { connectingDomain.supportsProtocol(ProtocolSelection(vpnProtocol, it)) }
+        }
 
     private val secureCoreServerNaming: String
         get() = CountryTools.getFullName(entryCountry) + " $SECURE_CORE_SEPARATOR " +
@@ -137,9 +144,12 @@ data class Server(
 
     override fun getConnectableServers(): List<Server> = listOf(this)
 
-    val onlineConnectingDomains get() = connectingDomains.filter(ConnectingDomain::isOnline)
+    fun onlineConnectingDomains(protocol: ProtocolSelection?) =
+        connectingDomains.filter { it.isOnline && it.supportsProtocol(protocol) }
 
-    fun getRandomConnectingDomain() = onlineConnectingDomains.randomOrNull() ?: connectingDomains.random()
+    fun getRandomConnectingDomain(protocol: ProtocolSelection?) =
+        onlineConnectingDomains(protocol).randomOrNull()
+            ?: connectingDomains.filter { it.supportsProtocol(protocol) }.randomOrNull()
 
     override fun toString() = "$domain $entryCountry"
 
