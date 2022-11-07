@@ -52,13 +52,12 @@ class LoginTests {
     private lateinit var addAccountRobot: AddAccountRobot
     private lateinit var loginRobot: LoginRobot
     private lateinit var homeRobot: HomeRobot
-    private val activityRule = ActivityScenarioRule(MobileMainActivity::class.java)
 
     @get:Rule
     val rules = RuleChain
         .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Backend))
         .around(EspressoDispatcherRule())
-        .around(activityRule)
+        .around(ActivityScenarioRule(MobileMainActivity::class.java))
 
     @Before
     fun setUp() {
