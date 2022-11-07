@@ -22,7 +22,7 @@ package com.protonvpn.testsHelper
 import com.protonvpn.annotations.TestID
 import com.protonvpn.testRail.TestRailClient
 import com.protonvpn.testSuites.MobileBlackSuite
-import com.protonvpn.testSuites.MobileMainSuite
+import com.protonvpn.testSuites.MobileMockApiSuite
 import org.junit.runner.Description
 import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunListener
@@ -34,9 +34,9 @@ class ProtonReportingRunListener : RunListener() {
     private var currentTestStatusId: Int = PASSED_ID
     private val testRailClient = TestRailClient()
 
-    override fun testSuiteStarted(description: Description?) {
+    override fun testSuiteStarted(description: Description) {
         super.testSuiteStarted(description)
-        if(description?.testClass == MobileBlackSuite::class.java || description?.testClass == MobileMainSuite::class.java){
+        if (isTestRailRun(description)) {
             if(testRailClient.shouldReport()){
                 runId = testRailClient.createTestRun()
             }
@@ -71,14 +71,17 @@ class ProtonReportingRunListener : RunListener() {
         }
     }
 
-    override fun testSuiteFinished(description: Description?) {
+    override fun testSuiteFinished(description: Description) {
         super.testSuiteFinished(description)
-        if(description?.testClass == MobileBlackSuite::class.java || description?.testClass == MobileMainSuite::class.java){
+        if (isTestRailRun(description)) {
             if(testRailClient.shouldReport()){
                 runId = null
             }
         }
     }
+
+    private fun isTestRailRun(description: Description): Boolean =
+        with(description) { testClass == MobileBlackSuite::class.java || testClass == MobileMockApiSuite::class.java }
 
     companion object {
         private const val PASSED_ID: Int = 1

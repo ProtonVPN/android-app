@@ -49,24 +49,23 @@
     paths:
       - app/build/outputs/
 
-mobile tests prod:
+mobile tests mocked api:
   extends: .tests_preparation_script
-  when: manual
   variables:
     TESTS_TYPE: mobileTest
-    NUM_SHARDS: 4
-    APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
-    APP_TYPE: "googlePlay-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
-    TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
-    TEST_SUITE: "com.protonvpn.testSuites.MobileMainSuite"
-    COVERAGE_FOLDER: "mobile_quick"
+    NUM_SHARDS: 3
+    APP_LOCATION: "app/build/outputs/apk/black/debug/"
+    APP_TYPE: "black-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
+    TEST_APP_TYPE: "black-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.MobileMockApiSuite"
+    COVERAGE_FOLDER: "mobile_mocked_api"
 
 mobile tests black:
   extends: .tests_preparation_script
   variables:
     TESTS_TYPE: mobileTest
-    NUM_SHARDS: 4
+    NUM_SHARDS: 1
     APP_LOCATION: "app/build/outputs/apk/black/debug/"
     APP_TYPE: "black-debug.apk"
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
