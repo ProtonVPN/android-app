@@ -743,14 +743,14 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version"
     // debugImplementation as a workaround for ActivityScenario problem:
     // https://github.com/android/android-test/issues/940#issuecomment-934406022
-    debugImplementation 'androidx.test:core:1.4.0'
+    debugImplementation 'androidx.test:core:1.5.0-rc01'
 
     testImplementation project(':shared-test-code')
     androidTestImplementation project(':shared-test-code')
 
     // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test:runner:1.5.0-rc01'
+    androidTestImplementation 'androidx.test:rules:1.5.0-rc01'
     androidTestUtil 'androidx.test:orchestrator:1.4.1'
     androidTestUtil 'androidx.test.services:test-services:1.4.1'
 
