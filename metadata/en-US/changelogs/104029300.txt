@@ -1,0 +1,2 @@
+What's new:
+Improves connection stability when switching networks
