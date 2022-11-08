@@ -95,6 +95,7 @@ class SettingsTests {
     fun switchSplitTunneling() {
         settingsRobot.toggleSplitTunneling()
             .verify { splitTunnelUIIsVisible() }
+        Thread.sleep(300) // Tapping the switch again too soon doesn't toggle it.
         settingsRobot.toggleSplitTunneling()
             .verify { splitTunnelUIIsNotVisible() }
     }
