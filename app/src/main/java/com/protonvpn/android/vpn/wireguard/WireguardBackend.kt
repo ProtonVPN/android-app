@@ -41,8 +41,8 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
+import com.protonvpn.android.vpn.PrepareForConnection
 import com.protonvpn.android.vpn.RetryInfo
-import com.protonvpn.android.vpn.ServerAvailabilityCheck
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import com.wireguard.android.backend.BackendException
@@ -80,11 +80,11 @@ class WireguardBackend @Inject constructor(
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
-    serverAvailabilityCheck: ServerAvailabilityCheck,
+    private val prepareForConnection: PrepareForConnection,
     @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
     userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
-    dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, serverAvailabilityCheck, okHttp
+    dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, okHttp
 ) {
     private val wireGuardIo = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
     private val backend: GoBackend = GoBackend(WireguardContextWrapper(context))
@@ -105,8 +105,8 @@ class WireguardBackend @Inject constructor(
         numberOfPorts: Int,
         waitForAll: Boolean
     ): List<PrepareResult> {
-        val protocolInfo = prepareForConnectionInternal(
-            server, transmissionProtocols, scan, numberOfPorts, waitForAll, PRIMARY_PORT, includeTls = true)
+        val protocolInfo = prepareForConnection.prepare(server, vpnProtocol, transmissionProtocols, scan,
+            numberOfPorts, waitForAll, PRIMARY_PORT, includeTls = true)
         return protocolInfo.map {
             PrepareResult(
                 this,

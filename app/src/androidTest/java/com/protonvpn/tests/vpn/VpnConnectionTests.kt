@@ -46,7 +46,6 @@ import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.ReasonRestricted
-import com.protonvpn.android.vpn.ServerAvailabilityCheck
 import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
@@ -132,9 +131,6 @@ class VpnConnectionTests {
 
     @MockK
     lateinit var mockVpnBackgroundUiDelegate: VpnBackgroundUiDelegate
-
-    @RelaxedMockK
-    lateinit var mockServerAvailabilityCheck: ServerAvailabilityCheck
 
     @RelaxedMockK
     lateinit var vpnUser: VpnUser
@@ -762,6 +758,6 @@ class VpnConnectionTests {
     private fun createMockVpnBackend(protocol: VpnProtocol): MockVpnBackend =
         MockVpnBackend(
             scope, testDispatcherProvider, networkManager, certificateRepository, userData, appConfig, protocol,
-            mockLocalAgentUnreachableTracker, currentUser, getNetZone, mockServerAvailabilityCheck
+            mockLocalAgentUnreachableTracker, currentUser, getNetZone
         )
 }

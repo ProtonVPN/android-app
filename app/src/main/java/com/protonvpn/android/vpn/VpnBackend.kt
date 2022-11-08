@@ -29,7 +29,6 @@ import com.proton.gopenpgp.localAgent.NativeClient
 import com.proton.gopenpgp.localAgent.StatusMessage
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.logging.ConnConnectScan
 import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.LocalAgentError
 import com.protonvpn.android.logging.LocalAgentStateChanged
@@ -42,14 +41,11 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.LiveEvent
-import com.protonvpn.android.utils.takeRandomStable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -106,13 +102,8 @@ abstract class VpnBackend(
     val localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     val currentUser: CurrentUser,
     val getNetZone: GetNetZone,
-    private val serverAvailabilityCheck: ServerAvailabilityCheck,
     @SharedOkHttpClient val okHttp: OkHttpClient? = null
 ) : VpnStateSource {
-
-    data class ProtocolInfo(
-        val connectingDomain: ConnectingDomain,
-        val transmissionProtocol: TransmissionProtocol, val entryIp: String, val port: Int)
 
     inner class VpnAgentClient : NativeClient {
         private val agentConstants = LocalAgent.constants()
@@ -479,94 +470,6 @@ abstract class VpnBackend(
         if (selfState == VpnState.Disconnecting)
             setSelfState(VpnState.Disabled)
     }
-
-    protected suspend fun prepareForConnectionInternal(
-        server: Server,
-        transmissionProtocols: Set<TransmissionProtocol>,
-        scan: Boolean,
-        numberOfPorts: Int,
-        waitForAll: Boolean,
-        primaryTcpPort: Int,
-        includeTls: Boolean,
-    ): List<ProtocolInfo> {
-        return if (!scan) {
-            DebugUtils.debugAssert { transmissionProtocols.size == 1 }
-            val transmission = transmissionProtocols.first()
-            val protocol = ProtocolSelection(vpnProtocol, transmission)
-            val connectingDomain = server.getRandomConnectingDomain(protocol) ?: run {
-                ProtonLogger.log(ConnConnectScan, "${protocol.displayName} not supported on ${server.displayName}")
-                return emptyList()
-            }
-            val ports = connectingDomain.getEntryPortsWithFallback(protocol, appConfig)
-            val entryIp = connectingDomain.getEntryIp(protocol)
-            if (entryIp == null || ports.isEmpty())
-                return emptyList()
-            listOf(ProtocolInfo(connectingDomain, transmission, entryIp, ports.random()))
-        } else {
-            scanPorts(server, numberOfPorts, transmissionProtocols, waitForAll, primaryTcpPort, includeTls = includeTls)
-        }
-    }
-
-    private fun ConnectingDomain.getEntryPortsWithFallback(
-        protocol: ProtocolSelection,
-        appConfig: AppConfig
-    ) = getEntryPorts(protocol) ?: when (protocol.vpn) {
-        VpnProtocol.OpenVPN -> appConfig.getOpenVPNPorts()
-        VpnProtocol.WireGuard -> appConfig.getWireguardPorts()
-        VpnProtocol.Smart -> error("Real protocol expected")
-    }.let {
-        if (protocol.transmission == TransmissionProtocol.TCP)
-            it.tcpPorts
-        else
-            it.udpPorts
-    }
-
-    protected suspend fun scanPorts(
-        server: Server,
-        numberOfPorts: Int,
-        transmissionProtocols: Set<TransmissionProtocol>,
-        waitForAll: Boolean,
-        primaryTcpPort: Int,
-        includeTls: Boolean = false // true for protocols that support TLS transport
-    ): List<ProtocolInfo> {
-        val result = mutableListOf<ProtocolInfo>()
-        val transmissions =
-            if (includeTls) transmissionProtocols
-            else transmissionProtocols.minus(TransmissionProtocol.TLS)
-        val transmissionsToConnectingDomains = transmissions.associateWith { transmission ->
-            server.getRandomConnectingDomain(ProtocolSelection(vpnProtocol, transmission))
-        }.mapNotNull { (k, v) -> v?.let { k to v } }.toMap()
-        val destinations = transmissionsToConnectingDomains.mapValues { (transmission, connectingDomain) ->
-            val protocol = ProtocolSelection(vpnProtocol, transmission)
-            val ip = requireNotNull(connectingDomain.getEntryIp(protocol))
-            val allPorts = connectingDomain.getEntryPortsWithFallback(protocol, appConfig)
-            val ports = samplePorts(
-                allPorts, numberOfPorts, if (transmission == TransmissionProtocol.UDP) null else primaryTcpPort)
-            ProtonLogger.log(
-                ConnConnectScan,
-                "${connectingDomain.entryDomain}/$ip/$vpnProtocol, ${transmission.name} ports: $ports"
-            )
-            ServerAvailabilityCheck.Destination(ip, ports, connectingDomain.publicKeyX25519)
-        }
-        serverAvailabilityCheck
-            .pingInParallel(destinations, waitForAll)
-            .forEach { (transmission, destination) ->
-                destination.ports.forEach {
-                    result += ProtocolInfo(
-                        requireNotNull(transmissionsToConnectingDomains[transmission]),
-                        transmission,
-                        destination.ip,
-                        it)
-                }
-            }
-        return result
-    }
-
-    private fun samplePorts(list: List<Int>, count: Int, primaryPort: Int? = null) =
-        if (primaryPort != null && list.contains(primaryPort))
-            list.filter { it != primaryPort }.takeRandomStable(count - 1) + primaryPort
-        else
-            list.takeRandomStable(count)
 
     companion object {
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
