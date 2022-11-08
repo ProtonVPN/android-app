@@ -49,7 +49,6 @@ import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.RecentsManager
-import com.protonvpn.android.vpn.ServerAvailabilityCheck
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
@@ -183,17 +182,16 @@ class MockAppModule {
         localAgentUnreachableTracker: LocalAgentUnreachableTracker,
         currentUser: CurrentUser,
         getNetZone: GetNetZone,
-        serverAvailabilityCheck: ServerAvailabilityCheck
     ): VpnBackendProvider =
     if (TestSettings.mockedConnectionUsed) {
         ProtonVpnBackendProvider(
             openVpn = MockVpnBackend(
                 scope, dispatcherProvider, networkManager, certificateRepository, userData, appConfig,
-                VpnProtocol.OpenVPN, localAgentUnreachableTracker, currentUser, getNetZone, serverAvailabilityCheck
+                VpnProtocol.OpenVPN, localAgentUnreachableTracker, currentUser, getNetZone
             ),
             wireGuard = MockVpnBackend(
                 scope, dispatcherProvider, networkManager, certificateRepository, userData, appConfig,
-                VpnProtocol.WireGuard, localAgentUnreachableTracker, currentUser, getNetZone, serverAvailabilityCheck
+                VpnProtocol.WireGuard, localAgentUnreachableTracker, currentUser, getNetZone
             ),
             config = appConfig,
             userData = userData

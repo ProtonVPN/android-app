@@ -27,9 +27,11 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import me.proton.core.util.kotlin.filterNullValues
 import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val SCAN_TIMEOUT_MILLIS = 5000
 
+@Singleton
 class ServerAvailabilityCheck @Inject constructor(val serverPing: ServerPing) {
 
     data class Destination(val ip: String, val ports: List<Int>, val publicKeyX25519: String?)

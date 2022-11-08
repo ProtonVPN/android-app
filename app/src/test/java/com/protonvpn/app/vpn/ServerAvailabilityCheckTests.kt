@@ -26,7 +26,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.currentTime
@@ -53,9 +52,8 @@ class ServerAvailabilityCheckTests {
     fun setup() {
         MockKAnnotations.init(this)
         serverAvailabilityCheck = ServerAvailabilityCheck(serverPing)
-        val portCapture = slot<Int>()
-        coEvery { serverPing.ping(GOOD_IP, capture(portCapture), any(), any()) } answers {
-            isGoodPort(portCapture.captured)
+        coEvery { serverPing.ping(GOOD_IP, any(), any(), any()) } answers {
+            isGoodPort(secondArg())
         }
         coEvery { serverPing.ping(BAD_IP, any(), any(), any()) } coAnswers {
             delay(2L * TIMEOUT)
@@ -108,9 +106,8 @@ class ServerAvailabilityCheckTests {
 
     @Test
     fun `when waitForAll is false only fastest port per destination is returned`() = runTest {
-        val portNum = slot<Int>()
-        coEvery { serverPing.ping(any(), capture(portNum), any(), any()) } coAnswers {
-            delay(1000L * portNum.captured)
+        coEvery { serverPing.ping(any(), any(), any(), any()) } coAnswers {
+            delay(1000L * secondArg<Int>())
             true
         }
         val before = currentTime

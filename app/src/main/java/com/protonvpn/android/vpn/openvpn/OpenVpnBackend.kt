@@ -39,8 +39,8 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
+import com.protonvpn.android.vpn.PrepareForConnection
 import com.protonvpn.android.vpn.RetryInfo
-import com.protonvpn.android.vpn.ServerAvailabilityCheck
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -70,7 +70,7 @@ class OpenVpnBackend @Inject constructor(
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
-    serverAvailabilityCheck: ServerAvailabilityCheck,
+    private val prepareForConnection: PrepareForConnection,
     @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
     userData,
@@ -83,7 +83,6 @@ class OpenVpnBackend @Inject constructor(
     localAgentUnreachableTracker,
     currentUser,
     getNetZone,
-    serverAvailabilityCheck,
     okHttp,
 ), VpnStatus.StateListener {
 
@@ -100,8 +99,8 @@ class OpenVpnBackend @Inject constructor(
         numberOfPorts: Int,
         waitForAll: Boolean
     ): List<PrepareResult> {
-        val protocolInfo = prepareForConnectionInternal(
-            server, transmissionProtocols, scan, numberOfPorts, waitForAll, PRIMARY_PORT, includeTls = false)
+        val protocolInfo = prepareForConnection.prepare(server, vpnProtocol, transmissionProtocols, scan,
+            numberOfPorts, waitForAll, PRIMARY_PORT, includeTls = false)
         return protocolInfo.map {
             PrepareResult(
                 this,
