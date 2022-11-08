@@ -41,7 +41,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:0.8.7"
         classpath 'org.owasp:dependency-check-gradle:6.2.2'
-        classpath 'com.jaredsburrows:gradle-license-plugin:0.8.80'
+        classpath 'com.jaredsburrows:gradle-license-plugin:0.8.91'
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
