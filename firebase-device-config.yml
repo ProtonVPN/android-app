@@ -8,8 +8,8 @@ mobileTest:
 realConnectionTest:
   timeout: 30m
   device:
-  - model: bluejay
-    version: 32
+  - model: blueline
+    version: 28
 tvTest:
   timeout: 30m
   device:
