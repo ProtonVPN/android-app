@@ -22,6 +22,7 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.login.VpnInfoResponse
@@ -142,14 +143,19 @@ class UserData private constructor() : Serializable {
     // when observer resumes.
     @Transient val settingChangeEvent = MutableSharedFlow<Setting>(extraBufferCapacity = 1)
 
+    @Transient var appFeaturesPrefs: AppFeaturesPrefs? = null
+
     // Handles post-deserialization initialization
-    private fun init() {
+    private fun init(featuresPrefs: AppFeaturesPrefs?) {
+        appFeaturesPrefs = featuresPrefs
         migrateProtocol?.let {
             protocol = ProtocolSelection(it, migrateOpenVpnTransmissionProtocol ?: TransmissionProtocol.UDP)
             migrateProtocol = null
             migrateOpenVpnTransmissionProtocol = null
             Storage.save(this)
         }
+        if (protocol.migratingFromIKEv2())
+            appFeaturesPrefs?.showIKEv2Migration = true
         protocol = protocol.migrate()
 
         protocolLiveData.value = protocol
@@ -220,7 +226,10 @@ class UserData private constructor() : Serializable {
     }
 
     companion object {
-        fun load() = (Storage.load(UserData::class.java) ?: UserData()).apply { init() }
-        fun create() = UserData().apply { init() }
+        fun load(appFeaturesPrefs: AppFeaturesPrefs? = null) =
+            (Storage.load(UserData::class.java) ?: UserData()).apply { init(appFeaturesPrefs) }
+
+        fun create(appFeaturesPrefs: AppFeaturesPrefs? = null) =
+            UserData().apply { init(appFeaturesPrefs) }
     }
 }

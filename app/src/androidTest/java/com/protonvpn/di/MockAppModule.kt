@@ -27,6 +27,7 @@ import com.protonvpn.TestSettings
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
@@ -155,7 +156,7 @@ class MockAppModule {
 
     @Singleton
     @Provides
-    fun provideUserPrefs(): UserData = UserData.create().apply {
+    fun provideUserPrefs(appFeaturesPrefs: AppFeaturesPrefs): UserData = UserData.create(appFeaturesPrefs).apply {
         protocol = ProtocolSelection(VpnProtocol.WireGuard)
     }
 
