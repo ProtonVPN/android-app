@@ -35,6 +35,7 @@ import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.GlideImagePrefetcher
 import com.protonvpn.android.appconfig.ImagePrefetcher
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -153,7 +154,7 @@ object AppModuleProd {
 
     @Singleton
     @Provides
-    fun provideUserPrefs(): UserData = UserData.load()
+    fun provideUserPrefs(appFeaturesPrefs: AppFeaturesPrefs): UserData = UserData.load(appFeaturesPrefs)
 
     @Singleton
     @Provides

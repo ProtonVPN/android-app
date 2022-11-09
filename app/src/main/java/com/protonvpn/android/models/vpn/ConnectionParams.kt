@@ -67,10 +67,10 @@ open class ConnectionParams(
         other.protocol == protocol
 
     companion object {
-        fun readFromStore(): ConnectionParams? {
+        fun readFromStore(ignoreUnsupported: Boolean = true): ConnectionParams? {
             val value = Storage.load(ConnectionParams::class.java) ?: return null
             // Ignore stored connection params for unsupported protocol
-            if (value.profile.isUnsupportedIKEv2()) {
+            if (ignoreUnsupported && value.profile.isUnsupportedIKEv2()) {
                 Storage.delete(ConnectionParams::class.java)
                 return null
             }
