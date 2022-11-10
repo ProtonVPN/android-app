@@ -37,6 +37,8 @@ import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
@@ -107,8 +109,8 @@ class VpnConnectionErrorHandlerTests {
     private fun prepareServerManager(serverList: List<Server>) {
         // TODO: consider using the real ServerManager
         val servers = serverList.sortedBy { it.score }
-        every { serverManager.getOnlineAccessibleServers(false, any()) } returns servers.filter { !it.isSecureCoreServer }
-        every { serverManager.getOnlineAccessibleServers(true, any()) } returns servers.filter { it.isSecureCoreServer }
+        every { serverManager.getOnlineAccessibleServers(false, any(), any()) } returns servers.filter { !it.isSecureCoreServer }
+        every { serverManager.getOnlineAccessibleServers(true, any(), any()) } returns servers.filter { it.isSecureCoreServer }
         every { serverManager.defaultFallbackConnection } returns defaultFallbackConnection
         every { serverManager.getServerForProfile(defaultFallbackConnection, any()) } returns defaultFallbackServer
 
@@ -131,6 +133,7 @@ class VpnConnectionErrorHandlerTests {
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 2, maxConnect = 2) }
         every { appConfig.isMaintenanceTrackerEnabled() } returns true
         every { appConfig.getFeatureFlags().vpnAccelerator } returns true
+        every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
         every { networkManager.isConnectedToNetwork() } returns true
         every { userData.secureCoreEnabled } returns false
         every { userData.protocol } returns ProtocolSelection(VpnProtocol.Smart)
@@ -138,9 +141,12 @@ class VpnConnectionErrorHandlerTests {
         coEvery { api.getSession() } returns ApiResult.Success(SessionListResponse(1000, listOf()))
         prepareServerManager(MockedServers.serverList)
 
+        val supportsProtocol = SupportsProtocol(appConfig)
+        val getConnectingDomain = GetConnectingDomain(supportsProtocol)
+
         val server = MockedServers.server
         val protocol = ProtocolSelection(VpnProtocol.WireGuard)
-        val connectingDomain = server.getRandomConnectingDomain(protocol)!!
+        val connectingDomain = getConnectingDomain.random(server, protocol)!!
         directProfile = Profile.getTempProfile(server)
         directProfile.setProtocol(protocol)
         directConnectionParams = ConnectionParamsWireguard(directProfile, server, 443,
@@ -148,7 +154,7 @@ class VpnConnectionErrorHandlerTests {
 
         handler = VpnConnectionErrorHandler(TestCoroutineScope(), api, appConfig,
             userData, userPlanManager, serverManager, vpnStateMonitor, serverListUpdater,
-            networkManager, vpnBackendProvider, currentUser, errorUIManager)
+            networkManager, vpnBackendProvider, currentUser, getConnectingDomain, errorUIManager)
     }
 
     @Test

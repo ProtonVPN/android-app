@@ -42,17 +42,15 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
-import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.utils.TrafficMonitor
-import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertRefreshWorkerScheduler
 import com.protonvpn.android.vpn.ConnectivityMonitor
@@ -60,7 +58,6 @@ import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
-import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -86,7 +83,6 @@ import me.proton.core.network.data.di.Constants
 import me.proton.core.network.data.di.DohProviderUrls
 import me.proton.core.network.domain.ApiClient
 import me.proton.core.network.domain.ApiManager
-import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.network.domain.serverconnection.DohAlternativesListener
 import me.proton.core.util.kotlin.takeIfNotBlank
@@ -156,12 +152,14 @@ object AppModuleProd {
         wireguardBackend: WireguardBackend,
         openVpnBackend: OpenVpnBackend,
         userData: UserData,
+        supportsProtocol: SupportsProtocol,
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
             appConfig,
             openVpnBackend,
             wireguardBackend,
             userData,
+            supportsProtocol
         )
 
     @Singleton
@@ -281,35 +279,6 @@ object AppModule {
     @Singleton
     @Provides
     fun provideGson() = Gson()
-
-    @Singleton
-    @Provides
-    fun provideVpnConnectionErrorHandler(
-        api: ProtonApiRetroFit,
-        appConfig: AppConfig,
-        userData: UserData,
-        userPlanManager: UserPlanManager,
-        serverManager: ServerManager,
-        vpnStateMonitor: VpnStateMonitor,
-        serverListUpdater: ServerListUpdater,
-        networkManager: NetworkManager,
-        vpnBackendProvider: VpnBackendProvider,
-        currentUser: CurrentUser,
-        vpnErrorUiManager: VpnErrorUIManager
-    ) = VpnConnectionErrorHandler(
-        scope,
-        api,
-        appConfig,
-        userData,
-        userPlanManager,
-        serverManager,
-        vpnStateMonitor,
-        serverListUpdater,
-        networkManager,
-        vpnBackendProvider,
-        currentUser,
-        vpnErrorUiManager
-    )
 
     @Singleton
     @Provides

@@ -31,10 +31,12 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
@@ -133,6 +135,7 @@ class VpnConnectionManagerTests {
         every { mockWakeLock.isHeld } returns true
         every { mockPowerManager.newWakeLock(PARTIAL_WAKE_LOCK, any()) } returns mockWakeLock
         every { appConfig.getFeatureFlags() } returns FeatureFlags()
+        every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
         every { mockNetworkManager.isConnectedToNetwork() } returns true
         every { mockBackend.vpnProtocol } returns connectionParams.protocolSelection!!.vpn
         every { mockBackend.selfStateObservable } returns mockBackendSelfState
@@ -145,7 +148,8 @@ class VpnConnectionManagerTests {
         Storage.setPreferences(MockSharedPreference())
         userData = UserData.create()
         vpnStateMonitor = VpnStateMonitor()
-        serverManager = ServerManager(userData, mockCurrentUser, clock, mockk(relaxed = true)).apply {
+        val supportsProtocol = SupportsProtocol(appConfig)
+        serverManager = ServerManager(userData, mockCurrentUser, clock, supportsProtocol, mockk(relaxed = true)).apply {
             setServers(MockedServers.serverList, null)
         }
 
@@ -164,7 +168,8 @@ class VpnConnectionManagerTests {
             currentUser = mockCurrentUser,
             scope = testScope,
             now = clock,
-            powerManager = mockPowerManager
+            powerManager = mockPowerManager,
+            supportsProtocol = supportsProtocol
         )
     }
 

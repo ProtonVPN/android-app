@@ -26,6 +26,7 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.takeRandomStable
 import me.proton.core.util.kotlin.filterNullValues
@@ -35,7 +36,8 @@ import javax.inject.Singleton
 @Singleton
 class PrepareForConnection @Inject constructor(
     private val appConfig: AppConfig,
-    private val serverAvailabilityCheck: ServerAvailabilityCheck
+    private val serverAvailabilityCheck: ServerAvailabilityCheck,
+    private val getConnectingDomain: GetConnectingDomain
 ) {
     data class ProtocolInfo(
         val connectingDomain: ConnectingDomain,
@@ -58,7 +60,7 @@ class PrepareForConnection @Inject constructor(
             DebugUtils.debugAssert { transmissionProtocols.size == 1 }
             val transmission = transmissionProtocols.first()
             val protocol = ProtocolSelection(vpnProtocol, transmission)
-            val connectingDomain = server.getRandomConnectingDomain(protocol) ?: run {
+            val connectingDomain = getConnectingDomain.random(server, protocol) ?: run {
                 ProtonLogger.log(ConnConnectScan, "${protocol.displayName} not supported on ${server.displayName}")
                 return emptyList()
             }
@@ -101,7 +103,7 @@ class PrepareForConnection @Inject constructor(
             if (includeTls) transmissionProtocols
             else transmissionProtocols.minus(TransmissionProtocol.TLS)
         val transmissionsToConnectingDomains = transmissions.associateWith { transmission ->
-            server.getRandomConnectingDomain(ProtocolSelection(vpnProtocol, transmission))
+            getConnectingDomain.random(server, ProtocolSelection(vpnProtocol, transmission))
         }.filterNullValues()
         val destinations = transmissionsToConnectingDomains.mapValues { (transmission, connectingDomain) ->
             val protocol = ProtocolSelection(vpnProtocol, transmission)

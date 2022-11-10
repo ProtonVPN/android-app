@@ -19,8 +19,10 @@
 package com.protonvpn.app.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.search.Search
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
@@ -29,6 +31,7 @@ import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -50,6 +53,9 @@ class SearchTests {
     @RelaxedMockK
     private lateinit var mockCurrentUser: CurrentUser
 
+    @MockK
+    private lateinit var appConfig: AppConfig
+
     private lateinit var search: Search
 
     @Before
@@ -59,7 +65,8 @@ class SearchTests {
         mockkObject(CountryTools)
         every { CountryTools.getPreferredLocale() } returns Locale.US
 
-        val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, mockk(relaxed = true))
+        val supportsProtocol = SupportsProtocol(appConfig)
+        val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, supportsProtocol, mockk(relaxed = true))
         serverManager.setServers(MockedServers.serverList, Locale.getDefault().language)
         search = Search(serverManager)
     }

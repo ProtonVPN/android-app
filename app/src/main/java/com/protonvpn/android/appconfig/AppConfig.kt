@@ -28,6 +28,7 @@ import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.jitterMs
+import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -49,6 +50,8 @@ class AppConfig @Inject constructor(
     private val getNetZone: GetNetZone,
     @ElapsedRealtimeClock private val now: () -> Long,
 ) {
+    // This value is used when filtering servers, let's have it cached
+    private var smartProtocolsCached: List<ProtocolSelection>? = null
     private var lastUpdateAttempt = Long.MIN_VALUE
 
     val appConfigUpdateEvent = MutableSharedFlow<AppConfigResponse>(extraBufferCapacity = 1)
@@ -103,6 +106,11 @@ class AppConfig @Inject constructor(
         return smartConfig ?: getDefaultConfig().smartProtocolConfig!!
     }
 
+    fun getSmartProtocols(): List<ProtocolSelection> = smartProtocolsCached
+        ?: getSmartProtocolConfig().getSmartProtocols().apply {
+            smartProtocolsCached = this
+        }
+
     fun getFeatureFlags(): FeatureFlags = appConfigResponse.featureFlags
 
     fun getRatingConfig(): RatingConfig = appConfigResponse.ratingConfig ?: getDefaultRatingConfig()
@@ -117,6 +125,7 @@ class AppConfig @Inject constructor(
         }
         result.valueOrNull?.let { config ->
             Storage.save(config)
+            smartProtocolsCached = null
             appConfigUpdateEvent.tryEmit(config)
         }
         updateTask.scheduleIn(jitterMs(if (result is ApiResult.Error.Connection) UPDATE_DELAY_FAIL else UPDATE_DELAY))
@@ -128,8 +137,8 @@ class AppConfig @Inject constructor(
         val defaultSmartProtocolConfig = SmartProtocolConfig(
             openVPNEnabled = true,
             wireguardEnabled = true,
-            wireguardTcpEnabled = false,
-            wireguardTlsEnabled = false,
+            wireguardTcpEnabled = true,
+            wireguardTlsEnabled = true,
         )
 
         return AppConfigResponse(

@@ -21,12 +21,14 @@ package com.protonvpn.app.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.search.Search
 import com.protonvpn.android.search.SearchViewModel
 import com.protonvpn.android.utils.CountryTools
@@ -75,6 +77,8 @@ class SearchViewModelTests : CoroutinesTest {
     private lateinit var mockConnectionManager: VpnConnectionManager
     @MockK
     private lateinit var mockVpnStateMonitor: VpnStateMonitor
+    @MockK
+    private lateinit var appConfig: AppConfig
 
     private lateinit var vpnStateFlow: MutableStateFlow<VpnStateMonitor.Status>
     private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
@@ -92,7 +96,8 @@ class SearchViewModelTests : CoroutinesTest {
         vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
 
-        val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, mockk(relaxed = true))
+        val supportsProtocol = SupportsProtocol(appConfig)
+        val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, supportsProtocol, mockk(relaxed = true))
         serverManager.setServers(MockedServers.serverList, null)
         val search = Search(serverManager)
 

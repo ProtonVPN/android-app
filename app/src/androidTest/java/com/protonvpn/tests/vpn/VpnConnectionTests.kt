@@ -35,6 +35,8 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
@@ -146,13 +148,14 @@ class VpnConnectionTests {
 
     private lateinit var mockOpenVpn: MockVpnBackend
     private lateinit var mockWireguard: MockVpnBackend
+    private lateinit var supportsProtocol: SupportsProtocol
 
     private lateinit var profileSmart: Profile
     private lateinit var profileOpenVPN: Profile
     private lateinit var profileWireguard: Profile
     private lateinit var profileWireguardTls: Profile
-    private lateinit var fallbackOpenVpnProfile: Profile
 
+    private lateinit var fallbackOpenVpnProfile: Profile
     private lateinit var serverWireguard: Server
     private lateinit var fallbackServer: Server
 
@@ -172,6 +175,8 @@ class VpnConnectionTests {
         testDispatcherProvider = TestDispatcherProvider(testDispatcher)
         userData = spyk(UserData.create())
 
+        every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
+        supportsProtocol = SupportsProtocol(appConfig)
         coEvery { currentUser.sessionId() } returns SessionId("1")
         every { vpnUser.userTier } returns 1
         currentUser.mockVpnUser { vpnUser }
@@ -206,13 +211,14 @@ class VpnConnectionTests {
             openVpn = mockOpenVpn,
             wireGuard = mockWireguard,
             config = appConfig,
-            userData = userData
+            userData = userData,
+            supportsProtocol = supportsProtocol
         )
 
         monitor = VpnStateMonitor()
         manager = VpnConnectionManager(permissionDelegate, userData, appConfig, backendProvider, networkManager, vpnErrorHandler, monitor,
             mockVpnBackgroundUiDelegate, serverManager, certificateRepository, scope, ::time, mockk(relaxed = true),
-            currentUser, mockk(relaxed = true))
+            currentUser, supportsProtocol, mockk(relaxed = true))
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
@@ -758,6 +764,6 @@ class VpnConnectionTests {
     private fun createMockVpnBackend(protocol: VpnProtocol): MockVpnBackend =
         MockVpnBackend(
             scope, testDispatcherProvider, networkManager, certificateRepository, userData, appConfig, protocol,
-            mockLocalAgentUnreachableTracker, currentUser, getNetZone
+            mockLocalAgentUnreachableTracker, currentUser, getNetZone, GetConnectingDomain(supportsProtocol)
         )
 }

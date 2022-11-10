@@ -22,6 +22,7 @@ package com.protonvpn.app.tv.main
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
@@ -29,12 +30,14 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -70,6 +73,8 @@ class TvMainViewModelTests {
     private lateinit var mockCurrentUser: CurrentUser
     @MockK
     private lateinit var mockContext: Context
+    @MockK
+    private lateinit var appConfig: AppConfig
 
     private lateinit var testDispatcher: TestCoroutineDispatcher
     private lateinit var testScope: TestCoroutineScope
@@ -93,7 +98,10 @@ class TvMainViewModelTests {
         vpnStateMonitor = VpnStateMonitor()
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
 
-        serverManager = ServerManager(userData, mockCurrentUser, { 0 }, mockk(relaxed = true)).apply {
+        val supportsProtocol = SupportsProtocol(appConfig)
+        every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
+
+        serverManager = ServerManager(userData, mockCurrentUser, { 0 }, supportsProtocol, mockk(relaxed = true)).apply {
             setServers(MockedServers.serverList, "us")
         }
         vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)
