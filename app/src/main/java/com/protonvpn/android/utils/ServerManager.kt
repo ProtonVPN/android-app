@@ -41,6 +41,7 @@ import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.jetbrains.annotations.TestOnly
 import org.joda.time.DateTime
@@ -190,9 +191,9 @@ class ServerManager @Inject constructor(
         lastUpdateTimestamp = 0L
     }
 
-    fun getServersForGuestHole(serverCount: Int) =
+    fun getServersForGuestHole(serverCount: Int, protocol: ProtocolSelection) =
         getExitCountries(false).flatMap { country ->
-            country.serverList.filter { it.online }
+            country.serverList.filter { it.online && supportsProtocol(it, protocol) }
         }.takeRandomStable(serverCount)
 
     fun setServers(serverList: List<Server>, language: String?) {
