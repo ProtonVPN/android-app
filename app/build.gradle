@@ -45,11 +45,6 @@ jacoco {
     toolVersion = '0.8.8'
 }
 
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
-}
-
-
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testBlackDebugUnitTest']) {
 
     reports {
@@ -134,6 +129,7 @@ def supportedLocales = ['b+es+419', 'de', 'en', 'es-rES', 'es-rMX', 'fa', 'fr', 
 android {
     def helpers = new Helpers()
 
+    namespace "com.protonvpn.android"
     buildToolsVersion "31.0.0"
     ndkVersion rootProject.ext.compileNdkVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -223,7 +219,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  testAccountPassword
-            testCoverageEnabled true
+            enableAndroidTestCoverage true
             ext.alwaysUpdateBuildId = false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -284,6 +280,10 @@ android {
             universalApk project.hasProperty('buildUniversalApk')
         }
     }
+}
+
+kapt {
+    correctErrorTypes true
 }
 
 play {
