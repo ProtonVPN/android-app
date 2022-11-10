@@ -29,6 +29,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.vpn.AgentConnectionInterface
 import com.protonvpn.android.vpn.CertificateRepository
@@ -60,6 +61,7 @@ class MockVpnBackend(
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
+    val getConnectingDomain: GetConnectingDomain
 ) : VpnBackend(
     userData = userData,
     appConfig = appConfig,
@@ -89,7 +91,7 @@ class MockVpnBackend(
         if (scan && failScanning)
             emptyList()
         else listOf(PrepareResult(this, object : ConnectionParams(
-            profile, server, server.getRandomConnectingDomain(null), protocol, null
+            profile, server, getConnectingDomain.random(server, null), protocol, null
         ) {}))
 
     override suspend fun connect(connectionParams: ConnectionParams) {

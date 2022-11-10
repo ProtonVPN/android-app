@@ -29,6 +29,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -42,6 +43,7 @@ class ProtonVpnBackendProvider(
     val openVpn: VpnBackend,
     val wireGuard: VpnBackend,
     val userData: UserData,
+    val supportsProtocol: SupportsProtocol,
 ) : VpnBackendProvider {
 
     override suspend fun prepareConnection(
@@ -126,9 +128,9 @@ class ProtonVpnBackendProvider(
             val wireGuardTxxEnabled =
                 config.getFeatureFlags().wireguardTlsEnabled && (wireguardTcpEnabled || wireguardTlsEnabled)
             val wireGuardEnabled = wireguardEnabled || wireGuardTxxEnabled
-            if (wireGuardEnabled && server.supportsProtocol(VpnProtocol.WireGuard))
+            if (wireGuardEnabled && supportsProtocol(server, VpnProtocol.WireGuard))
                 add(wireGuard)
-            if (openVPNEnabled && server.supportsProtocol(VpnProtocol.OpenVPN))
+            if (openVPNEnabled && supportsProtocol(server, VpnProtocol.OpenVPN))
                 add(openVpn)
             if (orgVpnProtocol != null) {
                 getBackendFor(orgVpnProtocol)?.let { orgBackend ->

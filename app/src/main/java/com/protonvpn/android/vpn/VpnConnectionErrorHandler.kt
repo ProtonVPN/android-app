@@ -35,6 +35,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
@@ -47,6 +48,8 @@ import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.NetworkManager
 import java.io.Serializable
+import javax.inject.Inject
+import javax.inject.Singleton
 
 sealed class SwitchServerReason : Serializable {
 
@@ -102,7 +105,8 @@ sealed class VpnFallbackResult : Serializable {
 
 data class PhysicalServer(val server: Server, val connectingDomain: ConnectingDomain)
 
-class VpnConnectionErrorHandler(
+@Singleton
+class VpnConnectionErrorHandler @Inject constructor(
     scope: CoroutineScope,
     private val api: ProtonApiRetroFit,
     private val appConfig: AppConfig,
@@ -114,6 +118,7 @@ class VpnConnectionErrorHandler(
     private val networkManager: NetworkManager,
     private val vpnBackendProvider: VpnBackendProvider,
     private val currentUser: CurrentUser,
+    private val getConnectingDomain: GetConnectingDomain,
     @Suppress("unused") errorUIManager: VpnErrorUIManager // Forces creation of a VpnErrorUiManager instance.
 ) {
     private var handlingAuthError = false
@@ -298,7 +303,7 @@ class VpnConnectionErrorHandler(
             if (orgPhysicalServer != null) {
                 // Only include servers that have IP that differ from current connection.
                 filter {
-                    it.onlineConnectingDomains(null).any { domain ->
+                    getConnectingDomain.online(it, null).any { domain ->
                         domain.getEntryIp(null) != orgPhysicalServer.connectingDomain.getEntryIp(null)
                     }
                 }
@@ -307,7 +312,7 @@ class VpnConnectionErrorHandler(
         }
 
         scoredServers.take(FALLBACK_SERVERS_COUNT - candidateList.size).map { server ->
-            server.onlineConnectingDomains(null).filter {
+            getConnectingDomain.online(server, null).filter {
                 // Ignore connecting domains with the same IP as current connection.
                 it.getEntryIp(null) != orgPhysicalServer?.connectingDomain?.getEntryIp(null)
             }.randomOrNull()?.let { connectingDomain ->
@@ -344,7 +349,7 @@ class VpnConnectionErrorHandler(
         }
 
         return candidateList.take(FALLBACK_SERVERS_COUNT - fallbacks.size) + fallbacks.mapNotNull { server ->
-            server.getRandomConnectingDomain(null)?.let {
+            getConnectingDomain.random(server, null)?.let {
                 PhysicalServer(server, it)
             }
         }

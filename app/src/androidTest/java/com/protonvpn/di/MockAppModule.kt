@@ -37,6 +37,8 @@ import com.protonvpn.android.di.AppDatabaseModule
 import com.protonvpn.android.di.AppModuleProd
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.NewLookDialogProvider
@@ -182,26 +184,30 @@ class MockAppModule {
         localAgentUnreachableTracker: LocalAgentUnreachableTracker,
         currentUser: CurrentUser,
         getNetZone: GetNetZone,
+        supportsProtocol: SupportsProtocol,
+        getConnectingDomain: GetConnectingDomain
     ): VpnBackendProvider =
-    if (TestSettings.mockedConnectionUsed) {
-        ProtonVpnBackendProvider(
-            openVpn = MockVpnBackend(
-                scope, dispatcherProvider, networkManager, certificateRepository, userData, appConfig,
-                VpnProtocol.OpenVPN, localAgentUnreachableTracker, currentUser, getNetZone
-            ),
-            wireGuard = MockVpnBackend(
-                scope, dispatcherProvider, networkManager, certificateRepository, userData, appConfig,
-                VpnProtocol.WireGuard, localAgentUnreachableTracker, currentUser, getNetZone
-            ),
-            config = appConfig,
-            userData = userData
+        if (TestSettings.mockedConnectionUsed) {
+            ProtonVpnBackendProvider(
+                openVpn = MockVpnBackend(
+                    scope, dispatcherProvider, networkManager, certificateRepository, userData, appConfig,
+                    VpnProtocol.OpenVPN, localAgentUnreachableTracker, currentUser, getNetZone, getConnectingDomain
+                ),
+                wireGuard = MockVpnBackend(
+                    scope, dispatcherProvider, networkManager, certificateRepository, userData, appConfig,
+                    VpnProtocol.WireGuard, localAgentUnreachableTracker, currentUser, getNetZone, getConnectingDomain
+                ),
+                config = appConfig,
+                userData = userData,
+                supportsProtocol = supportsProtocol
             )
         } else {
             ProtonVpnBackendProvider(
                 openVpn = openVpnBackend,
                 wireGuard = wireguardBackend,
                 config = appConfig,
-            userData = userData
+                userData = userData,
+                supportsProtocol = supportsProtocol
             )
         }
 

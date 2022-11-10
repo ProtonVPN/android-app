@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.models.vpn
 
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -51,7 +50,4 @@ data class ConnectingDomain(
 
     fun getEntryPorts(protocol: ProtocolSelection?): List<Int>? =
         entryIpPerProtocol?.get(protocol?.apiName)?.ports
-
-    fun supportsProtocol(protocol: ProtocolSelection?) =
-        getEntryIp(protocol) != null && (protocol?.vpn != VpnProtocol.WireGuard || !publicKeyX25519.isNullOrBlank())
 }

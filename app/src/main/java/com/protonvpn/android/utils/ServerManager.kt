@@ -24,8 +24,8 @@ import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
@@ -39,6 +39,7 @@ import com.protonvpn.android.models.vpn.LoadUpdate
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.ui.home.ServerListUpdater
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.jetbrains.annotations.TestOnly
@@ -53,6 +54,7 @@ class ServerManager @Inject constructor(
     @Transient val userData: UserData,
     @Transient val currentUser: CurrentUser,
     @Transient @WallClock private val wallClock: () -> Long,
+    @Transient val supportsProtocol: SupportsProtocol,
     appFeaturesPrefs: AppFeaturesPrefs,
 ) : Serializable {
 
@@ -146,9 +148,9 @@ class ServerManager @Inject constructor(
             countries.mapNotNull { country ->
                 val servers = country.serverList
                     .filter {
-                        it.supportsProtocol(protocol)
+                        supportsProtocol(it, protocol)
                     }.map { server ->
-                        val filteredDomains = server.connectingDomains.filter { it.supportsProtocol(protocol) }
+                        val filteredDomains = server.connectingDomains.filter { supportsProtocol(it, protocol) }
                         server.copy(
                             isOnline = server.online && filteredDomains.any { it.isOnline },
                             connectingDomains = filteredDomains)

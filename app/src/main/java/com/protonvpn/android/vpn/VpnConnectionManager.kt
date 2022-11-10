@@ -49,6 +49,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
@@ -58,7 +59,6 @@ import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
@@ -99,6 +99,7 @@ class VpnConnectionManager @Inject constructor(
     @WallClock private val now: () -> Long,
     private val currentVpnServiceProvider: CurrentVpnServiceProvider,
     private val currentUser: CurrentUser,
+    private val supportsProtocol: SupportsProtocol,
     powerManager: PowerManager
 ) : VpnStateSource {
 
@@ -337,15 +338,15 @@ class VpnConnectionManager @Inject constructor(
         val config = appConfig.getSmartProtocolConfig()
         val wireGuardTxxEnabled = appConfig.getFeatureFlags().wireguardTlsEnabled
         val wireGuardUdpServer =
-            server.supportsProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP))
+            supportsProtocol(server, ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP))
         val wireGuardTcpServer =
-            server.supportsProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP))
+            supportsProtocol(server, ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP))
         val wireGuardTlsServer =
-            server.supportsProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
+            supportsProtocol(server, ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
         return when {
             config.wireguardEnabled && wireGuardUdpServer ->
                 ProtocolSelection(VpnProtocol.WireGuard)
-            config.openVPNEnabled && server.supportsProtocol(ProtocolSelection(VpnProtocol.OpenVPN)) ->
+            config.openVPNEnabled && supportsProtocol(server, ProtocolSelection(VpnProtocol.OpenVPN)) ->
                 ProtocolSelection(VpnProtocol.OpenVPN)
             config.wireguardTcpEnabled && wireGuardTcpServer && wireGuardTxxEnabled ->
                 ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP)
@@ -462,7 +463,7 @@ class VpnConnectionManager @Inject constructor(
         ) {
             val protocolAllowed = triggerAction == Constants.REASON_GUEST_HOLE ||
                 profile.getProtocol(userData).isSupported(appConfig.getFeatureFlags())
-            if (server.supportsProtocol(profile.getProtocol(userData).vpn) && protocolAllowed) {
+            if (supportsProtocol(server, profile.getProtocol(userData).vpn) && protocolAllowed) {
                 smartConnect(profile, server)
             } else {
                 delegate.onProtocolNotSupported()

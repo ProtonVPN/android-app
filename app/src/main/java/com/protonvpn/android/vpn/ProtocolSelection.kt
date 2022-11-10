@@ -85,6 +85,7 @@ data class ProtocolSelection private constructor(
                 transmission ?: TransmissionProtocol.UDP
         )
 
+        val SMART = ProtocolSelection(VpnProtocol.Smart)
         val REAL_PROTOCOLS = listOf(
             ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
             ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
@@ -92,5 +93,7 @@ data class ProtocolSelection private constructor(
             ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
             ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
         )
+        val PROTOCOLS_FOR: Map<VpnProtocol, List<ProtocolSelection>> =
+            REAL_PROTOCOLS.groupBy { it.vpn }
     }
 }

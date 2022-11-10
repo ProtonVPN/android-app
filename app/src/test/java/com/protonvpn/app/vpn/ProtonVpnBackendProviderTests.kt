@@ -28,6 +28,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.PhysicalServer
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -78,7 +79,8 @@ class ProtonVpnBackendProviderTests {
             mockAppConfig,
             mockOpenVpnBackend,
             mockWireGuardBackend,
-            userData
+            userData,
+            SupportsProtocol(mockAppConfig)
         )
     }
 
