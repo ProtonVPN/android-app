@@ -41,12 +41,10 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
@@ -59,7 +57,8 @@ import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@OptIn(ExperimentalCoroutinesApi::class)
+private val GUEST_HOLE_PROTOCOL = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
+
 @Singleton
 class GuestHole @Inject constructor(
     private val scope: CoroutineScope,
@@ -82,7 +81,7 @@ class GuestHole @Inject constructor(
 
         // Get random servers from ServerManager if it was downloaded instead of initialization each time
         if (serverManager.get().isDownloadedAtLeastOnce)
-            return serverManager.get().getServersForGuestHole(GUEST_HOLE_SERVER_COUNT)
+            return serverManager.get().getServersForGuestHole(GUEST_HOLE_SERVER_COUNT, GUEST_HOLE_PROTOCOL)
 
         val servers =
             FileUtils.getObjectFromAssets(ListSerializer(Server.serializer()), GUEST_HOLE_SERVERS_ASSET)
@@ -102,7 +101,7 @@ class GuestHole @Inject constructor(
             connected = withTimeoutOrNull(GUEST_HOLE_SERVER_TIMEOUT) {
                 val profile = Profile.getTempProfile(server)
                     .apply {
-                        setProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
+                        setProtocol(GUEST_HOLE_PROTOCOL)
                         isGuestHoleProfile = true
                     }
                 vpnConnectionManager.get().connect(vpnUiDelegate, profile, Constants.REASON_GUEST_HOLE)
