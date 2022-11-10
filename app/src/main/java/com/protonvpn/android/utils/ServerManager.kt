@@ -391,9 +391,11 @@ class ServerManager @Inject constructor(
     }
 
     // Sorted by score (best at front)
-    fun getOnlineAccessibleServers(secureCore: Boolean, vpnUser: VpnUser?): List<Server> =
+    fun getOnlineAccessibleServers(secureCore: Boolean, vpnUser: VpnUser?, protocol: ProtocolSelection): List<Server> =
         getExitCountries(secureCore).asSequence().flatMap { country ->
-            country.serverList.filter { it.online && vpnUser.hasAccessToServer(it) }.asSequence()
+            country.serverList.filter {
+                it.online && vpnUser.hasAccessToServer(it) && supportsProtocol(it, protocol)
+            }.asSequence()
         }.sortedBy { it.score }.toList()
 
     fun findDefaultProfile(): Profile? =

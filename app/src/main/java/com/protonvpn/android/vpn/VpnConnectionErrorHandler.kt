@@ -298,13 +298,14 @@ class VpnConnectionErrorHandler @Inject constructor(
             candidateList += orgPhysicalServer
 
         val secureCoreExpected = orgProfile.isSecureCore ?: userData.secureCoreEnabled
-        val onlineServers = serverManager.getOnlineAccessibleServers(secureCoreExpected, vpnUser)
+        val orgProtocol = orgProfile.getProtocol(userData)
+        val onlineServers = serverManager.getOnlineAccessibleServers(secureCoreExpected, vpnUser, orgProtocol)
         val scoredServers = sortServersByScore(onlineServers, orgProfile, vpnUser).run {
             if (orgPhysicalServer != null) {
                 // Only include servers that have IP that differ from current connection.
                 filter {
-                    getConnectingDomain.online(it, null).any { domain ->
-                        domain.getEntryIp(null) != orgPhysicalServer.connectingDomain.getEntryIp(null)
+                    getConnectingDomain.online(it, orgProtocol).any { domain ->
+                        domain.getEntryIp(orgProtocol) != orgPhysicalServer.connectingDomain.getEntryIp(orgProtocol)
                     }
                 }
             } else
@@ -312,11 +313,11 @@ class VpnConnectionErrorHandler @Inject constructor(
         }
 
         scoredServers.take(FALLBACK_SERVERS_COUNT - candidateList.size).map { server ->
-            getConnectingDomain.online(server, null).filter {
+            getConnectingDomain.online(server, orgProtocol).filter {
                 // Ignore connecting domains with the same IP as current connection.
-                it.getEntryIp(null) != orgPhysicalServer?.connectingDomain?.getEntryIp(null)
+                it.getEntryIp(orgProtocol) != orgPhysicalServer?.connectingDomain?.getEntryIp(orgProtocol)
             }.randomOrNull()?.let { connectingDomain ->
-                candidateList += PhysicalServer(server, connectingDomain, )
+                candidateList += PhysicalServer(server, connectingDomain)
             }
         }
 
@@ -344,12 +345,12 @@ class VpnConnectionErrorHandler @Inject constructor(
 
         // For secure core add best scoring non-secure server as a last resort fallback
         if (secureCoreExpected) {
-            sortServersByScore(serverManager.getOnlineAccessibleServers(false, vpnUser), orgProfile, vpnUser)
+            sortServersByScore(serverManager.getOnlineAccessibleServers(false, vpnUser, orgProtocol), orgProfile, vpnUser)
                 .firstOrNull()?.let { fallbacks += it }
         }
 
         return candidateList.take(FALLBACK_SERVERS_COUNT - fallbacks.size) + fallbacks.mapNotNull { server ->
-            getConnectingDomain.random(server, null)?.let {
+            getConnectingDomain.random(server, orgProtocol)?.let {
                 PhysicalServer(server, it)
             }
         }
