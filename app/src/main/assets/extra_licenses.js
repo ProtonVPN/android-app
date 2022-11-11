@@ -27,7 +27,7 @@ extraDependencies = [
     "licenses": [
       {
         "license": "GNU General Public License, version 2",
-        "license_url": "https://git.strongswan.org/?p=strongswan.git;a=blob;f=LICENSE"
+        "license_url": "https://github.com/strongswan/strongswan/blob/master/LICENSE"
       }
     ],
   },
