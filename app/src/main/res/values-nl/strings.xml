@@ -652,6 +652,8 @@
     <string name="search_upgrade_banner_subtitle">Meer locaties = meer ongeblokkeerde inhoud + extra beveiliging + hogere snelheden</string>
     <string name="new_look_dialog_title_new_plans">Vernieuwde Proton, uniforme beveiliging</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Ontdek de nieuwe look van Proton. Veel diensten, één missie. Welkom in een internetomgeving waar privacy de standaard is. <a href="%1$s">Meer&nbsp;informatie</a>]]></string>
+    <string name="ikev2_removed_dialog_title">Het IKEv2-VPN-protocol is niet meer beschikbaar</string>
+    <string name="ikev2_removed_dialog_message">Standaarden en profielen die eerder IKEv2 gebruikten, zullen nu het Smart-protocol gebruiken.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Bezoek <a href="https://protonvpn.com/pricing">protonvpn.com</a> voor meer informatie.</string>
 </resources>

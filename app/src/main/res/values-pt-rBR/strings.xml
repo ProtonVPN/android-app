@@ -396,7 +396,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% Carga do Servidor</string>
+    <string name="tv_server_list_load">%1$s%% Carga do servidor</string>
     <string name="tv_recently_used_servers">Servidores utilizados recentemente (%1$d)</string>
     <string name="tv_available_servers">Servidores disponíveis (%1$d)</string>
     <string name="tv_locked_servers">Servidores bloqueados (%1$d)</string>
@@ -652,6 +652,8 @@
     <string name="search_upgrade_banner_subtitle">Mais localizações = mais conteúdo desbloqueado + segurança adicional + velocidade superior</string>
     <string name="new_look_dialog_title_new_plans">Proton atualizado, proteção unificada</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Apresentando a aparência renovada do Proton. Muitos serviços, uma missão. Boas-vindas a uma internet onde a privacidade é o padrão. <a href="%1$s">Saiba&nbsp;mais</a>]]></string>
+    <string name="ikev2_removed_dialog_title">O protocolo VPN IKEv2 não está mais disponível</string>
+    <string name="ikev2_removed_dialog_message">Padrões e perfis que anteriormente usavam IKEv2 agora usarão o protocolo Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obter mais informações.</string>
 </resources>
