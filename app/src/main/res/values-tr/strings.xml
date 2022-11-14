@@ -652,6 +652,8 @@
     <string name="search_upgrade_banner_subtitle">Daha fazla konum = daha fazla engelsiz içerik + ek güvenlik + daha yüksek hız</string>
     <string name="new_look_dialog_title_new_plans">Güncellenmiş Proton, birleşik koruma</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Yenilenmiş Proton böyle görünüyor. Birçok hizmet, tek amaç. Kişisel gizliliğin doğal sayıldığı internet fikrine hoş geldiniz. <a href="%1$s">Ayrıntılı&nbsp;bilgi&nbsp;alın</a>]]></string>
+    <string name="ikev2_removed_dialog_title">IKEv2 VPN iletişim kuralı artık kullanılmıyor</string>
+    <string name="ikev2_removed_dialog_message">Daha önce IKEv2 kullanan varsayılan ayarlar ve profiller artık Smart Protocol kullanacak.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Ayrıntılı bilgi almak için <a href="https://protonvpn.com/pricing">protonvpn.com</a> sayfasına bakın.</string>
 </resources>

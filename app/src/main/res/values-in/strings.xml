@@ -640,6 +640,8 @@
     <string name="search_upgrade_banner_subtitle">Lebih banyak lokasi = lebih banyak konten yang tidak terblokir + keamanan ekstra + kecepatan yang lebih</string>
     <string name="new_look_dialog_title_new_plans">Proton yang baru, dengan perlindungan yang tersatukan</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Memperkenalkan tampilan baru Proton. Beragam layanan, satu misi. Selamat datang di internet yang menjunjung privasi sebagai hal yang baku. <a href="%1$s">Pelajari&nbsp;lebih lanjut</a>]]></string>
+    <string name="ikev2_removed_dialog_title">Protokol VPN IKEv2 sudah tidak lagi tersedia</string>
+    <string name="ikev2_removed_dialog_message">Pengaturan default dan profil yang sebelumnya menggunakan IKEv2 akan beralih menggunakan protokol Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Kunjungi <a href="https://protonvpn.com/pricing">protonvpn.com</a> untuk info lebih lanjut.</string>
 </resources>

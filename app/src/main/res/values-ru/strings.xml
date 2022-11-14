@@ -676,6 +676,8 @@
     <string name="search_upgrade_banner_subtitle">Больше местоположений = больше разблокированного содержимого + дополнительная безопасность + более высокая скорость</string>
     <string name="new_look_dialog_title_new_plans">Обновленный Proton и комплексная защита</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Представляем обновленный вид Proton. Много служб, одна миссия. Добро пожаловать Интернет, конфиденциальный по умолчанию. <a href="%1$s">Learn&nbsp;more</a>]]></string>
+    <string name="ikev2_removed_dialog_title">The IKEv2 VPN protocol is no longer available</string>
+    <string name="ikev2_removed_dialog_message">Defaults and profiles that previously used IKEv2 will now use the Smart protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Посетите <a href="https://protonvpn.com/pricing">protonvpn.com</a> для получения дополнительной информации.</string>
 </resources>

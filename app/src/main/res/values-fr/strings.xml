@@ -243,7 +243,7 @@
     <string name="noVpnPermissionGrantPermissionTitle">Accorder l\'autorisation au VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android a besoin de votre autorisation pour se connecter à Proton VPN. Accordez-la en appuyant sur « OK » lorsque vous obtenez la fenêtre « Demande de connexion » d\'Android.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Désactiver le VPN permanent pour les autres applications VPN</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ne peut prendre en charge plusieurs applications VPN. Désactivez le VPN permanent pour toute application VPN autre que Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ne prend pas en charge plusieurs applications VPN. Désactivez le VPN permanent pour toute application VPN autre que Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Application ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Autres applications VPN</string>
     <string name="noVpnPermissionOpenSettings">Ouvrir les paramètres VPN Android</string>
@@ -652,6 +652,8 @@
     <string name="search_upgrade_banner_subtitle">Plus d\'emplacements = plus de contenu débloqué + sécurité supplémentaire + vitesses plus rapides</string>
     <string name="new_look_dialog_title_new_plans">Nouvelle version, protection unifiée</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Voici le nouveau look de Proton. Plusieurs services, une seule mission. Bienvenue sur un internet où la protection de la vie privée est la règle absolue. <a href="%1$s">En savoir plus</a>]]></string>
+    <string name="ikev2_removed_dialog_title">Le protocole VPN IKEv2 n\'est plus disponible</string>
+    <string name="ikev2_removed_dialog_message">Les valeurs par défaut et les profils qui utilisaient auparavant IKEv2 utiliseront désormais Smart protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visitez <a href="https://protonvpn.com/fr/pricing">protonvpn.com</a> pour obtenir plus d\'informations.</string>
 </resources>
