@@ -57,7 +57,6 @@ import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
-import com.protonvpn.mocks.MockInterceptorWrapper
 import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.NoopCertRefreshScheduler
@@ -118,7 +117,7 @@ class MockAppModule {
 
     @Provides
     @BaseProtonApiUrl
-    fun provideProtonApiUrl(): HttpUrl = Constants.PRIMARY_VPN_API_URL.toHttpUrl()
+    fun provideProtonApiUrl(): HttpUrl = TestSettings.protonApiUrlOverride ?: Constants.PRIMARY_VPN_API_URL.toHttpUrl()
 
     @Provides
     @CertificatePins
@@ -134,16 +133,14 @@ class MockAppModule {
 
     @Provides
     @Singleton
-    fun provideMockApiInterceptor(): MockInterceptorWrapper = MockInterceptorWrapper()
-
-    @Provides
-    @Singleton
     @SharedOkHttpClient
-    internal fun provideOkHttpClient(mockInterceptor: MockInterceptorWrapper): OkHttpClient {
-        val client = OkHttpClient.Builder()
-            .addInterceptor(mockInterceptor)
-            .build()
-        val resource: IdlingResource = IdlingResourceHelper.create("OkHttp", client)
+    internal fun provideOkHttpClient(): OkHttpClient {
+        val clientBuilder = OkHttpClient.Builder()
+        TestSettings.handshakeCertificatesOverride?.let {
+            clientBuilder.sslSocketFactory(it.sslSocketFactory(), it.trustManager)
+        }
+        val client = clientBuilder.build()
+        val resource: IdlingResource = IdlingResourceHelper.create("OkHttp", client) // TODO: move this outside?
         IdlingRegistry.getInstance().register(resource)
         return client
     }
@@ -166,8 +163,7 @@ class MockAppModule {
         if (TestSettings.mockedConnectionUsed) {
             VpnPermissionDelegate { null }
         } else {
-            VpnServicePermissionDelegate(context
-            )
+            VpnServicePermissionDelegate(context)
         }
 
     @Singleton

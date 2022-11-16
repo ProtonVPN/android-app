@@ -24,24 +24,17 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.login.TvLoginViewModel
-import com.protonvpn.mocks.MockInterceptorWrapper
 import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.mocks.respond
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.UserDataHelper
 import com.protonvpn.testsTv.actions.TvLoginRobot
 import dagger.hilt.android.testing.HiltAndroidTest
-import okhttp3.mock.endsWith
-import okhttp3.mock.get
-import okhttp3.mock.path
-import okhttp3.mock.rule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
-import javax.inject.Inject
 
 private const val FORK_SELECTOR = "fork_selector"
 private const val FORK_USER_CODE = "1234ABCD"
@@ -56,11 +49,11 @@ class LoginTestsTv {
 
     // Login tests start with mock API in logged out state.
     private val mockApiConfig = TestApiConfig.Mocked(TestUser.plusUser) {
-        rule(get, path endsWith "/auth/sessions/forks") {
+        rule(get, path eq "/auth/sessions/forks") {
             respond(SessionForkSelectorResponse(FORK_SELECTOR, FORK_USER_CODE))
         }
 
-        rule(get, path endsWith "/auth/sessions/forks/$FORK_SELECTOR", times = Int.MAX_VALUE) {
+        rule(get, path eq "/auth/sessions/forks/$FORK_SELECTOR") {
             respond(TvLoginViewModel.HTTP_CODE_KEEP_POLLING)
         }
     }
@@ -76,9 +69,6 @@ class LoginTestsTv {
     private val loginRobot = TvLoginRobot()
     private lateinit var userDataHelper: UserDataHelper
 
-    @Inject
-    lateinit var mockApi: MockInterceptorWrapper
-
     @Before
     fun setUp() {
         hiltRule.inject()
@@ -90,8 +80,8 @@ class LoginTestsTv {
     fun loginHappyPath() {
         loginRobot
             .signIn()
-        mockApi.prependRules {
-            rule(get, path endsWith "/auth/sessions/forks/$FORK_SELECTOR") {
+        hiltRule.mockDispatcher.prependRules {
+            rule(get, path eq "/auth/sessions/forks/$FORK_SELECTOR") {
                 respond(TestUser.forkedSessionResponse)
             }
         }

@@ -19,6 +19,9 @@
 
 package com.protonvpn
 
+import okhttp3.HttpUrl
+import okhttp3.tls.HandshakeCertificates
+
 /**
  * Settings for UI tests.
  *
@@ -28,4 +31,13 @@ package com.protonvpn
 object TestSettings {
     @JvmStatic var mockedConnectionUsed = true
     @JvmStatic var testRailReportingUsed = true
+    @JvmStatic var protonApiUrlOverride: HttpUrl? = null
+    @JvmStatic var handshakeCertificatesOverride: HandshakeCertificates? = null
+
+    fun reset() {
+        mockedConnectionUsed = true
+        testRailReportingUsed = true
+        protonApiUrlOverride = null
+        handshakeCertificatesOverride = null
+    }
 }
