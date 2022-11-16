@@ -20,8 +20,6 @@ package com.protonvpn.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.IdlingResource
 import androidx.work.WorkManager
 import com.protonvpn.TestSettings
 import com.protonvpn.android.api.ProtonApiRetroFit
@@ -62,7 +60,6 @@ import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.NoopCertRefreshScheduler
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.testsHelper.EspressoDispatcherProvider
-import com.protonvpn.testsHelper.IdlingResourceHelper
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -139,10 +136,7 @@ class MockAppModule {
         TestSettings.handshakeCertificatesOverride?.let {
             clientBuilder.sslSocketFactory(it.sslSocketFactory(), it.trustManager)
         }
-        val client = clientBuilder.build()
-        val resource: IdlingResource = IdlingResourceHelper.create("OkHttp", client) // TODO: move this outside?
-        IdlingRegistry.getInstance().register(resource)
-        return client
+        return clientBuilder.build()
     }
 
     @Singleton

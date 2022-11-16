@@ -31,7 +31,6 @@ import com.protonvpn.annotations.TestID
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testRules.EspressoDispatcherRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -56,7 +55,6 @@ class LoginTests {
     @get:Rule
     val rules = RuleChain
         .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Backend))
-        .around(EspressoDispatcherRule())
         .around(ActivityScenarioRule(MobileMainActivity::class.java))
 
     @Before

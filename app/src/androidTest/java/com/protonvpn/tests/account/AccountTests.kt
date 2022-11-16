@@ -17,7 +17,6 @@ import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.annotations.TestID
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testRules.EspressoDispatcherRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.SetLoggedInUserRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -51,7 +50,6 @@ class AccountTests {
     var rules = RuleChain
         .outerRule(hiltRule)
         .around(SetLoggedInUserRule(TestUser.plusUser))
-        .around(EspressoDispatcherRule())
 
     @Inject lateinit var purchaseEnabled: CachedPurchaseEnabled
 
