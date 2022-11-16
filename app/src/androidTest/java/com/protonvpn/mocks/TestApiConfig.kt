@@ -28,74 +28,52 @@ import com.protonvpn.test.shared.TestUser
 import me.proton.core.network.data.protonApi.GenericResponse
 import me.proton.core.network.domain.HttpResponseCodes
 import me.proton.core.network.domain.ResponseCodes
-import okhttp3.mock.MockInterceptor
-import okhttp3.mock.delete
-import okhttp3.mock.endsWith
-import okhttp3.mock.get
-import okhttp3.mock.path
-import okhttp3.mock.post
-import okhttp3.mock.respond
-import okhttp3.mock.rule
-
-class UnmockedApiCallException(message: String): IllegalArgumentException(message)
 
 sealed class TestApiConfig {
     object Backend : TestApiConfig()
 
     class Mocked(
         private val testUser: TestUser? = null,
-        private val additionalRules: (MockInterceptor.() -> Unit)? = null
+        private val additionalRules: (MockRuleBuilder.() -> Unit)? = null
     ) : TestApiConfig() {
 
-        fun addDefaultRules(interceptor: MockInterceptorWrapper) {
-            if (additionalRules != null) interceptor.addRules(additionalRules)
-            addBasicRules(interceptor)
-            if (testUser != null) addVpnInfoRule(interceptor, testUser)
-
-            // Make sure that we mocked everything - this has to be the last rule.
-            interceptor.addRules {
-                rule(times = Int.MAX_VALUE) {
-                    respond {
-                        // If you get this exception it probably means some new API call has been added to the
-                        // application. This API call needs to be mocked either in this method (if it's generic) or in a
-                        // specific test case that triggers the call.
-                        throw UnmockedApiCallException("Unmocked call: ${it.method} ${it.url}")
-                    }
-                }
-            }
+        fun addDefaultRules(dispatcher: MockRequestDispatcher) {
+            if (additionalRules != null) dispatcher.addRules(additionalRules)
+            addBasicRules(dispatcher)
+            if (testUser != null) addVpnInfoRule(dispatcher, testUser)
         }
 
-        private fun addVpnInfoRule(interceptor: MockInterceptorWrapper, testUser: TestUser) {
-            interceptor.addRules {
-                rule(get, path endsWith "/vpn/v2", times = Int.MAX_VALUE) {
+        private fun addVpnInfoRule(dispatcher: MockRequestDispatcher, testUser: TestUser) {
+            dispatcher.addRules {
+                rule(get, path eq "/vpn/v2") {
                     respond(testUser.vpnInfoResponse)
                 }
             }
         }
 
-        private fun addBasicRules(interceptor: MockInterceptorWrapper) {
-            interceptor.addRules {
-                rule(get, path endsWith "/vpn/featureconfig/dynamic-bug-reports", times = Int.MAX_VALUE) {
+        private fun addBasicRules(dispatcher: MockRequestDispatcher) {
+            dispatcher.addRules {
+                rule(get, path eq "/vpn/featureconfig/dynamic-bug-reports") {
                     respond(DynamicReportModel(emptyList()))
                 }
 
-                rule(get, path endsWith "/core/v4/notifications", times = Int.MAX_VALUE) {
+                rule(get, path eq "/core/v4/notifications") {
                     respond(ApiNotificationsResponse(emptyList()))
                 }
 
-                rule(get, path endsWith "/payments/v4/status/fdroid", times = Int.MAX_VALUE) {
+                rule(get, path eq "/payments/v4/status/fdroid") {
                     respond("""{"Code":1000,"Card":0,"Paypal":0,"Bitcoin":0,"InApp":0}""")
                 }
 
-                rule(get, path endsWith "/vpn/logicals", times = Int.MAX_VALUE) {
+                rule(get, path eq "/vpn/logicals") {
                     respond(ServerList(MockedServers.serverList))
                 }
 
-                rule(post, path endsWith "/vpn/v1/certificate") {
+                rule(post, path eq "/vpn/v1/certificate") {
                     respond(CertificateResponse("dummy data", Int.MAX_VALUE.toLong(), Int.MAX_VALUE.toLong()))
                 }
 
-                rule(delete, path endsWith "/auth", times = Int.MAX_VALUE) {
+                rule(delete, path eq "/auth") {
                     respond(GenericResponse(ResponseCodes.OK))
                 }
 
@@ -104,9 +82,7 @@ sealed class TestApiConfig {
                     "/tests/ping",
                     "/domains/available"
                 ).forEach { code1000Path ->
-                    rule(path endsWith code1000Path, times = Int.MAX_VALUE) {
-                        respond(GenericResponse(ResponseCodes.OK))
-                    }
+                    rule(path eq code1000Path) { respond(GenericResponse(ResponseCodes.OK)) }
                 }
 
                 // Endpoints that are called by the app during tests but can be ignored by returning 422 code.
@@ -115,12 +91,9 @@ sealed class TestApiConfig {
                     "/vpn/streamingservices",
                     "/vpn/location"
                 ).forEach { unimportantPath ->
-                    rule(path endsWith unimportantPath, times = Int.MAX_VALUE) {
-                        respond(HttpResponseCodes.HTTP_UNPROCESSABLE)
-                    }
+                    rule(path eq unimportantPath) { respond(HttpResponseCodes.HTTP_UNPROCESSABLE) }
                 }
             }
         }
     }
 }
-

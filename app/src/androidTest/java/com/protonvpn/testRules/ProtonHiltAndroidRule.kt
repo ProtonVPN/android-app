@@ -19,16 +19,17 @@
 
 package com.protonvpn.testRules
 
-import android.app.Application
+import android.util.Log
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
 import androidx.test.platform.app.InstrumentationRegistry
+import com.protonvpn.TestSettings
 import com.protonvpn.android.ProtonApplication
-import com.protonvpn.mocks.MockInterceptorWrapper
+import com.protonvpn.mocks.MockRequestDispatcher
+import com.protonvpn.mocks.MockWebServerCertificates
 import com.protonvpn.mocks.TestApiConfig
-import dagger.hilt.InstallIn
-import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.components.SingletonComponent
+import okhttp3.mockwebserver.MockWebServer
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
@@ -48,28 +49,28 @@ class ProtonHiltAndroidRule(
 
     private val hiltAndroidRule = HiltAndroidRule(testInstance)
 
-    @dagger.hilt.EntryPoint
-    @InstallIn(SingletonComponent::class)
-    interface MockInterceptorEntryPoint {
-        fun mockInterceptor(): MockInterceptorWrapper
-    }
+    private var mockRequestDispatcher: MockRequestDispatcher? = null
+
+    val mockDispatcher: MockRequestDispatcher get() =
+        checkNotNull(mockRequestDispatcher) { "mockDispatcher is only available for TestApiConfig.Mocked" }
 
     override fun apply(base: Statement, description: Description): Statement {
         val statement = object : Statement() {
             override fun evaluate() {
-                // Objects created in initDependencies may perform API calls, so setup the mock API rules earlier.
-                if (apiConfig is TestApiConfig.Mocked) {
-                    val entryPoint: MockInterceptorEntryPoint = EntryPointAccessors.fromApplication(
-                        ApplicationProvider.getApplicationContext<Application>(),
-                        MockInterceptorEntryPoint::class.java
-                    )
-                    apiConfig.addDefaultRules(entryPoint.mockInterceptor())
-                }
+                val mockWebServer: MockWebServer? =
+                    if (apiConfig is TestApiConfig.Mocked) startMockWebServer(apiConfig)
+                    else null
 
                 InstrumentationRegistry.getInstrumentation().runOnMainSync {
                     ApplicationProvider.getApplicationContext<ProtonApplication>().initDependencies()
                 }
+
                 base.evaluate()
+
+                Log.d("ProtonHiltAndroidRule", "Test finished")
+                mockWebServer?.shutdown()
+                mockRequestDispatcher = null
+                TestSettings.reset()
             }
         }
         return hiltAndroidRule.apply(statement, description)
@@ -77,5 +78,22 @@ class ProtonHiltAndroidRule(
 
     fun inject() {
         hiltAndroidRule.inject()
+    }
+
+    private fun startMockWebServer(testApiConfig: TestApiConfig.Mocked): MockWebServer {
+        mockRequestDispatcher = MockRequestDispatcher().apply {
+            testApiConfig.addDefaultRules(this)
+        }
+        val serverCertificates = MockWebServerCertificates.getServerCertificates()
+        val mockServer = MockWebServer().apply {
+            useHttps(serverCertificates.sslSocketFactory(), false)
+            dispatcher = mockDispatcher
+            start()
+        }
+        with(TestSettings) {
+            handshakeCertificatesOverride = serverCertificates
+            protonApiUrlOverride = mockServer.url("/") // Must be set before Hilt injects it.
+        }
+        return mockServer
     }
 }
