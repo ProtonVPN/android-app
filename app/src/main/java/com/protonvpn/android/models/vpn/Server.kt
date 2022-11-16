@@ -21,12 +21,20 @@ package com.protonvpn.android.models.vpn
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils.debugAssert
+import com.protonvpn.android.utils.hasFlag
 import com.protonvpn.android.utils.implies
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import me.proton.core.network.data.protonApi.IntToBoolSerializer
 import java.util.regex.Pattern
+
+const val SERVER_FEATURE_SECURE_CORE = 1
+const val SERVER_FEATURE_TOR = 2
+const val SERVER_FEATURE_P2P = 4
+const val SERVER_FEATURE_STREAMING = 8
+const val SERVER_FEATURE_IPV6 = 16
+const val SERVER_FEATURE_RESTRICTED = 32
 
 @Serializable
 data class Server(
@@ -62,15 +70,17 @@ data class Server(
     }
 
     val keywords: List<Keyword> get() = mutableListOf<Keyword>().apply {
-        if (features and 4 == 4)
+        if (features.hasFlag(SERVER_FEATURE_P2P))
             add(Keyword.P2P)
-        if (features and 2 == 2)
+        if (features.hasFlag(SERVER_FEATURE_TOR))
             add(Keyword.TOR)
-        if (features and 8 == 8)
+        if (features.hasFlag(SERVER_FEATURE_STREAMING))
             add(Keyword.STREAMING)
-        if (features and 32 == 32)
+        if (features.hasFlag(SERVER_FEATURE_RESTRICTED))
             add(Keyword.SMART_ROUTING)
     }
+
+    val isTor get() = features.hasFlag(SERVER_FEATURE_TOR)
 
     @Transient
     val entryCountryCoordinates: TranslatedCoordinates? =
@@ -98,7 +108,7 @@ data class Server(
         get() = tier == 3
 
     val isSecureCoreServer: Boolean
-        get() = features and 1 == 1
+        get() = features.hasFlag(SERVER_FEATURE_SECURE_CORE)
 
     fun getCityTranslation() = translations?.get("City")
     val displayCity get() = getCityTranslation() ?: city
