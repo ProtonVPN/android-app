@@ -32,7 +32,7 @@ import kotlin.coroutines.CoroutineContext
  * CouroutineDispatchers that can be registered with IdlingResource to notify Espresso the app is busy while
  * there is work executed in the background.
  *
- * @see EspressoDispatcherRule for registering the idling resource.
+ * @see ProtonHiltAndroidRule
  */
 class EspressoDispatcherProvider @Inject constructor() : VpnDispatcherProvider {
     override val Main: CoroutineDispatcher = IdlingResourceDispatcher(Dispatchers.Main)

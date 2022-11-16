@@ -24,7 +24,6 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testRules.EspressoDispatcherRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.SetLoggedInUserRule
 import com.protonvpn.testsHelper.ServiceTestHelper
@@ -52,7 +51,6 @@ class LogoutTestsTv {
 
     @get:Rule val rules = RuleChain
         .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Mocked(TestUser.plusUser)))
-        .around(EspressoDispatcherRule())
         .around(SetLoggedInUserRule(TestUser.plusUser))
         .around(activityRule)
 

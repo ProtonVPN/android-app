@@ -19,16 +19,28 @@
 
 package com.protonvpn.testRules
 
+
+import android.app.Application
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.TestSettings
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.mocks.MockRequestDispatcher
 import com.protonvpn.mocks.MockWebServerCertificates
 import com.protonvpn.mocks.TestApiConfig
+import com.protonvpn.testsHelper.EspressoDispatcherProvider
+import com.protonvpn.testsHelper.IdlingResourceHelper
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.components.SingletonComponent
+import me.proton.core.network.data.di.SharedOkHttpClient
+import me.proton.core.util.kotlin.DispatcherProvider
+import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.rules.TestRule
 import org.junit.runner.Description
@@ -37,8 +49,8 @@ import org.junit.runners.model.Statement
 /**
  * Hilt injection in tests for ProtonApplication.
  *
- * It calls ProtonApplication.initDependencies() after Hilt components are initialized but before the
- * test is started.
+ * It performs setup by initializing Hilt, idling resources, mock web server (if requested) and initializes the
+ * application (by calling ProtonApplication.initDependencies) before the test is started.
  *
  * Use it instead of HiltAndroidRule.
  */
@@ -46,6 +58,14 @@ class ProtonHiltAndroidRule(
     testInstance: Any,
     private val apiConfig: TestApiConfig
 ) : TestRule {
+
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface HiltEntryPoint {
+        fun dispatcherProvider(): DispatcherProvider
+        @SharedOkHttpClient
+        fun okHttpClient(): OkHttpClient
+    }
 
     private val hiltAndroidRule = HiltAndroidRule(testInstance)
 
@@ -61,16 +81,22 @@ class ProtonHiltAndroidRule(
                     if (apiConfig is TestApiConfig.Mocked) startMockWebServer(apiConfig)
                     else null
 
-                InstrumentationRegistry.getInstrumentation().runOnMainSync {
-                    ApplicationProvider.getApplicationContext<ProtonApplication>().initDependencies()
-                }
+                val hilt = EntryPointAccessors.fromApplication(
+                    ApplicationProvider.getApplicationContext<Application>(),
+                    HiltEntryPoint::class.java
+                )
+                installIdlingResources(hilt.dispatcherProvider() as EspressoDispatcherProvider, hilt.okHttpClient())
+
+                startApplicationAndWaitForIdle()
 
                 base.evaluate()
 
+                Espresso.onIdle() // Wait for any pending requests to finish before shutting down the mock web server.
                 Log.d("ProtonHiltAndroidRule", "Test finished")
                 mockWebServer?.shutdown()
                 mockRequestDispatcher = null
                 TestSettings.reset()
+                with(IdlingRegistry.getInstance()) { resources.forEach { unregister(it) } }
             }
         }
         return hiltAndroidRule.apply(statement, description)
@@ -78,6 +104,13 @@ class ProtonHiltAndroidRule(
 
     fun inject() {
         hiltAndroidRule.inject()
+    }
+
+    private fun startApplicationAndWaitForIdle() {
+        InstrumentationRegistry.getInstrumentation().runOnMainSync {
+            ApplicationProvider.getApplicationContext<ProtonApplication>().initDependencies()
+        }
+        Espresso.onIdle()
     }
 
     private fun startMockWebServer(testApiConfig: TestApiConfig.Mocked): MockWebServer {
@@ -95,5 +128,11 @@ class ProtonHiltAndroidRule(
             protonApiUrlOverride = mockServer.url("/") // Must be set before Hilt injects it.
         }
         return mockServer
+    }
+
+    private fun installIdlingResources(dispatcherProvider: EspressoDispatcherProvider, okHttpClient: OkHttpClient) {
+        val registry = IdlingRegistry.getInstance()
+        registry.register(dispatcherProvider.idlingResource)
+        registry.register(IdlingResourceHelper.create("OkHttp", okHttpClient))
     }
 }
