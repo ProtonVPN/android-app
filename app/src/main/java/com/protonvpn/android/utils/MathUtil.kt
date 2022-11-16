@@ -31,3 +31,5 @@ fun RectF.inCoordsOf(o: RectF) = RectF(
     top - o.top,
     right - o.left,
     bottom - o.top).scale(1f / o.width(), 1f / o.height())
+
+fun Int.hasFlag(flag: Int) = this and flag == flag

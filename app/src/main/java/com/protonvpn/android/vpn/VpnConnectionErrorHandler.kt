@@ -300,16 +300,15 @@ class VpnConnectionErrorHandler @Inject constructor(
         val secureCoreExpected = orgProfile.isSecureCore ?: userData.secureCoreEnabled
         val orgProtocol = orgProfile.getProtocol(userData)
         val onlineServers = serverManager.getOnlineAccessibleServers(secureCoreExpected, vpnUser, orgProtocol)
-        val scoredServers = sortServersByScore(onlineServers, orgProfile, vpnUser).run {
-            if (orgPhysicalServer != null) {
-                // Only include servers that have IP that differ from current connection.
-                filter {
-                    getConnectingDomain.online(it, orgProtocol).any { domain ->
-                        domain.getEntryIp(orgProtocol) != orgPhysicalServer.connectingDomain.getEntryIp(orgProtocol)
-                    }
+        val orgIsTor = orgPhysicalServer?.server?.isTor == true
+        val orgEntryIp = orgPhysicalServer?.connectingDomain?.getEntryIp(orgProtocol)
+        val scoredServers = sortServersByScore(onlineServers, orgProfile, vpnUser).filter { candicate ->
+            val ipCondition = orgPhysicalServer == null ||
+                getConnectingDomain.online(candicate, orgProtocol).any { domain ->
+                    domain.getEntryIp(orgProtocol) != orgEntryIp
                 }
-            } else
-                this
+            val torCondition = orgIsTor || !candicate.isTor
+            ipCondition && torCondition
         }
 
         scoredServers.take(FALLBACK_SERVERS_COUNT - candidateList.size).map { server ->

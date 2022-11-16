@@ -14,7 +14,7 @@ data class SmartProtocolConfig(
     @SerialName(value = "WireGuardTLS") val wireguardTlsEnabled: Boolean = true,
 ) {
     fun getSmartProtocols(): List<ProtocolSelection> =
-        mutableListOf<ProtocolSelection>().apply {
+        buildList {
             if (openVPNEnabled) {
                 add(ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP))
                 add(ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP))
