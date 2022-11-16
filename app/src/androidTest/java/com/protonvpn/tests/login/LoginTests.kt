@@ -29,10 +29,11 @@ import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.annotations.TestID
 import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
+import me.proton.core.test.android.plugins.data.User
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -60,7 +61,7 @@ class LoginTests {
     @Before
     fun setUp() {
         TestSetup.setCompletedOnboarding()
-        TestSetup.clearJails()
+        TestSetup.quark?.jailUnban()
         addAccountRobot = AddAccountRobot()
         loginRobot = LoginRobot()
         homeRobot = HomeRobot()
@@ -109,11 +110,13 @@ class LoginTests {
     @Test
     @TestID(53)
     fun loginWithSpecialCharsUser() {
-        TestSetup.createUser(
-            TestUser.specialCharUser.email,
-            URLEncoder.encode(BuildConfig.SPECIAL_CHAR_PASSWORD, "utf-8")
+        val specialCharsUser = User(
+            name = "testasSpecChars",
+            password = URLEncoder.encode(BuildConfig.SPECIAL_CHAR_PASSWORD, "utf-8")
         )
-        loginRobot.signIn(TestUser.specialCharUser)
+        TestSetup.quark?.userCreate(specialCharsUser)
+
+        loginRobot.signIn(specialCharsUser)
             .verify { isInMainScreen() }
     }
 }

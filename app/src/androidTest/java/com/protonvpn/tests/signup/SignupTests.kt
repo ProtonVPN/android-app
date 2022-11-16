@@ -69,7 +69,7 @@ class SignupTests {
     fun setUp() {
         hiltRule.inject()
         TestSetup.setCompletedOnboarding()
-        TestSetup.clearJails()
+        TestSetup.quark?.jailUnban()
         addAccountRobot = AddAccountRobot()
         loginRobot = LoginRobot()
         homeRobot = HomeRobot()

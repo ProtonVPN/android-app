@@ -22,12 +22,16 @@ package com.protonvpn.testsHelper
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.testRail.ApiClient
+import me.proton.core.test.android.plugins.Quark
+import me.proton.core.util.kotlin.takeIfNotBlank
+import me.proton.core.util.kotlin.takeIfNotEmpty
 
 class TestSetup {
     companion object {
 
-        private val apiClient = ApiClient(BuildConfig.API_DOMAIN)
+        val quark: Quark? = BuildConfig.BLACK_TOKEN.takeIfNotBlank()?.let {
+            Quark(BuildConfig.API_DOMAIN, BuildConfig.BLACK_TOKEN, "sensitive/internal_apis.json")
+        }
 
         fun setCompletedOnboarding() {
             //set flag to slide show to be visible
@@ -36,22 +40,6 @@ class TestSetup {
             Storage.saveBoolean(OnboardingPreferences.FLOATINGACTION_DIALOG, true)
             Storage.saveBoolean(OnboardingPreferences.FLOATING_BUTTON_USED, true)
             Storage.saveBoolean(OnboardingPreferences.NETSHIELD_DIALOG, true)
-        }
-
-        fun clearJails() {
-            sendGetWithBlackEnvVerification("/internal/quark/jail:unban")
-        }
-
-        fun createUser(username: String, password: String) {
-            sendGetWithBlackEnvVerification("/internal/quark/user:create?-N=$username&-p=$password")
-        }
-
-        fun isBlackEnv() = !BuildConfig.BLACK_TOKEN.isNullOrBlank()
-
-        private fun sendGetWithBlackEnvVerification(endpoint: String){
-            if (isBlackEnv()) {
-                apiClient.sendGet(endpoint)
-            }
         }
     }
 }
