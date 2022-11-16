@@ -58,8 +58,6 @@ class TestUser private constructor(
             get() = getPlusPlanUser()
         val badUser: TestUser
             get() = TestUser("Testas3", "r4nd0m", "rand", "vpnplus", "vpnplus", 2, 5)
-        @JvmStatic val specialCharUser: TestUser
-            get() = TestUser("testSpecChar", BuildConfig.SPECIAL_CHAR_PASSWORD, "testas", "free", "free",0, 1)
         val forkedSessionResponse: ForkedSessionResponse
             get() = ForkedSessionResponse(
                 864000,

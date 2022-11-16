@@ -46,7 +46,7 @@ class LoginTestRule(
             ProtonTestEntryPoint::class.java
         )
         val loginTimeMs = measureTimeMillis {
-            TestSetup.clearJails()
+            TestSetup.quark?.jailUnban()
             entryPoint.loginTestHelper.login(username, password)
         }
         Log.d("LoginTestRule", "login took ${loginTimeMs}ms")

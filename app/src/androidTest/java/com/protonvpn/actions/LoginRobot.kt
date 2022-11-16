@@ -24,6 +24,8 @@ import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.test.shared.TestUser
+import me.proton.core.test.android.plugins.data.User
+import java.net.URLDecoder
 
 /**
  * [LoginRobot] Contains all actions and verifications for login screen
@@ -32,6 +34,13 @@ class LoginRobot : BaseRobot() {
 
     fun signIn(testUser: TestUser): HomeRobot {
         enterCredentials(testUser)
+        clickElementById<HomeRobot>(R.id.signInButton)
+        return waitUntilDisplayedByContentDesc(R.string.hamburgerMenu)
+    }
+
+    fun signIn(testUser: User): HomeRobot {
+        replaceText<LoginRobot>(R.id.usernameInput, testUser.name)
+        replaceText<LoginRobot>(R.id.passwordInput, URLDecoder.decode(testUser.password, "utf-8"))
         clickElementById<HomeRobot>(R.id.signInButton)
         return waitUntilDisplayedByContentDesc(R.string.hamburgerMenu)
     }

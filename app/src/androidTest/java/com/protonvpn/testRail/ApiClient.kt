@@ -19,7 +19,6 @@
 
 package com.protonvpn.testRail
 
-import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.utils.Log
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -31,19 +30,6 @@ import org.json.JSONObject
 import java.util.*
 
 class ApiClient(private val baseUrl: String) {
-
-    fun sendGet(uri: String) {
-        val request = Request.Builder()
-            .header("X-atlas-secret", BuildConfig.BLACK_TOKEN)
-            .url("https://$baseUrl$uri")
-            .get()
-            .build()
-
-        val response = OkHttpClient().newCall(request).execute()
-        val responseBody = response.body!!.string()
-        Log.i(baseUrl + uri + " returned status code " + response.code)
-        Log.i("Response body: $responseBody")
-    }
 
     fun sendPostToTestrail(uri: String, data: Any?, email: String, apiKey: String): JSONObject {
         val requestBody = Json.encodeToString(data)

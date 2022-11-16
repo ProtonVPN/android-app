@@ -11,3 +11,4 @@ openvpn/build/**
 openvpn/src/main/cpp/asio/asio/src/doc/
 openvpn/.cxx/
 pmcrypto/build/
+app/src/androidTest/assets/sensitive/
