@@ -36,13 +36,15 @@
     - awk 'BEGIN { print strftime()  }'
     - gcsbucket=$(cat results.txt | grep 'Raw results will be stored' | awk -F/ '{print "gs://" $6 "/" $7}')
     - echo $gcsbucket
-    - gsutil ls $gcsbucket
-        | grep '/$'
-        | while read -r line; do
-            dst=app/build/outputs/coverage/${COVERAGE_FOLDER}/`basename "$line"`;
-            mkdir -p "$dst";
-            gsutil -m cp ${line}artifacts/sdcard/googletest/internal_use/coverage/*.ec "$dst";
-          done
+    - if [ ! -z "$COVERAGE_FOLDER" ]; then
+        gsutil ls $gcsbucket
+          | grep '/$'
+          | while read -r line; do
+              dst=app/build/outputs/coverage/${COVERAGE_FOLDER}/`basename "$line"`;
+              mkdir -p "$dst";
+              gsutil -m cp ${line}artifacts/sdcard/googletest/internal_use/coverage/*.ec "$dst";
+            done;
+      fi
     - awk 'BEGIN { print strftime()  }'
   artifacts:
     expire_in: 1 week
@@ -59,7 +61,7 @@ mobile tests mocked api:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
     TEST_APP_TYPE: "black-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileMockApiSuite"
-    COVERAGE_FOLDER: "mobile_mocked_api"
+#    COVERAGE_FOLDER: "mobile_mocked_api"
 
 mobile tests black:
   extends: .tests_preparation_script
@@ -71,7 +73,7 @@ mobile tests black:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
     TEST_APP_TYPE: "black-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileBlackSuite"
-    COVERAGE_FOLDER: "mobile_black"
+#    COVERAGE_FOLDER: "mobile_black"
 
 tv tests:
   extends: .tests_preparation_script
@@ -82,7 +84,7 @@ tv tests:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
     TEST_APP_TYPE: "black-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
-    COVERAGE_FOLDER: "tv"
+#    COVERAGE_FOLDER: "tv"
 
 real connection mobile tests:
   extends: .tests_preparation_script
@@ -94,7 +96,7 @@ real connection mobile tests:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
     TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
-    COVERAGE_FOLDER: "real_connection"
+#    COVERAGE_FOLDER: "real_connection"
 
 robo tests:
   stage: test
