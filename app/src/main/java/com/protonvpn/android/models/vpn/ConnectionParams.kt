@@ -40,7 +40,7 @@ open class ConnectionParams(
     val uuid: UUID = UUID.randomUUID()
 ) : java.io.Serializable {
 
-    open val info get() = "IP: ${connectingDomain?.entryDomain} Protocol: $protocol"
+    open val info get() = "IP: ${connectingDomain?.entryDomain}/$entryIp Protocol: $protocol"
 
     val exitIpAddress: String?
         get() = connectingDomain?.getExitIP()
