@@ -35,7 +35,9 @@ import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
@@ -73,6 +75,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.NetworkManager
 import org.junit.Assert.assertEquals
@@ -238,35 +241,39 @@ class VpnConnectionErrorHandlerTests {
             if (failAll)
                 null
             else {
-                val server = pingedServers.captured.first { physicalServer ->
+                val server = pingedServers.captured.firstOrNull { physicalServer ->
                     with(physicalServer.server) {
                         !(failSecureCore && isSecureCoreServer) &&
                             exitCountry != failCountry && serverName != failServerName &&
-                            connectingDomains.any { it.getEntryIp(null) != failServerEntryIp }
+                            (failServerEntryIp == null || connectingDomains.any { it.getEntryIp(null) != failServerEntryIp })
                     }
                 }
-                val profile = Profile.getTempProfile(server.server)
-                val connectionParams = if (useOpenVPN) {
-                    ConnectionParamsOpenVpn(
-                        profile,
-                        server.server,
-                        server.connectingDomain,
-                        server.connectingDomain.getEntryIp(
-                            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP)),
-                        TransmissionProtocol.UDP,
-                        443)
-                } else {
-                    ConnectionParamsWireguard(
-                        profile,
-                        server.server,
-                        443,
-                        server.connectingDomain,
-                        server.connectingDomain.getEntryIp(
-                            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP)),
-                        TransmissionProtocol.UDP)
+                if (server == null)
+                    null
+                else {
+                    val profile = Profile.getTempProfile(server.server)
+                    val connectionParams = if (useOpenVPN) {
+                        ConnectionParamsOpenVpn(
+                            profile,
+                            server.server,
+                            server.connectingDomain,
+                            server.connectingDomain.getEntryIp(
+                                ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP)),
+                            TransmissionProtocol.UDP,
+                            443)
+                    } else {
+                        ConnectionParamsWireguard(
+                            profile,
+                            server.server,
+                            443,
+                            server.connectingDomain,
+                            server.connectingDomain.getEntryIp(
+                                ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP)),
+                            TransmissionProtocol.UDP)
+                    }
+                    result.captured = PrepareResult(mockk(), connectionParams)
+                    VpnBackendProvider.PingResult(profile, server, listOf(result.captured))
                 }
-                result.captured = PrepareResult(mockk(), connectionParams)
-                VpnBackendProvider.PingResult(profile, server, listOf(result.captured))
             }
         }
         return result
@@ -426,6 +433,69 @@ class VpnConnectionErrorHandlerTests {
             fallback
         )
         assertEquals(updatedServers[0], prepareResult.captured.connectionParams.server)
+    }
+
+    @Test
+    fun testIgnoringTorServers() = runTest {
+        val server1 = MockedServers.serverList[0]
+        val server2 = MockedServers.serverList[1].copy(features = SERVER_FEATURE_TOR)
+        val servers = listOf(server1, server2)
+        prepareServerManager(servers)
+        preparePings(failServerName = server1.serverName)
+        val result = handler.onUnreachableError(ConnectionParams(
+            Profile.getTempProfile(server1), server1, server1.connectingDomains.first(), VpnProtocol.WireGuard))
+        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), result)
+    }
+
+    @Test
+    fun testAcceptingTorWhenOriginalIsTor() = runTest {
+        val server1 = MockedServers.serverList[0].copy(features = SERVER_FEATURE_TOR)
+        val server2 = MockedServers.serverList[1].copy(features = SERVER_FEATURE_TOR)
+        val servers = listOf(server1, server2)
+        prepareServerManager(servers)
+        preparePings(failServerName = server1.serverName)
+        val result = handler.onUnreachableError(ConnectionParams(
+            Profile.getTempProfile(server1), server1, server1.connectingDomains.first(), VpnProtocol.WireGuard))
+        assertEquals(server2, (result as VpnFallbackResult.Switch.SwitchServer).toServer)
+    }
+
+    @Test
+    fun testSwitchingToServerSupportingOrgProtocol() = runTest {
+        val server1 = MockedServers.serverList[0]
+        val orgServer2 = MockedServers.serverList[1]
+        val protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP)
+        val server2 = orgServer2.copy(connectingDomains = listOf(orgServer2.connectingDomains.first().copy(
+            entryIp = null,
+            entryIpPerProtocol = mapOf(protocol.apiName to ServerEntryInfo("7.7.7.7"))
+        )))
+        val servers = listOf(server1, server2)
+        prepareServerManager(servers)
+        preparePings(failServerName = server1.serverName)
+        val profile = Profile.getTempProfile(server1).copy(
+            protocol = protocol.vpn.name,
+            transmissionProtocol = protocol.transmission?.name)
+        val result = handler.onUnreachableError(ConnectionParams(profile, server1,
+            server1.connectingDomains.first(), VpnProtocol.WireGuard))
+        assertEquals(server2, (result as VpnFallbackResult.Switch.SwitchServer).toServer)
+    }
+
+    @Test
+    fun testNotSwitchingToServerNotSupportingOrgProtocol() = runTest {
+        val server1 = MockedServers.serverList[0]
+        val orgServer2 = MockedServers.serverList[1]
+        val protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP)
+        val server2 = orgServer2.copy(connectingDomains = listOf(orgServer2.connectingDomains.first().copy(
+            entryIp = null,
+            entryIpPerProtocol = mapOf(protocol.apiName to ServerEntryInfo("7.7.7.7"))
+        )))
+        val servers = listOf(server1, server2)
+        prepareServerManager(servers)
+        preparePings(failServerName = server1.serverName)
+        val profile = Profile.getTempProfile(server1).copy(
+            protocol = VpnProtocol.OpenVPN.name)
+        val result = handler.onUnreachableError(ConnectionParams(profile, server1,
+            server1.connectingDomains.first(), VpnProtocol.OpenVPN))
+        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), result)
     }
 
     @Test
