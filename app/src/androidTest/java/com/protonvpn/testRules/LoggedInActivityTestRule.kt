@@ -20,32 +20,26 @@
 package com.protonvpn.testRules
 
 import android.app.Activity
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.espresso.IdlingRegistry
-import androidx.test.rule.ActivityTestRule
+import androidx.test.core.app.ActivityScenario
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.testsHelper.ServiceTestHelper
-import com.protonvpn.testsHelper.UserDataHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-/**
- * A rule for testing activities in the logged in state.
- */
-open class LoggedInActivityTestRule<T : Activity>(activityClass: Class<T>) : InstantTaskExecutorRule() {
+@Deprecated("Use ActivityScenarioRule for activity tests and SetLoggedInUserRule to setup a logged in user.")
+open class LoggedInActivityTestRule<T : Activity>(private val activityClass: Class<T>) : TestWatcher() {
 
     private lateinit var service: ServiceTestHelper
-    private lateinit var userDataHelper: UserDataHelper
 
-    private val activityTestRule = ActivityTestRule(activityClass, false, false)
+    private lateinit var activityScenario: ActivityScenario<T>
 
     override fun starting(description: Description) {
         super.starting(description)
         service = ServiceTestHelper()
-        userDataHelper = UserDataHelper()
-        activityTestRule.launchActivity(null)
+        activityScenario = ActivityScenario.launch(activityClass)
     }
 
     override fun finished(description: Description) {
@@ -55,8 +49,7 @@ open class LoggedInActivityTestRule<T : Activity>(activityClass: Class<T>) : Ins
             service.connectionManager.disconnect("test tear down")
             service.deleteCreatedProfiles()
         }
-        activityTestRule.finishActivity()
-        IdlingRegistry.getInstance().unregister()
+        activityScenario.close()
     }
 
     fun mockStatusOnConnect(state: VpnState) {

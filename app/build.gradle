@@ -575,9 +575,6 @@ configurations {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     debugImplementation 'androidx.test.espresso.idling:idling-concurrent:3.4.0'
-    debugImplementation('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
-        exclude module: 'support-annotations'
-    }
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.9.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
