@@ -53,10 +53,19 @@ import org.junit.runners.model.Statement
  * application (by calling ProtonApplication.initDependencies) before the test is started.
  *
  * Use it instead of HiltAndroidRule.
+ *
+ * @param testInstance
+ * @param apiConfig - API configuration: either use the backend or a mock web server
+ * @param deferAppStartup - (default: false) if true the rule doesn't initialize the application. The test must call
+ *                          startApplicationAndWaitForIdle(). Deferring startup allows tests to do some additional
+ *                          setup, e.g. add mock web server rules.
+ *                          Be careful not to initialize the application early by starting an activity or using rules
+ *                          like SetLoggedInUserRule.
  */
 class ProtonHiltAndroidRule(
     testInstance: Any,
-    private val apiConfig: TestApiConfig
+    private val apiConfig: TestApiConfig,
+    private val deferAppStartup: Boolean = false
 ) : TestRule {
 
     @EntryPoint
@@ -87,7 +96,8 @@ class ProtonHiltAndroidRule(
                 )
                 installIdlingResources(hilt.dispatcherProvider() as EspressoDispatcherProvider, hilt.okHttpClient())
 
-                startApplicationAndWaitForIdle()
+                if (!deferAppStartup)
+                    startApplicationAndWaitForIdle()
 
                 base.evaluate()
 
@@ -106,7 +116,7 @@ class ProtonHiltAndroidRule(
         hiltAndroidRule.inject()
     }
 
-    private fun startApplicationAndWaitForIdle() {
+    fun startApplicationAndWaitForIdle() {
         InstrumentationRegistry.getInstrumentation().runOnMainSync {
             ApplicationProvider.getApplicationContext<ProtonApplication>().initDependencies()
         }
