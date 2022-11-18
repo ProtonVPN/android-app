@@ -37,6 +37,7 @@ import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.LoadsResponse
+import com.protonvpn.android.models.vpn.PartnersResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
@@ -59,6 +60,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @HeaderMap headers: Map<String, String>,
         @Query("WithTranslations") language: String,
         @Query("WithEntriesForProtocols") protocols: String,
+        @Query("WithPartnerLogicals") withPartners: Boolean
     ): ServerList
 
     @GET("vpn/loads")
@@ -127,6 +129,9 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @POST("payments/v4/promocode")
     suspend fun postPromoCode(@Body params: PromoCodesBody): GenericResponse
+
+    @GET("vpn/v1/partners")
+    suspend fun getPartnerships(): PartnersResponse
 
     companion object {
         const val HEADER_NETZONE = "x-pm-netzone"

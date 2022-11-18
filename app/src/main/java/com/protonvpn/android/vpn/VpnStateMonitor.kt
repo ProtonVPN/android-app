@@ -34,8 +34,10 @@ import kotlinx.coroutines.flow.map
 class VpnStateMonitor {
 
     private val statusInternal = MutableStateFlow(Status(Disabled, null))
+    private val lastKnownExitIp = MutableStateFlow<String?>(null)
 
     val status: StateFlow<Status> = statusInternal
+    val exitIp: StateFlow<String?> = lastKnownExitIp
     val onDisconnectedByUser = MutableSharedFlow<Unit>()
     val onDisconnectedByReconnection = MutableSharedFlow<Unit>()
     val vpnConnectionNotificationFlow = MutableSharedFlow<VpnFallbackResult>()
@@ -75,9 +77,6 @@ class VpnStateMonitor {
     val connectionProtocol
         get() = connectionParams?.protocolSelection
 
-    val exitIP
-        get() = connectionParams?.exitIpAddress
-
     fun isConnectedTo(server: Server?) =
         isConnected && connectionParams?.server?.serverId == server?.serverId
 
@@ -94,6 +93,10 @@ class VpnStateMonitor {
 
     fun updateStatus(newStatus: Status) {
         statusInternal.value = newStatus
+    }
+
+    fun updateLastKnownExitIp(exitIp: String?) {
+        lastKnownExitIp.value = exitIp
     }
 
     data class Status(

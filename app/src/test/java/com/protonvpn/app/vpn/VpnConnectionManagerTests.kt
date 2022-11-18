@@ -56,15 +56,18 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.pauseDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.setMain
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.session.SessionId
 import org.junit.Assert.assertTrue
@@ -127,6 +130,7 @@ class VpnConnectionManagerTests {
 
         testDispatcher = TestCoroutineDispatcher()
         testScope = TestCoroutineScope(testDispatcher)
+        Dispatchers.setMain(testDispatcher)
         mockBackendSelfState = MutableLiveData()
 
         coEvery { mockCurrentUser.sessionId() } returns SessionId("session id")
@@ -139,6 +143,7 @@ class VpnConnectionManagerTests {
         every { mockNetworkManager.isConnectedToNetwork() } returns true
         every { mockBackend.vpnProtocol } returns connectionParams.protocolSelection!!.vpn
         every { mockBackend.selfStateObservable } returns mockBackendSelfState
+        every { mockBackend.lastKnownExitIp } returns MutableStateFlow(null)
         every { mockVpnUiDelegate.askForPermissions(any(), any(), any()) } answers {
             arg<() -> Unit>(2).invoke()
         }

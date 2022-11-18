@@ -41,8 +41,11 @@ class CountryExpandedViewHolder(
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
         with(binding.featuresAndButtons) {
             userHasAccess = viewModel.hasAccessToServer(server)
-            isConnected = viewModel.vpnStateMonitor.isConnectedTo(server)
+            isConnected = viewModel.isConnectedToServer(server)
             isOnline = server.online
+            viewModel.getServerPartnerships(server)?.let {
+                setPartnership(it, server.serverId)
+            }
         }
     }
 
@@ -53,7 +56,7 @@ class CountryExpandedViewHolder(
 
         // Sometimes we can get 2 binds in a row without unbind in between
         clear()
-        val secureCoreEnabled = viewModel.userData.secureCoreEnabled
+        val secureCoreEnabled = viewModel.isSecureCoreEnabled
         with(binding) {
             val haveAccess = viewModel.hasAccessToServer(server)
 
@@ -69,7 +72,7 @@ class CountryExpandedViewHolder(
                 serverLoad = server.load
                 isOnline = server.online
                 userHasAccess = haveAccess
-                isConnected = viewModel.vpnStateMonitor.isConnectedTo(server)
+                isConnected = viewModel.isConnectedToServer(server)
             }
 
             imageCountry.isVisible = secureCoreEnabled
@@ -96,7 +99,7 @@ class CountryExpandedViewHolder(
 
             val connectUpgradeClickListener = View.OnClickListener {
                 val connectTo =
-                    if (viewModel.vpnStateMonitor.isConnectedTo(server)) null else server
+                    if (viewModel.isConnectedToServer(server)) null else server
                 EventBus.post(ConnectToServer("server list power button", connectTo))
             }
 

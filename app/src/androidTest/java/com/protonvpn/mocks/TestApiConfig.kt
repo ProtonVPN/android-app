@@ -89,6 +89,7 @@ sealed class TestApiConfig {
                 listOf(
                     "/vpn/v2/clientconfig",
                     "/vpn/streamingservices",
+                    "/vpn/v1/partners",
                     "/vpn/location"
                 ).forEach { unimportantPath ->
                     rule(path eq unimportantPath) { respond(HttpResponseCodes.HTTP_UNPROCESSABLE) }

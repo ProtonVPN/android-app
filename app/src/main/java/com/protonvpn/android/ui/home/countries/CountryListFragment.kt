@@ -57,12 +57,12 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
     }
 
     private fun observeLiveEvents() {
-        viewModel.userData.updateEvent.observe(viewLifecycleOwner) {
+        viewModel.userDataUpdateEvent.observe(viewLifecycleOwner) {
             updateListData()
             if (viewModel.isFreeUser)
                 binding.list.scrollToPosition(0)
         }
-        viewModel.serverManager.serverListVersion.asLiveData().observe(viewLifecycleOwner, Observer {
+        viewModel.serverListVersion.asLiveData().observe(viewLifecycleOwner, Observer {
             updateListData()
         })
     }
@@ -85,13 +85,13 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
     ) {
         if (header != null) {
             val headerTitle = resources.getString(header, countries.size)
-            groups.add(HeaderItem(headerTitle, null, false))
+            groups.add(HeaderItem(headerTitle, false, null))
         }
 
         for (country in countries) {
             val expandableHeaderItem = object : CountryViewHolder(viewModel, country, viewLifecycleOwner) {
                 override fun onExpanded(position: Int) {
-                    if (!viewModel.userData.secureCoreEnabled) {
+                    if (!viewModel.isSecureCoreEnabled) {
                         val layoutManager =
                             this@CountryListFragment.binding.list.layoutManager as LinearLayoutManager
                         layoutManager.scrollToPositionWithOffset(position, 0)
@@ -102,14 +102,14 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
             groups.add(ExpandableGroup(expandableHeaderItem).apply {
                 isExpanded = expandableHeaderItem.id in expandedCountriesIds &&
                     viewModel.hasAccessibleOnlineServer(country)
-                viewModel.getMappedServersForCountry(country).forEach { (title, servers, infoKey) ->
+                viewModel.getMappedServersForCountry(country).forEach { (title, servers) ->
                     title?.let {
-                        val titleString = resources.getString(it, servers.size)
-                        add(HeaderItem(titleString, infoKey, true))
+                        val titleString = resources.getString(it.titleRes, servers.size)
+                        add(HeaderItem(titleString, true, it.infoType))
                     }
                     servers.forEach {
                         add(CountryExpandedViewHolder(
-                            viewModel, it, viewLifecycleOwner, title == R.string.listFastestServer))
+                            viewModel, it, viewLifecycleOwner, title?.titleRes == R.string.listFastestServer))
                     }
                 }
             })
@@ -121,7 +121,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         val groupAdapter = binding.list.adapter as GroupAdapter<GroupieViewHolder>
 
         val expandedCountriesIds = getExpandedCountriesIds(groupAdapter)
-        if (viewModel.isFreeUser && !viewModel.userData.secureCoreEnabled) {
+        if (viewModel.isFreeUser && !viewModel.isSecureCoreEnabled) {
             val (free, premium) = viewModel.getFreeAndPremiumCountries()
             addCountriesGroup(newGroups, R.string.listFreeCountries, free, expandedCountriesIds)
             addCountriesGroup(newGroups, R.string.listPremiumCountries_new_plans, premium, expandedCountriesIds)

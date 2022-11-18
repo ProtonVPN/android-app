@@ -62,8 +62,9 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -95,11 +96,24 @@ class TvMainViewModel @Inject constructor(
     appConfig
 ), StreamingViewModelHelper {
 
+    data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
+
     val selectedCountryFlag = MutableLiveData<String?>()
     val connectedCountryFlag = MutableLiveData<String>()
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
 
-    val vpnStatus = vpnStateMonitor.status.asLiveData()
+    val vpnViewState: Flow<VpnViewState> = combine(
+        vpnStateMonitor.status,
+        serverListUpdater.ipAddress,
+        vpnStateMonitor.exitIp
+    ) { vpnStatus, myIp, exitIp ->
+        val ipToDisplay = when(vpnStatus.state) {
+            VpnState.Connected -> exitIp
+            else -> myIp
+        }
+        VpnViewState(vpnStatus, ipToDisplay)
+    }
+    val vpnStatus = vpnStateMonitor.status
     val showVersion = MutableStateFlow(false)
 
     // Simplified vpn connection state change stream for UI elements interested in distinct changes between 3 states

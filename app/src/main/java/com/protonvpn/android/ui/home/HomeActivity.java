@@ -40,6 +40,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
@@ -234,7 +235,9 @@ public class HomeActivity extends VpnActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_info) {
-            navigateTo(InformationActivity.class);
+            ActivityCompat.startActivity(this,
+                    InformationActivity.createIntent(this, InformationActivity.InfoType.generic),
+                    null);
         }
         return super.onOptionsItemSelected(item);
     }

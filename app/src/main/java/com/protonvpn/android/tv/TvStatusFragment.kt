@@ -25,7 +25,6 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.afollestad.materialdialogs.MaterialDialog
@@ -33,21 +32,16 @@ import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvStatusViewBinding
 import com.protonvpn.android.tv.main.TvMainViewModel
-import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.HtmlTools
-import com.protonvpn.android.utils.getThemeColorId
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.util.kotlin.exhaustive
-import javax.inject.Inject
+import me.proton.core.util.kotlin.takeIfNotBlank
 
 @AndroidEntryPoint
 class TvStatusFragment : Fragment() {
     private lateinit var binding: TvStatusViewBinding
-    @Inject lateinit var vpnStateMonitor: VpnStateMonitor
-    @Inject lateinit var serverListUpdater: ServerListUpdater
 
     private lateinit var viewModel: TvMainViewModel
     override fun onCreateView(
@@ -57,32 +51,26 @@ class TvStatusFragment : Fragment() {
     ): View {
         binding = TvStatusViewBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(TvMainViewModel::class.java)
-        viewModel.vpnStatus.observe(viewLifecycleOwner, Observer {
-            updateState(it)
-        })
+        viewModel.vpnViewState.asLiveData().observe(viewLifecycleOwner) {
+            updateVpnState(it)
+        }
         return binding.root
     }
 
-    private fun updateState(status: VpnStateMonitor.Status) = with(binding) {
-        val state = status.state
-        val statusColor = when (state) {
+    private fun updateVpnState(state: TvMainViewModel.VpnViewState) = with(binding) {
+        val vpnState = state.vpnStatus.state
+        val statusColor = when (vpnState) {
             VpnState.Connected -> R.color.tvAccentLighten
             is VpnState.Error -> R.color.tvAlert
             else -> R.color.white
         }
         textStatus.setTextColor(ContextCompat.getColor(requireContext(), statusColor))
 
-        serverListUpdater.ipAddress.asLiveData().observe(viewLifecycleOwner, Observer {
-            val ipToDisplay = when {
-                status.state == VpnState.Connected -> status.connectionParams?.exitIpAddress
-                it.isEmpty() -> getString(R.string.stateFragmentUnknownIp)
-                else -> it
-            }
-            textIp.text = getString(R.string.ipWithPlaceholder, ipToDisplay)
-        })
-        when (state) {
+        val ipString = state.ipToDisplay?.takeIfNotBlank() ?: getString(R.string.stateFragmentUnknownIp)
+        textIp.text = getString(R.string.ipWithPlaceholder, ipString)
+        when (vpnState) {
             VpnState.Connected -> {
-                textStatus.text = getString(R.string.stateConnectedTo, status.server?.displayName)
+                textStatus.text = getString(R.string.stateConnectedTo, state.vpnStatus.server?.displayName)
             }
             VpnState.Connecting -> {
                 textStatus.text = getString(R.string.state_connecting)
@@ -103,7 +91,7 @@ class TvStatusFragment : Fragment() {
                 textStatus.text = getString(R.string.loaderDisconnecting)
             }
             is VpnState.Error -> {
-                onError(state.type)
+                onError(vpnState.type)
             }
         }.exhaustive
     }

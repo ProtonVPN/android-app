@@ -559,6 +559,9 @@
     <string name="server_load_description">Servers with high load are slower than servers with low load.</string>
     <string name="streaming_title_with_country">Streaming - %1$s</string>
     <string name="streaming_services_description">Connect to a Plus server in this country to start streaming.\n\nHint: Clear the cache of the streaming apps to ensure new content appears.</string>
+    <string name="partnership_free_title">Free servers</string>
+    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed</string>
+    <string name="partnership_partners_title">Our partners</string>
     <string name="activity_information_learn_more">Learn More</string>
     <string name="server_load_low">Low</string>
     <string name="server_load_medium">Medium</string>

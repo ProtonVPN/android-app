@@ -26,8 +26,6 @@ import androidx.lifecycle.ViewModel
 import com.github.mikephil.charting.data.Entry
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
-import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
@@ -64,8 +62,12 @@ class VpnStateConnectedViewModel @Inject constructor(
     data class SnackbarNotification(@StringRes val text: Int, val type: SnackType)
 
     val eventNotification = MutableSharedFlow<SnackbarNotification>(extraBufferCapacity = 1)
-    val connectionState = combine(stateMonitor.status, serverManager.serverListVersion) { status, _ ->
-        toConnectionState(status)
+    val connectionState = combine(
+        stateMonitor.status,
+        stateMonitor.exitIp,
+        serverManager.serverListVersion,
+    ) { status, exitIp, _ ->
+        toConnectionState(status, exitIp)
     }
     val trafficSpeedKbpsHistory = speedHistoryToChartData(trafficMonitor.trafficHistory)
 
@@ -82,7 +84,7 @@ class VpnStateConnectedViewModel @Inject constructor(
         }
     }
 
-    private fun toConnectionState(vpnStatus: VpnStateMonitor.Status): ConnectionState =
+    private fun toConnectionState(vpnStatus: VpnStateMonitor.Status, exitIp: String?): ConnectionState =
         if (vpnStatus.state is VpnState.Connected) {
             with(requireNotNull(vpnStatus.connectionParams)) {
                 // The server in ConnectionParams may be a stale object if the whole server list
@@ -91,7 +93,7 @@ class VpnStateConnectedViewModel @Inject constructor(
                 ConnectionState(
                     upToDateServer.serverName,
                     upToDateServer.load,
-                    exitIpAddress ?: "-",
+                    exitIp ?: "-",
                     protocolSelection?.displayName
                 )
             }

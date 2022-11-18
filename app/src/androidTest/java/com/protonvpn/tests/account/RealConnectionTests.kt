@@ -108,7 +108,7 @@ class RealConnectionTests {
         loginRobot.signInAndWaitForCountryInCountryList(TestUser.plusUser, "Austria")
         connectionRobot.connectThroughQuickConnectRealConnection()
             .verify {
-                runBlocking { checkIfConnectedAndCorrectIpAddressIsDisplayed(vpnStateMonitor.exitIP!!) }
+                runBlocking { checkIfConnectedAndCorrectIpAddressIsDisplayed(vpnStateMonitor.exitIp.value!!) }
                 checkProtocol(protocol)
             }
         connectionRobot.disconnectFromVPN()
