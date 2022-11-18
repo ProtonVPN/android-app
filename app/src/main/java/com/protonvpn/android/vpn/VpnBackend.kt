@@ -158,8 +158,9 @@ abstract class VpnBackend(
         }
 
         override fun onStatusUpdate(status: StatusMessage) {
-            status.clientIP?.let { clientIP ->
+            status.connectionDetails?.deviceIp?.let { clientIP ->
                 // Local Agent's ClientIP is not accurate for secure core
+                lastConnectionParams?.connectionIpv4  = status.connectionDetails.serverIpv4
                 if (lastConnectionParams?.server?.isSecureCoreServer != true && clientIP.isNotBlank())
                     getNetZone.updateIpFromLocalAgent(clientIP)
             }
