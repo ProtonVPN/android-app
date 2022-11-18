@@ -22,14 +22,20 @@ package com.protonvpn.android.components
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
+import com.bumptech.glide.Glide
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ServerFeaturesViewBinding
+import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.ViewUtils.toPx
 
 class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -63,9 +69,31 @@ class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(
                 Server.Keyword.TOR -> iconTor
                 Server.Keyword.STREAMING -> iconStreaming
                 Server.Keyword.SMART_ROUTING -> iconSmartRouting
+                Server.Keyword.PARTNERSHIP -> null
             }
-            iconView.isVisible = true
-            iconView.setColorFilter(color)
+
+            iconView?.isVisible = true
+            iconView?.setColorFilter(color)
+        }
+    }
+
+    fun addPartnership(partner: Partner, onClickListener: OnClickListener) {
+        if (keywords.contains(Server.Keyword.PARTNERSHIP)) {
+            val imageView = ImageView(context)
+            Glide.with(imageView).load(partner.iconUrl)
+                .into(imageView)
+
+            val padding = 4.toPx()
+            with(imageView) {
+                setOnClickListener(onClickListener)
+                setPadding(padding, padding, padding, padding)
+                contentDescription = partner.name
+            }
+            addView(imageView)
+            imageView.updateLayoutParams<ViewGroup.LayoutParams> {
+                height = 32.toPx()
+                width = 32.toPx()
+            }
         }
     }
 }

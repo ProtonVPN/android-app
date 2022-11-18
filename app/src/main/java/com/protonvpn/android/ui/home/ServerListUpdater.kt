@@ -29,6 +29,7 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -39,6 +40,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -59,6 +61,7 @@ class ServerListUpdater @Inject constructor(
     private val prefs: ServerListUpdaterPrefs,
     @WallClock private val wallClock: () -> Long,
     private val getNetZone: GetNetZone,
+    private val partnershipsRepository: PartnershipsRepository
 ) {
     private var networkLoader: NetworkLoader? = null
     private var inForeground = false
@@ -189,8 +192,15 @@ class ServerListUpdater @Inject constructor(
         }
         loaderUI?.switchToLoading()
 
-        api.getStreamingServices().valueOrNull?.let {
-            serverManager.setStreamingServices(it)
+        coroutineScope {
+            launch {
+                api.getStreamingServices().valueOrNull?.let {
+                    serverManager.setStreamingServices(it)
+                }
+            }
+            launch {
+                partnershipsRepository.refresh()
+            }
         }
 
         val lang = Locale.getDefault().language

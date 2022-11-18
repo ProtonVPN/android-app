@@ -22,6 +22,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemCountryHeaderBinding
+import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.setMinSizeTouchDelegate
@@ -29,8 +30,8 @@ import com.xwray.groupie.viewbinding.BindableItem
 
 class HeaderItem(
     private val titleString: String,
-    private val countryInfoKey: String?,
     private val isServer: Boolean,
+    private val infoType: InformationActivity.InfoType?
 ) : BindableItem<ItemCountryHeaderBinding>() {
 
     override fun getLayout() = R.layout.item_country_header
@@ -41,9 +42,9 @@ class HeaderItem(
         viewBinding.textTitle.text = titleString
         with(viewBinding.serversInfo) {
             setMinSizeTouchDelegate()
-            isVisible = countryInfoKey != null
-            if (countryInfoKey != null) setOnClickListener {
-                context.startActivity(InformationActivity.createIntent(context, countryInfoKey))
+            isVisible = infoType != null
+            if (infoType != null) setOnClickListener {
+                context.startActivity(InformationActivity.createIntent(context, infoType))
             } else {
                 setOnClickListener(null)
             }

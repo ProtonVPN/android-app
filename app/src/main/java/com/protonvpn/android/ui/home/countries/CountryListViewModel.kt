@@ -22,12 +22,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkLoader
-import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.partnerships.PartnershipsRepository
+import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.utils.ServerManager
@@ -37,22 +39,37 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CountryListViewModel @Inject constructor(
-    val serverManager: ServerManager,
-    val serverListUpdater: ServerListUpdater,
-    val vpnStateMonitor: VpnStateMonitor,
-    val userData: UserData,
-    val currentUser: CurrentUser,
-    val api: ProtonApiRetroFit
+    private val serverManager: ServerManager,
+    private val partnershipsRepository: PartnershipsRepository,
+    private val serverListUpdater: ServerListUpdater,
+    private val vpnStateMonitor: VpnStateMonitor,
+    private val userData: UserData,
+    private val currentUser: CurrentUser
 ) : ViewModel() {
 
+    val userDataUpdateEvent = userData.updateEvent
+    val serverListVersion = serverManager.serverListVersion
     val vpnStatus = vpnStateMonitor.status.asLiveData()
     val isFreeUser get() = currentUser.vpnUserCached()?.isFreeUser == true
+    val isSecureCoreEnabled get() = userData.secureCoreEnabled
 
     fun refreshServerList(networkLoader: NetworkLoader) {
         serverListUpdater.getServersList(networkLoader)
     }
 
-    data class ServersGroup(val titleRes: Int?, val servers: List<Server>, val infoKey: String? = null)
+    fun isConnectedToServer(server: Server): Boolean = vpnStateMonitor.isConnectedTo(server)
+
+    fun getServerPartnerships(server: Server): List<Partner> =
+        partnershipsRepository.getServerPartnerships(server.serverId)
+
+    data class ServersGroup(val groupTitle: ServerGroupTitle?, val servers: List<Server>) {
+        constructor(titleRes: Int, servers: List<Server>, infoType: InformationActivity.InfoType? = null) : this(
+            ServerGroupTitle(titleRes, infoType), servers
+        )
+    }
+
+    data class ServerGroupTitle(val titleRes: Int, val infoType: InformationActivity.InfoType?)
+
     fun getMappedServersForCountry(country: VpnCountry): List<ServersGroup> {
         return if (userData.secureCoreEnabled) {
             listOf(ServersGroup(null, country.connectableServers))
@@ -65,6 +82,7 @@ class CountryListViewModel @Inject constructor(
         val countryServers = country.connectableServers
             .sortedBy { it.displayCity }
             .sortedBy { it.displayCity == null } // null cities go to the end of the list
+            .sortedBy { it.isPartneshipServer } // partnership servers go to the end of the list
         val freeServers = countryServers.filter { it.isFreeServer }
         val basicServers = countryServers.filter { it.isBasicServer }
         val plusServers = countryServers.filter { it.isPlusServer }
@@ -78,22 +96,33 @@ class CountryListViewModel @Inject constructor(
         fastestServer?.let {
             groups.add(ServersGroup(R.string.listFastestServer, listOf(fastestServer)))
         }
-        val infoKey = if (serverManager.streamingServicesModel?.getForAllTiers(country.flag)?.isNotEmpty() == true)
-            country.flag else null
+
+        val freeServersInfo =
+            if (partnershipsRepository.hasAnyPartnership(country) == true)
+                InformationActivity.InfoType.Partners.Country(country.flag, userData.secureCoreEnabled)
+            else
+                null
+
+        val plusServersInfo =
+            if (serverManager.streamingServicesModel?.getForAllTiers(country.flag)?.isNotEmpty() == true)
+                InformationActivity.InfoType.Streaming(country.flag)
+            else
+                null
+
         if (currentUser.vpnUserCached()?.isFreeUser == true) {
-            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers)) }
+            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers, freeServersInfo)) }
+            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, plusServersInfo)) }
             basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
-            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, infoKey)) }
         }
         if (currentUser.vpnUserCached()?.isBasicUser == true) {
             basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
-            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers)) }
-            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, infoKey)) }
+            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers, freeServersInfo)) }
+            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, plusServersInfo)) }
         }
         if (currentUser.vpnUserCached()?.isUserPlusOrAbove == true) {
-            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, infoKey)) }
+            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, plusServersInfo)) }
             basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
-            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers)) }
+            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers, freeServersInfo)) }
         }
         return groups
     }

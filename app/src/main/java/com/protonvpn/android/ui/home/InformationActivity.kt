@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexboxLayout
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
@@ -37,16 +39,39 @@ import com.protonvpn.android.databinding.InfoHeaderBinding
 import com.protonvpn.android.databinding.InfoItemBinding
 import com.protonvpn.android.databinding.InfoServerLoadBinding
 import com.protonvpn.android.databinding.StreamingInfoBinding
+import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
+import com.protonvpn.android.utils.setTextOrGoneIfNullOrEmpty
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.parcelize.Parcelize
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.openBrowserLink
 
 @AndroidEntryPoint
 class InformationActivity : BaseActivityV2() {
+
+    sealed class InfoType : Parcelable {
+        @Parcelize
+        object Generic : InfoType()
+        @Parcelize
+        data class Streaming(val countryCode: String) : InfoType()
+
+        sealed class Partners : InfoType() {
+            @Parcelize
+            data class Server(val serverId: String) : Partners()
+
+            @Parcelize
+            data class Country(val countryCode: String, val secureCore: Boolean) : Partners()
+        }
+
+        companion object {
+            @JvmField
+            val generic: InfoType = Generic
+        }
+    }
 
     private val binding by viewBinding(ActivityInformationBinding::inflate)
     private val viewModel: InformationViewModel by viewModels()
@@ -56,11 +81,12 @@ class InformationActivity : BaseActivityV2() {
         setContentView(binding.root)
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
-        val country = intent.getStringExtra(EXTRA_COUNTRY)
-        if (country != null)
-            setupStreamingInfo(country)
-        else
-            setupGenericInfo()
+        val info = intent.getParcelableExtra<InfoType>(EXTRA_INFO_TYPE)
+        when(info) {
+            is InfoType.Generic -> setupGenericInfo()
+            is InfoType.Streaming -> setupStreamingInfo(info.countryCode)
+            is InfoType.Partners -> setupPartnershipInfo(info)
+        }
     }
 
     private fun setupGenericInfo() {
@@ -77,6 +103,30 @@ class InformationActivity : BaseActivityV2() {
         addHeader(R.string.info_performance)
         addItem(R.drawable.ic_proton_servers, R.string.server_load_title, R.string.server_load_description,
             Constants.SERVER_LOAD_INFO_URL, customViewProvider = this::createServerLoadCustomView)
+    }
+
+    private fun setupPartnershipInfo(infoType: InfoType.Partners) {
+        val partners = when(infoType) {
+            is InfoType.Partners.Server -> viewModel.getPartnersForServer(infoType.serverId)
+            is InfoType.Partners.Country -> viewModel.getPartnersForCountry(infoType.countryCode, infoType.secureCore)
+        }
+        if (partners != null) {
+            setupPartnershipInfo(partners)
+        } else {
+            snackbarHelper.errorSnack(R.string.something_went_wrong)
+            finish()
+        }
+    }
+
+    private fun setupPartnershipInfo(partners: List<Partner>) {
+        title = getString(R.string.activity_information_title)
+
+        addItem(R.drawable.ic_proton_servers, R.string.partnership_free_title, R.string.partnership_free_description)
+        viewModel.getPartnerTypes()?.forEach {
+            addItem(it.iconUrl, it.type, it.description)
+        }
+        addHeader(R.string.partnership_partners_title)
+        partners.forEach { addItem(it.iconUrl, it.name, it.description) }
     }
 
     private fun setupStreamingInfo(country: String) {
@@ -126,10 +176,27 @@ class InformationActivity : BaseActivityV2() {
     }
 
     private fun addItem(
+        iconUrl: String?,
+        titleString: String?,
+        descriptionString: String?,
+    ) {
+        val list = binding.content.listLayout
+        val infoBinding = InfoItemBinding.inflate(LayoutInflater.from(list.context), list, false)
+        with(infoBinding) {
+            Glide.with(icon).load(iconUrl)
+                .into(icon)
+
+            title.setTextOrGoneIfNullOrEmpty(titleString)
+            description.setTextOrGoneIfNullOrEmpty(descriptionString)
+        }
+        list.addView(infoBinding.root)
+    }
+
+    private fun addItem(
         @DrawableRes iconRes: Int,
         @StringRes titleRes: Int,
         @StringRes descriptionRes: Int,
-        url: String,
+        url: String? = null,
         titleString: String? = null,
         customViewProvider: ((parent: ViewGroup) -> View)? = null
     ) {
@@ -139,9 +206,11 @@ class InformationActivity : BaseActivityV2() {
             icon.setImageResource(iconRes)
             title.text = titleString ?: getString(titleRes)
             description.setText(descriptionRes)
-            learnMore.onClick {
-                openBrowserLink(url)
+            url?.let {
+                learnMore.isVisible = true
+                learnMore.onClick { openBrowserLink(url) }
             }
+
             if (customViewProvider != null) {
                 customViewContainer.isVisible = true
                 customViewContainer.addView(customViewProvider(customViewContainer))
@@ -151,13 +220,14 @@ class InformationActivity : BaseActivityV2() {
     }
 
     companion object {
-        private const val EXTRA_COUNTRY = "EXTRA_COUNTRY"
+        private const val EXTRA_INFO_TYPE = "EXTRA_INFO_TYPE"
         private val STREAMING_ICON_MARGINS = 8.toPx()
         private const val STREAMING_ICON_DIM_ALPHA = 0.3f
 
-        fun createIntent(context: Context, country: String) =
+        @JvmStatic
+        fun createIntent(context: Context, infoType: InfoType) =
             Intent(context, InformationActivity::class.java).apply {
-                putExtra(EXTRA_COUNTRY, country)
+                putExtra(EXTRA_INFO_TYPE, infoType)
             }
     }
 }

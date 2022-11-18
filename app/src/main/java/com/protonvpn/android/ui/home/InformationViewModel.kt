@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.home
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.StreamingViewModelHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,8 +31,18 @@ import javax.inject.Inject
 class InformationViewModel @Inject constructor(
     val currentUser: CurrentUser,
     override val serverManager: ServerManager,
-    override val appConfig: AppConfig
+    override val appConfig: AppConfig,
+    private val partnershipsRepository: PartnershipsRepository
 ) : ViewModel(), StreamingViewModelHelper {
 
     fun isPlusUser() = currentUser.vpnUserCached()?.isUserPlusOrAbove == true
+
+    fun getPartnerTypes() = partnershipsRepository.getPartnerTypes()
+
+    fun getPartnersForServer(serverId: String) = partnershipsRepository.getServerPartnerships(serverId)
+
+    fun getPartnersForCountry(countryCode: String, secureCore: Boolean) =
+        serverManager.getVpnExitCountry(countryCode, secureCore)?.let {
+            partnershipsRepository.getUniquePartnershipsForServers(it.serverList)
+        }
 }

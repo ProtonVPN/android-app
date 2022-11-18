@@ -64,7 +64,9 @@ open class ProtonApiRetroFit(
         netzone: String?,
         lang: String,
         protocols: List<String>
-    ) = makeCall(loader) { it.getServers(createNetZoneHeaders(netzone), lang, protocols.joinToString(",")) }
+    ) = makeCall(loader) {
+        it.getServers(createNetZoneHeaders(netzone), lang, protocols.joinToString(","), withPartners = true)
+    }
 
     open suspend fun getLoads(netzone: String?) =
         manager { getLoads(createNetZoneHeaders(netzone)) }
@@ -90,6 +92,9 @@ open class ProtonApiRetroFit(
 
     suspend fun getFeature(feature: String) =
         manager { getFeature(feature) }
+
+    open suspend fun getPartnerships() =
+        manager { getPartnerships() }
 
     open suspend fun getVPNInfo(sessionId: SessionId? = null) =
         manager(sessionId) { getVPNInfo() }

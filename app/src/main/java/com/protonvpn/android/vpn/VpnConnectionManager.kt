@@ -25,6 +25,7 @@ import android.os.PowerManager.PARTIAL_WAKE_LOCK
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.distinctUntilChanged
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
@@ -59,6 +60,10 @@ import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
@@ -116,6 +121,7 @@ class VpnConnectionManager @Inject constructor(
     private var lastUnreachable = Long.MIN_VALUE
 
     override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
+    private val lastKnownExitIp = activeBackendObservable.asFlow().flatMapLatest { it?.lastKnownExitIp ?: flowOf(null) }
 
     // State taken from active backend or from monitor when no active backend, value always != null
     private val stateInternal: LiveData<VpnState> = Transformations.switchMap(
@@ -176,12 +182,14 @@ class VpnConnectionManager @Inject constructor(
             if (it == VpnState.Connected) ProtonLogger.log(ConnConnectConnected)
         }
 
-        scope.launch {
-            vpnErrorHandler.switchConnectionFlow.collect { fallback ->
+        vpnErrorHandler.switchConnectionFlow
+            .onEach { fallback ->
                 if (vpnStateMonitor.isEstablishingOrConnected)
                     fallbackConnect(fallback)
-            }
-        }
+            }.launchIn(scope)
+        lastKnownExitIp
+            .onEach { vpnStateMonitor.updateLastKnownExitIp(it) }
+            .launchIn(scope)
         activeBackendObservable.observeForever {
             // Note: it should be CurrentVpnServiceProvider that observes activeBackendObservable but this would cause
             // dependency cycle.

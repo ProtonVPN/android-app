@@ -80,7 +80,7 @@ abstract class CountryViewHolder(
                 if (accessibleAndOnline) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
             viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
-            imageDoubleArrows.isVisible = viewModel.userData.secureCoreEnabled
+            imageDoubleArrows.isVisible = viewModel.isSecureCoreEnabled
             features.keywords = vpnCountry.getDisplayKeywords()
 
             root.setOnClickListener {

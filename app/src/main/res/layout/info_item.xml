@@ -17,22 +17,20 @@
   ~ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:layout_marginBottom="24dp"
+    android:orientation="horizontal"
     android:paddingHorizontal="@dimen/screen_padding_horizontal">
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
         tools:src="@drawable/ic_proton_globe" />
 
     <LinearLayout
@@ -46,6 +44,8 @@
             style="@style/Proton.Text.DefaultSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="8dp"
             android:textAlignment="viewStart"
             tools:text="@string/smart_routing_title" />
 
@@ -54,7 +54,6 @@
             style="@style/Proton.Text.Caption.Weak"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             tools:text="@string/smart_routing_description" />
 
@@ -73,6 +72,7 @@
             android:drawablePadding="8dp"
             android:text="@string/activity_information_learn_more"
             android:textColor="?attr/proton_text_accent"
+            android:visibility="gone"
             app:drawableEndCompat="@drawable/ic_proton_arrow_out_square_20"
             app:drawableTint="?attr/proton_icon_accent" />
     </LinearLayout>

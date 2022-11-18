@@ -50,6 +50,7 @@ import com.protonvpn.android.utils.LiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -158,17 +159,22 @@ abstract class VpnBackend(
         }
 
         override fun onStatusUpdate(status: StatusMessage) {
-            status.connectionDetails?.deviceIp?.let { clientIP ->
+            val newConnectionDetails = status.connectionDetails
+            if (newConnectionDetails != null) {
+                lastKnownExitIp.value = newConnectionDetails.serverIpv4
                 // Local Agent's ClientIP is not accurate for secure core
-                lastConnectionParams?.connectionIpv4  = status.connectionDetails.serverIpv4
-                if (lastConnectionParams?.server?.isSecureCoreServer != true && clientIP.isNotBlank())
-                    getNetZone.updateIpFromLocalAgent(clientIP)
+                if (lastConnectionParams?.server?.isSecureCoreServer != true &&
+                    !newConnectionDetails.deviceIp.isNullOrBlank()
+                ) {
+                    getNetZone.updateIpFromLocalAgent(newConnectionDetails.deviceIp)
+                }
             }
             ProtonLogger.log(LocalAgentStatus, status.toString())
         }
     }
 
     protected var lastConnectionParams: ConnectionParams? = null
+    val lastKnownExitIp = MutableStateFlow<String?>(null)
 
     abstract suspend fun prepareForConnection(
         profile: Profile,
@@ -257,8 +263,9 @@ abstract class VpnBackend(
 
     protected var vpnProtocolState: VpnState = VpnState.Disabled
         set(value) {
+            val hasChanged = field != value
             field = value
-            onVpnProtocolStateChange(value)
+            if (hasChanged) onVpnProtocolStateChange(value)
         }
 
     override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
@@ -311,8 +318,13 @@ abstract class VpnBackend(
 
     private fun onVpnProtocolStateChange(value: VpnState) {
         mainScope.launch {
-            if (value == VpnState.Connected) withContext(dispatcherProvider.Io) {
-                okHttp?.connectionPool?.evictAll()
+            if (value == VpnState.Connected) {
+                withContext(dispatcherProvider.Io) {
+                    okHttp?.connectionPool?.evictAll()
+                }
+                lastKnownExitIp.value = lastConnectionParams?.connectingDomain?.getExitIP()
+            } else {
+                lastKnownExitIp.value = null
             }
             processCombinedState(value, agent?.state)
         }

@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.transition.ChangeBounds
 import androidx.transition.ChangeClipBounds
 import androidx.transition.ChangeImageTransform
@@ -145,9 +146,9 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
             }
         }
 
-        viewModel.vpnStatus.observe(viewLifecycleOwner, Observer {
+        viewModel.vpnStatus.asLiveData().observe(viewLifecycleOwner) {
             updateButtons()
-        })
+        }
     }
 
     private fun navigateToServerList() {

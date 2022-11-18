@@ -109,7 +109,6 @@ class ServerManager @Inject constructor(
     /** Get the number of all servers. Not very efficient. */
     val allServerCount get() = allServers.count()
 
-
     val defaultFallbackConnection = getSavedProfiles()[0]
 
     val defaultConnection: Profile get() = findDefaultProfile() ?: getSavedProfiles().first()

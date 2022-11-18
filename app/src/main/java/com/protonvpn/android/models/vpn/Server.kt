@@ -35,6 +35,7 @@ const val SERVER_FEATURE_P2P = 4
 const val SERVER_FEATURE_STREAMING = 8
 const val SERVER_FEATURE_IPV6 = 16
 const val SERVER_FEATURE_RESTRICTED = 32
+const val SERVER_FEATURE_PARTNER_SERVER = 64
 
 @Serializable
 data class Server(
@@ -66,7 +67,7 @@ data class Server(
     private val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(exitCountry)
 
     enum class Keyword {
-        P2P, TOR, STREAMING, SMART_ROUTING
+        P2P, TOR, STREAMING, SMART_ROUTING, PARTNERSHIP
     }
 
     val keywords: List<Keyword> get() = mutableListOf<Keyword>().apply {
@@ -78,6 +79,8 @@ data class Server(
             add(Keyword.STREAMING)
         if (features.hasFlag(SERVER_FEATURE_RESTRICTED))
             add(Keyword.SMART_ROUTING)
+        if (features.hasFlag(SERVER_FEATURE_PARTNER_SERVER))
+            add(Keyword.PARTNERSHIP)
     }
 
     val isTor get() = features.hasFlag(SERVER_FEATURE_TOR)
@@ -109,6 +112,9 @@ data class Server(
 
     val isSecureCoreServer: Boolean
         get() = features.hasFlag(SERVER_FEATURE_SECURE_CORE)
+
+    val isPartneshipServer: Boolean
+        get() = features.hasFlag(SERVER_FEATURE_PARTNER_SERVER)
 
     fun getCityTranslation() = translations?.get("City")
     val displayCity get() = getCityTranslation() ?: city
