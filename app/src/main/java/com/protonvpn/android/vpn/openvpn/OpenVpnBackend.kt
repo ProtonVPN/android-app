@@ -23,6 +23,7 @@ import android.content.Intent
 import android.os.Build
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
@@ -51,7 +52,6 @@ import de.blinkt.openvpn.core.VpnStatus
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
-import me.proton.core.util.kotlin.DispatcherProvider
 import okhttp3.OkHttpClient
 import java.util.Random
 import javax.inject.Inject
@@ -66,7 +66,7 @@ class OpenVpnBackend @Inject constructor(
     appConfig: AppConfig,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope,
-    dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: VpnDispatcherProvider,
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
