@@ -23,6 +23,7 @@ import com.proton.gopenpgp.localAgent.LocalAgent
 import com.proton.gopenpgp.localAgent.StatusMessage
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
@@ -42,7 +43,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import me.proton.core.network.domain.NetworkManager
-import me.proton.core.util.kotlin.DispatcherProvider
 
 typealias MockAgentProvider = (
     certInfo: CertificateRepository.CertificateResult.Success,
@@ -52,7 +52,7 @@ typealias MockAgentProvider = (
 
 class MockVpnBackend(
     val scope: CoroutineScope,
-    dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: VpnDispatcherProvider,
     networkManager: NetworkManager,
     certificateRepository: CertificateRepository,
     userData: UserData,

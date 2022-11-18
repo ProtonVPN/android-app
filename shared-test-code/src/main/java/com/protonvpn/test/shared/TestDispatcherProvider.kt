@@ -19,11 +19,12 @@
 
 package com.protonvpn.test.shared
 
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
-import me.proton.core.util.kotlin.DispatcherProvider
 
-class TestDispatcherProvider(testDispatcher: CoroutineDispatcher) : DispatcherProvider {
+class TestDispatcherProvider(testDispatcher: CoroutineDispatcher) : VpnDispatcherProvider {
     override val Io: CoroutineDispatcher = testDispatcher
+    override val infiniteIo: CoroutineDispatcher = testDispatcher
     override val Comp: CoroutineDispatcher = testDispatcher
     override val Main: CoroutineDispatcher = testDispatcher
 }

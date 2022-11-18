@@ -164,7 +164,7 @@ class MockAppModule {
     @Provides
     fun provideVpnBackendManager(
         scope: CoroutineScope,
-        dispatcherProvider: DispatcherProvider,
+        dispatcherProvider: VpnDispatcherProvider,
         appConfig: AppConfig,
         networkManager: NetworkManager,
         certificateRepository: CertificateRepository,

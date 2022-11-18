@@ -29,6 +29,7 @@ import com.proton.gopenpgp.localAgent.NativeClient
 import com.proton.gopenpgp.localAgent.StatusMessage
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.LocalAgentError
 import com.protonvpn.android.logging.LocalAgentStateChanged
@@ -58,7 +59,6 @@ import kotlinx.coroutines.yield
 import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
-import me.proton.core.util.kotlin.DispatcherProvider
 import okhttp3.OkHttpClient
 
 data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
@@ -98,7 +98,7 @@ abstract class VpnBackend(
     private val networkManager: NetworkManager,
     val vpnProtocol: VpnProtocol,
     val mainScope: CoroutineScope,
-    val dispatcherProvider: DispatcherProvider,
+    val dispatcherProvider: VpnDispatcherProvider,
     val localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     val currentUser: CurrentUser,
     val getNetZone: GetNetZone,

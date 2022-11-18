@@ -22,6 +22,7 @@ package com.protonvpn.android.vpn.wireguard
 import android.content.Context
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
@@ -58,7 +59,6 @@ import kotlinx.coroutines.withContext
 import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
-import me.proton.core.util.kotlin.DispatcherProvider
 import okhttp3.OkHttpClient
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -75,7 +75,7 @@ class WireguardBackend @Inject constructor(
     userData: UserData,
     appConfig: AppConfig,
     certificateRepository: CertificateRepository,
-    dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: VpnDispatcherProvider,
     mainScope: CoroutineScope,
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
@@ -158,7 +158,7 @@ class WireguardBackend @Inject constructor(
     }
 
     private suspend fun startMonitoringJob() {
-        monitoringJob = mainScope.launch(dispatcherProvider.Io) {
+        monitoringJob = mainScope.launch(dispatcherProvider.infiniteIo) {
             ProtonLogger.logCustom(LogCategory.CONN_WIREGUARD, "start monitoring job")
             val networkJob = launch(dispatcherProvider.Main) {
                 networkManager.observe().collect { status ->
