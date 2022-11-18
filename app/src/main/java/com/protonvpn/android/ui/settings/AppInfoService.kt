@@ -19,13 +19,19 @@
 
 package com.protonvpn.android.ui.settings
 
-import android.app.IntentService
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.os.Handler
+import android.os.IBinder
+import android.os.Looper
+import android.os.Message
+import android.os.Messenger
 import android.util.Log
 import com.protonvpn.android.utils.Constants
 import kotlinx.coroutines.CoroutineScope
@@ -33,28 +39,46 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.io.ByteArrayOutputStream
 
 private const val WEBP_QUALITY = 70
 
-@Suppress("Deprecation")
-class AppInfoService : IntentService("AppInfoService") {
+class AppInfoService : Service() {
 
-    @Suppress("TooGenericExceptionCaught", "TooGenericExceptionThrown")
-    override fun onHandleIntent(intent: Intent?) {
+    private val messenger = Messenger(IncomingHandler())
+
+    override fun onBind(intent: Intent?): IBinder? {
+        return messenger.binder
+    }
+
+    private inner class IncomingHandler : Handler(Looper.myLooper()!!) {
+        override fun handleMessage(msg: Message) {
+            when(msg.what) {
+                MESSAGE_TYPE_REQUEST_APPS -> {
+                    val packageNames = msg.data.getStringArray(EXTRA_PACKAGE_NAME_LIST) ?: return
+                    val iconSizePx = msg.data.getInt(EXTRA_ICON_SIZE, 48)
+
+                    val replyTo = msg.replyTo // msg will be recycled before data is ready, store replyTo.
+                    processRequest(packageNames) { appMetaData ->
+                        val reply = Message.obtain(this, MESSAGE_TYPE_APP_INFO).apply {
+                            data = createResultBundle(appMetaData, iconSizePx)
+                        }
+                        replyTo.send(reply)
+                    }
+                }
+                else -> super.handleMessage(msg)
+            }
+        }
+    }
+
+    @Suppress("TooGenericExceptionCaught")
+    private fun processRequest(packageNames: Array<String>, sendResult: (AppMetaData) -> Unit) {
         try {
-            val packageNames = intent?.getStringArrayExtra(EXTRA_PACKAGE_NAME_LIST) ?: return
-            val iconSizePx = intent.getIntExtra(EXTRA_ICON_SIZE, 48)
-            val requestCode = intent.getLongExtra(EXTRA_REQUEST_CODE, 0)
-
-            Log.i(Constants.SECONDARY_PROCESS_TAG, "Request $requestCode for ${packageNames.size}")
             val scope = CoroutineScope(Dispatchers.Default)
             val appMetaDataChannel = Channel<AppMetaData>(10)
-            val processAndSendJob = scope.launch {
+            scope.launch {
                 for (appMetaData in appMetaDataChannel) {
-                    val resultIntent = createResultIntent(appMetaData, iconSizePx, requestCode)
-                    sendBroadcast(resultIntent)
+                    sendResult(appMetaData)
                 }
             }
 
@@ -63,10 +87,6 @@ class AppInfoService : IntentService("AppInfoService") {
             }
 
             appMetaDataChannel.close()
-
-            runBlocking {
-                processAndSendJob.join()
-            }
         } catch (e: Throwable) {
             Log.i(Constants.SECONDARY_PROCESS_TAG, "Exception while reading app metadata", e)
             throw e
@@ -88,14 +108,12 @@ class AppInfoService : IntentService("AppInfoService") {
             AppMetaData(pkgName, pkgName, null)
         }
 
-    private fun createResultIntent(appMetaData: AppMetaData, iconSizePx: Int, requestCode: Long): Intent =
-        Intent(RESULT_ACTION).apply {
-            setPackage(getPackageName())
-            putExtra(EXTRA_REQUEST_CODE, requestCode)
-            putExtra(EXTRA_PACKAGE_NAME, appMetaData.packageName)
-            putExtra(EXTRA_APP_LABEL, appMetaData.label)
+    private fun createResultBundle(appMetaData: AppMetaData, iconSizePx: Int): Bundle =
+        Bundle().apply {
+            putString(EXTRA_PACKAGE_NAME, appMetaData.packageName)
+            putString(EXTRA_APP_LABEL, appMetaData.label)
             if (appMetaData.iconDrawable != null) {
-                putExtra(EXTRA_APP_ICON, compressIcon(appMetaData.iconDrawable, iconSizePx))
+                putByteArray(EXTRA_APP_ICON, compressIcon(appMetaData.iconDrawable, iconSizePx))
             }
         }
 
@@ -113,21 +131,20 @@ class AppInfoService : IntentService("AppInfoService") {
     }
 
     companion object {
+        private const val MESSAGE_TYPE_REQUEST_APPS = 1
+        const val MESSAGE_TYPE_APP_INFO = 2
         private const val EXTRA_PACKAGE_NAME_LIST = "package names"
         private const val EXTRA_ICON_SIZE = "icon size"
-        const val RESULT_ACTION = "app info action"
         const val EXTRA_PACKAGE_NAME = "package name"
         const val EXTRA_APP_LABEL = "app label"
         const val EXTRA_APP_ICON = "app icon"
-        const val EXTRA_REQUEST_CODE = "request code"
 
-        fun createIntent(context: Context, packageNames: List<String>, iconSizePx: Int, requestCode: Long) =
-            Intent(context, AppInfoService::class.java).apply {
-                putExtra(EXTRA_PACKAGE_NAME_LIST, packageNames.toTypedArray())
-                putExtra(EXTRA_ICON_SIZE, iconSizePx)
-                putExtra(EXTRA_REQUEST_CODE, requestCode)
-            }
+        fun createRequestMessage(packageNames: List<String>, iconSizePx: Int): Message = Message.obtain().apply {
+            what = MESSAGE_TYPE_REQUEST_APPS
+            data.putStringArray(EXTRA_PACKAGE_NAME_LIST, packageNames.toTypedArray())
+            data.putInt(EXTRA_ICON_SIZE, iconSizePx)
+        }
 
-        fun createStopIntent(context: Context) = Intent(context, AppInfoService::class.java)
+        fun createIntent(context: Context) = Intent(context, AppInfoService::class.java)
     }
 }
