@@ -324,6 +324,11 @@ class VpnConnectionManager @Inject constructor(
         var preparedConnection =
             backendProvider.prepareConnection(protocol, profile, server, alwaysScan = hasNetwork)
         if (preparedConnection == null) {
+            if (profile.isGuestHoleProfile) {
+                // If scanning failed for GH, just try another server to speed things up.
+                setSelfState(VpnState.Error(ErrorType.GENERIC_ERROR))
+                return
+            }
             val fallbackProtocol = if (protocol.vpn == VpnProtocol.Smart)
                 getFallbackSmartProtocol(server) else protocol
             ProtonLogger.logCustom(
