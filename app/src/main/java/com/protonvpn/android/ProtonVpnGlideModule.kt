@@ -22,6 +22,7 @@ package com.protonvpn.android
 import android.content.Context
 import com.airbnb.lottie.LottieCompositionFactory
 import com.airbnb.lottie.LottieDrawable
+import com.airbnb.lottie.utils.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
@@ -41,7 +42,7 @@ import com.bumptech.glide.module.AppGlideModule
 import java.io.IOException
 import java.io.InputStream
 
-class StreamLottieDecoder : ResourceDecoder<InputStream, LottieDrawable> {
+class StreamLottieDecoder(private val appContext: Context) : ResourceDecoder<InputStream, LottieDrawable> {
     override fun handles(source: InputStream, options: Options): Boolean = true
 
     override fun decode(source: InputStream, width: Int, height: Int, options: Options): Resource<LottieDrawable> {
@@ -58,6 +59,7 @@ class StreamLottieDecoder : ResourceDecoder<InputStream, LottieDrawable> {
             return LottieDrawable().apply {
                 composition = result.value
                 repeatCount = LottieDrawable.INFINITE
+                setSystemAnimationsAreEnabled(Utils.getAnimationScale(appContext) != 0f)
             }
         } else {
             throw result.exception!!
@@ -106,7 +108,7 @@ class ProtonVpnGlideModule : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         registry
-            .append(InputStream::class.java, LottieDrawable::class.java, StreamLottieDecoder())
+            .append(InputStream::class.java, LottieDrawable::class.java, StreamLottieDecoder(context))
 
         if (BuildConfig.BLACK_TOKEN.isNotBlank()) {
             registry.prepend(String::class.java, InputStream::class.java, BlackGlideUrlLoader.Factory())
