@@ -30,12 +30,14 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.auth.VpnUserCheck
 import com.protonvpn.android.auth.usecase.OnSessionClosed
+import com.protonvpn.android.auth.usecase.VpnLogin.Companion.GUEST_HOLE_ID
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -94,8 +96,10 @@ class AccountViewModel @Inject constructor(
             .flowWithLifecycle(activity.lifecycle)
             .onEach { accounts ->
                 when {
-                    accounts.isEmpty() || accounts.all { it.isDisabled() || it.state == AccountState.Removed } ->
+                    accounts.isEmpty() || accounts.all { it.isDisabled() || it.state == AccountState.Removed } -> {
+                        guestHole.get().acquireNeedGuestHole(GUEST_HOLE_ID)
                         _state.emit(State.LoginNeeded)
+                    }
                     accounts.any { it.isReady() } ->
                         _state.emit(State.Ready)
                     else ->
@@ -109,9 +113,12 @@ class AccountViewModel @Inject constructor(
 
         with(authOrchestrator) {
             onAddAccountResult { result ->
-                if (result == null)
-                    onAddAccountClosed?.invoke()
-                else if (result.workflow == AddAccountWorkflow.SignUp)
+                if (result == null) {
+                    viewModelScope.launch {
+                        guestHole.get().releaseNeedGuestHole(GUEST_HOLE_ID)
+                        onAddAccountClosed?.invoke()
+                    }
+                } else if (result.workflow == AddAccountWorkflow.SignUp)
                     Storage.saveString(OnboardingPreferences.ONBOARDING_USER_ID, result.userId)
             }
             accountManager.observe(activity.lifecycle, minActiveState = Lifecycle.State.CREATED)
@@ -120,6 +127,12 @@ class AccountViewModel @Inject constructor(
                 .onAccountCreateAddressFailed { accountManager.disableAccount(it.userId) }
                 .onUserKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER, "UserKeyCheckFailed") }
                 .onUserAddressKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER,"UserAddressKeyCheckFailed") }
+        }
+    }
+
+    override fun onCleared() {
+        viewModelScope.launch(NonCancellable) {
+            guestHole.get().releaseNeedGuestHole(GUEST_HOLE_ID)
         }
     }
 
