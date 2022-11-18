@@ -42,8 +42,10 @@ open class ConnectionParams(
 
     open val info get() = "IP: ${connectingDomain?.entryDomain}/$entryIp Protocol: $protocol"
 
+    var connectionIpv4: String? = null
+
     val exitIpAddress: String?
-        get() = connectingDomain?.getExitIP()
+        get() = connectionIpv4 ?: connectingDomain?.getExitIP()
 
     val protocolSelection get() = protocol?.let { ProtocolSelection(it, transmissionProtocol) }
 
