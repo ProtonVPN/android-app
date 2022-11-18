@@ -91,7 +91,12 @@ class ConnectionParamsWireguard(
 
         val iface = Interface.Builder()
             .parseAddresses("10.2.0.2/32")
-            .excludeApplications(excludedApps)
+            .apply {
+                if (profile.isGuestHoleProfile)
+                    includeApplication(context.packageName)
+                else
+                    excludeApplications(excludedApps)
+            }
             .parseDnsServers("10.2.0.1")
             .parsePrivateKey(certificateRepository.getX25519Key(sessionId))
             .build()
