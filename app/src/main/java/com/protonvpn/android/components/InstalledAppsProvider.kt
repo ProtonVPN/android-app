@@ -20,14 +20,18 @@
 package com.protonvpn.android.components
 
 import android.Manifest
-import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.os.Handler
+import android.os.IBinder
+import android.os.Looper
+import android.os.Message
+import android.os.Messenger
 import com.protonvpn.android.ui.settings.AppInfoService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
@@ -83,7 +87,6 @@ class InstalledAppsProvider @Inject constructor(
             }
         }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun getAppInfos(iconSizePx: Int, packages: List<String>): List<AppInfo> {
         val channel = getAppInfosChannel(appContext, iconSizePx, packages)
         val results = ArrayList<AppInfo>(packages.size)
@@ -116,44 +119,59 @@ class InstalledAppsProvider @Inject constructor(
         iconSizePx: Int,
         packages: List<String>
     ): Channel<AppInfo> {
-        val requestCode = getRequestCode()
         // The channel should not need much capacity but it doesn't hurt to have enough for the
         // worst possible case.
         val resultsChannel = Channel<AppInfo>(capacity = packages.size)
-        var resultCount = 0
-        val receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                val resultRequestCode = intent.getLongExtra(AppInfoService.EXTRA_REQUEST_CODE, 0)
-                if (resultRequestCode != requestCode)
-                    return
+        val connection = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                val outMessenger = Messenger(service)
+                val inMessenger = Messenger(IncomingHandler(context, packages, resultsChannel))
+                val message = AppInfoService.createRequestMessage(packages, iconSizePx).apply {
+                    replyTo = inMessenger
+                }
+                outMessenger.send(message)
+            }
 
-                val packageName = intent.getStringExtra(AppInfoService.EXTRA_PACKAGE_NAME) ?: return
-                val name = intent.getStringExtra(AppInfoService.EXTRA_APP_LABEL) ?: packageName
-                val iconBytes = intent.getByteArrayExtra(AppInfoService.EXTRA_APP_ICON)
-                val iconDrawable =
-                    if (iconBytes != null) {
-                        val iconBitmap = BitmapFactory.decodeByteArray(iconBytes, 0, iconBytes.size)
-                        BitmapDrawable(context.resources, iconBitmap)
-                    } else {
-                        context.packageManager.defaultActivityIcon
-                    }
-                resultsChannel.trySend(AppInfo(packageName, name, iconDrawable))
-                if (++resultCount == packages.size)
-                    resultsChannel.close()
+            override fun onServiceDisconnected(name: ComponentName?) {
+                resultsChannel.close()
             }
         }
-
-        context.registerReceiver(receiver, IntentFilter(AppInfoService.RESULT_ACTION))
+        context.bindService(
+            AppInfoService.createIntent(context), connection, Context.BIND_AUTO_CREATE or Context.BIND_IMPORTANT
+        )
         resultsChannel.invokeOnClose {
-            context.unregisterReceiver(receiver)
+            context.unbindService(connection)
         }
-        context.startService(AppInfoService.createIntent(context, packages, iconSizePx, requestCode))
         return resultsChannel
     }
 
-    companion object {
-        private var requestCode = 0L
+    private inner class IncomingHandler(
+        private val context: Context,
+        private val packages: List<String>,
+        private val resultsChannel: Channel<AppInfo>
+    ) : Handler(Looper.myLooper()!!) {
 
-        private fun getRequestCode() = ++requestCode
+        private var resultCount = 0
+
+        override fun handleMessage(msg: Message) {
+            when(msg.what) {
+                AppInfoService.MESSAGE_TYPE_APP_INFO -> {
+                    val packageName = msg.data.getString(AppInfoService.EXTRA_PACKAGE_NAME) ?: return
+                    val name = msg.data.getString(AppInfoService.EXTRA_APP_LABEL) ?: packageName
+                    val iconBytes = msg.data.getByteArray(AppInfoService.EXTRA_APP_ICON)
+                    val iconDrawable =
+                        if (iconBytes != null) {
+                            val iconBitmap = BitmapFactory.decodeByteArray(iconBytes, 0, iconBytes.size)
+                            BitmapDrawable(context.resources, iconBitmap)
+                        } else {
+                            context.packageManager.defaultActivityIcon
+                        }
+                    resultsChannel.trySend(AppInfo(packageName, name, iconDrawable))
+                    if (++resultCount == packages.size)
+                        resultsChannel.close()
+                }
+                else -> super.handleMessage(msg)
+            }
+        }
     }
 }
