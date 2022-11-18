@@ -21,6 +21,7 @@ package com.protonvpn.android.auth.usecase
 
 import android.content.Context
 import com.protonvpn.android.R
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
@@ -49,7 +50,8 @@ class VpnLogin @Inject constructor(
     val currentUser: CurrentUser,
     val purchaseEnabled: CachedPurchaseEnabled,
     val appConfig: AppConfig,
-    val serverListUpdater: ServerListUpdater
+    val serverListUpdater: ServerListUpdater,
+    val guestHole: GuestHole
 ) {
     sealed class Result {
         class Success(val vpnUser: VpnUser) : Result()
@@ -110,11 +112,15 @@ class VpnLogin @Inject constructor(
         }
         serverListUpdater.updateLocationIfVpnOff()
         appConfig.forceUpdate()
+        if (guestHole.isGuestHoleActive)
+            serverListUpdater.getServersList(null).join()
+        guestHole.releaseNeedGuestHole(GUEST_HOLE_ID)
     }
 
     companion object {
         const val ONBOARDING_SHOW_CONNECT_FEATURE = "OnboardingShowFirstConnection"
         private const val ERROR_CODE_NO_CONNECTIONS_ASSIGNED = 86_300
+        const val GUEST_HOLE_ID = "LOGIN_SIGNUP"
     }
 }
 

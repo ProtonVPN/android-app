@@ -54,6 +54,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.builtins.ListSerializer
 import me.proton.core.network.domain.serverconnection.DohAlternativesListener
 import me.proton.core.util.kotlin.DispatcherProvider
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -71,8 +72,33 @@ class GuestHole @Inject constructor(
     private val foregroundActivityTracker: ForegroundActivityTracker
 ) : DohAlternativesListener {
 
+    private var waitingForUnblock = false
     private var lastGuestHoleServer: Server? = null
     var job: Job? = null
+
+    // Guest hole be kept open until this is empty
+    class GuestHoleLocks {
+        private val locks = mutableSetOf<String>()
+        fun clear() = locks.clear()
+        fun locked() = locks.isNotEmpty()
+        fun acquire(id: String) = locks.add(id)
+        fun release(id: String): Boolean {
+            locks.remove(id)
+            return locks.isEmpty()
+        }
+    }
+    private val guestHoleLocks = GuestHoleLocks()
+
+    val isGuestHoleActive: Boolean get() = vpnMonitor.connectionProfile?.isGuestHoleProfile == true
+
+    fun acquireNeedGuestHole(id: String) {
+        guestHoleLocks.acquire(id)
+    }
+
+    suspend fun releaseNeedGuestHole(id: String) {
+        if (guestHoleLocks.release(id) && !waitingForUnblock)
+            closeGuestHole()
+    }
 
     private fun getGuestHoleServers(): List<Server> {
         lastGuestHoleServer?.let {
@@ -118,6 +144,19 @@ class GuestHole @Inject constructor(
 
     @WorkerThread
     override suspend fun onAlternativesUnblock(alternativesBlockCall: suspend () -> Unit) {
+        unblock(alternativesBlockCall)
+    }
+
+    override suspend fun onProxiesFailed() {
+        withContext(dispatcherProvider.Main) {
+            val keepGuestHole = guestHoleLocks.locked()
+            logMessage("alternatives failed, keepGuestHole=$keepGuestHole")
+            if (keepGuestHole)
+                unblock(null)
+        }
+    }
+
+    private suspend fun unblock(backendCall: (suspend () -> Unit)?) {
         if (!vpnMonitor.isDisabled) {
             logMessage("Ignoring Guest-hole on VPN connection")
             return
@@ -134,9 +173,10 @@ class GuestHole @Inject constructor(
                 // Ask for permissions and if granted execute original method and return it back to core
                 if (currentActivity.suspendForPermissions(intent)) {
                     withTimeoutOrNull(GUEST_HOLE_ATTEMPT_TIMEOUT) {
-                        unblockCall(delegate, alternativesBlockCall)
+                        unblockWithPermission(delegate, backendCall)
                     }
                 } else {
+                    guestHoleLocks.clear()
                     logMessage("Missing permissions")
                 }
             }
@@ -144,10 +184,11 @@ class GuestHole @Inject constructor(
         }
     }
 
-    private suspend fun unblockCall(
+    private suspend fun unblockWithPermission(
         delegate: VpnUiActivityDelegate,
-        backendCall: suspend () -> Unit
+        backendCall: (suspend () -> Unit)?
     ) {
+        waitingForUnblock = backendCall != null
         val userActionJob = scope.launch {
             merge(vpnMonitor.onDisconnectedByUser, vpnMonitor.onDisconnectedByReconnection).collect {
                 job?.let {
@@ -166,23 +207,42 @@ class GuestHole @Inject constructor(
                     // Add slight delay before retrying original call to avoid network timeout right after connection
                     delay(500)
                     lastGuestHoleServer = server
-                    backendCall()
-                    logMessage("Successful DOH alternatives unblock")
+                    backendCall?.invoke()
+                    logMessage("Successful unblock")
                 }
             }
         } finally {
-            logMessage("Disconnecting")
-            if (!vpnMonitor.isDisabled) {
-                withContext(NonCancellable) {
-                    vpnConnectionManager.get().disconnectSync("guest hole call completed")
-                }
+            waitingForUnblock = false
+            if (!(isGuestHoleActive && vpnMonitor.isConnected)) {
+                // If Guest Hole failed don't start it for next call
+                guestHoleLocks.clear()
+                lastGuestHoleServer = null
             }
+            if (!guestHoleLocks.locked())
+                closeGuestHole()
             userActionJob.cancel()
+        }
+    }
+
+    private suspend fun closeGuestHole() {
+        if (isGuestHoleActive) withContext(NonCancellable) {
+            logMessage("Disconnecting")
+            vpnConnectionManager.get().disconnectSync("guest hole call completed")
         }
     }
 
     private fun logMessage(message: String) {
         ProtonLogger.logCustom(LogCategory.CONN_GUEST_HOLE, message)
+    }
+
+    suspend fun <T> runWithGuestHoleFallback(block: suspend () -> T): T {
+        val id = UUID.randomUUID().toString()
+        acquireNeedGuestHole(id)
+        try {
+            return block()
+        } finally {
+            releaseNeedGuestHole(id)
+        }
     }
 
     companion object {

@@ -23,12 +23,14 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.R
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.LoginResponse
@@ -72,6 +74,7 @@ class TvLoginViewModel @Inject constructor(
     override val serverManager: ServerManager,
     val certificateRepository: CertificateRepository,
     val accountManager: AccountManager,
+    val guestHole: GuestHole,
     @TvLoginPollDelayMs val pollDelayMs: Long = POLL_DELAY_MS,
     @ElapsedRealtimeClock private val monoClockMs: () -> Long
 ) : ViewModel(), StreamingViewModelHelper {
@@ -191,8 +194,10 @@ class TvLoginViewModel @Inject constructor(
         serverListUpdater.updateLocationIfVpnOff()
         appConfig.forceUpdate()
         when (val result = serverListUpdater.updateServerList()) {
-            is ApiResult.Success ->
+            is ApiResult.Success -> {
+                guestHole.releaseNeedGuestHole(VpnLogin.GUEST_HOLE_ID)
                 state.value = TvLoginViewState.Success
+            }
             is ApiResult.Error ->
                 state.value = result.toLoginError()
         }

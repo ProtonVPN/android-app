@@ -20,6 +20,7 @@
 package com.protonvpn.app.tv.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
@@ -82,6 +83,8 @@ class TvLoginViewModelTests {
     private lateinit var vpnUserDao: VpnUserDao
     @RelaxedMockK
     private lateinit var accountManager: AccountManager
+    @RelaxedMockK
+    private lateinit var guestHole: GuestHole
 
     private val selector = "selector"
     private val forkedSessionResponse = ForkedSessionResponse(
@@ -119,7 +122,8 @@ class TvLoginViewModelTests {
     @Test
     fun successfulLogin() = runTest {
         val viewModel = TvLoginViewModel(this, userData, currentUser, vpnUserDao, appConfig, api,
-            serverListUpdater, serverManager, certificateRepository, accountManager, monoClockMs = { currentTime })
+            serverListUpdater, serverManager, certificateRepository, accountManager, monoClockMs = { currentTime },
+            guestHole = guestHole)
         val insertedVpnUser = slot<VpnUser>()
         coEvery { vpnUserDao.insertOrUpdate(capture(insertedVpnUser)) } returns Unit
 
@@ -142,7 +146,8 @@ class TvLoginViewModelTests {
     @Test
     fun vpnConnectionAllocationNeeded() = runTest {
         val viewModel = TvLoginViewModel(this, userData, currentUser, vpnUserDao, appConfig, api,
-            serverListUpdater, serverManager, certificateRepository, accountManager, monoClockMs = { currentTime })
+            serverListUpdater, serverManager, certificateRepository, accountManager, monoClockMs = { currentTime },
+            guestHole = guestHole)
         coEvery { api.getVPNInfo(any()) } returns ApiResult.Success(noConnectionsVpnInfoResponse)
         viewModel.startLogin(this)
         advanceUntilIdle()
