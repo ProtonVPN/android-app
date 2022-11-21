@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Proton Technologies AG
+ * Copyright (c) 2022. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,10 +17,9 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.testsTv.login
+package com.protonvpn.app.tv.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.filters.SdkSuppress
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
@@ -59,7 +58,6 @@ import org.junit.Test
 import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@SdkSuppress(minSdkVersion = 28) // Mocking final classes doesn't work on older API levels.
 class TvLoginViewModelTests : CoroutinesTest {
 
     val scope = TestCoroutineScope()
