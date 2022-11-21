@@ -33,7 +33,7 @@ import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
-import me.proton.core.test.android.plugins.data.User
+import me.proton.core.test.quark.data.User
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
