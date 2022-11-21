@@ -682,6 +682,8 @@ dependencies {
     implementation "me.proton.core:util-android-dagger:$core_version"
     implementation "me.proton.core:util-android-shared-preferences:$core_version"
 
+    androidTestImplementation "me.proton.core:test-quark:$core_version"
+
     testImplementation("me.proton.core:test-kotlin:$core_version") {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
