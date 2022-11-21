@@ -36,8 +36,6 @@ import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.sentry.Sentry
-import io.sentry.SentryEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -51,7 +49,6 @@ import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.presentation.observe
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressFailed
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressNeeded
-import me.proton.core.accountmanager.presentation.onSessionForceLogout
 import me.proton.core.accountmanager.presentation.onSessionSecondFactorNeeded
 import me.proton.core.accountmanager.presentation.onUserAddressKeyCheckFailed
 import me.proton.core.accountmanager.presentation.onUserKeyCheckFailed
@@ -121,10 +118,6 @@ class AccountViewModel @Inject constructor(
                 .onSessionSecondFactorNeeded { startSecondFactorWorkflow(it) }
                 .onAccountCreateAddressNeeded { startChooseAddressWorkflow(it) }
                 .onAccountCreateAddressFailed { accountManager.disableAccount(it.userId) }
-                .onSessionForceLogout {
-                    Sentry.captureEvent(SentryEvent(Throwable("Session closed event")))
-                    onSessionClosed(it)
-                }
                 .onUserKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER, "UserKeyCheckFailed") }
                 .onUserAddressKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER,"UserAddressKeyCheckFailed") }
         }

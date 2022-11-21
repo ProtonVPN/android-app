@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.datatheorem.android.trustkit.TrustKit;
 import com.evernote.android.state.StateSaver;
 import com.getkeepsafe.relinker.ReLinker;
+import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout;
 import com.protonvpn.android.auth.usecase.CoreLoginMigration;
 import com.protonvpn.android.components.RestartHandler;
 import com.protonvpn.android.logging.CurrentStateLogger;
@@ -90,6 +91,7 @@ public class ProtonApplication extends Application {
     interface DependencyEntryPoints {
         AccountStateHandler getAccountStateHandler();
         CertificateRepository getCertificateRepository();
+        CloseSessionOnForceLogout getCloseSessionOnForceLogout();
         CoreLoginMigration getCoreLoginMigration();
         CurrentStateLogger getCurrentStateLogger();
         HumanVerificationStateHandler getHumanVerificationStateHandler();
@@ -149,11 +151,12 @@ public class ProtonApplication extends Application {
         dependencies.getPowerStateLogger();
         dependencies.getSettingChangesLogger();
 
-        dependencies.getReviewTracker();
         dependencies.getAccountStateHandler().start();
         dependencies.getCertificateRepository();
+        dependencies.getCloseSessionOnForceLogout();
         dependencies.getHumanVerificationStateHandler().observe();
         dependencies.getMaintenanceTracker();
+        dependencies.getReviewTracker();
         dependencies.getUpdateSecureCoreToMatchConnectedServer();
         dependencies.getUpdateServersOnLocaleChange();
         dependencies.getUpdateSettingsOnVpnUserChange();
