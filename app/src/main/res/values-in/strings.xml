@@ -263,7 +263,7 @@
     <string name="loaderAuthenticatingUser">Mengotentikasi pengguna…</string>
     <string name="loaderErrorNoInternet">Tidak ada koneksi internet</string>
     <string name="loaderErrorGeneric">Ada yang salah</string>
-    <string name="loaderLoadingServers">Memuat server…</string>
+    <string name="loaderLoadingServers">Memuat daftar server…</string>
     <string name="inputIpAddressLabel">Alamat IP</string>
     <string name="inputIpAddressHint">Tulis alamat IP</string>
     <string name="inputIpAddressErrorInvalid">Alamat IP tidak valid</string>
