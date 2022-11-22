@@ -51,6 +51,9 @@ class HomeRobot : BaseRobot() {
     fun clickOnDrawerMenuAccountOption(): AccountRobot =
         selectDrawerMenuOption(R.id.drawerButtonAccount)
 
+    fun clickOnDrawerMenuReportBugOption(): BugReportRobot =
+        selectDrawerMenuOption(R.id.drawerButtonReportBug)
+
     fun clickOnDrawerMenuShowLogOption(): HomeRobot =
         selectDrawerMenuOption(R.id.drawerButtonShowLog)
 
