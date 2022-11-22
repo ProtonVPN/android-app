@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.tv.login
 
-import android.os.SystemClock
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,6 +29,7 @@ import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
@@ -73,6 +73,7 @@ class TvLoginViewModel @Inject constructor(
     val certificateRepository: CertificateRepository,
     val accountManager: AccountManager,
     @TvLoginPollDelayMs val pollDelayMs: Long = POLL_DELAY_MS,
+    @ElapsedRealtimeClock private val monoClockMs: () -> Long
 ) : ViewModel(), StreamingViewModelHelper {
 
     val state = MutableLiveData<TvLoginViewState>()
@@ -210,8 +211,6 @@ class TvLoginViewModel @Inject constructor(
             } while (current == null)
             current
         }
-
-    private fun monoClockMs() = SystemClock.elapsedRealtime()
 
     companion object {
         val POLL_TIMEOUT_MS = TimeUnit.MINUTES.toMillis(5)
