@@ -20,7 +20,10 @@ package com.protonvpn.matchers
 
 import android.view.View
 import android.view.ViewGroup
-import com.protonvpn.base.BaseRobot
+import android.widget.EditText
+import androidx.core.view.children
+import com.google.android.material.textview.MaterialTextView
+import me.proton.core.presentation.ui.view.ProtonInput
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
@@ -49,6 +52,29 @@ object ProtonMatcher {
                     }
                 }
                 return false
+            }
+        }
+    }
+
+    @JvmStatic
+    fun inputFieldByLabel(labelText: String): Matcher<View> {
+        return object : TypeSafeMatcher<View>() {
+            public override fun matchesSafely(view: View): Boolean {
+                if (view is EditText) {
+                    val possibleProtonInputParent = view.parent.parent?.parent
+                    if (possibleProtonInputParent is ProtonInput) {
+                        possibleProtonInputParent.children.forEach {
+                            if (it is MaterialTextView && it.text.equals(labelText)) {
+                                return true
+                            }
+                        }
+                    }
+                }
+                return false
+            }
+
+            override fun describeTo(description: Description) {
+                description.appendText("Input field with label text $labelText")
             }
         }
     }
