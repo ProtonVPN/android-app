@@ -24,13 +24,13 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.VPNInfo
 import com.protonvpn.android.models.login.VpnInfoResponse
-import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvLoginViewState
@@ -43,24 +43,23 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.currentTime
+import kotlinx.coroutines.test.runTest
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.ApiResult
-import me.proton.core.test.kotlin.CoroutinesTest
 import me.proton.core.test.kotlin.assertIs
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class TvLoginViewModelTests : CoroutinesTest {
-
-    val scope = TestCoroutineScope()
+class TvLoginViewModelTests {
 
     @get:Rule
     var rule = InstantTaskExecutorRule()
@@ -83,8 +82,6 @@ class TvLoginViewModelTests : CoroutinesTest {
     private lateinit var vpnUserDao: VpnUserDao
     @RelaxedMockK
     private lateinit var accountManager: AccountManager
-
-    private lateinit var viewModel: TvLoginViewModel
 
     private val selector = "selector"
     private val forkedSessionResponse = ForkedSessionResponse(
@@ -117,36 +114,40 @@ class TvLoginViewModelTests : CoroutinesTest {
         )
         coEvery { api.getForkedSession(selector) } returns ApiResult.Success(forkedSessionResponse)
         coEvery { serverListUpdater.updateServerList() } returns ApiResult.Success(ServerList(listOf()))
-
-        viewModel = TvLoginViewModel(scope, userData, currentUser, vpnUserDao, appConfig, api,
-            serverListUpdater, serverManager, certificateRepository, accountManager)
     }
 
     @Test
-    fun successfulLogin() = coroutinesTest {
+    fun successfulLogin() = runTest {
+        val viewModel = TvLoginViewModel(this, userData, currentUser, vpnUserDao, appConfig, api,
+            serverListUpdater, serverManager, certificateRepository, accountManager, monoClockMs = { currentTime })
+        val insertedVpnUser = slot<VpnUser>()
+        coEvery { vpnUserDao.insertOrUpdate(capture(insertedVpnUser)) } returns Unit
+
         viewModel.onEnterScreen(this)
         assertEquals(TvLoginViewState.Welcome, viewModel.state.value)
 
-        coEvery { api.getVPNInfo() } returns ApiResult.Success(TestUser.basicUser.vpnInfoResponse)
+        coEvery { api.getVPNInfo(any()) } returns ApiResult.Success(TestUser.basicUser.vpnInfoResponse)
         viewModel.startLogin(this)
+        advanceTimeBy(500)
         assertIs<TvLoginViewState.PollingSession>(viewModel.state.value)
         advanceUntilIdle()
 
         assertEquals(TvLoginViewState.Success, viewModel.state.value)
-        assertEquals(currentUser.vpnUser(),
-            TestUser.basicUser.vpnInfoResponse.toVpnUserEntity(
-                UserId(forkedSessionResponse.userId), forkedSessionResponse.sessionId))
+        // Can't simply verify the inserted object because to VpnInfoResponse.toVpnUserEntity uses a real clock to
+        // set updateTime on the object, so every call can produce a different value...
+        coVerify { vpnUserDao.insertOrUpdate(any()) }
+        assertEquals(insertedVpnUser.captured.userId.id, forkedSessionResponse.userId)
     }
 
     @Test
-    fun vpnConnectionAllocationNeeded() = coroutinesTest {
-        coEvery { api.getVPNInfo() } returns ApiResult.Success(noConnectionsVpnInfoResponse)
-        coEvery { api.logout() } returns ApiResult.Success(GenericResponse(1000))
+    fun vpnConnectionAllocationNeeded() = runTest {
+        val viewModel = TvLoginViewModel(this, userData, currentUser, vpnUserDao, appConfig, api,
+            serverListUpdater, serverManager, certificateRepository, accountManager, monoClockMs = { currentTime })
+        coEvery { api.getVPNInfo(any()) } returns ApiResult.Success(noConnectionsVpnInfoResponse)
         viewModel.startLogin(this)
         advanceUntilIdle()
 
         assertEquals(TvLoginViewState.ConnectionAllocationPrompt, viewModel.state.value)
-        assertNull(currentUser.vpnUser())
-        coVerify { api.logout() }
+        coVerify { accountManager.removeAccount(UserId(forkedSessionResponse.userId)) }
     }
 }
