@@ -28,6 +28,7 @@ import org.junit.runners.Suite
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
     LoginTests::class,
-    SignupTests::class
+//  See VPNAND-1106
+//    SignupTests::class
 )
 class MobileBlackSuite
