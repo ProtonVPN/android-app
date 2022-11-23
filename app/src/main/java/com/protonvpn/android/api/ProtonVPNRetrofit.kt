@@ -43,6 +43,7 @@ import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
 import me.proton.core.network.data.protonApi.BaseRetrofitApi
+import me.proton.core.network.domain.TimeoutOverride
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -51,12 +52,14 @@ import retrofit2.http.HeaderMap
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Tag
 
 @Suppress("ComplexInterface")
 interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("vpn/logicals")
     suspend fun getServers(
+        @Tag timeoutOverride: TimeoutOverride,
         @HeaderMap headers: Map<String, String>,
         @Query("WithTranslations") language: String,
         @Query("WithEntriesForProtocols") protocols: String,
@@ -100,7 +103,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     suspend fun getLocation(): UserLocation
 
     @POST("reports/bug")
-    suspend fun postBugReport(@Body params: RequestBody): GenericResponse
+    suspend fun postBugReport(@Tag timeoutOverride: TimeoutOverride, @Body params: RequestBody): GenericResponse
 
     @GET("vpn/v2/clientconfig")
     suspend fun getAppConfig(@HeaderMap headers: Map<String, String>): AppConfigResponse

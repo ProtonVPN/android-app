@@ -27,6 +27,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -55,7 +56,8 @@ class ReportBugActivityViewModel @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val currentUser: CurrentUser,
     private val serverListUpdater: ServerListUpdater,
-    private val telephony: TelephonyManager?
+    private val telephony: TelephonyManager?,
+    private val guestHole: GuestHole,
 ) : ViewModel() {
 
     interface DynamicInputUI {
@@ -164,7 +166,9 @@ class ReportBugActivityViewModel @Inject constructor(
                     emptyList<FileLogWriter.LogFile>()
                 }
 
-                val result = api.postBugReport(builder.build())
+                val result = guestHole.runWithGuestHoleFallback {
+                    api.postBugReport(builder.build())
+                }
                 ProtonLogger.clearUploadTempFiles(logFiles)
                 _state.value = result.toViewState()
             } else {

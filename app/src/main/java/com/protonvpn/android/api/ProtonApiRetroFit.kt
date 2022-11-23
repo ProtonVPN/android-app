@@ -34,6 +34,7 @@ import com.protonvpn.android.models.vpn.PromoCodesBody
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.data.protonApi.RefreshTokenRequest
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.TimeoutOverride
 import me.proton.core.network.domain.session.SessionId
 import okhttp3.RequestBody
 
@@ -57,7 +58,7 @@ open class ProtonApiRetroFit(
 
     open suspend fun postBugReport(
         params: RequestBody,
-    ) = manager { postBugReport(params) }
+    ) = manager { postBugReport(TimeoutOverride(writeTimeoutSeconds = 20), params) }
 
     open suspend fun getServerList(
         loader: LoaderUI?,
@@ -65,7 +66,13 @@ open class ProtonApiRetroFit(
         lang: String,
         protocols: List<String>
     ) = makeCall(loader) {
-        it.getServers(createNetZoneHeaders(netzone), lang, protocols.joinToString(","), withPartners = true)
+            it.getServers(
+                TimeoutOverride(readTimeoutSeconds = 20),
+                createNetZoneHeaders(netzone),
+                lang,
+                protocols.joinToString(","),
+                withPartners = true
+            )
     }
 
     open suspend fun getLoads(netzone: String?) =

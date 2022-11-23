@@ -22,6 +22,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -62,7 +63,8 @@ class ServerListUpdater @Inject constructor(
     private val prefs: ServerListUpdaterPrefs,
     @WallClock private val wallClock: () -> Long,
     private val getNetZone: GetNetZone,
-    private val partnershipsRepository: PartnershipsRepository
+    private val partnershipsRepository: PartnershipsRepository,
+    private val guestHole: GuestHole
 ) {
     private var networkLoader: NetworkLoader? = null
     private var inForeground = false
@@ -200,17 +202,19 @@ class ServerListUpdater @Inject constructor(
         }
 
         val serverListResult = coroutineScope {
-            val streamingServicesJob = launch {
-                api.getStreamingServices().valueOrNull?.let {
-                    serverManager.setStreamingServices(it)
+            guestHole.runWithGuestHoleFallback {
+                val streamingServicesJob = launch {
+                    api.getStreamingServices().valueOrNull?.let {
+                        serverManager.setStreamingServices(it)
+                    }
                 }
-            }
-            val partnershipsJob = launch {
-                partnershipsRepository.refresh()
-            }
-            api.getServerList(null, netzone, lang, realProtocolsNames).also {
-                // Make sure all requests finish before the UI is updated.
-                joinAll(streamingServicesJob, partnershipsJob)
+                val partnershipsJob = launch {
+                    partnershipsRepository.refresh()
+                }
+                api.getServerList(null, netzone, lang, realProtocolsNames).also {
+                    // Make sure all requests finish before the UI is updated.
+                    joinAll(streamingServicesJob, partnershipsJob)
+                }
             }
         }
 
