@@ -21,6 +21,7 @@ package com.protonvpn.app.ui.home
 
 import android.telephony.TelephonyManager
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.LoadsResponse
@@ -68,6 +69,8 @@ class ServerListUpdaterTests {
 
     @MockK
     private lateinit var mockApi: ProtonApiRetroFit
+    @MockK
+    private lateinit var guestHole: GuestHole
     @RelaxedMockK
     private lateinit var mockServerManager: ServerManager
     @MockK
@@ -98,6 +101,7 @@ class ServerListUpdaterTests {
         serverListUpdaterPrefs.ipAddress = OLD_IP
         clockMs = 1_000_000
 
+        coEvery { guestHole.runWithGuestHoleFallback(any<suspend () -> Any?>()) } coAnswers { firstArg<suspend () -> Any?>()() }
         coEvery { mockCurrentUser.isLoggedIn() } returns true
         every { mockServerManager.isDownloadedAtLeastOnce } returns true
         every { mockServerManager.isOutdated } returns false
@@ -121,6 +125,7 @@ class ServerListUpdaterTests {
             { clockMs },
             getNetZone,
             mockPartnershipsRepository,
+            guestHole
         )
     }
 
