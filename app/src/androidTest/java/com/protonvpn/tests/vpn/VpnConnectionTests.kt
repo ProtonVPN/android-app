@@ -26,6 +26,7 @@ import com.proton.gopenpgp.localAgent.LocalAgent
 import com.proton.gopenpgp.localAgent.NativeClient
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.auth.data.VpnUser
@@ -139,6 +140,9 @@ class VpnConnectionTests {
 
     @RelaxedMockK
     lateinit var getNetZone: GetNetZone
+
+    @RelaxedMockK
+    lateinit var appFeaturesPrefs: AppFeaturesPrefs
 
     @MockK
     lateinit var foregroundActivityTracker: ForegroundActivityTracker
@@ -367,7 +371,8 @@ class VpnConnectionTests {
             permissionDelegate,
             dagger.Lazy { manager },
             mockk(relaxed = true),
-            foregroundActivityTracker
+            foregroundActivityTracker,
+            appFeaturesPrefs
         )
 
         every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
@@ -393,7 +398,8 @@ class VpnConnectionTests {
             permissionDelegate,
             dagger.Lazy { manager },
             mockk(relaxed = true),
-            foregroundActivityTracker
+            foregroundActivityTracker,
+            appFeaturesPrefs
         )
         every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
         mockOpenVpn.stateOnConnect = VpnState.Connected
@@ -421,7 +427,8 @@ class VpnConnectionTests {
             permissionDelegate,
             dagger.Lazy { manager },
             mockk(relaxed = true),
-            foregroundActivityTracker
+            foregroundActivityTracker,
+            appFeaturesPrefs
         )
 
         manager.connect(mockVpnUiDelegate, profileWireguard, "test")
