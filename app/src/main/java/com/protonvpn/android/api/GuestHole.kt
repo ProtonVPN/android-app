@@ -21,6 +21,7 @@ package com.protonvpn.android.api
 import androidx.activity.ComponentActivity
 import androidx.annotation.WorkerThread
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.components.suspendForPermissions
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
@@ -44,6 +45,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -69,11 +71,11 @@ class GuestHole @Inject constructor(
     private val vpnPermissionDelegate: VpnPermissionDelegate,
     private val vpnConnectionManager: dagger.Lazy<VpnConnectionManager>,
     private val notificationHelper: NotificationHelper,
-    private val foregroundActivityTracker: ForegroundActivityTracker
+    private val foregroundActivityTracker: ForegroundActivityTracker,
+    private val appFeaturesPrefs: AppFeaturesPrefs
 ) : DohAlternativesListener {
 
     private var waitingForUnblock = false
-    private var lastGuestHoleServer: Server? = null
     var job: Job? = null
 
     // Guest hole be kept open until this is empty
@@ -101,19 +103,20 @@ class GuestHole @Inject constructor(
     }
 
     private fun getGuestHoleServers(): List<Server> {
-        lastGuestHoleServer?.let {
-            return arrayListOf(it)
+        val holes = if (serverManager.get().isDownloadedAtLeastOnce) {
+            // Get random servers from ServerManager if it was downloaded instead of initialization each time
+            serverManager.get().getServersForGuestHole(GUEST_HOLE_SERVER_COUNT, GUEST_HOLE_PROTOCOL)
+        } else {
+            val servers = FileUtils.getObjectFromAssets(ListSerializer(Server.serializer()), GUEST_HOLE_SERVERS_ASSET)
+            servers.shuffled().take(GUEST_HOLE_SERVER_COUNT).apply {
+                serverManager.get().setGuestHoleServers(this)
+            }
         }
 
-        // Get random servers from ServerManager if it was downloaded instead of initialization each time
-        if (serverManager.get().isDownloadedAtLeastOnce)
-            return serverManager.get().getServersForGuestHole(GUEST_HOLE_SERVER_COUNT, GUEST_HOLE_PROTOCOL)
-
-        val servers =
-            FileUtils.getObjectFromAssets(ListSerializer(Server.serializer()), GUEST_HOLE_SERVERS_ASSET)
-        val shuffledServers = servers.shuffled().take(GUEST_HOLE_SERVER_COUNT)
-        serverManager.get().setGuestHoleServers(shuffledServers)
-        return shuffledServers
+        return appFeaturesPrefs.lastSuccessfulGuestHoleServerId?.let { id ->
+            // Start with server that was successful last time
+            listOfNotNull(serverManager.get().getServerById(id)) + holes.filter { it.serverId != id }
+        } ?: holes
     }
 
     private suspend fun <T> executeConnected(
@@ -144,7 +147,9 @@ class GuestHole @Inject constructor(
 
     @WorkerThread
     override suspend fun onAlternativesUnblock(alternativesBlockCall: suspend () -> Unit) {
-        unblock(alternativesBlockCall)
+        withContext(dispatcherProvider.Main) {
+            unblock(alternativesBlockCall)
+        }
     }
 
     override suspend fun onProxiesFailed() {
@@ -162,7 +167,7 @@ class GuestHole @Inject constructor(
             return
         }
         logMessage("Guesthole for DOH")
-        withContext(dispatcherProvider.Main) {
+        coroutineScope {
             job = launch {
                 // Do not execute guesthole for calls running in background, due to inability to call permission intent
                 val currentActivity =
@@ -206,26 +211,28 @@ class GuestHole @Inject constructor(
                 executeConnected(delegate, server) {
                     // Add slight delay before retrying original call to avoid network timeout right after connection
                     delay(500)
-                    lastGuestHoleServer = server
+                    appFeaturesPrefs.lastSuccessfulGuestHoleServerId = server.serverId
                     backendCall?.invoke()
                     logMessage("Successful unblock")
                 }
             }
         } finally {
-            waitingForUnblock = false
-            if (!(isGuestHoleActive && vpnMonitor.isConnected)) {
-                // If Guest Hole failed don't start it for next call
-                guestHoleLocks.clear()
-                lastGuestHoleServer = null
+            // This needs to run even when coroutine was cancelled
+            withContext(NonCancellable) {
+                waitingForUnblock = false
+                if (!(isGuestHoleActive && vpnMonitor.isConnected)) {
+                    // If Guest Hole failed don't start it for next call
+                    guestHoleLocks.clear()
+                }
+                if (!guestHoleLocks.locked())
+                    closeGuestHole()
+                userActionJob.cancel()
             }
-            if (!guestHoleLocks.locked())
-                closeGuestHole()
-            userActionJob.cancel()
         }
     }
 
     private suspend fun closeGuestHole() {
-        if (isGuestHoleActive) withContext(NonCancellable) {
+        if (isGuestHoleActive) {
             logMessage("Disconnecting")
             vpnConnectionManager.get().disconnectSync("guest hole call completed")
         }

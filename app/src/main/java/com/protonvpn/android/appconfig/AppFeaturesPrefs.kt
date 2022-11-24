@@ -24,6 +24,7 @@ import com.protonvpn.android.utils.SharedPreferencesProvider
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
 import me.proton.core.util.android.sharedpreferences.boolean
 import me.proton.core.util.android.sharedpreferences.long
+import me.proton.core.util.android.sharedpreferences.string
 import javax.inject.Inject
 
 class AppFeaturesPrefs @Inject constructor(
@@ -36,6 +37,8 @@ class AppFeaturesPrefs @Inject constructor(
     var minNextNotificationUpdateTimestamp: Long by long(0)
 
     var showIKEv2Migration: Boolean by boolean(false)
+
+    var lastSuccessfulGuestHoleServerId: String? by string(null)
 
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
