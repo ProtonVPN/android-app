@@ -19,6 +19,7 @@
 
 package com.protonvpn.tests.login
 
+import android.util.Log
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -33,6 +34,7 @@ import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.serialization.SerializationException
 import me.proton.core.test.quark.data.User
 import org.junit.Before
 import org.junit.Rule
@@ -114,7 +116,13 @@ class LoginTests {
             name = "testasSpecChars",
             password = URLEncoder.encode(BuildConfig.SPECIAL_CHAR_PASSWORD, "utf-8")
         )
-        TestSetup.quark?.userCreate(specialCharsUser)
+        try {
+            TestSetup.quark?.userCreate(specialCharsUser)
+        } catch (e: SerializationException) {
+            // The test environment returns a non-JSON response when the user already exists.
+            // TODO: remove once the test environment is fixed.
+            Log.e("LoginTests", "Error when decoding Quark command response", e)
+        }
 
         loginRobot.signIn(specialCharsUser)
             .verify { isInMainScreen() }
