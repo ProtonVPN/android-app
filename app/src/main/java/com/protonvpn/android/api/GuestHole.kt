@@ -55,6 +55,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 import me.proton.core.network.domain.serverconnection.DohAlternativesListener
 import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.UUID
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -74,6 +75,8 @@ class GuestHole @Inject constructor(
 ) : DohAlternativesListener {
 
     private var waitingForUnblock = false
+    private var timeoutCloseJob: Job? = null
+
     var job: Job? = null
 
     // Guest hole be kept open until this is empty
@@ -192,6 +195,7 @@ class GuestHole @Inject constructor(
         delegate: VpnUiActivityDelegate,
         backendCall: (suspend () -> Unit)?
     ) {
+        timeoutCloseJob?.cancel()
         waitingForUnblock = backendCall != null
         val userActionJob = scope.launch {
             merge(vpnMonitor.onDisconnectedByUser, vpnMonitor.onDisconnectedByReconnection).collect {
@@ -225,6 +229,13 @@ class GuestHole @Inject constructor(
                 }
                 if (!guestHoleLocks.locked())
                     closeGuestHole()
+                else {
+                    timeoutCloseJob?.cancel()
+                    timeoutCloseJob = scope.launch {
+                        delay(TIMEOUT_CLOSE_MS)
+                        closeGuestHole()
+                    }
+                }
                 userActionJob.cancel()
             }
         }
@@ -252,6 +263,7 @@ class GuestHole @Inject constructor(
     }
 
     companion object {
+        private val TIMEOUT_CLOSE_MS = TimeUnit.MINUTES.toMillis(5)
 
         private const val GUEST_HOLE_SERVER_COUNT = 5
         private const val GUEST_HOLE_SERVER_COUNT_MIXED = 3
