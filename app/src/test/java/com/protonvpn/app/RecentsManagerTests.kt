@@ -9,6 +9,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -25,7 +26,7 @@ class RecentsManagerTests {
 
     private lateinit var manager: RecentsManager
 
-    @RelaxedMockK private lateinit var vpnStateMonitor: VpnStateMonitor
+    @RelaxedMockK private lateinit var vpnStatusProviderUI: VpnStatusProviderUI
 
     private val vpnStatus = MutableStateFlow(VpnStateMonitor.Status(VpnState.Disabled, null))
 
@@ -35,8 +36,8 @@ class RecentsManagerTests {
     fun setup() {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
-        every { vpnStateMonitor.status } returns vpnStatus
-        manager = RecentsManager(TestCoroutineScope(), vpnStateMonitor, mockk(relaxed = true))
+        every { vpnStatusProviderUI.status } returns vpnStatus
+        manager = RecentsManager(TestCoroutineScope(), vpnStatusProviderUI, mockk(relaxed = true))
     }
 
     private fun addRecent(connectionParams: ConnectionParams) {

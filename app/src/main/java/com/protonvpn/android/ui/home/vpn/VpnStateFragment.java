@@ -45,6 +45,7 @@ import com.protonvpn.android.vpn.RetryInfo;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.android.vpn.VpnStateMonitor;
+import com.protonvpn.android.vpn.VpnStatusProviderUI;
 
 import org.joda.time.Duration;
 import org.joda.time.Period;
@@ -87,7 +88,7 @@ public class VpnStateFragment extends BaseFragment {
     @Inject ServerManager manager;
     @Inject UserData userData;
     @Inject AppConfig appConfig;
-    @Inject VpnStateMonitor stateMonitor;
+    @Inject VpnStatusProviderUI vpnStatusProviderUI;
     @Inject VpnConnectionManager vpnConnectionManager;
     @Inject ServerListUpdater serverListUpdater;
     @Inject TrafficMonitor trafficMonitor;
@@ -123,7 +124,7 @@ public class VpnStateFragment extends BaseFragment {
     public void onViewCreated() {
         initPeekHeightLayoutListener();
 
-        stateMonitor.getStatusLiveData().observe(getViewLifecycleOwner(), state -> updateView(false, state));
+        vpnStatusProviderUI.getStatusLiveData().observe(getViewLifecycleOwner(), state -> updateView(false, state));
         viewModel.getEventCollapseBottomSheetLV().observe(getViewLifecycleOwner(), ignored -> collapseBottomSheet());
     }
 
@@ -145,7 +146,7 @@ public class VpnStateFragment extends BaseFragment {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (isAdded()) {
-                    updateSessionTimeObserver(stateMonitor.isConnected());
+                    updateSessionTimeObserver(vpnStatusProviderUI.isConnected());
                 }
                 viewModel.onBottomStateChanges(newState);
             }
@@ -283,7 +284,7 @@ public class VpnStateFragment extends BaseFragment {
 
         Server server = null;
         if (profile == null || profile.isPreBakedProfile() || profile.getDisplayName(requireContext()).isEmpty()) {
-            server = stateMonitor.getConnectingToServer();
+            server = vpnStatusProviderUI.getConnectingToServer();
         }
         if (isAdded()) {
             VpnState state = vpnState.getState();

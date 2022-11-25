@@ -26,8 +26,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
@@ -37,10 +37,9 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
-import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,7 +49,7 @@ import kotlin.math.roundToInt
 class TvServerListViewModel @Inject constructor(
     private val planManager: UserPlanManager,
     val serverManager: ServerManager,
-    val vpnStateMonitor: VpnStateMonitor,
+    val vpnStatusProviderUI: VpnStatusProviderUI,
     val vpnConnectionManager: VpnConnectionManager,
     val currentUser: CurrentUser,
     private val recentsManager: RecentsManager
@@ -132,7 +131,7 @@ class TvServerListViewModel @Inject constructor(
         val load get() = server.load
         val online get() = server.online
 
-        val actionStateObservable = vpnStateMonitor.status.map {
+        val actionStateObservable = vpnStatusProviderUI.status.map {
             actionState
         }.asLiveData()
 
@@ -141,9 +140,9 @@ class TvServerListViewModel @Inject constructor(
                 ServerActionState.UPGRADE
             !server.online ->
                 ServerActionState.UNAVAILABLE
-            vpnStateMonitor.connectingToServer?.serverName != server.serverName ->
+            vpnStatusProviderUI.connectingToServer?.serverName != server.serverName ->
                 ServerActionState.DISCONNECTED
-            vpnStateMonitor.isConnected ->
+            vpnStatusProviderUI.isConnected ->
                 ServerActionState.CONNECTED
             else ->
                 ServerActionState.CONNECTING

@@ -25,7 +25,7 @@ import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.ui.home.profiles.HomeViewModel
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockedServers
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -39,7 +39,7 @@ import kotlin.test.assertEquals
 class HomeViewModelTests {
 
     @MockK
-    private lateinit var mockStateMonitor: VpnStateMonitor
+    private lateinit var mockVpnStatusProviderUI: VpnStatusProviderUI
     @MockK
     private lateinit var mockConnectionParams: ConnectionParams
     @MockK
@@ -57,7 +57,7 @@ class HomeViewModelTests {
         homeViewModel = HomeViewModel(
             mainScope = mockk(),
             userData = mockk(),
-            vpnStateMonitor = mockStateMonitor,
+            vpnStatusProviderUI = mockVpnStatusProviderUI,
             serverManager = mockServerManager,
             userPlanManager = mockk(relaxed = true),
             certificateRepository = mockk(),
@@ -123,7 +123,7 @@ class HomeViewModelTests {
 
     private fun setupMockConnection(profile: Profile) {
         every { mockConnectionParams.profile } returns profile
-        every { mockStateMonitor.connectionParams } returns mockConnectionParams
-        every { mockStateMonitor.isConnected } returns true
+        every { mockVpnStatusProviderUI.connectionParams } returns mockConnectionParams
+        every { mockVpnStatusProviderUI.isConnected } returns true
     }
 }

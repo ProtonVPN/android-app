@@ -41,7 +41,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingDialogs
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.launchAndCollectIn
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import javax.inject.Inject
 
 abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(layout) {
@@ -52,7 +52,7 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
     // Once we refactor it, they should be removed.
     @Inject lateinit var userData: UserData
     @Inject lateinit var appConfig: AppConfig
-    @Inject lateinit var stateMonitor: VpnStateMonitor
+    @Inject lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var currentUser: CurrentUser
     // End of NetShieldSwitch's dependencies.
@@ -86,7 +86,7 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
             currentUser.vpnUserCached()?.isFreeUser == true,
             NetShieldSwitch.ReconnectDialogDelegate(
                 (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate(),
-                stateMonitor,
+                vpnStatusProviderUI,
                 vpnConnectionManager
             )
         ) { s: NetShieldProtocol? ->

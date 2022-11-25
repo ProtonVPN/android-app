@@ -35,7 +35,7 @@ import com.protonvpn.android.utils.displayText
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -55,7 +55,7 @@ class OnboardingViewModel @Inject constructor(
     private val serverListUpdater: ServerListUpdater,
     private val vpnPermissionDelegate: VpnPermissionDelegate,
     private val vpnConnectionManager: VpnConnectionManager,
-    private val vpnStateMonitor: VpnStateMonitor
+    private val vpnStatusProviderUI: VpnStatusProviderUI
 ) : ViewModel() {
 
     private val freeServers = viewModelScope.async(start = CoroutineStart.LAZY) {
@@ -91,7 +91,7 @@ class OnboardingViewModel @Inject constructor(
         }
         vpnConnectionManager.connect(vpnUiDelegate, profile, "onboarding")
         val state = withTimeoutOrNull(VPN_CONNECTION_WAIT_MS) {
-            vpnStateMonitor.status.map { it.state }.first { it == VpnState.Connected || it is VpnState.Error }
+            vpnStatusProviderUI.status.map { it.state }.first { it == VpnState.Connected || it is VpnState.Error }
         }
         if (state == VpnState.Connected)
             return null

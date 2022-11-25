@@ -29,12 +29,12 @@ import javax.inject.Inject
 @SuppressWarnings("UseDataClass")
 class UpdateSecureCoreToMatchConnectedServer @Inject constructor(
     mainScope: CoroutineScope,
-    private val vpnStateMonitor: VpnStateMonitor,
+    private val vpnStatusProviderUI: VpnStatusProviderUI,
     private val userData: UserData
 ) {
     init {
         mainScope.launch {
-            vpnStateMonitor.status
+            vpnStatusProviderUI.status
                 .onEach { vpnState ->
                     val server = vpnState.connectionParams?.server
                     if (vpnState.state == VpnState.Connected &&

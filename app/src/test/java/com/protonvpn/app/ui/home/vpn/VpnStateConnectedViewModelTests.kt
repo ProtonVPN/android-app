@@ -28,6 +28,7 @@ import com.protonvpn.android.ui.home.vpn.VpnStateConnectedViewModel
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
@@ -48,7 +49,9 @@ class VpnStateConnectedViewModelTests {
     private val colorId = ProfileColor.CARROT.id
 
     @RelaxedMockK
-    private lateinit var mockStateMonitor: VpnStateMonitor
+    private lateinit var mockVpnStateMonitor: VpnStateMonitor
+    @RelaxedMockK
+    private lateinit var mockVpnStatusProviderUI: VpnStatusProviderUI
     @RelaxedMockK
     private lateinit var mockServerManager: ServerManager
     @RelaxedMockK
@@ -61,8 +64,9 @@ class VpnStateConnectedViewModelTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        every { mockStateMonitor.connectionParams } returns mockConnectionParams
-        viewModel = VpnStateConnectedViewModel(mockStateMonitor, mockServerManager, mockTrafficMonitor)
+        every { mockVpnStatusProviderUI.connectionParams } returns mockConnectionParams
+        viewModel = VpnStateConnectedViewModel(
+            mockVpnStatusProviderUI, mockVpnStateMonitor, mockServerManager, mockTrafficMonitor)
     }
 
     @Test

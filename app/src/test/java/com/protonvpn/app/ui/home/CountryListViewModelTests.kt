@@ -38,6 +38,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestUser
@@ -46,6 +47,8 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestScope
 import me.proton.core.network.domain.ApiResult
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -73,9 +76,11 @@ class CountryListViewModelTests {
 
     private lateinit var countryListViewModel: CountryListViewModel
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        val scope = TestScope()
         Storage.setPreferences(MockSharedPreference())
         userData = UserData.create(null)
         val appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
@@ -96,7 +101,7 @@ class CountryListViewModelTests {
             serverManager,
             PartnershipsRepository(mockApi),
             mockServerListUpdater,
-            mockVpnStateMonitor,
+            VpnStatusProviderUI(scope, mockVpnStateMonitor),
             userData,
             mockCurrentUser
         )

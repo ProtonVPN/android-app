@@ -282,10 +282,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideVpnStateMonitor() = VpnStateMonitor()
-
-    @Singleton
-    @Provides
     fun provideConnectivityMonitor() = ConnectivityMonitor(scope, ProtonApplication.getAppContext())
 
     @Singleton

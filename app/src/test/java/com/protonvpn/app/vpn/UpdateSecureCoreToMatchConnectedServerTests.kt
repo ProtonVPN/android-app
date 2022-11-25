@@ -29,6 +29,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.UpdateSecureCoreToMatchConnectedServer
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.runWhileCollectingLiveData
@@ -61,7 +62,7 @@ class UpdateSecureCoreToMatchConnectedServerTests {
         vpnStateMonitor = VpnStateMonitor()
 
         updateSecureCoreToMatchConnectedServer =
-            UpdateSecureCoreToMatchConnectedServer(scope, vpnStateMonitor, userData)
+            UpdateSecureCoreToMatchConnectedServer(scope, VpnStatusProviderUI(scope, vpnStateMonitor), userData)
     }
 
     @Test
