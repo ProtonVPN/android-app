@@ -10,7 +10,6 @@ default:
     - echo "" >> gradle.properties # ensure a new line
     - base64 -d - < "$GRADLE_PROPERTIES_FILE2" >> gradle.properties
     - git fetch origin development
-    - !reference [.checkout-core-submodule, before_script]
     - if [[ -f /load-env.sh ]]; then source /load-env.sh; fi
   interruptible: true
 
@@ -67,10 +66,6 @@ prevent-interrupt:
     - ${CI_PROJECT_DIR}/build/gradle-build-cache
   policy: pull
 
-.gradle-job:
-  variables:
-    CHECKOUT_CORE_SUBMODULE: "true"
-
 cache:
   - key: $CI_COMMIT_REF_SLUG
     policy: pull
@@ -103,7 +98,6 @@ cleanup:test-env:
 
 detekt analysis:
   stage: analyze
-  extends: .gradle-job
   cache:
     - key: $CI_COMMIT_REF_SLUG
       policy: pull-push
@@ -124,7 +118,6 @@ detekt analysis:
 
 build google debug:
   stage: build
-  extends: .gradle-job
   cache:
     - key: $CI_COMMIT_REF_SLUG
       policy: pull
@@ -159,7 +152,6 @@ build black:
   stage: build
   tags:
     - xlarge-k8s
-  extends: .gradle-job
   except:
     - schedules
   script:
@@ -177,7 +169,6 @@ build black:
 
 build google play release:
   stage: build
-  extends: .gradle-job
   except:
     - master
     - schedules
@@ -195,7 +186,6 @@ build google play release:
 
 build amazon release:
   stage: build
-  extends: .gradle-job
   only:
     refs:
       - master
@@ -213,7 +203,6 @@ build amazon release:
 
 build release (auto):
   stage: build
-  extends: .gradle-job
   only:
     refs:
       - master
@@ -231,7 +220,6 @@ build release (auto):
 
 unit tests:
   stage: test
-  extends: .gradle-job
   tags:
     - large
   except:
@@ -241,7 +229,6 @@ unit tests:
 
 coverage report:
   stage: report
-  extends: .gradle-job
   tags:
     - large
   script:
@@ -286,7 +273,6 @@ pages:
 
 owasp check:
   stage: report
-  extends: .gradle-job
   tags:
     - large
   script:
@@ -320,7 +306,6 @@ publish-apk-internal:
   stage: publish
   tags:
     - xlarge-k8s
-  extends: .gradle-job
   only:
     refs:
       - development
@@ -354,10 +339,6 @@ include:
   - project: 'agarroux/publish-github'
     ref: master
     file: '/jobs/release.gitlab-ci.yml'
-
-  - project: 'proton/mobile/android/proton-libs'
-    ref: main
-    file: '/ci/templates/checkout-core.gitlab-ci.yml'
 
   - project: 'proton/mobile/android/proton-libs'
     ref: main
