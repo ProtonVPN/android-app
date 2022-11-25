@@ -25,7 +25,6 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -37,7 +36,7 @@ import javax.inject.Singleton
 @Singleton
 class RecentsManager @Inject constructor(
     @Transient private val scope: CoroutineScope,
-    @Transient private val stateMonitor: VpnStateMonitor,
+    @Transient private val vpnStatusProviderUI: VpnStatusProviderUI,
     @Transient private val onSessionClosed: OnSessionClosed,
 ) {
 
@@ -68,7 +67,7 @@ class RecentsManager @Inject constructor(
         }
 
         scope.launch {
-            stateMonitor.status.collect { status ->
+            vpnStatusProviderUI.status.collect { status ->
                 if (status.state == VpnState.Connected) {
                     status.connectionParams?.let { params ->
                         addToRecentServers(params.server)

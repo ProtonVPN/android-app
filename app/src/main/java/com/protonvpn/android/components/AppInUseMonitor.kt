@@ -21,7 +21,7 @@ package com.protonvpn.android.components
 
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -34,7 +34,7 @@ import javax.inject.Singleton
 class AppInUseMonitor @Inject constructor(
     mainScope: CoroutineScope,
     foregroundActivityTracker: ForegroundActivityTracker,
-    vpnStateMonitor: VpnStateMonitor
+    vpnStatusProviderUI: VpnStatusProviderUI
 ) {
     /**
      * Indicates if the VPN app is in active use by the user.
@@ -42,7 +42,7 @@ class AppInUseMonitor @Inject constructor(
      * This information can be used to keep certain values up to date, e.g. by refreshing them from the backend.
      */
     val isInUseFlow = combine(
-        vpnStateMonitor.status,
+        vpnStatusProviderUI.status,
         foregroundActivityTracker.foregroundActivityFlow
     ) { status, fgActivity ->
         fgActivity != null || status.state != VpnState.Disabled

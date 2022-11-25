@@ -25,7 +25,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -38,7 +38,7 @@ import javax.inject.Inject
 class ProfilesViewModel @Inject constructor(
     val serverManager: ServerManager,
     val currentUser: CurrentUser,
-    val stateMonitor: VpnStateMonitor
+    val vpnStatusProviderUI: VpnStatusProviderUI
 ) : ViewModel() {
 
     data class ProfileItem(
@@ -51,7 +51,7 @@ class ProfilesViewModel @Inject constructor(
     private val profiles = combine(
         serverManager.profiles,
         serverManager.serverListVersion,
-        stateMonitor.status,
+        vpnStatusProviderUI.status,
         currentUser.vpnUserFlow
     ) { allProfiles, _, _, vpnUser ->
         allProfiles.map {
@@ -67,5 +67,5 @@ class ProfilesViewModel @Inject constructor(
         allProfiles.filter { it.profile.isPreBakedProfile.not() }
     }
 
-    private fun isConnectedTo(profile: Profile) = stateMonitor.isConnectedTo(profile)
+    private fun isConnectedTo(profile: Profile) = vpnStatusProviderUI.isConnectedTo(profile)
 }

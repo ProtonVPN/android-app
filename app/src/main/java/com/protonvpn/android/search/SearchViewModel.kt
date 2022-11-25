@@ -39,7 +39,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -57,7 +57,7 @@ class SearchViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val userData: UserData,
     private val vpnConnectionManager: VpnConnectionManager,
-    vpnStateMonitor: VpnStateMonitor,
+    vpnStatusProviderUI: VpnStatusProviderUI,
     private val serverManager: ServerManager,
     private val search: Search,
     currentUser: CurrentUser
@@ -101,7 +101,7 @@ class SearchViewModel @Inject constructor(
     val queryFromRecents: LiveData<String> = _queryFromRecents
 
     val viewState: Flow<ViewState> =
-        combine(query.asFlow(), currentUser.vpnUserFlow, vpnStateMonitor.status) { query, vpnUser, vpnStatus ->
+        combine(query.asFlow(), currentUser.vpnUserFlow, vpnStatusProviderUI.status) { query, vpnUser, vpnStatus ->
             val isConnectedOrConnecting =
                 vpnStatus.state.isEstablishingConnection || vpnStatus.state == VpnState.Connected
             mapState(query, vpnUser, vpnStatus.server?.takeIf { isConnectedOrConnecting })

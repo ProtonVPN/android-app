@@ -100,7 +100,7 @@ import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
-import com.protonvpn.android.vpn.VpnStateMonitor;
+import com.protonvpn.android.vpn.VpnStatusProviderUI;
 import com.squareup.otto.Subscribe;
 
 import org.jetbrains.annotations.NotNull;
@@ -137,7 +137,7 @@ public class HomeActivity extends VpnActivity {
     VpnStateFragment fragment;
     @Inject ServerManager serverManager;
     @Inject UserData userData;
-    @Inject VpnStateMonitor vpnStateMonitor;
+    @Inject VpnStatusProviderUI vpnStatusProviderUI;
     @Inject ServerListUpdater serverListUpdater;
     @Inject NotificationHelper notificationHelper;
     @Inject NewLookDialogProvider newLookDialogProvider;
@@ -276,8 +276,8 @@ public class HomeActivity extends VpnActivity {
 
     private void toggleSecureCore() {
         LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "main screen");
-        if (vpnStateMonitor.isConnected()
-                && vpnStateMonitor.isConnectingToSecureCore() == switchSecureCore.isChecked()) {
+        if (vpnStatusProviderUI.isConnected()
+                && vpnStatusProviderUI.isConnectingToSecureCore() == switchSecureCore.isChecked()) {
             userData.setSecureCoreEnabled(!switchSecureCore.isChecked());
 
             ProtonLogger.INSTANCE.log(UiReconnect, "user toggled SC switch");
@@ -332,7 +332,7 @@ public class HomeActivity extends VpnActivity {
         initQuickConnectFab();
         initFullScreenNotification(getIntent());
 
-        vpnStateMonitor.isConnectedOrDisconnectedLiveData().observe(this, isConnected -> initQuickConnectFab());
+        vpnStatusProviderUI.isConnectedOrDisconnectedLiveData().observe(this, isConnected -> initQuickConnectFab());
 
         newLookDialogProvider.show(this, false);
     }
@@ -469,7 +469,7 @@ public class HomeActivity extends VpnActivity {
 
     @OnClick(R.id.drawerButtonLogout)
     public void drawerButtonLogout() {
-        if (vpnStateMonitor.isConnected()) {
+        if (vpnStatusProviderUI.isConnected()) {
             new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.logoutConfirmDialogTitle)
                 .setMessage(R.string.logoutConfirmDialogMessage)
@@ -522,22 +522,22 @@ public class HomeActivity extends VpnActivity {
         fabQuickConnect.setMenuButtonColorPressed(ContextCompat.getColor(this, R.color.shade_100));
         fabQuickConnect.setMenuButtonColorRipple(ContextCompat.getColor(this, R.color.fab_ripple));
         @DrawableRes
-        int iconRes = vpnStateMonitor.isConnected() ? R.drawable.ic_vpn_icon_colorful : R.drawable.ic_vpn_icon_grayscale;
+        int iconRes = vpnStatusProviderUI.isConnected() ? R.drawable.ic_vpn_icon_colorful : R.drawable.ic_vpn_icon_grayscale;
         fabQuickConnect.getMenuIconView().setImageDrawable(AppCompatResources.getDrawable(this, iconRes));
-        AnimationTools.setScaleAnimationToMenuIcon(fabQuickConnect, () -> vpnStateMonitor.isConnected());
+        AnimationTools.setScaleAnimationToMenuIcon(fabQuickConnect, () -> vpnStatusProviderUI.isConnected());
         fabQuickConnect.setOnMenuButtonClickListener(view -> {
             if (fabQuickConnect.isOpened()) {
                 fabQuickConnect.close(true);
             }
             else {
-                if (!vpnStateMonitor.isConnected()) {
+                if (!vpnStatusProviderUI.isConnected()) {
                     connectToDefaultProfile();
                 } else {
                     disconnect("quick connect");
                     fragment.collapseBottomSheet();
                 }
 
-                if (!vpnStateMonitor.isConnected()) {
+                if (!vpnStatusProviderUI.isConnected()) {
                     Storage.saveBoolean(OnboardingPreferences.FLOATING_BUTTON_USED, true);
                     Storage.saveBoolean(OnboardingPreferences.FLOATINGACTION_DIALOG, true);
                 }
@@ -576,7 +576,7 @@ public class HomeActivity extends VpnActivity {
                 });
         }
 
-        if (vpnStateMonitor.isConnected()) {
+        if (vpnStatusProviderUI.isConnected()) {
             addActionButtonToFab(
                 fabQuickConnect,
                 MaterialColors.getColor(fabQuickConnect, R.attr.strong_red_color),

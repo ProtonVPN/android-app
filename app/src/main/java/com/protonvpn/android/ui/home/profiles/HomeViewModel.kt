@@ -38,7 +38,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertificateRepository
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -51,7 +51,7 @@ class HomeViewModel @Inject constructor(
     appConfig: AppConfig,
     mainScope: CoroutineScope,
     val userData: UserData,
-    private val vpnStateMonitor: VpnStateMonitor,
+    private val vpnStatusProviderUI: VpnStatusProviderUI,
     private val serverManager: ServerManager,
     userPlanManager: UserPlanManager,
     certificateRepository: CertificateRepository,
@@ -86,8 +86,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getReconnectProfileOnSecureCoreChange(): Profile {
-        DebugUtils.debugAssert("Is connected") { vpnStateMonitor.isConnected }
-        val connectedProfile = vpnStateMonitor.connectionParams!!.profile
+        DebugUtils.debugAssert("Is connected") { vpnStatusProviderUI.isConnected }
+        val connectedProfile = vpnStatusProviderUI.connectionParams!!.profile
         return if (connectedProfile.isSecureCore == null && !connectedProfile.isDirectServer) {
             // Connect to the same profile, it doesn't enforce Secure Core.
             connectedProfile

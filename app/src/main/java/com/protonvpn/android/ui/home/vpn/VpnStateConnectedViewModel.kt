@@ -31,6 +31,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
@@ -42,7 +43,8 @@ private const val BYTES_IN_KBYTE = 1024f
 
 @HiltViewModel
 class VpnStateConnectedViewModel @Inject constructor(
-    private val stateMonitor: VpnStateMonitor,
+    private val vpnStatusProviderUI: VpnStatusProviderUI,
+    vpnStateMonitor: VpnStateMonitor,
     private val serverManager: ServerManager,
     trafficMonitor: TrafficMonitor
 ) : ViewModel() {
@@ -63,8 +65,8 @@ class VpnStateConnectedViewModel @Inject constructor(
 
     val eventNotification = MutableSharedFlow<SnackbarNotification>(extraBufferCapacity = 1)
     val connectionState = combine(
-        stateMonitor.status,
-        stateMonitor.exitIp,
+        vpnStatusProviderUI.status,
+        vpnStateMonitor.exitIp,
         serverManager.serverListVersion,
     ) { status, exitIp, _ ->
         toConnectionState(status, exitIp)
@@ -72,7 +74,7 @@ class VpnStateConnectedViewModel @Inject constructor(
     val trafficSpeedKbpsHistory = speedHistoryToChartData(trafficMonitor.trafficHistory)
 
     fun saveToProfile() {
-        stateMonitor.connectionParams?.server?.let { currentServer ->
+        vpnStatusProviderUI.connectionParams?.server?.let { currentServer ->
             val alreadySaved = serverManager.getSavedProfiles().any { it.wrapper.serverId == currentServer.serverId }
             if (alreadySaved) {
                 val notification = SnackbarNotification(R.string.saveProfileAlreadySaved, SnackType.Norm)

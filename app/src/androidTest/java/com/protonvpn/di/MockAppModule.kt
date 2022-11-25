@@ -52,7 +52,7 @@ import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import com.protonvpn.mocks.MockUserRepository
@@ -205,9 +205,9 @@ class MockAppModule {
     @Provides
     fun provideRecentManager(
         scope: CoroutineScope,
-        vpnStateMonitor: VpnStateMonitor,
+        vpnStatusProviderUI: VpnStatusProviderUI,
         onSessionClosed: OnSessionClosed
-    ) = RecentsManager(scope, vpnStateMonitor, onSessionClosed).apply { clear() }
+    ) = RecentsManager(scope, vpnStatusProviderUI, onSessionClosed).apply { clear() }
 
     @Singleton
     @Provides

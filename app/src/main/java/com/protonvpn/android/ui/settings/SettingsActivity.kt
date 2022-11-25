@@ -50,7 +50,6 @@ import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeDialogActivity
@@ -64,7 +63,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.firstOrNull
@@ -84,7 +83,7 @@ private const val PREF_SHOW_SAFE_MODE_RECONNECT_DIALOG = "PREF_SHOW_SAFE_MODE_RE
 @AndroidEntryPoint
 class SettingsActivity : BaseActivityV2() {
 
-    @Inject lateinit var stateMonitor: VpnStateMonitor
+    @Inject lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     @Inject lateinit var connectionManager: VpnConnectionManager
     @Inject lateinit var userPrefs: UserData
     @Inject lateinit var appConfig: AppConfig
@@ -101,7 +100,7 @@ class SettingsActivity : BaseActivityV2() {
                 val settingsUpdated = getProtocolSelection(userPrefs) != protocol
                 logUiEvent(Setting.DEFAULT_PROTOCOL)
                 userPrefs.protocol = protocol
-                if (settingsUpdated && stateMonitor.connectionProfile?.hasCustomProtocol() == false) {
+                if (settingsUpdated && vpnStatusProviderUI.connectionProfile?.hasCustomProtocol() == false) {
                     onConnectionSettingsChanged(PREF_SHOW_PROTOCOL_RECONNECT_DIALOG)
                 }
             }
@@ -154,7 +153,7 @@ class SettingsActivity : BaseActivityV2() {
                 currentUser.vpnUserCached()?.isFreeUser == true,
                 NetShieldSwitch.ReconnectDialogDelegate(
                     getVpnUiDelegate(),
-                    stateMonitor,
+                    vpnStatusProviderUI,
                     connectionManager
                 )
             ) {
@@ -347,7 +346,7 @@ class SettingsActivity : BaseActivityV2() {
         tryToggleSwitch(
             PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DLG,
             "VPN Accelerator toggle",
-            stateMonitor.connectionProtocol?.localAgentEnabled() != true
+            vpnStatusProviderUI.connectionProtocol?.localAgentEnabled() != true
         ) {
             userPrefs.vpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
         }
@@ -383,7 +382,7 @@ class SettingsActivity : BaseActivityV2() {
         tryToggleSwitch(
             PREF_SHOW_NAT_MODE_RECONNECT_DIALOG,
             "Moderate NAT toggle",
-            stateMonitor.connectionProtocol?.localAgentEnabled() != true
+            vpnStatusProviderUI.connectionProtocol?.localAgentEnabled() != true
         ) {
             logUiEvent(Setting.RESTRICTED_NAT)
             userPrefs.randomizedNatEnabled = !userPrefs.randomizedNatEnabled
@@ -394,7 +393,7 @@ class SettingsActivity : BaseActivityV2() {
         tryToggleSwitch(
             PREF_SHOW_SAFE_MODE_RECONNECT_DIALOG,
             "safe mode toggle",
-            stateMonitor.connectionProtocol?.localAgentEnabled() != true
+            vpnStatusProviderUI.connectionProtocol?.localAgentEnabled() != true
         ) {
             logUiEvent(Setting.SAFE_MODE)
             userPrefs.safeModeEnabled = userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags()) != true
@@ -407,7 +406,7 @@ class SettingsActivity : BaseActivityV2() {
         needsReconnectIfConnected: Boolean = true,
         toggle: () -> Unit
     ) {
-        if (needsReconnectIfConnected && stateMonitor.isEstablishingOrConnected) {
+        if (needsReconnectIfConnected && vpnStatusProviderUI.isEstablishingOrConnected) {
             showGenericReconnectDialog(this, R.string.settingsReconnectToChangeDialogContent, showDialogPrefsKey) {
                 toggle()
                 ProtonLogger.log(UiReconnect, uiElement)
@@ -421,7 +420,7 @@ class SettingsActivity : BaseActivityV2() {
     private fun getProtocolSelection(userData: UserData) = userData.protocol
 
     private fun onConnectionSettingsChanged(showReconnectDialogPrefKey: String) {
-        if (stateMonitor.isEstablishingOrConnected) {
+        if (vpnStatusProviderUI.isEstablishingOrConnected) {
             showGenericReconnectDialog(
                 this,
                 R.string.settingsReconnectToApplySettingsDialogContent,

@@ -33,7 +33,7 @@ import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -42,14 +42,14 @@ class CountryListViewModel @Inject constructor(
     private val serverManager: ServerManager,
     private val partnershipsRepository: PartnershipsRepository,
     private val serverListUpdater: ServerListUpdater,
-    private val vpnStateMonitor: VpnStateMonitor,
+    private val vpnStatusProviderUI: VpnStatusProviderUI,
     private val userData: UserData,
     private val currentUser: CurrentUser
 ) : ViewModel() {
 
     val userDataUpdateEvent = userData.updateEvent
     val serverListVersion = serverManager.serverListVersion
-    val vpnStatus = vpnStateMonitor.status.asLiveData()
+    val vpnStatus = vpnStatusProviderUI.status.asLiveData()
     val isFreeUser get() = currentUser.vpnUserCached()?.isFreeUser == true
     val isSecureCoreEnabled get() = userData.secureCoreEnabled
 
@@ -57,7 +57,7 @@ class CountryListViewModel @Inject constructor(
         serverListUpdater.getServersList(networkLoader)
     }
 
-    fun isConnectedToServer(server: Server): Boolean = vpnStateMonitor.isConnectedTo(server)
+    fun isConnectedToServer(server: Server): Boolean = vpnStatusProviderUI.isConnectedTo(server)
 
     fun getServerPartnerships(server: Server): List<Partner> =
         partnershipsRepository.getServerPartnerships(server.serverId)

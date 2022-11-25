@@ -60,6 +60,7 @@ import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -77,6 +78,7 @@ class TvMainViewModel @Inject constructor(
     override val serverManager: ServerManager,
     val mainScope: CoroutineScope,
     val serverListUpdater: ServerListUpdater,
+    val vpnStatusProviderUI: VpnStatusProviderUI,
     val vpnStateMonitor: VpnStateMonitor,
     val vpnConnectionManager: VpnConnectionManager,
     private val recentsManager: RecentsManager,
@@ -103,7 +105,7 @@ class TvMainViewModel @Inject constructor(
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
 
     val vpnViewState: Flow<VpnViewState> = combine(
-        vpnStateMonitor.status,
+        vpnStatusProviderUI.status,
         serverListUpdater.ipAddress,
         vpnStateMonitor.exitIp
     ) { vpnStatus, myIp, exitIp ->
@@ -113,12 +115,12 @@ class TvMainViewModel @Inject constructor(
         }
         VpnViewState(vpnStatus, ipToDisplay)
     }
-    val vpnStatus = vpnStateMonitor.status
+    val vpnStatus = vpnStatusProviderUI.status
     val showVersion = MutableStateFlow(false)
 
     // Simplified vpn connection state change stream for UI elements interested in distinct changes between 3 states
     enum class ConnectionState { None, Connecting, Connected }
-    val vpnConnectionState = vpnStateMonitor.status.map {
+    val vpnConnectionState = vpnStatusProviderUI.status.map {
         it.state
     }.map {
         when {
@@ -130,7 +132,7 @@ class TvMainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            vpnStateMonitor.status.collect {
+            vpnStatusProviderUI.status.collect {
                 connectedCountryFlag.value = if (isConnected())
                     it.server!!.flag else ""
             }
@@ -152,10 +154,10 @@ class TvMainViewModel @Inject constructor(
     fun showConnectToStreamingButton(card: CountryCard) = showConnectButtons(card) || !isPlusUser()
 
     fun isConnectedToThisCountry(card: CountryCard) =
-        vpnStateMonitor.isConnectingToCountry(card.vpnCountry.flag)
+        vpnStatusProviderUI.isConnectingToCountry(card.vpnCountry.flag)
 
     fun disconnectText(card: CountryCard) =
-        if (!showConnectButtons(card) && vpnStateMonitor.state.isEstablishingConnection)
+        if (!showConnectButtons(card) && vpnStatusProviderUI.state.isEstablishingConnection)
             R.string.cancel
         else
             R.string.disconnect
@@ -196,7 +198,7 @@ class TvMainViewModel @Inject constructor(
 
         val defaultConnection = serverManager.defaultConnection
         val shouldAddFavorite = (isConnected() || isEstablishingConnection()) &&
-            !vpnStateMonitor.isConnectingToCountry(getConnectCountry(defaultConnection))
+            !vpnStatusProviderUI.isConnectingToCountry(getConnectCountry(defaultConnection))
 
         if (shouldAddFavorite) {
             val connectCountry = getConnectCountry(defaultConnection)
@@ -217,7 +219,7 @@ class TvMainViewModel @Inject constructor(
         }
         recentsManager.getRecentCountries()
             .filterNot { country ->
-                vpnStateMonitor.isConnectingToCountry(country) ||
+                vpnStatusProviderUI.isConnectingToCountry(country) ||
                     getConnectCountry(serverManager.defaultConnection) == country
             }
             .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
@@ -297,9 +299,9 @@ class TvMainViewModel @Inject constructor(
         vpnConnectionManager.disconnect("user via $uiElementName")
     }
 
-    fun isConnected() = vpnStateMonitor.isConnected
+    fun isConnected() = vpnStatusProviderUI.isConnected
 
-    fun isEstablishingConnection() = vpnStateMonitor.isEstablishingConnection
+    fun isEstablishingConnection() = vpnStatusProviderUI.isEstablishingConnection
 
     fun isPlusUser() = currentUser.vpnUserCached()?.isUserPlusOrAbove == true
 
@@ -321,7 +323,7 @@ class TvMainViewModel @Inject constructor(
     }
 
     val quickConnectFlag get() = if (isConnected() || isEstablishingConnection())
-        vpnStateMonitor.connectingToServer?.flag
+        vpnStatusProviderUI.connectingToServer?.flag
     else
         getConnectCountry(serverManager.defaultConnection)
 
@@ -329,7 +331,7 @@ class TvMainViewModel @Inject constructor(
         CountryTools.getLargeFlagResource(context, quickConnectFlag)
 
     fun onQuickConnectAction(activity: BaseTvActivity) {
-        if (vpnStateMonitor.isConnected || vpnStateMonitor.isEstablishingConnection) {
+        if (vpnStatusProviderUI.isConnected || vpnStatusProviderUI.isEstablishingConnection) {
             disconnect("quick connect (TV)")
         } else {
             connect(activity, serverManager.defaultConnection, "quick connect (TV)")

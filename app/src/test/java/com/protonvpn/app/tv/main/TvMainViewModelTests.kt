@@ -41,6 +41,7 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -81,6 +82,7 @@ class TvMainViewModelTests {
 
     private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
     private lateinit var vpnStateMonitor: VpnStateMonitor
+    private lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     private lateinit var serverManager: ServerManager
     private lateinit var userData: UserData
 
@@ -97,6 +99,7 @@ class TvMainViewModelTests {
 
         vpnStateMonitor = VpnStateMonitor()
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
+        vpnStatusProviderUI = VpnStatusProviderUI(testScope, vpnStateMonitor)
 
         val supportsProtocol = SupportsProtocol(appConfig)
         every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
@@ -119,9 +122,10 @@ class TvMainViewModelTests {
             serverManager = serverManager,
             mainScope = testScope,
             serverListUpdater = mockk(relaxed = true),
+            vpnStatusProviderUI = vpnStatusProviderUI,
             vpnStateMonitor = vpnStateMonitor,
             vpnConnectionManager = mockk(relaxed = true),
-            recentsManager = RecentsManager(testScope, vpnStateMonitor, mockk(relaxed = true)),
+            recentsManager = RecentsManager(testScope, vpnStatusProviderUI, mockk(relaxed = true)),
             userData = userData,
             currentUser = mockCurrentUser,
             logoutUseCase = mockk(relaxed = true),

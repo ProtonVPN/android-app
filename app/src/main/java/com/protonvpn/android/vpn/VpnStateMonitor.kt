@@ -25,27 +25,24 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.vpn.VpnState.Connected
 import com.protonvpn.android.vpn.VpnState.Disabled
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class VpnStateMonitor {
+abstract class VpnStatusProvider {
 
-    private val statusInternal = MutableStateFlow(Status(Disabled, null))
-    private val lastKnownExitIp = MutableStateFlow<String?>(null)
-
-    val status: StateFlow<Status> = statusInternal
-    val exitIp: StateFlow<String?> = lastKnownExitIp
-    val onDisconnectedByUser = MutableSharedFlow<Unit>()
-    val onDisconnectedByReconnection = MutableSharedFlow<Unit>()
-    val vpnConnectionNotificationFlow = MutableSharedFlow<VpnFallbackResult>()
-    val newSessionEvent = MutableSharedFlow<Unit>()
+    abstract val status: StateFlow<VpnStateMonitor.Status>
 
     // Temporary for poor java classes
-    val statusLiveData = status.asLiveData()
-    val isConnectedOrDisconnectedLiveData: LiveData<Boolean> = status
+    val statusLiveData get() = status.asLiveData()
+    val isConnectedOrDisconnectedLiveData: LiveData<Boolean> get() = status
         .filter { it.state == Connected || it.state == Disabled }
         .map { it.state == Connected }
         .asLiveData()
@@ -60,11 +57,6 @@ class VpnStateMonitor {
 
     val connectingToServer
         get() = connectionParams?.server?.takeIf {
-            state == Connected || state.isEstablishingConnection
-        }
-
-    val connectingToProfile
-        get() = connectionParams?.profile?.takeIf {
             state == Connected || state.isEstablishingConnection
         }
 
@@ -90,6 +82,20 @@ class VpnStateMonitor {
         isConnected && connectionParams?.server?.domain?.let { connectingToDomain ->
             connectingToDomain in servers.asSequence().map { it.domain }
         } == true
+}
+
+@Singleton
+class VpnStateMonitor @Inject constructor() : VpnStatusProvider() {
+
+    private val statusInternal = MutableStateFlow(Status(Disabled, null))
+    private val lastKnownExitIp = MutableStateFlow<String?>(null)
+
+    override val status: StateFlow<Status> = statusInternal
+    val exitIp: StateFlow<String?> = lastKnownExitIp
+    val onDisconnectedByUser = MutableSharedFlow<Unit>()
+    val onDisconnectedByReconnection = MutableSharedFlow<Unit>()
+    val vpnConnectionNotificationFlow = MutableSharedFlow<VpnFallbackResult>()
+    val newSessionEvent = MutableSharedFlow<Unit>()
 
     fun updateStatus(newStatus: Status) {
         statusInternal.value = newStatus
@@ -106,4 +112,15 @@ class VpnStateMonitor {
         val profile get() = connectionParams?.profile
         val server get() = connectionParams?.server
     }
+}
+
+// Status provider that ignores Guest Hole connections as those should be ignored in UI
+@Singleton
+class VpnStatusProviderUI @Inject constructor(
+    val scope: CoroutineScope,
+    val monitor: VpnStateMonitor
+) : VpnStatusProvider() {
+    override val status: StateFlow<VpnStateMonitor.Status> =
+        monitor.status.filter { it.profile?.isGuestHoleProfile != true }
+            .stateIn(scope, SharingStarted.Eagerly, VpnStateMonitor.Status(Disabled, null))
 }

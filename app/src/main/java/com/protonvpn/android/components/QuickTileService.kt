@@ -34,10 +34,10 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -47,7 +47,7 @@ class QuickTileService : TileService() {
 
     @Inject lateinit var manager: ServerManager
     @Inject lateinit var userData: UserData
-    @Inject lateinit var stateMonitor: VpnStateMonitor
+    @Inject lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var currentUser: CurrentUser
 
@@ -70,7 +70,7 @@ class QuickTileService : TileService() {
 
     private fun bindToListener() {
         lifecycleScope.launch {
-            stateMonitor.status.collect {
+            vpnStatusProviderUI.status.collect {
                 stateChanged(it)
             }
         }

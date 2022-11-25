@@ -48,7 +48,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity;
 import com.protonvpn.android.utils.CountryTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.vpn.VpnConnectionManager;
-import com.protonvpn.android.vpn.VpnStateMonitor;
+import com.protonvpn.android.vpn.VpnStatusProviderUI;
 import com.qozix.tileview.TileView;
 import com.qozix.tileview.markers.MarkerLayout;
 import com.qozix.tileview.paths.CompositePathView;
@@ -81,7 +81,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
 
     @BindView(R.id.mapView) TileView mapView;
     @Inject ServerManager serverManager;
-    @Inject VpnStateMonitor stateMonitor;
+    @Inject VpnStatusProviderUI vpnStatusProviderUI;
     @Inject VpnConnectionManager vpnConnectionManager;
     @Inject UserData userData;
     @Inject CurrentUser currentVpnUser;
@@ -99,7 +99,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     public void onViewCreated() {
         initMap();
 
-        stateMonitor.isConnectedOrDisconnectedLiveData().observe(
+        vpnStatusProviderUI.isConnectedOrDisconnectedLiveData().observe(
                 getViewLifecycleOwner(), isConnected -> updateMapState());
         serverManager.getServerListVersionLiveData().observe(
                 getViewLifecycleOwner(), v -> updateMapState());
@@ -131,8 +131,9 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         addPins(true, userData.getSecureCoreEnabled() ? serverManager.getSecureCoreEntryCountries() :
             serverManager.getVpnCountries());
         if (userData.getSecureCoreEnabled()) {
-            if (stateMonitor.isConnected()) {
-                Server connectedServer = ObjectsCompat.requireNonNull(stateMonitor.getConnectionParams().getServer());
+            if (vpnStatusProviderUI.isConnected()) {
+                Server connectedServer =
+                    ObjectsCompat.requireNonNull(vpnStatusProviderUI.getConnectionParams().getServer());
 
                 addPins(false, Collections.singletonList(connectedServer));
                 paintPaths(connectedServer.getEntryCountryCoordinates(),
@@ -164,7 +165,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                     R.drawable.ic_marker_secure_core;
 
             VpnUser user = currentVpnUser.vpnUserCached();
-            int selectedMarker = stateMonitor.isConnectedToAny(country.getConnectableServers()) ?
+            int selectedMarker = vpnStatusProviderUI.isConnectedToAny(country.getConnectableServers()) ?
                 R.drawable.ic_marker_colored :
                 VpnUserKt.hasAccessToAnyServer(user, country.getConnectableServers()) ?
                     R.drawable.ic_marker_available : R.drawable.ic_marker;
@@ -183,7 +184,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
             marker.setContentDescription(
                 markerContentDescription(
                     country,
-                    stateMonitor.isConnectedToAny(country.getConnectableServers()) || marker.isSelected()));
+                    vpnStatusProviderUI.isConnectedToAny(country.getConnectableServers()) || marker.isSelected()));
 
             marker.setImageResource(
                 userData.getSecureCoreEnabled() && country.isSecureCoreMarker() ? selectedResource :
@@ -309,7 +310,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                 mapView.getCalloutLayout().removeAllViews();
             });
 
-            final boolean currentConnection = stateMonitor.isConnectedToAny(countryServers);
+            final boolean currentConnection = vpnStatusProviderUI.isConnectedToAny(countryServers);
             binding.buttonConnect.setVisibility(currentConnection ? View.INVISIBLE : View.VISIBLE);
             binding.buttonDisconnect.setVisibility(currentConnection ? View.VISIBLE : View.INVISIBLE);
             binding.buttonUpgrade.setVisibility(View.GONE);

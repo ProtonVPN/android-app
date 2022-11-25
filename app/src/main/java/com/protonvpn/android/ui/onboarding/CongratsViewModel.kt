@@ -20,14 +20,14 @@
 package com.protonvpn.android.ui.onboarding
 
 import androidx.lifecycle.ViewModel
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CongratsViewModel @Inject constructor(
-    val vpnStateMonitor: VpnStateMonitor
+    val vpnStatusProviderUI: VpnStatusProviderUI
 ) : ViewModel() {
 
-    val server get() = vpnStateMonitor.connectingToServer
+    val server get() = vpnStatusProviderUI.connectingToServer
 }

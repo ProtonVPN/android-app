@@ -22,7 +22,6 @@ package com.protonvpn.app.search
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
@@ -37,6 +36,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -76,7 +76,7 @@ class SearchViewModelTests : CoroutinesTest {
     @MockK
     private lateinit var mockConnectionManager: VpnConnectionManager
     @MockK
-    private lateinit var mockVpnStateMonitor: VpnStateMonitor
+    private lateinit var mockVpnStatusProviderUI: VpnStatusProviderUI
     @MockK
     private lateinit var appConfig: AppConfig
 
@@ -91,7 +91,7 @@ class SearchViewModelTests : CoroutinesTest {
         every { CountryTools.getPreferredLocale() } returns Locale.US
 
         vpnStateFlow = MutableStateFlow(VpnStateMonitor.Status(VpnState.Disabled, null))
-        every { mockVpnStateMonitor.status } returns vpnStateFlow
+        every { mockVpnStatusProviderUI.status } returns vpnStateFlow
 
         vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
@@ -105,7 +105,7 @@ class SearchViewModelTests : CoroutinesTest {
             SavedStateHandle(),
             mockUserData,
             mockConnectionManager,
-            mockVpnStateMonitor,
+            mockVpnStatusProviderUI,
             serverManager,
             search,
             mockCurrentUser
