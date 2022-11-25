@@ -33,7 +33,6 @@ import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.FileUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -53,7 +52,6 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
-import kotlinx.serialization.builtins.ListSerializer
 import me.proton.core.network.domain.serverconnection.DohAlternativesListener
 import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.UUID
@@ -103,19 +101,20 @@ class GuestHole @Inject constructor(
     }
 
     private fun getGuestHoleServers(): List<Server> {
+        val builtInHoles = serverManager.get().getGuestHoleServers()
         val holes = if (serverManager.get().isDownloadedAtLeastOnce) {
-            // Get random servers from ServerManager if it was downloaded instead of initialization each time
-            serverManager.get().getServersForGuestHole(GUEST_HOLE_SERVER_COUNT, GUEST_HOLE_PROTOCOL)
+            // Mix downloaded and builtin servers
+            builtInHoles.shuffled().take(GUEST_HOLE_SERVER_COUNT_MIXED) +
+                serverManager.get().getDownloadedServersForGuestHole(GUEST_HOLE_SERVER_COUNT_MIXED, GUEST_HOLE_PROTOCOL)
         } else {
-            val servers = FileUtils.getObjectFromAssets(ListSerializer(Server.serializer()), GUEST_HOLE_SERVERS_ASSET)
-            servers.shuffled().take(GUEST_HOLE_SERVER_COUNT).apply {
+            builtInHoles.shuffled().take(GUEST_HOLE_SERVER_COUNT).apply {
                 serverManager.get().setGuestHoleServers(this)
             }
         }
 
         return appFeaturesPrefs.lastSuccessfulGuestHoleServerId?.let { id ->
             // Start with server that was successful last time
-            listOfNotNull(serverManager.get().getServerById(id)) + holes.filter { it.serverId != id }
+            (listOfNotNull(serverManager.get().getServerById(id)) + holes).distinctBy { it.serverId }
         } ?: holes
     }
 
@@ -255,9 +254,10 @@ class GuestHole @Inject constructor(
     companion object {
 
         private const val GUEST_HOLE_SERVER_COUNT = 5
+        private const val GUEST_HOLE_SERVER_COUNT_MIXED = 3
         private const val GUEST_HOLE_SERVER_TIMEOUT = 10_000L
         private const val GUEST_HOLE_ATTEMPT_TIMEOUT = 50_000L
-        private const val GUEST_HOLE_SERVERS_ASSET = "GuestHoleServers.json"
+        const val GUEST_HOLE_SERVERS_ASSET = "GuestHoleServers.json"
     }
 
     class GuestHoleVpnUiDelegate(activity: ComponentActivity) : VpnUiActivityDelegate(activity) {

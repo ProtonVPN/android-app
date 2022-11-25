@@ -22,6 +22,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.asLiveData
 import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
@@ -43,6 +44,7 @@ import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.serialization.builtins.ListSerializer
 import org.jetbrains.annotations.TestOnly
 import org.joda.time.DateTime
 import java.io.Serializable
@@ -67,6 +69,7 @@ class ServerManager @Inject constructor(
     @Transient private var filteredVpnCountries = listOf<VpnCountry>()
     @Transient private var filteredSecureCoreEntryCountries = listOf<VpnCountry>()
     @Transient private var filteredSecureCoreExitCountries = listOf<VpnCountry>()
+    @Transient private var guestHoleServers: List<Server>? = null
 
     private var streamingServices: StreamingServicesResponse? = null
     val streamingServicesModel: StreamingServicesModel?
@@ -190,7 +193,7 @@ class ServerManager @Inject constructor(
         lastUpdateTimestamp = 0L
     }
 
-    fun getServersForGuestHole(serverCount: Int, protocol: ProtocolSelection) =
+    fun getDownloadedServersForGuestHole(serverCount: Int, protocol: ProtocolSelection) =
         (listOfNotNull(getBestScoreServer(false, null)) +
             getExitCountries(false).flatMap { country ->
                 country.serverList.filter { it.online && supportsProtocol(it, protocol) }
@@ -257,7 +260,16 @@ class ServerManager @Inject constructor(
         onServersUpdate()
     }
 
-    fun getServerById(id: String) = allServers.firstOrNull { it.serverId == id }
+    fun getGuestHoleServers(): List<Server> =
+        guestHoleServers ?: run {
+            FileUtils.getObjectFromAssets(
+                ListSerializer(Server.serializer()), GuestHole.GUEST_HOLE_SERVERS_ASSET).apply {
+                    guestHoleServers = this
+            }
+        }
+
+    fun getServerById(id: String) =
+        allServers.firstOrNull { it.serverId == id } ?: getGuestHoleServers().firstOrNull { it.serverId == id }
 
     fun getVpnCountries(): List<VpnCountry> = filteredVpnCountries.sortedByLocaleAware { it.countryName }
 
