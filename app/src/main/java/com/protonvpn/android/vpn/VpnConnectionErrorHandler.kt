@@ -204,6 +204,11 @@ class VpnConnectionErrorHandler @Inject constructor(
             return null
         }
 
+        if (orgProfile.isGuestHoleProfile) {
+            ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Ignoring reconnection for Guest Hole")
+            return null
+        }
+
         ProtonLogger.log(ConnServerSwitchTrigger, "reason: $reason")
         if (!networkManager.isConnectedToNetwork()) {
             ProtonLogger.log(ConnServerSwitchFailed, "No internet: aborting fallback")
