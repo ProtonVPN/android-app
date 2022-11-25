@@ -24,7 +24,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import me.proton.core.humanverification.presentation.CaptchaApiHost
 import me.proton.core.humanverification.presentation.HumanVerificationApiHost
 import me.proton.core.humanverification.presentation.utils.HumanVerificationVersion
 
@@ -36,11 +35,6 @@ object HumanVerificationModule {
     @Provides
     @HumanVerificationApiHost
     fun provideHumanVerificationApiHost(): String = "https://${BuildConfig.HV3_DOMAIN}"
-
-    // HV2
-    @Provides
-    @CaptchaApiHost
-    fun provideCaptchaApiHost(): String = BuildConfig.API_DOMAIN.removeSuffix("/api")
 
     @Provides
     fun provideHumanVerificationVersion(): HumanVerificationVersion = HumanVerificationVersion.HV3
