@@ -43,6 +43,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import java.util.Locale
@@ -192,29 +193,33 @@ class ServerListUpdater @Inject constructor(
         }
         loaderUI?.switchToLoading()
 
-        coroutineScope {
-            launch {
-                api.getStreamingServices().valueOrNull?.let {
-                    serverManager.setStreamingServices(it)
-                }
-            }
-            launch {
-                partnershipsRepository.refresh()
-            }
-        }
-
         val lang = Locale.getDefault().language
         val netzone = getNetZone()
         val realProtocolsNames = ProtocolSelection.REAL_PROTOCOLS.map {
             it.apiName
         }
-        val result = api.getServerList(null, netzone, lang, realProtocolsNames)
-        if (result is ApiResult.Success) {
+
+        val serverListResult = coroutineScope {
+            val streamingServicesJob = launch {
+                api.getStreamingServices().valueOrNull?.let {
+                    serverManager.setStreamingServices(it)
+                }
+            }
+            val partnershipsJob = launch {
+                partnershipsRepository.refresh()
+            }
+            api.getServerList(null, netzone, lang, realProtocolsNames).also {
+                // Make sure all requests finish before the UI is updated.
+                joinAll(streamingServicesJob, partnershipsJob)
+            }
+        }
+
+        if (serverListResult is ApiResult.Success) {
             prefs.lastNetzoneForLogicals = netzone
-            serverManager.setServers(result.value.serverList, lang)
+            serverManager.setServers(serverListResult.value.serverList, lang)
         }
         loaderUI?.switchToEmpty()
-        return result
+        return serverListResult
     }
 
     @VisibleForTesting
