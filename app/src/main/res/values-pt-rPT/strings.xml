@@ -281,8 +281,8 @@
          %2$d - a number of remaining items.
          Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
     <plurals name="listFewItemsAndMore">
-        <item quantity="one">%1$s and %2$d more</item>
-        <item quantity="other">%1$s and %2$d more</item>
+        <item quantity="one">%1$s e mais %2$d</item>
+        <item quantity="other">%1$s e mais %2$d</item>
     </plurals>
     <string name="settingsCannotChangeWhileConnected">Impossível alterar enquanto ligado</string>
     <string name="excludeAlreadyExcluded">Já excluído</string>

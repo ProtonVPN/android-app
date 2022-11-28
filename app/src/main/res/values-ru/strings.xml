@@ -193,7 +193,7 @@
     <string name="report_bug_email_label">Ваша эл. почта</string>
     <string name="report_bug_email_hint">Введите адрес вашей электронной почты</string>
     <string name="report_bug_message_label">Сообщение</string>
-    <string name="report_bug_message_hint">Пожалуйста, опишите ошибку и как и где вы её нашли</string>
+    <string name="report_bug_message_hint">Опишите ошибку и как и где вы ее нашли</string>
     <string name="send_report">Отправить сообщение</string>
     <string name="excludeIpTitle">Исключенные IP-адреса</string>
     <string name="discardChanges">Сбросить несохраненные изменения?</string>
@@ -244,7 +244,7 @@
     <string name="noVpnPermissionMainMessage">Чтобы подключиться к Proton VPN, сделайте следующее:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Предоставить разрешение VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android требует вашего разрешения на подключение к Proton VPN. Дайте разрешение, нажав \"OK\", когда появится окно \"Запрос на подключение\" от Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянный VPN для других приложений</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянную VPN для других приложений</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянную VPN во всех остальных приложениях VPN, кроме Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
@@ -542,8 +542,8 @@
     <string name="upgrade_plus_countries_more">И много других платных функций</string>
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
     <string name="upgrade_safe_mode_message">У вас есть расширенные или профессиональные потребности использовать нестандартные порты? Перейдите на VPN Plus, чтобы получить доступ к этой и другим премиальным функциям.</string>
-    <string name="upgrade_moderate_nat_title">Включить умеренный NAT</string>
-    <string name="upgrade_moderate_nat_message">Умеренный NAT, также известный как NAT Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
+    <string name="upgrade_moderate_nat_title">Включить умеренное NAT</string>
+    <string name="upgrade_moderate_nat_message">Умеренное NAT, также известное как Nat Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">Что такое Умеренное NAT?</string>
     <string name="upgrade_see_plans_button">Посмотрите тарифы и цены</string>
     <string name="upgrade_not_now_button">Не сейчас</string>
@@ -565,7 +565,7 @@
     <string name="server_load_title">Нагрузка сервера</string>
     <string name="server_load_description">Серверы с высокой нагрузкой медленнее, чем серверы с низкой нагрузкой.</string>
     <string name="streaming_title_with_country">Просмотр трансляций - %1$s</string>
-    <string name="streaming_services_description">Подключитесь к серверу Plus в этой стране, чтобы начать трансляцию.\n\nПодсказка: очистите кэш приложений потокового вещания, чтобы убедиться, что появился новый контент.</string>
+    <string name="streaming_services_description">Подключитесь к серверу Plus в этой стране, чтобы начать просмотр трансляции.\n\nПодсказка: очистите кэш приложения для просмотра трансляций, чтобы убедиться, что появился новое содержимое.</string>
     <string name="activity_information_learn_more">Подробнее</string>
     <string name="server_load_low">Низкая</string>
     <string name="server_load_medium">Средняя</string>
