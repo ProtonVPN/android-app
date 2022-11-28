@@ -412,8 +412,15 @@ class VpnConnectionTests {
         }
         guestHole.onAlternativesUnblock(block)
         advanceUntilIdle()
-        
+
         Assert.assertTrue(wasExecuted)
+    }
+
+    @Test fun dontConnectAfterFailedPingForGuestHole() = scope.runBlockingTest {
+        coEvery { mockWireguard.prepareForConnection(any(), any(), any(), true) } returns emptyList()
+        manager.connect(mockVpnUiDelegate, profileWireguard.copy(isGuestHoleProfile = true), "")
+        advanceUntilIdle()
+        coVerify(exactly = 0) { mockWireguard.connect(any()) }
     }
 
     @Test
