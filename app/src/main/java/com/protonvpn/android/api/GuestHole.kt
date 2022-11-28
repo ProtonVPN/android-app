@@ -19,6 +19,7 @@
 package com.protonvpn.android.api
 
 import androidx.activity.ComponentActivity
+import androidx.annotation.VisibleForTesting
 import androidx.annotation.WorkerThread
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
@@ -74,6 +75,9 @@ class GuestHole @Inject constructor(
     private val appFeaturesPrefs: AppFeaturesPrefs
 ) : DohAlternativesListener {
 
+    @VisibleForTesting
+    var shuffler: (List<Server>) -> List<Server> = { it.shuffled() }
+
     private var waitingForUnblock = false
     private var timeoutCloseJob: Job? = null
 
@@ -107,10 +111,10 @@ class GuestHole @Inject constructor(
         val builtInHoles = serverManager.get().getGuestHoleServers()
         val holes = if (serverManager.get().isDownloadedAtLeastOnce) {
             // Mix downloaded and builtin servers
-            builtInHoles.shuffled().take(GUEST_HOLE_SERVER_COUNT_MIXED) +
+            shuffler(builtInHoles).take(GUEST_HOLE_SERVER_COUNT_MIXED) +
                 serverManager.get().getDownloadedServersForGuestHole(GUEST_HOLE_SERVER_COUNT_MIXED, GUEST_HOLE_PROTOCOL)
         } else {
-            builtInHoles.shuffled().take(GUEST_HOLE_SERVER_COUNT).apply {
+            shuffler(builtInHoles).take(GUEST_HOLE_SERVER_COUNT).apply {
                 serverManager.get().setGuestHoleServers(this)
             }
         }
@@ -263,7 +267,7 @@ class GuestHole @Inject constructor(
     }
 
     companion object {
-        private val TIMEOUT_CLOSE_MS = TimeUnit.MINUTES.toMillis(5)
+        val TIMEOUT_CLOSE_MS = TimeUnit.MINUTES.toMillis(5)
 
         private const val GUEST_HOLE_SERVER_COUNT = 5
         private const val GUEST_HOLE_SERVER_COUNT_MIXED = 3
