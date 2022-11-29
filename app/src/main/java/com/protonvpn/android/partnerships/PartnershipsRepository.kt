@@ -26,7 +26,9 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.Storage
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PartnershipsRepository @Inject constructor(
     private val api: ProtonApiRetroFit
 ) {
