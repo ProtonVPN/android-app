@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.deeplinks
 
 import android.net.Uri
 import com.protonvpn.android.utils.UserPlanManager
+import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.equalsNoCase
@@ -28,6 +29,7 @@ import javax.inject.Inject
 
 private const val PROTONVPN_SCHEME = "protonvpn"
 
+@Reusable
 class DeepLinkHandler @Inject constructor(
     private val mainScope: CoroutineScope,
     private val userPlanManager: UserPlanManager

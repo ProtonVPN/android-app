@@ -24,6 +24,7 @@ import com.protonvpn.android.auth.usecase.AutoLoginUrlForWeb
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
+import dagger.Reusable
 import me.proton.core.util.kotlin.equalsNoCase
 import javax.inject.Inject
 
@@ -32,6 +33,7 @@ private const val ACTION_OPENURL = "openurl"
 
 // Handles "Action", "URL" and "With" fields.
 // At the moment the only implemented action is OpenURL.
+@Reusable
 class PromoOfferButtonActions @Inject constructor(
     private val autoLoginUrlForWeb: AutoLoginUrlForWeb
 ) {

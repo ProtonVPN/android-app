@@ -22,6 +22,7 @@ package com.protonvpn.android.vpn
 import android.content.Context
 import android.content.Intent
 import android.net.VpnService
+import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -29,6 +30,7 @@ fun interface VpnPermissionDelegate {
     fun prepareVpnPermission(): Intent?
 }
 
+@Reusable
 class VpnServicePermissionDelegate @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) : VpnPermissionDelegate {

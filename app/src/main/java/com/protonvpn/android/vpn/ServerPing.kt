@@ -26,6 +26,7 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.NetUtils
+import dagger.Reusable
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -44,6 +45,7 @@ import kotlin.coroutines.resume
 
 private const val PING_KEY = "lci6UYRryo5rcQVpxfJ0fCs6UBY5eGyV"
 
+@Reusable
 class ServerPing @Inject constructor(
     @WallClock private val wallClock: () -> Long,
     private val currentVpnServiceProvider: CurrentVpnServiceProvider,

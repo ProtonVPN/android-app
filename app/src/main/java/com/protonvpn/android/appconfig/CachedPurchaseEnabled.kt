@@ -25,7 +25,9 @@ import kotlinx.coroutines.launch
 import me.proton.core.payment.domain.PaymentManager
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CachedPurchaseEnabled @Inject constructor(
     private val mainScope: CoroutineScope,
     @WallClock private val wallClock: () -> Long,

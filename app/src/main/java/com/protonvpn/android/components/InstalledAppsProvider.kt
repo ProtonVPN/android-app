@@ -33,6 +33,7 @@ import android.os.Looper
 import android.os.Message
 import android.os.Messenger
 import com.protonvpn.android.ui.settings.AppInfoService
+import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,6 +47,7 @@ import kotlin.coroutines.coroutineContext
 
 private const val APP_INFO_RESULT_TIMEOUT_MS = 5_000L
 
+@Reusable
 class InstalledAppsProvider @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val dispatcherProvider: DispatcherProvider,

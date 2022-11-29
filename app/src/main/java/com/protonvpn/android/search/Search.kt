@@ -23,9 +23,11 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.third_party.ApacheStringUtils
 import com.protonvpn.android.utils.ServerManager
+import dagger.Reusable
 import java.util.Locale
 import javax.inject.Inject
 
+@Reusable
 class Search @Inject constructor(
     private val serverManager: ServerManager,
 ) {

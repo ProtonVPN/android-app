@@ -36,6 +36,7 @@ import com.protonvpn.android.logging.UserCertRefreshError
 import com.protonvpn.android.logging.UserCertScheduleRefresh
 import com.protonvpn.android.logging.UserCertStoreError
 import com.protonvpn.android.utils.UserPlanManager
+import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -44,7 +45,6 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -78,6 +78,7 @@ data class CertInfo(
     val refreshCount: Int = 0,
 )
 
+@Singleton
 class CertificateStorage @Inject constructor(
     val mainScope: CoroutineScope,
     val dispatcherProvider: DispatcherProvider,
@@ -131,6 +132,7 @@ class CertificateStorage @Inject constructor(
 }
 
 // Allows running unit tests without the go library, see VPNAND-797.
+@Reusable
 class CertificateKeyProvider @Inject constructor() {
     fun generateCertInfo() = with(KeyPair()) {
         CertInfo(privateKeyPKIXPem(), publicKeyPKIXPem(), toX25519Base64())

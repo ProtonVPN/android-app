@@ -22,9 +22,11 @@ package com.protonvpn.android.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
+import dagger.Reusable
 import me.proton.core.auth.presentation.DefaultHelpOptionHandler
 import javax.inject.Inject
 
+@Reusable
 class VpnHelpOptionHandler @Inject constructor() : DefaultHelpOptionHandler() {
 
     override fun onCustomerSupport(context: AppCompatActivity) {

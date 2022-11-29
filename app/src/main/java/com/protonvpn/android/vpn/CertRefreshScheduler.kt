@@ -28,6 +28,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import dagger.Reusable
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -43,6 +44,7 @@ interface CertRefreshScheduler {
 
 private const val UNIQUE_WORK_NAME = "CertificateRefreshWorker"
 
+@Reusable
 class CertRefreshWorkerScheduler @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) : CertRefreshScheduler {

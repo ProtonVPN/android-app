@@ -25,8 +25,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Singleton
 
 @SuppressWarnings("UseDataClass")
+@Singleton
 class UpdateSecureCoreToMatchConnectedServer @Inject constructor(
     mainScope: CoroutineScope,
     private val vpnStatusProviderUI: VpnStatusProviderUI,

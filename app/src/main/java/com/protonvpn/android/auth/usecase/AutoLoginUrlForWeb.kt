@@ -24,6 +24,7 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
+import dagger.Reusable
 import kotlinx.coroutines.withTimeoutOrNull
 import me.proton.core.network.domain.ApiException
 import javax.inject.Inject
@@ -32,6 +33,7 @@ private const val FALLBACK_URL = "https://account.protonvpn.com/dashboard"
 private const val WEB_CHILD_ID = "web-account-lite"
 private const val DEFAULT_TIMEOUT_MS = 5_000L
 
+@Reusable
 class AutoLoginUrlForWeb @Inject constructor(
     private val api: ProtonApiRetroFit
 ) {

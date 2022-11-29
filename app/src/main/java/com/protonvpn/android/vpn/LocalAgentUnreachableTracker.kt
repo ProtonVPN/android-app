@@ -29,7 +29,9 @@ import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class LocalAgentUnreachableTracker @Inject constructor(
     @ElapsedRealtimeClock private val elapsedRealtimeMs: () -> Long,
     mainScope: CoroutineScope,

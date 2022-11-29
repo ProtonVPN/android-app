@@ -33,11 +33,13 @@ import com.protonvpn.android.databinding.DialogTvNewLookBinding
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.Storage
+import dagger.Reusable
 import javax.inject.Inject
 
 private const val PREF_NEW_LOOK_DIALOG_NEEDED = "PREF_NEW_LOOK_DIALOG_NEEDED"
 private const val PREF_NEW_LOOK_DIALOG_SHOWN = "PREF_NEW_LOOK_DIALOG_SHOWN"
 
+@Reusable
 open class NewLookDialogProvider @Inject constructor() {
 
     open fun show(context: Context, tv: Boolean) {

@@ -19,11 +19,13 @@
 
 package com.protonvpn.android.auth.usecase
 
+import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.domain.getPrimaryAccount
 import javax.inject.Inject
 
+@Reusable
 class Logout @Inject constructor(
     val accountManager: AccountManager,
     val onSessionClosed: OnSessionClosed

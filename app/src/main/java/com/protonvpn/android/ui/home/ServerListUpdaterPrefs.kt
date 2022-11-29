@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.home
 
 import android.content.SharedPreferences
 import com.protonvpn.android.utils.SharedPreferencesProvider
+import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
@@ -30,6 +31,7 @@ import me.proton.core.util.android.sharedpreferences.string
 import me.proton.core.util.kotlin.EMPTY_STRING
 import javax.inject.Inject
 
+@Reusable
 class ServerListUpdaterPrefs @Inject constructor(
     private val prefsProvider: SharedPreferencesProvider
 ) : PreferencesProvider {
