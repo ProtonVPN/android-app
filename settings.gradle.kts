@@ -1,3 +1,4 @@
+include(":detekt-custom-rules")
 
 rootProject.name = "ProtonVPN"
 
