@@ -63,7 +63,7 @@ mobile tests mocked api:
     TEST_SUITE: "com.protonvpn.testSuites.MobileMockApiSuite"
 #    COVERAGE_FOLDER: "mobile_mocked_api"
 
-mobile tests black:
+mobile tests test-env:
   extends: .tests_preparation_script
   variables:
     TESTS_TYPE: mobileTest
@@ -73,7 +73,7 @@ mobile tests black:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
     TEST_APP_TYPE: "black-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileBlackSuite"
-#    COVERAGE_FOLDER: "mobile_black"
+#    COVERAGE_FOLDER: "mobile_test_env"
 
 tv tests:
   extends: .tests_preparation_script
