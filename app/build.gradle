@@ -301,10 +301,11 @@ play {
 }
 
 // The config file is downloaded by the downloadDetektConfig task.
-def detektConfigPath = "${rootProject.projectDir}/config/detekt/config.yml"
+def commonDetektConfigPath = "${rootProject.projectDir}/config/detekt/config.yml"
+def projectDetektConfigPath = "${rootProject.projectDir}/config/detekt/custom-config.yml"
 detekt {
     failFast = false
-    config = files(detektConfigPath)
+    config = files(commonDetektConfigPath, projectDetektConfigPath)
     reports {
         html.required.set(false)
         xml.required.set(false)
@@ -312,13 +313,14 @@ detekt {
         sarif.required.set(false)
         custom {
             reportId = "outputreport.GitlabQualityOutputReport"
-            outputLocation.set(file("build/reports/detekt/detekt.jsno"))
+            outputLocation.set(file("build/reports/detekt/detekt.json"))
         }
     }
 }
 
 tasks.withType(Detekt).configureEach {
     dependsOn "downloadDetektConfig"
+    dependsOn ":detekt-custom-rules:assemble"
     dependsOn ":detekt-gitlab-output-plugin:assemble"
 
     basePath = rootProject.projectDir.absolutePath
@@ -337,7 +339,7 @@ tasks.withType(Detekt).configureEach {
 task downloadDetektConfig {
     doLast {
         def srcConfigFilePath = "config/detekt/config.yml"
-        def dstConfigFile = file(detektConfigPath)
+        def dstConfigFile = file(commonDetektConfigPath)
 
         def dir = dstConfigFile.parentFile
         if (!dir.exists() && !dir.mkdirs()) {
@@ -589,6 +591,7 @@ dependencies {
 
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version"
     detektPlugins project(":detekt-gitlab-output-plugin")
+    detektPlugins project(":detekt-custom-rules")
 
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     implementation 'commons-codec:commons-codec:1.15'

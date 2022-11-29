@@ -4,7 +4,8 @@
 /.idea
 .DS_Store
 /build
-/config
+/config/detekt/config.yml
+/config/detekt/reports
 openvpn/build/**
 /captures
 .externalNativeBuild
