@@ -24,6 +24,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.startup.AppInitializer
 import androidx.work.Configuration
 import com.protonvpn.android.ui.promooffers.TestNotificationLoader
+import com.protonvpn.android.utils.isMainProcess
 import dagger.hilt.android.HiltAndroidApp
 import me.proton.core.auth.presentation.MissingScopeInitializer
 import me.proton.core.crypto.validator.presentation.init.CryptoValidatorInitializer
@@ -38,17 +39,18 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
-        initDependencies()
+        if (isMainProcess()) {
+            initDependencies()
 
-        // Manual triggering of androidx.startup initializers (only for functionality that MUST NOT run in TESTS)
-        // Initialize most objects in ProtonApplication.initDependencies().
-        AppInitializer.getInstance(this).initializeComponent(CryptoValidatorInitializer::class.java)
-        AppInitializer.getInstance(this).initializeComponent(MissingScopeInitializer::class.java)
-        AppInitializer.getInstance(this).initializeComponent(UnredeemedPurchaseInitializer::class.java)
-        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
-
-        if (BuildConfig.DEBUG) {
-            testNotificationLoader.get().loadTestFile()
+            // Manual triggering of androidx.startup initializers (only for functionality that MUST NOT run in TESTS)
+            // Initialize most objects in ProtonApplication.initDependencies().
+            AppInitializer.getInstance(this).initializeComponent(CryptoValidatorInitializer::class.java)
+            AppInitializer.getInstance(this).initializeComponent(MissingScopeInitializer::class.java)
+            AppInitializer.getInstance(this).initializeComponent(UnredeemedPurchaseInitializer::class.java)
+            if (BuildConfig.DEBUG) {
+                WebView.setWebContentsDebuggingEnabled(true)
+                testNotificationLoader.get().loadTestFile()
+            }
         }
     }
 

@@ -45,6 +45,7 @@ import com.protonvpn.android.search.UpdateServersOnStartAndLocaleChange;
 import com.protonvpn.android.ui.onboarding.ReviewTracker;
 import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger;
 import com.protonvpn.android.utils.AndroidUtils;
+import com.protonvpn.android.utils.AndroidUtilsKt;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
@@ -113,27 +114,28 @@ public class ProtonApplication extends Application {
 
         initPreferences();
         SentryIntegration.initSentry(this);
-
-        initLogger();
-        ProtonLogger.INSTANCE.log(LogEventsKt.AppProcessStart, "version: " + BuildConfig.VERSION_NAME);
-
-        NotificationHelper.Companion.initNotificationChannel(this);
         JodaTimeAndroid.init(this);
 
-        StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
+        if (AndroidUtilsKt.isMainProcess(this)) {
+            initLogger();
+            ProtonLogger.INSTANCE.log(LogEventsKt.AppProcessStart, "version: " + BuildConfig.VERSION_NAME);
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            NotificationHelper.Companion.initNotificationChannel(this);
 
-        // Initialize go-libraries early
-        Seq.touch();
+            StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
 
-        boolean isUpdated = handleUpdate();
-        if (isUpdated) {
-            ProtonLogger.INSTANCE.log(
-                    LogEventsKt.AppUpdateUpdated, "new version: " + BuildConfig.VERSION_NAME);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+            // Initialize go-libraries early
+            Seq.touch();
+
+            boolean isUpdated = handleUpdate();
+            if (isUpdated) {
+                ProtonLogger.INSTANCE.log(LogEventsKt.AppUpdateUpdated, "new version: " + BuildConfig.VERSION_NAME);
+            }
+
+            CoreLogger.INSTANCE.set(new VpnCoreLogger());
         }
-
-        CoreLogger.INSTANCE.set(new VpnCoreLogger());
     }
 
     public void initDependencies() {
