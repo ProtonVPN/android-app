@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.promooffers
 
 import android.content.Context
 import com.protonvpn.android.appconfig.ApiNotificationManager
+import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -31,6 +32,7 @@ import javax.inject.Inject
 
 private const val FILE_NAME = "test_notifications_response.json"
 
+@Reusable
 class TestNotificationLoader @Inject constructor(
     private val mainScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,

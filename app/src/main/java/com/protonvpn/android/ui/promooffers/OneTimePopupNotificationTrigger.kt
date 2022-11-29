@@ -25,6 +25,7 @@ import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.main.MobileMainActivity
+import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
@@ -38,6 +39,7 @@ import me.proton.core.accountmanager.domain.AccountManager
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Reusable
 class PromoActivityOpener @Inject constructor() {
     fun open(activity: Activity, notificationId: String) {
         activity.startActivity(PromoOfferActivity.createIntent(activity, notificationId))

@@ -35,12 +35,14 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
+import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.user.domain.entity.User
 import javax.inject.Inject
 
+@Reusable
 class VpnLogin @Inject constructor(
     val mainScope: CoroutineScope,
     val api: ProtonApiRetroFit,
@@ -123,4 +125,3 @@ class VpnLogin @Inject constructor(
         const val GUEST_HOLE_ID = "LOGIN_SIGNUP"
     }
 }
-

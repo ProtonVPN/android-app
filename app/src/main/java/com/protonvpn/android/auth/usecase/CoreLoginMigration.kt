@@ -28,6 +28,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.utils.Storage
+import dagger.Reusable
 import io.sentry.Sentry
 import kotlinx.coroutines.runBlocking
 import me.proton.core.account.domain.entity.Account
@@ -41,6 +42,7 @@ import me.proton.core.network.domain.session.Session
 import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
 
+@Reusable
 class CoreLoginMigration @Inject constructor(
     private val accountManager: AccountManager,
     private val vpnUserDao: VpnUserDao,

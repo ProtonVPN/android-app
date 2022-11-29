@@ -21,6 +21,7 @@ package com.protonvpn.android.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -28,6 +29,7 @@ interface SharedPreferencesProvider {
     fun getPrefs(name: String): SharedPreferences
 }
 
+@Reusable
 class AndroidSharedPreferencesProvider @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) : SharedPreferencesProvider {

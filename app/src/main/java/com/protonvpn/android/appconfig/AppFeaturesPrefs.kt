@@ -21,12 +21,14 @@ package com.protonvpn.android.appconfig
 
 import android.content.SharedPreferences
 import com.protonvpn.android.utils.SharedPreferencesProvider
+import dagger.Reusable
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
 import me.proton.core.util.android.sharedpreferences.boolean
 import me.proton.core.util.android.sharedpreferences.long
 import me.proton.core.util.android.sharedpreferences.string
 import javax.inject.Inject
 
+@Reusable
 class AppFeaturesPrefs @Inject constructor(
     private val prefsProvider: SharedPreferencesProvider,
 ) : PreferencesProvider {

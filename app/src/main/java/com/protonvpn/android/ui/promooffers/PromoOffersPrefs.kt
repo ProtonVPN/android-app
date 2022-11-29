@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.promooffers
 import android.content.SharedPreferences
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.utils.Storage
+import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
@@ -32,6 +33,7 @@ import javax.inject.Inject
 private const val PREFS_NAME = "PromoOffersPrefs"
 private const val VISITED_OFFERS_KEY = "visitedOffers"
 
+@Reusable
 class PromoOffersPrefs @Inject constructor(
     prefsProvider: SharedPreferencesProvider
 ) : PreferencesProvider {

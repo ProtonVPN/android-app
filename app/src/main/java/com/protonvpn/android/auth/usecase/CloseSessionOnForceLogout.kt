@@ -28,9 +28,11 @@ import me.proton.core.account.domain.entity.SessionState
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.domain.onSessionState
 import javax.inject.Inject
+import javax.inject.Singleton
 
 private class SessionClosedInfo : Throwable("Session closed event")
 
+@Singleton
 class CloseSessionOnForceLogout @Inject constructor(
     mainScope: CoroutineScope,
     accountManager: AccountManager,

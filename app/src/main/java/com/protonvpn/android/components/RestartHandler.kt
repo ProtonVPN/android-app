@@ -23,10 +23,12 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.vpn.VpnConnectionManager
+import dagger.Reusable
 import javax.inject.Inject
 
 private const val MIN_RESTART_DELAY_FOR_RECONNECT_MS = 15_000L
 
+@Reusable
 class RestartHandler @Inject constructor(
     private val vpnConnectionManager: VpnConnectionManager,
     private val appFeaturesPrefs: AppFeaturesPrefs,
