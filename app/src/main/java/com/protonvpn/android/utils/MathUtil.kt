@@ -33,3 +33,8 @@ fun RectF.inCoordsOf(o: RectF) = RectF(
     bottom - o.top).scale(1f / o.width(), 1f / o.height())
 
 fun Int.hasFlag(flag: Int) = this and flag == flag
+
+fun ByteArray.toHexString() = joinToString("") { "%02x".format(it) }
+
+fun String.hexToByteArray() =
+    chunked(2).map { it.toInt(16).toByte() }.toByteArray()
