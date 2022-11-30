@@ -152,6 +152,14 @@ detekt analysis:
 
 build google debug:
   stage: build
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $ROBO_TEST == "true"
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: always
   cache:
     - key: $CI_COMMIT_REF_SLUG
       policy: pull
@@ -165,8 +173,6 @@ build google debug:
 
     - <<: *gradle-build-cache
       policy: pull-push
-  except:
-    - schedules
   tags:
     - xlarge-k8s
   script:

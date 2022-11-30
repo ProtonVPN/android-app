@@ -100,17 +100,13 @@ real connection mobile tests:
 
 robo tests:
   stage: test
+  timeout: 1h 30m
   tags:
     - small
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: never
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: never
-    - if: $CI_COMMIT_REF_NAME == "development"
-      variables:
-        TIMEOUT: 1200s
-    - when: always
+    - if: $ROBO_TEST == "true"
+      when: always
+    - when: never
   script:
     - *firebase_authenticate_script
     - gcloud firebase test android run
@@ -121,7 +117,12 @@ robo tests:
       --robo-script=gs://protonvpn-testing-scripts/ProtonVPN_Login_Robo_Script.json
       --robo-directives ignore:R.id.drawerButtonLogout=
   variables:
-    TIMEOUT: 600s
+    TIMEOUT: 3600s
     APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
     APP_TYPE: "googlePlay-debug.apk"
     CHECKOUT_CORE_SUBMODULE: "true"
+  after_script:
+    - | 
+      if [ $CI_JOB_STATUS == "failed" ]; then
+        curl -X POST -H 'Content-type: application/json' --data "{"text":':warn: Scheduled robo tests failed: \n$CI_JOB_URL'}" "$SLACK_QA_HOOK"
+      fi
