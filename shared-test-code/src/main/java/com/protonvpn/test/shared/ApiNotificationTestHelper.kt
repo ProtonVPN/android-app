@@ -30,8 +30,6 @@ import com.protonvpn.android.appconfig.ApiNotificationsResponse
 object ApiNotificationTestHelper {
 
     const val OFFER_ID = "offer ID"
-    const val PNG_BASE64 =
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVQI12P4//8/AAX+Av7czFnnAAAAAElFTkSuQmCC"
 
     fun mockOffer(
         id: String,

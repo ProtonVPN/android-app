@@ -27,9 +27,9 @@ import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.ui.promooffers.PromoOfferActivity
 import com.protonvpn.base.BaseVerify
+import com.protonvpn.data.DefaultData.PNG_BASE64
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.ApiNotificationTestHelper.OFFER_ID
-import com.protonvpn.test.shared.ApiNotificationTestHelper.PNG_BASE64
 import com.protonvpn.test.shared.ApiNotificationTestHelper.createNotificationJsonWithPanel
 import com.protonvpn.test.shared.ApiNotificationTestHelper.createNotificationsResponseJson
 import com.protonvpn.testRules.ProtonHiltAndroidRule

@@ -34,7 +34,7 @@ fun createServer(
     features: Int = 0
 ) =
     Server(
-        serverId = "",
+        serverId = serverId,
         entryCountry = "PL",
         exitCountry = "PL",
         serverName = serverName,

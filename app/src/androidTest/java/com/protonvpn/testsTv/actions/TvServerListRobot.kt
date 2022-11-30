@@ -27,7 +27,7 @@ import com.protonvpn.testsTv.verification.ConnectionVerify
  */
 class TvServerListRobot : BaseRobot() {
 
-    fun disconnectFromServer() : TvServerListRobot = clickVisibleElementByText(R.string.disconnect)
+    fun disconnectFromServer() : TvServerListRobot = clickElementByText(R.string.disconnect)
 
     fun connectToServer() : TvServerListRobot {
         recyclerView
