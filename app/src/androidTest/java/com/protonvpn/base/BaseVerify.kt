@@ -42,6 +42,9 @@ open class BaseVerify : BaseRobot() {
     fun checkIfElementIsNotDisplayedByStringId(@StringRes resId: Int) =
         view.withText(resId).checkDoesNotExist()
 
+    fun checkIfElementIsNotDisplayedByText(text: String) =
+        view.withText(text).checkDoesNotExist()
+
     fun checkIfElementIsDisplayedByContentDesc(text: String) =
         view.withContentDesc(text).checkDisplayed()
 
@@ -62,7 +65,11 @@ open class BaseVerify : BaseRobot() {
 
     fun checkIfElementByIdContainsText(@IdRes id: Int, @StringRes resId: Int) =
         view.withId(id)
-            .checkContains(InstrumentationRegistry.getInstrumentation().targetContext.getString(resId))
+            .checkContains(
+                InstrumentationRegistry.getInstrumentation().targetContext.getString(
+                    resId
+                )
+            )
 
     fun checkIfElementIsChecked(@IdRes id: Int) = view.withId(id).checkIsChecked()
 

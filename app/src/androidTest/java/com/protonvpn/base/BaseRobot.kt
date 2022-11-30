@@ -37,6 +37,7 @@ open class BaseRobot : CoreRobot() {
     inline fun <reified T> clickElementByText(@StringRes resId: Int): T =
         executeAndReturnRobot {
             view
+                .withVisibility(ViewMatchers.Visibility.VISIBLE)
                 .withText(resId)
                 .click()
         }
@@ -44,6 +45,7 @@ open class BaseRobot : CoreRobot() {
     inline fun <reified T> clickElementById(@IdRes id: Int): T =
         executeAndReturnRobot {
             view
+                .withVisibility(ViewMatchers.Visibility.VISIBLE)
                 .withId(id)
                 .click()
         }
@@ -111,14 +113,6 @@ open class BaseRobot : CoreRobot() {
             .withParentIndex(index)
             .click()
     }
-
-    inline fun <reified T> clickVisibleElementByText(@StringRes resId: Int): T =
-        executeAndReturnRobot {
-            view
-                .withVisibility(ViewMatchers.Visibility.VISIBLE)
-                .withText(resId)
-                .click()
-        }
 
     inline fun <reified T> waitUntilDisplayed(@IdRes id: Int): T =
         executeAndReturnRobot {

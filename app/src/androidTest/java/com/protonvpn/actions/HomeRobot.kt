@@ -20,22 +20,28 @@ package com.protonvpn.actions
 
 import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
 import com.protonvpn.TestSettings
 import com.protonvpn.android.R
+import com.protonvpn.android.models.vpn.Partner
+import com.protonvpn.android.models.vpn.PartnerType
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.matchers.ProtonMatcher.lastChild
 import com.protonvpn.testsHelper.ServiceTestHelper
+import me.proton.core.test.android.instrumented.ui.espresso.OnView
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.not
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -124,6 +130,18 @@ class HomeRobot : BaseRobot() {
         }
     }
 
+    fun openPartnersInfo(country: String) : HomeRobot{
+        clickElementByText<HomeRobot>(country)
+        return clickElementById(R.id.serversInfo)
+    }
+
+    fun openPartnersInfoUsingLogo(country: String, server: String, partnerName: String) : HomeRobot{
+        clickElementByText<HomeRobot>(country)
+        inServerRow(server).withContentDesc(partnerName).click()
+        return this
+    }
+
+
     private fun isAllowVpnRequestVisible(): Boolean {
         val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         return uiDevice.findObject(UiSelector().textContains("Connection request")).exists()
@@ -132,6 +150,16 @@ class HomeRobot : BaseRobot() {
     private inline fun <reified T> selectDrawerMenuOption(@IdRes drawerMenuOptionId: Int): T {
         clickElementByContentDescription<HomeRobot>(R.string.hamburgerMenu)
         return clickElementById(drawerMenuOptionId)
+    }
+
+    private fun inServerRow(serverName: String, fastest: Boolean = false): OnView {
+        val fastestMatcher =
+            if (fastest) withId(R.id.fastest)
+            else not(withId(R.id.fastest))
+        return view.withAncestor(
+            view.hasSibling(view.withChild(view.withText(serverName)))
+                .withParent(view.withCustomMatcher(fastestMatcher))
+        )
     }
 
     class Verify : BaseVerify() {
@@ -194,6 +222,21 @@ class HomeRobot : BaseRobot() {
             checkIfElementIsDisplayedByStringId(R.string.info_performance)
             checkIfElementIsDisplayedByStringId(R.string.server_load_title)
             checkIfElementIsDisplayedByStringId(R.string.server_load_description)
+        }
+
+        fun checkIfPartnersDataIsDisplayedProperly(partner : Partner){
+            checkIfElementIsDisplayedByText(partner.description!!)
+            checkIfElementIsDisplayedByText(partner.name!!)
+        }
+
+        fun checkIfPartnerIsNotDisplayed(partner : Partner){
+            checkIfElementIsNotDisplayedByText(partner.description!!)
+            checkIfElementIsNotDisplayedByText(partner.name!!)
+        }
+
+        fun checkIfPartnerTypeIsShown(partnerType: PartnerType) {
+            checkIfElementIsDisplayedByText(partnerType.type!!)
+            checkIfElementIsDisplayedByText(partnerType.description!!)
         }
     }
 
