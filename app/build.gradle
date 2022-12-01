@@ -177,6 +177,9 @@ android {
         buildConfigField "String", "CI_BRANCH_NAME", "\"${StringEscapeUtils.escapeJava(ciBranchName)}\""
         buildConfigField "String", "CI_COMMIT_MESSAGE", "\"${StringEscapeUtils.escapeJava(commitFirstLine)}\""
         buildConfigField "String", "BLACK_TOKEN", "\"\""
+        buildConfigField "String", "TEST_ASSET_OVERRIDE_SHA", "\"${Helpers.readFileOrDefault("test_asset_override_sha", "db95210d57b90063bfa1cac9881c7a8df326e6e2")}\""
+        buildConfigField "String", "TEST_ASSET_OVERRIDE_KEY", "\"${Helpers.readFileOrDefault("test_asset_override_key", "241b080fb0f1216e")}\""
+        buildConfigField "String", "TEST_SUITE_ASSET_OVERRIDE_KEY", "\"${Helpers.readFileOrDefault("test_suite_asset_override_key", "3ea60f6a2fbfc015")}\""
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -514,6 +517,13 @@ class Helpers {
             }
         }
         return "${major}.${minor}.${dev}.${release}"
+    }
+
+    static String readFileOrDefault(String path, String defaultValue) {
+        def file = new File(path)
+        if (!file.exists())
+            return defaultValue
+        return file.text
     }
 
     static String getReleaseNotes(int trimAt) {

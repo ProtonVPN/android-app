@@ -20,7 +20,6 @@ package com.protonvpn.android.utils
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.protonvpn.android.ProtonApplication
 import kotlinx.serialization.DeserializationStrategy
 import me.proton.core.util.kotlin.deserialize
 import java.io.FileNotFoundException
@@ -41,9 +40,8 @@ object FileUtils {
         }
 
     fun <T> getObjectFromAssets(jsonAssetPath: String, jsonToObject: (String) -> T): T {
-        val manager = ProtonApplication.getAppContext().assets
         try {
-            val file = manager.open(jsonAssetPath)
+            val file = AssetManager.openFile(jsonAssetPath)
             val size = file.available()
             val buffer = ByteArray(size)
             file.read(buffer)
