@@ -115,6 +115,9 @@ deploy:test-env:
       artifacts: true
   dependencies:
     - deploy:book-env-name
+  environment:
+    name: test-env/$CI_COMMIT_REF_SLUG/$CI_PIPELINE_IID
+    on_stop: cleanup:test-env
   cache: []
   rules: *rules_deploy_env
 
@@ -122,6 +125,9 @@ cleanup:test-env:
   extends: cleanup:review
   needs: ["deploy:test-env", "mobile tests test-env"]
   cache: []
+  environment:
+    name: test-env/$CI_COMMIT_REF_SLUG/$CI_PIPELINE_IID
+    action: stop
   rules: *rules_deploy_env
 
 detekt analysis:
