@@ -30,7 +30,7 @@ import me.proton.core.accountmanager.domain.onSessionState
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private class SessionClosedInfo : Throwable("Session closed event")
+private class SessionClosedInfo : Throwable("Force logout event")
 
 @Singleton
 class CloseSessionOnForceLogout @Inject constructor(
@@ -39,9 +39,18 @@ class CloseSessionOnForceLogout @Inject constructor(
     onSessionClosed: OnSessionClosed
 ) {
     init {
+        var sessionId: String? = null
+        accountManager.onSessionState(SessionState.Authenticated)
+            .onEach {
+                it.sessionId?.let { session -> sessionId = session.id }
+            }
+            .launchIn(mainScope)
         accountManager.onSessionState(SessionState.ForceLogout)
             .onEach {
-                Sentry.captureEvent(SentryEvent(SessionClosedInfo()))
+                val event = SentryEvent(SessionClosedInfo())
+                event.setExtra("Username", it.username)
+                event.setExtra("SessionId", sessionId.toString())
+                Sentry.captureEvent(event)
                 onSessionClosed.invoke(it)
             }
             .launchIn(mainScope)
