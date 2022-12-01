@@ -1,5 +1,5 @@
 default:
-  image: ${CI_REGISTRY}/android/shared/docker-android/ndk:v1.0.1
+  image: ${CI_REGISTRY}/android/shared/docker-android/ndk:v1.0.2
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
@@ -11,6 +11,7 @@ default:
     - base64 -d - < "$GRADLE_PROPERTIES_FILE2" >> gradle.properties
     - git fetch origin development
     - if [[ -f /load-env.sh ]]; then source /load-env.sh; fi
+    - if [ "$CI_JOB_STAGE" == "build" ]; then python3 $CI_PREPARE_TEST_ASSETS_PY; fi
   interruptible: true
 
 variables:
