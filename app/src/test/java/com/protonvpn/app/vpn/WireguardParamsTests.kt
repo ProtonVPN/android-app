@@ -50,5 +50,12 @@ class WireguardParamsTests {
             connectionParams.calculateAllowedIps(listOf(ipToExclude)),
             allowedIpsWithExclusion
         )
+        Assert.assertEquals(
+            connectionParams.calculateAllowedIps(listOf("10.0.2.16/24")),
+            "0.0.0.0/5, 8.0.0.0/7, 10.0.0.0/23, 10.0.3.0/24, 10.0.4.0/22, 10.0.8.0/21, 10.0.16.0/20, " +
+                "10.0.32.0/19, 10.0.64.0/18, 10.0.128.0/17, 10.1.0.0/16, 10.2.0.0/15, 10.4.0.0/14, 10.8.0.0/13, " +
+                "10.16.0.0/12, 10.32.0.0/11, 10.64.0.0/10, 10.128.0.0/9, 11.0.0.0/8, 12.0.0.0/6, " +
+                "16.0.0.0/4, 32.0.0.0/3, 64.0.0.0/2, 128.0.0.0/1, 2000::/3"
+        )
     }
 }

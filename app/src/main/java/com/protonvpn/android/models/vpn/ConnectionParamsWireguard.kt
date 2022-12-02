@@ -118,9 +118,9 @@ class ConnectionParamsWireguard(
             IPv4Address(byteArrayOf(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()))))
         // Create IP ranges by removing excluded IPs
         for (ip in excludedAddrs4) {
-            val toRemove = IPv4AddressSeqRange(ip, ip)
+            val toRemove = ip.toPrefixBlock().toSequentialRange()
             ranges = ranges.flatMap { range ->
-                if (range.contains(ip))
+                if (range.overlaps(toRemove))
                     range.subtract(toRemove).toList()
                 else
                     listOf(range)
