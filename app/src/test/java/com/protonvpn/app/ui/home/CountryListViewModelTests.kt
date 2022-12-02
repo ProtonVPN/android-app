@@ -26,10 +26,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.models.vpn.ConnectingDomain
-import com.protonvpn.android.models.vpn.Location
 import com.protonvpn.android.models.vpn.PartnersResponse
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -42,6 +39,7 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -90,10 +88,10 @@ class CountryListViewModelTests {
         coEvery { mockApi.getPartnerships() } returns ApiResult.Success(PartnersResponse(emptyList()))
 
         val servers = listOf(
-            createServer("PL#1", score = 1f, tier = 2),
-            createServer("PL#2", score = 5f, tier = 2),
-            createServer("PL#3", score = 2f, tier = 0),
-            createServer("PL#4", score = 4f, tier = 0)
+            createServer(serverName = "PL#1", score = 1f, tier = 2),
+            createServer(serverName = "PL#2", score = 5f, tier = 2),
+            createServer(serverName = "PL#3", score = 2f, tier = 0),
+            createServer(serverName = "PL#4", score = 4f, tier = 0)
         )
         serverManager.setServers(servers, null)
 
@@ -135,29 +133,5 @@ class CountryListViewModelTests {
         )
         val fastestServer = serverList.first().servers.first()
         assertEquals(2, fastestServer.tier)
-    }
-
-    private fun createServer(serverName: String, score: Float, tier: Int) = Server(
-        serverId = "",
-        entryCountry = "PL",
-        exitCountry = "PL",
-        serverName = serverName,
-        connectingDomains = listOf(dummyConnectingDomain),
-        hostCountry = null,
-        domain = "dummy.protonvpn.net",
-        load = 50f,
-        tier = tier,
-        region = null,
-        city = null,
-        features = 0,
-        location = Location("", ""),
-        null,
-        score = score,
-        isOnline = true
-    )
-
-    companion object {
-        private val dummyConnectingDomain =
-            ConnectingDomain("1.2.34", null, "dummy.protonvpn.net", "1.2.3.5", null, null, true, "dummy")
     }
 }
