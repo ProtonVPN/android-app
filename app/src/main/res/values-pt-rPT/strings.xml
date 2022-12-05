@@ -548,6 +548,9 @@
     <string name="server_load_description">Os servidores com uma mais carga alta são mais lentos.</string>
     <string name="streaming_title_with_country">Transmissão - %1$s</string>
     <string name="streaming_services_description">Ligue a um servidor Plus neste país para iniciar a transmissão.\n\nDica: limpe a memória das aplicações de transmissão para garantir a apresentação de novos conteúdos.</string>
+    <string name="partnership_free_title">Free servers</string>
+    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
+    <string name="partnership_partners_title">Our partners</string>
     <string name="activity_information_learn_more">Saiba mais</string>
     <string name="server_load_low">Baixa</string>
     <string name="server_load_medium">Média</string>

@@ -566,6 +566,9 @@
     <string name="server_load_description">Серверы с высокой нагрузкой медленнее, чем серверы с низкой нагрузкой.</string>
     <string name="streaming_title_with_country">Просмотр трансляций - %1$s</string>
     <string name="streaming_services_description">Подключитесь к серверу Plus в этой стране, чтобы начать просмотр трансляции.\n\nПодсказка: очистите кэш приложения для просмотра трансляций, чтобы убедиться, что появился новое содержимое.</string>
+    <string name="partnership_free_title">Бесплатные серверы</string>
+    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
+    <string name="partnership_partners_title">Наши партнеры</string>
     <string name="activity_information_learn_more">Подробнее</string>
     <string name="server_load_low">Низкая</string>
     <string name="server_load_medium">Средняя</string>
