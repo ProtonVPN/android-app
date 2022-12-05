@@ -51,11 +51,13 @@ abstract class SearchResultBinding<Value, Binding : ViewBinding>(
 
     protected fun bindFeaturesAndButtons(
         featuresButtons: ServerRowFeaturesAndButtonsView,
+        serverId: String? = null,
         showFeatures: Boolean = false,
-        showServerLoad: Boolean = false
+        showServerLoad: Boolean = false,
     ) {
         with(featuresButtons) {
             featuresEnabled = showFeatures
+            serverId?.let { setPartnership(item.partnerships, serverId) }
             serverLoadEnabled = showServerLoad
             userHasAccess = item.hasAccess
             isConnected = item.isConnected
@@ -71,7 +73,7 @@ abstract class SearchResultBinding<Value, Binding : ViewBinding>(
     }
 
     protected fun bindFeaturesAndButtons(featuresButtons: ServerRowFeaturesAndButtonsView, server: Server) {
-        bindFeaturesAndButtons(featuresButtons, showFeatures = true, showServerLoad = true)
+        bindFeaturesAndButtons(featuresButtons, server.serverId, showFeatures = true, showServerLoad = true)
         with(featuresButtons) {
             featureKeywords = server.keywords
             serverLoad = server.load
