@@ -32,8 +32,10 @@ import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -59,6 +61,7 @@ class SearchViewModel @Inject constructor(
     private val vpnConnectionManager: VpnConnectionManager,
     vpnStatusProviderUI: VpnStatusProviderUI,
     private val serverManager: ServerManager,
+    private val parntershipsRepository: PartnershipsRepository,
     private val search: Search,
     currentUser: CurrentUser
 ) : ViewModel() {
@@ -67,7 +70,8 @@ class SearchViewModel @Inject constructor(
         val match: Search.Match<T>,
         val isConnected: Boolean,
         val hasAccess: Boolean,
-        val isOnline: Boolean
+        val isOnline: Boolean,
+        val partnerships: List<Partner>
     )
 
     sealed class ViewState {
@@ -198,7 +202,8 @@ class SearchViewModel @Inject constructor(
                                         Search.Match(countryMatch.textMatch, it),
                                         it == connectedServer,
                                         vpnUser.hasAccessToServer(it),
-                                        it.online
+                                        it.online,
+                                        parntershipsRepository.getServerPartnerships(it.serverId)
                                     )
                                 }
                             }
@@ -211,7 +216,13 @@ class SearchViewModel @Inject constructor(
 
     private fun mapCountry(match: Search.Match<VpnCountry>, vpnUser: VpnUser?, connectedServer: Server?) =
         with(match.value) {
-            ResultItem(match, serverList.contains(connectedServer), hasAccessibleServer(vpnUser), !isUnderMaintenance())
+            ResultItem(
+                match,
+                serverList.contains(connectedServer),
+                hasAccessibleServer(vpnUser),
+                !isUnderMaintenance(),
+                partnerships = emptyList()
+            )
         }
 
     private fun mapCity(match: Search.Match<List<Server>>, vpnUser: VpnUser?, connectedServer: Server?) =
@@ -220,7 +231,8 @@ class SearchViewModel @Inject constructor(
                 match,
                 servers.contains(connectedServer),
                 vpnUser.hasAccessToAnyServer(servers),
-                servers.any { it.online }
+                servers.any { it.online },
+                partnerships = emptyList()
             )
         }
 
@@ -229,7 +241,8 @@ class SearchViewModel @Inject constructor(
             match,
             match.value == connectedServer,
             vpnUser.hasAccessToServer(match.value),
-            match.value.online
+            match.value.online,
+            parntershipsRepository.getServerPartnerships(match.value.serverId)
         )
 
     private fun getServerTierComparator(vpnUser: VpnUser): Comparator<Search.Match<Server>> {
