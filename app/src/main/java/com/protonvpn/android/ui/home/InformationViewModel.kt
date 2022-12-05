@@ -39,7 +39,10 @@ class InformationViewModel @Inject constructor(
 
     fun getPartnerTypes() = partnershipsRepository.getPartnerTypes()
 
-    fun getPartnersForServer(serverId: String) = partnershipsRepository.getServerPartnerships(serverId)
+    fun getPartnersForServer(serverId: String) = serverManager.getServerById(serverId)?.let { server ->
+        partnershipsRepository.getServerPartnerships(server)
+    }
+
 
     fun getPartnersForCountry(countryCode: String, secureCore: Boolean) =
         serverManager.getVpnExitCountry(countryCode, secureCore)?.let {

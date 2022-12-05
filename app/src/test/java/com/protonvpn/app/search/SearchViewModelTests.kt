@@ -21,13 +21,18 @@ package com.protonvpn.app.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
+import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.models.vpn.Partner
+import com.protonvpn.android.models.vpn.PartnerType
+import com.protonvpn.android.models.vpn.PartnersResponse
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.search.Search
 import com.protonvpn.android.search.SearchViewModel
 import com.protonvpn.android.utils.CountryTools
@@ -41,6 +46,7 @@ import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
@@ -50,6 +56,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
+import me.proton.core.network.domain.ApiResult
 import me.proton.core.test.kotlin.CoroutinesTest
 import org.junit.Before
 import org.junit.Rule
@@ -79,9 +87,12 @@ class SearchViewModelTests : CoroutinesTest {
     private lateinit var mockVpnStatusProviderUI: VpnStatusProviderUI
     @MockK
     private lateinit var appConfig: AppConfig
+    @MockK
+    private lateinit var mockApi: ProtonApiRetroFit
 
     private lateinit var vpnStateFlow: MutableStateFlow<VpnStateMonitor.Status>
     private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
+    private lateinit var partnershipsRepository: PartnershipsRepository
 
     @Before
     fun setup() {
@@ -100,6 +111,7 @@ class SearchViewModelTests : CoroutinesTest {
         val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, supportsProtocol, mockk(relaxed = true))
         serverManager.setServers(MockedServers.serverList, null)
         val search = Search(serverManager)
+        partnershipsRepository = PartnershipsRepository(mockApi)
 
         searchViewModel = SearchViewModel(
             SavedStateHandle(),
@@ -107,8 +119,9 @@ class SearchViewModelTests : CoroutinesTest {
             mockConnectionManager,
             mockVpnStatusProviderUI,
             serverManager,
+            partnershipsRepository,
             search,
-            mockCurrentUser
+            mockCurrentUser,
         )
     }
 
@@ -183,7 +196,9 @@ class SearchViewModelTests : CoroutinesTest {
         val state = searchViewModel.viewState.first()
 
         assertIs<SearchViewModel.ViewState.SearchResults>(state)
-        assertEquals(listOf("Sweden", "Hong Kong SAR China", "United States"), state.countries.map { it.match.text })
+        assertEquals(
+            listOf("Sweden", "Switzerland", "Hong Kong SAR China", "United States"),
+            state.countries.map { it.match.text })
     }
 
     @Test
@@ -271,5 +286,21 @@ class SearchViewModelTests : CoroutinesTest {
         val state = searchViewModel.viewState.first()
         assertIs<SearchViewModel.ViewState.SearchHistory>(state)
         assertEquals(listOf("aaa", "bbb"), state.queries)
+    }
+
+    @Test
+    fun `when a server has partnership info then the partner is included with results`() = runTest {
+        val partnerServerId = "TlhSsVFg4dZ3_axHBlM_KWl7H4XLReby3-lr56MfzJOSrzt1VWmDBHy7-37zaxNQrE-l54lk8K0Lpd3EgLxOPw=="
+        val partner = Partner("Name","Description", logicalIDs = listOf(partnerServerId))
+        coEvery { mockApi.getPartnerships() } returns ApiResult.Success(PartnersResponse(
+            listOf(PartnerType(partners = listOf(partner)))
+        ))
+        partnershipsRepository.refresh()
+
+        searchViewModel.setQuery("CH#301#PARTNER")
+        val state = searchViewModel.viewState.first()
+        assertIs<SearchViewModel.ViewState.SearchResults>(state)
+        assertEquals(1, state.servers.size)
+        assertEquals(listOf(partner), state.servers.first().partnerships)
     }
 }

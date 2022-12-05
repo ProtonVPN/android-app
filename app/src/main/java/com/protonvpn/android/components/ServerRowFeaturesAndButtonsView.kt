@@ -25,7 +25,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
-import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
@@ -34,7 +33,6 @@ import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.ServerLoadColor
 import com.protonvpn.android.ui.home.InformationActivity
-import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.setColorTint
 import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import kotlin.math.ceil
@@ -105,13 +103,12 @@ class ServerRowFeaturesAndButtonsView : LinearLayout {
         imageMaintenance.isVisible = userHasAccess && !isOnline
     }
 
-    fun setPartnership(partner: List<Partner>, serverId: String) {
-        partner.forEach {
-            binding.serverFeatures.addPartnership(it) {
-                context.startActivity(
-                    InformationActivity.createIntent(context, InformationActivity.InfoType.Partners.Server(serverId))
-                )
-            }
+    fun setPartnership(partners: List<Partner>, serverId: String) {
+        binding.serverFeatures.partners = partners
+        binding.serverFeatures.partnerIconClickListener = OnClickListener {
+            context.startActivity(
+                InformationActivity.createIntent(context, InformationActivity.InfoType.Partners.Server(serverId))
+            )
         }
     }
 

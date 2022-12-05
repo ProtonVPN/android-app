@@ -203,7 +203,7 @@ class SearchViewModel @Inject constructor(
                                         it == connectedServer,
                                         vpnUser.hasAccessToServer(it),
                                         it.online,
-                                        parntershipsRepository.getServerPartnerships(it.serverId)
+                                        parntershipsRepository.getServerPartnerships(it)
                                     )
                                 }
                             }
@@ -242,7 +242,7 @@ class SearchViewModel @Inject constructor(
             match.value == connectedServer,
             vpnUser.hasAccessToServer(match.value),
             match.value.online,
-            parntershipsRepository.getServerPartnerships(match.value.serverId)
+            parntershipsRepository.getServerPartnerships(match.value)
         )
 
     private fun getServerTierComparator(vpnUser: VpnUser): Comparator<Search.Match<Server>> {
