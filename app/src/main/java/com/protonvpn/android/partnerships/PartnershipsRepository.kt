@@ -51,8 +51,9 @@ class PartnershipsRepository @Inject constructor(
             allPartners.any { partner -> partner.hasServer(server) }
         }
 
-    fun getServerPartnerships(serverId: String): List<Partner> =
-        allPartners.filter { partner -> partner.hasServer(serverId) }
+    fun getServerPartnerships(server: Server): List<Partner> =
+        if (server.isPartneshipServer) allPartners.filter { partner -> partner.hasServer(server) }
+        else emptyList()
 
     fun getUniquePartnershipsForServers(serverList: List<Server>): List<Partner> = buildList {
         serverList.filter { it.isPartneshipServer }.forEach { server ->
@@ -63,6 +64,5 @@ class PartnershipsRepository @Inject constructor(
         }
     }
 
-    private fun Partner.hasServer(serverId: String) = logicalIDs.contains(serverId)
     private fun Partner.hasServer(server: Server) = logicalIDs.contains(server.serverId)
 }

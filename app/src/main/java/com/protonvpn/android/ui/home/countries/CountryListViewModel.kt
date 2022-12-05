@@ -59,8 +59,7 @@ class CountryListViewModel @Inject constructor(
 
     fun isConnectedToServer(server: Server): Boolean = vpnStatusProviderUI.isConnectedTo(server)
 
-    fun getServerPartnerships(server: Server): List<Partner> =
-        partnershipsRepository.getServerPartnerships(server.serverId)
+    fun getServerPartnerships(server: Server): List<Partner> = partnershipsRepository.getServerPartnerships(server)
 
     data class ServersGroup(val groupTitle: ServerGroupTitle?, val servers: List<Server>) {
         constructor(titleRes: Int, servers: List<Server>, infoType: InformationActivity.InfoType? = null) : this(

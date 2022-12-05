@@ -452,6 +452,38 @@ object MockedServers {
         }
       ],
       "Load": 36
+    },
+    {
+        "ID": "TlhSsVFg4dZ3_axHBlM_KWl7H4XLReby3-lr56MfzJOSrzt1VWmDBHy7-37zaxNQrE-l54lk8K0Lpd3EgLxOPw==",
+        "Name": "CH#301#PARTNER",
+        "City": null,
+        "EntryCountry": "CH",
+        "ExitCountry": "CH",
+        "Domain": "ch-301.protonvpn.net",
+        "Tier": 0,
+        "Features": 64,
+        "LocationResponse": null,
+        "Status": 1,
+        "Region": null,
+        "Location": {
+            "Lat": 46.8182,
+            "Long": 8.2275
+        },
+        "Load": 2,
+        "Score": 2.0,
+        "HostCountry": null,
+        "Servers": [
+          {
+            "ID": "HoFWOwv4LylhIK5VQ85zQzPghthWao_iOAYE_qrrIkBFZ_r4dxQkd7bVHXb_yD6V91x5pwb2XDKx6Ycks21mvg==",
+            "EntryIP": "213.193.98.43",
+            "ExitIP": "213.193.98.43",
+            "Domain": "ch-301.protonvpn.net",
+            "Status": 1,
+            "Label": "partner",
+            "X25519PublicKey": "Khx5269rT18OGV61/OtwkcXggc7pXdcS/lGYS0dfCHU=",
+            "Signature": "6bkIy/3yrNXN/5IqpZ3KT4EZ4BIq8jUolE5Dbv3PEBsmdQnrdEeXNeWCvOYr+PfdP6IW4Sdk1qDq9Mp4d/Z4Cw=="
+          }
+        ]
     }
 ]
     """.trimIndent()

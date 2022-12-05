@@ -38,6 +38,8 @@ import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ViewUtils.toPx
 
+private object PartnerIconTag
+
 class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     private val binding = ServerFeaturesViewBinding.inflate(LayoutInflater.from(context), this)
@@ -55,6 +57,19 @@ class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(
             update()
         }
 
+    var partners: List<Partner> = emptyList()
+        set(value) {
+            field = value
+            updatePartnerIconsIfNeeded()
+        }
+    private var currentPartners: List<Partner> = emptyList()
+
+    var partnerIconClickListener: OnClickListener? = null
+        set(value) {
+            field = value
+            updatePartnerClickListener()
+        }
+
     init {
         orientation = HORIZONTAL
         setVerticalGravity(Gravity.CENTER_VERTICAL)
@@ -63,7 +78,7 @@ class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(
     }
 
     private fun update() = with(binding) {
-        children.forEach { it.isVisible = false }
+        featureIcons().forEach { it.isVisible = false }
         keywords.forEach {
             val iconView = when (it) {
                 Server.Keyword.P2P -> iconP2P
@@ -78,23 +93,41 @@ class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(
         }
     }
 
-    fun addPartnership(partner: Partner, onClickListener: OnClickListener) {
-        if (keywords.contains(Server.Keyword.PARTNERSHIP)) {
-            val imageView = ImageView(context)
-            Glide.with(imageView).load(partner.iconUrl)
-                .into(imageView)
-
-            val padding = 4.toPx()
-            with(imageView) {
-                setOnClickListener(onClickListener)
-                setPadding(padding, padding, padding, padding)
-                contentDescription = partner.name
+    private fun updatePartnerIconsIfNeeded() {
+        if (currentPartners != partners) {
+            currentPartners = partners
+            partnerIcons().forEach {
+                removeView(it)
             }
-            addView(imageView)
-            imageView.updateLayoutParams<ViewGroup.LayoutParams> {
-                height = 32.toPx()
-                width = 32.toPx()
-            }
+            partners.forEach { addPartnerIcon(it) }
         }
     }
+
+    private fun updatePartnerClickListener() {
+        partnerIcons().forEach {
+            it.setOnClickListener(partnerIconClickListener)
+        }
+    }
+
+    private fun addPartnerIcon(partner: Partner) {
+        val imageView = ImageView(context)
+        Glide.with(imageView).load(partner.iconUrl)
+            .into(imageView)
+
+        val padding = 4.toPx()
+        with(imageView) {
+            setOnClickListener(partnerIconClickListener)
+            setPadding(padding, padding, padding, padding)
+            contentDescription = partner.name
+            tag = PartnerIconTag
+        }
+        addView(imageView)
+        imageView.updateLayoutParams<ViewGroup.LayoutParams> {
+            height = 32.toPx()
+            width = 32.toPx()
+        }
+    }
+
+    private fun featureIcons() = children.filter { it.tag != PartnerIconTag }
+    private fun partnerIcons() = children.filter { it.tag == PartnerIconTag }
 }

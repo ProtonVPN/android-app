@@ -56,11 +56,11 @@ class PartnershipsRepositoryTests {
 
     @Test
     fun `test getPartnershipForServer`() = runTest {
-        val serverId = "server ID"
-        val partner = Partner("partner name", "partner description", "icon Url", listOf(serverId))
+        val server = createServer(serverId = "server 1", features = SERVER_FEATURE_PARTNER_SERVER)
+        val partner = Partner("partner name", "partner description", "icon Url", listOf(server.serverId))
         setupPartnerships(partner)
 
-        val partnersForServer = partnershipsRepository.getServerPartnerships(serverId)
+        val partnersForServer = partnershipsRepository.getServerPartnerships(server)
         assertEquals(listOf(partner), partnersForServer)
     }
 
