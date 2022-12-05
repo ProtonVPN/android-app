@@ -21,6 +21,7 @@ package com.protonvpn.android.components
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -56,7 +57,7 @@ class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(
 
     init {
         orientation = HORIZONTAL
-        setVerticalGravity(TEXT_ALIGNMENT_CENTER)
+        setVerticalGravity(Gravity.CENTER_VERTICAL)
         if (isInEditMode) keywords = listOf(Server.Keyword.P2P, Server.Keyword.TOR)
         update()
     }
