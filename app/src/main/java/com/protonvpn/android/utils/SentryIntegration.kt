@@ -66,6 +66,7 @@ object SentryIntegration {
             options.isEnableAutoSessionTracking = false
             options.isEnableActivityLifecycleBreadcrumbs = false // We log our own breadcrumbs.
             options.isAnrEnabled = false
+            options.maxBreadcrumbs = 300
             options.setBeforeSend { event, _ ->
                 SentryFingerprints.setFingerprints(event)
             }
