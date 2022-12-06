@@ -45,7 +45,9 @@ jacoco {
     toolVersion = '0.8.8'
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testBlackDebugUnitTest']) {
+// There is no dependency on unit tests because coverage is run in a separate CI job and we want to
+// avoid building and running the tests again.
+task jacocoTestReport(type: JacocoReport) {
 
     reports {
         xml.enabled = true
@@ -54,7 +56,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testBlackDebugUnitTest'])
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', 'ch.protonmail.android.utils.nativelib']
     def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/blackDebug", excludes: fileFilter)
-    def mainSrc = files(["src/main/java","src/googlePlay/java"])
+    def mainSrc = files(["src/main/java","src/black/java"])
     sourceDirectories.setFrom files([mainSrc])
     classDirectories.setFrom files([debugTree])
     executionData.setFrom fileTree(dir: "$project.projectDir", includes: [
