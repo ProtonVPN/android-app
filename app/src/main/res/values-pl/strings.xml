@@ -567,7 +567,7 @@
     <string name="streaming_title_with_country">Streaming - %1$s</string>
     <string name="streaming_services_description">Połącz się z serwerem planu Plus w tym kraju, aby rozpocząć streaming.\n\nPodpowiedź: Wyczyść pamięć podręczną aplikacji streamingu, aby zobaczyć nową zawartość.</string>
     <string name="partnership_free_title">Serwery planu Free</string>
-    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
+    <string name="partnership_free_description">Bezpieczeństwo i prywatność dla każdego. Serwery planu Free nie posiadają limitów danych i nigdy nie będziemy celowo spowalniać prędkości przeglądania Internetu.</string>
     <string name="partnership_partners_title">Nasi partnerzy</string>
     <string name="activity_information_learn_more">Dowiedz się więcej</string>
     <string name="server_load_low">Małe</string>

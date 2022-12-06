@@ -567,7 +567,7 @@
     <string name="streaming_title_with_country">Потокове передавання: %1$s</string>
     <string name="streaming_services_description">З\'єднайтеся з сервером Plus у цій країні, щоб почати потокову трансляцію.\n\nПідказка: Очистіть кеш додатків трансляції, щоб забезпечити появу нових матеріалів.</string>
     <string name="partnership_free_title">Безплатні сервери</string>
-    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
+    <string name="partnership_free_description">Безпека та приватність для всіх. Безплатні сервери не мають обмежень за обсягом даних, і ми ніколи навмисно не сповільнюватимемо швидкість вашого вебперегляду.</string>
     <string name="partnership_partners_title">Наші партнери</string>
     <string name="activity_information_learn_more">Докладніше</string>
     <string name="server_load_low">Низьке</string>

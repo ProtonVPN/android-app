@@ -549,7 +549,7 @@
     <string name="streaming_title_with_country">Streaming: %1$s</string>
     <string name="streaming_services_description">Conéctate a un servidor Plus en este país para empezar a transmitir.\n\nSugerencia: Borra la caché de las aplicaciones de transmisión para asegurar que los nuevos contenidos aparezcan.</string>
     <string name="partnership_free_title">Servidores gratuitos</string>
-    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
+    <string name="partnership_free_description">Seguridad y privacidad para todos. Los servidores gratuitos no tienen límites de datos y nunca reduciremos deliberadamente tu velocidad de navegación.</string>
     <string name="partnership_partners_title">Nuestros colaboradores</string>
     <string name="activity_information_learn_more">Más información</string>
     <string name="server_load_low">Baja</string>
