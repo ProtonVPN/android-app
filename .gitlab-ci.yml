@@ -72,11 +72,6 @@ cache:
     paths:
       - .gradle
 
-  - key: ${CI_COMMIT_SHORT_SHA}
-    policy: pull
-    paths:
-      - '**/build/tmp/'
-
   - <<: *gradle-build-cache
 
 # TODO: Switch to a shared implementation once DEVOPS-794 is finished.
@@ -160,19 +155,6 @@ build google debug:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
     - when: always
-  cache:
-    - key: $CI_COMMIT_REF_SLUG
-      policy: pull
-      paths:
-        - .gradle
-
-    - key: ${CI_COMMIT_SHORT_SHA}
-      policy: push
-      paths:
-        - '**/build/tmp/'
-
-    - <<: *gradle-build-cache
-      policy: pull-push
   tags:
     - xlarge-k8s
   script:
@@ -205,6 +187,7 @@ build google debug:
     expire_in: 1 week
     paths:
     - app/build/outputs/apk
+    - app/build/tmp/kotlin-classes
 
 build test-env:
   extends: .build test
@@ -281,13 +264,18 @@ unit tests:
     - schedules
   script:
     - ./gradlew testBlackDebug
+  artifacts:
+    expire_in: 1 day
+    paths:
+    - app/build/test-results
+    - app/build/jacoco
+    - app/build/reports/tests
 
 coverage report:
   stage: report
   tags:
     - large
   script:
-    - ./gradlew jacocoTestReport
     - ./gradlew coverageReport
     - python3 jacocoConverter.py app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml app/src/main/java > app/build/reports/cobertura-coverage.xml    
     # create top level artifact index to direct users to the deep index
