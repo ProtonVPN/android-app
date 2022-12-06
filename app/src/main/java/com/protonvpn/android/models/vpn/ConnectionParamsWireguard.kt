@@ -113,24 +113,33 @@ class ConnectionParamsWireguard(
             .filter { it.isIPv4 }
             .map { it as IPv4Address }
 
-        // Add all IPs
-        var ranges = listOf(IPv4AddressSeqRange(IPv4Address(0),
-            IPv4Address(byteArrayOf(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()))))
-        // Create IP ranges by removing excluded IPs
-        for (ip in excludedAddrs4) {
-            val toRemove = ip.toPrefixBlock().toSequentialRange()
-            ranges = ranges.flatMap { range ->
-                if (range.overlaps(toRemove))
-                    range.subtract(toRemove).toList()
-                else
-                    listOf(range)
-            }
+        val allIps = IPv4AddressSeqRange(
+            IPv4Address(0),
+            IPv4Address(byteArrayOf(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()))
+        )
+        var ranges = excludedAddrs4.fold(listOf(allIps), this::removeIpFromRanges)
+        var allowedIps4 = ranges.flatMap { it.spanWithPrefixBlocks().toList() }
+        if (allowedIps4.any { it.toCanonicalString().startsWith("127.") }) {
+            // Allowed IPs cannot include anything starting with 127., otherwise VpnService.Builder.addRoute()
+            // is going to throw an exception. To circumvent this, exclude 127.0.0.0/8 too.
+            val loopbackAddress = IPAddressString("127.0.0.0/8").address as IPv4Address
+            ranges = removeIpFromRanges(ranges, loopbackAddress)
+            allowedIps4 = ranges.flatMap { it.spanWithPrefixBlocks().toList() }
         }
-        val allowedIps4 = ranges.flatMap { it.spanWithPrefixBlocks().toList() }
-            .joinToString(separator = ", ") { it.toCanonicalString() }
+        val allowedIps4String = allowedIps4.joinToString(separator = ", ") { it.toCanonicalString() }
 
         // Don't leak IPv6 for Wireguard when split tunneling is used
         // Also ::/0 CIDR should not be used for IPv6 as it causes LAN connection issues
-        return "$allowedIps4, 2000::/3"
+        return "$allowedIps4String, 2000::/3"
+    }
+
+    private fun removeIpFromRanges(currentRanges: List<IPv4AddressSeqRange>, ip: IPv4Address): List<IPv4AddressSeqRange> {
+        val toRemove = ip.toPrefixBlock().toSequentialRange()
+        return currentRanges.flatMap { range ->
+            if (range.overlaps(toRemove))
+                range.subtract(toRemove).toList()
+            else
+                listOf(range)
+        }
     }
 }
