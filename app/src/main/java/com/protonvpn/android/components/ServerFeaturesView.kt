@@ -128,6 +128,7 @@ class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(
         }
     }
 
-    private fun featureIcons() = children.filter { it.tag != PartnerIconTag }
-    private fun partnerIcons() = children.filter { it.tag == PartnerIconTag }
+    // Both functions return an immutable list that isn't affected by changes to children.
+    private fun featureIcons() = children.filter { it.tag != PartnerIconTag }.toList()
+    private fun partnerIcons() = children.filter { it.tag == PartnerIconTag }.toList()
 }
