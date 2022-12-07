@@ -24,56 +24,49 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:paddingHorizontal="16dp"
+    android:gravity="center_vertical"
+    android:background="?attr/proton_background_secondary">
+
+    <ImageView
+        android:id="@+id/imageCountry"
+        android:layout_width="@dimen/server_list_flag_size"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/server_list_flag_margin"
+        tools:src="@drawable/flag_de"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:gravity="center_vertical"
-        android:background="?attr/proton_background_secondary">
+        android:orientation="vertical"
+        android:layout_marginEnd="16dp"
+        android:layout_marginVertical="8dp">
 
-        <ImageView
-            android:id="@+id/imageCountry"
-            android:layout_width="@dimen/server_list_flag_size"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/server_list_flag_margin"
-            tools:src="@drawable/flag_de"/>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginEnd="16dp"
-            android:layout_marginVertical="8dp">
-
-            <TextView
-                android:id="@+id/textServer"
-                style="@style/Proton.Text.Default"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/server_list_flag_margin"
-                android:ellipsize="end"
-                android:lines="1"
-                app:drawableTint="?attr/proton_icon_accent"
-                tools:text="DE#1" />
-
-            <TextView
-                android:id="@+id/textCity"
-                style="@style/Proton.Text.DefaultSmall.Weak"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                android:textColor="@color/text_weak_selector"
-                tools:text="Berlin" />
-        </LinearLayout>
-
-        <com.protonvpn.android.components.ServerRowFeaturesAndButtonsView
-            android:id="@+id/featuresAndButtons"
+        <TextView
+            android:id="@+id/textServer"
+            style="@style/Proton.Text.Default"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/server_list_flag_margin"
+            android:ellipsize="end"
+            android:lines="1"
+            app:drawableTint="?attr/proton_icon_accent"
+            tools:text="DE#1" />
+
+        <TextView
+            android:id="@+id/textCity"
+            style="@style/Proton.Text.DefaultSmall.Weak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/text_weak_selector"
+            tools:text="Berlin" />
     </LinearLayout>
 
+    <com.protonvpn.android.components.ServerRowFeaturesAndButtonsView
+        android:id="@+id/featuresAndButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
