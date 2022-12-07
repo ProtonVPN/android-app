@@ -58,6 +58,7 @@ class CountryExpandedViewHolder(
         clear()
         val secureCoreEnabled = viewModel.isSecureCoreEnabled
         with(binding) {
+            root.id = if (fastest) R.id.fastest else View.NO_ID // For tests.
             val haveAccess = viewModel.hasAccessToServer(server)
 
             textServer.isVisible = true
