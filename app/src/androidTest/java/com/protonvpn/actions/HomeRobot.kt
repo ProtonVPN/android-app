@@ -81,6 +81,8 @@ class HomeRobot : BaseRobot() {
         return waitUntilDisplayed(R.id.mapView)
     }
 
+    fun swipeDownToRefreshServerList(): HomeRobot = swipeDownOnElementById(R.id.list)
+
     fun setStateOfSecureCoreSwitch(state: Boolean): HomeRobot {
         if (state != ServiceTestHelper().isSecureCoreEnabled)
             clickElementById<HomeRobot>(R.id.switchSecureCore)
@@ -130,12 +132,12 @@ class HomeRobot : BaseRobot() {
         }
     }
 
-    fun openPartnersInfo(country: String) : HomeRobot{
+    fun openPartnersInfo(country: String): HomeRobot {
         clickElementByText<HomeRobot>(country)
         return clickElementById(R.id.serversInfo)
     }
 
-    fun openPartnersInfoUsingLogo(country: String, server: String, partnerName: String) : HomeRobot{
+    fun openPartnersInfoUsingLogo(country: String, server: String, partnerName: String): HomeRobot {
         clickElementByText<HomeRobot>(country)
         inServerRow(server).withContentDesc(partnerName).click()
         return this
@@ -164,6 +166,8 @@ class HomeRobot : BaseRobot() {
 
     class Verify : BaseVerify() {
         fun isInMainScreen() = checkIfElementIsDisplayedById(R.id.fabQuickConnect)
+
+        fun serverListIsVisible() = checkIfElementIsDisplayedById(R.id.list)
 
         fun dialogUpgradeVisible() {
             checkIfElementIsDisplayedByStringId(R.string.upgrade_secure_core_title_new)
@@ -224,12 +228,12 @@ class HomeRobot : BaseRobot() {
             checkIfElementIsDisplayedByStringId(R.string.server_load_description)
         }
 
-        fun checkIfPartnersDataIsDisplayedProperly(partner : Partner){
+        fun checkIfPartnersDataIsDisplayedProperly(partner: Partner) {
             checkIfElementIsDisplayedByText(partner.description!!)
             checkIfElementIsDisplayedByText(partner.name!!)
         }
 
-        fun checkIfPartnerIsNotDisplayed(partner : Partner){
+        fun checkIfPartnerIsNotDisplayed(partner: Partner) {
             checkIfElementIsNotDisplayedByText(partner.description!!)
             checkIfElementIsNotDisplayedByText(partner.name!!)
         }

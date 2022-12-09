@@ -87,6 +87,11 @@ class LoginRobot : BaseRobot() {
                 "Incorrect login credentials. Please try again"
             )
         }
+
+        fun loginScreenIsDisplayed() {
+            checkIfElementIsDisplayedById(R.id.sign_in)
+            checkIfElementIsDisplayedById(R.id.sign_up)
+        }
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
