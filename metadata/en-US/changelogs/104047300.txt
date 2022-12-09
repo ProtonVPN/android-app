@@ -1,0 +1,5 @@
+What's new:
+* Improves stability
+* Removes legacy IKEv2 protocol
+* Improves reliability on restricted networks
+* Improves Quick Settings widget
