@@ -21,6 +21,7 @@ package com.protonvpn.testSuites
 
 import com.protonvpn.tests.bugReport.BugReportTests
 import com.protonvpn.tests.login.LoginTests
+import com.protonvpn.tests.login.TokenExpirationTests
 import com.protonvpn.tests.signup.SignupTests
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
@@ -29,6 +30,7 @@ import org.junit.runners.Suite
 @Suite.SuiteClasses(
     LoginTests::class,
     BugReportTests::class,
+    TokenExpirationTests::class,
     SignupTests::class
 )
 class MobileBlackSuite
