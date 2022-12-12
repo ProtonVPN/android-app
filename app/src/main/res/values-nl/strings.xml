@@ -549,7 +549,7 @@
     <string name="streaming_title_with_country">Streaming - %1$s</string>
     <string name="streaming_services_description">Maak verbinding met een Plus-server in dit land om het streamen te starten.\n\nTip: Wis de cache van de streaming-apps om ervoor te zorgen dat nieuwe inhoud wordt weergegeven.</string>
     <string name="partnership_free_title">Gratis servers</string>
-    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
+    <string name="partnership_free_description">Veiligheid en privacy voor iedereen. Gratis servers hebben geen datalimiet, en we zullen uw browsersnelheid nooit met opzet vertragen.</string>
     <string name="partnership_partners_title">Onze partners</string>
     <string name="activity_information_learn_more">Meer informatie</string>
     <string name="server_load_low">Laag</string>

@@ -549,7 +549,7 @@
     <string name="streaming_title_with_country">Yayın akışı - %1$s</string>
     <string name="streaming_services_description">Yayın akışını başlatmak için bu ülkedeki bir Plus sunucusuna bağlanın.\n\nNot: Yeni içeriğin görüntülenmesini sağlamak için yayın akışı uygulamalarının ön belleğini temizleyin.</string>
     <string name="partnership_free_title">Ücretsiz sunucular</string>
-    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
+    <string name="partnership_free_description">Herkes için güvenlik ve kişisel gizlilik. Ücretsiz sunucularda veri miktarı sınırlaması yoktur ve asla kastılı olarak gezinme hızınızı yavaşlatmayız.</string>
     <string name="partnership_partners_title">İş ortaklarımız</string>
     <string name="activity_information_learn_more">Ayrıntılı bilgi alın</string>
     <string name="server_load_low">Düşük</string>

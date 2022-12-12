@@ -540,7 +540,7 @@
     <string name="streaming_title_with_country">Streaming - %1$s</string>
     <string name="streaming_services_description">Hubungkan VPN Anda ke server Plus yang terletak di negara ini untuk memulai streaming.\n\Tips: Bersihkan cache aplikasi streaming yang Anda gunakan untuk memuat konten baru.</string>
     <string name="partnership_free_title">Server Free</string>
-    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
+    <string name="partnership_free_description">Keamanan dan privasi untuk semua. Server Free kami tidak memiliki batasan data, dan kami tidak akan pernah dengan sengaja memperlambat laju penjelajahan internet Anda.</string>
     <string name="partnership_partners_title">Mitra kami</string>
     <string name="activity_information_learn_more">Pelajari Lebih Lanjut</string>
     <string name="server_load_low">Rendah</string>
