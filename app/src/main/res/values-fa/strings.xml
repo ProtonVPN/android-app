@@ -51,7 +51,7 @@
     <string name="no">خیر</string>
     <string name="ok">تأیید</string>
     <string name="dialogContinue">ادامه</string>
-    <string name="dialogLearnMore">بیشتر یاد بگیرید</string>
+    <string name="dialogLearnMore">بیشتر بدانید</string>
     <string name="dialog_read_more">بیشتر بخوانید</string>
     <string name="dialog_apply">اعمال</string>
     <string name="dialog_applying">در حال اعمال</string>
@@ -549,7 +549,7 @@
     <string name="streaming_title_with_country">پخش آنلاین - %1$s</string>
     <string name="streaming_services_description">به یک سرور Plus در این کشور متصل شوید تا پخش آنلاین را آغاز کنید.\n\nراهنمایی: حافظهٔ پنهان برنامه‌های پخش آنلاین را پاک‌سازی کنید تا مطمئن شوید محتوای تازه ظاهر می‌شود.</string>
     <string name="partnership_free_title">سرورهای رایگان</string>
-    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
+    <string name="partnership_free_description">امنیت و حریم خصوصی برای همه. سرورهای رایگان هیچ محدودیتی برای دیتا ندارند و ما هرگز عامدانه سرعت مرور شما را پایین نمی‌آوریم.</string>
     <string name="partnership_partners_title">همکاران ما</string>
     <string name="activity_information_learn_more">بیشتر یاد بگیرید</string>
     <string name="server_load_low">پایین</string>

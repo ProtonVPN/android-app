@@ -119,7 +119,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Нестандартные порты</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Используйте Proton VPN для любых особых нужд, разрешая трафик на нестандартные порты через VPN. <a href="%1$s">Подробнее</a>]]></string>
     <string name="settingsModerateNatTitle">Умеренное NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Умеренное NAT отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать такие методы, как прямые соединения для таких приложений, как онлайн-игры. <a href="%1$s">Подробнее</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Умеренный NAT отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать прямые соединения требующих этого приложений, например, онлайн-игр. <a href="%1$s">Подробнее</a>]]></string>
     <string name="use_coupon_title">Использовать купон</string>
     <string name="use_coupon_code_label">Код купона</string>
     <string name="use_coupon_success">Купон успешно применен</string>
@@ -244,7 +244,7 @@
     <string name="noVpnPermissionMainMessage">Чтобы подключиться к Proton VPN, сделайте следующее:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Предоставить разрешение VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android требует вашего разрешения на подключение к Proton VPN. Дайте разрешение, нажав \"OK\", когда появится окно \"Запрос на подключение\" от Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянную VPN для других приложений</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянный VPN для других приложений</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянную VPN во всех остальных приложениях VPN, кроме Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
@@ -567,7 +567,7 @@
     <string name="streaming_title_with_country">Просмотр трансляций - %1$s</string>
     <string name="streaming_services_description">Подключитесь к серверу Plus в этой стране, чтобы начать просмотр трансляции.\n\nПодсказка: очистите кэш приложения для просмотра трансляций, чтобы убедиться, что появился новое содержимое.</string>
     <string name="partnership_free_title">Бесплатные серверы</string>
-    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
+    <string name="partnership_free_description">Безопасность и конфиденциальность для всех. На бесплатных серверах нет ограничений по объему данных, и мы никогда не станем намеренно снижать скорость вашего просмотра веб-страниц.</string>
     <string name="partnership_partners_title">Наши партнеры</string>
     <string name="activity_information_learn_more">Подробнее</string>
     <string name="server_load_low">Низкая</string>

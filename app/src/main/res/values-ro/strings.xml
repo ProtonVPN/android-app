@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- Strings related to login -->
+    <string name="hintUsername">Utilizator</string>
+    <string name="hintPassword">Parola</string>
+    <string name="splitTunnellingSwitch">Comutator divizare trafic</string>
+    <string name="login">Conectare</string>
+    <string name="hamburgerMenu">Meniu</string>
+    <string name="error_field_required">Acest câmp este obligatoriu</string>
+    <string name="title_activity_home">@string/app_name</string>
+    <string name="menuActionSignOut">Deconectare</string>
+    <string name="loginSlogan">Internet sigur oriunde</string>
+    <string name="loginStartWithDevice">Pornire automată</string>
+    <string name="loginCreateAccount">Creare cont</string>
+    <string name="loginNeedHelp">Doriți ajutor?</string>
+    <string name="connectionAllocationHelpTitle">Vă mulțumim pentru trecerea la \nProfessional\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpDescription1">Pentru a începe utilizarea Proton VPN atribuiți conexiuni VPN contului sau oricărui cont secundar.</string>
+    <string name="connectionAllocationHelpDescription2">Acest pas va dura doar câteva minute. După aceasta veți putea să vă conectați și să vă protejați toate dispozitivele.</string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Atribuire conexiuni VPN</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Reconectați-vă</string>
+    <string name="mapCalloutConnect">Conectare</string>
+    <string name="mapCalloutDisconnect">Deconectare</string>
+    <string name="mapSwitchSecureCore">Nucleu securizat</string>
+    <string name="warning">Avertizare</string>
+    <string name="secureCoreSpeedInfoTitle">Observație privind viteza…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core oferă cel mai înalt nivel de securitate și confidențialitate, dar vă poate reduce viteza pe internet. Dacă aveți nevoie de mai multe performanțe, puteți dezactiva Secure Core.</string>
+    <string name="secureCoreActivateDialogButton">Activare Secure Core</string>
+    <string name="logoutConfirmDialogTitle">Deconectare?</string>
+    <string name="logoutConfirmDialogMessage">Deconectarea vă va deconecta dispozitivul de la VPN.</string>
+    <string name="logoutConfirmDialogButton">Deconectare</string>
+    <string name="showAllProfiles">Afișare toate profilele</string>
+    <string name="yes">Da</string>
+    <string name="no">Nu</string>
+    <string name="ok">OK</string>
+    <string name="dialogContinue">Continuare</string>
+    <string name="dialogLearnMore">Detalii</string>
+    <string name="dialog_read_more">Detalii</string>
+    <string name="dialog_apply">Aplicare</string>
+    <string name="dialog_applying">Se aplică</string>
+    <string name="secureCoreConnectVia">prin %1$s</string>
+    <string name="connected">Conectat</string>
+    <string name="buttonConnect">Conectare</string>
+    <string name="loaderInitializing">Se inițializează conexiunea…</string>
+    <string name="loaderConnectingTo">Se conectează la %1$s</string>
+    <string name="loaderConnectingToLabel">Se conectează la…</string>
+    <string name="loaderNotConnected">Neconectat (Neprotejat)</string>
+    <string name="loaderNotConnectedSuggestion">Atingeți butonul conectare rapidă</string>
+    <string name="loaderConnectedTo">Conectat la %1$s</string>
+    <string name="loaderConnectedToLabel">Conectat la:</string>
+    <string name="loaderDisconnecting">Se deconectează</string>
+    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
+    <string name="loaderReconnecting">Se reconectează</string>
+    <string name="loaderReconnectingSuggestion">Sau atingeți pe «Reîncercare» pentru conectare manuală</string>
+    <string name="loaderReconnectNoNetwork">Se așteaptă o rețea utilizabilă</string>
+    <string name="loaderReconnectNoNetworkSuggestion">Verificați-vă rețeaua</string>
+    <string name="loaderCheckingAvailability">Se verifică disponibilitatea serverului</string>
+    <string name="loaderCheckingAvailabilitySuggestion">Așteptați câteva secunde</string>
+    <string name="loaderCancel">Anulare conexiune</string>
+    <string name="quickConnect">Conectare rapidă</string>
+    <string name="notConnectedCurrentIp">IP actual: %1$s</string>
+    <!-- Displays a percentage value. Please use %% sign for %.
+         Example value: "70%" -->
+    <string name="serverLoad">%1$s%%</string>
+    <string name="cancel">Anulare</string>
+    <string name="close">Închidere</string>
+    <string name="drawerSettings">Setări</string>
+    <string name="drawerAccount">Cont</string>
+    <string name="drawerHelp">Ajutor</string>
+    <string name="drawerShowLog">Afișare jurnal</string>
+    <string name="drawerReportProblem">Raportare o problemă</string>
+    <string name="drawerSignOut">@string/menuActionSignOut</string>
+    <string name="drawerAppVersion">v.%1$s</string>
+    <string name="accountDetails">Detalii cont</string>
+    <string name="accountSubscription">Abonament</string>
+    <string name="accountUser">Utilizator:</string>
+    <string name="accountType">Tip cont:</string>
+    <string name="accountTier">Abonament activ:</string>
+    <string name="accountVersion">Versiune:</string>
+    <string name="accountSubscriptionDetails"><![CDATA[Pentru a vă gestiona abonamentul, trebuie să accesați panoul de la <font color="%1$s">protonvpn.com</font>.]]></string>
+    <string name="accountButtonManage">Gestionare cont</string>
+    <string name="accountButtonUseCoupon">Folosire cupon</string>
+    <string name="accountFree">Proton VPN Free</string>
+    <string name="activityProfileTitle">Profil</string>
+    <string name="activityAccountTitle">Cont</string>
+    <string name="activitySettingsTitle">Setări</string>
+    <string name="settingsSectionQuickConnect">Conectare rapidă</string>
+    <string name="settingsSectionConnection">Conexiune</string>
+    <string name="settingsSectionSecurity">Securitate</string>
+    <string name="settingsSectionAdvanced">Avansat</string>
+    <string name="settingsAutoStartTitle">Pornire cu Android</string>
+    <string name="settingsAutoStartDescription">Proton VPN va porni automat cu fiecare pornire a sistemului</string>
+    <string name="settingsBypassLocalTitle">Conexiuni LAN</string>
+    <string name="settingsDnsLeakProtectionTitle">Protecție divulgări DNS</string>
+    <string name="settingsDnsLeakDescription">Prevenirea dezvăluirii interogărilor DNS către terți (întotdeauna actvată)</string>
+    <string name="settingsDefaultMtu">1375</string>
+    <string name="settingsMtuSizeTitle">Dimensiune MTU</string>
+    <string name="settingsMtuDescription">Dacă valoarea implicită este nepotrivită pentru o anumită rețea, introduceți o valoare în intervalul 1280–1500. Modificați doar dacă știiți ce faceți.</string>
+    <string name="settingsMtuRangeInvalid">Valoarea MTU trebuie să fie în intervalul 1280–1500</string>
+    <string name="settingsDefaultConnectionTitle">Conectare rapidă</string>
+    <string name="settingsDefaultConnectionDescription">Butonul de conectare rapidă vă conectează cu profilul selectat</string>
+    <string name="settingsAllowNonStandardPortsTitle">Porturi nonstandard</string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilizați Proton VPN pentru orice nevoie specială, permițând traficul către porturile nonstandard prin VPN. <a href="%1$s">Detalii</a>]]></string>
+    <string name="settingsModerateNatTitle">NAT moderat</string>
+    <string name="settingsModerateNatDescription"><![CDATA[NAT moderat dezactivează alocarea aleatoare a adreselor locale, ceea ce poate reduce ușor securitatea, dar permite folosirea unor tehnici cum ar fi conexiunea directă pentru aplicații precum jocurile online. <a href="%1$s">Detalii</a>]]></string>
+    <string name="use_coupon_title">Folosire cupon</string>
+    <string name="use_coupon_code_label">Cod cupon</string>
+    <string name="use_coupon_success">Cuponul a fost aplicat cu succes</string>
+    <string name="use_coupon_success_no_upgrade_yet">Cuponul a fost aplicat cu succes. Abonamentul va fi modificat în câteva minute.</string>
+    <string name="restrictedMaintenanceTitle">În întreținere</string>
+    <string name="restrictedMaintenanceDescription">Serverul la care se încearcă conectarea este în întreținere. Încercați alt server.</string>
+    <string name="errorUserDelinquent"><![CDATA[Contul are în prezent o factură restantă. Vă rugăm să plătiți toate facturile neachitate la&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorMaxSessions">Ați atins numărul maxim de conexiuni simultane permise pentru acest cont. Modificați-vă planul Proton VPN pentru a obține mai multe conexiuni.</string>
+    <string name="errorEmptyName">Câmpul numelui de profil nu poate fi gol</string>
+    <string name="errorEmptyCountry">Câmpul țara nu poate fi gol</string>
+    <string name="errorEmptyServer">Câmpul server nu poate fi gol</string>
+    <string name="errorEmptyEntryCountry">Câmpul cu țara de intrare nu poate fi gol</string>
+    <string name="errorEmptyExitCountry">Câmpul țara de ieșire nu poate fi gol</string>
+    <string name="onboardingDialogMapView">Folosiți harta pentru a vă conecta și pentru a vedea unde se află serverul VPN.</string>
+    <string name="onboardingDialogProfiles">Creeați profile pentru serverele preferate pentru a le accesa ușor. Ținând apăsat mai mult pe pictograma Proton VPN din partea de jos veți putea vedea toate profilele. Apăsând pe unul dintre profile vă va conecta la VPN.</string>
+    <string name="onboardingNetshield">Vă protejează împotriva programelor malware, reclamelor și urmăritorilor.\nNotă: dacă unele site-uri nu se încarcă, încercați să dezactivezi NetShield.</string>
+    <string name="onboardingFAB">Conectare rapidă / Profile</string>
+    <string name="onboardingFABDescription">Apăsați pe acest buton pentru cea mai rapidă cale de conectare</string>
+    <string name="onboardingSignup">Înregistrare</string>
+    <string name="onboardingSkip">Omitere</string>
+    <string name="onboardingNext">Înainte</string>
+    <string name="offerTooltipShowOffer">Vedeți oferta</string>
+    <string name="listItemMaintenance">În întreținere</string>
+    <string name="listAllCountries">Toate locurile (%1$d)</string>
+    <string name="listFreeCountries">Locurile gratuite (%1$d)</string>
+    <string name="listPremiumCountries">Locuri Plus (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Locuri Plus (%1$d)</string>
+    <string name="listFastestServer">Cel mai rapid server</string>
+    <string name="listFreeServers">Servere gratuite (%1$d)</string>
+    <string name="listBasicServers">Servere Basic (%1$d)</string>
+    <string name="listPlusServers">Servere Plus (%1$d)</string>
+    <string name="insufficientPermissionsTitle">Este necesară acțiunea utilizatorului</string>
+    <string name="insufficientPermissionsDetails">Nu s-a putut stabili automat conexiunea VPN. Conectați manual o dată pentru a acorda permisiuni.</string>
+    <string name="tabsCountries">Țări</string>
+    <string name="tabsMap">Harta</string>
+    <string name="tabsProfiles">Profile</string>
+    <string name="log_title">Jurnal</string>
+    <string name="disconnect">Deconectare</string>
+    <string name="state_connecting">Se conectează…</string>
+    <string name="state_connected">Conectat</string>
+    <string name="state_disconnecting">Se deconectează…</string>
+    <string name="state_error">Eroare</string>
+    <string name="error_server_unreachable">Nu s-a putut conecta la VPN. Verificați conexiunea și reîncercați.</string>
+    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
+    <string name="error_auth_failed">Autentificare utilizator eșuată.</string>
+    <string name="error_assessment_failed">Evaluarea de securitate a eșuat.</string>
+    <string name="error_generic">Eroare nespecificată la conectare.</string>
+    <string name="error_generic_with_reason">Proton VPN nu a putut stabili o conexiune cu VPN. Reîncercați peste câteva secunde.<br/><br/> Detalii: %1$s</string>
+    <string name="reconnect">Reconectare</string>
+    <string name="reconnect_now">Reconectare</string>
+    <string name="try_reconnecting">Try reconnecting</string>
+    <string name="connect">Conectare</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="retry">Reîncercare</string>
+    <plurals name="retry_in">
+        <item quantity="one">Reconectare într-o secundă</item>
+        <item quantity="few">Reconectare peste %1$d secunde</item>
+        <item quantity="other">Reconectare peste %1$d de secunde</item>
+    </plurals>
+    <string name="connection_failed">Conexiunea a eșuat</string>
+    <string name="create_new_profile">Profil nou</string>
+    <string name="excludeAppsTitle">Excludere aplicații</string>
+    <string name="excludeAppsDescription">Adăugați aplicații pe care doriți să le excludeți de la traficul prin VPN.</string>
+    <string name="profile_name">Nume profil</string>
+    <string name="profile_name_hint">Scrieți numele profilului</string>
+    <string name="profile_color">Culoare profil</string>
+    <string name="secure_core">Secure Core</string>
+    <string name="attachments">Fișiere atașate</string>
+    <string name="report_message">Mesaj raport</string>
+    <string name="report_bug_email_label">Adresa de e-mail</string>
+    <string name="report_bug_email_hint">Introduceți adresa de e-mail</string>
+    <string name="report_bug_message_label">Mesaj</string>
+    <string name="report_bug_message_hint">Descrieți eroarea, cum și unde ați detectat-o</string>
+    <string name="send_report">Trimitere raport</string>
+    <string name="excludeIpTitle">Excludere adrese IP</string>
+    <string name="discardChanges">Anulați modificările nesalvate?</string>
+    <string name="discard">Renunțare</string>
+    <string name="selectedProfileColor">Selectați culoarea profilului</string>
+    <string name="excludeIpDescription">Adăugați adrese IP pe doriți să le excludeți din traficul VPN.</string>
+    <string name="done">GATA</string>
+    <string name="add">ADĂUGARE</string>
+    <string name="copy_to_clipboard">Copiere</string>
+    <string name="the_list_is_empty">Lista este goală</string>
+    <string name="got_it">Am înțeles</string>
+    <string name="onboardingWelcome">Bine ați venit</string>
+    <string name="proton_log">Jurnal Proton</string>
+    <string name="something_went_wrong">Ceva nu a funcționat corect</string>
+    <string name="try_again">Reîncercați</string>
+    <string name="manage">Gestionare</string>
+    <string name="delete">Ștergere</string>
+    <string name="remove">Eliminare</string>
+    <string name="deleteProfileButton">Ștergere profil</string>
+    <string name="deleteProfile">Ștergere profil?</string>
+    <string name="doneButton">Gata</string>
+    <string name="saveButton">Salvare</string>
+    <string name="recommendedHeader">Recomandat</string>
+    <string name="countryServersHeader">Țară servere</string>
+    <string name="secureCoreCountriesHeader">Țări cu Secure Core</string>
+    <string name="recommendedProfilesHeader">Profile recomandate</string>
+    <string name="yourProfilesHeader">Profilele mele</string>
+    <string name="exitCountry">Țară de ieșire</string>
+    <string name="entryCountry">Țară de intrare</string>
+    <string name="country">Țara</string>
+    <string name="selectCountry">Selectare țară</string>
+    <string name="serverSelection">Server</string>
+    <string name="selectServer">Selectare server</string>
+    <string name="protocolLabel">Protocol</string>
+    <string name="selectProtocol">Selectare protocol</string>
+    <string name="protocol">Protocol:</string>
+    <string name="ip">IP:</string>
+    <string name="ipWithPlaceholder">IP: %1$s</string>
+    <string name="server">Server:</string>
+    <string name="session_time">Durată sesiune:</string>
+    <string name="download_volume">Volum:</string>
+    <string name="download_speed">Viteza:</string>
+    <string name="save_to_profile">Salvare în profil</string>
+    <string name="notConnected">Nu aveți conexiune\n la vreun server</string>
+    <string name="activityLicensesTitle">Licențe terțe</string>
+    <string name="stateFragmentUnknownIp">Necunoscut</string>
+    <string name="noVpnPermissionMainTitle">Acțiune necesară pentru conectarea la VPN</string>
+    <string name="noVpnPermissionMainMessage">Pentru a vă conecta la Proton VPN, executați următoarele:</string>
+    <string name="noVpnPermissionGrantPermissionTitle">Acordați permisiunea VPN</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android are nevoie de permisiunea de a se conecta la Proton VPN. Acordați-o atingând pe «OK» când vedeți fereastra „Solicitare conexiune” de pe Android.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Dezactivare VPN permanent pentru alte aplicații VPN</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android nu suportă aplicații VPN multiple. Dezactivați VPN permanent pentru orice aplicație VPN exceptând Proton VPN.</string>
+    <string name="noVpnPermissionProtonAppLabel">Aplicația Proton VPN</string>
+    <string name="noVpnPermissionOtherAppLabel">Alte aplicații VPN</string>
+    <string name="noVpnPermissionOpenSettings">Deschidere setări VPN</string>
+    <string name="error_prepare_vpn_description"><![CDATA[Dezactivați opțiunea VPN permanent pentru toate celelalte aplicații VPN din setările VPN ale sistemului Android, deoarece acest lucru împiedică Proton VPN să stabilească o conexiune VPN. Acordați permisiuni VPN dacă apare un dialog care solicită permisiuni VPN. Este posibil ca și alte aplicații VPN să trebuiască să fie dezinstalate pentru a preveni conflictele. După aceea, reîncercați. <a href="%1$s">Detalii</a>]]></string>
+    <string name="error_prepare_vpn_settings">Accesați setările VPN Android</string>
+    <string name="error_prepare_vpn_title">Eroare: problemă permisiunii VPN</string>
+    <string name="error_server_not_set">Serverul nu mai este disponibil</string>
+    <string name="bugReportThankYouToast">Vă mulțumim pentru raport</string>
+    <string name="bugReportErrorEmptyEmail">E-mailul nu poate fi gol</string>
+    <string name="bugReportErrorInvalidEmail">Adresă de e-mail nevalidă</string>
+    <string name="bugReportErrorEmptyDescription">Vă rugăm să ne scrieți ce se întâmplă</string>
+    <string name="bugReportLabelVpnLogsTitle">Includere jurnal de erori</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Aceasta va trimite jurnalul de erori local (nu vă înregistrăm activitatea) pentru a ne ajuta să rezolvăm problema.</string>
+    <string name="profileFastest">Cel mai rapid</string>
+    <string name="profileRandom">Aleator</string>
+    <string name="settingsSplitTunnelingDescription">Divizarea traficului permite anumitor aplicații sau adrese IP să fie excluse din traficul VPN.</string>
+    <string name="settingsSplitTunnelingTitle">Divizare trafic</string>
+    <string name="loaderAuthenticatingUser">Autentificare utilizator…</string>
+    <string name="loaderErrorNoInternet">Nu există conexiune la internet</string>
+    <string name="loaderErrorGeneric">Ceva nu a funcționat corect</string>
+    <string name="loaderLoadingServers">Se încarcă serverele…</string>
+    <string name="inputIpAddressLabel">Adresa IP</string>
+    <string name="inputIpAddressHint">Scrieți adresa IP</string>
+    <string name="inputIpAddressErrorInvalid">Adresă IP nevalidă</string>
+    <string name="settingsExcludedIPAddresses">Adrese IP excluse</string>
+    <string name="settingsExcludedIPAddressesListHeader">Adrese IP excluse (%1$d)</string>
+    <string name="settingsExcludedApps">Aplicații excluse</string>
+    <string name="settingsExcludedAppsEmpty">Adăugare aplicații pentru excluderea de la traficul prin VPN.</string>
+    <string name="settingsExcludedAppsSelectedHeader">Aplicații excluse (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableRegularHeader">Aplicații normale permise (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableSystemHeader">Aplicații de sistem permise (%1$d)</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">Afișare aplicații de sistem</string>
+    <string name="listNoItems">Nimic</string>
+    <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
+         %2$d - a number of remaining items.
+         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
+    <plurals name="listFewItemsAndMore">
+        <item quantity="one">%1$s și încă %2$d</item>
+        <item quantity="few">%1$s și încă %2$d</item>
+        <item quantity="other">%1$s și încă %2$d</item>
+    </plurals>
+    <string name="settingsCannotChangeWhileConnected">Nu puteți modifica asta cât timp conexiunea este activă</string>
+    <string name="excludeAlreadyExcluded">Deja exclus</string>
+    <string name="removeExcludedIpDialogDescription">Eliminați adresa IP din listă?</string>
+    <string name="loaderFetchingServers">Se preiau serverele…</string>
+    <string name="toastProfileSaved">Salvat</string>
+    <string name="tileConnected">Conectat: %1$s</string>
+    <string name="dialogTitleAttention">Atenție</string>
+    <string name="saveProfileAlreadySaved">Deja salvat</string>
+    <string name="openUrlError">%1$s nu a putut fi deschisă. Navigatorul web nu a fost detectat pe dispozitiv.</string>
+    <string name="toastLoginAuthVersionError">Nu se poate conecta din cauza versiunii de autentificare nesuportate. Contactați asistența.</string>
+    <string name="loaderErrorTimeout">Conexiunea a expirat. Mai reîncercați.</string>
+    <string name="troubleshootButton">Depanare</string>
+    <string name="activityTroubleshootTitle">Depanare</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">Soluții potențiale</string>
+    <string name="troubleshootNoInternetDescription">Asigurați-vă că aveți conexiune la internet.</string>
+    <string name="troubleshootNoInternetTitle">Fără conexiune la internet</string>
+    <string name="troubleshootIspProblemTitle">Problemă cu furnizorul de servicii internet (ISP)</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Încercați să vă conectați la Proton dintr-o altă rețea (sau folosiți <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">Interferență antivirus</string>
+    <string name="troubleshootAntivirusProblemDescription">Dezactivați temporar sau eliminați antivirusul.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Interferență Proxy/Paravan de protecție</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Dezactivați setările din proxy sau paravanul de protecție sau contactați administratorul de rețea.</string>
+    <string name="troubleshootProtonDownTitle">Proton indisponibil</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Consultați <a href=\"%1$s\">Starea Proton</a> pentru starea sistemului nostru.]]></string>
+    <string name="troubleshootContactUsSectionTitle">Încă aveți nevoie de ajutor? Contactați-ne direct.</string>
+    <string name="troubleshootCustomerSupport">Asistență clienți</string>
+    <string name="settingsAllowAlternativeRoutingTitle">Rută alternativă</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[În cazul în care Proton este blocat, permite aplicației să încerce căi alternative pentru a se conecta la serverele Proton. <a href="%1$s">Detalii</a>.]]></string>
+    <string name="troubleshootGovernmentBlockTitle">Blocare guvernamentală</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Țara dvs. ar putea bloca accesul la Proton. Încercați să folosiți <a href=\'%1$s\'>Tor</a> pentru a accesa Proton.]]></string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">VPN permanent și blocare conexiune</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Stabilire mod de acțiune Proton VPN dacă sunt probleme la conexiune.</string>
+    <string name="settingsAlwaysOnWindowHeader">Cum se activează VPN permanent și blocarea conexiunii:</string>
+    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Deschideți <b>Setările</b> dispozitivului apăsând pe butonul de mai jos]]></string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsAlwaysOnWindowStep2">2. Găsiți Proton VPN și apăsați pe %1$s</string>
+    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone\'s settings. -->
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Apăsați pe comutatorul <b>VPN permanent</b> pentru activare]]></string>
+    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
+         Android settings.
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone\'s settings. -->
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Apăsați butonul <b>Blocare conexiuni fără VPN</b> pentru activarea blocării conexiunii]]></string>
+    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Deschiderere setări Android</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activarea blocării conexiunii va dezactiva divizarea traficului, deoarece aceasta blochează toate conexiunile din afara tunelului VPN.</string>
+    <string name="settingsSmartProtocolDescription">Utilizare automată protocol și port care oferă cea mai bună conectivitate.</string>
+    <string name="settingsSendCrashReportsTitle">Raport eroare anonim</string>
+    <string name="settingsSendCrashReportsDescription">Dacă aplicația se blochează sau se oprește neașteptat, un raport va fi trimis inginerilor noștri care arată ce a provocat eroarea. Vom folosi aceasta doar pentru a ajuta la îmbunătățirea aplicației.</string>
+    <string name="netShieldEnabledWarning">Rețineți că unele site-uri nu funcționeză complet datorită conținutului blocat.</string>
+    <string name="netShieldDescription">Blochează reclame, urmăritori și malware </string>
+    <string name="netshield">NetShield</string>
+    <string name="netShieldBlockMalwareOnly">Blocare doar malware</string>
+    <string name="netShieldFullBlock">Blocare malware, urmărire, reclame</string>
+    <string name="dialogDontShowAgain">Nu mai arăta</string>
+    <string name="paidFeature">Funcție cu plată</string>
+    <string name="guestHoleActivated">Accesul la Proton VPN poate fi limitat în zona dvs., așa că va dura mai mult decât de obicei. Așteptați până când rezolvăm această problemă.</string>
+    <string name="guestHoleNotificationContent">Se încearcă evitarea problemelor de rețea. Acest lucru vă va ajuta să accesați Proton VPN.</string>
+    <string name="onMaintenanceDetected">Serverul VPN la care ați avut conexiune este în întreținere. Se va reconecta automat la cel mai rapid server disponibil.</string>
+    <string name="errorTunMultiUserPermission">Nu s-a putut inițializa conexiunea VPN din cauza unui conflict între două aplicații (de exemplu Dual Messenger) și Divizare trafic. Dezactivați una dintre ele și reporniți dispozitivul.</string>
+    <string name="errorTorrentNotAllowed">P2P nu este permis pe acest server</string>
+    <string name="errorWireguardWithPlaceholder">Eroare WireGuard %1$s</string>
+    <string name="profileProtocolNotAvailable">Acest profil de protocol VPN nu este momentan disponibil. Pentru conectare, schimbați protocolul.</string>
+    <string name="stateConnectedTo">Conectat la %1$s</string>
+    <string name="stateNotConnected">Nu există conexiune</string>
+    <string name="recents">Recente</string>
+    <string name="tvQuickConnectDescription">Țări din apropiere</string>
+    <string name="tvQuickConnectSubDescription">Server trasmisii în flux</string>
+    <string name="nameEurope">Europa</string>
+    <string name="nameAmerica">America</string>
+    <string name="nameAsia">Asia</string>
+    <string name="nameAfricaAndMiddleEast">Africa și Orientul Mijlociu</string>
+    <string name="nameOceania">Oceania</string>
+    <string name="tvRowMore">Mai mult</string>
+    <string name="tv_detail_default_connection_checkbox">Țara favorită</string>
+    <string name="tv_detail_default_connection_checkbox_short">Favorită</string>
+    <string name="tv_detail_connect_streaming">Transmisii în flux cu Plus</string>
+    <string name="tv_detail_connect">Conectare</string>
+    <string name="tv_detail_description_streaming_country">Vizionați conținutul preferat de transmisii în flux. Accesați mai multe aplicații cu un plan Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Vizionați conținutul preferat de trasmisii în flux cu un plan Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Această țară nu este disponibilă. Obțineți mai multe opțiuni de vizionare a conținutului transmis în flux cu un plan Proton VPN Plus.</string>
+    <string name="tv_detail_description_plus">Vizionați videoclipurile, filme sau sporturile favorite cu aplicațiile dvs.</string>
+    <string name="tv_login_title_signin">Conectare la Proton VPN</string>
+    <string name="tv_login_title_welcome">Vizionați conținutul video preferat</string>
+    <string name="tv_login_welcome_description">Vizionați conținut video din peste 50 de țări, inclusiv YouTube și Twitch. Accesați Netflix, Amazon Prime și Hulu cu Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Obțineți contul Proton VPN la <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_button">Conectare</string>
+    <string name="tv_login_step1_description"><![CDATA[Accesați <b>%1$s</b> pe dispozitivul mobil sau pe calculator]]></string>
+    <string name="tv_login_step2_description">Conectare la Proton VPN</string>
+    <string name="tv_login_step3_description">Introduceți codul:</string>
+    <string name="tv_login_timer_label">Codul expiră în:</string>
+    <string name="tv_login_refresh">Împrospătare</string>
+    <string name="tv_login_title_loading">Încărcare…</string>
+    <string name="tv_login_title_refresh">Sesiunea a expirat. Faceți clic pe împrospătare pentru a reîncepe.</string>
+    <string name="tv_upgrade_title">Începeți vizionarea cu Plus</string>
+    <string name="back">Înapoi</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Accesați <b>%1$s</b> pentru a trece acum la Proton VPN Plus.]]></string>
+    <string name="tv_upgrade_description">Luați un plan Proton VPN Plus pentru a accesa peste 500 de servere din întreaga lume și opțiuni optimizate de vizionare pentru Netflix, Amazon Prime Video, Disney+ și multe altele.</string>
+    <string name="tv_vpn_error_dialog_title">Conexiunea VPN a eșuat</string>
+    <string name="tv_signout_label">Deconectare</string>
+    <string name="tv_signout_dialog_title">Sigur doriți să vă deconectați?</string>
+    <string name="tv_signout_dialog_description_connected">Aceasta va deconecta televizorul de la orice server VPN.</string>
+    <string name="tv_signout_dialog_ok">Deconectare</string>
+    <string name="tv_quick_connect_recommened">Recomandat</string>
+    <string name="tv_quick_connect_favourite">Favorită</string>
+    <string name="tv_country_maintenance_dialog_title">Țara nu este disponibilă</string>
+    <string name="tv_country_maintenance_dialog_description">Reîncercați mai târziu sau selectați o altă țară.</string>
+    <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+         Example: 76% Server Load -->
+    <string name="tv_server_list_load">Încărcare server %1$s%%</string>
+    <string name="tv_recently_used_servers">Servere utilizate recent (%1$d)</string>
+    <string name="tv_available_servers">Servere disponibile (%1$d)</string>
+    <string name="tv_locked_servers">Servere blocate (%1$d)</string>
+    <string name="tv_other_servers">Alte servere (%1$d)</string>
+    <string name="tv_server_under_maintenance">În întreținere</string>
+    <string name="tv_server_list">Listă servere</string>
+    <string name="tv_server_list_action_unavailable">Indisponibil</string>
+    <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator activează un set de tehnologii unice de îmbunătățire a performanței, care pot crește viteza din VPN cu până la 400%%. <a href="%1$s">Detalii</a>.]]></string>
+    <string name="settingsSmartReconnectNotificationsTitle">Notificări VPN Accelerator</string>
+    <string name="settingsSmartReconnectNotificationsDescription">Primiți notificări când VPN Accelerator comută la un server mai rapid</string>
+    <string name="settingsReconnectToApplySettingsDialogContent">Noile setări vor fi aplicate la următoarea conectare.</string>
+    <string name="settingsReconnectToChangeDialogContent">Aceasta va reporni conexiunea.</string>
+    <string name="reconnectToEnableNetshield">Aceasta va reporni conexiunea.\n\nNotă: Unele pagini web s-ar putea să nu se încarce dacă NetShield este activat.</string>
+    <string name="notification_subscription_expired_title">Abonamentul Proton VPN a expirat</string>
+    <string name="notification_subscription_expired_content">A trebuit să vă retrogradăm planul, dar vă reconectăm la cel mai rapid server disponibil în noul plan.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Abonamentul a fost retrogradat.</string>
+    <string name="notification_delinquent_title">Contul Proton VPN are facturi în așteptare</string>
+    <string name="notification_delinquent_content">Actualizați-vă informațiile de facturare pentru a păstra abonamentul activ.</string>
+    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
+    <string name="notification_server_unreachable_content">S-a comutat la un server mai rapid, similar cu cel pe care l-ați selectat.</string>
+    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
+    <string name="notification_max_sessions_title">Ați atins limita maximă de dispozitive folosite</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="notification_max_sessions_upsell_content">
+        <item quantity="one">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la Plus pentru a avea până la un dispozitiv conectat în același timp.</item>
+        <item quantity="few">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la Plus pentru a avea până la %1$d dispozitive conectate în același timp.</item>
+        <item quantity="other">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la Plus pentru a avea până la %1$d de dispozitive conectate în același timp.</item>
+    </plurals>
+    <string name="notification_max_sessions_content">Deconectați un alt dispozitiv pentru a-l conecta pe acesta.</string>
+    <string name="notification_cancel_to_free">Sunteți pe planul gratuit. Sunt disponibile serverele și funcțiile gratuite.</string>
+    <string name="notification_cancel_to_basic">Sunteți pe planul Basic. Sunt disponibile servere gratuite și caracteristici Basic.</string>
+    <string name="notification_cancel_to_delinquent">Veți putea accesa din nou funcțiile premium după achitarea facturilor în așteptare.</string>
+    <string name="vpn_accelerator">VPN Accelerator</string>
+    <string name="reconnect_from_server">De la serverul: </string>
+    <string name="reconnect_to_server">La serverul: </string>
+    <string name="no_thanks">Nu, mulțumesc</string>
+    <string name="enable">Activare</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol este acum dezactivat</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN a detectat că rețeaua curentă împiedică o conexiune la VPN. Activarea funcției Smart Protocol ar putea ocoli aceste limitări.</string>
+    <string name="upsell_advanced_features">Caracteristici avansate: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_streaming_services">Accesați serviciile de trasmisie în flux (Netflix, Disney+, etc.) de oriunde în lume</string>
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_servers">
+        <item quantity="one">Un server</item>
+        <item quantity="few">%1$d servere</item>
+        <item quantity="other">%1$d de servere</item>
+    </plurals>
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_countries">
+        <item quantity="one">O țară</item>
+        <item quantity="few">%1$d țări</item>
+        <item quantity="other">%1$d de țări</item>
+    </plurals>
+    <string name="upsell_upgrade_again">Reactivați planul superior pentru a vă bucura de toate caracteristicile:</string>
+    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
+         upgrade screen -->
+    <string name="upgrade_plus_subtitle">Când treceți la Plus</string>
+    <string name="upgrade_netshield_title_new">Bucurați-vă de navigarea fără reclame cu NetShield</string>
+    <string name="upgrade_secure_core_title_new">Dublați criptarea cu Secure Core</string>
+    <string name="upgrade_secure_core_countries">Redirecționați traficul prin serverele foarte sigure din Elveția, Suedia si Islanda</string>
+    <string name="upgrade_secure_core_encryption">Adăugați încă un nivel de criptare a conexiunii VPN</string>
+    <string name="upgrade_secure_core_protect">Protejați-vă de atacurile din rețea</string>
+    <string name="upgrade_netshield_block_ads">Blocare reclame și urmăritori</string>
+    <string name="upgrade_netshield_block_malware">Protejați dispozitivul de programele malițioase</string>
+    <string name="upgrade_netshield_speed">Navigați cu viteză maximă</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">Un server securizat</item>
+        <item quantity="few">%d servere securizate</item>
+        <item quantity="other">%d de servere securizate</item>
+    </plurals>
+    <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ secure servers
+     -->
+    <plurals name="upgrade_plus_secure_servers">
+        <item quantity="one">Un server securizat</item>
+        <item quantity="few">Peste %d servere securizate</item>
+        <item quantity="other">Peste %d de servere securizate</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="upgrade_plus_countries">
+        <item quantity="one">O țară</item>
+        <item quantity="few">%d țări</item>
+        <item quantity="other">%d de țări</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_servers_new"
+     %2$s - replaced with "upgrade_plus_countries"
+
+     Example:
+     Access over 1300 secure servers in 61 countries
+     -->
+    <string name="upgrade_plus_countries_title_new">Accesați peste %1$s în %2$s</string>
+    <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_secure_servers"
+
+     Example:
+     You now have access to 1300+ secure servers and other premium features.
+     -->
+    <string name="onboarding_plan_congrats_description">Acum aveți acces la %1$s și alte funcții premium.</string>
+    <string name="upgrade_plus_countries_streaming">Accesați serviciile globale de transmisii în flux</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="upgrade_plus_countries_many_devices">
+        <item quantity="one">Conectare un dispozitiv</item>
+        <item quantity="few">Conectare %d dispozitive simultan</item>
+        <item quantity="other">Conectare %d de dispozitive simultan</item>
+    </plurals>
+    <string name="upgrade_plus_countries_netshield">Blocați reclame și malware cu NetShield</string>
+    <string name="upgrade_plus_countries_speeds">Navigați cu viteză maximă (10 Gbps)</string>
+    <string name="upgrade_plus_countries_more">Și multe alte caracteristici premium</string>
+    <string name="upgrade_safe_mode_title">Permitere trafic la porturile nonstandard</string>
+    <string name="upgrade_safe_mode_message">Aveți nevoi avansate sau profesionale de calcul care necesită porturi non-standard? Treceți la VPN Plus pentru a activa aceasta și alte funcții premium.</string>
+    <string name="upgrade_moderate_nat_title">Activare NAT moderat</string>
+    <string name="upgrade_moderate_nat_message">NAT moderat, cunoscut și ca NAT tip 2, vă poate îmbunătăți experiența online pentru diferite aplicații și jocuri video online. Obțineți-l alături și de alte funcții cu planul Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">Ce este NAT moderat?</string>
+    <string name="upgrade_see_plans_button">Vedeți planuri și prețuri</string>
+    <string name="upgrade_not_now_button">Nu acum</string>
+    <string name="upgrade_learn_more">Detalii</string>
+    <!-- Information activity -->
+    <string name="activity_information_title">Informații</string>
+    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+    <string name="activity_information_plus_title">%1$s - servere Plus</string>
+    <string name="info_features">Caracteristici</string>
+    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_description">Această tehnologie permite ca Proton VPN să ofere viteză și securitate mai mare în țările dificil de accesat.</string>
+    <string name="streaming_title">Transmisie în flux</string>
+    <string name="streaming_description">Serverele Plus suportă trasmisii în flux (Netflix, Disney+ etc.) de oriunde din lume.</string>
+    <string name="p2p_title">P2P / BitTorrent</string>
+    <string name="p2p_description">Aceste servere oferă cea mai bună performanță pentru BitTorrent și partajarea de fișiere.</string>
+    <string name="tor_title">Tor</string>
+    <string name="tor_description">Direcționează traficul de internet prin rețeaua Tor. Mai lent, dar mai privat.</string>
+    <string name="info_performance">Performanță</string>
+    <string name="server_load_title">Încărcare server</string>
+    <string name="server_load_description">Serverele mai încărcate sunt mai lente decât serverele mai puțin încărcate.</string>
+    <string name="streaming_title_with_country">Trasmisii în flux - %1$s</string>
+    <string name="streaming_services_description">Conectați-vă la un server Plus din această țară pentru a viziona transmisii în flux.\n\nIndiciu: Ștergeți bufferul aplicațiilor de trasmisii în flux pentru a vă asigura că apare un conținut nou.</string>
+    <string name="partnership_free_title">Servere gratuite</string>
+    <string name="partnership_free_description">Securitate și confidențialitate pentru oricine. Serverele gratuite nu au limite de date și nu vă vom reduce niciodată deliberat viteza de navigare.</string>
+    <string name="partnership_partners_title">Partenerii noștri</string>
+    <string name="activity_information_learn_more">Detalii</string>
+    <string name="server_load_low">Redusă</string>
+    <string name="server_load_medium">Medie</string>
+    <string name="server_load_high">Mare</string>
+    <!-- Override Human verification links from core -->
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Bine ați venit la Proton VPN</string>
+    <string name="onboarding_welcome_description">Învățați cum să profitați de Proton VPN în câteva secunde.</string>
+    <string name="onboarding_welcome_action">Să începem</string>
+    <string name="onboarding_available_on_plus">Disponibil cu Plus</string>
+    <string name="onboarding_streaming_title">Deblocare transmisii în flux</string>
+    <string name="onboarding_streaming_description">Accesați conținutul în siguranță, chiar și când călătoriți în alte țări. Acum și pe Android TV.</string>
+    <string name="onboarding_protection_title">Protejați-vă pretutindeni</string>
+    <string name="onboarding_protection_description">Proton VPN acceptă toate dispozitivele, inclusiv Windows, macOS și multe altele.</string>
+    <string name="onboarding_netshield_title">Blocare reclame și multe altele</string>
+    <string name="onboarding_netshield_description">Blocare malware, reclame și urmăritori în navigator și în toate aplicațiile.</string>
+    <string name="onboarding_connection_title">Stabiliți prima conexiune</string>
+    <!-- Parameters:
+         %1$s - replaced with "onboarding_connection_description_servers"
+         %2$s - replaced with "onboarding_connection_description_countries"
+
+         Example:
+         Free subscription offers 65 servers in 3 countries
+    -->
+    <string name="onboarding_connection_description">Abonamentele gratuite oferă %1$s în %2$s</string>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         65 servers -->
+    <plurals name="onboarding_connection_description_servers">
+        <item quantity="one">un server</item>
+        <item quantity="few">%1$d servere</item>
+        <item quantity="other">%1$d de servere</item>
+    </plurals>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         3 countries -->
+    <plurals name="onboarding_connection_description_countries">
+        <item quantity="one">o țară</item>
+        <item quantity="few">%1$d țări</item>
+        <item quantity="other">%1$d de țări</item>
+    </plurals>
+    <string name="onboarding_connection_info">Se va conecta la cel mai rapid și stabil server posibil.</string>
+    <string name="onboading_connect_now">Conectare</string>
+    <string name="onboading_connecting_now">Acum se conectează</string>
+    <string name="onboarding_congrats_description">Conexiunea este protejată și acum puteți naviga în siguranță.</string>
+    <string name="onboarding_congrats_title">Felicitări!</string>
+    <string name="onboarding_plan_congrats_description_privacy">Bucurați-vă de lumea vieții private.</string>
+    <string name="onboading_connect_to_plus">Conectare la un server Plus</string>
+    <string name="upgrade_use_limited_free_button">Folosire plan gratuit limitat</string>
+    <string name="dynamic_report_suggestion_didnt_work">Nu a funcționat?</string>
+    <string name="dynamic_report_contact_us">Contactați-ne</string>
+    <string name="dynamic_report_tips_description">Aceste sfaturi ar putea ajuta la rezolvarea mai rapidă a problemei.</string>
+    <string name="dynamic_report_tips_title">Rezolvări rapide</string>
+    <string name="dynamic_report_logs_title">Trimitere jurnale erori</string>
+    <string name="dynamic_report_success_title">Vă mulțumim pentru feedback.</string>
+    <string name="dynamic_report_success_description">Vă vom contacta cât de curând posibil.</string>
+    <string name="dynamic_report_field_mandatory">Acest câmp este obligatoriu</string>
+    <string name="dynamic_report_logs_description">Un jurnal este un tip de fișier care ne arată acțiunile pe care le-ați întreprins care au dus la o eroare. Le vom folosi doar pentru a ajuta inginerii noștri să remedieze erorile.</string>
+    <string name="dynamic_report_logs_missing">Jurnalele de erori ne ajută să ajungem la baza problemei. Dacă nu le includeți, s-ar putea să nu putem investiga pe deplin problema.</string>
+    <string name="dynamic_report_step1">Pasul 1 din 3</string>
+    <string name="dynamic_report_step2">Pasul 2 din 3</string>
+    <string name="dynamic_report_step3">Pasul 3 din 3</string>
+    <string name="dynamic_report_your_issue_headline">Care este problema</string>
+    <string name="update_screen_title">Actualizare Proton VPN</string>
+    <string name="update_screen_description">Este mai probabil să aveți probleme cu versiunile mai vechi ale Proton VPN .</string>
+    <string name="server_search_menu_title">Căutare</string>
+    <string name="server_search_hint">Țara, oraș, server</string>
+    <string name="server_search_hint_secure_core">Țara</string>
+    <!-- The parameter is the number of countries displayed in search results.
+         Examples: "Countries (5)", "Countries (1)" -->
+    <string name="server_search_countries_header">Țări (%1$d)</string>
+    <!-- The parameter is the number of Secure Core countries displayed in search results.
+     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
+    <string name="server_search_sc_countries_header">Țări cu Secure Core (%1$d)</string>
+    <!-- The parameter is the number of cities displayed in search results.
+         Examples: "Cities (5)", "Cities (1)" -->
+    <string name="server_search_cities_header">Țări (%1$d)</string>
+    <!-- The parameter is the number of server displayed in search results.
+         Examples: "Servers (5)", "Servers (1)" -->
+    <string name="server_search_servers_header">Servere (%1$d)</string>
+    <string name="search_empty_title">Căutare orice loc</string>
+    <string name="search_empty_hint_countries"><![CDATA[Țări: <font color="%1$s">Elveția, Statele Unite, Italia…</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Țări: <font color="%1$s">Franța, Statele Unite, Italia…</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Orașe: <font color="%1$s">New York, Londra, Tokyo…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[Regiuni SUA: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Servere: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_result_subtitle">Încercați alt cuvânt cheie</string>
+    <string name="search_empty_result_title">Nu s-au găsit rezultate.</string>
+    <string name="search_recents_header_title">Recent văzute (%1$d)</string>
+    <string name="search_clear_history">Golire istoric</string>
+    <string name="search_clear_history_dialog">Istoricul de căutări va fi pierdut. Continuați?</string>
+    <!-- Parameters:
+     %1$s - number of countries. It is never 1.
+
+     Example: Access all 63 countries. -->
+    <plurals name="search_upgrade_banner_title">
+        <item quantity="one">Accesare o țară</item>
+        <item quantity="few">Accesare toate cele %1$d țări</item>
+        <item quantity="other">Accesare toate cele %1$d de țări</item>
+    </plurals>
+    <string name="search_upgrade_banner_subtitle">Mai multe locuri = mai mult conținut deblocat + extra securitate + viteze sporite</string>
+    <string name="new_look_dialog_title_new_plans">Proton actualizat, protecție unificată</string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Vă prezentăm noua față împrospătată a lui Proton. Multe servicii, o singură misiune. Bun venit la un internet unde intimitatea este implicită. <a href="%1$s">Detalii</a>]]></string>
+    <string name="ikev2_removed_dialog_title">Protocolul VPN IKEv2 nu mai este disponibil</string>
+    <string name="ikev2_removed_dialog_message">Setările implicite și profilurile care au folosit IKEv2 acum vor folosi Smart protocol.</string>
+    <!-- Core strings overrides -->
+    <string name="plans_customizable_features">Vizitați <a href="https://protonvpn.com/pricing">protonvpn.com</a> pentru mai multe informații.</string>
+</resources>
