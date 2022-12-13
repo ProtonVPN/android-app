@@ -37,10 +37,13 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.jitterMs
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -166,6 +169,23 @@ class ServerListUpdater @Inject constructor(
         if (!vpnStateMonitor.isDisabled)
             return null
 
+        return coroutineScope {
+            val locationUpdate = async { updateLocationFromApi() }
+            val monitorJob = vpnStateMonitor.status
+                .onEach {
+                    if (it.state != VpnState.Disabled)
+                        locationUpdate.cancel()
+                }.launchIn(this)
+            try {
+                locationUpdate.await()
+            } catch (_: CancellationException) {
+                null
+            } finally {
+                monitorJob.cancel()
+            }
+        }
+    }
+    private suspend fun updateLocationFromApi(): String? {
         val result = api.getLocation()
         if (result is ApiResult.Success && vpnStateMonitor.isDisabled) {
             with(result.value) {

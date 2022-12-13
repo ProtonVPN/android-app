@@ -34,6 +34,7 @@ import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
@@ -46,11 +47,15 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -87,6 +92,7 @@ class ServerListUpdaterTests {
     private lateinit var testScope: TestCoroutineScope
     private lateinit var testDispatcher: TestCoroutineDispatcher
     private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
+    private lateinit var vpnStatusFlow: MutableStateFlow<VpnStateMonitor.Status>
 
     private var clockMs: Long = 1_000_000
 
@@ -100,6 +106,7 @@ class ServerListUpdaterTests {
         serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         serverListUpdaterPrefs.ipAddress = OLD_IP
         clockMs = 1_000_000
+        vpnStatusFlow = MutableStateFlow(VpnStateMonitor.Status(VpnState.Disabled, null))
 
         coEvery { guestHole.runWithGuestHoleFallback(any<suspend () -> Any?>()) } coAnswers { firstArg<suspend () -> Any?>()() }
         coEvery { mockCurrentUser.isLoggedIn() } returns true
@@ -108,6 +115,7 @@ class ServerListUpdaterTests {
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
         coEvery { mockApi.getServerList(any(), any(), any(), any()) } returns ApiResult.Success(ServerList(emptyList()))
         every { mockVpnStateMonitor.onDisconnectedByUser } returns MutableSharedFlow()
+        every { mockVpnStateMonitor.status } returns vpnStatusFlow
         coEvery { mockPartnershipsRepository.refresh() } returns Unit
 
         every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_GSM
@@ -162,6 +170,26 @@ class ServerListUpdaterTests {
         assertEquals(OLD_IP, serverListUpdater.ipAddress.first())
         assertEquals(OLD_IP, serverListUpdaterPrefs.ipAddress)
 
+        coVerify(exactly = 1) { mockApi.getLocation() }
+    }
+
+    @Test
+    fun `location update is cancelled when VPN starts connecting during update`() = testScope.runTest {
+        coEvery { mockApi.getLocation() } coAnswers {
+            delay(1000)
+            ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
+        }
+        every { mockVpnStateMonitor.isDisabled } returns true
+
+        val newNetzoneDeferred = async {
+            serverListUpdater.updateLocationIfVpnOff()
+        }
+        vpnStatusFlow.value = VpnStateMonitor.Status(VpnState.Connecting, null)
+        val newNetzone = newNetzoneDeferred.await()
+
+        assertEquals(null, newNetzone)
+        assertEquals(OLD_IP, serverListUpdater.ipAddress.first())
+        assertEquals(OLD_IP, serverListUpdaterPrefs.ipAddress)
         coVerify(exactly = 1) { mockApi.getLocation() }
     }
 
