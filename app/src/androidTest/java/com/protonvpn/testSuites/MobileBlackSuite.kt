@@ -19,6 +19,7 @@
 
 package com.protonvpn.testSuites
 
+import com.protonvpn.tests.bugReport.BugReportTests
 import com.protonvpn.tests.login.LoginTests
 import com.protonvpn.tests.signup.SignupTests
 import org.junit.experimental.categories.Category
@@ -28,6 +29,7 @@ import org.junit.runners.Suite
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
     LoginTests::class,
+    BugReportTests::class
 //  See VPNAND-1106
 //    SignupTests::class
 )

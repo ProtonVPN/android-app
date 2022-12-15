@@ -23,6 +23,7 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.data.DefaultData
+import com.protonvpn.data.Timeouts.MEDIUM_TIMEOUT
 
 /**
  * [RealConnectionRobot] Contains all actions and verifications for real connection tests
@@ -36,7 +37,8 @@ class RealConnectionRobot : BaseRobot() {
 
     fun connectThroughQuickConnectRealConnection() : RealConnectionRobot{
         HomeRobot().connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
-        return waitUntilDisplayed(R.id.buttonDisconnect)
+        view.withId(R.id.buttonDisconnect).withTimeout(MEDIUM_TIMEOUT).checkDisplayed()
+        return this
     }
 
     class Verify : BaseVerify() {

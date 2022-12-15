@@ -20,10 +20,12 @@
 package com.protonvpn.testSuites
 
 import com.protonvpn.tests.account.AccountTests
+import com.protonvpn.tests.bugReport.MockedBugReportTests
 import com.protonvpn.tests.connection.ConnectionTests
 import com.protonvpn.tests.logging.ProtonLoggerImplTests
 import com.protonvpn.tests.login.LogoutTests
 import com.protonvpn.tests.map.MapTests
+import com.protonvpn.tests.partnership.PartnershipTests
 import com.protonvpn.tests.profiles.ProfileTests
 import com.protonvpn.tests.promooffer.HomeActivityPromoOfferTests
 import com.protonvpn.tests.promooffer.PromoOfferActivityTests
@@ -43,6 +45,8 @@ import org.junit.runners.Suite
     LiveEventTests::class,
     LogoutTests::class,
     MapTests::class,
+    PartnershipTests::class,
+    MockedBugReportTests::class,
     ProfileTests::class,
     PromoOfferActivityTests::class,
     ProtonLoggerImplTests::class,
