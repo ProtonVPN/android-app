@@ -8,8 +8,8 @@ mobileTest:
 realConnectionTest:
   timeout: 30m
   device:
-  - model: blueline
-    version: 28
+  - model: a10
+    version: 29
 tvTest:
   timeout: 30m
   device:
