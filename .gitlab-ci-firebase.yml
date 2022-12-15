@@ -25,6 +25,7 @@
     - gcloud --quiet beta firebase test android
       run firebase-device-config.yml:${TESTS_TYPE}
       --app "$APP"
+      --timeout $TIMEOUT
       --test "$TEST_APP"
       --use-orchestrator
       --num-uniform-shards=${NUM_SHARDS}
@@ -61,6 +62,7 @@ mobile tests mocked api:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
     TEST_APP_TYPE: "black-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileMockApiSuite"
+    TIMEOUT: $TIMEOUT_MOCKED_TESTS
 #    COVERAGE_FOLDER: "mobile_mocked_api"
 
 mobile tests test-env:
@@ -73,6 +75,7 @@ mobile tests test-env:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
     TEST_APP_TYPE: "black-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileBlackSuite"
+    TIMEOUT: $TIMEOUT_GENERAL_TESTS
 #    COVERAGE_FOLDER: "mobile_test_env"
 
 tv tests:
@@ -84,6 +87,7 @@ tv tests:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
     TEST_APP_TYPE: "black-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
+    TIMEOUT: $TIMEOUT_GENERAL_TESTS
 #    COVERAGE_FOLDER: "tv"
 
 real connection mobile tests:
@@ -96,6 +100,7 @@ real connection mobile tests:
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
     TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
+    TIMEOUT: $TIMEOUT_GENERAL_TESTS
 #    COVERAGE_FOLDER: "real_connection"
 
 robo tests:
@@ -117,7 +122,7 @@ robo tests:
       --robo-script=gs://protonvpn-testing-scripts/ProtonVPN_Login_Robo_Script.json
       --robo-directives ignore:R.id.drawerButtonLogout=
   variables:
-    TIMEOUT: 3600s
+    TIMEOUT: $TIMEOUT_ROBO_TESTS
     APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
     APP_TYPE: "googlePlay-debug.apk"
     CHECKOUT_CORE_SUBMODULE: "true"
