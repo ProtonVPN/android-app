@@ -158,9 +158,9 @@
     <string name="tabsProfiles">پروفایل‌ها</string>
     <string name="log_title">گزارش</string>
     <string name="disconnect">قطع ارتباط</string>
-    <string name="state_connecting">در حال اتصال...</string>
+    <string name="state_connecting">در حال اتصال…</string>
     <string name="state_connected">متصل</string>
-    <string name="state_disconnecting">در حال قطع اتصال...</string>
+    <string name="state_disconnecting">در حال قطع اتصال…</string>
     <string name="state_error">خطا</string>
     <string name="error_server_unreachable">اتصال به VPN ممکن نبود. لطفاً اتصال خود را بررسی و دوباره امتحان کنید.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
@@ -297,7 +297,7 @@
     <string name="loaderErrorTimeout">زمان اتصال گذشت. لطفاً دوباره سعی کنید.</string>
     <string name="troubleshootButton">عیب‌یابی</string>
     <string name="activityTroubleshootTitle">اشکال‌زدایی</string>
-    <string name="troubleshootPotentialSolutionsSectionTitle">راه‌حل‌های بالقوه</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">راه حل‌های بالقوه</string>
     <string name="troubleshootNoInternetDescription">لطفاً مطمئن شوید که اتصال اینترنت شما کار میکند.</string>
     <string name="troubleshootNoInternetTitle">اتصال اینترنت برقرار نیست</string>
     <string name="troubleshootIspProblemTitle">مشکل ارائه‌دهندهً خدمات اینترنتی (ISP)</string>
@@ -316,7 +316,7 @@
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[کشور شما ممکن است دسترسی به Proton را مسدود کرده باشد. سعی کنید از <a href=\'%1$s\'>Tor</a> برای دسترسی به Proton استفاده کنید.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN همیشه روشن &amp; kill switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">تنظیم کنید Proton VPN در صورت مختل شدن اتصال شما چگونه رفتار کند</string>
-    <string name="settingsAlwaysOnWindowHeader">چگونگی VPN همیشه روشن و Kill Switch را روشن کنید:</string>
+    <string name="settingsAlwaysOnWindowHeader">چگونه VPN همیشه-روشن و Kill Switch را روشن کنید:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[۱. <b>تنظیمات</b> دستگاه خود را با ضربه زدن روی دکمهٔ زیر باز کنید]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">۲. Proton VPN را پیدا کنید و روی %1$s ضربه بزنید</string>
@@ -416,7 +416,7 @@
     <string name="notification_subscription_expired_content">ما مجبور بودیم تا اشتراک شما را تنزیل دهیم، اما در حال اتصال شما به سریع‌ترین سرور در آن اشتراک هستیم.</string>
     <string name="notification_subscription_expired_no_reconnection_content">اشتراک شما تنزل یافته است.</string>
     <string name="notification_delinquent_title">حساب کاربری Proton VPN شما دارای چند صورت‌حساب در حال انتظار است</string>
-    <string name="notification_delinquent_content">لطفاً لحظه‌ای را به به‌روزرسانی اطلاعات پرداخت خود اختصاص دهید تا اشتراک شما فعال بماند.</string>
+    <string name="notification_delinquent_content">لطفاً لحظه‌ای را به بروزرسانی اطلاعات پرداخت خود اختصاص دهید تا اشتراک شما فعال بماند.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">شما به یک سرور سریع‌تر مشابه سروری که انتخاب کردید منتقل شدید.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
@@ -427,8 +427,8 @@
         <item quantity="other">لطفاً اتصال یک دستگاه دیگر را قطع کنید تا این دستگاه متصل شود یا به طرح Plus ارتقا دهید تا %1$d دستگاه را همزمان متصل نگه دارید.</item>
     </plurals>
     <string name="notification_max_sessions_content">لطفاً یک دستگاه دیگر را قطع کنید تا این دستگاه را وصل کنید.</string>
-    <string name="notification_cancel_to_free">شما در طرح رایگان هستید. سرورها و قابلیت‌های رایگان موجود هستند.</string>
-    <string name="notification_cancel_to_basic">شما در طرح Basic هستید. سرورها و قابلیت‌های Basic و رایگان موجود هستند.</string>
+    <string name="notification_cancel_to_free">شما در طرح رایگان هستید. سرورها و قابلیت‌های رایگان در دسترس هستند.</string>
+    <string name="notification_cancel_to_basic">شما در طرح Basic هستید. سرورها و قابلیت‌های &amp; Basic و رایگان در دسترس هستند.</string>
     <string name="notification_cancel_to_delinquent">شما پس از پرداخت صورت‌حساب‌های در حال انتظار دوباره قادر به دسترسی به قابلیت‌های ویژه خواهید بود.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">از سرور: </string>
@@ -561,7 +561,7 @@
     <string name="onboarding_welcome_description">تنها در چند ثانیه با Proton VPN آشنا شوید.</string>
     <string name="onboarding_welcome_action">شروع کنید</string>
     <string name="onboarding_available_on_plus">در دسترس برای Plus</string>
-    <string name="onboarding_streaming_title">باز کردن پخش جریانی</string>
+    <string name="onboarding_streaming_title">باز کردن استریم</string>
     <string name="onboarding_streaming_description">به هر محتوایی به صورت امن، حتی زمانی که در حال سفر به کشورهای دیگر هستید دسترسی پیدا کنید. هم‌اکنون قابل دسترس در AndroidTV.</string>
     <string name="onboarding_protection_title">همه‌جا محافظت شوید</string>
     <string name="onboarding_protection_description">Proton VPN از همهٔ دستگاه‌ها از جمله macOS ،Windows و بسیاری دیگر پشتیبانی می‌کند.</string>
@@ -608,7 +608,7 @@
     <string name="dynamic_report_tips_title">راه‌حل‌های سریع</string>
     <string name="dynamic_report_logs_title">ارسال لاگ‌های خطا</string>
     <string name="dynamic_report_success_title">از بازخوردتان سپاس‌گزاریم</string>
-    <string name="dynamic_report_success_description">ما به شما هر چه سریع‌تر باز خواهیم گشت.</string>
+    <string name="dynamic_report_success_description">در سریع ترین زمان ممکن به شما پاسخ خواهیم داد.</string>
     <string name="dynamic_report_field_mandatory">این بخش الزامی است</string>
     <string name="dynamic_report_logs_description">لاگ نوعی فایل است، که به ما اقدامات شما را که منجر به خطا شده است نشان می‌دهد. ما از آن‌ها تنها جهت کمک به مهندسین خود برای رفع اشکالات استفاده خواهیم کرد.</string>
     <string name="dynamic_report_logs_missing">لاگ‌های خطا به ما در پیدا کردن علت اشکال کمک می‌کنند. اگر آن‌ها را پیوست نکنید، ممکن است ما قادر به رسیدگی کامل به اشکال نباشیم.</string>

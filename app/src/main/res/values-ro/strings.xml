@@ -172,7 +172,7 @@
     <string name="reconnect_now">Reconectare</string>
     <string name="try_reconnecting">Try reconnecting</string>
     <string name="connect">Conectare</string>
-    <string name="upgrade">Upgrade</string>
+    <string name="upgrade">Modernizare</string>
     <string name="retry">Reîncercare</string>
     <plurals name="retry_in">
         <item quantity="one">Reconectare într-o secundă</item>
@@ -431,7 +431,7 @@
     </plurals>
     <string name="notification_max_sessions_content">Deconectați un alt dispozitiv pentru a-l conecta pe acesta.</string>
     <string name="notification_cancel_to_free">Sunteți pe planul gratuit. Sunt disponibile serverele și funcțiile gratuite.</string>
-    <string name="notification_cancel_to_basic">Sunteți pe planul Basic. Sunt disponibile servere gratuite și caracteristici Basic.</string>
+    <string name="notification_cancel_to_basic">Sunteți pe planul Basic. Sunt disponibile servere gratuite și funcții Basic.</string>
     <string name="notification_cancel_to_delinquent">Veți putea accesa din nou funcțiile premium după achitarea facturilor în așteptare.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">De la serverul: </string>
@@ -440,7 +440,7 @@
     <string name="enable">Activare</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol este acum dezactivat</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN a detectat că rețeaua curentă împiedică o conexiune la VPN. Activarea funcției Smart Protocol ar putea ocoli aceste limitări.</string>
-    <string name="upsell_advanced_features">Caracteristici avansate: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Funcții avansate: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Accesați serviciile de trasmisie în flux (Netflix, Disney+, etc.) de oriunde în lume</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -462,7 +462,7 @@
         <item quantity="few">%1$d țări</item>
         <item quantity="other">%1$d de țări</item>
     </plurals>
-    <string name="upsell_upgrade_again">Reactivați planul superior pentru a vă bucura de toate caracteristicile:</string>
+    <string name="upsell_upgrade_again">Remodernizați planul pentru a accesa toate funcțiile:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
     <string name="upgrade_plus_subtitle">Când treceți la Plus</string>
@@ -520,7 +520,7 @@
      Example:
      You now have access to 1300+ secure servers and other premium features.
      -->
-    <string name="onboarding_plan_congrats_description">Acum aveți acces la %1$s și alte funcții premium.</string>
+    <string name="onboarding_plan_congrats_description">Acum aveți acces la %1$s și alte funcții speciale.</string>
     <string name="upgrade_plus_countries_streaming">Accesați serviciile globale de transmisii în flux</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
@@ -530,7 +530,7 @@
     </plurals>
     <string name="upgrade_plus_countries_netshield">Blocați reclame și malware cu NetShield</string>
     <string name="upgrade_plus_countries_speeds">Navigați cu viteză maximă (10 Gbps)</string>
-    <string name="upgrade_plus_countries_more">Și multe alte caracteristici premium</string>
+    <string name="upgrade_plus_countries_more">Și multe alte funcții speciale</string>
     <string name="upgrade_safe_mode_title">Permitere trafic la porturile nonstandard</string>
     <string name="upgrade_safe_mode_message">Aveți nevoi avansate sau profesionale de calcul care necesită porturi non-standard? Treceți la VPN Plus pentru a activa aceasta și alte funcții premium.</string>
     <string name="upgrade_moderate_nat_title">Activare NAT moderat</string>
@@ -543,7 +543,7 @@
     <string name="activity_information_title">Informații</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - servere Plus</string>
-    <string name="info_features">Caracteristici</string>
+    <string name="info_features">Funcții</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Această tehnologie permite ca Proton VPN să ofere viteză și securitate mai mare în țările dificil de accesat.</string>
     <string name="streaming_title">Transmisie în flux</string>
