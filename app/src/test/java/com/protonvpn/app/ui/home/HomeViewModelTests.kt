@@ -125,5 +125,6 @@ class HomeViewModelTests {
         every { mockConnectionParams.profile } returns profile
         every { mockVpnStatusProviderUI.connectionParams } returns mockConnectionParams
         every { mockVpnStatusProviderUI.isConnected } returns true
+        every { mockVpnStatusProviderUI.isEstablishingOrConnected } returns true
     }
 }
