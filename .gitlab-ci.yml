@@ -225,8 +225,7 @@ build google play release:
 build amazon release:
   stage: build
   only:
-    refs:
-      - master
+    - /^releaseTEST/
   except:
     - schedules
   tags:
@@ -241,11 +240,11 @@ build amazon release:
 
 build release (auto):
   stage: build
-  only:
-    refs:
-      - master
-  except:
-    - schedules
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^releaseTEST/
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
   tags:
     - xlarge-k8s
   script:
@@ -327,37 +326,6 @@ owasp check:
     paths:
       - build/reports
 
-sync-app:
-  cache: {}
-  stage: mirror
-  only:
-    refs:
-      - master
-  before_script:
-    - !reference [ default, before_script ]
-    - apt update && apt-get install -y connect-proxy
-  script:
-    # Clone instead of using the current CI as it creates the error (shallow update not allowed)
-    - git clone "$CI_REPOSITORY_URL" --branch master _APP_CLONE;
-    - cd _APP_CLONE
-    - git remote add public $PUBLIC_REPO_URL
-    - git push public master
-    # Push the latest tag we can find
-    - git push public "$(git describe --abbrev=0)"
-
-publish-apk-internal:
-  stage: publish
-  tags:
-    - xlarge-k8s
-  only:
-    refs:
-      - development
-  except:
-    - schedules
-  script:
-    - ./gradlew openvpn:assemble
-    - ./gradlew publishInternal -PabiSplit
-
 startReview:
   before_script:
     - export REVIEW_APP_ARTIFACT_PATH="app/build/outputs/apk/googlePlay/debug/"${ARCHIVES_BASE_NAME}-googlePlay-debug.apk
@@ -389,6 +357,8 @@ include:
 
   - local: '/.gitlab-ci-firebase.yml'
 
+  - local: '/.gitlab-ci-release.yml'
+
   - local: '.download-upload.gitlab-ci.yml'
 
   - project: 'proton/devops/atlas-deploy'
@@ -413,27 +383,3 @@ i18n-sync-crowdin-new-plans:
     I18N_SYNC_BRANCH: feat/rebranding-main
     I18N_SYNC_CROWDIN_PROJECT: 'android-vpn'
   extends: .i18n-sync-crowdin-shared
-
-publish-github:
-  stage: publish
-  only:
-    refs:
-      - master
-  interruptible: false
-  variables:
-    RELEASE_APP: android-vpn
-    RELEASE_GITHUB_REPOSITORY: $PUBLIC_REPO_URL
-  extends: .release-make-release
-
-publish downloads:
-  extends: .publish-download-base
-  only:
-    refs:
-      - master
-  interruptible: false
-  variables:
-    ORIGIN_OAUTH_URL: "${OAUTH_DOWNLOADS_REPO_URL}"
-    ARTIFACT_PATH: "app/build/outputs/apk/direct/release/${ARCHIVES_BASE_NAME}-direct-universal-release.apk"
-    ARTIFACT_OUTPUT_NAME: "ProtonVPN.apk"
-    SLACK_HOOK: "${SLACK_HOOK_DEPLOY_CHANNEL}"
-    SLACK_MESSAGE: '{"text":"Updated ProtonVPN.apk. <!subteam^S039FS9JUKT> can someone deploy downloads? Thanks :)"}'

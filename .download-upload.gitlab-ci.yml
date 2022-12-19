@@ -2,8 +2,6 @@
   stage: publish
   tags:
     - small
-  except:
-    - schedules
   script:
     - git config user.email "$GIT_CI_EMAIL"
     - git config user.name "$GIT_CI_USERNAME"
