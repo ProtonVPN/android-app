@@ -579,7 +579,18 @@ class Helpers {
         return out.toString()
     }
 }
-
+tasks.register("getVersionName"){
+    doLast {
+        def helpers = new Helpers()
+        println helpers.fullVersionName
+    }
+}
+tasks.register("getUniversalVersionCode"){
+    doLast {
+        def helpers = new Helpers()
+        println helpers.getVersionCode(0)
+    }
+}
 tasks.register("getArchivesName"){
     doLast {
         println archivesBaseName
