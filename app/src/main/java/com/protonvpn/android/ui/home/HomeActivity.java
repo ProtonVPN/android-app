@@ -276,8 +276,8 @@ public class HomeActivity extends VpnActivity {
 
     private void toggleSecureCore() {
         LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "main screen");
-        if (vpnStatusProviderUI.isConnected()
-                && vpnStatusProviderUI.isConnectingToSecureCore() == switchSecureCore.isChecked()) {
+        if (vpnStatusProviderUI.isEstablishingOrConnected() &&
+                vpnStatusProviderUI.isConnectingToSecureCore() == switchSecureCore.isChecked()) {
             userData.setSecureCoreEnabled(!switchSecureCore.isChecked());
 
             ProtonLogger.INSTANCE.log(UiReconnect, "user toggled SC switch");

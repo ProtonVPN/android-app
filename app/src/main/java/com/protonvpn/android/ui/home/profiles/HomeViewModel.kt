@@ -86,7 +86,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getReconnectProfileOnSecureCoreChange(): Profile {
-        DebugUtils.debugAssert("Is connected") { vpnStatusProviderUI.isConnected }
+        DebugUtils.debugAssert("Is connected or connecting") { vpnStatusProviderUI.isEstablishingOrConnected }
         val connectedProfile = vpnStatusProviderUI.connectionParams!!.profile
         return if (connectedProfile.isSecureCore == null && !connectedProfile.isDirectServer) {
             // Connect to the same profile, it doesn't enforce Secure Core.
