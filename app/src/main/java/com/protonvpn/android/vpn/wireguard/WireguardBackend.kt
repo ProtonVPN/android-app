@@ -146,7 +146,7 @@ class WireguardBackend @Inject constructor(
             }
         } catch (e: SecurityException) {
             if (e.message?.contains("INTERACT_ACROSS_USERS") == true)
-                selfStateObservable.value = VpnState.Error(ErrorType.MULTI_USER_PERMISSION)
+                selfStateObservable.value = VpnState.Error(ErrorType.MULTI_USER_PERMISSION, isFinal = true)
             else
                 handleConnectException(e)
         } catch (e: IllegalStateException) {
@@ -186,7 +186,7 @@ class WireguardBackend @Inject constructor(
                             failCountdown--
                             if (failCountdown <= 0) {
                                 failCountdown = FAIL_COUNTDOWN_INIT
-                                VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
+                                VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false)
                             } else {
                                 VpnState.Connecting
                             }
@@ -203,7 +203,7 @@ class WireguardBackend @Inject constructor(
                             ProtonLogger.logCustom(
                                 LogLevel.ERROR, LogCategory.CONN_WIREGUARD, "unexpected WireGuard state $state"
                             )
-                            VpnState.Error(ErrorType.GENERIC_ERROR)
+                            VpnState.Error(ErrorType.GENERIC_ERROR, isFinal = true)
                         }
                     }
                     mainScope.launch {
@@ -251,7 +251,7 @@ class WireguardBackend @Inject constructor(
                 StringWriter().apply { e.printStackTrace(PrintWriter(this)) }.toString()
         )
         // TODO do not use generic error here (depends on other branch)
-        selfStateObservable.value = VpnState.Error(ErrorType.GENERIC_ERROR)
+        selfStateObservable.value = VpnState.Error(ErrorType.GENERIC_ERROR, isFinal = true)
     }
 
     companion object {

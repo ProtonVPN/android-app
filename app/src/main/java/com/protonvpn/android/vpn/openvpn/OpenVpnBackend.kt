@@ -160,9 +160,12 @@ class OpenVpnBackend @Inject constructor(
 
         val translatedState = when {
             openVpnState == "CONNECTRETRY" && level == ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET ->
-                VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
-            openVpnState == "RECONNECTING" -> if (logmessage?.startsWith("tls-error") == true)
-                VpnState.Error(ErrorType.PEER_AUTH_FAILED) else VpnState.Reconnecting
+                VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false)
+            openVpnState == "RECONNECTING" ->
+                if (logmessage?.startsWith("tls-error") == true)
+                    VpnState.Error(ErrorType.PEER_AUTH_FAILED, isFinal = false)
+                else
+                    VpnState.Reconnecting
             else -> when (level) {
                 ConnectionStatus.LEVEL_CONNECTED ->
                     VpnState.Connected
@@ -174,11 +177,11 @@ class OpenVpnBackend @Inject constructor(
                 ConnectionStatus.LEVEL_NOTCONNECTED, ConnectionStatus.LEVEL_VPNPAUSED ->
                     VpnState.Disabled
                 ConnectionStatus.LEVEL_AUTH_FAILED ->
-                    VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
+                    VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL, isFinal = false)
                 ConnectionStatus.UNKNOWN_LEVEL ->
-                    VpnState.Error(ErrorType.GENERIC_ERROR)
+                    VpnState.Error(ErrorType.GENERIC_ERROR, isFinal = true)
                 ConnectionStatus.LEVEL_MULTI_USER_PERMISSION ->
-                    VpnState.Error(ErrorType.MULTI_USER_PERMISSION)
+                    VpnState.Error(ErrorType.MULTI_USER_PERMISSION, isFinal = true)
                 null -> VpnState.Disabled
             }
         }
