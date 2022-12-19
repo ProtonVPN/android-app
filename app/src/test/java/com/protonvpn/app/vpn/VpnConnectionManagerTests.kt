@@ -240,12 +240,12 @@ class VpnConnectionManagerTests {
         pauseDispatcher()
         with(mockBackendSelfState) {
             // Triggers fallback that calls onUnreachableError.
-            value = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
+            value = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false)
             advanceTimeBy(fallbackDurationMs / 2)
             coVerify { mockVpnErrorHandler.onUnreachableError(any()) }
 
             // Tries to start a second fallback handleUnrecoverableError.
-            value = VpnState.Error(ErrorType.UNREACHABLE)
+            value = VpnState.Error(ErrorType.UNREACHABLE, isFinal = false)
             // Cancels the current ongoing fallback.
             value = VpnState.Connected
         }

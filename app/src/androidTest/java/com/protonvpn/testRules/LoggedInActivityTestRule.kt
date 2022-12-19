@@ -57,6 +57,6 @@ open class LoggedInActivityTestRule<T : Activity>(private val activityClass: Cla
     }
 
     fun mockErrorOnConnect(type: ErrorType) {
-        service.mockVpnBackend.stateOnConnect = VpnState.Error(type, null)
+        service.mockVpnBackend.stateOnConnect = VpnState.Error(type, null, isFinal = true)
     }
 }

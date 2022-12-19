@@ -451,7 +451,7 @@ class VpnConnectionTests {
 
     @Test
     fun whenAuthErrorRequiresFallbackThenVpnConnectionIsReestablished() = scope.runBlockingTest {
-        mockWireguard.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
+        mockWireguard.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL, isFinal = false)
         mockOpenVpn.stateOnConnect = VpnState.Connected
         val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
             serverWireguard,
@@ -480,7 +480,7 @@ class VpnConnectionTests {
 
     @Test
     fun whenAuthErrorDueToMaxSessionsThenDisconnectAndReportError() = scope.runBlockingTest {
-        mockWireguard.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL)
+        mockWireguard.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL, isFinal = false)
         coEvery { vpnErrorHandler.onAuthError(any()) } returns VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
 
         val fallbacks = runWhileCollecting(monitor.vpnConnectionNotificationFlow) {
@@ -513,7 +513,7 @@ class VpnConnectionTests {
 
     @Test
     fun whenUnreachableInternalStateIsReachedThenSwitchServer() = scope.runBlockingTest {
-        mockWireguard.stateOnConnect = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
+        mockWireguard.stateOnConnect = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false)
 
         val fallbackConnection = mockOpenVpn.prepareForConnection(
             fallbackOpenVpnProfile, fallbackServer, emptySet(), true).first()

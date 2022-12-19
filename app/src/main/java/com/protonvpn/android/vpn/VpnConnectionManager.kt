@@ -238,7 +238,7 @@ class VpnConnectionManager @Inject constructor(
                     ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
                     disconnect("max sessions reached")
                 } else {
-                    activeBackend?.setSelfState(VpnState.Error(result.type))
+                    activeBackend?.setSelfState(VpnState.Error(result.type, isFinal = true))
                 }
             }
         }
@@ -326,7 +326,7 @@ class VpnConnectionManager @Inject constructor(
         if (preparedConnection == null) {
             if (profile.isGuestHoleProfile) {
                 // If scanning failed for GH, just try another server to speed things up.
-                setSelfState(VpnState.Error(ErrorType.GENERIC_ERROR))
+                setSelfState(VpnState.Error(ErrorType.GENERIC_ERROR, isFinal = false))
                 return
             }
             val fallbackProtocol = if (protocol.vpn == VpnProtocol.Smart)
@@ -341,10 +341,13 @@ class VpnConnectionManager @Inject constructor(
                 backendProvider.prepareConnection(fallbackProtocol, profile, server, false)
         }
 
-        if (preparedConnection == null)
-            setSelfState(VpnState.Error(ErrorType.GENERIC_ERROR, "Server doesn't support selected protocol"))
-        else
+        if (preparedConnection == null) {
+            setSelfState(
+                VpnState.Error(ErrorType.GENERIC_ERROR, "Server doesn't support selected protocol", isFinal = true)
+            )
+        } else {
             preparedConnect(preparedConnection)
+        }
     }
 
     private fun getFallbackSmartProtocol(server: Server): ProtocolSelection {
@@ -393,7 +396,7 @@ class VpnConnectionManager @Inject constructor(
                 )
             } else {
                 // Report LOCAL_AGENT_ERROR, same as other places where CertificateResult.Error is handled.
-                setSelfState(VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Failed to obtain certificate"))
+                setSelfState(VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Failed to obtain certificate", isFinal = false))
                 return
             }
         } else {

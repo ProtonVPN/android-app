@@ -257,7 +257,7 @@ abstract class VpnBackend(
                 closeVpnTunnel(withStateChange = false)
             }
 
-            selfStateObservable.setValue(VpnState.Error(error, description))
+            selfStateObservable.setValue(VpnState.Error(error, description, isFinal = disconnectVPN))
         }
     }
 
@@ -383,9 +383,9 @@ abstract class VpnBackend(
                 val shouldFallback = localAgentUnreachableTracker.onUnreachable()
                 if (shouldFallback) {
                     localAgentUnreachableTracker.onFallbackTriggered()
-                    VpnState.Error(ErrorType.UNREACHABLE_INTERNAL)
+                    VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false)
                 } else {
-                    VpnState.Error(ErrorType.UNREACHABLE)
+                    VpnState.Error(ErrorType.UNREACHABLE, isFinal = false)
                 }
             }
             agentConstants.stateClientCertificateExpiredError -> {
@@ -397,7 +397,7 @@ abstract class VpnBackend(
                 VpnState.Connecting
             }
             agentConstants.stateServerCertificateError ->
-                VpnState.Error(ErrorType.PEER_AUTH_FAILED)
+                VpnState.Error(ErrorType.PEER_AUTH_FAILED, isFinal = false)
             agentConstants.stateWaitingForNetwork ->
                 VpnState.WaitingForNetwork
             agentConstants.stateHardJailed, // Error will be handled in NativeClient.onError method
