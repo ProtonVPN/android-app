@@ -37,8 +37,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import me.proton.core.test.kotlin.TestDispatcherProvider
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -52,8 +52,6 @@ import org.junit.Test
 class UpdateSettingsOnVpnUserChangeTests {
 
     @get:Rule var rule = InstantTaskExecutorRule()
-
-    private lateinit var scope: TestCoroutineScope
 
     @MockK private lateinit var mockCurrentUser: CurrentUser
 
@@ -72,7 +70,6 @@ class UpdateSettingsOnVpnUserChangeTests {
         MockKAnnotations.init(this)
         Storage.setPreferences(mockk(relaxed = true))
         userData = UserData.create()
-        scope = TestCoroutineScope(TestDispatcherProvider.Main)
         vpnUserFlow = MutableStateFlow(null)
         defaultProfile = Profile.getTempProfile(MockedServers.server)
 
@@ -85,9 +82,10 @@ class UpdateSettingsOnVpnUserChangeTests {
 
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
 
+        val dispatcher = UnconfinedTestDispatcher()
         updateSettingsOnVpnUserChange = UpdateSettingsOnVpnUserChange(
-            scope,
-            TestDispatcherProvider,
+            TestScope(dispatcher),
+            TestDispatcherProvider(dispatcher),
             mockCurrentUser,
             mockServerManager,
             userData
@@ -95,7 +93,7 @@ class UpdateSettingsOnVpnUserChangeTests {
     }
 
     @Test
-    fun `only SecureCore disabled when switching to basic plan`() = scope.runBlockingTest {
+    fun `only SecureCore disabled when switching to basic plan`() {
         vpnUserFlow.value = TestUser.plusUser.vpnUser
         userData.secureCoreEnabled = true
         userData.setNetShieldProtocol(NetShieldProtocol.ENABLED_EXTENDED)
@@ -111,7 +109,7 @@ class UpdateSettingsOnVpnUserChangeTests {
     }
 
     @Test
-    fun `paid features disabled when switching to free plan`() = scope.runBlockingTest {
+    fun `paid features disabled when switching to free plan`() {
         vpnUserFlow.value = TestUser.plusUser.vpnUser
         userData.secureCoreEnabled = true
         userData.setNetShieldProtocol(NetShieldProtocol.ENABLED_EXTENDED)

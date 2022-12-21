@@ -143,7 +143,7 @@ class AccountViewModel @Inject constructor(
     suspend fun startLogin() {
         viewModelScope.launch { api.getAvailableDomains() }
         authOrchestrator.startAddAccountWorkflow(
-            accountType, product, loginUsername = Storage.getString(LAST_USER, null)
+            accountType, accountType, product, loginUsername = Storage.getString(LAST_USER, null)
         )
     }
 

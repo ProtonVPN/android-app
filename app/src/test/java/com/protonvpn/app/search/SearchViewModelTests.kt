@@ -70,7 +70,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SearchViewModelTests : CoroutinesTest {
+class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
 
     @get:Rule
     var rule = InstantTaskExecutorRule()
@@ -126,7 +126,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `when query is 'ca' matching results are returned`() = coroutinesTest {
+    fun `when query is 'ca' matching results are returned`() = runTest {
         searchViewModel.setQuery("ca")
         val state = searchViewModel.viewState.first()
 
@@ -139,7 +139,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `offline servers included in search results`() = coroutinesTest {
+    fun `offline servers included in search results`() = runTest {
         searchViewModel.setQuery("se")
         val state = searchViewModel.viewState.first()
 
@@ -154,7 +154,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `when connected to CA#1 Toronto result is shown connected`() = coroutinesTest {
+    fun `when connected to CA#1 Toronto result is shown connected`() = runTest {
         val server = MockedServers.serverList.first { it.serverName == "CA#1" }
         val profile = MockedServers.getProfile(server, VpnProtocol.Smart)
         vpnStateFlow.value = VpnStateMonitor.Status(VpnState.Connected, ConnectionParams(profile, server, null, null))
@@ -168,7 +168,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `when connected to CA#1 Canada result is shown connected`() = coroutinesTest {
+    fun `when connected to CA#1 Canada result is shown connected`() = runTest {
         val server = MockedServers.serverList.first { it.serverName == "CA#1" }
         val profile = MockedServers.getProfile(server, VpnProtocol.Smart)
         vpnStateFlow.value = VpnStateMonitor.Status(VpnState.Connected, ConnectionParams(profile, server, null, null))
@@ -182,7 +182,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `when city match is in second word it is shown after matches on first word`() = coroutinesTest {
+    fun `when city match is in second word it is shown after matches on first word`() = runTest {
         searchViewModel.setQuery("k")
         val state = searchViewModel.viewState.first()
 
@@ -191,7 +191,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `when country match is in second word it is shown after matches on first word`() = coroutinesTest {
+    fun `when country match is in second word it is shown after matches on first word`() = runTest {
         searchViewModel.setQuery("s")
         val state = searchViewModel.viewState.first()
 
@@ -202,7 +202,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `servers sorted by number`() = coroutinesTest {
+    fun `servers sorted by number`() = runTest {
         searchViewModel.setQuery("UA")
         val state = searchViewModel.viewState.first()
 
@@ -211,7 +211,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `accessible servers listed first`() = coroutinesTest {
+    fun `accessible servers listed first`() = runTest {
         // UA#9 is tier 1, UA#10 is tier 0.
         vpnUserFlow.value = TestUser.freeUser.vpnUser
         searchViewModel.setQuery("UA")
@@ -222,7 +222,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `when query is typed fast only the end result is added to recents`() = coroutinesTest {
+    fun `when query is typed fast only the end result is added to recents`() = runTest {
         searchViewModel.setQuery("s")
         searchViewModel.setQuery("sw")
         searchViewModel.setQuery("swi")
@@ -236,7 +236,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `when recents are cleared state is empty`() = coroutinesTest {
+    fun `when recents are cleared state is empty`() = runTest {
         searchViewModel.setQuery("swiss")
         delay(3100)
         searchViewModel.setQuery("")
@@ -246,7 +246,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `recents show most recent first`() = coroutinesTest {
+    fun `recents show most recent first`() = runTest {
         searchViewModel.setQuery("aaa")
         delay(3100)
         searchViewModel.setQuery("bbb")
@@ -259,7 +259,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `when the same query is saved in recents it moves to top`() = coroutinesTest {
+    fun `when the same query is saved in recents it moves to top`() = runTest {
         searchViewModel.setQuery("aaa")
         delay(3100)
         searchViewModel.setQuery("bbb")
@@ -274,7 +274,7 @@ class SearchViewModelTests : CoroutinesTest {
     }
 
     @Test
-    fun `when a query from recents is selected it moves to top of recents`() = coroutinesTest {
+    fun `when a query from recents is selected it moves to top of recents`() = runTest {
         searchViewModel.setQuery("aaa")
         delay(3100)
         searchViewModel.setQuery("bbb")
