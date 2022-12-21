@@ -34,6 +34,7 @@ import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -42,6 +43,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.cancelAndJoin
@@ -77,6 +79,8 @@ class GuestHole @Inject constructor(
 
     @VisibleForTesting
     var shuffler: (List<Server>) -> List<Server> = { it.shuffled() }
+
+    var openForHumanVerification: Deferred<Boolean>? = null
 
     private var waitingForUnblock = false
     private var timeoutCloseJob: Job? = null
@@ -164,6 +168,17 @@ class GuestHole @Inject constructor(
             logMessage("alternatives failed, keepGuestHole=$keepGuestHole")
             if (keepGuestHole)
                 unblock(null)
+        }
+    }
+
+    suspend fun onBeforeHumanVerification() {
+        if (!isGuestHoleActive && openForHumanVerification?.await() == true) {
+            withContext(dispatcherProvider.Main) {
+                if (guestHoleLocks.locked()) {
+                    logMessage("opening Guest Hole for human verification")
+                    unblock(null)
+                }
+            }
         }
     }
 

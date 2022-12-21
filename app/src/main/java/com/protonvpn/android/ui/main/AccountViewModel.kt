@@ -29,6 +29,7 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.auth.VpnUserCheck
+import com.protonvpn.android.auth.usecase.HumanVerificationGuestHoleCheck
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.auth.usecase.VpnLogin.Companion.GUEST_HOLE_ID
 import com.protonvpn.android.logging.LogCategory
@@ -59,6 +60,7 @@ import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
 import me.proton.core.auth.presentation.onSecondFactorResult
 import me.proton.core.domain.entity.Product
+import me.proton.core.network.domain.NetworkManager
 import javax.inject.Inject
 
 @HiltViewModel
@@ -72,7 +74,9 @@ class AccountViewModel @Inject constructor(
     val certificateRepository: CertificateRepository,
     val vpnUserCheck: VpnUserCheck,
     val guestHole: dagger.Lazy<GuestHole>,
-    val product: Product
+    val product: Product,
+    val humanVerificationGuestHoleCheck: HumanVerificationGuestHoleCheck,
+    val networkManager: NetworkManager
 ) : ViewModel() {
 
     sealed class State {
@@ -97,7 +101,7 @@ class AccountViewModel @Inject constructor(
             .onEach { accounts ->
                 when {
                     accounts.isEmpty() || accounts.all { it.isDisabled() || it.state == AccountState.Removed } -> {
-                        guestHole.get().acquireNeedGuestHole(GUEST_HOLE_ID)
+                        setupGuestHoleForLoginAndSignup()
                         _state.emit(State.LoginNeeded)
                     }
                     accounts.any { it.isReady() } ->
@@ -128,6 +132,11 @@ class AccountViewModel @Inject constructor(
                 .onUserKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER, "UserKeyCheckFailed") }
                 .onUserAddressKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER,"UserAddressKeyCheckFailed") }
         }
+    }
+
+    private fun setupGuestHoleForLoginAndSignup() = with(guestHole.get()) {
+        acquireNeedGuestHole(GUEST_HOLE_ID)
+        humanVerificationGuestHoleCheck(viewModelScope)
     }
 
     override fun onCleared() {
