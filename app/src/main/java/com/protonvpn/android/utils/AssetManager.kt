@@ -21,6 +21,8 @@ package com.protonvpn.android.utils
 
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.security.MessageDigest
@@ -37,6 +39,7 @@ object AssetManager {
         try {
             decodeImageAsset(path) ?: manager.open(path)
         } catch (e: Exception) {
+            ProtonLogger.logCustom(LogCategory.APP, "AssetManager error: ${e.message}")
             manager.open(path)
         }
 
