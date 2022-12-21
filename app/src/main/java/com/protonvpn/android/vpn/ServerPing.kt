@@ -40,6 +40,7 @@ import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketAddress
+import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
@@ -171,5 +172,17 @@ class ServerPing @Inject constructor(
 
     private fun logFailedProtect() {
         ProtonLogger.logCustom(LogLevel.WARN, LogCategory.CONN_SERVER_SWITCH, "ping socket not protected")
+    }
+
+    suspend fun pingTcpByHostname(hostname: String, port: Int): Boolean = withContext(dispatcherProvider.Io) {
+        try {
+            val hostAddress = InetAddress.getByName(hostname).hostAddress
+            if (hostAddress == null)
+                false
+            else
+                ping(hostAddress, port, ByteArray(0), true)
+        } catch (e: UnknownHostException) {
+            false
+        }
     }
 }
