@@ -86,6 +86,7 @@ class InformationActivity : BaseActivityV2() {
             is InfoType.Generic -> setupGenericInfo()
             is InfoType.Streaming -> setupStreamingInfo(info.countryCode)
             is InfoType.Partners -> setupPartnershipInfo(info)
+            null -> Unit
         }
     }
 
