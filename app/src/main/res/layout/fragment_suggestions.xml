@@ -25,15 +25,15 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center_horizontal|center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/buttonContactUs"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             style="@style/ProtonLinearProgressIndicator"
@@ -45,71 +45,54 @@
             style="@style/Proton.Text.DefaultSmall.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
             android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
             android:text="@string/dynamic_report_step2"
             android:textColor="?attr/proton_text_accent" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textIssueTitle"
+            style="@style/Proton.Text.Headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textIssueTitle"
-                style="@style/Proton.Text.Headline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:lines="1"
-                android:text="@string/dynamic_report_tips_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView2"
-                style="@style/Proton.Text.Default.Weak"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:lines="1"
-                android:text="@string/dynamic_report_tips_description"
-                app:layout_constraintEnd_toEndOf="@+id/textIssueTitle"
-                app:layout_constraintStart_toStartOf="@+id/textIssueTitle"
-                app:layout_constraintTop_toBottomOf="@+id/textIssueTitle" />
-        </LinearLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_report_suggestion" />
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:lines="1"
+            android:text="@string/dynamic_report_tips_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
-            style="@style/Proton.Text.DefaultSmall.Weak"
-            android:layout_width="wrap_content"
+            android:id="@+id/textView2"
+            style="@style/Proton.Text.Default.Weak"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:ellipsize="end"
-            android:lines="1"
-            android:text="@string/dynamic_report_suggestion_didnt_work" />
+            android:gravity="start"
+            android:text="@string/dynamic_report_tips_description"
+            app:layout_constraintEnd_toEndOf="@+id/textIssueTitle"
+            app:layout_constraintStart_toStartOf="@+id/textIssueTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textIssueTitle" />
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="16dp"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/textSuggestionNotWorking"
+        app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
+        tools:listitem="@layout/item_report_suggestion" />
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonContactUs"
@@ -120,6 +103,19 @@
         android:layout_marginBottom="8dp"
         android:text="@string/dynamic_report_contact_us"
         app:layout_constraintBottom_toTopOf="@+id/buttonCancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textSuggestionNotWorking"
+        style="@style/Proton.Text.DefaultSmall.Weak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:text="@string/dynamic_report_suggestion_didnt_work"
+        app:layout_constraintBottom_toTopOf="@+id/buttonContactUs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
