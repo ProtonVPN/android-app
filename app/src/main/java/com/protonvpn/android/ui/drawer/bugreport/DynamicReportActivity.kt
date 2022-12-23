@@ -74,6 +74,8 @@ class DynamicReportActivity : BaseActivityV2() {
                 finishAndShowSuccessDialog()
             is ReportBugActivityViewModel.ViewState.Error ->
                 binding.loadingContainer.switchToRetry(state.error)
+            is ReportBugActivityViewModel.ViewState.SubmittingReport ->
+                Unit
         }
     }
 

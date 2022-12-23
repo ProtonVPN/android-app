@@ -67,6 +67,7 @@ import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.pauseDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.session.SessionId
@@ -207,7 +208,7 @@ class VpnConnectionManagerTests {
     }
 
     @Test
-    fun `when fallback finishes wake lock is released`() = testScope.runBlockingTest {
+    fun `when fallback finishes wake lock is released`() = runTest {
         // No servers triggers fallback connections
         serverManager.setServers(emptyList(), null)
 

@@ -193,9 +193,9 @@ dependencies {
     dependencies.add("uiImplementation", "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     dependencies.add("uiImplementation", "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
 */
-    testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.30")
+    testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.20")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:3.9.0")
-    testImplementation("org.robolectric:robolectric:4.5.1")
-    testImplementation("androidx.test:core:1.4.0")
+    testImplementation("org.robolectric:robolectric:4.9.1")
+    testImplementation("androidx.test:core:1.5.0")
 }

@@ -34,6 +34,6 @@ repositories {
 
 dependencies {
     implementation("io.gitlab.arturbosch.detekt:detekt-api:$detekt_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 }
 
