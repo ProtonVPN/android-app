@@ -231,7 +231,7 @@
     <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="server">Servidor:</string>
-    <string name="session_time">Tiempo de sesión:</string>
+    <string name="session_time">Session duration:</string>
     <string name="download_volume">Volumen:</string>
     <string name="download_speed">Velocidad:</string>
     <string name="save_to_profile">Guardar en perfil</string>

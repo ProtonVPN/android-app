@@ -231,7 +231,7 @@
     <string name="ip">آدرس IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="server">سرور:</string>
-    <string name="session_time">زمان نشست:</string>
+    <string name="session_time">Session duration:</string>
     <string name="download_volume">میزان دانلود:</string>
     <string name="download_speed">سرعت:</string>
     <string name="save_to_profile">ذخیره در پروفایل</string>
