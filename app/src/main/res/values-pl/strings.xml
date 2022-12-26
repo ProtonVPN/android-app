@@ -233,7 +233,7 @@
     <string name="ip">Adres IP:</string>
     <string name="ipWithPlaceholder">Adres IP: %1$s</string>
     <string name="server">Serwer:</string>
-    <string name="session_time">Czas trwania sesji:</string>
+    <string name="session_time">Session duration:</string>
     <string name="download_volume">Użycie danych:</string>
     <string name="download_speed">Prędkość:</string>
     <string name="save_to_profile">Zapisz w profilu</string>

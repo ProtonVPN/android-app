@@ -232,7 +232,7 @@
     <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="server">Server:</string>
-    <string name="session_time">Durată sesiune:</string>
+    <string name="session_time">Session duration:</string>
     <string name="download_volume">Volum:</string>
     <string name="download_speed">Viteza:</string>
     <string name="save_to_profile">Salvare în profil</string>

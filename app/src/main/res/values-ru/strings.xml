@@ -233,7 +233,7 @@
     <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="server">Сервер:</string>
-    <string name="session_time">Время сеанса:</string>
+    <string name="session_time">Session duration:</string>
     <string name="download_volume">Скачано:</string>
     <string name="download_speed">Скорость:</string>
     <string name="save_to_profile">Сохранить в профиль</string>

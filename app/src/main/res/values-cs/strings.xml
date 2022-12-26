@@ -233,7 +233,7 @@
     <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="server">Server:</string>
-    <string name="session_time">Čas relace:</string>
+    <string name="session_time">Session duration:</string>
     <string name="download_volume">Objem:</string>
     <string name="download_speed">Rychlost:</string>
     <string name="save_to_profile">Uložit do profilu</string>
