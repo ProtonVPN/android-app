@@ -32,8 +32,11 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -56,6 +59,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.verify
+import io.mockk.verifyOrder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -104,6 +108,8 @@ class VpnConnectionManagerTests {
     private lateinit var mockVpnUiDelegate: VpnUiDelegate
     @MockK
     private lateinit var appConfig: AppConfig
+    @RelaxedMockK
+    private lateinit var mockVpnConnectionTelemetry: VpnConnectionTelemetry
 
     private lateinit var userData: UserData
     private lateinit var vpnStateMonitor: VpnStateMonitor
@@ -120,6 +126,7 @@ class VpnConnectionManagerTests {
         MockedServers.server.connectingDomains.first(),
         VpnProtocol.WireGuard
     )
+    private val trigger = ConnectTrigger.Auto("test")
 
     @Before
     fun setup() {
@@ -173,7 +180,8 @@ class VpnConnectionManagerTests {
             scope = testScope.backgroundScope,
             now = clock,
             powerManager = mockPowerManager,
-            supportsProtocol = supportsProtocol
+            supportsProtocol = supportsProtocol,
+            vpnConnectionTelemetry = mockVpnConnectionTelemetry
         )
     }
 
@@ -189,7 +197,7 @@ class VpnConnectionManagerTests {
         }
 
         vpnConnectionManager.connect(
-            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), "Test"
+            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), trigger
         )
         coVerify { mockBackend.connect(connectionParams) }
         verify(exactly = 1) { mockWakeLock.acquire(any()) }
@@ -199,12 +207,12 @@ class VpnConnectionManagerTests {
     @Test
     fun `when connection is aborted wake lock is released`() = testScope.runTest {
         coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
-            vpnConnectionManager.disconnect("Test")
+            vpnConnectionManager.disconnect(DisconnectTrigger.Test())
             PrepareResult(mockBackend, connectionParams)
         }
 
         vpnConnectionManager.connect(
-            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), "Test"
+            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), trigger
         )
         verify(exactly = 1) { mockWakeLock.acquire(any()) }
         verify(exactly = 1) { mockWakeLock.release() }
@@ -217,7 +225,7 @@ class VpnConnectionManagerTests {
         coEvery { mockVpnErrorHandler.onServerNotAvailable(any()) } returns null
 
         vpnConnectionManager.connect(
-            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), "Test"
+            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), trigger
         )
         advanceUntilIdle()
         // Wake lock is acquired twice, once to prepare connection, second time for fallback logic.
@@ -239,7 +247,7 @@ class VpnConnectionManagerTests {
         }
 
         vpnConnectionManager.connect(
-            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), "Test"
+            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), trigger
         )
 
         with(mockBackendSelfState) {
@@ -254,5 +262,76 @@ class VpnConnectionManagerTests {
             value = VpnState.Connected
         }
         advanceTimeBy(fallbackDurationMs)
+    }
+
+    @Test
+    fun `when connecting VpnConnectionTelemetry is notified`() = testScope.runTest {
+        coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
+            PrepareResult(mockBackend, connectionParams)
+        }
+
+        vpnConnectionManager.connect(
+            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), trigger
+        )
+        coVerify { mockBackend.connect(connectionParams) }
+
+        verify(exactly = 1) { mockVpnConnectionTelemetry.onConnectionStart(trigger) }
+    }
+
+    @Test
+    fun `when reconnecting VpnConnectionTelemetry onDisconnectionTrigger is called with previous connections params`() =
+        testScope.runTest {
+            coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
+                PrepareResult(mockBackend, connectionParams)
+            }
+            vpnConnectionManager.connect(
+                mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), trigger
+            )
+
+            val newConnectionParams = ConnectionParams(
+                Profile.getTempProfile(ServerWrapper.makePreBakedFastest()),
+                MockedServers.server,
+                MockedServers.server.connectingDomains.first(),
+                VpnProtocol.OpenVPN
+            )
+            coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
+                PrepareResult(mockBackend, newConnectionParams)
+            }
+            vpnConnectionManager.connect(
+                mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), trigger
+            )
+
+            verify(exactly = 1) {
+                mockVpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.NewConnection, connectionParams)
+            }
+        }
+
+    @Test
+    fun `when VPN service is destroyed while connected then report disconnection`() = testScope.runTest {
+        coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
+            PrepareResult(mockBackend, connectionParams)
+        }
+        vpnConnectionManager.connect(
+            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), trigger
+        )
+        vpnConnectionManager.onVpnServiceDestroyed()
+        verify(exactly = 1) {
+            mockVpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.ServiceDestroyed, connectionParams)
+        }
+    }
+
+    @Test
+    fun `when reconnecting with same params then report reconnection`() = testScope.runTest {
+        coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
+            PrepareResult(mockBackend, connectionParams)
+        }
+        vpnConnectionManager.connect(
+            mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), trigger
+        )
+        vpnConnectionManager.reconnectWithCurrentParams(mockVpnUiDelegate)
+        verifyOrder {
+            mockVpnConnectionTelemetry.onDisconnectionTrigger(ofType<DisconnectTrigger.Reconnect>(), connectionParams)
+            mockVpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Reconnect)
+        }
     }
 }

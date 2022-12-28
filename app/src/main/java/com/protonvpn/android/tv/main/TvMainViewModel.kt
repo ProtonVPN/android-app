@@ -56,6 +56,8 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.StreamingViewModelHelper
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
@@ -294,9 +296,9 @@ class TvMainViewModel @Inject constructor(
         )
     }
 
-    fun disconnect(uiElementName: String) {
-        ProtonLogger.log(UiDisconnect, uiElementName)
-        vpnConnectionManager.disconnect("user via $uiElementName")
+    fun disconnect(trigger: DisconnectTrigger) {
+        ProtonLogger.log(UiDisconnect, trigger.description)
+        vpnConnectionManager.disconnect(trigger)
     }
 
     fun isConnected() = vpnStatusProviderUI.isConnected
@@ -332,24 +334,24 @@ class TvMainViewModel @Inject constructor(
 
     fun onQuickConnectAction(activity: BaseTvActivity) {
         if (vpnStatusProviderUI.isConnected || vpnStatusProviderUI.isEstablishingConnection) {
-            disconnect("quick connect (TV)")
+            disconnect(DisconnectTrigger.QuickConnect("quick connect (TV)"))
         } else {
-            connect(activity, serverManager.defaultConnection, "quick connect (TV)")
+            connect(activity, serverManager.defaultConnection, ConnectTrigger.QuickConnect("quick connect (TV)"))
         }
     }
 
-    fun connect(activity: BaseTvActivity, countryCode: String, uiElement: String) {
-        connect(activity, createProfileForCountry(countryCode), uiElement)
+    fun connect(activity: BaseTvActivity, countryCode: String, trigger: ConnectTrigger) {
+        connect(activity, createProfileForCountry(countryCode), trigger)
     }
 
     fun connect(activity: BaseTvActivity, card: ProfileCard) {
-        connect(activity, card.connectCountry, "recents (TV)")
+        connect(activity, card.connectCountry, ConnectTrigger.QuickConnect("recents (TV)"))
     }
 
-    private fun connect(activity: BaseTvActivity, profile: Profile?, uiElement: String) {
+    private fun connect(activity: BaseTvActivity, profile: Profile?, trigger: ConnectTrigger) {
         if (profile != null) {
-            ProtonLogger.log(UiConnect, uiElement)
-            vpnConnectionManager.connect(activity.getVpnUiDelegate(), profile, "user via $uiElement")
+            ProtonLogger.log(UiConnect, trigger.description)
+            vpnConnectionManager.connect(activity.getVpnUiDelegate(), profile, trigger)
         } else {
             showMaintenanceDialog(activity)
         }

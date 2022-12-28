@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Proton Technologies AG
+ * Copyright (c) 2022. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,14 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.bus
 
-import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.vpn.ConnectTrigger
-import com.protonvpn.android.vpn.DisconnectTrigger
+package com.protonvpn.android.telemetry
 
-class ConnectToProfile(
-    val profile: Profile?,
-    val connectTrigger: ConnectTrigger,
-    val disconnectTrigger: DisconnectTrigger
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class StatsBody(
+    @SerialName("MeasurementGroup") val measurementGroup: String,
+    @SerialName("Event") val event: String,
+    @SerialName("Values") val values: Map<String, Long>,
+    @SerialName("Dimensions") val dimensions: Map<String, String>
 )

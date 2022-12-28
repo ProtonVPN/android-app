@@ -100,6 +100,8 @@ import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.HtmlTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.Storage;
+import com.protonvpn.android.vpn.ConnectTrigger;
+import com.protonvpn.android.vpn.DisconnectTrigger;
 import com.protonvpn.android.vpn.VpnStatusProviderUI;
 import com.squareup.otto.Subscribe;
 
@@ -282,7 +284,7 @@ public class HomeActivity extends VpnActivity {
 
             ProtonLogger.INSTANCE.log(UiReconnect, "user toggled SC switch");
             Profile newProfile = viewModel.getReconnectProfileOnSecureCoreChange();
-            onConnect(newProfile, "Secure Core switch");
+            onConnect(newProfile, ConnectTrigger.SecureCore.INSTANCE);
         } else {
             userData.setSecureCoreEnabled(!switchSecureCore.isChecked());
         }
@@ -494,25 +496,26 @@ public class HomeActivity extends VpnActivity {
     @Subscribe
     public void onConnectToServer(ConnectToServer connectTo) {
         if (connectTo.getServer() == null) {
-            disconnect(connectTo.getUiElement());
+            disconnect(connectTo.getDisconnectTrigger());
         } else {
             Server server = connectTo.getServer();
-            onConnect(connectTo.getUiElement(), Profile.getTempProfile(server));
+            onConnect(Profile.getTempProfile(server), connectTo.getConnectTrigger());
         }
     }
 
     @Subscribe
     public void onConnectToProfile(@NotNull ConnectToProfile event) {
         if (event.getProfile() == null) {
-            disconnect(event.getUiElement());
+            disconnect(event.getDisconnectTrigger());
         } else {
-            onConnect(event.getUiElement(), event.getProfile());
+            onConnect(event.getProfile(), event.getConnectTrigger());
         }
     }
 
     @Override
     protected Unit retryConnection(@NonNull Profile profile) {
-        onConnect(profile, "retry after missing vpn permission");
+        // This trigger isn't correct but connecting here should be a very rare occurrence.
+        onConnect(profile, new ConnectTrigger.Auto("retry after missing vpn permission"));
         return Unit.INSTANCE;
     }
 
@@ -533,7 +536,7 @@ public class HomeActivity extends VpnActivity {
                 if (!vpnStatusProviderUI.isConnected()) {
                     connectToDefaultProfile();
                 } else {
-                    disconnect("quick connect");
+                    disconnect(new DisconnectTrigger.QuickConnect("quick connect"));
                     fragment.collapseBottomSheet();
                 }
 
@@ -571,7 +574,11 @@ public class HomeActivity extends VpnActivity {
                 profile.getDisplayName(getContext()),
                 profile.getProfileSpecialIcon() != null ? profile.getProfileSpecialIcon() : R.drawable.ic_profile_custom_fab,
                 v -> {
-                    onConnectToProfile(new ConnectToProfile("quick connect menu", profile));
+                    onConnectToProfile(
+                            new ConnectToProfile(
+                                    profile,
+                                    new ConnectTrigger.QuickConnect("quick connect menu"),
+                                    new DisconnectTrigger.QuickConnect("quick connect menu")));
                     fabQuickConnect.close(true);
                 });
         }
@@ -584,7 +591,7 @@ public class HomeActivity extends VpnActivity {
                 getString(R.string.disconnect),
                 R.drawable.ic_proton_power_off,
                 v -> {
-                    disconnect("quick connect menu");
+                    disconnect(new DisconnectTrigger.QuickConnect("quick connect menu"));
                     fabQuickConnect.close(true);
                 });
         } else {
@@ -631,7 +638,7 @@ public class HomeActivity extends VpnActivity {
 
     private void connectToDefaultProfile() {
         Profile profile = serverManager.getDefaultConnection();
-        onConnectToProfile(new ConnectToProfile("quick connect", profile));
+        onConnect(profile, new ConnectTrigger.QuickConnect("quick connect"));
     }
 
     @Override
@@ -671,9 +678,9 @@ public class HomeActivity extends VpnActivity {
         }
     }
 
-    private void disconnect(@NonNull String uiElement) {
-        ProtonLogger.INSTANCE.log(LogEventsKt.UiDisconnect, uiElement);
-        vpnConnectionManager.disconnect("user via " + uiElement);
+    private void disconnect(@NonNull DisconnectTrigger trigger) {
+        ProtonLogger.INSTANCE.log(LogEventsKt.UiDisconnect, trigger.getDescription());
+        vpnConnectionManager.disconnect(trigger);
     }
 
     private void onSecureCoreSpeedInfoDialogResult(boolean activateSc) {

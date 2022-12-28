@@ -27,6 +27,7 @@ import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.displayText
+import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -65,7 +66,7 @@ class CongratsPlanViewModel @Inject constructor(
     suspend fun connectPlus(activity: ComponentActivity, vpnUiDelegate: VpnUiActivityDelegate): Boolean {
         val profile = serverManager.defaultFallbackConnection
         if (activity.suspendForPermissions(vpnPermissionDelegate.prepareVpnPermission())) {
-            vpnConnectionManager.connect(vpnUiDelegate, profile, "onboarding plus")
+            vpnConnectionManager.connect(vpnUiDelegate, profile, ConnectTrigger.Onboarding("onboarding plus"))
             return true
         } else {
             vpnUiDelegate.onPermissionDenied(profile)

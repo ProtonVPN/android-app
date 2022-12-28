@@ -30,6 +30,8 @@ import com.protonvpn.android.databinding.ItemServerListBinding
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnStateMonitor
 
 class CountryExpandedViewHolder(
@@ -100,9 +102,12 @@ class CountryExpandedViewHolder(
             viewModel.vpnStatus.observe(parentLifeCycle, vpnStateObserver)
 
             val connectUpgradeClickListener = View.OnClickListener {
-                val connectTo =
-                    if (viewModel.isConnectedToServer(server)) null else server
-                EventBus.post(ConnectToServer("server list power button", connectTo))
+                val event = ConnectToServer(
+                    server.takeUnless { viewModel.isConnectedToServer(server) },
+                    ConnectTrigger.Server("server list power button"),
+                    DisconnectTrigger.Server("server list power button")
+                )
+                EventBus.post(event)
             }
 
             featuresAndButtons.setPowerButtonListener(connectUpgradeClickListener)

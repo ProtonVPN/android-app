@@ -24,12 +24,12 @@ import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.logging.LogEventsKt;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.vpn.ConnectTrigger;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 public abstract class VpnActivity extends BaseActivity {
 
@@ -41,12 +41,8 @@ public abstract class VpnActivity extends BaseActivity {
         registerForEvents();
     }
 
-    public final void onConnect(@Nullable String uiElement, @NonNull Profile profileToConnect) {
-        onConnect(profileToConnect, uiElement != null ? uiElement : "mobile home screen (unspecified)");
-    }
-
-    public void onConnect(@NonNull Profile profileToConnect, @NonNull String uiElement) {
-        ProtonLogger.INSTANCE.log(LogEventsKt.UiConnect, uiElement);
-        vpnConnectionManager.connect(getVpnUiDelegate(), profileToConnect, "user via " + uiElement);
+    public void onConnect(@NonNull Profile profileToConnect, @NonNull ConnectTrigger trigger) {
+        ProtonLogger.INSTANCE.log(LogEventsKt.UiConnect, trigger.getDescription());
+        vpnConnectionManager.connect(getVpnUiDelegate(), profileToConnect, trigger);
     }
 }

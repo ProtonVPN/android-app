@@ -24,6 +24,7 @@ import com.protonvpn.android.ui.main.AccountViewModel.Companion.LAST_USER
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import kotlinx.coroutines.flow.MutableSharedFlow
 import me.proton.core.account.domain.entity.Account
@@ -43,7 +44,7 @@ class OnSessionClosed @Inject constructor(
 
     suspend operator fun invoke(account: Account) {
         Storage.saveString(LAST_USER, account.username)
-        vpnConnectionManager.disconnectSync("log out")
+        vpnConnectionManager.disconnectSync(DisconnectTrigger.Logout)
         logoutFlow.emit(account)
         accountManager.removeAccount(account.userId)
         account.sessionId?.let { certificateRepository.clear(it) }

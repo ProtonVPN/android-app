@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.FragmentVpnStateConnectingBinding
+import com.protonvpn.android.vpn.DisconnectTrigger
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,7 +37,7 @@ class VpnStateConnectingFragment : Fragment(R.layout.fragment_vpn_state_connecti
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentVpnStateConnectingBinding.bind(view)
         binding.buttonCancel.setOnClickListener {
-            parentViewModel.disconnectAndClose("connection panel")
+            parentViewModel.disconnectAndClose(DisconnectTrigger.ConnectionPanel("connection panel"))
         }
     }
 }

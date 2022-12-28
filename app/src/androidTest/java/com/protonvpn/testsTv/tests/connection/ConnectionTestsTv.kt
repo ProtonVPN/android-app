@@ -22,6 +22,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.android.tv.main.TvMainActivity
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
@@ -129,7 +130,7 @@ class ConnectionTestsTv {
     @After
     fun tearDown() {
         runBlocking(Dispatchers.Main) {
-            serviceTestHelper.connectionManager.disconnect("test tear down")
+            serviceTestHelper.connectionManager.disconnect(DisconnectTrigger.Test("test tear down"))
         }
     }
 }

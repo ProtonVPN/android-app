@@ -39,6 +39,8 @@ import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -146,7 +148,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun disconnect() {
-        vpnConnectionManager.disconnect("Search UI")
+        vpnConnectionManager.disconnect(DisconnectTrigger.Search("Search UI"))
     }
 
     fun connectCountry(vpnUiDelegate: VpnUiDelegate, item: ResultItem<VpnCountry>) =
@@ -161,7 +163,7 @@ class SearchViewModel @Inject constructor(
     private fun connectServer(vpnUiDelegate: VpnUiDelegate, server: Server?) {
         query.value?.let { saveSearchQuery(it) }
         if (server != null) {
-            vpnConnectionManager.connect(vpnUiDelegate, Profile.getTempProfile(server), "Search UI")
+            vpnConnectionManager.connect(vpnUiDelegate, Profile.getTempProfile(server), ConnectTrigger.Search("Search UI"))
             eventCloseFlow.tryEmit(Unit)
         } else {
             DebugUtils.debugAssert("No server found, should never happen") { true }

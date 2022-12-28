@@ -51,8 +51,8 @@ import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -105,7 +105,8 @@ class VpnConnectionManager @Inject constructor(
     private val currentVpnServiceProvider: CurrentVpnServiceProvider,
     private val currentUser: CurrentUser,
     private val supportsProtocol: SupportsProtocol,
-    powerManager: PowerManager
+    powerManager: PowerManager,
+    private val vpnConnectionTelemetry: VpnConnectionTelemetry
 ) : VpnStateSource {
 
     // Note: the jobs are not set to "null" upon completion, check "isActive" to see if still running.
@@ -234,7 +235,7 @@ class VpnConnectionManager @Inject constructor(
                 ProtonLogger.logCustom(LogCategory.CONN, "Failed to recover, entering $result")
                 if (result.type == ErrorType.MAX_SESSIONS) {
                     ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
-                    disconnect("max sessions reached")
+                    disconnect(DisconnectTrigger.Error("max sessions reached"))
                 } else {
                     activeBackend?.setSelfState(VpnState.Error(result.type, isFinal = true))
                 }
@@ -246,7 +247,7 @@ class VpnConnectionManager @Inject constructor(
         if (errorType == ErrorType.MAX_SESSIONS) {
             vpnStateMonitor.vpnConnectionNotificationFlow.emit(VpnFallbackResult.Error(ErrorType.MAX_SESSIONS))
             ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
-            disconnect("max sessions reached")
+            disconnect(DisconnectTrigger.Error("max sessions reached"))
         }
     }
 
@@ -261,16 +262,20 @@ class VpnConnectionManager @Inject constructor(
                     vpnBackgroundUiDelegate,
                     fallback.toProfile,
                     preferredServer = fallback.toServer,
-                    triggerAction = fallback.log
+                    triggerAction = ConnectTrigger.Fallback(fallback.log)
                 )
             is VpnFallbackResult.Switch.SwitchServer -> {
                 // Do not reconnect if user becomes delinquent
                 if (fallback.reason !is SwitchServerReason.UserBecameDelinquent) {
                     // Not compatible protocol needs to ask user permission to switch
                     // If user accepts then continue through broadcast receiver
-                    if (fallback.compatibleProtocol)
+                    if (fallback.compatibleProtocol) {
                         switchServerConnect(fallback)
+                    } else {
+                        vpnConnectionTelemetry.onConnectionAbort(isFailure = true)
+                    }
                 } else {
+                    vpnConnectionTelemetry.onConnectionAbort(isFailure = true)
                     ProtonLogger.log(ConnServerSwitchFailed, "User became delinquent")
                 }
             }
@@ -287,6 +292,7 @@ class VpnConnectionManager @Inject constructor(
         if (fallback != null) {
             fallbackConnect(fallback)
         } else {
+            vpnConnectionTelemetry.onConnectionAbort()
             vpnBackgroundUiDelegate.showInfoNotification(
                 if (server == null) R.string.error_server_not_set
                 else R.string.restrictedMaintenanceDescription
@@ -297,17 +303,19 @@ class VpnConnectionManager @Inject constructor(
     private fun switchServerConnect(switch: VpnFallbackResult.Switch.SwitchServer) {
         clearOngoingConnection()
         ProtonLogger.log(ConnConnectTrigger, switch.log)
+        vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Fallback(switch.log))
         launchConnect {
             preparedConnect(switch.preparedConnection)
         }
     }
 
-    private suspend fun smartConnect(profile: Profile, server: Server) {
+    private suspend fun smartConnect(profile: Profile, server: Server, isFallback: Boolean) {
+        val oldConnectionParams = connectionParams
         connectionParams = ConnectionParams(profile, server, null, null)
 
         if (activeBackend != null) {
             ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnecting first...")
-            disconnectForNewConnection(profile.isGuestHoleProfile)
+            disconnectForNewConnection(profile.isGuestHoleProfile, oldConnectionParams, isFallback)
             if (!coroutineContext.isActive)
                 return // Don't connect if the scope has been cancelled.
             ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnected, start connecting to new server.")
@@ -324,7 +332,7 @@ class VpnConnectionManager @Inject constructor(
         if (preparedConnection == null) {
             if (profile.isGuestHoleProfile) {
                 // If scanning failed for GH, just try another server to speed things up.
-                setSelfState(VpnState.Error(ErrorType.GENERIC_ERROR, isFinal = false))
+                setSelfState(VpnState.Error(ErrorType.GENERIC_ERROR, isFinal = true))
                 return
             }
             val fallbackProtocol = if (protocol.vpn == VpnProtocol.Smart)
@@ -377,7 +385,7 @@ class VpnConnectionManager @Inject constructor(
 
         val newBackend = preparedConnection.backend
         if (activeBackend != null && activeBackend != newBackend)
-            disconnectBlocking("new connection")
+            disconnectBlocking(DisconnectTrigger.NewConnection)
 
         val sessionId = currentUser.sessionId()
         if (newBackend.vpnProtocol == VpnProtocol.OpenVPN && sessionId != null) {
@@ -430,13 +438,13 @@ class VpnConnectionManager @Inject constructor(
         val stateKey = Storage.getString(STORAGE_KEY_STATE, null)
         val shouldReconnect = stateKey != VpnState.Disabled.name && stateKey != VpnState.Disconnecting.name
         if (state == VpnState.Disabled && shouldReconnect) {
-            connect(vpnBackgroundUiDelegate, profile, "Process restore: $reason, previous state was: $stateKey")
+            connect(vpnBackgroundUiDelegate, profile, ConnectTrigger.Auto("Process restore: $reason, previous state was: $stateKey"))
             return true
         }
         return false
     }
 
-    fun connect(uiDelegate: VpnUiDelegate, profile: Profile, triggerAction: String) {
+    fun connect(uiDelegate: VpnUiDelegate, profile: Profile, triggerAction: ConnectTrigger) {
         val intent = permissionDelegate.prepareVpnPermission()
         scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
@@ -448,13 +456,13 @@ class VpnConnectionManager @Inject constructor(
         }
     }
 
-    fun connectInBackground(profile: Profile, triggerAction: String) =
+    fun connectInBackground(profile: Profile, triggerAction: ConnectTrigger) =
         connect(vpnBackgroundUiDelegate, profile, triggerAction)
 
     private fun connectWithPermission(
         delegate: VpnUiDelegate,
         profile: Profile,
-        triggerAction: String,
+        triggerAction: ConnectTrigger,
         preferredServer: Server? = null
     ) {
         clearOngoingConnection()
@@ -466,20 +474,22 @@ class VpnConnectionManager @Inject constructor(
     private suspend fun connectWithPermissionSync(
         delegate: VpnUiDelegate,
         profile: Profile,
-        triggerAction: String,
+        trigger: ConnectTrigger,
         preferredServer: Server? = null
     ) {
-        ProtonLogger.log(ConnConnectTrigger, "${profile.toLog(userData)}, reason: $triggerAction")
+        ProtonLogger.log(ConnConnectTrigger, "${profile.toLog(userData)}, reason: ${trigger.description}")
+        vpnConnectionTelemetry.onConnectionStart(trigger)
         val vpnUser = currentUser.vpnUser()
         val server = preferredServer ?: serverManager.getServerForProfile(profile, vpnUser)
         if (server?.online == true &&
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {
-            val protocolAllowed = triggerAction == Constants.REASON_GUEST_HOLE ||
+            val protocolAllowed = trigger is ConnectTrigger.GuestHole ||
                 profile.getProtocol(userData).isSupported(appConfig.getFeatureFlags())
             if (supportsProtocol(server, profile.getProtocol(userData).vpn) && protocolAllowed) {
-                smartConnect(profile, server)
+                smartConnect(profile, server, trigger is ConnectTrigger.Fallback)
             } else {
+                vpnConnectionTelemetry.onConnectionAbort()
                 delegate.onProtocolNotSupported()
             }
         } else {
@@ -495,12 +505,15 @@ class VpnConnectionManager @Inject constructor(
                 launchFallback {
                     onServerNotAvailable(profile, server)
                 }
+            } else {
+                vpnConnectionTelemetry.onConnectionAbort()
             }
         }
     }
 
-    private suspend fun disconnectBlocking(triggerAction: String) {
-        ProtonLogger.log(ConnDisconnectTrigger, "reason: $triggerAction")
+    private suspend fun disconnectBlocking(trigger: DisconnectTrigger) {
+        ProtonLogger.log(ConnDisconnectTrigger, "reason: ${trigger.description}")
+        vpnConnectionTelemetry.onDisconnectionTrigger(trigger, connectionParams)
         Storage.delete(ConnectionParams::class.java)
         setSelfState(VpnState.Disabled)
         activeBackend?.disconnect()
@@ -508,8 +521,16 @@ class VpnConnectionManager @Inject constructor(
         connectionParams = null
     }
 
-    private suspend fun disconnectForNewConnection(isGuestHoleConnection: Boolean = false) {
+    private suspend fun disconnectForNewConnection(
+        isGuestHoleConnection: Boolean = false,
+        oldConnectionParams: ConnectionParams?,
+        isFallback: Boolean
+    ) {
         ProtonLogger.log(ConnDisconnectTrigger, "reason: new connection")
+        vpnConnectionTelemetry.onDisconnectionTrigger(
+            if (isFallback) DisconnectTrigger.Fallback else DisconnectTrigger.NewConnection,
+            oldConnectionParams
+        )
         // GuestHole connections should not emit disconnect events to not trigger self canceling for guest hole
         if (!isGuestHoleConnection)
             vpnStateMonitor.onDisconnectedByReconnection.emit(Unit)
@@ -524,19 +545,19 @@ class VpnConnectionManager @Inject constructor(
         previousBackend?.disconnect()
     }
 
-    fun disconnect(triggerAction: String) {
-        disconnectWithCallback(triggerAction)
+    fun disconnect(trigger: DisconnectTrigger) {
+        disconnectWithCallback(trigger)
     }
 
-    suspend fun disconnectSync(triggerAction: String) {
+    suspend fun disconnectSync(trigger: DisconnectTrigger) {
         clearOngoingConnection()
-        disconnectBlocking(triggerAction)
+        disconnectBlocking(trigger)
     }
 
-    private fun disconnectWithCallback(triggerAction: String, afterDisconnect: (() -> Unit)? = null) {
+    private fun disconnectWithCallback(trigger: DisconnectTrigger, afterDisconnect: (() -> Unit)? = null) {
         clearOngoingConnection()
         scope.launch {
-            disconnectBlocking(triggerAction)
+            disconnectBlocking(trigger)
             vpnStateMonitor.onDisconnectedByUser.emit(Unit)
             afterDisconnect?.invoke()
         }
@@ -545,20 +566,24 @@ class VpnConnectionManager @Inject constructor(
     // Will reconnect to current connection params, skipping pinging procedures
     fun reconnectWithCurrentParams(uiDelegate: VpnUiDelegate) = scope.launch {
         clearOngoingConnection()
-        if (activeBackend != null)
+        if (activeBackend != null) {
+            vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.Reconnect("reconnect"), connectionParams)
+            vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Reconnect)
             activeBackend?.reconnect()
-        else
-            lastProfile?.let { connect(uiDelegate, it, "reconnection") }
+        } else {
+            lastProfile?.let { connect(uiDelegate, it, ConnectTrigger.Reconnect) }
+        }
     }
 
     // Will do complete reconnection, which may result in different protocol or server
     // if compared to original connection
     fun reconnect(triggerAction: String, uiDelegate: VpnUiDelegate) = scope.launch {
-        disconnectBlocking("reconnect: $triggerAction")
-        lastProfile?.let { connect(uiDelegate, it, "reconnection") }
+        disconnectBlocking(DisconnectTrigger.Reconnect("reconnect: $triggerAction"))
+        lastProfile?.let { connect(uiDelegate, it, ConnectTrigger.Reconnect) }
     }
 
     fun onVpnServiceDestroyed() {
+        vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.ServiceDestroyed, connectionParams)
         ConnectionParams.readFromStore()?.takeIf { it.uuid == connectionParams?.uuid }?.let {
             ProtonLogger.logCustom(
                 LogCategory.CONN_DISCONNECT, "onDestroy called for current VpnService, deleting ConnectionParams"

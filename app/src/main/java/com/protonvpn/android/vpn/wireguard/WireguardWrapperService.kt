@@ -27,7 +27,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.CurrentVpnServiceProvider
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.wireguard.android.backend.GoBackend
@@ -80,7 +80,10 @@ class WireguardWrapperService : GoBackend.VpnService() {
     }
 
     private fun handleAlwaysOn() {
-        connectionManager.connectInBackground(serverManager.defaultAvailableConnection, "always-on")
+        connectionManager.connectInBackground(
+            serverManager.defaultAvailableConnection,
+            ConnectTrigger.Auto("always-on")
+        )
     }
 
     override fun onDestroy() {

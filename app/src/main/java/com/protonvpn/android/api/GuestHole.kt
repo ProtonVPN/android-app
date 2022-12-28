@@ -36,6 +36,8 @@ import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
@@ -143,7 +145,7 @@ class GuestHole @Inject constructor(
                         setProtocol(GUEST_HOLE_PROTOCOL)
                         isGuestHoleProfile = true
                     }
-                vpnConnectionManager.get().connect(vpnUiDelegate, profile, Constants.REASON_GUEST_HOLE)
+                vpnConnectionManager.get().connect(vpnUiDelegate, profile, ConnectTrigger.GuestHole)
                 vpnStatus
                     .map { it.state }
                     .first { it is VpnState.Connected || it is VpnState.Error }
@@ -263,7 +265,7 @@ class GuestHole @Inject constructor(
     private suspend fun closeGuestHole() {
         if (isGuestHoleActive) {
             logMessage("Disconnecting")
-            vpnConnectionManager.get().disconnectSync("guest hole call completed")
+            vpnConnectionManager.get().disconnectSync(DisconnectTrigger.GuestHole)
         }
     }
 

@@ -99,6 +99,12 @@ data class Server(
     val isPartneshipServer: Boolean
         get() = features.hasFlag(SERVER_FEATURE_PARTNER_SERVER)
 
+    val isP2pServer: Boolean
+        get() = features.hasFlag(SERVER_FEATURE_P2P)
+
+    val isStreamingServer: Boolean
+        get() = features.hasFlag(SERVER_FEATURE_STREAMING)
+
     fun getCityTranslation() = translations?.get("City")
     val displayCity get() = getCityTranslation() ?: city
 

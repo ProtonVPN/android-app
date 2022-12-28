@@ -26,6 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.utils.TrafficMonitor
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,13 +52,13 @@ class VpnStateViewModel @Inject constructor(
         vpnConnectionManager.reconnectWithCurrentParams(vpnUiDelegate)
     }
 
-    fun disconnect(uiElement: String) {
-        ProtonLogger.log(UiDisconnect, uiElement)
-        vpnConnectionManager.disconnect("user via $uiElement")
+    fun disconnect(trigger: DisconnectTrigger) {
+        ProtonLogger.log(UiDisconnect, trigger.description)
+        vpnConnectionManager.disconnect(trigger)
     }
 
-    fun disconnectAndClose(uiElement: String) {
-        disconnect(uiElement)
+    fun disconnectAndClose(trigger: DisconnectTrigger) {
+        disconnect(trigger)
         eventCollapseBottomSheet.tryEmit(Unit)
     }
 

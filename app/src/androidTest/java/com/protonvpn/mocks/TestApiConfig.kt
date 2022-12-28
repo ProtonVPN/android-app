@@ -80,7 +80,8 @@ sealed class TestApiConfig {
                 // Endpoints that require a simple 1000 response code
                 listOf(
                     "/tests/ping",
-                    "/domains/available"
+                    "/domains/available",
+                    "/data/v1/stats"
                 ).forEach { code1000Path ->
                     rule(path eq code1000Path) { respond(GenericResponse(ResponseCodes.OK)) }
                 }

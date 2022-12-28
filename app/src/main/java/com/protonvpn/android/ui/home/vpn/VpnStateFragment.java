@@ -40,6 +40,7 @@ import com.protonvpn.android.ui.home.ServerListUpdater;
 import com.protonvpn.android.utils.DebugUtils;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TrafficMonitor;
+import com.protonvpn.android.vpn.DisconnectTrigger;
 import com.protonvpn.android.vpn.ErrorType;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnState;
@@ -342,7 +343,8 @@ public class VpnStateFragment extends BaseFragment {
             .setCancelable(false)
             .setNegativeButton(
                     R.string.close,
-                    (dialog, which) -> vpnConnectionManager.disconnect("user via auth error dialog")
+                    (dialog, which) -> vpnConnectionManager.disconnect(
+                            new DisconnectTrigger.ConnectionPanel("user via auth error dialog"))
             )
             .show();
     }

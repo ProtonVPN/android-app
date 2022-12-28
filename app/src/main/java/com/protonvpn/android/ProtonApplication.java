@@ -43,6 +43,7 @@ import com.protonvpn.android.logging.ProtonLoggerImpl;
 import com.protonvpn.android.logging.SettingChangesLogger;
 import com.protonvpn.android.notifications.NotificationHelper;
 import com.protonvpn.android.search.UpdateServersOnStartAndLocaleChange;
+import com.protonvpn.android.telemetry.VpnConnectionTelemetry;
 import com.protonvpn.android.ui.onboarding.ReviewTracker;
 import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger;
 import com.protonvpn.android.utils.AndroidUtils;
@@ -106,6 +107,7 @@ public class ProtonApplication extends Application {
         UpdateServersOnStartAndLocaleChange getUpdateServersOnLocaleChange();
         UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
         UpdateSettingsOnFeatureFlagChange getUpdateSettingsOnFeatureFlagChange();
+        VpnConnectionTelemetry getVpnConnectionTelemetry();
     }
 
     @Override
@@ -165,6 +167,7 @@ public class ProtonApplication extends Application {
         dependencies.getUpdateServersOnLocaleChange();
         dependencies.getUpdateSettingsOnVpnUserChange();
         dependencies.getUpdateSettingsOnFeatureFlagChange();
+        dependencies.getVpnConnectionTelemetry().start();
 
         dependencies.getRestartHandler().onAppStarted();
 

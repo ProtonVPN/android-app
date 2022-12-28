@@ -31,6 +31,8 @@ import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -82,13 +84,13 @@ class QuickTileService : TileService() {
                 if (qsTile.state == Tile.STATE_INACTIVE) {
                     if (currentUser.isLoggedIn()) {
                         ProtonLogger.log(UiConnect, "quick tile")
-                        vpnConnectionManager.connectInBackground(manager.defaultConnection, "Quick tile service")
+                        vpnConnectionManager.connectInBackground(manager.defaultConnection, ConnectTrigger.QuickTile)
                     } else {
                         startActivity(NotificationHelper.createMainActivityIntent(applicationContext))
                     }
                 } else {
                     ProtonLogger.log(UiDisconnect, "quick tile")
-                    vpnConnectionManager.disconnect("user via quick tile")
+                    vpnConnectionManager.disconnect(DisconnectTrigger.QuickTile)
                 }
             }
         }
