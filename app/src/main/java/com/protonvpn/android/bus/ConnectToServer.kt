@@ -19,5 +19,7 @@
 package com.protonvpn.android.bus
 
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 
-class ConnectToServer(val uiElement: String, val server: Server?)
+class ConnectToServer(val server: Server?, val connectTrigger: ConnectTrigger, val disconnectTrigger: DisconnectTrigger)

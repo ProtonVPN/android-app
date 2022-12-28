@@ -36,6 +36,8 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
@@ -99,8 +101,12 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
                 editAction(profile)
             }
             val connectUpgradeClickListener = View.OnClickListener {
-                val connectTo = if (item.isConnected) null else profile
-                EventBus.post(ConnectToProfile("profile power button", connectTo))
+                val event = ConnectToProfile(
+                    profile.takeUnless { item.isConnected },
+                    ConnectTrigger.Profile("profile power button"),
+                    DisconnectTrigger.Profile("profile power button")
+                )
+                EventBus.post(event)
             }
             buttonConnect.setOnClickListener(connectUpgradeClickListener)
             buttonUpgrade.setOnClickListener(connectUpgradeClickListener)

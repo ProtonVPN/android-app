@@ -64,9 +64,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import java.util.EnumSet
 import javax.inject.Singleton
 
 private const val NOT_VPN = "NOT_VPN"
+private const val UNSUPPORTED_TRANSPORT: Int = -1 // The TRANSPORT_* constants are non-negative.
 
 @Singleton
 class ConnectivityMonitor(
@@ -76,8 +78,8 @@ class ConnectivityMonitor(
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-    private var currentCapabilities: Map<String, Boolean> = LinkedHashMap()
-    private var currentTransports: Set<String> = emptySet()
+    private var defaultNetworkCapabilities: Map<String, Boolean> = LinkedHashMap()
+    var defaultNetworkTransports: Set<Transport> = emptySet()
 
     val networkCapabilitiesFlow = MutableSharedFlow<Map<String, Boolean>>()
 
@@ -109,22 +111,15 @@ class ConnectivityMonitor(
         }
     } as Map<String, Int>
 
-    private val transportConstantsMap: Map<String, Int> = mutableMapOf(
-        "Bluetooth" to TRANSPORT_BLUETOOTH,
-        "Cellular" to TRANSPORT_CELLULAR,
-        "Ethernet" to TRANSPORT_ETHERNET,
-        "VPN" to TRANSPORT_VPN,
-        "WiFi" to TRANSPORT_WIFI,
-    ).apply {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            put("WiFi-Aware", TRANSPORT_WIFI_AWARE)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            put("Lowpan", TRANSPORT_LOWPAN)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            put("USB", TRANSPORT_USB)
-        }
+    enum class Transport(val systemConstant: Int) {
+        BLUETOOTH(TRANSPORT_BLUETOOTH),
+        CELLULAR(TRANSPORT_CELLULAR),
+        ETHERNET(TRANSPORT_ETHERNET),
+        VPN(TRANSPORT_VPN),
+        WIFI(TRANSPORT_WIFI),
+        WIFI_AWARE(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) TRANSPORT_WIFI_AWARE else UNSUPPORTED_TRANSPORT),
+        LOWPAN(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) TRANSPORT_LOWPAN else UNSUPPORTED_TRANSPORT),
+        USB(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) TRANSPORT_USB else UNSUPPORTED_TRANSPORT)
     }
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
@@ -135,20 +130,20 @@ class ConnectivityMonitor(
                 networkCapabilities.hasCapability(it.value)
             }
             val newTransports = getTransports(networkCapabilities)
-            val capabilitiesChanged = currentCapabilities != newCapabilities
-            if (currentTransports != newTransports || capabilitiesChanged) {
+            val capabilitiesChanged = defaultNetworkCapabilities != newCapabilities
+            if (defaultNetworkTransports != newTransports || capabilitiesChanged) {
                 ProtonLogger.log(
                     NetworkChanged,
                     "default network: $network; transports: ${newTransports.joinToString(", ")}; " +
                         "capabilities: $newCapabilities"
                 )
-                currentTransports = newTransports
+                defaultNetworkTransports = newTransports
             }
             if (capabilitiesChanged) {
                 mainScope.launch {
                     networkCapabilitiesFlow.emit(newCapabilities)
                 }
-                currentCapabilities = newCapabilities
+                defaultNetworkCapabilities = newCapabilities
             }
         }
 
@@ -197,11 +192,11 @@ class ConnectivityMonitor(
     }
 
     fun getCurrentStateForLog(): String =
-        "transports: ${currentTransports.joinToString(", ")} capabilities: $currentCapabilities"
+        "transports: ${defaultNetworkTransports.joinToString(", ")} capabilities: $defaultNetworkCapabilities"
 
-    private fun getTransports(networkCapabilities: NetworkCapabilities): Set<String> =
-        transportConstantsMap.entries.mapNotNullTo(mutableSetOf()) {
-            if (networkCapabilities.hasTransport(it.value)) it.key else null
+    private fun getTransports(networkCapabilities: NetworkCapabilities): EnumSet<Transport> =
+        Transport.values().mapNotNullTo(EnumSet.noneOf(Transport::class.java)) {
+            if (networkCapabilities.hasTransport(it.systemConstant)) it else null
         }
 
     @RequiresApi(Build.VERSION_CODES.N)

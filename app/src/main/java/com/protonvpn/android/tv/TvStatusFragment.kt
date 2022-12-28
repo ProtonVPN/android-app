@@ -33,6 +33,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvStatusViewBinding
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import dagger.hilt.android.AndroidEntryPoint
@@ -120,7 +121,7 @@ class TvStatusFragment : Fragment() {
     }
 
     private fun showErrorDialog(content: CharSequence) {
-        viewModel.disconnect("status (TV)")
+        viewModel.disconnect(DisconnectTrigger.Error("status (TV)"))
         MaterialDialog.Builder(requireContext()).theme(Theme.DARK)
             .title(R.string.tv_vpn_error_dialog_title)
             .content(content)

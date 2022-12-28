@@ -22,9 +22,10 @@ package com.protonvpn.android.ui.home.vpn
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.bus.ConnectToProfile
 import com.protonvpn.android.bus.EventBus
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -37,7 +38,12 @@ class VpnStateNotConnectedViewModel @Inject constructor(
     val ipAddress = serverListUpdater.ipAddress
 
     fun quickConnect() {
-        val defaultProfile: Profile = manager.defaultConnection
-        EventBus.post(ConnectToProfile("quick connect in connection panel", defaultProfile))
+        EventBus.post(
+            ConnectToProfile(
+                manager.defaultConnection,
+                ConnectTrigger.ConnectionPanel("quick connect in connection panel"),
+                DisconnectTrigger.ConnectionPanel("quick connect in connection panel")
+            )
+        )
     }
 }

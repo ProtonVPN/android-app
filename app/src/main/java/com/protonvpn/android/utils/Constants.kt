@@ -47,7 +47,6 @@ object Constants {
     const val VPN_INFO_REFRESH_INTERVAL_MINUTES = 3
     const val WIREGUARD_TUNNEL_NAME = "ProtonTunnel"
     const val SECONDARY_PROCESS_TAG = "SecondaryProcess"
-    const val REASON_GUEST_HOLE = "Guest hole"
 
     val CLIENT_ID: String
     val VPN_USERNAME_PRODUCT_SUFFIX: String

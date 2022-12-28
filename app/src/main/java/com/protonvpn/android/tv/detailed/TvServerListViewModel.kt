@@ -35,6 +35,8 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -160,11 +162,11 @@ class TvServerListViewModel @Inject constructor(
             ServerActionState.DISCONNECTED -> {
                 val profile = Profile.getTempProfile(server)
                 ProtonLogger.log(UiConnect, "server tile (TV)")
-                vpnConnectionManager.connect(vpnUiDelegate, profile, "user via server tile (TV)")
+                vpnConnectionManager.connect(vpnUiDelegate, profile, ConnectTrigger.Server("user via server tile (TV)"))
             }
             ServerActionState.CONNECTING, ServerActionState.CONNECTED -> {
                 ProtonLogger.log(UiDisconnect, "server tile (TV)")
-                vpnConnectionManager.disconnect("user via server tile (TV)")
+                vpnConnectionManager.disconnect(DisconnectTrigger.Server("user via server tile (TV)"))
             }
             ServerActionState.UPGRADE ->
                 onUpgrade()

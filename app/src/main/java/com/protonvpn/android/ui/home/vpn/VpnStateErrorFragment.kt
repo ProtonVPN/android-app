@@ -31,6 +31,7 @@ import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.databinding.FragmentVpnStateErrorBinding
 import com.protonvpn.android.ui.login.TroubleshootActivity
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.vpn.DisconnectTrigger
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,7 +50,7 @@ class VpnStateErrorFragment : Fragment(R.layout.fragment_vpn_state_error) {
                     (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate())
             }
             buttonCancelRetry.setOnClickListener {
-                parentViewModel.disconnect("cancel automatic retry")
+                parentViewModel.disconnect(DisconnectTrigger.ConnectionPanel("cancel automatic retry"))
             }
             buttonHelp.setOnClickListener {
                 startActivity(Intent(requireContext(), TroubleshootActivity::class.java))

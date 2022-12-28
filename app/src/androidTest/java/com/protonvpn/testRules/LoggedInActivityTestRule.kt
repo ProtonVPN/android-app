@@ -21,6 +21,7 @@ package com.protonvpn.testRules
 
 import android.app.Activity
 import androidx.test.core.app.ActivityScenario
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.testsHelper.ServiceTestHelper
@@ -46,7 +47,7 @@ open class LoggedInActivityTestRule<T : Activity>(private val activityClass: Cla
         super.finished(description)
         runBlocking(Dispatchers.Main) {
             service.enableSecureCore(false)
-            service.connectionManager.disconnect("test tear down")
+            service.connectionManager.disconnect(DisconnectTrigger.Test("test tear down"))
             service.deleteCreatedProfiles()
         }
         activityScenario.close()

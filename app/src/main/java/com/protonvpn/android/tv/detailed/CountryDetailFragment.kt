@@ -43,6 +43,8 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
 import com.protonvpn.android.utils.setStartDrawable
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -107,7 +109,11 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
         connectStreaming.setStartDrawable(if (viewModel.isPlusUser()) 0 else R.drawable.ic_proton_lock_filled)
         connectStreaming.setOnClickListener {
             if (viewModel.isPlusUser()) {
-                viewModel.connect(requireActivity() as BaseTvActivity, card.vpnCountry.flag, "country details (TV)")
+                viewModel.connect(
+                    requireActivity() as BaseTvActivity,
+                    card.vpnCountry.flag,
+                    ConnectTrigger.Country("country details (TV)")
+                )
             } else {
                 viewModel.onUpgradeClicked(requireContext())
             }
@@ -117,12 +123,16 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
 
         connectFastest.initLolipopButtonFocus()
         connectFastest.setOnClickListener {
-            viewModel.connect(requireActivity() as BaseTvActivity, card.vpnCountry.flag, "country details (TV)")
+            viewModel.connect(
+                requireActivity() as BaseTvActivity,
+                card.vpnCountry.flag,
+                ConnectTrigger.Country("country details (TV)")
+            )
         }
 
         disconnect.initLolipopButtonFocus()
         disconnect.setOnClickListener {
-            viewModel.disconnect("country details (TV)")
+            viewModel.disconnect(DisconnectTrigger.Country("country details (TV)"))
         }
 
         openServerList.initLolipopButtonFocus()

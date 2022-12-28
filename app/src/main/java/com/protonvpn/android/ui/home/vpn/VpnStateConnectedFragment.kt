@@ -48,6 +48,7 @@ import com.protonvpn.android.ui.snackbar.SnackbarHelper
 import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.ViewUtils.toDp
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
@@ -91,7 +92,7 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
             layoutConnected.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
             buttonDisconnect.setOnClickListener {
-                parentViewModel.disconnectAndClose("connection panel")
+                parentViewModel.disconnectAndClose(DisconnectTrigger.ConnectionPanel("connection panel"))
             }
             buttonSaveToProfile.setOnClickListener { viewModel.saveToProfile() }
         }

@@ -29,6 +29,8 @@ import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,14 +47,17 @@ class NotificationActionReceiver : BroadcastReceiver() {
         when (intent?.action) {
             DISCONNECT_ACTION -> {
                 ProtonLogger.log(UiDisconnect, "notification")
-                vpnConnectionManager.disconnect("user via notification")
+                vpnConnectionManager.disconnect(DisconnectTrigger.Notification("user via notification"))
             }
             SMART_PROTOCOL_ACTION -> {
                 val profileToSwitch = intent.getSerializableExtra(NotificationHelper.EXTRA_SWITCH_PROFILE) as Profile
                 notificationHelper.cancelInformationNotification()
                 ProtonLogger.logUiSettingChange(Setting.DEFAULT_PROTOCOL, "notification action")
                 userData.protocol = ProtocolSelection(VpnProtocol.Smart)
-                vpnConnectionManager.connectInBackground(profileToSwitch, "Enable Smart protocol from notification")
+                vpnConnectionManager.connectInBackground(
+                    profileToSwitch,
+                    ConnectTrigger.Notification("Enable Smart protocol from notification")
+                )
             }
         }
     }

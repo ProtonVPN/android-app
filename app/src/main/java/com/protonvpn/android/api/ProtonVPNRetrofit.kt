@@ -43,6 +43,7 @@ import com.protonvpn.android.models.vpn.PromoCodesBody
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
+import com.protonvpn.android.telemetry.StatsBody
 import me.proton.core.network.data.protonApi.BaseRetrofitApi
 import me.proton.core.network.domain.TimeoutOverride
 import okhttp3.RequestBody
@@ -55,7 +56,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Tag
 
-@Suppress("ComplexInterface")
+@Suppress("ComplexInterface", "TooManyFunctions")
 interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("vpn/logicals")
@@ -136,6 +137,9 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @POST("payments/v4/promocode")
     suspend fun postPromoCode(@Body params: PromoCodesBody): GenericResponse
+
+    @POST("data/v1/stats")
+    suspend fun postStats(@Body data: StatsBody): GenericResponse
 
     @GET("vpn/v1/partners")
     suspend fun getPartnerships(): PartnersResponse

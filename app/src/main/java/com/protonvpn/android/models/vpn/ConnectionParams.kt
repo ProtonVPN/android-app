@@ -35,7 +35,7 @@ open class ConnectionParams(
     val connectingDomain: ConnectingDomain?,
     private val protocol: VpnProtocol?,
     val entryIp: String? = null,
-    protected val port: Int? = null,
+    val port: Int? = null,
     protected val transmissionProtocol: TransmissionProtocol? = null,
     val uuid: UUID = UUID.randomUUID()
 ) : java.io.Serializable {

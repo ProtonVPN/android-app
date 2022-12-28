@@ -29,14 +29,16 @@ private val dummyConnectingDomain =
 fun createServer(
     serverId: String = "ID",
     serverName: String = "dummyName",
+    exitCountry: String = "PL",
+    entryCountry: String = exitCountry,
     score: Float = 0.5f,
     tier: Int = 0,
     features: Int = 0
 ) =
     Server(
         serverId = serverId,
-        entryCountry = "PL",
-        exitCountry = "PL",
+        entryCountry = entryCountry,
+        exitCountry = exitCountry,
         serverName = serverName,
         connectingDomains = listOf(dummyConnectingDomain),
         hostCountry = null,

@@ -32,6 +32,8 @@ import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.displayText
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnState
@@ -89,14 +91,14 @@ class OnboardingViewModel @Inject constructor(
             if (result is ApiResult.Error)
                 return Error(result.displayText())
         }
-        vpnConnectionManager.connect(vpnUiDelegate, profile, "onboarding")
+        vpnConnectionManager.connect(vpnUiDelegate, profile, ConnectTrigger.Onboarding("onboarding"))
         val state = withTimeoutOrNull(VPN_CONNECTION_WAIT_MS) {
             vpnStatusProviderUI.status.map { it.state }.first { it == VpnState.Connected || it is VpnState.Error }
         }
         if (state == VpnState.Connected)
             return null
 
-        vpnConnectionManager.disconnect("onboarding connection failed")
+        vpnConnectionManager.disconnect(DisconnectTrigger.Onboarding("onboarding connection failed"))
         return if (state is VpnState.Error)
             Error(state.type.mapToErrorMessage(app, state.description))
         else

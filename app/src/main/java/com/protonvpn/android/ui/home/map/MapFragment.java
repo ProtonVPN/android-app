@@ -47,6 +47,8 @@ import com.protonvpn.android.models.vpn.VpnCountry;
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity;
 import com.protonvpn.android.utils.CountryTools;
 import com.protonvpn.android.utils.ServerManager;
+import com.protonvpn.android.vpn.ConnectTrigger;
+import com.protonvpn.android.vpn.DisconnectTrigger;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnStatusProviderUI;
 import com.qozix.tileview.TileView;
@@ -298,14 +300,17 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         if (hasAccess) {
             binding.buttonConnect.setOnClickListener(v -> {
                 EventBus.post(
-                        new ConnectToServer("map marker",
-                                serverManager.getBestScoreServer(country.getConnectableServers())));
+                        new ConnectToServer(
+                                serverManager.getBestScoreServer(country.getConnectableServers()),
+                                ConnectTrigger.Map.INSTANCE,
+                                DisconnectTrigger.Map.INSTANCE
+                        ));
                 updateMapState();
                 mapView.getCalloutLayout().removeAllViews();
             });
             binding.buttonDisconnect.setOnClickListener(v -> {
                 ProtonLogger.INSTANCE.log(LogEventsKt.UiDisconnect, "map marker");
-                vpnConnectionManager.disconnect("user via map marker");
+                vpnConnectionManager.disconnect(DisconnectTrigger.Map.INSTANCE);
                 updateMapState();
                 mapView.getCalloutLayout().removeAllViews();
             });
