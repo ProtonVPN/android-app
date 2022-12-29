@@ -36,7 +36,6 @@ import com.protonvpn.android.vpn.AgentConnectionInterface
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
-import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import kotlinx.coroutines.CoroutineScope
@@ -112,8 +111,6 @@ class MockVpnBackend(
         hostname: String?,
         nativeClient: VpnAgentClient
     ) = agentProvider?.invoke(certInfo, hostname, nativeClient) ?: MockAgentConnection(scope, nativeClient)
-
-    override val retryInfo get() = RetryInfo(10, 10)
 
     var stateOnConnect: VpnState = VpnState.Connected
     var failScanning = false

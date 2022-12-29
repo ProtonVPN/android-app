@@ -41,7 +41,6 @@ import com.protonvpn.android.utils.DebugUtils;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TrafficMonitor;
 import com.protonvpn.android.vpn.ErrorType;
-import com.protonvpn.android.vpn.RetryInfo;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.android.vpn.VpnStateMonitor;
@@ -350,18 +349,7 @@ public class VpnStateFragment extends BaseFragment {
 
     private void showErrorState() {
         changeStateFragment(VpnStateErrorFragment.class);
-
-        RetryInfo retryInfo = vpnConnectionManager.getRetryInfo();
-        if (retryInfo != null) {
-            // TODO: Keep updating the text. This will require moving some logic from the fragment to the
-            //  ViewModel.
-            int retryIn = retryInfo.getRetryInSeconds();
-            showNotConnectedHeaderState(
-                getResources().getQuantityString(R.plurals.retry_in, retryIn, retryIn),
-                R.string.loaderReconnectingSuggestion);
-        } else {
-            showNotConnectedHeaderState(R.string.loaderReconnecting, R.string.loaderNotConnectedSuggestion);
-        }
+        showNotConnectedHeaderState(R.string.loaderReconnecting, R.string.loaderNotConnectedSuggestion);
     }
 
     private void updateSessionTimeObserver(boolean isConnected) {

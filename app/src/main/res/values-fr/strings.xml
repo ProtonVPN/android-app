@@ -68,7 +68,6 @@
     <string name="loaderDisconnecting">Déconnexion</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Reconnexion</string>
-    <string name="loaderReconnectingSuggestion">Ou appuyez sur Réessayer pour vous reconnecter manuellement.</string>
     <string name="loaderReconnectNoNetwork">En attente d’un réseau accessible.</string>
     <string name="loaderReconnectNoNetworkSuggestion">Veuillez vérifier votre réseau.</string>
     <string name="loaderCheckingAvailability">Vérification de la disponibilité du serveur</string>
@@ -174,10 +173,6 @@
     <string name="connect">Se connecter</string>
     <string name="upgrade">Changer d\'abonnement</string>
     <string name="retry">Réessayer</string>
-    <plurals name="retry_in">
-        <item quantity="one">Reconnexion dans %1$d seconde</item>
-        <item quantity="other">Reconnexion dans %1$d secondes</item>
-    </plurals>
     <string name="connection_failed">La connexion a échoué.</string>
     <string name="create_new_profile">Nouveau profil</string>
     <string name="excludeAppsTitle">Exclure des applications</string>

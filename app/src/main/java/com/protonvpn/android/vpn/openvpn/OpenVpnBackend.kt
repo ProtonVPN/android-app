@@ -41,7 +41,6 @@ import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.PrepareForConnection
-import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -126,9 +125,6 @@ class OpenVpnBackend @Inject constructor(
         startOpenVPN(PAUSE_VPN)
         waitForDisconnect()
     }
-
-    // No retry info available for open vpn
-    override val retryInfo: RetryInfo? get() = null
 
     private fun startOpenVPN(action: String?) {
         val ovpnService =

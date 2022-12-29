@@ -68,7 +68,6 @@
     <string name="loaderDisconnecting">در حال قطع اتصال</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">در حال اتصال مجدد</string>
-    <string name="loaderReconnectingSuggestion">یا روی «تلاش دوباره» ضربه بزنید تا به به صورت دستی دوباره وصل شوید</string>
     <string name="loaderReconnectNoNetwork">در انتظار شبکهٔ قابل استفاده</string>
     <string name="loaderReconnectNoNetworkSuggestion">لطفاً شبکهٔ خود را بررسی کنید</string>
     <string name="loaderCheckingAvailability">در حال بررسی دسترسی به سرور</string>
@@ -174,10 +173,7 @@
     <string name="connect">اتصال</string>
     <string name="upgrade">ارتقا</string>
     <string name="retry">تلاش مجدد</string>
-    <plurals name="retry_in">
-        <item quantity="one">اتصال دوباره در %1$d ثانیه</item>
-        <item quantity="other">اتصال دوباره در %1$d ثانیه</item>
-    </plurals>
+
     <string name="connection_failed">ﺍﺗﺼﺎﻝ ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
     <string name="create_new_profile">پروفایل جدید</string>
     <string name="excludeAppsTitle">جدا کردن برنامه‌ها</string>

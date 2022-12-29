@@ -43,7 +43,6 @@ import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.PrepareForConnection
-import com.protonvpn.android.vpn.RetryInfo
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import com.wireguard.android.backend.BackendException
@@ -241,8 +240,6 @@ class WireguardBackend @Inject constructor(
     fun serviceDestroyed() {
         service = null
     }
-
-    override val retryInfo: RetryInfo? get() = null
 
     private fun handleConnectException(e: Exception) {
         ProtonLogger.log(

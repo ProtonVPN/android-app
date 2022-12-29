@@ -68,7 +68,6 @@
     <string name="loaderDisconnecting">Desconectando</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Reconectando</string>
-    <string name="loaderReconnectingSuggestion">O pulse \"Reintentar\" para reconectar manualmente</string>
     <string name="loaderReconnectNoNetwork">Esperando disponibilidad de red</string>
     <string name="loaderReconnectNoNetworkSuggestion">Por favor compruebe su red</string>
     <string name="loaderCheckingAvailability">Comprobando disponibilidad del servidor</string>
@@ -174,10 +173,6 @@
     <string name="connect">Conectar</string>
     <string name="upgrade">Mejorar</string>
     <string name="retry">Reintentar</string>
-    <plurals name="retry_in">
-        <item quantity="one">Reconexión en %1$d segundo</item>
-        <item quantity="other">Reconexión en %1$d segundos</item>
-    </plurals>
     <string name="connection_failed">Falló la conexión</string>
     <string name="create_new_profile">Perfil nuevo</string>
     <string name="excludeAppsTitle">Excluir apps</string>

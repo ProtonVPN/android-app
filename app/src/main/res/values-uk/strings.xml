@@ -68,7 +68,6 @@
     <string name="loaderDisconnecting">Роз\'єднання</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Повторне з\'єднання</string>
-    <string name="loaderReconnectingSuggestion">Або торкніться \"Повторити\" для повторного з\'єднання вручну</string>
     <string name="loaderReconnectNoNetwork">Очікування доступної мережі</string>
     <string name="loaderReconnectNoNetworkSuggestion">Будь ласка, перевірте вашу мережу</string>
     <string name="loaderCheckingAvailability">Перевірка доступності сервера</string>
@@ -174,12 +173,6 @@
     <string name="connect">З\'єднатися</string>
     <string name="upgrade">Покращити</string>
     <string name="retry">Повторити спробу</string>
-    <plurals name="retry_in">
-        <item quantity="one">Повторне з\'єднання через %1$d секунду</item>
-        <item quantity="few">Повторне з\'єднання через %1$d секунди</item>
-        <item quantity="many">Повторне з\'єднання через %1$d секунд</item>
-        <item quantity="other">Повторне з\'єднання за %1$d секунд</item>
-    </plurals>
     <string name="connection_failed">Помилка з’єднання</string>
     <string name="create_new_profile">Новий профіль</string>
     <string name="excludeAppsTitle">Винятки</string>

@@ -68,7 +68,6 @@
     <string name="loaderDisconnecting">Verbindung wird getrennt</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Verbindung wird wiederhergestellt</string>
-    <string name="loaderReconnectingSuggestion">Oder tippe auf „Erneut versuchen“, um die Verbindung manuell wiederherzustellen</string>
     <string name="loaderReconnectNoNetwork">Warte auf nutzbares Netzwerk</string>
     <string name="loaderReconnectNoNetworkSuggestion">Bitte überprüfe deine Netzwerkverbindung</string>
     <string name="loaderCheckingAvailability">Überprüfe Serververfügbarkeit</string>
@@ -174,10 +173,6 @@
     <string name="connect">Verbinden</string>
     <string name="upgrade">Upgrade benötigt</string>
     <string name="retry">Erneut versuchen</string>
-    <plurals name="retry_in">
-        <item quantity="one">Neuverbindung in %1$d Sekunde</item>
-        <item quantity="other">Neuverbindung in %1$d Sekunden</item>
-    </plurals>
     <string name="connection_failed">Verbindung fehlgeschlagen</string>
     <string name="create_new_profile">Neues Profil</string>
     <string name="excludeAppsTitle">Apps ausschließen</string>

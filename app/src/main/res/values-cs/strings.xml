@@ -68,7 +68,6 @@
     <string name="loaderDisconnecting">Odpojování</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Obnovování připojení</string>
-    <string name="loaderReconnectingSuggestion">Nebo ztiskněte \"Zkusit znovu\" pro manuální připojení</string>
     <string name="loaderReconnectNoNetwork">Čekání na použitelnou síť</string>
     <string name="loaderReconnectNoNetworkSuggestion">Prosím zkontrolujte připojení k síti</string>
     <string name="loaderCheckingAvailability">Ověření dostupnosti serveru</string>
@@ -174,12 +173,6 @@
     <string name="connect">Připojit</string>
     <string name="upgrade">Navýšit tarif</string>
     <string name="retry">Obnovit</string>
-    <plurals name="retry_in">
-        <item quantity="one">Opětovné připojení za %1$d sekundu</item>
-        <item quantity="few">Opětovné připojení za %1$d sekundy</item>
-        <item quantity="many">Opětovné připojení za %1$d sekund</item>
-        <item quantity="other">Opětovné připojení za %1$d sekund</item>
-    </plurals>
     <string name="connection_failed">Připojení se nezdařilo</string>
     <string name="create_new_profile">Nový profil</string>
     <string name="excludeAppsTitle">Vyloučit aplikace</string>
