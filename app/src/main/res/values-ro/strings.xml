@@ -68,7 +68,6 @@
     <string name="loaderDisconnecting">Se deconectează</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Se reconectează</string>
-    <string name="loaderReconnectingSuggestion">Sau atingeți pe «Reîncercare» pentru conectare manuală</string>
     <string name="loaderReconnectNoNetwork">Se așteaptă o rețea utilizabilă</string>
     <string name="loaderReconnectNoNetworkSuggestion">Verificați-vă rețeaua</string>
     <string name="loaderCheckingAvailability">Se verifică disponibilitatea serverului</string>
@@ -174,11 +173,6 @@
     <string name="connect">Conectare</string>
     <string name="upgrade">Modernizare</string>
     <string name="retry">Reîncercare</string>
-    <plurals name="retry_in">
-        <item quantity="one">Reconectare într-o secundă</item>
-        <item quantity="few">Reconectare peste %1$d secunde</item>
-        <item quantity="other">Reconectare peste %1$d de secunde</item>
-    </plurals>
     <string name="connection_failed">Conexiunea a eșuat</string>
     <string name="create_new_profile">Profil nou</string>
     <string name="excludeAppsTitle">Excludere aplicații</string>

@@ -129,8 +129,6 @@ class VpnConnectionManager @Inject constructor(
     )
     private val state get() = stateInternal.value!!
 
-    val retryInfo get() = activeBackend?.retryInfo
-
     var initialized = false
 
     init {

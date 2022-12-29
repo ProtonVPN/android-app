@@ -31,7 +31,6 @@ import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.databinding.FragmentVpnStateErrorBinding
 import com.protonvpn.android.ui.login.TroubleshootActivity
 import com.protonvpn.android.utils.HtmlTools
-import com.protonvpn.android.vpn.RetryInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,16 +59,5 @@ class VpnStateErrorFragment : Fragment(R.layout.fragment_vpn_state_error) {
         viewModel.errorMessage.asLiveData().observe(
             viewLifecycleOwner, Observer { binding.textError.text = HtmlTools.fromHtml(it) }
         )
-        viewModel.retryInfo.asLiveData().observe(
-            viewLifecycleOwner, Observer { updateProgress(binding, it) }
-        )
-    }
-
-    private fun updateProgress(binding: FragmentVpnStateErrorBinding, retryInfo: RetryInfo?) = with(binding) {
-        progressBarError.visibility = if (retryInfo != null) View.VISIBLE else View.INVISIBLE
-        if (retryInfo != null) {
-            progressBarError.max = retryInfo.timeoutSeconds
-            progressBarError.progress = retryInfo.retryInSeconds
-        }
     }
 }

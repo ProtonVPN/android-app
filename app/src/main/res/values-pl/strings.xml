@@ -68,7 +68,6 @@
     <string name="loaderDisconnecting">Rozłączanie</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Ponowne łączenie</string>
-    <string name="loaderReconnectingSuggestion">Lub kliknij przycisk  \"Ponów Próbę\", aby połączyć się ponownie</string>
     <string name="loaderReconnectNoNetwork">Oczekiwanie na sieć</string>
     <string name="loaderReconnectNoNetworkSuggestion">Sprawdź połączenie sieciowe</string>
     <string name="loaderCheckingAvailability">Sprawdzanie dostępności serwera</string>
@@ -174,12 +173,6 @@
     <string name="connect">Połącz</string>
     <string name="upgrade">Ulepsz</string>
     <string name="retry">Spróbuj ponownie</string>
-    <plurals name="retry_in">
-        <item quantity="one">Ponowne łączenie za %1$d sekundę</item>
-        <item quantity="few">Ponowne łączenie za %1$d sekundy</item>
-        <item quantity="many">Ponowne łączenie za %1$d sekund</item>
-        <item quantity="other">Ponowne łączenie za %1$d sekund</item>
-    </plurals>
     <string name="connection_failed">Połączenie nie powiodło się</string>
     <string name="create_new_profile">Nowy profil</string>
     <string name="excludeAppsTitle">Wyklucz aplikacje</string>

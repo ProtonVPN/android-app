@@ -68,7 +68,6 @@
     <string name="loaderDisconnecting">Memutuskan</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Menyambungkan ulang</string>
-    <string name="loaderReconnectingSuggestion">Atau ketuk \"Coba Lagi\" untuk menghubungkan ulang secara manual</string>
     <string name="loaderReconnectNoNetwork">Menunggu jaringan yang dapat digunakan</string>
     <string name="loaderReconnectNoNetworkSuggestion">Mohon periksa koneksi internet Anda</string>
     <string name="loaderCheckingAvailability">Memeriksa ketersediaan server</string>
@@ -174,9 +173,6 @@
     <string name="connect">Hubungkan</string>
     <string name="upgrade">Tingkatkan Akun</string>
     <string name="retry">Coba Lagi</string>
-    <plurals name="retry_in">
-        <item quantity="other">Penyambungan ulang dalam %1$d detik</item>
-    </plurals>
     <string name="connection_failed">Sambungan gagal</string>
     <string name="create_new_profile">Profil baru</string>
     <string name="excludeAppsTitle">Kecualikan Aplikasi</string>

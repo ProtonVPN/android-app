@@ -68,7 +68,6 @@
     <string name="loaderDisconnecting">Bağlantı kesiliyor</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Yeniden bağlanılıyor</string>
-    <string name="loaderReconnectingSuggestion">Ya da el ile bağlanmak için \"Yeniden dene\" üzerinde dokunun</string>
     <string name="loaderReconnectNoNetwork">Kullanılabilecek ağ bekleniyor</string>
     <string name="loaderReconnectNoNetworkSuggestion">Lütfen ağınızı denetleyin</string>
     <string name="loaderCheckingAvailability">Sunucunun uygunluğu denetleniyor</string>
@@ -174,10 +173,6 @@
     <string name="connect">Bağlan</string>
     <string name="upgrade">Yükselt</string>
     <string name="retry">Yeniden dene</string>
-    <plurals name="retry_in">
-        <item quantity="one">%1$d saniye içinde yeniden bağlanacak</item>
-        <item quantity="other">%1$d saniye içinde yeniden bağlanacak</item>
-    </plurals>
     <string name="connection_failed">Bağlantı kurulamadı</string>
     <string name="create_new_profile">Yeni profil</string>
     <string name="excludeAppsTitle">Katılmayacak uygulamalar</string>

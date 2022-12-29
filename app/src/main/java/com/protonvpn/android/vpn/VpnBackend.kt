@@ -63,8 +63,6 @@ import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
 import okhttp3.OkHttpClient
 
-data class RetryInfo(val timeoutSeconds: Int, val retryInSeconds: Int)
-
 data class PrepareResult(val backend: VpnBackend, val connectionParams: ConnectionParams) : java.io.Serializable
 
 interface VpnBackendProvider {
@@ -244,8 +242,6 @@ abstract class VpnBackend(
             agent.close()
         }
     }
-
-    abstract val retryInfo: RetryInfo?
 
     // This is not a val because of how spyk() works in testing code: it creates a copy of the wrapped object and when
     // original object have "this" reference in a field, copy of that field in spyk() will point to the old object.

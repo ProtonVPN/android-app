@@ -21,14 +21,10 @@ package com.protonvpn.android.ui.home.vpn
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.protonvpn.android.vpn.RetryInfo
-import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
@@ -36,7 +32,6 @@ import javax.inject.Inject
 class VpnStateErrorViewModel @Inject constructor(
     app: Application,
     vpnStatusProviderUI: VpnStatusProviderUI,
-    private val vpnConnectionManager: VpnConnectionManager
 ) : AndroidViewModel(app) {
 
     val errorMessage: Flow<String> = vpnStatusProviderUI.status.mapNotNull {
@@ -46,15 +41,5 @@ class VpnStateErrorViewModel @Inject constructor(
         } else {
             null
         }
-    }
-
-    val retryInfo: Flow<RetryInfo?> = flow {
-        while(vpnConnectionManager.retryInfo != null) {
-            val retryInfo = vpnConnectionManager.retryInfo!!
-            emit(retryInfo)
-            delay(1000)
-        }
-        emit(null)
-        vpnConnectionManager.retryInfo?.timeoutSeconds
     }
 }

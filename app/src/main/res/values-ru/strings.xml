@@ -68,7 +68,6 @@
     <string name="loaderDisconnecting">Отключение</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Повторное подключение</string>
-    <string name="loaderReconnectingSuggestion">Или нажмите \"Повтор\", чтобы переподключиться вручную</string>
     <string name="loaderReconnectNoNetwork">Ожидание доступной сети</string>
     <string name="loaderReconnectNoNetworkSuggestion">Пожалуйста, проверьте свою сеть</string>
     <string name="loaderCheckingAvailability">Проверка доступности сервера</string>
@@ -174,12 +173,6 @@
     <string name="connect">Подключиться</string>
     <string name="upgrade">Улучшить</string>
     <string name="retry">Повторить</string>
-    <plurals name="retry_in">
-        <item quantity="one">Повторное подключение через %1$d секунду</item>
-        <item quantity="few">Повторное подключение через %1$d секунды</item>
-        <item quantity="many">Повторное подключение через %1$d секунд</item>
-        <item quantity="other">Повторное подключение через %1$d секунд</item>
-    </plurals>
     <string name="connection_failed">Сбой подключения</string>
     <string name="create_new_profile">Новый профиль</string>
     <string name="excludeAppsTitle">Исключенные приложения</string>
