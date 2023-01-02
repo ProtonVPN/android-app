@@ -233,7 +233,7 @@
     <string name="ip">Adres IP:</string>
     <string name="ipWithPlaceholder">Adres IP: %1$s</string>
     <string name="server">Serwer:</string>
-    <string name="session_time">Session duration:</string>
+    <string name="session_time">Czas trwania sesji:</string>
     <string name="download_volume">Użycie danych:</string>
     <string name="download_speed">Prędkość:</string>
     <string name="save_to_profile">Zapisz w profilu</string>
@@ -315,7 +315,7 @@
     <string name="troubleshootContactUsSectionTitle">Nadal potrzebujesz pomocy? Skontaktuj się z nami</string>
     <string name="troubleshootCustomerSupport">Wsparcie klienta</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternatywne przekierowanie połączenia</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[W przypadku zablokowania dostępu do usługi, zezwól aplikacji na wypróbowanie alternatywnego połączenia, aby połączyć się z serwerami Proton. <a href="%1$s">Dowiedz się więcej</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[W przypadku zablokowania dostępu do usługi zezwól aplikacji na wypróbowanie alternatywnego połączenia, aby połączyć się z serwerami Proton. <a href="%1$s">Dowiedz się więcej</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokada rządowa</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Twój kraj może blokować dostęp do usług Proton. Spróbuj połączyć się przez <a href=\'%1$s\'>sieć Tor</a>, aby uzyskać połączenie.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Stale aktywny VPN i Kill Switch</string>
