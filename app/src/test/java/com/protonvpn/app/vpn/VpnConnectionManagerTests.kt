@@ -45,9 +45,9 @@ import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
-import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.TestVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -61,12 +61,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.pauseDispatcher
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.network.domain.NetworkManager
@@ -110,11 +109,7 @@ class VpnConnectionManagerTests {
 
     private lateinit var mockBackendSelfState: MutableLiveData<VpnState>
 
-    private lateinit var testDispatcher: TestCoroutineDispatcher
-    private lateinit var testScope: TestCoroutineScope
-
-    private var time: Long = 1000
-    private val clock = { time }
+    private lateinit var testScheduler: TestCoroutineScheduler
 
     private val vpnUser = TestVpnUser.create(maxTier = 2)
     private val connectionParams = ConnectionParams(
@@ -127,10 +122,11 @@ class VpnConnectionManagerTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        time = 1000
 
-        testDispatcher = TestCoroutineDispatcher()
-        testScope = TestCoroutineScope(testDispatcher)
+        testScheduler = TestCoroutineScheduler()
+        val clock = testScheduler::currentTime
+        val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+
         Dispatchers.setMain(testDispatcher)
         mockBackendSelfState = MutableLiveData()
 
@@ -172,7 +168,7 @@ class VpnConnectionManagerTests {
             certificateRepository = mockk(),
             currentVpnServiceProvider = mockk(relaxed = true),
             currentUser = mockCurrentUser,
-            scope = testScope,
+            scope = TestScope(testDispatcher),
             now = clock,
             powerManager = mockPowerManager,
             supportsProtocol = supportsProtocol
@@ -180,7 +176,7 @@ class VpnConnectionManagerTests {
     }
 
     @Test
-    fun `when server is selected and protocol connection starts wake lock is released`() = testScope.runBlockingTest {
+    fun `when server is selected and protocol connection starts wake lock is released`() = runTest(testScheduler) {
         coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
             PrepareResult(mockBackend, connectionParams)
         }
@@ -194,7 +190,7 @@ class VpnConnectionManagerTests {
     }
 
     @Test
-    fun `when connection is aborted wake lock is released`() = testScope.runBlockingTest {
+    fun `when connection is aborted wake lock is released`() = runTest(testScheduler) {
         coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
             vpnConnectionManager.disconnect("Test")
             PrepareResult(mockBackend, connectionParams)
@@ -208,7 +204,7 @@ class VpnConnectionManagerTests {
     }
 
     @Test
-    fun `when fallback finishes wake lock is released`() = runTest {
+    fun `when fallback finishes wake lock is released`() = runTest(testScheduler) {
         // No servers triggers fallback connections
         serverManager.setServers(emptyList(), null)
 
@@ -222,7 +218,7 @@ class VpnConnectionManagerTests {
     }
 
     @Test
-    fun `when error is reported during fallback then ongoing fallback is not overridden`() = testScope.runBlockingTest {
+    fun `when error is reported during fallback then ongoing fallback is not overridden`() = runTest(testScheduler) {
         coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
             PrepareResult(mockBackend, connectionParams)
         }
@@ -238,7 +234,6 @@ class VpnConnectionManagerTests {
             mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), "Test"
         )
 
-        pauseDispatcher()
         with(mockBackendSelfState) {
             // Triggers fallback that calls onUnreachableError.
             value = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false)
