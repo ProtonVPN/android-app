@@ -66,23 +66,6 @@ data class Server(
     @Transient
     private val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(exitCountry)
 
-    enum class Keyword {
-        P2P, TOR, STREAMING, SMART_ROUTING, PARTNERSHIP
-    }
-
-    val keywords: List<Keyword> get() = mutableListOf<Keyword>().apply {
-        if (features.hasFlag(SERVER_FEATURE_P2P))
-            add(Keyword.P2P)
-        if (features.hasFlag(SERVER_FEATURE_TOR))
-            add(Keyword.TOR)
-        if (features.hasFlag(SERVER_FEATURE_STREAMING))
-            add(Keyword.STREAMING)
-        if (features.hasFlag(SERVER_FEATURE_RESTRICTED))
-            add(Keyword.SMART_ROUTING)
-        if (features.hasFlag(SERVER_FEATURE_PARTNER_SERVER))
-            add(Keyword.PARTNERSHIP)
-    }
-
     val isTor get() = features.hasFlag(SERVER_FEATURE_TOR)
 
     @Transient

@@ -23,6 +23,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
+import com.protonvpn.android.components.featureIcons
 import com.protonvpn.android.databinding.ItemVpnCountryBinding
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
@@ -81,7 +82,7 @@ abstract class CountryViewHolder(
             viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
             imageDoubleArrows.isVisible = viewModel.isSecureCoreEnabled
-            features.keywords = vpnCountry.getDisplayKeywords()
+            features.featureIcons = vpnCountry.featureIcons()
 
             root.setOnClickListener {
                 if (accessibleAndOnline) {

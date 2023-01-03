@@ -30,7 +30,6 @@ import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemServerFeaturesAndButtonsBinding
 import com.protonvpn.android.models.vpn.Partner
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.ServerLoadColor
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.utils.setColorTint
@@ -46,9 +45,9 @@ class ServerRowFeaturesAndButtonsView : LinearLayout {
     private val binding = ItemServerFeaturesAndButtonsBinding.inflate(LayoutInflater.from(context), this)
 
     var featuresEnabled: Boolean by Delegates.observable(true) { _, _, _ -> update() }
-    var featureKeywords: Collection<Server.Keyword>
-        get() = binding.serverFeatures.keywords
-        set(value) { binding.serverFeatures.keywords = value }
+    var featureIcons: Collection<FeatureIcon>
+        get() = binding.serverFeatures.featureIcons
+        set(value) { binding.serverFeatures.featureIcons = value }
 
     var serverLoadEnabled: Boolean by Delegates.observable(true) { _, _, _ -> update() }
     var serverLoad: Float by Delegates.observable(0f) { _, _, _ -> update() }
@@ -95,7 +94,7 @@ class ServerRowFeaturesAndButtonsView : LinearLayout {
         val featuresColorAttr =
             if (isOnline && userHasAccess) R.attr.proton_icon_norm else R.attr.proton_icon_disabled
         serverFeatures.color = MaterialColors.getColor(serverFeatures, featuresColorAttr)
-        serverFeatures.keywords = featureKeywords
+        serverFeatures.featureIcons = featureIcons
 
         buttonConnect.isOn = isConnected
         buttonConnect.isVisible = userHasAccess && isOnline

@@ -35,7 +35,6 @@ import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ServerFeaturesViewBinding
 import com.protonvpn.android.models.vpn.Partner
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.ViewUtils.toPx
 
 private object PartnerIconTag
@@ -51,7 +50,7 @@ class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(
             update()
         }
 
-    var keywords: Collection<Server.Keyword> = emptyList()
+    var featureIcons: Collection<FeatureIcon> = emptyList()
         set(value) {
             field = value
             update()
@@ -73,23 +72,22 @@ class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(
     init {
         orientation = HORIZONTAL
         setVerticalGravity(Gravity.CENTER_VERTICAL)
-        if (isInEditMode) keywords = listOf(Server.Keyword.P2P, Server.Keyword.TOR)
+        if (isInEditMode) featureIcons = listOf(FeatureIcon.P2P, FeatureIcon.TOR)
         update()
     }
 
     private fun update() = with(binding) {
         featureIcons().forEach { it.isVisible = false }
-        keywords.forEach {
+        featureIcons.forEach {
             val iconView = when (it) {
-                Server.Keyword.P2P -> iconP2P
-                Server.Keyword.TOR -> iconTor
-                Server.Keyword.STREAMING -> iconStreaming
-                Server.Keyword.SMART_ROUTING -> iconSmartRouting
-                Server.Keyword.PARTNERSHIP -> null
+                FeatureIcon.P2P -> iconP2P
+                FeatureIcon.TOR -> iconTor
+                FeatureIcon.STREAMING -> iconStreaming
+                FeatureIcon.SMART_ROUTING -> iconSmartRouting
             }
 
-            iconView?.isVisible = true
-            iconView?.setColorFilter(color)
+            iconView.isVisible = true
+            iconView.setColorFilter(color)
         }
     }
 

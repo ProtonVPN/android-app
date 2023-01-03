@@ -304,7 +304,7 @@ class ServerManager @Inject constructor(
 
     fun getBestScoreServer(serverList: List<Server>, vpnUser: VpnUser?): Server? {
         val map = serverList.asSequence()
-            .filter { Server.Keyword.TOR !in it.keywords && it.online }
+            .filter { !it.isTor && it.online }
             .groupBy { vpnUser.hasAccessToServer(it) }
             .mapValues { it.value.minByOrNull(Server::score) }
         return map[true] ?: map[false]
