@@ -29,6 +29,7 @@ import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
 import com.protonvpn.android.R
 import com.protonvpn.android.components.ServerRowFeaturesAndButtonsView
+import com.protonvpn.android.components.featureIcons
 import com.protonvpn.android.databinding.ItemHeaderSearchRecentsBinding
 import com.protonvpn.android.databinding.ItemSearchRecentBinding
 import com.protonvpn.android.databinding.ItemSearchResultCountryBinding
@@ -36,7 +37,6 @@ import com.protonvpn.android.databinding.ItemSearchResultTwoLineBinding
 import com.protonvpn.android.databinding.ItemSearchUpgradeBannerBinding
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
-import com.protonvpn.android.ui.home.countries.getDisplayKeywords
 import com.protonvpn.android.utils.CountryTools
 import com.xwray.groupie.viewbinding.BindableItem
 
@@ -68,14 +68,14 @@ abstract class SearchResultBinding<Value, Binding : ViewBinding>(
                 else onDisconnect()
             }
             setPowerButtonListener(powerButtonListener)
-            setUpgradeButtonListener(View.OnClickListener { onUpgrade() })
+            setUpgradeButtonListener { onUpgrade() }
         }
     }
 
     protected fun bindFeaturesAndButtons(featuresButtons: ServerRowFeaturesAndButtonsView, server: Server) {
         bindFeaturesAndButtons(featuresButtons, server.serverId, showFeatures = true, showServerLoad = true)
         with(featuresButtons) {
-            featureKeywords = server.keywords
+            featureIcons = server.featureIcons()
             serverLoad = server.load
         }
     }
@@ -108,7 +108,7 @@ class CountryResultBinding(
             val country = item.match.value
             countryWithFlag.setCountry(country, getMatchTextWithHighlight(root.context))
             with(featuresAndButtons) {
-                featureKeywords = country.getDisplayKeywords()
+                featureIcons = country.featureIcons()
             }
         }
     }
@@ -131,7 +131,7 @@ class CityResultBinding(
             val servers = item.match.value
             bindFeaturesAndButtons(featuresAndButtons, showFeatures = true)
             with(featuresAndButtons) {
-                featureKeywords = servers.flatMapTo(mutableSetOf()) { it.keywords }
+                featureIcons = servers.flatMapTo(mutableSetOf()) { it.featureIcons() }
             }
 
             val context = root.context

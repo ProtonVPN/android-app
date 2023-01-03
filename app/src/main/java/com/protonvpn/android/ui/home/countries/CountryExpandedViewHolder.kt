@@ -25,6 +25,7 @@ import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectToServer
 import com.protonvpn.android.bus.EventBus
+import com.protonvpn.android.components.featureIcons
 import com.protonvpn.android.databinding.ItemServerListBinding
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.BindableItemEx
@@ -69,7 +70,7 @@ class CountryExpandedViewHolder(
             textCity.isEnabled = haveAccess && server.online
 
             with(featuresAndButtons) {
-                featureKeywords = server.keywords
+                featureIcons = server.featureIcons()
                 serverLoad = server.load
                 isOnline = server.online
                 userHasAccess = haveAccess
