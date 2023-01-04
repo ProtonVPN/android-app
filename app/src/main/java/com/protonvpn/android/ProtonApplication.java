@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android;
 
+import static com.protonvpn.android.utils.AndroidUtilsKt.getAppExitReasonForLog;
 import static kotlinx.coroutines.CoroutineScopeKt.MainScope;
 
 import android.app.Application;
@@ -118,7 +119,11 @@ public class ProtonApplication extends Application {
 
         if (AndroidUtilsKt.isMainProcess(this)) {
             initLogger();
-            ProtonLogger.INSTANCE.log(LogEventsKt.AppProcessStart, "version: " + BuildConfig.VERSION_NAME);
+            String exitReason = getAppExitReasonForLog(this);
+            ProtonLogger.INSTANCE.log(
+                    LogEventsKt.AppProcessStart,
+                    "version: " + BuildConfig.VERSION_NAME + ((exitReason != null) ? "; last exit cause: " + exitReason : "")
+            );
 
             NotificationHelper.Companion.initNotificationChannel(this);
 
