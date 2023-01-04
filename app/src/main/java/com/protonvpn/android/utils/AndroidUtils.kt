@@ -54,6 +54,7 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
+import com.protonvpn.android.logging.ProtonLogger
 import me.proton.core.util.kotlin.times
 import okhttp3.internal.toHexString
 import java.nio.CharBuffer
@@ -223,6 +224,19 @@ fun Editable.overrideMemoryClear() {
     replace(0, length, " " * length)
     clear()
 }
+
+fun Context.getAppExitReasonForLog(): String? =
+    if (Build.VERSION.SDK_INT >= 30) {
+        val am = getSystemService(ActivityManager::class.java)
+        am.getHistoricalProcessExitReasons(packageName, 0, 5)
+            .firstOrNull { it.processName == packageName } // Filter out non-main processes.
+            ?.let {
+                "${it.description}; reason: ${it.reason}; importance: ${it.importance}; " +
+                    "time: ${ProtonLogger.formatTime(it.timestamp)}"
+            }
+    } else {
+        null
+    }
 
 fun Context.isMainProcess() = packageName == getCurrentProcessName()
 
