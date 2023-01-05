@@ -20,14 +20,12 @@
 package com.protonvpn.android.logging
 
 import android.os.Build
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.ServerManager
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,7 +37,6 @@ class SettingChangesLogger @Inject constructor(
     private val currentUser: CurrentUser,
     private val serverManager: ServerManager,
     private val userData: UserData,
-    private val appConfig: AppConfig
 ) {
     init {
         mainScope.launch {
@@ -58,6 +55,7 @@ class SettingChangesLogger @Inject constructor(
     private fun settingLogLine(setting: Setting, vpnUser: VpnUser?): String? =
         settingLogValue(setting, vpnUser)?.let { "${setting.logName}: $it" }
 
+    @Suppress("CyclomaticComplexMethod")
     private fun settingLogValue(setting: Setting, vpnUser: VpnUser?): Any? = when (setting) {
         Setting.QUICK_CONNECT_PROFILE -> serverManager.defaultConnection.toLog(userData)
         Setting.DEFAULT_PROTOCOL -> protocolDescription(userData)
@@ -68,13 +66,14 @@ class SettingChangesLogger @Inject constructor(
         Setting.SPLIT_TUNNEL_IPS -> userData.splitTunnelIpAddresses.itemCountToLog()
         Setting.SPLIT_TUNNEL_APPS -> userData.splitTunnelApps.itemCountToLog()
         Setting.DEFAULT_MTU -> userData.mtuSize
-        Setting.SAFE_MODE -> userData.safeModeEnabled ?: "default: " + appConfig.getFeatureFlags().safeMode
+        Setting.SAFE_MODE -> userData.safeModeEnabled
         Setting.RESTRICTED_NAT -> userData.randomizedNatEnabled
         Setting.API_DOH -> userData.apiUseDoH
         Setting.VPN_ACCELERATOR_ENABLED -> userData.vpnAcceleratorEnabled
         Setting.VPN_ACCELERATOR_NOTIFICATIONS -> userData.showVpnAcceleratorNotifications
         Setting.CONNECT_ON_BOOT ->
             userData.connectOnBoot.takeIf { Build.VERSION.SDK_INT < Build.VERSION_CODES.O }
+        Setting.TELEMETRY -> userData.telemetryEnabled
     }
 
     private fun protocolDescription(userData: UserData) = userData.protocol.displayName

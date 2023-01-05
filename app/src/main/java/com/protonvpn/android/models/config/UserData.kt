@@ -52,7 +52,8 @@ enum class Setting(val logName: String) {
     VPN_ACCELERATOR_ENABLED("VPN Accelerator enabled"),
     VPN_ACCELERATOR_NOTIFICATIONS("VPN Accelerator notifications"),
     API_DOH("Use DoH for API"),
-    CONNECT_ON_BOOT("Connect on boot")
+    CONNECT_ON_BOOT("Connect on boot"),
+    TELEMETRY("Telemetry")
 }
 
 class UserData private constructor() : Serializable {
@@ -130,6 +131,13 @@ class UserData private constructor() : Serializable {
             commitUpdate(Setting.DEFAULT_PROTOCOL)
         }
 
+    var telemetryEnabled: Boolean = false
+        set(value) {
+            field = value
+            telemetryLiveData.value = value
+            commitUpdate(Setting.TELEMETRY)
+        }
+
     private var netShieldProtocol: NetShieldProtocol? = null
 
     @Transient val netShieldSettingUpdateEvent = LiveEvent()
@@ -139,6 +147,7 @@ class UserData private constructor() : Serializable {
     @Transient val safeModeLiveData = MutableLiveData<Boolean?>()
     @Transient val secureCoreLiveData = MutableLiveData<Boolean>()
     @Transient val randomizedNatLiveData = MutableLiveData<Boolean>()
+    @Transient val telemetryLiveData = MutableLiveData<Boolean>()
     @Transient val updateEvent = LiveEvent()
     // settingChangeEvent is not equivalent to updateEvent because it doesn't emit events
     // when observer resumes.
@@ -163,6 +172,7 @@ class UserData private constructor() : Serializable {
         randomizedNatLiveData.value = randomizedNatEnabled
         safeModeLiveData.value = safeModeEnabled
         secureCoreLiveData.value = secureCoreEnabled
+        telemetryLiveData.value = telemetryEnabled
         vpnAcceleratorLiveData.value = vpnAcceleratorEnabled
     }
 
