@@ -19,9 +19,13 @@
 
 package com.protonvpn.android.telemetry
 
-import android.util.Log
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.models.config.UserData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,9 +34,11 @@ import javax.inject.Singleton
 @Singleton
 class Telemetry @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val apiRetroFit: ProtonApiRetroFit
+    private val apiRetroFit: ProtonApiRetroFit,
+    private val appConfig: AppConfig,
+    private val userData: UserData
 ) {
-    private val isEnabled = true // TODO: feature flag, user consent etc.
+    private val isEnabled: Boolean get() = appConfig.getFeatureFlags().telemetry && userData.telemetryEnabled
 
     fun event(
         measurementGroup: String,
@@ -41,12 +47,16 @@ class Telemetry @Inject constructor(
         dimensions: Map<String, String>
     ) {
         if (isEnabled) {
-            if (BuildConfig.DEBUG) {
-                Log.d("Telemetry", "$measurementGroup $event: $values $dimensions")
-            }
+            log("$measurementGroup $event: $values $dimensions")
             mainScope.launch {
                 apiRetroFit.postStats(measurementGroup, event, values, dimensions)
             }
+        }
+    }
+
+    private fun log(message: String) {
+        if (BuildConfig.DEBUG) {
+            ProtonLogger.logCustom(LogLevel.DEBUG, LogCategory.TELEMETRY, message)
         }
     }
 }

@@ -37,6 +37,7 @@ enum class LogCategory(private val categoryName: String) {
     PROTOCOL("PROTOCOL"),
     SECURE_STORE("SECURE_STORE"),
     SETTINGS("SETTINGS"),
+    TELEMETRY("TELEMETRY"),
     UI("UI"),
     USER("USER"),
     USER_CERT("USER.CERT"),
