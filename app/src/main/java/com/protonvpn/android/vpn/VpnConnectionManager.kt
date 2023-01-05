@@ -544,7 +544,8 @@ class VpnConnectionManager @Inject constructor(
         }
     }
 
-    fun reconnect(uiDelegate: VpnUiDelegate) = scope.launch {
+    // Will reconnect to current connection params, skipping pinging procedures
+    fun reconnectWithCurrentParams(uiDelegate: VpnUiDelegate) = scope.launch {
         clearOngoingConnection()
         if (activeBackend != null)
             activeBackend?.reconnect()
@@ -552,7 +553,9 @@ class VpnConnectionManager @Inject constructor(
             lastProfile?.let { connect(uiDelegate, it, "reconnection") }
     }
 
-    fun fullReconnect(triggerAction: String, uiDelegate: VpnUiDelegate) = scope.launch {
+    // Will do complete reconnection, which may result in different protocol or server
+    // if compared to original connection
+    fun reconnect(triggerAction: String, uiDelegate: VpnUiDelegate) = scope.launch {
         disconnectBlocking("reconnect: $triggerAction")
         lastProfile?.let { connect(uiDelegate, it, "reconnection") }
     }
