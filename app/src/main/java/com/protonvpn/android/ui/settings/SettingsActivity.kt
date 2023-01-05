@@ -410,7 +410,7 @@ class SettingsActivity : BaseActivityV2() {
             showGenericReconnectDialog(this, R.string.settingsReconnectToChangeDialogContent, showDialogPrefsKey) {
                 toggle()
                 ProtonLogger.log(UiReconnect, uiElement)
-                connectionManager.reconnect(getVpnUiDelegate())
+                connectionManager.reconnectWithCurrentParams(getVpnUiDelegate())
             }
         } else {
             toggle()
@@ -428,7 +428,7 @@ class SettingsActivity : BaseActivityV2() {
                 R.string.reconnect_now
             ) {
                 ProtonLogger.log(UiReconnect, "apply new settings")
-                connectionManager.fullReconnect("user via settings change", getVpnUiDelegate())
+                connectionManager.reconnect("user via settings change", getVpnUiDelegate())
             }
         }
     }

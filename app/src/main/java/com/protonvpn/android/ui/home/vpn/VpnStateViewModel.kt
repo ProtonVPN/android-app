@@ -48,7 +48,7 @@ class VpnStateViewModel @Inject constructor(
     val bottomSheetFullyExpanded = MutableLiveData(false)
 
     fun reconnect(vpnUiDelegate: VpnUiDelegate) {
-        vpnConnectionManager.reconnect(vpnUiDelegate)
+        vpnConnectionManager.reconnectWithCurrentParams(vpnUiDelegate)
     }
 
     fun disconnect(uiElement: String) {

@@ -47,6 +47,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.LiveEvent
+import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -205,6 +206,9 @@ abstract class VpnBackend(
     open suspend fun reconnect() {
         lastConnectionParams?.let { params ->
             disconnect()
+            // Re-save last connection params, as they may be wiped on disconnect in
+            // onDestroyService case
+            Storage.save(lastConnectionParams, ConnectionParams::class.java)
             connect(params)
         }
     }
