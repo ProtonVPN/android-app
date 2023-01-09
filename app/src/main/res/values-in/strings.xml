@@ -638,7 +638,7 @@
 
      Example: Access all 63 countries. -->
     <plurals name="search_upgrade_banner_title">
-        <item quantity="other">Akses %1$d negara</item>
+        <item quantity="other">Akses ke %1$d negara</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Lebih banyak lokasi = lebih banyak konten yang tidak terblokir + keamanan ekstra + kecepatan yang lebih</string>
     <string name="new_look_dialog_title_new_plans">Proton yang baru, dengan perlindungan yang tersatukan</string>

@@ -41,7 +41,7 @@
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Uyarı</string>
     <string name="secureCoreSpeedInfoTitle">Hız hakkında bir not…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core, en yüksek düzeyde güvenlik ve kişisel gizlilik sunar. Ancak internet hızınızı düşürebilir. Başarımı yükseltmeye gerek duyuyorsanız, Secure Core özelliğini devre dışı bırakabilirsiniz.</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core, en yüksek düzeyde güvenlik ve gizlilik sunar. Ancak internet hızınızı düşürebilir. Başarımı yükseltmeye gerek duyuyorsanız, Secure Core özelliğini devre dışı bırakabilirsiniz.</string>
     <string name="secureCoreActivateDialogButton">Secure Core kullanılsın</string>
     <string name="logoutConfirmDialogTitle">Oturum kapatılsın mı?</string>
     <string name="logoutConfirmDialogMessage">Oturumu kapatmak, aygıtınızın VPN bağlantısını keser.</string>
@@ -126,7 +126,7 @@
     <string name="use_coupon_success_no_upgrade_yet">Kupon uygulandı. Aboneliğiniz birkaç dakika içinde yükseltilecek.</string>
     <string name="restrictedMaintenanceTitle">Bakım yapılıyor</string>
     <string name="restrictedMaintenanceDescription">Şu anda bağlanmaya çalıştığınız sunucuda bakım yapılıyor. Lütfen başka bir sunucu deneyin.</string>
-    <string name="errorUserDelinquent"><![CDATA[Hesabınızda şu anda ödenmemiş bir fatura var. Lütfen&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> adresinden tüm ödenmemiş faturaları ödeyin]]></string>
+    <string name="errorUserDelinquent"><![CDATA[Hesabınızda şu anda ödenmemiş bir fatura var. Lütfen&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> adresinden tüm süresi geçmiş faturaları ödeyin]]></string>
     <string name="errorMaxSessions">Hesabınız için izin verilen en fazla eşzamanlı bağlantı sayısına ulaştınız. Daha fazla bağlantı kullanmak için Proton VPN tarifenizi yükseltin.</string>
     <string name="errorEmptyName">Profil adı alanı boş olamaz</string>
     <string name="errorEmptyCountry">Ülke alanı boş olamaz</string>
@@ -549,7 +549,7 @@
     <string name="streaming_title_with_country">Yayın akışı - %1$s</string>
     <string name="streaming_services_description">Yayın akışını başlatmak için bu ülkedeki bir Plus sunucusuna bağlanın.\n\nNot: Yeni içeriğin görüntülenmesini sağlamak için yayın akışı uygulamalarının ön belleğini temizleyin.</string>
     <string name="partnership_free_title">Ücretsiz sunucular</string>
-    <string name="partnership_free_description">Herkes için güvenlik ve kişisel gizlilik. Ücretsiz sunucularda veri miktarı sınırlaması yoktur ve asla kastılı olarak gezinme hızınızı yavaşlatmayız.</string>
+    <string name="partnership_free_description">Herkes için güvenlik ve gizlilik. Ücretsiz sunucularda veri miktarı sınırlaması yoktur ve asla kastılı olarak gezinme hızınızı yavaşlatmayız.</string>
     <string name="partnership_partners_title">İş ortaklarımız</string>
     <string name="activity_information_learn_more">Ayrıntılı bilgi alın</string>
     <string name="server_load_low">Düşük</string>
@@ -599,7 +599,7 @@
     <string name="onboading_connecting_now">Bağlanıyor</string>
     <string name="onboarding_congrats_description">Bağlantınız korunmaya başladı ve web üzerinde gezinebilirsiniz.\n\nGüvenle.</string>
     <string name="onboarding_congrats_title">Tebrikler!</string>
-    <string name="onboarding_plan_congrats_description_privacy">Kişisel gizlilik dünyasının tadını çıkarın.</string>
+    <string name="onboarding_plan_congrats_description_privacy">Gizliliğe saygı duyulan bir dünyanın tadını çıkarın.</string>
     <string name="onboading_connect_to_plus">Bir Plus sunucusuna bağlanın</string>
     <string name="upgrade_use_limited_free_button">Sınırlı Free tarifesini kullanın</string>
     <string name="dynamic_report_suggestion_didnt_work">İşe yaramadı mı?</string>
@@ -654,7 +654,7 @@
     </plurals>
     <string name="search_upgrade_banner_subtitle">Daha fazla konum = daha fazla engelsiz içerik + ek güvenlik + daha yüksek hız</string>
     <string name="new_look_dialog_title_new_plans">Güncellenmiş Proton, birleşik koruma</string>
-    <string name="new_look_dialog_message_new_plans"><![CDATA[Yenilenmiş Proton böyle görünüyor. Birçok hizmet, tek amaç. Kişisel gizliliğin doğal sayıldığı internet fikrine hoş geldiniz. <a href="%1$s">Ayrıntılı&nbsp;bilgi&nbsp;alın</a>]]></string>
+    <string name="new_look_dialog_message_new_plans"><![CDATA[Yenilenmiş Proton böyle görünüyor. Birçok hizmet, tek amaç. Gizliliğin doğal sayıldığı internet fikrine hoş geldiniz. <a href="%1$s">Ayrıntılı&nbsp;bilgi&nbsp;alın</a>]]></string>
     <string name="ikev2_removed_dialog_title">IKEv2 VPN iletişim kuralı artık kullanılmıyor</string>
     <string name="ikev2_removed_dialog_message">Daha önce IKEv2 kullanan varsayılan ayarlar ve profiller artık Smart Protocol kullanacak.</string>
     <!-- Core strings overrides -->

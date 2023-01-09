@@ -21,7 +21,7 @@
     <!-- Strings related to login -->
     <string name="hintUsername">Nom d\'utilisateur</string>
     <string name="hintPassword">Mot de passe</string>
-    <string name="splitTunnellingSwitch">Commutateur Split Tunneling</string>
+    <string name="splitTunnellingSwitch">Commutateur Split tunneling</string>
     <string name="login">Connexion</string>
     <string name="hamburgerMenu">Menu hamburger</string>
     <string name="error_field_required">Ce champ est nécessaire.</string>
@@ -116,8 +116,8 @@
     <string name="settingsMtuRangeInvalid">La valeur du MTU (unité de transmission maximale) doit être comprise entre 1280 et 1500.</string>
     <string name="settingsDefaultConnectionTitle">Connexion rapide</string>
     <string name="settingsDefaultConnectionDescription">Le bouton Connexion rapide vous connecte au profil sélectionné.</string>
-    <string name="settingsAllowNonStandardPortsTitle">Ports non standards</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilisez Proton VPN pour tout besoin particulier en autorisant le trafic vers des ports non standards à travers le réseau VPN. <a href="%1$s">En savoir plus</a>]]></string>
+    <string name="settingsAllowNonStandardPortsTitle">Ports non standard</string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilisez Proton VPN pour tout besoin particulier en autorisant le trafic vers des ports non standard à travers le réseau VPN. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="settingsModerateNatTitle">NAT modéré</string>
     <string name="settingsModerateNatDescription"><![CDATA[Le NAT modéré désactive la distribution aléatoire des adresses locales. Cela peut légèrement réduire votre sécurité, mais vous permet d\'utiliser des techniques de type connexion directe pour des applications comme les jeux en ligne. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="use_coupon_title">Utiliser un code promotionnel</string>
@@ -127,12 +127,12 @@
     <string name="restrictedMaintenanceTitle">En maintenance</string>
     <string name="restrictedMaintenanceDescription">Le serveur auquel vous essayez de vous connecter est en cours de maintenance. Veuillez utiliser un autre serveur.</string>
     <string name="errorUserDelinquent"><![CDATA[Vous avez une facture en retard sur votre compte. Rendez-vous sur &#160;<a href="https://account.protonvpn.com">account.protonvpn.com pour la payer</a>.]]></string>
-    <string name="errorMaxSessions">Vous avez atteint le nombre maximum de connexions simultanées que propose votre compte. Passer à un abonnement supérieur pour avoir plus de connexions.</string>
-    <string name="errorEmptyName">Le champ du nom du profil ne peut pas être vide.</string>
+    <string name="errorMaxSessions">Vous avez atteint le nombre maximum de connexions simultanées prévues pour votre compte. Passez à un abonnement supérieur pour disposer de plus de connexions.</string>
+    <string name="errorEmptyName">Le champ Nom du profil ne peut pas être vide.</string>
     <string name="errorEmptyCountry">Le champ Pays ne peut pas être vide.</string>
     <string name="errorEmptyServer">Le champ Serveur ne peut pas être vide.</string>
-    <string name="errorEmptyEntryCountry">Le champ du pays de départ ne peut pas être vide.</string>
-    <string name="errorEmptyExitCountry">Le champ du pays de sortie ne peut pas être vide.</string>
+    <string name="errorEmptyEntryCountry">Le champ Pays de départ ne peut pas être vide.</string>
+    <string name="errorEmptyExitCountry">Le champ Pays de sortie ne peut pas être vide.</string>
     <string name="onboardingDialogMapView">Utilisez la carte pour vous connecter et voir où se trouve le serveur VPN.</string>
     <string name="onboardingDialogProfiles">Créez des profils pour vos serveurs préférés et accédez-y facilement. Un long appui sur l\'icône Proton VPN en bas de l\'écran vous montrera tous vos profils : il suffit d\'en sélectionner un pour vous connecter au VPN. </string>
     <string name="onboardingNetshield">Vous protège contre les logiciels malveillants, les publicités et les traqueurs.\nNotez que si certains sites ne se chargent pas, vous pouvez essayer de désactiver NetShield.</string>
@@ -152,7 +152,7 @@
     <string name="listBasicServers">Serveurs Basic (%1$d)</string>
     <string name="listPlusServers">Serveurs Plus (%1$d)</string>
     <string name="insufficientPermissionsTitle">Une action de l\'utilisateur est nécessaire.</string>
-    <string name="insufficientPermissionsDetails">Impossible d\'établir une connexion VPN automatiquement. Vous devez vous connecter manuellement une fois pour obtenir les autorisations nécessaires.</string>
+    <string name="insufficientPermissionsDetails">La connexion VPN n\'a pas pu être établie automatiquement. Vous devez vous connecter manuellement une fois pour obtenir les autorisations nécessaires.</string>
     <string name="tabsCountries">Pays</string>
     <string name="tabsMap">Carte</string>
     <string name="tabsProfiles">Profils</string>
@@ -162,7 +162,7 @@
     <string name="state_connected">Connecté</string>
     <string name="state_disconnecting">Déconnexion…</string>
     <string name="state_error">Erreur</string>
-    <string name="error_server_unreachable">Impossible de se connecter au VPN. Nous vous invitons à vérifier votre connexion et à réessayer.</string>
+    <string name="error_server_unreachable">La connexion au VPN n\'a pas pu être établie. Nous vous invitons à vérifier votre connexion et à réessayer.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">L\'utilisateur n\'a pas pu être authentifié.</string>
     <string name="error_assessment_failed">La sécurité n\'a pas pu être évaluée.</string>
@@ -241,7 +241,7 @@
     <string name="noVpnPermissionMainTitle">Action nécessaire pour se connecter au VPN</string>
     <string name="noVpnPermissionMainMessage">Pour vous connecter à Proton VPN, voici ce que vous devez faire :</string>
     <string name="noVpnPermissionGrantPermissionTitle">Accorder l\'autorisation au VPN</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Android a besoin de votre autorisation pour se connecter à Proton VPN. Accordez-la en appuyant sur « OK » quand la fenêtre « Demande de connexion » apparaîtra sur Android.</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android a besoin de votre autorisation pour se connecter à Proton VPN. Accordez-la en appuyant sur OK quand la fenêtre Demande de connexion apparaîtra sur Android.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Désactiver le VPN permanent pour les autres applications VPN</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android ne prend pas en charge plusieurs applications VPN. Désactivez le VPN permanent pour toute application VPN autre que Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Application Proton VPN</string>
@@ -259,8 +259,8 @@
     <string name="bugReportErrorLabelVpnLogsDescription">Cela envoie des journaux d\'erreurs locaux (nous n\'enregistrons pas d\'activité) pour nous aider à résoudre votre problème.</string>
     <string name="profileFastest">Le plus rapide</string>
     <string name="profileRandom">Aléatoire</string>
-    <string name="settingsSplitTunnelingDescription">Split Tunneling permet d\'exclure certaines applications ou adresses IP du trafic VPN.</string>
-    <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
+    <string name="settingsSplitTunnelingDescription">Split tunneling permet d\'exclure certaines applications ou adresses IP du trafic VPN.</string>
+    <string name="settingsSplitTunnelingTitle">Split tunneling</string>
     <string name="loaderAuthenticatingUser">Authentification de l\'utilisateur…</string>
     <string name="loaderErrorNoInternet">Il n\'y a pas de connexion internet.</string>
     <string name="loaderErrorGeneric">Une erreur s\'est produite.</string>
@@ -293,8 +293,8 @@
     <string name="dialogTitleAttention">Attention</string>
     <string name="saveProfileAlreadySaved">Déjà sauvegardé</string>
     <string name="openUrlError">%1$s ne peut être ouvert. Le navigateur web n\'a pas été détecté sur votre appareil.</string>
-    <string name="toastLoginAuthVersionError">La connexion n\'est pas possible en raison d\'une version d\'authentification non prise en charge. Nous vous invitons à contacter le support.</string>
-    <string name="loaderErrorTimeout">La connexion a expiré. Veuillez réessayer.</string>
+    <string name="toastLoginAuthVersionError">La connexion n\'est pas possible à cause d\'une version d\'authentification qui n\'est pas prise en charge. Nous vous invitons à contacter le support.</string>
+    <string name="loaderErrorTimeout">La connexion a expiré. Nous vous invitons à réessayer.</string>
     <string name="troubleshootButton">Dépannage</string>
     <string name="activityTroubleshootTitle">Dépannage</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Solutions possibles</string>
@@ -330,7 +330,7 @@
          find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Appuyez sur le sélecteur à côté de <b>Bloquer les connexions sans VPN</b> pour activer la fonctionnalité Arrêt d\'urgence (kill switch)]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Ouvrir les paramètres Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activer la fonction Arrêt d\'urgence (kill switch) désactivera le Split Tunneling, car elle bloquera toutes les connexions en dehors du tunnel VPN.</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activer la fonction Arrêt d\'urgence (kill switch) désactivera le Split tunneling, car elle bloquera toutes les connexions en dehors du tunnel VPN.</string>
     <string name="settingsSmartProtocolDescription">Utilisez automatiquement le protocole et le port qui offrent la meilleure connectivité.</string>
     <string name="settingsSendCrashReportsTitle">Rapports de plantage anonymes</string>
     <string name="settingsSendCrashReportsDescription">Si l\'application plante ou s\'arrête de manière inattendue, un rapport précisant la cause de l\'erreur sera envoyé à nos ingénieurs. Nous ne l\'utiliserons que pour améliorer l\'application.</string>
@@ -344,7 +344,7 @@
     <string name="guestHoleActivated">L\'accès à Proton VPN peut être restreint dans votre région et cela prendra donc plus de temps que d\'habitude. Veuillez patienter pendant que nous contournons ce problème.</string>
     <string name="guestHoleNotificationContent">Nous essayons de contourner les problèmes de réseau. Cela vous aidera à accéder à Proton VPN.</string>
     <string name="onMaintenanceDetected">Le serveur VPN auquel vous étiez connecté est en cours de maintenance. Nous vous avons automatiquement reconnecté au serveur disponible le plus rapide.</string>
-    <string name="errorTunMultiUserPermission">Impossible d\'initialiser la connexion VPN en raison d\'un conflit entre une double application (par exemple Dual Messenger) et Split Tunneling. Nous vous invitons à désactiver l\'un d\'entre eux et à redémarrer votre appareil.</string>
+    <string name="errorTunMultiUserPermission">La connexion VPN n\'a pas pu être initialisée en raison d\'un conflit entre une double application (par exemple Dual Messenger) et Split tunneling. Nous vous invitons à désactiver l\'un d\'entre eux et à redémarrer votre appareil.</string>
     <string name="errorTorrentNotAllowed">Le P2P n\'est pas autorisé sur ce serveur.</string>
     <string name="errorWireguardWithPlaceholder">Erreur WireGuard %1$s</string>
     <string name="profileProtocolNotAvailable">Le protocole VPN de ce profil n\'est pas disponible pour le moment. Essayez de changer de protocole pour vous connecter.</string>
@@ -423,8 +423,8 @@
     <string name="notification_max_sessions_title">Vous avez atteint votre nombre maximum d\'appareils.</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Vous devez déconnecter un autre appareil pour connecter celui-ci ou passer à l’offre Plus pour pouvoir connecter jusqu\'à %1$d appareil en même temps.</item>
-        <item quantity="other">Vous devez déconnecter un autre appareil pour connecter celui-ci ou passer à l’offre Plus pour pouvoir connecter jusqu\'à %1$d appareils en même temps.</item>
+        <item quantity="one">Vous devez déconnecter un autre appareil pour connecter celui-ci ou passer à l’abonnement Plus pour pouvoir connecter jusqu\'à %1$d appareil en même temps.</item>
+        <item quantity="other">Vous devez déconnecter un autre appareil pour connecter celui-ci ou passer à l’abonnement Plus pour pouvoir connecter jusqu\'à %1$d appareils en même temps.</item>
     </plurals>
     <string name="notification_max_sessions_content">Vous devez déconnecter un autre appareil pour connecter celui-ci.</string>
     <string name="notification_cancel_to_free">Vous utilisez l\'abonnement Free. Les serveurs et fonctionnalités de Free sont disponibles. </string>
@@ -522,7 +522,7 @@
     <string name="upgrade_plus_countries_netshield">Bloquez les publicités et les logiciels malveillants avec NetShield</string>
     <string name="upgrade_plus_countries_speeds">Naviguez aux vitesses les plus élevées (10 Gbit/s)</string>
     <string name="upgrade_plus_countries_more">Et bien plus de fonctionnalités premium</string>
-    <string name="upgrade_safe_mode_title">Autoriser le trafic vers les ports non-standards</string>
+    <string name="upgrade_safe_mode_title">Autoriser le trafic vers les ports non standard</string>
     <string name="upgrade_safe_mode_message">Vous avez des besoins informatiques avancés ou professionnels qui nécessitent des ports non standard ? Passez à VPN Plus pour accéder à cette fonctionnalité et à d\'autres fonctionnalités premium.</string>
     <string name="upgrade_moderate_nat_title">Activez le NAT modéré</string>
     <string name="upgrade_moderate_nat_message">Le NAT modéré, aussi appelé NAT type 2, peut améliorer votre expérience en ligne avec certaines applications et jeux vidéo. Accédez à cette fonctionnalité et à d\'autres avec un abonnement Plus.</string>
