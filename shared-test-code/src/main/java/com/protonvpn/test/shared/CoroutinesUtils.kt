@@ -19,14 +19,15 @@
 
 package com.protonvpn.test.shared
 
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestScope
 
-fun <T> CoroutineScope.runWhileCollecting(flow: Flow<T>, block: () -> Unit): List<T> {
+@OptIn(ExperimentalCoroutinesApi::class)
+fun <T> TestScope.runWhileCollecting(flow: Flow<T>, block: () -> Unit): List<T> {
     val collectedValues = mutableListOf<T>()
-    val collectJob = launch {
+    val collectJob = backgroundScope.launch {
         flow.collect {
             collectedValues += it
         }

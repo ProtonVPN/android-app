@@ -30,6 +30,8 @@ import com.protonvpn.android.ui.home.profiles.ProfileEditViewModel
 import com.protonvpn.android.ui.home.profiles.ServerIdSelection
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.Storage
+import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
@@ -38,7 +40,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -68,6 +71,7 @@ class ProfileViewModelTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        Storage.setPreferences(MockSharedPreference())
 
         mockkObject(CountryTools)
         every { CountryTools.getPreferredLocale() } returns Locale.US
@@ -82,7 +86,7 @@ class ProfileViewModelTests {
     }
 
     @Test
-    fun `setServer handles unknown server ID`() = runBlockingTest {
+    fun `setServer handles unknown server ID`() = runTest {
         viewModel.onProfileNameTextChanged("Test profile")
         viewModel.setCountryCode(COUNTRY_CODE)
         viewModel.setServer(ServerIdSelection.Specific(INVALID_SERVER_ID))
@@ -90,7 +94,7 @@ class ProfileViewModelTests {
     }
 
     @Test
-    fun `validate verifies that selected server exists`() = runBlockingTest {
+    fun `validate verifies that selected server exists`() = runTest(UnconfinedTestDispatcher()) {
         every { mockServerManager.getServerById(INVALID_SERVER_ID) } returns server
 
         viewModel.onProfileNameTextChanged("Test profile")
@@ -107,7 +111,7 @@ class ProfileViewModelTests {
     }
 
     @Test
-    fun `setCountryCode handles unknown country code`() = runBlockingTest {
+    fun `setCountryCode handles unknown country code`() = runTest(UnconfinedTestDispatcher()) {
         viewModel.onProfileNameTextChanged("Test profile")
 
         val somethingWrongEvents = runWhileCollecting(viewModel.eventSomethingWrong) {
@@ -120,7 +124,7 @@ class ProfileViewModelTests {
     }
 
     @Test
-    fun `setting Secure Core resets selected server to Fastest`() = runBlockingTest {
+    fun `setting Secure Core resets selected server to Fastest`() = runTest(UnconfinedTestDispatcher()) {
         viewModel.onProfileNameTextChanged("Test profile")
         viewModel.setCountryCode(COUNTRY_CODE)
         viewModel.setServer(ServerIdSelection.Specific(server.serverId))

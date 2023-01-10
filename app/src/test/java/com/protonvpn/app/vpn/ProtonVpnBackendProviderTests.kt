@@ -43,7 +43,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -85,7 +85,7 @@ class ProtonVpnBackendProviderTests {
     }
 
     @Test
-    fun `smart protocol uses only enabled protocols`() = runBlockingTest {
+    fun `smart protocol uses only enabled protocols`() = runTest {
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
             openVPNEnabled = false, wireguardEnabled = false,
             wireguardTcpEnabled = false, wireguardTlsEnabled = true
@@ -107,7 +107,7 @@ class ProtonVpnBackendProviderTests {
     }
 
     @Test
-    fun `disabling WireGuard Txx removes it from Smart protocol`() = runBlockingTest {
+    fun `disabling WireGuard Txx removes it from Smart protocol`() = runTest {
         every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = false)
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
             openVPNEnabled = false, wireguardEnabled = false,
@@ -126,7 +126,7 @@ class ProtonVpnBackendProviderTests {
     }
 
     @Test
-    fun `org protocol is used by pingAll even when disabled for Smart protocol`() = runBlockingTest {
+    fun `org protocol is used by pingAll even when disabled for Smart protocol`() = runTest {
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
             openVPNEnabled = false, wireguardEnabled = false,
             wireguardTcpEnabled = false, wireguardTlsEnabled = false

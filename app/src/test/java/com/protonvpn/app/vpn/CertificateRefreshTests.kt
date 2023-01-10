@@ -41,9 +41,8 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
@@ -109,121 +108,99 @@ class CertificateRefreshTests {
     }
 
     @Test
-    fun certificateRepository_fetches_certificate_when_user_logged_in_and_no_certificate() = runBlockingTest {
-        coEvery { mockStorage.get(any()) } returns null
+    fun certificateRepository_fetches_certificate_when_user_logged_in_and_no_certificate() =
+        runTest(UnconfinedTestDispatcher()) {
+            coEvery { mockStorage.get(any()) } returns null
 
-        withTestRepository {
+            createRepository(backgroundScope)
             coVerify { mockApi.getCertificate(any(), any()) }
             coVerify { mockStorage.put(SESSION_ID, any()) }
         }
+
+    @Test
+    fun certificateRepository_refreshes_certificate_when_app_becomes_in_use() = runTest(UnconfinedTestDispatcher()) {
+        createRepository(backgroundScope)
+        currentTimeMs = CERT_INFO.refreshAt + 1
+        coVerify { mockApi wasNot Called }
+
+        appInUseFlow.value = true
+        coVerify { mockApi.getCertificate(any(), any()) }
     }
 
     @Test
-    fun certificateRepository_refreshes_certificate_when_app_becomes_in_use() = runBlockingTest {
-        withTestRepository {
-            currentTimeMs = CERT_INFO.refreshAt + 1
-            coVerify { mockApi wasNot Called }
+    fun certificateRepository_schedules_refresh_when_app_becomes_in_use() = runTest(UnconfinedTestDispatcher()) {
+        createRepository(backgroundScope)
+        verify { mockRefeshScheduler wasNot Called }
 
-            appInUseFlow.value = true
-            coVerify { mockApi.getCertificate(any(), any()) }
-        }
+        appInUseFlow.value = true
+        verify { mockRefeshScheduler.rescheduleAt(CERT_INFO.refreshAt) }
     }
 
     @Test
-    fun certificateRepository_schedules_refresh_when_app_becomes_in_use() = runBlockingTest {
-        withTestRepository {
-            verify { mockRefeshScheduler wasNot Called }
-
-            appInUseFlow.value = true
-            verify { mockRefeshScheduler.rescheduleAt(CERT_INFO.refreshAt) }
-        }
-    }
-
-    @Test
-    fun certificateRepository_does_not_schedule_refresh_when_refreshing_and_app_not_in_use() = runBlockingTest {
+    fun certificateRepository_does_not_schedule_refresh_when_refreshing_and_app_not_in_use() = runTest(UnconfinedTestDispatcher()) {
         currentTimeMs = CERT_INFO.refreshAt + 1
 
-        withTestRepository {
-            coVerify { mockApi.getCertificate(any(), any()) }
-            verify { mockRefeshScheduler wasNot Called }
-        }
+        createRepository(backgroundScope)
+        coVerify { mockApi.getCertificate(any(), any()) }
+        verify { mockRefeshScheduler wasNot Called }
     }
 
     @Test
-    fun certificateRepository_refreshes_valid_certificate_when_plan_changes() = runBlockingTest {
-        withTestRepository {
-            coVerify { mockApi wasNot Called }
+    fun certificateRepository_refreshes_valid_certificate_when_plan_changes() = runTest(UnconfinedTestDispatcher()) {
+        createRepository(backgroundScope)
+        coVerify { mockApi wasNot Called }
 
-            infoChangeFlow.value = listOf(UserPlanManager.InfoChange.PlanChange.Upgrade)
-            coVerify { mockApi.getCertificate(any(), any()) }
-        }
+        infoChangeFlow.value = listOf(UserPlanManager.InfoChange.PlanChange.Upgrade)
+        coVerify { mockApi.getCertificate(any(), any()) }
     }
 
     @Test
-    fun certificateRepository_refreshes_certificate_when_network_is_available() = runBlockingTest {
+    fun certificateRepository_refreshes_certificate_when_network_is_available() = runTest(UnconfinedTestDispatcher()) {
         currentTimeMs = CERT_INFO.refreshAt + 1
         networkStateFlow.value = NetworkStatus.Disconnected
-        withTestRepository {
-            coVerify { mockApi wasNot Called }
-            networkStateFlow.value = NetworkStatus.Unmetered
-            coVerify { mockApi.getCertificate(any(), any()) }
-        }
+        createRepository(backgroundScope)
+        coVerify { mockApi wasNot Called }
+        networkStateFlow.value = NetworkStatus.Unmetered
+        coVerify { mockApi.getCertificate(any(), any()) }
     }
 
     @Test
-    fun `certificateRepository getCertificate refreshes certificate when it's expired`() = runBlockingTest {
+    fun `certificateRepository getCertificate refreshes certificate when it's expired`() = runTest(UnconfinedTestDispatcher()) {
         currentTimeMs = CERT_INFO.refreshAt - 100
-        withTestRepository { repository ->
-            coVerify { mockApi wasNot Called }
-            currentTimeMs = CERT_INFO.expiresAt + 100
-            repository.getCertificate(SESSION_ID)
+        val repository = createRepository(backgroundScope)
+        coVerify { mockApi wasNot Called }
+        currentTimeMs = CERT_INFO.expiresAt + 100
+        repository.getCertificate(SESSION_ID)
 
-            coVerify { mockApi.getCertificate(any(), any()) }
-        }
+        coVerify { mockApi.getCertificate(any(), any()) }
     }
 
     @Test
-    fun `error triggers reschedule`() = runBlockingTest {
+    fun `error triggers reschedule`() = runTest(UnconfinedTestDispatcher()) {
         currentTimeMs = CERT_INFO.refreshAt
         appInUseFlow.value = true
         coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Error.Timeout(true)
-        withTestRepository {
-            verify { mockRefeshScheduler.rescheduleAt((currentTimeMs + CERT_INFO.expiresAt) / 2) }
-        }
+        createRepository(backgroundScope)
+        verify { mockRefeshScheduler.rescheduleAt((currentTimeMs + CERT_INFO.expiresAt) / 2) }
     }
 
     @Test
-    fun `error triggers reschedule with min delay`() = runBlockingTest {
+    fun `error triggers reschedule with min delay`() = runTest(UnconfinedTestDispatcher()) {
         currentTimeMs = CERT_INFO.expiresAt - 10
         appInUseFlow.value = true
         coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Error.Timeout(true)
-        withTestRepository {
-            verify { mockRefeshScheduler.rescheduleAt(currentTimeMs + MIN_CERT_REFRESH_DELAY) }
-        }
+        createRepository(backgroundScope)
+        verify { mockRefeshScheduler.rescheduleAt(currentTimeMs + MIN_CERT_REFRESH_DELAY) }
     }
 
     @Test
-    fun `retry-after error triggers reschedule`() = runBlockingTest {
+    fun `retry-after error triggers reschedule`() = runTest(UnconfinedTestDispatcher()) {
         currentTimeMs = CERT_INFO.refreshAt
         appInUseFlow.value = true
         val retryAfter = 2.seconds
         coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Error.Http(429, "", retryAfter = retryAfter)
-        withTestRepository {
-            verify { mockRefeshScheduler.rescheduleAt(currentTimeMs + retryAfter.inWholeMilliseconds) }
-        }
-    }
-
-    /**
-     * Create a CertificateRepository for testing and run testBlock.
-     *
-     * testBlock is launched in a separate coroutine that is then cancelled to avoid runtBlockingTest complaining about
-     * unfinished jobs. The jobs are started by CertificateRepository to collect infinite Flows.
-     */
-    private fun TestCoroutineScope.withTestRepository(testBlock: suspend CoroutineScope.(CertificateRepository) -> Unit) {
-        launch {
-            val certificateRepository = createRepository(this)
-            testBlock(certificateRepository)
-        }.cancel()
+        createRepository(backgroundScope)
+        verify { mockRefeshScheduler.rescheduleAt(currentTimeMs + retryAfter.inWholeMilliseconds) }
     }
 
     private fun createRepository(scope: CoroutineScope) =

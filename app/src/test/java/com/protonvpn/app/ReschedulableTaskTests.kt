@@ -21,7 +21,7 @@ package com.protonvpn.app
 import com.protonvpn.android.utils.ReschedulableTask
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -39,7 +39,7 @@ class ReschedulableTaskTests {
     }
 
     @Test
-    fun testSchedule() = runBlockingTest {
+    fun testSchedule() = runTest {
         val task = ReschedulableTask(this, ::time) { counter++ }
         task.scheduleIn(5)
         delay(3)
@@ -49,7 +49,7 @@ class ReschedulableTaskTests {
     }
 
     @Test
-    fun testScheduleCancel() = runBlockingTest {
+    fun testScheduleCancel() = runTest {
         val task = ReschedulableTask(this, ::time) { counter++ }
         task.scheduleIn(5)
         task.cancelSchedule()
@@ -58,7 +58,7 @@ class ReschedulableTaskTests {
     }
 
     @Test
-    fun testScheduleFromAction() = runBlockingTest {
+    fun testScheduleFromAction() = runTest {
         val task = ReschedulableTask(this, ::time) {
             counter++
             if (counter == 1)
@@ -72,7 +72,7 @@ class ReschedulableTaskTests {
     }
 
     @Test
-    fun testRescheduleLater() = runBlockingTest {
+    fun testRescheduleLater() = runTest {
         val task = ReschedulableTask(this, ::time) { counter++ }
 
         task.scheduleIn(5)
@@ -85,7 +85,7 @@ class ReschedulableTaskTests {
     }
 
     @Test
-    fun testRescheduleEarlier() = runBlockingTest {
+    fun testRescheduleEarlier() = runTest {
         val task = ReschedulableTask(this, ::time) { counter++ }
 
         task.scheduleIn(10)
@@ -96,7 +96,7 @@ class ReschedulableTaskTests {
     }
 
     @Test
-    fun testDelay0() = runBlockingTest {
+    fun testDelay0() = runTest {
         val task = ReschedulableTask(this, ::time) { counter++ }
 
         task.scheduleIn(0)

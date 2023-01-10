@@ -49,6 +49,7 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -317,7 +318,7 @@ abstract class VpnBackend(
     }
 
     private fun onVpnProtocolStateChange(value: VpnState) {
-        mainScope.launch {
+        mainScope.launch(start = CoroutineStart.UNDISPATCHED) {
             if (value == VpnState.Connected) {
                 withContext(dispatcherProvider.Io) {
                     okHttp?.connectionPool?.evictAll()
