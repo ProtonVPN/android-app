@@ -52,9 +52,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import org.junit.Assert.assertEquals
@@ -89,8 +88,7 @@ class ServerListUpdaterTests {
     @MockK
     private lateinit var mockPartnershipsRepository: PartnershipsRepository
 
-    private lateinit var testScope: TestCoroutineScope
-    private lateinit var testDispatcher: TestCoroutineDispatcher
+    private lateinit var testScope: TestScope
     private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
     private lateinit var vpnStatusFlow: MutableStateFlow<VpnStateMonitor.Status>
 
@@ -101,8 +99,8 @@ class ServerListUpdaterTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        testDispatcher = TestCoroutineDispatcher()
-        testScope = TestCoroutineScope(testDispatcher)
+        val testDispatcher = UnconfinedTestDispatcher()
+        testScope = TestScope(testDispatcher)
         serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         serverListUpdaterPrefs.ipAddress = OLD_IP
         clockMs = 1_000_000
@@ -123,7 +121,7 @@ class ServerListUpdaterTests {
 
         val getNetZone = GetNetZone(serverListUpdaterPrefs, { clockMs })
         serverListUpdater = ServerListUpdater(
-            testScope,
+            testScope.backgroundScope,
             mockApi,
             mockServerManager,
             mockCurrentUser,
@@ -138,7 +136,7 @@ class ServerListUpdaterTests {
     }
 
     @Test
-    fun `location is updated when VPN is off`() = testScope.runBlockingTest {
+    fun `location is updated when VPN is off`() = testScope.runTest {
         coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
         every { mockVpnStateMonitor.isDisabled } returns true
 
@@ -150,7 +148,7 @@ class ServerListUpdaterTests {
     }
 
     @Test
-    fun `location is not updated when VPN is connected`() = testScope.runBlockingTest {
+    fun `location is not updated when VPN is connected`() = testScope.runTest {
         every { mockVpnStateMonitor.isDisabled } returns false
 
         val newNetzone = serverListUpdater.updateLocationIfVpnOff()
@@ -161,7 +159,7 @@ class ServerListUpdaterTests {
     }
 
     @Test
-    fun `location result is ignored if VPN connects during update`() = testScope.runBlockingTest {
+    fun `location result is ignored if VPN connects during update`() = testScope.runTest {
         coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
         every { mockVpnStateMonitor.isDisabled } returnsMany listOf(true, false)
 
@@ -194,7 +192,7 @@ class ServerListUpdaterTests {
     }
 
     @Test
-    fun `update task updates location 4 minutes after previous check`() = testScope.runBlockingTest {
+    fun `update task updates location 4 minutes after previous check`() = testScope.runTest {
         coEvery { mockApi.getLocation() } returnsMany listOf(
             ApiResult.Success(UserLocation(OLD_IP, "pl", "ISP")),
             ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP")),
@@ -213,7 +211,7 @@ class ServerListUpdaterTests {
     }
 
     @Test
-    fun `update task updates server list when outdated`() = testScope.runBlockingTest {
+    fun `update task updates server list when outdated`() = testScope.runTest {
         val servers = listOf(MockedServers.server)
         coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(OLD_IP, "pl", "ISP"))
         coEvery { mockApi.getServerList(any(), any(), any(), any()) } returns ApiResult.Success(ServerList(servers))
@@ -226,7 +224,7 @@ class ServerListUpdaterTests {
     }
 
     @Test
-    fun `update task updates loads when in foreground`() = testScope.runBlockingTest {
+    fun `update task updates loads when in foreground`() = testScope.runTest {
         coEvery { mockApi.getLoads(any()) } returns ApiResult.Success(LoadsResponse(emptyList()))
         every { mockServerManager.lastUpdateTimestamp } returns clockMs - TimeUnit.MINUTES.toMillis(20)
         serverListUpdater.setInForegroundForTest(true)

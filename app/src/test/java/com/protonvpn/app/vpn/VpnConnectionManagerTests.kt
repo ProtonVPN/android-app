@@ -66,10 +66,12 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.session.SessionId
+import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -109,7 +111,7 @@ class VpnConnectionManagerTests {
 
     private lateinit var mockBackendSelfState: MutableLiveData<VpnState>
 
-    private lateinit var testScheduler: TestCoroutineScheduler
+    private lateinit var testScope: TestScope
 
     private val vpnUser = TestVpnUser.create(maxTier = 2)
     private val connectionParams = ConnectionParams(
@@ -123,11 +125,11 @@ class VpnConnectionManagerTests {
     fun setup() {
         MockKAnnotations.init(this)
 
-        testScheduler = TestCoroutineScheduler()
+        val testScheduler = TestCoroutineScheduler()
+        testScope = TestScope(UnconfinedTestDispatcher(testScheduler))
         val clock = testScheduler::currentTime
-        val testDispatcher = UnconfinedTestDispatcher(testScheduler)
 
-        Dispatchers.setMain(testDispatcher)
+        Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
         mockBackendSelfState = MutableLiveData()
 
         coEvery { mockCurrentUser.sessionId() } returns SessionId("session id")
@@ -163,20 +165,25 @@ class VpnConnectionManagerTests {
             networkManager = mockNetworkManager,
             vpnErrorHandler = mockVpnErrorHandler,
             vpnStateMonitor = vpnStateMonitor,
-            vpnBackgroundUiDelegate = mockk(),
+            vpnBackgroundUiDelegate = mockk(relaxed = true),
             serverManager = serverManager,
             certificateRepository = mockk(),
             currentVpnServiceProvider = mockk(relaxed = true),
             currentUser = mockCurrentUser,
-            scope = TestScope(testDispatcher),
+            scope = testScope.backgroundScope,
             now = clock,
             powerManager = mockPowerManager,
             supportsProtocol = supportsProtocol
         )
     }
 
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+
     @Test
-    fun `when server is selected and protocol connection starts wake lock is released`() = runTest(testScheduler) {
+    fun `when server is selected and protocol connection starts wake lock is released`() = testScope.runTest {
         coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
             PrepareResult(mockBackend, connectionParams)
         }
@@ -190,7 +197,7 @@ class VpnConnectionManagerTests {
     }
 
     @Test
-    fun `when connection is aborted wake lock is released`() = runTest(testScheduler) {
+    fun `when connection is aborted wake lock is released`() = testScope.runTest {
         coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
             vpnConnectionManager.disconnect("Test")
             PrepareResult(mockBackend, connectionParams)
@@ -204,9 +211,10 @@ class VpnConnectionManagerTests {
     }
 
     @Test
-    fun `when fallback finishes wake lock is released`() = runTest(testScheduler) {
+    fun `when fallback finishes wake lock is released`() = testScope.runTest {
         // No servers triggers fallback connections
         serverManager.setServers(emptyList(), null)
+        coEvery { mockVpnErrorHandler.onServerNotAvailable(any()) } returns null
 
         vpnConnectionManager.connect(
             mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), "Test"
@@ -218,7 +226,7 @@ class VpnConnectionManagerTests {
     }
 
     @Test
-    fun `when error is reported during fallback then ongoing fallback is not overridden`() = runTest(testScheduler) {
+    fun `when error is reported during fallback then ongoing fallback is not overridden`() = testScope.runTest {
         coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
             PrepareResult(mockBackend, connectionParams)
         }

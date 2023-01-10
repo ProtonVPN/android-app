@@ -73,8 +73,8 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.NetworkManager
@@ -88,6 +88,7 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class VpnConnectionErrorHandlerTests {
 
+    private lateinit var testScope: TestScope
     private lateinit var handler: VpnConnectionErrorHandler
     private lateinit var directProfile: Profile
     private lateinit var directConnectionParams: ConnectionParams
@@ -155,13 +156,14 @@ class VpnConnectionErrorHandlerTests {
         directConnectionParams = ConnectionParamsWireguard(directProfile, server, 443,
             connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!)
 
-        handler = VpnConnectionErrorHandler(TestCoroutineScope(), api, appConfig,
+        testScope = TestScope(UnconfinedTestDispatcher())
+        handler = VpnConnectionErrorHandler(testScope.backgroundScope, api, appConfig,
             userData, userPlanManager, serverManager, vpnStateMonitor, serverListUpdater,
             networkManager, vpnBackendProvider, currentUser, getConnectingDomain, errorUIManager)
     }
 
     @Test
-    fun testAuthErrorDelinquent() = runBlockingTest {
+    fun testAuthErrorDelinquent() = testScope.runTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.UserBecameDelinquent)
         assertEquals(
             VpnFallbackResult.Switch.SwitchProfile(
@@ -175,7 +177,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testAuthErrorDowngrade() = runBlockingTest {
+    fun testAuthErrorDowngrade() = testScope.runTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free"))
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 1) }
 
@@ -202,7 +204,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testAuthErrorVpnCredentials() = runBlockingTest {
+    fun testAuthErrorVpnCredentials() = testScope.runTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.VpnCredentials)
         assertEquals(
             VpnFallbackResult.Switch.SwitchProfile(
@@ -216,7 +218,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testAuthErrorMaxSessions() = runBlockingTest {
+    fun testAuthErrorMaxSessions() = testScope.runTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf()
         coEvery { api.getSession() } returns ApiResult.Success(
             SessionListResponse(1000, listOf(Session("1", "1"), Session("2", "2")))
@@ -290,7 +292,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testAuthErrorMaintenanceFallback() = runBlockingTest {
+    fun testAuthErrorMaintenanceFallback() = testScope.runTest {
         coEvery { userPlanManager.refreshVpnInfo() } returns listOf()
 
         val maintenanceDomain = directConnectionParams.connectingDomain!!
@@ -317,7 +319,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testUnreachableFallback() = runBlockingTest {
+    fun testUnreachableFallback() = testScope.runTest {
         val pingResult = preparePings(failServerName = directConnectionParams.server.serverName, failSecureCore = true)
 
         val fallback = handler.onUnreachableError(directConnectionParams) as VpnFallbackResult.Switch.SwitchServer
@@ -337,19 +339,19 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testUnreachableNoneResponded() = runBlockingTest {
+    fun testUnreachableNoneResponded() = testScope.runTest {
         preparePings(failAll = true, failSecureCore = true)
         assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), handler.onUnreachableError(directConnectionParams))
     }
 
     @Test
-    fun testUnreachableOrgServerResponded() = runBlockingTest {
+    fun testUnreachableOrgServerResponded() = testScope.runTest {
         preparePings(failSecureCore = true) // All servers respond
         assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), handler.onUnreachableError(directConnectionParams))
     }
 
     @Test
-    fun testUnreachableOrgServerRespondsWithDifferentProtocol() = runBlockingTest {
+    fun testUnreachableOrgServerRespondsWithDifferentProtocol() = testScope.runTest {
         preparePings(useOpenVPN = true, failSecureCore = true)
         val fallback = handler.onUnreachableError(directConnectionParams) as VpnFallbackResult.Switch.SwitchServer
         assertFalse(fallback.compatibleProtocol)
@@ -359,7 +361,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testUnreachableSecureCoreSwitch() = runBlockingTest {
+    fun testUnreachableSecureCoreSwitch() = testScope.runTest {
         val secureCoreServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
         val secureCoreProfile = Profile.getTempProfile(secureCoreServer, true)
         val protocol = ProtocolSelection(VpnProtocol.WireGuard)
@@ -375,7 +377,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testUnreachableSecureCoreSwitchToNonSecureCore() = runBlockingTest {
+    fun testUnreachableSecureCoreSwitchToNonSecureCore() = testScope.runTest {
         val scServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
         val scProfie = Profile.getTempProfile(scServer, true)
         val protocol = ProtocolSelection(VpnProtocol.WireGuard)
@@ -393,7 +395,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testUnreachableSwitchesToSameServerWithDifferentIp() = runBlockingTest {
+    fun testUnreachableSwitchesToSameServerWithDifferentIp() = testScope.runTest {
         val initialServers = listOf(MockedServers.serverList[0], MockedServers.serverList[1])
         assertEquals(1, initialServers[0].connectingDomains.size)
         val initialServer1Domain = initialServers[0].connectingDomains[0]
@@ -436,7 +438,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testIgnoringTorServers() = runTest {
+    fun testIgnoringTorServers() = testScope.runTest {
         val server1 = MockedServers.serverList[0]
         val server2 = MockedServers.serverList[1].copy(features = SERVER_FEATURE_TOR)
         val servers = listOf(server1, server2)
@@ -448,7 +450,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testAcceptingTorWhenOriginalIsTor() = runTest {
+    fun testAcceptingTorWhenOriginalIsTor() = testScope.runTest {
         val server1 = MockedServers.serverList[0].copy(features = SERVER_FEATURE_TOR)
         val server2 = MockedServers.serverList[1].copy(features = SERVER_FEATURE_TOR)
         val servers = listOf(server1, server2)
@@ -460,7 +462,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testSwitchingToServerSupportingOrgProtocol() = runTest {
+    fun testSwitchingToServerSupportingOrgProtocol() = testScope.runTest {
         val server1 = MockedServers.serverList[0]
         val orgServer2 = MockedServers.serverList[1]
         val protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP)
@@ -480,7 +482,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testNotSwitchingToServerNotSupportingOrgProtocol() = runTest {
+    fun testNotSwitchingToServerNotSupportingOrgProtocol() = testScope.runTest {
         val server1 = MockedServers.serverList[0]
         val orgServer2 = MockedServers.serverList[1]
         val protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP)
@@ -499,7 +501,7 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testTrackingVpnInfoChanges() = runBlockingTest {
+    fun testTrackingVpnInfoChanges() = testScope.runTest {
         every { vpnStateMonitor.isEstablishingOrConnected } returns true
         every { vpnStateMonitor.connectionParams } returns directConnectionParams
         val mockedServer: Server = mockk()

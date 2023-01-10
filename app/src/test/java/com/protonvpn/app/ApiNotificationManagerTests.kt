@@ -1,18 +1,18 @@
 /*
  * Copyright (c) 2019 Proton Technologies AG
- * 
+ *
  * This file is part of ProtonVPN.
- * 
+ *
  * ProtonVPN is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * ProtonVPN is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
@@ -57,12 +57,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.currentTime
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import org.junit.Assert
 import org.junit.Before
@@ -92,7 +91,7 @@ class ApiNotificationManagerTests {
     private lateinit var mockForegroundActivityTracker: ForegroundActivityTracker
 
     private lateinit var appFeaturesPrefs: AppFeaturesPrefs
-    private lateinit var testScope: TestCoroutineScope
+    private lateinit var testScope: TestScope
     private lateinit var foregroundActivityFlow: MutableStateFlow<Activity?>
     private lateinit var planChangeFlow: MutableSharedFlow<List<UserPlanManager.InfoChange>>
 
@@ -110,8 +109,8 @@ class ApiNotificationManagerTests {
         Storage.setPreferences(MockSharedPreference())
         appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
         appFeaturesPrefs.minNextNotificationUpdateTimestamp = -TimeUnit.DAYS.toMillis(2)
-        val testDispatcher = TestCoroutineDispatcher()
-        testScope = TestCoroutineScope(testDispatcher)
+        val testDispatcher = UnconfinedTestDispatcher()
+        testScope = TestScope(testDispatcher)
 
         coEvery { mockCurrentUser.isLoggedIn() } returns true
         every { mockAppConfig.appConfigUpdateEvent } returns MutableSharedFlow()
@@ -128,7 +127,7 @@ class ApiNotificationManagerTests {
 
         notificationManager = ApiNotificationManager(
             mockContext,
-            testScope,
+            testScope.backgroundScope,
             TestDispatcherProvider(testDispatcher),
             { testScope.currentTime },
             mockAppConfig,
@@ -142,7 +141,7 @@ class ApiNotificationManagerTests {
     }
 
     @Test
-    fun testFiltering() = testScope.runBlockingTest {
+    fun testFiltering() = testScope.runTest {
         mockResponse(
             mockOffer("active1", 0L, 1L),
             mockOffer("active2", -1L, 1L),
@@ -150,20 +149,18 @@ class ApiNotificationManagerTests {
             mockOffer("just ended", -1L, 0L)
         )
         notificationManager.triggerUpdateIfNeeded()
-        advanceUntilIdle()
 
         Assert.assertEquals(listOf("active1", "active2"), notificationManager.activeListFlow.first().map { it.id })
     }
 
     @Test
-    fun testScheduling() = testScope.runBlockingTest {
+    fun testScheduling() = testScope.runTest {
         val apiTime = currentTime / 1000
         mockResponse(
             mockOffer("past", apiTime - 2, apiTime - 1),
             mockOffer("active", apiTime - 1, apiTime + 1),
             mockOffer("future", apiTime + 1, apiTime + 2))
         notificationManager.triggerUpdateIfNeeded()
-        advanceUntilIdle()
 
         val observedLists = mutableListOf<List<String>>()
         val collectJob = launch {
@@ -181,7 +178,7 @@ class ApiNotificationManagerTests {
     }
 
     @Test
-    fun `when image prefetch fails notification is filtered out`() = testScope.runBlockingTest {
+    fun `when image prefetch fails notification is filtered out`() = testScope.runTest {
         mockResponse(
             mockOffer("success", -1, 1, iconUrl = "urlSuccess", panel = mockFullScreenImagePanel("urlSuccess")),
             mockOffer("failure", -1, 1, iconUrl = "urlSuccess", panel = mockFullScreenImagePanel("urlFailure"))
@@ -191,18 +188,16 @@ class ApiNotificationManagerTests {
         every { mockImagePrefercher.prefetch("urlSuccess") } returns true
 
         notificationManager.triggerUpdateIfNeeded()
-        advanceUntilIdle()
 
         Assert.assertEquals(listOf("success"), notificationManager.activeListFlow.first().map { it.id })
     }
 
     @Test
-    fun `when there are no images no prefetch is triggered`() = testScope.runBlockingTest {
+    fun `when there are no images no prefetch is triggered`() = testScope.runTest {
         mockResponse(
             mockOffer("success", -1, 1, iconUrl = "", panel = mockFullScreenImagePanel(null)),
         )
         notificationManager.triggerUpdateIfNeeded()
-        advanceUntilIdle()
 
         coEvery { mockImagePrefercher.prefetch(any()) } returns false
 
@@ -211,23 +206,20 @@ class ApiNotificationManagerTests {
     }
 
     @Test
-    fun `prefetch is called each time activeListFlow is collected`() = testScope.runBlockingTest {
+    fun `prefetch is called each time activeListFlow is collected`() = testScope.runTest {
         mockResponse(
             mockOffer("id", -1, 1, iconUrl = "url")
         )
         notificationManager.triggerUpdateIfNeeded()
-        advanceUntilIdle()
         verify(exactly = 1) { mockImagePrefercher.prefetch("url") }
         notificationManager.activeListFlow.first()
-        advanceUntilIdle() // Prefetch is triggered asynchronously.
         verify(exactly = 2) { mockImagePrefercher.prefetch("url") }
         notificationManager.activeListFlow.first()
-        advanceUntilIdle()
         verify(exactly = 3) { mockImagePrefercher.prefetch("url") }
     }
 
     @Test
-    fun `opening an activity triggers notifications update`() = testScope.runBlockingTest {
+    fun `opening an activity triggers notifications update`() = testScope.runTest {
         mockResponse()
         foregroundActivityFlow.value = mockk()
         coVerify(exactly = 1) { mockApi.getApiNotifications(any(), any(), any()) }
@@ -239,7 +231,7 @@ class ApiNotificationManagerTests {
     }
 
     @Test
-    fun `at least 3 hours must pass between updates`() = testScope.runBlockingTest {
+    fun `at least 3 hours must pass between updates`() = testScope.runTest {
         val baseRefreshInterval = TimeUnit.HOURS.toMillis(3)
         mockResponse()
         notificationManager.triggerUpdateIfNeeded()
@@ -257,17 +249,15 @@ class ApiNotificationManagerTests {
     }
 
     @Test
-    fun `when user plan changes notifications are fetched again`() = testScope.runBlockingTest {
+    fun `when user plan changes notifications are fetched again`() = testScope.runTest {
         mockResponse(
             mockOffer("id", -1, 1, iconUrl = "url")
         )
         notificationManager.triggerUpdateIfNeeded()
-        advanceUntilIdle()
         coVerify(exactly = 1) { mockApi.getApiNotifications(any(), any(), any()) }
 
         mockResponse()
         planChangeFlow.emit(emptyList())
-        advanceUntilIdle()
         coVerify(exactly = 2) { mockApi.getApiNotifications(any(), any(), any()) }
         Assert.assertEquals(emptyList<ApiNotificationOffer>(), notificationManager.activeListFlow.first())
     }

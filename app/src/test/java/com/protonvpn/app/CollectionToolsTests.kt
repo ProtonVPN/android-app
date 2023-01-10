@@ -23,20 +23,22 @@ import com.protonvpn.android.utils.parallelSearch
 import com.protonvpn.android.utils.takeRandomStable
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.currentTime
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class CollectionToolsTests {
 
     @Test
-    fun testParallelFirstResult() = runBlockingTest {
+    fun testParallelFirstResult() = runTest {
         Assert.assertEquals(null, listOf<Int>().parallelFirstOrNull { it > 0 })
         Assert.assertEquals(1, listOf(1).parallelFirstOrNull { it > 0 })
         Assert.assertEquals(null, listOf(-1).parallelFirstOrNull { it > 0 })
@@ -45,7 +47,7 @@ class CollectionToolsTests {
     }
 
     @Test
-    fun testParallelFirstCancel() = runBlockingTest {
+    fun testParallelFirstCancel() = runTest {
         val start = currentTime
         Assert.assertEquals(2, listOf(1, 2).parallelFirstOrNull {
             if (it == 1) {
@@ -60,7 +62,7 @@ class CollectionToolsTests {
     }
 
     @Test
-    fun testParallelSearch() = runBlockingTest {
+    fun testParallelSearch() = runTest {
         Assert.assertEquals(setOf(7, 3), listOf(-1, 7, -5, 3).parallelSearch(true) { it > 0 }.toSet())
 
         val result = listOf(-1, 7, -5, 3).parallelSearch(false) { it > 0 }
@@ -69,7 +71,7 @@ class CollectionToolsTests {
     }
 
     @Test
-    fun testParallelFirstPriority() = runBlockingTest {
+    fun testParallelFirstPriority() = runTest {
         // Negative values on the list will not satisfy the predicate and abs(value) defines also how long predicate
         // will take to compute.
         testParallelFirstPriorityTemplate(5, 10, 10, listOf(15, 5, 1))
@@ -78,7 +80,7 @@ class CollectionToolsTests {
         testParallelFirstPriorityTemplate(null, 20, 10, listOf(-1, -20, -3))
     }
 
-    private suspend fun TestCoroutineScope.testParallelFirstPriorityTemplate(
+    private suspend fun TestScope.testParallelFirstPriorityTemplate(
         expectedResult: Int?,
         expectedDuration: Long,
         priorityWaitMs: Long,
@@ -93,7 +95,7 @@ class CollectionToolsTests {
     }
 
     @Test
-    fun testTakeRandomStable() = runBlockingTest {
+    fun testTakeRandomStable() = runTest {
         Assert.assertEquals(listOf<Int>(), listOf<Int>().takeRandomStable(0))
         Assert.assertEquals(listOf<Int>(), listOf(1).takeRandomStable(0))
         Assert.assertEquals(listOf(1), listOf(1).takeRandomStable(1))

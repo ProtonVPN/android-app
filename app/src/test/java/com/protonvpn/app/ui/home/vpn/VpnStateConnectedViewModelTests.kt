@@ -37,7 +37,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import me.proton.core.presentation.utils.SnackType
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -79,7 +80,7 @@ class VpnStateConnectedViewModelTests {
     }
 
     @Test
-    fun `when a profile with connected server exists, no new profile is created`() = runBlockingTest {
+    fun `when a profile with connected server exists, no new profile is created`() = runTest(UnconfinedTestDispatcher()) {
         val server = MockedServers.server
         every { mockConnectionParams.server } returns server
         val existingProfiles = listOf(

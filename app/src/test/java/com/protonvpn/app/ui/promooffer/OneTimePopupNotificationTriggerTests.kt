@@ -40,8 +40,9 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.domain.entity.UserId
 import org.junit.Before
@@ -65,7 +66,7 @@ class OneTimePopupNotificationTriggerTests {
     private lateinit var primaryUserIdFlow: MutableStateFlow<UserId?>
     private lateinit var foregroundActivityFlow: MutableStateFlow<Activity?>
     private lateinit var promoOffersPrefs: PromoOffersPrefs
-    private lateinit var testScope: TestCoroutineScope
+    private lateinit var testScope: TestScope
 
     private lateinit var oneTimePopupNotificationTrigger: OneTimePopupNotificationTrigger
 
@@ -84,9 +85,9 @@ class OneTimePopupNotificationTriggerTests {
         foregroundActivityFlow = MutableStateFlow(null)
         every { mockForegroundActivityTracker.foregroundActivityFlow } returns foregroundActivityFlow
 
-        testScope = TestCoroutineScope()
+        testScope = TestScope(UnconfinedTestDispatcher())
         oneTimePopupNotificationTrigger = OneTimePopupNotificationTrigger(
-            mainScope = testScope,
+            mainScope = testScope.backgroundScope,
             foregroundActivityTracker = mockForegroundActivityTracker,
             apiNotificationManager = mockApiNotificationManager,
             accountManager = mockAccountManager,
@@ -96,7 +97,7 @@ class OneTimePopupNotificationTriggerTests {
     }
 
     @Test
-    fun `when app goes to foreground then notification is triggered`() = testScope.runBlockingTest {
+    fun `when app goes to foreground then notification is triggered`() = testScope.runTest {
         activeNotificationsFlow.value = listOf(createTestNotification(NOTIFICATION_ID))
 
         foregroundActivityFlow.value = mockk()
@@ -104,7 +105,7 @@ class OneTimePopupNotificationTriggerTests {
     }
 
     @Test
-    fun `when navigating between activities then notification is not triggered`() = testScope.runBlockingTest {
+    fun `when navigating between activities then notification is not triggered`() = testScope.runTest {
         foregroundActivityFlow.value = mockk()
 
         activeNotificationsFlow.value = listOf(createTestNotification(NOTIFICATION_ID))
@@ -114,7 +115,7 @@ class OneTimePopupNotificationTriggerTests {
     }
 
     @Test
-    fun `when no user is logged in then notification is not triggered`() = testScope.runBlockingTest {
+    fun `when no user is logged in then notification is not triggered`() = testScope.runTest {
         primaryUserIdFlow.value = null
         activeNotificationsFlow.value = listOf(createTestNotification(NOTIFICATION_ID))
 
@@ -123,7 +124,7 @@ class OneTimePopupNotificationTriggerTests {
     }
 
     @Test
-    fun `notification is triggered only once`() = testScope.runBlockingTest {
+    fun `notification is triggered only once`() = testScope.runTest {
         activeNotificationsFlow.value = listOf(createTestNotification(NOTIFICATION_ID))
 
         foregroundActivityFlow.value = mockk()
@@ -135,7 +136,7 @@ class OneTimePopupNotificationTriggerTests {
     }
 
     @Test
-    fun `only notifications of TYPE_ONE_TIME_POPUP are triggered`() = testScope.runBlockingTest {
+    fun `only notifications of TYPE_ONE_TIME_POPUP are triggered`() = testScope.runTest {
         activeNotificationsFlow.value =
             listOf(createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_TOOLBAR))
 
@@ -144,7 +145,7 @@ class OneTimePopupNotificationTriggerTests {
     }
 
     @Test
-    fun `when multiple notifications are active then only the first TYPE_ONE_TIME_POPUP is triggered`() = testScope.runBlockingTest {
+    fun `when multiple notifications are active then only the first TYPE_ONE_TIME_POPUP is triggered`() = testScope.runTest {
         activeNotificationsFlow.value = listOf(
             createTestNotification("toolbar", ApiNotificationTypes.TYPE_TOOLBAR),
             createTestNotification("popup 1", ApiNotificationTypes.TYPE_ONE_TIME_POPUP),

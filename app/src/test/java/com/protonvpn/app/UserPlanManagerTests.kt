@@ -40,14 +40,15 @@ import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class UserPlanManagerTests {
 
     private lateinit var manager: UserPlanManager
@@ -80,7 +81,7 @@ class UserPlanManagerTests {
     }
 
     @Test
-    fun planUpgradeFiresCorrectEvent() = runBlockingTest {
+    fun planUpgradeFiresCorrectEvent() = runTest(UnconfinedTestDispatcher()) {
         launch {
             val planChange = manager.planChangeFlow.first()
             Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Upgrade, planChange)
@@ -89,7 +90,7 @@ class UserPlanManagerTests {
     }
 
     @Test
-    fun credentialChangeFiresEvent() = runBlockingTest {
+    fun credentialChangeFiresEvent() = runTest(UnconfinedTestDispatcher()) {
         launch {
             Assert.assertTrue(UserPlanManager.InfoChange.VpnCredentials in manager.infoChangeFlow.first())
         }
@@ -97,7 +98,7 @@ class UserPlanManagerTests {
     }
 
     @Test
-    fun planDowngradeFiresDowngrade() = runBlockingTest {
+    fun planDowngradeFiresDowngrade() = runTest(UnconfinedTestDispatcher()) {
         launch {
             val planChange = manager.planChangeFlow.first()
             Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free"), planChange)

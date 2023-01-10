@@ -31,11 +31,10 @@ import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
 import org.junit.After
@@ -43,7 +42,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.io.File
-import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
@@ -66,16 +64,12 @@ class ProtonLoggerImplTests {
     @MockK
     private lateinit var currentStateLogger: CurrentStateLoggerGlobal
 
-    // Use an explicit dispatcher because it needs to be passed to ProtonLoggerImpl
-    private lateinit var testDispatcher: TestCoroutineDispatcher
-
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         testDir = File(context.cacheDir, "tests")
         logDir = File(testDir, "proton_logger")
-        testDispatcher = TestCoroutineDispatcher()
     }
 
     @After
@@ -199,22 +193,18 @@ class ProtonLoggerImplTests {
         "$timestamp $TEST_EVENT $message"
 
     private fun runLoggerTest(block: suspend CoroutineScope.(logger: ProtonLoggerImpl) -> Unit) {
-        testDispatcher.runBlockingTest {
-            // Logger needs a scope to run its processing. This scope needs to be cancelled before
-            // runBlockingTest block finishes.
-            val loggerScope = CoroutineScope(EmptyCoroutineContext + testDispatcher)
+        runTest(UnconfinedTestDispatcher()) {
             val logger = ProtonLoggerImpl(
                 FIXED_CLOCK,
                 FileLogWriter(
                     InstrumentationRegistry.getInstrumentation().targetContext,
-                    loggerScope,
-                    testDispatcher,
+                    backgroundScope,
+                    UnconfinedTestDispatcher(),
                     logDir.absolutePath,
                     currentStateLogger
                 )
             )
             block(logger)
-            loggerScope.cancel()
         }
     }
 }
