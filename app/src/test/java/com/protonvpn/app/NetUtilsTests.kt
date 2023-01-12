@@ -18,6 +18,7 @@
  */
 package com.protonvpn.app
 
+import com.protonvpn.android.utils.NetUtils.maskAnyIP
 import com.protonvpn.android.utils.NetUtils.stripIP
 import com.protonvpn.android.utils.jitterMs
 import io.mockk.every
@@ -40,6 +41,17 @@ class NetUtilsTests {
 
         // invalid
         Assert.assertEquals("abcd", stripIP("abcd"))
+    }
+
+    @Test
+    fun testMaskAnyIp() {
+        val input = "Logs: 12.34.56.78, ABCD:ff00:0000:6789:1234:5678:DCBA:ab12"
+        val expected = "Logs: masked-ipv4, masked-ipv6"
+        Assert.assertEquals(expected, input.maskAnyIP())
+
+        val input2 = "WireGuard port: 443, allowed IPs: 0.0.0.0/3, 51.83.0.0/17, 51.83.240.0/21, 51.83.248.0/22, 51.83.252.0/23, 51.83.254.0/25, 51.83.254.128/26, 51.83.254.192/27, 51.83.254.240/28, 51.83.255.0/"
+        val expected2 = "WireGuard port: 443, allowed IPs: masked-ipv4/3, masked-ipv4/17, masked-ipv4/21, masked-ipv4/22, masked-ipv4/23, masked-ipv4/25, masked-ipv4/26, masked-ipv4/27, masked-ipv40/28, masked-ipv4/"
+        Assert.assertEquals(expected2, input2.maskAnyIP())
     }
 
     @Test
