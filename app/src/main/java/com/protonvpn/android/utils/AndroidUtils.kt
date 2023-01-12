@@ -34,6 +34,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Process
 import android.provider.Settings
+import android.telephony.TelephonyManager
 import android.text.Editable
 import android.text.TextUtils.getChars
 import android.util.DisplayMetrics
@@ -248,3 +249,7 @@ fun Context.getCurrentProcessName(): String? =
         val manager = getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
         manager?.runningAppProcesses?.find { it.pid == myPid }?.processName
     }
+
+fun TelephonyManager.mobileCountryCode() =
+    if (phoneType != TelephonyManager.PHONE_TYPE_CDMA && !networkCountryIso.isNullOrBlank())
+        networkCountryIso else null

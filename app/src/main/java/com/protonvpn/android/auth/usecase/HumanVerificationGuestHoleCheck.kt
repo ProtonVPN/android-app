@@ -19,9 +19,11 @@
 
 package com.protonvpn.android.auth.usecase
 
+import android.telephony.TelephonyManager
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.utils.mobileCountryCode
 import com.protonvpn.android.vpn.ServerPing
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
@@ -35,11 +37,13 @@ private const val HOSTNAME_TO_CHECK = "hcaptcha.com"
 class HumanVerificationGuestHoleCheck @Inject constructor(
     private val networkManager: NetworkManager,
     private val guestHole: GuestHole,
-    private val serverPing: ServerPing
+    private val serverPing: ServerPing,
+    private val telephonyManager: TelephonyManager?
 ) {
     operator fun invoke(scope: CoroutineScope) {
         guestHole.openForHumanVerification = scope.async {
-            if (!networkManager.isConnectedToNetwork())
+            val mcc = telephonyManager?.mobileCountryCode()?.lowercase()
+            if (!networkManager.isConnectedToNetwork() || !(mcc == null || mcc == "ir") )
                 false
             else {
                 ProtonLogger.logCustom(LogCategory.CONN_GUEST_HOLE, "pinging $HOSTNAME_TO_CHECK")
