@@ -21,6 +21,7 @@ package com.protonvpn.android.logging
 
 import android.content.Context
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.utils.NetUtils.maskAnyIP
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
@@ -99,8 +100,7 @@ class SentryLogWriter @Inject constructor(
     }
 
     private fun scrubMessage(message: String): String {
-        // All IPs are scrubbed by the backend, no need to scrub them here.
-        var scrubbed = message
+        var scrubbed = message.maskAnyIP()
         val user = cachedUser.value
         user?.name?.takeIfNotBlank()?.let { scrubbed = scrubbed.replace(it, "<username>") }
         user?.displayName?.takeIfNotBlank()?.let { scrubbed = scrubbed.replace(it, "<username>") }
