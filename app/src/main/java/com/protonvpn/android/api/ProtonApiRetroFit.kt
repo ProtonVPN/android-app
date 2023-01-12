@@ -31,6 +31,7 @@ import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
+import com.protonvpn.android.utils.mobileCountryCode
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.data.protonApi.RefreshTokenRequest
 import me.proton.core.network.domain.ApiResult
@@ -154,9 +155,7 @@ open class ProtonApiRetroFit(
 
     private fun createNetZoneHeaders(netzone: String?) =
         mutableMapOf<String, String>().apply {
-            val mcc = if (telephonyManager != null && telephonyManager.phoneType != TelephonyManager.PHONE_TYPE_CDMA &&
-                    !telephonyManager.networkCountryIso.isNullOrBlank())
-                telephonyManager.networkCountryIso else null
+            val mcc = telephonyManager?.mobileCountryCode()
             if (mcc != null)
                 put(ProtonVPNRetrofit.HEADER_COUNTRY, mcc)
             if (!netzone.isNullOrEmpty())
