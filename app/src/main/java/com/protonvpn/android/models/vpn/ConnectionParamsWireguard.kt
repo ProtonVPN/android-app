@@ -87,6 +87,10 @@ class ConnectionParamsWireguard(
             .parsePublicKey(requireNotNull(connectingDomain?.publicKeyX25519))
             .parseEndpoint("$entryIp:$port")
             .parseAllowedIPs(allowedIps)
+            // Having persistent keepalive ensures that WG handshake will be triggered even if no data goes through
+            // the tunnel - which fixes the issue on some devices where handshake is not triggered and we're stuck in
+            // connecting state.
+            .setPersistentKeepalive(60)
             .build()
 
         val iface = Interface.Builder()
