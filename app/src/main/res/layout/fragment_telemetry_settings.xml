@@ -39,6 +39,7 @@
         app:infoText="@string/settingsSendCrashReportsDescription" />
 
     <TextView
+        android:id="@+id/textTelemetryInfo"
         style="@style/Proton.Text.Caption.Hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

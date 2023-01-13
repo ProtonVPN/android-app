@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.settings
 
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -30,6 +31,8 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityTelemetrySettingsBinding
 import com.protonvpn.android.databinding.FragmentTelemetrySettingsBinding
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
@@ -64,6 +67,10 @@ class SettingsTelemetryFragment : Fragment(R.layout.fragment_telemetry_settings)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        with(binding.textTelemetryInfo) {
+            text = HtmlTools.fromHtml(getString(R.string.settingsTelemetryScreenInfo, Constants.TELEMETRY_INFO_URL))
+            movementMethod = LinkMovementMethod()
+        }
         initEnableTelemetryToggle()
         initSendCrashReportsToggle()
     }

@@ -20,6 +20,7 @@ package com.protonvpn.android.ui.onboarding
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
@@ -35,9 +36,11 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityOnboardingBinding
 import com.protonvpn.android.databinding.FragmentOnboardingConnectionBinding
 import com.protonvpn.android.databinding.FragmentOnboardingStepBinding
+import com.protonvpn.android.databinding.FragmentOnboardingTelemetryBinding
 import com.protonvpn.android.databinding.OnboardingStepDotBinding
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.planupgrade.UpgradePlusOnboardingDialogActivity
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.getThemeColor
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,6 +86,30 @@ class OnboardingStep : Fragment(R.layout.fragment_onboarding_step) {
     }
 }
 
+class TelemetryConsent : Fragment(R.layout.fragment_onboarding_telemetry) {
+
+    private val binding by viewBinding(FragmentOnboardingTelemetryBinding::bind)
+    private val viewModel: OnboardingViewModel by viewModels({ requireActivity() })
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(binding) {
+            with(textTelemetryInfo) {
+                text = HtmlTools.fromHtml(getString(R.string.settingsTelemetryScreenInfo, Constants.TELEMETRY_INFO_URL))
+                movementMethod = LinkMovementMethod()
+            }
+            switchEnableTelemetry.isChecked = viewModel.telemetryEnabledSwitch
+            switchEnableTelemetry.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.telemetryEnabledSwitch = isChecked
+            }
+            switchSendCrashReports.isChecked = viewModel.crashReportingSwitch
+            switchSendCrashReports.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.crashReportingSwitch = isChecked
+            }
+        }
+    }
+}
+
 class FirstConnection : Fragment(R.layout.fragment_onboarding_connection) {
 
     private val binding by viewBinding(FragmentOnboardingConnectionBinding::bind)
@@ -113,6 +140,7 @@ class OnboardingActivity : BaseActivityV2() {
         val action: () -> Unit = ::navigateNext,
         @StringRes val actionText: Int = R.string.onboardingNext,
         val showConnect: Boolean = false,
+        val canSkipOnboarding: Boolean = false,
         val createFragment: () -> Fragment,
     )
 
@@ -151,8 +179,18 @@ class OnboardingActivity : BaseActivityV2() {
                 }
             }
         }
+        if (viewModel.showTelemetryPrompt) {
+            steps += Step(
+                action = {
+                    viewModel.applyTelemetryChoice()
+                    navigateNext()
+                }
+            ) {
+                TelemetryConsent()
+            }
+        }
         if (viewModel.showConnect) {
-            steps += Step(actionText = R.string.onboading_connect_now, showConnect = true) {
+            steps += Step(actionText = R.string.onboading_connect_now, showConnect = true, canSkipOnboarding = true) {
                 FirstConnection()
             }
         }
@@ -187,6 +225,7 @@ class OnboardingActivity : BaseActivityV2() {
                     next.onClick { step.action() }
                     next.setText(step.actionText)
                     next.isVisible = !step.showConnect
+                    skip.isVisible = step.canSkipOnboarding
 
                     connect.isVisible = step.showConnect
                 }
