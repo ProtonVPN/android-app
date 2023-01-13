@@ -173,13 +173,6 @@
         <View style="@style/Divider.Small" />
 
         <com.protonvpn.android.ui.settings.SettingsSwitch
-            android:id="@+id/switchSendCrashReports"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/settingsSendCrashReportsTitle"
-            app:infoText="@string/settingsSendCrashReportsDescription" />
-
-        <com.protonvpn.android.ui.settings.SettingsSwitch
             android:id="@+id/switchNonStandardPorts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -193,6 +186,12 @@
             android:layout_height="wrap_content"
             app:infoText="@string/settingsModerateNatDescription"
             app:title="@string/settingsModerateNatTitle" />
+
+        <com.protonvpn.android.ui.settings.SettingsItem
+            android:id="@+id/buttonTelemetry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/settingsTelemetryScreenTitle" />
 
         <com.protonvpn.android.ui.settings.SettingsItem
             android:id="@+id/buttonLicenses"

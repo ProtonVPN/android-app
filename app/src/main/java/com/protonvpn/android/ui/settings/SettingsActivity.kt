@@ -131,7 +131,6 @@ class SettingsActivity : BaseActivityV2() {
         initOSRelatedVisibility()
         initDnsLeakProtection()
         initDohToggle()
-        initSendCrashReportsToggle()
 
         lifecycleScope.launch {
             val user = currentUser.vpnUserFlow.firstOrNull()
@@ -189,9 +188,8 @@ class SettingsActivity : BaseActivityV2() {
 
             initVpnAcceleratorToggles()
 
-            buttonLicenses.setOnClickListener {
-                navigateTo(OssLicensesActivity::class.java)
-            }
+            buttonTelemetry.setOnClickListener { navigateTo(SettingsTelemetryActivity::class.java) }
+            buttonLicenses.setOnClickListener { navigateTo(OssLicensesActivity::class.java) }
         }
 
         onUserDataUpdated()
@@ -277,13 +275,6 @@ class SettingsActivity : BaseActivityV2() {
                     true
                 }
             }
-        }
-    }
-
-    private fun initSendCrashReportsToggle() = with(binding.contentSettings) {
-        switchSendCrashReports.isChecked = SentryIntegration.isEnabled()
-        switchSendCrashReports.setOnCheckedChangeListener { _, isChecked ->
-            SentryIntegration.setEnabled(isChecked)
         }
     }
 

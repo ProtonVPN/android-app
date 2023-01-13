@@ -338,8 +338,12 @@
     <string name="settingsProtocolNameWireguardTLS" translatable="false">Stealth</string>
     <string name="settingsProtocolNameOpenVpnTcp" translatable="false">OpenVPN TCP</string>
     <string name="settingsProtocolNameOpenVpnUdp" translatable="false">OpenVPN UDP</string>
-    <string name="settingsSendCrashReportsTitle">Anonymous crash reports</string>
-    <string name="settingsSendCrashReportsDescription">If the app crashes or shuts down unexpectedly, a report will be sent to our engineers that shows what caused the error. We’ll only ever use these to help improve the app.</string>
+    <string name="settingsEnableTelemetryTitle">Share anonymous usage statistics</string>
+    <string name="settingsEnableTelemetryDescription">Usage data helps us overcome VPN blocks and improve app performance.</string>
+    <string name="settingsSendCrashReportsTitle">Share anonymous crash reports</string>
+    <string name="settingsSendCrashReportsDescription">Crash reports help us fix bugs, detect firewalls, and avoid VPN blocks.</string>
+    <string name="settingsTelemetryScreenTitle">Usage statistics</string>
+    <string name="settingsTelemetryScreenInfo">These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties.</string>
     <string name="netShieldEnabledWarning">Beware some websites might not fully work because of blocked contents.</string>
     <string name="netShieldDescription">Block advertisements, trackers and malware </string>
     <string name="netshield">NetShield</string>
