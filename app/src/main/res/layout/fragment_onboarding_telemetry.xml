@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2023. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:layout_marginVertical="24dp"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/onboarding_telemetry" />
+
+            <TextView
+                style="@style/Proton.Text.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:layout_marginBottom="24dp"
+                android:gravity="center_horizontal"
+                android:text="@string/onboarding_telemetry_title" />
+
+            <com.protonvpn.android.ui.settings.SettingsSwitch
+                android:id="@+id/switchEnableTelemetry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/settingsEnableTelemetryTitle"
+                app:infoText="@string/settingsEnableTelemetryDescription" />
+
+            <com.protonvpn.android.ui.settings.SettingsSwitch
+                android:id="@+id/switchSendCrashReports"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/settingsSendCrashReportsTitle"
+                app:infoText="@string/settingsSendCrashReportsDescription" />
+
+            <TextView
+                android:id="@+id/textTelemetryInfo"
+                style="@style/Proton.Text.Caption.Hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+                android:layout_marginVertical="8dp"
+                android:text="@string/settingsTelemetryScreenInfo"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

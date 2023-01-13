@@ -25,10 +25,13 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.suspendForPermissions
+import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
+import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.displayText
@@ -53,6 +56,8 @@ import javax.inject.Inject
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     @ApplicationContext val app: Context,
+    private val appConfig: AppConfig,
+    private val userData: UserData,
     private val serverManager: ServerManager,
     private val serverListUpdater: ServerListUpdater,
     private val vpnPermissionDelegate: VpnPermissionDelegate,
@@ -67,12 +72,21 @@ class OnboardingViewModel @Inject constructor(
     }
 
     val showConnect get() = Storage.getBoolean(OnboardingPreferences.ONBOARDING_SHOW_CONNECT, false)
+    val showTelemetryPrompt get() = appConfig.getFeatureFlags().telemetry
+
+    var telemetryEnabledSwitch: Boolean = false
+    var crashReportingSwitch: Boolean = true
 
     suspend fun countriesCount() =
         freeServers.await().map { it.exitCountry }.distinct().count().takeIf { it != 0 } ?: COUNTRIES_COUNT
     suspend fun serversCount() = freeServers.await().count().takeIf { it != 0 } ?: SERVERS_COUNT
 
     data class Error(val html: String?, @StringRes val res: Int = R.string.something_went_wrong)
+
+    fun applyTelemetryChoice() {
+        userData.telemetryEnabled = telemetryEnabledSwitch
+        SentryIntegration.setEnabled(crashReportingSwitch)
+    }
 
     suspend fun connect(activity: ComponentActivity, delegate: VpnUiActivityDelegate): Error? {
         val intent = vpnPermissionDelegate.prepareVpnPermission()

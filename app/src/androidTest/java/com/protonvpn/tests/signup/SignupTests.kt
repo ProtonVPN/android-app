@@ -27,6 +27,7 @@ import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.actions.OnboardingRobot
+import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.data.DefaultData
@@ -59,6 +60,8 @@ class SignupTests {
 
     @Inject
     lateinit var purchaseEnabled: CachedPurchaseEnabled
+    @Inject
+    lateinit var appConfig: AppConfig
 
     @get:Rule
     val rules = RuleChain
@@ -85,22 +88,10 @@ class SignupTests {
             .enterRecoveryEmail("$testUsername@proton.ch")
             .verifyViaEmail(DefaultData.ATLAS_VERIFICATION_CODE)
             .verify { welcomeScreenIsDisplayed() }
-        onboardingRobot.completeOnboarding()
+        onboardingRobot.completeOnboarding(appConfig.getFeatureFlags().telemetry)
             .closeOnboarding(purchaseEnabled())
             .verify { isInMainScreen() }
         homeRobot.openAccountView()
             .verify { checkIfCorrectUsernameIsDisplayed(testUsername) }
-    }
-
-    @Test
-    fun signupSkipOnboarding() {
-        addAccountRobot.selectSignupOption()
-            .enterUsername(testUsername)
-            .enterPassword(TestUser.plusUser.password)
-            .enterRecoveryEmail("$testUsername@proton.ch")
-            .verifyViaEmail(DefaultData.ATLAS_VERIFICATION_CODE)
-            .verify { welcomeScreenIsDisplayed() }
-        onboardingRobot.skipOnboarding()
-            .verify { isInMainScreen() }
     }
 }
