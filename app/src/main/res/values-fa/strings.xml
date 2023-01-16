@@ -173,7 +173,6 @@
     <string name="connect">اتصال</string>
     <string name="upgrade">ارتقا</string>
     <string name="retry">تلاش مجدد</string>
-
     <string name="connection_failed">ﺍﺗﺼﺎﻝ ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
     <string name="create_new_profile">پروفایل جدید</string>
     <string name="excludeAppsTitle">جدا کردن برنامه‌ها</string>
@@ -227,7 +226,7 @@
     <string name="ip">آدرس IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="server">سرور:</string>
-    <string name="session_time">Session duration:</string>
+    <string name="session_time">مدت نشست:</string>
     <string name="download_volume">میزان دانلود:</string>
     <string name="download_speed">سرعت:</string>
     <string name="save_to_profile">ذخیره در پروفایل</string>
@@ -604,7 +603,7 @@
     <string name="dynamic_report_tips_title">راه‌حل‌های سریع</string>
     <string name="dynamic_report_logs_title">ارسال لاگ‌های خطا</string>
     <string name="dynamic_report_success_title">از بازخوردتان سپاس‌گزاریم</string>
-    <string name="dynamic_report_success_description">در سریع ترین زمان ممکن به شما پاسخ خواهیم داد.</string>
+    <string name="dynamic_report_success_description">در سریع‌ترین زمان ممکن به شما پاسخ خواهیم داد.</string>
     <string name="dynamic_report_field_mandatory">این بخش الزامی است</string>
     <string name="dynamic_report_logs_description">لاگ نوعی فایل است، که به ما اقدامات شما را که منجر به خطا شده است نشان می‌دهد. ما از آن‌ها تنها جهت کمک به مهندسین خود برای رفع اشکالات استفاده خواهیم کرد.</string>
     <string name="dynamic_report_logs_missing">لاگ‌های خطا به ما در پیدا کردن علت اشکال کمک می‌کنند. اگر آن‌ها را پیوست نکنید، ممکن است ما قادر به رسیدگی کامل به اشکال نباشیم.</string>

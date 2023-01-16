@@ -71,7 +71,7 @@
     <string name="loaderReconnectNoNetwork">Esperando una red utilizable</string>
     <string name="loaderReconnectNoNetworkSuggestion">Comprueba tu conexión</string>
     <string name="loaderCheckingAvailability">Comprobando la disponibilidad del servidor</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Por favor, espere unos segundos</string>
+    <string name="loaderCheckingAvailabilitySuggestion">Espera unos segundos</string>
     <string name="loaderCancel">Cancelar conexión</string>
     <string name="quickConnect">Conexión rápida</string>
     <string name="notConnectedCurrentIp">IP actual: %1$s</string>

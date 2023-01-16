@@ -238,11 +238,11 @@
     <string name="noVpnPermissionGrantPermissionTitle">Предоставить разрешение VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android требует вашего разрешения на подключение к Proton VPN. Дайте разрешение, нажав \"OK\", когда появится окно \"Запрос на подключение\" от Android.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянный VPN для других приложений</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянную VPN во всех остальных приложениях VPN, кроме Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянный VPN во всех остальных приложениях VPN, кроме Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
     <string name="noVpnPermissionOpenSettings">Открыть настройки Android VPN</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянную VPN во всех других приложениях VPN в настройках системы Android, так как это мешает Proton VPN устанавливать подключение к VPN. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянный VPN во всех других приложениях VPN в настройках системы Android, так как это мешает Proton VPN устанавливать подключение к VPN. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее это разрешение. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
     <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
     <string name="error_prepare_vpn_title">Ошибка: проблема VPN разрешений</string>
     <string name="error_server_not_set">Сервер больше недоступен</string>
@@ -313,8 +313,8 @@
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Возможно, ваша страна блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для доступа к Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянная VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Настроить действия Proton VPN при нарушении подключения</string>
-    <string name="settingsAlwaysOnWindowHeader">Как включить постоянную VPN и Kill Switch:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>Настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
+    <string name="settingsAlwaysOnWindowHeader">Как включить постоянный VPN и Kill Switch:</string>
+    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Найдите Proton VPN и нажмите %1$s</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
@@ -460,7 +460,7 @@
         <item quantity="many">%1$d стран</item>
         <item quantity="other">%1$d стран</item>
     </plurals>
-    <string name="upsell_upgrade_again">Улучшите снова, чтобы воспользоваться всеми функциями:</string>
+    <string name="upsell_upgrade_again">Улучшите снова, чтобы насладиться всеми функциями:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
     <string name="upgrade_plus_subtitle">Когда вы улучшите до Plus</string>

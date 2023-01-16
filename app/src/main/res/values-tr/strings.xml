@@ -21,7 +21,7 @@
     <!-- Strings related to login -->
     <string name="hintUsername">Kullanıcı adı</string>
     <string name="hintPassword">Parola</string>
-    <string name="splitTunnellingSwitch">Bölünmüş tünelleme anahtarı</string>
+    <string name="splitTunnellingSwitch">Ayrılmış tünelleme anahtarı</string>
     <string name="login">Oturum aç</string>
     <string name="hamburgerMenu">Hamburger menüsü</string>
     <string name="error_field_required">Bu alan zorunludur</string>
@@ -254,8 +254,8 @@
     <string name="bugReportErrorLabelVpnLogsDescription">Bu seçenek, sorunu çözmemize yardımcı olması için yerel hata günlüklerini gönderir (etkinlik kaydı tutmuyoruz)</string>
     <string name="profileFastest">En hızlı</string>
     <string name="profileRandom">Rastgele</string>
-    <string name="settingsSplitTunnelingDescription">Bölünmüş tünelleme, belirli uygulamaların veya IP adreslerinin VPN trafiğine katılmamasını sağlar.</string>
-    <string name="settingsSplitTunnelingTitle">Bölünmüş tünelleme</string>
+    <string name="settingsSplitTunnelingDescription">Ayrılmış tünelleme, belirli uygulamaların veya IP adreslerinin VPN trafiğine katılmamasını sağlar.</string>
+    <string name="settingsSplitTunnelingTitle">Ayrılmış tünelleme</string>
     <string name="loaderAuthenticatingUser">Kullanıcının kimliği doğrulanıyor…</string>
     <string name="loaderErrorNoInternet">İnternet bağlantısı yok</string>
     <string name="loaderErrorGeneric">Bir şeyler ters gitti</string>
@@ -325,7 +325,7 @@
          find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Bağlantı kesiciyi etkinleştirmek için <b>VPN olmadan bağlantıları engelle</b> seçeneğinin yanındaki anahtara dokunun]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android ayarlarını aç</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Bağlantı kesici etkinleştirildiğinde, VPN tüneli dışındaki tüm bağlantılar engelleneceğinden bölünmüş tünelleme devre dışı bırakılır</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Bağlantı kesici etkinleştirildiğinde, VPN tüneli dışındaki tüm bağlantılar engelleneceğinden ayrılmış tünelleme özelliği devre dışı bırakılır</string>
     <string name="settingsSmartProtocolDescription">En iyi bağlantıyı sağlayan iletişim kuralı ve bağlantı noktası otomatik olarak seçilsin.</string>
     <string name="settingsSendCrashReportsTitle">Anonim çökme bildirimleri</string>
     <string name="settingsSendCrashReportsDescription">Uygulamanız beklenmedik şekilde çöker ya da kapanırsa, geliştirici ekibimize sorunu aktaran bir bildirim gönderilir. Bu bildirimi yalnızca uygulamanın geliştirilmesi için kullanırız.</string>
@@ -339,7 +339,7 @@
     <string name="guestHoleActivated">Bölgenizde Proton VPN erişimi sınırlı olabilir. Bu nedenle bu işlem normalden daha uzun sürecek. Lütfen biz bu sorunu çözerken bekleyin.</string>
     <string name="guestHoleNotificationContent">Ağ sorunları aşılmaya çalışılıyor. Bu işlem Proton VPN hizmetine erişmenize yardımcı olacak.</string>
     <string name="onMaintenanceDetected">Bağlandığınız VPN sunucusunda bakım yapılıyor. Bağlantınızı otomatik olarak en hızlı sunucuya geçirdik.</string>
-    <string name="errorTunMultiUserPermission">Çift uygulama (örneğin Dual Messenger) ve Bölünmüş tünelleme arasındaki bir çakışma nedeniyle VPN bağlantısı başlatılamadı. Lütfen bunlardan birini devre dışı bırakıp aygıtınızı yeniden başlatın.</string>
+    <string name="errorTunMultiUserPermission">Çift uygulama (örneğin Dual Messenger) ve ayrılmış tünelleme arasındaki bir çakışma nedeniyle VPN bağlantısı başlatılamadı. Lütfen bunlardan birini devre dışı bırakıp aygıtınızı yeniden başlatın.</string>
     <string name="errorTorrentNotAllowed">Bu sunucu üzerinde P2P kullanımına izin verilmiyor</string>
     <string name="errorWireguardWithPlaceholder">WireGuard hatası: %1$s</string>
     <string name="profileProtocolNotAvailable">Profilin VPN iletişim kuralı şu anda kullanılamıyor. Bağlantı kurmak için iletişim kuralını değiştirmeyi deneyin.</string>
