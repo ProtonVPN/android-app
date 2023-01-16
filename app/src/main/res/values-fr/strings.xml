@@ -121,8 +121,8 @@
     <string name="settingsModerateNatDescription"><![CDATA[Le NAT modéré désactive la distribution aléatoire des adresses locales. Cela peut légèrement réduire votre sécurité, mais vous permet d\'utiliser des techniques de type connexion directe pour des applications comme les jeux en ligne. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="use_coupon_title">Utiliser un code promotionnel</string>
     <string name="use_coupon_code_label">Code promotionnel</string>
-    <string name="use_coupon_success">Le code promotionnel a bien été appliqué.</string>
-    <string name="use_coupon_success_no_upgrade_yet">Le code promotionnel a bien été appliqué. Votre abonnement sera mis à niveau dans quelques minutes.</string>
+    <string name="use_coupon_success">Le code promotionnel a été appliqué.</string>
+    <string name="use_coupon_success_no_upgrade_yet">Le code promotionnel a été appliqué. Votre abonnement sera mis à niveau dans quelques minutes.</string>
     <string name="restrictedMaintenanceTitle">En maintenance</string>
     <string name="restrictedMaintenanceDescription">Le serveur auquel vous essayez de vous connecter est en cours de maintenance. Veuillez utiliser un autre serveur.</string>
     <string name="errorUserDelinquent"><![CDATA[Vous avez une facture en retard sur votre compte. Rendez-vous sur &#160;<a href="https://account.protonvpn.com">account.protonvpn.com pour la payer</a>.]]></string>
