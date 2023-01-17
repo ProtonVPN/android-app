@@ -32,6 +32,7 @@ import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
 import com.protonvpn.android.telemetry.StatsBody
+import com.protonvpn.android.telemetry.StatsEvent
 import com.protonvpn.android.utils.mobileCountryCode
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.data.protonApi.RefreshTokenRequest
@@ -140,13 +141,8 @@ open class ProtonApiRetroFit(
     open suspend fun postPromoCode(code: String): ApiResult<GenericResponse> =
         manager { postPromoCode(PromoCodesBody("VPN", listOf(code))) }
 
-    suspend fun postStats(
-        measurementGroup: String,
-        event: String,
-        values: Map<String, Long>,
-        dimensions: Map<String, String>
-    ): ApiResult<GenericResponse> =
-        manager { postStats(StatsBody(measurementGroup, event, values, dimensions)) }
+    suspend fun postStats(events: List<StatsEvent>): ApiResult<GenericResponse> =
+        manager { postStats(StatsBody(events)) }
 
     private suspend fun <T> makeCall(
         loader: LoaderUI?,

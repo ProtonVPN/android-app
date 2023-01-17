@@ -44,6 +44,8 @@ import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.notifications.NotificationHelper
+import com.protonvpn.android.telemetry.TelemetryUploadScheduler
+import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
@@ -187,6 +189,9 @@ object AppModuleProd {
 
         @Binds
         fun bindVpnPrepareDelegate(delegate: VpnServicePermissionDelegate): VpnPermissionDelegate
+
+        @Binds
+        fun bindTelemetryUploadScheduler(scheduler: TelemetryUploadWorkerScheduler): TelemetryUploadScheduler
     }
 }
 

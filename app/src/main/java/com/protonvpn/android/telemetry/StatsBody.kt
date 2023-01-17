@@ -24,6 +24,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class StatsBody(
+    @SerialName("EventInfo") val events: List<StatsEvent>
+)
+
+@Serializable
+data class StatsEvent(
     @SerialName("MeasurementGroup") val measurementGroup: String,
     @SerialName("Event") val event: String,
     @SerialName("Values") val values: Map<String, Long>,

@@ -37,6 +37,8 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.telemetry.NoopTelemetryUploadScheduler
+import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.NewLookDialogProvider
@@ -249,6 +251,9 @@ class MockAppModule {
         @Binds
         @Singleton
         fun provideVpnDispatcherProvider(impl: EspressoDispatcherProvider): VpnDispatcherProvider
+
+        @Binds
+        fun bindTelemetryUploadScheduler(scheduler: NoopTelemetryUploadScheduler): TelemetryUploadScheduler
     }
 }
 

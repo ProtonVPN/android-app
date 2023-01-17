@@ -138,7 +138,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     @POST("payments/v4/promocode")
     suspend fun postPromoCode(@Body params: PromoCodesBody): GenericResponse
 
-    @POST("data/v1/stats")
+    @POST("data/v1/stats/multiple")
     suspend fun postStats(@Body data: StatsBody): GenericResponse
 
     @GET("vpn/v1/partners")
