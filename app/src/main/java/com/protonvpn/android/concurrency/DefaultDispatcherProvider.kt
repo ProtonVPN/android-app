@@ -19,7 +19,10 @@
 
 package com.protonvpn.android.concurrency
 
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.asCoroutineDispatcher
 import me.proton.core.util.kotlin.DispatcherProvider
+import java.util.concurrent.Executors
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,4 +30,8 @@ import javax.inject.Singleton
 class DefaultDispatcherProvider @Inject constructor(dispatcherProvider: DispatcherProvider) :
     VpnDispatcherProvider, DispatcherProvider by dispatcherProvider {
     override val infiniteIo = Io
+    override fun newSingleThreadDispatcher(): CoroutineDispatcher =
+        Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+
+    override fun newSingleThreadDispatcherForInifiniteIo(): CoroutineDispatcher = newSingleThreadDispatcher()
 }

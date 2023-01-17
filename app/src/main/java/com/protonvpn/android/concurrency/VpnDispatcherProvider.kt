@@ -28,4 +28,15 @@ interface VpnDispatcherProvider : DispatcherProvider {
      * Use the Io dispatcher for regular IO tasks.
      */
     val infiniteIo: CoroutineDispatcher
+
+    /**
+     * Creates a new, single thread coroutine dispatcher.
+     */
+    fun newSingleThreadDispatcher(): CoroutineDispatcher
+
+    /**
+     * Creates a new, single thread coroutine dispatcher for tasks that block (almost) infinitely, like reading from
+     * logcat.
+     */
+    fun newSingleThreadDispatcherForInifiniteIo(): CoroutineDispatcher
 }

@@ -51,7 +51,6 @@ import com.wireguard.android.backend.Tunnel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -62,7 +61,6 @@ import okhttp3.OkHttpClient
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.concurrent.CancellationException
-import java.util.concurrent.Executors
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -85,7 +83,7 @@ class WireguardBackend @Inject constructor(
     userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
     dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, okHttp
 ) {
-    private val wireGuardIo = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+    private val wireGuardIo = dispatcherProvider.newSingleThreadDispatcherForInifiniteIo()
     private val backend: GoBackend = GoBackend(WireguardContextWrapper(context))
 
     private var monitoringJob: Job? = null
