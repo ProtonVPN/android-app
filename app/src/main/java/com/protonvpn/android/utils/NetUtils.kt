@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.utils
 
+import com.protonvpn.android.BuildConfig
 import me.proton.core.network.domain.ApiResult
 import java.io.ByteArrayOutputStream
 import java.io.DataOutputStream
@@ -41,9 +42,14 @@ object NetUtils {
     private val ipv6Pattern =
         Regex("(?:^|(?<=\\s))(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))(?=\\s|\$)")
 
-    fun String.maskAnyIP(): String =
-        replace(ipv4Pattern, "masked-ipv4").replace(ipv6Pattern, "masked-ipv6")
-
+    fun String.maskAnyIP(): String {
+        // Swapping of version name is necessary because it falls under IPv4 valid regex and we do not want to replace
+        // our app version in logs
+        return replace(BuildConfig.VERSION_NAME, "REPLACED_VERSION_REGEX")
+            .replace(ipv4Pattern, "masked-ipv4")
+            .replace(ipv6Pattern, "masked-ipv6")
+            .replace("REPLACED_VERSION_REGEX", BuildConfig.VERSION_NAME)
+    }
 
     fun byteArrayBuilder(block: DataOutputStream.() -> Unit): ByteArray {
         val byteStream = ByteArrayOutputStream()
