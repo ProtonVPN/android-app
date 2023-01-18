@@ -1,0 +1,4 @@
+What's new:
+* Improves connection stability with poor network conditions.
+* "Save to profile" now creates a profile for the server currently connected to.
+* Fixes a bug with multiple profiles being shown as connected.
