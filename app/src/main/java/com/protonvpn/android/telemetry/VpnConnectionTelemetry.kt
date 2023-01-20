@@ -40,11 +40,6 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val MEASUREMENT_GROUP = "vpn.any.connection"
-private const val EVENT_CONNECT = "vpn_connection"
-private const val EVENT_DISCONNECT = "vpn_disconnection"
-private const val NO_VALUE = "n/a"
-
 @Singleton
 class VpnConnectionTelemetry @Inject constructor(
     private val mainScope: CoroutineScope,
@@ -201,4 +196,11 @@ class VpnConnectionTelemetry @Inject constructor(
     }
 
     private fun Boolean.toOutcome() = if (this) Outcome.SUCCESS else Outcome.FAILURE
+
+    companion object {
+        const val MEASUREMENT_GROUP = "vpn.android.connection"
+        private const val EVENT_CONNECT = "vpn_connection"
+        private const val EVENT_DISCONNECT = "vpn_disconnection"
+        private const val NO_VALUE = "n/a"
+    }
 }

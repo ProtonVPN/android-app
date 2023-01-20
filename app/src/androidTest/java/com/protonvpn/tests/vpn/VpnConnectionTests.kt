@@ -793,7 +793,7 @@ class VpnConnectionTests {
         manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
 
         val dimensions = slot<Map<String, String>>()
-        verify(exactly = 1) { mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), capture(dimensions)) }
+        verify(exactly = 1) { mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), capture(dimensions)) }
         assertEquals("failure", dimensions.captured["outcome"])
     }
 
@@ -811,8 +811,8 @@ class VpnConnectionTests {
         val connectDimensions = slot<Map<String, String>>()
         val disconnectDimensions = slot<Map<String, String>>()
         verifyOrder {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), capture(connectDimensions))
-            mockTelemetry.event("vpn.any.connection", "vpn_disconnection", any(), capture(disconnectDimensions))
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), capture(connectDimensions))
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_disconnection", any(), capture(disconnectDimensions))
         }
         assertEquals("success", connectDimensions.captured["outcome"])
         assertEquals("failure", disconnectDimensions.captured["outcome"])
@@ -854,7 +854,7 @@ class VpnConnectionTests {
 
         val disconnectDimensions = slot<Map<String, String>>()
         verify {
-            mockTelemetry.event("vpn.any.connection", "vpn_disconnection", any(), capture(disconnectDimensions))
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_disconnection", any(), capture(disconnectDimensions))
         }
         assertEquals("success", disconnectDimensions.captured["outcome"])
     }
@@ -872,7 +872,7 @@ class VpnConnectionTests {
 
         val dimensions = slot<Map<String, String>>()
         verifyOrder {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), capture(dimensions))
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), capture(dimensions))
         }
         assertEquals("failure", dimensions.captured["outcome"])
     }
@@ -890,7 +890,7 @@ class VpnConnectionTests {
 
         val dimensions = slot<Map<String, String>>()
         verify(exactly = 1) {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), capture(dimensions))
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), capture(dimensions))
         }
         assertEquals(expectedOutcome, dimensions.captured["outcome"])
         assertEquals("quick", dimensions.captured["vpn_trigger"]) // Initial trigger is reported.

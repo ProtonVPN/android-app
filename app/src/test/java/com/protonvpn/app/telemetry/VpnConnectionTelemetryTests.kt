@@ -153,7 +153,7 @@ class VpnConnectionTelemetryTests {
         )
         verify {
             mockTelemetry.event(
-                "vpn.any.connection", "vpn_connection", expectedValues, expectedDimensions
+                VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", expectedValues, expectedDimensions
             )
         }
     }
@@ -170,7 +170,7 @@ class VpnConnectionTelemetryTests {
 
         connectSequence(connectionParams)
 
-        verify { mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), any()) }
+        verify { mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any()) }
         assertEquals("free,partnership", dimensions.captured["server_features"])
     }
 
@@ -202,7 +202,7 @@ class VpnConnectionTelemetryTests {
         )
         verify {
             mockTelemetry.event(
-                "vpn.any.connection", "vpn_connection", expectedValues, expectedDimensions
+                VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", expectedValues, expectedDimensions
             )
         }
 
@@ -212,7 +212,7 @@ class VpnConnectionTelemetryTests {
 
         verify {
             mockTelemetry.event(
-                "vpn.any.connection", "vpn_connection", mapOf("time_to_connection" to 10L), any()
+                VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", mapOf("time_to_connection" to 10L), any()
             )
         }
         assertEquals("auto", dimensions.captured["vpn_trigger"])
@@ -228,7 +228,7 @@ class VpnConnectionTelemetryTests {
 
         vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Auto("Test"))
         verify(exactly = 1) {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), any())
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any())
         }
         assertEquals("aborted", dimensions.captured["outcome"])
         assertEquals("quick", dimensions.captured["vpn_trigger"])
@@ -238,7 +238,7 @@ class VpnConnectionTelemetryTests {
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
 
         verify(exactly = 2) {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), any())
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any())
         }
         assertEquals("success", dimensions.captured["outcome"])
         assertEquals("auto", dimensions.captured["vpn_trigger"])
@@ -252,7 +252,7 @@ class VpnConnectionTelemetryTests {
         vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.QuickConnect("test"), null)
 
         verify(exactly = 1) {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), capture(dimensions))
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), capture(dimensions))
         }
         assertEquals("aborted", dimensions.captured["outcome"])
     }
@@ -265,7 +265,7 @@ class VpnConnectionTelemetryTests {
         vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.Error("error"), null)
 
         verify(exactly = 1) {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), capture(dimensions))
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), capture(dimensions))
         }
         assertEquals("failure", dimensions.captured["outcome"])
     }
@@ -278,20 +278,20 @@ class VpnConnectionTelemetryTests {
         val connectionParams = createConnectionParams(plusServer, ProtocolSelection.REAL_PROTOCOLS[0], 123)
         connectSequence(connectionParams) // Put VpnConnectionTelemetry in "connected" state.
         verify(exactly = 1) {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), any())
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any())
         }
 
         vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"))
         vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.NewConnection, null)
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
-        verify { mockTelemetry.event("vpn.any.connection", "vpn_disconnection", any(), any()) }
+        verify { mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_disconnection", any(), any()) }
         verify(exactly = 1) {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), any())
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any())
         }
 
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
 
-        verify(exactly = 2) { mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), any()) }
+        verify(exactly = 2) { mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any()) }
         assertEquals("success", dimensions.captured["outcome"])
         assertEquals("quick", dimensions.captured["vpn_trigger"])
     }
@@ -304,7 +304,7 @@ class VpnConnectionTelemetryTests {
         val connectionParams = createConnectionParams(plusServer, ProtocolSelection.REAL_PROTOCOLS[0], 123)
         connectSequence(connectionParams)
         verify(exactly = 1) {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), any())
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any())
         }
         testScheduler.advanceTimeBy(100)
         // Simulate local agent reconnection.
@@ -312,7 +312,7 @@ class VpnConnectionTelemetryTests {
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
         // No new events.
         verify(exactly = 1) {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), any())
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any())
         }
         testScheduler.advanceTimeBy(100)
 
@@ -320,7 +320,7 @@ class VpnConnectionTelemetryTests {
         vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.QuickConnect("test"), null)
         val expectedValues = mapOf("session_length" to 200L)
         verify(exactly = 1) {
-            mockTelemetry.event("vpn.any.connection", "vpn_disconnection", expectedValues, any())
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_disconnection", expectedValues, any())
         }
     }
 
@@ -331,7 +331,7 @@ class VpnConnectionTelemetryTests {
 
         val dimensions = slot<Map<String, String>>()
         verify(exactly = 1) {
-            mockTelemetry.event("vpn.any.connection", "vpn_connection", any(), capture(dimensions))
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), capture(dimensions))
         }
         assertEquals("PL", dimensions.captured["vpn_country"])
     }
