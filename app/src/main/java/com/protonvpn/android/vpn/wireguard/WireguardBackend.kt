@@ -162,6 +162,7 @@ class WireguardBackend @Inject constructor(
             val networkJob = launch(dispatcherProvider.Main) {
                 networkManager.observe().collect { status ->
                     val isConnected = status != NetworkStatus.Disconnected
+                    ProtonLogger.logCustom(LogCategory.CONN_WIREGUARD, "set network available: $isConnected")
                     withContext(wireGuardIo) {
                         backend.setNetworkAvailable(isConnected)
                     }
