@@ -118,7 +118,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Нестандартные порты</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Используйте Proton VPN для любых особых нужд, разрешая трафик на нестандартные порты через VPN. <a href="%1$s">Подробнее</a>]]></string>
     <string name="settingsModerateNatTitle">Умеренное NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Умеренный NAT отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать прямые соединения требующих этого приложений, например, онлайн-игр. <a href="%1$s">Подробнее</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Умеренное NAT отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать такие методы, как прямые соединения для таких приложений, как онлайн-игры. <a href="%1$s">Подробнее</a>]]></string>
     <string name="use_coupon_title">Использовать купон</string>
     <string name="use_coupon_code_label">Код купона</string>
     <string name="use_coupon_success">Купон успешно применен</string>
@@ -186,7 +186,7 @@
     <string name="report_bug_email_label">Ваша эл. почта</string>
     <string name="report_bug_email_hint">Введите адрес вашей электронной почты</string>
     <string name="report_bug_message_label">Сообщение</string>
-    <string name="report_bug_message_hint">Опишите ошибку и как и где вы ее нашли</string>
+    <string name="report_bug_message_hint">Опишите ошибку и где вы ее нашли</string>
     <string name="send_report">Отправить сообщение</string>
     <string name="excludeIpTitle">Исключенные IP-адреса</string>
     <string name="discardChanges">Сбросить несохраненные изменения?</string>
@@ -237,12 +237,12 @@
     <string name="noVpnPermissionMainMessage">Чтобы подключиться к Proton VPN, сделайте следующее:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Предоставить разрешение VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android требует вашего разрешения на подключение к Proton VPN. Дайте разрешение, нажав \"OK\", когда появится окно \"Запрос на подключение\" от Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянный VPN для других приложений</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянный VPN во всех остальных приложениях VPN, кроме Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянную VPN для других приложений</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянную VPN во всех остальных приложениях VPN, кроме Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
     <string name="noVpnPermissionOpenSettings">Открыть настройки Android VPN</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянный VPN во всех других приложениях VPN в настройках системы Android, так как это мешает Proton VPN устанавливать подключение к VPN. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее это разрешение. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянную VPN во всех других приложениях VPN в настройках системы Android, так как это мешает Proton VPN устанавливать подключение к VPN. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
     <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
     <string name="error_prepare_vpn_title">Ошибка: проблема VPN разрешений</string>
     <string name="error_server_not_set">Сервер больше недоступен</string>
@@ -313,8 +313,8 @@
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Возможно, ваша страна блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для доступа к Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянная VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Настроить действия Proton VPN при нарушении подключения</string>
-    <string name="settingsAlwaysOnWindowHeader">Как включить постоянный VPN и Kill Switch:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
+    <string name="settingsAlwaysOnWindowHeader">Как включить постоянную VPN и Kill Switch:</string>
+    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>Настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Найдите Proton VPN и нажмите %1$s</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
@@ -379,7 +379,7 @@
     <string name="tv_upgrade_title">Смотрите трансляции с Plus</string>
     <string name="back">Назад</string>
     <string name="tv_upgrade_url_details"><![CDATA[Посетите <b>%1$s</b>, чтобы улучшить до Proton VPN Plus прямо сейчас.]]></string>
-    <string name="tv_upgrade_description">Подключите тарифный план Proton VPN Plus, чтобы получить доступ к более чем 500 серверам по всему миру и оптимизированным возможностям трансляций Netflix, Amazon Prime Video, Disney+ и многих других.</string>
+    <string name="tv_upgrade_description">Получите тарифный план Proton VPN Plus, чтобы получить доступ к более чем 500 серверам по всему миру и оптимизированным возможностям трансляций Netflix, Amazon Prime Video, Disney+ и многих других.</string>
     <string name="tv_vpn_error_dialog_title">Сбой VPN-подключения</string>
     <string name="tv_signout_label">Выйти</string>
     <string name="tv_signout_dialog_title">Вы уверены, что хотите выйти?</string>
@@ -409,7 +409,7 @@
     <string name="settingsReconnectToApplySettingsDialogContent">Новые настройки будут применены при следующем подключении.</string>
     <string name="settingsReconnectToChangeDialogContent">Ваше подключение перезапустится.</string>
     <string name="reconnectToEnableNetshield">Ваше подключение перезапустится.\n\nУчтите, что некоторые сайты могут не загружаться при включенном NetShield.</string>
-    <string name="notification_subscription_expired_title">Срок действия вашей подписки на тариф Proton VPN истек</string>
+    <string name="notification_subscription_expired_title">Срок вашей подписки на тариф Proton VPN истек</string>
     <string name="notification_subscription_expired_content">Нам пришлось понизить ваш тариф, но мы вновь подключаем вас к самому быстрому серверу, доступному на этом тарифе.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Вы перешли на более дешевую версию подписки.</string>
     <string name="notification_delinquent_title">В Вашем аккаунте Proton VPN есть неоплаченные счета</string>
@@ -460,7 +460,7 @@
         <item quantity="many">%1$d стран</item>
         <item quantity="other">%1$d стран</item>
     </plurals>
-    <string name="upsell_upgrade_again">Улучшите снова, чтобы насладиться всеми функциями:</string>
+    <string name="upsell_upgrade_again">Улучшите снова, чтобы воспользоваться всеми функциями:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
     <string name="upgrade_plus_subtitle">Когда вы улучшите до Plus</string>
@@ -494,7 +494,7 @@
         <item quantity="one">%d защищенный сервер</item>
         <item quantity="few">%d защищенных сервера</item>
         <item quantity="many">%d защищенных серверов</item>
-        <item quantity="other">%d защищенного сервера</item>
+        <item quantity="other">%d защищенных серверов</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -505,7 +505,7 @@
         <item quantity="one">%d страна</item>
         <item quantity="few">%d страны</item>
         <item quantity="many">%d стран</item>
-        <item quantity="other">%d страны</item>
+        <item quantity="other">%d стран</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_servers_new"
@@ -521,7 +521,7 @@
      Example:
      You now have access to 1300+ secure servers and other premium features.
      -->
-    <string name="onboarding_plan_congrats_description">Теперь у вас есть доступ к %1$s и другим премиум-функциям.</string>
+    <string name="onboarding_plan_congrats_description">Теперь у вас есть доступ к %1$s и другим платным функциям.</string>
     <string name="upgrade_plus_countries_streaming">Получите доступ к глобальным службам трансляции</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
@@ -536,8 +536,8 @@
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
     <string name="upgrade_safe_mode_message">У вас есть расширенные или профессиональные потребности использовать нестандартные порты? Перейдите на VPN Plus, чтобы получить доступ к этой и другим премиальным функциям.</string>
     <string name="upgrade_moderate_nat_title">Включить умеренное NAT</string>
-    <string name="upgrade_moderate_nat_message">Умеренный NAT, также известный как Nat Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
-    <string name="upgrade_moderate_nat_learn_more">Что такое Умеренный NAT?</string>
+    <string name="upgrade_moderate_nat_message">Умеренное NAT, также известное как Nat Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">Что такое Умеренное NAT?</string>
     <string name="upgrade_see_plans_button">Посмотрите тарифы и цены</string>
     <string name="upgrade_not_now_button">Не сейчас</string>
     <string name="upgrade_learn_more">Подробнее</string>
@@ -596,7 +596,7 @@
         <item quantity="one">%1$d сервер</item>
         <item quantity="few">%1$d сервера</item>
         <item quantity="many">%1$d серверов</item>
-        <item quantity="other">%1$d сервера</item>
+        <item quantity="other">%1$d серверов</item>
     </plurals>
     <!-- Embedded in "onboarding_connection_description", e.g.:
          Free subscription offers 65 servers in 3 countries
@@ -606,8 +606,8 @@
     <plurals name="onboarding_connection_description_countries">
         <item quantity="one">%1$d страна</item>
         <item quantity="few">%1$d страны</item>
-        <item quantity="many">%1$d+ стран</item>
-        <item quantity="other">%1$d страны</item>
+        <item quantity="many">%1$d стран</item>
+        <item quantity="other">%1$d стран</item>
     </plurals>
     <string name="onboarding_connection_info">Мы подключим вас к самому быстрому и стабильному серверу для вашего местоположения.</string>
     <string name="onboading_connect_now">Подключить сейчас</string>
@@ -667,13 +667,13 @@
         <item quantity="one">Получите доступ к %1$d стране</item>
         <item quantity="few">Получите доступ к %1$d странам</item>
         <item quantity="many">Получите доступ к %1$d странам</item>
-        <item quantity="other">Получите доступ к %1$d стране</item>
+        <item quantity="other">Получите доступ к %1$d странам</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Больше местоположений = больше разблокированного содержимого + дополнительная безопасность + более высокая скорость</string>
     <string name="new_look_dialog_title_new_plans">Обновленный Proton и комплексная защита</string>
     <string name="new_look_dialog_message_new_plans"><![CDATA[Представляем обновленный вид Proton. Много служб, одна миссия. Добро пожаловать Интернет, конфиденциальный по умолчанию. <a href="%1$s">Learn&nbsp;more</a>]]></string>
     <string name="ikev2_removed_dialog_title">Протокол IKEv2 VPN больше не доступен</string>
-    <string name="ikev2_removed_dialog_message">Умолчания и профили, которые ранее использовали IKEv2, теперь будут использовать протокол Smart.</string>
+    <string name="ikev2_removed_dialog_message">Значения по умолчанию и профили, которые ранее использовали IKEv2, теперь будут использовать протокол Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Посетите <a href="https://protonvpn.com/pricing">protonvpn.com</a> для получения дополнительной информации.</string>
 </resources>

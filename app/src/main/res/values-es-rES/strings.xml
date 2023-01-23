@@ -32,8 +32,8 @@
     <string name="loginCreateAccount">Crear una cuenta nueva</string>
     <string name="loginNeedHelp">¿Necesitas ayuda?</string>
     <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nProfessional\u00a0/\u00a0Visionary</string>
-    <string name="connectionAllocationHelpDescription1">Para comenzar su viaje en Proton VPN, asigne conexiones VPN a su cuenta o a cualquier otra subcuenta.</string>
-    <string name="connectionAllocationHelpDescription2">Este paso le llevará sólo unos minutos. Después de eso podrás iniciar sesión y proteger todos tus dispositivos.</string>
+    <string name="connectionAllocationHelpDescription1">Para comenzar tu viaje en Proton VPN, asigna conexiones VPN a tu cuenta o a cualquier otra subcuenta.</string>
+    <string name="connectionAllocationHelpDescription2">Este paso te llevará sólo unos minutos. Después de eso podrás iniciar sesión y proteger todos tus dispositivos.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Asignar conexiones VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión de nuevo</string>
     <string name="mapCalloutConnect">Conectar</string>
@@ -41,10 +41,10 @@
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Advertencia</string>
     <string name="secureCoreSpeedInfoTitle">Una nota sobre la velocidad…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core ofrece el máximo nivel de seguridad y privacidad, pero puede reducir la velocidad de Internet. Si necesitas más rendimiento, puedes desactivar Secure Core.</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core ofrece el máximo nivel de seguridad y privacidad, pero podría reducir la velocidad de Internet. Si necesitas más rendimiento, puedes deshabilitar Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Activar Secure Core</string>
     <string name="logoutConfirmDialogTitle">¿Cerrar sesión?</string>
-    <string name="logoutConfirmDialogMessage">Al cerrar la sesión, su dispositivo se desconectará de la VPN.</string>
+    <string name="logoutConfirmDialogMessage">Cerrar sesión desconectará su dispositivo de la VPN.</string>
     <string name="logoutConfirmDialogButton">Cerrar sesión</string>
     <string name="showAllProfiles">Mostrar todos los perfiles</string>
     <string name="yes">Sí</string>
@@ -105,7 +105,7 @@
     <string name="settingsSectionSecurity">Seguridad</string>
     <string name="settingsSectionAdvanced">Avanzado</string>
     <string name="settingsAutoStartTitle">Iniciar con Android</string>
-    <string name="settingsAutoStartDescription">Proton VPN comenzará automáticamente con cada inicio del sistema</string>
+    <string name="settingsAutoStartDescription">Proton VPN se iniciará automáticamente con cada inicio del sistema</string>
     <string name="settingsBypassLocalTitle">Conexiones LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Protección contra filtración de DNS</string>
     <string name="settingsDnsLeakDescription">Evitar filtraciones sobre detalles de consultas DNS a terceros (siempre activadas)</string>
@@ -116,24 +116,24 @@
     <string name="settingsDefaultConnectionTitle">Conexión rápida</string>
     <string name="settingsDefaultConnectionDescription">El botón de conexión rápida le conecta al perfil seleccionado</string>
     <string name="settingsAllowNonStandardPortsTitle">Puertos no estándar</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilice Proton VPN para cualquier necesidad especial permitiendo el tráfico a puertos no estándar a través de la red VPN. <a href="%1$s">más información</a>]]></string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utiliza Proton VPN para cualquier necesidad especial permitiendo el tráfico a puertos no estándar a través de la red VPN. <a href="%1$s">Más información</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderada</string>
-    <string name="settingsModerateNatDescription"><![CDATA[El NAT moderado desactiva la aleatorización del mapeo de las direcciones locales, lo que puede reducir ligeramente su seguridad, pero permite técnicas como las conexiones directas para aplicaciones como los juegos en línea. <a href="%1$s"> Más información</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[La NAT moderada desactiva la aleatorización del mapeo de las direcciones locales, lo que puede reducir ligeramente su seguridad, pero permite técnicas como las conexiones directas para aplicaciones como los juegos en línea. <a href="%1$s">Más información</a>]]></string>
     <string name="use_coupon_title">Añadir cupón</string>
     <string name="use_coupon_code_label">Código de descuento</string>
     <string name="use_coupon_success">El cupón se ha aplicado con éxito</string>
-    <string name="use_coupon_success_no_upgrade_yet">El cupón se ha aplicado con éxito. Su suscripción se actualizará en unos minutos.</string>
+    <string name="use_coupon_success_no_upgrade_yet">El cupón se ha aplicado con éxito. Tu suscripción se actualizará en unos minutos.</string>
     <string name="restrictedMaintenanceTitle">En mantenimiento</string>
     <string name="restrictedMaintenanceDescription">El servidor al que se está intentando conectar está en mantenimiento. Por favor, inténtelo con otro servidor.</string>
     <string name="errorUserDelinquent"><![CDATA[Su cuenta tiene una factura vencida. Por favor, pague todas las facturas pendientes de pago en&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Has alcanzado el número máximo de conexiones simultáneas permitidas para tu cuenta. Por favor, mejora tu plan Proton VPN para obtener más conexiones.</string>
+    <string name="errorMaxSessions">Has alcanzado el número máximo de conexiones simultáneas permitidas para tu cuenta. Mejora tu plan Proton VPN para obtener más conexiones.</string>
     <string name="errorEmptyName">El campo del nombre del perfil no puede estar vacío</string>
     <string name="errorEmptyCountry">El campo del país no puede estar vacío</string>
     <string name="errorEmptyServer">El campo del servidor no puede estar vacío</string>
     <string name="errorEmptyEntryCountry">El campo del país de entrada no puede estar vacío</string>
     <string name="errorEmptyExitCountry">El campo de salida del país no puede estar vacío</string>
     <string name="onboardingDialogMapView">Utilice la vista de mapa para conectarse y ver prácticamente dónde está el servidor VPN.</string>
-    <string name="onboardingDialogProfiles">Cree perfiles para sus servidores favoritos y acceda fácilmente a ellos. Además, un toque prolongado en el icono de Proton VPN en la pantalla inferior le mostrará todos sus perfiles. Un toque en uno de los perfiles lo conectará a VPN.</string>
+    <string name="onboardingDialogProfiles">Crea perfiles para tus servidores favoritos y accede fácilmente a ellos. Además, un toque prolongado en el icono de Proton VPN en la pantalla inferior te mostrará todos tus perfiles. Un toque en uno de los perfiles te conectará a VPN.</string>
     <string name="onboardingNetshield">Te mantiene protegido contra malware, anuncios y rastreadores.\nNota: si algunos sitios no se cargan, prueba a desactivar NetShield.</string>
     <string name="onboardingFAB">Conexión rápida / Perfiles</string>
     <string name="onboardingFABDescription">Pulse este botón para la forma más rápida de conectarse</string>
@@ -161,12 +161,12 @@
     <string name="state_connected">Conectado</string>
     <string name="state_disconnecting">Desconectando…</string>
     <string name="state_error">Error</string>
-    <string name="error_server_unreachable">No se ha podido conectar a la VPN. Por favor, comprueba tu conexión e inténtalo de nuevo.</string>
+    <string name="error_server_unreachable">No se ha podido conectar a la VPN. Comprueba tu conexión e inténtalo de nuevo.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Autenticación de usuario fallida.</string>
     <string name="error_assessment_failed">La evaluación de seguridad falló.</string>
     <string name="error_generic">Error no especificado al conectar.</string>
-    <string name="error_generic_with_reason">Proton VPN no pudo establecer una conexión VPN. Por favor, inténtelo de nuevo en unos segundos.<br/><br/>detalles: %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN no pudo establecer una conexión VPN. Inténtalo de nuevo en unos segundos.<br/><br/>Detalles: %1$s</string>
     <string name="reconnect">Reconectar</string>
     <string name="reconnect_now">Reconectar ahora</string>
     <string name="try_reconnecting">Try reconnecting</string>
@@ -186,7 +186,7 @@
     <string name="report_bug_email_label">Tu correo electrónico</string>
     <string name="report_bug_email_hint">Introduce tu dirección de correo electrónico</string>
     <string name="report_bug_message_label">Mensaje</string>
-    <string name="report_bug_message_hint">Por favor, describa el fallo y cómo y dónde lo encontró</string>
+    <string name="report_bug_message_hint">Describe el fallo, cómo y dónde lo encontró</string>
     <string name="send_report">Enviar informe</string>
     <string name="excludeIpTitle">Excluir direcciones IP</string>
     <string name="discardChanges">¿Descartar los cambios no guardados?</string>
@@ -411,7 +411,7 @@
     <string name="notification_subscription_expired_content">Tuvimos que rebajar tu plan, pero te estamos reconectando al servidor más rápido disponible en ese plan.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Tu suscripción ha sido degradada.</string>
     <string name="notification_delinquent_title">Tu cuenta de Proton VPN tiene facturas pendientes de pago</string>
-    <string name="notification_delinquent_content">Por favor, tómate un momento para actualizar tu información de facturación para mantener tu suscripción activa.</string>
+    <string name="notification_delinquent_content">Tómate un momento para actualizar tu información de facturación para mantener tu suscripción activa.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Has sido cambiado a un servidor más rápido que es similar al que has seleccionado.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
