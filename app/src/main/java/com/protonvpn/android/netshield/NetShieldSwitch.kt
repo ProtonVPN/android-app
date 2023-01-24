@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.components
+package com.protonvpn.android.netshield
 
 import android.content.Context
 import android.content.Intent
@@ -35,8 +35,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.components.RadioButtonEx
 import com.protonvpn.android.databinding.ItemNetshieldBinding
-import com.protonvpn.android.models.config.NetShieldProtocol
 import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldDialogActivity
 import com.protonvpn.android.vpn.VpnConnectionManager

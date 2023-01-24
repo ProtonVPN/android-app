@@ -29,11 +29,11 @@ import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.components.NetShieldSwitch
+import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.logUiSettingChange
-import com.protonvpn.android.models.config.NetShieldProtocol
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.home.HomeActivity

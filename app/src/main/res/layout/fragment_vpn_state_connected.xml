@@ -25,7 +25,7 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <com.protonvpn.android.components.NetShieldSwitch
+    <com.protonvpn.android.netshield.NetShieldSwitch
         android:id="@+id/netShieldSwitch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

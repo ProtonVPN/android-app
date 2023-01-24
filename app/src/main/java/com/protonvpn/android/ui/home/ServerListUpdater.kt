@@ -30,6 +30,7 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.netshield.NetShieldExperiment
 import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
@@ -63,6 +64,7 @@ class ServerListUpdater @Inject constructor(
     val currentUser: CurrentUser,
     val vpnStateMonitor: VpnStateMonitor,
     userPlanManager: UserPlanManager,
+    private val netShieldExperiment: NetShieldExperiment,
     private val prefs: ServerListUpdaterPrefs,
     @WallClock private val wallClock: () -> Long,
     private val getNetZone: GetNetZone,
@@ -214,6 +216,7 @@ class ServerListUpdater @Inject constructor(
             }
         }
         loaderUI?.switchToLoading()
+        netShieldExperiment.fetchExperiment()
 
         val lang = Locale.getDefault().language
         val netzone = getNetZone()
