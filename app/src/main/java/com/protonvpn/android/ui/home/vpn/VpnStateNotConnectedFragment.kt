@@ -26,7 +26,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
-import com.protonvpn.android.components.NetShieldSwitch
+import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.databinding.FragmentVpnStateNotConnectedBinding
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint

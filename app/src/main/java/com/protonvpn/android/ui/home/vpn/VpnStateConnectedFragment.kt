@@ -41,7 +41,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.components.NetShieldSwitch
+import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.databinding.FragmentVpnStateConnectedBinding
 import com.protonvpn.android.ui.ServerLoadColor.getColor
 import com.protonvpn.android.ui.snackbar.SnackbarHelper

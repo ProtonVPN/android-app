@@ -29,6 +29,7 @@ import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.ui.home.GetNetZone
+import com.protonvpn.android.netshield.NetShieldExperiment
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.NetUtils
@@ -85,6 +86,8 @@ class ServerListUpdaterTests {
     private lateinit var mockPlanManager: UserPlanManager
     @RelaxedMockK
     private lateinit var mockTelephonyManager: TelephonyManager
+    @RelaxedMockK
+    private lateinit var mockNetshieldExperiment: NetShieldExperiment
     @MockK
     private lateinit var mockPartnershipsRepository: PartnershipsRepository
 
@@ -127,6 +130,7 @@ class ServerListUpdaterTests {
             mockCurrentUser,
             mockVpnStateMonitor,
             mockPlanManager,
+            mockNetshieldExperiment,
             serverListUpdaterPrefs,
             { clockMs },
             getNetZone,

@@ -43,7 +43,7 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.InstalledAppsProvider
-import com.protonvpn.android.components.NetShieldSwitch
+import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.databinding.ActivitySettingsBinding
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiReconnect
