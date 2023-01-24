@@ -29,6 +29,7 @@ import dagger.hilt.android.HiltAndroidApp
 import me.proton.core.auth.presentation.MissingScopeInitializer
 import me.proton.core.crypto.validator.presentation.init.CryptoValidatorInitializer
 import me.proton.core.plan.presentation.UnredeemedPurchaseInitializer
+import me.proton.core.network.presentation.init.UnAuthSessionFetcherInitializer
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -47,6 +48,7 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
             AppInitializer.getInstance(this).initializeComponent(CryptoValidatorInitializer::class.java)
             AppInitializer.getInstance(this).initializeComponent(MissingScopeInitializer::class.java)
             AppInitializer.getInstance(this).initializeComponent(UnredeemedPurchaseInitializer::class.java)
+            AppInitializer.getInstance(this).initializeComponent(UnAuthSessionFetcherInitializer::class.java)
             if (BuildConfig.DEBUG) {
                 WebView.setWebContentsDebuggingEnabled(true)
                 testNotificationLoader.get().loadTestFile()
