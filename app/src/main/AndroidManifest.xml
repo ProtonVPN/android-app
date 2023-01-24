@@ -330,6 +330,12 @@
                 android:name="me.proton.core.plan.presentation.UnredeemedPurchaseInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
+
+            <meta-data
+                android:name="me.proton.core.network.presentation.init.UnAuthSessionFetcherInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+
         </provider>
     </application>
 
