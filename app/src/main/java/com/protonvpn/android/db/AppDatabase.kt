@@ -22,6 +22,8 @@ package com.protonvpn.android.db
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.TypeConverters
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicCallInfo
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDatabase
 import com.protonvpn.android.auth.data.VpnUserDatabase
 import com.protonvpn.android.auth.data.VpnUser
 import me.proton.core.account.data.db.AccountConverters
@@ -91,11 +93,13 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         // observability
         ObservabilityEventEntity::class,
         // vpn
+        PeriodicCallInfo::class,
         VpnUser::class
     ],
     autoMigrations = [
         AutoMigration(from = 3, to = 4),
         AutoMigration(from = 6, to = 7),
+        AutoMigration(from = 14, to = 15),
     ],
     version = AppDatabase.version,
     exportSchema = true
@@ -118,6 +122,7 @@ abstract class AppDatabase :
     HumanVerificationDatabase,
     KeySaltDatabase,
     OrganizationDatabase,
+    PeriodicUpdatesDatabase,
     UserDatabase,
     UserSettingsDatabase,
     PaymentDatabase,
@@ -125,7 +130,7 @@ abstract class AppDatabase :
     ObservabilityDatabase {
 
     companion object {
-        const val version = 14
+        const val version = 15
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,

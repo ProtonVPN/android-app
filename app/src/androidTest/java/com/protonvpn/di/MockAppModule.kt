@@ -28,6 +28,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
 import com.protonvpn.android.appconfig.globalsettings.NoopGlobalSettingsUpdateScheduler
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerScheduler
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
@@ -63,6 +64,8 @@ import com.protonvpn.mocks.FakeWorkManager
 import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.NoopCertRefreshScheduler
+import com.protonvpn.mocks.NoopPeriodicUpdateWorkerScheduler
+import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.testsHelper.EspressoDispatcherProvider
 import dagger.Binds
@@ -251,6 +254,9 @@ class MockAppModule {
 
         @Binds
         fun bindGlobalSettingsUpdateScheduler(scheduler: NoopGlobalSettingsUpdateScheduler): GlobalSettingUpdateScheduler
+
+        @Binds
+        fun bindPeriodicUpdateWorkerScheduler(sched: NoopPeriodicUpdateWorkerScheduler): PeriodicUpdateWorkerScheduler
 
         @Binds
         fun bindSharedPrefsProvider(provider: MockSharedPreferencesProvider): SharedPreferencesProvider

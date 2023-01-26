@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Proton Technologies AG
+ * Copyright (c) 2023. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.di
+
+package com.protonvpn.test.shared
 
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
