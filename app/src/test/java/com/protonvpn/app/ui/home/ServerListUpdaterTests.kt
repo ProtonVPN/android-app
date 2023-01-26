@@ -23,21 +23,19 @@ import android.telephony.TelephonyManager
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
-import com.protonvpn.android.utils.NetUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
-import com.protonvpn.test.shared.MockedServers
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -45,13 +43,11 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -60,7 +56,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.concurrent.TimeUnit
 
 private const val TEST_IP = "1.2.3.4"
 private const val OLD_IP = "10.0.0.1"
@@ -80,19 +75,17 @@ class ServerListUpdaterTests {
     @MockK
     private lateinit var mockCurrentUser: CurrentUser
     @RelaxedMockK
-    private lateinit var mockVpnStateMonitor: VpnStateMonitor
-    @RelaxedMockK
     private lateinit var mockPlanManager: UserPlanManager
     @RelaxedMockK
     private lateinit var mockTelephonyManager: TelephonyManager
     @MockK
     private lateinit var mockPartnershipsRepository: PartnershipsRepository
+    @RelaxedMockK
+    private lateinit var mockPeriodicUpdateManager: PeriodicUpdateManager
 
     private lateinit var testScope: TestScope
     private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
-    private lateinit var vpnStatusFlow: MutableStateFlow<VpnStateMonitor.Status>
-
-    private var clockMs: Long = 1_000_000
+    private lateinit var vpnStateMonitor: VpnStateMonitor
 
     private lateinit var serverListUpdater: ServerListUpdater
 
@@ -103,45 +96,43 @@ class ServerListUpdaterTests {
         testScope = TestScope(testDispatcher)
         serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         serverListUpdaterPrefs.ipAddress = OLD_IP
-        clockMs = 1_000_000
-        vpnStatusFlow = MutableStateFlow(VpnStateMonitor.Status(VpnState.Disabled, null))
+        vpnStateMonitor = VpnStateMonitor()
 
         coEvery { guestHole.runWithGuestHoleFallback(any<suspend () -> Any?>()) } coAnswers { firstArg<suspend () -> Any?>()() }
         coEvery { mockCurrentUser.isLoggedIn() } returns true
+        coEvery { mockCurrentUser.eventVpnLogin } returns emptyFlow()
         every { mockServerManager.isDownloadedAtLeastOnce } returns true
         every { mockServerManager.isOutdated } returns false
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
         coEvery { mockApi.getServerList(any(), any(), any(), any()) } returns ApiResult.Success(ServerList(emptyList()))
-        every { mockVpnStateMonitor.onDisconnectedByUser } returns MutableSharedFlow()
-        every { mockVpnStateMonitor.status } returns vpnStatusFlow
         coEvery { mockPartnershipsRepository.refresh() } returns Unit
 
         every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_GSM
         every { mockTelephonyManager.networkCountryIso } returns "ch"
 
-        val getNetZone = GetNetZone(serverListUpdaterPrefs, { clockMs })
+        val getNetZone = GetNetZone(serverListUpdaterPrefs)
         serverListUpdater = ServerListUpdater(
             testScope.backgroundScope,
             mockApi,
             mockServerManager,
             mockCurrentUser,
-            mockVpnStateMonitor,
+            vpnStateMonitor,
             mockPlanManager,
             serverListUpdaterPrefs,
-            { clockMs },
             getNetZone,
             mockPartnershipsRepository,
-            guestHole
+            guestHole,
+            mockPeriodicUpdateManager,
+            emptyFlow(),
+            emptyFlow()
         )
     }
 
     @Test
     fun `location is updated when VPN is off`() = testScope.runTest {
         coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
-        every { mockVpnStateMonitor.isDisabled } returns true
 
-        val newNetzone = serverListUpdater.updateLocationIfVpnOff()
-        assertEquals(NetUtils.stripIP(TEST_IP), newNetzone)
+        serverListUpdater.updateLocationIfVpnOff()
         assertEquals(TEST_IP, serverListUpdater.ipAddress.first())
         assertEquals("pl", serverListUpdater.lastKnownCountry)
         assertEquals("ISP", serverListUpdater.lastKnownIsp)
@@ -149,26 +140,12 @@ class ServerListUpdaterTests {
 
     @Test
     fun `location is not updated when VPN is connected`() = testScope.runTest {
-        every { mockVpnStateMonitor.isDisabled } returns false
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, null))
 
-        val newNetzone = serverListUpdater.updateLocationIfVpnOff()
-        assertEquals(null, newNetzone)
+        serverListUpdater.updateLocationIfVpnOff()
         assertEquals(OLD_IP, serverListUpdaterPrefs.ipAddress)
 
         coVerify { mockApi wasNot Called }
-    }
-
-    @Test
-    fun `location result is ignored if VPN connects during update`() = testScope.runTest {
-        coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
-        every { mockVpnStateMonitor.isDisabled } returnsMany listOf(true, false)
-
-        val newNetzone = serverListUpdater.updateLocationIfVpnOff()
-        assertEquals(null, newNetzone)
-        assertEquals(OLD_IP, serverListUpdater.ipAddress.first())
-        assertEquals(OLD_IP, serverListUpdaterPrefs.ipAddress)
-
-        coVerify(exactly = 1) { mockApi.getLocation() }
     }
 
     @Test
@@ -177,66 +154,23 @@ class ServerListUpdaterTests {
             delay(1000)
             ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
         }
-        every { mockVpnStateMonitor.isDisabled } returns true
 
-        val newNetzoneDeferred = async {
+        val updateLocationJob = launch {
             serverListUpdater.updateLocationIfVpnOff()
         }
-        vpnStatusFlow.value = VpnStateMonitor.Status(VpnState.Connecting, null)
-        val newNetzone = newNetzoneDeferred.await()
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, null))
+        updateLocationJob.join()
 
-        assertEquals(null, newNetzone)
         assertEquals(OLD_IP, serverListUpdater.ipAddress.first())
         assertEquals(OLD_IP, serverListUpdaterPrefs.ipAddress)
         coVerify(exactly = 1) { mockApi.getLocation() }
     }
 
     @Test
-    fun `update task updates location 4 minutes after previous check`() = testScope.runTest {
-        coEvery { mockApi.getLocation() } returnsMany listOf(
-            ApiResult.Success(UserLocation(OLD_IP, "pl", "ISP")),
-            ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP")),
-        )
-        every { mockVpnStateMonitor.isDisabled } returns true
-        serverListUpdater.updateTask()
+    fun `location update triggers server list update`() = testScope.runTest {
+        coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(TEST_IP, "pl", "ISP"))
+        serverListUpdater.updateLocationIfVpnOff()
 
-        clockMs += TimeUnit.MINUTES.toMillis(2)
-        serverListUpdater.updateTask()
-        assertEquals(OLD_IP, serverListUpdater.ipAddress.first())
-        coVerify(exactly = 1) { mockApi.getLocation() }
-
-        clockMs += TimeUnit.MINUTES.toMillis(2)
-        serverListUpdater.updateTask()
-        assertEquals(TEST_IP, serverListUpdater.ipAddress.first())
-    }
-
-    @Test
-    fun `update task updates server list when outdated`() = testScope.runTest {
-        val servers = listOf(MockedServers.server)
-        coEvery { mockApi.getLocation() } returns ApiResult.Success(UserLocation(OLD_IP, "pl", "ISP"))
-        coEvery { mockApi.getServerList(any(), any(), any(), any()) } returns ApiResult.Success(ServerList(servers))
-        every { mockVpnStateMonitor.isDisabled } returns true
-        serverListUpdater.updateTask()
-
-        every { mockServerManager.isOutdated } returns true
-        serverListUpdater.updateTask()
-        verify { mockServerManager.setServers(servers, any()) }
-    }
-
-    @Test
-    fun `update task updates loads when in foreground`() = testScope.runTest {
-        coEvery { mockApi.getLoads(any()) } returns ApiResult.Success(LoadsResponse(emptyList()))
-        every { mockServerManager.lastUpdateTimestamp } returns clockMs - TimeUnit.MINUTES.toMillis(20)
-        serverListUpdater.setInForegroundForTest(true)
-        serverListUpdater.updateTask()
-        coVerify(exactly = 1) { mockApi.getLoads(any()) }
-
-        clockMs += TimeUnit.MINUTES.toMillis(10)
-        serverListUpdater.updateTask()
-        coVerify(exactly = 1) { mockApi.getLoads(any()) }
-
-        clockMs += TimeUnit.MINUTES.toMillis(10)
-        serverListUpdater.updateTask()
-        verify { mockServerManager.updateLoads(emptyList()) }
+        coVerify { mockPeriodicUpdateManager.executeNow<Any, Any>(match { it.id == "server_list" }) }
     }
 }

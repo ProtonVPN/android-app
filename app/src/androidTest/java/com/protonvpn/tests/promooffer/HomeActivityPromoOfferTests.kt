@@ -40,7 +40,9 @@ import com.protonvpn.base.BaseVerify
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.ApiNotificationTestHelper.createNotificationJsonWithOffer
 import com.protonvpn.test.shared.ApiNotificationTestHelper.createNotificationsResponseJson
+import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
+import com.protonvpn.testRules.SetLoggedInUserRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.any
@@ -48,13 +50,18 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 import javax.inject.Inject
 
 @HiltAndroidTest
 class HomeActivityPromoOfferTests {
 
+    var hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Mocked(TestUser.freeUser))
+
     @get:Rule
-    var hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Mocked())
+    var testRules = RuleChain
+        .outerRule(hiltRule)
+        .around(SetLoggedInUserRule(TestUser.freeUser))
 
     @Inject
     lateinit var apiNotificationManager: ApiNotificationManager
@@ -155,7 +162,12 @@ class HomeActivityPromoOfferTests {
             """.trimIndent(),
             ApiNotificationTypes.TYPE_ONE_TIME_POPUP
         )
-        launchHomeActivityWithNotification(json)
+        // First launch the home activity...
+        val intent = Intent(InstrumentationRegistry.getInstrumentation().targetContext, HomeActivity::class.java)
+        ActivityScenario.launch<HomeActivity>(intent)
+        // ... then add the one-time notification, otherwise it opens immediately.
+        apiNotificationManager.setTestNotificationsResponseJson(createNotificationsResponseJson(json))
+
         verify.checkIfElementIsNotDisplayedById(R.id.imageNotification)
     }
 

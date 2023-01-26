@@ -25,7 +25,6 @@ import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
-import me.proton.core.util.android.sharedpreferences.long
 import me.proton.core.util.android.sharedpreferences.observe
 import me.proton.core.util.android.sharedpreferences.string
 import me.proton.core.util.kotlin.EMPTY_STRING
@@ -43,8 +42,10 @@ class ServerListUpdaterPrefs @Inject constructor(
     var ipAddress: String by string(EMPTY_STRING, key = KEY_IP_ADDRESS)
     var lastKnownCountry: String? by string()
     var lastKnownIsp: String? by string()
-    var loadsUpdateTimestamp: Long by long(0)
     var lastNetzoneForLogicals: String? by string()
+
+    // Removed (keeping for reference to avoid reusing names by mistake):
+    // var loadsUpdateTimestamp: Long by long(0)
 
     companion object {
         private const val PREFS_NAME = "ServerListUpdater"

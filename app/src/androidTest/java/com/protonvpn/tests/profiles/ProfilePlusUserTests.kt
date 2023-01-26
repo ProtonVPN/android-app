@@ -32,7 +32,6 @@ import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.testRules.SetLoggedInUserRule
-import com.protonvpn.testsHelper.UserDataHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
@@ -41,12 +40,12 @@ import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
- * [ProfileTests] contains tests related to profile actions
+ * [ProfilePlusUserTests] contains tests related to profile actions
  */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class ProfileTests {
+class ProfilePlusUserTests {
 
     private val testRule = ProtonHomeActivityTestRule()
     private val newProfileName = "New test profile"
@@ -60,14 +59,12 @@ class ProfileTests {
     private lateinit var homeRobot: HomeRobot
     private lateinit var profilesRobot: ProfilesRobot
     private lateinit var connectionRobot: ConnectionRobot
-    private lateinit var userDataHelper: UserDataHelper
 
     @Before
     fun setup() {
         homeRobot = HomeRobot()
         profilesRobot = ProfilesRobot()
         connectionRobot = ConnectionRobot()
-        userDataHelper = UserDataHelper()
     }
 
     @Test
@@ -362,16 +359,6 @@ class ProfileTests {
             .verify {
                 defaultProfileOptionsAreVisible()
                 profileIsVisible(DefaultData.PROFILE_NAME)
-             }
-    }
-
-    @Test
-    @TestID(103987)
-    fun tryToCreateProfileWithFreeUser(){
-        userDataHelper.setUserData(TestUser.freeUser)
-        homeRobot.swipeLeftToOpenProfiles()
-        profilesRobot.clickOnCreateNewProfileButton()
-            .insertTextInProfileNameField(DefaultData.PROFILE_NAME)
-            .verify { upgradeButtonIsDisplayed() }
+            }
     }
 }

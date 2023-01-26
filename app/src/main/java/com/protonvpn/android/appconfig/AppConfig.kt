@@ -21,24 +21,25 @@ package com.protonvpn.android.appconfig
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsManager
+import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
+import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
+import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
-import com.protonvpn.android.utils.jitterMs
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -46,55 +47,50 @@ import javax.inject.Singleton
 
 @Singleton
 class AppConfig @Inject constructor(
-    private val scope: CoroutineScope,
+    mainScope: CoroutineScope,
+    private val periodicUpdateManager: PeriodicUpdateManager,
     private val api: ProtonApiRetroFit,
-    userPlanManager: UserPlanManager,
     private val getNetZone: GetNetZone,
-    @ElapsedRealtimeClock private val now: () -> Long,
     private val globalSettingsManager: GlobalSettingsManager,
-    private val currentUser: CurrentUser
+    private val currentUser: CurrentUser,
+    userPlanManager: UserPlanManager,
+    @IsLoggedIn loggedIn: Flow<Boolean>,
+    @IsInForeground inForeground: Flow<Boolean>
 ) {
     // This value is used when filtering servers, let's have it cached
     private var smartProtocolsCached: List<ProtocolSelection>? = null
-    private var lastUpdateAttempt = Long.MIN_VALUE
 
     val appConfigUpdateEvent = MutableSharedFlow<AppConfigResponse>(extraBufferCapacity = 1)
     val appConfigFlow = appConfigUpdateEvent.stateIn(
-        scope,
+        mainScope,
         started = SharingStarted.Eagerly,
         initialValue = Storage.load(AppConfigResponse::class.java, getDefaultConfig())
     )
 
-    val dynamicReportModelObservable = MutableLiveData<DynamicReportModel>(
+    val dynamicReportModelObservable = MutableLiveData(
         Storage.load<DynamicReportModel>(
             DynamicReportModel::class.java
-        ) { DynamicReportModel(DynamicReportModel.defaultCategories) })
+        ) { DynamicReportModel(DynamicReportModel.defaultCategories) }
+    )
 
     private val appConfigResponse get() = appConfigFlow.value
-
-    private var updateTask = ReschedulableTask(scope, now) {
-        updateInternal()
-    }
+    private val appConfigUpdate = periodicUpdateManager.registerApiCall(
+        "app_config",
+        ::updateInternal,
+        PeriodicUpdateSpec(UPDATE_DELAY_UI, setOf(loggedIn, inForeground)),
+        PeriodicUpdateSpec(UPDATE_DELAY, UPDATE_DELAY_FAIL, setOf(loggedIn)),
+    )
 
     init {
-        updateTask.scheduleIn(0)
-
-        userPlanManager.planChangeFlow.onEach {
-            updateInternal()
-        }.launchIn(scope)
+        userPlanManager.planChangeFlow
+            .onEach { forceUpdate() }
+            .launchIn(mainScope)
     }
 
-    suspend fun forceUpdate() = withContext(scope.coroutineContext) {
-        updateInternal()
-    }
+    suspend fun forceUpdate() = periodicUpdateManager.executeNow(appConfigUpdate)
 
-    fun updateFromUI() = scope.launch {
-        if (now() - lastUpdateAttempt > UPDATE_DELAY_UI)
-            updateTask.scheduleIn(0)
-    }
-
-    fun getMaintenanceTrackerDelay(): Long = maxOf(Constants.MINIMUM_MAINTENANCE_CHECK_MINUTES,
-        appConfigResponse.underMaintenanceDetectionDelay)
+    fun getMaintenanceTrackerDelay(): Long =
+        maxOf(Constants.MINIMUM_MAINTENANCE_CHECK_MINUTES, appConfigResponse.underMaintenanceDetectionDelay)
 
     fun isMaintenanceTrackerEnabled(): Boolean = appConfigResponse.featureFlags.maintenanceTrackerEnabled
 
@@ -119,8 +115,7 @@ class AppConfig @Inject constructor(
 
     fun getRatingConfig(): RatingConfig = appConfigResponse.ratingConfig ?: getDefaultRatingConfig()
 
-    private suspend fun updateInternal() {
-        lastUpdateAttempt = now()
+    private suspend fun updateInternal(): ApiResult<AppConfigResponse> {
         val result = api.getAppConfig(getNetZone())
         val dynamicReportModel = api.getDynamicReportConfig()
         dynamicReportModel.valueOrNull?.let {
@@ -135,7 +130,7 @@ class AppConfig @Inject constructor(
             smartProtocolsCached = null
             appConfigUpdateEvent.tryEmit(config)
         }
-        updateTask.scheduleIn(jitterMs(if (result is ApiResult.Error.Connection) UPDATE_DELAY_FAIL else UPDATE_DELAY))
+        return result
     }
 
     private fun getDefaultConfig(): AppConfigResponse {

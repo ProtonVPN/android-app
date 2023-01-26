@@ -191,7 +191,6 @@ class TvLoginViewModel @Inject constructor(
 
     private suspend fun loadInitialConfig() {
         state.value = TvLoginViewState.Loading
-        serverListUpdater.updateLocationIfVpnOff()
         appConfig.forceUpdate()
         when (val result = serverListUpdater.updateServerList()) {
             is ApiResult.Success -> {

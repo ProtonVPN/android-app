@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.ui.home
 
-import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.utils.NetUtils
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,10 +26,7 @@ import javax.inject.Singleton
 @Singleton
 class GetNetZone @Inject constructor(
     private val prefs: ServerListUpdaterPrefs,
-    @WallClock private val wallClock: () -> Long,
 ) {
-    var lastLocationIpCheck = Long.MIN_VALUE
-
     // Used in routes that provide server information including a score of how good a server is
     // for the particular user to connect to.
     // To provide relevant scores even when connected to VPN, we send a truncated version of
@@ -42,12 +38,7 @@ class GetNetZone @Inject constructor(
         else
             null
 
-    fun updateIpFromLocalAgent(ip: String) {
+    fun updateIp(ip: String) {
         prefs.ipAddress = ip
-    }
-
-    fun updateIpFromLocation(ip: String) {
-        prefs.ipAddress = ip
-        lastLocationIpCheck = wallClock()
     }
 }

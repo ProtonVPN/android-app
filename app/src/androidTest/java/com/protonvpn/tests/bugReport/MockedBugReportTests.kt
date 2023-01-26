@@ -26,13 +26,10 @@ import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
-import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.SetLoggedInUserRule
-import com.protonvpn.testsHelper.TestSetup
-import com.protonvpn.testsHelper.UserDataHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule

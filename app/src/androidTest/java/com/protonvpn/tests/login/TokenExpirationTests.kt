@@ -20,7 +20,6 @@
 package com.protonvpn.tests.login
 
 import androidx.test.core.app.ActivityScenario
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.auth.usecase.CurrentUser

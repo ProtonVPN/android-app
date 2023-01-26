@@ -201,7 +201,7 @@ public class HomeActivity extends VpnActivity {
 
         searchViewModel.getEventCloseLiveData().observe(this, isOpen -> searchMenuItem.collapseActionView());
 
-        serverListUpdater.startSchedule(getLifecycle(), this);
+        serverListUpdater.setDefaultNetworkLoader(getLifecycle(), this);
     }
 
     @Override

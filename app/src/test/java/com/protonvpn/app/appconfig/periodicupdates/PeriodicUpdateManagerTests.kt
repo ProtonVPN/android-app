@@ -28,6 +28,7 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDao
 import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
 import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
 import com.protonvpn.test.shared.MockNetworkManager
+import com.protonvpn.test.shared.TestDispatcherProvider
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.every
@@ -102,6 +103,7 @@ class PeriodicUpdateManagerTests {
 
         periodicUpdateManager = PeriodicUpdateManager(
             testScope.backgroundScope,
+            TestDispatcherProvider(dispatcher),
             testScope::currentTime,
             periodicUpdatesDao,
             mockScheduler,

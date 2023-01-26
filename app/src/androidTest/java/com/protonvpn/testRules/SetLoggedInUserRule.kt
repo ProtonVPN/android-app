@@ -19,6 +19,7 @@
 
 package com.protonvpn.testRules
 
+import androidx.test.espresso.Espresso
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testsHelper.TestSetup
@@ -26,11 +27,12 @@ import com.protonvpn.testsHelper.UserDataHelper
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-class SetLoggedInUserRule(private val user: TestUser): TestWatcher() {
+class SetLoggedInUserRule(private val user: TestUser) : TestWatcher() {
 
     override fun starting(description: Description) {
         TestSetup.setCompletedOnboarding()
         UserDataHelper().setUserData(user)
+        Espresso.onIdle() // Wait for periodic API calls triggered when logged in to execute.
     }
 
     override fun finished(description: Description) {
