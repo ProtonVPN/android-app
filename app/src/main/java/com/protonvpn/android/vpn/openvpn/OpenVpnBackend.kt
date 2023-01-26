@@ -53,14 +53,12 @@ import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import okhttp3.OkHttpClient
-import java.util.Random
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class OpenVpnBackend @Inject constructor(
     @ApplicationContext private val appContext: Context,
-    val random: Random,
     networkManager: NetworkManager,
     userData: UserData,
     appConfig: AppConfig,

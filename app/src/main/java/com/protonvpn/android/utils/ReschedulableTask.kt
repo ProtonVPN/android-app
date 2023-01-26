@@ -5,9 +5,9 @@ import kotlinx.coroutines.*
 // Allows scheduling recurring suspending action, can be rescheduled to run another time.
 // Not thread safe - schedule calls should run in the same thread that scope will use.
 class ReschedulableTask(
-    val scope: CoroutineScope,
-    val now: () -> Long,
-    val action: suspend ReschedulableTask.() -> Unit
+    private val scope: CoroutineScope,
+    private val now: () -> Long,
+    private val action: suspend ReschedulableTask.() -> Unit
 ) {
     private var currentJob: Job? = null
     private var isExecuting: Boolean = false
@@ -25,7 +25,6 @@ class ReschedulableTask(
         scheduleTo(now() + delay)
     }
 
-    @ExperimentalCoroutinesApi
     fun scheduleTo(to: Long) {
         scheduledTo = to
         if (!isExecuting) {

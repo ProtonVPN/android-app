@@ -24,6 +24,7 @@ enum class LogCategory(private val categoryName: String) {
     APP("APP"),
     APP_REVIEW("APP.REVIEW"),
     APP_UPDATE("APP.UPDATE"),
+    APP_PERIODIC("APP.PERIODIC"),
     CONN("CONN"),
     CONN_CONNECT("CONN.CONNECT"),
     CONN_DISCONNECT("CONN.DISCONNECT"),

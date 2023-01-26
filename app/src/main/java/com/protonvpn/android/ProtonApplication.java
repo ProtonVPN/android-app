@@ -27,6 +27,7 @@ import android.content.Context;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.evernote.android.state.StateSaver;
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager;
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout;
 import com.protonvpn.android.auth.usecase.CoreLoginMigration;
 import com.protonvpn.android.components.RestartHandler;
@@ -99,6 +100,7 @@ public class ProtonApplication extends Application {
         LogcatLogCapture getLogcatLogCapture();
         MaintenanceTracker getMaintenanceTracker();
         OneTimePopupNotificationTrigger getOneTimePopupNotificationTrigger();
+        PeriodicUpdateManager getPeriodicUpdateManager();
         PowerStateLogger getPowerStateLogger();
         RestartHandler getRestartHandler();
         ReviewTracker getReviewTracker();
@@ -164,6 +166,7 @@ public class ProtonApplication extends Application {
         dependencies.getUpdateSettingsOnFeatureFlagChange();
         dependencies.getVpnConnectionTelemetry().start();
 
+        dependencies.getPeriodicUpdateManager().start();
         dependencies.getRestartHandler().onAppStarted();
 
         if (!AndroidUtils.INSTANCE.isTV(this, true)) {

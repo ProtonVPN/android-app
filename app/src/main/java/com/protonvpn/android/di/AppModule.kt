@@ -40,6 +40,8 @@ import com.protonvpn.android.appconfig.GlideImagePrefetcher
 import com.protonvpn.android.appconfig.ImagePrefetcher
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsUpdateWorker
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerScheduler
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerSchedulerImpl
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
@@ -93,9 +95,9 @@ import me.proton.core.network.domain.serverconnection.DohAlternativesListener
 import me.proton.core.util.kotlin.takeIfNotBlank
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
-import java.util.Random
 import javax.inject.Qualifier
 import javax.inject.Singleton
+import kotlin.random.Random
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
@@ -190,6 +192,9 @@ object AppModuleProd {
         fun bindSharedPrefsProvider(provider: AndroidSharedPreferencesProvider): SharedPreferencesProvider
 
         @Binds
+        fun bindPeriodicUpdateWorkerScheduler(sched: PeriodicUpdateWorkerSchedulerImpl): PeriodicUpdateWorkerScheduler
+
+        @Binds
         @Singleton
         fun provideVpnDispatcherProvider(impl: DefaultDispatcherProvider): VpnDispatcherProvider
 
@@ -207,7 +212,6 @@ object AppModuleProd {
 object AppModule {
 
     private val scope = MainScope()
-    private val random = Random()
 
     @Provides
     @Singleton
@@ -225,7 +229,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRandom(): Random = random
+    fun provideRandom(): Random = Random
 
     @Provides
     @Singleton
