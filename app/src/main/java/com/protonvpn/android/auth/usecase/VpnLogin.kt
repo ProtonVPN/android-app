@@ -103,10 +103,9 @@ class VpnLogin @Inject constructor(
     private suspend fun finalizeLogin(vpnUser: VpnUser) {
         ProtonLogger.log(UserPlanChanged, "logged in: ${vpnUser.toLog()}")
         vpnUserDao.insertOrUpdate(vpnUser)
-        serverListUpdater.updateLocationIfVpnOff()
         appConfig.forceUpdate()
         if (guestHole.isGuestHoleActive)
-            serverListUpdater.getServersList(null).join()
+            serverListUpdater.updateServerList(null)
         guestHole.releaseNeedGuestHole(GUEST_HOLE_ID)
     }
 

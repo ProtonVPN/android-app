@@ -36,10 +36,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.retryAfter
+import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -133,6 +135,7 @@ class PeriodicApiCallResult<R>(
 @Singleton
 class PeriodicUpdateManager @Inject constructor(
     private val mainScope: CoroutineScope,
+    private val dispatcherProvider: DispatcherProvider,
     @WallClock private val clock: () -> Long,
     private val periodicUpdatesDao: PeriodicUpdatesDao,
     private val periodicUpdateScheduler: PeriodicUpdateScheduler,
@@ -250,13 +253,15 @@ class PeriodicUpdateManager @Inject constructor(
      *
      *     val result: BarResult = periodicUpdateManager.executeNow(updateBarAction, "custom ID")
      */
-    suspend fun <T, R : Any> executeNow(action: UpdateAction<T, R>, input: T): R {
-        // If this action is executing wait for it to finish.
-        tasksInProgressFlow.first { !it.contains(action.id) }
-        return executeAction(action, input).also {
-            rescheduleNext(trueConditions)
-        }.result
-    }
+    suspend fun <T, R : Any> executeNow(action: UpdateAction<T, R>, input: T): R =
+        // Explicitly execute on main thread. It's a workaround for LoginTestRule that executes login on a test thread.
+        withContext(dispatcherProvider.Main) {
+            // If this action is executing wait for it to finish.
+            tasksInProgressFlow.first { !it.contains(action.id) }
+            executeAction(action, input).also {
+                rescheduleNext(trueConditions)
+            }.result
+        }
 
     suspend fun processPeriodic() {
         started.await()

@@ -19,23 +19,30 @@
 package com.protonvpn.android.ui.home
 
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.LifecycleOwner
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
+import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicApiCallResult
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
+import com.protonvpn.android.appconfig.periodicupdates.registerAction
+import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.partnerships.PartnershipsRepository
-import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
-import com.protonvpn.android.utils.jitterMs
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -45,7 +52,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
@@ -57,22 +67,21 @@ import javax.inject.Singleton
 
 @Singleton
 class ServerListUpdater @Inject constructor(
-    val scope: CoroutineScope,
-    val api: ProtonApiRetroFit,
-    val serverManager: ServerManager,
-    val currentUser: CurrentUser,
-    val vpnStateMonitor: VpnStateMonitor,
+    private val scope: CoroutineScope,
+    private val api: ProtonApiRetroFit,
+    private val serverManager: ServerManager,
+    private val currentUser: CurrentUser,
+    private val vpnStateMonitor: VpnStateMonitor,
     userPlanManager: UserPlanManager,
     private val prefs: ServerListUpdaterPrefs,
-    @WallClock private val wallClock: () -> Long,
     private val getNetZone: GetNetZone,
     private val partnershipsRepository: PartnershipsRepository,
-    private val guestHole: GuestHole
+    private val guestHole: GuestHole,
+    private val periodicUpdateManager: PeriodicUpdateManager,
+    @IsLoggedIn loggedIn: Flow<Boolean>,
+    @IsInForeground inForeground: Flow<Boolean>
 ) {
     private var networkLoader: NetworkLoader? = null
-    private var inForeground = false
-
-    private val lastServerListUpdate get() = serverManager.lastUpdateTimestamp
 
     val ipAddress = prefs.ipAddressFlow
 
@@ -80,51 +89,57 @@ class ServerListUpdater @Inject constructor(
     val lastKnownCountry: String? get() = prefs.lastKnownCountry
     val lastKnownIsp: String? get() = prefs.lastKnownIsp
 
-    private val task = ReschedulableTask(scope, wallClock) {
-        val nextScheduleDelay = updateTask()
-        if (nextScheduleDelay > 0) scheduleIn(nextScheduleDelay)
-    }
+    private val isDisconnected = vpnStateMonitor.status.map { it.state == VpnState.Disabled }
+
+    private val serverListUpdate = periodicUpdateManager.registerApiCall(
+        "server_list",
+        ::updateServers,
+        { networkLoader },
+        PeriodicUpdateSpec(LIST_CALL_DELAY, setOf(loggedIn, inForeground))
+    )
+    private val locationUpdate = periodicUpdateManager.registerAction(
+        "location",
+        ::updateLocationIfVpnOff,
+        PeriodicUpdateSpec(LOCATION_CALL_DELAY, setOf(inForeground, isDisconnected))
+    )
 
     init {
         migrateIpAddress()
 
-        userPlanManager.planChangeFlow.onEach {
-            updateServerList()
-        }.launchIn(scope)
+        periodicUpdateManager.registerApiCall(
+            "server_loads", ::updateLoads, PeriodicUpdateSpec(LOADS_CALL_DELAY, setOf(loggedIn, inForeground))
+        )
 
         vpnStateMonitor.onDisconnectedByUser.onEach {
-            task.scheduleIn(0)
+            periodicUpdateManager.executeNow(locationUpdate)
         }.launchIn(scope)
+
+        prefs.ipAddressFlow
+            .drop(1) // Skip initial value, observe only updates.
+            .onEach {
+                if (currentUser.isLoggedIn()) periodicUpdateManager.executeNow(serverListUpdate)
+            }.launchIn(scope)
+        currentUser.eventVpnLogin
+            .onEach { periodicUpdateManager.executeNow(serverListUpdate) }
+            .launchIn(scope)
+        userPlanManager.planChangeFlow
+            .onEach { periodicUpdateManager.executeNow(serverListUpdate) }
+            .launchIn(scope)
     }
-
-
-    private val lastLoadsUpdate
-        get() = prefs.loadsUpdateTimestamp.coerceAtLeast(lastServerListUpdate)
 
     fun onAppStart() {
-        task.scheduleIn(0)
+        if (serverManager.isOutdated) {
+            scope.launch {
+                updateServerList()
+            }
+        }
     }
 
-    fun startSchedule(lifecycle: Lifecycle, loader: NetworkLoader?) {
+    fun setDefaultNetworkLoader(lifecycle: Lifecycle, loader: NetworkLoader?) {
         networkLoader = loader
-        if (serverManager.isOutdated)
-            task.scheduleIn(0)
 
-        lifecycle.addObserver(object : LifecycleObserver {
-            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-            fun onResume() {
-                inForeground = true
-                task.scheduleIn(0)
-            }
-
-            @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-            fun onPause() {
-                inForeground = false
-                task.cancelSchedule()
-            }
-
-            @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-            fun onDestroy() {
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
                 networkLoader = null
             }
         })
@@ -134,40 +149,19 @@ class ServerListUpdater @Inject constructor(
         updateServerList(networkLoader)
     }
 
-    @VisibleForTesting
-    suspend fun updateTask(): Long {
-        if (currentUser.isLoggedIn()) {
-            val now = wallClock()
-            if (now >= getNetZone.lastLocationIpCheck + LOCATION_CALL_DELAY) {
-                val newNetZone = updateLocationIfVpnOff()
-                if (newNetZone != null && newNetZone != prefs.lastNetzoneForLogicals)
-                    updateServerList(networkLoader)
-            }
-            if (serverManager.isOutdated || inForeground && now >= lastServerListUpdate + LIST_CALL_DELAY)
-                updateServerList(networkLoader)
-            else if (inForeground && now >= lastLoadsUpdate + LOADS_CALL_DELAY)
-                updateLoads()
-
-            if (inForeground)
-                return jitterMs(MIN_CALL_DELAY)
-        }
-        return -1
-    }
-
-    private suspend fun updateLoads(): Boolean {
+    private suspend fun updateLoads(): ApiResult<LoadsResponse> {
         val result = api.getLoads(getNetZone())
         if (result is ApiResult.Success) {
             serverManager.updateLoads(result.value.loadsList)
-            prefs.loadsUpdateTimestamp = wallClock()
-            return true
         }
-        return false
+        return result
     }
 
-    // Returns new netzone or null if not updated.
-    suspend fun updateLocationIfVpnOff(): String? {
+    @VisibleForTesting
+    suspend fun updateLocationIfVpnOff(): PeriodicActionResult<out Any> {
+        val cancelResult = PeriodicActionResult(Unit, true)
         if (!vpnStateMonitor.isDisabled)
-            return null
+            return cancelResult
 
         return coroutineScope {
             val locationUpdate = async { updateLocationFromApi() }
@@ -177,15 +171,16 @@ class ServerListUpdater @Inject constructor(
                         locationUpdate.cancel()
                 }.launchIn(this)
             try {
-                locationUpdate.await()
+                PeriodicApiCallResult(locationUpdate.await())
             } catch (_: CancellationException) {
-                null
+                cancelResult
             } finally {
                 monitorJob.cancel()
             }
         }
     }
-    private suspend fun updateLocationFromApi(): String? {
+
+    private suspend fun updateLocationFromApi(): ApiResult<UserLocation> {
         val result = api.getLocation()
         if (result is ApiResult.Success && vpnStateMonitor.isDisabled) {
             with(result.value) {
@@ -196,16 +191,17 @@ class ServerListUpdater @Inject constructor(
 
             val newIp = result.value.ipAddress
             if (newIp.isNotEmpty()) {
-                getNetZone.updateIpFromLocation(newIp)
-                return getNetZone()
+                getNetZone.updateIp(newIp)
+                return result
             }
         }
-        return null
+        return result
     }
 
-    suspend fun updateServerList(
-        networkLoader: NetworkLoader? = null
-    ): ApiResult<ServerList> {
+    suspend fun updateServerList(loader: NetworkLoader? = null): ApiResult<ServerList> =
+        periodicUpdateManager.executeNow(serverListUpdate, loader)
+
+    private suspend fun updateServers(networkLoader: NetworkLoader?): ApiResult<ServerList> {
         val loaderUI = networkLoader?.networkFrameLayout
 
         loaderUI?.setRetryListener {
@@ -246,11 +242,6 @@ class ServerListUpdater @Inject constructor(
         return serverListResult
     }
 
-    @VisibleForTesting
-    fun setInForegroundForTest(foreground: Boolean) {
-        inForeground = foreground
-    }
-
     private fun migrateIpAddress() {
         if (prefs.ipAddress.isEmpty()) {
             val oldKey = "IP_ADDRESS"
@@ -264,6 +255,5 @@ class ServerListUpdater @Inject constructor(
         private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
         private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
         val LIST_CALL_DELAY = TimeUnit.HOURS.toMillis(3)
-        private val MIN_CALL_DELAY = minOf(LOCATION_CALL_DELAY, LOADS_CALL_DELAY, LIST_CALL_DELAY)
     }
 }

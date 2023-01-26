@@ -53,7 +53,6 @@ open class MainViewModel @Inject constructor(
             purchaseEnabled.refresh()
             refreshVPNInfo()
             certificateRepository.updateCertificateIfNeeded()
-            appConfig.updateFromUI()
         }
     }
 

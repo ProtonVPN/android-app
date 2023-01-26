@@ -185,7 +185,7 @@ abstract class VpnBackend(
                 if (lastConnectionParams?.server?.isSecureCoreServer != true &&
                     !newConnectionDetails.deviceIp.isNullOrBlank()
                 ) {
-                    getNetZone.updateIpFromLocalAgent(newConnectionDetails.deviceIp)
+                    getNetZone.updateIp(newConnectionDetails.deviceIp)
                 }
             }
             ProtonLogger.log(LocalAgentStatus, status.toString())
