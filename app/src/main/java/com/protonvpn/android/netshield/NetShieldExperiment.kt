@@ -79,16 +79,14 @@ class NetShieldExperiment @Inject constructor(
         }
     }
 
-    private fun updateExperiment(experimentGroup: ExperimentState) {
+    private suspend fun updateExperiment(experimentGroup: ExperimentState) {
         if (!netShieldExperimentPrefs.experimentInitialized || experimentGroup.value == ExperimentValue.QUIT_EXPERIMENT) {
             when (experimentGroup.value) {
                 ExperimentValue.EXPERIMENT_GROUP_F2 -> {
-                    userData.setNetShieldProtocol(NetShieldProtocol.ENABLED_EXTENDED)
-                    sentry.sendEvent("Netshield A/B: Experiment group start")
+                    overrideNetshield(NetShieldProtocol.ENABLED_EXTENDED)
                 }
                 ExperimentValue.EXPERIMENT_GROUP_F1 -> {
-                    userData.setNetShieldProtocol(NetShieldProtocol.ENABLED)
-                    sentry.sendEvent("Netshield A/B: Experiment group start")
+                    overrideNetshield(NetShieldProtocol.ENABLED)
                 }
                 ExperimentValue.CONTROL_GROUP -> {
                     netShieldExperimentPrefs.experimentGroup = experimentGroup.toString()
@@ -100,6 +98,17 @@ class NetShieldExperiment @Inject constructor(
             }
             netShieldExperimentPrefs.experimentGroup = experimentGroup.toString()
             netShieldExperimentPrefs.experimentInitialized = true
+        }
+    }
+
+    private suspend fun overrideNetshield(protocol: NetShieldProtocol) {
+        // User is in experiment group but has already set the same netshield as API value
+        // Don't override anything and end experiment right away in that case
+        if (userData.getNetShieldProtocol(currentUser.vpnUser()) == protocol) {
+            netShieldExperimentPrefs.experimentEnded = true
+        } else {
+            userData.setNetShieldProtocol(protocol)
+            sentry.sendEvent("Netshield A/B: Experiment group start")
         }
     }
 }
