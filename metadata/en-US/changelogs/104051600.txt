@@ -1,0 +1,3 @@
+What's new
+- Improves login on restricted networks
+- Improves bug report layout for better accessibility on small screens
