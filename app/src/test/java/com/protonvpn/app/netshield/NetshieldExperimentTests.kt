@@ -78,6 +78,7 @@ class NetshieldExperimentTests {
         userData = UserData.create()
         mockCurrentUser.mockVpnUser { vpnUser }
         every { vpnUser.isUserPlusOrAbove } returns true
+        every { vpnUser.isFreeUser } returns false
         netShieldExperimentPrefs = NetShieldExperimentPrefs(MockSharedPreferencesProvider())
         netShieldExperiment =
             NetShieldExperiment(mockApi, userData, netShieldExperimentPrefs, sentryRecorder, mockCurrentUser)
@@ -135,6 +136,15 @@ class NetshieldExperimentTests {
         // F1 value will be ignored if experiment is already initialized
         startExperimentWith(NetShieldExperiment.ExperimentValue.EXPERIMENT_GROUP_F1)
         assertEquals(NetShieldProtocol.ENABLED_EXTENDED, userData.getNetShieldProtocol(mockk(relaxed = true)))
+    }
+
+    @Test
+    fun `if netshield value match dont conduct experiment and quit`() = testScope.runTest {
+        userData.setNetShieldProtocol(NetShieldProtocol.ENABLED)
+
+        startExperimentWith(NetShieldExperiment.ExperimentValue.EXPERIMENT_GROUP_F1)
+        coVerify(exactly = 0) { sentryRecorder.sendEvent(any()) }
+        assertEquals(true, netShieldExperimentPrefs.experimentEnded)
     }
 
     private suspend fun startExperimentWith(state: NetShieldExperiment.ExperimentValue) {
