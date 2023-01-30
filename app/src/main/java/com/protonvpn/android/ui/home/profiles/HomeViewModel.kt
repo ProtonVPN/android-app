@@ -54,7 +54,6 @@ class HomeViewModel @Inject constructor(
     private val vpnStatusProviderUI: VpnStatusProviderUI,
     private val serverManager: ServerManager,
     userPlanManager: UserPlanManager,
-    certificateRepository: CertificateRepository,
     currentUser: CurrentUser,
     logoutUseCase: Logout,
     onSessionClosed: OnSessionClosed,
@@ -63,7 +62,6 @@ class HomeViewModel @Inject constructor(
 ) : MainViewModel(
     mainScope,
     userPlanManager,
-    certificateRepository,
     logoutUseCase,
     currentUser,
     purchaseEnabled,
