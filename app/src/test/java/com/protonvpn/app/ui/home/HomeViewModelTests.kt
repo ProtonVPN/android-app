@@ -60,7 +60,6 @@ class HomeViewModelTests {
             vpnStatusProviderUI = mockVpnStatusProviderUI,
             serverManager = mockServerManager,
             userPlanManager = mockk(relaxed = true),
-            certificateRepository = mockk(),
             currentUser = mockk(relaxed = true),
             logoutUseCase = mockk(),
             onSessionClosed = mockk(relaxed = true),

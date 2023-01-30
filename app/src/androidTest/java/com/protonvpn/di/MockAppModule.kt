@@ -48,7 +48,6 @@ import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.SharedPreferencesProvider
-import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -63,7 +62,6 @@ import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import com.protonvpn.mocks.FakeWorkManager
 import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.mocks.MockVpnBackend
-import com.protonvpn.mocks.NoopCertRefreshScheduler
 import com.protonvpn.mocks.NoopPeriodicUpdateWorkerScheduler
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
@@ -249,8 +247,6 @@ class MockAppModule {
         replaces = [AppModuleProd.Bindings::class, CoreAndroidModule::class]
     )
     interface Bindings {
-        @Binds
-        fun bindCertificateRefreshSchedulers(scheduler: NoopCertRefreshScheduler): CertRefreshScheduler
 
         @Binds
         fun bindGlobalSettingsUpdateScheduler(scheduler: NoopGlobalSettingsUpdateScheduler): GlobalSettingUpdateScheduler

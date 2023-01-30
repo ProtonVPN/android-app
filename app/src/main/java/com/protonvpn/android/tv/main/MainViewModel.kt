@@ -27,7 +27,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
-import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -39,7 +38,6 @@ import javax.inject.Inject
 open class MainViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
     private val userPlanManager: UserPlanManager,
-    private val certificateRepository: CertificateRepository,
     private val logoutUseCase: Logout,
     protected val currentUser: CurrentUser,
     val purchaseEnabled: CachedPurchaseEnabled,
@@ -52,7 +50,6 @@ open class MainViewModel @Inject constructor(
         mainScope.launch {
             purchaseEnabled.refresh()
             refreshVPNInfo()
-            certificateRepository.updateCertificateIfNeeded()
         }
     }
 

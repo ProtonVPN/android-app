@@ -55,7 +55,6 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.StreamingViewModelHelper
 import com.protonvpn.android.utils.UserPlanManager
-import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.RecentsManager
@@ -88,12 +87,10 @@ class TvMainViewModel @Inject constructor(
     currentUser: CurrentUser,
     logoutUseCase: Logout,
     userPlanManager: UserPlanManager,
-    certificateRepository: CertificateRepository,
     purchaseEnabled: CachedPurchaseEnabled
 ) : MainViewModel(
     mainScope,
     userPlanManager,
-    certificateRepository,
     logoutUseCase,
     currentUser,
     purchaseEnabled,

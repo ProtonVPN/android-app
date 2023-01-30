@@ -20,53 +20,43 @@
 package com.protonvpn.app.vpn
 
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.components.AppInUseMonitor
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.CertInfo
-import com.protonvpn.android.vpn.CertRefreshScheduler
 import com.protonvpn.android.vpn.CertificateKeyProvider
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.CertificateStorage
 import com.protonvpn.android.vpn.MIN_CERT_REFRESH_DELAY
-import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
-import me.proton.core.network.domain.NetworkManager
-import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import kotlin.time.Duration.Companion.seconds
 
 /**
  * Unit tests for certificate refresh tests.
- *
- * These tests need to be executed with instrumentation because CertificateRepository uses go libraries.
  */
 @OptIn(ExperimentalCoroutinesApi::class, kotlin.time.ExperimentalTime::class)
 class CertificateRefreshTests {
 
     private var currentTimeMs: Long = 0
-    private lateinit var infoChangeFlow: MutableStateFlow<List<UserPlanManager.InfoChange>>
-    private lateinit var appInUseFlow: MutableStateFlow<Boolean>
-    private lateinit var networkStateFlow: MutableStateFlow<NetworkStatus>
+    private lateinit var infoChangeFlow: MutableSharedFlow<List<UserPlanManager.InfoChange>>
 
     @RelaxedMockK
     private lateinit var mockStorage: CertificateStorage
@@ -84,22 +74,14 @@ class CertificateRefreshTests {
     private lateinit var mockCurrentUser: CurrentUser
 
     @RelaxedMockK
-    private lateinit var mockRefeshScheduler: CertRefreshScheduler
-
-    @MockK
-    private lateinit var mockAppInUseMonitor: AppInUseMonitor
-
-    @MockK
-    private lateinit var networkManager: NetworkManager
+    private lateinit var mockPeriodicUpdateManager: PeriodicUpdateManager
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
         currentTimeMs = NOW_MS
-        infoChangeFlow = MutableStateFlow(emptyList())
-        appInUseFlow = MutableStateFlow(false)
-        networkStateFlow = MutableStateFlow(NetworkStatus.Unmetered)
+        infoChangeFlow = MutableSharedFlow(extraBufferCapacity = 1)
 
         val certs = mutableMapOf<SessionId, CertInfo>()
         coEvery { mockStorage.get(any()) } answers { certs[firstArg()] }
@@ -109,122 +91,80 @@ class CertificateRefreshTests {
 
         every { mockKeyProvider.generateCertInfo() } returns CertInfo("private", "public", "x25519")
         every { mockPlanManager.infoChangeFlow } returns infoChangeFlow
-        every { mockAppInUseMonitor.isInUseFlow } returns appInUseFlow
-        every { mockAppInUseMonitor.isInUse } answers { appInUseFlow.value }
-        every { networkManager.observe() } returns networkStateFlow
         coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Success(CERTIFICATE_RESPONSE)
         coEvery { mockCurrentUser.sessionId() } returns SESSION_ID
     }
 
     @Test
-    fun certificateRepository_fetches_certificate_when_user_logged_in_and_no_certificate() =
-        runTest(UnconfinedTestDispatcher()) {
-            coEvery { mockStorage.get(any()) } returns null
-
-            createRepository(backgroundScope)
-            coVerify { mockApi.getCertificate(any(), any()) }
-            coVerify { mockStorage.put(SESSION_ID, any()) }
-        }
-
-    @Test
-    fun certificateRepository_refreshes_certificate_when_app_becomes_in_use() = runTest(UnconfinedTestDispatcher()) {
-        createRepository(backgroundScope)
-        currentTimeMs = CERT_INFO.refreshAt + 1
-        coVerify { mockApi wasNot Called }
-
-        appInUseFlow.value = true
-        coVerify { mockApi.getCertificate(any(), any()) }
-    }
-
-    @Test
-    fun certificateRepository_schedules_refresh_when_app_becomes_in_use() = runTest(UnconfinedTestDispatcher()) {
-        createRepository(backgroundScope)
-        verify { mockRefeshScheduler wasNot Called }
-
-        appInUseFlow.value = true
-        verify { mockRefeshScheduler.rescheduleAt(CERT_INFO.refreshAt) }
-    }
-
-    @Test
-    fun certificateRepository_does_not_schedule_refresh_when_refreshing_and_app_not_in_use() = runTest(UnconfinedTestDispatcher()) {
-        currentTimeMs = CERT_INFO.refreshAt + 1
-
-        createRepository(backgroundScope)
-        coVerify { mockApi.getCertificate(any(), any()) }
-        verify { mockRefeshScheduler wasNot Called }
-    }
-
-    @Test
-    fun certificateRepository_refreshes_valid_certificate_when_plan_changes() = runTest(UnconfinedTestDispatcher()) {
-        createRepository(backgroundScope)
-        coVerify { mockApi wasNot Called }
-
-        coEvery { mockApi.getCertificate(any(), any()) } coAnswers {
-            // Before refreshing cert should be invalidated
-            val info = mockStorage.get(SESSION_ID)
-            assertNotNull(info)
-            assertNull(info.certificatePem)
-            ApiResult.Success(CERTIFICATE_RESPONSE)
-        }
-        infoChangeFlow.value = listOf(UserPlanManager.InfoChange.PlanChange.Upgrade)
-        coVerify {
-            mockApi.getCertificate(any(), any())
-        }
-
-        // Key should be retained and cert should now be refreshed
-        val newCertInfo = mockStorage.get(SESSION_ID)
-        assertNotNull(newCertInfo)
-        assertEquals(UPDATED_CERT, newCertInfo.certificatePem)
-        assertEquals(CERT_INFO.privateKeyPem, newCertInfo.privateKeyPem)
-    }
-
-    @Test
-    fun certificateRepository_refreshes_certificate_when_network_is_available() = runTest(UnconfinedTestDispatcher()) {
-        currentTimeMs = CERT_INFO.refreshAt + 1
-        networkStateFlow.value = NetworkStatus.Disconnected
-        createRepository(backgroundScope)
-        coVerify { mockApi wasNot Called }
-        networkStateFlow.value = NetworkStatus.Unmetered
-        coVerify { mockApi.getCertificate(any(), any()) }
-    }
-
-    @Test
     fun `certificateRepository getCertificate refreshes certificate when it's expired`() = runTest(UnconfinedTestDispatcher()) {
-        currentTimeMs = CERT_INFO.refreshAt - 100
         val repository = createRepository(backgroundScope)
-        coVerify { mockApi wasNot Called }
+        coEvery {
+            mockPeriodicUpdateManager.executeNow<SessionId, CertificateRepository.CertificateResult>(any(), SESSION_ID)
+        } returns
+            CertificateRepository.CertificateResult.Success(CERTIFICATE_RESPONSE.certificate, CERT_INFO.privateKeyPem)
         currentTimeMs = CERT_INFO.expiresAt + 100
         repository.getCertificate(SESSION_ID)
 
-        coVerify { mockApi.getCertificate(any(), any()) }
+        coVerify {
+            mockPeriodicUpdateManager.executeNow<SessionId, Any>(match { it.id == "vpn_certificate" }, SESSION_ID)
+        }
     }
 
     @Test
-    fun `error triggers reschedule`() = runTest(UnconfinedTestDispatcher()) {
-        currentTimeMs = CERT_INFO.refreshAt
-        appInUseFlow.value = true
-        coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Error.Timeout(true)
+    fun `certificateRepository clears and refreshes valid certificate when plan changes`() = runTest(UnconfinedTestDispatcher()) {
         createRepository(backgroundScope)
-        verify { mockRefeshScheduler.rescheduleAt((currentTimeMs + CERT_INFO.expiresAt) / 2) }
+        coEvery {
+            mockPeriodicUpdateManager.executeNow<SessionId, CertificateRepository.CertificateResult>(any(), SESSION_ID)
+        } returns
+            CertificateRepository.CertificateResult.Success(CERTIFICATE_RESPONSE.certificate, CERT_INFO.privateKeyPem)
+        coVerify(exactly = 0) { mockPeriodicUpdateManager.executeNow<Any, Any>(any(), any()) }
+
+        infoChangeFlow.emit(listOf(UserPlanManager.InfoChange.PlanChange.Upgrade))
+
+        val clearedCertInfo = CertInfo(
+            CERT_INFO.privateKeyPem,
+            CERT_INFO.publicKeyPem,
+            CERT_INFO.x25519Base64
+        )
+        coVerify {
+            mockPeriodicUpdateManager.executeNow<SessionId, Any>(match { it.id == "vpn_certificate" }, SESSION_ID)
+        }
+        coVerify { mockStorage.put(SESSION_ID, clearedCertInfo) }
     }
 
     @Test
-    fun `error triggers reschedule with min delay`() = runTest(UnconfinedTestDispatcher()) {
+    fun `updateCertificateInternal computes next update time at cert refresh time`() = runTest {
+        val repository = createRepository(backgroundScope)
+        val result = repository.updateCertificateInternal(SESSION_ID)
+        assertEquals(CERT_INFO.refreshAt, result.nextCallDelayOverride!! + currentTimeMs)
+    }
+
+    @Test
+    fun `updateCertificateInternal computes short next update delay on refresh error`() = runTest {
+        val repository = createRepository(backgroundScope)
+        currentTimeMs = CERT_INFO.refreshAt
+        coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Error.Timeout(true)
+        val result = repository.updateCertificateInternal(SESSION_ID)
+        assertEquals((currentTimeMs + CERT_INFO.expiresAt) / 2, result.nextCallDelayOverride!! + currentTimeMs)
+    }
+
+    @Test
+    fun `updateCertificateInternal computes next update with min delay on refresh error`() = runTest {
+        val repository = createRepository(backgroundScope)
         currentTimeMs = CERT_INFO.expiresAt - 10
-        appInUseFlow.value = true
         coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Error.Timeout(true)
-        createRepository(backgroundScope)
-        verify { mockRefeshScheduler.rescheduleAt(currentTimeMs + MIN_CERT_REFRESH_DELAY) }
+        val result = repository.updateCertificateInternal(SESSION_ID)
+        assertEquals(MIN_CERT_REFRESH_DELAY, result.nextCallDelayOverride!!)
     }
 
     @Test
-    fun `retry-after error triggers reschedule`() = runTest(UnconfinedTestDispatcher()) {
+    fun `updateCertificateInternal respects retry-after`() = runTest(UnconfinedTestDispatcher()) {
+        val repository = createRepository(backgroundScope)
         currentTimeMs = CERT_INFO.refreshAt
-        appInUseFlow.value = true
         val retryAfter = 2.seconds
         coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Error.Http(429, "", retryAfter = retryAfter)
-        createRepository(backgroundScope)
-        verify { mockRefeshScheduler.rescheduleAt(currentTimeMs + retryAfter.inWholeMilliseconds) }
+        val result = repository.updateCertificateInternal(SESSION_ID)
+        assertEquals(retryAfter.inWholeMilliseconds, result.nextCallDelayOverride!!)
     }
 
     private fun createRepository(scope: CoroutineScope) =
@@ -236,13 +176,12 @@ class CertificateRefreshTests {
             ::currentTimeMs,
             mockPlanManager,
             mockCurrentUser,
-            mockRefeshScheduler,
-            mockAppInUseMonitor,
-            networkManager
+            mockPeriodicUpdateManager,
+            flowOf(true)
         )
 
     companion object {
-        private const val NOW_MS = 100L
+        private const val NOW_MS = 1000L
 
         private val SESSION_ID = SessionId("sessionId")
         private val CERT_INFO = CertInfo(
@@ -256,8 +195,8 @@ class CertificateRefreshTests {
         private const val UPDATED_CERT = "updated fake certificate data"
         private val CERTIFICATE_RESPONSE = CertificateResponse(
             UPDATED_CERT,
-            refreshTime = NOW_MS + 100_000,
-            expirationTime = NOW_MS + 2_000_000,
+            refreshTime = (NOW_MS + 100_000) / 1000,
+            expirationTime = (NOW_MS + 2_000_000) / 1000,
         )
     }
 }

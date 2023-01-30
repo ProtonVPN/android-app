@@ -58,8 +58,6 @@ import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.utils.TrafficMonitor
-import com.protonvpn.android.vpn.CertRefreshScheduler
-import com.protonvpn.android.vpn.CertRefreshWorkerScheduler
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
@@ -180,8 +178,6 @@ object AppModuleProd {
     @Module
     @InstallIn(SingletonComponent::class)
     interface Bindings {
-        @Binds
-        fun bindCertificateRefreshScheduler(scheduler: CertRefreshWorkerScheduler): CertRefreshScheduler
 
         @Binds
         fun bindGlobalSettingsUpdateScheduler(
