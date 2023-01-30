@@ -98,7 +98,7 @@ class VpnConnectionErrorHandlerTests {
 
     @MockK private lateinit var api: ProtonApiRetroFit
     @MockK private lateinit var userData: UserData
-    @MockK private lateinit var userPlanManager: UserPlanManager
+    @RelaxedMockK private lateinit var userPlanManager: UserPlanManager
     @MockK private lateinit var vpnStateMonitor: VpnStateMonitor
     @MockK private lateinit var appConfig: AppConfig
     @RelaxedMockK private lateinit var serverManager: ServerManager
@@ -164,7 +164,9 @@ class VpnConnectionErrorHandlerTests {
 
     @Test
     fun testAuthErrorDelinquent() = testScope.runTest {
-        coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.UserBecameDelinquent)
+        coEvery {
+            userPlanManager.computeUserInfoChanges(any(), any())
+        } returns listOf(UserPlanManager.InfoChange.UserBecameDelinquent)
         assertEquals(
             VpnFallbackResult.Switch.SwitchProfile(
                 directConnectionParams.server,
@@ -178,7 +180,9 @@ class VpnConnectionErrorHandlerTests {
 
     @Test
     fun testAuthErrorDowngrade() = testScope.runTest {
-        coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free"))
+        coEvery {
+            userPlanManager.computeUserInfoChanges(any(), any())
+        } returns listOf(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free"))
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 1) }
 
         assertEquals(
@@ -205,7 +209,9 @@ class VpnConnectionErrorHandlerTests {
 
     @Test
     fun testAuthErrorVpnCredentials() = testScope.runTest {
-        coEvery { userPlanManager.refreshVpnInfo() } returns listOf(UserPlanManager.InfoChange.VpnCredentials)
+        coEvery {
+            userPlanManager.computeUserInfoChanges(any(), any())
+        } returns listOf(UserPlanManager.InfoChange.VpnCredentials)
         assertEquals(
             VpnFallbackResult.Switch.SwitchProfile(
                 directConnectionParams.server,
@@ -219,7 +225,7 @@ class VpnConnectionErrorHandlerTests {
 
     @Test
     fun testAuthErrorMaxSessions() = testScope.runTest {
-        coEvery { userPlanManager.refreshVpnInfo() } returns listOf()
+        coEvery { userPlanManager.computeUserInfoChanges(any(), any()) } returns listOf()
         coEvery { api.getSession() } returns ApiResult.Success(
             SessionListResponse(1000, listOf(Session("1", "1"), Session("2", "2")))
         )
@@ -293,7 +299,7 @@ class VpnConnectionErrorHandlerTests {
 
     @Test
     fun testAuthErrorMaintenanceFallback() = testScope.runTest {
-        coEvery { userPlanManager.refreshVpnInfo() } returns listOf()
+        coEvery { userPlanManager.computeUserInfoChanges(any(), any()) } returns listOf()
 
         val maintenanceDomain = directConnectionParams.connectingDomain!!
         putDomainInMaintenance(maintenanceDomain.id!!)

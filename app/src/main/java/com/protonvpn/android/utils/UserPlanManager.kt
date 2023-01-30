@@ -18,16 +18,27 @@
  */
 package com.protonvpn.android.utils
 
+import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
+import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
+import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.logging.toLog
+import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.mapNotNull
+import me.proton.core.network.domain.ApiResult
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -36,6 +47,9 @@ class UserPlanManager @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val currentUser: CurrentUser,
     private val vpnUserDao: VpnUserDao,
+    private val periodicUpdateManager: PeriodicUpdateManager,
+    @IsLoggedIn loggedIn: Flow<Boolean>,
+    @IsInForeground inForeground: Flow<Boolean>
 ) {
     sealed class InfoChange {
         sealed class PlanChange : InfoChange() {
@@ -48,6 +62,15 @@ class UserPlanManager @Inject constructor(
         override fun toString(): String = this.javaClass.simpleName
     }
 
+    private val vpnInfoUpdate = periodicUpdateManager.registerApiCall(
+        "vpn_info",
+        ::refreshVpnInfoInternal,
+        PeriodicUpdateSpec(
+            TimeUnit.MINUTES.toMillis(Constants.VPN_INFO_REFRESH_INTERVAL_MINUTES),
+            setOf(inForeground, loggedIn)
+        )
+    )
+
     // Note: don't use CurrentUser.vpnUserCached in code observing this flow. The cached value is updated later.
     val infoChangeFlow = MutableSharedFlow<List<InfoChange>>()
 
@@ -55,34 +78,41 @@ class UserPlanManager @Inject constructor(
         changes.firstOrNull { it is InfoChange.PlanChange } as? InfoChange.PlanChange
     }
 
-    // Will return list of changes (can be empty) or null if refresh failed.
-    suspend fun refreshVpnInfo(): List<InfoChange>? {
-        val changes = api.getVPNInfo().valueOrNull?.let { vpnInfoResponse ->
-            val changes = mutableListOf<InfoChange>()
+    suspend fun refreshVpnInfo(): ApiResult<VpnInfoResponse> =
+        periodicUpdateManager.executeNow(vpnInfoUpdate)
+
+    @VisibleForTesting
+    suspend fun refreshVpnInfoInternal(): ApiResult<VpnInfoResponse> {
+        val result = api.getVPNInfo()
+        val changes = result.valueOrNull?.let { vpnInfoResponse ->
             currentUser.vpnUser()?.let { currentUserInfo ->
                 val newUserInfo = vpnInfoResponse.toVpnUserEntity(currentUserInfo.userId, currentUserInfo.sessionId)
                 vpnUserDao.insertOrUpdate(newUserInfo)
-
-                if (newUserInfo.password != currentUserInfo.password || newUserInfo.name != currentUserInfo.name)
-                    changes += InfoChange.VpnCredentials
-                if (newUserInfo.isUserDelinquent && !currentUserInfo.isUserDelinquent)
-                    changes += InfoChange.UserBecameDelinquent
-                when {
-                    newUserInfo.userTier < currentUserInfo.userTier -> {
-                        changes +=
-                            InfoChange.PlanChange.Downgrade(currentUserInfo.userTierName, newUserInfo.userTierName)
-                    }
-                    newUserInfo.userTier > currentUserInfo.userTier ->
-                        changes += InfoChange.PlanChange.Upgrade
-                }
-                changes.whenNotNullNorEmpty {
-                    ProtonLogger.log(UserPlanChanged, "change: $it, user: ${newUserInfo.toLog()}")
-                }
+                computeUserInfoChanges(currentUserInfo, newUserInfo)
             }
-            changes
         }
         changes.whenNotNullNorEmpty {
             infoChangeFlow.emit(it)
+        }
+        return result
+    }
+
+    fun computeUserInfoChanges(currentUserInfo: VpnUser, newUserInfo: VpnUser): List<InfoChange> {
+        val changes = mutableListOf<InfoChange>()
+        if (newUserInfo.password != currentUserInfo.password || newUserInfo.name != currentUserInfo.name)
+            changes += InfoChange.VpnCredentials
+        if (newUserInfo.isUserDelinquent && !currentUserInfo.isUserDelinquent)
+            changes += InfoChange.UserBecameDelinquent
+        when {
+            newUserInfo.userTier < currentUserInfo.userTier -> {
+                changes +=
+                    InfoChange.PlanChange.Downgrade(currentUserInfo.userTierName, newUserInfo.userTierName)
+            }
+            newUserInfo.userTier > currentUserInfo.userTier ->
+                changes += InfoChange.PlanChange.Upgrade
+        }
+        changes.whenNotNullNorEmpty {
+            ProtonLogger.log(UserPlanChanged, "change: $it, user: ${newUserInfo.toLog()}")
         }
         return changes
     }
