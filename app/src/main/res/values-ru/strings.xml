@@ -117,8 +117,8 @@
     <string name="settingsDefaultConnectionDescription">Кнопка «Быстрое подключение» подключит вас к выбранному профилю</string>
     <string name="settingsAllowNonStandardPortsTitle">Нестандартные порты</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Используйте Proton VPN для любых особых нужд, разрешая трафик на нестандартные порты через VPN. <a href="%1$s">Подробнее</a>]]></string>
-    <string name="settingsModerateNatTitle">Умеренное NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Умеренное NAT отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать такие методы, как прямые соединения для таких приложений, как онлайн-игры. <a href="%1$s">Подробнее</a>]]></string>
+    <string name="settingsModerateNatTitle"> NAT Type 2</string>
+    <string name="settingsModerateNatDescription"><![CDATA[NAT Type 2 отключает рандомизацию сопоставления локальных адресов, что может несколько снизить безопасность, но позволяет использовать такие методы, как прямые соединения для таких приложений, как сетевые игры. <a href="%1$s">Подробнее</a>]]></string>
     <string name="use_coupon_title">Использовать купон</string>
     <string name="use_coupon_code_label">Код купона</string>
     <string name="use_coupon_success">Купон успешно применен</string>
@@ -237,12 +237,12 @@
     <string name="noVpnPermissionMainMessage">Чтобы подключиться к Proton VPN, сделайте следующее:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Предоставить разрешение VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android требует вашего разрешения на подключение к Proton VPN. Дайте разрешение, нажав \"OK\", когда появится окно \"Запрос на подключение\" от Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянную VPN для других приложений</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянную VPN во всех остальных приложениях VPN, кроме Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Отключите постоянное включение VPN для других приложений</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android не поддерживает несколько приложений VPN. Отключите постоянное включение VPN во всех остальных приложениях VPN, кроме Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
     <string name="noVpnPermissionOpenSettings">Открыть настройки Android VPN</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянную VPN во всех других приложениях VPN в настройках системы Android, так как это мешает Proton VPN устанавливать подключение к VPN. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянно включенное включение VPN во всех других приложениях VPN в настройках системы Android, так как это мешает Proton VPN устанавливать подключение к VPN. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
     <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
     <string name="error_prepare_vpn_title">Ошибка: проблема VPN разрешений</string>
     <string name="error_server_not_set">Сервер больше недоступен</string>
@@ -313,7 +313,7 @@
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Возможно, ваша страна блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для доступа к Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянная VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Настроить действия Proton VPN при нарушении подключения</string>
-    <string name="settingsAlwaysOnWindowHeader">Как включить постоянную VPN и Kill Switch:</string>
+    <string name="settingsAlwaysOnWindowHeader">Как включить VPN постоянно и активировать и Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>Настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Найдите Proton VPN и нажмите %1$s</string>
@@ -379,7 +379,7 @@
     <string name="tv_upgrade_title">Смотрите трансляции с Plus</string>
     <string name="back">Назад</string>
     <string name="tv_upgrade_url_details"><![CDATA[Посетите <b>%1$s</b>, чтобы улучшить до Proton VPN Plus прямо сейчас.]]></string>
-    <string name="tv_upgrade_description">Получите тарифный план Proton VPN Plus, чтобы получить доступ к более чем 500 серверам по всему миру и оптимизированным возможностям трансляций Netflix, Amazon Prime Video, Disney+ и многих других.</string>
+    <string name="tv_upgrade_description">Получите тариф Proton VPN Plus, чтобы получить доступ к более чем 500 серверам по всему миру и оптимизированным возможностям трансляций Netflix, Amazon Prime Video, Disney+ и многих других.</string>
     <string name="tv_vpn_error_dialog_title">Сбой VPN-подключения</string>
     <string name="tv_signout_label">Выйти</string>
     <string name="tv_signout_dialog_title">Вы уверены, что хотите выйти?</string>
@@ -535,9 +535,9 @@
     <string name="upgrade_plus_countries_more">И много других платных функций</string>
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
     <string name="upgrade_safe_mode_message">У вас есть расширенные или профессиональные потребности использовать нестандартные порты? Перейдите на VPN Plus, чтобы получить доступ к этой и другим премиальным функциям.</string>
-    <string name="upgrade_moderate_nat_title">Включить умеренное NAT</string>
-    <string name="upgrade_moderate_nat_message">Умеренное NAT, также известное как Nat Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
-    <string name="upgrade_moderate_nat_learn_more">Что такое Умеренное NAT?</string>
+    <string name="upgrade_moderate_nat_title">Включить NAT Type 2</string>
+    <string name="upgrade_moderate_nat_message">Nat Type 2 может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">Что такое NAT Type 2?</string>
     <string name="upgrade_see_plans_button">Посмотрите тарифы и цены</string>
     <string name="upgrade_not_now_button">Не сейчас</string>
     <string name="upgrade_learn_more">Подробнее</string>

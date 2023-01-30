@@ -145,7 +145,7 @@
     <string name="listAllCountries">Todas as localizações (%1$d)</string>
     <string name="listFreeCountries">Localizações Free (%1$d)</string>
     <string name="listPremiumCountries">Localizações Basic e Plus (%1$d)</string>
-    <string name="listPremiumCountries_new_plans">Locais com o Plus (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Localizações Plus (%1$d)</string>
     <string name="listFastestServer">Servidor mais rápido</string>
     <string name="listFreeServers">Servidores gratuitos (%1$d)</string>
     <string name="listBasicServers">Servidores Basic (%1$d)</string>
@@ -198,7 +198,7 @@
     <string name="copy_to_clipboard">Copiar</string>
     <string name="the_list_is_empty">A lista está vazia</string>
     <string name="got_it">Entendi</string>
-    <string name="onboardingWelcome">Bem-vindo(a) a bordo</string>
+    <string name="onboardingWelcome">Boas-vindas a bordo</string>
     <string name="proton_log">Registro do Proton</string>
     <string name="something_went_wrong">Algo deu errado</string>
     <string name="try_again">Tentar novamente</string>
@@ -235,11 +235,11 @@
     <string name="stateFragmentUnknownIp">Desconhecido</string>
     <string name="noVpnPermissionMainTitle">Ação necessária para se conectar à VPN</string>
     <string name="noVpnPermissionMainMessage">Para se conectar ao Proton VPN, faça o seguinte:</string>
-    <string name="noVpnPermissionGrantPermissionTitle">Conceda permissão de VPN</string>
+    <string name="noVpnPermissionGrantPermissionTitle">Conceder permissão de VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">O Android precisa da sua permissão para se conectar ao Proton VPN. Conceda-o tocando em \"OK\" quando você receber a janela \"Solicitação de conexão\" do Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Desative o sempre ativo para outros aplicativos de VPN</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">O Android não suporta múltiplos aplicativos de VPN. Desative o VPN Sempre Ativa para qualquer outro aplicativo que não seja o Proton VPN.</string>
-    <string name="noVpnPermissionProtonAppLabel">Proton VPN</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Desativar o sempre ativo para outros aplicativos de VPN</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">O Android não suporta vários aplicativos VPN. Desative o \"sempre ativa\" para qualquer aplicativo VPN que não seja o Proton VPN.</string>
+    <string name="noVpnPermissionProtonAppLabel">Aplicativo Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Outros aplicativos VPN</string>
     <string name="noVpnPermissionOpenSettings">Abrir configurações de VPN do Android</string>
     <string name="error_prepare_vpn_description"><![CDATA[Por favor, desative a VPN sempre ativa para todos os outros aplicativos de VPN nas configurações de VPN no Android, pois isso impede que o Proton VPN estabeleça uma conexão VPN. Também conceda permissões para VPN no caso de aparecer uma janela solicitando permissões de VPN. Outros aplicativos VPN também podem ter que ser desinstalados para evitar conflitos. Após isso, tente novamente. <a href="%1$s">Saiba mais</a>]]></string>
@@ -552,7 +552,7 @@
     <string name="server_load_high">Alta</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Bem-vindo ao Proton VPN</string>
+    <string name="onboarding_welcome_title">Boas-vindas ao Proton VPN</string>
     <string name="onboarding_welcome_description">Saiba como aproveitar ao máximo o Proton VPN em apenas alguns segundos.</string>
     <string name="onboarding_welcome_action">Comece</string>
     <string name="onboarding_available_on_plus">Disponível com Plus</string>
