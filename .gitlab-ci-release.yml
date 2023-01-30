@@ -1,5 +1,6 @@
 make release branch:
   before_script:
+    - git fetch origin development
     - if [[ -f /load-env.sh ]]; then source /load-env.sh; fi
   stage: deploy
   when: manual
