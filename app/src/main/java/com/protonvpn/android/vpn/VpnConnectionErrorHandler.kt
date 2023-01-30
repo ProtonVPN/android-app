@@ -401,23 +401,28 @@ class VpnConnectionErrorHandler @Inject constructor(
     suspend fun onAuthError(connectionParams: ConnectionParams): VpnFallbackResult {
         try {
             handlingAuthError = true
-            userPlanManager.refreshVpnInfo()?.let { infoChanges ->
-                val vpnUser = currentUser.vpnUser()
-                getCommonFallbackForInfoChanges(connectionParams.server, infoChanges, vpnUser)?.let {
-                    return it
-                }
-
-                if (VpnCredentials in infoChanges) {
-                    // Now that credentials are refreshed we can try reconnecting.
-                    return with(connectionParams) {
-                        VpnFallbackResult.Switch.SwitchProfile(server, server, profile)
+            val vpnInfo = currentUser.vpnUser()
+            userPlanManager.refreshVpnInfo()
+            val newVpnInfo = currentUser.vpnUser()
+            if (vpnInfo != null && newVpnInfo != null) {
+                userPlanManager.computeUserInfoChanges(vpnInfo, newVpnInfo).let { infoChanges ->
+                    val vpnUser = currentUser.vpnUser()
+                    getCommonFallbackForInfoChanges(connectionParams.server, infoChanges, vpnUser)?.let {
+                        return it
                     }
-                }
 
-                val maxSessions = requireNotNull(vpnUser).maxConnect
-                val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
-                if (maxSessions <= sessionCount)
-                    return VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
+                    if (VpnCredentials in infoChanges) {
+                        // Now that credentials are refreshed we can try reconnecting.
+                        return with(connectionParams) {
+                            VpnFallbackResult.Switch.SwitchProfile(server, server, profile)
+                        }
+                    }
+
+                    val maxSessions = requireNotNull(vpnUser).maxConnect
+                    val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
+                    if (maxSessions <= sessionCount)
+                        return VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
+                }
             }
 
             return getMaintenanceFallback(connectionParams)

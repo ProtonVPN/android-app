@@ -25,19 +25,16 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.joda.time.DateTime
-import org.joda.time.Minutes
 import javax.inject.Inject
 
 @HiltViewModel
 open class MainViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val userPlanManager: UserPlanManager,
+    userPlanManager: UserPlanManager,
     private val logoutUseCase: Logout,
     protected val currentUser: CurrentUser,
     val purchaseEnabled: CachedPurchaseEnabled,
@@ -49,15 +46,6 @@ open class MainViewModel @Inject constructor(
     override fun onResume(owner: LifecycleOwner) {
         mainScope.launch {
             purchaseEnabled.refresh()
-            refreshVPNInfo()
-        }
-    }
-
-    private suspend fun refreshVPNInfo() {
-        currentUser.vpnUser()?.let { user ->
-            val ageMinutes = Minutes.minutesBetween(DateTime(user.updateTime), DateTime()).minutes
-            if (ageMinutes > Constants.VPN_INFO_REFRESH_INTERVAL_MINUTES)
-                userPlanManager.refreshVpnInfo()
         }
     }
 

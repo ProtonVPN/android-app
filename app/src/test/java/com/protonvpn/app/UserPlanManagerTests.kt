@@ -18,8 +18,6 @@
  */
 package com.protonvpn.app
 
-import android.content.Context
-import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.data.VpnUser
@@ -33,12 +31,12 @@ import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -56,9 +54,6 @@ class UserPlanManagerTests {
     @RelaxedMockK private lateinit var apiRetroFit: ProtonApiRetroFit
     @RelaxedMockK private lateinit var currentUser: CurrentUser
     @RelaxedMockK private lateinit var vpnUserDao: VpnUserDao
-    @MockK lateinit var mockContext: Context
-
-    @MockK lateinit var mockResources: Resources
 
     lateinit var userData: UserData
     private var vpnUser: VpnUser? = null
@@ -77,7 +72,8 @@ class UserPlanManagerTests {
         coEvery { vpnUserDao.insertOrUpdate(capture(userSlot)) } answers {
             vpnUser = userSlot.captured
         }
-        manager = UserPlanManager(apiRetroFit, currentUser, vpnUserDao)
+        manager =
+            UserPlanManager(apiRetroFit, currentUser, vpnUserDao, mockk(relaxed = true), flowOf(true), flowOf(true))
     }
 
     @Test
@@ -109,6 +105,6 @@ class UserPlanManagerTests {
     private suspend fun changePlan(oldUser: VpnUser, newResponse: VpnInfoResponse) {
         vpnUser = oldUser
         coEvery { apiRetroFit.getVPNInfo() } returns ApiResult.Success(newResponse)
-        manager.refreshVpnInfo()
+        manager.refreshVpnInfoInternal()
     }
 }

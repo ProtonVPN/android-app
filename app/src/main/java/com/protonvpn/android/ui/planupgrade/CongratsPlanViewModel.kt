@@ -31,16 +31,13 @@ import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.ApiResult
 import javax.inject.Inject
 
 @HiltViewModel
 class CongratsPlanViewModel @Inject constructor(
-    private val mainScope: CoroutineScope,
     private val userPlanManager: UserPlanManager,
     private val serverManager: ServerManager,
     private val vpnPermissionDelegate: VpnPermissionDelegate,
@@ -56,7 +53,7 @@ class CongratsPlanViewModel @Inject constructor(
     }
 
     fun refreshPlan() = viewModelScope.launch {
-        val refreshResult = withContext(mainScope.coroutineContext) { userPlanManager.refreshVpnInfo() }
+        val refreshResult = userPlanManager.refreshVpnInfo()
         state.value = if (refreshResult is ApiResult.Error)
             State.Error(refreshResult.displayText())
         else
