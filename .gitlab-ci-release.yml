@@ -58,11 +58,9 @@ sync-app:
     - git push public $CI_COMMIT_REF_NAME
     # Push the latest tag we can find
     - git push public "$(git describe --abbrev=0)"
-    # Point master to latest release branch
-    - git checkout master
-    - git reset --hard $CI_COMMIT_REF_NAME
+    # Point github master to latest release branch
+    - git checkout -b master
     - git push public master -f
-
 
 publish-apk-internal:
   stage: publish
