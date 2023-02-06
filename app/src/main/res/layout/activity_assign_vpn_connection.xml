@@ -50,24 +50,26 @@
                 style="@style/Proton.Text.Headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginBottom="8dp"
+                android:gravity="center"
                 android:text="@string/connectionAllocationHelpTitle" />
 
             <TextView
+                android:id="@+id/textDescriptionAssignConnections"
                 style="@style/Proton.Text.Default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:gravity="center_horizontal"
-                android:text="@string/connectionAllocationHelpDescription1"/>
+                android:text="@string/connectionAllocationHelpDescription1" />
 
             <TextView
+                android:id="@+id/textSubDescriptionAssignConnections"
                 style="@style/Proton.Text.DefaultSmall.Weak"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@string/connectionAllocationHelpDescription2"/>
+                android:text="@string/connectionAllocationHelpDescription2" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
