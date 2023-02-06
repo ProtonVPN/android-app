@@ -237,8 +237,8 @@
     <string name="noVpnPermissionMainMessage">برای اتصال به Proton VPN، لطفاً کارهای زیر را انجام دهید:</string>
     <string name="noVpnPermissionGrantPermissionTitle">مجوز VPN را اعطا کنید</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android به اجازهٔ شما برای اتصال به Proton VPN نیاز دارد. آن را با ضربه زدن روی «قبول» هنگامی که پنجرهٔ «درخواست اتصال» را از Android دریافت می‌کنید، اعطا کنید.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">غیر فال کردن همیشه روشن برای برنامه‌های VPN دیگر</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">اندروید از برنامه‌های VPN متعدد پشتیبانی نمی‌کند. همیشه روشن را برای برنامه های VPN دیگر به غیر از Proton VPN غیرفعال کنید.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">غیر فعال کردن حالت «همیشه روشن» برای برنامه‌های VPN دیگر</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">اندروید از برنامه‌های VPN متعدد پشتیبانی نمی‌کند. حالت «همیشه روشن» را برای برنامه های VPN دیگر به غیر از Proton VPN غیرفعال کنید.</string>
     <string name="noVpnPermissionProtonAppLabel">برنامهٔ ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">برنامه‌های VPN دیگر</string>
     <string name="noVpnPermissionOpenSettings">تنظیمات VPN را در Android باز کنید</string>
@@ -254,7 +254,7 @@
     <string name="bugReportErrorLabelVpnLogsDescription">این گزینه لاگ‌های خطا را (ما فعالیت‌ها را ثبت نمی‌کنیم) ارسال می‌کند تا به ما در حل مشکل شما کمک کند</string>
     <string name="profileFastest">سریع‌ترین</string>
     <string name="profileRandom">تصادفی</string>
-    <string name="settingsSplitTunnelingDescription">قابلیت split tunneling اجازه می‌دهد تا نشانی‌های IP‌ یا برنامه‌های مشخص از ترافیک VPN جدا شوند.</string>
+    <string name="settingsSplitTunnelingDescription">قابلیت split tunneling اجازه می‌دهد تا نشانی‌های IP یا برنامه‌های مشخص از ترافیک VPN جدا شوند.</string>
     <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
     <string name="loaderAuthenticatingUser">تأیید هویت کاربر…</string>
     <string name="loaderErrorNoInternet">اتصال اینترنت برقرار نیست</string>
@@ -266,7 +266,7 @@
     <string name="settingsExcludedIPAddresses">نشانی‌های IP مستثنی شده</string>
     <string name="settingsExcludedIPAddressesListHeader">نشانی‌های IP مستثنی شده (%1$d)</string>
     <string name="settingsExcludedApps">برنامه‌های مستثنی شده</string>
-    <string name="settingsExcludedAppsEmpty">برنامه‌ها را اضافه کنید تا از ترافیک VPN استثنا شوند.</string>
+    <string name="settingsExcludedAppsEmpty">برنامه‌هایی که می‌خواهید از ترافیک VPN جدا شوند را اضافه کنید.</string>
     <string name="settingsExcludedAppsSelectedHeader">برنامه‌های استثنا شده (%1$d)</string>
     <string name="settingsExcludedAppsAvailableRegularHeader">برنامه‌های مجاز عادی (%1$d)</string>
     <string name="settingsExcludedAppsAvailableSystemHeader">برنامه‌های مجاز سیستم (%1$d)</string>
@@ -358,8 +358,8 @@
     <string name="tv_detail_default_connection_checkbox_short">مورد علاقه</string>
     <string name="tv_detail_connect_streaming">پخش با Plus</string>
     <string name="tv_detail_connect">اتصال</string>
-    <string name="tv_detail_description_streaming_country">محتوای مورد‌ علاقهٔ خود را پخش کنید. با یک طرح Proton VPN Plus به برنامه‌های بیشتری دسترسی پیدا کنید.</string>
-    <string name="tv_detail_description_no_streaming_country">با یک طرح Proton VPN Plus مقدار بیشتری از محتوای مورد علاقهٔ خود را پخش کنید.</string>
+    <string name="tv_detail_description_streaming_country">محتوای مورد‌ علاقهٔ خود را استریم کنید. با طرح Proton VPN Plus به برنامه‌های بیشتری دسترسی پیدا کنید.</string>
+    <string name="tv_detail_description_no_streaming_country">با طرح Proton VPN Plus مقدار بیشتری از محتوای مورد علاقهٔ خود را استریم کنید.</string>
     <string name="tv_detail_description_country_not_available">این کشور در دسترس نیست. گزینه‌های پخش آنلاین بیشتری را با یک طرح Proton VPN Plus دریافت کنید.</string>
     <string name="tv_detail_description_plus">ویدئوها، فیلمها، یا مسابقات ورزشی مورد علاقه خود را با برنامک های خود پخش کنید.</string>
     <string name="tv_login_title_signin">ورود به Proton VPN</string>
@@ -376,7 +376,7 @@
     <string name="tv_login_title_refresh">نشست شما منقضی شده است. دکمه نوسازی را زده تا دوباره از نو شروع کنید.</string>
     <string name="tv_upgrade_title">شروع به پخش کنید با Plus</string>
     <string name="back">بازگشت</string>
-    <string name="tv_upgrade_url_details"><![CDATA[بروید به <b>%1$s</b> تا هم اکنون به Proton VPN Plus ارتقا دهید.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[همین حالا برای ارتقا Proton VPN Plus به <b>%1$s</b> بروید.]]></string>
     <string name="tv_upgrade_description">یک طرح Proton VPN Plus بگیرید تا به +۵۰۰ سرور در سراسر جهان و انتخابهای بهینه شده برای پخش و دیدن Netflix, Amazon Prime Video, Disney+, و خیلی موارد دیگر دست یابید.</string>
     <string name="tv_vpn_error_dialog_title">ﺍﺗﺼﺎﻝ VPN ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
     <string name="tv_signout_label">خروج</string>
@@ -456,8 +456,8 @@
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
     <string name="upgrade_plus_subtitle">زمانی که شما به Plus ارتقا دهید</string>
-    <string name="upgrade_netshield_title_new">با NetShield از وبگردی بدون تبلیغات لذا ببرید</string>
-    <string name="upgrade_secure_core_title_new">با Secure Core دو بار رمزنگاری کنید</string>
+    <string name="upgrade_netshield_title_new">با NetShield از وبگردی بدون تبلیغات لذت ببرید</string>
+    <string name="upgrade_secure_core_title_new">رمزگذاری را با Secure Core دو برابر کنید</string>
     <string name="upgrade_secure_core_countries">مسیریابی از طریق سرورهای فوق امن در سوییس، سوئد و ایسلند</string>
     <string name="upgrade_secure_core_encryption">اضافه کردن یک لایه دیگر رمزنگاری به ارتباط VPN شما</string>
     <string name="upgrade_secure_core_protect">از خودتان در برابر حملات شبکه محافظت کنید</string>
@@ -472,7 +472,7 @@
          -->
     <plurals name="upgrade_plus_servers_new">
         <item quantity="one">%d سرور امن</item>
-        <item quantity="other">%d سرور امن</item>
+        <item quantity="other">%d سرورهای امن</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -518,8 +518,8 @@
     <string name="upgrade_plus_countries_speeds">با بالاترین سرعت وبگردی کنید (10 گیگابیت بر ثانیه)</string>
     <string name="upgrade_plus_countries_more">و بسیاری از ویژگی‌های دیگر</string>
     <string name="upgrade_safe_mode_title">امکان عبور ترافیک از پورت‌های غیر استاندارد</string>
-    <string name="upgrade_safe_mode_message">آیا نیازهای پردازشی پیشرفته یا حرفه‌ای دارید که درگاه‌های غیر-استاندارد لازم دارند؟ به VPN Plus ارتقا دهید تا به این قابلیت و قابلیت‌های ویژهٔ دیگر دسترسی پیدا کنید.</string>
-    <string name="upgrade_moderate_nat_title">فعال‌سازی NAT میانه‌رو</string>
+    <string name="upgrade_safe_mode_message">آیا نیازهای پردازشی پیشرفته یا حرفه‌ای دارید که درگاه‌های غیر-استاندارد لازم دارند؟ طرح خود را به VPN Plus ارتقا دهید تا به این قابلیت و قابلیت‌های ویژهٔ دیگر دسترسی پیدا کنید.</string>
+    <string name="upgrade_moderate_nat_title">فعال‌سازی Moderate NAT</string>
     <string name="upgrade_moderate_nat_message">NAT میانه‌رو، که به عنوان NAT نوع ۲ نیز شناخته می‌شود، می‌تواند تجربهٔ آنلاین شما را با برنامه‌های متفاوت و بازی‌های ویدئویی آنلاین بهبود ببخشد. این قابلیت را به همراه قابلیت‌های دیگر با یک طرح Plus باز کنید.</string>
     <string name="upgrade_moderate_nat_learn_more">NAT میانه‌رو چیست؟</string>
     <string name="upgrade_see_plans_button">طرح‌ها و قیمت‌ها را ببینید</string>
