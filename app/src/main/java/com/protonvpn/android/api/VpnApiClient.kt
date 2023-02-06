@@ -56,6 +56,8 @@ class VpnApiClient(
 
     override val pingTimeoutSeconds: Int get() = 5
 
+    override val dohRecordType get() = ApiClient.DohRecordType.A
+
     override fun forceUpdate(errorMessage: String) {
         scope.launch {
             eventForceUpdate.emit(errorMessage)
