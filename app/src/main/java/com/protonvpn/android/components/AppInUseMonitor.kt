@@ -19,12 +19,16 @@
 
 package com.protonvpn.android.components
 
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,7 +38,10 @@ import javax.inject.Singleton
 class AppInUseMonitor @Inject constructor(
     mainScope: CoroutineScope,
     foregroundActivityTracker: ForegroundActivityTracker,
-    vpnStatusProviderUI: VpnStatusProviderUI
+    vpnStatusProviderUI: VpnStatusProviderUI,
+    @WallClock private val clock: () -> Long,
+    private val prefs: AppFeaturesPrefs
+
 ) {
     /**
      * Indicates if the VPN app is in active use by the user.
@@ -46,7 +53,16 @@ class AppInUseMonitor @Inject constructor(
         foregroundActivityTracker.foregroundActivityFlow
     ) { status, fgActivity ->
         fgActivity != null || status.state != VpnState.Disabled
+    }.onEach {
+        prefs.lastAppInUseTimestamp = clock()
     }.stateIn(mainScope, SharingStarted.Eagerly, false)
 
-    val isInUse: Boolean get() = isInUseFlow.value
+    private val isInUse get() = isInUseFlow.value
+
+    init {
+        isInUseFlow.launchIn(mainScope)
+    }
+
+    fun wasInUseIn(durationMs: Long) =
+        isInUse || clock() - prefs.lastAppInUseTimestamp <= durationMs
 }

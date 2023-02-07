@@ -117,8 +117,8 @@ class VpnStateMonitor @Inject constructor() : VpnStatusProvider() {
 // Status provider that ignores Guest Hole connections as those should be ignored in UI
 @Singleton
 class VpnStatusProviderUI @Inject constructor(
-    val scope: CoroutineScope,
-    val monitor: VpnStateMonitor
+    scope: CoroutineScope,
+    monitor: VpnStateMonitor
 ) : VpnStatusProvider() {
     override val status: StateFlow<VpnStateMonitor.Status> =
         monitor.status.filter { it.profile?.isGuestHoleProfile != true }

@@ -42,6 +42,8 @@ class AppFeaturesPrefs @Inject constructor(
 
     var lastSuccessfulGuestHoleServerId: String? by string(null)
 
+    var lastAppInUseTimestamp: Long by long(Long.MAX_VALUE)
+
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
     }
