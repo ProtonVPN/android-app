@@ -1,5 +1,5 @@
 default:
-  image: ${CI_REGISTRY}/android/shared/docker-android/ndk:v1.0.2
+  image: ${CI_REGISTRY}/android/shared/docker-android/ndk:v1.0.3
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
