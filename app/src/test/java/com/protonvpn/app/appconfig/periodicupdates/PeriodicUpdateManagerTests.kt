@@ -27,6 +27,7 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDao
 import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
 import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
+import com.protonvpn.android.components.AppInUseMonitor
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.TestDispatcherProvider
 import io.mockk.MockKAnnotations
@@ -80,12 +81,15 @@ class PeriodicUpdateManagerTests {
 
     @RelaxedMockK
     private lateinit var mockScheduler: PeriodicUpdateScheduler
-    private lateinit var networkManager: MockNetworkManager
+    @MockK
+    private lateinit var mockAppInUseMonitor: AppInUseMonitor
     @MockK
     private lateinit var mockRandom: Random
 
     private lateinit var testScope: TestScope
+    private lateinit var networkManager: MockNetworkManager
     private lateinit var periodicUpdatesDao: FakePeriodicUpdatesDao
+    private lateinit var appInUseFlow: MutableStateFlow<Boolean>
 
     private lateinit var periodicUpdateManager: PeriodicUpdateManager
 
@@ -97,8 +101,11 @@ class PeriodicUpdateManagerTests {
 
         networkManager = MockNetworkManager()
         periodicUpdatesDao = FakePeriodicUpdatesDao()
+        appInUseFlow = MutableStateFlow(false)
 
         every { mockRandom.nextFloat() } returns 0f
+        every { mockAppInUseMonitor.wasInUseIn(any()) } returns true
+        every { mockAppInUseMonitor.isInUseFlow } returns appInUseFlow
         every { mockScheduler.eventProcessPeriodicUpdates } returns emptyFlow()
 
         periodicUpdateManager = PeriodicUpdateManager(
@@ -107,6 +114,7 @@ class PeriodicUpdateManagerTests {
             testScope::currentTime,
             periodicUpdatesDao,
             mockScheduler,
+            mockAppInUseMonitor,
             networkManager,
             mockRandom
         )
@@ -403,6 +411,31 @@ class PeriodicUpdateManagerTests {
 
         periodicUpdateManager.registerUpdateAction(testAction, PeriodicUpdateSpec(2 * DELAY_MS, emptySet()))
         coVerify { mockScheduler.scheduleAt(2 * DELAY_MS) }
+    }
+
+    @Test
+    fun `when app is not in use for 2 days then scheduling stops`() = testScope.runTest {
+        every { mockAppInUseMonitor.wasInUseIn(any()) } returns false
+
+        periodicUpdateManager.registerUpdateAction(testAction, PeriodicUpdateSpec(DELAY_MS, emptySet()))
+        periodicUpdateManager.start()
+
+        coVerify { mockScheduler.cancelScheduled() }
+    }
+
+    @Test
+    fun `when app becomes in use again then scheduling is started`() = testScope.runTest {
+        every { mockAppInUseMonitor.wasInUseIn(any()) } returns false
+        appInUseFlow.value = false
+
+        periodicUpdateManager.registerUpdateAction(testAction, PeriodicUpdateSpec(DELAY_MS, emptySet()))
+        periodicUpdateManager.start()
+        coVerify { mockScheduler.cancelScheduled() }
+        coVerify(exactly = 0) { mockScheduler.scheduleAt(any()) }
+
+        every { mockAppInUseMonitor.wasInUseIn(any()) } returns true
+        appInUseFlow.value = true
+        coVerify { mockScheduler.scheduleAt(currentTime + DELAY_MS) }
     }
 
     private fun createTestAction(actionId: String, actionFunc: suspend (String) -> String = { input -> input }) =

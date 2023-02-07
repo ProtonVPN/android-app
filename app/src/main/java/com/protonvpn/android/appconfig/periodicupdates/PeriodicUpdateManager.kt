@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.appconfig.periodicupdates
 
+import com.protonvpn.android.components.AppInUseMonitor
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -49,6 +51,7 @@ import kotlin.random.Random
 
 private const val MAX_JITTER_RATIO = .2f
 private val MAX_JITTER_DELAY_MS = TimeUnit.HOURS.toMillis(1)
+private val APP_NOT_IN_USE_DELAY_MS = TimeUnit.DAYS.toMillis(2)
 
 data class UpdateCondition(private val flow: Flow<Boolean>) {
     fun getFlow(): Flow<UpdateCondition?> = flow.map { if (it) this else null }.distinctUntilChanged()
@@ -139,6 +142,7 @@ class PeriodicUpdateManager @Inject constructor(
     @WallClock private val clock: () -> Long,
     private val periodicUpdatesDao: PeriodicUpdatesDao,
     private val periodicUpdateScheduler: PeriodicUpdateScheduler,
+    private val appInUseMonitor: AppInUseMonitor,
     private val networkManager: NetworkManager,
     private val random: Random
 ) {
@@ -190,6 +194,10 @@ class PeriodicUpdateManager @Inject constructor(
                 .map { it != NetworkStatus.Disconnected }
                 .distinctUntilChanged()
                 .onEach { processPeriodic() }
+                .launchIn(mainScope)
+            appInUseMonitor.isInUseFlow
+                .filter { isInUse -> isInUse }
+                .onEach { rescheduleNext(trueConditions) }
                 .launchIn(mainScope)
         }
     }
@@ -277,8 +285,7 @@ class PeriodicUpdateManager @Inject constructor(
         // TODO: add some protection against running a task too often (e.g. if there's a bug in time computation
         //  in the task's code.
         val next = computeNearestNextActionTimestamp(conditions)
-        // TODO: don't reschedule when the app hasn't been in use for some time
-        if (next != null) {
+        if (next != null && appInUseMonitor.wasInUseIn(APP_NOT_IN_USE_DELAY_MS)) {
             periodicUpdateScheduler.scheduleAt(next)
         } else {
             periodicUpdateScheduler.cancelScheduled()
