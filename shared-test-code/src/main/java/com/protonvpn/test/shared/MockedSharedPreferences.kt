@@ -23,6 +23,8 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import androidx.annotation.Nullable
 import com.protonvpn.android.utils.SharedPreferencesProvider
+import java.util.Collections
+import java.util.WeakHashMap
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,7 +40,8 @@ class MockSharedPreferencesProvider @Inject constructor() : SharedPreferencesPro
 
 class MockSharedPreference : SharedPreferences {
     private val preferenceMap: HashMap<String?, Any?> = HashMap()
-    private val preferenceEditor: MockSharedPreferenceEditor
+    private val changeListeners = Collections.newSetFromMap(WeakHashMap<OnSharedPreferenceChangeListener, Boolean>())
+    private val preferenceEditor = MockSharedPreferenceEditor(preferenceMap, ::onPreferenceChanged)
 
     override fun getAll(): Map<String?, *> = preferenceMap
 
@@ -60,61 +63,82 @@ class MockSharedPreference : SharedPreferences {
 
     override fun edit() = preferenceEditor
 
-    override fun registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener: OnSharedPreferenceChangeListener) {}
+    override fun registerOnSharedPreferenceChangeListener(
+        onSharedPreferenceChangeListener: OnSharedPreferenceChangeListener
+    ) {
+        changeListeners.add(onSharedPreferenceChangeListener)
+    }
 
-    override fun unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener: OnSharedPreferenceChangeListener) {}
+    override fun unregisterOnSharedPreferenceChangeListener(
+        onSharedPreferenceChangeListener: OnSharedPreferenceChangeListener
+    ) {
+        changeListeners.remove(onSharedPreferenceChangeListener)
+    }
 
-    class MockSharedPreferenceEditor(private val preferenceMap: HashMap<String?, Any?>) :
-        SharedPreferences.Editor {
+    private fun onPreferenceChanged(key: String?) {
+        changeListeners.forEach { it.onSharedPreferenceChanged(this, key) }
+    }
+
+    class MockSharedPreferenceEditor(
+        private val destinationMap: MutableMap<String?, Any?>,
+        private val onPrefChanged: (key: String?) -> Unit
+    ) : SharedPreferences.Editor {
+
+        private val editMap = HashMap<String?, Any?>()
+        private var clearAll = false
 
         override fun putString(s: String, @Nullable s1: String?): SharedPreferences.Editor {
-            preferenceMap[s] = s1
+            editMap[s] = s1
             return this
         }
 
         override fun putStringSet(s: String, @Nullable set: Set<String>?): SharedPreferences.Editor {
-            preferenceMap[s] = set
+            editMap[s] = set
             return this
         }
 
         override fun putInt(s: String, i: Int): SharedPreferences.Editor {
-            preferenceMap[s] = i
+            editMap[s] = i
             return this
         }
 
         override fun putLong(s: String, l: Long): SharedPreferences.Editor {
-            preferenceMap[s] = l
+            editMap[s] = l
             return this
         }
 
         override fun putFloat(s: String, v: Float): SharedPreferences.Editor {
-            preferenceMap[s] = v
+            editMap[s] = v
             return this
         }
 
         override fun putBoolean(s: String, b: Boolean): SharedPreferences.Editor {
-            preferenceMap[s] = b
+            editMap[s] = b
             return this
         }
 
         override fun remove(s: String): SharedPreferences.Editor {
-            preferenceMap.remove(s)
+            editMap.remove(s)
             return this
         }
 
         override fun clear(): SharedPreferences.Editor {
-            preferenceMap.clear()
+            clearAll = true
             return this
         }
 
-        override fun commit() = true
-
-        override fun apply() { // Nothing to do, everything is saved in memory.
+        override fun commit(): Boolean {
+            if (clearAll) {
+                onPrefChanged(null)
+                destinationMap.clear()
+            }
+            destinationMap.putAll(editMap)
+            editMap.keys.forEach(onPrefChanged)
+            return true
         }
 
-    }
-
-    init {
-        preferenceEditor = MockSharedPreferenceEditor(preferenceMap)
+        override fun apply() {
+            commit()
+        }
     }
 }

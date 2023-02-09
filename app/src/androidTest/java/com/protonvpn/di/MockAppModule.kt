@@ -26,6 +26,9 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
+import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
+import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsUpdateWorker
+import com.protonvpn.android.appconfig.globalsettings.NoopGlobalSettingsUpdateScheduler
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
@@ -232,6 +235,9 @@ class MockAppModule {
     interface Bindings {
         @Binds
         fun bindCertificateRefreshSchedulers(scheduler: NoopCertRefreshScheduler): CertRefreshScheduler
+
+        @Binds
+        fun bindGlobalSettingsUpdateScheduler(scheduler: NoopGlobalSettingsUpdateScheduler): GlobalSettingUpdateScheduler
 
         @Binds
         fun bindSharedPrefsProvider(provider: MockSharedPreferencesProvider): SharedPreferencesProvider

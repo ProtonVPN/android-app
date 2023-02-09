@@ -38,6 +38,8 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.GlideImagePrefetcher
 import com.protonvpn.android.appconfig.ImagePrefetcher
+import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
+import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsUpdateWorker
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
@@ -179,6 +181,11 @@ object AppModuleProd {
     interface Bindings {
         @Binds
         fun bindCertificateRefreshScheduler(scheduler: CertRefreshWorkerScheduler): CertRefreshScheduler
+
+        @Binds
+        fun bindGlobalSettingsUpdateScheduler(
+            scheduler: GlobalSettingsUpdateWorker.Scheduler
+        ): GlobalSettingUpdateScheduler
 
         @Binds
         fun bindSharedPrefsProvider(provider: AndroidSharedPreferencesProvider): SharedPreferencesProvider

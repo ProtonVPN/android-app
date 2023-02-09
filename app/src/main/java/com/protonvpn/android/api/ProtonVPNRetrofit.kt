@@ -22,6 +22,8 @@ import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
+import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
+import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.netshield.ExperimentResponse
 import com.protonvpn.android.models.login.FeatureResponse
@@ -52,6 +54,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Tag
@@ -143,6 +146,12 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("vpn/v1/partners")
     suspend fun getPartnerships(): PartnersResponse
+
+    @GET("core/v4/settings")
+    suspend fun getGlobalSettings(): GlobalSettingsResponse
+
+    @PUT("core/v4/settings/telemetry")
+    suspend fun putTelemetryGlobalSetting(@Body body: UpdateGlobalTelemetry): GlobalSettingsResponse
 
     companion object {
         const val HEADER_NETZONE = "x-pm-netzone"
