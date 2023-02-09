@@ -21,6 +21,8 @@ package com.protonvpn.android.api
 import android.os.Build
 import android.telephony.TelephonyManager
 import com.protonvpn.android.appconfig.AppConfigResponse
+import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
+import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
@@ -143,6 +145,12 @@ open class ProtonApiRetroFit(
 
     suspend fun postStats(events: List<StatsEvent>): ApiResult<GenericResponse> =
         manager { postStats(StatsBody(events)) }
+
+    suspend fun getGlobalSettings(): ApiResult<GlobalSettingsResponse> =
+        manager { getGlobalSettings() }
+
+    suspend fun putTelemetryGlobalSetting(isEnabled: Boolean): ApiResult<GlobalSettingsResponse> =
+        manager { putTelemetryGlobalSetting(UpdateGlobalTelemetry(isEnabled)) }
 
     private suspend fun <T> makeCall(
         loader: LoaderUI?,
