@@ -31,10 +31,11 @@
     <string name="loginStartWithDevice">Mulai dengan perangkat</string>
     <string name="loginCreateAccount">Buat akun baru</string>
     <string name="loginNeedHelp">Butuh bantuan?</string>
-    <string name="connectionAllocationHelpTitle">Terima kasih karena telah meningkatkan jenis akun Anda ke \nProfessional\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Terima kasih karena telah meningkatkan ke\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Untuk dapat mulai menggunakan Proton VPN, harap tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
     <string name="connectionAllocationHelpDescription2">Langkah ini akan memakan waktu beberapa menit. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">Tetapkan koneksi VPN</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Akun ini sedang tidak memiliki koneksi VPN yang aktif. Untuk mulai menggunakan Proton VPN, silakan hubungi administrator Anda. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Aktifkan koneksi VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Masuk lagi</string>
     <string name="mapCalloutConnect">Hubungkan</string>
     <string name="mapCalloutDisconnect">Putuskan</string>

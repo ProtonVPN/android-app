@@ -31,10 +31,11 @@
     <string name="loginStartWithDevice">Iniciar con el dispositivo</string>
     <string name="loginCreateAccount">Crear una cuenta</string>
     <string name="loginNeedHelp">¿Necesita ayuda?</string>
-    <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nProfessional\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Para empezar su viaje en Proton VPN, asigne conexiones VPN a su cuenta o cualquier otra subcuenta.</string>
     <string name="connectionAllocationHelpDescription2">Este paso tomará solo unos minutos. Después será capaz de iniciar sesión y proteger todos sus dispositivos.</string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">Asignar conexiones VPN</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN habilitada para esta cuenta. Para comenzar su viaje en Proton VPN contacte con su administrador. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Habilitar conexiones VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión nuevamente</string>
     <string name="mapCalloutConnect">Conectar</string>
     <string name="mapCalloutDisconnect">Desconectar</string>
@@ -323,9 +324,9 @@
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Pulse el interruptor junto a <b>Bloqueo de conexiones sin VPN</b> para activar el interruptor de apagado]]></string>
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Pulse el interruptor junto a <b>Bloquear conexiones sin VPN</b> para activar el interruptor de apagado]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abrir ajustes de Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activar el interruptor de apagado deshabilitara la tunelización dividida, ya que el interruptor bloquea todas las conexiones fuera del túnel VPN</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activar el interruptor de apagado deshabilitará la tunelización dividida, ya que el interruptor bloquea todas las conexiones fuera del túnel VPN</string>
     <string name="settingsSmartProtocolDescription">Utiliza automáticamente el protocolo y el puerto que ofrecen la mejor conectividad.</string>
     <string name="settingsSendCrashReportsTitle">Reportes anónimos de fallos</string>
     <string name="settingsSendCrashReportsDescription">Si la aplicación falla o se cierra inesperadamente, se enviará un reporte a nuestros ingenieros que muestra lo que causó el error. Solo lo usaremos para mejorar la aplicación.</string>
@@ -541,7 +542,7 @@
     <string name="info_performance">Rendimiento</string>
     <string name="server_load_title">Carga del servidor</string>
     <string name="server_load_description">Los servidores con carga mayor son más lentos que los servidores con carga menor.</string>
-    <string name="streaming_title_with_country">Transmitiendo - %1$s</string>
+    <string name="streaming_title_with_country">Streaming: %1$s</string>
     <string name="streaming_services_description">Conéctese a un servidor Plus en este país para comenzar a transmitir.\n\nNota: Borre la caché de las aplicaciones de streaming para asegurarse de que aparezca el contenido nuevo.</string>
     <string name="partnership_free_title">Servidores gratuitos</string>
     <string name="partnership_free_description">Seguridad y privacidad para todos. Los servidores gratuitos no tienen límites de datos y nunca reduciremos deliberadamente la velocidad de navegación.</string>
