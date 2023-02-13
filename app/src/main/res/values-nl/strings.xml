@@ -31,10 +31,11 @@
     <string name="loginStartWithDevice">Starten tijdens opstarten</string>
     <string name="loginCreateAccount">Nieuw account aanmaken</string>
     <string name="loginNeedHelp">Heeft u hulp nodig?</string>
-    <string name="connectionAllocationHelpTitle">Bedankt voor de upgrade naar\nProfessioneel/Visionary</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Om uw reis met Proton VPN te beginnen wijst u VPN-verbindingen toe aan uw account of een ander sub-account.</string>
     <string name="connectionAllocationHelpDescription2">Deze stap duurt slechts een paar minuten. Daarna kunt u zich aanmelden en al uw apparaten beveiligen.</string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">VPN-verbindingen toewijzen</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Enable VPN connections</string>
     <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
     <string name="mapCalloutConnect">Verbinden</string>
     <string name="mapCalloutDisconnect">Verbreken</string>

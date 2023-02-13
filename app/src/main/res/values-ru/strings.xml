@@ -31,10 +31,11 @@
     <string name="loginStartWithDevice">Запуск при включении устройства</string>
     <string name="loginCreateAccount">Создать новый аккаунт</string>
     <string name="loginNeedHelp">Нужна помощь?</string>
-    <string name="connectionAllocationHelpTitle">Спасибо за улучшение до\nProfessional\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Спасибо за улучшение до \nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Чтобы начать свое путешествие в Proton VPN, пожалуйста, назначьте подключения VPN для своего аккаунта или любого другого субаккаунта.</string>
     <string name="connectionAllocationHelpDescription2">Этот шаг займет всего несколько минут. После этого вы сможете войти в систему и защитить все свои устройства.</string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">Назначить VPN-подключения</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">В настоящее время для этого аккаунта не активировано подключение к VPN. Чтобы начать свое путешествие с Proton VPN, пожалуйста, свяжитесь с вашим администратором. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Разрешить подключения к VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Войти снова</string>
     <string name="mapCalloutConnect">Подключиться</string>
     <string name="mapCalloutDisconnect">Отключиться</string>

@@ -31,10 +31,11 @@
     <string name="loginStartWithDevice">Mit Gerät starten</string>
     <string name="loginCreateAccount">Neues Konto erstellen</string>
     <string name="loginNeedHelp">Benötigst du Hilfe?</string>
-    <string name="connectionAllocationHelpTitle">Vielen Dank für den Umstieg auf \nProfessional\u00a0/\u00a0Visionär</string>
+    <string name="connectionAllocationHelpTitle">Vielen Dank für das Upgrade auf \nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Um damit zu beginnen Proton VPN zu nutzen, weise bitte deinem Konto oder einem anderen Unterkonto VPN-Verbindungen zu.</string>
     <string name="connectionAllocationHelpDescription2">Dieser Schritt dauert nur wenige Minuten. Danach kannst du dich anmelden und alle deine Geräte schützen.</string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">VPN-Verbindungen zuweisen</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Für dieses Konto ist derzeit keine VPN-Verbindung aktiviert. Um damit zu beginnen, Proton VPN zu nutzen, kontaktiere bitte deinen Administrator. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">VPN-Verbindungen aktivieren</string>
     <string name="connectionAllocationHelpLoginAgainButton">Erneut anmelden</string>
     <string name="mapCalloutConnect">Verbinden</string>
     <string name="mapCalloutDisconnect">Trennen</string>
@@ -318,7 +319,7 @@
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3.) Tippe auf den Schalter neben <b>Always-On-VPN</b>, um es zu aktivieren]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tippe auf den Schalter neben <b>VPN immer an</b>, um es zu aktivieren]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to

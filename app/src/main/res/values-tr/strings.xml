@@ -31,10 +31,11 @@
     <string name="loginStartWithDevice">Aygıtla başla</string>
     <string name="loginCreateAccount">Yeni hesap aç</string>
     <string name="loginNeedHelp">Yardım gerekiyor mu?</string>
-    <string name="connectionAllocationHelpTitle">Professional\u00a0/\u00a0Visionary tarifesine\nyükselttiğiniz için teşekkürler</string>
+    <string name="connectionAllocationHelpTitle">Business\u00a0/\u00a0Visionary tarifesine\nyükselttiğiniz için teşekkürler</string>
     <string name="connectionAllocationHelpDescription1">Proton VPN yolculuğunuza başlamak için lütfen hesabınıza ya da başka bir alt hesaba VPN bağlantıları atayın.</string>
     <string name="connectionAllocationHelpDescription2">Bu adım birkaç dakika sürecek. Bundan sonra oturum açabilir ve tüm aygıtlarınızı koruyabilirsiniz.</string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">VPN bağlantıları ata</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Şu anda bu hesap için herhangi bir VPN bağlantısı etkinleştirilmemiş. Proton VPN yolcuğunuza başlamak için yöneticinizle görüşün. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">VPN bağlantılarını etkinleştir</string>
     <string name="connectionAllocationHelpLoginAgainButton">Yeniden oturum aç</string>
     <string name="mapCalloutConnect">Bağlan</string>
     <string name="mapCalloutDisconnect">Bağlantıyı kes</string>
@@ -108,7 +109,7 @@
     <string name="settingsAutoStartDescription">Proton VPN sistem başlatıldığında otomatik olarak başlayacak</string>
     <string name="settingsBypassLocalTitle">Yerel ağ bağlantıları</string>
     <string name="settingsDnsLeakProtectionTitle">DNS sızıntı koruması</string>
-    <string name="settingsDnsLeakDescription">DNS sorgusu bilgilerilinin üçüncü taraflara sızmasını önler (her zaman açık)</string>
+    <string name="settingsDnsLeakDescription">DNS sorgusu bilgilerinin üçüncü taraflara sızmasını önler (hep açık)</string>
     <string name="settingsDefaultMtu">1375</string>
     <string name="settingsMtuSizeTitle">MTU boyutu</string>
     <string name="settingsMtuDescription">Varsayılan değer belirli bir ağ için uygun değilse, 1280 ile 1500 aralığında bir değer yazın. Yalnızca ne yaptığınızı biliyorsanız değiştirin.</string>
@@ -118,7 +119,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Standart olmayan bağlantı noktaları</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN ağı üzerinde standart olmayan bağlantı noktalarından trafik akışına izin vererek herhangi bir özel gereksinim için Proton VPN kullanabilirsiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="settingsModerateNatTitle">Ilımlı NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrimiçi oyunlar gibi uygulamalar için doğrudan bağlantı kurma gibi tekniklere izin veren yerel adres eşlemelerinin rastgeleleştirilmesi özelliğini devre dışı bırakır. <a href="%1$s">Ayrıntrılı bilgi alın</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrimiçi oyunlar gibi uygulamalar için doğrudan bağlantı kurma gibi tekniklere izin veren yerel adres eşlemelerinin rastgeleleştirilmesi özelliğini devre dışı bırakır. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="use_coupon_title">Kupon kullan</string>
     <string name="use_coupon_code_label">Kupon kodu</string>
     <string name="use_coupon_success">Kupon uygulandı</string>
@@ -231,18 +232,18 @@
     <string name="download_speed">Hız:</string>
     <string name="save_to_profile">Profile kaydet</string>
     <string name="notConnected">Bir sunucuya \n bağlı değilsiniz</string>
-    <string name="activityLicensesTitle">Üçüncül taraf lisansları</string>
+    <string name="activityLicensesTitle">Üçüncü taraf lisansları</string>
     <string name="stateFragmentUnknownIp">Bilinmiyor</string>
     <string name="noVpnPermissionMainTitle">VPN bağlantısı kurmak için işlem gerekli</string>
     <string name="noVpnPermissionMainMessage">Proton VPN bağlantısı kurmak için şunları yapın:</string>
     <string name="noVpnPermissionGrantPermissionTitle">VPN izni verin</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Proton VPN bağlantısı kurmak için Android izinleri vermeniz gerekir. Android \"Bağlantı isteği\" yapıldığında \"Tamam\" üzerine tıklayın.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Diğer VPN uygulamalarının her zaman açık seçeneğini devre dışı bırakın</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android birden fazla VPN uygulamasını desteklemez. Proton VPN dışındaki diğer VPN uygulamaları için her zaman açık seçeneğini devre dışı bırakın.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Diğer VPN uygulamalarının hep açık seçeneğini devre dışı bırakın</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android birden fazla VPN uygulamasını desteklemez. Proton VPN dışındaki diğer VPN uygulamaları için hep açık seçeneğini devre dışı bırakın.</string>
     <string name="noVpnPermissionProtonAppLabel">Proton VPN uygulaması</string>
     <string name="noVpnPermissionOtherAppLabel">Diğer VPN uygulamaları</string>
     <string name="noVpnPermissionOpenSettings">Android VPN ayarlarını açın</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için her zaman açık seçeneğini devre dışı bırakın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için hep açık seçeneğini devre dışı bırakın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="error_prepare_vpn_settings">Android VPN ayarlarına git</string>
     <string name="error_prepare_vpn_title">Hata: VPN izni sorunu</string>
     <string name="error_server_not_set">Sunucu artık kullanılamıyor</string>
@@ -306,19 +307,19 @@
     <string name="troubleshootContactUsSectionTitle">Hala yardım gerekiyor mu? Doğrudan bizimle görüşün</string>
     <string name="troubleshootCustomerSupport">Müşteri desteği</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternatif yöneltme</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton erişimi engelleniyorsa, uygulamanın Proton sunucularına erişmesi için alternatif yollar kullanmasına izin verin. <a href="%1$s">Ayrıntılı bilgi alın</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton erişimi engelleniyorsa, uygulamanın Proton sunucularına erişmesi için alternatif yollar kullanmasını sağlar. <a href="%1$s">Ayrıntılı bilgi alın</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hükümet engellemesi</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ülkeniz Proton ağına erişimi engelliyor olabilir. Proton ağına erişmek için <a href=\'%1$s\'>Tor</a> kullanmayı deneyin.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Her zaman açık VPN ve bağlantı kesici</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Hep açık VPN ve bağlantı kesici</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Bağlantınız kesilirse Proton VPN uygulamasının nasıl davranacağını ayarlayın</string>
-    <string name="settingsAlwaysOnWindowHeader">Her zaman açık VPN ve bağlantı kesici nasıl etkinleştirilir:</string>
+    <string name="settingsAlwaysOnWindowHeader">Hep açık VPN ve bağlantı kesici nasıl etkinleştirilir:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Aşağıdaki düğmeye dokunarak aygıtınızın <b>Ayarlarını</b> açın]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Proton VPN uygulamasını bulun ve %1$s seçeneğine dokunun</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Etkinleştirmek için <b>Her zaman açık VPN</b> seçeneğinin yanındaki anahtara dokunun]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Etkinleştirmek için <b>Hep açık VPN</b> seçeneğinin yanındaki anahtara dokunun]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
@@ -401,9 +402,9 @@
     <string name="tv_server_list_action_unavailable">Kullanılamıyor</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator, VPN hızlarını %%400 oranında artırabilen benzersiz başarım iyileştirme teknolojileri sunar.. <a href="%1$s">Ayrıntılı bilgi alın</a>.]]></string>
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator, VPN hızlarını %%400 oranında artırabilen benzersiz başarım iyileştirme teknolojileri sunar. <a href="%1$s">Ayrıntılı bilgi alın</a>.]]></string>
     <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator bildirimleri</string>
-    <string name="settingsSmartReconnectNotificationsDescription">VPN Accelerator sizi daha hızlı bir sunucuya yönlendirdiğinde bildirim alın</string>
+    <string name="settingsSmartReconnectNotificationsDescription">VPN Accelerator sizi daha hızlı bir sunucuya geçirdiğinde bildirim almanızı sağlar</string>
     <string name="settingsReconnectToApplySettingsDialogContent">Yeni ayarlar kurulan bir sonraki bağlantıya uygulanacak.</string>
     <string name="settingsReconnectToChangeDialogContent">Bu işlem bağlantınızı yeniden başlatacak.</string>
     <string name="reconnectToEnableNetshield">Bu işlem bağlantınızı yeniden başlatacak.\n\nNot: Bazı siteler NetShield açık iken yüklenemeyebilir.</string>
@@ -519,7 +520,7 @@
     <string name="upgrade_plus_countries_more">Ve pek çok diğer ücretli özellik</string>
     <string name="upgrade_safe_mode_title">Standart olmayan bağlantı noktalarından trafik geçebilsin</string>
     <string name="upgrade_safe_mode_message">Standart olmayan bağlantı noktaları kullanmanızı gerektiren gelişmiş veya profesyonel bilgi işlem gereksinimleriniz mi var? Bu ve diğer ücretli özelliklere erişmek için VPN Plus tarifesine yükseltin.</string>
-    <string name="upgrade_moderate_nat_title">Ilımlı NAT özelliğini etkinleştirebilirsiniz</string>
+    <string name="upgrade_moderate_nat_title">Ilımlı NAT kullanılsın</string>
     <string name="upgrade_moderate_nat_message">Ilımlı NAT, 2. tür NAT olarak da bilinir ve çeşitli uygulamalar ve çevrimiçi video oyunlarıyla ilgili çevrimiçi deneyiminizi iyileştirebilir. Plus tarifesi ile bu ve başka özellikleri kullanabilirsiniz.</string>
     <string name="upgrade_moderate_nat_learn_more">Ilımlı NAT nedir?</string>
     <string name="upgrade_see_plans_button">Tarifelere ve ücretlere bakın</string>

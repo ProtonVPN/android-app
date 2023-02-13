@@ -31,10 +31,11 @@
     <string name="loginStartWithDevice">Spustit se zařízením</string>
     <string name="loginCreateAccount">Vytvořit nový účet</string>
     <string name="loginNeedHelp">Potřebujete poradit?</string>
-    <string name="connectionAllocationHelpTitle">Děkujeme, že jste přešli na tarif \nProfessional\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Děkujeme, že jste přešli na tarif \nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Pro použití Proton VPN prosím přiřaďte VPN připojení k vašemu účtu nebo k podřízenému účtu.</string>
     <string name="connectionAllocationHelpDescription2">Tento krok zabere jen několik minut. Poté se budete moci přihlásit a chránit všechna svá zařízení.</string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">Přiřaďte VPN připojení</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">V současné době není pro tento účet povoleno žádné připojení VPN. Chcete-li začít používat Proton VPN, kontaktujte prosím svého správce. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Povolit VPN připojení</string>
     <string name="connectionAllocationHelpLoginAgainButton">Přihlásit se znovu</string>
     <string name="mapCalloutConnect">Připojit</string>
     <string name="mapCalloutDisconnect">Odpojit</string>

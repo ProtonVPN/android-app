@@ -31,10 +31,11 @@
     <string name="loginStartWithDevice">Pokreni s uređajem</string>
     <string name="loginCreateAccount">Stvori novi račun</string>
     <string name="loginNeedHelp">Trebate pomoć?</string>
-    <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nProfessional\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">To start your journey in Proton VPN please assign VPN connections to your account or any other sub-account.</string>
     <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">Dodijeli VPN veze</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Enable VPN connections</string>
     <string name="connectionAllocationHelpLoginAgainButton">Ponovna prijava</string>
     <string name="mapCalloutConnect">Poveži</string>
     <string name="mapCalloutDisconnect">Odspoji</string>

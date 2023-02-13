@@ -31,10 +31,11 @@
     <string name="loginStartWithDevice">Iniciar con el dispositivo</string>
     <string name="loginCreateAccount">Crear una cuenta nueva</string>
     <string name="loginNeedHelp">¿Necesitas ayuda?</string>
-    <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nProfessional\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Para comenzar tu viaje en Proton VPN, asigna conexiones VPN a tu cuenta o a cualquier otra subcuenta.</string>
     <string name="connectionAllocationHelpDescription2">Este paso te llevará solo unos minutos. Después de eso podrás iniciar sesión y proteger todos tus dispositivos.</string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">Asignar conexiones VPN</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN habilitada para esta cuenta. Para comenzar tu viaje en Proton VPN, ponte en contacto con tu administrador. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Activar conexiones VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión de nuevo</string>
     <string name="mapCalloutConnect">Conectar</string>
     <string name="mapCalloutDisconnect">Desconectar</string>
