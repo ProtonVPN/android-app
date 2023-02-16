@@ -328,8 +328,12 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android Einstellungen öffnen</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Aktivieren des Notausschalters wird Split-Tunneling deaktivieren, da der Notausschalter alle Verbindungen außerhalb des VPN Tunnels blockiert</string>
     <string name="settingsSmartProtocolDescription">Automatisch das Protokoll und den Port verwenden, die die beste Verbindungsqualität bieten.</string>
-    <string name="settingsSendCrashReportsTitle">Anonyme Absturzberichte</string>
-    <string name="settingsSendCrashReportsDescription">Wenn die App abstürzt oder sich unerwartet abschaltet, wird ein Bericht an unsere Ingeneure gesendet der aufzeigt, was den Fehler verursacht hat. Wir werden die stets nur dazu verwenden, die App zu verbessern.</string>
+    <string name="settingsEnableTelemetryTitle">Anonyme Nutzungsstatistiken teilen</string>
+    <string name="settingsEnableTelemetryDescription">Nutzungsdaten helfen uns, VPN-Sperren zu überwinden und die Leistung der App zu verbessern.</string>
+    <string name="settingsSendCrashReportsTitle">Anonyme Absturzberichte teilen</string>
+    <string name="settingsSendCrashReportsDescription">Absturzberichte helfen uns Fehler zu beheben, Firewalls zu erkennen und VPN-Sperren zu vermeiden.</string>
+    <string name="settingsTelemetryScreenTitle">Nutzungsstatistiken</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Diese Statistiken enthalten weder deine IP-Adresse noch können diese dazu verwendet werden, um dich zu identifizieren. Wir werden die Statistiken nie an Dritte weitergeben. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="netShieldEnabledWarning">Beachte, dass einige Websites aufgrund von blockierten Inhalten möglicherweise nicht vollständig funktionieren.</string>
     <string name="netShieldDescription">Werbung, Tracker und Malware sperren </string>
     <string name="netshield">NetShield</string>
@@ -563,6 +567,7 @@
     <string name="onboarding_protection_description">Proton VPN unterstützt alle Geräte, einschließlich Windows, macOS und viele andere.</string>
     <string name="onboarding_netshield_title">Werbung blockieren und vieles mehr</string>
     <string name="onboarding_netshield_description">Blockiere Malware, Werbung und Tracker im Browser und in allen Anwendungen.</string>
+    <string name="onboarding_telemetry_title">Hilf uns dabei, Zensur zu bekämpfen</string>
     <string name="onboarding_connection_title">Stelle deine erste Verbindung her</string>
     <!-- Parameters:
          %1$s - replaced with "onboarding_connection_description_servers"

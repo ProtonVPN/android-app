@@ -328,8 +328,12 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abrir ajustes de Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activar el interruptor de apagado deshabilitará la tunelización dividida, ya que el interruptor bloquea todas las conexiones fuera del túnel VPN</string>
     <string name="settingsSmartProtocolDescription">Utiliza automáticamente el protocolo y el puerto que ofrecen la mejor conectividad.</string>
-    <string name="settingsSendCrashReportsTitle">Reportes anónimos de fallos</string>
-    <string name="settingsSendCrashReportsDescription">Si la aplicación falla o se cierra inesperadamente, se enviará un reporte a nuestros ingenieros que muestra lo que causó el error. Solo lo usaremos para mejorar la aplicación.</string>
+    <string name="settingsEnableTelemetryTitle">Compartir estadísticas de uso anónimas</string>
+    <string name="settingsEnableTelemetryDescription">Los datos de uso nos ayudan a superar los bloqueos de VPN y mejorar el rendimiento de la aplicación.</string>
+    <string name="settingsSendCrashReportsTitle">Compartir reportes de error anónimos</string>
+    <string name="settingsSendCrashReportsDescription">Los reportes de error nos ayuda a corregir errores, detectar firewalls y evitar bloqueos de VPN.</string>
+    <string name="settingsTelemetryScreenTitle">Estadísticas de uso</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen su dirección IP y no pueden ser usadas para identificarle. Nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
     <string name="netShieldEnabledWarning">Tenga en cuenta que algunos sitios web no podrían funcionar por completo debido a contenidos bloqueados.</string>
     <string name="netShieldDescription">Bloquea anuncios, rastreadores y malware </string>
     <string name="netshield">NetShield</string>
@@ -563,6 +567,7 @@
     <string name="onboarding_protection_description">Proton VPN es compatible con todos los dispositivos, incluidos Windows, macOS y muchos otros.</string>
     <string name="onboarding_netshield_title">Bloquee anuncios y más</string>
     <string name="onboarding_netshield_description">Bloquee malware, anuncios y rastreadores en el navegador y en todas las apps.</string>
+    <string name="onboarding_telemetry_title">Ayúdenos a combatir la censura</string>
     <string name="onboarding_connection_title">Establezca su primera conexión</string>
     <!-- Parameters:
          %1$s - replaced with "onboarding_connection_description_servers"

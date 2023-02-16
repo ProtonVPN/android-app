@@ -328,8 +328,12 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Ouvrir les paramètres Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activer la fonction Arrêt d\'urgence (kill switch) désactivera le Split tunneling, car elle bloquera toutes les connexions en dehors du tunnel VPN.</string>
     <string name="settingsSmartProtocolDescription">Utilisez automatiquement le protocole et le port qui offrent la meilleure connectivité.</string>
-    <string name="settingsSendCrashReportsTitle">Rapports de plantage anonymes</string>
-    <string name="settingsSendCrashReportsDescription">Si l\'application plante ou s\'arrête de manière inattendue, un rapport précisant la cause de l\'erreur sera envoyé à nos ingénieurs. Nous ne l\'utiliserons que pour améliorer l\'application.</string>
+    <string name="settingsEnableTelemetryTitle">Partager des statistiques d\'utilisation anonymes</string>
+    <string name="settingsEnableTelemetryDescription">Les données d\'utilisation nous aident à contourner les blocages VPN et à améliorer les performances de l\'application.</string>
+    <string name="settingsSendCrashReportsTitle">Partager des rapports de plantage anonymes</string>
+    <string name="settingsSendCrashReportsDescription">Les rapports de plantage nous aident à corriger les bugs, à détecter les pare-feux et à éviter le blocage de VPN.</string>
+    <string name="settingsTelemetryScreenTitle">Statistiques d\'utilisation</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Ces statistiques ne contiennent pas votre adresse IP, elles ne peuvent pas être utilisées pour vous identifier. Nous ne les partagerons jamais avec des tiers. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="netShieldEnabledWarning">Attention, certains sites web pourraient ne pas fonctionner correctement à cause du contenu bloqué.</string>
     <string name="netShieldDescription">Bloquer les publicités, traqueurs et logiciels malveillants </string>
     <string name="netshield">NetShield</string>
@@ -563,6 +567,7 @@
     <string name="onboarding_protection_description">Proton VPN prend en charge tous les appareils, y compris Windows, macOS et bien d\'autres.</string>
     <string name="onboarding_netshield_title">Bloquez les publicités et bien plus encore</string>
     <string name="onboarding_netshield_description">Bloquez les logiciels malveillants, les publicités et les traqueurs, dans le navigateur et toutes les applications.</string>
+    <string name="onboarding_telemetry_title">Aidez-nous à combattre la censure</string>
     <string name="onboarding_connection_title">Faites votre première connexion</string>
     <!-- Parameters:
          %1$s - replaced with "onboarding_connection_description_servers"

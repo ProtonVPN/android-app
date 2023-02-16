@@ -330,8 +330,12 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Открыть настройки Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Активация Kill Switch отключит раздельное туннелирование, так как Kill Switch блокирует все соединения за пределами тунеля VPN</string>
     <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
-    <string name="settingsSendCrashReportsTitle">Анонимные отчеты о сбоях</string>
-    <string name="settingsSendCrashReportsDescription">Если приложение аварийно завершает работу или неожиданно выключается, нашим инженерам будет отправлен отчет, в котором будет указано, что вызвало ошибку. Мы будем использовать их только для улучшения приложения.</string>
+    <string name="settingsEnableTelemetryTitle">Делиться анонимной статистикой использования</string>
+    <string name="settingsEnableTelemetryDescription">Данные об использовании помогают нам преодолевать блокировки VPN и повышать производительность приложения.</string>
+    <string name="settingsSendCrashReportsTitle">Делиться анонимными сообщениями о сбоях</string>
+    <string name="settingsSendCrashReportsDescription">Сообщения о сбоях помогают нам исправлять ошибки, обнаруживать брандмауэры и избегать блокировки VPN.</string>
+    <string name="settingsTelemetryScreenTitle">Статистика использования</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Эти статистические данные не содержат вашего IP-адреса и не могут быть использованы для идентификации вашей личности. Мы никогда не передаем их третьим лицам. <a href="%1$s">Learn more</a>]]></string>
     <string name="netShieldEnabledWarning">Будьте осторожны, некоторые вебсайты могут не работать из-за заблокированного контента.</string>
     <string name="netShieldDescription">Блокировать рекламные объявления, трекеры и вредоносные программы </string>
     <string name="netshield">NetShield</string>
@@ -579,6 +583,7 @@
     <string name="onboarding_protection_description">Proton VPN поддерживает все устройства, включая Windows, macOS и многие другие.</string>
     <string name="onboarding_netshield_title">Блокируйте рекламу и многое другое</string>
     <string name="onboarding_netshield_description">Блокируйте вредоносные программы, рекламу и трекеры в браузере и во всех приложениях.</string>
+    <string name="onboarding_telemetry_title">Помогите нам бороться с цензурой</string>
     <string name="onboarding_connection_title">Установите первое подключение</string>
     <!-- Parameters:
          %1$s - replaced with "onboarding_connection_description_servers"
