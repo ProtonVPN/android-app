@@ -26,6 +26,7 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateScheduler
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDao
 import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
+import com.protonvpn.android.appconfig.periodicupdates.UpdateActionId
 import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
 import com.protonvpn.android.components.AppInUseMonitor
 import com.protonvpn.test.shared.MockNetworkManager
@@ -132,7 +133,7 @@ class PeriodicUpdateManagerTests {
     @Test
     fun `when starting action is not executed until its time comes`() = testScope.runTest {
         val previousExecutionTime = currentTime
-        periodicUpdatesDao.upsert(PeriodicCallInfo(testAction.id, previousExecutionTime, true, 0f, null))
+        periodicUpdatesDao.upsert(createPeriodicCallInfo(testAction.id, previousExecutionTime))
         advanceTimeBy(DELAY_MS / 2)
         periodicUpdateManager.registerUpdateAction(testAction, PeriodicUpdateSpec(DELAY_MS, emptySet()))
         periodicUpdateManager.start()
@@ -181,7 +182,7 @@ class PeriodicUpdateManagerTests {
     @Test
     fun `when conditions change ahead of time action is not executed`() = testScope.runTest {
         val condition = MutableStateFlow(false)
-        periodicUpdatesDao.upsert(PeriodicCallInfo(testAction.id, currentTime, true, 0f, null))
+        periodicUpdatesDao.upsert(createPeriodicCallInfo(testAction.id, currentTime))
         periodicUpdateManager.registerUpdateAction(testAction, PeriodicUpdateSpec(DELAY_MS, setOf(condition)))
         periodicUpdateManager.start()
         advanceTimeBy(DELAY_MS - 1)
@@ -193,7 +194,7 @@ class PeriodicUpdateManagerTests {
     @Test
     fun `when conditions change, overdue action is executed`() = testScope.runTest {
         val condition = MutableStateFlow(false)
-        periodicUpdatesDao.upsert(PeriodicCallInfo(testAction.id, currentTime, true, 0f, null))
+        periodicUpdatesDao.upsert(createPeriodicCallInfo(testAction.id, currentTime))
         periodicUpdateManager.registerUpdateAction(testAction, PeriodicUpdateSpec(DELAY_MS, setOf(condition)))
         periodicUpdateManager.start()
         advanceTimeBy(DELAY_MS + 1)
@@ -231,8 +232,8 @@ class PeriodicUpdateManagerTests {
     fun `when there are multiple actions, next update is scheduled for the soonest action`() = testScope.runTest {
         val action1 = createTestAction("action1")
         val action2 = createTestAction("action2")
-        periodicUpdatesDao.upsert(PeriodicCallInfo(action1.id, 5, true, 0f, null))
-        periodicUpdatesDao.upsert(PeriodicCallInfo(action2.id, 0, true, 0f, null))
+        periodicUpdatesDao.upsert(createPeriodicCallInfo(action1.id, 5))
+        periodicUpdatesDao.upsert(createPeriodicCallInfo(action2.id, 0))
 
         periodicUpdateManager.registerUpdateAction(action1, PeriodicUpdateSpec(DELAY_MS, emptySet()))
         periodicUpdateManager.registerUpdateAction(action2, PeriodicUpdateSpec(DELAY_MS, emptySet()))
@@ -248,7 +249,7 @@ class PeriodicUpdateManagerTests {
         periodicUpdateManager.start()
 
         assertEquals(
-            listOf(PeriodicCallInfo(testAction.id, currentTime, true, 0f, null)),
+            listOf(PeriodicCallInfo(testAction.id, currentTime, true, 0f, null, null)),
             periodicUpdatesDao.getAll()
         )
     }
@@ -264,7 +265,7 @@ class PeriodicUpdateManagerTests {
 
         coVerify { mockScheduler.scheduleAt(currentTime + 2 * DELAY_MS) }
         assertEquals(
-            PeriodicCallInfo(action.id, currentTime, true, 0f, currentTime + 2 * DELAY_MS),
+            PeriodicCallInfo(action.id, currentTime, true, 0f, currentTime + 2 * DELAY_MS, null),
             periodicUpdatesDao.getAll().first()
         )
     }
@@ -280,7 +281,7 @@ class PeriodicUpdateManagerTests {
 
         coVerify { mockScheduler.scheduleAt(currentTime + 2 * DELAY_MS) }
         assertEquals(
-            PeriodicCallInfo(action.id, currentTime, false, 0f, currentTime + 2 * DELAY_MS),
+            PeriodicCallInfo(action.id, currentTime, false, 0f, currentTime + 2 * DELAY_MS, null),
             periodicUpdatesDao.getAll().first()
         )
     }
@@ -289,9 +290,9 @@ class PeriodicUpdateManagerTests {
     fun `when action is executed explicitly then periodic update doesn't run it`() = testScope.runTest {
         val longAction = createTestAction("test_action") { input ->
             delay(100)
-            input
+            PeriodicActionResult(input, true)
         }
-        periodicUpdatesDao.upsert(PeriodicCallInfo(longAction.id, currentTime, true, 0f, null))
+        periodicUpdatesDao.upsert(createPeriodicCallInfo(longAction.id, currentTime))
         periodicUpdateManager.registerUpdateAction(longAction, PeriodicUpdateSpec(200, emptySet()))
         periodicUpdateManager.start()
 
@@ -306,7 +307,7 @@ class PeriodicUpdateManagerTests {
     fun `when action is executing periodically then explicit execution waits for it to finish`() = testScope.runTest {
         val longAction = createTestAction("test_action") { input ->
             delay(100)
-            input
+            PeriodicActionResult(input, true)
         }
         periodicUpdateManager.registerUpdateAction(longAction, PeriodicUpdateSpec(200, emptySet()))
         periodicUpdateManager.start()
@@ -332,7 +333,7 @@ class PeriodicUpdateManagerTests {
 
         coVerify { mockScheduler.scheduleAt((1.2f * DELAY_MS).toLong()) }
         assertEquals(
-            listOf(PeriodicCallInfo(testAction.id, currentTime, true, 0.2f, null)),
+            listOf(PeriodicCallInfo(testAction.id, currentTime, true, 0.2f, null, null)),
             periodicUpdatesDao.getAll()
         )
     }
@@ -352,7 +353,7 @@ class PeriodicUpdateManagerTests {
         val expectedTimestamp = currentTime + (1.2f * delayOverride).toLong()
         coVerify { mockScheduler.scheduleAt(expectedTimestamp) }
         assertEquals(
-            listOf(PeriodicCallInfo(action.id, currentTime, false, 0.2f, expectedTimestamp)),
+            listOf(PeriodicCallInfo(action.id, currentTime, false, 0.2f, expectedTimestamp, null)),
             periodicUpdatesDao.getAll()
         )
     }
@@ -389,9 +390,12 @@ class PeriodicUpdateManagerTests {
 
     @Test
     fun `processPeriodic() doesn't`() = testScope.runTest {
-        val longAction = createTestAction("long_action") { delay(1000L); "result" }
+        val longAction = createTestAction("long_action") {
+            delay(1000L)
+            PeriodicActionResult("result", true)
+        }
 
-        periodicUpdatesDao.upsert(PeriodicCallInfo(longAction.id, currentTime, true, 0f, null))
+        periodicUpdatesDao.upsert(createPeriodicCallInfo(longAction.id, currentTime))
         periodicUpdateManager.registerUpdateAction(longAction, PeriodicUpdateSpec(DELAY_MS, emptySet()))
         periodicUpdateManager.start()
 
@@ -438,7 +442,98 @@ class PeriodicUpdateManagerTests {
         coVerify { mockScheduler.scheduleAt(currentTime + DELAY_MS) }
     }
 
-    private fun createTestAction(actionId: String, actionFunc: suspend (String) -> String = { input -> input }) =
+    @Test
+    fun `when action executes too often via delay override it is delayed for 1 hour`() = testScope.runTest {
+        val runawayAction = createTestAction("runaway_action") {
+            PeriodicActionResult("result", true, 10)
+        }
+        periodicUpdateManager.registerUpdateAction(runawayAction, PeriodicUpdateSpec(1000, emptySet()))
+        periodicUpdateManager.start()
+
+        advanceTimeBy(1000)
+        repeat(10) {
+            periodicUpdateManager.processPeriodic()
+            advanceTimeBy(10)
+        }
+        assertEquals(6, runawayAction.executeCount)
+
+        advanceTimeBy(3600 * 1000)
+        periodicUpdateManager.processPeriodic()
+        assertEquals(7, runawayAction.executeCount)
+    }
+
+    @Test
+    fun `when action executes too often via regular interval it is delayed for 1 hour`() = testScope.runTest {
+        periodicUpdateManager.registerUpdateAction(testAction, PeriodicUpdateSpec(10, emptySet()))
+        periodicUpdateManager.start()
+
+        repeat(10) {
+            advanceTimeBy(10)
+            periodicUpdateManager.processPeriodic()
+        }
+        assertEquals(6, testAction.executeCount)
+
+        advanceTimeBy(3600 * 1000)
+        periodicUpdateManager.processPeriodic()
+        assertEquals(7, testAction.executeCount)
+    }
+
+    @Test
+    fun `when action executes less often than 5 times per 10 minutes it is not throttled`() = testScope.runTest {
+        periodicUpdateManager.registerUpdateAction(testAction, PeriodicUpdateSpec(2 * 60_000, emptySet()))
+        periodicUpdateManager.start()
+
+        repeat(999) { // Total 1000 with initial execution in start().
+            advanceTimeBy(60_000)
+            periodicUpdateManager.processPeriodic()
+        }
+        assertEquals(500, testAction.executeCount)
+    }
+
+    @Test
+    fun `when action is throttled it returns to normal interval after throttle time`() = testScope.runTest {
+        periodicUpdatesDao.upsert(createPeriodicCallInfo(testAction.id, currentTime, throttledTimestamp = currentTime))
+        periodicUpdateManager.registerUpdateAction(testAction, PeriodicUpdateSpec(DELAY_MS, emptySet()))
+        periodicUpdateManager.start()
+
+        advanceTimeBy(3600 * 1000)
+        periodicUpdateManager.processPeriodic()
+        assertEquals(1, testAction.executeCount)
+
+        advanceTimeBy(DELAY_MS)
+        periodicUpdateManager.processPeriodic()
+        assertEquals(2, testAction.executeCount)
+    }
+
+    @Test
+    fun `when action is both throttled and has next timestamp override use the larger value`() = testScope.runTest {
+        val largerThrottle = createTestAction("throttle")
+        val largerOverride = createTestAction("override")
+        periodicUpdatesDao.upsert(
+            createPeriodicCallInfo(largerThrottle.id, 0, throttledTimestamp = 100, nextOverrideTimestamp = 50)
+        )
+        periodicUpdatesDao.upsert(
+            createPeriodicCallInfo(largerOverride.id, 0, throttledTimestamp = 50, nextOverrideTimestamp = 100)
+        )
+        periodicUpdateManager.registerUpdateAction(largerThrottle, PeriodicUpdateSpec(10, emptySet()))
+        periodicUpdateManager.registerUpdateAction(largerOverride, PeriodicUpdateSpec(10, emptySet()))
+        periodicUpdateManager.start()
+
+        advanceTimeBy(60)
+        periodicUpdateManager.processPeriodic()
+        assertFalse(largerThrottle.wasExecuted)
+        assertFalse(largerOverride.wasExecuted)
+
+        advanceTimeBy(50)
+        periodicUpdateManager.processPeriodic()
+        assertTrue(largerThrottle.wasExecuted)
+        assertTrue(largerOverride.wasExecuted)
+    }
+
+    private fun createTestAction(
+        actionId: String,
+        actionFunc: suspend (String) -> PeriodicActionResult<String> = { input -> PeriodicActionResult(input, true) }
+    ) =
         object : UpdateAction<String, String>(actionId, { "default" }) {
             val wasExecuted: Boolean get() = executeCount > 0
             var executeCount = 0
@@ -451,7 +546,17 @@ class PeriodicUpdateManagerTests {
             override suspend fun execute(input: String): PeriodicActionResult<out String> {
                 ++executeCount
                 argument = input
-                return PeriodicActionResult(actionFunc(input), true)
+                return actionFunc(input)
             }
         }
+
+    @Suppress("LongParameterList")
+    private fun createPeriodicCallInfo(
+        id: UpdateActionId,
+        timestamp: Long,
+        wasSuccess: Boolean = true,
+        jitterRatio: Float = 0f,
+        nextOverrideTimestamp: Long? = null,
+        throttledTimestamp: Long? = null
+    ) = PeriodicCallInfo(id, timestamp, wasSuccess, jitterRatio, nextOverrideTimestamp, throttledTimestamp)
 }
