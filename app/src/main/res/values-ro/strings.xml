@@ -329,8 +329,12 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Deschiderere setări Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activarea blocării conexiunii va dezactiva divizarea traficului, deoarece aceasta blochează toate conexiunile din afara tunelului VPN.</string>
     <string name="settingsSmartProtocolDescription">Utilizare automată protocol și port care oferă cea mai bună conectivitate.</string>
-    <string name="settingsSendCrashReportsTitle">Raport eroare anonim</string>
-    <string name="settingsSendCrashReportsDescription">Dacă aplicația se blochează sau se oprește neașteptat, un raport va fi trimis inginerilor noștri care arată ce a provocat eroarea. Vom folosi aceasta doar pentru a ajuta la îmbunătățirea aplicației.</string>
+    <string name="settingsEnableTelemetryTitle">Partajare anonimă statistici de utilizare</string>
+    <string name="settingsEnableTelemetryDescription">Datele de utilizare ne ajută să depășim blocările VPN-ului și să îmbunătățim performanța aplicației.</string>
+    <string name="settingsSendCrashReportsTitle">Partajare anonimă rapoarte de erori</string>
+    <string name="settingsSendCrashReportsDescription">Rapoartele de erori ne ajută să reparăm erorile, să detectăm paravanele de protecție și să evităm blocările VPN-ului.</string>
+    <string name="settingsTelemetryScreenTitle">Statistici de utilizare</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Aceste statistici nu vă conțin adresa IP și nu pot fi utilizate să vă identifice. Nu le vom partaja cu terțe părți. <a href="%1$s">Detalii</a>]]></string>
     <string name="netShieldEnabledWarning">Rețineți că unele site-uri nu funcționeză complet datorită conținutului blocat.</string>
     <string name="netShieldDescription">Blochează reclame, urmăritori și malware </string>
     <string name="netshield">NetShield</string>
@@ -571,6 +575,7 @@
     <string name="onboarding_protection_description">Proton VPN acceptă toate dispozitivele, inclusiv Windows, macOS și multe altele.</string>
     <string name="onboarding_netshield_title">Blocare reclame și multe altele</string>
     <string name="onboarding_netshield_description">Blocare malware, reclame și urmăritori în navigator și în toate aplicațiile.</string>
+    <string name="onboarding_telemetry_title">Ajutați-ne să luptăm cu cenzura</string>
     <string name="onboarding_connection_title">Stabiliți prima conexiune</string>
     <!-- Parameters:
          %1$s - replaced with "onboarding_connection_description_servers"

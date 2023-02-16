@@ -330,8 +330,12 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otwórz ustawienia systemu Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Włączenie funkcji Kill Switch, która blokuje wszystkie płączenia poza tunelem VPN, spowoduje wyłączenie funkcji Split Tunneling</string>
     <string name="settingsSmartProtocolDescription">Skorzystaj z protokołu i portu, które oferują najlepsze połączenie.</string>
-    <string name="settingsSendCrashReportsTitle">Anonimowe raporty o awariach</string>
-    <string name="settingsSendCrashReportsDescription">Jeśli aplikacja ulegnie awarii lub wyłączy się niespodziewanie, raport z informacjami o błędach zostanie wysłany do naszych inżynierów. Będziemy używać tych danych tylko do ulepszenia aplikacji.</string>
+    <string name="settingsEnableTelemetryTitle">Udostępnij anonimowe statystyki użytkowania</string>
+    <string name="settingsEnableTelemetryDescription">Dane użytkowania pomagają nam ominąć blokady VPN i poprawić wydajność aplikacji.</string>
+    <string name="settingsSendCrashReportsTitle">Udostępnij anonimowe raporty o awariach</string>
+    <string name="settingsSendCrashReportsDescription">Raporty o awariach pomagają nam naprawić błędy, wykryć zapory sieciowe i ominąć blokady VPN.</string>
+    <string name="settingsTelemetryScreenTitle">Statystyki użytkowania</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Te statystyki nie zawierają adresu IP i nie mogą zostać użyte do identyfikacji użytkownika. Dane nie zostaną udostępnione stronom trzecim. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
     <string name="netShieldDescription">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie </string>
     <string name="netshield">NetShield</string>
@@ -579,6 +583,7 @@
     <string name="onboarding_protection_description">Aplikacja Proton VPN wspiera wszystkie urządzenia, w tym systemy Windows, macOS i wiele innych.</string>
     <string name="onboarding_netshield_title">Zablokuj reklamy i wiele więcej</string>
     <string name="onboarding_netshield_description">Zablokuj złośliwe oprogramowanie, reklamy i skrypty śledzące w przeglądarce oraz aplikacjach.</string>
+    <string name="onboarding_telemetry_title">Pomóż nam pokonać cenzurę</string>
     <string name="onboarding_connection_title">Nawiąż pierwsze połączenie</string>
     <!-- Parameters:
          %1$s - replaced with "onboarding_connection_description_servers"

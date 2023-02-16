@@ -328,8 +328,12 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abra as configurações do Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Ativar o kill switch desativará o tunelamento dividido, pois o kill switch bloqueia todas as conexões fora do túnel VPN</string>
     <string name="settingsSmartProtocolDescription">Usar automaticamente o protocolo e a porta que oferecem a melhor conectividade.</string>
-    <string name="settingsSendCrashReportsTitle">Relatórios de falhas anônimos</string>
-    <string name="settingsSendCrashReportsDescription">Se o aplicativo travar ou encerrar inesperadamente, um relatório será enviado aos nossos engenheiros mostrando o que causou o erro. Nós só os utilizaremos para ajudar a melhorar o aplicativo.</string>
+    <string name="settingsEnableTelemetryTitle">Compartilhar estatísticas anônimas de uso</string>
+    <string name="settingsEnableTelemetryDescription">Dados de uso nos ajudam a superar bloqueios de VPN e a melhorar o aplicativo.</string>
+    <string name="settingsSendCrashReportsTitle">Compartilhar relatórios de falhas anônimos</string>
+    <string name="settingsSendCrashReportsDescription">Relatórios de falhas nos ajudam a corrigir erros, detectar firewalls e evitar bloqueios de VPN.</string>
+    <string name="settingsTelemetryScreenTitle">Estatísticas de uso</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
     <string name="netShieldEnabledWarning">Cuidado, alguns sites podem não funcionar completamente por causa de conteúdos bloqueados.</string>
     <string name="netShieldDescription">Bloquear anúncios, rastreadores e malware </string>
     <string name="netshield">NetShield</string>
@@ -563,6 +567,7 @@
     <string name="onboarding_protection_description">O Proton VPN suporta todos os dispositivos, incluindo Windows, macOS e muitos outros.</string>
     <string name="onboarding_netshield_title">Bloqueie anúncios e muito mais</string>
     <string name="onboarding_netshield_description">Bloqueie malware, anúncios e rastreadores no navegador e em todos os aplicativos.</string>
+    <string name="onboarding_telemetry_title">Ajude-nos a combater a censura</string>
     <string name="onboarding_connection_title">Estabeleça sua primeira conexão</string>
     <!-- Parameters:
          %1$s - replaced with "onboarding_connection_description_servers"

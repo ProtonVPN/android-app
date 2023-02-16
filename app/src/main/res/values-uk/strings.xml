@@ -330,8 +330,12 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Відкрити налаштування Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Увімкнення Kill Switch вимкне роздільне тунелювання, оскільки Kill Switch блокує усі з\'єднання поза тунелем VPN</string>
     <string name="settingsSmartProtocolDescription">Автоматично застосовувати протокол і порт для найкращого підключення.</string>
-    <string name="settingsSendCrashReportsTitle">Анонімні звіти про збої</string>
-    <string name="settingsSendCrashReportsDescription">Якщо застосунок аварійно завершує роботу або неочікувано закривається, нашим інженерам надсилатиметься звіт, який міститиме інформацію про можливі причини помилки. Ми використовуємо ці дані лише для поліпшення застосунку.</string>
+    <string name="settingsEnableTelemetryTitle">Ділитися анонімною статистикою використання</string>
+    <string name="settingsEnableTelemetryDescription">Дані про використання допомагають нам обходити блокування VPN і вдосконалювати швидкодію програми.</string>
+    <string name="settingsSendCrashReportsTitle">Ділитися анонімними звітами про збої</string>
+    <string name="settingsSendCrashReportsDescription">Звіти про збої допомагають нам виправляти помилки, виявляти мережеві екрани та уникати блокування VPN.</string>
+    <string name="settingsTelemetryScreenTitle">Статистика використання</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Ця статистика не містить вашої IP-адреси та не може бути використана для вашої ідентифікації. Ми ніколи не передаємо ці дані третім сторонам. <a href="%1$s">Докладніше</a>]]></string>
     <string name="netShieldEnabledWarning">Майте на увазі, що деякі сайти можуть не працювати належним чином через блокування вмісту.</string>
     <string name="netShieldDescription">Блокувати рекламу, стеження і зловмисні програми </string>
     <string name="netshield">NetShield</string>
@@ -579,6 +583,7 @@
     <string name="onboarding_protection_description">Proton VPN підтримує всі пристрої, включно з Windows, macOS і багатьма іншими.</string>
     <string name="onboarding_netshield_title">Блокуйте рекламу і багато чого іншого</string>
     <string name="onboarding_netshield_description">Блокуйте зловмисні програми, рекламу й елементи стеження в браузері та в усіх застосунках.</string>
+    <string name="onboarding_telemetry_title">Допоможіть нам протистояти цензурі</string>
     <string name="onboarding_connection_title">Встановіть ваше перше з\'єднання</string>
     <!-- Parameters:
          %1$s - replaced with "onboarding_connection_description_servers"

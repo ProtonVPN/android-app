@@ -328,8 +328,12 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abrir definições Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activating kill switch will disable split tunneling, as kill switch blocks all connections outside the VPN tunnel</string>
     <string name="settingsSmartProtocolDescription">Utilizar automaticamente o protocolo e porta que ofereçam a melhor ligação.</string>
-    <string name="settingsSendCrashReportsTitle">Anonymous crash reports</string>
-    <string name="settingsSendCrashReportsDescription">If the app crashes or shuts down unexpectedly, a report will be sent to our engineers that shows what caused the error. We’ll only ever use these to help improve the app.</string>
+    <string name="settingsEnableTelemetryTitle">Share anonymous usage statistics</string>
+    <string name="settingsEnableTelemetryDescription">Usage data helps us overcome VPN blocks and improve app performance.</string>
+    <string name="settingsSendCrashReportsTitle">Share anonymous crash reports</string>
+    <string name="settingsSendCrashReportsDescription">Crash reports help us fix bugs, detect firewalls, and avoid VPN blocks.</string>
+    <string name="settingsTelemetryScreenTitle">Usage statistics</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
     <string name="netShieldEnabledWarning">Note que algumas páginas podem não funcionar completamente devido a conteúdo bloqueado.</string>
     <string name="netShieldDescription">Bloquear anúncios, rastreio e malware </string>
     <string name="netshield">NetShield</string>
@@ -563,6 +567,7 @@
     <string name="onboarding_protection_description">Proton VPN supports all devices, including Windows, macOS, and many others.</string>
     <string name="onboarding_netshield_title">Block ads and much more</string>
     <string name="onboarding_netshield_description">Block malware, ads, and trackers in browser and in all apps.</string>
+    <string name="onboarding_telemetry_title">Help us fight censorship</string>
     <string name="onboarding_connection_title">Establish your first connection</string>
     <!-- Parameters:
          %1$s - replaced with "onboarding_connection_description_servers"
