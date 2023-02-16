@@ -32,7 +32,8 @@ data class PeriodicCallInfo(
     val timestamp: Long,
     val wasSuccess: Boolean,
     val jitterRatio: Float,
-    val nextTimestampOverride: Long?
+    val nextTimestampOverride: Long?,
+    val throttledTimestamp: Long?
 )
 
 @Dao

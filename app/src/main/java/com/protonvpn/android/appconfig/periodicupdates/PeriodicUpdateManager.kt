@@ -19,10 +19,14 @@
 
 package com.protonvpn.android.appconfig.periodicupdates
 
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.components.AppInUseMonitor
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
+import io.sentry.Sentry
+import io.sentry.SentryLevel
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -52,6 +56,10 @@ import kotlin.random.Random
 private const val MAX_JITTER_RATIO = .2f
 private val MAX_JITTER_DELAY_MS = TimeUnit.HOURS.toMillis(1)
 private val APP_NOT_IN_USE_DELAY_MS = TimeUnit.DAYS.toMillis(2)
+private val RUNAWAY_DETECT_INTERVAL_MS = TimeUnit.MINUTES.toMillis(10)
+private const val RUNAWAY_EXECUTION_THRESHOLD = 5
+private val RUNAWAY_ACTION_DELAY_MS = TimeUnit.HOURS.toMillis(1)
+private val MAX_DELAY_OVERRIDE_MS = TimeUnit.DAYS.toMillis(7)
 
 data class UpdateCondition(private val flow: Flow<Boolean>) {
     fun getFlow(): Flow<UpdateCondition?> = flow.map { if (it) this else null }.distinctUntilChanged()
@@ -60,13 +68,13 @@ data class UpdateCondition(private val flow: Flow<Boolean>) {
 }
 
 data class PeriodicUpdateSpec(
-    val delayMs: Long,
-    val delayFailureMs: Long,
+    val intervalMs: Long,
+    val intervalFailureMs: Long,
     private val conditions: Set<Flow<Boolean>>,
 ) {
     val updateConditions: Set<UpdateCondition> = conditions.mapTo(mutableSetOf()) { UpdateCondition(it) }
 
-    constructor(delayMs: Long, conditions: Set<Flow<Boolean>>) : this(delayMs, delayMs, conditions)
+    constructor(intervalMs: Long, conditions: Set<Flow<Boolean>>) : this(intervalMs, intervalMs, conditions)
 }
 
 /*
@@ -95,7 +103,7 @@ class PeriodicApiCallResult<R>(
  * The mechanism is geared towards making API calls (it only executes actions when network is available) however the
  * interface allows executing any code.
  *
- *     // Define an action:
+ *     // Define an action updating from backend:
  *     fun updateFunction(): ApiResult<Response> { ... }
  *
  *     // Register it to run every 10 minutes while the app is in foreground:
@@ -175,6 +183,8 @@ class PeriodicUpdateManager @Inject constructor(
     private val tasksInProgressFlow = MutableStateFlow(emptyList<UpdateActionId>())
     private val tasksInProgress: List<UpdateActionId> get() = tasksInProgressFlow.value
 
+    private val runawayDetector = RunawayDetector(clock, RUNAWAY_DETECT_INTERVAL_MS, RUNAWAY_EXECUTION_THRESHOLD)
+
     private val started = CompletableDeferred<Unit>()
 
     // To avoid unnecessary rescheduling of WorkManager (which is expensive) when application is starting call start()
@@ -225,7 +235,7 @@ class PeriodicUpdateManager @Inject constructor(
      * @see registerAction
      * @see registerApiCall
      */
-    fun <T, R : Any>registerUpdateAction(action: UpdateAction<T, R>, vararg updateSpec: PeriodicUpdateSpec) {
+    fun <T, R : Any> registerUpdateAction(action: UpdateAction<T, R>, vararg updateSpec: PeriodicUpdateSpec) {
         updateActions[action.id] = Action(updateSpec.asList(), action)
         onActionsChanged()
     }
@@ -280,10 +290,8 @@ class PeriodicUpdateManager @Inject constructor(
     }
 
     private fun rescheduleNext(conditions: Set<UpdateCondition>) {
-        if (tasksInProgress.size > 0) return // Reschedule only when all tasks are finished.
+        if (tasksInProgress.isNotEmpty()) return // Reschedule only when all tasks are finished.
 
-        // TODO: add some protection against running a task too often (e.g. if there's a bug in time computation
-        //  in the task's code.
         val next = computeNearestNextActionTimestamp(conditions)
         if (next != null && appInUseMonitor.wasInUseIn(APP_NOT_IN_USE_DELAY_MS)) {
             periodicUpdateScheduler.scheduleAt(next)
@@ -299,9 +307,25 @@ class PeriodicUpdateManager @Inject constructor(
                 if (trigger != null) {
                     if (trigger.nextTimestamp(previousCalls[id]) <= clock() && !tasksInProgress.contains(id)) {
                         executeAction(action.action)
+                        throttleRunawayActions(action.action)
                     }
                 }
             }
+    }
+
+    private suspend fun throttleRunawayActions(lastExecutedAction: UpdateAction<*, *>) {
+        val runawayActionId = runawayDetector.onActionExecuted(lastExecutedAction.id)
+        if (runawayActionId != null) {
+            val errorMessage = "Runaway action: $runawayActionId, throttling"
+            ProtonLogger.logCustom(LogLevel.WARN, LogCategory.APP_PERIODIC, errorMessage)
+            if (!BuildConfig.DEBUG) Sentry.captureMessage(errorMessage, SentryLevel.ERROR)
+
+            val throttledTimestamp = clock() + RUNAWAY_ACTION_DELAY_MS.withJitter(randomJitterRatio())
+            val callInfo = previousCalls[runawayActionId]?.copy(throttledTimestamp = throttledTimestamp)
+                ?: PeriodicCallInfo(runawayActionId, clock(), true, randomJitterRatio(), null, throttledTimestamp)
+            setPeriodicCallInfo(callInfo)
+            runawayDetector.onActionThrottled(runawayActionId)
+        }
     }
 
     private fun computeNearestNextActionTimestamp(currentConditions: Set<UpdateCondition>): Long? =
@@ -337,11 +361,22 @@ class PeriodicUpdateManager @Inject constructor(
 
     private suspend fun updateLastCall(action: UpdateAction<*, *>, result: PeriodicActionResult<*>) {
         val jitterRatio = randomJitterRatio()
-        val nextTimestampOverride = result.nextCallDelayOverride?.run { clock() + this.withJitter(jitterRatio) }
-        val callInfo =
-            PeriodicCallInfo(action.id, clock(), result.isSuccess, jitterRatio, nextTimestampOverride)
-        previousCalls[action.id] = callInfo
-        periodicUpdatesDao.upsert(callInfo)
+        val nextTimestampOverride = result.nextCallDelayOverride?.let {
+            val delayOverride = minOf(it, MAX_DELAY_OVERRIDE_MS)
+            clock() + delayOverride.withJitter(jitterRatio)
+        }
+        val callInfo = previousCalls[action.id]?.copy(
+            timestamp = clock(),
+            wasSuccess = result.isSuccess,
+            jitterRatio = jitterRatio,
+            nextTimestampOverride = nextTimestampOverride
+        ) ?: PeriodicCallInfo(action.id, clock(), result.isSuccess, jitterRatio, nextTimestampOverride, null)
+        setPeriodicCallInfo(callInfo)
+    }
+
+    private suspend fun setPeriodicCallInfo(periodicCallInfo: PeriodicCallInfo) {
+        previousCalls[periodicCallInfo.id] = periodicCallInfo
+        periodicUpdatesDao.upsert(periodicCallInfo)
     }
 
     private fun onActionsChanged() {
@@ -361,9 +396,15 @@ class PeriodicUpdateManager @Inject constructor(
     private fun PeriodicUpdateSpec.nextTimestamp(lastCall: PeriodicCallInfo?): Long =
         when {
             lastCall == null -> 0L
+            lastCall.throttledTimestamp != null && lastCall.throttledTimestamp > clock() ->
+                if (lastCall.nextTimestampOverride != null) {
+                    maxOf(lastCall.nextTimestampOverride, lastCall.throttledTimestamp)
+                } else {
+                    lastCall.throttledTimestamp
+                }
             lastCall.nextTimestampOverride != null -> lastCall.nextTimestampOverride
             else -> with(lastCall) {
-                val delayNextMs = if (wasSuccess) delayMs else delayFailureMs
+                val delayNextMs = if (wasSuccess) intervalMs else intervalFailureMs
                 timestamp + delayNextMs.withJitter(jitterRatio)
             }
         }
@@ -375,6 +416,37 @@ class PeriodicUpdateManager @Inject constructor(
 
     private fun Action.allConditions() =
         this.updateSpecs.flatMapTo(mutableSetOf()) { specs -> specs.updateConditions }
+}
+
+private class RunawayDetector(
+    @WallClock private val clock: () -> Long,
+    private val detectionIntervalMs: Long,
+    private val maxAllowedExecutions: Int
+) {
+
+    private data class RecentExecution(val id: UpdateActionId, val timestamp: Long)
+
+    private val recentlyExecutedActions = mutableListOf<RecentExecution>()
+
+    fun onActionExecuted(id: UpdateActionId): UpdateActionId? {
+        recentlyExecutedActions.add(0, RecentExecution(id, clock()))
+        removeOld()
+        val offenders = recentlyExecutedActions.groupBy { it.id }
+        val worstOffenderId = offenders
+            .maxByOrNull { it.value.size }
+            ?.takeIf { it.value.size > maxAllowedExecutions }
+            ?.key
+        return worstOffenderId
+    }
+
+    fun onActionThrottled(id: UpdateActionId) {
+        recentlyExecutedActions.removeAll { it.id == id }
+    }
+
+    private fun removeOld() {
+        val threshold = clock() - detectionIntervalMs
+        recentlyExecutedActions.removeAll { it.timestamp <= threshold }
+    }
 }
 
 fun <R : Any> PeriodicUpdateManager.registerAction(

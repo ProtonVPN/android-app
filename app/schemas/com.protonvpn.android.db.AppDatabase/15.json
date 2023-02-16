@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 15,
-    "identityHash": "72ae89f4e7ba5c8e8c3efe2c0cb3e590",
+    "identityHash": "fcb0e67baa1947fc727b46bd042b1998",
     "entities": [
       {
         "tableName": "AccountEntity",
@@ -1524,7 +1524,7 @@
       },
       {
         "tableName": "PeriodicCallInfo",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `wasSuccess` INTEGER NOT NULL, `jitterRatio` REAL NOT NULL, `nextTimestampOverride` INTEGER, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `wasSuccess` INTEGER NOT NULL, `jitterRatio` REAL NOT NULL, `nextTimestampOverride` INTEGER, `throttledTimestamp` INTEGER, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -1553,6 +1553,12 @@
           {
             "fieldPath": "nextTimestampOverride",
             "columnName": "nextTimestampOverride",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "throttledTimestamp",
+            "columnName": "throttledTimestamp",
             "affinity": "INTEGER",
             "notNull": false
           }
@@ -1710,7 +1716,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '72ae89f4e7ba5c8e8c3efe2c0cb3e590')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fcb0e67baa1947fc727b46bd042b1998')"
     ]
   }
 }
