@@ -76,7 +76,6 @@ import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.notifications.NotificationHelper;
 import com.protonvpn.android.search.SearchResultsFragment;
 import com.protonvpn.android.search.SearchViewModel;
-import com.protonvpn.android.ui.NewLookDialogProvider;
 import com.protonvpn.android.ui.account.AccountActivity;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity;
@@ -142,8 +141,6 @@ public class HomeActivity extends VpnActivity {
     @Inject VpnStatusProviderUI vpnStatusProviderUI;
     @Inject ServerListUpdater serverListUpdater;
     @Inject NotificationHelper notificationHelper;
-    @Inject NewLookDialogProvider newLookDialogProvider;
-
     private HomeViewModel viewModel;
     private SearchViewModel searchViewModel;
 
@@ -335,8 +332,6 @@ public class HomeActivity extends VpnActivity {
         initFullScreenNotification(getIntent());
 
         vpnStatusProviderUI.isConnectedOrDisconnectedLiveData().observe(this, isConnected -> initQuickConnectFab());
-
-        newLookDialogProvider.show(this, false);
     }
 
     private void initFullScreenNotification(Intent newIntent) {

@@ -665,8 +665,6 @@
         <item quantity="other">Accesare toate cele %1$d de țări</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Mai multe locuri = mai mult conținut deblocat + extra securitate + viteze sporite</string>
-    <string name="new_look_dialog_title_new_plans">Proton actualizat, protecție unificată</string>
-    <string name="new_look_dialog_message_new_plans"><![CDATA[Vă prezentăm noua față împrospătată a lui Proton. Multe servicii, o singură misiune. Bun venit la un internet unde intimitatea este implicită. <a href="%1$s">Detalii</a>]]></string>
     <string name="ikev2_removed_dialog_title">Protocolul VPN IKEv2 nu mai este disponibil</string>
     <string name="ikev2_removed_dialog_message">Setările implicite și profilurile care au folosit IKEv2 acum vor folosi Smart protocol.</string>
     <!-- Core strings overrides -->

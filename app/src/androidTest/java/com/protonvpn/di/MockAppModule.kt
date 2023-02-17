@@ -27,7 +27,6 @@ import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
-import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsUpdateWorker
 import com.protonvpn.android.appconfig.globalsettings.NoopGlobalSettingsUpdateScheduler
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.OnSessionClosed
@@ -44,7 +43,6 @@ import com.protonvpn.android.telemetry.NoopTelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
-import com.protonvpn.android.ui.NewLookDialogProvider
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.SharedPreferencesProvider
@@ -219,13 +217,6 @@ class MockAppModule {
     @TvLoginPollDelayMs
     fun provideTvLoginPollDelayMs() = if (TestSettings.mockedConnectionUsed)
         TimeUnit.MILLISECONDS.toMillis(150) else TvLoginViewModel.POLL_DELAY_MS
-
-    @Provides
-    fun provideNewLookDialogProvider(): NewLookDialogProvider = object : NewLookDialogProvider() {
-        override fun show(context: Context, tv: Boolean) {
-            // Don't show the dialog in tests
-        }
-    }
 
     @Module
     @TestInstallIn(
