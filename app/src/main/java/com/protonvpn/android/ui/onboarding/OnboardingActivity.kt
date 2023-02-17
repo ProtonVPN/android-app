@@ -189,10 +189,9 @@ class OnboardingActivity : BaseActivityV2() {
                 TelemetryConsent()
             }
         }
-        if (viewModel.showConnect) {
-            steps += Step(actionText = R.string.onboading_connect_now, showConnect = true, canSkipOnboarding = true) {
-                FirstConnection()
-            }
+
+        steps += Step(actionText = R.string.onboading_connect_now, showConnect = true, canSkipOnboarding = true) {
+            FirstConnection()
         }
     }
 

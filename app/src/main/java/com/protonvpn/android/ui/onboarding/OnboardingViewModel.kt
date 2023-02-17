@@ -33,7 +33,6 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.displayText
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -71,7 +70,6 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
-    val showConnect get() = Storage.getBoolean(OnboardingPreferences.ONBOARDING_SHOW_CONNECT, false)
     val showTelemetryPrompt get() = appConfig.getFeatureFlags().telemetry
 
     var telemetryEnabledSwitch: Boolean = false
