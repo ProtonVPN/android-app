@@ -30,7 +30,8 @@ public class OnboardingPreferences implements Serializable {
     public static String FLOATINGACTION_DIALOG = "FloatingActionShown";
     public static String FLOATING_BUTTON_USED = "FloatingActionUsed";
     public static String ONBOARDING_USER_ID = "OnboardingUserId";
-    public static String ONBOARDING_SHOW_CONNECT = "OnboardingShowConnect";
+    // Removed:
+    // ONBOARDING_SHOW_CONNECT = "OnboardingShowConnect";
 
     public static void clearPreferences() {
         Storage.saveBoolean(MAPVIEW_DIALOG, false);

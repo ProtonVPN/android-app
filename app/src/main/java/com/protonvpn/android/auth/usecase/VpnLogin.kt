@@ -32,8 +32,6 @@ import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.ui.onboarding.OnboardingPreferences
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
@@ -105,13 +103,6 @@ class VpnLogin @Inject constructor(
     private suspend fun finalizeLogin(vpnUser: VpnUser) {
         ProtonLogger.log(UserPlanChanged, "logged in: ${vpnUser.toLog()}")
         vpnUserDao.insertOrUpdate(vpnUser)
-        val showConnectFeature = api.getFeature(ONBOARDING_SHOW_CONNECT_FEATURE)
-        if (showConnectFeature is ApiResult.Success) {
-            Storage.saveBoolean(
-                OnboardingPreferences.ONBOARDING_SHOW_CONNECT,
-                showConnectFeature.value.feature.value
-            )
-        }
         serverListUpdater.updateLocationIfVpnOff()
         appConfig.forceUpdate()
         if (guestHole.isGuestHoleActive)
@@ -120,7 +111,6 @@ class VpnLogin @Inject constructor(
     }
 
     companion object {
-        const val ONBOARDING_SHOW_CONNECT_FEATURE = "OnboardingShowFirstConnection"
         private const val ERROR_CODE_NO_CONNECTIONS_ASSIGNED = 86_300
         const val GUEST_HOLE_ID = "LOGIN_SIGNUP"
     }

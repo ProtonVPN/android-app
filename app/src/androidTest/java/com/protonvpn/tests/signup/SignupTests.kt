@@ -89,8 +89,8 @@ class SignupTests {
             .verifyViaEmail(DefaultData.ATLAS_VERIFICATION_CODE)
             .verify { welcomeScreenIsDisplayed() }
         onboardingRobot.completeOnboarding(appConfig.getFeatureFlags().telemetry)
-            .closeOnboarding(purchaseEnabled())
-            .verify { isInMainScreen() }
+            .skipOnboarding() // We have no way to connect in tests at the moment.
+        homeRobot.verify { isInMainScreen() }
         homeRobot.openAccountView()
             .verify { checkIfCorrectUsernameIsDisplayed(testUsername) }
     }
