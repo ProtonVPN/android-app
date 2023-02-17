@@ -1,0 +1,3 @@
+What's new
+- We've made it easier to connect to VPN when there are network connectivity issues
+- Made some small changes to enhance user interface.
