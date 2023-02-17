@@ -32,21 +32,16 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.ActivityTvMainBinding
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.TvMainFragment
-import com.protonvpn.android.ui.NewLookDialogProvider
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.utils.CountryTools
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TvMainActivity : BaseTvActivity() {
 
     private val viewModel: TvMainViewModel by viewModels()
     private val accountViewModel: AccountViewModel by viewModels()
-
-    @Inject
-    lateinit var newLookDialogProvider: NewLookDialogProvider
 
     private val helper = object : MainActivityHelper(this) {
 
@@ -76,7 +71,7 @@ class TvMainActivity : BaseTvActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityTvMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        helper.onCreate(accountViewModel, newLookDialogProvider)
+        helper.onCreate(accountViewModel)
 
         viewModel.selectedCountryFlag.observe(this, Observer {
             updateMapSelection(binding)

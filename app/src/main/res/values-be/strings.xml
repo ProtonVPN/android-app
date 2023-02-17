@@ -676,8 +676,6 @@
         <item quantity="other">Доступ да %1$d краін</item>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Больш размяшчэнняў = больш разблакіраванага змесціва + дадатковая бяспека + больш высокая хуткасць</string>
-    <string name="new_look_dialog_title_new_plans">Абноўлены Proton, уніфікаваная абарона</string>
-    <string name="new_look_dialog_message_new_plans"><![CDATA[Уводзіны ў абноўлены выгляд Proton. Шмат сэрвісаў, адна місія. Запрашаем у інтэрнэт, дзе прыватнасць з\'яўляецца паўсядзённасцю. <a href="%1$s">Даведацца&nbsp;больш</a>]]></string>
     <string name="ikev2_removed_dialog_title">Пратакол IKEv2 VPN больш недаступны</string>
     <string name="ikev2_removed_dialog_message">Прадвызначаныя канфігурацыі і профілі, у якіх IKEv2 выкарыстоўваўся раней, будуць пераведзены на Smart Protocol.</string>
     <!-- Core strings overrides -->

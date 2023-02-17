@@ -27,13 +27,10 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.protonvpn.android.ui.NewLookDialogProvider
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MobileMainActivity : AppCompatActivity() {
@@ -43,9 +40,6 @@ class MobileMainActivity : AppCompatActivity() {
             finish()
     }
     private val accountViewModel: AccountViewModel by viewModels()
-
-    @Inject
-    lateinit var newLookDialogProvider: NewLookDialogProvider
 
     private val helper = object : MainActivityHelper(this) {
 
@@ -63,11 +57,9 @@ class MobileMainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen().setKeepOnScreenCondition(SplashScreen.KeepOnScreenCondition {
-            true
-        })
+        installSplashScreen().setKeepOnScreenCondition { true }
         super.onCreate(savedInstanceState)
-        helper.onCreate(accountViewModel, newLookDialogProvider)
+        helper.onCreate(accountViewModel)
     }
 
     override fun onNewIntent(intent: Intent?) {
