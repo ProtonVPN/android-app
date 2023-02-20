@@ -1,0 +1,2 @@
+What's new
+- Fixed a stability issue that was causing the app to crash on older devices
