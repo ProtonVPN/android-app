@@ -21,12 +21,14 @@ package com.protonvpn.android.ui.home.vpn
 
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
+import com.protonvpn.android.auth.usecase.CurrentUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SwitchDialogViewModel @Inject constructor(
-    private val purchaseEnabled: CachedPurchaseEnabled
+    private val purchaseEnabled: CachedPurchaseEnabled,
+    private val currentUser: CurrentUser
 ) : ViewModel() {
-    fun showUpgrade() = purchaseEnabled()
+    fun showUpgrade() = purchaseEnabled() && currentUser.vpnUserCached()?.subscribed == 0
 }

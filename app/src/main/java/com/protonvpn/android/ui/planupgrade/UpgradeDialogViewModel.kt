@@ -61,5 +61,5 @@ class UpgradeDialogViewModel @Inject constructor(
         }
     }
 
-    fun showUpgrade() = purchaseEnabled()
+    fun showUpgrade() = purchaseEnabled() && currentUser.vpnUserCached()?.subscribed == 0
 }
