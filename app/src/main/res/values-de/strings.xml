@@ -319,7 +319,7 @@
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tippe auf den Schalter neben <b>VPN immer an</b>, um es zu aktivieren]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tippe auf den Schalter neben <b>Always-On-VPN</b> (VPN immer eingeschaltet), um es zu aktivieren]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to

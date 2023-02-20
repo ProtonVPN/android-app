@@ -27,7 +27,7 @@
     <string name="error_field_required">Ce champ est nécessaire.</string>
     <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Se déconnecter</string>
-    <string name="loginSlogan">Internet sécurisé, partout</string>
+    <string name="loginSlogan">Pour un internet plus sûr, partout</string>
     <string name="loginStartWithDevice">Démarrer</string>
     <string name="loginCreateAccount">Créer un nouveau compte</string>
     <string name="loginNeedHelp">Besoin d\'aide ?</string>
