@@ -23,7 +23,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class AppConfigResponse(
+data class AppConfigResponse(
     @SerialName(value = "ServerRefreshInterval")
     val underMaintenanceDetectionDelay: Long = Constants.DEFAULT_MAINTENANCE_CHECK_MINUTES,
     @SerialName(value = "DefaultPorts") val defaultPortsConfig: DefaultPortsConfig?,

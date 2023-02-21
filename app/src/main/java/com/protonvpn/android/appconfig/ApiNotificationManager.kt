@@ -24,32 +24,39 @@ import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.bumptech.glide.Glide
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
+import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicApiCallResult
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
+import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
+import com.protonvpn.android.appconfig.periodicupdates.UpdateAction
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
-import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
-import com.protonvpn.android.utils.jitterMs
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
+import me.proton.core.network.domain.ApiResult
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.mapAsync
@@ -91,9 +98,10 @@ class ApiNotificationManager @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val currentUser: CurrentUser,
     private val userPlanManager: UserPlanManager,
-    private val appFeaturesPrefs: AppFeaturesPrefs,
     private val imagePrefetcher: ImagePrefetcher,
-    foregroundActivityTracker: ForegroundActivityTracker
+    private val periodicUpdateManager: PeriodicUpdateManager,
+    @IsInForeground private val inForeground: Flow<Boolean>,
+    @IsLoggedIn private val isLoggedIn: Flow<Boolean>
 ) {
 
     private val testNotifications = MutableStateFlow<List<ApiNotification>>(emptyList())
@@ -126,7 +134,7 @@ class ApiNotificationManager @Inject constructor(
         .flatMapLatest { notifications ->
             flow {
                 var nextUpdateDelayS: Long? = 0
-                while(nextUpdateDelayS != null) {
+                while (nextUpdateDelayS != null) {
                     delay(TimeUnit.SECONDS.toMillis(nextUpdateDelayS))
                     val nowS = TimeUnit.MILLISECONDS.toSeconds(wallClockMs())
                     val activeNotifications = activeNotifications(nowS, notifications)
@@ -136,57 +144,51 @@ class ApiNotificationManager @Inject constructor(
             }
         }
 
+    private val notificationsUpdate =
+        UpdateAction("in-app notifications") { PeriodicApiCallResult(updateNotifications()) }
+
+    private var collectJob: Job? = null
+
     init {
-        userPlanManager.infoChangeFlow
-            .onEach {
-                forceUpdate()
-            }.launchIn(mainScope)
-        appConfig.appConfigUpdateEvent
-            .onEach {
-                triggerUpdateIfNeeded()
-            }.launchIn(mainScope)
-        foregroundActivityTracker.foregroundActivityFlow
-            .filterNotNull()
-            .onEach {
-                triggerUpdateIfNeeded()
-            }.launchIn(mainScope)
+        appConfig.appConfigFlow
+            .map { it.featureFlags.pollApiNotifications }
+            .distinctUntilChanged()
+            .onEach { enabled -> if (enabled) enable() else disable() }
+            .launchIn(mainScope)
     }
 
-    @VisibleForTesting
-    fun triggerUpdateIfNeeded() {
-        mainScope.launch {
-            updateIfNeeded()
-        }
+    private fun enable() {
+        periodicUpdateManager.registerUpdateAction(
+            notificationsUpdate,
+            PeriodicUpdateSpec(MIN_NOTIFICATION_REFRESH_INTERVAL_MS, setOf(isLoggedIn, inForeground))
+        )
+        collectJob = merge(userPlanManager.infoChangeFlow, currentUser.eventVpnLogin, appConfig.appConfigUpdateEvent)
+            .onEach { forceUpdate() }
+            .launchIn(mainScope)
+    }
+
+    private fun disable() {
+        collectJob?.cancel()
+        periodicUpdateManager.unregister(notificationsUpdate)
     }
 
     private suspend fun forceUpdate() {
-        appFeaturesPrefs.minNextNotificationUpdateTimestamp = 0
-        updateIfNeeded()
+        periodicUpdateManager.executeNow(notificationsUpdate)
     }
 
-    private suspend fun updateIfNeeded() {
-        // isLoggedIn() is async so get the value before checking the time, otherwise two calls to updateIfNeeded in a
-        // very short time can result in calling the API twice.
-        val isLoggedIn = currentUser.isLoggedIn()
-        val needsUpdate = wallClockMs() >= appFeaturesPrefs.minNextNotificationUpdateTimestamp
-        if (needsUpdate && isLoggedIn) {
-            appFeaturesPrefs.minNextNotificationUpdateTimestamp =
-                wallClockMs() + jitterMs(MIN_NOTIFICATION_REFRESH_INTERVAL_MS)
-            val response = if (appConfig.getFeatureFlags().pollApiNotifications) {
-                val fullScreenImageSize = PromoOfferImage.getFullScreenImageMaxSizePx(appContext)
-                api.getApiNotifications(
-                    PromoOfferImage.SupportedFormats.values().map { it.toString() },
-                    fullScreenImageSize.width,
-                    fullScreenImageSize.height
-                ).valueOrNull
-            } else {
-                ApiNotificationsResponse(emptyList())
-            }
-            response?.let {
-                apiNotificationsResponse.value = response
-                Storage.save(response)
-            }
+    @VisibleForTesting
+    suspend fun updateNotifications(): ApiResult<ApiNotificationsResponse> {
+        val fullScreenImageSize = PromoOfferImage.getFullScreenImageMaxSizePx(appContext)
+        val response = api.getApiNotifications(
+            PromoOfferImage.SupportedFormats.values().map { it.toString() },
+            fullScreenImageSize.width,
+            fullScreenImageSize.height
+        )
+        response.valueOrNull?.let {
+            apiNotificationsResponse.value = it
+            Storage.save(response)
         }
+        return response
     }
 
     private fun activeNotifications(nowS: Long, notifications: List<ApiNotification>) =
