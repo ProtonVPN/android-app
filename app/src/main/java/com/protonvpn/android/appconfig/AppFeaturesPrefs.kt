@@ -36,7 +36,6 @@ class AppFeaturesPrefs @Inject constructor(
 
     var purchaseEnabled: Boolean by boolean(false)
     var lastAppStartTimestamp: Long by long(0)
-    var minNextNotificationUpdateTimestamp: Long by long(0)
 
     var showIKEv2Migration: Boolean by boolean(false)
 
