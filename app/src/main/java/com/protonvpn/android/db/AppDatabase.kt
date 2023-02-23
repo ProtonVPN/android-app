@@ -43,6 +43,8 @@ import me.proton.core.humanverification.data.db.HumanVerificationDatabase
 import me.proton.core.humanverification.data.entity.HumanVerificationEntity
 import me.proton.core.key.data.db.KeySaltDatabase
 import me.proton.core.key.data.entity.KeySaltEntity
+import me.proton.core.observability.data.db.ObservabilityDatabase
+import me.proton.core.observability.data.entity.ObservabilityEventEntity
 import me.proton.core.payment.data.local.db.PaymentDatabase
 import me.proton.core.payment.data.local.entity.GooglePurchaseEntity
 import me.proton.core.user.data.db.AddressDatabase
@@ -86,6 +88,8 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         OrganizationKeysEntity::class,
         // purchase
         GooglePurchaseEntity::class,
+        // observability
+        ObservabilityEventEntity::class,
 
         // vpn
         VpnUser::class
@@ -118,10 +122,11 @@ abstract class AppDatabase :
     UserDatabase,
     UserSettingsDatabase,
     PaymentDatabase,
-    VpnUserDatabase {
+    VpnUserDatabase,
+    ObservabilityDatabase {
 
     companion object {
-        const val version = 11
+        const val version = 12
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
@@ -132,6 +137,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_8_9,
             DatabaseMigrations.MIGRATION_9_10,
             DatabaseMigrations.MIGRATION_10_11,
+            DatabaseMigrations.MIGRATION_11_12,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
