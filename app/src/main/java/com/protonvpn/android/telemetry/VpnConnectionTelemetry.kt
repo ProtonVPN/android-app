@@ -198,7 +198,7 @@ class VpnConnectionTelemetry @Inject constructor(
     private fun Boolean.toOutcome() = if (this) Outcome.SUCCESS else Outcome.FAILURE
 
     companion object {
-        const val MEASUREMENT_GROUP = "vpn.android.connection"
+        const val MEASUREMENT_GROUP = "vpn.any.connection"
         private const val EVENT_CONNECT = "vpn_connection"
         private const val EVENT_DISCONNECT = "vpn_disconnection"
         private const val NO_VALUE = "n/a"
