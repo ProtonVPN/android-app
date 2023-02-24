@@ -705,6 +705,7 @@ dependencies {
     implementation "me.proton.core:feature-flag:$core_version"
     implementation "me.proton.core:observability:$core_version"
     implementation "me.proton.core:payment:$core_version"
+    googlePlayImplementation "me.proton.core:payment-iap:$core_version"
     implementation "me.proton.core:plan:$core_version"
     implementation "me.proton.core:key:$core_version"
     implementation "me.proton.core:data:$core_version"
