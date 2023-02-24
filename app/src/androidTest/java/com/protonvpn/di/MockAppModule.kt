@@ -109,7 +109,7 @@ class MockAppModule {
     // https://jira.protontech.ch/browse/CP-4334 - Provide an abstraction over `WorkManager`
     @Provides
     @Singleton
-    fun provideWorkManager(): WorkManager = mockk()
+    fun provideWorkManager(): WorkManager = mockk(relaxed = true)
 
     @Singleton
     @Provides

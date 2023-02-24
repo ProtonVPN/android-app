@@ -73,7 +73,7 @@ sealed class TestApiConfig {
                     respond(CertificateResponse("dummy data", Int.MAX_VALUE.toLong(), Int.MAX_VALUE.toLong()))
                 }
 
-                rule(delete, path eq "/auth") {
+                rule(delete, path eq "/auth/v4") {
                     respond(GenericResponse(ResponseCodes.OK))
                 }
 
@@ -95,6 +95,7 @@ sealed class TestApiConfig {
                     "/vpn/loads",
                     "/core/v4/experiments/NetShield",
                     "/core/v4/settings",
+                    "/core/v4/users"
                 ).forEach { unimportantPath ->
                     rule(path eq unimportantPath) { respond(HttpResponseCodes.HTTP_UNPROCESSABLE) }
                 }
