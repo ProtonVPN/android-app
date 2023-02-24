@@ -43,7 +43,7 @@ object PlansModule {
 
     @Provides
     @ProductOnlyPaidPlans
-    fun provideProductOnlyPaidPlans() = true
+    fun provideProductOnlyPaidPlans() = false
 
     @Provides
     fun provideClientPlanFilter() = object : ClientPlanFilter {

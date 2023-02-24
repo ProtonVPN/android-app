@@ -61,7 +61,7 @@ sealed class TestApiConfig {
                     respond(ApiNotificationsResponse(emptyList()))
                 }
 
-                rule(get, path eq "/payments/v4/status/fdroid") {
+                rule(get, path startsWith "/payments/v4/status") {
                     respond("""{"Code":1000,"Card":0,"Paypal":0,"Bitcoin":0,"InApp":0}""")
                 }
 
