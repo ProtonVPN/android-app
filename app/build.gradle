@@ -128,10 +128,9 @@ def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath'
 def testAccountPassword = project.hasProperty('testAccountPassword') ? testAccountPassword : "\"Pass\""
 def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
 def supportedLocales = ['b+es+419', 'be', 'cs', 'de', 'en', 'es-rES', 'es-rMX', 'fa', 'fr', 'hr', 'in', 'it', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'tr', 'uk']
+def helpers = new Helpers(rootDir)
 
 android {
-    def helpers = new Helpers()
-
     namespace "com.protonvpn.android"
     buildToolsVersion "31.0.0"
     ndkVersion rootProject.ext.compileNdkVersion
@@ -179,9 +178,9 @@ android {
         buildConfigField "String", "CI_BRANCH_NAME", "\"${StringEscapeUtils.escapeJava(ciBranchName)}\""
         buildConfigField "String", "CI_COMMIT_MESSAGE", "\"${StringEscapeUtils.escapeJava(commitFirstLine)}\""
         buildConfigField "String", "BLACK_TOKEN", "\"\""
-        buildConfigField "String", "TEST_ASSET_OVERRIDE_SHA", "\"${Helpers.readFileOrDefault("test_asset_override_sha", "db95210d57b90063bfa1cac9881c7a8df326e6e2")}\""
-        buildConfigField "String", "TEST_ASSET_OVERRIDE_KEY", "\"${Helpers.readFileOrDefault("test_asset_override_key", "241b080fb0f1216e")}\""
-        buildConfigField "String", "TEST_SUITE_ASSET_OVERRIDE_KEY", "\"${Helpers.readFileOrDefault("test_suite_asset_override_key", "3ea60f6a2fbfc015")}\""
+        buildConfigField "String", "TEST_ASSET_OVERRIDE_SHA", "\"${helpers.readFileOrDefault("test_asset_override_sha", "db95210d57b90063bfa1cac9881c7a8df326e6e2")}\""
+        buildConfigField "String", "TEST_ASSET_OVERRIDE_KEY", "\"${helpers.readFileOrDefault("test_asset_override_key", "241b080fb0f1216e")}\""
+        buildConfigField "String", "TEST_SUITE_ASSET_OVERRIDE_KEY", "\"${helpers.readFileOrDefault("test_suite_asset_override_key", "3ea60f6a2fbfc015")}\""
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -303,7 +302,7 @@ kapt {
 play {
     serviceAccountCredentials.set(file(serviceAccountCredentialsPath))
     track.set('internal')
-    releaseName.set(Helpers.fullVersionName)
+    releaseName.set(helpers.fullVersionName)
 }
 
 // The config file is downloaded by the downloadDetektConfig task.
@@ -382,7 +381,7 @@ task publishGenerateReleaseNotes {
         File releaseNotesFile = new File(releaseNotesDir, "default.txt")
         releaseNotesFile.newWriter().withWriter { w ->
             // Limit of 500 chars on Google Play console for release notes
-            w << Helpers.getReleaseNotes(490)
+            w << helpers.getReleaseNotes(490)
         }
     }
 }
@@ -395,13 +394,13 @@ task publishInternal {
         // }
         def lastSha = System.getenv("CI_COMMIT_BEFORE_SHA")
         if (lastSha == null || lastSha.matches("0*") ||
-                Helpers.exec("git rev-list --count ${lastSha}..HEAD").trim().toInteger() == 0) {
+                helpers.exec("git rev-list --count ${lastSha}..HEAD").trim().toInteger() == 0) {
             println "skipping publishing..."
         } else {
             dependsOn 'publishGenerateReleaseNotes'
             dependsOn 'publishGooglePlayReleaseApk'
             doLast {
-                Helpers.notifyPublishOnSlack()
+                helpers.notifyPublishOnSlack()
             }
         }
     }
@@ -453,12 +452,17 @@ android.applicationVariants.all { variant ->
     variant.outputs.each { output ->
         def abiCode = project.ext.abiCodes.get(output.getFilter(OutputFile.ABI))
         if (abiCode != null) {
-            output.versionCodeOverride = Helpers.getVersionCode(abiCode)
+            output.versionCodeOverride = helpers.getVersionCode(abiCode)
         }
     }
 }
 
 class Helpers {
+    private File workingDir
+
+    Helpers(File workingDir) {
+        this.workingDir = workingDir
+    }
 
     // Versioning:
     //  Version name: M.m.D.R
@@ -467,7 +471,7 @@ class Helpers {
     //  R - number of commits on release branch (from development)
     //  Version code: AMMmmDDRR as decimal integer
     //  A - abiCode + 1
-    static int getVersionCode(def abiCode) {
+    int getVersionCode(def abiCode) {
         def name = fullVersionName
         def versions = name.split("\\.")
         def major = versions[0].toInteger()
@@ -495,7 +499,7 @@ class Helpers {
         return code
     }
 
-    static String getFullVersionName() {
+    String getFullVersionName() {
         // Find last tag in the form M.m.D.R, D and R are optional
         def tag = exec('git tag --sort=v:refname --merged HEAD').trim().split('\n').reverse().find { it.matches('\\d+(\\.\\d+){1,3}') }
         def tagSplit = Arrays.stream(tag.split("\\.")).mapToInt { it.toInteger() }.toArray()
@@ -522,14 +526,14 @@ class Helpers {
         return "${major}.${minor}.${dev}.${release}"
     }
 
-    static String readFileOrDefault(String path, String defaultValue) {
-        def file = new File(path)
+    String readFileOrDefault(String path, String defaultValue) {
+        def file = new File(workingDir, path)
         if (!file.exists())
             return defaultValue
         return file.text
     }
 
-    static String getReleaseNotes(int trimAt) {
+    String getReleaseNotes(int trimAt) {
         def lastSha = System.getenv("CI_COMMIT_BEFORE_SHA")
         def notes = exec(["git", "log", "${lastSha}..HEAD", "--pretty=format:- %s"])
         if (notes.length() > trimAt)
@@ -537,7 +541,7 @@ class Helpers {
         return notes
     }
 
-    static void notifyPublishOnSlack() {
+    void notifyPublishOnSlack() {
         def hook = System.getenv("SLACK_PUBLISH_HOOK")
         if (hook == null)
             return
@@ -547,14 +551,14 @@ class Helpers {
         exec(["curl", "-X", "POST", "-H", "'Content-type: application/json'", "--data", json, hook])
     }
 
-    static String getArchivesBaseName() {
+    String getArchivesBaseName() {
         return "ProtonVPN-" + fullVersionName + "(" + getVersionCode(0) + ")"
     }
 
-    static String exec(String cmd, boolean throwOnError = true) {
+    String exec(String cmd, boolean throwOnError = true) {
         def out = new StringBuffer()
         def err = new StringBuffer()
-        def proc = cmd.execute()
+        def proc = cmd.execute(null, workingDir)
         proc.waitForProcessOutput(out, err)
         if (proc.exitValue() != 0) {
             if (throwOnError)
@@ -565,10 +569,10 @@ class Helpers {
         return out.toString()
     }
 
-    static String exec(ArrayList<String> cmd, boolean throwOnError = true) {
+    String exec(ArrayList<String> cmd, boolean throwOnError = true) {
         def out = new StringBuffer()
         def err = new StringBuffer()
-        def proc = cmd.execute()
+        def proc = cmd.execute(null, workingDir)
         proc.waitForProcessOutput(out, err)
         if (proc.exitValue() != 0) {
             if (throwOnError)
@@ -581,13 +585,11 @@ class Helpers {
 }
 tasks.register("getVersionName"){
     doLast {
-        def helpers = new Helpers()
         println helpers.fullVersionName
     }
 }
 tasks.register("getUniversalVersionCode"){
     doLast {
-        def helpers = new Helpers()
         println helpers.getVersionCode(0)
     }
 }
