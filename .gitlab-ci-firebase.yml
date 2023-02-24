@@ -80,6 +80,7 @@ mobile tests test-env:
 
 tv tests:
   extends: .tests_preparation_script
+  when: manual # VPNAND-1184
   variables:
     TESTS_TYPE: tvTest
     APP_LOCATION: "app/build/outputs/apk/black/debug/"
