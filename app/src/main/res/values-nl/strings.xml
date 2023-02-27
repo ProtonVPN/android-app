@@ -35,7 +35,7 @@
     <string name="connectionAllocationHelpDescription1">Om uw reis met Proton VPN te beginnen wijst u VPN-verbindingen toe aan uw account of een ander sub-account.</string>
     <string name="connectionAllocationHelpDescription2">Deze stap duurt slechts een paar minuten. Daarna kunt u zich aanmelden en al uw apparaten beveiligen.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">Enable VPN connections</string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Schakel VPN-verbindingen in</string>
     <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
     <string name="mapCalloutConnect">Verbinden</string>
     <string name="mapCalloutDisconnect">Verbreken</string>
@@ -328,12 +328,12 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android instellingen openen</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Kill switch activeren schakelt split tunneling uit, aangezien kill switch alle verbindingen buiten de VPN-tunnel blokkeert</string>
     <string name="settingsSmartProtocolDescription">Gebruik automatisch het protocol en poort die de beste verbinding bieden.</string>
-    <string name="settingsEnableTelemetryTitle">Share anonymous usage statistics</string>
-    <string name="settingsEnableTelemetryDescription">Usage data helps us overcome VPN blocks and improve app performance.</string>
+    <string name="settingsEnableTelemetryTitle">Anonieme gebruiksstatistieken delen</string>
+    <string name="settingsEnableTelemetryDescription">Gebruiksgegevens helpen ons om VPN-blokkering te omzeilen en de prestaties van de app te verbeteren.</string>
     <string name="settingsSendCrashReportsTitle">Anonieme crashrapporten delen</string>
-    <string name="settingsSendCrashReportsDescription">Crash reports help us fix bugs, detect firewalls, and avoid VPN blocks.</string>
-    <string name="settingsTelemetryScreenTitle">Usage statistics</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsSendCrashReportsDescription">Crashrapporten helpen ons om programmafouten op te lossen, firewalls te detecteren en VPN-blokkeringen te vermijden.</string>
+    <string name="settingsTelemetryScreenTitle">Gebruiksstatistieken</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Deze statistieken bevatten uw IP-adres niet, en kunnen niet gebruikt worden om u te identificeren. We zullen deze nooit delen met derden. <a href="%1$s">Meer informatie</a>]]></string>
     <string name="netShieldEnabledWarning">Let op: sommige websites werken mogelijk niet volledig vanwege geblokkeerde inhoud.</string>
     <string name="netShieldDescription">Blokkeer advertenties, trackers en malware </string>
     <string name="netshield">NetShield</string>
@@ -567,7 +567,7 @@
     <string name="onboarding_protection_description">Proton VPN ondersteunt alle toestellen, inclusief Windows, macOS en vele anderen.</string>
     <string name="onboarding_netshield_title">Blokkeer advertenties en veel meer</string>
     <string name="onboarding_netshield_description">Blokkeer malware, advertenties, en trackers in browser en in alle apps.</string>
-    <string name="onboarding_telemetry_title">Help us fight censorship</string>
+    <string name="onboarding_telemetry_title">Help ons censuur te bestrijden</string>
     <string name="onboarding_connection_title">Uw eerste verbinding tot stand brengen</string>
     <!-- Parameters:
          %1$s - replaced with "onboarding_connection_description_servers"
