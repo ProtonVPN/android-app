@@ -58,6 +58,7 @@ import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
+import com.protonvpn.mocks.FakeWorkManager
 import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.NoopCertRefreshScheduler
@@ -109,7 +110,7 @@ class MockAppModule {
     // https://jira.protontech.ch/browse/CP-4334 - Provide an abstraction over `WorkManager`
     @Provides
     @Singleton
-    fun provideWorkManager(): WorkManager = mockk(relaxed = true)
+    fun provideWorkManager(): WorkManager = FakeWorkManager()
 
     @Singleton
     @Provides
