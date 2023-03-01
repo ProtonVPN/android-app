@@ -21,6 +21,7 @@ package com.protonvpn.android.logging
 
 import android.content.Context
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.EntryPoint
@@ -70,6 +71,7 @@ class CurrentStateLogger @Inject constructor(
             ProtonLogger.log(ConnCurrentState, vpnStateMonitor.state.toString())
             ProtonLogger.log(OsPowerCurrent, powerStateLogger.getStatusString())
             ProtonLogger.log(SettingsCurrent, "\n$settings")
+            ProtonLogger.logCustom(LogCategory.APP, "Sentry ID: ${SentryIntegration.getInstallationId()}")
         }
     }
 }
