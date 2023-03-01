@@ -34,6 +34,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
@@ -77,6 +78,7 @@ class GlobalSettingsManagerTests {
         globalSettingsPrefs = GlobalSettingsPrefs(MockSharedPreferencesProvider())
 
         globalSettingsManager = GlobalSettingsManager(
+            mockk(relaxed = true),
             testScope.backgroundScope,
             mockApi,
             globalSettingsPrefs,
