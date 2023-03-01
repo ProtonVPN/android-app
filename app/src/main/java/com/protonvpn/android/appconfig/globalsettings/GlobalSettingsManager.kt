@@ -32,6 +32,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.utils.AndroidUtils.isTV
 import dagger.Reusable
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -102,6 +103,7 @@ class GlobalSettingsUpdateWorker @AssistedInject constructor(
 
 @Singleton
 class GlobalSettingsManager @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val mainScope: CoroutineScope,
     private val api: ProtonApiRetroFit,
     private val prefs: GlobalSettingsPrefs,
@@ -121,9 +123,11 @@ class GlobalSettingsManager @Inject constructor(
     }
 
     fun refresh() {
-        mainScope.launch {
-            val result = api.getGlobalSettings()
-            if (result is ApiResult.Success) applyChange(result.value)
+        if (!appContext.isTV()) { // VPNAND-1185
+            mainScope.launch {
+                val result = api.getGlobalSettings()
+                if (result is ApiResult.Success) applyChange(result.value)
+            }
         }
     }
 
