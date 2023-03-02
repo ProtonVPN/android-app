@@ -21,6 +21,7 @@ package com.protonvpn.android.appconfig
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsManager
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.ui.home.GetNetZone
@@ -50,7 +51,8 @@ class AppConfig @Inject constructor(
     userPlanManager: UserPlanManager,
     private val getNetZone: GetNetZone,
     @ElapsedRealtimeClock private val now: () -> Long,
-    private val globalSettingsManager: GlobalSettingsManager
+    private val globalSettingsManager: GlobalSettingsManager,
+    private val currentUser: CurrentUser
 ) {
     // This value is used when filtering servers, let's have it cached
     private var smartProtocolsCached: List<ProtocolSelection>? = null
@@ -125,7 +127,9 @@ class AppConfig @Inject constructor(
             Storage.save(it)
             dynamicReportModelObservable.value = it
         }
-        globalSettingsManager.refresh()
+        if (currentUser.isLoggedIn()) {
+            globalSettingsManager.refresh()
+        }
         result.valueOrNull?.let { config ->
             Storage.save(config)
             smartProtocolsCached = null
