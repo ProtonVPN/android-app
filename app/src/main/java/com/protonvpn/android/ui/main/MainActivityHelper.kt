@@ -38,7 +38,6 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
             init(activity)
 
             onAddAccountClosed = activity::finish
-            onSecondFactorClosed { activity.lifecycleScope.launch { onLoginNeeded() } }
             onAssignConnectionHandler = this@MainActivityHelper::onAssignConnectionNeeded
 
             // CREATED is needed as MobileMainActivity will most of the time be covered by HomeActivity - this should be
@@ -47,8 +46,8 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
                 activity.startActivity(ForceUpdateActivity(activity, it, Constants.FORCE_UPDATE_URL))
             }
 
-            state.flowWithLifecycle(activity.lifecycle)
-                .distinctUntilChanged()
+            // RESUMED is needed to avoid duplicate emit (note: distinctUntilChanged is not correct).
+            state.flowWithLifecycle(activity.lifecycle, minActiveState = Lifecycle.State.RESUMED)
                 .onEach { state -> onStateChange(state) }
                 .launchIn(activity.lifecycleScope)
         }
@@ -71,5 +70,6 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
             onReady()
         AccountViewModel.State.Initial -> {}
         AccountViewModel.State.Processing -> {}
+        AccountViewModel.State.StepNeeded -> {}
     }
 }
