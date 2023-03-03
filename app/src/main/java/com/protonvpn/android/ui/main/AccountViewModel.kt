@@ -22,7 +22,6 @@ package com.protonvpn.android.ui.main
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.api.GuestHole
@@ -39,15 +38,17 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import me.proton.core.account.domain.entity.AccountState
 import me.proton.core.account.domain.entity.AccountType
 import me.proton.core.account.domain.entity.isDisabled
 import me.proton.core.account.domain.entity.isReady
+import me.proton.core.account.domain.entity.isStepNeeded
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.presentation.observe
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressFailed
@@ -58,7 +59,6 @@ import me.proton.core.accountmanager.presentation.onUserKeyCheckFailed
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
-import me.proton.core.auth.presentation.onSecondFactorResult
 import me.proton.core.domain.entity.Product
 import me.proton.core.network.domain.NetworkManager
 import javax.inject.Inject
@@ -82,6 +82,7 @@ class AccountViewModel @Inject constructor(
     sealed class State {
         object Initial : State()
         object LoginNeeded : State()
+        object StepNeeded : State()
         object Ready : State()
         object Processing : State()
     }
@@ -90,26 +91,28 @@ class AccountViewModel @Inject constructor(
     var onAddAccountClosed: (() -> Unit)? = null
     var onAssignConnectionHandler: (() -> Unit)? = null
 
-    private val _state = MutableStateFlow<State>(State.Initial)
-    val state = _state.asStateFlow()
+    val state = accountManager.getAccounts()
+        .map { accounts ->
+            when {
+                accounts.isEmpty() || accounts.all { it.isDisabled() } -> {
+                    setupGuestHoleForLoginAndSignup()
+                    State.LoginNeeded
+                }
+                accounts.any { it.isReady() } -> State.Ready
+                accounts.any { it.isStepNeeded() } -> State.StepNeeded
+                else -> State.Processing
+            }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            // Lazily is needed to observe state change, even in the background, to ensure that the
+            // subscriber will always get the latest value, even if they follow different lifecycle.
+            started = SharingStarted.Lazily,
+            initialValue = State.Processing
+        )
 
     fun init(activity: FragmentActivity) {
         authOrchestrator.register(activity)
-
-        accountManager.getAccounts()
-            .flowWithLifecycle(activity.lifecycle)
-            .onEach { accounts ->
-                when {
-                    accounts.isEmpty() || accounts.all { it.isDisabled() || it.state == AccountState.Removed } -> {
-                        setupGuestHoleForLoginAndSignup()
-                        _state.emit(State.LoginNeeded)
-                    }
-                    accounts.any { it.isReady() } ->
-                        _state.emit(State.Ready)
-                    else ->
-                        _state.emit(State.Processing)
-                }
-            }.launchIn(activity.lifecycleScope)
 
         vpnUserCheck.assignConnectionNeeded.onEach {
             onAssignConnectionHandler?.invoke()
@@ -143,10 +146,6 @@ class AccountViewModel @Inject constructor(
         viewModelScope.launch(NonCancellable) {
             guestHole.get().releaseNeedGuestHole(GUEST_HOLE_ID)
         }
-    }
-
-    fun onSecondFactorClosed(block: () -> Unit) {
-        authOrchestrator.onSecondFactorResult { if (it == null) block() }
     }
 
     suspend fun startLogin() {
