@@ -22,7 +22,7 @@
     <string name="hintUsername">Gebruikersnaam</string>
     <string name="hintPassword">Wachtwoord</string>
     <string name="splitTunnellingSwitch">Split-tunnel-schakelaar</string>
-    <string name="login">Aanmelden</string>
+    <string name="login">Sign in</string>
     <string name="hamburgerMenu">Hamburgermenu</string>
     <string name="error_field_required">Dit invullen is verplicht</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">Heeft u hulp nodig?</string>
     <string name="connectionAllocationHelpTitle">Bedankt voor de upgrade naar\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Om uw reis met Proton VPN te beginnen wijst u VPN-verbindingen toe aan uw account of een ander sub-account.</string>
-    <string name="connectionAllocationHelpDescription2">Deze stap duurt slechts een paar minuten. Daarna kunt u zich aanmelden en al uw apparaten beveiligen.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Schakel VPN-verbindingen in</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
     <string name="mapCalloutConnect">Verbinden</string>
     <string name="mapCalloutDisconnect">Verbreken</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Een opmerking over snelheid…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core biedt het hoogste niveau van beveiliging en privacy, maar het kan uw internetsnelheid verlagen. Als u hogere prestaties wilt, kan u Secure Core uitschakelen.</string>
     <string name="secureCoreActivateDialogButton">Secure Core activeren</string>
-    <string name="logoutConfirmDialogTitle">Uitloggen?</string>
-    <string name="logoutConfirmDialogMessage">Uitloggen zal de verbinding van uw apparaat met de VPN verbreken.</string>
-    <string name="logoutConfirmDialogButton">Afmelden</string>
+    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">Alle profielen weergeven</string>
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
@@ -78,17 +78,17 @@
     <string name="notConnectedCurrentIp">Huidige IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%1$s%%</string>
+    <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Annuleren</string>
     <string name="close">Sluiten</string>
     <string name="drawerSettings">Instellingen</string>
     <string name="drawerAccount">Account</string>
-    <string name="drawerHelp">Help</string>
+    <string name="drawerHelp">Hulp</string>
     <string name="drawerShowLog">Log weergeven</string>
     <string name="drawerReportProblem">Een probleem melden</string>
     <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
-    <string name="accountDetails">Account details</string>
+    <string name="accountDetails">Accountinformatie</string>
     <string name="accountSubscription">Abonnement</string>
     <string name="accountUser">Gebruiker:</string>
     <string name="accountType">Accounttype:</string>
@@ -156,7 +156,7 @@
     <string name="tabsCountries">Landen</string>
     <string name="tabsMap">Kaart</string>
     <string name="tabsProfiles">Profielen</string>
-    <string name="log_title">Log</string>
+    <string name="log_title">Logboek</string>
     <string name="disconnect">Verbinding verbreken</string>
     <string name="state_connecting">Verbinden…</string>
     <string name="state_connected">Verbonden</string>
@@ -200,10 +200,10 @@
     <string name="the_list_is_empty">De lijst is leeg</string>
     <string name="got_it">Begrepen</string>
     <string name="onboardingWelcome">Welkom aan boord</string>
-    <string name="proton_log">Proton Log</string>
+    <string name="proton_log">Proton logboek</string>
     <string name="something_went_wrong">Er is iets fout gegaan</string>
     <string name="try_again">Probeer opnieuw</string>
-    <string name="manage">Beheer</string>
+    <string name="manage">Beheren</string>
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijder</string>
     <string name="deleteProfileButton">Profiel verwijderen</string>
@@ -289,7 +289,7 @@
     <string name="dialogTitleAttention">Attentie</string>
     <string name="saveProfileAlreadySaved">Reeds opgeslagen</string>
     <string name="openUrlError">%1$s kon niet worden geopend. Webbrowser is niet gedetecteerd op uw apparaat.</string>
-    <string name="toastLoginAuthVersionError">Niet mogelijk om in te loggen vanwege de niet-ondersteunde auth-versie. Neem contact op met ondersteuning.</string>
+    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Time-out verbinding. Probeer het opnieuw.</string>
     <string name="troubleshootButton">Probleemoplossing</string>
     <string name="activityTroubleshootTitle">Probleemoplossing</string>
@@ -533,7 +533,7 @@
     <!-- Information activity -->
     <string name="activity_information_title">Informatie</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Plus servers</string>
+    <string name="activity_information_plus_title">%1$s - Plus-servers</string>
     <string name="info_features">Functies</string>
     <string name="smart_routing_title">Slimme routering</string>
     <string name="smart_routing_description">Met deze technologie kan Proton VPN hogere snelheid en beveiliging bieden in landen waar de toegang tot VPNs beperkt is.</string>
@@ -553,7 +553,7 @@
     <string name="partnership_partners_title">Onze partners</string>
     <string name="activity_information_learn_more">Meer informatie</string>
     <string name="server_load_low">Laag</string>
-    <string name="server_load_medium">Medium</string>
+    <string name="server_load_medium">Gemiddeld</string>
     <string name="server_load_high">Hoog</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
@@ -617,7 +617,7 @@
     <string name="dynamic_report_step2">Stap 2 van de 3</string>
     <string name="dynamic_report_step3">Stap 3 van de 3</string>
     <string name="dynamic_report_your_issue_headline">Wat is uw probleem</string>
-    <string name="update_screen_title">Update Proton VPN</string>
+    <string name="update_screen_title">Proton VPN bijwerken</string>
     <string name="update_screen_description">U heeft meer kans op problemen op oudere versies van Proton VPN.</string>
     <string name="server_search_menu_title">Zoek</string>
     <string name="server_search_hint">Land, stad, server</string>

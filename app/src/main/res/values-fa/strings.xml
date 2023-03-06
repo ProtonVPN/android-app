@@ -22,7 +22,7 @@
     <string name="hintUsername">نام کاربری</string>
     <string name="hintPassword">رمز عبور</string>
     <string name="splitTunnellingSwitch">کلید Split tunneling</string>
-    <string name="login">ورود</string>
+    <string name="login">Sign in</string>
     <string name="hamburgerMenu">منو</string>
     <string name="error_field_required">این قسمت الزامی است</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">به کمک نیاز دارید؟</string>
     <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">برای آغاز سفر خود در Proton VPN لطفاً اتصال‌های VPN خود را به حساب کاربری خود یا هر حساب فرعی دیگری اختصاص دهید.</string>
-    <string name="connectionAllocationHelpDescription2">این کار چند دقیقه طول می‌کشد. پس از آن شما قادر خواهید بود تا وارد شوید و از همهٔ دستگاه‌های خود حفاظت کنید.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">Enable VPN connections</string>
-    <string name="connectionAllocationHelpLoginAgainButton">ورود دوباره</string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">اتصال‌های VPN را فعال کنید</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
     <string name="mapCalloutConnect">اتصال</string>
     <string name="mapCalloutDisconnect">قطع اتصال</string>
     <string name="mapSwitchSecureCore">Secure core</string>
@@ -44,11 +44,11 @@
     <string name="secureCoreSpeedInfoTitle">نکته‌ای دربارهٔ سرعت...</string>
     <string name="secureCoreSpeedInfoMessage">فناوری Secure Core بالاترین سطح امنیت و حریم خصوصی را ارائه می‌دهد، اما ممکن است سرعت اینترنت شما را کاهش دهد. اگر به کارایی بیشتری احتیاج دارید، می‌توانید Secure Core را غیرفعال کنید.</string>
     <string name="secureCoreActivateDialogButton">فعال کردن Secure Core</string>
-    <string name="logoutConfirmDialogTitle">خارج می‌شوید؟</string>
-    <string name="logoutConfirmDialogMessage">خارج شدن، اتصال VPN دستگاه شما را قطع می‌کند.</string>
-    <string name="logoutConfirmDialogButton">خروج از حساب</string>
+    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">نمایش همهٔ پروفایل‌ها</string>
-    <string name="yes">بله</string>
+    <string name="yes">بلی</string>
     <string name="no">خیر</string>
     <string name="ok">تأیید</string>
     <string name="dialogContinue">ادامه</string>
@@ -79,7 +79,7 @@
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
-    <string name="cancel">انصراف</string>
+    <string name="cancel">لغو</string>
     <string name="close">بستن</string>
     <string name="drawerSettings">تنظیمات</string>
     <string name="drawerAccount">حساب کاربری</string>
@@ -289,7 +289,7 @@
     <string name="dialogTitleAttention">توجه</string>
     <string name="saveProfileAlreadySaved">قبلاً ذخیره شده</string>
     <string name="openUrlError">%1$s باز نمی‌شود. مرورگر وب روی دستگاه شما شناسایی نشد.</string>
-    <string name="toastLoginAuthVersionError">به دلیل نسخهٔ پشتیبانی نشده تایید هویت، قادر به ورود نیست. لطفاً با پشتیبانی تماس بگیرید.</string>
+    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">زمان اتصال گذشت. لطفاً دوباره سعی کنید.</string>
     <string name="troubleshootButton">عیب‌یابی</string>
     <string name="activityTroubleshootTitle">اشکال‌زدایی</string>

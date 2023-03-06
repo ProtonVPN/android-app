@@ -22,7 +22,7 @@
     <string name="hintUsername">Nombre de usuario</string>
     <string name="hintPassword">Contraseña</string>
     <string name="splitTunnellingSwitch">Cambiar a tunelización dividida</string>
-    <string name="login">Iniciar sesión</string>
+    <string name="login">Sign in</string>
     <string name="hamburgerMenu">Menú hamburguesa</string>
     <string name="error_field_required">Este campo es obligatorio</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">¿Necesitas ayuda?</string>
     <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Para comenzar tu viaje en Proton VPN, asigna conexiones VPN a tu cuenta o a cualquier otra subcuenta.</string>
-    <string name="connectionAllocationHelpDescription2">Este paso te llevará solo unos minutos. Después de eso podrás iniciar sesión y proteger todos tus dispositivos.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN habilitada para esta cuenta. Para comenzar tu viaje en Proton VPN, ponte en contacto con tu administrador. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activar conexiones VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión de nuevo</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
     <string name="mapCalloutConnect">Conectar</string>
     <string name="mapCalloutDisconnect">Desconectar</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,13 +44,13 @@
     <string name="secureCoreSpeedInfoTitle">Una nota sobre la velocidad…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core ofrece el máximo nivel de seguridad y privacidad, pero podría reducir la velocidad de internet. Si necesitas más rendimiento, puedes deshabilitar Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Activar Secure Core</string>
-    <string name="logoutConfirmDialogTitle">¿Cerrar sesión?</string>
-    <string name="logoutConfirmDialogMessage">Al cerrar la sesión, desconectarás tu dispositivo de la VPN.</string>
-    <string name="logoutConfirmDialogButton">Cerrar sesión</string>
+    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">Mostrar todos los perfiles</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
-    <string name="ok">OK</string>
+    <string name="ok">Aceptar</string>
     <string name="dialogContinue">Continuar</string>
     <string name="dialogLearnMore">Más información</string>
     <string name="dialog_read_more">Más información</string>
@@ -170,9 +170,9 @@
     <string name="error_generic_with_reason">Proton VPN no pudo establecer una conexión VPN. Inténtalo de nuevo en unos segundos.<br/><br/>Detalles: %1$s</string>
     <string name="reconnect">Reconectar</string>
     <string name="reconnect_now">Reconectar ahora</string>
-    <string name="try_reconnecting">Try reconnecting</string>
+    <string name="try_reconnecting">Intenta volver a conectarte.</string>
     <string name="connect">Conectar</string>
-    <string name="upgrade">Mejorar</string>
+    <string name="upgrade">Cambiar de plan</string>
     <string name="retry">Reintentar</string>
     <string name="connection_failed">La conexión falló</string>
     <string name="create_new_profile">Nuevo perfil</string>
@@ -203,7 +203,7 @@
     <string name="proton_log">Registro de proton</string>
     <string name="something_went_wrong">Algo salió mal</string>
     <string name="try_again">Inténtalo de nuevo</string>
-    <string name="manage">Gestionar</string>
+    <string name="manage">Administrar</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Eliminar</string>
     <string name="deleteProfileButton">Eliminar perfil</string>
@@ -256,7 +256,7 @@
     <string name="profileFastest">El más rápido</string>
     <string name="profileRandom">Aleatorio</string>
     <string name="settingsSplitTunnelingDescription">La tunelización dividida permite que ciertas aplicaciones o direcciones IP sean excluidas del tráfico VPN.</string>
-    <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
+    <string name="settingsSplitTunnelingTitle">Tunelización dividida</string>
     <string name="loaderAuthenticatingUser">Autentificando usuario…</string>
     <string name="loaderErrorNoInternet">No hay conexión a Internet</string>
     <string name="loaderErrorGeneric">Algo salió mal</string>
@@ -289,7 +289,7 @@
     <string name="dialogTitleAttention">Atención</string>
     <string name="saveProfileAlreadySaved">Ya fue guardado</string>
     <string name="openUrlError">No se pudo abrir %1$s. El navegador web no se detectó en su dispositivo.</string>
-    <string name="toastLoginAuthVersionError">No se puede iniciar sesión debido a una versión de autenticación no compatible. Por favor, ponte en contacto con soporte.</string>
+    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Se ha agotado el tiempo de conexión. Por favor, inténtalo de nuevo.</string>
     <string name="troubleshootButton">Resolución de problemas</string>
     <string name="activityTroubleshootTitle">Solución de problemas</string>
@@ -396,7 +396,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% Carga del servidor</string>
+    <string name="tv_server_list_load">Carga del servidor: %1$s%%</string>
     <string name="tv_recently_used_servers">Servidores utilizados recientemente (%1$d)</string>
     <string name="tv_available_servers">Servidores disponibles (%1$d)</string>
     <string name="tv_locked_servers">Servidores bloqueados (%1$d)</string>

@@ -25,7 +25,7 @@
     <string name="hintUsername">Username</string>
     <string name="hintPassword">Password</string>
     <string name="splitTunnellingSwitch">Split tunneling switch</string>
-    <string name="login">Login</string>
+    <string name="login">Sign in</string>
     <string name="hamburgerMenu">Hamburger Menu</string>
     <string name="error_field_required">This field is required</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -36,10 +36,10 @@
     <string name="loginNeedHelp">Need help?</string>
     <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">To start your journey in Proton VPN please assign VPN connections to your account or any other sub-account.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Enable VPN connections</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Login again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
     <string name="mapCalloutConnect">Connect</string>
     <string name="mapCalloutDisconnect">Disconnect</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -47,9 +47,9 @@
     <string name="secureCoreSpeedInfoTitle">A note about speed…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core offers the highest level of security and privacy, but it may reduce your internet speed. If you need more performance, you can disable Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Activate Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Log out?</string>
-    <string name="logoutConfirmDialogMessage">Logging out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Log out</string>
+    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">Show all profiles</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -293,7 +293,7 @@
     <string name="dialogTitleAttention">Attention</string>
     <string name="saveProfileAlreadySaved">Already saved</string>
     <string name="openUrlError">%1$s could not be opened. Web browser was not detected on your device.</string>
-    <string name="toastLoginAuthVersionError">Unable to login due to unsupported auth version. Please contact support.</string>
+    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Connection timed out. Please try again.</string>
     <string name="troubleshootButton">Troubleshoot</string>
     <string name="activityTroubleshootTitle">Troubleshooting</string>

@@ -22,7 +22,7 @@
     <string name="hintUsername">Имя пользователя</string>
     <string name="hintPassword">Пароль</string>
     <string name="splitTunnellingSwitch">Переключатель Split Tunneling</string>
-    <string name="login">Войти</string>
+    <string name="login">Sign in</string>
     <string name="hamburgerMenu">Меню \"Гамбургер\"</string>
     <string name="error_field_required">Это обязательное поле</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,20 +33,20 @@
     <string name="loginNeedHelp">Нужна помощь?</string>
     <string name="connectionAllocationHelpTitle">Спасибо за улучшение до \nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Чтобы начать свое путешествие в Proton VPN, пожалуйста, назначьте подключения VPN для своего аккаунта или любого другого субаккаунта.</string>
-    <string name="connectionAllocationHelpDescription2">Этот шаг займет всего несколько минут. После этого вы сможете войти в систему и защитить все свои устройства.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">В настоящее время для этого аккаунта не активировано подключение к VPN. Чтобы начать свое путешествие с Proton VPN, пожалуйста, свяжитесь с вашим администратором. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Разрешить подключения к VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Войти снова</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
     <string name="mapCalloutConnect">Подключиться</string>
     <string name="mapCalloutDisconnect">Отключиться</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
-    <string name="warning">Внимание</string>
+    <string name="warning">Предупреждение</string>
     <string name="secureCoreSpeedInfoTitle">Замечание о скорости…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core обеспечивает наивысший уровень безопасности и конфиденциальности, но может снизить скорость вашего Интернета. Если вам нужна более высокая производительность, вы можете отключить Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Активировать Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Выйти?</string>
-    <string name="logoutConfirmDialogMessage">Выход отключит ваше устройство от VPN.</string>
-    <string name="logoutConfirmDialogButton">Bыйти</string>
+    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">Показать все профили</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
@@ -79,7 +79,7 @@
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
-    <string name="cancel">Отмена</string>
+    <string name="cancel">Отменить</string>
     <string name="close">Закрыть</string>
     <string name="drawerSettings">Настройки</string>
     <string name="drawerAccount">Аккаунт</string>
@@ -170,9 +170,9 @@
     <string name="error_generic_with_reason">Proton VPN не смог установить подключение к VPN. Пожалуйста, повторите попытку через несколько секунд.<br/><br/> Подробнее: %1$s</string>
     <string name="reconnect">Переподключиться</string>
     <string name="reconnect_now">Переподключиться</string>
-    <string name="try_reconnecting">Try reconnecting</string>
+    <string name="try_reconnecting">Попробуйте переподключиться</string>
     <string name="connect">Подключиться</string>
-    <string name="upgrade">Улучшить</string>
+    <string name="upgrade">Повысить</string>
     <string name="retry">Повторить</string>
     <string name="connection_failed">Сбой подключения</string>
     <string name="create_new_profile">Новый профиль</string>
@@ -203,7 +203,7 @@
     <string name="proton_log">Proton журнал</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
     <string name="try_again">Попробовать снова</string>
-    <string name="manage">Управление</string>
+    <string name="manage">Управлять</string>
     <string name="delete">Удалить</string>
     <string name="remove">Удалить</string>
     <string name="deleteProfileButton">Удалить профиль</string>
@@ -224,7 +224,7 @@
     <string name="protocolLabel">Протокол</string>
     <string name="selectProtocol">Выберите протокол</string>
     <string name="protocol">Протокол:</string>
-    <string name="ip">IP:</string>
+    <string name="ip">IP-адрес:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="server">Сервер:</string>
     <string name="session_time">Длительность сеанса:</string>
@@ -291,7 +291,7 @@
     <string name="dialogTitleAttention">Внимание</string>
     <string name="saveProfileAlreadySaved">Уже сохранено</string>
     <string name="openUrlError">%1$s не может быть открыт. Веб-браузер не был обнаружен на вашем устройстве.</string>
-    <string name="toastLoginAuthVersionError">Вход невозможен по причине неподдерживаемой версии аутентификации. Пожалуйста, свяжитесь со службой поддержки.</string>
+    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Время ожидания соединения истекло. Пожалуйста, попробуйте еще раз.</string>
     <string name="troubleshootButton">Устранение неполадок</string>
     <string name="activityTroubleshootTitle">Устранение неисправностей</string>
@@ -330,12 +330,12 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Открыть настройки Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Активация Kill Switch отключит раздельное туннелирование, так как Kill Switch блокирует все соединения за пределами тунеля VPN</string>
     <string name="settingsSmartProtocolDescription">Автоматически использовать протокол и порт, которые обеспечивают наилучшее соединение.</string>
-    <string name="settingsEnableTelemetryTitle">Делиться анонимной статистикой использования</string>
-    <string name="settingsEnableTelemetryDescription">Данные об использовании помогают нам преодолевать блокировки VPN и повышать производительность приложения.</string>
-    <string name="settingsSendCrashReportsTitle">Делиться анонимными сообщениями о сбоях</string>
-    <string name="settingsSendCrashReportsDescription">Сообщения о сбоях помогают нам исправлять ошибки, обнаруживать брандмауэры и избегать блокировки VPN.</string>
+    <string name="settingsEnableTelemetryTitle">Поделиться анонимной статистикой использования</string>
+    <string name="settingsEnableTelemetryDescription">Данные об использовании помогают нам преодолевать блокировки VPN и улучшать работу приложения.</string>
+    <string name="settingsSendCrashReportsTitle">Делиться анонимными отчетами об ошибках</string>
+    <string name="settingsSendCrashReportsDescription">Отчеты об ошибках помогают нам устранять ошибки, обнаруживать брандмауэры и избегать блокировки VPN.</string>
     <string name="settingsTelemetryScreenTitle">Статистика использования</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[Эти статистические данные не содержат вашего IP-адреса и не могут быть использованы для идентификации вашей личности. Мы никогда не передаем их третьим лицам. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Эта статистика не содержит ваш IP-адрес и не может быть использована для вашей идентификации. Мы никогда не передаем ее третьим лицам. <a href="%1$s">Подробнее</a>]]></string>
     <string name="netShieldEnabledWarning">Будьте осторожны, некоторые вебсайты могут не работать из-за заблокированного контента.</string>
     <string name="netShieldDescription">Блокировать рекламные объявления, трекеры и вредоносные программы </string>
     <string name="netshield">NetShield</string>

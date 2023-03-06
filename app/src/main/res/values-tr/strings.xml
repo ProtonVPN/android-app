@@ -22,7 +22,7 @@
     <string name="hintUsername">Kullanıcı adı</string>
     <string name="hintPassword">Parola</string>
     <string name="splitTunnellingSwitch">Ayrılmış tünelleme anahtarı</string>
-    <string name="login">Oturum aç</string>
+    <string name="login">Sign in</string>
     <string name="hamburgerMenu">Hamburger menüsü</string>
     <string name="error_field_required">Bu alan zorunludur</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">Yardım gerekiyor mu?</string>
     <string name="connectionAllocationHelpTitle">Business\u00a0/\u00a0Visionary tarifesine\nyükselttiğiniz için teşekkürler</string>
     <string name="connectionAllocationHelpDescription1">Proton VPN yolculuğunuza başlamak için lütfen hesabınıza ya da başka bir alt hesaba VPN bağlantıları atayın.</string>
-    <string name="connectionAllocationHelpDescription2">Bu adım birkaç dakika sürecek. Bundan sonra oturum açabilir ve tüm aygıtlarınızı koruyabilirsiniz.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Şu anda bu hesap için herhangi bir VPN bağlantısı etkinleştirilmemiş. Proton VPN yolcuğunuza başlamak için yöneticinizle görüşün. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">VPN bağlantılarını etkinleştir</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Yeniden oturum aç</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
     <string name="mapCalloutConnect">Bağlan</string>
     <string name="mapCalloutDisconnect">Bağlantıyı kes</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Hız hakkında bir not…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core, en yüksek düzeyde güvenlik ve gizlilik sunar. Ancak internet hızınızı düşürebilir. Başarımı yükseltmeye gerek duyuyorsanız, Secure Core özelliğini devre dışı bırakabilirsiniz.</string>
     <string name="secureCoreActivateDialogButton">Secure Core kullanılsın</string>
-    <string name="logoutConfirmDialogTitle">Oturum kapatılsın mı?</string>
-    <string name="logoutConfirmDialogMessage">Oturumu kapatmak, aygıtınızın VPN bağlantısını keser.</string>
-    <string name="logoutConfirmDialogButton">Oturumu kapat</string>
+    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">Tüm profilleri göster</string>
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
@@ -78,7 +78,7 @@
     <string name="notConnectedCurrentIp">Geçerli IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%1$s%%</string>
+    <string name="serverLoad">%%%1$s</string>
     <string name="cancel">İptal</string>
     <string name="close">Kapat</string>
     <string name="drawerSettings">Ayarlar</string>
@@ -289,7 +289,7 @@
     <string name="dialogTitleAttention">Uyarı</string>
     <string name="saveProfileAlreadySaved">Zaten kaydedilmiş</string>
     <string name="openUrlError">%1$s açılamadı. Aygıtınızda bir web tarayıcısı algılanamadı.</string>
-    <string name="toastLoginAuthVersionError">Desteklenmeyen kimlik doğrulama sürümü nedeniyle oturum açılamadı. Lütfen destek ekibiyle görüşün.</string>
+    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Bağlantı zaman aşımına uğradı. Lütfen yeniden deneyin.</string>
     <string name="troubleshootButton">Sorun gider</string>
     <string name="activityTroubleshootTitle">Sorun giderme</string>

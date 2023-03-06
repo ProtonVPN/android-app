@@ -22,7 +22,7 @@
     <string name="hintUsername">Korisničko ime</string>
     <string name="hintPassword">Lozinka</string>
     <string name="splitTunnellingSwitch">Sklopka za podijeljeno tuneliranje</string>
-    <string name="login">Prijava</string>
+    <string name="login">Sign in</string>
     <string name="hamburgerMenu">Hamburger meni</string>
     <string name="error_field_required">Ovo polje je obavezno</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">Trebate pomoć?</string>
     <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">To start your journey in Proton VPN please assign VPN connections to your account or any other sub-account.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to log in and protect all your devices.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Enable VPN connections</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Ponovna prijava</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
     <string name="mapCalloutConnect">Poveži</string>
     <string name="mapCalloutDisconnect">Odspoji</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">A note about speed…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core offers the highest level of security and privacy, but it may reduce your internet speed. If you need more performance, you can disable Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Activate Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Log out?</string>
-    <string name="logoutConfirmDialogMessage">Logging out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Log out</string>
+    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">Prikaži sve profile</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
@@ -290,7 +290,7 @@
     <string name="dialogTitleAttention">Pažnja</string>
     <string name="saveProfileAlreadySaved">Već spremljeno</string>
     <string name="openUrlError">%1$s se ne može otvoriti. Web preglednik nije otkriven na vašem uređaju.</string>
-    <string name="toastLoginAuthVersionError">Ne mogu se prijaviti zbog nepodržane auth verzije. Molimo kontaktirajte podršku.</string>
+    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Veza je istekla. Molimo pokušajte ponovno.</string>
     <string name="troubleshootButton">Rješavanje problema</string>
     <string name="activityTroubleshootTitle">Otklanjanje pogreške</string>
