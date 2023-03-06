@@ -38,6 +38,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.util.kotlin.DispatcherProvider
 import okhttp3.OkHttpClient
@@ -62,6 +66,7 @@ import org.junit.runners.model.Statement
  *                          Be careful not to initialize the application early by starting an activity or using rules
  *                          like SetLoggedInUserRule.
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class ProtonHiltAndroidRule(
     testInstance: Any,
     private val apiConfig: TestApiConfig,
@@ -106,7 +111,7 @@ class ProtonHiltAndroidRule(
                 mockWebServer?.shutdown()
                 mockRequestDispatcher = null
                 TestSettings.reset()
-                with(IdlingRegistry.getInstance()) { resources.forEach { unregister(it) } }
+                uninstallIdlingResources()
             }
         }
         return hiltAndroidRule.apply(statement, description)
@@ -144,5 +149,11 @@ class ProtonHiltAndroidRule(
         val registry = IdlingRegistry.getInstance()
         registry.register(dispatcherProvider.idlingResource)
         registry.register(IdlingResourceHelper.create("OkHttp", okHttpClient))
+        Dispatchers.setMain(dispatcherProvider.Main)
+    }
+
+    private fun uninstallIdlingResources() {
+        with(IdlingRegistry.getInstance()) { resources.forEach { unregister(it) } }
+        Dispatchers.resetMain()
     }
 }

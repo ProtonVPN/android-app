@@ -19,12 +19,15 @@
 
 package com.protonvpn.testsHelper
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.test.espresso.idling.CountingIdlingResource
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.android.asCoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.Executors
 import javax.inject.Inject
@@ -39,7 +42,12 @@ import kotlin.coroutines.CoroutineContext
  */
 @Singleton
 class EspressoDispatcherProvider @Inject constructor() : VpnDispatcherProvider {
-    override val Main: CoroutineDispatcher = IdlingResourceDispatcher(Dispatchers.Main)
+    override val Main: CoroutineDispatcher = IdlingResourceDispatcher(
+        // Can't use Dispatchers.Main here because it will be overridden by
+        // Dispatchers.setMain(EspressoDispatcherProvider.Main) in tests causing an infinite recursion when the
+        // dispatch() method is called.
+        Handler(Looper.getMainLooper()).asCoroutineDispatcher("EspressoDispatcherProvider.Main")
+    )
     override val Comp: CoroutineDispatcher = IdlingResourceDispatcher(Dispatchers.Default)
     override val Io: CoroutineDispatcher = IdlingResourceDispatcher(Dispatchers.IO)
     override val infiniteIo = Dispatchers.IO // Ignore status of infinite tasks, otherwise tests will wait forever.
