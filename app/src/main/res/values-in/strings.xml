@@ -22,7 +22,7 @@
     <string name="hintUsername">Nama Pengguna</string>
     <string name="hintPassword">Kata Sandi</string>
     <string name="splitTunnellingSwitch">Saklar split tunneling</string>
-    <string name="login">Masuk</string>
+    <string name="login">Sign in</string>
     <string name="hamburgerMenu">Susunan Menu</string>
     <string name="error_field_required">Kolom ini wajib diisi</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">Butuh bantuan?</string>
     <string name="connectionAllocationHelpTitle">Terima kasih karena telah meningkatkan ke\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Untuk dapat mulai menggunakan Proton VPN, harap tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
-    <string name="connectionAllocationHelpDescription2">Langkah ini akan memakan waktu beberapa menit. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Akun ini sedang tidak memiliki koneksi VPN yang aktif. Untuk mulai menggunakan Proton VPN, silakan hubungi administrator Anda. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Aktifkan koneksi VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Masuk lagi</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
     <string name="mapCalloutConnect">Hubungkan</string>
     <string name="mapCalloutDisconnect">Putuskan</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Secarik catatan mengenai kecepatan…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core menawarkan tingkat keamanan dan privasi tertinggi, namun dapat menurunkan kecepatan internet Anda. Apabila Anda membutuhkan performa yang lebih, Anda dapat menonaktifkan Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Aktifkan Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Keluar?</string>
-    <string name="logoutConfirmDialogMessage">Dengan keluar, Anda akan memutus sambungan VPN dari perangkat Anda.</string>
-    <string name="logoutConfirmDialogButton">Keluar</string>
+    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">Tampilkan semua profil</string>
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>
@@ -56,7 +56,7 @@
     <string name="dialog_read_more">Baca lebih lanjut</string>
     <string name="dialog_apply">Terapkan</string>
     <string name="dialog_applying">Menerapkan</string>
-    <string name="secureCoreConnectVia">via %1$s</string>
+    <string name="secureCoreConnectVia">melalui %1$s</string>
     <string name="connected">Terhubung</string>
     <string name="buttonConnect">Hubungkan</string>
     <string name="loaderInitializing">Memulai hubungan…</string>
@@ -74,12 +74,12 @@
     <string name="loaderCheckingAvailability">Memeriksa ketersediaan server</string>
     <string name="loaderCheckingAvailabilitySuggestion">Mohon tunggu beberapa saat</string>
     <string name="loaderCancel">Batalkan sambungan</string>
-    <string name="quickConnect">Quick connect</string>
+    <string name="quickConnect">Sambungkan cepat</string>
     <string name="notConnectedCurrentIp">IP saat ini: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
-    <string name="cancel">Batalkan</string>
+    <string name="cancel">Batal</string>
     <string name="close">Tutup</string>
     <string name="drawerSettings">Pengaturan</string>
     <string name="drawerAccount">Akun</string>
@@ -101,7 +101,7 @@
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Akun</string>
     <string name="activitySettingsTitle">Pengaturan</string>
-    <string name="settingsSectionQuickConnect">Quick Connect</string>
+    <string name="settingsSectionQuickConnect">Sambungkan Cepat</string>
     <string name="settingsSectionConnection">Koneksi</string>
     <string name="settingsSectionSecurity">Keamanan</string>
     <string name="settingsSectionAdvanced">Lanjutan</string>
@@ -114,7 +114,7 @@
     <string name="settingsMtuSizeTitle">Ukuran MTU</string>
     <string name="settingsMtuDescription">Apabila nilai asli yang tertera tidak sesuai untuk jaringan tertentu, masukan nilai dalam rentang 1280-1500. Harap ubah nilai ini hanya apabila Anda paham akan apa yang Anda kerjakan.</string>
     <string name="settingsMtuRangeInvalid">Nilai MTU harus dalam kisaran 1280–1500</string>
-    <string name="settingsDefaultConnectionTitle">Quick Connect</string>
+    <string name="settingsDefaultConnectionTitle">Sambungkan Cepat</string>
     <string name="settingsDefaultConnectionDescription">Tombol quick connect akan menyambungkan Anda ke profil yang dipilih</string>
     <string name="settingsAllowNonStandardPortsTitle">Port non-standar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Alihkan lalu lintas data yang tertuju pada port non-standar melalui jaringan VPN. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
@@ -161,7 +161,7 @@
     <string name="state_connecting">Menghubungkan…</string>
     <string name="state_connected">Terhubung</string>
     <string name="state_disconnecting">Memutus sambungan…</string>
-    <string name="state_error">Error</string>
+    <string name="state_error">Kesalahan</string>
     <string name="error_server_unreachable">Tidak dapat terhubung ke VPN. Mohon periksa koneksi Anda dan coba lagi.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Otentikasi pengguna gagal.</string>
@@ -172,8 +172,8 @@
     <string name="reconnect_now">Hubungkan ulang sekarang</string>
     <string name="try_reconnecting">Cobalah untuk menghubungkan ulang</string>
     <string name="connect">Hubungkan</string>
-    <string name="upgrade">Tingkatkan Akun</string>
-    <string name="retry">Coba Lagi</string>
+    <string name="upgrade">Tingkatkan</string>
+    <string name="retry">Coba lagi</string>
     <string name="connection_failed">Sambungan gagal</string>
     <string name="create_new_profile">Profil baru</string>
     <string name="excludeAppsTitle">Kecualikan Aplikasi</string>
@@ -256,7 +256,7 @@
     <string name="profileFastest">Tercepat</string>
     <string name="profileRandom">Acak</string>
     <string name="settingsSplitTunnelingDescription">Split Tunneling memungkinkan aplikasi atau alamat IP tertentu untuk dikecualikan dari lalu lintas VPN.</string>
-    <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
+    <string name="settingsSplitTunnelingTitle">Tunneling Terpisah</string>
     <string name="loaderAuthenticatingUser">Mengotentikasi pengguna…</string>
     <string name="loaderErrorNoInternet">Tidak ada koneksi internet</string>
     <string name="loaderErrorGeneric">Ada yang salah</string>
@@ -288,7 +288,7 @@
     <string name="dialogTitleAttention">Perhatian</string>
     <string name="saveProfileAlreadySaved">Sudah disimpan</string>
     <string name="openUrlError">%1$s tidak dapat dibuka. Aplikasi browser tidak terdeteksi pada perangkat Anda.</string>
-    <string name="toastLoginAuthVersionError">Tidak dapat masuk karena versi otentikasi tidak didukung. Silakan hubungi layanan dukungan.</string>
+    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Waktu sambungan habis. Mohon coba lagi.</string>
     <string name="troubleshootButton">Penyelesaian Masalah</string>
     <string name="activityTroubleshootTitle">Penyelesaian Masalah</string>
@@ -309,7 +309,7 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Apabila Proton diblokir, aplikasi kami akan berusaha untuk dapat terhubung ke server Proton melalui jalur alternatif. <a href="%1$s">Pelajari lebih lanjut</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Pemblokiran pemerintah</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Negara Anda mungkin memblokir akses ke Proton. Cobalah untuk menggunakan <a href=\'%1$s\'>Tor</a> untuk mengakses Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Always-on VPN &amp; kill switch</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">VPN selalu-nyala &amp; kill switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Atur bagaimana Proton VPN berperilaku apabila koneksi Anda terganggu</string>
     <string name="settingsAlwaysOnWindowHeader">Cara mengaktifkan always-on VPN dan kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Buka jendela <b>Pengaturan</b> piranti Anda dengan mengetuk tombol di bawah ini]]></string>

@@ -22,7 +22,7 @@
     <string name="hintUsername">Nom d\'utilisateur</string>
     <string name="hintPassword">Mot de passe</string>
     <string name="splitTunnellingSwitch">Commutateur Split tunneling</string>
-    <string name="login">Connexion</string>
+    <string name="login">Sign in</string>
     <string name="hamburgerMenu">Menu hamburger</string>
     <string name="error_field_required">Ce champ est nécessaire.</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -30,13 +30,13 @@
     <string name="loginSlogan">Pour un internet plus sûr, partout</string>
     <string name="loginStartWithDevice">Démarrer</string>
     <string name="loginCreateAccount">Créer un nouveau compte</string>
-    <string name="loginNeedHelp">Besoin d\'aide ?</string>
+    <string name="loginNeedHelp">Besoin d\'aide ?</string>
     <string name="connectionAllocationHelpTitle">Merci d\'être passé à l’abonnement \nBusiness\u00a0/\u00a0Visionary.</string>
-    <string name="connectionAllocationHelpDescription1">Pour démarrer votre expérience avec Proton VPN, attribuez des connexions VPN à votre compte ou à tout autre sous-compte.</string>
-    <string name="connectionAllocationHelpDescription2">Cette étape ne prendra que quelques minutes. Vous pourrez ensuite vous connecter et protéger tous vos appareils.</string>
+    <string name="connectionAllocationHelpDescription1">Pour commencer avec Proton VPN, attribuez des connexions VPN à votre compte ou à tout autre sous-compte.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Il n\'y a actuellement aucune connexion VPN activée pour ce compte. Pour commencer à utiliser Proton VPN, nous vous invitons à contacter votre administrateur. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activer les connexions VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Se reconnecter</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
     <string name="mapCalloutConnect">Se connecter</string>
     <string name="mapCalloutDisconnect">Se déconnecter</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Une précision à propos de la vitesse…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core offre le meilleur niveau de sécurité et de confidentialité, mais peut réduire la vitesse de votre connexion. Si vous avez besoin de plus de performances, vous pouvez désactiver Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Activer Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Se déconnecter ?</string>
-    <string name="logoutConfirmDialogMessage">La fermeture de la session déconnectera votre appareil du VPN.</string>
-    <string name="logoutConfirmDialogButton">Se déconnecter</string>
+    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">Afficher tous les profils</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
@@ -78,7 +78,7 @@
     <string name="notConnectedCurrentIp">IP actuelle : %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%1$s%%</string>
+    <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Annuler</string>
     <string name="close">Fermer</string>
     <string name="drawerSettings">Paramètres</string>
@@ -170,11 +170,11 @@
     <string name="error_generic_with_reason">Proton VPN n\'a pas pu établir de connexion VPN. Nous vous invitons à réessayer dans quelques secondes.<br/><br/> Détails : %1$s</string>
     <string name="reconnect">Se reconnecter</string>
     <string name="reconnect_now">Se reconnecter maintenant</string>
-    <string name="try_reconnecting">Try reconnecting</string>
+    <string name="try_reconnecting">Tentez de vous reconnecter.</string>
     <string name="connect">Se connecter</string>
     <string name="upgrade">Changer d\'abonnement</string>
     <string name="retry">Réessayer</string>
-    <string name="connection_failed">La connexion a échoué.</string>
+    <string name="connection_failed">La connexion n\'a pas abouti.</string>
     <string name="create_new_profile">Nouveau profil</string>
     <string name="excludeAppsTitle">Exclure des applications</string>
     <string name="excludeAppsDescription">Ajoutez les applications que vous voulez exclure de votre trafic VPN.</string>
@@ -184,8 +184,8 @@
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Pièces jointes</string>
     <string name="report_message">Message du rapport</string>
-    <string name="report_bug_email_label">Votre adresse électronique</string>
-    <string name="report_bug_email_hint">Saisissez votre adresse électronique</string>
+    <string name="report_bug_email_label">Votre adresse e-mail</string>
+    <string name="report_bug_email_hint">Saisissez votre adresse e-mail.</string>
     <string name="report_bug_message_label">Message</string>
     <string name="report_bug_message_hint">Décrivez le bug et indiquez comment et où vous l\'avez constaté.</string>
     <string name="send_report">Envoyer le rapport</string>
@@ -201,7 +201,7 @@
     <string name="got_it">J\'ai compris</string>
     <string name="onboardingWelcome">Bienvenue</string>
     <string name="proton_log">Registre Proton</string>
-    <string name="something_went_wrong">Une erreur s\'est produite</string>
+    <string name="something_went_wrong">Une erreur s\'est produite.</string>
     <string name="try_again">Réessayer</string>
     <string name="manage">Gérer</string>
     <string name="delete">Supprimer</string>
@@ -248,8 +248,8 @@
     <string name="error_prepare_vpn_title">Erreur : problème de permission VPN</string>
     <string name="error_server_not_set">Le serveur n\'est plus disponible.</string>
     <string name="bugReportThankYouToast">Merci pour votre rapport</string>
-    <string name="bugReportErrorEmptyEmail">L\'adresse électronique ne peut pas être vide.</string>
-    <string name="bugReportErrorInvalidEmail">L\'adresse électronique n\'est pas valide.</string>
+    <string name="bugReportErrorEmptyEmail">L\'adresse e-mail ne peut pas être vide.</string>
+    <string name="bugReportErrorInvalidEmail">L\'adresse e-mail n\'est pas valide.</string>
     <string name="bugReportErrorEmptyDescription">Décrivez-nous le problème.</string>
     <string name="bugReportLabelVpnLogsTitle">Inclure les journaux d\'erreurs</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Cela envoie des journaux d\'erreurs locaux (nous n\'enregistrons pas d\'activité) pour nous aider à résoudre votre problème.</string>
@@ -258,7 +258,7 @@
     <string name="settingsSplitTunnelingDescription">Split tunneling permet d\'exclure certaines applications ou adresses IP du trafic VPN.</string>
     <string name="settingsSplitTunnelingTitle">Split tunneling</string>
     <string name="loaderAuthenticatingUser">Authentification de l\'utilisateur…</string>
-    <string name="loaderErrorNoInternet">Il n\'y a pas de connexion internet.</string>
+    <string name="loaderErrorNoInternet">Aucune connexion internet</string>
     <string name="loaderErrorGeneric">Une erreur s\'est produite.</string>
     <string name="loaderLoadingServers">Chargement des serveurs…</string>
     <string name="inputIpAddressLabel">Adresse IP</string>
@@ -289,7 +289,7 @@
     <string name="dialogTitleAttention">Attention</string>
     <string name="saveProfileAlreadySaved">Déjà sauvegardé</string>
     <string name="openUrlError">%1$s ne peut être ouvert. Le navigateur web n\'a pas été détecté sur votre appareil.</string>
-    <string name="toastLoginAuthVersionError">La connexion n\'est pas possible à cause d\'une version d\'authentification qui n\'est pas prise en charge. Nous vous invitons à contacter le support.</string>
+    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">La connexion a expiré. Nous vous invitons à réessayer.</string>
     <string name="troubleshootButton">Dépannage</string>
     <string name="activityTroubleshootTitle">Dépannage</string>
@@ -302,7 +302,7 @@
     <string name="troubleshootAntivirusProblemDescription">Désactivez ou supprimez temporairement votre logiciel antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interférence avec le proxy/pare-feu</string>
     <string name="troubleshootProxyFirewallProblemDescription">Désactivez tout proxy ou pare-feu, ou contactez votre administrateur réseau.</string>
-    <string name="troubleshootProtonDownTitle">Proton est en panne</string>
+    <string name="troubleshootProtonDownTitle">Proton est en panne.</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Pour connaître l\'état de notre système, consultez le <a href=\"%1$s\">statut de Proton</a>.]]></string>
     <string name="troubleshootContactUsSectionTitle">Vous avez toujours besoin d\'aide ? Contactez-nous directement.</string>
     <string name="troubleshootCustomerSupport">Service client</string>
@@ -377,13 +377,13 @@
     <string name="tv_login_step3_description">Saisissez le code :</string>
     <string name="tv_login_timer_label">Ce code expire dans :</string>
     <string name="tv_login_refresh">Actualiser</string>
-    <string name="tv_login_title_loading">Chargement…</string>
+    <string name="tv_login_title_loading">Chargement en cours…</string>
     <string name="tv_login_title_refresh">Votre session a expiré. Cliquez sur Actualiser pour recommencer.</string>
     <string name="tv_upgrade_title">Commencez le streaming avec Plus</string>
     <string name="back">Retour</string>
     <string name="tv_upgrade_url_details"><![CDATA[Rendez-vous sur <b>%1$s</b> pour passer maintenant à Proton VPN Plus.]]></string>
     <string name="tv_upgrade_description">Abonnez-vous à Proton VPN Plus pour accéder à plus de 500 serveurs dans le monde et à des options de streaming optimisées pour Netflix, Amazon Prime Video, Disney+ et bien d\'autres services de streaming.</string>
-    <string name="tv_vpn_error_dialog_title">La connexion VPN a échoué.</string>
+    <string name="tv_vpn_error_dialog_title">La connexion VPN n\'a pas abouti.</string>
     <string name="tv_signout_label">Se déconnecter</string>
     <string name="tv_signout_dialog_title">Voulez-vous vraiment vous déconnecter ?</string>
     <string name="tv_signout_dialog_description_connected">Cela déconnectera votre téléviseur de n\'importe quel serveur VPN.</string>
@@ -418,7 +418,7 @@
     <string name="notification_delinquent_title">Vous avez des factures en retard pour votre compte Proton VPN.</string>
     <string name="notification_delinquent_content">Prenez un moment pour mettre à jour vos informations de facturation et garder votre abonnement actif.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
-    <string name="notification_server_unreachable_content">Vous avez été redirigé vers un serveur plus rapide qui est similaire à celui que vous avez sélectionné.</string>
+    <string name="notification_server_unreachable_content">Nous vous avons transféré vers un serveur plus rapide, similaire à celui que vous avez sélectionné.</string>
     <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Vous avez atteint votre nombre maximum d\'appareils.</string>
     <!-- The number of devices will always be greater than 1. -->
@@ -435,7 +435,7 @@
     <string name="reconnect_to_server">Vers le serveur : </string>
     <string name="no_thanks">Non merci</string>
     <string name="enable">Activer</string>
-    <string name="notification_smart_protocol_disabled_title">Smart Protocol est désactivé.</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol est actuellement désactivé.</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN a détecté que votre réseau actuel empêche une connexion au VPN. L\'activation de Smart Protocol pourrait contourner ces limitations.</string>
     <string name="upsell_advanced_features">Fonctionnalités avancées : NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Accédez aux services de streaming (Netflix, Disney+...) partout dans le monde</string>
@@ -513,7 +513,7 @@
      You now have access to 1300+ secure servers and other premium features.
      -->
     <string name="onboarding_plan_congrats_description">Vous avez maintenant accès à %1$s et à d\'autres fonctionnalités premium.</string>
-    <string name="upgrade_plus_countries_streaming">Accès aux services de streaming du monde entier</string>
+    <string name="upgrade_plus_countries_streaming">Accéder aux services de streaming internationaux</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="one">Connecter %d appareil</item>
@@ -524,19 +524,19 @@
     <string name="upgrade_plus_countries_more">Et bien plus de fonctionnalités premium</string>
     <string name="upgrade_safe_mode_title">Autoriser le trafic vers les ports non standard</string>
     <string name="upgrade_safe_mode_message">Vous avez des besoins informatiques avancés ou professionnels qui nécessitent des ports non standard ? Passez à VPN Plus pour accéder à cette fonctionnalité et à d\'autres fonctionnalités premium.</string>
-    <string name="upgrade_moderate_nat_title">Activez le NAT modéré</string>
+    <string name="upgrade_moderate_nat_title">Activer le NAT modéré</string>
     <string name="upgrade_moderate_nat_message">Le NAT modéré, aussi appelé NAT type 2, peut améliorer votre expérience en ligne avec certaines applications et jeux vidéo. Accédez à cette fonctionnalité et à d\'autres avec un abonnement Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">Qu\'est-ce que le NAT modéré ?</string>
     <string name="upgrade_see_plans_button">Voir les abonnements et tarifs</string>
     <string name="upgrade_not_now_button">Pas maintenant</string>
     <string name="upgrade_learn_more">En savoir plus</string>
     <!-- Information activity -->
-    <string name="activity_information_title">Information</string>
+    <string name="activity_information_title">Informations</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - serveurs Plus</string>
     <string name="info_features">Fonctionnalités</string>
     <string name="smart_routing_title">Smart Routing</string>
-    <string name="smart_routing_description">Cette technologie permet à Proton VPN de fournir une meilleure vitesse et plus de sécurité dans les pays difficiles à desservir.</string>
+    <string name="smart_routing_description">Cette technologie permet à Proton VPN de fournir une vitesse et une sécurité plus élevées dans les pays difficiles à desservir.</string>
     <string name="streaming_title">Streaming</string>
     <string name="streaming_description">Les serveurs Plus prennent en charge le streaming (Netflix, Disney+...) depuis n\'importe où dans le monde.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
@@ -545,7 +545,7 @@
     <string name="tor_description">Routez votre trafic internet à travers le réseau Tor. Plus lent, mais plus privé.</string>
     <string name="info_performance">Performance</string>
     <string name="server_load_title">Charge du serveur</string>
-    <string name="server_load_description">Les serveurs ayant une charge élevée sont plus lents que ceux ayant une faible charge.</string>
+    <string name="server_load_description">Les serveurs avec une charge élevée sont plus lents que les serveurs avec une faible charge.</string>
     <string name="streaming_title_with_country">Streaming - %1$s</string>
     <string name="streaming_services_description">Connectez-vous à un serveur Plus dans ce pays pour commencer à streamer.\n\nAstuce : en vidant le cache des applications de streaming, vous vous assurez que les nouveaux contenus apparaîtront.</string>
     <string name="partnership_free_title">Serveurs Free</string>
@@ -599,8 +599,8 @@
     <string name="onboading_connect_now">Se connecter maintenant</string>
     <string name="onboading_connecting_now">Connexion en cours</string>
     <string name="onboarding_congrats_description">Votre connexion est protégée, vous pouvez naviguer sur le web.\n\nEn toute sécurité.</string>
-    <string name="onboarding_congrats_title">Félicitations !</string>
-    <string name="onboarding_plan_congrats_description_privacy">Profitez d\'un monde où la vie privée est respectée.</string>
+    <string name="onboarding_congrats_title">Félicitations !</string>
+    <string name="onboarding_plan_congrats_description_privacy">Profitez d\'un monde respectueux de la vie privée.</string>
     <string name="onboading_connect_to_plus">Connectez-vous à un serveur Plus</string>
     <string name="upgrade_use_limited_free_button">Utilisez l\'abonnement limité Free</string>
     <string name="dynamic_report_suggestion_didnt_work">Cela n\'a pas fonctionné ?</string>
@@ -612,7 +612,7 @@
     <string name="dynamic_report_success_description">Nous vous répondrons dès que possible.</string>
     <string name="dynamic_report_field_mandatory">Ce champ est obligatoire.</string>
     <string name="dynamic_report_logs_description">Un journal est un type de fichier qui nous montre les actions que vous avez effectuées et qui ont conduit à une erreur. Nous les utilisons uniquement pour aider nos ingénieurs à corriger les bugs.</string>
-    <string name="dynamic_report_logs_missing">Les journaux d\'erreurs nous aident à analyser en profondeur votre problème. Si vous ne les incluez pas, il se peut que nous ne soyons pas en mesure de mener une enquête approfondie.</string>
+    <string name="dynamic_report_logs_missing">Les journaux d\'erreurs nous aident à comprendre les causes de votre problème. Si vous ne les incluez pas, nous ne pourrons peut-être pas mener une analyse approfondie.</string>
     <string name="dynamic_report_step1">Étape 1 sur 3</string>
     <string name="dynamic_report_step2">Étape 2 sur 3</string>
     <string name="dynamic_report_step3">Étape 3 sur 3</string>
@@ -640,7 +640,7 @@
     <string name="search_empty_hint_cities"><![CDATA[Villes : <font color="%1$s">New York, Londres, Tokyo…</font>]]></string>
     <string name="search_empty_hint_usa_regions"><![CDATA[Régions US : <font color="%1$s">Californie, Floride, Colorado…</font>]]></string>
     <string name="search_empty_hint_servers"><![CDATA[Serveurs : <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
-    <string name="search_empty_result_subtitle">Veuillez essayer un autre mot-clé.</string>
+    <string name="search_empty_result_subtitle">Essayez un autre mot-clé.</string>
     <string name="search_empty_result_title">Aucun résultat n\'a été trouvé.</string>
     <string name="search_recents_header_title">Vu récemment (%1$d)</string>
     <string name="search_clear_history">Effacer l\'historique</string>

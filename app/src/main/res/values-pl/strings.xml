@@ -22,7 +22,7 @@
     <string name="hintUsername">Nazwa użytkownika</string>
     <string name="hintPassword">Hasło</string>
     <string name="splitTunnellingSwitch">Przełącznik funkcji Split Tunneling</string>
-    <string name="login">Zaloguj się</string>
+    <string name="login">Sign in</string>
     <string name="hamburgerMenu">Menu hamburgerowe</string>
     <string name="error_field_required">Pole jest wymagane</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">Potrzebujesz pomocy?</string>
     <string name="connectionAllocationHelpTitle">Dziękujemy za ulepszenie planu do wersji\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Przypisz połączenia VPN do swojego konta Proton VPN.</string>
-    <string name="connectionAllocationHelpDescription2">Ten krok zajmie tylko kilka minut. Po tym kroku, będziesz mógł zalogować się i chronić wszystkie swoje urządzenia.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Brak włączonych połączeń VPN na koncie. Skontaktuj się ze swoim administratorem, aby rozpocząć korzystanie z Proton VPN. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Włącz połączenia VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Zaloguj się ponownie</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
     <string name="mapCalloutConnect">Połącz</string>
     <string name="mapCalloutDisconnect">Rozłącz</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Uwaga dotycząca prędkości…</string>
     <string name="secureCoreSpeedInfoMessage">Funkcja Secure Core oferuje najwyższy poziom bezpieczeństwa i prywatności, ale może zmniejszyć prędkość połączenia. Jeśli potrzebujesz większej wydajności, wyłącz funkcję Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Aktywuj funkcję Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Wylogować się?</string>
-    <string name="logoutConfirmDialogMessage">Wylogowanie spowoduje rozłączenie połączenia VPN.</string>
-    <string name="logoutConfirmDialogButton">Wyloguj</string>
+    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">Pokaż wszystkie profile</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
@@ -170,7 +170,7 @@
     <string name="error_generic_with_reason">Aplikacja Proton VPN nie mogła nawiązać połączenia VPN. Spróbuj ponownie za kilka sekund.<br/><br/> Szczegóły: %1$s</string>
     <string name="reconnect">Połącz ponownie</string>
     <string name="reconnect_now">Połącz ponownie</string>
-    <string name="try_reconnecting">Try reconnecting</string>
+    <string name="try_reconnecting">Połącz ponownie</string>
     <string name="connect">Połącz</string>
     <string name="upgrade">Ulepsz</string>
     <string name="retry">Spróbuj ponownie</string>
@@ -291,7 +291,7 @@
     <string name="dialogTitleAttention">Uwaga</string>
     <string name="saveProfileAlreadySaved">Już zapisany</string>
     <string name="openUrlError">Adres %1$s nie może zostać otwarty. Przeglądarka internetowa nie została wykryta na urządzeniu.</string>
-    <string name="toastLoginAuthVersionError">Nie można się zalogować z powodu nieobsługiwanej wersji protokołu uwierzytelniania. Skontaktuj się ze wsparciem.</string>
+    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Upłynął limit czasu połączenia. Spróbuj ponownie.</string>
     <string name="troubleshootButton">Rozwiązywanie problemów</string>
     <string name="activityTroubleshootTitle">Rozwiązywanie problemów</string>

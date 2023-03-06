@@ -22,7 +22,7 @@
     <string name="hintUsername">Utilizator</string>
     <string name="hintPassword">Parola</string>
     <string name="splitTunnellingSwitch">Comutator divizare trafic</string>
-    <string name="login">Conectare</string>
+    <string name="login">Sign in</string>
     <string name="hamburgerMenu">Meniu</string>
     <string name="error_field_required">Acest câmp este obligatoriu</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">Doriți ajutor?</string>
     <string name="connectionAllocationHelpTitle">Vă mulțumim pentru trecerea la planul \nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Pentru a începe utilizarea Proton VPN atribuiți conexiuni VPN contului sau oricărui cont secundar.</string>
-    <string name="connectionAllocationHelpDescription2">Acest pas va dura doar câteva minute. După aceasta veți putea să vă conectați și să vă protejați toate dispozitivele.</string>
+    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Momentan nu există nici o conexiune VPN activată pentru acest cont. Pentru a începe să utilizați Proton VPN, contactați-vă administratorul contului.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activare conexiuni VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Reconectați-vă</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
     <string name="mapCalloutConnect">Conectare</string>
     <string name="mapCalloutDisconnect">Deconectare</string>
     <string name="mapSwitchSecureCore">Nucleu securizat</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Observație privind viteza…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core oferă cel mai înalt nivel de securitate și confidențialitate, dar vă poate reduce viteza pe internet. Dacă aveți nevoie de mai multe performanțe, puteți dezactiva Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Activare Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Deconectare?</string>
-    <string name="logoutConfirmDialogMessage">Deconectarea vă va deconecta dispozitivul de la VPN.</string>
-    <string name="logoutConfirmDialogButton">Deconectare</string>
+    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">Afișare toate profilele</string>
     <string name="yes">Da</string>
     <string name="no">Nu</string>
@@ -170,7 +170,7 @@
     <string name="error_generic_with_reason">Proton VPN nu a putut stabili o conexiune cu VPN. Reîncercați peste câteva secunde.<br/><br/> Detalii: %1$s</string>
     <string name="reconnect">Reconectare</string>
     <string name="reconnect_now">Reconectare</string>
-    <string name="try_reconnecting">Try reconnecting</string>
+    <string name="try_reconnecting">Încercare reconectare</string>
     <string name="connect">Conectare</string>
     <string name="upgrade">Modernizare</string>
     <string name="retry">Reîncercare</string>
@@ -290,7 +290,7 @@
     <string name="dialogTitleAttention">Atenție</string>
     <string name="saveProfileAlreadySaved">Deja salvat</string>
     <string name="openUrlError">%1$s nu a putut fi deschisă. Navigatorul web nu a fost detectat pe dispozitiv.</string>
-    <string name="toastLoginAuthVersionError">Nu se poate conecta din cauza versiunii de autentificare nesuportate. Contactați asistența.</string>
+    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Conexiunea a expirat. Mai reîncercați.</string>
     <string name="troubleshootButton">Depanare</string>
     <string name="activityTroubleshootTitle">Depanare</string>
