@@ -23,6 +23,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
@@ -30,12 +31,17 @@ import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import me.proton.core.network.domain.handlers.TokenErrorHandler
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
+import javax.inject.Inject
 import kotlin.test.assertNotNull
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 class TokenExpirationTests {
     private val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
@@ -46,6 +52,8 @@ class TokenExpirationTests {
     val rules = RuleChain
         .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Backend))
         .around(LoginTestRule(TestUser.plusUser))
+
+    @Inject lateinit var currentUser: CurrentUser
 
     @Before
     fun setUp() {
@@ -63,14 +71,16 @@ class TokenExpirationTests {
     }
 
     @Test
-    fun sessionAndRefreshTokenExpiration() {
+    fun sessionAndRefreshTokenExpiration() = runTest {
+        TokenErrorHandler.reset(currentUser.sessionId())
         TestSetup.quark!!.expireSession(TestUser.plusUser.email, true)
         homeRobot.swipeDownToRefreshServerList()
         loginRobot.verify { loginScreenIsDisplayed() }
     }
 
     @Test
-    fun sessionExpirationCheckIfNotLoggedOut() {
+    fun sessionExpirationCheckIfNotLoggedOut() = runTest {
+        TokenErrorHandler.reset(currentUser.sessionId())
         TestSetup.quark!!.expireSession(TestUser.plusUser.email)
         homeRobot.swipeDownToRefreshServerList()
             .verify { loginScreenIsNotDisplayed() }
