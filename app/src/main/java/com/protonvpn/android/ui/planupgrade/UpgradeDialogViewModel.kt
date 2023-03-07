@@ -22,7 +22,6 @@ package com.protonvpn.android.ui.planupgrade
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +36,7 @@ class UpgradeDialogViewModel @Inject constructor(
     private val currentUser: CurrentUser,
     private val authOrchestrator: AuthOrchestrator,
     private val plansOrchestrator: PlansOrchestrator,
-    private val purchaseEnabled: CachedPurchaseEnabled
+    private val isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase
 ) : ViewModel() {
 
     enum class State { Init, Fail, Success }
@@ -61,5 +60,5 @@ class UpgradeDialogViewModel @Inject constructor(
         }
     }
 
-    fun showUpgrade() = purchaseEnabled() && currentUser.vpnUserCached()?.subscribed == 0
+    fun showUpgrade() = isInAppUpgradeAllowed()
 }
