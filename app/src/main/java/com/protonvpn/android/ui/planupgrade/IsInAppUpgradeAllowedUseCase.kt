@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Proton AG
+ * Copyright (c) 2023. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,16 +17,19 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui.home.vpn
+package com.protonvpn.android.ui.planupgrade
 
-import androidx.lifecycle.ViewModel
-import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.protonvpn.android.appconfig.CachedPurchaseEnabled
+import com.protonvpn.android.auth.usecase.CurrentUser
+import dagger.Reusable
 import javax.inject.Inject
 
-@HiltViewModel
-class SwitchDialogViewModel @Inject constructor(
-    private val isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase
-) : ViewModel() {
-    fun showUpgrade() = isInAppUpgradeAllowed()
+@Reusable
+class IsInAppUpgradeAllowedUseCase @Inject constructor(
+    private val currentUser: CurrentUser,
+    private val purchaseEnabled: CachedPurchaseEnabled
+) {
+    operator fun invoke() = purchaseEnabled() && currentUser.vpnUserCached()?.let { user ->
+        user.subscribed == 0 && user.credit == 0
+    } ?: false
 }
