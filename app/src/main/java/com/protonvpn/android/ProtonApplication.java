@@ -171,7 +171,7 @@ public class ProtonApplication extends Application {
 
         dependencies.getRestartHandler().onAppStarted();
 
-        if (!AndroidUtils.INSTANCE.isTV(this)) {
+        if (!AndroidUtils.INSTANCE.isTV(this, true)) {
             dependencies.getOneTimePopupNotificationTrigger();
         }
     }

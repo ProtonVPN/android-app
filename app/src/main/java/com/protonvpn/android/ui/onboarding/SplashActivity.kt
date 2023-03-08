@@ -21,7 +21,6 @@ package com.protonvpn.android.ui.onboarding
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
@@ -37,17 +36,16 @@ class SplashActivity : AppCompatActivity() {
     lateinit var deepLinkHandler: DeepLinkHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen().setKeepOnScreenCondition(SplashScreen.KeepOnScreenCondition {
-            true
-        })
+        installSplashScreen().setKeepOnScreenCondition { true }
         super.onCreate(savedInstanceState)
 
         processDeepLink()
 
-        val nextActivity = if (isTV())
+        val nextActivity = if (isTV(log = true)) {
             TvMainActivity::class.java
-        else
+        } else {
             MobileMainActivity::class.java
+        }
 
         startActivity(
             Intent(this, nextActivity).apply {
