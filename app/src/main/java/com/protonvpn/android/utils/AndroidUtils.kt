@@ -55,6 +55,7 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
+import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import me.proton.core.util.kotlin.times
 import okhttp3.internal.toHexString
@@ -84,13 +85,36 @@ object AndroidUtils {
         }
     }
 
-    fun Context.isTV(): Boolean {
+    /**
+     * Consider using IsTvCheck in non-UI code to make it unit-testable.
+     */
+    fun Context.isTV(log: Boolean = false): Boolean {
         val uiMode: Int = resources.configuration.uiMode
-        return BuildConfig.FLAVOR == "amazon" ||
-            uiMode and Configuration.UI_MODE_TYPE_MASK == Configuration.UI_MODE_TYPE_TELEVISION ||
-            packageManager.hasSystemFeature(PackageManager.FEATURE_TELEVISION) ||
-            packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK) ||
-            packageManager.hasSystemFeature(PackageManager.FEATURE_LIVE_TV) && displayDiagonalApprox() >= 10f
+        val uiModeType = uiMode and Configuration.UI_MODE_TYPE_MASK
+
+        val featureTv = packageManager.hasSystemFeature(PackageManager.FEATURE_TELEVISION)
+        val featureLeanback = packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK)
+        val featureLiveTv = packageManager.hasSystemFeature(PackageManager.FEATURE_LIVE_TV)
+        val featureFireTv = packageManager.hasSystemFeature("amazon.hardware.fire_tv")
+        val displayDiagonalApprox = displayDiagonalApprox()
+
+        if (log) {
+            val message = "isTv: " +
+                "uiModeType: $uiModeType; FEATURE_TELEVISION: $featureTv; FEATURE_LEANBACK: $featureLeanback; " +
+                "FEATURE_LIVE_TV: $featureLiveTv; Amazon FireTV: $featureFireTv; diagonal: ~$displayDiagonalApprox"
+            ProtonLogger.logCustom(LogCategory.APP, message)
+        }
+
+        return if (BuildConfig.FLAVOR == "amazon" || Build.MANUFACTURER == "Amazon") {
+            // https://developer.amazon.com/docs/fire-tv/identify-amazon-fire-tv-devices.html
+            featureFireTv
+        } else {
+            uiModeType == Configuration.UI_MODE_TYPE_TELEVISION ||
+                featureTv ||
+                featureLeanback ||
+                featureFireTv ||
+                featureLiveTv && displayDiagonalApprox >= 10f
+        }
     }
 
     fun Context.isRtl() =

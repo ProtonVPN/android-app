@@ -27,14 +27,16 @@ import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsPrefs
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.GlobalUserSettings
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
@@ -60,6 +62,8 @@ class GlobalSettingsManagerTests {
     private lateinit var mockApi: ProtonApiRetroFit
     @RelaxedMockK
     private lateinit var mockGlobalSettingUpdateScheduler: GlobalSettingUpdateScheduler
+    @MockK
+    private lateinit var mockIsTvCheck: IsTvCheck
 
     private lateinit var globalSettingsPrefs: GlobalSettingsPrefs
     private lateinit var userData: UserData
@@ -76,13 +80,14 @@ class GlobalSettingsManagerTests {
         Storage.setPreferences(MockSharedPreference())
         userData = UserData.create(null)
         globalSettingsPrefs = GlobalSettingsPrefs(MockSharedPreferencesProvider())
+        every { mockIsTvCheck.invoke() } returns false
 
         globalSettingsManager = GlobalSettingsManager(
-            mockk(relaxed = true),
             testScope.backgroundScope,
             mockApi,
             globalSettingsPrefs,
             userData,
+            mockIsTvCheck,
             mockGlobalSettingUpdateScheduler
         )
     }
