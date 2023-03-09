@@ -22,7 +22,7 @@
     <string name="hintUsername">Nombre de usuario</string>
     <string name="hintPassword">Contraseña</string>
     <string name="splitTunnellingSwitch">Interruptor de túnel dividido</string>
-    <string name="login">Sign in</string>
+    <string name="login">Iniciar sesión</string>
     <string name="hamburgerMenu">Botón de menú</string>
     <string name="error_field_required">Este campo es obligatorio</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">¿Necesita ayuda?</string>
     <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Para empezar su viaje en Proton VPN, asigne conexiones VPN a su cuenta o cualquier otra subcuenta.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
+    <string name="connectionAllocationHelpDescription2">Este paso tomará solo unos minutos. Después será capaz de iniciar sesión y proteger todos sus dispositivos.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN habilitada para esta cuenta. Para comenzar su viaje en Proton VPN contacte con su administrador. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Habilitar conexiones VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión de nuevo</string>
     <string name="mapCalloutConnect">Conectar</string>
     <string name="mapCalloutDisconnect">Desconectar</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Una nota acerca de la velocidad…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core ofrece el más alto nivel de seguridad y privacidad, pero puede reducir la velocidad de Internet. Si necesita más rendimiento, puede deshabilitar Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Habilitar Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Sign out?</string>
-    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Sign out</string>
+    <string name="logoutConfirmDialogTitle">¿Cerrar sesión?</string>
+    <string name="logoutConfirmDialogMessage">Al cerrar la sesión desconectará su dispositivo de la VPN.</string>
+    <string name="logoutConfirmDialogButton">Cerrar sesión</string>
     <string name="showAllProfiles">Mostrar perfiles</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
@@ -289,7 +289,7 @@
     <string name="dialogTitleAttention">Atención</string>
     <string name="saveProfileAlreadySaved">Ya guardado</string>
     <string name="openUrlError">No se pudo abrir %1$s. No se detectó un navegador en su dispositivo.</string>
-    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
+    <string name="toastLoginAuthVersionError">No se puede iniciar sesión debido a una versión de autenticación incompatible. Contacte con soporte.</string>
     <string name="loaderErrorTimeout">Tiempo de conexión agotado. Por favor, inténtelo de nuevo.</string>
     <string name="troubleshootButton">Solución de problemas</string>
     <string name="activityTroubleshootTitle">Solución de problemas</string>

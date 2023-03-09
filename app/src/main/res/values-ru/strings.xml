@@ -22,7 +22,7 @@
     <string name="hintUsername">Имя пользователя</string>
     <string name="hintPassword">Пароль</string>
     <string name="splitTunnellingSwitch">Переключатель Split Tunneling</string>
-    <string name="login">Sign in</string>
+    <string name="login">Войти</string>
     <string name="hamburgerMenu">Меню \"Гамбургер\"</string>
     <string name="error_field_required">Это обязательное поле</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">Нужна помощь?</string>
     <string name="connectionAllocationHelpTitle">Спасибо за улучшение до \nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Чтобы начать свое путешествие в Proton VPN, пожалуйста, назначьте подключения VPN для своего аккаунта или любого другого субаккаунта.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
+    <string name="connectionAllocationHelpDescription2">Этот шаг займет всего несколько минут. После него вы сможете авторизоваться и защитить все свои устройства.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">В настоящее время для этого аккаунта не активировано подключение к VPN. Чтобы начать свое путешествие с Proton VPN, пожалуйста, свяжитесь с вашим администратором. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Разрешить подключения к VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Войти снова</string>
     <string name="mapCalloutConnect">Подключиться</string>
     <string name="mapCalloutDisconnect">Отключиться</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Замечание о скорости…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core обеспечивает наивысший уровень безопасности и конфиденциальности, но может снизить скорость вашего Интернета. Если вам нужна более высокая производительность, вы можете отключить Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Активировать Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Sign out?</string>
-    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Sign out</string>
+    <string name="logoutConfirmDialogTitle">Выйти из системы?</string>
+    <string name="logoutConfirmDialogMessage">Выход отключит ваше устройство от VPN.</string>
+    <string name="logoutConfirmDialogButton">Выйти</string>
     <string name="showAllProfiles">Показать все профили</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
@@ -291,7 +291,7 @@
     <string name="dialogTitleAttention">Внимание</string>
     <string name="saveProfileAlreadySaved">Уже сохранено</string>
     <string name="openUrlError">%1$s не может быть открыт. Веб-браузер не был обнаружен на вашем устройстве.</string>
-    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
+    <string name="toastLoginAuthVersionError">Не удалось авторизоваться из-за неподдерживаемой версии аутентификации. Пожалуйста, обратитесь в поддержку.</string>
     <string name="loaderErrorTimeout">Время ожидания соединения истекло. Пожалуйста, попробуйте еще раз.</string>
     <string name="troubleshootButton">Устранение неполадок</string>
     <string name="activityTroubleshootTitle">Устранение неисправностей</string>
