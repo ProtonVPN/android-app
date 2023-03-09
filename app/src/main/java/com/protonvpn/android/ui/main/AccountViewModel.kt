@@ -68,7 +68,7 @@ class AccountViewModel @Inject constructor(
     val api: ProtonApiRetroFit,
     val authOrchestrator: AuthOrchestrator,
     val accountManager: AccountManager,
-    val accountType: AccountType,
+    val requiredAccountType: AccountType,
     val vpnApiClient: VpnApiClient,
     val onSessionClosed: OnSessionClosed,
     val certificateRepository: CertificateRepository,
@@ -151,7 +151,10 @@ class AccountViewModel @Inject constructor(
     suspend fun startLogin() {
         viewModelScope.launch { api.getAvailableDomains() }
         authOrchestrator.startAddAccountWorkflow(
-            accountType, accountType, product, loginUsername = Storage.getString(LAST_USER, null)
+            requiredAccountType = requiredAccountType,
+            creatableAccountType = requiredAccountType,
+            product = product,
+            loginUsername = Storage.getString(LAST_USER, null)
         )
     }
 

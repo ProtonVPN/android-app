@@ -20,7 +20,6 @@
 package com.protonvpn.tests.account
 
 import androidx.test.core.app.ActivityScenario
-import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.actions.RealConnectionRobot
 import com.protonvpn.android.models.config.TransmissionProtocol
@@ -39,6 +38,7 @@ import com.protonvpn.testsHelper.TestSetup
 import com.protonvpn.testsHelper.UserDataHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
+import me.proton.core.test.android.robots.auth.AddAccountRobot
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -104,7 +104,7 @@ class RealConnectionTests {
 
     private fun realConnection(protocol: ProtocolSelection) {
         userDataHelper.setProtocol(protocol.vpn, protocol.transmission)
-        addAccountRobot.selectSignInOption()
+        addAccountRobot.signIn()
         loginRobot.signInAndWaitForCountryInCountryList(TestUser.plusUser, "Austria")
         connectionRobot.connectThroughQuickConnectRealConnection()
             .verify {

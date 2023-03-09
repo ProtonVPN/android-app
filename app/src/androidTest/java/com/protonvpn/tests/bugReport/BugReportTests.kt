@@ -19,7 +19,6 @@
 
 package com.protonvpn.tests.bugReport
 
-import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.BugReportRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.android.api.ProtonApiRetroFit
@@ -45,7 +44,6 @@ class BugReportTests {
     private val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
     private val testRule = ProtonHomeActivityTestRule()
     private lateinit var homeRobot: HomeRobot
-    private lateinit var addAccountRobot: AddAccountRobot
     private lateinit var reportBugRobot: BugReportRobot
     private lateinit var category: Category
     private lateinit var categories: List<Category>
@@ -64,7 +62,6 @@ class BugReportTests {
         TestSetup.setCompletedOnboarding()
         hiltRule.inject()
         homeRobot = HomeRobot()
-        addAccountRobot = AddAccountRobot()
         reportBugRobot = BugReportRobot()
         categories = runBlocking { api.getDynamicReportConfig().valueOrThrow.categories }
         category = categories[0]

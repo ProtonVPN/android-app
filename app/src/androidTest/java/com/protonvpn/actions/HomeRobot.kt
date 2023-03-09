@@ -20,7 +20,6 @@ package com.protonvpn.actions
 
 import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
@@ -40,6 +39,7 @@ import com.protonvpn.base.BaseVerify
 import com.protonvpn.matchers.ProtonMatcher.lastChild
 import com.protonvpn.testsHelper.ServiceTestHelper
 import me.proton.core.test.android.instrumented.ui.espresso.OnView
+import me.proton.core.test.android.robots.auth.AddAccountRobot
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.not
 import kotlin.test.assertFalse
