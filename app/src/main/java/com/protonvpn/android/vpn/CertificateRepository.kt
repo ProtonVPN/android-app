@@ -186,7 +186,7 @@ class CertificateRepository @Inject constructor(
                     } else {
                         val expires = ProtonLogger.formatTime(certInfo.expiresAt)
                         val refreshes = ProtonLogger.formatTime(certInfo.refreshAt)
-                        "expires ${expires} (refresh at ${refreshes})"
+                        "expires $expires (refresh at $refreshes)"
                     }
                 ProtonLogger.log(UserCertCurrentState, "Current cert: $certString")
             }
@@ -198,8 +198,9 @@ class CertificateRepository @Inject constructor(
                     is UserPlanManager.InfoChange.PlanChange.Upgrade,
                     is UserPlanManager.InfoChange.UserBecameDelinquent -> {
                         ProtonLogger.log(UserCertRefresh, "reason: user plan change: $change")
-                        currentUser.sessionId()?.let {
-                            updateCertificate(it, true)
+                        currentUser.sessionId()?.let { sessionId ->
+                            clear(sessionId)
+                            updateCertificate(sessionId, true)
                         }
                     }
                     else -> {}
