@@ -23,75 +23,59 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
-import com.protonvpn.actions.AddAccountRobot
-import com.protonvpn.actions.HomeRobot
-import com.protonvpn.actions.LoginRobot
 import com.protonvpn.actions.OnboardingRobot
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.ui.main.MobileMainActivity
-import com.protonvpn.data.DefaultData
 import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
+import com.protonvpn.testRules.ProtonHiltInjectRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
+import me.proton.core.auth.test.MinimalSignUpExternalTests
+import me.proton.core.auth.test.rule.AcceptExternalRule
+import me.proton.core.network.domain.client.ExtraHeaderProvider
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 import javax.inject.Inject
-import kotlin.random.Random
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @SdkSuppress(minSdkVersion = 28) // Signups tests does not work on older versions due to animations bug
 @HiltAndroidTest
-class SignupTests {
+class SignupTests : MinimalSignUpExternalTests {
 
-    private lateinit var addAccountRobot: AddAccountRobot
-    private lateinit var loginRobot: LoginRobot
-    private lateinit var homeRobot: HomeRobot
-    private lateinit var onboardingRobot: OnboardingRobot
-    private lateinit var testUsername: String
-    private val activityRule = ActivityScenarioRule(MobileMainActivity::class.java)
-    private val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
+    @get:Rule(order = 0)
+    val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
 
-    @Inject
-    lateinit var purchaseEnabled: CachedPurchaseEnabled
+    @get:Rule(order = 1)
+    val injectRule = ProtonHiltInjectRule(hiltRule)
+
+    @get:Rule(order = 2)
+    val acceptExternalRule = AcceptExternalRule { extraHeaderProvider }
+
+    @get:Rule(order = 3)
+    val activityRule = ActivityScenarioRule(MobileMainActivity::class.java)
+
     @Inject
     lateinit var appConfig: AppConfig
 
-    @get:Rule
-    val rules = RuleChain
-        .outerRule(hiltRule)
-        .around(activityRule)
+    @Inject
+    lateinit var extraHeaderProvider: ExtraHeaderProvider
 
     @Before
     fun setUp() {
-        hiltRule.inject()
         TestSetup.setCompletedOnboarding()
         TestSetup.quark?.jailUnban()
-        addAccountRobot = AddAccountRobot()
-        loginRobot = LoginRobot()
-        homeRobot = HomeRobot()
-        onboardingRobot = OnboardingRobot()
-        testUsername = "automationUser" + (0..100000000).random(Random(System.currentTimeMillis()))
     }
 
-    @Test
-    fun signupEmailVerificationFullPath() {
-        addAccountRobot.selectSignupOption()
-            .enterUsername(testUsername)
-            .enterPassword(TestUser.plusUser.password)
-            .enterRecoveryEmail("$testUsername@proton.ch")
-            .verifyViaEmail(DefaultData.ATLAS_VERIFICATION_CODE)
-            .verify { welcomeScreenIsDisplayed() }
-        onboardingRobot.completeOnboarding(appConfig.getFeatureFlags().telemetry)
+    override val isCongratsDisplayed = false
+
+    override fun verifyAfter() {
+        OnboardingRobot()
+            .apply { verify { welcomeScreenIsDisplayed() } }
+            .completeOnboarding(appConfig.getFeatureFlags().telemetry)
             .skipOnboarding() // We have no way to connect in tests at the moment.
-        homeRobot.verify { isInMainScreen() }
-        homeRobot.openAccountView()
-            .verify { checkIfCorrectUsernameIsDisplayed(testUsername) }
+            .verify { isInMainScreen() }
     }
 }

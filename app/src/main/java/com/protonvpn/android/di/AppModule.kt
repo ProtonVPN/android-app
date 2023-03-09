@@ -222,7 +222,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRequiredAccountType(): AccountType =
-        AccountType.Username
+        AccountType.External
 
     @Provides
     @Singleton

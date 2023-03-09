@@ -68,7 +68,7 @@ class LogoutTests {
     @TestID(54)
     fun successfulLogout() {
         homeRobot.logout()
-            .verify { successfullyLoggedOut() }
+            .verify { addAccountElementsDisplayed() }
     }
 
     @Test
@@ -83,7 +83,7 @@ class LogoutTests {
                 warningMessageIsDisplayed()
             }
         homeRobot.logoutAfterWarning()
-            .verify { successfullyLoggedOut() }
+            .verify { addAccountElementsDisplayed() }
         connectionRobot.verify { isDisconnectedServiceHelper() }
     }
 

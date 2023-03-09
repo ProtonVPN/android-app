@@ -58,6 +58,8 @@ class TestUser private constructor(
             get() = getPlusPlanUser()
         val twofa: TestUser
             get() = TestUser("twofa", "a", "rand", "vpnplus", "vpnplus", 2, 5)
+        val twopass: TestUser
+            get() = TestUser("twopasswords", "thisisarandomp45w0rd_*&-/?", "rand", "vpnplus", "vpnplus", 2, 5)
         val badUser: TestUser
             get() = TestUser("Testas3", "r4nd0m", "rand", "vpnplus", "vpnplus", 2, 5)
         val forkedSessionResponse: ForkedSessionResponse

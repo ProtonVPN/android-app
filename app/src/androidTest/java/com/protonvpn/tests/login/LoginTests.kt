@@ -23,7 +23,6 @@ import android.util.Log
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.protonvpn.actions.AddAccountRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.BuildConfig
@@ -35,6 +34,7 @@ import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.serialization.SerializationException
+import me.proton.core.test.android.robots.auth.AddAccountRobot
 import me.proton.core.test.quark.data.User
 import org.junit.Before
 import org.junit.Rule
@@ -51,7 +51,6 @@ import java.net.URLEncoder
 @HiltAndroidTest
 class LoginTests {
 
-    private lateinit var addAccountRobot: AddAccountRobot
     private lateinit var loginRobot: LoginRobot
     private lateinit var homeRobot: HomeRobot
 
@@ -64,10 +63,9 @@ class LoginTests {
     fun setUp() {
         TestSetup.setCompletedOnboarding()
         TestSetup.quark?.jailUnban()
-        addAccountRobot = AddAccountRobot()
         loginRobot = LoginRobot()
         homeRobot = HomeRobot()
-        addAccountRobot.selectSignInOption()
+        AddAccountRobot().signIn()
     }
 
     @Test
@@ -105,8 +103,8 @@ class LoginTests {
         loginRobot.signIn(TestUser.plusUser)
             .verify { isInMainScreen() }
         homeRobot.logout()
-            .selectSignInOption()
-            .verify { userNameIsVisible(TestUser.plusUser) }
+            .signIn()
+            .verify { view.withText(TestUser.plusUser.email).checkDisplayed() }
     }
 
     @Test
