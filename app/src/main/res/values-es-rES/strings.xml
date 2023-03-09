@@ -22,9 +22,9 @@
     <string name="hintUsername">Nombre de usuario</string>
     <string name="hintPassword">Contraseña</string>
     <string name="splitTunnellingSwitch">Cambiar a tunelización dividida</string>
-    <string name="login">Sign in</string>
+    <string name="login">Iniciar sesión</string>
     <string name="hamburgerMenu">Menú hamburguesa</string>
-    <string name="error_field_required">Este campo es obligatorio</string>
+    <string name="error_field_required">Este campo es obligatorio.</string>
     <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Cerrar sesión</string>
     <string name="loginSlogan">Internet seguro en cualquier lugar</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">¿Necesitas ayuda?</string>
     <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Para comenzar tu viaje en Proton VPN, asigna conexiones VPN a tu cuenta o a cualquier otra subcuenta.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
+    <string name="connectionAllocationHelpDescription2">Este paso le llevará sólo unos minutos. Después de eso podrás iniciar sesión y proteger todos tus dispositivos.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN habilitada para esta cuenta. Para comenzar tu viaje en Proton VPN, ponte en contacto con tu administrador. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activar conexiones VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión de nuevo</string>
     <string name="mapCalloutConnect">Conectar</string>
     <string name="mapCalloutDisconnect">Desconectar</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Una nota sobre la velocidad…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core ofrece el máximo nivel de seguridad y privacidad, pero podría reducir la velocidad de internet. Si necesitas más rendimiento, puedes deshabilitar Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Activar Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Sign out?</string>
-    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Sign out</string>
+    <string name="logoutConfirmDialogTitle">¿Cerrar sesión?</string>
+    <string name="logoutConfirmDialogMessage">Al cerrar la sesión, desconectarás tu dispositivo de la VPN.</string>
+    <string name="logoutConfirmDialogButton">Cerrar sesión</string>
     <string name="showAllProfiles">Mostrar todos los perfiles</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
@@ -81,7 +81,7 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
-    <string name="drawerSettings">Ajustes</string>
+    <string name="drawerSettings">Configuración</string>
     <string name="drawerAccount">Cuenta</string>
     <string name="drawerHelp">Ayuda</string>
     <string name="drawerShowLog">Mostrar registro</string>
@@ -100,7 +100,7 @@
     <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Perfil</string>
     <string name="activityAccountTitle">Cuenta</string>
-    <string name="activitySettingsTitle">Ajustes</string>
+    <string name="activitySettingsTitle">Configuración</string>
     <string name="settingsSectionQuickConnect">Conexión rápida</string>
     <string name="settingsSectionConnection">Conexión</string>
     <string name="settingsSectionSecurity">Seguridad</string>
@@ -119,7 +119,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Puertos no estándar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utiliza Proton VPN para cualquier necesidad especial permitiendo el tráfico a puertos no estándar a través de la red VPN. <a href="%1$s">Más información</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderada</string>
-    <string name="settingsModerateNatDescription"><![CDATA[La NAT moderada desactiva la aleatorización del mapeo de las direcciones locales, lo que puede reducir ligeramente su seguridad, pero permite técnicas como las conexiones directas para aplicaciones como los juegos en línea. <a href="%1$s">Más información</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[La NAT moderada desactiva la aleatorización del mapeo de las direcciones locales, lo que puede reducir ligeramente tu seguridad, pero permite técnicas como las conexiones directas para aplicaciones como los juegos en línea. <a href="%1$s">Más información</a>]]></string>
     <string name="use_coupon_title">Añadir cupón</string>
     <string name="use_coupon_code_label">Código de descuento</string>
     <string name="use_coupon_success">El cupón se ha aplicado con éxito</string>
@@ -199,7 +199,7 @@
     <string name="copy_to_clipboard">Copiar</string>
     <string name="the_list_is_empty">La lista está vacía</string>
     <string name="got_it">Entendido</string>
-    <string name="onboardingWelcome">Bienvenido/a a bordo</string>
+    <string name="onboardingWelcome">¡Te damos la bienvenida!</string>
     <string name="proton_log">Registro de proton</string>
     <string name="something_went_wrong">Algo salió mal</string>
     <string name="try_again">Inténtalo de nuevo</string>
@@ -242,7 +242,7 @@
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android no soporta varias aplicaciones VPN al mismo tiempo. Deshabilita la opción \"VPN siempre activa\" para cualquier aplicación VPN que no sea Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Aplicación Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Otras aplicaciones de VPN</string>
-    <string name="noVpnPermissionOpenSettings">Abrir ajustes de VPN de Android</string>
+    <string name="noVpnPermissionOpenSettings">Abrir configuración de VPN de Android</string>
     <string name="error_prepare_vpn_description"><![CDATA[Deshabilita la opción "VPN siempre activa" para todas las demás aplicaciones VPN en la configuración del sistema de Android, ya que eso impide que Proton VPN pueda establecer una conexión VPN. Concede también los permisos VPN si aparece un cuadro de diálogo solicitándolos. Es posible que también sea necesario desinstalar otras aplicaciones VPN para evitar conflictos. Después inténtalo de nuevo. <a href="%1$s">Más información</a>]]></string>
     <string name="error_prepare_vpn_settings">Ir a la configuración de VPN en Android</string>
     <string name="error_prepare_vpn_title">Error: problema de permisos de VPN</string>
@@ -258,7 +258,7 @@
     <string name="settingsSplitTunnelingDescription">La tunelización dividida permite que ciertas aplicaciones o direcciones IP sean excluidas del tráfico VPN.</string>
     <string name="settingsSplitTunnelingTitle">Tunelización dividida</string>
     <string name="loaderAuthenticatingUser">Autentificando usuario…</string>
-    <string name="loaderErrorNoInternet">No hay conexión a Internet</string>
+    <string name="loaderErrorNoInternet">No hay conexión a Internet.</string>
     <string name="loaderErrorGeneric">Algo salió mal</string>
     <string name="loaderLoadingServers">Cargando servidores…</string>
     <string name="inputIpAddressLabel">Dirección IP</string>
@@ -289,26 +289,26 @@
     <string name="dialogTitleAttention">Atención</string>
     <string name="saveProfileAlreadySaved">Ya fue guardado</string>
     <string name="openUrlError">No se pudo abrir %1$s. El navegador web no se detectó en su dispositivo.</string>
-    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
+    <string name="toastLoginAuthVersionError">No se puede iniciar sesión debido a una versión de autenticación no compatible. Ponte en contacto con el soporte.</string>
     <string name="loaderErrorTimeout">Se ha agotado el tiempo de conexión. Por favor, inténtalo de nuevo.</string>
     <string name="troubleshootButton">Resolución de problemas</string>
-    <string name="activityTroubleshootTitle">Solución de problemas</string>
+    <string name="activityTroubleshootTitle">Resolución de problemas</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Soluciones potenciales</string>
     <string name="troubleshootNoInternetDescription">Por favor, asegúrese de que su conexión a Internet está funcionando.</string>
-    <string name="troubleshootNoInternetTitle">No hay conexión a Internet</string>
+    <string name="troubleshootNoInternetTitle">No hay conexión a Internet.</string>
     <string name="troubleshootIspProblemTitle">Problema del proveedor de servicios de Internet (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Intente conectarse a Proton desde una red diferente (o utilice <a href=\'%1$s\'>Tor</a>)]]></string>
-    <string name="troubleshootAntivirusProblemTitle">Interfencia del antivirus</string>
+    <string name="troubleshootAntivirusProblemTitle">Interferencia del antivirus</string>
     <string name="troubleshootAntivirusProblemDescription">Deshabilita o elimina temporalmente tu software antivirus.</string>
-    <string name="troubleshootProxyFirewallProblemTitle">Interferencia de Proxy/Firewall</string>
-    <string name="troubleshootProxyFirewallProblemDescription">Deshabilita cualquier proxy o firewall, o contacta con el administrador de tu red.</string>
-    <string name="troubleshootProtonDownTitle">Proton está caído</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[Comprueba <a href=\"%1$s\">Proton Status</a> para el estado de nuestro sistema.]]></string>
+    <string name="troubleshootProxyFirewallProblemTitle">Interferencia de proxy/cortafuego</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Deshabilita cualquier proxy o cortafuego, o contacta con el administrador de tu red.</string>
+    <string name="troubleshootProtonDownTitle">Proton está fuera de servicio.</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Para conocer el estado de nuestro sistema, consulta el <a href=\"%1$s\">Estado de Proton</a>.]]></string>
     <string name="troubleshootContactUsSectionTitle">¿Aún necesitas ayuda? Contáctanos directamente.</string>
     <string name="troubleshootCustomerSupport">Atención al cliente</string>
     <string name="settingsAllowAlternativeRoutingTitle">Enrutado alternativo</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[En caso de que Proton esté bloqueado, permite que la aplicación intente rutas alternativas para llegar a los servidores de Proton. <a href="%1$s">Más información</a>.]]></string>
-    <string name="troubleshootGovernmentBlockTitle">Bloqueo del gobierno</string>
+    <string name="troubleshootGovernmentBlockTitle">Bloqueo gubernamental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Tu país puede estar bloqueando el acceso a Proton. Prueba usando <a href=\'%1$s\'>Tor</a> para acceder a Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN siempre activa e interruptor kill switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Configura el comportamiento de Proton VPN si tu conexión se interrumpe.</string>
@@ -524,9 +524,9 @@
     <string name="upgrade_plus_countries_more">Y muchas más características prémium</string>
     <string name="upgrade_safe_mode_title">Permitir el tráfico a puertos no estándar</string>
     <string name="upgrade_safe_mode_message">¿Tienes necesidades informáticas avanzadas o profesionales que requieren puertos no estándar? Actualiza a VPN Plus para acceder a esta y otras funciones prémium.</string>
-    <string name="upgrade_moderate_nat_title">Habilitar NAT moderado</string>
-    <string name="upgrade_moderate_nat_message">El NAT moderado, también conocido como NAT Tipo 2, puede mejorar tu experiencia en línea con varias aplicaciones y videojuegos en línea. Desbloquea esta y otras funciones con un plan Plus.</string>
-    <string name="upgrade_moderate_nat_learn_more">¿Qué es el NAT moderado?</string>
+    <string name="upgrade_moderate_nat_title">Habilitar NAT moderada</string>
+    <string name="upgrade_moderate_nat_message">El NAT moderada, también conocida como NAT Tipo 2, puede mejorar tu experiencia en línea con varias aplicaciones y videojuegos en línea. Desbloquea esta y otras funciones con un plan Plus.</string>
+    <string name="upgrade_moderate_nat_learn_more">¿Qué es la NAT moderada?</string>
     <string name="upgrade_see_plans_button">Ver planes y precios</string>
     <string name="upgrade_not_now_button">Ahora no</string>
     <string name="upgrade_learn_more">Más información</string>
@@ -557,7 +557,7 @@
     <string name="server_load_high">Alta</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Bienvenido/a a Proton VPN</string>
+    <string name="onboarding_welcome_title">¡Te damos la bienvenida a Proton VPN!</string>
     <string name="onboarding_welcome_description">Aprende a sacar el máximo provecho de Proton VPN en solo unos segundos.</string>
     <string name="onboarding_welcome_action">Comenzar</string>
     <string name="onboarding_available_on_plus">Disponible con Plus</string>
@@ -641,7 +641,7 @@
     <string name="search_empty_hint_usa_regions"><![CDATA[Regiones de Estados Unidos: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
     <string name="search_empty_hint_servers"><![CDATA[Servidores: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Por favor, intente una palabra clave diferente</string>
-    <string name="search_empty_result_title">No se han encontrado resultados</string>
+    <string name="search_empty_result_title">No se han encontrado resultados.</string>
     <string name="search_recents_header_title">Visto recientemente (%1$d)</string>
     <string name="search_clear_history">Borrar historial</string>
     <string name="search_clear_history_dialog">Tu historial de búsqueda se perderá. ¿Continuar?</string>

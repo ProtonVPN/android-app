@@ -22,7 +22,7 @@
     <string name="hintUsername">Імя карыстальніка</string>
     <string name="hintPassword">Пароль</string>
     <string name="splitTunnellingSwitch">Пераключальнік Split Tunneling</string>
-    <string name="login">Sign in</string>
+    <string name="login">Увайсці</string>
     <string name="hamburgerMenu">Меню \"Гамбургер\"</string>
     <string name="error_field_required">Гэта абавязковае поле</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -30,13 +30,13 @@
     <string name="loginSlogan">Бяспечны інтэрнэт у любым месцы</string>
     <string name="loginStartWithDevice">Запускаць разам з прыладай</string>
     <string name="loginCreateAccount">Стварыць новы ўліковы запіс</string>
-    <string name="loginNeedHelp">Патрэбна дапамога?</string>
+    <string name="loginNeedHelp">Неабходна дапамога?</string>
     <string name="connectionAllocationHelpTitle">Дзякуй, што палепшылі да\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Пачынаючы знаёмства з Proton VPN, прызначце злучэнні з VPN вашаму ўліковаму запісу або любым іншым падпарадкаваным уліковым запісам.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
+    <string name="connectionAllocationHelpDescription2">Гэты этап зойме ўсяго некалькі хвілін. Пасля гэтага ў вас будзе магчымасць уваходзіць і абараняць усе вашы прылады.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">У дадзены момант не выяўлена ўключаных злучэнняў з VPN для гэтага ўліковага запісу. Звяжыцеся са сваім адміністратарам, каб пачаць знаёмства з Proton VPN. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Уключыць злучэнні з VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Увайсці яшчэ раз</string>
     <string name="mapCalloutConnect">Падлучыцца</string>
     <string name="mapCalloutDisconnect">Адлучыцца</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Нататка пра хуткасць…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core прапануе высокі ўзровень бяспекі і прыватнасці, але можа запаволіць ваша злучэнне. Калі вам неабходна большая прадукцыйнасць, рэкамендуецца адключыць Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Актываваць Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Sign out?</string>
-    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Sign out</string>
+    <string name="logoutConfirmDialogTitle">Выйсці?</string>
+    <string name="logoutConfirmDialogMessage">Выхад адлучыць вашу прыладу ад VPN.</string>
+    <string name="logoutConfirmDialogButton">Выйсці</string>
     <string name="showAllProfiles">Паказаць усе профілі</string>
     <string name="yes">Так</string>
     <string name="no">Не</string>
@@ -291,7 +291,7 @@
     <string name="dialogTitleAttention">Увага</string>
     <string name="saveProfileAlreadySaved">Ужо захавана</string>
     <string name="openUrlError">Немагчыма адкрыць %1$s. На вашай прыладзе не знойдзены браўзер.</string>
-    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
+    <string name="toastLoginAuthVersionError">Немагчыма ўвайсці па прычыне таго, што дадзеная версія аўтэнтыфікацыі не падтрымліваецца. Звярніцеся ў службу падтрымкі.</string>
     <string name="loaderErrorTimeout">Час чакання падлучэння завяршыўся. Паспрабуйце яшчэ раз.</string>
     <string name="troubleshootButton">Выпраўленне непаладак</string>
     <string name="activityTroubleshootTitle">Выпраўленне непаладак</string>

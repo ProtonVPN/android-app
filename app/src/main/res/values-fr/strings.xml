@@ -22,7 +22,7 @@
     <string name="hintUsername">Nom d\'utilisateur</string>
     <string name="hintPassword">Mot de passe</string>
     <string name="splitTunnellingSwitch">Commutateur Split tunneling</string>
-    <string name="login">Sign in</string>
+    <string name="login">Se connecter</string>
     <string name="hamburgerMenu">Menu hamburger</string>
     <string name="error_field_required">Ce champ est nécessaire.</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">Besoin d\'aide ?</string>
     <string name="connectionAllocationHelpTitle">Merci d\'être passé à l’abonnement \nBusiness\u00a0/\u00a0Visionary.</string>
     <string name="connectionAllocationHelpDescription1">Pour commencer avec Proton VPN, attribuez des connexions VPN à votre compte ou à tout autre sous-compte.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
+    <string name="connectionAllocationHelpDescription2">Cette étape ne prendra que quelques minutes. Vous pourrez ensuite vous connecter et protéger tous vos appareils.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Il n\'y a actuellement aucune connexion VPN activée pour ce compte. Pour commencer à utiliser Proton VPN, nous vous invitons à contacter votre administrateur. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activer les connexions VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Se reconnecter</string>
     <string name="mapCalloutConnect">Se connecter</string>
     <string name="mapCalloutDisconnect">Se déconnecter</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Une précision à propos de la vitesse…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core offre le meilleur niveau de sécurité et de confidentialité, mais peut réduire la vitesse de votre connexion. Si vous avez besoin de plus de performances, vous pouvez désactiver Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Activer Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Sign out?</string>
-    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Sign out</string>
+    <string name="logoutConfirmDialogTitle">Se déconnecter ?</string>
+    <string name="logoutConfirmDialogMessage">En vous déconnectant, vous déconnectez votre appareil du VPN.</string>
+    <string name="logoutConfirmDialogButton">Vous êtes déconnecté</string>
     <string name="showAllProfiles">Afficher tous les profils</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
@@ -248,7 +248,7 @@
     <string name="error_prepare_vpn_title">Erreur : problème de permission VPN</string>
     <string name="error_server_not_set">Le serveur n\'est plus disponible.</string>
     <string name="bugReportThankYouToast">Merci pour votre rapport</string>
-    <string name="bugReportErrorEmptyEmail">L\'adresse e-mail ne peut pas être vide.</string>
+    <string name="bugReportErrorEmptyEmail">Saisissez l\'adresse e-mail.</string>
     <string name="bugReportErrorInvalidEmail">L\'adresse e-mail n\'est pas valide.</string>
     <string name="bugReportErrorEmptyDescription">Décrivez-nous le problème.</string>
     <string name="bugReportLabelVpnLogsTitle">Inclure les journaux d\'erreurs</string>
@@ -289,7 +289,7 @@
     <string name="dialogTitleAttention">Attention</string>
     <string name="saveProfileAlreadySaved">Déjà sauvegardé</string>
     <string name="openUrlError">%1$s ne peut être ouvert. Le navigateur web n\'a pas été détecté sur votre appareil.</string>
-    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
+    <string name="toastLoginAuthVersionError">Impossible de se connecter en raison d\'une version du protocole d\'authentification non prise en charge. Nous vous invitons à contacter le support.</string>
     <string name="loaderErrorTimeout">La connexion a expiré. Nous vous invitons à réessayer.</string>
     <string name="troubleshootButton">Dépannage</string>
     <string name="activityTroubleshootTitle">Dépannage</string>

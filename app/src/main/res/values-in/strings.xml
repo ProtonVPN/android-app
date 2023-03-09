@@ -22,7 +22,7 @@
     <string name="hintUsername">Nama Pengguna</string>
     <string name="hintPassword">Kata Sandi</string>
     <string name="splitTunnellingSwitch">Saklar split tunneling</string>
-    <string name="login">Sign in</string>
+    <string name="login">Masuk</string>
     <string name="hamburgerMenu">Susunan Menu</string>
     <string name="error_field_required">Kolom ini wajib diisi</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">Butuh bantuan?</string>
     <string name="connectionAllocationHelpTitle">Terima kasih karena telah meningkatkan ke\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Untuk dapat mulai menggunakan Proton VPN, harap tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
+    <string name="connectionAllocationHelpDescription2">Langkah ini akan memakan waktu beberapa menit. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Akun ini sedang tidak memiliki koneksi VPN yang aktif. Untuk mulai menggunakan Proton VPN, silakan hubungi administrator Anda. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Aktifkan koneksi VPN</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Masuk kembali</string>
     <string name="mapCalloutConnect">Hubungkan</string>
     <string name="mapCalloutDisconnect">Putuskan</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Secarik catatan mengenai kecepatan…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core menawarkan tingkat keamanan dan privasi tertinggi, namun dapat menurunkan kecepatan internet Anda. Apabila Anda membutuhkan performa yang lebih, Anda dapat menonaktifkan Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Aktifkan Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Sign out?</string>
-    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Sign out</string>
+    <string name="logoutConfirmDialogTitle">Keluar?</string>
+    <string name="logoutConfirmDialogMessage">Dengan keluar, Anda akan memutus sambungan VPN dari perangkat Anda.</string>
+    <string name="logoutConfirmDialogButton">Keluar</string>
     <string name="showAllProfiles">Tampilkan semua profil</string>
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>
@@ -288,7 +288,7 @@
     <string name="dialogTitleAttention">Perhatian</string>
     <string name="saveProfileAlreadySaved">Sudah disimpan</string>
     <string name="openUrlError">%1$s tidak dapat dibuka. Aplikasi browser tidak terdeteksi pada perangkat Anda.</string>
-    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
+    <string name="toastLoginAuthVersionError">Tidak dapat masuk karena versi otentikasi tidak didukung. Silakan hubungi layanan dukungan.</string>
     <string name="loaderErrorTimeout">Waktu sambungan habis. Mohon coba lagi.</string>
     <string name="troubleshootButton">Penyelesaian Masalah</string>
     <string name="activityTroubleshootTitle">Penyelesaian Masalah</string>

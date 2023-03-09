@@ -22,7 +22,7 @@
     <string name="hintUsername">Uživatelské jméno</string>
     <string name="hintPassword">Heslo</string>
     <string name="splitTunnellingSwitch">Přepínač Split Tunnelingu</string>
-    <string name="login">Sign in</string>
+    <string name="login">Přihlásit se</string>
     <string name="hamburgerMenu">Nabídka hamburger</string>
     <string name="error_field_required">Toto pole je povinné</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">Potřebujete poradit?</string>
     <string name="connectionAllocationHelpTitle">Děkujeme, že jste přešli na tarif \nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Pro použití Proton VPN prosím přiřaďte VPN připojení k vašemu účtu nebo k podřízenému účtu.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
+    <string name="connectionAllocationHelpDescription2">Tento krok zabere jen několik minut. Poté se budete moci přihlásit a chránit všechna svá zařízení.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">V současné době není pro tento účet povoleno žádné připojení VPN. Chcete-li začít používat Proton VPN, kontaktujte prosím svého správce. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Povolit VPN připojení</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Přihlásit se znovu</string>
     <string name="mapCalloutConnect">Připojit</string>
     <string name="mapCalloutDisconnect">Odpojit</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Poznámka k rychlosti…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core nabízí nejvyšší úroveň zabezpečení a soukromí, ale může snížit rychlost internetu. Pokud potřebujete vyšší výkon, můžete Secure Core vypnout.</string>
     <string name="secureCoreActivateDialogButton">Aktivovat Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Sign out?</string>
-    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Sign out</string>
+    <string name="logoutConfirmDialogTitle">Odhlásit se?</string>
+    <string name="logoutConfirmDialogMessage">Odhlášení odpojí vaše zařízení od VPN.</string>
+    <string name="logoutConfirmDialogButton">Odhlásit se</string>
     <string name="showAllProfiles">Zobrazit všechny profily</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
@@ -291,7 +291,7 @@
     <string name="dialogTitleAttention">Upozornění</string>
     <string name="saveProfileAlreadySaved">Již uloženo</string>
     <string name="openUrlError">%1$s nelze otevřít. Na vašem zařízení nebyl detekován webový prohlížeč.</string>
-    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
+    <string name="toastLoginAuthVersionError">Nelze se přihlásit z důvodu nepodporované verze autentizace. Kontaktujte podporu.</string>
     <string name="loaderErrorTimeout">Připojení vypršelo. Zkuste to prosím znovu.</string>
     <string name="troubleshootButton">Poradce při potížích</string>
     <string name="activityTroubleshootTitle">Řešení problémů</string>
