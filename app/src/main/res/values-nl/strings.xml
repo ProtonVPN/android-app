@@ -22,7 +22,7 @@
     <string name="hintUsername">Gebruikersnaam</string>
     <string name="hintPassword">Wachtwoord</string>
     <string name="splitTunnellingSwitch">Split-tunnel-schakelaar</string>
-    <string name="login">Sign in</string>
+    <string name="login">Log in</string>
     <string name="hamburgerMenu">Hamburgermenu</string>
     <string name="error_field_required">Dit invullen is verplicht</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -33,10 +33,10 @@
     <string name="loginNeedHelp">Heeft u hulp nodig?</string>
     <string name="connectionAllocationHelpTitle">Bedankt voor de upgrade naar\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Om uw reis met Proton VPN te beginnen wijst u VPN-verbindingen toe aan uw account of een ander sub-account.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
+    <string name="connectionAllocationHelpDescription2">Deze stap duurt slechts een paar minuten. Daarna kunt u zich inloggen en al uw apparaten beveiligen.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Schakel VPN-verbindingen in</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
     <string name="mapCalloutConnect">Verbinden</string>
     <string name="mapCalloutDisconnect">Verbreken</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -44,9 +44,9 @@
     <string name="secureCoreSpeedInfoTitle">Een opmerking over snelheid…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core biedt het hoogste niveau van beveiliging en privacy, maar het kan uw internetsnelheid verlagen. Als u hogere prestaties wilt, kan u Secure Core uitschakelen.</string>
     <string name="secureCoreActivateDialogButton">Secure Core activeren</string>
-    <string name="logoutConfirmDialogTitle">Sign out?</string>
-    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Sign out</string>
+    <string name="logoutConfirmDialogTitle">Uitloggen?</string>
+    <string name="logoutConfirmDialogMessage">Uitloggen zal de verbinding van uw apparaat met de VPN verbreken.</string>
+    <string name="logoutConfirmDialogButton">Uitloggen</string>
     <string name="showAllProfiles">Alle profielen weergeven</string>
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
@@ -289,7 +289,7 @@
     <string name="dialogTitleAttention">Attentie</string>
     <string name="saveProfileAlreadySaved">Reeds opgeslagen</string>
     <string name="openUrlError">%1$s kon niet worden geopend. Webbrowser is niet gedetecteerd op uw apparaat.</string>
-    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
+    <string name="toastLoginAuthVersionError">Niet mogelijk om in te loggen vanwege de niet-ondersteunde auth-versie. Neem contact op met ondersteuning.</string>
     <string name="loaderErrorTimeout">Time-out verbinding. Probeer het opnieuw.</string>
     <string name="troubleshootButton">Probleemoplossing</string>
     <string name="activityTroubleshootTitle">Probleemoplossing</string>
