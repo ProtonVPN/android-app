@@ -115,11 +115,11 @@
     <string name="settingsMtuDescription">Varsayılan değer belirli bir ağ için uygun değilse, 1280 ile 1500 aralığında bir değer yazın. Yalnızca ne yaptığınızı biliyorsanız değiştirin.</string>
     <string name="settingsMtuRangeInvalid">MTU değeri 1280 ile 1500 aralığında olmalıdır</string>
     <string name="settingsDefaultConnectionTitle">Hızlı bağlan</string>
-    <string name="settingsDefaultConnectionDescription">Hızlı Bağlan düğmesi sizi seçilmiş profile bağlar</string>
+    <string name="settingsDefaultConnectionDescription">Hızlı Bağlan düğmesinin seçtiğiniz profile göre bağlantı kurmasını sağlar</string>
     <string name="settingsAllowNonStandardPortsTitle">Standart olmayan bağlantı noktaları</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN ağı üzerinde standart olmayan bağlantı noktalarından trafik akışına izin vererek herhangi bir özel gereksinim için Proton VPN kullanabilirsiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="settingsModerateNatTitle">Ilımlı NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrimiçi oyunlar gibi uygulamalar için doğrudan bağlantı kurma gibi tekniklere izin veren yerel adres eşlemelerinin rastgeleleştirilmesi özelliğini devre dışı bırakır. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrimiçi oyunlar gibi uygulamaların doğrudan bağlantı kurması gibi tekniklere izin veren yerel adres eşlemelerini rastgeleleştirme özelliğini devre dışı bırakır. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="use_coupon_title">Kupon kullan</string>
     <string name="use_coupon_code_label">Kupon kodu</string>
     <string name="use_coupon_success">Kupon uygulandı</string>
@@ -328,14 +328,14 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android ayarlarını aç</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Bağlantı kesici etkinleştirildiğinde, VPN tüneli dışındaki tüm bağlantılar engelleneceğinden ayrılmış tünelleme özelliği devre dışı bırakılır</string>
     <string name="settingsSmartProtocolDescription">En iyi bağlantıyı sağlayan iletişim kuralı ve bağlantı noktası otomatik olarak seçilsin.</string>
-    <string name="settingsEnableTelemetryTitle">Anonim kullanım istatistiklerini paylaşın</string>
+    <string name="settingsEnableTelemetryTitle">Anonim kullanım istatistikleri paylaşılsın</string>
     <string name="settingsEnableTelemetryDescription">Kullanım verileri VPN engellemelerini aşmamıza ve uygulamanın başarımını artırmamıza yardımcı olur.</string>
-    <string name="settingsSendCrashReportsTitle">Anonim çökme bildirimlerini paylaşın</string>
+    <string name="settingsSendCrashReportsTitle">Anonim çökme bildirimleri paylaşılsın</string>
     <string name="settingsSendCrashReportsDescription">Çökme bildirimleri hataları düzeltmemize, güvenlik duvarlarını algılamamıza ve VPN engellemelerini aşmamıza yardımcı olur.</string>
     <string name="settingsTelemetryScreenTitle">Kullanım istatistikleri</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Bu istatistikler IP adresinizi içermez ve kim olduğunuzu belirlemek için kullanılamaz. Bu verileri asla üçüncü taraflar ile paylaşmayız. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="netShieldEnabledWarning">Engellenen içerikler nedeniyle bazı web sitelerinin tam olarak çalışmayacağını unutmayın.</string>
-    <string name="netShieldDescription">Reklamları, etkinlik izleyicileri ve kötü amaçlı yazılımları engelleyin </string>
+    <string name="netShieldDescription">Reklam, etkinlik izleyiciler ve kötü amaçlı yazılımların engellenmesini sağlar </string>
     <string name="netshield">NetShield</string>
     <string name="netShieldBlockMalwareOnly">Yalnızca kötü amaçlı yazılımlar engellensin</string>
     <string name="netShieldFullBlock">Kötü amaçlı yazılımlar, etkinlik izleyiciler ve reklamlar engellensin</string>

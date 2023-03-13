@@ -291,7 +291,7 @@
     <string name="dialogTitleAttention">Uwaga</string>
     <string name="saveProfileAlreadySaved">Już zapisany</string>
     <string name="openUrlError">Adres %1$s nie może zostać otwarty. Przeglądarka internetowa nie została wykryta na urządzeniu.</string>
-    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
+    <string name="toastLoginAuthVersionError">Nie można zalogować się z powodu nieobsługiwanej wersji protokołu uwierzytelniania. Skontaktuj się ze wsparciem.</string>
     <string name="loaderErrorTimeout">Upłynął limit czasu połączenia. Spróbuj ponownie.</string>
     <string name="troubleshootButton">Rozwiązywanie problemów</string>
     <string name="activityTroubleshootTitle">Rozwiązywanie problemów</string>
