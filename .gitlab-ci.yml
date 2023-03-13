@@ -261,12 +261,8 @@ build google play release:
     reports:
       dotenv: deploy.env
 
-build amazon release:
+.build amazon release:
   stage: build
-  only:
-    - /^release/
-  except:
-    - schedules
   tags:
     - xlarge-k8s
   script:
@@ -276,6 +272,22 @@ build amazon release:
     expire_in: 3 week
     paths:
       - app/build/outputs/apk
+
+build amazon release (auto):
+  extends: .build amazon release
+  stage: build
+  only:
+    - /^release/
+  except:
+    - schedules
+
+build amazon release (manual):
+  extends: .build amazon release
+  stage: build
+  except:
+    - /^release/
+    - schedules
+  when: manual # this implies allow_failure
 
 build release (auto):
   stage: build
