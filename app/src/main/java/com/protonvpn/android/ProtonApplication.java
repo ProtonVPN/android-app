@@ -136,11 +136,6 @@ public class ProtonApplication extends Application {
             // Initialize go-libraries early
             Seq.touch();
 
-            boolean isUpdated = handleUpdate();
-            if (isUpdated) {
-                ProtonLogger.INSTANCE.log(LogEventsKt.AppUpdateUpdated, "new version: " + BuildConfig.VERSION_NAME);
-            }
-
             CoreLogger.INSTANCE.set(new VpnCoreLogger());
         }
     }
@@ -203,12 +198,6 @@ public class ProtonApplication extends Application {
                         getApplicationInfo().dataDir + "/log",
                         new CurrentStateLoggerGlobal(this)),
                 secondaryWriters));
-    }
-
-    private boolean handleUpdate() {
-        int versionCode = Storage.getInt("VERSION_CODE");
-        Storage.saveInt("VERSION_CODE", BuildConfig.VERSION_CODE);
-        return versionCode != 0 && versionCode != BuildConfig.VERSION_CODE;
     }
 
     private static Context appContext;

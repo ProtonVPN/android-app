@@ -28,8 +28,8 @@ import com.protonvpn.android.utils.isMainProcess
 import dagger.hilt.android.HiltAndroidApp
 import me.proton.core.auth.presentation.MissingScopeInitializer
 import me.proton.core.crypto.validator.presentation.init.CryptoValidatorInitializer
-import me.proton.core.plan.presentation.UnredeemedPurchaseInitializer
 import me.proton.core.network.presentation.init.UnAuthSessionFetcherInitializer
+import me.proton.core.plan.presentation.UnredeemedPurchaseInitializer
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -37,6 +37,7 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
 
     @Inject lateinit var workerFactory: HiltWorkerFactory
     @Inject lateinit var testNotificationLoader: dagger.Lazy<TestNotificationLoader>
+    @Inject lateinit var updateMigration: UpdateMigration
 
     override fun onCreate() {
         super.onCreate()
@@ -53,10 +54,11 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
                 WebView.setWebContentsDebuggingEnabled(true)
                 testNotificationLoader.get().loadTestFile()
             }
+
+            updateMigration.handleUpdate()
         }
     }
 
     override fun getWorkManagerConfiguration(): Configuration =
         Configuration.Builder().setWorkerFactory(workerFactory).build()
-
 }
