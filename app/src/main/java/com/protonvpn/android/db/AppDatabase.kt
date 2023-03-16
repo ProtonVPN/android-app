@@ -90,7 +90,6 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         GooglePurchaseEntity::class,
         // observability
         ObservabilityEventEntity::class,
-
         // vpn
         VpnUser::class
     ],
@@ -126,7 +125,7 @@ abstract class AppDatabase :
     ObservabilityDatabase {
 
     companion object {
-        const val version = 13
+        const val version = 14
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
@@ -139,6 +138,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_10_11,
             DatabaseMigrations.MIGRATION_11_12,
             DatabaseMigrations.MIGRATION_12_13,
+            DatabaseMigrations.MIGRATION_13_14,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
