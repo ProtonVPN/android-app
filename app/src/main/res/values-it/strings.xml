@@ -33,7 +33,7 @@
     <string name="loginNeedHelp">Hai bisogno di aiuto?</string>
     <string name="connectionAllocationHelpTitle">Grazie per l\'aggiornamento a \nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Per iniziare il tuo viaggio in Proton VPN, assegna le connessioni VPN al tuo account o a qualsiasi altro account secondario.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
+    <string name="connectionAllocationHelpDescription2">Questo passaggio richiederà solo pochi minuti. Dopodiché sarai in grado di accedere e proteggere tutti i tuoi dispositivi.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Al momento non è abilitata alcuna connessione VPN per questo account. Per iniziare il tuo viaggio con Proton VPN, contatta il tuo amministratore. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Abilita le connessioni VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Accedi di nuovo</string>
@@ -45,7 +45,7 @@
     <string name="secureCoreSpeedInfoMessage">Secure Core offre il livello più elevato di sicurezza e privacy, ma potrebbe ridurre la velocità del tuo Internet. Se necessiti di maggiori prestazioni, puoi disabilitare Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Attiva Secure Core</string>
     <string name="logoutConfirmDialogTitle">Uscire?</string>
-    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
+    <string name="logoutConfirmDialogMessage">L\'uscita dall\'account disconnetterà il dispositivo dalla VPN.</string>
     <string name="logoutConfirmDialogButton">Esci</string>
     <string name="showAllProfiles">Mostra tutti i profili</string>
     <string name="yes">Si</string>

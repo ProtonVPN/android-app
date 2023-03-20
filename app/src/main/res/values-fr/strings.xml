@@ -248,7 +248,7 @@
     <string name="error_prepare_vpn_title">Erreur : problème de permission VPN</string>
     <string name="error_server_not_set">Le serveur n\'est plus disponible.</string>
     <string name="bugReportThankYouToast">Merci pour votre rapport</string>
-    <string name="bugReportErrorEmptyEmail">L\'adresse e-mail doit être renseigné.</string>
+    <string name="bugReportErrorEmptyEmail">Saisissez l\'adresse e-mail.</string>
     <string name="bugReportErrorInvalidEmail">L\'adresse e-mail n\'est pas valide.</string>
     <string name="bugReportErrorEmptyDescription">Décrivez-nous le problème.</string>
     <string name="bugReportLabelVpnLogsTitle">Inclure les journaux d\'erreurs</string>
