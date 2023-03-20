@@ -74,7 +74,7 @@
     <string name="loaderCheckingAvailability">Memeriksa ketersediaan server</string>
     <string name="loaderCheckingAvailabilitySuggestion">Mohon tunggu beberapa saat</string>
     <string name="loaderCancel">Batalkan sambungan</string>
-    <string name="quickConnect">Sambungkan cepat</string>
+    <string name="quickConnect">Quick connect</string>
     <string name="notConnectedCurrentIp">IP saat ini: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
@@ -101,7 +101,7 @@
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Akun</string>
     <string name="activitySettingsTitle">Pengaturan</string>
-    <string name="settingsSectionQuickConnect">Sambungkan Cepat</string>
+    <string name="settingsSectionQuickConnect">Quick Connect</string>
     <string name="settingsSectionConnection">Koneksi</string>
     <string name="settingsSectionSecurity">Keamanan</string>
     <string name="settingsSectionAdvanced">Lanjutan</string>
@@ -114,7 +114,7 @@
     <string name="settingsMtuSizeTitle">Ukuran MTU</string>
     <string name="settingsMtuDescription">Apabila nilai asli yang tertera tidak sesuai untuk jaringan tertentu, masukan nilai dalam rentang 1280-1500. Harap ubah nilai ini hanya apabila Anda paham akan apa yang Anda kerjakan.</string>
     <string name="settingsMtuRangeInvalid">Nilai MTU harus dalam kisaran 1280–1500</string>
-    <string name="settingsDefaultConnectionTitle">Sambungkan Cepat</string>
+    <string name="settingsDefaultConnectionTitle">Quick Connect</string>
     <string name="settingsDefaultConnectionDescription">Tombol quick connect akan menyambungkan Anda ke profil yang dipilih</string>
     <string name="settingsAllowNonStandardPortsTitle">Port non-standar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Alihkan lalu lintas data yang tertuju pada port non-standar melalui jaringan VPN. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
@@ -309,9 +309,9 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Apabila Proton diblokir, aplikasi kami akan berusaha untuk dapat terhubung ke server Proton melalui jalur alternatif. <a href="%1$s">Pelajari lebih lanjut</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Pemblokiran pemerintah</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Negara Anda mungkin memblokir akses ke Proton. Cobalah untuk menggunakan <a href=\'%1$s\'>Tor</a> untuk mengakses Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">VPN selalu-nyala &amp; kill switch</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Atur bagaimana Proton VPN berperilaku apabila koneksi Anda terganggu</string>
-    <string name="settingsAlwaysOnWindowHeader">Cara mengaktifkan always-on VPN dan kill switch:</string>
+    <string name="settingsAlwaysOnWindowHeader">Cara untuk mengaktifkan fitur always-on VPN dan kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Buka jendela <b>Pengaturan</b> piranti Anda dengan mengetuk tombol di bawah ini]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Temukan Proton VPN dan ketuk %1$s</string>
