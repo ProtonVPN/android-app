@@ -230,7 +230,6 @@
     <string name="session_time">Trvání relace:</string>
     <string name="download_volume">Objem:</string>
     <string name="download_speed">Rychlost:</string>
-    <string name="save_to_profile">Uložit do profilu</string>
     <string name="notConnected">Nejste připojeni \n k serveru</string>
     <string name="activityLicensesTitle">Licence třetích stran</string>
     <string name="stateFragmentUnknownIp">Neznámý</string>

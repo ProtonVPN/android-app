@@ -24,9 +24,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.github.mikephil.charting.data.Entry
-import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
-import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnState
@@ -72,19 +70,6 @@ class VpnStateConnectedViewModel @Inject constructor(
         toConnectionState(status, exitIp)
     }
     val trafficSpeedKbpsHistory = speedHistoryToChartData(trafficMonitor.trafficHistory)
-
-    fun saveToProfile() {
-        vpnStatusProviderUI.connectionParams?.server?.let { currentServer ->
-            val alreadySaved = serverManager.getSavedProfiles().any { it.wrapper.serverId == currentServer.serverId }
-            if (alreadySaved) {
-                val notification = SnackbarNotification(R.string.saveProfileAlreadySaved, SnackType.Norm)
-                eventNotification.tryEmit(notification)
-            } else {
-                serverManager.addToProfileList(currentServer.serverName, ProfileColor.random(), currentServer)
-                eventNotification.tryEmit(SnackbarNotification(R.string.toastProfileSaved, SnackType.Success))
-            }
-        }
-    }
 
     private fun toConnectionState(vpnStatus: VpnStateMonitor.Status, exitIp: String?): ConnectionState =
         if (vpnStatus.state is VpnState.Connected) {

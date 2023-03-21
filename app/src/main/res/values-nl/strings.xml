@@ -230,7 +230,6 @@
     <string name="session_time">Sessieduur:</string>
     <string name="download_volume">Volume:</string>
     <string name="download_speed">Snelheid:</string>
-    <string name="save_to_profile">Bewaren in profiel</string>
     <string name="notConnected">U bent niet verbonden \n met een server</string>
     <string name="activityLicensesTitle">Licenties van derden</string>
     <string name="stateFragmentUnknownIp">Onbekend</string>

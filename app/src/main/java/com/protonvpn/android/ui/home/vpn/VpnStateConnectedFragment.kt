@@ -95,7 +95,6 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
             buttonDisconnect.setOnClickListener {
                 parentViewModel.disconnectAndClose(DisconnectTrigger.ConnectionPanel("connection panel"))
             }
-            buttonSaveToProfile.setOnClickListener { viewModel.saveToProfile() }
         }
 
         viewModel.connectionState.asLiveData().observe(viewLifecycleOwner, Observer {

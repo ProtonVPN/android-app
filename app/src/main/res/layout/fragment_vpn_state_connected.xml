@@ -146,15 +146,4 @@
         android:text="@string/disconnect"
         android:theme="@style/ThemeOverlay.ProtonButton.Red" />
 
-    <me.proton.core.presentation.ui.view.ProtonButton
-        android:id="@+id/buttonSaveToProfile"
-        style="@style/ProtonButton.Borderless.Text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-        android:layout_marginBottom="32dp"
-        android:visibility="gone"
-        android:text="@string/save_to_profile"
-        android:theme="@style/ThemeOverlay.ProtonButton.Neutral" />
-
 </LinearLayout>
