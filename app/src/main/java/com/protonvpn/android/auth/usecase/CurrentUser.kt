@@ -23,6 +23,7 @@ import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.utils.SyncStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -49,7 +50,7 @@ class CurrentUser @Inject constructor(
 ) {
     val vpnUserFlow = accountManager.getPrimaryUserId().flatMapLatest { userId ->
         userId?.let { vpnUserDao.getByUserId(it) } ?: flowOf(null)
-    }
+    }.distinctUntilChanged()
 
     val userFlow = accountManager.getPrimaryUserId().flatMapLatest { userId ->
         if (userId == null) {
@@ -57,7 +58,7 @@ class CurrentUser @Inject constructor(
         } else userManager.getUserFlow(SessionUserId(userId.id)).map {
             (it as? DataResult.Success)?.value
         }
-    }
+    }.distinctUntilChanged()
 
     private val vpnUserState by SyncStateFlow(mainScope, vpnUserFlow)
     private val accountState by SyncStateFlow(mainScope, accountManager.getPrimaryAccount())

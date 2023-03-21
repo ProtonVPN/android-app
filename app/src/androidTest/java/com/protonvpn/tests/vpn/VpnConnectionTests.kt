@@ -898,8 +898,18 @@ class VpnConnectionTests {
 
     private fun createMockVpnBackend(protocol: VpnProtocol): MockVpnBackend =
         MockVpnBackend(
-            scope.backgroundScope, testDispatcherProvider, networkManager, certificateRepository, userData, appConfig,
-            protocol, mockLocalAgentUnreachableTracker, currentUser, getNetZone, GetConnectingDomain(supportsProtocol)
+            scope.backgroundScope,
+            testDispatcherProvider,
+            networkManager,
+            certificateRepository,
+            userData,
+            appConfig,
+            protocol,
+            mockLocalAgentUnreachableTracker,
+            currentUser,
+            getNetZone,
+            foregroundActivityTracker,
+            GetConnectingDomain(supportsProtocol)
         )
 
     private fun createServerSwitch(

@@ -29,7 +29,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.text.DateFormat
@@ -47,6 +48,10 @@ class ForegroundActivityTracker @Inject constructor(
 
     val foregroundActivityFlow = createForegroundActivityFlow(app)
         .stateIn(mainScope, SharingStarted.Eagerly, null)
+    val isInForegroundFlow = createForegroundActivityFlow(app).map {
+        it != null
+    }.distinctUntilChanged()
+
     val foregroundActivity: Activity? get() = foregroundActivityFlow.value
 
     init {

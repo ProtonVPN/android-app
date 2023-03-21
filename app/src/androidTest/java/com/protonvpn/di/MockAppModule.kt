@@ -43,6 +43,7 @@ import com.protonvpn.android.telemetry.NoopTelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
+import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.SharedPreferencesProvider
@@ -70,7 +71,6 @@ import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asExecutor
 import me.proton.core.network.dagger.CoreBaseNetworkModule
@@ -179,17 +179,38 @@ class MockAppModule {
         currentUser: CurrentUser,
         getNetZone: GetNetZone,
         supportsProtocol: SupportsProtocol,
-        getConnectingDomain: GetConnectingDomain
+        getConnectingDomain: GetConnectingDomain,
+        foregroundActivityTracker: ForegroundActivityTracker
     ): VpnBackendProvider =
         if (TestSettings.mockedConnectionUsed) {
             ProtonVpnBackendProvider(
                 openVpn = MockVpnBackend(
-                    scope, dispatcherProvider, networkManager, certificateRepository, userData, appConfig,
-                    VpnProtocol.OpenVPN, localAgentUnreachableTracker, currentUser, getNetZone, getConnectingDomain
+                    scope,
+                    dispatcherProvider,
+                    networkManager,
+                    certificateRepository,
+                    userData,
+                    appConfig,
+                    VpnProtocol.OpenVPN,
+                    localAgentUnreachableTracker,
+                    currentUser,
+                    getNetZone,
+                    foregroundActivityTracker,
+                    getConnectingDomain
                 ),
                 wireGuard = MockVpnBackend(
-                    scope, dispatcherProvider, networkManager, certificateRepository, userData, appConfig,
-                    VpnProtocol.WireGuard, localAgentUnreachableTracker, currentUser, getNetZone, getConnectingDomain
+                    scope,
+                    dispatcherProvider,
+                    networkManager,
+                    certificateRepository,
+                    userData,
+                    appConfig,
+                    VpnProtocol.WireGuard,
+                    localAgentUnreachableTracker,
+                    currentUser,
+                    getNetZone,
+                    foregroundActivityTracker,
+                    getConnectingDomain
                 ),
                 config = appConfig,
                 userData = userData,

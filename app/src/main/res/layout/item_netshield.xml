@@ -35,7 +35,7 @@
         android:layout_marginTop="12dp"
         android:drawableEnd="@drawable/ic_proton_chevron_selector"
         android:drawablePadding="4dp"
-        android:text="@string/netshield"
+        android:text="@string/netshield_feature_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

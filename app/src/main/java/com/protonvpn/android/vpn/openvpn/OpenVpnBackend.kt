@@ -34,13 +34,14 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
-import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.PrepareForConnection
+import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -70,6 +71,7 @@ class OpenVpnBackend @Inject constructor(
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
     private val prepareForConnection: PrepareForConnection,
+    foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
     userData,
@@ -82,6 +84,7 @@ class OpenVpnBackend @Inject constructor(
     localAgentUnreachableTracker,
     currentUser,
     getNetZone,
+    foregroundActivityTracker,
     okHttp,
 ), VpnStatus.StateListener {
 

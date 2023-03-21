@@ -22,12 +22,13 @@ package com.protonvpn.android.ui.home.vpn
 import android.animation.LayoutTransition
 import android.os.Bundle
 import android.view.View
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
-import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.databinding.FragmentVpnStateNotConnectedBinding
+import com.protonvpn.android.netshield.NetShieldSwitch
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,7 +43,6 @@ class VpnStateNotConnectedFragment :
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             layoutNotConnected.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-
             buttonQuickConnect.setOnClickListener {
                 viewModel.quickConnect()
             }
@@ -57,4 +57,6 @@ class VpnStateNotConnectedFragment :
     }
 
     override fun netShieldSwitch(): NetShieldSwitch = binding.netShieldSwitch
+
+    override fun netShieldComposeView(): ComposeView = binding.composeView
 }

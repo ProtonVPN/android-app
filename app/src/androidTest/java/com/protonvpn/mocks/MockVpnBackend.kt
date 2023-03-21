@@ -31,6 +31,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
+import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.vpn.AgentConnectionInterface
 import com.protonvpn.android.vpn.CertificateRepository
@@ -60,6 +61,7 @@ class MockVpnBackend(
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
+    foregroundActivityTracker: ForegroundActivityTracker,
     val getConnectingDomain: GetConnectingDomain
 ) : VpnBackend(
     userData = userData,
@@ -72,6 +74,7 @@ class MockVpnBackend(
     localAgentUnreachableTracker = localAgentUnreachableTracker,
     currentUser = currentUser,
     getNetZone = getNetZone,
+    foregroundActivityTracker = foregroundActivityTracker
 ) {
     private var agentProvider: MockAgentProvider? = null
 
@@ -135,6 +138,7 @@ class MockAgentConnection(scope: CoroutineScope, val client: VpnBackend.VpnAgent
 
     override val status: StatusMessage? = null
     override fun setFeatures(features: Features) {}
+    override fun sendGetStatus(withStatistics: Boolean) {}
     override fun setConnectivity(connectivity: Boolean) {}
     override fun close() {}
 }
