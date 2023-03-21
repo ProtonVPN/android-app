@@ -26,6 +26,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.ColorInt
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -41,8 +42,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.databinding.FragmentVpnStateConnectedBinding
+import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.ui.ServerLoadColor.getColor
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
 import com.protonvpn.android.utils.ConnectionTools
@@ -243,6 +244,8 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
             else ->
                 throw java.lang.IllegalStateException("VpnStateConnectedFragment needs an activity with SnackbarHelper")
         }
+
+    override fun netShieldComposeView(): ComposeView = binding.composeView
 
     override fun netShieldSwitch(): NetShieldSwitch = binding.netShieldSwitch
 }

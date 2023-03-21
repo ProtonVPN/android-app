@@ -267,7 +267,13 @@ android {
         exclude 'META-INF/AL2.0'
         exclude 'MANIFEST.MF'
     }
+    buildFeatures {
+        compose true
+    }
 
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.2"
+    }
     sourceSets {
         main.res.srcDirs += 'src/main/res_flags'
         main {
@@ -668,6 +674,19 @@ dependencies {
     implementation "androidx.core:core-splashscreen:1.0.0"
     implementation "com.github.seancfoley:ipaddress:5.3.4"
 
+    // Compose
+    def composeBom = platform('androidx.compose:compose-bom:2023.01.00')
+    implementation composeBom
+    androidTestImplementation composeBom
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.ui:ui'
+    implementation "androidx.compose.runtime:runtime-livedata"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.0"
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.10"))
+
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    
     // Play core
     googlePlayImplementation("com.google.android.play:core:1.10.3")
     googlePlayImplementation("com.google.android.play:core-ktx:1.8.1")
@@ -685,7 +704,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Proton Core libs
-    implementation 'me.proton.vpn:go-vpn-lib:0.1.22'
+    implementation 'me.proton.vpn:go-vpn-lib:0.1.33'
     implementation "me.proton.core:domain:$core_version"
     implementation "me.proton.core:network:$core_version"
     implementation "me.proton.core:util-kotlin:$core_version"
@@ -775,6 +794,7 @@ dependencies {
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
     }
 
+    androidTestImplementation 'androidx.lifecycle:lifecycle-runtime-testing:2.6.0'
     androidTestImplementation('androidx.test.espresso:espresso-idling-resource:3.4.0') {
         exclude module: 'support-annotations'
     }

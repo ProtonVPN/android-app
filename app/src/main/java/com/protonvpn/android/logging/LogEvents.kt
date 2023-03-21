@@ -83,6 +83,7 @@ val ConnServerSwitchFailed = LogEventType(LogCategory.CONN_SERVER_SWITCH, "FAILE
 val LocalAgentStateChanged = LogEventType(LogCategory.LOCAL_AGENT, "STATE_CHANGED", LogLevel.INFO)
 val LocalAgentError = LogEventType(LogCategory.LOCAL_AGENT, "ERROR", LogLevel.ERROR)
 val LocalAgentStatus = LogEventType(LogCategory.LOCAL_AGENT, "STATUS", LogLevel.INFO)
+val LocalAgentStats = LogEventType(LogCategory.LOCAL_AGENT, "STATS", LogLevel.INFO)
 
 val NetworkCurrent = LogEventType(LogCategory.NETWORK, "CURRENT", LogLevel.INFO)
 val NetworkChanged = LogEventType(LogCategory.NETWORK, "CHANGED", LogLevel.INFO)

@@ -18,8 +18,8 @@
  */
 package com.protonvpn.android.appconfig
 
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import me.proton.core.network.data.protonApi.IntToBoolSerializer
 
 @Serializable
@@ -42,6 +42,8 @@ data class FeatureFlags(
     @SerialName(value = "WireGuardTls") val wireguardTlsEnabled: Boolean = true,
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "SafeMode") val safeMode: Boolean = false,
+    @Serializable(with = IntToBoolSerializer::class)
+    @SerialName(value = "NetShieldStats") val netShieldV2: Boolean = false,
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "Telemetry") val telemetry: Boolean = false,
 ) : java.io.Serializable

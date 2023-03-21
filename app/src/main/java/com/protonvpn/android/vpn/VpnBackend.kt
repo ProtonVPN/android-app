@@ -44,6 +44,8 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.LiveEvent
@@ -53,7 +55,10 @@ import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -81,6 +86,7 @@ interface VpnBackendProvider {
         preferenceList: List<PhysicalServer>,
         fullScanServer: PhysicalServer? = null
     ): PingResult?
+
     data class PingResult(val profile: Profile, val physicalServer: PhysicalServer, val responses: List<PrepareResult>)
 }
 
@@ -88,6 +94,7 @@ interface AgentConnectionInterface {
     val state: String
     val status: StatusMessage?
     fun setFeatures(features: Features)
+    fun sendGetStatus(withStatistics: Boolean)
     fun setConnectivity(connectivity: Boolean)
     fun close()
 }
@@ -103,11 +110,13 @@ abstract class VpnBackend(
     val localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     val currentUser: CurrentUser,
     val getNetZone: GetNetZone,
+    val foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient val okHttp: OkHttpClient? = null
 ) : VpnStateSource {
 
     inner class VpnAgentClient : NativeClient {
         private val agentConstants = LocalAgent.constants()
+        private var gatherStatsJob: Job? = null
 
         override fun log(msg: String) {
             ProtonLogger.logCustom(LogCategory.LOCAL_AGENT, msg)
@@ -159,6 +168,16 @@ abstract class VpnBackend(
         }
 
         override fun onStatusUpdate(status: StatusMessage) {
+            val stats = status.featuresStatistics?.toStats()
+            if (stats != null) {
+                netShieldStatsFlow.tryEmit(
+                    NetShieldStats(
+                        adsBlocked = stats.getAds(),
+                        trackersBlocked = stats.getTracking(),
+                        savedBytes = stats.getBandwidth()
+                    )
+                )
+            }
             val newConnectionDetails = status.connectionDetails
             if (newConnectionDetails != null) {
                 lastKnownExitIp.value = newConnectionDetails.serverIpv4
@@ -171,10 +190,38 @@ abstract class VpnBackend(
             }
             ProtonLogger.log(LocalAgentStatus, status.toString())
         }
+
+        override fun onTlsSessionStarted() {
+            if (appConfig.getFeatureFlags().netShieldV2) {
+                require(gatherStatsJob == null)
+                gatherStatsJob = mainScope.launch {
+                    combine(
+                        foregroundActivityTracker.isInForegroundFlow,
+                        currentUser.vpnUserFlow.map { it?.isFreeUser != true }
+                    ) { isInForeground, isNotFreeUser ->
+                        isInForeground && isNotFreeUser
+                    }.collectLatest { shouldSendGetStatus ->
+                        if (shouldSendGetStatus) {
+                            while (true) {
+                                agent?.sendGetStatus(true)
+                                delay(LOCAL_AGENT_STATUS_DELAY_MS)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        override fun onTlsSessionEnded() {
+            netShieldStatsFlow.tryEmit(NetShieldStats())
+            gatherStatsJob?.cancel()
+            gatherStatsJob = null
+        }
     }
 
     protected var lastConnectionParams: ConnectionParams? = null
     val lastKnownExitIp = MutableStateFlow<String?>(null)
+    val netShieldStatsFlow = MutableStateFlow(NetShieldStats())
 
     abstract suspend fun prepareForConnection(
         profile: Profile,
@@ -235,6 +282,10 @@ abstract class VpnBackend(
             agent.setFeatures(features)
         }
 
+        override fun sendGetStatus(withStatistics: Boolean) {
+            agent.sendGetStatus(withStatistics)
+        }
+
         override fun setConnectivity(connectivity: Boolean) {
             agent.setConnectivity(connectivity)
         }
@@ -269,7 +320,7 @@ abstract class VpnBackend(
             if (hasChanged) onVpnProtocolStateChange(value)
         }
 
-    override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
+    final override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
     private var agent: AgentConnectionInterface? = null
     private var agentConnectionJob: Job? = null
     private var reconnectionJob: Job? = null
@@ -487,6 +538,7 @@ abstract class VpnBackend(
 
     companion object {
         private const val DISCONNECT_WAIT_TIMEOUT = 3000L
+        private const val LOCAL_AGENT_STATUS_DELAY_MS = 60000L
         private const val FEATURES_BOUNCING = "bouncing"
         private const val FEATURES_NETSHIELD = "netshield-level"
         private const val FEATURES_RANDOMIZED_NAT = "randomized-nat"

@@ -30,7 +30,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:descriptionText="@string/netShieldEnabledWarning"
-        app:isInConnectedScreen="true" />
+        app:isInConnectedScreen="true"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/composeView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/netShieldSwitch"/>
 
     <LinearLayout style="@style/TableRowLayout">
 
@@ -146,8 +153,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:layout_marginBottom="32dp"
+        android:visibility="gone"
         android:text="@string/save_to_profile"
         android:theme="@style/ThemeOverlay.ProtonButton.Neutral" />
 
 </LinearLayout>
-

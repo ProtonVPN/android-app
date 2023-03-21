@@ -30,12 +30,18 @@
         android:layout_height="wrap_content"
         app:descriptionText="@string/netShieldEnabledWarning"
         app:isInConnectedScreen="true"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/composeView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/netShieldSwitch"/>
 
     <View
         android:id="@+id/dividerNetShield"
         style="@style/Divider.Small"
-        app:layout_constraintTop_toBottomOf="@id/netShieldSwitch" />
+        app:layout_constraintTop_toBottomOf="@id/composeView" />
 
     <LinearLayout
         android:layout_width="match_parent"

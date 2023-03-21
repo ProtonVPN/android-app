@@ -24,9 +24,9 @@ import android.os.PowerManager
 import android.os.PowerManager.PARTIAL_WAKE_LOCK
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.switchMap
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.hasAccessToServer
@@ -51,6 +51,7 @@ import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.DebugUtils
@@ -112,7 +113,7 @@ class VpnConnectionManager @Inject constructor(
     // Note: the jobs are not set to "null" upon completion, check "isActive" to see if still running.
     private var ongoingConnect: Job? = null
     private var ongoingFallback: Job? = null
-    private val activeBackendObservable = MutableLiveData<VpnBackend?>()
+    private val activeBackendObservable = MutableLiveData<VpnBackend?>(null)
     private val activeBackend: VpnBackend? get() = activeBackendObservable.value
     private val connectWakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:connect")
     private val fallbackWakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:fallback")
@@ -123,11 +124,13 @@ class VpnConnectionManager @Inject constructor(
 
     override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
     private val lastKnownExitIp = activeBackendObservable.asFlow().flatMapLatest { it?.lastKnownExitIp ?: flowOf(null) }
+    val netShieldStats =
+        activeBackendObservable.asFlow().flatMapLatest { it?.netShieldStatsFlow ?: flowOf(NetShieldStats()) }
 
     // State taken from active backend or from monitor when no active backend, value always != null
-    private val stateInternal: LiveData<VpnState> = Transformations.switchMap(
-        activeBackendObservable.eagerMapNotNull { it ?: this }, VpnStateSource::selfStateObservable
-    )
+    private val stateInternal: LiveData<VpnState> =
+        activeBackendObservable.eagerMapNotNull { it ?: this }.switchMap(VpnStateSource::selfStateObservable)
+
     private val state get() = stateInternal.value!!
 
     var initialized = false

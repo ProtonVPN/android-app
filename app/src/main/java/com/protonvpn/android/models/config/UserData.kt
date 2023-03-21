@@ -34,6 +34,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.io.Serializable
 import java.util.UUID
 
@@ -140,15 +141,27 @@ class UserData private constructor() : Serializable {
 
     private var netShieldProtocol: NetShieldProtocol? = null
 
-    @Transient val netShieldSettingUpdateEvent = LiveEvent()
+    @Transient
+    val netShieldStateFlow = MutableStateFlow(NetShieldProtocol.DISABLED)
+    @Transient
+    val netShieldSettingUpdateEvent = LiveEvent()
+
     // Note: remember to initialize LiveData values in init().
-    @Transient val vpnAcceleratorLiveData = MutableLiveData<Boolean>()
-    @Transient val protocolLiveData = MutableLiveData<ProtocolSelection>()
-    @Transient val safeModeLiveData = MutableLiveData<Boolean?>()
-    @Transient val secureCoreLiveData = MutableLiveData<Boolean>()
-    @Transient val randomizedNatLiveData = MutableLiveData<Boolean>()
-    @Transient val telemetryLiveData = MutableLiveData<Boolean>()
-    @Transient val updateEvent = LiveEvent()
+    @Transient
+    val vpnAcceleratorLiveData = MutableLiveData<Boolean>()
+    @Transient
+    val protocolLiveData = MutableLiveData<ProtocolSelection>()
+    @Transient
+    val safeModeLiveData = MutableLiveData<Boolean?>()
+    @Transient
+    val secureCoreLiveData = MutableLiveData<Boolean>()
+    @Transient
+    val randomizedNatLiveData = MutableLiveData<Boolean>()
+    @Transient
+    val telemetryLiveData = MutableLiveData<Boolean>()
+    @Transient
+    val updateEvent = LiveEvent()
+
     // settingChangeEvent is not equivalent to updateEvent because it doesn't emit events
     // when observer resumes.
     @Transient val settingChangeEvent = MutableSharedFlow<Setting>(extraBufferCapacity = 1)
@@ -168,6 +181,7 @@ class UserData private constructor() : Serializable {
             appFeaturesPrefs?.showIKEv2Migration = true
         protocol = protocol.migrate()
 
+        netShieldStateFlow.value = netShieldProtocol ?: NetShieldProtocol.ENABLED
         protocolLiveData.value = protocol
         randomizedNatLiveData.value = randomizedNatEnabled
         safeModeLiveData.value = safeModeEnabled
@@ -199,6 +213,7 @@ class UserData private constructor() : Serializable {
 
     fun setNetShieldProtocol(value: NetShieldProtocol?) {
         netShieldProtocol = value
+        netShieldStateFlow.value = value ?: NetShieldProtocol.DISABLED
         netShieldSettingUpdateEvent.emit()
         commitUpdate(Setting.NETSHIELD_PROTOCOL)
     }

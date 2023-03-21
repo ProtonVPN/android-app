@@ -35,14 +35,15 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
+import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
-import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.PrepareForConnection
+import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
 import com.wireguard.android.backend.BackendException
@@ -78,10 +79,11 @@ class WireguardBackend @Inject constructor(
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
     private val prepareForConnection: PrepareForConnection,
+    foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
     userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
-    dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, okHttp
+    dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, foregroundActivityTracker, okHttp
 ) {
     private val wireGuardIo = dispatcherProvider.newSingleThreadDispatcherForInifiniteIo()
     private val backend: GoBackend = GoBackend(WireguardContextWrapper(context))

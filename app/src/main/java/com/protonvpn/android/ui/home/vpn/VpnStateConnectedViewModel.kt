@@ -21,8 +21,8 @@ package com.protonvpn.android.ui.home.vpn
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import com.github.mikephil.charting.data.Entry
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
@@ -105,7 +105,7 @@ class VpnStateConnectedViewModel @Inject constructor(
 
     private fun speedHistoryToChartData(
         trafficHistory: LiveData<List<TrafficUpdate>>
-    ): LiveData<TrafficSpeedChartData> = map(trafficHistory) { updates ->
+    ): LiveData<TrafficSpeedChartData> = trafficHistory.map { updates ->
         if (updates.isEmpty()) {
             // The chart library freezes when adding data to a displayed, empty chart, so always
             // set some data.

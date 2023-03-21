@@ -19,9 +19,12 @@
 
 package com.protonvpn.android.ui.home.vpn
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.compose.ui.platform.ComposeView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -29,19 +32,23 @@ import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.logUiSettingChange
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.netshield.BottomSheetNetShield
+import com.protonvpn.android.netshield.NetShieldComposable
+import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
+import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldDialogActivity
 import com.protonvpn.android.utils.launchAndCollectIn
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import me.proton.core.compose.theme.ProtonTheme
 import javax.inject.Inject
 
 abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(layout) {
@@ -59,14 +66,28 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        netShieldComposeView().setContent {
+            ProtonTheme {
+                NetShieldComposable(parentViewModel.netShieldViewState,
+                    navigateToNetShield = {
+                        BottomSheetNetShield().show(parentFragmentManager, tag)
+                    },
+                    navigateToUpgrade = {
+                        requireContext().startActivity(Intent(context, UpgradeNetShieldDialogActivity::class.java))
+                    })
+            }
+        }
+        netShieldSwitch().isVisible = !appConfig.getFeatureFlags().netShieldV2
+        netShieldComposeView().isVisible = appConfig.getFeatureFlags().netShieldV2
 
+        val onboardingView = if (appConfig.getFeatureFlags().netShieldV2) netShieldComposeView() else netShieldSwitch()
         parentViewModel.bottomSheetFullyExpanded.observe(viewLifecycleOwner, Observer { isExpanded ->
             if (isExpanded) {
                 // Once we migrate to Hilt we should be able to inject Tooltips easily.
                 val tooltips = (requireActivity() as HomeActivity).tooltips
                 OnboardingDialogs.showDialogOnView(
-                    tooltips, netShieldSwitch(), netShieldSwitch(),
-                    getString(R.string.netshield), getString(R.string.onboardingNetshield),
+                    tooltips, onboardingView, onboardingView,
+                    getString(R.string.onboarding_netshield_title), getString(R.string.onboardingNetshield),
                     OnboardingPreferences.NETSHIELD_DIALOG
                 )
             }
@@ -106,4 +127,6 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
     }
 
     protected abstract fun netShieldSwitch(): NetShieldSwitch
+
+    protected abstract fun netShieldComposeView(): ComposeView
 }

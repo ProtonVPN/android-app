@@ -20,11 +20,9 @@ package com.protonvpn.tests.util
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.testing.TestLifecycleOwner
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.protonvpn.android.utils.LiveEvent
-import io.mockk.mockkClass
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -37,8 +35,7 @@ class LiveEventTests {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    private val lifecycleRegistry = LifecycleRegistry(mockkClass(LifecycleOwner::class))
-    private val lifecycleOwner = LifecycleOwner { lifecycleRegistry }
+    private val lifecycleOwner = TestLifecycleOwner()
     private lateinit var event: LiveEvent
     private var notified = false
 
@@ -46,12 +43,12 @@ class LiveEventTests {
     fun setup() {
         event = LiveEvent()
         notified = false
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
     }
 
     @Test
     fun testNoNotificationOnBind() {
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
         event.emit()
         event.observe(lifecycleOwner) {
@@ -71,7 +68,7 @@ class LiveEventTests {
         event.emit()
         Assert.assertFalse(notified)
 
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
         Assert.assertTrue(notified)
     }
