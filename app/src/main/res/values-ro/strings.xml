@@ -230,7 +230,6 @@
     <string name="session_time">Durată sesiune:</string>
     <string name="download_volume">Volum:</string>
     <string name="download_speed">Viteza:</string>
-    <string name="save_to_profile">Salvare în profil</string>
     <string name="notConnected">Nu aveți conexiune\n la vreun server</string>
     <string name="activityLicensesTitle">Licențe terțe</string>
     <string name="stateFragmentUnknownIp">Necunoscut</string>

@@ -230,7 +230,6 @@
     <string name="session_time">مدت نشست:</string>
     <string name="download_volume">میزان دانلود:</string>
     <string name="download_speed">سرعت:</string>
-    <string name="save_to_profile">ذخیره در پروفایل</string>
     <string name="notConnected">شما به سروری \n متصل نیستید</string>
     <string name="activityLicensesTitle">گواهینامه‌های شخص ثالث</string>
     <string name="stateFragmentUnknownIp">ناشناخته</string>

@@ -230,7 +230,6 @@
     <string name="session_time">Oturum süresi:</string>
     <string name="download_volume">Miktar:</string>
     <string name="download_speed">Hız:</string>
-    <string name="save_to_profile">Profile kaydet</string>
     <string name="notConnected">Bir sunucuya \n bağlı değilsiniz</string>
     <string name="activityLicensesTitle">Üçüncü taraf lisansları</string>
     <string name="stateFragmentUnknownIp">Bilinmiyor</string>

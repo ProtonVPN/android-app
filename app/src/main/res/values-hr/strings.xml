@@ -230,7 +230,6 @@
     <string name="session_time">Session duration:</string>
     <string name="download_volume">Količina:</string>
     <string name="download_speed">Brzina:</string>
-    <string name="save_to_profile">Spremi u profil</string>
     <string name="notConnected">Niste povezani \n s poslužiteljem</string>
     <string name="activityLicensesTitle">Licence trećih strana</string>
     <string name="stateFragmentUnknownIp">Nepoznato</string>

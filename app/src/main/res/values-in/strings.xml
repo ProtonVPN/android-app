@@ -230,7 +230,6 @@
     <string name="session_time">Waktu sesi:</string>
     <string name="download_volume">Volume:</string>
     <string name="download_speed">Kecepatan:</string>
-    <string name="save_to_profile">Simpan ke profil</string>
     <string name="notConnected">Anda tidak sedang terhubung \nke server manapun</string>
     <string name="activityLicensesTitle">Lisensi pihak ketiga</string>
     <string name="stateFragmentUnknownIp">Tidak diketahui</string>

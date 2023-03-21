@@ -230,7 +230,6 @@
     <string name="session_time">Tiempo de sesión:</string>
     <string name="download_volume">Volumen:</string>
     <string name="download_speed">Velocidad:</string>
-    <string name="save_to_profile">Guardar</string>
     <string name="notConnected">No está conectado \n a ningún servidor</string>
     <string name="activityLicensesTitle">Licencias de terceros</string>
     <string name="stateFragmentUnknownIp">Desconocido</string>

@@ -230,7 +230,6 @@
     <string name="session_time">Працягласць сеанса:</string>
     <string name="download_volume">Аб\'ём:</string>
     <string name="download_speed">Хуткасць:</string>
-    <string name="save_to_profile">Захаваць у профіль</string>
     <string name="notConnected">Вы не падлучаны \n да сервера</string>
     <string name="activityLicensesTitle">Ліцэнзіі старонніх бакоў</string>
     <string name="stateFragmentUnknownIp">Невядома</string>
