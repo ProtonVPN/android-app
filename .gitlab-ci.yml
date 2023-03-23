@@ -20,7 +20,7 @@ variables:
     value: 'true'
     description: Set to false if we do not need for a new deployed environment
   ATLAS_DEPLOY_LIST:
-    value: fe-vpn:main
+    value: fe-vpn:branch-main
     description: List of components to deploy (fe-vpn:v4.7.0:prod+t to use a tag)
   TEST_ENV_DOMAIN: $DYNAMIC_DOMAIN
   GIT_FETCH_EXTRA_FLAGS: --tags
