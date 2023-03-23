@@ -75,11 +75,18 @@ class ConnectivityMonitor(
     mainScope: CoroutineScope,
     context: Context
 ) {
+    private data class NetworkTransports(
+        val network: Network,
+        val transports: Set<Transport>
+    )
+
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     private var defaultNetworkCapabilities: Map<String, Boolean> = LinkedHashMap()
-    var defaultNetworkTransports: Set<Transport> = emptySet()
+    private var defaultNetwork: NetworkTransports? = null
+    val defaultNetworkTransports: Set<Transport>
+        get() = defaultNetwork?.transports ?: emptySet()
 
     val networkCapabilitiesFlow = MutableSharedFlow<Map<String, Boolean>>()
 
@@ -131,13 +138,16 @@ class ConnectivityMonitor(
             }
             val newTransports = getTransports(networkCapabilities)
             val capabilitiesChanged = defaultNetworkCapabilities != newCapabilities
-            if (defaultNetworkTransports != newTransports || capabilitiesChanged) {
+            if (defaultNetwork?.network != network ||
+                defaultNetwork?.transports != newTransports ||
+                capabilitiesChanged
+            ) {
                 ProtonLogger.log(
                     NetworkChanged,
                     "default network: $network; transports: ${newTransports.joinToString(", ")}; " +
                         "capabilities: $newCapabilities"
                 )
-                defaultNetworkTransports = newTransports
+                defaultNetwork = NetworkTransports(network, newTransports)
             }
             if (capabilitiesChanged) {
                 mainScope.launch {
@@ -160,6 +170,9 @@ class ConnectivityMonitor(
         }
 
         override fun onLost(network: Network) {
+            if (defaultNetwork?.network == network) {
+                defaultNetwork = null
+            }
             logNetworkEvent("network lost", network)
             // onUnavailable is not being called when there no longer is a default network
             // (possibly a bug: https://issuetracker.google.com/issues/144891976 )
