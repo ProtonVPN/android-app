@@ -21,6 +21,7 @@ package com.protonvpn.android.telemetry
 
 import com.protonvpn.android.api.ProtonApiRetroFit
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.isRetryable
 import me.proton.core.network.domain.retryAfter
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,7 +37,7 @@ class TelemetryUploader @Inject constructor(
         return if (result is ApiResult.Success) {
             Telemetry.UploadResult.Success(false)
         } else {
-            Telemetry.UploadResult.Failure(result.retryAfter())
+            Telemetry.UploadResult.Failure(result.isRetryable(), result.retryAfter())
         }
     }
 }
