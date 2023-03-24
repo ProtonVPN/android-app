@@ -146,7 +146,7 @@ class TelemetryTests {
         val event2 = createEvent(eventName = "event2")
 
         coEvery { mockUploader.uploadEvents(any()) } returnsMany listOf(
-            Telemetry.UploadResult.Failure(null),
+            Telemetry.UploadResult.Failure(true, null),
             Telemetry.UploadResult.Success(false)
         )
 

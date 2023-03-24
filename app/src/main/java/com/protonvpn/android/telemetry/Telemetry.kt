@@ -79,7 +79,7 @@ class Telemetry(
 
     sealed class UploadResult {
         data class Success(val hasMoreEvents: Boolean) : UploadResult()
-        data class Failure(val retryAfter: Duration?) : UploadResult()
+        data class Failure(val isRetryable: Boolean, val retryAfter: Duration?) : UploadResult()
     }
 
     private val isEnabled: Boolean get() = appConfig.getFeatureFlags().telemetry && userData.telemetryEnabled

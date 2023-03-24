@@ -78,8 +78,9 @@ class TelemetryUploadWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        if (!networkManager.isConnectedToNetwork())
+        if (!networkManager.isConnectedToNetwork()) {
             return Result.retry()
+        }
         val result = telemetry.uploadPendingEvents()
         when {
             result is Telemetry.UploadResult.Success && result.hasMoreEvents ->
@@ -90,9 +91,11 @@ class TelemetryUploadWorker @AssistedInject constructor(
                     ExistingWorkPolicy.REPLACE,
                     jitterMs(result.retryAfter.inWholeMilliseconds)
                 )
-
         }
         // The result is ignored if the code above reschedules the work.
-        return if (result is Telemetry.UploadResult.Success) Result.success() else Result.retry()
+        return when (result) {
+            is Telemetry.UploadResult.Success -> Result.success()
+            is Telemetry.UploadResult.Failure -> if (result.isRetryable) Result.retry() else Result.failure()
+        }
     }
 }
