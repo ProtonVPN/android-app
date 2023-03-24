@@ -21,6 +21,7 @@ package com.protonvpn.android.telemetry
 
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
@@ -69,6 +70,7 @@ class Telemetry(
     private val cache: TelemetryCache,
     private val uploader: TelemetryUploader,
     private val uploadScheduler: TelemetryUploadScheduler,
+    private val currentUser: CurrentUser,
     private val discardAge: Duration,
     private val eventCountLimit: Int,
 ) {
@@ -98,8 +100,9 @@ class Telemetry(
         cache: TelemetryCache,
         uploader: TelemetryUploader,
         uploadScheduler: TelemetryUploadScheduler,
+        user: CurrentUser
     ) : this(
-        mainScope, wallClock, appConfig, userData, cache, uploader, uploadScheduler, DISCARD_AGE, MAX_EVENT_COUNT
+        mainScope, wallClock, appConfig, userData, cache, uploader, uploadScheduler, user, DISCARD_AGE, MAX_EVENT_COUNT
     )
 
     fun event(
@@ -116,7 +119,7 @@ class Telemetry(
 
     suspend fun uploadPendingEvents(): UploadResult {
         cacheLoaded.await()
-        if (!isEnabled) {
+        if (!(isEnabled && currentUser.isLoggedIn())) {
             clearData()
             return UploadResult.Success(false)
         }
