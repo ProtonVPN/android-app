@@ -27,6 +27,7 @@ import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import dagger.Reusable
+import io.sentry.Sentry
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -47,6 +48,8 @@ data class TelemetryEvent(
     val values: Map<String, Long>,
     val dimensions: Map<String, String>
 )
+
+class TelemetryError(message: String, cause: Throwable? = null) : Throwable(message, cause)
 
 interface TelemetryUploadScheduler {
     fun scheduleTelemetryUpload()
@@ -106,7 +109,7 @@ class Telemetry(
         dimensions: Map<String, String>
     ) {
         if (isEnabled) {
-            log("$measurementGroup $event: $values $dimensions")
+            logd("$measurementGroup $event: $values $dimensions")
             addEvent(TelemetryEvent(wallClock(), measurementGroup, event, values, dimensions))
         }
     }
@@ -117,9 +120,17 @@ class Telemetry(
             clearData()
             return UploadResult.Success(false)
         }
+        logi("preparing upload, total: ${pendingEvents.size}")
         pendingEvents.removeIf { it.timestamp < wallClock() - discardAge.inWholeMilliseconds }
+        logi("... events for upload: ${pendingEvents.size}")
         val toUpload = pendingEvents.toList() // Work on a copy, new events may be added to pendingEvents during upload.
-        val result = uploader.uploadEvents(toUpload)
+        val result = if (toUpload.isNotEmpty()) {
+            uploader.uploadEvents(toUpload)
+        } else {
+            // Remove once VPNAND-1221 is fixed.
+            Sentry.captureException(TelemetryError("No events to upload"))
+            UploadResult.Success(pendingEvents.isNotEmpty())
+        }
         return if (result is UploadResult.Success) {
             pendingEvents.removeAll(toUpload)
             cache.save(pendingEvents)
@@ -132,12 +143,19 @@ class Telemetry(
     private fun addEvent(event: TelemetryEvent) {
         uploadScheduler.scheduleTelemetryUpload()
         pendingEvents.add(event)
-        if (pendingEvents.size > eventCountLimit)
+        if (pendingEvents.size > eventCountLimit) {
             pendingEvents.removeFirst()
+        }
+        logi("event added, total: ${pendingEvents.size}")
         cache.save(pendingEvents)
     }
 
-    private fun log(message: String) {
+    private fun logi(message: String) {
+        // Remove once VPNAND-1221 is fixed.
+        ProtonLogger.logCustom(LogCategory.TELEMETRY, message)
+    }
+
+    private fun logd(message: String) {
         if (BuildConfig.DEBUG) {
             ProtonLogger.logCustom(LogLevel.DEBUG, LogCategory.TELEMETRY, message)
         }
@@ -148,6 +166,7 @@ class Telemetry(
             subList(maxOf(0, size + pendingEvents.size - eventCountLimit), size)
         }
         pendingEvents.addAll(0, cachedEvents)
+        logi("Cache loaded. Cached events: ${cachedEvents.size}, total: ${pendingEvents.size}")
         cacheLoaded.complete(Unit)
     }
 

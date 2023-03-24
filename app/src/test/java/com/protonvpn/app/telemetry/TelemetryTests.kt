@@ -134,7 +134,6 @@ class TelemetryTests {
         telemetry.uploadPendingEvents()
 
         coVerify(exactly = 1) { mockUploader.uploadEvents(listOf(event1, event2)) }
-        coVerify(exactly = 1) { mockUploader.uploadEvents(emptyList()) }
         verify { mockCache.save(emptyList()) }
     }
 
