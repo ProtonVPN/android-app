@@ -22,6 +22,7 @@ package com.protonvpn.app.telemetry
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryCache
@@ -71,6 +72,9 @@ class TelemetryTests {
     @MockK
     private lateinit var mockAppConfig: AppConfig
 
+    @MockK
+    private lateinit var mockCurrentUser: CurrentUser
+
     private lateinit var userData: UserData
 
     @Before
@@ -81,6 +85,7 @@ class TelemetryTests {
 
         userData.telemetryEnabled = true
         every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(telemetry = true)
+        coEvery { mockCurrentUser.isLoggedIn() } returns true
 
         coEvery { mockUploader.uploadEvents(any()) } returns Telemetry.UploadResult.Success(false)
     }
@@ -120,6 +125,17 @@ class TelemetryTests {
         verify(exactly = 0) {
             mockCache.save(any())
         }
+    }
+
+    @Test
+    fun `when user is logged out events are not uploaded`() = runTest {
+        val telemetry = createNewTelemetryObject()
+        telemetry.event(MEASUREMENT_GROUP, "event", VALUES, DIMENSIONS)
+        coEvery { mockCurrentUser.isLoggedIn() } returns false
+
+        telemetry.uploadPendingEvents()
+        coVerify(exactly = 0) { mockUploader.uploadEvents(any()) }
+        verify { mockCache.save(emptyList()) }
     }
 
     @Test
@@ -295,6 +311,7 @@ class TelemetryTests {
             mockCache,
             mockUploader,
             mockScheduler,
+            mockCurrentUser,
             DISCARD_AGE,
             MAX_EVENTS
         )
