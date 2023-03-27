@@ -59,7 +59,7 @@
     <string name="secureCoreConnectVia">праз %1$s</string>
     <string name="connected">Падлучана</string>
     <string name="buttonConnect">Падлучыцца</string>
-    <string name="loaderInitializing">Ініцыялізацыя палучэння…</string>
+    <string name="loaderInitializing">Ініцыялізацыя падлучэння…</string>
     <string name="loaderConnectingTo">Падлучэнне да %1$s</string>
     <string name="loaderConnectingToLabel">Падлучэнне да…</string>
     <string name="loaderNotConnected">Не падлучана (не абаронена)</string>
@@ -385,7 +385,7 @@
     <string name="back">Назад</string>
     <string name="tv_upgrade_url_details"><![CDATA[Наведайце <b>%1$s</b> для паляпшэння да Proton VPN Plus.]]></string>
     <string name="tv_upgrade_description">Перайдзіце на тарыфны план Proton VPN Plus і ў вас будзе больш за 500 сервераў VPN па ўсім свеце, а таксама аптымізаваныя магчымасці трансляцыі Netflix, Amazon Prime Video, Disney+ і іншых сэрвісаў.</string>
-    <string name="tv_vpn_error_dialog_title">Збой палучэння да VPN</string>
+    <string name="tv_vpn_error_dialog_title">Збой падлучэння да VPN</string>
     <string name="tv_signout_label">Выйсці</string>
     <string name="tv_signout_dialog_title">Вы сапраўды хочаце выйсці?</string>
     <string name="tv_signout_dialog_description_connected">Гэта адлучыць ваш тэлевізар ад любога сервера VPN.</string>
