@@ -199,7 +199,7 @@ class CertificateRepository @Inject constructor(
                     is UserPlanManager.InfoChange.UserBecameDelinquent -> {
                         ProtonLogger.log(UserCertRefresh, "reason: user plan change: $change")
                         currentUser.sessionId()?.let { sessionId ->
-                            clear(sessionId)
+                            clearCert(sessionId)
                             updateCertificate(sessionId, true)
                         }
                     }
@@ -356,5 +356,16 @@ class CertificateRepository @Inject constructor(
     suspend fun clear(sessionId: SessionId) = withContext(mainScope.coroutineContext) {
         certRequests.remove(sessionId)?.cancel()
         certificateStorage.remove(sessionId)
+    }
+
+    // Invalidates cert for given session, keeping the keys
+    private suspend fun clearCert(sessionId: SessionId) = withContext(mainScope.coroutineContext) {
+        certRequests.remove(sessionId)?.cancel()
+        certificateStorage.get(sessionId)?.let {
+            certificateStorage.put(sessionId, CertInfo(
+                privateKeyPem = it.privateKeyPem,
+                publicKeyPem = it.publicKeyPem,
+                x25519Base64 = it.x25519Base64))
+        }
     }
 }
