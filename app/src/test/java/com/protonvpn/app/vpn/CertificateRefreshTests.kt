@@ -41,6 +41,7 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
@@ -49,6 +50,9 @@ import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.time.Duration.Companion.seconds
 
 /**
@@ -97,6 +101,12 @@ class CertificateRefreshTests {
         appInUseFlow = MutableStateFlow(false)
         networkStateFlow = MutableStateFlow(NetworkStatus.Unmetered)
 
+        val certs = mutableMapOf<SessionId, CertInfo>()
+        coEvery { mockStorage.get(any()) } answers { certs[firstArg()] }
+        coEvery { mockStorage.put(any(), any()) } answers { certs[firstArg()] = secondArg() }
+        coEvery { mockStorage.remove(any()) } answers { certs.remove(firstArg()) }
+        runBlocking { mockStorage.put(SESSION_ID, CERT_INFO) }
+
         every { mockKeyProvider.generateCertInfo() } returns CertInfo("private", "public", "x25519")
         every { mockPlanManager.infoChangeFlow } returns infoChangeFlow
         every { mockAppInUseMonitor.isInUseFlow } returns appInUseFlow
@@ -104,7 +114,6 @@ class CertificateRefreshTests {
         every { networkManager.observe() } returns networkStateFlow
         coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Success(CERTIFICATE_RESPONSE)
         coEvery { mockCurrentUser.sessionId() } returns SESSION_ID
-        coEvery { mockStorage.get(any()) } returns CERT_INFO
     }
 
     @Test
@@ -150,8 +159,23 @@ class CertificateRefreshTests {
         createRepository(backgroundScope)
         coVerify { mockApi wasNot Called }
 
+        coEvery { mockApi.getCertificate(any(), any()) } coAnswers {
+            // Before refreshing cert should be invalidated
+            val info = mockStorage.get(SESSION_ID)
+            assertNotNull(info)
+            assertNull(info.certificatePem)
+            ApiResult.Success(CERTIFICATE_RESPONSE)
+        }
         infoChangeFlow.value = listOf(UserPlanManager.InfoChange.PlanChange.Upgrade)
-        coVerify { mockApi.getCertificate(any(), any()) }
+        coVerify {
+            mockApi.getCertificate(any(), any())
+        }
+
+        // Key should be retained and cert should now be refreshed
+        val newCertInfo = mockStorage.get(SESSION_ID)
+        assertNotNull(newCertInfo)
+        assertEquals(UPDATED_CERT, newCertInfo.certificatePem)
+        assertEquals(CERT_INFO.privateKeyPem, newCertInfo.privateKeyPem)
     }
 
     @Test
@@ -229,8 +253,9 @@ class CertificateRefreshTests {
             expiresAt = NOW_MS + 200_000,
             certificatePem = "fake certificate data"
         )
+        private const val UPDATED_CERT = "updated fake certificate data"
         private val CERTIFICATE_RESPONSE = CertificateResponse(
-            "fake certificate data",
+            UPDATED_CERT,
             refreshTime = NOW_MS + 100_000,
             expirationTime = NOW_MS + 2_000_000,
         )
