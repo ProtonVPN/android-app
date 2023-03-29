@@ -105,9 +105,6 @@ open class ProtonApiRetroFit(
     suspend fun getFeature(feature: String) =
         manager { getFeature(feature) }
 
-    suspend fun getExperiment(feature: String) =
-        manager { getExperiment(feature) }
-
     open suspend fun getPartnerships() =
         manager { getPartnerships() }
 
