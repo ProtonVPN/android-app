@@ -143,7 +143,7 @@ public class ProtonApplication extends Application {
 
             StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
 
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
             // Initialize go-libraries early
             Seq.touch();
