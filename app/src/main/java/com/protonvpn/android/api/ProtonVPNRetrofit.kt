@@ -18,14 +18,13 @@
  */
 package com.protonvpn.android.api
 
-import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
+import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
-import com.protonvpn.android.netshield.ExperimentResponse
 import com.protonvpn.android.models.login.FeatureResponse
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.LoginBody
@@ -134,9 +133,6 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("core/v4/features/{id}")
     suspend fun getFeature(@Path("id") id: String): FeatureResponse
-
-    @GET("core/v4/experiments/{id}")
-    suspend fun getExperiment(@Path("id") id: String): ExperimentResponse
 
     @POST("payments/v4/promocode")
     suspend fun postPromoCode(@Body params: PromoCodesBody): GenericResponse
