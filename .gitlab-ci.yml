@@ -198,6 +198,20 @@ build black:
     paths:
       - artifacts
 
+build BTI:
+  stage: build
+  when: manual
+  except:
+    - schedules
+  tags:
+    - xlarge-k8s
+  script:
+    - ./gradlew assembleBtiDebug
+  artifacts:
+    expire_in: 3 week
+    paths:
+      - app/build/outputs/apk
+
 build google play release:
   stage: build
   rules:

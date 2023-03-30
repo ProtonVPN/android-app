@@ -52,6 +52,7 @@ import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
+import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.utils.TrafficMonitor
@@ -107,10 +108,6 @@ annotation class WallClock
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModuleProd {
-    private fun isDevelopmentFlavor(): Boolean {
-        val developmentFlavors = listOf("dev", "black")
-        return developmentFlavors.any { BuildConfig.FLAVOR.startsWith(it) }
-    }
 
     @Singleton
     @Provides
@@ -119,22 +116,24 @@ object AppModuleProd {
 
     @Provides
     @DohProviderUrls
-    fun provideDohProviderUrls(): Array<String> = Constants.DOH_PROVIDERS_URLS
+    fun provideDohProviderUrls(): Array<String> =
+        BuildConfigUtils.sanitizedDohServices()?.toTypedArray()
+            ?: Constants.DOH_PROVIDERS_URLS
 
     @Provides
     @CertificatePins
-    fun provideCertificatePins(): Array<String> = if (!isDevelopmentFlavor()) {
-        Constants.DEFAULT_SPKI_PINS
-    } else {
-        emptyArray()
+    fun provideCertificatePins(): Array<String> = when {
+        BuildConfig.API_TLS_PINS != null -> BuildConfig.API_TLS_PINS
+        BuildConfigUtils.isCertificatePinningFlavor() -> Constants.DEFAULT_SPKI_PINS
+        else -> emptyArray()
     }
 
     @Provides
     @AlternativeApiPins
-    fun provideAlternativeApiPins(): List<String> = if (!isDevelopmentFlavor()) {
-        Constants.ALTERNATIVE_API_SPKI_PINS
-    } else {
-        emptyList()
+    fun provideAlternativeApiPins(): List<String> = when {
+        BuildConfig.API_ALT_TLS_PINS != null -> BuildConfig.API_ALT_TLS_PINS.toList()
+        BuildConfigUtils.isCertificatePinningFlavor() -> Constants.ALTERNATIVE_API_SPKI_PINS
+        else -> emptyList()
     }
 
     @Singleton

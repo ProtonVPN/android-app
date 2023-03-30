@@ -54,6 +54,7 @@ import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeDialogActivity
 import com.protonvpn.android.ui.showGenericReconnectDialog
+import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.ColorUtils.combineArgb
 import com.protonvpn.android.utils.ColorUtils.mixDstOver
 import com.protonvpn.android.utils.Constants
@@ -89,6 +90,7 @@ class SettingsActivity : BaseActivityV2() {
     @Inject lateinit var installedAppsProvider: InstalledAppsProvider
     @Inject lateinit var currentUser: CurrentUser
     @Inject lateinit var serverManager: ServerManager
+    @Inject lateinit var buildConfigInfo: BuildConfigInfo
 
     private val binding by viewBinding(ActivitySettingsBinding::inflate)
     private var loadExcludedAppsJob: Job? = null
@@ -189,6 +191,10 @@ class SettingsActivity : BaseActivityV2() {
 
             buttonTelemetry.setOnClickListener { navigateTo(SettingsTelemetryActivity::class.java) }
             buttonLicenses.setOnClickListener { navigateTo(OssLicensesActivity::class.java) }
+            if (BuildConfigUtils.displayInfo()) {
+                buildConfigInfo.isVisible = true
+                buildConfigInfo.setValue(buildConfigInfo())
+            }
         }
 
         onUserDataUpdated()

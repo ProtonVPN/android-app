@@ -21,6 +21,7 @@ package com.protonvpn.android.api
 import android.os.Build
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -57,6 +58,8 @@ class VpnApiClient(
     override val pingTimeoutSeconds: Int get() = 5
 
     override val dohRecordType get() = ApiClient.DohRecordType.A
+    override val useAltRoutingCertVerificationForMainRoute get() =
+        BuildConfigUtils.useAltRoutingCertVerificationForMainRoute()
 
     override fun forceUpdate(errorMessage: String) {
         scope.launch {
