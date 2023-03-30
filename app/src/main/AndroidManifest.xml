@@ -87,6 +87,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="me.proton.core.auth.presentation.ui.signup.SignupActivity"
+            android:hardwareAccelerated="@bool/enable_hardware_acceleration_for_signup"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
