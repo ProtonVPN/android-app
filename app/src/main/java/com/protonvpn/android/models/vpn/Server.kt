@@ -54,7 +54,7 @@ data class Server(
     @SerialName(value = "Location") private val location: Location,
     @SerialName(value = "Translations") private val translations: Map<String, String?>? = null,
 
-    @SerialName(value = "Score") var score: Float,
+    @SerialName(value = "Score") var score: Double,
 
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "Status")

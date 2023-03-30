@@ -31,7 +31,7 @@ fun createServer(
     serverName: String = "dummyName",
     exitCountry: String = "PL",
     entryCountry: String = exitCountry,
-    score: Float = 0.5f,
+    score: Double = 0.5,
     tier: Int = 0,
     features: Int = 0
 ) =
