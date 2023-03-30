@@ -98,7 +98,7 @@ object Constants {
             "aeb893d9a96d1f15519bb3c4dcb40ee3\n" +
             "16672ea16c012664f8a9f11255518deb\n"
 
-    const val VPN_ROOT_CERTS =
+    private const val DEFAULT_VPN_ROOT_CERTS =
         "[[INLINE]]-----BEGIN CERTIFICATE-----\n" +
             "MIIFozCCA4ugAwIBAgIBATANBgkqhkiG9w0BAQ0FADBAMQswCQYDVQQGEwJDSDEV\n" +
             "MBMGA1UEChMMUHJvdG9uVlBOIEFHMRowGAYDVQQDExFQcm90b25WUE4gUm9vdCBD\n" +
@@ -165,6 +165,8 @@ object Constants {
             "2JLzyY8p48OKapR5GnedLTJXJVbdd9GUNzIzm4iVITDH3p/u1g69dITCNXTO9EO5\n" +
             "sGEYLNPbV49XBnVAm1tUWuoByZAjoWs=\n" +
             "-----END CERTIFICATE-----"
+
+    val VPN_ROOT_CERTS = BuildConfig.VPN_SERVER_ROOT_CERT ?: DEFAULT_VPN_ROOT_CERTS
 
     const val LOCAL_AGENT_ADDRESS = "10.2.0.1:65432"
 

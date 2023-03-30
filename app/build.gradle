@@ -181,6 +181,10 @@ android {
         buildConfigField "String", "TEST_ASSET_OVERRIDE_SHA", "\"${helpers.readFileOrDefault("test_asset_override_sha", "db95210d57b90063bfa1cac9881c7a8df326e6e2")}\""
         buildConfigField "String", "TEST_ASSET_OVERRIDE_KEY", "\"${helpers.readFileOrDefault("test_asset_override_key", "241b080fb0f1216e")}\""
         buildConfigField "String", "TEST_SUITE_ASSET_OVERRIDE_KEY", "\"${helpers.readFileOrDefault("test_suite_asset_override_key", "3ea60f6a2fbfc015")}\""
+        buildConfigField "String[]", "API_TLS_PINS", "null"
+        buildConfigField "String[]", "API_ALT_TLS_PINS", "null"
+        buildConfigField "String[]", "DOH_SERVICES_URLS", "null"
+        buildConfigField "String", "VPN_SERVER_ROOT_CERT", "null"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -207,6 +211,30 @@ android {
             buildConfigField "String", "BLACK_TOKEN", "\"${StringEscapeUtils.escapeJava(blackToken)}\""
             buildConfigField "String", "API_DOMAIN", "\"${StringEscapeUtils.escapeJava(apiUrl)}\""
             buildConfigField "String", "HV3_DOMAIN", "\"${StringEscapeUtils.escapeJava(hv3Url)}\""
+        }
+        bti {
+            versionNameSuffix "+bti"
+            applicationIdSuffix '.bti'
+            def blackToken = System.getenv("BLACK_TOKEN")
+            def apiHost = System.getenv("BTI_API_DOMAIN")?.replace("\"", "")
+            def hv3Host = System.getenv("BTI_HV3_DOMAIN")?.replace("\"", "")
+            def apiPins = System.getenv("BTI_API_TLS_PINNINGS")
+            def altPins = System.getenv("BTI_ALT_ROUTE_TLS_PINNINGS")
+            def dohUrls = System.getenv("BTI_AR_DOH_URLS")
+            def vpnServerRootCert = System.getenv("BTI_SERVERS_ROOT_CERT")
+            buildConfigField "String", "STORE_SUFFIX", "\"\""
+            buildConfigField "String", "BLACK_TOKEN", "\"${StringEscapeUtils.escapeJava(blackToken)}\""
+            buildConfigField "String", "API_DOMAIN", "\"${StringEscapeUtils.escapeJava(apiHost)}\""
+            buildConfigField "String", "HV3_DOMAIN", "\"${StringEscapeUtils.escapeJava(hv3Host)}\""
+            buildConfigField "String[]", "API_TLS_PINS", "{${helpers.sanitizeStringListForBuildConfig(apiPins)}}"
+            buildConfigField "String[]", "DOH_SERVICES_URLS", "{${helpers.sanitizeStringListForBuildConfig(dohUrls)}}"
+            // Below are not mandatory
+            if (altPins != null) {
+                buildConfigField "String[]", "API_ALT_TLS_PINS", "{${helpers.sanitizeStringListForBuildConfig(altPins)}}"
+            }
+            if (vpnServerRootCert != null) {
+                buildConfigField "String", "VPN_SERVER_ROOT_CERT", "\"${StringEscapeUtils.escapeJava(vpnServerRootCert)}\""
+            }
         }
         googlePlay {
             buildConfigField "String", "STORE_SUFFIX", "\"+play\""
@@ -599,6 +627,16 @@ class Helpers {
                 return null
         }
         return out.toString()
+    }
+
+    // We receive comma-separated string lists either with or without '"', support both notations
+    // and protects from injecting java code.
+    static String sanitizeStringListForBuildConfig(String s) {
+        if (s == null) return ""
+        return s.split(",")
+                .collect { it.trim().replace("\"", "") }
+                .collect { "\"${StringEscapeUtils.escapeJava(it)}\""}
+                .join(", ")
     }
 }
 tasks.register("getVersionName"){
