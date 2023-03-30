@@ -299,6 +299,11 @@ android {
             universalApk project.hasProperty('buildUniversalApk')
         }
     }
+    lint {
+        // In our process we might temporairly have extra translations that will get removed on
+        // next update.
+        disable 'ExtraTranslation'
+    }
 }
 
 kapt {
