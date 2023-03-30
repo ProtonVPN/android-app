@@ -56,13 +56,13 @@ private val testServer = Server(
     connectingDomainTlsOnly,
     connectingDomainDedicatedTcp,
 ), domain = "de1.protonvpn.ch", load = 1f, tier = 3, region = "", city = "", features = 0,
-    location = Location("", ""), score = 1f, isOnline = true
+    location = Location("", ""), score = 1.0, isOnline = true
 )
 private val tlsOnlyServer = Server(
     "id", "DE", "DE", "DE#1", listOf(
     connectingDomainTlsOnly,
 ), domain = "de1.protonvpn.ch", load = 1f, tier = 3, region = "", city = "", features = 0,
-    location = Location("", ""), score = 1f, isOnline = true
+    location = Location("", ""), score = 1.0, isOnline = true
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)

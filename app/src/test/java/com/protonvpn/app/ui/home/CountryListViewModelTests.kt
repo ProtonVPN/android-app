@@ -88,10 +88,10 @@ class CountryListViewModelTests {
         coEvery { mockApi.getPartnerships() } returns ApiResult.Success(PartnersResponse(emptyList()))
 
         val servers = listOf(
-            createServer(serverName = "PL#1", score = 1f, tier = 2),
-            createServer(serverName = "PL#2", score = 5f, tier = 2),
-            createServer(serverName = "PL#3", score = 2f, tier = 0),
-            createServer(serverName = "PL#4", score = 4f, tier = 0)
+            createServer(serverName = "PL#1", score = 1.0, tier = 2),
+            createServer(serverName = "PL#2", score = 5.0, tier = 2),
+            createServer(serverName = "PL#3", score = 2.0, tier = 0),
+            createServer(serverName = "PL#4", score = 4.0, tier = 0)
         )
         serverManager.setServers(servers, null)
 

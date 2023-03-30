@@ -57,14 +57,14 @@ object PartnersData {
         "partner1",
         features = SERVER_FEATURE_PARTNER_SERVER,
         serverName = "PL-FREE#NEWS",
-        score = 1f
+        score = 1.0
     )
 
     val partnerServerNews2 = createServer(
         "partner2",
         features = SERVER_FEATURE_PARTNER_SERVER,
         serverName = "PL-FREE#PARTNER2",
-        score = 2f
+        score = 2.0
     )
 
     val multiplePartnerServers = listOf(partnerServerNews, partnerServerNews2)
