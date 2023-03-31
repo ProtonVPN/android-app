@@ -21,6 +21,7 @@ package com.protonvpn.android.utils
 import android.app.Activity
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.AndroidUtils.isTV
@@ -52,6 +53,7 @@ object Constants {
     val CLIENT_ID: String
     val VPN_USERNAME_PRODUCT_SUFFIX: String
     val MAIN_ACTIVITY_CLASS: Class<out Activity>
+    val DEFAULT_NETSHIELD_AFTER_UPGRADE = NetShieldProtocol.ENABLED_EXTENDED
 
     const val SMART_ROUTING_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+smart+routing+support&t=h_&ia=web"
     const val STREAMING_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+streaming+guide&t=h_&ia=web"

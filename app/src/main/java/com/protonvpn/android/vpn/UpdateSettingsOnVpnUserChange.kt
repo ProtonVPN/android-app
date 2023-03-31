@@ -22,10 +22,13 @@ package com.protonvpn.android.vpn
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.UserPlanManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
@@ -38,7 +41,8 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val currentUser: CurrentUser,
     private val serverManager: ServerManager,
-    private val userData: UserData
+    private val userData: UserData,
+    private val userPlanManager: UserPlanManager
 ) {
     init {
         mainScope.launch {
@@ -57,6 +61,13 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
                     if (defaultProfileServer == null || !vpnUser.hasAccessToServer(defaultProfileServer)) {
                         userData.defaultProfileId = null
                     }
+                }
+            }
+        }
+        mainScope.launch {
+            userPlanManager.planChangeFlow.collect {
+                if (it == UserPlanManager.InfoChange.PlanChange.Upgrade) {
+                    userData.setNetShieldProtocol(Constants.DEFAULT_NETSHIELD_AFTER_UPGRADE)
                 }
             }
         }
