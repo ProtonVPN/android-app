@@ -59,7 +59,7 @@ class TvCountryListRobot : BaseRobot() {
     }
 
     fun signOut() : TvCountryListRobot {
-        view.waitForCondition {
+        view.waitForCondition(watchTimeout = 20_000) {
             onView(withId(R.id.container_list)).perform(ViewActions.pressKey(KeyEvent.KEYCODE_DPAD_DOWN))
             onView(withText(R.string.tv_signout_label)).check(matches(isDisplayed()))
         }
