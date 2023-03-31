@@ -19,15 +19,21 @@
 
 package com.protonvpn.app.vpn
 
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.AndroidUtils
+import com.protonvpn.android.utils.AndroidUtils.isTV
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -35,10 +41,13 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import me.proton.core.test.kotlin.TestDispatcherProvider
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -53,29 +62,39 @@ class UpdateSettingsOnVpnUserChangeTests {
 
     @get:Rule var rule = InstantTaskExecutorRule()
 
+    @MockK private lateinit var context: Context
+
     @MockK private lateinit var mockCurrentUser: CurrentUser
 
     @MockK private lateinit var mockServerManager: ServerManager
 
     @MockK private lateinit var mockDefaultServer: Server
 
+    @MockK private lateinit var mockPlanManager: UserPlanManager
+
     private lateinit var defaultProfile: Profile
     private lateinit var userData: UserData
     private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
+    private lateinit var planFlow: MutableSharedFlow<UserPlanManager.InfoChange.PlanChange>
 
     private lateinit var updateSettingsOnVpnUserChange: UpdateSettingsOnVpnUserChange
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        ProtonApplication.setAppContextForTest(context)
+        mockkObject(AndroidUtils)
+        every { context.isTV() } returns false
+
         Storage.setPreferences(mockk(relaxed = true))
         userData = UserData.create()
         vpnUserFlow = MutableStateFlow(null)
+        planFlow = MutableSharedFlow()
         defaultProfile = Profile.getTempProfile(MockedServers.server)
 
         every { mockServerManager.defaultConnection } returns defaultProfile
         every { mockDefaultServer.tier } returns 0
-
+        every { mockPlanManager.planChangeFlow } returns planFlow
         every { mockServerManager.getServerForProfile(defaultProfile, any()) } answers {
             mockDefaultServer.takeIf { (arg<VpnUser>(1).maxTier ?: 0) >= it.tier }
         }
@@ -88,8 +107,16 @@ class UpdateSettingsOnVpnUserChangeTests {
             TestDispatcherProvider(dispatcher),
             mockCurrentUser,
             mockServerManager,
-            userData
+            userData,
+            mockPlanManager
         )
+    }
+    @Test
+    fun `upgrade changes netshield value to default`() = runTest {
+        vpnUserFlow.value = TestUser.plusUser.vpnUser
+        assertEquals(NetShieldProtocol.ENABLED, userData.getNetShieldProtocol(vpnUserFlow.value))
+        planFlow.emit(UserPlanManager.InfoChange.PlanChange.Upgrade)
+        assertEquals(Constants.DEFAULT_NETSHIELD_AFTER_UPGRADE, userData.getNetShieldProtocol(vpnUserFlow.value))
     }
 
     @Test
