@@ -48,9 +48,9 @@ class ForegroundActivityTracker @Inject constructor(
 
     val foregroundActivityFlow = createForegroundActivityFlow(app)
         .stateIn(mainScope, SharingStarted.Eagerly, null)
-    val isInForegroundFlow = createForegroundActivityFlow(app).map {
+    val isInForegroundFlow = foregroundActivityFlow.map {
         it != null
-    }.distinctUntilChanged()
+    }.distinctUntilChanged().stateIn(mainScope, SharingStarted.Eagerly, false)
 
     val foregroundActivity: Activity? get() = foregroundActivityFlow.value
 
