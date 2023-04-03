@@ -1,0 +1,3 @@
+What's new
+- Improves user session-management
+- Fixes some minor issues related to login flow and plan change
