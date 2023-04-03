@@ -22,7 +22,7 @@
     <string name="hintUsername">نام کاربری</string>
     <string name="hintPassword">رمز عبور</string>
     <string name="splitTunnellingSwitch">کلید Split tunneling</string>
-    <string name="login">Sign in</string>
+    <string name="login">ورود به حساب</string>
     <string name="hamburgerMenu">منو</string>
     <string name="error_field_required">این قسمت الزامی است</string>
     <string name="title_activity_home">@string/app_name</string>
@@ -31,12 +31,12 @@
     <string name="loginStartWithDevice">فعال‌سازی هنگام روشن شدن دستگاه</string>
     <string name="loginCreateAccount">ایجاد حساب کاربری جدید</string>
     <string name="loginNeedHelp">به کمک نیاز دارید؟</string>
-    <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">تشکر برای ارتقا حساب به \nسازمانی\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">برای آغاز سفر خود در Proton VPN لطفاً اتصال‌های VPN خود را به حساب کاربری خود یا هر حساب فرعی دیگری اختصاص دهید.</string>
-    <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
-    <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
+    <string name="connectionAllocationHelpDescription2">این مرحله فقط چند دقیقه طول می‌کشد. پس از آن شما قادر خواهید بود تا وارد شوید و از همهٔ دستگاه‌های خود حفاظت کنید.</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">در حال حاضر هیچ اتصال VPNای برای این حساب کاربری وجود ندارد. برای شروع سفر خود با Proton VPN، لطفاً مدیر خود تماس بگیرید. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">اتصال‌های VPN را فعال کنید</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">ورود دوباره</string>
     <string name="mapCalloutConnect">اتصال</string>
     <string name="mapCalloutDisconnect">قطع اتصال</string>
     <string name="mapSwitchSecureCore">Secure core</string>
@@ -44,7 +44,7 @@
     <string name="secureCoreSpeedInfoTitle">نکته‌ای دربارهٔ سرعت...</string>
     <string name="secureCoreSpeedInfoMessage">فناوری Secure Core بالاترین سطح امنیت و حریم خصوصی را ارائه می‌دهد، اما ممکن است سرعت اینترنت شما را کاهش دهد. اگر به کارایی بیشتری احتیاج دارید، می‌توانید Secure Core را غیرفعال کنید.</string>
     <string name="secureCoreActivateDialogButton">فعال کردن Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogTitle">خارج می‌شوید؟</string>
     <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
     <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">نمایش همهٔ پروفایل‌ها</string>
@@ -335,7 +335,15 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
     <string name="netShieldEnabledWarning">در نظر داشته باشید که برخی وبسایت‌ها به دلیل محتوای مسدود شده، ممکن است بطور کامل کار نکنند.</string>
     <string name="netShieldDescription">مسدود کردن آگهی‌ها، ردیاب‌ها و بدافزارها</string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. <a href="%1$s">Learn more</a>.]]></string>
+    <string name="netshield_status_on">روشن</string>
+    <string name="netshield_status_off">خاموش</string>
+    <string name="netshield_free_title">Browse ad-free with NetShield</string>
+    <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Ads\nblocked</string>
+    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">فقط بدافزار مسدود شود</string>
     <string name="netShieldFullBlock">مسدود کردن بدافزار، ردیابی، آگهی‌ها</string>
     <string name="dialogDontShowAgain">دوباره نشان نده</string>

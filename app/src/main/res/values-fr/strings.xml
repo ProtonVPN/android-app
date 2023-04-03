@@ -325,7 +325,7 @@
          find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Appuyez sur le sélecteur à côté de <b>Bloquer les connexions sans VPN</b> pour activer la fonctionnalité Arrêt d\'urgence (kill switch)]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Ouvrir les paramètres Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activer la fonctionnalité Arrêt d\'urgence (kill switch) désactivera le split tunneling, car elle bloquera toutes les connexions en dehors du tunnel VPN.</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activer la fonctionnalité Arrêt d\'urgence (kill switch) désactivera le Split tunneling, car elle bloquera toutes les connexions en dehors du tunnel VPN.</string>
     <string name="settingsSmartProtocolDescription">Utilisez automatiquement le protocole et le port qui offrent la meilleure connectivité.</string>
     <string name="settingsEnableTelemetryTitle">Partager des statistiques d\'utilisation anonymes</string>
     <string name="settingsEnableTelemetryDescription">Les données d\'utilisation nous aident à contourner les blocages VPN et à améliorer les performances de l\'application.</string>
@@ -335,7 +335,15 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ces statistiques ne contiennent pas votre adresse IP, elles ne peuvent pas être utilisées pour vous identifier. Nous ne les partagerons jamais avec des tiers. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="netShieldEnabledWarning">Attention, certains sites internet pourraient ne pas fonctionner correctement à cause du contenu bloqué.</string>
     <string name="netShieldDescription">Bloquer les publicités, traqueurs et logiciels malveillants </string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Protégez-vous des publicités, des logiciels malveillants et des traqueurs sur les sites internet et applications. Si les sites ne se chargent pas, essayez de désactiver NetShield. <a href="%1$s">En savoir plus</a>]]></string>
+    <string name="netshield_status_on">Activé</string>
+    <string name="netshield_status_off">Désactivé</string>
+    <string name="netshield_free_title">Naviguez sans publicité avec NetShield</string>
+    <string name="netshield_free_description">Bloquez les publicités, les traqueurs et les logiciels malveillants sur les sites internet et les applications.</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Publicités\nbloquées</string>
+    <string name="netshield_trackers_stopped">Traqueurs\nbloqués</string>
+    <string name="netshield_data_saved">Données\nenregistrées</string>
     <string name="netShieldBlockMalwareOnly">Bloquer uniquement les logiciels malveillants</string>
     <string name="netShieldFullBlock">Bloquer les logiciels malveillants, traqueurs et publicités</string>
     <string name="dialogDontShowAgain">Ne plus afficher</string>

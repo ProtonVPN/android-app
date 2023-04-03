@@ -21,7 +21,7 @@
     <!-- Strings related to login -->
     <string name="hintUsername">Nome de usuário</string>
     <string name="hintPassword">Senha</string>
-    <string name="splitTunnellingSwitch">Alternar tunelamento split</string>
+    <string name="splitTunnellingSwitch">Alternar tunelamento dividido</string>
     <string name="login">Iniciar sessão</string>
     <string name="hamburgerMenu">Menu hambúrguer</string>
     <string name="error_field_required">Este campo é obrigatório</string>
@@ -335,7 +335,15 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm seu endereço IP, e não podem ser usadas para te identificar. Nunca as compartilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="netShieldEnabledWarning">Cuidado, alguns sites podem não funcionar completamente por causa de conteúdos bloqueados.</string>
     <string name="netShieldDescription">Bloquear anúncios, rastreadores e malware </string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Proteja-se contra anúncios, malware e rastreadores em sites e aplicativos. Se os sites não carregarem, tente desativar o NetShield. <a href="%1$s">Saiba mais</a>.]]></string>
+    <string name="netshield_status_on">Ativado</string>
+    <string name="netshield_status_off">Desligado</string>
+    <string name="netshield_free_title">Navegue sem anúncios com o NetShield</string>
+    <string name="netshield_free_description">Bloqueia anúncios, rastreadores e malware em sites e aplicativos</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Ads\nblocked</string>
+    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Bloquear apenas malware</string>
     <string name="netShieldFullBlock">Bloquear malware, rastreadores e anúncios</string>
     <string name="dialogDontShowAgain">Não mostrar novamente</string>
@@ -422,8 +430,8 @@
     <string name="notification_max_sessions_title">Você atingiu o número máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Por favor, desconecte outro dispositivo para conectar esse ou atualize para o Plus para conectar %1$d dispositivo ao mesmo tempo.</item>
-        <item quantity="other">Por favor, desconecte outro dispositivo para conectar esse ou atualize para o Plus para conectar %1$d dispositivos ao mesmo tempo.</item>
+        <item quantity="one">Desconecte outro dispositivo para conectar esse ou atualize para o Plus para conectar %1$d dispositivo ao mesmo tempo.</item>
+        <item quantity="other">Desconecte outro dispositivo para conectar esse ou atualize para o Plus para conectar %1$d dispositivos ao mesmo tempo.</item>
     </plurals>
     <string name="notification_max_sessions_content">Por favor, desconecte outro dispositivo para conectar esse.</string>
     <string name="notification_cancel_to_free">Você está no plano Gratuito. Servidores e recursos gratuitos estão disponíveis.</string>
@@ -456,7 +464,7 @@
         <item quantity="one">%1$d país</item>
         <item quantity="other">%1$d países</item>
     </plurals>
-    <string name="upsell_upgrade_again">Faça o Upgrade novamente para aproveitar todos os recursos:</string>
+    <string name="upsell_upgrade_again">Faça o upgrade novamente para aproveitar todos os recursos:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
     <string name="upgrade_plus_subtitle">Ao atualizar para o Plus</string>

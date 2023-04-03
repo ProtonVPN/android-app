@@ -58,7 +58,7 @@
     <string name="dialog_applying">Застосування</string>
     <string name="secureCoreConnectVia">через %1$s</string>
     <string name="connected">Під\'єднано</string>
-    <string name="buttonConnect">З’єднатись</string>
+    <string name="buttonConnect">З\'єднатися</string>
     <string name="loaderInitializing">Ініціалізація з\'єднання…</string>
     <string name="loaderConnectingTo">З\'єднання з %1$s</string>
     <string name="loaderConnectingToLabel">З\'єднання з…</string>
@@ -107,7 +107,7 @@
     <string name="settingsSectionAdvanced">Додатково</string>
     <string name="settingsAutoStartTitle">Запускати з Android</string>
     <string name="settingsAutoStartDescription">Proton VPN автоматично запускатиметься під час запуску системи</string>
-    <string name="settingsBypassLocalTitle">LAN-з’єднання</string>
+    <string name="settingsBypassLocalTitle">LAN-з\'єднання</string>
     <string name="settingsDnsLeakProtectionTitle">Захист від витоку DNS</string>
     <string name="settingsDnsLeakDescription">Запобігання витоку даних DNS-запитів (завжди увімкнено)</string>
     <string name="settingsDefaultMtu">1375</string>
@@ -162,7 +162,7 @@
     <string name="state_connected">Під\'єднано</string>
     <string name="state_disconnecting">Від\'єднання…</string>
     <string name="state_error">Помилка</string>
-    <string name="error_server_unreachable">Не вдалося під\'єднатися до VPN. Перевірте з’єднання та повторіть спробу.</string>
+    <string name="error_server_unreachable">Не вдалося під\'єднатися до VPN. Перевірте з\'єднання та повторіть спробу.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Помилка автентифікації користувача.</string>
     <string name="error_assessment_failed">Не вдалося перевірити безпеку.</string>
@@ -174,7 +174,7 @@
     <string name="connect">З\'єднатися</string>
     <string name="upgrade">Покращити</string>
     <string name="retry">Повторити</string>
-    <string name="connection_failed">Помилка з’єднання</string>
+    <string name="connection_failed">Не вдалося встановити з\'єднання</string>
     <string name="create_new_profile">Новий профіль</string>
     <string name="excludeAppsTitle">Винятки</string>
     <string name="excludeAppsDescription">Додайте програми, які ви хочете виключити з вашого трафіку VPN.</string>
@@ -257,7 +257,7 @@
     <string name="settingsSplitTunnelingDescription">Роздільне тунелювання дозволяє виключити певні додатки або IP-адреси з VPN-трафіку.</string>
     <string name="settingsSplitTunnelingTitle">Роздільне тунелювання</string>
     <string name="loaderAuthenticatingUser">Автентифікація користувача…</string>
-    <string name="loaderErrorNoInternet">Немає з’єднання з інтернетом</string>
+    <string name="loaderErrorNoInternet">Немає з\'єднання з інтернетом</string>
     <string name="loaderErrorGeneric">Щось пішло не так</string>
     <string name="loaderLoadingServers">Завантаження серверів…</string>
     <string name="inputIpAddressLabel">IP-адреса</string>
@@ -296,7 +296,7 @@
     <string name="activityTroubleshootTitle">Усунення проблем</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Можливі рішення</string>
     <string name="troubleshootNoInternetDescription">Переконайтеся, що ваше з\'єднання з Інтернетом працює.</string>
-    <string name="troubleshootNoInternetTitle">Немає з’єднання з інтернетом</string>
+    <string name="troubleshootNoInternetTitle">Немає з\'єднання з інтернетом</string>
     <string name="troubleshootIspProblemTitle">Проблема постачальника послуг Інтернету (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Спробуйте під\'єднатися до Proton з іншої мережі (або скористайтеся <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Перешкоджання антивіруса</string>
@@ -337,7 +337,15 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ця статистика не містить вашої IP-адреси та не може бути використана для вашої ідентифікації. Ми ніколи не передаємо ці дані третім сторонам. <a href="%1$s">Докладніше</a>]]></string>
     <string name="netShieldEnabledWarning">Майте на увазі, що деякі сайти можуть не працювати належним чином через блокування вмісту.</string>
     <string name="netShieldDescription">Блокувати рекламу, стеження і зловмисні програми </string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Захистіться від реклами, зловмисних програм і елементів стеження на вебсайтах і в програмах. Якщо вебсайти не завантажуються, спробуйте вимкнути NetShield. <a href="%1$s">Докладніше</a>.]]></string>
+    <string name="netshield_status_on">Увімк</string>
+    <string name="netshield_status_off">Вимк</string>
+    <string name="netshield_free_title">Користуйтеся інтернетом без реклами завдяки NetShield</string>
+    <string name="netshield_free_description">Блокуйте рекламу, стеження та зловмисні програми на вебсайтах і в програмах</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Ads\nblocked</string>
+    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Блокувати лише зловмисні програми</string>
     <string name="netShieldFullBlock">Блокувати зловмисні програми, стеження, оголошення</string>
     <string name="dialogDontShowAgain">Не показувати знову</string>
@@ -429,7 +437,7 @@
         <item quantity="many">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
         <item quantity="other">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
     </plurals>
-    <string name="notification_max_sessions_content">Від’єднайте інший пристрій, щоб під\'єднати цей.</string>
+    <string name="notification_max_sessions_content">Від\'єднайте інший пристрій, щоб під\'єднати цей.</string>
     <string name="notification_cancel_to_free">У вас зараз тарифний план Free. Доступні сервери та функції Free.</string>
     <string name="notification_cancel_to_basic">У вас зараз тарифний план Basic. Доступні сервери й функції Basic і Free.</string>
     <string name="notification_cancel_to_delinquent">Ви зможете знову отримати доступ до преміумфункцій після сплати рахунків.</string>

@@ -287,7 +287,7 @@
     <string name="tileConnected">Bağlandı: %1$s</string>
     <string name="dialogTitleAttention">Uyarı</string>
     <string name="saveProfileAlreadySaved">Zaten kaydedilmiş</string>
-    <string name="openUrlError">%1$s açılamadı. Aygıtınızda bir web tarayıcısı algılanamadı.</string>
+    <string name="openUrlError">%1$s açılamadı. Aygıtınızda bir tarayıcı uygulaması bulunamadı.</string>
     <string name="toastLoginAuthVersionError">Desteklenmeyen kimlik doğrulama sürümü nedeniyle oturum açılamadı. Lütfen destek ekibiyle görüşün.</string>
     <string name="loaderErrorTimeout">Bağlantı zaman aşımına uğradı. Lütfen yeniden deneyin.</string>
     <string name="troubleshootButton">Sorun gider</string>
@@ -333,9 +333,17 @@
     <string name="settingsSendCrashReportsDescription">Çökme bildirimleri hataları düzeltmemize, güvenlik duvarlarını algılamamıza ve VPN engellemelerini aşmamıza yardımcı olur.</string>
     <string name="settingsTelemetryScreenTitle">Kullanım istatistikleri</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Bu istatistikler IP adresinizi içermez ve kim olduğunuzu belirlemek için kullanılamaz. Bu verileri asla üçüncü taraflar ile paylaşmayız. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
-    <string name="netShieldEnabledWarning">Engellenen içerikler nedeniyle bazı web sitelerinin tam olarak çalışmayacağını unutmayın.</string>
+    <string name="netShieldEnabledWarning">Engellenen içerikler nedeniyle bazı sitelerin tam olarak çalışmayacağını unutmayın.</string>
     <string name="netShieldDescription">Reklam, etkinlik izleyiciler ve kötü amaçlı yazılımların engellenmesini sağlar </string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Kendinizi siteler ile uygulamalarda bulunabilecek reklam, kötü amaçlı yazılım ve izleyicilerden koruyun. Siteler yüklenmiyorsa NetShield özelliğini kapatmayı deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>.]]></string>
+    <string name="netshield_status_on">Açık</string>
+    <string name="netshield_status_off">Kapalı</string>
+    <string name="netshield_free_title">NetShield ile reklamlar olmadan gezinin</string>
+    <string name="netshield_free_description">Siteler ile uygulamalarda bulunabilecek reklamları, izleyicileri ve kötü amaçlı yazılımları engelleyin</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Ads\nblocked</string>
+    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Yalnızca kötü amaçlı yazılımlar engellensin</string>
     <string name="netShieldFullBlock">Kötü amaçlı yazılımlar, etkinlik izleyiciler ve reklamlar engellensin</string>
     <string name="dialogDontShowAgain">Bir daha gösterme</string>
@@ -377,7 +385,7 @@
     <string name="tv_login_timer_label">Bu kodun geçerlilik süresi:</string>
     <string name="tv_login_refresh">Yenile</string>
     <string name="tv_login_title_loading">Yükleniyor…</string>
-    <string name="tv_login_title_refresh">Oturumunuzun süresi dolmuş. Yeniden başlamak için yenile üzerine tıklayın.</string>
+    <string name="tv_login_title_refresh">Oturumunuzun geçerlilik süresi dolmuş. Yeniden başlamak için yenile üzerine tıklayın.</string>
     <string name="tv_upgrade_title">Plus ile yayın akışı izlemeye başlayın</string>
     <string name="back">Geri</string>
     <string name="tv_upgrade_url_details"><![CDATA[Proton VPN Plus tarifesine geçmek için <b>%1$s</b> sayfasına gidin.]]></string>
@@ -411,9 +419,9 @@
     <string name="settingsReconnectToApplySettingsDialogContent">Yeni ayarlar kurulan bir sonraki bağlantıya uygulanacak.</string>
     <string name="settingsReconnectToChangeDialogContent">Bu işlem bağlantınızı yeniden başlatacak.</string>
     <string name="reconnectToEnableNetshield">Bu işlem bağlantınızı yeniden başlatacak.\n\nNot: Bazı siteler NetShield açık iken yüklenemeyebilir.</string>
-    <string name="notification_subscription_expired_title">Proton VPN abonelik tarifenizin süresi dolmuş</string>
+    <string name="notification_subscription_expired_title">Proton VPN abonelik tarifenizin geçerlilik süresi dolmuş</string>
     <string name="notification_subscription_expired_content">Tarifenizi düşürmek zorunda kaldık. Bağlantınızı bu tarifedeki en hızlı sunucuya geçiriyoruz.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">Aboneliğiniz düşürüldü.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Abonelik tarifeniz düşürüldü.</string>
     <string name="notification_delinquent_title">Proton VPN hesabınızda ödenmemiş faturalar var</string>
     <string name="notification_delinquent_content">Aboneliğinizi kullanmayı sürdürebilmek için bir dakika ayırarak fatura bilgilerinizi güncelleyin.</string>
     <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
@@ -565,7 +573,7 @@
     <string name="onboarding_protection_title">Her yerde korunun</string>
     <string name="onboarding_protection_description">Proton VPN Windows, macOS ve diğer pek çok aygıtı destekler.</string>
     <string name="onboarding_netshield_title">Reklamları ve çok daha fazlasını engelleyin</string>
-    <string name="onboarding_netshield_description">Web tarayıcıda ve tüm uygulamalarda kötü amaçlı yazılımları, reklamları ve etkinlik izleyicileri engelleyin.</string>
+    <string name="onboarding_netshield_description">Tarayıcıda ve tüm uygulamalarda kötü amaçlı yazılımları, reklamları ve etkinlik izleyicileri engelleyin.</string>
     <string name="onboarding_telemetry_title">Sansür ile savaşmamıza yardımcı olun</string>
     <string name="onboarding_connection_title">İlk bağlantınızı kurun</string>
     <!-- Parameters:

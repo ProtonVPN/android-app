@@ -334,7 +334,15 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga manapun. <a href="%1$s">Pelajari lebih lanjute</a>]]></string>
     <string name="netShieldEnabledWarning">Harap dicamkan bahwa beberapa situs web mungkin tidak akan sepenuhnya berfungsi karena konten yang diblokir.</string>
     <string name="netShieldDescription">Memblokir iklan, pelacak, dan malware </string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. Apabila situs web yang ingin Anda kunjungi tidak termuat, cobalah untuk menonaktifkan NetShield. <a href="%1$s">Pelajari lebih lanjut</a>.]]></string>
+    <string name="netshield_status_on">Aktif</string>
+    <string name="netshield_status_off">Nonaktif</string>
+    <string name="netshield_free_title">Jelajahi internet tanpa iklan dengan NetShield</string>
+    <string name="netshield_free_description">Blokir iklan, pelacak, dan malware pada berbagai situs web dan aplikasi</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Ads\nblocked</string>
+    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Blokir malware saja</string>
     <string name="netShieldFullBlock">Blokir malware, pelacak, iklan</string>
     <string name="dialogDontShowAgain">Jangan tampilkan lagi</string>

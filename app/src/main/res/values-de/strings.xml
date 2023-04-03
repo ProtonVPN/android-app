@@ -335,7 +335,15 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Diese Statistiken enthalten weder deine IP-Adresse noch können diese dazu verwendet werden, um dich zu identifizieren. Wir werden die Statistiken nie an Dritte weitergeben. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="netShieldEnabledWarning">Beachte, dass einige Websites aufgrund von blockierten Inhalten möglicherweise nicht vollständig funktionieren.</string>
     <string name="netShieldDescription">Werbung, Tracker und Malware sperren </string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Schütze dich vor Werbung, Malware und Trackern auf Websites und in Apps. Wenn Websites nicht laden, versuche NetShield zu deaktivieren. <a href="%1$s">Mehr erfahren</a>.]]></string>
+    <string name="netshield_status_on">Ein</string>
+    <string name="netshield_status_off">Aus</string>
+    <string name="netshield_free_title">Mit NetShield werbefrei surfen</string>
+    <string name="netshield_free_description">Blockiere Werbung, Tracker und Malware auf Websites und Apps.</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Ads\nblocked</string>
+    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Nur Malware sperren</string>
     <string name="netShieldFullBlock">Malware, Tracking und Werbung sperren</string>
     <string name="dialogDontShowAgain">Nicht erneut anzeigen</string>

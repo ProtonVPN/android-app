@@ -309,9 +309,9 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[En caso de que Proton esté bloqueado, permite que la aplicación intente rutas alternativas para llegar a los servidores de Proton. <a href="%1$s">Más información</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueo gubernamental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Tu país puede estar bloqueando el acceso a Proton. Prueba usando <a href=\'%1$s\'>Tor</a> para acceder a Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">VPN siempre activa e interruptor kill switch</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">VPN siempre activa y Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Configura el comportamiento de Proton VPN si tu conexión se interrumpe.</string>
-    <string name="settingsAlwaysOnWindowHeader">Cómo activar la opción VPN siempre activa y kill switch:</string>
+    <string name="settingsAlwaysOnWindowHeader">Cómo activar la opción VPN siempre activa y Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Abre la sección <b>Configuración</b> de tu dispositivo pulsando el botón siguiente]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Busca Proton VPN y pulsa %1$s</string>
@@ -325,7 +325,7 @@
          find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Pulsa el interruptor junto a <b>Bloqueo de conexiones sin VPN</b> para habilitar el interruptor Kill Switch.]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abre la configuración de Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">La activación de kill switch deshabilitará el túnel dividido, ya que el kill switch bloquea todas las conexiones fuera del túnel VPN.</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">La activación de Kill Switch deshabilitará el túnel dividido, ya que Kill Switch bloquea todas las conexiones fuera del túnel VPN.</string>
     <string name="settingsSmartProtocolDescription">Utilizar automáticamente el protocolo y el puerto que ofrecen la mejor conectividad.</string>
     <string name="settingsEnableTelemetryTitle">Compartir estadísticas anónimas de uso</string>
     <string name="settingsEnableTelemetryDescription">Los datos de uso nos ayudan a evitar bloqueos de VPN y mejorar el rendimiento de la aplicación.</string>
@@ -335,7 +335,16 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen tu dirección IP y no pueden ser usadas para identificarte. Nosotros nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
     <string name="netShieldEnabledWarning">Es posible que algunos sitios web no funcionen por completo debido a contenidos bloqueados.</string>
     <string name="netShieldDescription">Bloquear anuncios, rastreadores y malware </string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Protégete contra anuncios, malware y rastreadores en sitios web y applicaciones. Si los sitios web no cargan, intenta deshabilitar NetShield. <a href="%1$s">
+Más información</a>.]]></string>
+    <string name="netshield_status_on">Activado</string>
+    <string name="netshield_status_off">Desactivado</string>
+    <string name="netshield_free_title">Navega sin anuncios con NetShield</string>
+    <string name="netshield_free_description">Bloquea anuncios, rastreadores y software malicioso en sitios web y apps</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Ads\nblocked</string>
+    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Bloquear solo malware</string>
     <string name="netShieldFullBlock">Bloquear malware, seguimiento, anuncios</string>
     <string name="dialogDontShowAgain">No mostrar de nuevo</string>
