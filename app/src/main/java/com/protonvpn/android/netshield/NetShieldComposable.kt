@@ -37,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -218,19 +219,19 @@ private fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
             isDisabledStyle = isGreyedOut || adsCount == 0L,
             title = pluralStringResource(id = R.plurals.netshield_ads_blocked, count = adsCount.toInt()),
             content = if (adsCount == 0L) "-" else adsCount.toString(),
-            modifier = modifier
+            modifier = modifier.testTag("adsBlocked")
         )
         BandwidthColumn(
             isDisabledStyle = isGreyedOut || trackerCount == 0L,
             title = pluralStringResource(id = R.plurals.netshield_trackers_stopped, count = trackerCount.toInt()),
             content = if (trackerCount == 0L) "-" else trackerCount.toString(),
-            modifier = modifier
+            modifier = modifier.testTag("trackersStopped")
         )
         BandwidthColumn(
             isDisabledStyle = isGreyedOut || dataSaved == 0L,
             title = stringResource(id = R.string.netshield_data_saved),
             content = if (dataSaved == 0L) "-" else ConnectionTools.bytesToSize(dataSaved),
-            modifier = modifier
+            modifier = modifier.testTag("bandwidthSaved")
         )
     }
 }
@@ -251,6 +252,7 @@ private fun BandwidthColumn(
             text = content,
             style = if (isDisabledStyle) ProtonTheme.typography.defaultWeak else ProtonTheme.typography.default,
             textAlign = TextAlign.Center,
+            modifier = Modifier.testTag("value")
         )
         Text(
             text = title,
