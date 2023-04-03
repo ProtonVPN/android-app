@@ -556,7 +556,8 @@ class Helpers {
         def hook = System.getenv("SLACK_PUBLISH_HOOK")
         if (hook == null)
             return
-        def json = new JsonOutput().toJson(["text": ":android: :protonvpn: ${getFullVersionName()} released to internal\n" +
+        def sha = System.getenv("CI_COMMIT_SHA")
+        def json = new JsonOutput().toJson(["text": ":android: :protonvpn: ${getFullVersionName()} released to internal (SHA ${sha.take(8)}...)\n" +
                 "Release notes:\n" +
                 "${getReleaseNotes(1000)}"])
         exec(["curl", "-X", "POST", "-H", "'Content-type: application/json'", "--data", json, hook])
