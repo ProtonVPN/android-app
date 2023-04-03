@@ -337,7 +337,15 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Te statystyki nie zawierają adresu IP i nie mogą zostać użyte do identyfikacji użytkownika. Dane nie zostaną udostępnione stronom trzecim. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
     <string name="netShieldDescription">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie </string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Chroń się przed reklamami, złośliwym oprogramowaniem i skryptami śledzącymi na stronach internetowych oraz w aplikacjach. Jeśli strony internetowe się nie ładują, spróbuj wyłączyć funkcję NetShield. <a href="%1$s">Dowiedz się więcej</a>.]]></string>
+    <string name="netshield_status_on">Włączone</string>
+    <string name="netshield_status_off">Wyłączone</string>
+    <string name="netshield_free_title">Przeglądaj bez reklam dzięki funkcji NetShield</string>
+    <string name="netshield_free_description">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie na stronach internetowych oraz w aplikacjach</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Ads\nblocked</string>
+    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Zablokuj złośliwe oprogramowanie</string>
     <string name="netShieldFullBlock">Zablokuj złośliwe oprogramowanie, skrypty śledzące i reklamy</string>
     <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>

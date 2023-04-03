@@ -336,7 +336,15 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Aceste statistici nu vă conțin adresa IP și nu pot fi utilizate să vă identifice. Nu le vom partaja cu terțe părți. <a href="%1$s">Detalii</a>]]></string>
     <string name="netShieldEnabledWarning">Rețineți că unele site-uri nu funcționeză complet datorită conținutului blocat.</string>
     <string name="netShieldDescription">Blochează reclame, urmăritori și malware </string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Protejați-vă de reclame, programe malițioase și urmărirea de pe paginile web și din aplicații. Dacă paginile web nu se încarcă, încercați cu NetShield dezactivat. <a href="%1$s">Detalii</a>.]]></string>
+    <string name="netshield_status_on">Pornit</string>
+    <string name="netshield_status_off">Oprit</string>
+    <string name="netshield_free_title">Navigați fără reclame cu NetShield</string>
+    <string name="netshield_free_description">Blocați reclame, urmăritori și malware pe pagini web și aplicații</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Ads\nblocked</string>
+    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Blocare doar malware</string>
     <string name="netShieldFullBlock">Blocare malware, urmărire, reclame</string>
     <string name="dialogDontShowAgain">Nu mai arăta</string>

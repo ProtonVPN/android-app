@@ -337,7 +337,15 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="netShieldEnabledWarning">Будзьце ўважлівы, бо некаторыя сайты могуць працаваць не належным чынам па прычыне заблакіраванага змесціва.</string>
     <string name="netShieldDescription">Блакіраваць рэкламу, праграмы сачэння і шкодныя праграмы </string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Абараніце сябе ад рэкламы, шкодных праграм і праграм сачэння на вэб-сайтах і ў праграмах. Калі вэб-сайты не грузяцца, паспрабуйце адключыць NetShield. <a href="%1$s">Даведацца больш</a>.]]></string>
+    <string name="netshield_status_on">Уключана</string>
+    <string name="netshield_status_off">Выключана</string>
+    <string name="netshield_free_title">Прагляд без рэкламы з NetShield</string>
+    <string name="netshield_free_description">Блакіроўка рэкламы, праграм сачэння і шкодных праграм на вэб-сайтах і ў праграмах</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Ads\nblocked</string>
+    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Блакіраваць толькі шкодныя праграмы</string>
     <string name="netShieldFullBlock">Блакіраваць шкодныя праграмы, праграмы сачэння і рэкламу</string>
     <string name="dialogDontShowAgain">Больш не паказваць</string>

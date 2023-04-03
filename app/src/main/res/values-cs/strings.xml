@@ -337,7 +337,15 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Tyto statistiky neobsahují vaši IP adresu a nelze je použít k vaší identifikaci. Nikdy je nebudeme sdílet se třetími stranami. <a href="%1$s">Více informací</a>]]></string>
     <string name="netShieldEnabledWarning">Upozornění: Některé stránky nemusí správně fungovat kvůli blokaci obsahu.</string>
     <string name="netShieldDescription">Blokovat reklamy, slídiče a malware </string>
-    <string name="netshield">NetShield</string>
+    <string name="netshield_settings_description"><![CDATA[Chraňte se před raklamami, malwarem a sledovacími prvky na webových stránkách a v aplikacích. Pokud se stránky nenačítají, zkuste vypnout NetShield. <a href="%1$s">Více informací</a>.]]></string>
+    <string name="netshield_status_on">Zapnuto</string>
+    <string name="netshield_status_off">Vypnuto</string>
+    <string name="netshield_free_title">Prohlížejte bez reklam s NetShield</string>
+    <string name="netshield_free_description">Blokujte reklamy, sledovací prvky a malware na webových stránkách a v aplikacích</string>
+    <string name="netshield_status_on_click">Enter netshield setting</string>
+    <string name="netshield_ads_blocked">Ads\nblocked</string>
+    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Blokovat pouze malware</string>
     <string name="netShieldFullBlock">Blokovat malware, slídiče, reklamy</string>
     <string name="dialogDontShowAgain">Příště nezobrazovat</string>
