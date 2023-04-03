@@ -511,6 +511,12 @@ class Helpers {
     }
 
     String getFullVersionName() {
+        // To be used e.g. when we don't want the version on hotfix branch to change when adding
+        // CI-related fixes.
+        def override = System.getenv("OVERRIDE_VERSION_NAME")
+        if (override != null)
+            return override
+
         // Find last tag in the form M.m.D.R, D and R are optional
         def tag = exec('git tag --sort=v:refname --merged HEAD').trim().split('\n').reverse().find { it.matches('\\d+(\\.\\d+){1,3}') }
         def tagSplit = Arrays.stream(tag.split("\\.")).mapToInt { it.toInteger() }.toArray()
