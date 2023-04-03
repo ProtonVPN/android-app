@@ -26,6 +26,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'kotlin-kapt'
 
 android {
+    namespace 'com.protonvpn.test.shared'
     compileSdk rootProject.ext.compileSdkVersion
 
     flavorDimensions "default"

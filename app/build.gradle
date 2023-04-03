@@ -50,8 +50,8 @@ jacoco {
 task jacocoTestReport(type: JacocoReport) {
 
     reports {
-        xml.enabled = true
-        html.enabled = true
+        xml.required = true
+        html.required = true
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', 'ch.protonmail.android.utils.nativelib']
@@ -132,6 +132,7 @@ def helpers = new Helpers(rootDir)
 
 android {
     namespace "com.protonvpn.android"
+    testNamespace 'com.protonvpn'
     buildToolsVersion "31.0.0"
     ndkVersion rootProject.ext.compileNdkVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -160,8 +161,8 @@ android {
         testInstrumentationRunnerArguments clearPackageData: 'true' // Clear app data between tests.
         testInstrumentationRunnerArguments useTestStorageService: 'true'
         vectorDrawables.useSupportLibrary = true
+        resourceConfigurations = supportedLocales
 
-        resConfigs supportedLocales
         def availableLocalesJava = supportedLocales.collect { "\"$it\"" }.join(", ")
         buildConfigField "String[]", "SUPPORTED_LOCALES", "{$availableLocalesJava}"
 
@@ -279,26 +280,28 @@ android {
             includeAndroidResources = true
         }
     }
-
     packagingOptions {
-        exclude "DebugProbesKt.bin"
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE.md'
-        exclude 'META-INF/LICENSE*'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
-        exclude 'META-INF/AL2.0'
-        exclude 'MANIFEST.MF'
-
+        resources {
+            excludes += [
+                    'DebugProbesKt.bin',
+                    'META-INF/DEPENDENCIES.txt',
+                    'META-INF/NOTICE.txt',
+                    'META-INF/NOTICE.md',
+                    'META-INF/LICENSE*',
+                    'META-INF/DEPENDENCIES',
+                    'META-INF/notice.txt',
+                    'META-INF/license.txt',
+                    'META-INF/dependencies.txt',
+                    'META-INF/LGPL2.1',
+                    'META-INF/AL2.0',
+                    'MANIFEST.MF'
+            ]
+        }
         jniLibs {
             useLegacyPackaging = true
         }
     }
+
     buildFeatures {
         compose true
     }

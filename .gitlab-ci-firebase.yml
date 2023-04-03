@@ -21,7 +21,7 @@
     NUM_SHARDS: 1
   script:
     - *firebase_authenticate_script
-    - awk 'BEGIN { print strftime()  }'
+    - date
     - gcloud --quiet beta firebase test android
       run firebase-device-config.yml:${TESTS_TYPE}
       --app "$APP"
@@ -34,7 +34,7 @@
       --directories-to-pull /sdcard
       --test-targets "class $TEST_SUITE" 2>&1 | tee results.txt
     - echo gcloud end time
-    - awk 'BEGIN { print strftime()  }'
+    - date
     - gcsbucket=$(cat results.txt | grep 'Raw results will be stored' | awk -F/ '{print "gs://" $6 "/" $7}')
     - echo $gcsbucket
     - if [ ! -z "$COVERAGE_FOLDER" ]; then
@@ -46,7 +46,7 @@
               gsutil -m cp ${line}artifacts/sdcard/googletest/internal_use/coverage/*.ec "$dst";
             done;
       fi
-    - awk 'BEGIN { print strftime()  }'
+    - date
   artifacts:
     expire_in: 1 week
     paths:
