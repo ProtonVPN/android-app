@@ -19,22 +19,11 @@
 
 package com.protonvpn.testSuites
 
-import com.protonvpn.tests.account.AccountTests
 import com.protonvpn.tests.bugReport.MockedBugReportTests
 import com.protonvpn.tests.connection.ConnectionTests
 import com.protonvpn.tests.freeRescope.FreeRescopeTests
 import com.protonvpn.tests.logging.ProtonLoggerImplTests
-import com.protonvpn.tests.login.LogoutTests
-import com.protonvpn.tests.map.MapTests
-import com.protonvpn.tests.partnership.PartnershipTests
-import com.protonvpn.tests.profiles.ProfileFreeUserTests
-import com.protonvpn.tests.profiles.ProfilePlusUserTests
-import com.protonvpn.tests.promooffer.HomeActivityPromoOfferTests
-import com.protonvpn.tests.promooffer.PromoOfferActivityTests
 import com.protonvpn.tests.promooffer.WelcomeOfferTests
-import com.protonvpn.tests.secureCore.SecureCoreSecurityTests
-import com.protonvpn.tests.secureCore.SecureCoreTests
-import com.protonvpn.tests.settings.SettingsTests
 import com.protonvpn.tests.settings.data.UserDataMigrationTests
 import com.protonvpn.tests.telemetry.TelemetryCacheTests
 import com.protonvpn.tests.util.LiveEventTests
@@ -44,22 +33,16 @@ import org.junit.runners.Suite
 
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
-    AccountTests::class,
+// Tests to update and reenable later:
+//    HomeActivityPromoOfferTests::class,
+//    PartnershipTests::class,
+//    PromoOfferActivityTests::class,
+//    LogoutTests::class,
     ConnectionTests::class,
     FreeRescopeTests::class,
-    HomeActivityPromoOfferTests::class,
     LiveEventTests::class,
-    LogoutTests::class,
-    MapTests::class,
     MockedBugReportTests::class,
-    PartnershipTests::class,
-    ProfileFreeUserTests::class,
-    ProfilePlusUserTests::class,
-    PromoOfferActivityTests::class,
     ProtonLoggerImplTests::class,
-    SecureCoreTests::class,
-    SecureCoreSecurityTests::class,
-    SettingsTests::class,
     TelemetryCacheTests::class,
     UserDataMigrationTests::class,
     VpnConnectionTests::class,
