@@ -57,7 +57,7 @@ mobile tests mocked api:
   extends: .tests_preparation_script
   variables:
     TESTS_TYPE: mobileTest
-    NUM_SHARDS: 3
+    NUM_SHARDS: 2
     APP_LOCATION: "app/build/outputs/apk/blackGooglePlayStore/debug/"
     APP_TYPE: "black-google-playStore-debug.apk"
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/blackGooglePlayStore/debug/"
