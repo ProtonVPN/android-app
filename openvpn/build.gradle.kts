@@ -168,6 +168,10 @@ android {
             isUniversalApk = true
         }
     }
+    buildFeatures {
+        aidl = true
+    }
+    namespace = "de.blinkt.openvpn"
 
     packaging {
         jniLibs {
