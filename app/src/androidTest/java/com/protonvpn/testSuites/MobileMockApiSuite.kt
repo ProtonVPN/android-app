@@ -44,6 +44,8 @@ import org.junit.runners.Suite
     MockedBugReportTests::class,
     ProtonLoggerImplTests::class,
     TelemetryCacheTests::class,
+    // Note: when we have a lot of UI component tests they can be run in a separate CI job without test orchestrator.
+    UiComponentsSuite::class,
     UserDataMigrationTests::class,
     VpnConnectionTests::class,
     WelcomeOfferTests::class,
