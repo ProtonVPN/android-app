@@ -83,6 +83,14 @@ publish-github:
   except:
     - schedules
   interruptible: false
+  before_script:
+    - |
+      # if not a tag pipeline and job is running on top of a release branch release/<version> we extract <version>
+      if [ -z "$CI_COMMIT_TAG" ] && [ "${CI_COMMIT_REF_NAME#release/}" != "$CI_COMMIT_REF_NAME" ]; then
+        export CI_COMMIT_TAG="$(echo "$CI_COMMIT_REF_NAME" | cut -d '/' -f 2)"
+        echo "extract tag from release branch ($CI_COMMIT_REF_NAME) -> $CI_COMMIT_TAG"
+      fi
+      echo "version: $CI_COMMIT_TAG"
   variables:
     RELEASE_APP: android-vpn
     RELEASE_GITHUB_REPOSITORY: $PUBLIC_REPO_URL
