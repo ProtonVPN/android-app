@@ -24,9 +24,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -37,12 +41,22 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -92,6 +106,7 @@ private fun Content() {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
+    var forceRtl by remember { mutableStateOf(false) }
 
     val title = remember {
         navController.currentBackStackEntryFlow.map { navEntry ->
@@ -116,8 +131,19 @@ private fun Content() {
                 IconButton(
                     onClick = { coroutineScope.launch { scaffoldState.drawerState.open() } },
                 ) {
-                    Icon(Icons.Default.Menu, contentDescription = null)
+                    Icon(Icons.Default.Menu, contentDescription = "Menu")
                 }
+            },
+            actions = {
+                CheckboxAction(
+                    "Force RTL",
+                    checked = forceRtl,
+                    onCheckedChange = { forceRtl = !forceRtl },
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .fillMaxHeight()
+                        .padding(4.dp, 8.dp)
+                )
             }
         )
     }
@@ -131,9 +157,12 @@ private fun Content() {
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
-            NavHost(navController = navController, startDestination = sampleScreens.first().route) {
-                sampleScreens.forEach { sample ->
-                    composable(sample.route) { sample.Content(modifier = Modifier) }
+            val direction = if (forceRtl) LayoutDirection.Rtl else LocalLayoutDirection.current
+            CompositionLocalProvider(LocalLayoutDirection provides direction) {
+                NavHost(navController = navController, startDestination = sampleScreens.first().route) {
+                    sampleScreens.forEach { sample ->
+                        composable(sample.route) { sample.Content(modifier = Modifier) }
+                    }
                 }
             }
         }
@@ -157,6 +186,25 @@ private fun Drawer(
                 .padding(16.dp, 8.dp)
         )
         VerticalSpacer()
+    }
+}
+
+// Note: it's not a very generic implementation, don't reuse it directly.
+@Composable
+private fun CheckboxAction(
+    label: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        Modifier
+            .toggleable(checked, onValueChange = onCheckedChange, role = Role.Checkbox)
+            .then(modifier),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(label, modifier = Modifier.padding(end = 8.dp))
+        Checkbox(checked = checked, onCheckedChange = null, modifier = Modifier.clearAndSetSemantics {})
     }
 }
 
