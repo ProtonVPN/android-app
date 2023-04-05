@@ -90,8 +90,9 @@ class UiCatalogActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            VpnTheme {
-                Content()
+            var isDark by remember { mutableStateOf(true) }
+            VpnTheme(isDark = isDark) {
+                Content(isDarkModeEnabled = isDark, onDarkModeToggle = { isDark = !isDark })
             }
         }
     }
@@ -101,12 +102,15 @@ class UiCatalogActivity : ComponentActivity() {
 @Composable
 private fun PreviewContent() {
     VpnTheme(isDark = true) {
-        Content()
+        Content(true, {})
     }
 }
 
 @Composable
-private fun Content() {
+private fun Content(
+    isDarkModeEnabled: Boolean, // Only for the toggle, this composable doesn't use theme,
+    onDarkModeToggle: () -> Unit
+) {
     val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -141,14 +145,21 @@ private fun Content() {
                 }
             },
             actions = {
+                val actionModifier = Modifier
+                    .wrapContentWidth()
+                    .fillMaxHeight()
+                    .padding(4.dp, 8.dp)
                 CheckboxAction(
-                    "Force RTL",
+                    "Dark",
+                    checked = isDarkModeEnabled,
+                    onCheckedChange = { onDarkModeToggle() },
+                    modifier = actionModifier
+                )
+                CheckboxAction(
+                    "RTL",
                     checked = forceRtl,
                     onCheckedChange = { forceRtl = !forceRtl },
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .fillMaxHeight()
-                        .padding(4.dp, 8.dp)
+                    modifier = actionModifier
                 )
             }
         )
