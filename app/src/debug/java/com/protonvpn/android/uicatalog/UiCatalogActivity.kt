@@ -17,32 +17,37 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.protonvpn.android.uicatalog
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -63,10 +68,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import me.proton.core.compose.component.VerticalSpacer
-import me.proton.core.compose.theme.ProtonTheme3
 
 abstract class SampleScreen(
     val title: String,
@@ -86,7 +90,7 @@ class UiCatalogActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ProtonTheme3 {
+            VpnTheme {
                 Content()
             }
         }
@@ -96,40 +100,42 @@ class UiCatalogActivity : ComponentActivity() {
 @Preview
 @Composable
 private fun PreviewContent() {
-    ProtonTheme3(isDark = true) {
+    VpnTheme(isDark = true) {
         Content()
     }
 }
 
 @Composable
 private fun Content() {
-    val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
     var forceRtl by remember { mutableStateOf(false) }
 
-    val title = remember {
+    val currentSample = remember {
         navController.currentBackStackEntryFlow.map { navEntry ->
             sampleScreens
                 .find { it.route == navEntry.destination.route }
-                ?.title
         }
-    }.collectAsStateWithLifecycle(initialValue = "").value
+    }.collectAsStateWithLifecycle(initialValue = null).value
 
-    val drawerContent: @Composable ColumnScope.() -> Unit = {
-        Drawer(onSampleChanged = { newSample ->
-            navController.navigateReplacing(newSample.route)
-            coroutineScope.launch {
-                scaffoldState.drawerState.close()
+    val drawerContent: @Composable () -> Unit = {
+        Drawer(
+            selectedSample = currentSample,
+            onSampleChanged = { newSample ->
+                navController.navigateReplacing(newSample.route)
+                coroutineScope.launch {
+                    drawerState.close()
+                }
             }
-        })
+        )
     }
     val topBar: @Composable () -> Unit = {
         TopAppBar(
-            title = { Text(title ?: "") },
+            title = { Text(currentSample?.title ?: "") },
             navigationIcon = {
                 IconButton(
-                    onClick = { coroutineScope.launch { scaffoldState.drawerState.open() } },
+                    onClick = { coroutineScope.launch { drawerState.open() } },
                 ) {
                     Icon(Icons.Default.Menu, contentDescription = "Menu")
                 }
@@ -147,21 +153,24 @@ private fun Content() {
             }
         )
     }
-    Scaffold(
-        topBar = topBar,
+    ModalNavigationDrawer(
         drawerContent = drawerContent,
-        scaffoldState = scaffoldState
-    ) { paddingValues ->
-        Surface(
-            modifier = Modifier
-                .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
-        ) {
+        drawerState = drawerState
+    ) {
+        Scaffold(
+            topBar = topBar,
+        ) { paddingValues ->
             val direction = if (forceRtl) LayoutDirection.Rtl else LocalLayoutDirection.current
             CompositionLocalProvider(LocalLayoutDirection provides direction) {
                 NavHost(navController = navController, startDestination = sampleScreens.first().route) {
                     sampleScreens.forEach { sample ->
-                        composable(sample.route) { sample.Content(modifier = Modifier) }
+                        composable(sample.route) {
+                            sample.Content(
+                                modifier = Modifier
+                                    .padding(paddingValues)
+                                    .verticalScroll(rememberScrollState())
+                            )
+                        }
                     }
                 }
             }
@@ -172,20 +181,19 @@ private fun Content() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Drawer(
+    selectedSample: SampleScreen?,
     onSampleChanged: (SampleScreen) -> Unit
 ) {
-    sampleScreens.forEach { sample ->
-        // TODO: highlight current sample
-        Text(
-            sample.title,
-            Modifier
-                .fillMaxWidth()
-                .clickable {
-                    onSampleChanged(sample)
-                }
-                .padding(16.dp, 8.dp)
-        )
-        VerticalSpacer()
+    ModalDrawerSheet {
+        Spacer(Modifier.height(24.dp))
+        sampleScreens.forEach { sample ->
+            NavigationDrawerItem(
+                label = { Text(sample.title) },
+                onClick = { onSampleChanged(sample) },
+                selected = sample == selectedSample,
+                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+            )
+        }
     }
 }
 
