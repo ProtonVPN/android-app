@@ -19,6 +19,7 @@
 
 package com.protonvpn.tests.login
 
+import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.mocks.TestApiConfig
@@ -63,6 +64,8 @@ class TwoFaTests {
     @Test
     fun backToLogin() {
         TwoFaRobot()
+            .verify { formElementsDisplayed() }
+            .apply { Espresso.closeSoftKeyboard() }
             .back<AddAccountRobot>()
             .verify { addAccountElementsDisplayed() }
     }
