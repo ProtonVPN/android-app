@@ -129,6 +129,7 @@ def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath'
 def testAccountPassword = project.hasProperty('testAccountPassword') ? testAccountPassword : "\"Pass\""
 def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
 def supportedLocales = ['b+es+419', 'be', 'cs', 'de', 'el', 'en', 'es-rES', 'es-rMX', 'fa', 'fi', 'fr', 'hr', 'in', 'it', 'ja', 'ka', 'ko', 'nb-rNO', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'sk', 'sv-rSE', 'tr', 'uk', 'zh-rTW']
+def redesignTestBuild = project.hasProperty('redesignTestBuild') ? project.redesignTestBuild.toBoolean() : false
 def helpers = new Helpers(rootDir)
 
 android {
@@ -190,6 +191,10 @@ android {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
+        }
+
+        if (redesignTestBuild) {
+            applicationIdSuffix '.testing'
         }
     }
     flavorDimensions = ["environment", "functionality", "distribution"]
@@ -259,6 +264,7 @@ android {
             getIsDefault().set(true)
             buildConfigField "String", "STORE_SUFFIX", "\"+play\""
         }
+
         amazon {
             dimension "distribution"
             buildConfigField "String", "STORE_SUFFIX", "\"+aws\""
@@ -592,6 +598,13 @@ class Helpers {
         return file.text
     }
 
+    boolean hasReleaseNotes() {
+        def lastSha = System.getenv("CI_COMMIT_BEFORE_SHA")
+        def branchName = System.getenv("CI_COMMIT_BRANCH")
+        def output = exec(["git", "branch", branchName, "--contains", lastSha], false)
+        return output != null
+    }
+
     String getReleaseNotes(int trimAt) {
         def lastSha = System.getenv("CI_COMMIT_BEFORE_SHA")
         def notes = exec(["git", "log", "${lastSha}..HEAD", "--pretty=format:- %s"])
@@ -671,6 +684,15 @@ tasks.register("getVersionCode"){
 tasks.register("getArchivesName"){
     doLast {
         println archivesBaseName
+    }
+}
+tasks.register("getReleaseNotes"){
+    doLast {
+        if (helpers.hasReleaseNotes()) {
+            println helpers.getReleaseNotes(1000)
+        } else {
+            println "- Branch rebased"
+        }
     }
 }
 

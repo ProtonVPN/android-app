@@ -256,6 +256,22 @@ build amazon release (manual):
     - schedules
   when: manual # this implies allow_failure
 
+build release firebase distribution:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "redesign-main"
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+  tags:
+    - xlarge-k8s
+  script:
+    - ./gradlew assembleProductionGooglePlayStoreRelease -PredesignTestBuild=true
+  artifacts:
+    expire_in: 3 week
+    paths:
+      - app/build/outputs/apk
+
 build release (auto):
   stage: build
   rules:
