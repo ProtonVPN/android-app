@@ -29,6 +29,8 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.jitterMs
 import dagger.Reusable
 import dagger.assisted.Assisted
@@ -47,15 +49,17 @@ class TelemetryUploadWorkerScheduler @Inject constructor(
 ) : TelemetryUploadScheduler {
 
     override fun scheduleTelemetryUpload() {
-        scheduleUpload(appContext, ExistingWorkPolicy.KEEP)
+        scheduleUpload(appContext, ExistingWorkPolicy.KEEP, "new events")
     }
 
     companion object {
         fun scheduleUpload(
             appContext: Context,
             existingWorkPolicy: ExistingWorkPolicy,
+            why: String,
             initialDelayMs: Long = jitterMs(DEFAULT_UPLOAD_DELAY_MS)
         ) {
+            ProtonLogger.logCustom(LogCategory.TELEMETRY, "scheduling upload: $why")
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
@@ -79,19 +83,22 @@ class TelemetryUploadWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         if (!networkManager.isConnectedToNetwork()) {
+            ProtonLogger.logCustom(LogCategory.TELEMETRY, "UploadWorker: no network, retry layer")
             return Result.retry()
         }
         val result = telemetry.uploadPendingEvents()
         when {
             result is Telemetry.UploadResult.Success && result.hasMoreEvents ->
-                TelemetryUploadWorkerScheduler.scheduleUpload(applicationContext, ExistingWorkPolicy.REPLACE)
+                TelemetryUploadWorkerScheduler.scheduleUpload(applicationContext, ExistingWorkPolicy.REPLACE, "more events")
             result is Telemetry.UploadResult.Failure && result.retryAfter != null ->
                 TelemetryUploadWorkerScheduler.scheduleUpload(
                     applicationContext,
                     ExistingWorkPolicy.REPLACE,
+                    "failure with retryAfter",
                     jitterMs(result.retryAfter.inWholeMilliseconds)
                 )
         }
+        ProtonLogger.logCustom(LogCategory.TELEMETRY, "UploadWorker result: $result")
         // The result is ignored if the code above reschedules the work.
         return when (result) {
             is Telemetry.UploadResult.Success -> Result.success()
