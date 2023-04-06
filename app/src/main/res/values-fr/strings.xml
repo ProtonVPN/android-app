@@ -17,7 +17,7 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Strings related to login -->
     <string name="hintUsername">Nom d\'utilisateur</string>
     <string name="hintPassword">Mot de passe</string>
@@ -341,8 +341,15 @@
     <string name="netshield_free_title">Naviguez sans publicité avec NetShield</string>
     <string name="netshield_free_description">Bloquez les publicités, les traqueurs et les logiciels malveillants sur les sites internet et les applications.</string>
     <string name="netshield_status_on_click">Enter netshield setting</string>
-    <string name="netshield_ads_blocked">Publicités\nbloquées</string>
-    <string name="netshield_trackers_stopped">Traqueurs\nbloqués</string>
+    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Ad\nblocked</item>
+        <item quantity="other">Ads\nblocked</item>
+    </plurals>
+    <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Tracker\nstopped</item>
+        <item quantity="other">Trackers\nstopped</item>
+    </plurals>
     <string name="netshield_data_saved">Données\nenregistrées</string>
     <string name="netShieldBlockMalwareOnly">Bloquer uniquement les logiciels malveillants</string>
     <string name="netShieldFullBlock">Bloquer les logiciels malveillants, traqueurs et publicités</string>

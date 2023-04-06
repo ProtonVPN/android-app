@@ -33,8 +33,10 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
@@ -114,7 +116,7 @@ private fun NetShieldView(state: NetShieldViewState.NetShieldState, navigateToNe
         Row(
             modifier = Modifier
                 .clickable(
-                    onClickLabel = stringResource(R.string.netshield_status_on_click),
+                    onClickLabel = stringResource(R.string.accessibility_netshield_status_on_click),
                     onClick = { navigateToNetShieldSubSetting() }
                 )
                 .semantics(mergeDescendants = true, properties = {})
@@ -162,6 +164,7 @@ private fun NetShieldView(state: NetShieldViewState.NetShieldState, navigateToNe
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
     Row(
@@ -176,21 +179,21 @@ private fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
             .weight(1f)
             .padding(8.dp)
         BandwidthColumn(
-            isGreyedOut || adsCount == 0L,
-            R.string.netshield_ads_blocked,
-            if (adsCount == 0L) "-" else adsCount.toString(),
+            isDisabledStyle = isGreyedOut || adsCount == 0L,
+            title = pluralStringResource(id = R.plurals.netshield_ads_blocked, count = adsCount.toInt()),
+            content = if (adsCount == 0L) "-" else adsCount.toString(),
             modifier = modifier
         )
         BandwidthColumn(
-            isGreyedOut || trackerCount == 0L,
-            R.string.netshield_trackers_stopped,
-            if (trackerCount == 0L) "-" else trackerCount.toString(),
+            isDisabledStyle = isGreyedOut || trackerCount == 0L,
+            title = pluralStringResource(id = R.plurals.netshield_trackers_stopped, count = trackerCount.toInt()),
+            content = if (trackerCount == 0L) "-" else trackerCount.toString(),
             modifier = modifier
         )
         BandwidthColumn(
-            isGreyedOut || dataSaved == 0L,
-            R.string.netshield_data_saved,
-            if (dataSaved == 0L) "-" else ConnectionTools.bytesToSize(dataSaved),
+            isDisabledStyle = isGreyedOut || dataSaved == 0L,
+            title = stringResource(id = R.string.netshield_data_saved),
+            content = if (dataSaved == 0L) "-" else ConnectionTools.bytesToSize(dataSaved),
             modifier = modifier
         )
     }
@@ -199,7 +202,7 @@ private fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
 @Composable
 private fun BandwidthColumn(
     isDisabledStyle: Boolean,
-    titleRes: Int,
+    title: String,
     content: String,
     modifier: Modifier = Modifier
 ) {
@@ -214,7 +217,7 @@ private fun BandwidthColumn(
             textAlign = TextAlign.Center,
         )
         Text(
-            text = stringResource(id = titleRes),
+            text = title,
             style = ProtonTheme.typography.captionWeak,
             textAlign = TextAlign.Center,
         )

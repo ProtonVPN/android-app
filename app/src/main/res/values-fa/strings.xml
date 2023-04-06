@@ -17,7 +17,7 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Strings related to login -->
     <string name="hintUsername">نام کاربری</string>
     <string name="hintPassword">رمز عبور</string>
@@ -340,9 +340,15 @@
     <string name="netshield_status_off">خاموش</string>
     <string name="netshield_free_title">Browse ad-free with NetShield</string>
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
-    <string name="netshield_status_on_click">Enter netshield setting</string>
-    <string name="netshield_ads_blocked">Ads\nblocked</string>
-    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Ad\nblocked</item>
+        <item quantity="other">Ads\nblocked</item>
+    </plurals>
+    <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Tracker\nstopped</item>
+        <item quantity="other">Trackers\nstopped</item>
+    </plurals>
     <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">فقط بدافزار مسدود شود</string>
     <string name="netShieldFullBlock">مسدود کردن بدافزار، ردیابی، آگهی‌ها</string>
