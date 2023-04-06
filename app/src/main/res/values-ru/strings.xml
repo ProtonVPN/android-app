@@ -17,7 +17,7 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Strings related to login -->
     <string name="hintUsername">Имя пользователя</string>
     <string name="hintPassword">Пароль</string>
@@ -342,9 +342,19 @@
     <string name="netshield_status_off">Выкл</string>
     <string name="netshield_free_title">Просматривайте веб-сайты без рекламы с помощью NetShield</string>
     <string name="netshield_free_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
-    <string name="netshield_status_on_click">Enter netshield setting</string>
-    <string name="netshield_ads_blocked">Ads\nblocked</string>
-    <string name="netshield_trackers_stopped">Trackers\nstopped</string>
+    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Ad\nblocked</item>
+        <item quantity="few">Ads\nblocked</item>
+        <item quantity="many">Ads\nblocked</item>
+        <item quantity="other">Ads\nblocked</item>
+    </plurals>
+    <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Tracker\nstopped</item>
+        <item quantity="few">Trackers\nblocked</item>
+        <item quantity="many">Trackers\nblocked</item>
+        <item quantity="other">Trackers\nstopped</item>
+    </plurals>
     <string name="netshield_data_saved">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Блокировать только вредоносные программы</string>
     <string name="netShieldFullBlock">Блокировать вредоносные программы, трекеры, рекламу</string>
