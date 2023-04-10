@@ -340,16 +340,16 @@
     <string name="netshield_status_off">Desactivado</string>
     <string name="netshield_free_title">Navegue sin anuncios con NetShield</string>
     <string name="netshield_free_description">Bloquea anuncios, rastreadores y malware en apps y sitios web</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="accessibility_netshield_status_on_click">Ingresar a los ajustes de NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="one">Anuncio\nbloqueado</item>
+        <item quantity="other">Anuncios\nbloqueados</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nstopped</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="one">Rastreador\ndetenido</item>
+        <item quantity="other">Rastreadores\ndetenidos</item>
     </plurals>
-    <string name="netshield_data_saved">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Datos\nguardados</string>
     <string name="netShieldBlockMalwareOnly">Bloquear malware solamente</string>
     <string name="netShieldFullBlock">Bloquear malware, rastreadores, anuncios</string>
     <string name="dialogDontShowAgain">No volver a mostrar</string>

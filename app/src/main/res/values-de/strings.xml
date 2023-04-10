@@ -97,7 +97,7 @@
     <string name="accountSubscriptionDetails"><![CDATA[Um dein Abonnement zu verwalten, öffne bitte die Webseite: <font color="%1$s">protonvpn.com</font>]]></string>
     <string name="accountButtonManage">Konto verwalten</string>
     <string name="accountButtonUseCoupon">Gutschein verwenden</string>
-    <string name="accountFree">Proton VPN-Free</string>
+    <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Konto</string>
     <string name="activitySettingsTitle">Einstellungen</string>
@@ -342,14 +342,14 @@
     <string name="netshield_free_description">Blockiere Werbung, Tracker und Malware auf Websites und Apps.</string>
     <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="one">Werbung\nblockiert</item>
+        <item quantity="other">Werbungen\nblockiert</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nstopped</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="one">Tracker\nblockiert</item>
+        <item quantity="other">Tracker\nblockiert</item>
     </plurals>
-    <string name="netshield_data_saved">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Daten\ngespart</string>
     <string name="netShieldBlockMalwareOnly">Nur Malware sperren</string>
     <string name="netShieldFullBlock">Malware, Tracking und Werbung sperren</string>
     <string name="dialogDontShowAgain">Nicht erneut anzeigen</string>
@@ -548,7 +548,7 @@
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Plus-Server</string>
     <string name="info_features">Funktionen</string>
-    <string name="smart_routing_title">Intelligentes Routing</string>
+    <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Diese Technologie ermöglicht es Proton VPN, höhere Geschwindigkeit und Sicherheit in schwer zu erreichenden Ländern zu bieten.</string>
     <string name="streaming_title">Streaming</string>
     <string name="streaming_description">Plus Server unterstützen das Streamen (Netflix, Disney+, usw.) von überall auf der Welt.</string>

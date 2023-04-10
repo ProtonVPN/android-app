@@ -17,10 +17,10 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Utilizador</string>
-    <string name="hintPassword">Senha</string>
+    <string name="hintPassword">Palavra-passe</string>
     <string name="splitTunnellingSwitch">Interruptor Split Tunneling</string>
     <string name="login">Sign in</string>
     <string name="hamburgerMenu">Menu Hamburger</string>
@@ -247,8 +247,8 @@
     <string name="error_prepare_vpn_title">Erro: problema de permissões VPN</string>
     <string name="error_server_not_set">O servidor já não está disponível</string>
     <string name="bugReportThankYouToast">Obrigado pelo seu relatório</string>
-    <string name="bugReportErrorEmptyEmail">O email não pode estar vazio</string>
-    <string name="bugReportErrorInvalidEmail">Endereço de email inválido</string>
+    <string name="bugReportErrorEmptyEmail">O correio electrónico não pode estar vazio.</string>
+    <string name="bugReportErrorInvalidEmail">Endereço de correio electrónico no válido</string>
     <string name="bugReportErrorEmptyDescription">Por favor, diga-nos o que aconteceu</string>
     <string name="bugReportLabelVpnLogsTitle">Incluir diários de erros</string>
     <string name="bugReportErrorLabelVpnLogsDescription">This sends local error logs (we don\'t log activity) to help us fix your problem</string>
@@ -342,14 +342,14 @@
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
     <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one" tools:ignore="ImpliedQuantity">Ad\nblocked</item>
+        <item quantity="one">Ad\nblocked</item>
         <item quantity="other">Ads\nblocked</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one" tools:ignore="ImpliedQuantity">Tracker\nstopped</item>
+        <item quantity="one">Tracker\nstopped</item>
         <item quantity="other">Trackers\nstopped</item>
     </plurals>
-    <string name="netshield_data_saved">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Bloquear apenas malware</string>
     <string name="netShieldFullBlock">Bloquear malware, rastreio, anúncios</string>
     <string name="dialogDontShowAgain">Não mostrar novamente</string>

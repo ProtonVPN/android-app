@@ -350,7 +350,7 @@ Más información</a>.]]></string>
         <item quantity="one">Tracker\nstopped</item>
         <item quantity="other">Trackers\nstopped</item>
     </plurals>
-    <string name="netshield_data_saved">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Bloquear solo malware</string>
     <string name="netShieldFullBlock">Bloquear malware, seguimiento, anuncios</string>
     <string name="dialogDontShowAgain">No mostrar de nuevo</string>
@@ -444,7 +444,7 @@ Más información</a>.]]></string>
     <string name="notification_cancel_to_free">Estás en el plan Free. Hay servidores y funciones gratuitas disponibles.</string>
     <string name="notification_cancel_to_basic">Estás en el plan Basic. Hay servidores y funciones básicas y gratuitas disponibles.</string>
     <string name="notification_cancel_to_delinquent">Podrás acceder a las funciones prémium de nuevo después de que se paguen las facturas pendientes.</string>
-    <string name="vpn_accelerator">Acelerador VPN</string>
+    <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Desde el servidor: </string>
     <string name="reconnect_to_server">Al servidor: </string>
     <string name="no_thanks">No, gracias</string>

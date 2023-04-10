@@ -287,7 +287,7 @@
     <string name="dialogTitleAttention">Perhatian</string>
     <string name="saveProfileAlreadySaved">Sudah disimpan</string>
     <string name="openUrlError">%1$s tidak dapat dibuka. Aplikasi browser tidak terdeteksi pada perangkat Anda.</string>
-    <string name="toastLoginAuthVersionError">Tidak dapat masuk karena versi otentikasi tidak didukung. Silakan hubungi layanan dukungan.</string>
+    <string name="toastLoginAuthVersionError">Tidak dapat masuk karena versi autentikasi tidak didukung. Silakan hubungi layanan dukungan.</string>
     <string name="loaderErrorTimeout">Waktu sambungan habis. Mohon coba lagi.</string>
     <string name="troubleshootButton">Penyelesaian Masalah</string>
     <string name="activityTroubleshootTitle">Penyelesaian Masalah</string>
@@ -339,16 +339,14 @@
     <string name="netshield_status_off">Nonaktif</string>
     <string name="netshield_free_title">Jelajahi internet tanpa iklan dengan NetShield</string>
     <string name="netshield_free_description">Blokir iklan, pelacak, dan malware pada berbagai situs web dan aplikasi</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="accessibility_netshield_status_on_click">Masukkan pengaturan NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="other">Iklan yang\ndiblokir</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nstopped</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="other">Pelacak yang\ndihentikan</item>
     </plurals>
-    <string name="netshield_data_saved">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\ndisimpan</string>
     <string name="netShieldBlockMalwareOnly">Blokir malware saja</string>
     <string name="netShieldFullBlock">Blokir malware, pelacak, iklan</string>
     <string name="dialogDontShowAgain">Jangan tampilkan lagi</string>

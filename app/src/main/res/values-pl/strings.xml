@@ -342,20 +342,20 @@
     <string name="netshield_status_off">Wyłączone</string>
     <string name="netshield_free_title">Przeglądaj bez reklam dzięki funkcji NetShield</string>
     <string name="netshield_free_description">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie na stronach internetowych oraz w aplikacjach</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="accessibility_netshield_status_on_click">Przejdź do ustawień funkcji NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad\nblocked</item>
-        <item quantity="few">Ads\nblocked</item>
-        <item quantity="many">Ads\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="one">reklama\nzablokowana</item>
+        <item quantity="few">reklamy\nzablokowane</item>
+        <item quantity="many">reklam\nzablokowanych</item>
+        <item quantity="other">reklam\nzablokowanych</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nstopped</item>
-        <item quantity="few">Trackers\nblocked</item>
-        <item quantity="many">Trackers\nblocked</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="one">skrypt śledzący\nzatrzymany</item>
+        <item quantity="few">skrypty śledzące\nzatrzymane</item>
+        <item quantity="many">skryptów śledzących\nzatrzymanych</item>
+        <item quantity="other">skryptów śledzących\nzatrzymanych</item>
     </plurals>
-    <string name="netshield_data_saved">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Zablokuj złośliwe oprogramowanie</string>
     <string name="netShieldFullBlock">Zablokuj złośliwe oprogramowanie, skrypty śledzące i reklamy</string>
     <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>
@@ -572,7 +572,7 @@
     <string name="smart_routing_description">Ta technologia pozwala zapewnić aplikacji Proton VPN wyższą prędkość i bezpieczeństwo w krajach nieszanujących prywatność.</string>
     <string name="streaming_title">Streaming</string>
     <string name="streaming_description">Dodatkowe serwery wspierają streaming (Netflix, Disney+ itp.) gdziekolwiek jesteś.</string>
-    <string name="p2p_title">P2P / BitTorrent</string>
+    <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Te serwery zapewniają najlepszą wydajność dla protokołu BitTorrent i udostępniania plików.</string>
     <string name="tor_title">Tor</string>
     <string name="tor_description">Przekieruj swój ruch internetowy przez wolniejszą, ale bardziej prywatną sieć Tor.</string>

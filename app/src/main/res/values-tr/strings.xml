@@ -340,16 +340,16 @@
     <string name="netshield_status_off">Kapalı</string>
     <string name="netshield_free_title">NetShield ile reklamlar olmadan gezinin</string>
     <string name="netshield_free_description">Siteler ile uygulamalarda bulunabilecek reklamları, izleyicileri ve kötü amaçlı yazılımları engelleyin</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="accessibility_netshield_status_on_click">NetShield ayarlarını yazın</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="one">Engellenen\nreklam</item>
+        <item quantity="other">Engellenen\nreklam</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nstopped</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="one">Durdurulan\nizleyici</item>
+        <item quantity="other">Durdurulan\nizleyici</item>
     </plurals>
-    <string name="netshield_data_saved">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Kazanılan\nveri</string>
     <string name="netShieldBlockMalwareOnly">Yalnızca kötü amaçlı yazılımlar engellensin</string>
     <string name="netShieldFullBlock">Kötü amaçlı yazılımlar, etkinlik izleyiciler ve reklamlar engellensin</string>
     <string name="dialogDontShowAgain">Bir daha gösterme</string>
@@ -548,7 +548,7 @@
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Plus sunucuları</string>
     <string name="info_features">Özellikler</string>
-    <string name="smart_routing_title">Akıllı yöneltme</string>
+    <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Bu teknoloji, hizmet verilmesi zor ülkelerde Proton VPN için daha yüksek hız ve güvenlik sağlar.</string>
     <string name="streaming_title">Yayın akışı</string>
     <string name="streaming_description">Plus sunucuları, dünyanın her yerinden yayın akışlarını (Netflix, Disney + vb.) destekler.</string>
