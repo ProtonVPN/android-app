@@ -349,10 +349,10 @@
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
         <item quantity="one">Tracker\nstopped</item>
-        <item quantity="few">Trackers\nblocked</item>
+        <item quantity="few">Trackers\nstopped</item>
         <item quantity="other">Trackers\nstopped</item>
     </plurals>
-    <string name="netshield_data_saved">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Blokiraj samo zlonamjerne programe</string>
     <string name="netShieldFullBlock">Blokirajte zlonamjerne programe, pratitelje, oglase</string>
     <string name="dialogDontShowAgain">Ne prikazuj ponovno</string>
@@ -558,7 +558,7 @@
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Plus poslužitelji</string>
     <string name="info_features">Značajke</string>
-    <string name="smart_routing_title">Pametno preusmjeravanje</string>
+    <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ova tehnologija omogućuje Proton VPN-u da pruža veću brzinu i sigurnost u zemljama koje je teško uslužiti.</string>
     <string name="streaming_title">Streamanje</string>
     <string name="streaming_description">Plus servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>

@@ -349,7 +349,7 @@
         <item quantity="one">Tracker\nstopped</item>
         <item quantity="other">Trackers\nstopped</item>
     </plurals>
-    <string name="netshield_data_saved">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
     <string name="netShieldBlockMalwareOnly">Blocca solo malware</string>
     <string name="netShieldFullBlock">Blocca malware, tracciamento, pubblicità</string>
     <string name="dialogDontShowAgain">Non mostrare nuovamente</string>
@@ -548,7 +548,7 @@
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Server Plus</string>
     <string name="info_features">Funzionalità</string>
-    <string name="smart_routing_title">Routing Intelligente</string>
+    <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Questa tecnologia consente a Proton VPN di fornire maggiore velocità e sicurezza in paesi difficili da servire.</string>
     <string name="streaming_title">Streaming</string>
     <string name="streaming_description">I server Plus supportano lo streaming (Netflix, Disney+, etc) da qualsiasi parte del mondo.</string>

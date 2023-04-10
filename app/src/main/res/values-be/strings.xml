@@ -17,7 +17,7 @@
  You should have received a copy of the GNU General Public License
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Імя карыстальніка</string>
     <string name="hintPassword">Пароль</string>
@@ -37,15 +37,15 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">У дадзены момант не выяўлена ўключаных злучэнняў з VPN для гэтага ўліковага запісу. Звяжыцеся са сваім адміністратарам, каб пачаць знаёмства з Proton VPN. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Уключыць злучэнні з VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Увайсці яшчэ раз</string>
-    <string name="mapCalloutConnect">Падлучыцца</string>
-    <string name="mapCalloutDisconnect">Адлучыцца</string>
+    <string name="mapCalloutConnect">Падключыцца</string>
+    <string name="mapCalloutDisconnect">Адключыцца</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Папярэджанне</string>
     <string name="secureCoreSpeedInfoTitle">Нататка пра хуткасць…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core прапануе высокі ўзровень бяспекі і прыватнасці, але можа запаволіць ваша злучэнне. Калі вам неабходна большая прадукцыйнасць, рэкамендуецца адключыць Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Актываваць Secure Core</string>
     <string name="logoutConfirmDialogTitle">Выйсці?</string>
-    <string name="logoutConfirmDialogMessage">Выхад адлучыць вашу прыладу ад VPN.</string>
+    <string name="logoutConfirmDialogMessage">Выхад адключыць вашу прыладу ад VPN.</string>
     <string name="logoutConfirmDialogButton">Выйсці</string>
     <string name="showAllProfiles">Паказаць усе профілі</string>
     <string name="yes">Так</string>
@@ -57,18 +57,18 @@
     <string name="dialog_apply">Ужыць</string>
     <string name="dialog_applying">Ужыванне</string>
     <string name="secureCoreConnectVia">праз %1$s</string>
-    <string name="connected">Падлучана</string>
-    <string name="buttonConnect">Падлучыцца</string>
-    <string name="loaderInitializing">Ініцыялізацыя падлучэння…</string>
-    <string name="loaderConnectingTo">Падлучэнне да %1$s</string>
-    <string name="loaderConnectingToLabel">Падлучэнне да…</string>
-    <string name="loaderNotConnected">Не падлучана (не абаронена)</string>
+    <string name="connected">Падключана</string>
+    <string name="buttonConnect">Падключыцца</string>
+    <string name="loaderInitializing">Ініцыялізацыя падключэння…</string>
+    <string name="loaderConnectingTo">Падключэнне да %1$s</string>
+    <string name="loaderConnectingToLabel">Падключэнне да…</string>
+    <string name="loaderNotConnected">Не падключана (не абаронена)</string>
     <string name="loaderNotConnectedSuggestion">Націсніце на кнопку хуткага злучэння</string>
-    <string name="loaderConnectedTo">Падлучана да %1$s</string>
-    <string name="loaderConnectedToLabel">Падлучана да:</string>
-    <string name="loaderDisconnecting">Адлучэнне</string>
+    <string name="loaderConnectedTo">Падключана да %1$s</string>
+    <string name="loaderConnectedToLabel">Падключана да:</string>
+    <string name="loaderDisconnecting">Адключэнне</string>
     <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
-    <string name="loaderReconnecting">Перападлучэнне</string>
+    <string name="loaderReconnecting">Перападключэнне</string>
     <string name="loaderReconnectNoNetwork">Чаканне даступнай сеткі</string>
     <string name="loaderReconnectNoNetworkSuggestion">Праверце сваё злучэнне з сеткай</string>
     <string name="loaderCheckingAvailability">Праверка даступнасці сервера</string>
@@ -102,7 +102,7 @@
     <string name="activityAccountTitle">Уліковы запіс</string>
     <string name="activitySettingsTitle">Налады</string>
     <string name="settingsSectionQuickConnect">Хуткае злучэнне</string>
-    <string name="settingsSectionConnection">Падлучэнне</string>
+    <string name="settingsSectionConnection">Падключэнне</string>
     <string name="settingsSectionSecurity">Бяспека</string>
     <string name="settingsSectionAdvanced">Дадаткова</string>
     <string name="settingsAutoStartTitle">Запускаць разам з Android</string>
@@ -119,7 +119,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Нестандартныя парты</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Выкарыстоўвайце Proton VPN для любых адмысловых патрабаванняў, дазваляючы трафік да нестандартных партоў праз сетку VPN. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="settingsModerateNatTitle">Умераны NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Умераны NAT адключае рандамізацыю пераназначаных лакальных адрасоў, якія могуць крыху паменшыць вашу бяспеку, але дазволіць такія метады, як прамое падлучэнне для праграм (напрыклад, сеткавыя гульні). <a href="%1$s">Даведацца больш</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Умераны NAT адключае рандамізацыю пераназначэнняў лакальных адрасоў, што можа крыху паменшыць вашу бяспеку, але дазволіць такія метады, як прамое падключэнне для праграм (напрыклад, сеткавых гульняў). <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="use_coupon_title">Выкарыстаць купон</string>
     <string name="use_coupon_code_label">Код купона</string>
     <string name="use_coupon_success">Купон быў паспяхова ўжыты</string>
@@ -133,8 +133,8 @@
     <string name="errorEmptyServer">Поле сервера не можа быць пустым</string>
     <string name="errorEmptyEntryCountry">Поле краіны ўваходу не можа быць пустым</string>
     <string name="errorEmptyExitCountry">Поле краіны выхаду не можа быць пустым</string>
-    <string name="onboardingDialogMapView">Выкарыстоўвайце выгляд карты для падлучэння да сервера і візуальнага прагляду фактычнага знаходжання сервера VPN.</string>
-    <string name="onboardingDialogProfiles">Стварыце профілі для вашых улюблёных сервераў і забяспечце сабе лёгкі доступ да іх. Акрамя таго, пры працяглым націску на кнопку Proton VPN унізе экрана будуць адлюстраваны ўсе вашы профілі. Калі націснуць на адзін з профіляў, то вы падлучыцеся да VPN.</string>
+    <string name="onboardingDialogMapView">Выкарыстоўвайце выгляд карты для падключэння да сервера і візуальнага прагляду фактычнага знаходжання сервера VPN.</string>
+    <string name="onboardingDialogProfiles">Стварыце профілі для вашых улюбёных сервераў і забяспечце сабе лёгкі доступ да іх. Акрамя таго, пры працяглым націску на кнопку Proton VPN унізе экрана будуць адлюстраваны ўсе вашы профілі. Калі націснуць на адзін з профіляў, то вы падключыцеся да VPN.</string>
     <string name="onboardingNetshield">Абараняе вас ад шкодных праграм, рэкламы і праграм сачэння.\nНататка: калі нейкія сайты не загружаюцца, вы можаце паспрабаваць адключыць NetShield.</string>
     <string name="onboardingFAB">Хуткае злучэнне / Профілі</string>
     <string name="onboardingFABDescription">Націсніце на гэту кнопку для хуткага злучэння</string>
@@ -152,29 +152,29 @@
     <string name="listBasicServers">Серверы Basic (%1$d)</string>
     <string name="listPlusServers">Серверы Plus (%1$d)</string>
     <string name="insufficientPermissionsTitle">Неабходна дзеянне карыстальніка</string>
-    <string name="insufficientPermissionsDetails">Немагчыма аўтаматычна ўсталяваць злучэнне з VPN. Першы раз падлучыцеся ўручную, каб праграма змагла атрымаць неабходныя правы.</string>
+    <string name="insufficientPermissionsDetails">Немагчыма аўтаматычна ўсталяваць злучэнне з VPN. Першы раз падключыцеся ўручную, каб праграма змагла атрымаць неабходныя правы.</string>
     <string name="tabsCountries">Краіны</string>
     <string name="tabsMap">Карта</string>
     <string name="tabsProfiles">Профілі</string>
     <string name="log_title">Журнал</string>
-    <string name="disconnect">Адлучыцца</string>
-    <string name="state_connecting">Падлучэнне…</string>
-    <string name="state_connected">Падлучана</string>
-    <string name="state_disconnecting">Адлучэнне…</string>
+    <string name="disconnect">Адключыцца</string>
+    <string name="state_connecting">Падключэнне…</string>
+    <string name="state_connected">Падключана</string>
+    <string name="state_disconnecting">Адключэнне…</string>
     <string name="state_error">Памылка</string>
-    <string name="error_server_unreachable">Немагчыма падлучыцца да VPN. Праверце сваё злучэнне з сеткай і паспрабуйце яшчэ раз.</string>
+    <string name="error_server_unreachable">Немагчыма падключыцца да VPN. Праверце сваё злучэнне з сеткай і паспрабуйце яшчэ раз.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Збой аўтэнтыфікацыі карыстальніка.</string>
     <string name="error_assessment_failed">Не ўдалося ацаніць бяспеку.</string>
-    <string name="error_generic">Падчас падлучэння адбылася невядомая памылка.</string>
+    <string name="error_generic">Падчас падключэння адбылася невядомая памылка.</string>
     <string name="error_generic_with_reason">Proton VPN не можа ўсталяваць злучэнне з VPN. Паспрабуйце яшчэ раз праз некалькі секунд.<br/><br/> Падрабязнасці: %1$s</string>
-    <string name="reconnect">Перападлучыцца</string>
-    <string name="reconnect_now">Перападлучыцца</string>
+    <string name="reconnect">Перападключыцца</string>
+    <string name="reconnect_now">Перападключыцца</string>
     <string name="try_reconnecting">Паспрабуйце злучыцца паўторна</string>
-    <string name="connect">Падлучыцца</string>
+    <string name="connect">Падключыцца</string>
     <string name="upgrade">Палепшыць</string>
     <string name="retry">Паўтарыць</string>
-    <string name="connection_failed">Збой падлучэння</string>
+    <string name="connection_failed">Збой падключэння</string>
     <string name="create_new_profile">Новы профіль</string>
     <string name="excludeAppsTitle">Выключаныя праграмы</string>
     <string name="excludeAppsDescription">Дадайце праграмы, якія будуць злучацца без VPN.</string>
@@ -230,13 +230,13 @@
     <string name="session_time">Працягласць сеанса:</string>
     <string name="download_volume">Аб\'ём:</string>
     <string name="download_speed">Хуткасць:</string>
-    <string name="notConnected">Вы не падлучаны \n да сервера</string>
+    <string name="notConnected">Вы не падключаны \n да сервера</string>
     <string name="activityLicensesTitle">Ліцэнзіі старонніх бакоў</string>
     <string name="stateFragmentUnknownIp">Невядома</string>
-    <string name="noVpnPermissionMainTitle">Патрабуецца дзеянне для падлучэння да VPN</string>
-    <string name="noVpnPermissionMainMessage">Для падлучэння да Proton VPN, зрабіце наступнае:</string>
+    <string name="noVpnPermissionMainTitle">Патрабуецца дзеянне для падключэння да VPN</string>
+    <string name="noVpnPermissionMainMessage">Для падключэння да Proton VPN, зрабіце наступнае:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Даць дазвол на VPN</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Android патрабуецца ваш дазвол на падлучэнне да Proton VPN. Ухваліце яго націснуўшы на кнопку \"Добра\" пасля таго, як убачыце акно \"Запыт на злучэнне\" ад вашай сістэмы.</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android патрабуецца ваш дазвол на падключэнне да Proton VPN. Ухваліце яго націснуўшы на кнопку \"Добра\" пасля таго, як убачыце акно \"Запыт на злучэнне\" ад вашай сістэмы.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Адключыце пастаяннае злучэнне для іншых праграм VPN</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android не падтрымлівае некалькі праграм VPN. Адключыце пастаяннае злучэнне для якой-небудзь праграмы VPN, акрамя Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Праграма Proton VPN</string>
@@ -281,31 +281,31 @@
         <item quantity="many">%1$s і яшчэ %2$d</item>
         <item quantity="other">%1$s і яшчэ %2$d</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Немагчыма змяніць гэта пры актыўным падлучэнні</string>
+    <string name="settingsCannotChangeWhileConnected">Немагчыма змяніць гэта пры актыўным падключэнні</string>
     <string name="excludeAlreadyExcluded">Ужо выключана</string>
     <string name="removeExcludedIpDialogDescription">Выдаліць IP-адрас са спіса?</string>
     <string name="loaderFetchingServers">Атрыманне спіса сервераў…</string>
     <string name="toastProfileSaved">Захавана</string>
-    <string name="tileConnected">Падлучана: %1$s</string>
+    <string name="tileConnected">Падключана: %1$s</string>
     <string name="dialogTitleAttention">Увага</string>
     <string name="saveProfileAlreadySaved">Ужо захавана</string>
     <string name="openUrlError">Немагчыма адкрыць %1$s. На вашай прыладзе не знойдзены браўзер.</string>
     <string name="toastLoginAuthVersionError">Немагчыма ўвайсці па прычыне таго, што дадзеная версія аўтэнтыфікацыі не падтрымліваецца. Звярніцеся ў службу падтрымкі.</string>
-    <string name="loaderErrorTimeout">Час чакання падлучэння завяршыўся. Паспрабуйце яшчэ раз.</string>
+    <string name="loaderErrorTimeout">Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>
     <string name="troubleshootButton">Выпраўленне непаладак</string>
     <string name="activityTroubleshootTitle">Выпраўленне непаладак</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Магчымыя рашэнні</string>
     <string name="troubleshootNoInternetDescription">Пераканайцеся, што ваша злучэнне з інтэрнэтам працуе.</string>
     <string name="troubleshootNoInternetTitle">Няма злучэння з інтэрнэтам</string>
     <string name="troubleshootIspProblemTitle">Праблема з пастаўшчыком паслуг інтэрнэту (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Паспрабуйце падлучыцца да Proton з іншай сеткі (або скарыстайцеся <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Паспрабуйце падключыцца да Proton з іншай сеткі (або скарыстайцеся <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Канфлікт з антывірусам</string>
     <string name="troubleshootAntivirusProblemDescription">Часова адключыце або выдаліце антывірус.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Канфлікт з проксі-серверам/міжсеткавым экранам</string>
     <string name="troubleshootProxyFirewallProblemDescription">Адключыце ўсе проксі-серверы, міжсеткавыя экраны або звярніцеся да свайго сеткавага адміністратара.</string>
     <string name="troubleshootProtonDownTitle">Proton не працуе</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Праверце <a href=\"%1$s\">статус Proton,</a> каб даведацца пра статус нашай сістэмы.]]></string>
-    <string name="troubleshootContactUsSectionTitle">Усё яшчэ неабходна дапамога? Звяжыцеся непасрэдна з намі</string>
+    <string name="troubleshootContactUsSectionTitle">Усё яшчэ неабходна дапамога? Вы можаце звязацца непасрэдна з намі</string>
     <string name="troubleshootCustomerSupport">Падтрымка кліентаў</string>
     <string name="settingsAllowAlternativeRoutingTitle">Альтэрнатыўная маршрутызацыя</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[У выпадку, калі Proton заблакіраваны, дазвольце праграме паспрабаваць альтэрнатыўныя шляхі для атрымання сувязі з серверамі Proton. <a href="%1$s">Даведацца больш</a>.]]></string>
@@ -342,33 +342,33 @@
     <string name="netshield_status_off">Выключана</string>
     <string name="netshield_free_title">Прагляд без рэкламы з NetShield</string>
     <string name="netshield_free_description">Блакіроўка рэкламы, праграм сачэння і шкодных праграм на вэб-сайтах і ў праграмах</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="accessibility_netshield_status_on_click">Увядзіце налады NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one" tools:ignore="ImpliedQuantity">Ad\nblocked</item>
-        <item quantity="few">Ads\nblocked</item>
-        <item quantity="many">Ads\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="one">Рэклама\nзаблакіравана</item>
+        <item quantity="few">Рэкламы\nзаблакіраваны</item>
+        <item quantity="many">Рэклам\nзаблакіраваны</item>
+        <item quantity="other">Рэкламы\nзаблакіраваны</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one" tools:ignore="ImpliedQuantity">Tracker\nstopped</item>
-        <item quantity="few">Trackers\nblocked</item>
-        <item quantity="many">Trackers\nblocked</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="one">Праграма сачэння\nспынена</item>
+        <item quantity="few">Праграмы сачэння\nспынены</item>
+        <item quantity="many">Праграм сачэння\nспынены</item>
+        <item quantity="other">Праграм сачэння\nспынены</item>
     </plurals>
-    <string name="netshield_data_saved">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Даныя \nзахаваны</string>
     <string name="netShieldBlockMalwareOnly">Блакіраваць толькі шкодныя праграмы</string>
     <string name="netShieldFullBlock">Блакіраваць шкодныя праграмы, праграмы сачэння і рэкламу</string>
     <string name="dialogDontShowAgain">Больш не паказваць</string>
     <string name="paidFeature">Платная функцыя</string>
-    <string name="guestHoleActivated">Доступ да Proton VPN можа быць абмежаваны ў вашым рэгіёне і таму, гэта зойме больш часу, чым звычайна. Пачакайце, пакуль мы шукаем альтэрнатыўны маршрут для падлучэння.</string>
+    <string name="guestHoleActivated">Доступ да Proton VPN можа быць абмежаваны ў вашым рэгіёне і таму, гэта зойме больш часу, чым звычайна. Пачакайце, пакуль мы шукаем альтэрнатыўны маршрут для падключэння.</string>
     <string name="guestHoleNotificationContent">Паспрабаваць абысці праблемы з сеткай. Гэта дапаможа вам атрымаць доступ да Proton VPN.</string>
-    <string name="onMaintenanceDetected">Сервер VPN, да якога вы былі падлучаны, знаходзіцца на тэхнічным абслугоўванні. Мы аўтаматычна падлучылі вас да самага хуткага з даступных сервераў.</string>
-    <string name="errorTunMultiUserPermission">Немагчыма ініцыялізаваць падлучэнне да VPN па прычыне канфлікту паміж праграмай для падвойнага ўліковага запісу (напрыклад, Dual Messenger) і Split Tunneling. Адключыце адну з іх і перазапусціце прыладу.</string>
+    <string name="onMaintenanceDetected">Сервер VPN, да якога вы былі падключаны, знаходзіцца на тэхнічным абслугоўванні. Мы аўтаматычна падключылі вас да самага хуткага з даступных сервераў.</string>
+    <string name="errorTunMultiUserPermission">Немагчыма ініцыялізаваць падключэнне да VPN па прычыне канфлікту паміж праграмай для падвойнага ўліковага запісу (напрыклад, Dual Messenger) і Split Tunneling. Адключыце адну з іх і перазапусціце прыладу.</string>
     <string name="errorTorrentNotAllowed">Трафік P2P не дазволены на гэтым серверы</string>
     <string name="errorWireguardWithPlaceholder">Памылка WireGuard %1$s</string>
-    <string name="profileProtocolNotAvailable">Гэты профіль пратакола VPN у цяперашні момант недаступны. Для падлучэння, паспрабуйце змяніць пратакол.</string>
-    <string name="stateConnectedTo">Падлучана да %1$s</string>
-    <string name="stateNotConnected">Вы не падлучаны</string>
+    <string name="profileProtocolNotAvailable">Гэты профіль пратакола VPN у цяперашні момант недаступны. Для падключэння, паспрабуйце змяніць пратакол.</string>
+    <string name="stateConnectedTo">Падключана да %1$s</string>
+    <string name="stateNotConnected">Вы не падключаны</string>
     <string name="recents">Нядаўнія</string>
     <string name="tvQuickConnectDescription">Краіны паблізу</string>
     <string name="tvQuickConnectSubDescription">Сервер трансляцыі</string>
@@ -381,7 +381,7 @@
     <string name="tv_detail_default_connection_checkbox">Мае ўлюблёныя краіны</string>
     <string name="tv_detail_default_connection_checkbox_short">Улюблёныя</string>
     <string name="tv_detail_connect_streaming">Трансляцыя з Plus</string>
-    <string name="tv_detail_connect">Падлучыцца</string>
+    <string name="tv_detail_connect">Падключыцца</string>
     <string name="tv_detail_description_streaming_country">Трансляцыя вашага ўлюблёнага змесціва. Атрымайце доступ да большай колькасці праграм з дапамогай тарыфнага плана Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Прымайце больш улюблёнага змесціва з дапамогай тарыфнага плана Proton VPN Plus.</string>
     <string name="tv_detail_description_country_not_available">Гэта краіна недаступна. Атрымайце больш параметраў трансляцыі з тарыфным планам Proton VPN Plus.</string>
@@ -402,10 +402,10 @@
     <string name="back">Назад</string>
     <string name="tv_upgrade_url_details"><![CDATA[Наведайце <b>%1$s</b> для паляпшэння да Proton VPN Plus.]]></string>
     <string name="tv_upgrade_description">Перайдзіце на тарыфны план Proton VPN Plus і ў вас будзе больш за 500 сервераў VPN па ўсім свеце, а таксама аптымізаваныя магчымасці трансляцыі Netflix, Amazon Prime Video, Disney+ і іншых сэрвісаў.</string>
-    <string name="tv_vpn_error_dialog_title">Збой падлучэння да VPN</string>
+    <string name="tv_vpn_error_dialog_title">Збой падключэння да VPN</string>
     <string name="tv_signout_label">Выйсці</string>
     <string name="tv_signout_dialog_title">Вы сапраўды хочаце выйсці?</string>
-    <string name="tv_signout_dialog_description_connected">Гэта адлучыць ваш тэлевізар ад любога сервера VPN.</string>
+    <string name="tv_signout_dialog_description_connected">Гэта адключыць ваш тэлевізар ад усіх сервераў VPN.</string>
     <string name="tv_signout_dialog_ok">Выйсці</string>
     <string name="tv_quick_connect_recommened">Рэкамендавана</string>
     <string name="tv_quick_connect_favourite">Улюблёны</string>
@@ -432,7 +432,7 @@
     <string name="settingsReconnectToChangeDialogContent">Гэта прывядзе да перазапуску вашага злучэння.</string>
     <string name="reconnectToEnableNetshield">Гэта прывядзе да перазапуску вашага злучэння.\n\nНататка: некаторыя сайты могуць не загружацца пры актыўным NetShield.</string>
     <string name="notification_subscription_expired_title">Ваша падпіска на тарыфны план Proton VPN пратэрмінавана</string>
-    <string name="notification_subscription_expired_content">Мы панізілі ваш тарыфны план, але на гэтым тарыфным плане вы будзеце падлучаны да самага хуткага з даступных сервераў.</string>
+    <string name="notification_subscription_expired_content">Нам давялося панізіць ваш тарыфны план, але мы зноў падключаем вас да самага хуткага сервера, даступнага на гэтым тарыфным плане.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Ваша падпіска была паніжана.</string>
     <string name="notification_delinquent_title">У вашым уліковым запісе Proton VPN ёсць неаплачаныя рахункі</string>
     <string name="notification_delinquent_content">Знайдзіце крыху часу, каб абнавіць вашу плацежную інфармацыю для таго, каб падпіска засталася актыўнай.</string>
@@ -442,12 +442,12 @@
     <string name="notification_max_sessions_title">Вы дасягнулі максімальнай колькасці прылад</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Адлучыце якую-небудзь прыладу для падлучэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае злучэнне да %1$d прылады адначасова.</item>
-        <item quantity="few">Адлучыце якую-небудзь прыладу для падлучэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае злучэнне да %1$d прылад адначасова.</item>
-        <item quantity="many">Адлучыце якую-небудзь прыладу для падлучэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае злучэнне да %1$d прылад адначасова.</item>
-        <item quantity="other">Адлучыце якую-небудзь прыладу для падлучэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае злучэнне да %1$d прылад адначасова.</item>
+        <item quantity="one">Адключыце іншую прыладу для падключэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае падключэнне да %1$d прылады адначасова.</item>
+        <item quantity="few">Адключыце іншую прыладу для падключэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае падключэнне да %1$d прылад адначасова.</item>
+        <item quantity="many">Адключыце іншую прыладу для падключэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае падключэнне да %1$d прылад адначасова.</item>
+        <item quantity="other">Адключыце іншую прыладу для падключэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае падключэнне да %1$d прылад адначасова.</item>
     </plurals>
-    <string name="notification_max_sessions_content">Адлучыце якую-небудзь прыладу для падлучэння гэтай.</string>
+    <string name="notification_max_sessions_content">Адключыце іншую прыладу для падключэння гэтай.</string>
     <string name="notification_cancel_to_free">Зараз у вас тарыфны план Free. Вам даступны серверы і функцыі Free.</string>
     <string name="notification_cancel_to_basic">Зараз у вас тарыфны план Basic. Вам даступны серверы і функцыі Basic і Free.</string>
     <string name="notification_cancel_to_delinquent">Пасля аплаты рахункаў вы зможаце зноў атрымаць доступ да прэміяльных функцый.</string>
@@ -547,10 +547,10 @@
     <string name="upgrade_plus_countries_streaming">Доступ да глабальных сэрвісаў трансляцый</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="one">Падлучайце %d прыладу</item>
-        <item quantity="few">Падлучайце %d прылады адначасова</item>
-        <item quantity="many">Падлучайце %d прылад адначасова</item>
-        <item quantity="other">Падлучайце %d прылады адначасова</item>
+        <item quantity="one">Падключайце %d прыладу</item>
+        <item quantity="few">Падключайце %d прылады адначасова</item>
+        <item quantity="many">Падключайце %d прылад адначасова</item>
+        <item quantity="other">Падключайце %d прылады адначасова</item>
     </plurals>
     <string name="upgrade_plus_countries_netshield">Блакіруйце рэкламу і шкодныя праграмы з дапамогай NetShield</string>
     <string name="upgrade_plus_countries_speeds">Праглядайце сайты на самых высокіх хуткасцях (10 Гбіт/с)</string>
@@ -580,7 +580,7 @@
     <string name="server_load_title">Загрузка сервера</string>
     <string name="server_load_description">Серверы з высокай загрузкай больш павольныя, чым з нізкай.</string>
     <string name="streaming_title_with_country">Трансляцыя - %1$s</string>
-    <string name="streaming_services_description">Каб пачаць трансляцыю, падлучыцеся да сервера Plus у гэтай краіне.\n\nПадказка: ачысціце кэш праграм, якія выкарыстоўваць гэту тэхналогію, каб з\'явілася новае змесціва.</string>
+    <string name="streaming_services_description">Каб пачаць трансляцыю, падключыцеся да сервера Plus у гэтай краіне.\n\nПадказка: ачысціце кэш праграм, якія выкарыстоўваць гэту тэхналогію, каб з\'явілася новае змесціва.</string>
     <string name="partnership_free_title">Cерверы Free</string>
     <string name="partnership_free_description">Бяспека і прыватнасць для кожнага. Бясплатныя серверы, якія не маюць абмежавання па перадачы даных і не будуць наўмысна зніжаць вашу хуткасць прагляду старонак у інтэрнэце.</string>
     <string name="partnership_partners_title">Нашы партнёры</string>
@@ -632,13 +632,13 @@
         <item quantity="many">%1$d краін</item>
         <item quantity="other">%1$d краіны</item>
     </plurals>
-    <string name="onboarding_connection_info">Мы падлучым вас да самага хуткага і стабільнага сервера для вашага размяшчэння.</string>
-    <string name="onboading_connect_now">Падлучыць</string>
-    <string name="onboading_connecting_now">Адбываецца падлучэнне</string>
+    <string name="onboarding_connection_info">Мы падключым вас да самага хуткага і стабільнага сервера для вашага размяшчэння.</string>
+    <string name="onboading_connect_now">Падключыць</string>
+    <string name="onboading_connecting_now">Адбываецца падключэнне</string>
     <string name="onboarding_congrats_description">Ваша злучэнне абаронена і ўсё гатова для прагляду старонак у інтэрнэце.\n\nБяспечна.</string>
     <string name="onboarding_congrats_title">Віншуем!</string>
     <string name="onboarding_plan_congrats_description_privacy">Далучыцеся да свету прыватнасці.</string>
-    <string name="onboading_connect_to_plus">Падлучыцеся да сервера Plus</string>
+    <string name="onboading_connect_to_plus">Падключыцеся да сервера Plus</string>
     <string name="upgrade_use_limited_free_button">Выкарыстоўваць абмежаваны тарыфны план Free</string>
     <string name="dynamic_report_suggestion_didnt_work">Не працуе?</string>
     <string name="dynamic_report_contact_us">Звязацца з намі</string>
