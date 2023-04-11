@@ -51,11 +51,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.flagResource
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.ProtonTheme3
 
 private object FlagShapes {
     val regular = RoundedCornerShape(size = 4.dp)
@@ -191,7 +191,7 @@ private fun DrawScope.drawScUnderlineArc(offset: Offset, path: Path, color: Colo
 @Preview
 @Composable
 private fun FlagPreviewRtlLight() {
-    ProtonTheme3 {
+    VpnTheme {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             FlagsPreviewHelper()
         }
@@ -201,7 +201,7 @@ private fun FlagPreviewRtlLight() {
 @Preview
 @Composable
 private fun FlagPreviewDark() {
-    ProtonTheme3(isDark = true) {
+    VpnTheme(isDark = true) {
         FlagsPreviewHelper()
     }
 }

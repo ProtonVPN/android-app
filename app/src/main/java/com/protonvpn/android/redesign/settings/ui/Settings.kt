@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Proton AG
+ * Copyright (c) 2023 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,16 +17,17 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.testSuites
+package com.protonvpn.android.redesign.settings.ui
 
-import com.protonvpn.tests.netshield.NetShieldComponentTests
-import com.protonvpn.tests.redesign.base.ui.nav.NavigationTests
-import org.junit.runner.RunWith
-import org.junit.runners.Suite
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 
-@RunWith(Suite::class)
-@Suite.SuiteClasses(
-    NetShieldComponentTests::class,
-    NavigationTests::class
-)
-class UiComponentsSuite
+@Composable
+fun SettingsRoute() {
+    Settings()
+}
+
+@Composable
+fun Settings() {
+    Text("Settings")
+}
