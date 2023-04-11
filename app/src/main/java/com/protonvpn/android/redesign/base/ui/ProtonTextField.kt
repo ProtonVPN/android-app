@@ -50,9 +50,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.ProtonTheme3
 import me.proton.core.compose.theme.caption
 import me.proton.core.compose.theme.captionStrong
 import me.proton.core.compose.theme.default
@@ -178,7 +178,7 @@ fun ProtonOutlinedTextField(
 @Composable
 private fun PreviewProtonOutlinedTextField() {
     var enteredText by remember { mutableStateOf("Input Text") }
-    ProtonTheme3 {
+    VpnTheme {
         ProtonOutlinedTextField(
             value = enteredText,
             labelText = "Username or e-mail",

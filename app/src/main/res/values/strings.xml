@@ -745,4 +745,13 @@
 
     <string name="no_logs_banner_title">Certified no-logs VPN</string>
     <string name="no_logs_banner_description">Your VPN activity is protected by Swiss privacy laws. We’ll never track you online or share your information with third parties.</string>
+
+    <!-- tag(Redesign_2023) Bottom bar label for home screen -->
+    <string name="bottom_nav_home">Home</string>
+
+    <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
+    <string name="bottom_nav_countries">Countries</string>
+
+    <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
+    <string name="botton_nav_settings">Settings</string>
 </resources>

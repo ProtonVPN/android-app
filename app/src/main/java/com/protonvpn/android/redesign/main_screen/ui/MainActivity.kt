@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Proton AG
+ * Copyright (c) 2023 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,16 +17,24 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.testSuites
+package com.protonvpn.android.redesign.main_screen.ui
 
-import com.protonvpn.tests.netshield.NetShieldComponentTests
-import com.protonvpn.tests.redesign.base.ui.nav.NavigationTests
-import org.junit.runner.RunWith
-import org.junit.runners.Suite
+import android.os.Bundle
+import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
+import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.redesign.main_screen.ui.nav.VpnApp
+import dagger.hilt.android.AndroidEntryPoint
 
-@RunWith(Suite::class)
-@Suite.SuiteClasses(
-    NetShieldComponentTests::class,
-    NavigationTests::class
-)
-class UiComponentsSuite
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            VpnTheme {
+                VpnApp()
+            }
+        }
+    }
+}

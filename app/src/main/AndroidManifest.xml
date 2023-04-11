@@ -74,6 +74,17 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".redesign.main_screen.ui.MainActivity"
+            android:label="New UI"
+            android:theme="@style/ProtonTheme.Vpn"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".ui.home.vpn.SwitchDialogActivity" />
         <activity
             android:name=".tv.main.TvMainActivity"

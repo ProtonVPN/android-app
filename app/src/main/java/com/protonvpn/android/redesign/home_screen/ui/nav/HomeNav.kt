@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Proton AG
+ * Copyright (c) 2023 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,16 +17,17 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.testSuites
+package com.protonvpn.android.redesign.home_screen.ui.nav
 
-import com.protonvpn.tests.netshield.NetShieldComponentTests
-import com.protonvpn.tests.redesign.base.ui.nav.NavigationTests
-import org.junit.runner.RunWith
-import org.junit.runners.Suite
+import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
+import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
+import com.protonvpn.android.redesign.base.ui.nav.addToGraph
+import com.protonvpn.android.redesign.home_screen.ui.HomeRoute
+import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
 
-@RunWith(Suite::class)
-@Suite.SuiteClasses(
-    NetShieldComponentTests::class,
-    NavigationTests::class
-)
-class UiComponentsSuite
+object HomeScreen : ScreenNoArg<MainNav>("home") {
+
+    fun SafeNavGraphBuilder<MainNav>.home() = addToGraph(this) {
+        HomeRoute()
+    }
+}

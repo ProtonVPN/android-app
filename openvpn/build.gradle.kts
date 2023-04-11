@@ -216,7 +216,7 @@ dependencies {
     dependencies.add("uiImplementation", "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     dependencies.add("uiImplementation","androidx.security:security-crypto:1.0.0")
 */
-    testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
+    testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.20")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:3.9.0")
     testImplementation("org.robolectric:robolectric:4.10")
