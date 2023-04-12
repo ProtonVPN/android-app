@@ -103,6 +103,7 @@ class UpdateSettingsOnVpnUserChangeTests {
 
         val dispatcher = UnconfinedTestDispatcher()
         updateSettingsOnVpnUserChange = UpdateSettingsOnVpnUserChange(
+            context,
             TestScope(dispatcher),
             TestDispatcherProvider(dispatcher),
             mockCurrentUser,
