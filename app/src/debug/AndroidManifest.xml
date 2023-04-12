@@ -26,6 +26,7 @@
             android:name=".uicatalog.UiCatalogActivity"
             android:label="UI catalog"
             android:theme="@style/ProtonTheme.Vpn"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
