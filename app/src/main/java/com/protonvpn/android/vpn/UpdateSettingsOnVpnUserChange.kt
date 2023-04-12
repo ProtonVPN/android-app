@@ -19,16 +19,17 @@
 
 package com.protonvpn.android.vpn
 
+import android.content.Context
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
@@ -37,6 +38,7 @@ import javax.inject.Singleton
 @Suppress("UseDataClass")
 @Singleton
 class UpdateSettingsOnVpnUserChange @Inject constructor(
+    @ApplicationContext private val context: Context,
     mainScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     private val currentUser: CurrentUser,
@@ -66,7 +68,7 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
         }
         mainScope.launch {
             userPlanManager.planChangeFlow.collect {
-                if (it == UserPlanManager.InfoChange.PlanChange.Upgrade) {
+                if (it == UserPlanManager.InfoChange.PlanChange.Upgrade && !context.isTV()) {
                     userData.setNetShieldProtocol(Constants.DEFAULT_NETSHIELD_AFTER_UPGRADE)
                 }
             }
