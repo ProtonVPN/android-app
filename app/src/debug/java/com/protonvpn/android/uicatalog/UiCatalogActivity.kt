@@ -17,8 +17,6 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.protonvpn.android.uicatalog
 
 import android.os.Bundle
@@ -81,8 +79,8 @@ abstract class SampleScreen(
 }
 
 private val sampleScreens: List<SampleScreen> = listOf(
-    CoreButtonsSample(),
-    NetShieldSample(),
+    ButtonsSample(),
+    TextFieldsSample(),
 )
 
 class UiCatalogActivity : ComponentActivity() {
@@ -106,6 +104,7 @@ private fun PreviewContent() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Content(
     isDarkModeEnabled: Boolean, // Only for the toggle, this composable doesn't use theme,

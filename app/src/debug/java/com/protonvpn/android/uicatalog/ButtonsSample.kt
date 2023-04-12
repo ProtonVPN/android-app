@@ -22,28 +22,44 @@ package com.protonvpn.android.uicatalog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import me.proton.core.compose.component.ProtonOutlinedButton
-import me.proton.core.compose.component.ProtonSecondaryButton
-import me.proton.core.compose.component.ProtonSolidButton
-import me.proton.core.compose.component.ProtonTextButton
+import com.protonvpn.android.base.ui.ProtonOutlinedButton
+import com.protonvpn.android.base.ui.ProtonSecondaryButton
+import com.protonvpn.android.base.ui.ProtonSolidButton
+import com.protonvpn.android.base.ui.ProtonTextButton
+import com.protonvpn.android.base.ui.VpnOutlinedButton
+import com.protonvpn.android.base.ui.VpnOutlinedNeutralButton
+import com.protonvpn.android.base.ui.VpnSolidButton
+import com.protonvpn.android.base.ui.VpnTextButton
+import com.protonvpn.android.base.ui.VpnWeakSolidButton
+import me.proton.core.compose.component.VerticalSpacer
 
-class CoreButtonsSample : SampleScreen("Core Buttons", "core_buttons") {
+class ButtonsSample : SampleScreen("Buttons", "buttons") {
 
     @Composable
     override fun Content(modifier: Modifier) {
         val topPadding = 16.dp
         val dummyText = "Default button"
         Column(modifier = modifier.padding(16.dp)) {
+            val buttonModifier = Modifier
+                .fillMaxWidth()
+                .padding(top = topPadding)
+            SamplesSectionLabel("VPN buttons")
+            VpnSolidButton("Connect", onClick = {}, modifier = buttonModifier)
+            VpnWeakSolidButton("Cancel", onClick = {}, modifier = buttonModifier)
+            VpnOutlinedButton("Learn more", onClick = {}, isExternalLink = true, modifier = buttonModifier)
+            VpnOutlinedNeutralButton(text = "Change server", onClick = {}, modifier = buttonModifier)
+            VpnTextButton("Troubleshooting", onClick = {}, modifier = buttonModifier)
+
+            VerticalSpacer(height = 24.dp)
+            SamplesSectionLabel("Generic buttons (all states)")
             ProtonSolidButton(
                 onClick = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = topPadding)
+                modifier = buttonModifier
             ) {
                 Text(dummyText)
             }
@@ -51,36 +67,7 @@ class CoreButtonsSample : SampleScreen("Core Buttons", "core_buttons") {
             ProtonSolidButton(
                 onClick = {},
                 enabled = false,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = topPadding)
-            ) {
-                Text(dummyText)
-            }
-
-            ProtonTextButton(
-                onClick = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = topPadding)
-            ) {
-                Text(dummyText)
-            }
-
-            ProtonOutlinedButton(
-                onClick = {}, Modifier
-                    .fillMaxWidth()
-                    .padding(top = topPadding)
-            ) {
-                Text(dummyText)
-            }
-
-            ProtonOutlinedButton(
-                onClick = {},
-                enabled = false,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = topPadding)
+                modifier = buttonModifier
             ) {
                 Text(dummyText)
             }
@@ -89,9 +76,14 @@ class CoreButtonsSample : SampleScreen("Core Buttons", "core_buttons") {
                 contained = false,
                 onClick = {},
                 loading = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = topPadding)
+                modifier = buttonModifier
+            ) {
+                Text(dummyText)
+            }
+
+            ProtonTextButton(
+                onClick = {},
+                modifier = buttonModifier
             ) {
                 Text(dummyText)
             }
@@ -100,18 +92,29 @@ class CoreButtonsSample : SampleScreen("Core Buttons", "core_buttons") {
                 contained = false,
                 onClick = {},
                 loading = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = topPadding)
+                modifier = buttonModifier
+            ) {
+                Text(dummyText)
+            }
+
+            ProtonOutlinedButton(
+                onClick = {},
+                modifier = buttonModifier
+            ) {
+                Text(dummyText)
+            }
+
+            ProtonOutlinedButton(
+                onClick = {},
+                enabled = false,
+                modifier = buttonModifier
             ) {
                 Text(dummyText)
             }
 
             ProtonSecondaryButton(
                 onClick = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = topPadding)
+                modifier = buttonModifier
             ) {
                 Text(dummyText)
             }
@@ -119,12 +122,11 @@ class CoreButtonsSample : SampleScreen("Core Buttons", "core_buttons") {
             ProtonSecondaryButton(
                 onClick = {},
                 loading = true,
-                modifier = Modifier.padding(top = topPadding)
+                modifier = buttonModifier
             ) {
                 Text(
                     dummyText,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
