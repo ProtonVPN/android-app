@@ -16,9 +16,6 @@ default:
 
 variables:
   ATLAS_DEPLOY_SCOPE: $CI_PIPELINE_IID
-  ATLAS_DEPLOY_END:
-    value: 'true'
-    description: Set to false if we do not need for a new deployed environment
   ATLAS_DEPLOY_LIST:
     value: fe-vpn:branch-main
     description: List of components to deploy (fe-vpn:v4.7.0:prod+t to use a tag)
@@ -86,9 +83,11 @@ deploy:book-env-name:
     GIT_STRATEGY: none
   image: $CI_REGISTRY/proton/devops/atlas-cli
   script:
-    - export ENV_TAG="$CI_COMMIT_REF_SLUG-$ATLAS_DEPLOY_SCOPE"
-    - get_name.py -v -o deploy.env -d "$ATLAS_BASE_DOMAIN" --release "$ATLAS_RELEASE_SUFFIX" "${ENV_TAG:-$CI_COMMIT_REF_SLUG}" "$CI_PROJECT_PATH" "$CI_COMMIT_REF_NAME"
+    - get_name.py -v -o deploy.env -d "$ATLAS_BASE_DOMAIN" --release "$ATLAS_RELEASE_SUFFIX" "${ENV_TAG:?}" "$CI_PROJECT_PATH" "$CI_COMMIT_REF_NAME"
     - cat deploy.env
+  environment:
+    name: test-env/$CI_COMMIT_REF_SLUG/$CI_PIPELINE_IID
+    action: prepare
   artifacts:
     paths:
       - deploy.env
