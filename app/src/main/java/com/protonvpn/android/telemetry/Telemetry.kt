@@ -63,7 +63,7 @@ class NoopTelemetryUploadScheduler @Inject constructor() : TelemetryUploadSchedu
 
 @Singleton
 class Telemetry(
-    mainScope: CoroutineScope,
+    private val mainScope: CoroutineScope,
     @WallClock private val wallClock: () -> Long,
     private val appConfig: AppConfig,
     private val userData: UserData,
@@ -76,8 +76,8 @@ class Telemetry(
 ) {
 
     private val pendingEvents: MutableList<TelemetryEvent> = mutableListOf()
-
     private val cacheLoaded = CompletableDeferred<Unit>()
+    private var isUploading = false
 
     sealed class UploadResult {
         data class Success(val hasMoreEvents: Boolean) : UploadResult()
@@ -113,7 +113,9 @@ class Telemetry(
     ) {
         if (isEnabled) {
             logd("$measurementGroup $event: $values $dimensions")
-            addEvent(TelemetryEvent(wallClock(), measurementGroup, event, values, dimensions))
+            mainScope.launch {
+                addEvent(TelemetryEvent(wallClock(), measurementGroup, event, values, dimensions))
+            }
         }
     }
 
@@ -123,9 +125,20 @@ class Telemetry(
             clearData()
             return UploadResult.Success(false)
         }
-        logi("preparing upload, total: ${pendingEvents.size}")
+        if (isUploading) {
+            logi("Trying to start a second upload in parallel, this should not happen.")
+            return UploadResult.Success(false)
+        }
+        try {
+            isUploading = true
+            return uploadPendingEventsInternal()
+        } finally {
+            isUploading = false
+        }
+    }
+
+    suspend fun uploadPendingEventsInternal(): UploadResult {
         pendingEvents.removeIf { it.timestamp < wallClock() - discardAge.inWholeMilliseconds }
-        logi("... events for upload: ${pendingEvents.size}")
         val toUpload = pendingEvents.toList() // Work on a copy, new events may be added to pendingEvents during upload.
         val result = if (toUpload.isNotEmpty()) {
             uploader.uploadEvents(toUpload)
@@ -143,8 +156,11 @@ class Telemetry(
         }
     }
 
-    private fun addEvent(event: TelemetryEvent) {
-        uploadScheduler.scheduleTelemetryUpload()
+    private suspend fun addEvent(event: TelemetryEvent) {
+        cacheLoaded.await()
+        if (pendingEvents.isEmpty()) {
+            uploadScheduler.scheduleTelemetryUpload()
+        }
         pendingEvents.add(event)
         if (pendingEvents.size > eventCountLimit) {
             pendingEvents.removeFirst()

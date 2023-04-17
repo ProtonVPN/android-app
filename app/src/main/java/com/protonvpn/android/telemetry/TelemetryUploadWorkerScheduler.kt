@@ -36,6 +36,8 @@ import dagger.Reusable
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.NetworkManager
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -49,7 +51,7 @@ class TelemetryUploadWorkerScheduler @Inject constructor(
 ) : TelemetryUploadScheduler {
 
     override fun scheduleTelemetryUpload() {
-        scheduleUpload(appContext, ExistingWorkPolicy.KEEP, "new events")
+        scheduleUpload(appContext, ExistingWorkPolicy.REPLACE, "new events")
     }
 
     companion object {
@@ -77,14 +79,16 @@ class TelemetryUploadWorkerScheduler @Inject constructor(
 class TelemetryUploadWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
+    private val mainScope: CoroutineScope,
     private val telemetry: Telemetry,
     private val networkManager: NetworkManager,
 ) : CoroutineWorker(context, params) {
 
-    override suspend fun doWork(): Result {
+    override suspend fun doWork(): Result = withContext(mainScope.coroutineContext) {
+        ProtonLogger.logCustom(LogCategory.TELEMETRY, "UploadWorker: starting")
         if (!networkManager.isConnectedToNetwork()) {
             ProtonLogger.logCustom(LogCategory.TELEMETRY, "UploadWorker: no network, retry layer")
-            return Result.retry()
+            Result.retry()
         }
         val result = telemetry.uploadPendingEvents()
         when {
@@ -100,7 +104,7 @@ class TelemetryUploadWorker @AssistedInject constructor(
         }
         ProtonLogger.logCustom(LogCategory.TELEMETRY, "UploadWorker result: $result")
         // The result is ignored if the code above reschedules the work.
-        return when (result) {
+        when (result) {
             is Telemetry.UploadResult.Success -> Result.success()
             is Telemetry.UploadResult.Failure -> if (result.isRetryable) Result.retry() else Result.failure()
         }
