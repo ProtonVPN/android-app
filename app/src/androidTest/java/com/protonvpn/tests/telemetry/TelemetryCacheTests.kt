@@ -60,4 +60,18 @@ class TelemetryCacheTests {
 
         assertEquals(listOf(freshEvent), loadedEvents)
     }
+
+    @Test
+    fun writingToCacheRemovesOldData() =  testScope.runTest {
+        val event1 = TelemetryEvent(0, "group", "event1", emptyMap(), emptyMap())
+        val event2 = TelemetryEvent(0, "group", "event2", emptyMap(), emptyMap())
+
+        telemetryCache.save(listOf(event1))
+        runCurrent()
+        assertEquals(listOf(event1), telemetryCache.load(0))
+
+        telemetryCache.save(listOf(event2))
+        runCurrent()
+        assertEquals(listOf(event2), telemetryCache.load(0))
+    }
 }
