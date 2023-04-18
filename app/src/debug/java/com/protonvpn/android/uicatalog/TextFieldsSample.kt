@@ -22,6 +22,7 @@ package com.protonvpn.android.uicatalog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,7 +38,7 @@ import me.proton.core.compose.theme.defaultSmallWeak
 class TextFieldsSample : SampleScreen("Text Fields", "text_fields") {
 
     @Composable
-    override fun Content(modifier: Modifier) {
+    override fun Content(modifier: Modifier, snackbarHostState: SnackbarHostState) {
         Column(modifier = modifier.padding(16.dp)) {
             SingleLabeledComponent("Minimal text field") {
                 var enteredText by remember { mutableStateOf("") }

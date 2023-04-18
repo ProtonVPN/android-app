@@ -22,6 +22,7 @@ package com.protonvpn.android.uicatalog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -41,7 +42,7 @@ import me.proton.core.compose.component.VerticalSpacer
 class ButtonsSample : SampleScreen("Buttons", "buttons") {
 
     @Composable
-    override fun Content(modifier: Modifier) {
+    override fun Content(modifier: Modifier, snackbarHostState: SnackbarHostState) {
         val topPadding = 16.dp
         val dummyText = "Default button"
         Column(modifier = modifier.padding(16.dp)) {
