@@ -43,6 +43,8 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
@@ -67,20 +69,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 abstract class SampleScreen(
     val title: String,
-    val route: String
+    val route: String,
 ) {
     @Composable
-    abstract fun Content(modifier: Modifier)
+    abstract fun Content(modifier: Modifier, snackbarHostState: SnackbarHostState)
 }
 
 private val sampleScreens: List<SampleScreen> = listOf(
     ButtonsSample(),
     TextFieldsSample(),
+    SnackbarsSample(),
 )
 
 class UiCatalogActivity : ComponentActivity() {
@@ -167,8 +171,10 @@ private fun Content(
         drawerContent = drawerContent,
         drawerState = drawerState
     ) {
+        val snackbarHostState = remember { SnackbarHostState() }
         Scaffold(
             topBar = topBar,
+            snackbarHost = { SnackbarHost(snackbarHostState, snackbar = { ProtonSnackbar(it) }) }
         ) { paddingValues ->
             val direction = if (forceRtl) LayoutDirection.Rtl else LocalLayoutDirection.current
             CompositionLocalProvider(LocalLayoutDirection provides direction) {
@@ -178,7 +184,8 @@ private fun Content(
                             sample.Content(
                                 modifier = Modifier
                                     .padding(paddingValues)
-                                    .verticalScroll(rememberScrollState())
+                                    .verticalScroll(rememberScrollState()),
+                                snackbarHostState
                             )
                         }
                     }
