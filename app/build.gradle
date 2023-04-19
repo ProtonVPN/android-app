@@ -196,6 +196,8 @@ android {
         if (redesignTestBuild) {
             applicationIdSuffix '.testing'
         }
+        buildConfigField "Boolean", "REDESIGN_TEST_BUILD", redesignTestBuild.toString()
+        manifestPlaceholders.enableUiCatalog = redesignTestBuild.toString()
     }
     flavorDimensions = ["environment", "functionality", "distribution"]
     productFlavors {
@@ -304,6 +306,7 @@ android {
             ext.alwaysUpdateBuildId = false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders.enableUiCatalog = true
         }
         release {
             minifyEnabled true

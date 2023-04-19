@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.uicatalog
+package com.protonvpn.android.redesign.uicatalog
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
