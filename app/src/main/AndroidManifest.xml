@@ -282,6 +282,19 @@
             android:name="me.proton.core.crypto.validator.presentation.ui.CryptoValidatorErrorDialogActivity"
             android:theme="@style/ProtonTheme.Transparent" />
 
+        <activity
+            android:name=".redesign.uicatalog.UiCatalogActivity"
+            android:label="UI catalog"
+            android:theme="@style/ProtonTheme.Vpn"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true"
+            android:enabled="${enableUiCatalog}">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
