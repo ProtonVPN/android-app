@@ -25,7 +25,6 @@
     <string name="login">Zaloguj się</string>
     <string name="hamburgerMenu">Menu hamburgerowe</string>
     <string name="error_field_required">Pole jest wymagane</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Wyloguj</string>
     <string name="loginSlogan">Bezpieczny Internet w każdym miejscu</string>
     <string name="loginStartWithDevice">Uruchamiaj przy starcie systemu</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">Połączono z %1$s</string>
     <string name="loaderConnectedToLabel">Połączono z:</string>
     <string name="loaderDisconnecting">Rozłączanie</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Ponowne łączenie</string>
     <string name="loaderReconnectNoNetwork">Oczekiwanie na sieć</string>
     <string name="loaderReconnectNoNetworkSuggestion">Sprawdź połączenie sieciowe</string>
@@ -86,8 +84,7 @@
     <string name="drawerHelp">Pomoc</string>
     <string name="drawerShowLog">Pokaż logi</string>
     <string name="drawerReportProblem">Zgłoś problem</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
-    <string name="drawerAppVersion">v%1$s</string>
+    <string name="drawerAppVersion">Wersja %1$s</string>
     <string name="accountDetails">Szczegóły konta</string>
     <string name="accountSubscription">Subskrypcja</string>
     <string name="accountUser">Użytkownik:</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Rozłączanie…</string>
     <string name="state_error">Błąd</string>
     <string name="error_server_unreachable">Nie można połączyć z usługą VPN. Sprawdź swoje połączenie i spróbuj ponownie.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Uwierzytelnianie użytkownika nie powiodło się.</string>
     <string name="error_assessment_failed">Ocena bezpieczeństwa nie powiodła się.</string>
     <string name="error_generic">Wystąpił nieokreślony błąd podczas łączenia.</string>
@@ -355,7 +351,8 @@
         <item quantity="many">skryptów śledzących\nzatrzymanych</item>
         <item quantity="other">skryptów śledzących\nzatrzymanych</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">zaoszczędzonych
+danych</string>
     <string name="netShieldBlockMalwareOnly">Zablokuj złośliwe oprogramowanie</string>
     <string name="netShieldFullBlock">Zablokuj złośliwe oprogramowanie, skrypty śledzące i reklamy</string>
     <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>
@@ -436,9 +433,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Twoja subskrypcja została obniżona.</string>
     <string name="notification_delinquent_title">Twoje konto Proton VPN posiada oczekujące faktury</string>
     <string name="notification_delinquent_content">Aby utrzymać subskrypcję aktywną, zaktualizuj informacje o płatności.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Serwer został automatycznie zmieniony na szybszy, podobny do wybranego.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Wykorzystano limit liczby podłączonych urządzeń</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

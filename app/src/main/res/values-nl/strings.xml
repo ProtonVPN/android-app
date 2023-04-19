@@ -25,7 +25,6 @@
     <string name="login">Log in</string>
     <string name="hamburgerMenu">Hamburgermenu</string>
     <string name="error_field_required">Dit invullen is verplicht</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Uitloggen</string>
     <string name="loginSlogan">Overal veilig internet</string>
     <string name="loginStartWithDevice">Starten tijdens opstarten</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">Verbonden met %1$s</string>
     <string name="loaderConnectedToLabel">Verbonden met:</string>
     <string name="loaderDisconnecting">Verbinding verbreken</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Opnieuw verbinden</string>
     <string name="loaderReconnectNoNetwork">Wachten op een bruikbaar netwerk</string>
     <string name="loaderReconnectNoNetworkSuggestion">Controleer uw netwerk</string>
@@ -86,7 +84,6 @@
     <string name="drawerHelp">Hulp</string>
     <string name="drawerShowLog">Log weergeven</string>
     <string name="drawerReportProblem">Een probleem melden</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">Accountinformatie</string>
     <string name="accountSubscription">Abonnement</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Verbinding verbreken…</string>
     <string name="state_error">Fout</string>
     <string name="error_server_unreachable">Kon geen verbinding maken met de VPN. Controleer uw verbinding en probeer het opnieuw.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Gebruikersauthenticatie mislukt.</string>
     <string name="error_assessment_failed">Beveiligingsbeoordeling mislukt.</string>
     <string name="error_generic">Niet-gespecifieerde fout tijdens het verbinden.</string>
@@ -430,9 +426,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Uw abonnement is naar omlaag geschaald.</string>
     <string name="notification_delinquent_title">Uw Proton VPN-account heeft openstaande facturen</string>
     <string name="notification_delinquent_content">Neem even de tijd om uw factuurgegevens bij te werken om uw abonnement actief te houden.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">U bent overgestapt naar een snellere server die lijkt op de server die u heeft geselecteerd.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">U hebt uw maximum apparaat limiet bereikt</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

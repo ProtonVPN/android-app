@@ -25,7 +25,6 @@
     <string name="login">Sign in</string>
     <string name="hamburgerMenu">Hamburger meni</string>
     <string name="error_field_required">Ovo polje je obavezno</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Odjava</string>
     <string name="loginSlogan">Siguran internet bilo gdje</string>
     <string name="loginStartWithDevice">Pokreni s uređajem</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">Povezan s %1$s</string>
     <string name="loaderConnectedToLabel">Connected to:</string>
     <string name="loaderDisconnecting">Odspajanje</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Ponovno povezivanje</string>
     <string name="loaderReconnectNoNetwork">Čeka se iskoristiva mreža</string>
     <string name="loaderReconnectNoNetworkSuggestion">Please check your network</string>
@@ -86,7 +84,6 @@
     <string name="drawerHelp">Pomoć</string>
     <string name="drawerShowLog">Prikaži zapisnik</string>
     <string name="drawerReportProblem">Report an issue</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">Podaci o korisničkom računu</string>
     <string name="accountSubscription">Pretplata</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Disconnecting…</string>
     <string name="state_error">Pogreška</string>
     <string name="error_server_unreachable">Couldn\'t connect to the VPN. Please check your connection and try again.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Provjera autentičnosti nije uspjela.</string>
     <string name="error_assessment_failed">Procjena sigurnosti nije uspjela.</string>
     <string name="error_generic">Neodređeni kvar tijekom povezivanja.</string>
@@ -433,9 +429,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Your subscription has been downgraded.</string>
     <string name="notification_delinquent_title">Vaš Proton VPN račun ima neplaćene fakture</string>
     <string name="notification_delinquent_content">Odvojite trenutak da ažurirate podatke o naplati kako biste zadržali pretplatu aktivnom.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Prebačeni ste na brži poslužitelj sličan onome koji ste odabrali.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Dostigli ste maksimalno ograničenje broja uređaja</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

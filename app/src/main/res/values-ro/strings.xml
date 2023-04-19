@@ -25,7 +25,6 @@
     <string name="login">Conectare</string>
     <string name="hamburgerMenu">Meniu</string>
     <string name="error_field_required">Acest câmp este obligatoriu</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Deconectare</string>
     <string name="loginSlogan">Internet sigur oriunde</string>
     <string name="loginStartWithDevice">Pornire automată</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">Conectat la %1$s</string>
     <string name="loaderConnectedToLabel">Conectat la:</string>
     <string name="loaderDisconnecting">Se deconectează</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Se reconectează</string>
     <string name="loaderReconnectNoNetwork">Se așteaptă o rețea utilizabilă</string>
     <string name="loaderReconnectNoNetworkSuggestion">Verificați-vă rețeaua</string>
@@ -86,7 +84,6 @@
     <string name="drawerHelp">Ajutor</string>
     <string name="drawerShowLog">Afișare jurnal</string>
     <string name="drawerReportProblem">Raportare o problemă</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v.%1$s</string>
     <string name="accountDetails">Detalii cont</string>
     <string name="accountSubscription">Abonament</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Se deconectează…</string>
     <string name="state_error">Eroare</string>
     <string name="error_server_unreachable">Nu s-a putut conecta la VPN. Verificați conexiunea și reîncercați.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Autentificare utilizator eșuată.</string>
     <string name="error_assessment_failed">Evaluarea de securitate a eșuat.</string>
     <string name="error_generic">Eroare nespecificată la conectare.</string>
@@ -341,18 +337,18 @@
     <string name="netshield_status_off">Oprit</string>
     <string name="netshield_free_title">Navigați fără reclame cu NetShield</string>
     <string name="netshield_free_description">Blocați reclame, urmăritori și malware pe pagini web și aplicații</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="accessibility_netshield_status_on_click">Introduceți setările NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad\nblocked</item>
-        <item quantity="few">Ads\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="one">reclamă\nblocată</item>
+        <item quantity="few">reclame\nblocate</item>
+        <item quantity="other">reclame\nblocate</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nstopped</item>
-        <item quantity="few">Trackers\nstopped</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="one">urmăritor\noprit</item>
+        <item quantity="few">urmăritori\nopriți</item>
+        <item quantity="other">urmăritori\nopriți</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Date \nsalvate</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Date\nsalvate</string>
     <string name="netShieldBlockMalwareOnly">Blocare doar malware</string>
     <string name="netShieldFullBlock">Blocare malware, urmărire, reclame</string>
     <string name="dialogDontShowAgain">Nu mai arăta</string>
@@ -433,9 +429,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Abonamentul a fost retrogradat.</string>
     <string name="notification_delinquent_title">Contul Proton VPN are facturi în așteptare</string>
     <string name="notification_delinquent_content">Actualizați-vă informațiile de facturare pentru a păstra abonamentul activ.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">S-a comutat la un server mai rapid, similar cu cel pe care l-ați selectat.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Ați atins limita maximă de dispozitive folosite</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

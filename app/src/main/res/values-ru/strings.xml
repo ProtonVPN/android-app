@@ -25,7 +25,6 @@
     <string name="login">Войти</string>
     <string name="hamburgerMenu">Меню \"Гамбургер\"</string>
     <string name="error_field_required">Это обязательное поле</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Выйти</string>
     <string name="loginSlogan">Безопасный Интернет где угодно</string>
     <string name="loginStartWithDevice">Запуск при включении устройства</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">Подключен к %1$s</string>
     <string name="loaderConnectedToLabel">Подключен к:</string>
     <string name="loaderDisconnecting">Отключение</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Повторное подключение</string>
     <string name="loaderReconnectNoNetwork">Ожидание доступной сети</string>
     <string name="loaderReconnectNoNetworkSuggestion">Пожалуйста, проверьте свою сеть</string>
@@ -86,8 +84,7 @@
     <string name="drawerHelp">Справка</string>
     <string name="drawerShowLog">Показать журнал</string>
     <string name="drawerReportProblem">Сообщить о проблеме</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
-    <string name="drawerAppVersion">v%1$s</string>
+    <string name="drawerAppVersion">Версия %1$s</string>
     <string name="accountDetails">Информация об аккаунте</string>
     <string name="accountSubscription">Подписка</string>
     <string name="accountUser">Пользователь:</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Отключение…</string>
     <string name="state_error">Ошибка</string>
     <string name="error_server_unreachable">Не могу подключиться к VPN. Пожалуйста, проверьте своё подключение и попробуйте снова.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Сбой аутентификации пользователя.</string>
     <string name="error_assessment_failed">Сбой проверки безопасности.</string>
     <string name="error_generic">Неизвестный сбой при подключении.</string>
@@ -342,7 +338,7 @@
     <string name="netshield_status_off">Выкл</string>
     <string name="netshield_free_title">Просматривайте веб-сайты без рекламы с помощью NetShield</string>
     <string name="netshield_free_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="accessibility_netshield_status_on_click">Введите настройки NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Ad\nblocked</item>
         <item quantity="few">Ads\nblocked</item>
@@ -436,9 +432,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Вы перешли на более дешевую версию подписки.</string>
     <string name="notification_delinquent_title">В Вашем аккаунте Proton VPN есть неоплаченные счета</string>
     <string name="notification_delinquent_content">Пожалуйста, обновите платежную информацию, чтобы сохранить вашу подписку.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Вы были переключены на более быстрый сервер, аналогичный выбранному вами.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Вы достигли максимального лимита устройств</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

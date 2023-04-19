@@ -25,7 +25,6 @@
     <string name="login">ورود به حساب</string>
     <string name="hamburgerMenu">منو</string>
     <string name="error_field_required">این قسمت الزامی است</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">خروج</string>
     <string name="loginSlogan">اینترنت امن در همه جا</string>
     <string name="loginStartWithDevice">فعال‌سازی هنگام روشن شدن دستگاه</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">متصل به %1$s</string>
     <string name="loaderConnectedToLabel">متصل به:</string>
     <string name="loaderDisconnecting">در حال قطع اتصال</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">در حال اتصال مجدد</string>
     <string name="loaderReconnectNoNetwork">در انتظار شبکهٔ قابل استفاده</string>
     <string name="loaderReconnectNoNetworkSuggestion">لطفاً شبکهٔ خود را بررسی کنید</string>
@@ -86,7 +84,6 @@
     <string name="drawerHelp">راهنمایی</string>
     <string name="drawerShowLog">نمایش گزارش</string>
     <string name="drawerReportProblem">گزارش یک اشکال</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">جزئیات حساب کاربری</string>
     <string name="accountSubscription">اشتراک</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">در حال قطع اتصال…</string>
     <string name="state_error">خطا</string>
     <string name="error_server_unreachable">اتصال به VPN ممکن نبود. لطفاً اتصال خود را بررسی و دوباره امتحان کنید.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">احراز هویت موفق نبود.</string>
     <string name="error_assessment_failed">ارزیابی امنیتی ناموفق بود.</string>
     <string name="error_generic">خطای نامعلوم در حال اتصال رخ داد.</string>
@@ -430,9 +426,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">اشتراک شما تنزل یافته است.</string>
     <string name="notification_delinquent_title">حساب کاربری Proton VPN شما دارای چند صورت‌حساب در حال انتظار است</string>
     <string name="notification_delinquent_content">لطفاً لحظه‌ای را به بروزرسانی اطلاعات پرداخت خود اختصاص دهید تا اشتراک شما فعال بماند.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">شما به یک سرور سریع‌تر مشابه سروری که انتخاب کردید منتقل شدید.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">شما به حداکثر محدودیت دستگاه خود رسیدید</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

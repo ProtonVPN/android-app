@@ -25,7 +25,6 @@
     <string name="login">Accedi</string>
     <string name="hamburgerMenu">Menù Hamburger</string>
     <string name="error_field_required">Questo campo è obbligatorio</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Esci</string>
     <string name="loginSlogan">Internet sicuro ovunque</string>
     <string name="loginStartWithDevice">Avvia con il dispositivo</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">Connesso a %1$s</string>
     <string name="loaderConnectedToLabel">Connesso a:</string>
     <string name="loaderDisconnecting">Disconnessione in corso</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Riconnessione in corso</string>
     <string name="loaderReconnectNoNetwork">In attesa di rete utilizzabile</string>
     <string name="loaderReconnectNoNetworkSuggestion">Per favore controlla la tua connessione</string>
@@ -86,7 +84,6 @@
     <string name="drawerHelp">Aiuto</string>
     <string name="drawerShowLog">Mostra registro</string>
     <string name="drawerReportProblem">Segnala un problema</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">Dettagli account</string>
     <string name="accountSubscription">Abbonamento</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Disconnessione…</string>
     <string name="state_error">Errore</string>
     <string name="error_server_unreachable">Impossibile connettersi alla VPN. Controlla la tua connessione e riprova.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Autenticazione utente fallita.</string>
     <string name="error_assessment_failed">Valutazione di sicurezza non riuscita.</string>
     <string name="error_generic">Errore non specificato durante la connessione.</string>
@@ -342,14 +338,14 @@
     <string name="netshield_free_description">Blocca pubblicità, trackers e malware su siti web e applicazioni</string>
     <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="one">annuncio\nbloccato</item>
+        <item quantity="other">annunci\nbloccati</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nstopped</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="one">tracker\nfermato</item>
+        <item quantity="other">tracker\nfermati</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">dati\nsalvati</string>
     <string name="netShieldBlockMalwareOnly">Blocca solo malware</string>
     <string name="netShieldFullBlock">Blocca malware, tracciamento, pubblicità</string>
     <string name="dialogDontShowAgain">Non mostrare nuovamente</string>
@@ -430,9 +426,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Il tuo abbonamento è stato declassato.</string>
     <string name="notification_delinquent_title">Il tuo account Proton VPN ha fatture in sospeso</string>
     <string name="notification_delinquent_content">Per favore prenditi un momento per aggiornare le tue informazioni di fatturazione per mantenere attivo il tuo abbonamento.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Sei stato passato ad un server più veloce simile a quello selezionato.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Hai raggiunto il limite massimo di dispositivi</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

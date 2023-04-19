@@ -25,7 +25,6 @@
     <string name="login">Se connecter</string>
     <string name="hamburgerMenu">Menu hamburger</string>
     <string name="error_field_required">Ce champ est nécessaire.</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Se déconnecter</string>
     <string name="loginSlogan">Pour un internet plus sûr, partout</string>
     <string name="loginStartWithDevice">Démarrer</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">Connecté à %1$s</string>
     <string name="loaderConnectedToLabel">Connecté à :</string>
     <string name="loaderDisconnecting">Déconnexion</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Reconnexion</string>
     <string name="loaderReconnectNoNetwork">En attente d’un réseau accessible.</string>
     <string name="loaderReconnectNoNetworkSuggestion">Veuillez vérifier votre réseau.</string>
@@ -86,7 +84,6 @@
     <string name="drawerHelp">Aide</string>
     <string name="drawerShowLog">Afficher le journal</string>
     <string name="drawerReportProblem">Signaler un problème</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">Détails du compte</string>
     <string name="accountSubscription">Abonnement</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Déconnexion…</string>
     <string name="state_error">Erreur</string>
     <string name="error_server_unreachable">La connexion au VPN n\'a pas pu être établie. Nous vous invitons à vérifier votre connexion et à réessayer.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">L\'utilisateur n\'a pas pu être authentifié.</string>
     <string name="error_assessment_failed">La sécurité n\'a pas pu être évaluée.</string>
     <string name="error_generic">Une erreur inconnue s\'est produite lors de la connexion.</string>
@@ -340,14 +336,14 @@
     <string name="netshield_status_off">Désactivé</string>
     <string name="netshield_free_title">Naviguez sans publicité avec NetShield</string>
     <string name="netshield_free_description">Bloquez les publicités, les traqueurs et les logiciels malveillants sur les sites internet et les applications.</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="accessibility_netshield_status_on_click">Entrer les paramètres NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="one">publicité\nbloquée</item>
+        <item quantity="other">publicités\nbloquées</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nstopped</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="one">traqueur\nbloqué</item>
+        <item quantity="other">traqueurs\nbloqués</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Données\nenregistrées</string>
     <string name="netShieldBlockMalwareOnly">Bloquer uniquement les logiciels malveillants</string>
@@ -430,9 +426,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Votre abonnement a été rétrogradé.</string>
     <string name="notification_delinquent_title">Vous avez des factures en retard pour votre compte Proton VPN.</string>
     <string name="notification_delinquent_content">Prenez un moment pour mettre à jour vos informations de facturation et garder votre abonnement actif.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Nous vous avons transféré vers un serveur plus rapide, similaire à celui que vous avez sélectionné.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Vous avez atteint votre nombre maximum d\'appareils.</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
