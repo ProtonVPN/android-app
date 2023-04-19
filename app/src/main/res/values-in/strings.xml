@@ -25,7 +25,6 @@
     <string name="login">Masuk</string>
     <string name="hamburgerMenu">Susunan Menu</string>
     <string name="error_field_required">Kolom ini wajib diisi</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Keluar</string>
     <string name="loginSlogan">Internet aman di mana saja</string>
     <string name="loginStartWithDevice">Mulai dengan perangkat</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">Terhubung ke %1$s</string>
     <string name="loaderConnectedToLabel">Terhubung ke:</string>
     <string name="loaderDisconnecting">Memutuskan</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Menyambungkan ulang</string>
     <string name="loaderReconnectNoNetwork">Menunggu jaringan yang dapat digunakan</string>
     <string name="loaderReconnectNoNetworkSuggestion">Mohon periksa koneksi internet Anda</string>
@@ -86,7 +84,6 @@
     <string name="drawerHelp">Bantuan</string>
     <string name="drawerShowLog">Tampilkan log</string>
     <string name="drawerReportProblem">Laporkan masalah</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">Rincian akun</string>
     <string name="accountSubscription">Langganan</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Memutus sambungan…</string>
     <string name="state_error">Kesalahan</string>
     <string name="error_server_unreachable">Tidak dapat terhubung ke VPN. Mohon periksa koneksi Anda dan coba lagi.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Otentikasi pengguna gagal.</string>
     <string name="error_assessment_failed">Penilaian keamanan gagal.</string>
     <string name="error_generic">Terdapat kesalahan yang tak terperinci saat menghubungkan.</string>
@@ -427,9 +423,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Paket langganan Anda telah diturunkan.</string>
     <string name="notification_delinquent_title">Akun Proton VPN Anda memiliki tagihan yang belum dilunasi</string>
     <string name="notification_delinquent_content">Silakan perbarui informasi tagihan Anda agar langganan Anda tetap aktif.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Anda telah dipindahkan ke server lebih cepat yang serupa dengan server pilihan Anda sebelumnya.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Anda telah mencapai batas jumlah perangkat maksimum yang dapat Anda sambungkan</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

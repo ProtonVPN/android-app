@@ -25,7 +25,6 @@
     <string name="login">Přihlásit se</string>
     <string name="hamburgerMenu">Nabídka hamburger</string>
     <string name="error_field_required">Toto pole je povinné</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Odhlásit se</string>
     <string name="loginSlogan">Zabezpečený internet kdekoli</string>
     <string name="loginStartWithDevice">Spustit se zařízením</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">Připojeno k %1$s</string>
     <string name="loaderConnectedToLabel">Připojeno k:</string>
     <string name="loaderDisconnecting">Odpojování</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Obnovování připojení</string>
     <string name="loaderReconnectNoNetwork">Čekání na použitelnou síť</string>
     <string name="loaderReconnectNoNetworkSuggestion">Prosím zkontrolujte připojení k síti</string>
@@ -86,7 +84,6 @@
     <string name="drawerHelp">Nápověda</string>
     <string name="drawerShowLog">Zobrazit log</string>
     <string name="drawerReportProblem">Nahlásit problém</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">Podrobnosti účtu</string>
     <string name="accountSubscription">Předplatné</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Odpojování…</string>
     <string name="state_error">Chyba</string>
     <string name="error_server_unreachable">Nelze se připojit k VPN. Zkontrolujte připojení a zkuste to znovu.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Ověření uživatele nezdařilo.</string>
     <string name="error_assessment_failed">Hodnocení zabezpečení se nezdařilo.</string>
     <string name="error_generic">Nespecifikovaná chyba při připojování.</string>
@@ -342,20 +338,20 @@
     <string name="netshield_status_off">Vypnuto</string>
     <string name="netshield_free_title">Prohlížejte bez reklam s NetShield</string>
     <string name="netshield_free_description">Blokujte reklamy, sledovací prvky a malware na webových stránkách a v aplikacích</string>
-    <string name="accessibility_netshield_status_on_click">Přejít do NetShield nastavení</string>
+    <string name="accessibility_netshield_status_on_click">Přejít do nastavení NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Reklama\nzablokována</item>
         <item quantity="few">Reklamy\nzablokovány</item>
-        <item quantity="many">Reklam\nzablkokováno</item>
+        <item quantity="many">Reklam\nzablokováno</item>
         <item quantity="other">Reklam\nzablokováno</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nzastaven</item>
-        <item quantity="few">Trackery\nzastaveny</item>
-        <item quantity="many">Trackerů\nzastaveno</item>
-        <item quantity="other">Trackerů\nzastaveno</item>
+        <item quantity="one">Sledovací prvek\nzastaven</item>
+        <item quantity="few">Sledovací prvky\nzastaveny</item>
+        <item quantity="many">Sledovacích prvků\nzastaveno</item>
+        <item quantity="other">Sledovacích prvků\nzastaveno</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nbyla uložena</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dat\nuloženo</string>
     <string name="netShieldBlockMalwareOnly">Blokovat pouze malware</string>
     <string name="netShieldFullBlock">Blokovat malware, slídiče, reklamy</string>
     <string name="dialogDontShowAgain">Příště nezobrazovat</string>
@@ -436,9 +432,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Vaše předplatné bylo sníženo.</string>
     <string name="notification_delinquent_title">U Vašeho Proton VPN účtu evidujeme neuhrazené faktury</string>
     <string name="notification_delinquent_content">Prosím zkontrolujte vaše fakturační údaje pro udržení vašeho předplatného aktivním.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Byli jste přepojeni na rychlejší server podobný tomu, který jste vybrali.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Dosáhli jste maximálního počtu zařízení</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

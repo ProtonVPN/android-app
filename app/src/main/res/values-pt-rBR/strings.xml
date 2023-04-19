@@ -25,7 +25,6 @@
     <string name="login">Iniciar sessão</string>
     <string name="hamburgerMenu">Menu hambúrguer</string>
     <string name="error_field_required">Este campo é obrigatório</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Encerrar sessão</string>
     <string name="loginSlogan">Internet segura em qualquer lugar</string>
     <string name="loginStartWithDevice">Iniciar com o dispositivo</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">Conectado a %1$s</string>
     <string name="loaderConnectedToLabel">Conectado a:</string>
     <string name="loaderDisconnecting">Desconectando</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Reconectando</string>
     <string name="loaderReconnectNoNetwork">Aguardando uma rede utilizável</string>
     <string name="loaderReconnectNoNetworkSuggestion">Por favor, verifique sua rede</string>
@@ -86,7 +84,6 @@
     <string name="drawerHelp">Ajuda</string>
     <string name="drawerShowLog">Mostrar registro</string>
     <string name="drawerReportProblem">Reportar um problema</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v.%1$s</string>
     <string name="accountDetails">Detalhes da conta</string>
     <string name="accountSubscription">Assinatura</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Desconectando…</string>
     <string name="state_error">Erro</string>
     <string name="error_server_unreachable">Não foi possível conectar à VPN. Verifique sua conexão e tente novamente.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Falha na autenticação do usuário.</string>
     <string name="error_assessment_failed">Falha na auditoria de segurança.</string>
     <string name="error_generic">Falha desconhecida durante a conexão.</string>
@@ -430,9 +426,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Sua assinatura foi rebaixada.</string>
     <string name="notification_delinquent_title">Sua conta Proton VPN tem faturas pendentes</string>
     <string name="notification_delinquent_content">Por favor, reserve um momento para atualizar suas informações de pagamento para manter sua assinatura ativa.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Você foi reconectado para o servidor mais rápido similar ao que você selecionou.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Você atingiu o número máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

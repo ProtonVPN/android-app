@@ -25,7 +25,6 @@
     <string name="login">Anmelden</string>
     <string name="hamburgerMenu">Menüleiste</string>
     <string name="error_field_required">Dieses Feld ist erforderlich</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Abmelden</string>
     <string name="loginSlogan">Sicheres Internet überall</string>
     <string name="loginStartWithDevice">Mit Gerät starten</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">Verbunden mit %1$s</string>
     <string name="loaderConnectedToLabel">Verbunden mit:</string>
     <string name="loaderDisconnecting">Verbindung wird getrennt</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Verbindung wird wiederhergestellt</string>
     <string name="loaderReconnectNoNetwork">Warte auf nutzbares Netzwerk</string>
     <string name="loaderReconnectNoNetworkSuggestion">Bitte überprüfe deine Netzwerkverbindung</string>
@@ -86,7 +84,6 @@
     <string name="drawerHelp">Hilfe</string>
     <string name="drawerShowLog">Protokoll anzeigen</string>
     <string name="drawerReportProblem">Problem melden</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">Kontodetails</string>
     <string name="accountSubscription">Abonnement</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Verbindung wird getrennt …</string>
     <string name="state_error">Fehler</string>
     <string name="error_server_unreachable">Verbindung zum VPN fehlgeschlagen. Bitte überprüfe deine Verbindung und versuche es erneut.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Benutzerauthentifizierung fehlgeschlagen.</string>
     <string name="error_assessment_failed">Sicherheitsbewertung fehlgeschlagen.</string>
     <string name="error_generic">Unbekannter Fehler beim Verbinden.</string>
@@ -340,7 +336,7 @@
     <string name="netshield_status_off">Aus</string>
     <string name="netshield_free_title">Mit NetShield werbefrei surfen</string>
     <string name="netshield_free_description">Blockiere Werbung, Tracker und Malware auf Websites und Apps.</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="accessibility_netshield_status_on_click">NetShield Einstellungen eingeben</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Werbung\nblockiert</item>
         <item quantity="other">Werbungen\nblockiert</item>
@@ -430,9 +426,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Dein Abonnement wurde herabgestuft.</string>
     <string name="notification_delinquent_title">Dein Proton VPN-Konto enthält noch offene Rechnungen</string>
     <string name="notification_delinquent_content">Bitte nimm dir einen Moment Zeit, um deine Rechnungsdaten zu aktualisieren, damit dein Abonnement aktiv bleibt.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Du wurdest auf einen schnelleren Server umgeschaltet, der dem von dir gewählten ähnlich ist.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Du hast die max. mögliche Anzahl von Geräten erreicht</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

@@ -25,7 +25,6 @@
     <string name="login">Увійти</string>
     <string name="hamburgerMenu">Гамбургер-меню</string>
     <string name="error_field_required">Це поле обов\'язкове</string>
-    <string name="title_activity_home">@string/app_name</string>
     <string name="menuActionSignOut">Вийти</string>
     <string name="loginSlogan">Безпечний інтернет будь-де</string>
     <string name="loginStartWithDevice">Запускати під час увімкнення пристрою</string>
@@ -67,7 +66,6 @@
     <string name="loaderConnectedTo">З\'єднано з %1$s</string>
     <string name="loaderConnectedToLabel">З\'єднано з:</string>
     <string name="loaderDisconnecting">Роз\'єднання</string>
-    <string name="loaderDisconnectingSuggestion">@string/loaderCheckingAvailabilitySuggestion</string>
     <string name="loaderReconnecting">Повторне з\'єднання</string>
     <string name="loaderReconnectNoNetwork">Очікування доступної мережі</string>
     <string name="loaderReconnectNoNetworkSuggestion">Будь ласка, перевірте вашу мережу</string>
@@ -86,8 +84,7 @@
     <string name="drawerHelp">Допомога</string>
     <string name="drawerShowLog">Показати журнал</string>
     <string name="drawerReportProblem">Повідомити про проблему</string>
-    <string name="drawerSignOut">@string/menuActionSignOut</string>
-    <string name="drawerAppVersion">v%1$s</string>
+    <string name="drawerAppVersion">Версія %1$s</string>
     <string name="accountDetails">Подробиці облікового запису</string>
     <string name="accountSubscription">Передплата</string>
     <string name="accountUser">Користувач:</string>
@@ -163,7 +160,6 @@
     <string name="state_disconnecting">Від\'єднання…</string>
     <string name="state_error">Помилка</string>
     <string name="error_server_unreachable">Не вдалося під\'єднатися до VPN. Перевірте з\'єднання та повторіть спробу.</string>
-    <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">Помилка автентифікації користувача.</string>
     <string name="error_assessment_failed">Не вдалося перевірити безпеку.</string>
     <string name="error_generic">Невідома помилка під час з\'єднання.</string>
@@ -254,7 +250,7 @@
     <string name="bugReportErrorLabelVpnLogsDescription">Це відправляє локальні журнали помилок (ми не реєструємо активність), щоб допомогти нам усунути вашу проблему</string>
     <string name="profileFastest">Найшвидший</string>
     <string name="profileRandom">Випадковий</string>
-    <string name="settingsSplitTunnelingDescription">Роздільне тунелювання дозволяє виключити певні додатки або IP-адреси з VPN-трафіку.</string>
+    <string name="settingsSplitTunnelingDescription">Роздільне тунелювання дозволяє виключити певні програми або IP-адреси з VPN-трафіку.</string>
     <string name="settingsSplitTunnelingTitle">Роздільне тунелювання</string>
     <string name="loaderAuthenticatingUser">Автентифікація користувача…</string>
     <string name="loaderErrorNoInternet">Немає з\'єднання з інтернетом</string>
@@ -355,7 +351,7 @@
         <item quantity="many">Елементів стеження\nзупинено</item>
         <item quantity="other">Елементів стеження\nзупинено</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Заощаджено\nданих</string>
     <string name="netShieldBlockMalwareOnly">Блокувати лише зловмисні програми</string>
     <string name="netShieldFullBlock">Блокувати зловмисні програми, стеження, оголошення</string>
     <string name="dialogDontShowAgain">Не показувати знову</string>
@@ -385,7 +381,7 @@
     <string name="tv_detail_description_streaming_country">Переглядайте свої улюблені матеріали. Отримайте доступ до більшої кількості додатків з тарифним планом Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Переглядайте більше улюблених матеріалів з тарифним планом Proton VPN Plus.</string>
     <string name="tv_detail_description_country_not_available">Ця країна недоступна. Отримайте більше можливостей потокової трансляції з тарифним планом Proton VPN Plus.</string>
-    <string name="tv_detail_description_plus">Дивіться улюблене відео, фільми або спортивні передачі у своїх додатках.</string>
+    <string name="tv_detail_description_plus">Дивіться улюблене відео, фільми або спортивні передачі у своїх програмах.</string>
     <string name="tv_login_title_signin">Увійти до Proton VPN</string>
     <string name="tv_login_title_welcome">Переглядайте свої улюблені відеоматеріали</string>
     <string name="tv_login_welcome_description">Дивіться відеоматеріали з понад 50 країн, включно з YouTube і Twitch. Транслюйте Netflix, Amazon Prime і Hulu з Proton VPN Plus.</string>
@@ -436,9 +432,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">Ваша передплата була понижена.</string>
     <string name="notification_delinquent_title">У вашому обліковому записі Proton VPN є несплачені рахунки</string>
     <string name="notification_delinquent_content">Знайдіть хвилинку та оновіть платіжні дані, щоб вашу передплата залишалася активною.</string>
-    <string name="notification_server_unreachable_title">@string/vpn_accelerator</string>
     <string name="notification_server_unreachable_content">Вас під\'єднано до іншого швидшого сервера, схожого на обраний вами.</string>
-    <string name="notification_server_maintenance_title">@string/vpn_accelerator</string>
     <string name="notification_max_sessions_title">Ви досягли обмеження кількості пристроїв</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
