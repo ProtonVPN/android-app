@@ -88,6 +88,9 @@ object SentryIntegration {
                 event
             }
             options.isEnableScopeSync = true
+            if (BuildConfig.REDESIGN_TEST_BUILD) {
+                options.environment = "redesign"
+            }
         }
         Sentry.setUser(User().apply { id = getInstallationId() })
         // Add manufacturer because some devices report device model for "device.family" which isn't very useful for
