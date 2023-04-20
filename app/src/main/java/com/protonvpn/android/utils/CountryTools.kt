@@ -70,6 +70,7 @@ object CountryTools {
         return if (locale?.language in supportedLanguages) locale else Locale.US
     }
 
+    @Deprecated("Prefer the version that accepts a locale")
     fun getFullName(country: String?): String {
         val locale = Locale("", country)
         val localized = locale.getDisplayCountry(getPreferredLocale())
@@ -77,6 +78,16 @@ object CountryTools {
             localized
         else
             locale.getDisplayCountry(Locale.US)
+    }
+
+    fun getFullName(locale: Locale, country: String): String {
+        val countryLocale = Locale("", country)
+        val localized = countryLocale.getDisplayCountry(locale)
+        return if (localized.length < MAX_LOCALIZED_LENGTH) {
+            localized
+        } else {
+            locale.getDisplayCountry(Locale.US)
+        }
     }
 
     enum class Continent(@StringRes val nameRes: Int, @DrawableRes val iconRes: Int) {

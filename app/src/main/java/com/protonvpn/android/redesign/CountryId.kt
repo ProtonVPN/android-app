@@ -35,7 +35,7 @@ value class CountryId private constructor(val countryCode: String) {
         get() = countryCode == ""
 
     companion object {
-        fun fastest() = CountryId("")
+        val fastest = CountryId("")
         operator fun invoke(countryCode: String) = CountryId(sanitizeCountryCode(countryCode))
 
         private fun sanitizeCountryCode(code: String) =

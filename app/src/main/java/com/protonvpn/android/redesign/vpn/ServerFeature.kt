@@ -17,18 +17,19 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.testSuites
+package com.protonvpn.android.redesign.vpn
 
-import com.protonvpn.tests.netshield.NetShieldComponentTests
-import com.protonvpn.tests.redesign.base.ui.nav.NavigationTests
-import com.protonvpn.tests.redesign.vpn.ui.GetConnectIntentViewStateTests
-import org.junit.runner.RunWith
-import org.junit.runners.Suite
+import com.protonvpn.android.models.vpn.Server
+import java.util.EnumSet
 
-@RunWith(Suite::class)
-@Suite.SuiteClasses(
-    GetConnectIntentViewStateTests::class,
-    NavigationTests::class,
-    NetShieldComponentTests::class,
-)
-class UiComponentsSuite
+enum class ServerFeature {
+    P2P,
+    Tor;
+
+    companion object {
+        fun fromServer(server: Server): EnumSet<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java).apply {
+            if (server.isP2pServer) add(P2P)
+            if (server.isTor) add(Tor)
+        }
+    }
+}
