@@ -71,6 +71,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -83,6 +84,7 @@ abstract class SampleScreen(
 }
 
 private val sampleScreens: List<SampleScreen> = listOf(
+    ConnectionCardSample(),
     FlagsSample(),
     ButtonsSample(),
     TextFieldsSample(),
@@ -90,6 +92,7 @@ private val sampleScreens: List<SampleScreen> = listOf(
     BottomBarSample(),
 )
 
+@AndroidEntryPoint
 class UiCatalogActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

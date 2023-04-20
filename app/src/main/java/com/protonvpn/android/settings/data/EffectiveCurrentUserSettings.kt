@@ -58,6 +58,7 @@ class EffectiveCurrentUserSettings(
         .shareIn(mainScope, SharingStarted.Lazily, 1)
 
     val apiUseDoh = distinct { it.apiUseDoh }
+    val defaultProfileId = distinct { it.defaultProfileId }
     val netShield = distinct { it.netShield }
     val protocol = distinct { it.protocol }
     val safeMode = distinct { it.safeMode }

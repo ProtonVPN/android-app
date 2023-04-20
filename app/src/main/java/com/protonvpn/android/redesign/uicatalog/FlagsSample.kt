@@ -85,7 +85,7 @@ class FlagsSample : SampleScreen("Flags", "flags") {
             horizontalArrangement = Arrangement.Center
         ) {
             arrayOf(
-                CountryId.fastest(),
+                CountryId.fastest,
                 CountryId("se"),
                 CountryId("pl"),
                 CountryId("de"),
@@ -106,7 +106,7 @@ class FlagsSample : SampleScreen("Flags", "flags") {
             horizontalArrangement = Arrangement.Center
         ) {
             arrayOf(
-                CountryId.fastest() to null,
+                CountryId.fastest to null,
                 CountryId("kr") to null,
                 CountryId("au") to null,
                 CountryId("pl") to CountryId("se"),

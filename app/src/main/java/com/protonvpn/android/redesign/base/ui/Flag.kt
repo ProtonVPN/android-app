@@ -70,9 +70,12 @@ fun Flag(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val entryCountryFlag =
+        if (entryCountry == null || entryCountry.isFastest) null
+        else entryCountry.flagResource(context)
     Flag(
         exitCountry.flagResource(context),
-        entryCountry?.flagResource(context),
+        entryCountryFlag,
         isSecureCore,
         isFastest = exitCountry.isFastest,
         modifier = modifier

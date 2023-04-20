@@ -17,18 +17,10 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.testSuites
+package com.protonvpn.android.redesign.vpn.ui
 
-import com.protonvpn.tests.netshield.NetShieldComponentTests
-import com.protonvpn.tests.redesign.base.ui.nav.NavigationTests
-import com.protonvpn.tests.redesign.vpn.ui.GetConnectIntentViewStateTests
-import org.junit.runner.RunWith
-import org.junit.runners.Suite
-
-@RunWith(Suite::class)
-@Suite.SuiteClasses(
-    GetConnectIntentViewStateTests::class,
-    NavigationTests::class,
-    NetShieldComponentTests::class,
-)
-class UiComponentsSuite
+sealed interface VpnConnectionState {
+    object Disconnected : VpnConnectionState
+    object Connecting : VpnConnectionState
+    object Connected : VpnConnectionState
+}
