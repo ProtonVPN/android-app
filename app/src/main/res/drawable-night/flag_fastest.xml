@@ -1,0 +1,33 @@
+<!--
+  Copyright (c) 2023. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="22dp"
+    android:viewportWidth="32"
+    android:viewportHeight="22">
+  <path
+      android:pathData="M0,0.333h32v21.333h-32z"
+      android:fillColor="#27DDB1"
+      android:fillAlpha="0.2"/>
+  <path
+      android:pathData="M13.485,19.142C13.254,19.019 13.138,18.751 13.207,18.498L14.701,13.021L10.938,13.021C10.717,13.021 10.517,12.892 10.426,12.692C10.334,12.492 10.368,12.257 10.512,12.09L17.825,3.653C17.997,3.454 18.283,3.401 18.515,3.525C18.746,3.648 18.862,3.916 18.793,4.169L17.299,9.646L21.063,9.646C21.283,9.646 21.483,9.774 21.574,9.975C21.666,10.175 21.632,10.41 21.488,10.577L14.175,19.014C14.003,19.213 13.717,19.266 13.485,19.142ZM19.831,10.771L16.563,10.771C16.387,10.771 16.222,10.689 16.115,10.55C16.009,10.411 15.974,10.23 16.02,10.061L17.057,6.256L12.169,11.896L15.438,11.896C15.613,11.896 15.778,11.978 15.884,12.117C15.991,12.256 16.026,12.437 15.98,12.606L14.943,16.411L19.831,10.771Z"
+      android:fillColor="#27DDB1"
+      android:fillType="evenOdd"/>
+</vector>

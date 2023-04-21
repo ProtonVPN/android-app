@@ -82,6 +82,7 @@ abstract class SampleScreen(
 }
 
 private val sampleScreens: List<SampleScreen> = listOf(
+    FlagsSample(),
     ButtonsSample(),
     TextFieldsSample(),
     SnackbarsSample(),
