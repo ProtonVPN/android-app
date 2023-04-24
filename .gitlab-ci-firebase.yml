@@ -123,11 +123,11 @@ robo tests:
       --robo-directives ignore:R.id.drawerButtonLogout=
   variables:
     TIMEOUT: $TIMEOUT_ROBO_TESTS
-    APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
-    APP_TYPE: "googlePlay-debug.apk"
+    APP_LOCATION: "app/build/outputs/apk/googlePlay/release/"
+    APP_TYPE: "googlePlay-universal-release.apk"
     CHECKOUT_CORE_SUBMODULE: "true"
   after_script:
-    - | 
+    - |
       if [ $CI_JOB_STATUS == "failed" ]; then
         curl -X POST -H 'Content-type: application/json' --data "{"text":':warn: Scheduled robo tests failed: \n$CI_JOB_URL'}" "$SLACK_QA_HOOK"
       fi

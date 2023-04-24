@@ -146,14 +146,8 @@ detekt analysis:
 
 build google debug:
   stage: build
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: never
-    - if: $ROBO_TEST == "true"
-      when: always
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: never
-    - when: always
+  except:
+    - schedules
   tags:
     - xlarge-k8s
   script:
@@ -206,20 +200,32 @@ build black:
 
 build google play release:
   stage: build
-  except:
-    - master
-    - schedules
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $ROBO_TEST == "true"
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: $CI_COMMIT_BRANCH == "master"
+      when: never
+    - when: manual
   tags:
     - xlarge-k8s
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew assembleGooglePlayRelease -PabiSplit -PbuildUniversalApk
+    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
+    - echo ${ARCHIVES_BASE_NAME}
+    - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
   when: manual
   interruptible: false
   artifacts:
     expire_in: 1 week
     paths:
     - app/build/outputs/apk
+    reports:
+      dotenv: deploy.env
 
 build amazon release:
   stage: build
