@@ -338,12 +338,12 @@
     <string name="netshield_free_description">Bloquez les publicités, les traqueurs et les logiciels malveillants sur les sites internet et les applications.</string>
     <string name="accessibility_netshield_status_on_click">Entrer les paramètres NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">publicité\nbloquée</item>
-        <item quantity="other">publicités\nbloquées</item>
+        <item quantity="one">Publicité\nbloquée</item>
+        <item quantity="other">Publicités\nbloquées</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">traqueur\nbloqué</item>
-        <item quantity="other">traqueurs\nbloqués</item>
+        <item quantity="one">Traqueur\nbloqué</item>
+        <item quantity="other">Traqueurs\nbloqués</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Données\nenregistrées</string>
     <string name="netShieldBlockMalwareOnly">Bloquer uniquement les logiciels malveillants</string>

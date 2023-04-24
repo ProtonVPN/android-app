@@ -340,18 +340,18 @@
     <string name="netshield_free_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
     <string name="accessibility_netshield_status_on_click">Введите настройки NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad\nblocked</item>
+        <item quantity="one">Реклама\nзаблокирована</item>
         <item quantity="few">Ads\nblocked</item>
         <item quantity="many">Ads\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="other">Реклама\nзаблокирована</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nstopped</item>
+        <item quantity="one">Трекер\nостановлен</item>
         <item quantity="few">Trackers\nstopped</item>
         <item quantity="many">Trackers\nstopped</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="other">Трекеры\nостановлены</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Данные\nсохранены</string>
     <string name="netShieldBlockMalwareOnly">Блокировать только вредоносные программы</string>
     <string name="netShieldFullBlock">Блокировать вредоносные программы, трекеры, рекламу</string>
     <string name="dialogDontShowAgain">Больше не показывать</string>
@@ -552,7 +552,7 @@
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
     <string name="upgrade_safe_mode_message">У вас есть расширенные или профессиональные потребности использовать нестандартные порты? Перейдите на VPN Plus, чтобы получить доступ к этой и другим премиальным функциям.</string>
     <string name="upgrade_moderate_nat_title">Включить Умеренный NAT</string>
-    <string name="upgrade_moderate_nat_message">Умеренный NAT, также известный как NAT Type 2, может повысить удобство работы в Интернете с различными приложениями и сетевыми видеоиграми. Разблокируйте эту и другие функции на тарифе Plus.</string>
+    <string name="upgrade_moderate_nat_message">Умеренный NAT, известный как NAT Тип 2, поможет улучшить ваш опыт использования разнообразных приложений и онлайн-видеоигр. Получите доступ к этой и другим функциям с тарифным планом Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">Что такое Умеренный NAT?</string>
     <string name="upgrade_see_plans_button">Посмотрите тарифы и цены</string>
     <string name="upgrade_not_now_button">Не сейчас</string>
