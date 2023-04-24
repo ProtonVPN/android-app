@@ -195,7 +195,7 @@
     <string name="copy_to_clipboard">Copia</string>
     <string name="the_list_is_empty">La lista è vuota</string>
     <string name="got_it">Va bene</string>
-    <string name="onboardingWelcome">Benvenuto a bordo</string>
+    <string name="onboardingWelcome">Ti diamo il benvenuto a bordo</string>
     <string name="proton_log">Log di Proton</string>
     <string name="something_went_wrong">Qualcosa è andato storto</string>
     <string name="try_again">Riprova</string>
@@ -564,7 +564,7 @@
     <string name="server_load_high">Alto</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Benvenuto in Proton VPN</string>
+    <string name="onboarding_welcome_title">Ti diamo il benvenuto in Proton VPN</string>
     <string name="onboarding_welcome_description">Scopri come ottenere il massimo da Proton VPN in pochi secondi.</string>
     <string name="onboarding_welcome_action">Per iniziare</string>
     <string name="onboarding_available_on_plus">Disponibile con Plus</string>
