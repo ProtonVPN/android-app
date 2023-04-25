@@ -27,7 +27,7 @@ buildscript {
     ext.datastore_version = '1.1.0-alpha06'
     ext.detekt_version = '1.23.4'
     ext.hilt_version = '2.48.1'
-    ext.kotlin_version = '1.8.10'
+    ext.kotlin_version = '1.8.20'
     ext.kotlinx_coroutines_version = '1.7.3'
     ext.kotlinx_serialization_json_version = '1.6.1'
     ext.mockk_version = '1.13.8'
