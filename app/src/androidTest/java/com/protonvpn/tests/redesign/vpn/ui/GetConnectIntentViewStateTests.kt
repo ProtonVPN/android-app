@@ -24,6 +24,7 @@ import androidx.test.filters.SdkSuppress
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentRow
@@ -45,6 +46,9 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @MockK
     private lateinit var serverManager: ServerManager
+
+    @MockK
+    private lateinit var mockTranslator: Translator
 
     private lateinit var getConnectIntentViewState: GetConnectIntentViewState
 
@@ -81,8 +85,9 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         every { serverManager.getServerById(any()) } answers {
             allServers.find { it.serverId == firstArg() }
         }
+        every { mockTranslator.getCity(any()) } answers { firstArg() }
 
-        getConnectIntentViewState = GetConnectIntentViewState(serverManager)
+        getConnectIntentViewState = GetConnectIntentViewState(serverManager, mockTranslator)
     }
 
     @Test
@@ -174,6 +179,16 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").hasChild(node.withText("Warsaw")).assertIsDisplayed()
+    }
+
+    @Test
+    fun cityWithTranslation() {
+        every { mockTranslator.getCity("Zurich") } returns "Zurych"
+        val connectIntent = ConnectIntent.FastestInCity(switzerland, "Zurich", noServerFeatures)
+        setConnectIntentRowComposable(connectIntent)
+
+        node.withTag("primaryLabel").assertContainsText("Switzerland")
+        node.withTag("secondaryLabel").hasChild(node.withText("Zurych")).assertIsDisplayed()
     }
 
     @Test
