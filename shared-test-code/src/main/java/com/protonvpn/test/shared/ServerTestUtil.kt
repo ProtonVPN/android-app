@@ -46,7 +46,8 @@ fun createServer(
     score: Double = 0.5,
     tier: Int = 0,
     features: Int = 0,
-    gatewayName: String? = null
+    gatewayName: String? = null,
+    translations: Map<String, String?>? = null,
 ) =
     Server(
         serverId = serverId,
@@ -63,7 +64,7 @@ fun createServer(
         city = city,
         features = features,
         location = Location("", ""),
-        translations = null,
+        translations = translations,
         score = score,
-        isOnline = true
+        isOnline = true,
     )

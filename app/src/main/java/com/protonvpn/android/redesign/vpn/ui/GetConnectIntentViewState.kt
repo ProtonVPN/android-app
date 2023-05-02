@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.vpn.ui
 
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.utils.ServerManager
@@ -29,7 +30,8 @@ import javax.inject.Inject
 
 @Reusable
 class GetConnectIntentViewState @Inject constructor(
-    private val serverManager: ServerManager
+    private val serverManager: ServerManager,
+    private val translator: Translator
 ) {
 
     operator fun invoke(connectIntent: ConnectIntent, connectedServer: Server? = null): ConnectIntentViewState =
@@ -57,9 +59,9 @@ class GetConnectIntentViewState @Inject constructor(
             exitCountry = connectedServer?.entryCountry?.let { CountryId(it) } ?: connectIntent.country,
             entryCountry = null,
             isSecureCore = false,
-            secondaryLabel =
-                // TODO: translate city name
-                ConnectIntentSecondaryLabel.RawText(connectedServer?.displayCity ?: connectIntent.cityEn),
+            secondaryLabel = ConnectIntentSecondaryLabel.RawText(
+                connectedServer?.displayCity ?: translator.getCity(connectIntent.cityEn)
+            ),
             serverFeatures = effectiveServerFeatures(connectIntent, connectedServer)
         )
 
