@@ -30,6 +30,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -53,10 +54,10 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.caption
-import me.proton.core.compose.theme.captionStrong
-import me.proton.core.compose.theme.default
+import me.proton.core.compose.theme.captionStrongNorm
+import me.proton.core.compose.theme.captionUnspecified
 import me.proton.core.compose.theme.defaultHint
+import me.proton.core.compose.theme.defaultNorm
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,7 +68,7 @@ fun ProtonOutlinedTextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = ProtonTheme.typography.default,
+    textStyle: TextStyle = ProtonTheme.typography.defaultNorm,
     labelText: String? = null,
     placeholderText: String? = null,
     assistiveText: String? = null,
@@ -88,7 +89,7 @@ fun ProtonOutlinedTextField(
             Text(
                 text,
                 color = if (isError) ProtonTheme.colors.notificationError else ProtonTheme.colors.textWeak,
-                style = ProtonTheme.typography.caption,
+                style = ProtonTheme.typography.captionUnspecified,
                 // The supportive text's padding is hardcoded in TextFieldLayout, several levels deep in
                 // OutlinedTextFieldDecorationBox. Use an ugly hack to undo it :-/
                 modifier = Modifier.graphicsLayer {
@@ -99,10 +100,12 @@ fun ProtonOutlinedTextField(
     }
     val placeholder: @Composable (() -> Unit)? =
         placeholderText?.let { @Composable { Text(placeholderText, style = ProtonTheme.typography.defaultHint) } }
-    val colors = TextFieldDefaults.outlinedTextFieldColors(
+    val colors = OutlinedTextFieldDefaults.colors(
+        focusedContainerColor = ProtonTheme.colors.backgroundSecondary,
+        unfocusedContainerColor = ProtonTheme.colors.backgroundSecondary,
+        disabledContainerColor = ProtonTheme.colors.backgroundSecondary,
         focusedBorderColor = ProtonTheme.colors.interactionNorm,
         unfocusedBorderColor = Color.Transparent,
-        containerColor = ProtonTheme.colors.backgroundSecondary,
     )
     val cursorColor = rememberUpdatedState(
         if (isError) {
@@ -136,34 +139,35 @@ fun ProtonOutlinedTextField(
                     .widthIn(min = TextFieldDefaults.MinWidth)
             ) {
                 if (labelText != null) {
-                    Text(labelText, style = ProtonTheme.typography.captionStrong)
+                    Text(labelText, style = ProtonTheme.typography.captionStrongNorm)
                     VerticalSpacer()
                 }
                 // Wrap OutlinedTextFieldDecorationBox in a Box because there's no way to pass size modifier directly.
                 Box(Modifier.fillMaxWidth(), propagateMinConstraints = true) {
-                    TextFieldDefaults.OutlinedTextFieldDecorationBox(
+                    OutlinedTextFieldDefaults.DecorationBox(
                         value = value,
-                        visualTransformation = visualTransformation,
                         innerTextField = innerTextField,
-                        placeholder = placeholder,
+                        enabled = enabled,
+                        singleLine = singleLine,
+                        visualTransformation = visualTransformation,
+                        interactionSource = interactionSource,
+                        isError = isError,
                         label = null,
+                        placeholder = placeholder,
                         leadingIcon = null,
                         trailingIcon = null,
                         supportingText = supportingText,
-                        singleLine = singleLine,
-                        enabled = enabled,
-                        isError = isError,
-                        interactionSource = interactionSource,
                         colors = colors,
+                        contentPadding = OutlinedTextFieldDefaults.contentPadding(),
                         container = {
-                            TextFieldDefaults.OutlinedBorderContainerBox(
-                                enabled,
-                                isError,
-                                interactionSource,
-                                colors,
-                                shape = TextFieldDefaults.outlinedShape,
+                            OutlinedTextFieldDefaults.ContainerBox(
+                                enabled = enabled,
+                                isError = isError,
+                                interactionSource = interactionSource,
+                                colors = colors,
+                                shape = OutlinedTextFieldDefaults.shape,
                             )
-                        }
+                        },
                     )
                 }
             }
