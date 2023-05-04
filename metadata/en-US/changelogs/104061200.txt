@@ -1,0 +1,4 @@
+What's new
+- You can now see your online privacy protected in real time with the new NetShield Privacy Panel.
+- See how many ads and privacy-invading trackers are blocked and how much data you're saving by freeing up bandwidth.
+- You can now sign in using a third-party email provider
