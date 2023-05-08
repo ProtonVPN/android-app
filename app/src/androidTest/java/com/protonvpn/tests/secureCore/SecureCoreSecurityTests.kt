@@ -25,7 +25,6 @@ import com.protonvpn.actions.ConnectionRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.ProfilesRobot
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
@@ -71,7 +70,6 @@ class SecureCoreSecurityTests {
     }
 
     @Test
-    @TestID(103971)
     fun tryToEnableSecureCoreAsFreeUser() {
         homeRobot.setStateOfSecureCoreSwitch(true)
             .verify {
@@ -81,7 +79,6 @@ class SecureCoreSecurityTests {
     }
 
     @Test
-    @TestID(103972)
     fun tryToConnectToSecureCoreThroughProfilesAsFreeUser() {
         serviceTestHelper.addProfile(
             VpnProtocol.Smart,
@@ -95,7 +92,6 @@ class SecureCoreSecurityTests {
     }
 
     @Test
-    @TestID(103973)
     fun tryToConnectToSecureCoreThroughQuickConnectAsFreeUser() {
         serviceTestHelper.addProfile(
             VpnProtocol.Smart,

@@ -27,7 +27,6 @@ import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ui.main.MobileMainActivity
-import com.protonvpn.annotations.TestID
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
@@ -69,21 +68,18 @@ class LoginTests {
     }
 
     @Test
-    @TestID(51)
     fun loginWithPlusUser() {
         loginRobot.signIn(TestUser.plusUser)
             .verify { isInMainScreen() }
     }
 
     @Test
-    @TestID(52)
     fun loginWithIncorrectCredentials() {
         loginRobot.signInWithIncorrectCredentials()
             .verify { incorrectLoginCredentialsIsShown() }
     }
 
     @Test
-    @TestID(103957)
     fun viewPasswordIsVisible() {
         loginRobot.enterCredentials(TestUser.plusUser)
             .viewPassword()
@@ -91,14 +87,12 @@ class LoginTests {
     }
 
     @Test
-    @TestID(103958)
     fun needHelpMenuIsOpened() {
         loginRobot.selectNeedHelp()
             .verify { needHelpOptionsAreDisplayed() }
     }
 
     @Test
-    @TestID(103959)
     fun rememberMeFunctionality() {
         loginRobot.signIn(TestUser.plusUser)
             .verify { isInMainScreen() }
@@ -108,7 +102,6 @@ class LoginTests {
     }
 
     @Test
-    @TestID(53)
     fun loginWithSpecialCharsUser() {
         val specialCharsUser = User(
             name = "testasSpecChars",

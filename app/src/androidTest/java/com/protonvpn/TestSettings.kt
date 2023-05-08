@@ -30,13 +30,11 @@ import okhttp3.tls.HandshakeCertificates
  */
 object TestSettings {
     @JvmStatic var mockedConnectionUsed = true
-    @JvmStatic var testRailReportingUsed = true
     @JvmStatic var protonApiUrlOverride: HttpUrl? = null
     @JvmStatic var handshakeCertificatesOverride: HandshakeCertificates? = null
 
     fun reset() {
         mockedConnectionUsed = true
-        testRailReportingUsed = true
         protonApiUrlOverride = null
         handshakeCertificatesOverride = null
     }

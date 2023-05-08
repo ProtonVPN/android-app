@@ -25,7 +25,6 @@ import com.protonvpn.actions.ConnectionRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.ProfilesRobot
 import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
@@ -68,14 +67,12 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(69)
     fun defaultProfileOptions() {
         homeRobot.swipeLeftToOpenProfiles()
             .verify { defaultProfileOptionsAreVisible() }
     }
 
     @Test
-    @TestID(103974)
     fun tryToCreateProfileWithoutName() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -85,7 +82,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(103975)
     fun tryToCreateProfileWithoutCountry() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -95,7 +91,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(103976)
     fun testServerPreselection() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -109,7 +104,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(70)
     fun tryToCreateProfile() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -124,7 +118,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(103977)
     fun tryToCreateProfileWithSelectedColors() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -140,7 +133,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(103978)
     fun tryToConnectToProfile() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenProfiles()
@@ -160,7 +152,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(103979)
     fun discardNewProfile() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -177,7 +168,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(103981)
     fun cancelDiscardActionAndSaveProfile() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -195,7 +185,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(103983)
     fun tryToSaveSecureCoreProfileWithoutExitCountry() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -210,7 +199,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(71)
     fun saveSecureCoreProfile() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenProfiles()
@@ -227,7 +215,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(84)
     fun connectToCreatedSecureCoreProfile() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenProfiles()
@@ -249,7 +236,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(103982)
     fun editSecureCoreProfile() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -272,7 +258,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(103984)
     fun deleteSecureCoreProfile() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -291,7 +276,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(73)
     fun editProfile() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -313,7 +297,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(74)
     fun deleteProfile() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -331,7 +314,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(103986)
     fun createProfileWithOpenVPNTCPProtocol() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()
@@ -347,7 +329,6 @@ class ProfilePlusUserTests {
     }
 
     @Test
-    @TestID(103985)
     fun createProfileWithOpenVPNUDPProtocol() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()

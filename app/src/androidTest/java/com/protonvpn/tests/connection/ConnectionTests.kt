@@ -28,7 +28,6 @@ import com.protonvpn.actions.MapRobot
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.MockedServers
@@ -77,7 +76,6 @@ class ConnectionTests {
     }
 
     @Test
-    @TestID(58)
     fun connectAndDisconnectViaQuickConnect() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
@@ -87,7 +85,6 @@ class ConnectionTests {
     }
 
     @Test
-    @TestID(61)
     fun connectAndDisconnectViaCountryList() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         val country = MockedServers.serverList[0].displayName
@@ -99,7 +96,6 @@ class ConnectionTests {
     }
 
     @Test
-    @TestID(56)
     fun connectAndDisconnectViaMapView() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenMap()
@@ -111,7 +107,6 @@ class ConnectionTests {
     }
 
     @Test
-    @TestID(63)
     fun connectAndDisconnectViaProfiles() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenProfiles()
@@ -122,7 +117,6 @@ class ConnectionTests {
     }
 
     @Test
-    @TestID(67)
     fun cancelWhileConnecting() {
         testRule.mockStatusOnConnect(VpnState.Connecting)
         homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
@@ -131,7 +125,6 @@ class ConnectionTests {
     }
 
     @Test
-    @TestID(66)
     fun connectToServerWhenInternetIsDown() {
         testRule.mockErrorOnConnect(ErrorType.UNREACHABLE)
         homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
@@ -141,7 +134,6 @@ class ConnectionTests {
     }
 
     @Test
-    @TestID(121429)
     @SdkSuppress(minSdkVersion = 28)
     fun connectAndDisconnectViaQuickConnectCustomProfile() {
         testRule.mockStatusOnConnect(VpnState.Connected)
@@ -157,7 +149,6 @@ class ConnectionTests {
     }
 
     @Test
-    @TestID(121738)
     fun serverInformationLegendDocumentsAllTypes(){
         homeRobot.clickOnInformationIcon()
             .verify { serverInfoLegendDescribesAllServerTypes() }

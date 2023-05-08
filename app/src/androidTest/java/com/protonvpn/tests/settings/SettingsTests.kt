@@ -22,7 +22,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.SettingsRobot
-import com.protonvpn.annotations.TestID
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
@@ -51,20 +50,17 @@ class SettingsTests {
         .around(ProtonSettingsActivityTestRule())
 
     @Test
-    @TestID(103967)
     fun checkIfSettingsViewIsVisible() {
         settingsRobot.verify { mainSettingsAreDisplayed() }
     }
 
     @Test
-    @TestID(103969)
     fun selectRandomQuickConnection() {
         settingsRobot.setRandomQuickConnection()
             .verify { quickConnectRandomProfileIsVisible() }
     }
 
     @Test
-    @TestID(91)
     fun setTooLowMTU() {
         settingsRobot.openMtuSettings()
             .setMTU(1279)
@@ -73,7 +69,6 @@ class SettingsTests {
     }
 
     @Test
-    @TestID(103968)
     fun setTooHighMTU() {
         settingsRobot.openMtuSettings()
             .setMTU(1501)
@@ -82,7 +77,6 @@ class SettingsTests {
     }
 
     @Test
-    @TestID(121737)
     fun setValidMTU() {
         settingsRobot.openMtuSettings()
             .setMTU(1500)
@@ -91,7 +85,6 @@ class SettingsTests {
     }
 
     @Test
-    @TestID(103970)
     fun switchSplitTunneling() {
         settingsRobot.toggleSplitTunneling()
             .verify { splitTunnelUIIsVisible() }
@@ -101,7 +94,6 @@ class SettingsTests {
     }
 
     @Test
-    @TestID(121427)
     @SdkSuppress(minSdkVersion = 28)
     fun alwaysOnNavigatesToSettings() {
         settingsRobot.clickOnAlwaysOnVpnSetting()
@@ -110,7 +102,6 @@ class SettingsTests {
     }
 
     @Test
-    @TestID(121428)
     @SdkSuppress(minSdkVersion = 28)
     fun alwaysOnOnboarding() {
         settingsRobot.clickOnAlwaysOnVpnSetting()

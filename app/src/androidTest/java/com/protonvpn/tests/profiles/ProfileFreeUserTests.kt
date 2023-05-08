@@ -24,7 +24,6 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.ProfilesRobot
 import com.protonvpn.android.ui.home.HomeActivity
-import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
@@ -56,7 +55,6 @@ class ProfileFreeUserTests {
     }
 
     @Test
-    @TestID(103987)
     fun tryToCreateProfileWithFreeUser() {
         homeRobot.swipeLeftToOpenProfiles()
         profilesRobot.clickOnCreateNewProfileButton()

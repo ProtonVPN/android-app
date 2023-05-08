@@ -14,7 +14,6 @@ import com.protonvpn.actions.AccountRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.ui.home.HomeActivity
-import com.protonvpn.annotations.TestID
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
@@ -64,7 +63,6 @@ class AccountTests {
     }
 
     @Test
-    @TestID(86)
     fun checkIfUserNameDisplayedInAccountSection() {
         homeRobot.openAccountView()
         accountRobot.verify { checkIfCorrectUsernameIsDisplayed(testUser.email) }
@@ -75,14 +73,12 @@ class AccountTests {
     }
 
     @Test
-    @TestID(121424)
     fun checkHamburgerAccountOptionNavigation(){
         homeRobot.clickOnDrawerMenuAccountOption()
             .verify { checkIfCorrectUsernameIsDisplayed(testUser.email) }
     }
 
     @Test
-    @TestID(121425)
     fun showLogNavigation(){
         homeRobot.clickOnDrawerMenuShowLogOption()
             .verify { assertThatInLogsScreen() }
@@ -90,7 +86,6 @@ class AccountTests {
     }
 
     @Test
-    @TestID(121426)
     fun helpOption(){
         homeRobot.clickOnDrawerMenuHelpOption()
             .verify { helpOptionOpensUrl() }
