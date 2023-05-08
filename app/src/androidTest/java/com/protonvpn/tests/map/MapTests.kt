@@ -24,7 +24,6 @@ import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.MapRobot
 import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.annotations.TestID
 import com.protonvpn.data.DefaultData
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
@@ -58,7 +57,6 @@ class MapTests {
         .around(testRule)
 
     @Test
-    @TestID(77)
     fun mapNodeSuccessfullySelected() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenMap()
@@ -70,7 +68,6 @@ class MapTests {
     }
 
     @Test
-    @TestID(103966)
     @SdkSuppress(minSdkVersion = 28)
     fun mapNodeIsNotSelected() {
         testRule.mockStatusOnConnect(VpnState.Connecting)

@@ -30,7 +30,7 @@
       --use-orchestrator
       --num-uniform-shards=${NUM_SHARDS}
       --num-flaky-test-attempts=2
-      --environment-variables clearPackageData=true,useTestStorageService=true,coverage=true,coverageFilePath="/coverage/",listener=com.protonvpn.testsHelper.ToastingRunListener
+      --environment-variables clearPackageData=true,useTestStorageService=true,coverage=true,coverageFilePath="/coverage/"
       --directories-to-pull /sdcard
       --test-targets "class $TEST_SUITE" 2>&1 | tee results.txt
     - echo gcloud end time
