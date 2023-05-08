@@ -109,4 +109,4 @@ publish downloads:
     ARTIFACT_PATH: "app/build/outputs/apk/direct/release/${ARCHIVES_BASE_NAME}-direct-universal-release.apk"
     ARTIFACT_OUTPUT_NAME: "ProtonVPN.apk"
     SLACK_HOOK: "${SLACK_HOOK_DEPLOY_CHANNEL}"
-    SLACK_MESSAGE: '{"text":"Updated ProtonVPN.apk. <!subteam^S039FS9JUKT> can someone deploy downloads? Thanks :)"}'
+    SLACK_MESSAGE: '{"text":"Updated ProtonVPN.apk. Can someone deploy downloads? Thanks :)"}'
