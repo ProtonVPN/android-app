@@ -28,6 +28,7 @@ stages:
   - image
   - prepare
   - build
+  - sign
   - startReview
   - deploy
   - test
@@ -211,6 +212,25 @@ build BTI:
     expire_in: 3 week
     paths:
       - app/build/outputs/apk
+
+build google play bundle:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development"
+      when: always
+    - if: $CI_COMMIT_BRANCH =~ /^release/
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+  tags:
+    - xlarge-k8s
+  script:
+    - ./gradlew :app:bundleGooglePlayRelease
+  interruptible: false
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - app/build/outputs/
 
 build google play release:
   stage: build
