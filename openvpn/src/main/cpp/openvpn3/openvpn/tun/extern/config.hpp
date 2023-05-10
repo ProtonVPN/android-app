@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,15 +31,15 @@
 #include <openvpn/common/stop.hpp>
 
 namespace openvpn {
-  namespace ExternalTun {
-    struct Config
-    {
-      TunProp::Config tun_prop;
-      Frame::Ptr frame;
-      SessionStats::Ptr stats;
-      Stop* stop = nullptr;
-      bool tun_persist = false;
-    };
-  }
-}
+namespace ExternalTun {
+struct Config
+{
+    TunProp::Config tun_prop;
+    Frame::Ptr frame;
+    SessionStats::Ptr stats;
+    Stop *stop = nullptr;
+    bool tun_persist = false;
+};
+} // namespace ExternalTun
+} // namespace openvpn
 #endif

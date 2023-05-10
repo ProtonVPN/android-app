@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 #cmake_policy(SET CMP0079 NEW)
 
@@ -27,23 +27,35 @@ else ()
     set(OPENVPN_PLAT linux)
 endif ()
 
+function(add_ssl_library target)
+    if (${USE_MBEDTLS})
+        find_package(mbedTLS REQUIRED)
+        set(SSL_LIBRARY mbedTLS::mbedTLS)
+        target_compile_definitions(${target} PRIVATE -DUSE_MBEDTLS)
+    else ()
+        find_package(OpenSSL REQUIRED)
+        SET(SSL_LIBRARY OpenSSL::SSL)
+        target_compile_definitions(${target} PRIVATE -DUSE_OPENSSL)
+    endif ()
+
+    target_link_libraries(${target} ${SSL_LIBRARY})
+endfunction()
+
 
 function(add_core_dependencies target)
     set(PLAT ${OPENVPN_PLAT})
 
-    set(CORE_INCLUDES
-            ${CORE_DIR}
-            )
-    set(CORE_DEFINES
+    target_include_directories(${target} PRIVATE ${CORE_DIR})
+
+    target_compile_definitions(${target} PRIVATE
             -DASIO_STANDALONE
             -DUSE_ASIO
             -DHAVE_LZ4
-            -DLZ4_DISABLE_DEPRECATE_WARNINGS
             -DMBEDTLS_DEPRECATED_REMOVED
             )
 
     if (WIN32)
-        list(APPEND CORE_DEFINES
+        target_compile_definitions(${target} PRIVATE
                 -D_WIN32_WINNT=0x0600
                 -DTAP_WIN_COMPONENT_ID=tap0901
                 -D_CRT_SECURE_NO_WARNINGS
@@ -57,65 +69,50 @@ function(add_core_dependencies target)
 
         if (MSVC)
             target_compile_options(${target} PRIVATE "/bigobj")
-            find_package(lz4 CONFIG REQUIRED)
-            set(LZ4_LIBRARY lz4::lz4)
         else ()
             find_package(Threads REQUIRED)
             target_compile_options(${target} PRIVATE "-Wa,-mbig-obj")
             list(APPEND EXTRA_LIBS ws2_32 wsock32 ${CMAKE_THREAD_LIBS_INIT})
             list(APPEND CMAKE_PREFIX_PATH
-                ${DEP_DIR}
+              ${DEP_DIR}/asio/asio
+              ${DEP_DIR}
             )
-            find_package(LZ4 REQUIRED)
-            list(APPEND CORE_INCLUDES ${DEP_DIR}/asio/asio/include)
         endif ()
     else ()
-        list(APPEND CORE_INCLUDES
-                ${DEP_DIR}/asio/asio/include
-                )
         list(APPEND CMAKE_PREFIX_PATH
-                ${DEP_DIR}/mbedtls/mbedtls-${PLAT}
+                ${DEP_DIR}/asio/asio
                 ${DEP_DIR}/lz4/lz4-${PLAT}
+                ${DEP_DIR}/mbedtls/mbedtls-${PLAT}
                 )
         list(APPEND CMAKE_LIBRARY_PATH
                 ${DEP_DIR}/mbedtls/mbedtls-${PLAT}/library
                 )
-
-        find_package(LZ4 REQUIRED)
     endif ()
 
-    if (${USE_MBEDTLS})
-        find_package(mbedTLS REQUIRED)
+    # asio should go first since some of our code requires
+    # a patched version. So we want to prefer its include
+    # directories.
+    find_package(asio REQUIRED)
+    target_link_libraries(${target} asio::asio)
 
-        set(SSL_LIBRARY ${MBEDTLS_LIBRARIES})
+    find_package(lz4 REQUIRED)
+    target_link_libraries(${target} lz4::lz4)
 
-        list(APPEND CORE_DEFINES -DUSE_MBEDTLS)
-
-        # The findmbedTLS does not set these automatically :(
-        list(APPEND CORE_INCLUDES ${MBEDTLS_INCLUDE_DIR})
-    else ()
-        find_package(OpenSSL REQUIRED)
-        SET(SSL_LIBRARY OpenSSL::SSL)
-        list(APPEND CORE_DEFINES -DUSE_OPENSSL)
-    endif ()
+    add_ssl_library(${target})
 
     if (APPLE)
         find_library(coreFoundation CoreFoundation)
         find_library(iokit IOKit)
         find_library(coreServices CoreServices)
         find_library(systemConfiguration SystemConfiguration)
-        target_link_libraries(${target} ${coreFoundation} ${iokit} ${coreServices} ${systemConfiguration} ${lz4} ${SSL_LIBRARY})
+        target_link_libraries(${target} ${coreFoundation} ${iokit} ${coreServices} ${systemConfiguration} ${lz4})
     endif()
 
     if(UNIX)
         target_link_libraries(${target} pthread)
     endif()
 
-    list(APPEND CORE_INCLUDES ${LZ4_INCLUDE_DIR})
-
-    target_include_directories(${target} PRIVATE ${CORE_INCLUDES})
-    target_compile_definitions(${target} PRIVATE ${CORE_DEFINES})
-    target_link_libraries(${target} ${SSL_LIBRARY} ${EXTRA_LIBS} ${LZ4_LIBRARY})
+    target_link_libraries(${target} ${EXTRA_LIBS})
 
     if (USE_WERROR)
         if (MSVC)
@@ -135,27 +132,19 @@ function(add_core_dependencies target)
 endfunction()
 
 function (add_json_library target)
-    if (MSVC)
-        find_package(jsoncpp CONFIG REQUIRED)
-        target_link_libraries(${target} jsoncpp_lib)
-        target_compile_definitions(${target} PRIVATE -DHAVE_JSONCPP)
-        message("Adding jsoncpp to " ${target})
-    elseif (APPLE)
-        set(PLAT ${OPENVPN_PLAT})
-        set(JSONCPP_DIR ${DEP_DIR}/jsoncpp/jsoncpp-${PLAT})
-        target_include_directories(${target} PRIVATE ${JSONCPP_DIR}/include)
-        target_compile_definitions(${target} PRIVATE -DHAVE_JSONCPP)
-        target_link_libraries(${target} ${JSONCPP_DIR}/lib/libjsoncpp.a)
-    else ()
-        find_package(PkgConfig REQUIRED)
-        if (MINGW)
-            #  due to cmake bug, APPEND doesn't work for mingw
-            # https://github.com/Kitware/CMake/commit/f92a4b23994fa7516f16fbb5b3c02caa07534b3f
-            set(CMAKE_PREFIX_PATH ${DEP_DIR})
-        endif ()
-        pkg_check_modules(JSONCPP jsoncpp)
-        target_link_libraries(${target} ${JSONCPP_LDFLAGS})
-        target_include_directories(${target} PRIVATE ${JSONCPP_INCLUDE_DIRS})
-        target_compile_definitions(${target} PRIVATE -DHAVE_JSONCPP)
+  find_package(jsoncpp CONFIG)
+  if (jsoncpp_FOUND AND TARGET JsonCpp::JsonCpp)
+    target_link_libraries(${target} JsonCpp::JsonCpp)
+    target_compile_definitions(${target} PRIVATE -DHAVE_JSONCPP)
+  else()
+    find_package(PkgConfig REQUIRED)
+    if (MINGW)
+      #  due to cmake bug, APPEND doesn't work for mingw
+      # https://github.com/Kitware/CMake/commit/f92a4b23994fa7516f16fbb5b3c02caa07534b3f
+      set(CMAKE_PREFIX_PATH ${DEP_DIR})
     endif ()
+    pkg_check_modules(JSONCPP REQUIRED IMPORTED_TARGET jsoncpp)
+    target_link_libraries(${target} PkgConfig::JSONCPP)
+    target_compile_definitions(${target} PRIVATE -DHAVE_JSONCPP)
+  endif ()
 endfunction ()

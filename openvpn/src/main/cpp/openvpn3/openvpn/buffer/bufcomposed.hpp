@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,68 +27,68 @@
 #include <openvpn/buffer/buflist.hpp>
 
 namespace openvpn {
-  class BufferComposed
-  {
+class BufferComposed
+{
   public:
     class Complete : public BufferComplete
     {
-    public:
-      BufferPtr get()
-      {
+      public:
+        BufferPtr get()
+        {
 #if 0 // don't include for production
 	if (iter_defined())
 	  throw Exception("BufferComposed::Complete: residual data");
 #endif
-	BufferPtr ret = bc.bv.join();
-	bc.bv.clear();
-	return ret;
-      }
+            BufferPtr ret = bc.bv.join();
+            bc.bv.clear();
+            return ret;
+        }
 
-    private:
-      friend class BufferComposed;
+      private:
+        friend class BufferComposed;
 
-      Complete(BufferComposed& bc_arg)
-	: bc(bc_arg),
-	  iter(bc.bv.cbegin())
-      {
-	next_buffer();
-      }
+        Complete(BufferComposed &bc_arg)
+            : bc(bc_arg),
+              iter(bc.bv.cbegin())
+        {
+            next_buffer();
+        }
 
-      bool iter_defined()
-      {
-	return iter != bc.bv.end();
-      }
+        bool iter_defined()
+        {
+            return iter != bc.bv.end();
+        }
 
-      virtual void next_buffer() override
-      {
-	if (iter_defined())
-	  reset_buf(**iter++);
-	else
-	  reset_buf();
-      }
+        virtual void next_buffer() override
+        {
+            if (iter_defined())
+                reset_buf(**iter++);
+            else
+                reset_buf();
+        }
 
-      BufferComposed& bc;
-      BufferVector::const_iterator iter;
+        BufferComposed &bc;
+        BufferVector::const_iterator iter;
     };
 
     size_t size() const
     {
-      return bv.join_size();
+        return bv.join_size();
     }
 
     void put(BufferPtr bp)
     {
-      bv.push_back(std::move(bp));
+        bv.push_back(std::move(bp));
     }
 
     Complete complete()
     {
-      return Complete(*this);
+        return Complete(*this);
     }
 
   private:
     BufferVector bv;
-  };
-}
+};
+} // namespace openvpn
 
 #endif

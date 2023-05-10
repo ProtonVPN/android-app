@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -329,7 +329,7 @@ static int generate_q_fips186_4(BN_CTX *ctx, BIGNUM *q, const EVP_MD *evpmd,
 
         /* A.1.1.2 Step (5) : generate seed with size seed_len */
         if (generate_seed
-                && RAND_bytes_ex(libctx, seed, seedlen, 0) < 0)
+                && RAND_bytes_ex(libctx, seed, seedlen, 0) <= 0)
             goto err;
         /*
          * A.1.1.2 Step (6) AND
@@ -435,7 +435,7 @@ static int generate_q_fips186_2(BN_CTX *ctx, BIGNUM *q, const EVP_MD *evpmd,
         }
         if (r != 0)
             goto err; /* Exit if error */
-        /* Try another iteration if it wasnt prime - was in old code.. */
+        /* Try another iteration if it wasn't prime - was in old code.. */
         generate_seed = 1;
     }
 err:
@@ -621,7 +621,7 @@ int ossl_ffc_params_FIPS186_4_gen_verify(OSSL_LIB_CTX *libctx,
         p = params->p;
         q = params->q;
         goto g_only;
-        /* otherwise fall thru to validate p & q */
+        /* otherwise fall through to validate p & q */
     }
 
     /* p & q will be used for generation and validation */
@@ -922,7 +922,7 @@ int ossl_ffc_params_FIPS186_2_gen_verify(OSSL_LIB_CTX *libctx,
         p = params->p;
         q = params->q;
         goto g_only;
-        /* otherwise fall thru to validate p and q */
+        /* otherwise fall through to validate p and q */
     }
 
     use_random_seed = (seed_in == NULL);

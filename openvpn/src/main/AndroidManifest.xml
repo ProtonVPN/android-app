@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="de.blinkt.openvpn">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <!-- Used to show all apps in the allowed Apps selection,
          this app needs the list the app in the allow/deny apps over the VPN -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
             tools:ignore="QueryAllPackagesPermission" />
-
 
 <!--    <queries>-->
 <!--        <intent>-->
@@ -23,13 +24,14 @@
 <!--        </intent>-->
 <!--    </queries>-->
 
-<!--
+
     <application
         android:name=".core.ICSOpenVPNApplication"
         android:allowBackup="true"
         android:appCategory="productivity"
         android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app"
         android:supportsRtl="true"
         android:theme="@style/blinkt"
@@ -51,11 +53,13 @@
             android:name=".core.OpenVPNService"
             android:exported="true"
             android:permission="android.permission.BIND_VPN_SERVICE"
-            android:foregroundServiceType="connectedDevice"
+            android:foregroundServiceType="specialUse"
             android:process=":openvpn">
             <intent-filter>
                 <action android:name="android.net.VpnService" />
             </intent-filter>
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="vpn"/>
+
         </service>
         <service
             android:name=".api.ExternalOpenVPNService"
@@ -108,13 +112,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
+        <!--
         <receiver android:name="core.GetRestrictionReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.GET_RESTRICTION_ENTRIES" />
             </intent-filter>
         </receiver>
-
+        -->
         <activity android:name=".api.RemoteAction" />
 
         <activity-alias
@@ -125,7 +129,15 @@
             android:name=".api.DisconnectVPN"
             android:exported="true"
             android:targetActivity=".api.RemoteAction" />
+        <activity-alias
+                android:name=".api.PauseVPN"
+                android:exported="true"
+                android:targetActivity=".api.RemoteAction" />
+        <activity-alias
+                android:name=".api.ResumeVPN"
+                android:exported="true"
+                android:targetActivity=".api.RemoteAction" />
+
     </application>
--->
 
 </manifest>

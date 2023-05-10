@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -64,34 +64,44 @@ namespace OpenSSLPKI {
  *         If it was not possible to retrieve the subject, and empty string
  *         is returned.
  */
-static std::string x509_get_subject(::X509 *cert, bool new_format = false) {
-  if (!new_format) {
-    unique_ptr_del<char> subject(
-        X509_NAME_oneline(X509_get_subject_name(cert), nullptr, 0),
-        [](char *p) { OPENSSL_free(p); });
-    if (subject)
-      return std::string(subject.get());
-    else
-      return std::string("");
-  }
+static std::string x509_get_subject(::X509 *cert, bool new_format = false)
+{
+    if (!new_format)
+    {
+        unique_ptr_del<char> subject(
+            X509_NAME_oneline(X509_get_subject_name(cert), nullptr, 0),
+            [](char *p)
+            { OPENSSL_free(p); });
+        if (subject)
+            return std::string(subject.get());
+        else
+            return std::string("");
+    }
 
-  unique_ptr_del<BIO> subject_bio(BIO_new(BIO_s_mem()),
-                                  [](BIO *p) { BIO_free(p); });
-  if (subject_bio == nullptr) {
-    return std::string("");
-  }
+    unique_ptr_del<BIO> subject_bio(BIO_new(BIO_s_mem()),
+                                    [](BIO *p)
+                                    { BIO_free(p); });
+    if (subject_bio == nullptr)
+    {
+        return std::string("");
+    }
 
-  X509_NAME_print_ex(subject_bio.get(), X509_get_subject_name(cert), 0,
-                     XN_FLAG_SEP_CPLUS_SPC | XN_FLAG_FN_SN |
-                         ASN1_STRFLGS_UTF8_CONVERT | ASN1_STRFLGS_ESC_CTRL);
-  if (BIO_eof(subject_bio.get())) {
-    return std::string("");
-  }
+    X509_NAME_print_ex(subject_bio.get(),
+                       X509_get_subject_name(cert),
+                       0,
+                       XN_FLAG_SEP_CPLUS_SPC
+                           | XN_FLAG_FN_SN
+                           | ASN1_STRFLGS_UTF8_CONVERT
+                           | ASN1_STRFLGS_ESC_CTRL);
+    if (BIO_eof(subject_bio.get()))
+    {
+        return std::string("");
+    }
 
-  BUF_MEM *subject_mem = nullptr;
-  BIO_get_mem_ptr(subject_bio.get(), &subject_mem);
-  return std::string(subject_mem->data,
-                     subject_mem->data + subject_mem->length);
+    BUF_MEM *subject_mem = nullptr;
+    BIO_get_mem_ptr(subject_bio.get(), &subject_mem);
+    return std::string(subject_mem->data,
+                       subject_mem->data + subject_mem->length);
 }
 
 /**
@@ -99,17 +109,17 @@ static std::string x509_get_subject(::X509 *cert, bool new_format = false) {
  * @param cert 	OpenSSL certificate
  * @return
  */
-static const std::string x509_get_signature_algorithm(const ::X509* cert)
+static const std::string x509_get_signature_algorithm(const ::X509 *cert)
 {
-  int nid = X509_get_signature_nid(cert);
-  const char *sig = OBJ_nid2sn(nid);
+    int nid = X509_get_signature_nid(cert);
+    const char *sig = OBJ_nid2sn(nid);
 
-  if (sig)
+    if (sig)
     {
-      return sig;
+        return sig;
     }
-  else
-    return "(error getting signature algorithm)";
+    else
+        return "(error getting signature algorithm)";
 }
 
 /**
@@ -124,44 +134,57 @@ static const std::string x509_get_signature_algorithm(const ::X509* cert)
  *         resulting string may be empty if the extraction failed or the field
  *         is empty.
  */
-static std::string x509_get_field(::X509 *cert, const int nid) {
-  static const char nullc = '\0';
-  std::string ret;
-  X509_NAME *x509_name = X509_get_subject_name(cert);
-  int i = X509_NAME_get_index_by_NID(x509_name, nid, -1);
-  if (i >= 0) {
-    X509_NAME_ENTRY *ent = X509_NAME_get_entry(x509_name, i);
-    if (ent) {
-      ASN1_STRING *val = X509_NAME_ENTRY_get_data(ent);
-      unsigned char *buf;
-      buf = (unsigned char *)1;  // bug in OpenSSL 0.9.6b ASN1_STRING_to_UTF8
-                                 // requires this workaround
-      const int len = ASN1_STRING_to_UTF8(&buf, val);
-      if (len > 0) {
-        if (std::strlen((char *)buf) == static_cast<unsigned int>(len)) ret = (char *)buf;
-        OPENSSL_free(buf);
-      }
-    }
-  } else {
-    i = X509_get_ext_by_NID(cert, nid, -1);
-    if (i >= 0) {
-      X509_EXTENSION *ext = X509_get_ext(cert, i);
-      if (ext) {
-        BIO *bio = BIO_new(BIO_s_mem());
-        if (bio) {
-          if (X509V3_EXT_print(bio, ext, 0, 0)) {
-            if (BIO_write(bio, &nullc, 1) == 1) {
-              char *str;
-              const long len = BIO_get_mem_data(bio, &str);
-              if (std::strlen(str) == static_cast<size_t>(len)) ret = str;
+static std::string x509_get_field(::X509 *cert, const int nid)
+{
+    static const char nullc = '\0';
+    std::string ret;
+    X509_NAME *x509_name = X509_get_subject_name(cert);
+    int i = X509_NAME_get_index_by_NID(x509_name, nid, -1);
+    if (i >= 0)
+    {
+        X509_NAME_ENTRY *ent = X509_NAME_get_entry(x509_name, i);
+        if (ent)
+        {
+            ASN1_STRING *val = X509_NAME_ENTRY_get_data(ent);
+            unsigned char *buf;
+            buf = (unsigned char *)1; // bug in OpenSSL 0.9.6b ASN1_STRING_to_UTF8
+                                      // requires this workaround
+            const int len = ASN1_STRING_to_UTF8(&buf, val);
+            if (len > 0)
+            {
+                if (std::strlen((char *)buf) == static_cast<unsigned int>(len))
+                    ret = (char *)buf;
+                OPENSSL_free(buf);
             }
-          }
-          BIO_free(bio);
         }
-      }
     }
-  }
-  return ret;
+    else
+    {
+        i = X509_get_ext_by_NID(cert, nid, -1);
+        if (i >= 0)
+        {
+            X509_EXTENSION *ext = X509_get_ext(cert, i);
+            if (ext)
+            {
+                BIO *bio = BIO_new(BIO_s_mem());
+                if (bio)
+                {
+                    if (X509V3_EXT_print(bio, ext, 0, 0))
+                    {
+                        if (BIO_write(bio, &nullc, 1) == 1)
+                        {
+                            char *str;
+                            const long len = BIO_get_mem_data(bio, &str);
+                            if (std::strlen(str) == static_cast<size_t>(len))
+                                ret = str;
+                        }
+                    }
+                    BIO_free(bio);
+                }
+            }
+        }
+    }
+    return ret;
 }
 
 /**
@@ -173,21 +196,22 @@ static std::string x509_get_field(::X509 *cert, const int nid) {
  * @return Returns the numeric representation of the certificate serial number
  *         as a std::string.
  */
-static std::string x509_get_serial(::X509 *cert) {
-  ASN1_INTEGER *asn1_i;
-  BIGNUM *bignum;
-  char *openssl_serial;
+static std::string x509_get_serial(::X509 *cert)
+{
+    ASN1_INTEGER *asn1_i;
+    BIGNUM *bignum;
+    char *openssl_serial;
 
-  asn1_i = X509_get_serialNumber(cert);
-  bignum = ASN1_INTEGER_to_BN(asn1_i, NULL);
-  openssl_serial = BN_bn2dec(bignum);
+    asn1_i = X509_get_serialNumber(cert);
+    bignum = ASN1_INTEGER_to_BN(asn1_i, NULL);
+    openssl_serial = BN_bn2dec(bignum);
 
-  const std::string ret = openssl_serial;
+    const std::string ret = openssl_serial;
 
-  BN_free(bignum);
-  OPENSSL_free(openssl_serial);
+    BN_free(bignum);
+    OPENSSL_free(openssl_serial);
 
-  return ret;
+    return ret;
 }
 
 /**
@@ -199,9 +223,10 @@ static std::string x509_get_serial(::X509 *cert) {
  * @return Returns the hexadecimal representation of the certificate
  *         serial number as a std::string.
  */
-static std::string x509_get_serial_hex(::X509 *cert) {
-  const ASN1_INTEGER *asn1_i = X509_get_serialNumber(cert);
-  return render_hex_sep(asn1_i->data, asn1_i->length, ':', false);
+static std::string x509_get_serial_hex(::X509 *cert)
+{
+    const ASN1_INTEGER *asn1_i = X509_get_serialNumber(cert);
+    return render_hex_sep(asn1_i->data, asn1_i->length, ':', false);
 }
 
 /**
@@ -213,17 +238,20 @@ static std::string x509_get_serial_hex(::X509 *cert) {
  * @return Returns a uint8_t std:vector containing the binary representation
  *         of the certificate's SHA256 fingerprint.
  */
-static std::size_t x509_fingerprint_size() { return EVP_MD_size(EVP_sha256()); }
+static std::size_t x509_fingerprint_size()
+{
+    return EVP_MD_size(EVP_sha256());
+}
 static std::vector<uint8_t> x509_get_fingerprint(const ::X509 *cert)
 {
-  std::vector<uint8_t> fingerprint;
-  fingerprint.resize(x509_fingerprint_size());
+    std::vector<uint8_t> fingerprint;
+    fingerprint.resize(x509_fingerprint_size());
 
-  if (::X509_digest(cert, EVP_sha256(), fingerprint.data(), NULL) != 1)
-    throw OpenSSLException("OpenSSL error while calling X509_digest()");
+    if (::X509_digest(cert, EVP_sha256(), fingerprint.data(), NULL) != 1)
+        throw OpenSSLException("OpenSSL error while calling X509_digest()");
 
-  return fingerprint;
+    return fingerprint;
 }
 
-}  // namespace OpenSSLPKI
-}  // namespace openvpn
+} // namespace OpenSSLPKI
+} // namespace openvpn

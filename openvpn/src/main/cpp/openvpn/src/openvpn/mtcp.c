@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -61,6 +61,7 @@
 #define MTCP_SIG         ((void *)3) /* Only on Windows */
 #define MTCP_MANAGEMENT ((void *)4)
 #define MTCP_FILE_CLOSE_WRITE ((void *)5)
+#define MTCP_DCO        ((void *)6)
 
 #define MTCP_N           ((void *)16) /* upper bound on MTCP_x */
 
@@ -72,6 +73,7 @@ struct ta_iow_flags
     unsigned int sock;
 };
 
+#ifdef ENABLE_DEBUG
 static const char *
 pract(int action)
 {
@@ -114,6 +116,7 @@ pract(int action)
             return "?";
     }
 }
+#endif /* ENABLE_DEBUG */
 
 static struct multi_instance *
 multi_create_instance_tcp(struct multi_context *m)
@@ -128,6 +131,8 @@ multi_create_instance_tcp(struct multi_context *m)
         struct hash_element *he;
         const uint32_t hv = hash_value(hash, &mi->real);
         struct hash_bucket *bucket = hash_bucket(hash, hv);
+
+        multi_assign_peer_id(m, mi);
 
         he = hash_lookup_fast(hash, bucket, &mi->real, hv);
 
@@ -236,6 +241,7 @@ multi_tcp_dereference_instance(struct multi_tcp *mtcp, struct multi_instance *mi
     if (ls && mi->socket_set_called)
     {
         event_del(mtcp->es, socket_event_handle(ls));
+        mi->socket_set_called = false;
     }
     mtcp->n_esr = 0;
 }
@@ -277,6 +283,9 @@ multi_tcp_wait(const struct context *c,
     }
 #endif
     tun_set(c->c1.tuntap, mtcp->es, EVENT_READ, MTCP_TUN, persistent);
+#if defined(TARGET_LINUX) || defined(TARGET_FREEBSD)
+    dco_event_set(&c->c1.tuntap->dco, mtcp->es, MTCP_DCO);
+#endif
 
 #ifdef ENABLE_MANAGEMENT
     if (management)
@@ -623,22 +632,21 @@ multi_tcp_action(struct multi_context *m, struct multi_instance *mi, int action,
         /*
          * Dispatch the action
          */
-        {
-            struct multi_instance *touched = multi_tcp_dispatch(m, mi, action);
+        struct multi_instance *touched = multi_tcp_dispatch(m, mi, action);
 
-            /*
-             * Signal received or TCP connection
-             * reset by peer?
-             */
-            if (touched && IS_SIG(&touched->context))
+        /*
+         * Signal received or TCP connection
+         * reset by peer?
+         */
+        if (touched && IS_SIG(&touched->context))
+        {
+            if (mi == touched)
             {
-                if (mi == touched)
-                {
-                    mi = NULL;
-                }
-                multi_close_instance_on_signal(m, touched);
+                mi = NULL;
             }
+            multi_close_instance_on_signal(m, touched);
         }
+
 
         /*
          * If dispatch produced any pending output
@@ -737,6 +745,13 @@ multi_tcp_process_io(struct multi_context *m)
                     multi_tcp_action(m, mi, TA_INITIAL, false);
                 }
             }
+#if defined(ENABLE_DCO) && (defined(TARGET_LINUX) || defined(TARGET_FREEBSD))
+            /* incoming data on DCO? */
+            else if (e->arg == MTCP_DCO)
+            {
+                multi_process_incoming_dco(m);
+            }
+#endif
             /* signal received? */
             else if (e->arg == MTCP_SIG)
             {

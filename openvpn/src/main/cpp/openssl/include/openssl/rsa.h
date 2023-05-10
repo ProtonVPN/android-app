@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -27,6 +27,9 @@
 # endif
 # include <openssl/rsaerr.h>
 # include <openssl/safestack.h>
+# ifndef OPENSSL_NO_STDIO
+#  include <stdio.h>
+# endif
 
 # ifdef  __cplusplus
 extern "C" {
@@ -137,6 +140,9 @@ int EVP_PKEY_CTX_set_rsa_keygen_pubexp(EVP_PKEY_CTX *ctx, BIGNUM *pubexp);
 # define RSA_PSS_SALTLEN_AUTO   -2
 /* Set salt length to maximum possible */
 # define RSA_PSS_SALTLEN_MAX    -3
+/* Auto-detect on verify, set salt length to min(maximum possible, digest
+ * length) on sign */
+# define RSA_PSS_SALTLEN_AUTO_DIGEST_MAX  -4
 /* Old compatible max salt length for sign only */
 # define RSA_PSS_SALTLEN_MAX_SIGN    -2
 

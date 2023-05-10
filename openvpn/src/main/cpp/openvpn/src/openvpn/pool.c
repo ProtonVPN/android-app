@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -722,7 +722,7 @@ ifconfig_pool_read(struct ifconfig_pool_persist *persist, struct ifconfig_pool *
              */
             if (h >= 0)
             {
-                msg(M_INFO, "succeeded -> ifconfig_pool_set(hand=%d)",h);
+                msg(M_INFO, "succeeded -> ifconfig_pool_set(hand=%d)", h);
                 ifconfig_pool_set(pool, cn_buf, h, persist->fixed);
             }
         }

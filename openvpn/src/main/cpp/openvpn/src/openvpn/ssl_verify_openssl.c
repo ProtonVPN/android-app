@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -262,7 +262,7 @@ backend_x509_get_username(char *common_name, int cn_len,
                           char *x509_username_field, X509 *peer_cert)
 {
 #ifdef ENABLE_X509ALTUSERNAME
-    if (strncmp("ext:",x509_username_field,4) == 0)
+    if (strncmp("ext:", x509_username_field, 4) == 0)
     {
         if (!extract_x509_extension(peer_cert, x509_username_field+4, common_name, cn_len))
         {
@@ -285,7 +285,7 @@ backend_x509_get_username(char *common_name, int cn_len,
         gc_free(&gc);
     }
     else
-#endif
+#endif /* ifdef ENABLE_X509ALTUSERNAME */
     if (FAILURE == extract_x509_field_ssl(X509_get_subject_name(peer_cert),
                                           x509_username_field, common_name, cn_len))
     {
@@ -376,48 +376,6 @@ err:
     return subject;
 }
 
-bool
-x509v3_is_host_in_alternative_names(X509 *cert, const char *host, bool *has_alt_names)
-{
-    GENERAL_NAMES* altnames = X509_get_ext_d2i(cert, NID_subject_alt_name, NULL, NULL);
-    if (has_alt_names != NULL)
-    {
-        *has_alt_names = altnames != NULL;
-    }
-    if (altnames == NULL)
-    {
-        return false;
-    }
-
-    int n = sk_GENERAL_NAME_num(altnames);
-    for (int i = 0; i < n; i++)
-    {
-        GENERAL_NAME* altname = sk_GENERAL_NAME_value(altnames, i);
-        ASN1_STRING *altname_asn1 = NULL;
-        if (altname->type == GEN_DNS)
-        {
-            altname_asn1 = altname->d.dNSName;
-        }
-        else if (altname->type == GEN_IPADD)
-        {
-            altname_asn1 = altname->d.iPAddress;
-        }
-
-        if (altname_asn1 != NULL)
-        {
-            char* altname_cstr = NULL;
-            if (ASN1_STRING_to_UTF8((unsigned char **)&altname_cstr, altname_asn1) >= 0) {
-                bool match = strcmp(host, altname_cstr) == 0;
-                OPENSSL_free(altname_cstr);
-                if (match)
-                {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
 
 /*
  * x509-track implementation -- save X509 fields to environment,

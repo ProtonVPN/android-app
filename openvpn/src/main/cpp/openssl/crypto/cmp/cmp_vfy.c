@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2007-2022 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright Nokia 2007-2020
  * Copyright Siemens AG 2015-2020
  *
@@ -568,8 +568,9 @@ int OSSL_CMP_validate_msg(OSSL_CMP_CTX *ctx, const OSSL_CMP_MSG *msg)
         /* 5.1.3.1.  Shared Secret Information */
     case NID_id_PasswordBasedMAC:
         if (ctx->secretValue == NULL) {
-            ossl_cmp_warn(ctx, "no secret available for verifying PBM-based CMP message protection");
-            return 1;
+            ossl_cmp_info(ctx, "no secret available for verifying PBM-based CMP message protection");
+            ERR_raise(ERR_LIB_CMP, CMP_R_MISSING_SECRET);
+            return 0;
         }
         if (verify_PBMAC(ctx, msg)) {
             /*
@@ -598,7 +599,7 @@ int OSSL_CMP_validate_msg(OSSL_CMP_CTX *ctx, const OSSL_CMP_MSG *msg)
                 break;
             }
             ossl_cmp_debug(ctx,
-                           "sucessfully validated PBM-based CMP message protection");
+                           "successfully validated PBM-based CMP message protection");
             return 1;
         }
         ossl_cmp_warn(ctx, "verifying PBM-based CMP message protection failed");
@@ -619,8 +620,9 @@ int OSSL_CMP_validate_msg(OSSL_CMP_CTX *ctx, const OSSL_CMP_MSG *msg)
         scrt = ctx->srvCert;
         if (scrt == NULL) {
             if (ctx->trusted == NULL) {
-                ossl_cmp_warn(ctx, "no trust store nor pinned server cert available for verifying signature-based CMP message protection");
-                return 1;
+                ossl_cmp_info(ctx, "no trust store nor pinned server cert available for verifying signature-based CMP message protection");
+                ERR_raise(ERR_LIB_CMP, CMP_R_MISSING_TRUST_ANCHOR);
+                return 0;
             }
             if (check_msg_find_cert(ctx, msg))
                 return 1;
@@ -628,7 +630,7 @@ int OSSL_CMP_validate_msg(OSSL_CMP_CTX *ctx, const OSSL_CMP_MSG *msg)
             /* use ctx->srvCert for signature check even if not acceptable */
             if (verify_signature(ctx, msg, scrt)) {
                 ossl_cmp_debug(ctx,
-                               "sucessfully validated signature-based CMP message protection");
+                               "successfully validated signature-based CMP message protection");
 
                 return 1;
             }
@@ -646,7 +648,7 @@ int OSSL_CMP_validate_msg(OSSL_CMP_CTX *ctx, const OSSL_CMP_MSG *msg)
  * Any msg->extraCerts are prepended to ctx->untrusted.
  *
  * Ensures that:
- * its sender is of appropriate type (curently only X509_NAME) and
+ * its sender is of appropriate type (currently only X509_NAME) and
  *     matches any expected sender or srvCert subject given in the ctx
  * it has a valid body type
  * its protection is valid (or invalid/absent, but only if a callback function

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,33 +27,34 @@
 #include <openvpn/common/number.hpp>
 
 namespace openvpn {
-  inline int daemon_pid(const std::string& cmd,
-			const std::string& pidfile)
-  {
-    try {
-      std::string pidstr = read_text(pidfile);
-      string::trim_crlf(pidstr);
-      const std::string cmdline_fn = "/proc/" + pidstr + "/cmdline";
-      BufferPtr cmdbuf = read_binary_linear(cmdline_fn);
-      const size_t len = ::strnlen((const char *)cmdbuf->c_data(), cmdbuf->size());
-      if (cmd == std::string((const char *)cmdbuf->c_data(), len))
-	{
-	  int ret;
-	  if (parse_number(pidstr, ret))
-	    return ret;
-	}
+inline int daemon_pid(const std::string &cmd,
+                      const std::string &pidfile)
+{
+    try
+    {
+        std::string pidstr = read_text(pidfile);
+        string::trim_crlf(pidstr);
+        const std::string cmdline_fn = "/proc/" + pidstr + "/cmdline";
+        BufferPtr cmdbuf = read_binary_linear(cmdline_fn);
+        const size_t len = ::strnlen((const char *)cmdbuf->c_data(), cmdbuf->size());
+        if (cmd == std::string((const char *)cmdbuf->c_data(), len))
+        {
+            int ret;
+            if (parse_number(pidstr, ret))
+                return ret;
+        }
     }
-    catch (const std::exception& e)
-      {
-      }
+    catch (const std::exception &e)
+    {
+    }
     return -1;
-  }
-
-  inline bool is_daemon_alive(const std::string& cmd,
-			      const std::string& pidfile)
-  {
-    return daemon_pid(cmd, pidfile) >= 0;
-  }
 }
+
+inline bool is_daemon_alive(const std::string &cmd,
+                            const std::string &pidfile)
+{
+    return daemon_pid(cmd, pidfile) >= 0;
+}
+} // namespace openvpn
 
 #endif

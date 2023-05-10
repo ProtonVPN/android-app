@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,26 +27,24 @@
 #include <openvpn/common/stop.hpp>
 
 namespace openvpn {
-  class AsioStopScope : public Stop::Scope
-  {
+class AsioStopScope : public Stop::Scope
+{
   public:
-    AsioStopScope(openvpn_io::io_context& io_context,
-		  Stop* stop,
-		  std::function<void()>&& method)
-      : Stop::Scope(stop, post_method(io_context, std::move(method)))
+    AsioStopScope(openvpn_io::io_context &io_context,
+                  Stop *stop,
+                  std::function<void()> &&method)
+        : Stop::Scope(stop, post_method(io_context, std::move(method)))
     {
     }
 
   private:
-    static std::function<void()> post_method(openvpn_io::io_context& io_context, std::function<void()>&& method)
+    static std::function<void()> post_method(openvpn_io::io_context &io_context, std::function<void()> &&method)
     {
-      return [&io_context, method=std::move(method)]()
-	{
-	  openvpn_io::post(io_context, std::move(method));
-	};
+        return [&io_context, method = std::move(method)]()
+        { openvpn_io::post(io_context, std::move(method)); };
     }
-  };
+};
 
-}
+} // namespace openvpn
 
 #endif

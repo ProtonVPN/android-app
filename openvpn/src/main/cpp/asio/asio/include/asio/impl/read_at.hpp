@@ -2,7 +2,7 @@
 // impl/read_at.hpp
 // ~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,7 +18,6 @@
 #include <algorithm>
 #include "asio/associator.hpp"
 #include "asio/buffer.hpp"
-#include "asio/completion_condition.hpp"
 #include "asio/detail/array_fwd.hpp"
 #include "asio/detail/base_from_cancellation_state.hpp"
 #include "asio/detail/base_from_completion_cond.hpp"
@@ -346,7 +345,7 @@ namespace detail
   template <typename AsyncRandomAccessReadDevice,
       typename MutableBufferSequence, typename MutableBufferIterator,
       typename CompletionCondition, typename ReadHandler>
-  inline void start_read_at_buffer_sequence_op(AsyncRandomAccessReadDevice& d,
+  inline void start_read_at_op(AsyncRandomAccessReadDevice& d,
       uint64_t offset, const MutableBufferSequence& buffers,
       const MutableBufferIterator&, CompletionCondition& completion_condition,
       ReadHandler& handler)
@@ -358,13 +357,12 @@ namespace detail
   }
 
   template <typename AsyncRandomAccessReadDevice>
-  class initiate_async_read_at_buffer_sequence
+  class initiate_async_read_at
   {
   public:
     typedef typename AsyncRandomAccessReadDevice::executor_type executor_type;
 
-    explicit initiate_async_read_at_buffer_sequence(
-        AsyncRandomAccessReadDevice& device)
+    explicit initiate_async_read_at(AsyncRandomAccessReadDevice& device)
       : device_(device)
     {
     }
@@ -386,7 +384,7 @@ namespace detail
 
       non_const_lvalue<ReadHandler> handler2(handler);
       non_const_lvalue<CompletionCondition> completion_cond2(completion_cond);
-      start_read_at_buffer_sequence_op(device_, offset, buffers,
+      start_read_at_op(device_, offset, buffers,
           asio::buffer_sequence_begin(buffers),
           completion_cond2.value, handler2.value);
     }
@@ -408,11 +406,22 @@ struct associator<Associator,
     DefaultCandidate>
   : Associator<ReadHandler, DefaultCandidate>
 {
-  static typename Associator<ReadHandler, DefaultCandidate>::type get(
-      const detail::read_at_op<AsyncRandomAccessReadDevice,
+  static typename Associator<ReadHandler, DefaultCandidate>::type
+  get(const detail::read_at_op<AsyncRandomAccessReadDevice,
+        MutableBufferSequence, MutableBufferIterator,
+        CompletionCondition, ReadHandler>& h) ASIO_NOEXCEPT
+  {
+    return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
+  }
+
+  static ASIO_AUTO_RETURN_TYPE_PREFIX2(
+      typename Associator<ReadHandler, DefaultCandidate>::type)
+  get(const detail::read_at_op<AsyncRandomAccessReadDevice,
         MutableBufferSequence, MutableBufferIterator,
         CompletionCondition, ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
+      const DefaultCandidate& c) ASIO_NOEXCEPT
+    ASIO_AUTO_RETURN_TYPE_SUFFIX((
+      Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c)))
   {
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
@@ -423,36 +432,45 @@ struct associator<Associator,
 template <typename AsyncRandomAccessReadDevice,
     typename MutableBufferSequence, typename CompletionCondition,
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadHandler>
-inline ASIO_INITFN_AUTO_RESULT_TYPE(ReadHandler,
+      std::size_t)) ReadToken>
+inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
     void (asio::error_code, std::size_t))
 async_read_at(AsyncRandomAccessReadDevice& d,
     uint64_t offset, const MutableBufferSequence& buffers,
     CompletionCondition completion_condition,
-    ASIO_MOVE_ARG(ReadHandler) handler)
+    ASIO_MOVE_ARG(ReadToken) token)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<ReadToken,
+      void (asio::error_code, std::size_t)>(
+        declval<detail::initiate_async_read_at<AsyncRandomAccessReadDevice> >(),
+        token, offset, buffers,
+        ASIO_MOVE_CAST(CompletionCondition)(completion_condition))))
 {
-  return async_initiate<ReadHandler,
+  return async_initiate<ReadToken,
     void (asio::error_code, std::size_t)>(
-      detail::initiate_async_read_at_buffer_sequence<
-        AsyncRandomAccessReadDevice>(d),
-      handler, offset, buffers,
+      detail::initiate_async_read_at<AsyncRandomAccessReadDevice>(d),
+      token, offset, buffers,
       ASIO_MOVE_CAST(CompletionCondition)(completion_condition));
 }
 
 template <typename AsyncRandomAccessReadDevice, typename MutableBufferSequence,
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadHandler>
-inline ASIO_INITFN_AUTO_RESULT_TYPE(ReadHandler,
+      std::size_t)) ReadToken>
+inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
     void (asio::error_code, std::size_t))
 async_read_at(AsyncRandomAccessReadDevice& d,
     uint64_t offset, const MutableBufferSequence& buffers,
-    ASIO_MOVE_ARG(ReadHandler) handler)
+    ASIO_MOVE_ARG(ReadToken) token)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<ReadToken,
+      void (asio::error_code, std::size_t)>(
+        declval<detail::initiate_async_read_at<AsyncRandomAccessReadDevice> >(),
+        token, offset, buffers, transfer_all())))
 {
-  return async_initiate<ReadHandler,
+  return async_initiate<ReadToken,
     void (asio::error_code, std::size_t)>(
-      detail::initiate_async_read_at_buffer_sequence<
-        AsyncRandomAccessReadDevice>(d),
-      handler, offset, buffers, transfer_all());
+      detail::initiate_async_read_at<AsyncRandomAccessReadDevice>(d),
+      token, offset, buffers, transfer_all());
 }
 
 #if !defined(ASIO_NO_EXTENSIONS)
@@ -679,10 +697,20 @@ struct associator<Associator,
     DefaultCandidate>
   : Associator<ReadHandler, DefaultCandidate>
 {
-  static typename Associator<ReadHandler, DefaultCandidate>::type get(
-      const detail::read_at_streambuf_op<AsyncRandomAccessReadDevice,
+  static typename Associator<ReadHandler, DefaultCandidate>::type
+  get(const detail::read_at_streambuf_op<AsyncRandomAccessReadDevice,
+        Executor, CompletionCondition, ReadHandler>& h) ASIO_NOEXCEPT
+  {
+    return Associator<ReadHandler, DefaultCandidate>::get(h.handler_);
+  }
+
+  static ASIO_AUTO_RETURN_TYPE_PREFIX2(
+      typename Associator<ReadHandler, DefaultCandidate>::type)
+  get(const detail::read_at_streambuf_op<AsyncRandomAccessReadDevice,
         Executor, CompletionCondition, ReadHandler>& h,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
+      const DefaultCandidate& c) ASIO_NOEXCEPT
+    ASIO_AUTO_RETURN_TYPE_SUFFIX((
+      Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c)))
   {
     return Associator<ReadHandler, DefaultCandidate>::get(h.handler_, c);
   }
@@ -693,34 +721,47 @@ struct associator<Associator,
 template <typename AsyncRandomAccessReadDevice,
     typename Allocator, typename CompletionCondition,
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadHandler>
-inline ASIO_INITFN_AUTO_RESULT_TYPE(ReadHandler,
+      std::size_t)) ReadToken>
+inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
     void (asio::error_code, std::size_t))
 async_read_at(AsyncRandomAccessReadDevice& d,
     uint64_t offset, asio::basic_streambuf<Allocator>& b,
     CompletionCondition completion_condition,
-    ASIO_MOVE_ARG(ReadHandler) handler)
+    ASIO_MOVE_ARG(ReadToken) token)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<ReadToken,
+      void (asio::error_code, std::size_t)>(
+        declval<detail::initiate_async_read_at_streambuf<
+          AsyncRandomAccessReadDevice> >(),
+        token, offset, &b,
+        ASIO_MOVE_CAST(CompletionCondition)(completion_condition))))
 {
-  return async_initiate<ReadHandler,
+  return async_initiate<ReadToken,
     void (asio::error_code, std::size_t)>(
       detail::initiate_async_read_at_streambuf<AsyncRandomAccessReadDevice>(d),
-      handler, offset, &b,
+      token, offset, &b,
       ASIO_MOVE_CAST(CompletionCondition)(completion_condition));
 }
 
 template <typename AsyncRandomAccessReadDevice, typename Allocator,
     ASIO_COMPLETION_TOKEN_FOR(void (asio::error_code,
-      std::size_t)) ReadHandler>
-inline ASIO_INITFN_AUTO_RESULT_TYPE(ReadHandler,
+      std::size_t)) ReadToken>
+inline ASIO_INITFN_AUTO_RESULT_TYPE_PREFIX(ReadToken,
     void (asio::error_code, std::size_t))
 async_read_at(AsyncRandomAccessReadDevice& d,
     uint64_t offset, asio::basic_streambuf<Allocator>& b,
-    ASIO_MOVE_ARG(ReadHandler) handler)
+    ASIO_MOVE_ARG(ReadToken) token)
+  ASIO_INITFN_AUTO_RESULT_TYPE_SUFFIX((
+    async_initiate<ReadToken,
+      void (asio::error_code, std::size_t)>(
+        declval<detail::initiate_async_read_at_streambuf<
+          AsyncRandomAccessReadDevice> >(),
+        token, offset, &b, transfer_all())))
 {
-  return async_initiate<ReadHandler,
+  return async_initiate<ReadToken,
     void (asio::error_code, std::size_t)>(
       detail::initiate_async_read_at_streambuf<AsyncRandomAccessReadDevice>(d),
-      handler, offset, &b, transfer_all());
+      token, offset, &b, transfer_all());
 }
 
 #endif // !defined(ASIO_NO_IOSTREAM)

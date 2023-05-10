@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2007-2022 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright Nokia 2007-2019
  * Copyright Siemens AG 2015-2019
  *
@@ -253,16 +253,16 @@ OSSL_CMP_MSG *ossl_cmp_msg_create(OSSL_CMP_CTX *ctx, int bodytype)
     (sk_GENERAL_NAME_num((ctx)->subjectAltNames) > 0 \
          || OSSL_CMP_CTX_reqExtensions_have_SAN(ctx) == 1)
 
-static const X509_NAME *determine_subj(OSSL_CMP_CTX *ctx,
-                                       const X509_NAME *ref_subj,
-                                       int for_KUR)
+static const X509_NAME *determine_subj(OSSL_CMP_CTX *ctx, int for_KUR,
+                                       const X509_NAME *ref_subj)
 {
     if (ctx->subjectName != NULL)
         return IS_NULL_DN(ctx->subjectName) ? NULL : ctx->subjectName;
-
-    if (ref_subj != NULL && (for_KUR || !HAS_SAN(ctx)))
+    if (ctx->p10CSR != NULL) /* first default is from any given CSR */
+        return X509_REQ_get_subject_name(ctx->p10CSR);
+    if (for_KUR || !HAS_SAN(ctx))
         /*
-         * For KUR, copy subject from the reference.
+         * For KUR, copy subject from any reference cert as fallback.
          * For IR or CR, do the same only if there is no subjectAltName.
          */
         return ref_subj;
@@ -277,9 +277,8 @@ OSSL_CRMF_MSG *OSSL_CMP_CTX_setup_CRM(OSSL_CMP_CTX *ctx, int for_KUR, int rid)
     EVP_PKEY *rkey = OSSL_CMP_CTX_get0_newPkey(ctx, 0);
     STACK_OF(GENERAL_NAME) *default_sans = NULL;
     const X509_NAME *ref_subj =
-        ctx->p10CSR != NULL ? X509_REQ_get_subject_name(ctx->p10CSR) :
         refcert != NULL ? X509_get_subject_name(refcert) : NULL;
-    const X509_NAME *subject = determine_subj(ctx, ref_subj, for_KUR);
+    const X509_NAME *subject = determine_subj(ctx, for_KUR, ref_subj);
     const X509_NAME *issuer = ctx->issuer != NULL || refcert == NULL
         ? (IS_NULL_DN(ctx->issuer) ? NULL : ctx->issuer)
         : X509_get_issuer_name(refcert);
@@ -289,6 +288,8 @@ OSSL_CRMF_MSG *OSSL_CMP_CTX_setup_CRM(OSSL_CMP_CTX *ctx, int for_KUR, int rid)
 
     if (rkey == NULL && ctx->p10CSR != NULL)
         rkey = X509_REQ_get0_pubkey(ctx->p10CSR);
+    if (rkey == NULL && refcert != NULL)
+        rkey = X509_get0_pubkey(refcert);
     if (rkey == NULL)
         rkey = ctx->pkey; /* default is independent of ctx->oldCert */
     if (rkey == NULL) {
@@ -327,11 +328,14 @@ OSSL_CRMF_MSG *OSSL_CMP_CTX_setup_CRM(OSSL_CMP_CTX *ctx, int for_KUR, int rid)
     }
 
     /* extensions */
-    if (refcert != NULL && !ctx->SubjectAltName_nodefault)
-        default_sans = X509V3_get_d2i(X509_get0_extensions(refcert),
-                                      NID_subject_alt_name, NULL, NULL);
     if (ctx->p10CSR != NULL
             && (exts = X509_REQ_get_extensions(ctx->p10CSR)) == NULL)
+        goto err;
+    if (!ctx->SubjectAltName_nodefault && !HAS_SAN(ctx) && refcert != NULL
+            && (default_sans = X509V3_get_d2i(X509_get0_extensions(refcert),
+                                              NID_subject_alt_name, NULL, NULL))
+            != NULL
+            && !add1_extension(&exts, NID_subject_alt_name, crit, default_sans))
         goto err;
     if (ctx->reqExtensions != NULL /* augment/override existing ones */
             && !add_extensions(&exts, ctx->reqExtensions))
@@ -339,9 +343,6 @@ OSSL_CRMF_MSG *OSSL_CMP_CTX_setup_CRM(OSSL_CMP_CTX *ctx, int for_KUR, int rid)
     if (sk_GENERAL_NAME_num(ctx->subjectAltNames) > 0
             && !add1_extension(&exts, NID_subject_alt_name,
                                crit, ctx->subjectAltNames))
-        goto err;
-    if (!HAS_SAN(ctx) && default_sans != NULL
-            && !add1_extension(&exts, NID_subject_alt_name, crit, default_sans))
         goto err;
     if (ctx->policies != NULL
             && !add1_extension(&exts, NID_certificate_policies,
@@ -462,7 +463,7 @@ OSSL_CMP_MSG *ossl_cmp_certrep_new(OSSL_CMP_CTX *ctx, int bodytype,
     OSSL_CMP_MSG *msg = NULL;
     OSSL_CMP_CERTREPMESSAGE *repMsg = NULL;
     OSSL_CMP_CERTRESPONSE *resp = NULL;
-    int status = -1;
+    int status = OSSL_CMP_PKISTATUS_unspecified;
 
     if (!ossl_assert(ctx != NULL && si != NULL))
         return NULL;
@@ -566,6 +567,7 @@ OSSL_CMP_MSG *ossl_cmp_rr_new(OSSL_CMP_CTX *ctx)
     if (!sk_OSSL_CMP_REVDETAILS_push(msg->body->value.rr, rd))
         goto err;
     rd = NULL;
+    /* Revocation Passphrase according to section 5.3.19.9 could be set here */
 
     if (!ossl_cmp_msg_protect(ctx, msg))
         goto err;
@@ -698,8 +700,7 @@ static OSSL_CMP_MSG *gen_new(OSSL_CMP_CTX *ctx,
     if ((msg = ossl_cmp_msg_create(ctx, body_type)) == NULL)
         return NULL;
 
-    if (ctx->genm_ITAVs != NULL
-            && !ossl_cmp_msg_gen_push1_ITAVs(msg, itavs))
+    if (itavs != NULL && !ossl_cmp_msg_gen_push1_ITAVs(msg, itavs))
         goto err;
 
     if (!ossl_cmp_msg_protect(ctx, msg))

@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -42,12 +42,11 @@
 /* allocate a buffer for socket or tun layer */
 void
 alloc_buf_sock_tun(struct buffer *buf,
-                   const struct frame *frame,
-                   const bool tuntap_buffer)
+                   const struct frame *frame)
 {
     /* allocate buffer for overlapped I/O */
     *buf = alloc_buf(BUF_SIZE(frame));
-    ASSERT(buf_init(buf, FRAME_HEADROOM(frame)));
+    ASSERT(buf_init(buf, frame->buf.headroom));
     buf->len = frame->buf.payload_size;
     ASSERT(buf_safe(buf, 0));
 }
@@ -108,20 +107,16 @@ frame_calculate_protocol_header_size(const struct key_type *kt,
 
 
 size_t
-frame_calculate_payload_overhead(const struct frame *frame,
+frame_calculate_payload_overhead(size_t extra_tun,
                                  const struct options *options,
-                                 const struct key_type *kt,
-                                 bool extra_tun)
+                                 const struct key_type *kt)
 {
     size_t overhead = 0;
 
     /* This is the overhead of tap device that is not included in the MTU itself
      * i.e. Ethernet header that we still need to transmit as part of the
-     * payload */
-    if (extra_tun)
-    {
-        overhead += frame->extra_tun;
-    }
+     * payload, this is set to 0 by caller if not applicable */
+    overhead += extra_tun;
 
 #if defined(USE_COMP)
     /* v1 Compression schemes add 1 byte header. V2 only adds a header when it
@@ -158,7 +153,7 @@ frame_calculate_payload_size(const struct frame *frame,
                              const struct key_type *kt)
 {
     size_t payload_size = options->ce.tun_mtu;
-    payload_size += frame_calculate_payload_overhead(frame, options, kt, true);
+    payload_size += frame_calculate_payload_overhead(frame->extra_tun, options, kt);
     return payload_size;
 }
 
@@ -179,7 +174,7 @@ calc_options_string_link_mtu(const struct options *o, const struct frame *frame)
      * by pretending to have no encryption enabled and by manually adding
      * the required packet overhead to the MTU computation.
      */
-    const char* ciphername = o->ciphername;
+    const char *ciphername = o->ciphername;
 
     unsigned int overhead = 0;
 
@@ -222,6 +217,7 @@ frame_print(const struct frame *frame,
     buf_printf(&out, " max_frag:%d", frame->max_fragment_size);
 #endif
     buf_printf(&out, " tun_mtu:%d", frame->tun_mtu);
+    buf_printf(&out, " tun_max_mtu:%d", frame->tun_max_mtu);
     buf_printf(&out, " headroom:%d", frame->buf.headroom);
     buf_printf(&out, " payload:%d", frame->buf.payload_size);
     buf_printf(&out, " tailroom:%d", frame->buf.tailroom);
@@ -312,7 +308,7 @@ format_extended_socket_error(int fd, int *mtu, struct gc_arena *gc)
     struct msghdr msg;
     struct cmsghdr *cmsg;
     struct sock_extended_err *e;
-    struct sockaddr_in addr;
+    struct sockaddr_storage addr;
     struct buffer out = alloc_buf_gc(256, gc);
     char *cbuf = (char *) gc_malloc(256, false, gc);
 
@@ -349,7 +345,18 @@ format_extended_socket_error(int fd, int *mtu, struct gc_arena *gc)
                 }
                 else
                 {
-                    buf_printf(&out,"CMSG=%d|", cmsg->cmsg_type);
+                    buf_printf(&out, "CMSG=%d|", cmsg->cmsg_type);
+                }
+            }
+            else if (cmsg->cmsg_level == IPPROTO_IPV6)
+            {
+                if (cmsg->cmsg_type == IPV6_RECVERR)
+                {
+                    e = (struct sock_extended_err *) CMSG_DATA(cmsg);
+                }
+                else
+                {
+                    buf_printf(&out, "CMSG=%d|", cmsg->cmsg_type);
                 }
             }
         }
@@ -402,13 +409,25 @@ exit:
 }
 
 void
-set_sock_extended_error_passing(int sd)
+set_sock_extended_error_passing(int sd, sa_family_t proto_af)
 {
     int on = 1;
-    if (setsockopt(sd, SOL_IP, IP_RECVERR, (void *) &on, sizeof(on)))
+    /* see "man 7 ip" (on Linux)
+     * this works on IPv4 and IPv6(-dual-stack) sockets (v4-mapped)
+     */
+    if (setsockopt(sd, SOL_IP, IP_RECVERR, (void *) &on, sizeof(on)) != 0)
     {
         msg(M_WARN | M_ERRNO,
             "Note: enable extended error passing on TCP/UDP socket failed (IP_RECVERR)");
+    }
+    /* see "man 7 ipv6" (on Linux)
+     * this only works on IPv6 sockets
+     */
+    if (proto_af == AF_INET6
+        && setsockopt(sd, IPPROTO_IPV6, IPV6_RECVERR, (void *) &on, sizeof(on)) != 0)
+    {
+        msg(M_WARN | M_ERRNO,
+            "Note: enable extended error passing on TCP/UDP socket failed (IPV6_RECVERR)");
     }
 }
 

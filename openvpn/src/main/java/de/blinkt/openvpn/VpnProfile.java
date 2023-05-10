@@ -33,6 +33,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -84,7 +86,6 @@ public class VpnProfile implements Serializable, Cloneable {
     public static final int X509_VERIFY_TLSREMOTE_DN = 2;
     public static final int X509_VERIFY_TLSREMOTE_RDN = 3;
     public static final int X509_VERIFY_TLSREMOTE_RDN_PREFIX = 4;
-    public static final int X509_VERIFY_TLSREMOTE_SAN = 5;
     public static final int AUTH_RETRY_NONE_FORGET = 0;
     public static final int AUTH_RETRY_NOINTERACT = 2;
     public static final boolean mIsOpenVPN22 = false;
@@ -203,7 +204,7 @@ public class VpnProfile implements Serializable, Cloneable {
 
         if (escapedString.equals(unescaped) && !escapedString.contains(" ") &&
                 !escapedString.contains("#") && !escapedString.contains(";")
-                && !escapedString.equals(""))
+                && !escapedString.equals("")  && !escapedString.contains("'"))
             return unescaped;
         else
             return '"' + escapedString + '"';
@@ -387,6 +388,9 @@ public class VpnProfile implements Serializable, Cloneable {
             cfg.append("setenv IV_SSO openurl,webauth,crtext\n");
             String versionString = getPlatformVersionEnvString();
             cfg.append(String.format("setenv IV_PLAT_VER %s\n", openVpnEscape(versionString)));
+            String hwaddr = NetworkUtils.getFakeMacAddrFromSAAID(context);
+            if (hwaddr != null)
+                cfg.append(String.format("setenv IV_HWADDR %s\n", hwaddr));
 
             if (mUseLegacyProvider)
                 cfg.append("providers legacy default\n");
@@ -663,11 +667,6 @@ public class VpnProfile implements Serializable, Cloneable {
                         case X509_VERIFY_TLSREMOTE_DN:
                             cfg.append("verify-x509-name ").append(openVpnEscape(mRemoteCN)).append("\n");
                             break;
-
-                        case X509_VERIFY_TLSREMOTE_SAN:
-                            cfg.append("verify-x509-name ").append(openVpnEscape(mRemoteCN)).append(" subject-alt-name\n");
-                            break;
-
                     }
                 if (!TextUtils.isEmpty(mx509UsernameField))
                     cfg.append("x509-username-field ").append(openVpnEscape(mx509UsernameField)).append("\n");
@@ -810,32 +809,21 @@ public class VpnProfile implements Serializable, Cloneable {
         return parts[0] + "  " + netmask;
     }
 
-    public Intent prepareStartService(Context context) {
-        Intent intent = getStartServiceIntent(context);
-
-        // TODO: Handle this?!
-//        if (mAuthenticationType == VpnProfile.TYPE_KEYSTORE || mAuthenticationType == VpnProfile.TYPE_USERPASS_KEYSTORE) {
-//            if (getKeyStoreCertificates(context) == null)
-//                return null;
-//        }
-
-        return intent;
-    }
-
-    public void writeConfigFile(Context context) throws IOException {
-        FileWriter cfg = new FileWriter(VPNLaunchHelper.getConfigFilePath(context));
+    public void writeConfigFileOutput(Context context, OutputStream out) throws IOException {
+        OutputStreamWriter cfg = new OutputStreamWriter(out);
         cfg.write(getConfigFile(context, false));
         cfg.flush();
         cfg.close();
-
     }
 
-    public Intent getStartServiceIntent(Context context) {
+    public Intent getStartServiceIntent(Context context, String startReason) {
         String prefix = context.getPackageName();
 
         Intent intent = new Intent(context, OpenVPNService.class);
         intent.putExtra(prefix + ".profileUUID", mUuid.toString());
         intent.putExtra(prefix + ".profileVersion", mVersion);
+        if (startReason != null)
+            intent.putExtra(prefix + ".startReason", startReason);
         return intent;
     }
 
@@ -1261,12 +1249,6 @@ public class VpnProfile implements Serializable, Cloneable {
             if (needDigest || keyalgorithm.equals("EC")) {
                 return doDigestSign(privkey, data, padding, hashalg, saltlen);
             } else {
-                // The Jelly Bean *evil* Hack
-                // 4.2 implements the RSA/ECB/PKCS1PADDING in the OpenSSLprovider
-                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN) {
-                    return processSignJellyBeans(privkey, data, padding);
-                }
-
              /* ECB is perfectly fine in this special case, since we are using it for
                 the public/private part in the TLS exchange */
                 Cipher signer = null;
@@ -1376,38 +1358,6 @@ public class VpnProfile implements Serializable, Cloneable {
         sig.initSign(privkey);
         sig.update(data);
         return sig.sign();
-    }
-
-    private byte[] processSignJellyBeans(PrivateKey privkey, byte[] data, OpenVPNManagement.SignaturePadding padding) {
-        try {
-            boolean pkcs1padding = false;
-            if (padding == OpenVPNManagement.SignaturePadding.RSA_PKCS1_PADDING)
-                pkcs1padding = true;
-            else if (padding != OpenVPNManagement.SignaturePadding.NO_PADDING)
-                throw new IllegalAccessException("Unsuppoirted padding for jelly bean native signing");
-
-            Method getKey = privkey.getClass().getSuperclass().getDeclaredMethod("getOpenSSLKey");
-            getKey.setAccessible(true);
-
-            // Real object type is OpenSSLKey
-            Object opensslkey = getKey.invoke(privkey);
-
-            getKey.setAccessible(false);
-
-            Method getPkeyContext = opensslkey.getClass().getDeclaredMethod("getPkeyContext");
-
-            // integer pointer to EVP_pkey
-            getPkeyContext.setAccessible(true);
-            int pkey = (Integer) getPkeyContext.invoke(opensslkey);
-            getPkeyContext.setAccessible(false);
-
-            // 112 with TLS 1.2 (172 back with 4.3), 36 with TLS 1.0
-            return NativeUtils.rsasign(data, pkey, pkcs1padding);
-
-        } catch (NoSuchMethodException | InvalidKeyException | InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
-            VpnStatus.logError(R.string.error_rsa_sign, e.getClass().toString(), e.getLocalizedMessage());
-            return null;
-        }
     }
 
     private boolean usesExtraProxyOptions() {

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,19 +27,19 @@
 #include <windows.h>
 
 namespace openvpn {
-  namespace Win {
-    namespace Handle {
-      inline HANDLE undefined()
-      {
-	return INVALID_HANDLE_VALUE;
-      }
-
-      inline bool defined(HANDLE handle)
-      {
-	return handle != nullptr && handle != INVALID_HANDLE_VALUE;
-      }
-    }
-  }
+namespace Win {
+namespace Handle {
+inline HANDLE undefined()
+{
+    return INVALID_HANDLE_VALUE;
 }
+
+inline bool defined(HANDLE handle)
+{
+    return handle != nullptr && handle != INVALID_HANDLE_VALUE;
+}
+} // namespace Handle
+} // namespace Win
+} // namespace openvpn
 
 #endif

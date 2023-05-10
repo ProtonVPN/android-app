@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -38,14 +38,13 @@
 #include <string>
 #include <sstream>
 
-namespace unittests
-{  
-  TEST(LogInfoTest, TestLogInfo)
-  {    
+namespace unittests {
+TEST(LogInfoTest, TestLogInfo)
+{
     std::string msg("logMessage");
     openvpn::ClientAPI::LogInfo logInfo(msg);
     auto text = logInfo.text;
 
     ASSERT_EQ(text, msg);
-  }
-}  // namespace
+}
+} // namespace unittests

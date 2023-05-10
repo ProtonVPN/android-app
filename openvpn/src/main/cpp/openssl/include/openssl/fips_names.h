@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -52,6 +52,14 @@ extern "C" {
  * Type: OSSL_PARAM_UTF8_STRING
  */
 # define OSSL_PROV_FIPS_PARAM_SECURITY_CHECKS "security-checks"
+
+/*
+ * A boolean that determines if the runtime FIPS check for TLS1_PRF EMS is performed.
+ * This is disabled by default.
+ *
+ * Type: OSSL_PARAM_UTF8_STRING
+ */
+# define OSSL_PROV_FIPS_PARAM_TLS1_PRF_EMS_CHECK "tls1-prf-ems-check"
 
 # ifdef __cplusplus
 }

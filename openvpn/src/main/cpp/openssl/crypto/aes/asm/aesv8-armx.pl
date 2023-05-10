@@ -1,5 +1,5 @@
 #! /usr/bin/env perl
-# Copyright 2014-2020 The OpenSSL Project Authors. All Rights Reserved.
+# Copyright 2014-2022 The OpenSSL Project Authors. All Rights Reserved.
 #
 # Licensed under the Apache License 2.0 (the "License").  You may not use
 # this file except in compliance with the License.  You can obtain a copy
@@ -120,6 +120,8 @@ ${prefix}_set_encrypt_key:
 .Lenc_key:
 ___
 $code.=<<___	if ($flavour =~ /64/);
+	AARCH64_VALID_CALL_TARGET
+	// Armv8.3-A PAuth: even though x30 is pushed to stack it is not popped later.
 	stp	x29,x30,[sp,#-16]!
 	add	x29,sp,#0
 ___
@@ -295,7 +297,7 @@ $code.=<<___;
 ${prefix}_set_decrypt_key:
 ___
 $code.=<<___	if ($flavour =~ /64/);
-	.inst	0xd503233f		// paciasp
+	AARCH64_SIGN_LINK_REGISTER
 	stp	x29,x30,[sp,#-16]!
 	add	x29,sp,#0
 ___
@@ -339,7 +341,7 @@ $code.=<<___	if ($flavour !~ /64/);
 ___
 $code.=<<___	if ($flavour =~ /64/);
 	ldp	x29,x30,[sp],#16
-	.inst	0xd50323bf		// autiasp
+	AARCH64_VALIDATE_LINK_REGISTER
 	ret
 ___
 $code.=<<___;
@@ -359,6 +361,11 @@ $code.=<<___;
 .type	${prefix}_${dir}crypt,%function
 .align	5
 ${prefix}_${dir}crypt:
+___
+$code.=<<___	if ($flavour =~ /64/);
+	AARCH64_VALID_CALL_TARGET
+___
+$code.=<<___;
 	ldr	$rounds,[$key,#240]
 	vld1.32	{$rndkey0},[$key],#16
 	vld1.8	{$inout},[$inp]
@@ -410,7 +417,7 @@ ___
 # If lsize < 3*16 bytes, treat them as the tail, interleave the
 # two blocks AES instructions.
 # There is one special case, if the original input data size dsize
-# = 16 bytes, we will treat it seperately to improve the
+# = 16 bytes, we will treat it separately to improve the
 # performance: one independent code block without LR, FP load and
 # store, just looks like what the original ECB implementation does.
 
@@ -442,6 +449,7 @@ $code.=<<___;
 ${prefix}_ecb_encrypt:
 ___
 $code.=<<___	if ($flavour =~ /64/);
+	AARCH64_VALID_CALL_TARGET
 	subs	$len,$len,#16
 	// Original input data size bigger than 16, jump to big size processing.
 	b.ne    .Lecb_big_size
@@ -1236,6 +1244,8 @@ $code.=<<___;
 ${prefix}_cbc_encrypt:
 ___
 $code.=<<___	if ($flavour =~ /64/);
+	AARCH64_VALID_CALL_TARGET
+	// Armv8.3-A PAuth: even though x30 is pushed to stack it is not popped later.
 	stp	x29,x30,[sp,#-16]!
 	add	x29,sp,#0
 ___
@@ -1764,6 +1774,8 @@ $code.=<<___;
 ${prefix}_ctr32_encrypt_blocks:
 ___
 $code.=<<___	if ($flavour =~ /64/);
+	AARCH64_VALID_CALL_TARGET
+	// Armv8.3-A PAuth: even though x30 is pushed to stack it is not popped later.
 	stp		x29,x30,[sp,#-16]!
 	add		x29,sp,#0
 ___
@@ -1797,6 +1809,21 @@ $code.=<<___;
 #ifndef __ARMEB__
 	rev		$ctr, $ctr
 #endif
+___
+$code.=<<___	if ($flavour =~ /64/);
+	vorr		$dat1,$dat0,$dat0
+	add		$tctr1, $ctr, #1
+	vorr		$dat2,$dat0,$dat0
+	add		$ctr, $ctr, #2
+	vorr		$ivec,$dat0,$dat0
+	rev		$tctr1, $tctr1
+	vmov.32		${dat1}[3],$tctr1
+	b.ls		.Lctr32_tail
+	rev		$tctr2, $ctr
+	sub		$len,$len,#3		// bias
+	vmov.32		${dat2}[3],$tctr2
+___
+$code.=<<___	if ($flavour !~ /64/);
 	add		$tctr1, $ctr, #1
 	vorr		$ivec,$dat0,$dat0
 	rev		$tctr1, $tctr1
@@ -1810,7 +1837,7 @@ $code.=<<___;
 	vorr		$dat2,$ivec,$ivec
 ___
 $code.=<<___	if ($flavour =~ /64/);
-	cmp		$len,#2
+	cmp		$len,#32
 	b.lo		.Loop3x_ctr32
 
 	add		w13,$ctr,#1
@@ -2003,11 +2030,25 @@ $code.=<<___;
 	aese		$dat1,q8
 	aesmc		$tmp1,$dat1
 	 vld1.8		{$in0},[$inp],#16
+___
+$code.=<<___	if ($flavour =~ /64/);
+	 vorr		$dat0,$ivec,$ivec
+___
+$code.=<<___	if ($flavour !~ /64/);
 	 add		$tctr0,$ctr,#1
+___
+$code.=<<___;
 	aese		$dat2,q8
 	aesmc		$dat2,$dat2
 	 vld1.8		{$in1},[$inp],#16
+___
+$code.=<<___	if ($flavour =~ /64/);
+	 vorr		$dat1,$ivec,$ivec
+___
+$code.=<<___	if ($flavour !~ /64/);
 	 rev		$tctr0,$tctr0
+___
+$code.=<<___;
 	aese		$tmp0,q9
 	aesmc		$tmp0,$tmp0
 	aese		$tmp1,q9
@@ -2016,6 +2057,12 @@ $code.=<<___;
 	 mov		$key_,$key
 	aese		$dat2,q9
 	aesmc		$tmp2,$dat2
+___
+$code.=<<___	if ($flavour =~ /64/);
+	 vorr		$dat2,$ivec,$ivec
+	 add		$tctr0,$ctr,#1
+___
+$code.=<<___;
 	aese		$tmp0,q12
 	aesmc		$tmp0,$tmp0
 	aese		$tmp1,q12
@@ -2031,22 +2078,47 @@ $code.=<<___;
 	aese		$tmp1,q13
 	aesmc		$tmp1,$tmp1
 	 veor		$in2,$in2,$rndlast
+___
+$code.=<<___	if ($flavour =~ /64/);
+	 rev		$tctr0,$tctr0
+	aese		$tmp2,q13
+	aesmc		$tmp2,$tmp2
+	 vmov.32	${dat0}[3], $tctr0
+___
+$code.=<<___	if ($flavour !~ /64/);
 	 vmov.32	${ivec}[3], $tctr0
 	aese		$tmp2,q13
 	aesmc		$tmp2,$tmp2
 	 vorr		$dat0,$ivec,$ivec
+___
+$code.=<<___;
 	 rev		$tctr1,$tctr1
 	aese		$tmp0,q14
 	aesmc		$tmp0,$tmp0
+___
+$code.=<<___	if ($flavour !~ /64/);
 	 vmov.32	${ivec}[3], $tctr1
 	 rev		$tctr2,$ctr
+___
+$code.=<<___;
 	aese		$tmp1,q14
 	aesmc		$tmp1,$tmp1
+___
+$code.=<<___	if ($flavour =~ /64/);
+	 vmov.32	${dat1}[3], $tctr1
+	 rev		$tctr2,$ctr
+	aese		$tmp2,q14
+	aesmc		$tmp2,$tmp2
+	 vmov.32	${dat2}[3], $tctr2
+___
+$code.=<<___	if ($flavour !~ /64/);
 	 vorr		$dat1,$ivec,$ivec
 	 vmov.32	${ivec}[3], $tctr2
 	aese		$tmp2,q14
 	aesmc		$tmp2,$tmp2
 	 vorr		$dat2,$ivec,$ivec
+___
+$code.=<<___;
 	 subs		$len,$len,#3
 	aese		$tmp0,q15
 	aese		$tmp1,q15
@@ -2150,7 +2222,7 @@ ___
 # will be processed specially, which be integrated into the 5*16 bytes
 # loop to improve the efficiency.
 # There is one special case, if the original input data size dsize
-# = 16 bytes, we will treat it seperately to improve the
+# = 16 bytes, we will treat it separately to improve the
 # performance: one independent code block without LR, FP load and
 # store.
 # Encryption will process the (length -tailcnt) bytes as mentioned
@@ -2196,6 +2268,7 @@ $code.=<<___	if ($flavour =~ /64/);
 ${prefix}_xts_encrypt:
 ___
 $code.=<<___	if ($flavour =~ /64/);
+	AARCH64_VALID_CALL_TARGET
 	cmp	$len,#16
 	// Original input data size bigger than 16, jump to big size processing.
 	b.ne	.Lxts_enc_big_size
@@ -2870,6 +2943,7 @@ $code.=<<___	if ($flavour =~ /64/);
 .type	${prefix}_xts_decrypt,%function
 .align	5
 ${prefix}_xts_decrypt:
+	AARCH64_VALID_CALL_TARGET
 ___
 $code.=<<___	if ($flavour =~ /64/);
 	cmp	$len,#16
@@ -3481,7 +3555,7 @@ $code.=<<___	if ($flavour =~ /64/);
 	cbnz	x2,.Lxts_dec_1st_done
 	vld1.32	{$dat0},[$inp],#16
 
-	// Decrypt the last secod block to get the last plain text block
+	// Decrypt the last second block to get the last plain text block
 .Lxts_dec_1st_done:
 	eor	$tmpin,$dat0,$iv1
 	ldr	$rounds,[$key1,#240]
@@ -3598,6 +3672,9 @@ if ($flavour =~ /64/) {			######## 64-bit code
 	s/\.[ui]?32//o and s/\.16b/\.4s/go;
 	s/\.[ui]?64//o and s/\.16b/\.2d/go;
 	s/\.[42]([sd])\[([0-3])\]/\.$1\[$2\]/o;
+
+	# Switch preprocessor checks to aarch64 versions.
+	s/__ARME([BL])__/__AARCH64E$1__/go;
 
 	print $_,"\n";
     }

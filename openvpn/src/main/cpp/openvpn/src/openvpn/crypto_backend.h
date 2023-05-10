@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -188,6 +188,21 @@ void cipher_des_encrypt_ecb(const unsigned char key[DES_KEY_LENGTH],
 #define MAX_CIPHER_KEY_LENGTH 64
 
 /**
+ * Returns if the cipher is valid, based on the given cipher name and provides a
+ * reason if invalid.
+ *
+ * @param ciphername    Name of the cipher to check for validity (e.g.
+ *                      \c AES-128-CBC). Will be translated to the library name
+ *                      from the openvpn config name if needed.
+ * @param reason        Pointer where a static string indicating the reason
+ *                      for rejecting the cipher should be stored. It is set to
+ *                      NULL if the cipher is valid.
+ *
+ * @return              if the cipher is valid
+ */
+bool cipher_valid_reason(const char *ciphername, const char **reason);
+
+/**
  * Returns if the cipher is valid, based on the given cipher name.
  *
  * @param ciphername    Name of the cipher to check for validity (e.g.
@@ -196,7 +211,12 @@ void cipher_des_encrypt_ecb(const unsigned char key[DES_KEY_LENGTH],
  *
  * @return              if the cipher is valid
  */
-bool cipher_valid(const char *ciphername);
+static inline bool
+cipher_valid(const char *ciphername)
+{
+    const char *reason;
+    return cipher_valid_reason(ciphername, &reason);
+}
 
 /**
  * Checks if the cipher is defined and is not the null (none) cipher
@@ -205,7 +225,8 @@ bool cipher_valid(const char *ciphername);
  *                      be NULL
  * @return              The cipher is defined and not the null (none) cipher
  */
-static inline bool cipher_defined(const char *ciphername)
+static inline bool
+cipher_defined(const char *ciphername)
 {
     ASSERT(ciphername);
     return strcmp(ciphername, "none") != 0;
@@ -490,7 +511,8 @@ int cipher_ctx_final_check_tag(cipher_ctx_t *ctx, uint8_t *dst, int *dst_len,
  * @param mdname    Name of the digest
  * @return
  */
-static inline bool md_defined(const char* mdname)
+static inline bool
+md_defined(const char *mdname)
 {
     return strcmp(mdname, "none") != 0;
 }
@@ -501,8 +523,7 @@ static inline bool md_defined(const char* mdname)
  *
  * @param digest        Name of the digest to verify, e.g. \c MD5).
  *
- * @return              A statically allocated structure containing parameters
- *                      for the given message digest.
+ * @return              Whether a digest of the given name is available
  */
 bool md_valid(const char *digest);
 

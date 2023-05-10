@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -82,6 +82,8 @@ OSSL_DEPRECATEDIN_1_1_0 int RAND_pseudo_bytes(unsigned char *buf, int num);
 EVP_RAND_CTX *RAND_get0_primary(OSSL_LIB_CTX *ctx);
 EVP_RAND_CTX *RAND_get0_public(OSSL_LIB_CTX *ctx);
 EVP_RAND_CTX *RAND_get0_private(OSSL_LIB_CTX *ctx);
+int RAND_set0_public(OSSL_LIB_CTX *ctx, EVP_RAND_CTX *rand);
+int RAND_set0_private(OSSL_LIB_CTX *ctx, EVP_RAND_CTX *rand);
 
 int RAND_set_DRBG_type(OSSL_LIB_CTX *ctx, const char *drbg, const char *propq,
                        const char *cipher, const char *digest);

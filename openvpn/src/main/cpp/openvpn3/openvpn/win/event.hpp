@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -32,77 +32,77 @@
 #include <openvpn/win/scoped_handle.hpp>
 
 namespace openvpn {
-  namespace Win {
+namespace Win {
 
-    // Wrap a standard Windows Event object
-    class Event
+// Wrap a standard Windows Event object
+class Event
+{
+  public:
+    explicit Event(BOOL manual_reset = TRUE)
     {
-    public:
-      explicit Event(BOOL manual_reset=TRUE)
-      {
-	event.reset(::CreateEvent(NULL, manual_reset, FALSE, NULL));
-	if (!event.defined())
-	  {
-	    const Win::LastError err;
-	    OPENVPN_THROW_EXCEPTION("Win::Event: cannot create Windows event: " << err.message());
-	  }
-      }
+        event.reset(::CreateEvent(NULL, manual_reset, FALSE, NULL));
+        if (!event.defined())
+        {
+            const Win::LastError err;
+            OPENVPN_THROW_EXCEPTION("Win::Event: cannot create Windows event: " << err.message());
+        }
+    }
 
-      std::string duplicate_local()
-      {
-	HANDLE new_handle;
-	if (!::DuplicateHandle(GetCurrentProcess(),
-			      event(),
-			      GetCurrentProcess(),
-			      &new_handle,
-			      0,
-			      FALSE,
-			      DUPLICATE_SAME_ACCESS))
-	  {
-	    const Win::LastError err;
-	    OPENVPN_THROW_EXCEPTION("Win::Event: DuplicateHandle failed: " << err.message());
-	  }
-	return BufHex::render(new_handle);
-      }
-
-      void signal_event()
-      {
-	if (event.defined())
-	  {
-	    ::SetEvent(event());
-	    event.close();
-	  }
-      }
-
-      void release_event()
-      {
-	event.close();
-      }
-
-      HANDLE operator()() const
-      {
-	return event();
-      }
-
-      void reset(HANDLE h)
-      {
-	event.reset(h);
-      }
-
-    private:
-      ScopedHANDLE event;
-    };
-
-    // Windows event object that automatically signals in the destructor
-    struct DestroyEvent : public Event
+    std::string duplicate_local()
     {
-      ~DestroyEvent()
-      {
-	signal_event();
-      }
-    };
+        HANDLE new_handle;
+        if (!::DuplicateHandle(GetCurrentProcess(),
+                               event(),
+                               GetCurrentProcess(),
+                               &new_handle,
+                               0,
+                               FALSE,
+                               DUPLICATE_SAME_ACCESS))
+        {
+            const Win::LastError err;
+            OPENVPN_THROW_EXCEPTION("Win::Event: DuplicateHandle failed: " << err.message());
+        }
+        return BufHex::render(new_handle);
+    }
 
-  }
-}
+    void signal_event()
+    {
+        if (event.defined())
+        {
+            ::SetEvent(event());
+            event.close();
+        }
+    }
+
+    void release_event()
+    {
+        event.close();
+    }
+
+    HANDLE operator()() const
+    {
+        return event();
+    }
+
+    void reset(HANDLE h)
+    {
+        event.reset(h);
+    }
+
+  private:
+    ScopedHANDLE event;
+};
+
+// Windows event object that automatically signals in the destructor
+struct DestroyEvent : public Event
+{
+    ~DestroyEvent()
+    {
+        signal_event();
+    }
+};
+
+} // namespace Win
+} // namespace openvpn
 
 #endif

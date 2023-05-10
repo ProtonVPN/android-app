@@ -2,7 +2,7 @@
 // detail/io_uring_socket_recvfrom_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -60,6 +60,7 @@ public:
 
   static void do_prepare(io_uring_operation* base, ::io_uring_sqe* sqe)
   {
+    ASIO_ASSUME(base != 0);
     io_uring_socket_recvfrom_op_base* o(
         static_cast<io_uring_socket_recvfrom_op_base*>(base));
 
@@ -76,6 +77,7 @@ public:
 
   static bool do_perform(io_uring_operation* base, bool after_completion)
   {
+    ASIO_ASSUME(base != 0);
     io_uring_socket_recvfrom_op_base* o(
         static_cast<io_uring_socket_recvfrom_op_base*>(base));
 
@@ -121,7 +123,7 @@ private:
   socket_type socket_;
   socket_ops::state_type state_;
   MutableBufferSequence buffers_;
-  Endpoint sender_endpoint_;
+  Endpoint& sender_endpoint_;
   socket_base::message_flags flags_;
   buffer_sequence_adapter<asio::mutable_buffer,
       MutableBufferSequence> bufs_;
@@ -154,6 +156,7 @@ public:
       std::size_t /*bytes_transferred*/)
   {
     // Take ownership of the handler object.
+    ASIO_ASSUME(base != 0);
     io_uring_socket_recvfrom_op* o
       (static_cast<io_uring_socket_recvfrom_op*>(base));
     ptr p = { asio::detail::addressof(o->handler_), o, o };
@@ -164,6 +167,8 @@ public:
     handler_work<Handler, IoExecutor> w(
         ASIO_MOVE_CAST2(handler_work<Handler, IoExecutor>)(
           o->work_));
+
+    ASIO_ERROR_LOCATION(o->ec_);
 
     // Make a copy of the handler so that the memory can be deallocated before
     // the upcall is made. Even if we're not about to make an upcall, a

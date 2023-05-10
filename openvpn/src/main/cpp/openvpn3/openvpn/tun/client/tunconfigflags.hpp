@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -22,11 +22,13 @@
 #pragma once
 
 namespace openvpn {
-  struct TunConfigFlags {
-    enum {
-	  ADD_BYPASS_ROUTES=(1<<0),
-	  DISABLE_IFACE_UP=(1<<1),
-	  DISABLE_REROUTE_GW=(1<<2),
+struct TunConfigFlags
+{
+    enum
+    {
+        ADD_BYPASS_ROUTES = (1 << 0),
+        DISABLE_IFACE_UP = (1 << 1),
+        DISABLE_REROUTE_GW = (1 << 2),
     };
-  };
-}
+};
+} // namespace openvpn

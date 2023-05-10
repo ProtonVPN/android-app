@@ -1,3 +1,0 @@
-Source: ovpn-dco-win
-Version: 0.2
-Description: OpenVPN Data Channel Offload. Note: This package only contains the headers for the driver.

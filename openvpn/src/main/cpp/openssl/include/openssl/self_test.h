@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -30,6 +30,8 @@ extern "C" {
 # define OSSL_SELF_TEST_TYPE_INSTALL_INTEGRITY  "Install_Integrity"
 # define OSSL_SELF_TEST_TYPE_CRNG               "Continuous_RNG_Test"
 # define OSSL_SELF_TEST_TYPE_PCT                "Conditional_PCT"
+# define OSSL_SELF_TEST_TYPE_PCT_KAT            "Conditional_KAT"
+# define OSSL_SELF_TEST_TYPE_KAT_INTEGRITY      "KAT_Integrity"
 # define OSSL_SELF_TEST_TYPE_KAT_CIPHER         "KAT_Cipher"
 # define OSSL_SELF_TEST_TYPE_KAT_ASYM_CIPHER    "KAT_AsymmetricCipher"
 # define OSSL_SELF_TEST_TYPE_KAT_DIGEST         "KAT_Digest"
@@ -73,10 +75,6 @@ extern "C" {
 # define OSSL_SELF_TEST_DESC_KDF_TLS13_EXPAND   "TLS13_KDF_EXPAND"
 # define OSSL_SELF_TEST_DESC_RNG            "RNG"
 
-# ifdef __cplusplus
-}
-# endif
-
 void OSSL_SELF_TEST_set_callback(OSSL_LIB_CTX *libctx, OSSL_CALLBACK *cb,
                                  void *cbarg);
 void OSSL_SELF_TEST_get_callback(OSSL_LIB_CTX *libctx, OSSL_CALLBACK **cb,
@@ -90,4 +88,7 @@ void OSSL_SELF_TEST_onbegin(OSSL_SELF_TEST *st, const char *type,
 int OSSL_SELF_TEST_oncorrupt_byte(OSSL_SELF_TEST *st, unsigned char *bytes);
 void OSSL_SELF_TEST_onend(OSSL_SELF_TEST *st, int ret);
 
+# ifdef __cplusplus
+}
+# endif
 #endif /* OPENSSL_SELF_TEST_H */

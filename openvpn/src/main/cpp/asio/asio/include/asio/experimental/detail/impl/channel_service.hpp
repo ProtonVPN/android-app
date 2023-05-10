@@ -2,7 +2,7 @@
 // experimental/detail/impl/channel_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -181,10 +181,8 @@ void channel_service<Mutex>::reset(
 
   typename Mutex::scoped_lock lock(impl.mutex_);
 
-  if (impl.receive_state_ == closed)
-    impl.receive_state_ = block;
-  if (impl.send_state_ == closed)
-    impl.send_state_ = impl.max_buffer_size_ ? buffer : block;
+  impl.receive_state_ = block;
+  impl.send_state_ = impl.max_buffer_size_ ? buffer : block;
   impl.buffer_clear();
 }
 
@@ -204,16 +202,17 @@ void channel_service<Mutex>::close(
   {
     while (channel_operation* op = impl.waiters_.front())
     {
+      impl.waiters_.pop();
       traits_type::invoke_receive_closed(
           complete_receive<payload_type,
             typename traits_type::receive_closed_signature>(
               static_cast<channel_receive<payload_type>*>(op)));
-      impl.waiters_.pop();
     }
   }
 
   impl.send_state_ = closed;
-  impl.receive_state_ = closed;
+  if (impl.receive_state_ != buffer)
+    impl.receive_state_ = closed;
 }
 
 template <typename Mutex>
@@ -237,18 +236,18 @@ void channel_service<Mutex>::cancel(
     }
     else
     {
+      impl.waiters_.pop();
       traits_type::invoke_receive_cancelled(
           complete_receive<payload_type,
             typename traits_type::receive_cancelled_signature>(
               static_cast<channel_receive<payload_type>*>(op)));
-      impl.waiters_.pop();
     }
   }
 
   if (impl.receive_state_ == waiter)
     impl.receive_state_ = block;
   if (impl.send_state_ == waiter)
-    impl.send_state_ = block;
+    impl.send_state_ = impl.max_buffer_size_ ? buffer : block;
 }
 
 template <typename Mutex>
@@ -276,11 +275,11 @@ void channel_service<Mutex>::cancel_by_key(
       }
       else
       {
+        impl.waiters_.pop();
         traits_type::invoke_receive_cancelled(
             complete_receive<payload_type,
               typename traits_type::receive_cancelled_signature>(
                 static_cast<channel_receive<payload_type>*>(op)));
-        impl.waiters_.pop();
       }
     }
     else
@@ -296,7 +295,7 @@ void channel_service<Mutex>::cancel_by_key(
     if (impl.receive_state_ == waiter)
       impl.receive_state_ = block;
     if (impl.send_state_ == waiter)
-      impl.send_state_ = block;
+      impl.send_state_ = impl.max_buffer_size_ ? buffer : block;
   }
 }
 
@@ -449,7 +448,7 @@ void channel_service<Mutex>::start_send_op(
       impl.receive_state_ = buffer;
       if (impl.buffer_size() == impl.max_buffer_size_)
         impl.send_state_ = block;
-      send_op->complete();
+      send_op->immediate();
       break;
     }
   case waiter:
@@ -460,7 +459,7 @@ void channel_service<Mutex>::start_send_op(
       receive_op->complete(send_op->get_payload());
       if (impl.waiters_.empty())
         impl.send_state_ = impl.max_buffer_size_ ? buffer : block;
-      send_op->complete();
+      send_op->immediate();
       break;
     }
   case closed:
@@ -561,7 +560,8 @@ void channel_service<Mutex>::start_receive_op(
     }
   case buffer:
     {
-      receive_op->complete(impl.buffer_front());
+      payload_type payload(
+          ASIO_MOVE_CAST(payload_type)(impl.buffer_front()));
       if (channel_send<payload_type>* send_op =
           static_cast<channel_send<payload_type>*>(impl.waiters_.front()))
       {
@@ -577,6 +577,7 @@ void channel_service<Mutex>::start_receive_op(
           impl.receive_state_ = (impl.send_state_ == closed) ? closed : block;
         impl.send_state_ = (impl.send_state_ == closed) ? closed : buffer;
       }
+      receive_op->immediate(ASIO_MOVE_CAST(payload_type)(payload));
       break;
     }
   case waiter:
@@ -586,9 +587,9 @@ void channel_service<Mutex>::start_receive_op(
       payload_type payload = send_op->get_payload();
       impl.waiters_.pop();
       send_op->complete();
-      receive_op->complete(ASIO_MOVE_CAST(payload_type)(payload));
       if (impl.waiters_.front() == 0)
         impl.receive_state_ = (impl.send_state_ == closed) ? closed : block;
+      receive_op->immediate(ASIO_MOVE_CAST(payload_type)(payload));
       break;
     }
   case closed:

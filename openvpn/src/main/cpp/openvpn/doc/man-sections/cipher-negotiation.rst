@@ -34,7 +34,7 @@ mode and does not have ``--ncp-disable`` will always announce support for
 
 This only causes a problem if ``--ncp-ciphers`` option has been changed from the
 default of :code:`AES-256-GCM:AES-128-GCM` to a value that does not include
-these two ciphers. When a OpenVPN servers try to use `AES-256-GCM` or
+these two ciphers. When an OpenVPN server tries to use `AES-256-GCM` or
 `AES-128-GCM` the connection will then fail. It is therefore recommended to
 always have the `AES-256-GCM` and `AES-128-GCM` ciphers to the ``--ncp-ciphers``
 options to avoid this behaviour.
@@ -42,8 +42,9 @@ options to avoid this behaviour.
 OpenVPN 3 clients
 -----------------
 Clients based on the OpenVPN 3.x library (https://github.com/openvpn/openvpn3/)
-do not have a configurable ``--ncp-ciphers`` or ``--data-ciphers`` option. Instead
-these clients will announce support for all their supported AEAD ciphers
+do not have a configurable ``--ncp-ciphers`` or ``--data-ciphers`` option. Newer
+versions by default disable legacy AES-CBC, BF-CBC, and DES-CBC ciphers.
+These clients will always announce support for all their supported AEAD ciphers
 (`AES-256-GCM`, `AES-128-GCM` and in newer versions also `Chacha20-Poly1305`).
 
 To support OpenVPN 3.x based clients at least one of these ciphers needs to be
@@ -84,15 +85,15 @@ support.
 
 If the server is 2.3 or older and  has been configured with the
 ``--enable-small`` :code:`./configure` argument, adding
-``data-ciphers-fallback cipher`` to the client config with the explicit
+``--data-ciphers-fallback cipher`` to the client config with the explicit
 cipher used by the server is necessary.
 
 Blowfish in CBC mode (BF-CBC) deprecation
 ------------------------------------------
-The ``--cipher`` option defaulted to ``BF-CBC`` in OpenVPN 2.4 and older
+The ``--cipher`` option defaulted to `BF-CBC` in OpenVPN 2.4 and older
 version. The default was never changed to ensure backwards compatibility.
 In OpenVPN 2.5 this behaviour has now been changed so that if the ``--cipher``
-is not explicitly set it does not allow the weak ``BF-CBC`` cipher any more
+is not explicitly set it does not allow the weak `BF-CBC` cipher any more
 and needs to explicitly added as ``--cipher BFC-CBC`` or added to
 ``--data-ciphers``.
 

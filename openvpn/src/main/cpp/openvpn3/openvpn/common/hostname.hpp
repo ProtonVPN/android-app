@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,14 +31,14 @@
 #endif
 
 namespace openvpn {
-  inline std::string get_hostname()
-  {
+inline std::string get_hostname()
+{
 #ifdef USE_ASIO
     return asio::ip::host_name();
 #else
     return "HOSTNAME_UNDEFINED";
 #endif
-  }
 }
+} // namespace openvpn
 
 #endif

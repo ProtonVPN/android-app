@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -35,60 +35,64 @@
 
 namespace openvpn {
 
-  class CompressStub : public Compress
-  {
+class CompressStub : public Compress
+{
   public:
-    CompressStub(const Frame::Ptr& frame, const SessionStats::Ptr& stats, const bool support_swap_arg)
-      : Compress(frame, stats),
-	support_swap(support_swap_arg)
+    CompressStub(const Frame::Ptr &frame, const SessionStats::Ptr &stats, const bool support_swap_arg)
+        : Compress(frame, stats),
+          support_swap(support_swap_arg)
 #ifndef NO_LZO
-        ,lzo(frame, stats, false, true)
+          ,
+          lzo(frame, stats, false, true)
 #endif
     {
-      OPENVPN_LOG_COMPRESS("Comp-stub init swap=" << support_swap_arg);
+        OPENVPN_LOG_COMPRESS("Comp-stub init swap=" << support_swap_arg);
     }
 
-    virtual const char *name() const { return "stub"; }
-
-    virtual void compress(BufferAllocated& buf, const bool hint)
+    virtual const char *name() const
     {
-      // skip null packets
-      if (!buf.size())
-	return;
-
-      // indicate that we didn't compress
-      if (support_swap)
-	do_swap(buf, NO_COMPRESS_SWAP);
-      else
-	buf.push_front(NO_COMPRESS);
+        return "stub";
     }
 
-    virtual void decompress(BufferAllocated& buf)
+    virtual void compress(BufferAllocated &buf, const bool hint)
     {
-      // skip null packets
-      if (!buf.size())
-	return;
+        // skip null packets
+        if (!buf.size())
+            return;
 
-      const unsigned char c = buf.pop_front();
-      switch (c)
-	{
-	case NO_COMPRESS_SWAP:
-	  do_unswap(buf);
-	case NO_COMPRESS:
-	  break;
+        // indicate that we didn't compress
+        if (support_swap)
+            do_swap(buf, NO_COMPRESS_SWAP);
+        else
+            buf.push_front(NO_COMPRESS);
+    }
+
+    virtual void decompress(BufferAllocated &buf)
+    {
+        // skip null packets
+        if (!buf.size())
+            return;
+
+        const unsigned char c = buf.pop_front();
+        switch (c)
+        {
+        case NO_COMPRESS_SWAP:
+            do_unswap(buf);
+        case NO_COMPRESS:
+            break;
 #ifndef NO_LZO
-	// special mode to support older servers that ignore
-	// compression handshake -- this will handle receiving
-	// compressed packets even if we didn't ask for them
-	case CompressLZO::LZO_COMPRESS:
-	  OPENVPN_LOG_COMPRESS_VERBOSE("CompressStub: handled unsolicited LZO packet");
-	  lzo.decompress_work(buf);
-	  break;
+        // special mode to support older servers that ignore
+        // compression handshake -- this will handle receiving
+        // compressed packets even if we didn't ask for them
+        case CompressLZO::LZO_COMPRESS:
+            OPENVPN_LOG_COMPRESS_VERBOSE("CompressStub: handled unsolicited LZO packet");
+            lzo.decompress_work(buf);
+            break;
 #endif
-	default: 
-	  OPENVPN_LOG_COMPRESS_VERBOSE("CompressStub: unable to handle op=" << int(c));
-	  error(buf);
-	}
+        default:
+            OPENVPN_LOG_COMPRESS_VERBOSE("CompressStub: unable to handle op=" << int(c));
+            error(buf);
+        }
     }
 
   private:
@@ -96,44 +100,47 @@ namespace openvpn {
 #ifndef NO_LZO
     CompressLZO lzo;
 #endif
-  };
+};
 
-  // Compression stub using V2 protocol
-  class CompressStubV2 : public Compress
-  {
+// Compression stub using V2 protocol
+class CompressStubV2 : public Compress
+{
   public:
-    CompressStubV2(const Frame::Ptr& frame, const SessionStats::Ptr& stats)
-      : Compress(frame, stats)
+    CompressStubV2(const Frame::Ptr &frame, const SessionStats::Ptr &stats)
+        : Compress(frame, stats)
     {
-      OPENVPN_LOG_COMPRESS("Comp-stubV2 init");
+        OPENVPN_LOG_COMPRESS("Comp-stubV2 init");
     }
 
-    virtual const char *name() const { return "stubv2"; }
-
-    virtual void compress(BufferAllocated& buf, const bool hint)
+    virtual const char *name() const
     {
-      // skip null packets
-      if (!buf.size())
-	return;
-
-      // indicate that we didn't compress
-      v2_push(buf, OVPN_COMPv2_NONE);
+        return "stubv2";
     }
 
-    virtual void decompress(BufferAllocated& buf)
+    virtual void compress(BufferAllocated &buf, const bool hint)
     {
-      // skip null packets
-      if (!buf.size())
-	return;
+        // skip null packets
+        if (!buf.size())
+            return;
 
-      const int cop = v2_pull(buf);
-      if (cop)
-	{
-	  OPENVPN_LOG_COMPRESS_VERBOSE("CompressStubV2: unable to handle op=" << c);
-	  error(buf);
-	}
+        // indicate that we didn't compress
+        v2_push(buf, OVPN_COMPv2_NONE);
     }
-  };
+
+    virtual void decompress(BufferAllocated &buf)
+    {
+        // skip null packets
+        if (!buf.size())
+            return;
+
+        const int cop = v2_pull(buf);
+        if (cop)
+        {
+            OPENVPN_LOG_COMPRESS_VERBOSE("CompressStubV2: unable to handle op=" << c);
+            error(buf);
+        }
+    }
+};
 
 } // namespace openvpn
 

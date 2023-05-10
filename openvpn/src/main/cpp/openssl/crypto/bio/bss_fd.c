@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -149,7 +149,7 @@ static long fd_ctrl(BIO *b, int cmd, long num, void *ptr)
     switch (cmd) {
     case BIO_CTRL_RESET:
         num = 0;
-        /* fall thru */
+        /* fall through */
     case BIO_C_FILE_SEEK:
         ret = (long)UP_lseek(b->num, num, 0);
         break;

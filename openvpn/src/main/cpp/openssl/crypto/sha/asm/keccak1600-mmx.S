@@ -2,7 +2,11 @@
 .type	_KeccakF1600,@function
 .align	16
 _KeccakF1600:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	movq	60(%esi),%mm0
 	movq	68(%esi),%mm1
 	movq	76(%esi),%mm2
@@ -321,7 +325,11 @@ _KeccakF1600:
 .align	16
 KeccakF1600:
 .L_KeccakF1600_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	pushl	%ebp
 	pushl	%ebx
 	pushl	%esi
@@ -350,7 +358,11 @@ KeccakF1600:
 .align	16
 SHA3_absorb:
 .L_SHA3_absorb_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	pushl	%ebp
 	pushl	%ebx
 	pushl	%esi
@@ -407,7 +419,11 @@ SHA3_absorb:
 .align	16
 SHA3_squeeze:
 .L_SHA3_squeeze_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	pushl	%ebp
 	pushl	%ebx
 	pushl	%esi

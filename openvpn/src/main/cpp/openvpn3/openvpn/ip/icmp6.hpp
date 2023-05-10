@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -32,33 +32,37 @@
 
 namespace openvpn {
 
-  struct ICMPv6 {
-    enum {
-      ECHO_REQUEST    = 128,
-      ECHO_REPLY      = 129,
-      DEST_UNREACH    = 1,
-      PACKET_TOO_BIG  = 2
+struct ICMPv6
+{
+    enum
+    {
+        ECHO_REQUEST = 128,
+        ECHO_REPLY = 129,
+        DEST_UNREACH = 1,
+        PACKET_TOO_BIG = 2
     };
 
     struct IPv6Header head;
 
     union {
-      struct {
-	std::uint8_t type;
-	std::uint8_t code;
-      };
-      std::uint16_t type_code;
+        struct
+        {
+            std::uint8_t type;
+            std::uint8_t code;
+        };
+        std::uint16_t type_code;
     };
     std::uint16_t checksum;
 
     union {
-      struct {
-	std::uint16_t id;
-	std::uint16_t seq_num;
-      };
-      std::uint32_t mtu;
+        struct
+        {
+            std::uint16_t id;
+            std::uint16_t seq_num;
+        };
+        std::uint32_t mtu;
     };
-  };
-}
+};
+} // namespace openvpn
 
 #pragma pack(pop)

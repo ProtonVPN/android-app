@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -105,7 +105,7 @@ static int conn_state(BIO *b, BIO_CONNECT *c)
                               * at least the "else" part will always be
                               * compiled.
                               */
-#ifdef AF_INET6
+#if OPENSSL_USE_IPV6
                         family = AF_INET6;
                     } else {
 #endif
@@ -188,6 +188,9 @@ static int conn_state(BIO *b, BIO_CONNECT *c)
             break;
 
         case BIO_CONN_S_BLOCKED_CONNECT:
+            /* wait for socket being writable, before querying BIO_sock_error */
+            if (BIO_socket_wait(b->num, 0, time(NULL)) == 0)
+                break;
             i = BIO_sock_error(b->num);
             if (i != 0) {
                 BIO_clear_retry_flags(b);
@@ -205,8 +208,18 @@ static int conn_state(BIO *b, BIO_CONNECT *c)
                 ERR_raise(ERR_LIB_BIO, BIO_R_NBIO_CONNECT_ERROR);
                 ret = 0;
                 goto exit_loop;
-            } else
+            } else {
                 c->state = BIO_CONN_S_OK;
+# ifndef OPENSSL_NO_KTLS
+                /*
+                 * The new socket is created successfully regardless of ktls_enable.
+                 * ktls_enable doesn't change any functionality of the socket, except
+                 * changing the setsockopt to enable the processing of ktls_start.
+                 * Thus, it is not a problem to call it for non-TLS sockets.
+                 */
+                ktls_enable(b->num);
+# endif
+            }
             break;
 
         case BIO_CONN_S_CONNECT_ERROR:
@@ -409,7 +422,7 @@ static long conn_ctrl(BIO *b, int cmd, long num, void *ptr)
                 *pptr = (const char *)BIO_ADDRINFO_address(data->addr_iter);
             } else if (num == 3) {
                 switch (BIO_ADDRINFO_family(data->addr_iter)) {
-# ifdef AF_INET6
+# if OPENSSL_USE_IPV6
                 case AF_INET6:
                     ret = BIO_FAMILY_IPV6;
                     break;

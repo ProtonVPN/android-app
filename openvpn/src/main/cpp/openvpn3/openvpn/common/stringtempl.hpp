@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -33,50 +33,62 @@
 #include <utility>
 
 namespace openvpn {
-  namespace StringTempl {
+namespace StringTempl {
 
-    // empty
+// empty
 
-    inline bool empty(std::nullptr_t)
-    {
-      return true;
-    }
-
-    inline bool empty(const char *str)
-    {
-      return !str || str[0] == '\0';
-    }
-
-    inline bool empty(const std::string& str)
-    {
-      return str.empty();
-    }
-
-    // to_string
-
-    inline std::string to_string(std::nullptr_t)
-    {
-      return std::string();
-    }
-
-    inline std::string to_string(const char *str)
-    {
-      if (str)
-	return std::string(str);
-      else
-	return to_string(nullptr);
-    }
-
-    inline std::string to_string(std::string&& str)
-    {
-      return std::move(str);
-    }
-
-    inline const std::string& to_string(const std::string& str)
-    {
-      return str;
-    }
-  }
+inline bool empty(std::nullptr_t)
+{
+    return true;
 }
+
+inline bool empty(const char *str)
+{
+    return !str || str[0] == '\0';
+}
+
+inline bool empty(const std::string &str)
+{
+    return str.empty();
+}
+
+// to_string
+
+inline std::string to_string(std::nullptr_t)
+{
+    return std::string();
+}
+
+inline std::string to_string(const char *str)
+{
+    if (str)
+        return std::string(str);
+    else
+        return to_string(nullptr);
+}
+
+inline std::string to_string(std::string &&str)
+{
+    return std::move(str);
+}
+
+inline const std::string &to_string(const std::string &str)
+{
+    return str;
+}
+
+// to_cstring
+
+inline const char *to_cstring(const std::string &str)
+{
+    return str.c_str();
+}
+
+inline const char *to_cstring(const char *str)
+{
+    return str;
+}
+} // namespace StringTempl
+} // namespace openvpn
 
 #endif

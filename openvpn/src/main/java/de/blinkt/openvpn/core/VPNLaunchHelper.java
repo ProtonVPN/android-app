@@ -5,7 +5,6 @@
 
 package de.blinkt.openvpn.core;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -22,19 +21,14 @@ import de.blinkt.openvpn.VpnProfile;
 
 public class VPNLaunchHelper {
     private static final String MINIPIEVPN = "pie_openvpn";
-    private static final String OVPNCONFIGFILE = "android.conf";
 
     private static String writeMiniVPN(Context context) {
         String nativeAPI = NativeUtils.getNativeAPI();
         /* Q does not allow executing binaries written in temp directory anymore */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
             return new File(context.getApplicationInfo().nativeLibraryDir, "libovpnexec.so").getPath();
-        String[] abis;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            abis = getSupportedABIsLollipop();
-        else
-            //noinspection deprecation
-            abis = new String[]{Build.CPU_ABI, Build.CPU_ABI2};
+
+        String[] abis = Build.SUPPORTED_ABIS;
 
         if (!nativeAPI.equals(abis[0])) {
             VpnStatus.logWarning(R.string.abi_mismatch, Arrays.toString(abis), nativeAPI);
@@ -52,11 +46,6 @@ public class VPNLaunchHelper {
         throw new RuntimeException("Cannot find any executable for this device's ABIs " + Arrays.toString(abis));
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private static String[] getSupportedABIsLollipop() {
-        return Build.SUPPORTED_ABIS;
-    }
-
 
     static String[] buildOpenvpnArgv(Context c) {
         Vector<String> args = new Vector<>();
@@ -68,7 +57,7 @@ public class VPNLaunchHelper {
         args.add(binaryName);
 
         args.add("--config");
-        args.add(getConfigFilePath(c));
+        args.add("stdin");
 
         return args.toArray(new String[0]);
     }
@@ -111,8 +100,8 @@ public class VPNLaunchHelper {
     }
 
 
-    public static void startOpenVpn(VpnProfile startprofile, Context context) {
-        Intent startVPN = startprofile.prepareStartService(context);
+    public static void startOpenVpn(VpnProfile startprofile, Context context, String startReason) {
+        Intent startVPN = startprofile.getStartServiceIntent(context, startReason);
         if (startVPN != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 //noinspection NewApi
@@ -122,10 +111,4 @@ public class VPNLaunchHelper {
 
         }
     }
-
-
-    public static String getConfigFilePath(Context context) {
-        return context.getCacheDir().getAbsolutePath() + "/" + OVPNCONFIGFILE;
-    }
-
 }

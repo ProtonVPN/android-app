@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -36,6 +36,7 @@
 #endif
 
 /* #define ABORT_ON_ERROR */
+
 #if defined(ENABLE_PKCS11) || defined(ENABLE_MANAGEMENT)
 #define ERR_BUF_SIZE 10240
 #else
@@ -74,13 +75,10 @@ struct gc_arena;
 /* String and Error functions */
 
 #ifdef _WIN32
-#define openvpn_errno()             GetLastError()
-#define openvpn_strerror(e, gc)     strerror_win32(e, gc)
+#define openvpn_errno() GetLastError()
 const char *strerror_win32(DWORD errnum, struct gc_arena *gc);
-
 #else
-#define openvpn_errno()             errno
-#define openvpn_strerror(x, gc)     strerror(x)
+#define openvpn_errno() errno
 #endif
 
 /*
@@ -222,11 +220,6 @@ __attribute__((__noreturn__))
     [!!sizeof(struct { int __error_if_negative : (expr) ? 2 : -1; })]
 #endif
 
-#ifdef ENABLE_DEBUG
-void crash(void);  /* force a segfault (debugging only) */
-
-#endif
-
 /* Inline functions */
 
 static inline bool
@@ -351,20 +344,22 @@ msg_get_virtual_output(void)
  * which can be safely ignored.
  */
 static inline bool
-ignore_sys_error(const int err)
+ignore_sys_error(const int err, bool crt_error)
 {
-    /* I/O operation pending */
 #ifdef _WIN32
-    if (err == WSAEWOULDBLOCK || err == WSAEINVAL)
+    if (!crt_error && ((err == WSAEWOULDBLOCK || err == WSAEINVAL)))
     {
         return true;
     }
 #else
-    if (err == EAGAIN)
+    crt_error = true;
+#endif
+
+    /* I/O operation pending */
+    if (crt_error && (err == EAGAIN))
     {
         return true;
     }
-#endif
 
 #if 0 /* if enabled, suppress ENOBUFS errors */
 #ifdef ENOBUFS
@@ -384,6 +379,26 @@ static inline unsigned int
 nonfatal(const unsigned int err)
 {
     return err & M_FATAL ? (err ^ M_FATAL) | M_NONFATAL : err;
+}
+
+static inline int
+openvpn_errno_maybe_crt(bool *crt_error)
+{
+    int err = 0;
+    *crt_error = false;
+#ifdef _WIN32
+    err = GetLastError();
+    if (err == ERROR_SUCCESS)
+    {
+        /* error is likely C runtime */
+        *crt_error = true;
+        err = errno;
+    }
+#else  /* ifdef _WIN32 */
+    *crt_error = true;
+    err = errno;
+#endif
+    return err;
 }
 
 #include "errlevel.h"

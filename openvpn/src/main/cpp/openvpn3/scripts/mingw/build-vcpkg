@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+set -eux
+
+: ${VCPKG_ROOT?:VCPKG_ROOT needs to be set}
+: ${ARCH:=i686 x86_64}
+: ${DCO:=1}
+CORE_DIR=$(dirname $(realpath -s $0))/../..
+CMAKE_C_COMPILER="w64-mingw32-gcc-posix"
+CMAKE_CXX_COMPILER="w64-mingw32-g++-posix"
+
+build_core()
+{
+    local ARCH=$1
+    local VCPKG_ARCH=$ARCH
+    if [ "$ARCH" = i686 ]; then
+        VCPKG_ARCH=x86
+    fi
+    if [ "$ARCH" = x86_64 ]; then
+        VCPKG_ARCH=x64
+    fi
+
+    echo "Building core for $ARCH (vcpkg: $VCPKG_ARCH-mingw-dynamic)"
+
+    rm -rf "build-$ARCH"
+    mkdir "build-$ARCH"
+
+    [ -z "$DCO" ] || {
+        WITH_OVPNDCOWIN="-D CLI_OVPNDCOWIN=ON"
+    }
+
+    pushd build-$ARCH
+
+    cmake -D CMAKE_TOOLCHAIN_FILE="${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" \
+          -D VCPKG_TARGET_TRIPLET="$VCPKG_ARCH-mingw-dynamic" \
+          -D VCPKG_APPLOCAL_DEPS=OFF \
+          -D VCPKG_OVERLAY_PORTS="$CORE_DIR/deps/vcpkg-ports" \
+          -D CMAKE_C_COMPILER="$ARCH-$CMAKE_C_COMPILER" \
+          -D CMAKE_CXX_COMPILER="$ARCH-$CMAKE_CXX_COMPILER" \
+          -D CMAKE_SYSTEM_NAME=Windows \
+          -D CMAKE_PREFIX_PATH="/usr/local/$ARCH-w64-mingw32" \
+          -D CMAKE_BUILD_TYPE=Release \
+          -D USE_WERROR=true \
+          $WITH_OVPNDCOWIN \
+          $CORE_DIR
+
+    make
+
+    popd
+}
+
+for arch in $ARCH
+do
+    echo "Building for $arch"
+    build_core $arch
+done

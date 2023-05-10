@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -30,35 +30,45 @@
 #include <openvpn/common/options.hpp>
 
 namespace openvpn {
-  struct ProtoContextOptions : public RC<thread_safe_refcount>
-  {
+struct ProtoContextOptions : public RC<thread_safe_refcount>
+{
     typedef RCPtr<ProtoContextOptions> Ptr;
 
-    enum CompressionMode {
-      COMPRESS_NO,
-      COMPRESS_YES,
-      COMPRESS_ASYM
+    enum CompressionMode
+    {
+        COMPRESS_NO,
+        COMPRESS_YES,
+        COMPRESS_ASYM
     };
 
-    ProtoContextOptions() : compression_mode(COMPRESS_NO) {}
-
-    bool is_comp() const { return compression_mode != COMPRESS_NO; }
-    bool is_comp_asym() const { return compression_mode == COMPRESS_ASYM; }
-
-    void parse_compression_mode(const std::string& mode)
+    ProtoContextOptions()
+        : compression_mode(COMPRESS_NO)
     {
-      if (mode == "no")
-	compression_mode = COMPRESS_NO;
-      else if (mode == "yes")
-	compression_mode = COMPRESS_YES;
-      else if (mode == "asym")
-	compression_mode = COMPRESS_ASYM;
-      else
-	OPENVPN_THROW(option_error, "error parsing compression mode: " << mode);
+    }
+
+    bool is_comp() const
+    {
+        return compression_mode != COMPRESS_NO;
+    }
+    bool is_comp_asym() const
+    {
+        return compression_mode == COMPRESS_ASYM;
+    }
+
+    void parse_compression_mode(const std::string &mode)
+    {
+        if (mode == "no")
+            compression_mode = COMPRESS_NO;
+        else if (mode == "yes")
+            compression_mode = COMPRESS_YES;
+        else if (mode == "asym")
+            compression_mode = COMPRESS_ASYM;
+        else
+            OPENVPN_THROW(option_error, "error parsing compression mode: " << mode);
     }
 
     CompressionMode compression_mode;
-  };
-}
+};
+} // namespace openvpn
 
 #endif

@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-. $O3/core/deps/lib-versions
-rm -rf gitar.tmp
-mkdir gitar.tmp
-cd gitar.tmp
-git clone https://github.com/polarssl/polarssl.git -b $POLARSSL_VERSION $POLARSSL_VERSION
-tar cfz $DL/$POLARSSL_VERSION-gpl.tgz $POLARSSL_VERSION
-cd ..
-rm -rf gitar.tmp

@@ -2,7 +2,7 @@
 // use_awaitable.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -32,7 +32,7 @@
 
 namespace asio {
 
-/// A completion token that represents the currently executing coroutine.
+/// A @ref completion_token that represents the currently executing coroutine.
 /**
  * The @c use_awaitable_t class, with its value @c use_awaitable, is used to
  * represent the currently executing coroutine. This completion token may be
@@ -143,7 +143,8 @@ struct use_awaitable_t
 #endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
 };
 
-/// A completion token object that represents the currently executing coroutine.
+/// A @ref completion_token object that represents the currently executing
+/// coroutine.
 /**
  * See the documentation for asio::use_awaitable_t for a usage example.
  */

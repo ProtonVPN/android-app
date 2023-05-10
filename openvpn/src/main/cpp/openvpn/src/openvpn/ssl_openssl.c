@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -108,12 +108,6 @@ tls_free_lib(void)
 }
 
 void
-tls_clear_error(void)
-{
-    ERR_clear_error();
-}
-
-void
 tls_ctx_server_new(struct tls_root_ctx *ctx)
 {
     ASSERT(NULL != ctx);
@@ -167,11 +161,11 @@ tls_ctx_initialised(struct tls_root_ctx *ctx)
 
 bool
 key_state_export_keying_material(struct tls_session *session,
-                                 const char* label, size_t label_size,
+                                 const char *label, size_t label_size,
                                  void *ekm, size_t ekm_size)
 
 {
-    SSL* ssl = session->key[KS_PRIMARY].ks_ssl.ssl;
+    SSL *ssl = session->key[KS_PRIMARY].ks_ssl.ssl;
 
     if (SSL_export_keying_material(ssl, ekm, ekm_size, label,
                                    label_size, NULL, 0, 0) == 1)
@@ -368,7 +362,7 @@ tls_ctx_set_options(struct tls_root_ctx *ctx, unsigned int ssl_flags)
 }
 
 void
-convert_tls_list_to_openssl(char *openssl_ciphers, size_t len,const char *ciphers)
+convert_tls_list_to_openssl(char *openssl_ciphers, size_t len, const char *ciphers)
 {
     /* Parse supplied cipher list and pass on to OpenSSL */
     size_t begin_of_cipher, end_of_cipher;
@@ -572,13 +566,15 @@ void
 tls_ctx_set_tls_groups(struct tls_root_ctx *ctx, const char *groups)
 {
     ASSERT(ctx);
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
     struct gc_arena gc = gc_new();
     /* This method could be as easy as
      *  SSL_CTX_set1_groups_list(ctx->ctx, groups)
-     * but OpenSSL does not like the name secp256r1 for prime256v1
+     * but OpenSSL (< 3.0) does not like the name secp256r1 for prime256v1
      * This is one of the important curves.
      * To support the same name for OpenSSL and mbedTLS, we do
      * this dance.
+     * Also note that the code is wrong in the presence of OpenSSL3 providers.
      */
 
     int groups_count = get_num_elements(groups, ':');
@@ -617,6 +613,13 @@ tls_ctx_set_tls_groups(struct tls_root_ctx *ctx, const char *groups)
                    groups);
     }
     gc_free(&gc);
+#else  /* if OPENSSL_VERSION_NUMBER < 0x30000000L */
+    if (!SSL_CTX_set1_groups_list(ctx->ctx, groups))
+    {
+        crypto_msg(M_FATAL, "Failed to set allowed TLS group list: %s",
+                   groups);
+    }
+#endif /* if OPENSSL_VERSION_NUMBER < 0x30000000L */
 }
 
 void
@@ -695,7 +698,7 @@ tls_ctx_load_dh_params(struct tls_root_ctx *ctx, const char *dh_file,
 
     msg(D_TLS_DEBUG_LOW, "Diffie-Hellman initialized with %d bit key",
         8 * EVP_PKEY_get_size(dh));
-#else
+#else  /* if OPENSSL_VERSION_NUMBER >= 0x30000000L */
     DH *dh = PEM_read_bio_DHparams(bio, NULL, NULL, NULL);
     BIO_free(bio);
 
@@ -713,7 +716,7 @@ tls_ctx_load_dh_params(struct tls_root_ctx *ctx, const char *dh_file,
         8 * DH_size(dh));
 
     DH_free(dh);
-#endif
+#endif /* if OPENSSL_VERSION_NUMBER >= 0x30000000L */
 }
 
 void
@@ -723,8 +726,8 @@ tls_ctx_load_ecdh_params(struct tls_root_ctx *ctx, const char *curve_name)
     if (curve_name != NULL)
     {
         msg(M_WARN, "WARNING: OpenSSL 3.0+ builds do not support specifying an "
-                    "ECDH curve with --ecdh-curve, using default curves. Use "
-                    "--tls-groups to specify groups.");
+            "ECDH curve with --ecdh-curve, using default curves. Use "
+            "--tls-groups to specify groups.");
     }
 #elif !defined(OPENSSL_NO_EC)
     int nid = NID_undef;
@@ -840,7 +843,7 @@ tls_ctx_load_pkcs12(struct tls_root_ctx *ctx, const char *pkcs12_file,
         if (!PKCS12_parse(p12, password, &pkey, &cert, &ca))
         {
             crypto_msg(M_WARN, "Decoding PKCS12 failed. Probably wrong password "
-                               "or unsupported/legacy encryption");
+                       "or unsupported/legacy encryption");
 #ifdef ENABLE_MANAGEMENT
             if (management && (ERR_GET_REASON(ERR_peek_error()) == PKCS12_R_MAC_VERIFY_FAILURE))
             {
@@ -883,13 +886,13 @@ tls_ctx_load_pkcs12(struct tls_root_ctx *ctx, const char *pkcs12_file,
             for (i = 0; i < sk_X509_num(ca); i++)
             {
                 X509_STORE *cert_store = SSL_CTX_get_cert_store(ctx->ctx);
-                if (!X509_STORE_add_cert(cert_store,sk_X509_value(ca, i)))
+                if (!X509_STORE_add_cert(cert_store, sk_X509_value(ca, i)))
                 {
-                    crypto_msg(M_FATAL,"Cannot add certificate to certificate chain (X509_STORE_add_cert)");
+                    crypto_msg(M_FATAL, "Cannot add certificate to certificate chain (X509_STORE_add_cert)");
                 }
                 if (!SSL_CTX_add_client_CA(ctx->ctx, sk_X509_value(ca, i)))
                 {
-                    crypto_msg(M_FATAL,"Cannot add certificate to client CA list (SSL_CTX_add_client_CA)");
+                    crypto_msg(M_FATAL, "Cannot add certificate to client CA list (SSL_CTX_add_client_CA)");
                 }
             }
         }
@@ -905,7 +908,7 @@ tls_ctx_load_pkcs12(struct tls_root_ctx *ctx, const char *pkcs12_file,
         {
             for (i = 0; i < sk_X509_num(ca); i++)
             {
-                if (!SSL_CTX_add_extra_chain_cert(ctx->ctx,sk_X509_value(ca, i)))
+                if (!SSL_CTX_add_extra_chain_cert(ctx->ctx, sk_X509_value(ca, i)))
                 {
                     crypto_msg(M_FATAL, "Cannot add extra certificate to chain (SSL_CTX_add_extra_chain_cert)");
                 }
@@ -1493,11 +1496,16 @@ tls_ctx_use_management_external_key(struct tls_root_ctx *ctx)
     if (!privkey
         || !SSL_CTX_use_PrivateKey(ctx->ctx, privkey))
     {
+        EVP_PKEY_free(privkey);
         goto cleanup;
     }
     EVP_PKEY_free(privkey);
-#else
+#else  /* ifdef HAVE_XKEY_PROVIDER */
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
     if (EVP_PKEY_id(pkey) == EVP_PKEY_RSA)
+#else /* OPENSSL_VERSION_NUMBER < 0x30000000L */
+    if (EVP_PKEY_is_a(pkey, "RSA"))
+#endif /* OPENSSL_VERSION_NUMBER < 0x30000000L */
     {
         if (!tls_ctx_use_external_rsa_key(ctx, pkey))
         {
@@ -1505,7 +1513,11 @@ tls_ctx_use_management_external_key(struct tls_root_ctx *ctx)
         }
     }
 #if (OPENSSL_VERSION_NUMBER > 0x10100000L) && !defined(OPENSSL_NO_EC)
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
     else if (EVP_PKEY_id(pkey) == EVP_PKEY_EC)
+#else /* OPENSSL_VERSION_NUMBER < 0x30000000L */
+    else if (EVP_PKEY_is_a(pkey, "EC"))
+#endif /* OPENSSL_VERSION_NUMBER < 0x30000000L */
     {
         if (!tls_ctx_use_external_ec_key(ctx, pkey))
         {
@@ -1822,10 +1834,7 @@ bio_write(BIO *bio, const uint8_t *data, int size, const char *desc)
 
         if (i < 0)
         {
-            if (BIO_should_retry(bio))
-            {
-            }
-            else
+            if (!BIO_should_retry(bio))
             {
                 crypto_msg(D_TLS_ERRORS, "TLS ERROR: BIO write %s error", desc);
                 ret = -1;
@@ -1867,57 +1876,50 @@ bio_write_post(const int status, struct buffer *buf)
  * Read from an OpenSSL BIO in non-blocking mode.
  */
 static int
-bio_read(BIO *bio, struct buffer *buf, int maxlen, const char *desc)
+bio_read(BIO *bio, struct buffer *buf, const char *desc)
 {
-    int i;
-    int ret = 0;
     ASSERT(buf->len >= 0);
     if (buf->len)
     {
+        /* we only want to write empty buffers, ignore read request
+         * if the buffer is not empty */
+        return 0;
     }
-    else
-    {
-        int len = buf_forward_capacity(buf);
-        if (maxlen < len)
-        {
-            len = maxlen;
-        }
+    int len = buf_forward_capacity(buf);
 
-        /*
-         * BIO_read brackets most of the serious RSA
-         * key negotiation number crunching.
-         */
-        i = BIO_read(bio, BPTR(buf), len);
+    /*
+     * BIO_read brackets most of the serious RSA
+     * key negotiation number crunching.
+     */
+    int i = BIO_read(bio, BPTR(buf), len);
 
-        VALGRIND_MAKE_READABLE((void *) &i, sizeof(i));
+    VALGRIND_MAKE_READABLE((void *) &i, sizeof(i));
 
 #ifdef BIO_DEBUG
-        bio_debug_data("read", bio, BPTR(buf), i, desc);
+    bio_debug_data("read", bio, BPTR(buf), i, desc);
 #endif
-        if (i < 0)
+
+    int ret = 0;
+    if (i < 0)
+    {
+        if (!BIO_should_retry(bio))
         {
-            if (BIO_should_retry(bio))
-            {
-            }
-            else
-            {
-                crypto_msg(D_TLS_ERRORS, "TLS_ERROR: BIO read %s error", desc);
-                buf->len = 0;
-                ret = -1;
-                ERR_clear_error();
-            }
-        }
-        else if (!i)
-        {
+            crypto_msg(D_TLS_ERRORS, "TLS_ERROR: BIO read %s error", desc);
             buf->len = 0;
+            ret = -1;
+            ERR_clear_error();
         }
-        else
-        {                       /* successful read */
-            dmsg(D_HANDSHAKE_VERBOSE, "BIO read %s %d bytes", desc, i);
-            buf->len = i;
-            ret = 1;
-            VALGRIND_MAKE_READABLE((void *) BPTR(buf), BLEN(buf));
-        }
+    }
+    else if (!i)
+    {
+        buf->len = 0;
+    }
+    else
+    {                       /* successful read */
+        dmsg(D_HANDSHAKE_VERBOSE, "BIO read %s %d bytes", desc, i);
+        buf->len = i;
+        ret = 1;
+        VALGRIND_MAKE_READABLE((void *) BPTR(buf), BLEN(buf));
     }
     return ret;
 }
@@ -2008,15 +2010,14 @@ key_state_write_plaintext_const(struct key_state_ssl *ks_ssl, const uint8_t *dat
 }
 
 int
-key_state_read_ciphertext(struct key_state_ssl *ks_ssl, struct buffer *buf,
-                          int maxlen)
+key_state_read_ciphertext(struct key_state_ssl *ks_ssl, struct buffer *buf)
 {
     int ret = 0;
     perf_push(PERF_BIO_READ_CIPHERTEXT);
 
     ASSERT(NULL != ks_ssl);
 
-    ret = bio_read(ks_ssl->ct_out, buf, maxlen, "tls_read_ciphertext");
+    ret = bio_read(ks_ssl->ct_out, buf, "tls_read_ciphertext");
 
     perf_pop();
     return ret;
@@ -2038,15 +2039,14 @@ key_state_write_ciphertext(struct key_state_ssl *ks_ssl, struct buffer *buf)
 }
 
 int
-key_state_read_plaintext(struct key_state_ssl *ks_ssl, struct buffer *buf,
-                         int maxlen)
+key_state_read_plaintext(struct key_state_ssl *ks_ssl, struct buffer *buf)
 {
     int ret = 0;
     perf_push(PERF_BIO_READ_PLAINTEXT);
 
     ASSERT(NULL != ks_ssl);
 
-    ret = bio_read(ks_ssl->ssl_bio, buf, maxlen, "tls_read_plaintext");
+    ret = bio_read(ks_ssl->ssl_bio, buf, "tls_read_plaintext");
 
     perf_pop();
     return ret;
@@ -2072,15 +2072,20 @@ print_cert_details(X509 *cert, char *buf, size_t buflen)
     }
 
     int typeid = EVP_PKEY_id(pkey);
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
+    bool is_ec = typeid == EVP_PKEY_EC;
+#else
+    bool is_ec = EVP_PKEY_is_a(pkey, "EC");
+#endif
 
 #ifndef OPENSSL_NO_EC
     char groupname[256];
-    if (typeid == EVP_PKEY_EC)
+    if (is_ec)
     {
         size_t len;
-        if(EVP_PKEY_get_group_name(pkey, groupname, sizeof(groupname), &len))
+        if (EVP_PKEY_get_group_name(pkey, groupname, sizeof(groupname), &len))
         {
-           curve = groupname;
+            curve = groupname;
         }
         else
         {
@@ -2088,9 +2093,9 @@ print_cert_details(X509 *cert, char *buf, size_t buflen)
         }
     }
 #endif
-    if (EVP_PKEY_id(pkey) != 0)
+    if (typeid != 0)
     {
-        int typeid = EVP_PKEY_id(pkey);
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
         type = OBJ_nid2sn(typeid);
 
         /* OpenSSL reports rsaEncryption, dsaEncryption and
@@ -2112,6 +2117,13 @@ print_cert_details(X509 *cert, char *buf, size_t buflen)
         {
             type = "unknown type";
         }
+#else /* OpenSSL >= 3 */
+        type = EVP_PKEY_get0_type_name(pkey);
+        if (type == NULL)
+        {
+            type = "(error getting public key type)";
+        }
+#endif /* if OPENSSL_VERSION_NUMBER < 0x30000000L */
     }
 
     char sig[128] = { 0 };
@@ -2355,7 +2367,7 @@ load_xkey_provider(void)
         if (!OSSL_PROVIDER_load(tls_libctx, "ovpn.xkey"))
         {
             msg(M_NONFATAL, "ERROR: failed loading external key provider: "
-                            "Signing with external keys will not work.");
+                "Signing with external keys will not work.");
         }
     }
 

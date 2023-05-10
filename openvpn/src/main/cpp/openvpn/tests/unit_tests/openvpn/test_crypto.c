@@ -144,7 +144,7 @@ static uint8_t good_prf[32] = {0xd9, 0x8c, 0x85, 0x18, 0xc8, 0x5e, 0x94, 0x69,
                                0xb1, 0x56, 0x7e, 0x4b, 0x4b, 0x14, 0x59, 0xe6,
                                0xa9, 0x04, 0xac, 0x2d, 0xda, 0xb7, 0x2d, 0x67};
 
-static const char* ipsumlorem = "Lorem ipsum dolor sit amet, consectetur "
+static const char *ipsumlorem = "Lorem ipsum dolor sit amet, consectetur "
                                 "adipisici elit, sed eiusmod tempor incidunt "
                                 "ut labore et dolore magna aliqua.";
 
@@ -279,38 +279,43 @@ test_occ_mtu_calculation(void **state)
     linkmtu = calc_options_string_link_mtu(&o, &f);
     assert_int_equal(linkmtu, 1440);
 
-    /* --secret, cipher BF-CBC, auth SHA1 */
+    /* secret, cipher BF-CBC, auth SHA1 */
     o.ciphername = "BF-CBC";
     o.authname = "SHA1";
     linkmtu = calc_options_string_link_mtu(&o, &f);
     assert_int_equal(linkmtu, 1444);
 
-    /* --secret, cipher BF-CBC, auth SHA1, tcp-client */
+    /* secret, cipher BF-CBC, auth SHA1, tcp-client */
     o.ce.proto = PROTO_TCP_CLIENT;
     linkmtu = calc_options_string_link_mtu(&o, &f);
     assert_int_equal(linkmtu, 1446);
 
     o.ce.proto = PROTO_UDP;
 
-    /* --secret, comp-lzo yes, cipher BF-CBC, auth SHA1 */
+#if defined(USE_COMP)
     o.comp.alg = COMP_ALG_LZO;
+
+    /* secret, comp-lzo yes, cipher BF-CBC, auth SHA1 */
     linkmtu = calc_options_string_link_mtu(&o, &f);
     assert_int_equal(linkmtu, 1445);
 
-    /* --secret, comp-lzo yes, cipher BF-CBC, auth SHA1, fragment 1200 */
+#if defined(ENABLE_FRAGMENT)
+    /* secret, comp-lzo yes, cipher BF-CBC, auth SHA1, fragment 1200 */
     o.ce.fragment = 1200;
     linkmtu = calc_options_string_link_mtu(&o, &f);
     assert_int_equal(linkmtu, 1449);
+    o.ce.fragment = 0;
+#endif
 
     o.comp.alg = COMP_ALG_UNDEF;
-    o.ce.fragment = 0;
+#endif
 
     /* TLS mode */
     o.shared_secret_file = NULL;
     o.tls_client = true;
     o.pull = true;
 
-    /* tls client, cipher AES-128-CBC, auth SHA1, tls-auth*/
+    /* tls client, cipher AES-128-CBC, auth SHA1, tls-auth */
     o.authname = "SHA1";
     o.ciphername = "AES-128-CBC";
     o.tls_auth_file = "dummy";
@@ -347,8 +352,10 @@ test_occ_mtu_calculation(void **state)
     assert_int_equal(linkmtu, 1449);
 
 
-    /* tls client, auth SHA1, cipher AES-256-GCM, fragment, comp-lzo yes */
+#if defined(USE_COMP) && defined(ENABLE_FRAGMENT)
     o.comp.alg = COMP_ALG_LZO;
+
+    /* tls client, auth SHA1, cipher AES-256-GCM, fragment, comp-lzo yes */
     o.ce.fragment = 1200;
     linkmtu = calc_options_string_link_mtu(&o, &f);
     assert_int_equal(linkmtu, 1454);
@@ -357,6 +364,7 @@ test_occ_mtu_calculation(void **state)
     o.ce.socks_proxy_server = "socks.example.com";
     linkmtu = calc_options_string_link_mtu(&o, &f);
     assert_int_equal(linkmtu, 1464);
+#endif
 
     gc_free(&gc);
 }
@@ -400,7 +408,7 @@ test_mssfix_mtu_calculation(void **state)
     o.authname = "none";
     init_key_type(&kt, o.ciphername, o.authname, false, false);
 
-    for (int i = 990;i <= 1010;i++)
+    for (int i = 990; i <= 1010; i++)
     {
         /* 992 - 1008 should end up with the same mssfix value all they
          * all result in the same CBC block size/padding and <= 991 and >=1008
@@ -420,6 +428,34 @@ test_mssfix_mtu_calculation(void **state)
             assert_int_equal(f.mss_fix, 927);
         }
     }
+#ifdef USE_COMP
+    o.comp.alg = COMP_ALG_LZO;
+
+    /* Same but with compression added. Compression adds one byte extra to the
+     * payload so the payload should be reduced by compared to the no
+     * compression calculation before */
+    for (int i = 990; i <= 1010; i++)
+    {
+        /* 992 - 1008 should end up with the same mssfix value all they
+         * all result in the same CBC block size/padding and <= 991 and >=1008
+         * should be one block less and more respectively */
+        o.ce.mssfix = i;
+        frame_calculate_dynamic(&f, &kt, &o, NULL);
+        if (i <= 991)
+        {
+            assert_int_equal(f.mss_fix, 910);
+        }
+        else if (i >= 1008)
+        {
+            assert_int_equal(f.mss_fix, 942);
+        }
+        else
+        {
+            assert_int_equal(f.mss_fix, 926);
+        }
+    }
+    o.comp.alg = COMP_ALG_UNDEF;
+#endif /* ifdef USE_COMP */
 
     /* tls client, auth SHA1, cipher AES-256-GCM */
     o.authname = "SHA1";
@@ -429,7 +465,7 @@ test_mssfix_mtu_calculation(void **state)
     o.use_peer_id = true;
     init_key_type(&kt, o.ciphername, o.authname, true, false);
 
-    for (int i=900;i <= 1200;i++)
+    for (int i = 900; i <= 1200; i++)
     {
         /* For stream ciphers, the value should not be influenced by block
          * sizes or similar but always have the same difference */

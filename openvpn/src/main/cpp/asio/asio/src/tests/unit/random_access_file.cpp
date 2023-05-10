@@ -2,7 +2,7 @@
 // random_access_file.cpp
 // ~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -80,6 +80,9 @@ void test()
 
 #if defined(ASIO_HAS_MOVE)
     random_access_file file9(std::move(file8));
+
+    basic_random_access_file<io_context::executor_type> file10(ioc);
+    random_access_file file11(std::move(file10));
 #endif // defined(ASIO_HAS_MOVE)
 
     // basic_random_access_file operators.
@@ -87,6 +90,7 @@ void test()
 #if defined(ASIO_HAS_MOVE)
     file1 = random_access_file(ioc);
     file1 = std::move(file2);
+    file1 = std::move(file10);
 #endif // defined(ASIO_HAS_MOVE)
 
     // basic_io_object functions.
@@ -115,6 +119,11 @@ void test()
 
     random_access_file::native_handle_type native_file5 = file1.native_handle();
     (void)native_file5;
+
+    random_access_file::native_handle_type native_file6 = file1.release();
+    (void)native_file6;
+    random_access_file::native_handle_type native_file7 = file1.release(ec);
+    (void)native_file7;
 
     file1.cancel();
     file1.cancel(ec);

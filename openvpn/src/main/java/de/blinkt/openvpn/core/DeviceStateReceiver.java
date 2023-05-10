@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 
 import de.blinkt.openvpn.R;
@@ -43,7 +44,7 @@ public class DeviceStateReceiver extends BroadcastReceiver implements ByteCountL
     connectState userpause = connectState.SHOULDBECONNECTED;
 
     private String lastStateMsg = null;
-    private java.lang.Runnable mDelayDisconnectRunnable = new Runnable() {
+    private final java.lang.Runnable mDelayDisconnectRunnable = new Runnable() {
         @Override
         public void run() {
             if (!(network == connectState.PENDINGDISCONNECT))
@@ -81,7 +82,7 @@ public class DeviceStateReceiver extends BroadcastReceiver implements ByteCountL
         long data;
     }
 
-    private LinkedList<Datapoint> trafficdata = new LinkedList<>();
+    private final LinkedList<Datapoint> trafficdata = new LinkedList<>();
 
 
     @Override
@@ -126,11 +127,11 @@ public class DeviceStateReceiver extends BroadcastReceiver implements ByteCountL
         }
     }
 
-    public DeviceStateReceiver(OpenVPNManagement magnagement) {
+    public DeviceStateReceiver(OpenVPNManagement management) {
         super();
-        mManagement = magnagement;
+        mManagement = management;
         mManagement.setPauseCallback(this);
-        mDisconnectHandler = new Handler();
+        mDisconnectHandler = new Handler(Looper.getMainLooper());
     }
 
 
@@ -169,7 +170,6 @@ public class DeviceStateReceiver extends BroadcastReceiver implements ByteCountL
 
         }
     }
-
 
     private void fillTrafficData() {
         trafficdata.add(new Datapoint(System.currentTimeMillis(), TRAFFIC_LIMIT));

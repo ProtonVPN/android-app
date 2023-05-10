@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -32,73 +32,76 @@
 
 namespace openvpn {
 
-  class ASIOSignals : public RC<thread_safe_refcount>
-  {
+class ASIOSignals : public RC<thread_safe_refcount>
+{
   public:
     typedef RCPtr<ASIOSignals> Ptr;
 
-    ASIOSignals(openvpn_io::io_context& io_context)
-      : halt(false), signals_(io_context) {}
+    ASIOSignals(openvpn_io::io_context &io_context)
+        : halt(false), signals_(io_context)
+    {
+    }
 
-    enum {
-      S_SIGINT  = (1<<0),
-      S_SIGTERM = (1<<1),
+    enum
+    {
+        S_SIGINT = (1 << 0),
+        S_SIGTERM = (1 << 1),
 #ifndef OPENVPN_PLATFORM_WIN
-      S_SIGQUIT = (1<<2),
-      S_SIGHUP  = (1<<3),
-      S_SIGUSR1  = (1<<4),
-      S_SIGUSR2  = (1<<5),
+        S_SIGQUIT = (1 << 2),
+        S_SIGHUP = (1 << 3),
+        S_SIGUSR1 = (1 << 4),
+        S_SIGUSR2 = (1 << 5),
 #endif
     };
 
     template <typename SignalHandler>
-    void register_signals(SignalHandler stop_handler, unsigned int sigmask = (S_SIGINT|S_SIGTERM))
+    void register_signals(SignalHandler stop_handler, unsigned int sigmask = (S_SIGINT | S_SIGTERM))
     {
-      if (sigmask & S_SIGINT)
-	signals_.add(SIGINT);
-      if (sigmask & S_SIGTERM)
-	signals_.add(SIGTERM);
+        if (sigmask & S_SIGINT)
+            signals_.add(SIGINT);
+        if (sigmask & S_SIGTERM)
+            signals_.add(SIGTERM);
 #ifndef OPENVPN_PLATFORM_WIN
-      if (sigmask & S_SIGQUIT)
-	signals_.add(SIGQUIT);
-      if (sigmask & S_SIGHUP)
-	signals_.add(SIGHUP);
-      if (sigmask & S_SIGUSR1)
-	signals_.add(SIGUSR1);
-      if (sigmask & S_SIGUSR2)
-	signals_.add(SIGUSR2);
+        if (sigmask & S_SIGQUIT)
+            signals_.add(SIGQUIT);
+        if (sigmask & S_SIGHUP)
+            signals_.add(SIGHUP);
+        if (sigmask & S_SIGUSR1)
+            signals_.add(SIGUSR1);
+        if (sigmask & S_SIGUSR2)
+            signals_.add(SIGUSR2);
 #endif
-      signals_.async_wait(stop_handler);
+        signals_.async_wait(stop_handler);
     }
 
     template <typename SignalHandler>
     void register_signals_all(SignalHandler stop_handler)
     {
-      register_signals(stop_handler,
-		         S_SIGINT
-		       | S_SIGTERM
+        register_signals(stop_handler,
+                         S_SIGINT
+                             | S_SIGTERM
 #ifndef OPENVPN_PLATFORM_WIN
-		       | S_SIGHUP
-		       | S_SIGUSR1
-		       | S_SIGUSR2
+                             | S_SIGHUP
+                             | S_SIGUSR1
+                             | S_SIGUSR2
 #endif
-		       );
+        );
     }
 
     void cancel()
     {
-      if (!halt)
-	{
-	  halt = true;
-	  signals_.cancel();
-	}
+        if (!halt)
+        {
+            halt = true;
+            signals_.cancel();
+        }
     }
 
   private:
     bool halt;
     openvpn_io::signal_set signals_;
-  };
+};
 
-}
+} // namespace openvpn
 
 #endif

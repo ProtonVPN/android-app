@@ -2,8 +2,8 @@
  *  tapctl -- Utility to manipulate TUN/TAP adapters on Windows
  *            https://community.openvpn.net/openvpn/wiki/Tapctl
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
- *  Copyright (C) 2018-2021 Simon Rozman <simon@rozman.si>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2018-2023 Simon Rozman <simon@rozman.si>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -24,9 +24,6 @@
 #elif defined(_MSC_VER)
 #include <config-msvc.h>
 #endif
-#ifdef HAVE_CONFIG_VERSION_H
-#include <config-version.h>
-#endif
 
 #include "tap.h"
 #include "error.h"
@@ -44,7 +41,6 @@
 
 const TCHAR title_string[] =
     TEXT(PACKAGE_NAME) TEXT(" ") TEXT(PACKAGE_VERSION)
-    TEXT(" built on ") TEXT(__DATE__)
 ;
 
 static const TCHAR usage_message[] =
@@ -187,8 +183,7 @@ _tmain(int argc, LPCTSTR argv[])
             {
                 szName = argv[++i];
             }
-            else
-            if (_tcsicmp(argv[i], TEXT("--hwid")) == 0)
+            else if (_tcsicmp(argv[i], TEXT("--hwid")) == 0)
             {
                 szHwId = argv[++i];
             }

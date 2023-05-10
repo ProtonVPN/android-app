@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -177,6 +177,38 @@ static int s390x_shake_final(unsigned char *md, void *vctx)
     return 1;
 }
 
+static int s390x_keccakc_final(unsigned char *md, void *vctx, int padding)
+{
+    KECCAK1600_CTX *ctx = vctx;
+    size_t bsz = ctx->block_size;
+    size_t num = ctx->bufsz;
+    size_t needed = ctx->md_size;
+    static const unsigned char empty[KECCAK1600_WIDTH / 8] = {0};
+
+    if (!ossl_prov_is_running())
+        return 0;
+    if (ctx->md_size == 0)
+        return 1;
+    memset(ctx->buf + num, 0, bsz - num);
+    ctx->buf[num] = padding;
+    ctx->buf[bsz - 1] |= 0x80;
+    s390x_kimd(ctx->buf, bsz, ctx->pad, ctx->A);
+    while (needed > bsz) {
+        memcpy(md, ctx->A, bsz);
+        needed -= bsz;
+        md += bsz;
+        s390x_kimd(empty, bsz, ctx->pad, ctx->A);
+    }
+    memcpy(md, ctx->A, needed);
+
+    return 1;
+}
+
+static int s390x_kmac_final(unsigned char *md, void *vctx)
+{
+    return s390x_keccakc_final(md, vctx, 0x04);
+}
+
 static PROV_SHA3_METHOD sha3_s390x_md =
 {
     s390x_sha3_absorb,
@@ -189,6 +221,12 @@ static PROV_SHA3_METHOD shake_s390x_md =
     s390x_shake_final
 };
 
+static PROV_SHA3_METHOD kmac_s390x_md =
+{
+    s390x_sha3_absorb,
+    s390x_kmac_final
+};
+
 # define SHA3_SET_MD(uname, typ)                                               \
     if (S390_SHA3_CAPABLE(uname)) {                                            \
         ctx->pad = S390X_##uname;                                              \
@@ -196,8 +234,16 @@ static PROV_SHA3_METHOD shake_s390x_md =
     } else {                                                                   \
         ctx->meth = sha3_generic_md;                                           \
     }
+# define KMAC_SET_MD(bitlen)                                                   \
+    if (S390_SHA3_CAPABLE(SHAKE_##bitlen)) {                                   \
+        ctx->pad = S390X_SHAKE_##bitlen;                                       \
+        ctx->meth = kmac_s390x_md;                                             \
+    } else {                                                                   \
+        ctx->meth = sha3_generic_md;                                           \
+    }
 #else
 # define SHA3_SET_MD(uname, typ) ctx->meth = sha3_generic_md;
+# define KMAC_SET_MD(bitlen) ctx->meth = sha3_generic_md;
 #endif /* S390_SHA3 */
 
 #define SHA3_newctx(typ, uname, name, bitlen, pad)                             \
@@ -224,7 +270,7 @@ static void *uname##_newctx(void *provctx)                                     \
     if (ctx == NULL)                                                           \
         return NULL;                                                           \
     ossl_keccak_kmac_init(ctx, pad, bitlen);                                   \
-    ctx->meth = sha3_generic_md;                                               \
+    KMAC_SET_MD(bitlen)                                                        \
     return ctx;                                                                \
 }
 
@@ -262,7 +308,7 @@ static void *keccak_dupctx(void *ctx)
 {
     KECCAK1600_CTX *in = (KECCAK1600_CTX *)ctx;
     KECCAK1600_CTX *ret = ossl_prov_is_running() ? OPENSSL_malloc(sizeof(*ret))
-                                                : NULL;
+                                                 : NULL;
 
     if (ret != NULL)
         *ret = *in;

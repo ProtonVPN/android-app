@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -126,7 +126,7 @@ recv_line(socket_descriptor_t sd,
         }
 
         /* read single char */
-        size = recv(sd, &c, 1, MSG_NOSIGNAL);
+        size = recv(sd, (void *)&c, 1, MSG_NOSIGNAL);
 
         /* error? */
         if (size != 1)
@@ -519,6 +519,8 @@ http_proxy_new(const struct http_proxy_options *o)
 #if NTLM
         else if (!strcmp(o->auth_method_string, "ntlm"))
         {
+            msg(M_INFO, "NTLM v1 authentication is deprecated and will be removed in "
+                "OpenVPN 2.7");
             p->auth_method = HTTP_AUTH_NTLM;
         }
         else if (!strcmp(o->auth_method_string, "ntlm2"))
@@ -634,7 +636,7 @@ establish_http_proxy_passthru(struct http_proxy_info *p,
                               const char *port,          /* openvpn server port */
                               struct event_timeout *server_poll_timeout,
                               struct buffer *lookahead,
-                              volatile int *signal_received)
+                              struct signal_info *sig_info)
 {
     struct gc_arena gc = gc_new();
     char buf[512];
@@ -644,6 +646,7 @@ establish_http_proxy_passthru(struct http_proxy_info *p,
     int nparms;
     bool ret = false;
     bool processed = false;
+    volatile int *signal_received = &sig_info->signal_received;
 
     /* get user/pass if not previously given */
     if (p->auth_method == HTTP_AUTH_BASIC
@@ -1077,10 +1080,7 @@ done:
     return ret;
 
 error:
-    if (!*signal_received)
-    {
-        *signal_received = SIGUSR1; /* SOFT-SIGUSR1 -- HTTP proxy error */
-    }
+    register_signal(sig_info, SIGUSR1, "HTTP proxy error"); /* SOFT-SIGUSR1 -- HTTP proxy error */
     gc_free(&gc);
     return ret;
 }

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -39,26 +39,26 @@
 
 namespace openvpn {
 
-  OPENVPN_EXCEPTION(openssl_engine_error);
+OPENVPN_EXCEPTION(openssl_engine_error);
 
-  inline void openssl_setup_engine (const std::string& engine)
-  {
+inline void openssl_setup_engine(const std::string &engine)
+{
 #ifndef OPENSSL_NO_ENGINE
-    ENGINE_load_builtin_engines ();
+    ENGINE_load_builtin_engines();
 
     if (engine == "auto")
-      {
-	ENGINE_register_all_complete ();
-	return;
-      }
+    {
+        ENGINE_register_all_complete();
+        return;
+    }
 
-    ENGINE *e = ENGINE_by_id (engine.c_str());
+    ENGINE *e = ENGINE_by_id(engine.c_str());
     if (!e)
-      throw openssl_engine_error();
-    if (!ENGINE_set_default (e, ENGINE_METHOD_ALL))
-      throw openssl_engine_error();
+        throw openssl_engine_error();
+    if (!ENGINE_set_default(e, ENGINE_METHOD_ALL))
+        throw openssl_engine_error();
 #endif
-  }
+}
 
 } // namespace openvpn
 

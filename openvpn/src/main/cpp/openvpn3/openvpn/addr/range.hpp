@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,107 +31,133 @@
 #include <openvpn/addr/ip.hpp>
 
 namespace openvpn {
-  namespace IP {
+namespace IP {
 
-    // Denote a range of IP addresses with a start and extent,
-    // where A represents an address class.
-    // A should be a network address class such as IP::Addr, IPv4::Addr, or IPv6::Addr.
+// Denote a range of IP addresses with a start and extent,
+// where A represents an address class.
+// A should be a network address class such as IP::Addr, IPv4::Addr, or IPv6::Addr.
 
-    template <typename ADDR>
-    class RangeType
+template <typename ADDR>
+class RangeType
+{
+  public:
+    class Iterator
     {
-    public:
-      class Iterator
-      {
-	friend class RangeType;
+        friend class RangeType;
+
       public:
-	bool more() const { return remaining_ > 0; }
+        bool more() const
+        {
+            return remaining_ > 0;
+        }
 
-	const ADDR& addr() const { return addr_; }
+        const ADDR &addr() const
+        {
+            return addr_;
+        }
 
-	void next()
-	{
-	  if (more())
-	    {
-	      ++addr_;
-	      --remaining_;
-	    }
-	}
+        void next()
+        {
+            if (more())
+            {
+                ++addr_;
+                --remaining_;
+            }
+        }
 
       private:
-	Iterator(const RangeType& range)
-	  : addr_(range.start_), remaining_(range.extent_) {}
+        Iterator(const RangeType &range)
+            : addr_(range.start_), remaining_(range.extent_)
+        {
+        }
 
-	ADDR addr_;
-	size_t remaining_;
-      };
-
-      RangeType() : extent_(0) {}
-
-      RangeType(const ADDR& start, const size_t extent)
-	: start_(start), extent_(extent) {}
-
-      Iterator iterator() const { return Iterator(*this); }
-
-      bool defined() const { return extent_ > 0; }
-      const ADDR& start() const { return start_; }
-      size_t extent() const { return extent_; }
-
-      RangeType pull_front(size_t extent)
-      {
-	if (extent > extent_)
-	  extent = extent_;
-	RangeType ret(start_, extent);
-	start_ += extent;
-	extent_ -= extent;
-	return ret;
-      }
-
-      std::string to_string() const
-      {
-	std::ostringstream os;
-	os << start_.to_string() << '[' << extent_ << ']';
-	return os.str();
-      }
-
-    private:
-      ADDR start_;
-      size_t extent_;
+        ADDR addr_;
+        size_t remaining_;
     };
 
-    template <typename ADDR>
-    class RangePartitionType
+    RangeType()
+        : extent_(0)
     {
-    public:
-      RangePartitionType(const RangeType<ADDR>& src_range, const size_t n_partitions)
-	: range(src_range),
-	  remaining(n_partitions)
-      {
-      }
+    }
 
-      bool next(RangeType<ADDR>& r)
-      {
-	if (remaining)
-	  {
-	    if (remaining > 1)
-	      r = range.pull_front(range.extent() / remaining);
-	    else
-	      r = range;
-	    --remaining;
-	    return r.defined();
-	  }
-	else
-	  return false;
-      }
+    RangeType(const ADDR &start, const size_t extent)
+        : start_(start), extent_(extent)
+    {
+    }
 
-    private:
-      RangeType<ADDR> range;
-      size_t remaining;
-    };
+    Iterator iterator() const
+    {
+        return Iterator(*this);
+    }
 
-    typedef RangeType<IP::Addr> Range;
-    typedef RangePartitionType<IP::Addr> RangePartition;
-  }
-}
+    bool defined() const
+    {
+        return extent_ > 0;
+    }
+    const ADDR &start() const
+    {
+        return start_;
+    }
+    size_t extent() const
+    {
+        return extent_;
+    }
+
+    RangeType pull_front(size_t extent)
+    {
+        if (extent > extent_)
+            extent = extent_;
+        RangeType ret(start_, extent);
+        start_ += extent;
+        extent_ -= extent;
+        return ret;
+    }
+
+    std::string to_string() const
+    {
+        std::ostringstream os;
+        os << start_.to_string() << '[' << extent_ << ']';
+        return os.str();
+    }
+
+  private:
+    ADDR start_;
+    size_t extent_;
+};
+
+template <typename ADDR>
+class RangePartitionType
+{
+  public:
+    RangePartitionType(const RangeType<ADDR> &src_range, const size_t n_partitions)
+        : range(src_range),
+          remaining(n_partitions)
+    {
+    }
+
+    bool next(RangeType<ADDR> &r)
+    {
+        if (remaining)
+        {
+            if (remaining > 1)
+                r = range.pull_front(range.extent() / remaining);
+            else
+                r = range;
+            --remaining;
+            return r.defined();
+        }
+        else
+            return false;
+    }
+
+  private:
+    RangeType<ADDR> range;
+    size_t remaining;
+};
+
+typedef RangeType<IP::Addr> Range;
+typedef RangePartitionType<IP::Addr> RangePartition;
+} // namespace IP
+} // namespace openvpn
 
 #endif

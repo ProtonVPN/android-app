@@ -2,7 +2,7 @@ LIBS=../../libcrypto
 
 $BFASM=bf_enc.c
 IF[{- !$disabled{asm} -}]
-  $BFASM_x86=bf-586.s
+  $BFASM_x86=bf-586.S
 
   # Now that we have defined all the arch specific variables, use the
   # appropriate one
@@ -17,9 +17,9 @@ SOURCE[../../libcrypto]=$ALL
 
 # When all deprecated symbols are removed, libcrypto doesn't export the
 # blowfish functions, so we must include them directly in liblegacy.a
-IF[{- $disabled{'deprecated-3.0'} -}]
+IF[{- $disabled{'deprecated-3.0'} && !$disabled{module} && !$disabled{shared} -}]
   SOURCE[../../providers/liblegacy.a]=$ALL
 ENDIF
 
-GENERATE[bf-586.s]=asm/bf-586.pl
-DEPEND[bf-586.s]=../perlasm/x86asm.pl ../perlasm/cbc.pl
+GENERATE[bf-586.S]=asm/bf-586.pl
+DEPEND[bf-586.S]=../perlasm/x86asm.pl ../perlasm/cbc.pl

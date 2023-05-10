@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -17,7 +17,6 @@
 #include <openssl/core_dispatch.h>
 #include <openssl/evp.h>
 #include <openssl/sha.h>
-#include <openssl/evp.h>
 #include <openssl/params.h>
 #include <openssl/core_names.h>
 #include "prov/digestcommon.h"
@@ -92,4 +91,3 @@ IMPLEMENT_digest_functions(sha512_224, SHA512_CTX,
 IMPLEMENT_digest_functions(sha512_256, SHA512_CTX,
                            SHA512_CBLOCK, SHA256_DIGEST_LENGTH, SHA2_FLAGS,
                            sha512_256_init, SHA512_Update, SHA512_Final)
-

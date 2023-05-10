@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -80,6 +80,9 @@ static int print_labeled_bignum(BIO *out, const char *label, const BIGNUM *bn)
     }
 
     hex_str = BN_bn2hex(bn);
+    if (hex_str == NULL)
+        return 0;
+
     p = hex_str;
     if (*p == '-') {
         ++p;
@@ -217,6 +220,7 @@ static int dh_to_text(BIO *out, const void *key, int selection)
     const BIGNUM *priv_key = NULL, *pub_key = NULL;
     const FFC_PARAMS *params = NULL;
     const BIGNUM *p = NULL;
+    long length;
 
     if (out == NULL || dh == NULL) {
         ERR_raise(ERR_LIB_PROV, ERR_R_PASSED_NULL_PARAMETER);
@@ -268,6 +272,11 @@ static int dh_to_text(BIO *out, const void *key, int selection)
         return 0;
     if (params != NULL
         && !ffc_params_to_text(out, params))
+        return 0;
+    length = DH_get_length(dh);
+    if (length > 0
+        && BIO_printf(out, "recommended-private-length: %ld bits\n",
+                      length) <= 0)
         return 0;
 
     return 1;

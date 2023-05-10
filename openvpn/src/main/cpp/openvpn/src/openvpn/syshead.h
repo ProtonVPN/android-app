@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -29,8 +29,8 @@
 
 /* branch prediction hints */
 #if defined(__GNUC__)
-#define likely(x)       __builtin_expect((x),1)
-#define unlikely(x)     __builtin_expect((x),0)
+#define likely(x)       __builtin_expect((x), 1)
+#define unlikely(x)     __builtin_expect((x), 0)
 #else
 #define likely(x)      (x)
 #define unlikely(x)    (x)
@@ -48,7 +48,6 @@
 #ifdef _MSC_VER /* Visual Studio */
 #define __func__ __FUNCTION__
 #define __attribute__(x)
-#include <inttypes.h>
 #endif
 
 #if defined(__APPLE__)
@@ -222,10 +221,6 @@
 #include <sys/sockio.h>
 #endif
 
-#ifdef HAVE_NETINET_IN_SYSTM_H
-#include <netinet/in_systm.h>
-#endif
-
 #ifdef HAVE_NETINET_IP_H
 #include <netinet/ip.h>
 #endif
@@ -240,10 +235,6 @@
 
 #ifdef HAVE_SYS_UIO_H
 #include <sys/uio.h>
-#endif
-
-#ifdef HAVE_NETINET_IN_SYSTM_H
-#include <netinet/in_systm.h>
 #endif
 
 #ifdef HAVE_NETINET_IP_H
@@ -264,10 +255,6 @@
 
 #ifdef HAVE_SYS_UIO_H
 #include <sys/uio.h>
-#endif
-
-#ifdef HAVE_NETINET_IN_SYSTM_H
-#include <netinet/in_systm.h>
 #endif
 
 #ifdef HAVE_NETINET_IP_H
@@ -300,10 +287,6 @@
 
 #ifdef HAVE_SYS_UIO_H
 #include <sys/uio.h>
-#endif
-
-#ifdef HAVE_NETINET_IN_SYSTM_H
-#include <netinet/in_systm.h>
 #endif
 
 #ifdef HAVE_NETINET_IP_H
@@ -371,7 +354,7 @@ typedef int MIB_TCP_STATE;
 /*
  * Do we have the capability to report extended socket errors?
  */
-#if defined(HAVE_LINUX_TYPES_H) && defined(HAVE_LINUX_ERRQUEUE_H) && defined(HAVE_SOCK_EXTENDED_ERR) && defined(HAVE_MSGHDR) && defined(HAVE_CMSGHDR) && defined(CMSG_FIRSTHDR) && defined(CMSG_NXTHDR) && defined(IP_RECVERR) && defined(MSG_ERRQUEUE) && defined(SOL_IP)
+#if defined(HAVE_LINUX_TYPES_H) && defined(HAVE_LINUX_ERRQUEUE_H)
 #define EXTENDED_SOCKET_ERROR_CAPABILITY 1
 #else
 #define EXTENDED_SOCKET_ERROR_CAPABILITY 0
@@ -442,9 +425,11 @@ typedef unsigned short sa_family_t;
  */
 #ifdef _WIN32
 #define SOCKET_UNDEFINED (INVALID_SOCKET)
+#define SOCKET_PRINTF "%" PRIxPTR
 typedef SOCKET socket_descriptor_t;
 #else
 #define SOCKET_UNDEFINED (-1)
+#define SOCKET_PRINTF "%d"
 typedef int socket_descriptor_t;
 #endif
 
@@ -497,8 +482,8 @@ socket_defined(const socket_descriptor_t sd)
 /*
  * Do we have CryptoAPI capability?
  */
-#if defined(_WIN32) && defined(ENABLE_CRYPTO_OPENSSL) && \
-        !defined(ENABLE_CRYPTO_WOLFSSL)
+#if defined(_WIN32) && defined(ENABLE_CRYPTO_OPENSSL)    \
+    && !defined(ENABLE_CRYPTO_WOLFSSL)
 #define ENABLE_CRYPTOAPI
 #endif
 

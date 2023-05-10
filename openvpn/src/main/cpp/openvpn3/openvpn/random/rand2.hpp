@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,29 +27,36 @@
 
 namespace openvpn {
 
-  // By convention, rng is crypto-strength while prng is
-  // not.  Be sure to always call RandomAPI::assert_crypto()
-  // before using an rng for crypto purposes, to verify that
-  // it is crypto-capable.
-  struct Rand2
-  {
-    Rand2() {}
+// By convention, rng is crypto-strength while prng is
+// not.  Be sure to always call RandomAPI::assert_crypto()
+// before using an rng for crypto purposes, to verify that
+// it is crypto-capable.
+struct Rand2
+{
+    Rand2()
+    {
+    }
 
     Rand2(RandomAPI::Ptr rng_arg,
-	  RandomAPI::Ptr prng_arg)
-      : rng(std::move(rng_arg)),
-	prng(std::move(prng_arg))
+          RandomAPI::Ptr prng_arg)
+        : rng(std::move(rng_arg)),
+          prng(std::move(prng_arg))
     {
     }
 
     Rand2(RandomAPI::Ptr rng_arg)
-      : rng(std::move(rng_arg)),
-	prng(std::move(rng_arg))
+        : rng(rng_arg),
+          prng(rng_arg)
     {
+    }
+
+    bool defined() const
+    {
+        return rng && prng;
     }
 
     RandomAPI::Ptr rng;
     RandomAPI::Ptr prng;
-  };
+};
 
-}
+} // namespace openvpn

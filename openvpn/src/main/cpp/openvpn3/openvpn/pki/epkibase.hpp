@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -26,17 +26,25 @@
 
 namespace openvpn {
 
-  // Abstract base class used to provide an interface where core SSL implementation
-  // can use an external private key.
-  class ExternalPKIBase
-  {
+// Abstract base class used to provide an interface where core SSL implementation
+// can use an external private key.
+class ExternalPKIBase
+{
   public:
     // Sign data (base64) and return signature as sig (base64).
     // Return true on success or false on error.
-    virtual bool sign(const std::string& data, std::string& sig, const std::string& algorithm) = 0;
+    virtual bool sign(const std::string &data, std::string &sig, const std::string &algorithm, const std::string &hashalg, const std::string &saltlen) = 0;
 
-    virtual ~ExternalPKIBase() {}
-  };
-}
+    virtual ~ExternalPKIBase()
+    {
+    }
+};
+
+class ExternalPKIImpl
+{
+  public:
+    virtual ~ExternalPKIImpl() = default;
+};
+}; // namespace openvpn
 
 #endif

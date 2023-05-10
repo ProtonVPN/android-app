@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -91,7 +91,7 @@ struct tls_key_cache {
     mbedtls_tls_prf_types tls_prf_type;
     unsigned char master_secret[48];
 };
-#else
+#else  /* ifdef HAVE_EXPORT_KEYING_MATERIAL */
 struct tls_key_cache { };
 #endif
 
@@ -144,4 +144,8 @@ int tls_ctx_use_external_signing_func(struct tls_root_ctx *ctx,
                                       external_sign_func sign_func,
                                       void *sign_ctx);
 
+static inline void
+tls_clear_error(void)
+{
+}
 #endif /* SSL_MBEDTLS_H_ */

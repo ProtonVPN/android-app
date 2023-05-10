@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
@@ -344,6 +344,7 @@ int BN_gcd(BIGNUM *r, const BIGNUM *a, const BIGNUM *b, BN_CTX *ctx);
 int BN_kronecker(const BIGNUM *a, const BIGNUM *b, BN_CTX *ctx); /* returns
                                                                   * -2 for
                                                                   * error */
+int BN_are_coprime(BIGNUM *a, const BIGNUM *b, BN_CTX *ctx);
 BIGNUM *BN_mod_inverse(BIGNUM *ret,
                        const BIGNUM *a, const BIGNUM *n, BN_CTX *ctx);
 BIGNUM *BN_mod_sqrt(BIGNUM *ret,

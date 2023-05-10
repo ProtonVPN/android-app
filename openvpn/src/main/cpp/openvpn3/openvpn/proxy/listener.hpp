@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -24,14 +24,13 @@
 #include <openvpn/common/rc.hpp>
 #include <openvpn/acceptor/base.hpp>
 
-namespace openvpn
+namespace openvpn {
+// generic structure implemented by the various proxies used by PGProxy
+struct ProxyListener : public Acceptor::ListenerBase
 {
-  // generic structure implemented by the various proxies used by PGProxy
-  struct ProxyListener : public Acceptor::ListenerBase
-  {
     typedef RCPtr<ProxyListener> Ptr;
 
     virtual void start() = 0;
     virtual void stop() = 0;
-  };
-}
+};
+} // namespace openvpn

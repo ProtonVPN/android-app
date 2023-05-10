@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -28,13 +28,15 @@
 
 namespace openvpn {
 
-  struct DestructorBase : public RC<thread_unsafe_refcount>
-  {
+struct DestructorBase : public RC<thread_unsafe_refcount>
+{
     typedef RCPtr<DestructorBase> Ptr;
-    virtual void destroy(std::ostream& os) = 0;
-    virtual ~DestructorBase() {}
-  };
+    virtual void destroy(std::ostream &os) = 0;
+    virtual ~DestructorBase()
+    {
+    }
+};
 
-}
+} // namespace openvpn
 
 #endif

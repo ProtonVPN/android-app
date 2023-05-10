@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -39,6 +39,7 @@
 #include "mtcp.h"
 #include "perf.h"
 #include "vlan.h"
+#include "reflect_filter.h"
 
 #define MULTI_PREFIX_MAX_LENGTH 256
 
@@ -98,7 +99,9 @@ struct client_connect_defer_state
  * server-mode.
  */
 struct multi_instance {
-    struct schedule_entry se;  /* this must be the first element of the structure */
+    struct schedule_entry se;  /* this must be the first element of the structure,
+                                * We cast between this and schedule_entry so the
+                                * beginning of the struct must be identical */
     struct gc_arena gc;
     bool halt;
     int refcount;
@@ -168,6 +171,7 @@ struct multi_context {
                                  *   as external transport. */
     struct ifconfig_pool *ifconfig_pool;
     struct frequency_limit *new_connection_limiter;
+    struct initial_packet_rate_limit *initial_rate_limiter;
     struct mroute_helper *route_helper;
     struct multi_reap *reaper;
     struct mroute_addr local;
@@ -190,6 +194,9 @@ struct multi_context {
 
     struct context top;         /**< Storage structure for process-wide
                                  *   configuration. */
+
+    struct buffer hmac_reply;
+    struct link_socket_actual *hmac_reply_dest;
 
     /*
      * Timer object for stale route check
@@ -307,6 +314,16 @@ void multi_process_float(struct multi_context *m, struct multi_instance *mi);
  */
 bool multi_process_post(struct multi_context *m, struct multi_instance *mi, const unsigned int flags);
 
+/**
+ * Process an incoming DCO message (from kernel space).
+ *
+ * @param m            - The single \c multi_context structur.e
+ *
+ * @return
+ *  - True, if the message was received correctly.
+ *  - False, if there was an error while reading the message.
+ */
+bool multi_process_incoming_dco(struct multi_context *m);
 
 /**************************************************************************/
 /**

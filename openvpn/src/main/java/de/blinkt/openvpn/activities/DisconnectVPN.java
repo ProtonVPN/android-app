@@ -27,7 +27,7 @@ import de.blinkt.openvpn.core.VpnStatus;
  */
 public class DisconnectVPN extends Activity implements DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
     private IOpenVPNServiceInternal mService;
-    private ServiceConnection mConnection = new ServiceConnection() {
+    private final ServiceConnection mConnection = new ServiceConnection() {
 
 
 
@@ -86,6 +86,7 @@ public class DisconnectVPN extends Activity implements DialogInterface.OnClickLi
         } else if (which == DialogInterface.BUTTON_NEUTRAL) {
             Intent intent = new Intent(this, LaunchVPN.class);
             intent.putExtra(LaunchVPN.EXTRA_KEY, VpnStatus.getLastConnectedVPNProfile());
+            intent.putExtra(LaunchVPN.EXTRA_START_REASON, "Reconnect button pressed.");
             intent.setAction(Intent.ACTION_MAIN);
             startActivity(intent);
         }

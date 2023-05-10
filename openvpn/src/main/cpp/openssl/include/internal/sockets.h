@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -28,10 +28,14 @@
 
 # elif defined(OPENSSL_SYS_WINDOWS) || defined(OPENSSL_SYS_MSDOS)
 #  if defined(__DJGPP__)
+#   define WATT32
+#   define WATT32_NO_OLDIES
 #   include <sys/socket.h>
 #   include <sys/un.h>
 #   include <tcp.h>
 #   include <netdb.h>
+#   include <arpa/inet.h>
+#   include <netinet/tcp.h>
 #  elif defined(_WIN32_WCE) && _WIN32_WCE<410
 #   define getservbyname _masked_declaration_getservbyname
 #  endif
@@ -73,7 +77,7 @@ struct servent *PASCAL getservbyname(const char *, const char *);
 #   include <inet.h>
 #  else
 #   include <sys/socket.h>
-#   ifndef NO_SYS_UN_H
+#   if !defined(NO_SYS_UN_H) && defined(AF_UNIX) && !defined(OPENSSL_NO_UNIX_SOCK)
 #    include <sys/un.h>
 #    ifndef UNIX_PATH_MAX
 #     define UNIX_PATH_MAX sizeof(((struct sockaddr_un *)NULL)->sun_path)
@@ -121,6 +125,15 @@ struct servent *PASCAL getservbyname(const char *, const char *);
 #  endif
 # endif
 
+/*
+ * Some platforms define AF_UNIX, but don't support it
+ */
+# if !defined(OPENSSL_NO_UNIX_SOCK)
+#  if !defined(AF_UNIX) || defined(NO_SYS_UN_H)
+#   define OPENSSL_NO_UNIX_SOCK
+#  endif
+# endif
+
 # define get_last_socket_error() errno
 # define clear_socket_error()    errno=0
 
@@ -132,8 +145,6 @@ struct servent *PASCAL getservbyname(const char *, const char *);
 #  define readsocket(s,b,n)       recv((s),(b),(n),0)
 #  define writesocket(s,b,n)      send((s),(b),(n),0)
 # elif defined(__DJGPP__)
-#  define WATT32
-#  define WATT32_NO_OLDIES
 #  define closesocket(s)          close_s(s)
 #  define readsocket(s,b,n)       read_s(s,b,n)
 #  define writesocket(s,b,n)      send(s,b,n,0)

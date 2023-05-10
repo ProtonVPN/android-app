@@ -3,15 +3,19 @@ export JAVA_DIR=/usr/lib/jvm/java-7-openjdk-amd64
 export PLATFORM=linux
 export DEBUG_BUILD=0
 export OTHER_COMPILER_FLAGS="-Wno-unused-local-typedefs -Wno-unused-variable -Wno-shift-count-overflow -pthread"
-# Workaround for CentOS7/RHEL7 g++
-if g++ --version |grep 4.8.5 > /dev/null ; then
-    export CXX_COMPILER_FLAGS="-std=c++1y"
-else
-    export CXX_COMPILER_FLAGS="-std=c++14"
-fi
+export CXX_COMPILER_FLAGS="-std=c++17"
 export LIB_OPT_LEVEL="-O3"
 export LIB_FPIC="-fPIC"
 export GPP_CMD=g++
 export GCC_CMD=gcc
 export AR_CMD="gcc-ar rc"
 export RANLIB_CMD=gcc-ranlib
+# For Ubuntu 18
+if g++ --version |grep 7.5.0 > /dev/null ; then
+    if [ -e /usr/bin/g++-8 ]; then
+        export GPP_CMD=g++-8
+        export GCC_CMD=gcc-8
+        export AR_CMD="gcc-ar-8 rc"
+        export RANLIB_CMD=gcc-ranlib-8
+    fi
+fi

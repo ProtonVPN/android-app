@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -34,83 +34,100 @@
 #include <openvpn/ssl/sslchoose.hpp>
 
 namespace openvpn {
-  namespace AWS {
-    class HTTPContext
+namespace AWS {
+class HTTPContext
+{
+  public:
+    HTTPContext(RandomAPI::Ptr rng,
+                const int debug_level)
+        : frame_(frame_init_simple(2048)),
+          digest_factory_(new CryptoDigestFactory<SSLLib::CryptoAPI>()),
+          rng_(std::move(rng)),
+          debug_level_(debug_level)
     {
-    public:
-      HTTPContext(RandomAPI::Ptr rng,
-		  const int debug_level)
-	: frame_(frame_init_simple(2048)),
-	  digest_factory_(new CryptoDigestFactory<SSLLib::CryptoAPI>()),
-	  rng_(std::move(rng)),
-	  debug_level_(debug_level)
-      {
-	http_config_ = http_config();
-      }
+        http_config_ = http_config();
+    }
 
-      WS::ClientSet::TransactionSet::Ptr transaction_set(std::string host) const
-      {
-	WS::ClientSet::TransactionSet::Ptr ts = new WS::ClientSet::TransactionSet;
-	ts->host.host = std::move(host);
-	ts->host.port = "443";
-	ts->http_config = http_config_;
-	ts->max_retries = 10;
-	ts->retry_duration = Time::Duration::seconds(1);
-	ts->debug_level = debug_level_;
-	return ts;
-      }
+#ifdef VPN_BINDING_PROFILES
+    HTTPContext(RandomAPI::Ptr rng,
+                const int debug_level,
+                const OptionList &opt) // for VPN binding profile
+        : HTTPContext(rng, debug_level)
+    {
+        via_vpn_ = WS::ViaVPN::client_new_if_enabled(opt);
+    }
+#endif
 
-      int debug_level() const
-      {
-	return debug_level_;
-      }
+    WS::ClientSet::TransactionSet::Ptr transaction_set(std::string host) const
+    {
+        WS::ClientSet::TransactionSet::Ptr ts = new WS::ClientSet::TransactionSet;
+        ts->host.host = std::move(host);
+        ts->host.port = "443";
+#ifdef VPN_BINDING_PROFILES
+        ts->host.via_vpn = via_vpn_;
+#endif
+        ts->http_config = http_config_;
+        ts->max_retries = 10;
+        ts->retry_on_http_4xx = true;
+        ts->retry_duration = Time::Duration::seconds(1);
+        ts->debug_level = debug_level_;
+        return ts;
+    }
 
-      DigestFactory& digest_factory() const
-      {
-	return *digest_factory_;
-      }
+    int debug_level() const
+    {
+        return debug_level_;
+    }
 
-      RandomAPI* rng() const
-      {
-	return rng_.get();
-      }
+    DigestFactory &digest_factory() const
+    {
+        return *digest_factory_;
+    }
 
-    private:
-      WS::Client::Config::Ptr http_config() const
-      {
-	// SSL flags
-	unsigned int ssl_flags = 0;
-	if (debug_level_ >= 2)
-	  ssl_flags |= SSLConst::LOG_VERIFY_STATUS;
+    RandomAPI *rng() const
+    {
+        return rng_.get();
+    }
 
-	// make SSL context using awspc_web_cert() as our CA bundle
-	SSLLib::SSLAPI::Config::Ptr ssl(new SSLLib::SSLAPI::Config);
-	ssl->set_mode(Mode(Mode::CLIENT));
-	ssl->load_ca(api_ca(), false);
-	ssl->set_local_cert_enabled(false);
-	ssl->set_tls_version_min(TLSVersion::V1_2);
-	ssl->set_remote_cert_tls(KUParse::TLS_WEB_SERVER);
-	ssl->set_flags(ssl_flags);
-	ssl->set_frame(frame_);
-	ssl->set_rng(rng_);
+  private:
+    WS::Client::Config::Ptr http_config() const
+    {
+        // SSL flags
+        unsigned int ssl_flags = 0;
+        if (debug_level_ >= 2)
+            ssl_flags |= SSLConst::LOG_VERIFY_STATUS;
 
-	// make HTTP context
-	WS::Client::Config::Ptr hc(new WS::Client::Config());
-	hc->frame = frame_;
-	hc->ssl_factory = ssl->new_factory();
-	hc->user_agent = "OpenVPN-PG";
-	hc->connect_timeout = 30;
-	hc->general_timeout = 60;
-	return hc;
-      }
+        // make SSL context using awspc_web_cert() as our CA bundle
+        SSLLib::SSLAPI::Config::Ptr ssl(new SSLLib::SSLAPI::Config);
+        ssl->set_mode(Mode(Mode::CLIENT));
+        ssl->load_ca(api_ca(), false);
+        ssl->set_local_cert_enabled(false);
+        ssl->set_tls_version_min(TLSVersion::Type::V1_2);
+        ssl->set_remote_cert_tls(KUParse::TLS_WEB_SERVER);
+        ssl->set_flags(ssl_flags);
+        ssl->set_frame(frame_);
+        ssl->set_rng(rng_);
 
-      Frame::Ptr frame_;
-      DigestFactory::Ptr digest_factory_;
-      RandomAPI::Ptr rng_;
-      WS::Client::Config::Ptr http_config_;
-      int debug_level_;
-    };
-  }
-}
+        // make HTTP context
+        WS::Client::Config::Ptr hc(new WS::Client::Config());
+        hc->frame = frame_;
+        hc->ssl_factory = ssl->new_factory();
+        hc->user_agent = "OpenVPN-PG";
+        hc->connect_timeout = 30;
+        hc->general_timeout = 60;
+        return hc;
+    }
+
+    Frame::Ptr frame_;
+    DigestFactory::Ptr digest_factory_;
+    RandomAPI::Ptr rng_;
+    WS::Client::Config::Ptr http_config_;
+#ifdef VPN_BINDING_PROFILES
+    WS::ViaVPN::Ptr via_vpn_;
+#endif
+    int debug_level_;
+};
+} // namespace AWS
+} // namespace openvpn
 
 #endif

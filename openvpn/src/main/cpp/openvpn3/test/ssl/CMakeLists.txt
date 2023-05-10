@@ -5,6 +5,7 @@ set(TEST_PROTO_SITER 1 CACHE STRING "test/ssl/proto - Number of high-level itera
 option(TEST_PROTO_VERBOSE "test/ssl/proto - Enable verbose logging" OFF)
 
 add_executable(proto proto.cpp)
+add_test(ProtoTests proto)
 add_core_dependencies(proto)
 if (${TEST_PROTO_VERBOSE})
   set(PROTO_CFLAGS_VERBOSE -DVERBOSE)

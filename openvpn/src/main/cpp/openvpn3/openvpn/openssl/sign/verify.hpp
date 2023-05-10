@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -37,22 +37,23 @@
 #include <openvpn/openssl/compat.hpp>
 
 namespace openvpn {
-  namespace OpenSSLSign {
-    /*
-     * Verify signature.
-     * On success, return.
-     * On fail, throw exception.
-     */
-    inline void verify(const OpenSSLPKI::X509& cert,
-		       const std::string& sig,
-		       const std::string& data,
-		       const std::string& digest)
-    {
-      const EVP_MD *dig;
-      EVP_MD_CTX* md_ctx = nullptr;
-      EVP_PKEY *pkey = nullptr;
+namespace OpenSSLSign {
+/*
+ * Verify signature.
+ * On success, return.
+ * On fail, throw exception.
+ */
+inline void verify(const OpenSSLPKI::X509 &cert,
+                   const std::string &sig,
+                   const std::string &data,
+                   const std::string &digest)
+{
+    const EVP_MD *dig;
+    EVP_MD_CTX *md_ctx = nullptr;
+    EVP_PKEY *pkey = nullptr;
 
-      auto clean = Cleanup([&]() {
+    auto clean = Cleanup([&]()
+                         {
 	  if (pkey)
 	    EVP_PKEY_free(pkey);
 	  if (md_ctx)
@@ -61,39 +62,39 @@ namespace openvpn {
 	      EVP_MD_CTX_cleanup(md_ctx);
 #endif
 	      EVP_MD_CTX_free(md_ctx);
-	    }
-	});
+	    } });
 
-      // get digest
-      dig = EVP_get_digestbyname(digest.c_str());
-      if (!dig)
-	throw Exception("OpenSSLSign::verify: unknown digest: " + digest);
+    // get digest
+    dig = EVP_get_digestbyname(digest.c_str());
+    if (!dig)
+        throw Exception("OpenSSLSign::verify: unknown digest: " + digest);
 
-      // get public key
-      pkey = X509_get_pubkey(cert.obj());
-      if (!pkey)
-	throw Exception("OpenSSLSign::verify: no public key");
+    // get public key
+    pkey = X509_get_pubkey(cert.obj());
+    if (!pkey)
+        throw Exception("OpenSSLSign::verify: no public key");
 
-      // convert signature from base64 to binary
-      BufferAllocated binsig(1024, 0);
-      try {
-	base64->decode(binsig, sig);
-      }
-      catch (const std::exception& e)
-	{
-	  throw Exception(std::string("OpenSSLSign::verify: base64 decode error on signature: ") + e.what());
-	}
-
-      // initialize digest context
-      md_ctx = EVP_MD_CTX_new();
-
-      // verify signature
-      EVP_VerifyInit (md_ctx, dig);
-      EVP_VerifyUpdate(md_ctx, data.c_str(), data.length());
-      if (EVP_VerifyFinal(md_ctx, binsig.c_data(), binsig.length(), pkey) != 1)
-	throw OpenSSLException("OpenSSLSign::verify: verification failed");
+    // convert signature from base64 to binary
+    BufferAllocated binsig(1024, 0);
+    try
+    {
+        base64->decode(binsig, sig);
     }
-  }
+    catch (const std::exception &e)
+    {
+        throw Exception(std::string("OpenSSLSign::verify: base64 decode error on signature: ") + e.what());
+    }
+
+    // initialize digest context
+    md_ctx = EVP_MD_CTX_new();
+
+    // verify signature
+    EVP_VerifyInit(md_ctx, dig);
+    EVP_VerifyUpdate(md_ctx, data.c_str(), data.length());
+    if (EVP_VerifyFinal(md_ctx, binsig.c_data(), binsig.length(), pkey) != 1)
+        throw OpenSSLException("OpenSSLSign::verify: verification failed");
 }
+} // namespace OpenSSLSign
+} // namespace openvpn
 
 #endif

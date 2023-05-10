@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2021 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -34,8 +34,8 @@ namespace SSLLib {
 #if defined(USE_OPENSSL) && OPENSSL_VERSION_NUMBER >= 0x30000000L
 using Ctx = OSSL_LIB_CTX *;
 #else
-using Ctx = void*;
+using Ctx = void *;
 #endif
 
-}
-}
+} // namespace SSLLib
+} // namespace openvpn

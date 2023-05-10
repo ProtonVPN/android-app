@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2021 Selva Nair <selva.nair@gmail.com>
+ *  Copyright (C) 2021-2023 Selva Nair <selva.nair@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by the
@@ -25,11 +25,15 @@
 #ifndef XKEY_COMMON_H_
 #define XKEY_COMMON_H_
 
+/* Guard to only enable if OpenSSL is used and not trigger an error if mbed
+ * TLS is compiled without OpenSSL being installed */
+#if defined(ENABLE_CRYPTO_OPENSSL)
 #include <openssl/opensslv.h>
 #if OPENSSL_VERSION_NUMBER >= 0x30000010L && !defined(DISABLE_XKEY_PROVIDER)
 #define HAVE_XKEY_PROVIDER 1
 #include <openssl/provider.h>
 #include <openssl/core_dispatch.h>
+#include <openssl/ecdsa.h>
 
 /**
  * Initialization function for OpenVPN external key provider for OpenSSL
@@ -40,15 +44,15 @@ OSSL_provider_init_fn xkey_provider_init;
 #define XKEY_PROV_PROPS "provider=ovpn.xkey"
 
 /**
- * Stuct to encapsulate signature algorithm parameters to pass
+ * Struct to encapsulate signature algorithm parameters to pass
  * to sign operation.
  */
 typedef struct {
-   const char *padmode; /**< "pkcs1", "pss" or "none" */
-   const char *mdname;  /**< "SHA256" or "SHA2-256" etc. */
-   const char *saltlen; /**< "digest", "auto" or "max" */
-   const char *keytype; /**< "EC" or "RSA" */
-   const char *op;      /**< "Sign" or "DigestSign" */
+    const char *padmode; /**< "pkcs1", "pss" or "none" */
+    const char *mdname; /**< "SHA256" or "SHA2-256" etc. */
+    const char *saltlen; /**< "digest", "auto" or "max" */
+    const char *keytype; /**< "EC" or "RSA" */
+    const char *op;     /**< "Sign" or "DigestSign" */
 } XKEY_SIGALG;
 
 /**
@@ -76,8 +80,8 @@ typedef struct {
  * structure.
  */
 typedef int (XKEY_EXTERNAL_SIGN_fn)(void *handle, unsigned char *sig, size_t *siglen,
-                                 const unsigned char *tbs, size_t tbslen,
-                                 XKEY_SIGALG sigalg);
+                                    const unsigned char *tbs, size_t tbslen,
+                                    XKEY_SIGALG sigalg);
 /**
  * Signature of private key free function callback used
  * to free the opaque private key handle obtained from the
@@ -145,14 +149,44 @@ xkey_digest(const unsigned char *src, size_t srclen, unsigned char *buf,
  *
  * @returns a new EVP_PKEY in the provider's keymgmt context.
  * IMPORTANT: a reference to the handle is retained by the provider and
- * relased by callng free_op. The caller should not free it.
+ * relased by calling free_op. The caller should not free it.
  */
 EVP_PKEY *
 xkey_load_generic_key(OSSL_LIB_CTX *libctx, void *handle, EVP_PKEY *pubkey,
-                      XKEY_EXTERNAL_SIGN_fn sign_op, XKEY_PRIVKEY_FREE_fn free_op);
+                      XKEY_EXTERNAL_SIGN_fn *sign_op, XKEY_PRIVKEY_FREE_fn *free_op);
 
 extern OSSL_LIB_CTX *tls_libctx; /* Global */
 
+/**
+ * Maximum salt length for PSS signature.
+ *
+ * @param modBits    Number of bits in RSA modulus
+ * @param hLen       Length of digest to be signed
+ * @returns the maximum allowed salt length. Caller must check it's not < 0.
+ */
+static inline int
+xkey_max_saltlen(int modBits, int hLen)
+{
+    int emLen = (modBits - 1 + 7)/8; /* ceil((modBits - 1)/8) */
+
+    return emLen - hLen - 2;
+}
+
+/**
+ * @brief Convert raw ECDSA signature to DER encoded
+ * This function converts ECDSA signature provided as a buffer
+ * containing r|s to DER encoded ASN.1 expected by OpenSSL
+ * @param buf       signature containing r|s.
+ * @param len       size of signature in bytes
+ * @param capacity  max space in the buffer buf in bytes
+ * @returns the size of the converted signature or <= 0 on error.
+ * On success, buf is overwritten by its DER encoding
+ */
+int
+ecdsa_bin2der(unsigned char *buf, int len, size_t capacity);
+
 #endif /* HAVE_XKEY_PROVIDER */
+
+#endif /* ENABLE_CRYPTO_OPENSSL */
 
 #endif /* XKEY_COMMON_H_ */

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -24,16 +24,17 @@
 // private key types
 
 namespace openvpn {
-  namespace PKType {
+namespace PKType {
 
-    enum Type {
-      PK_UNKNOWN = 0,
-      PK_NONE,
-      PK_DSA,
-      PK_RSA,
-      PK_EC,
-      PK_ECDSA,
-    };
+enum Type
+{
+    PK_UNKNOWN = 0,
+    PK_NONE,
+    PK_DSA,
+    PK_RSA,
+    PK_EC,
+    PK_ECDSA,
+};
 
-  }
-}
+} // namespace PKType
+} // namespace openvpn

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -74,26 +74,6 @@ void ossl_rand_pool_cleanup(void)
 
 void ossl_rand_pool_keep_random_devices_open(int keep)
 {
-}
-
-int ossl_rand_pool_add_additional_data(RAND_POOL *pool)
-{
-    struct {
-        CRYPTO_THREAD_ID tid;
-        uint64_t time;
-    } data;
-
-    memset(&data, 0, sizeof(data));
-
-    /*
-     * Add some noise from the thread id and a high resolution timer.
-     * The thread id adds a little randomness if the drbg is accessed
-     * concurrently (which is the case for the <master> drbg).
-     */
-    data.tid = CRYPTO_THREAD_get_current_id();
-    data.time = get_timer_bits();
-
-    return ossl_rand_pool_add(pool, (unsigned char *)&data, sizeof(data), 0);
 }
 
 int ossl_pool_add_nonce_data(RAND_POOL *pool)

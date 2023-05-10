@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,8 +31,9 @@
 
 namespace openvpn {
 
-  // type container for OpenSSL Crypto-level API
-  struct OpenSSLCryptoAPI {
+// type container for OpenSSL Crypto-level API
+struct OpenSSLCryptoAPI
+{
     // cipher
     typedef OpenSSLCrypto::CipherContext CipherContext;
     typedef OpenSSLCrypto::CipherContextAEAD CipherContextAEAD;
@@ -45,7 +46,7 @@ namespace openvpn {
 
     // TLS 1.0/1.1 PRF function
     using TLS1PRF = OpenSSLCrypto::TLS1PRF;
-  };
-}
+};
+} // namespace openvpn
 
 #endif

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -20,7 +20,7 @@
 //    If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
-#include <algorithm>         // for std::min
+#include <algorithm> // for std::min
 
 #ifndef BLOCK_SIZE
 #define BLOCK_SIZE 1500
@@ -56,133 +56,142 @@ using namespace openvpn;
 
 Frame::Ptr frame_init(const size_t payload)
 {
-  const size_t headroom = 512;
-  const size_t tailroom = 512;
-  const size_t align_block = 16;
-  const unsigned int buffer_flags = 0;
+    const size_t headroom = 512;
+    const size_t tailroom = 512;
+    const size_t align_block = 16;
+    const unsigned int buffer_flags = 0;
 
-  Frame::Ptr frame(new Frame(Frame::Context(headroom, payload, tailroom, 0, align_block, buffer_flags)));
-  frame->standardize_capacity(~0);
-  return frame;
+    Frame::Ptr frame(new Frame(Frame::Context(headroom, payload, tailroom, 0, align_block, buffer_flags)));
+    frame->standardize_capacity(~0);
+    return frame;
 }
 
 class MySessionStats : public SessionStats
 {
-public:
-  typedef RCPtr<MySessionStats> Ptr;
+  public:
+    typedef RCPtr<MySessionStats> Ptr;
 
-  MySessionStats()
-  {
-    std::memset(errors, 0, sizeof(errors));
-  }
+    MySessionStats()
+    {
+        std::memset(errors, 0, sizeof(errors));
+    }
 
-  virtual void error(const size_t err_type, const std::string* text=NULL)
-  {
-    if (err_type < Error::N_ERRORS)
-      ++errors[err_type];
-  }
+    virtual void error(const size_t err_type, const std::string *text = NULL)
+    {
+        if (err_type < Error::N_ERRORS)
+            ++errors[err_type];
+    }
 
-  count_t get_error_count(const Error::Type type) const
-  {
-    if (type < Error::N_ERRORS)
-      return errors[type];
-    else
-      return 0;
-  }
+    count_t get_error_count(const Error::Type type) const
+    {
+        if (type < Error::N_ERRORS)
+            return errors[type];
+        else
+            return 0;
+    }
 
-private:
-  count_t errors[Error::N_ERRORS];
+  private:
+    count_t errors[Error::N_ERRORS];
 };
 
-inline void verify_eq(const Buffer& b1, const Buffer& b2)
+inline void verify_eq(const Buffer &b1, const Buffer &b2)
 {
-   ASSERT_EQ(b1, b2) << "decompressed data doesn't match original data";
+    ASSERT_EQ(b1, b2) << "decompressed data doesn't match original data";
 }
 
-void test(const std::string& filename,
-	  Compress& compressor,
-	  Compress& decompressor,
-	  const Frame& frame,
-	  const size_t block_size,
-	  const size_t n_compress,
-	  const size_t n_expand_per_compress,
-	  size_t& bytes,
-	  size_t& compress_bytes)
+void test(const std::string &filename,
+          Compress &compressor,
+          Compress &decompressor,
+          const Frame &frame,
+          const size_t block_size,
+          const size_t n_compress,
+          const size_t n_expand_per_compress,
+          size_t &bytes,
+          size_t &compress_bytes)
 {
-  BufferPtr source_data = read_binary(filename);
-  for (size_t offset = 0; offset < source_data->size(); offset += block_size)
+    BufferPtr source_data = read_binary(filename);
+    for (size_t offset = 0; offset < source_data->size(); offset += block_size)
     {
-      const size_t length = std::min(block_size, source_data->size() - offset);
-      BufferAllocated data_seg;
-      frame.prepare(Frame::DECRYPT_WORK, data_seg);
-      data_seg.write(source_data->data_raw() + offset, length);
-      for (size_t compress_iter = 0; compress_iter < n_compress; ++compress_iter)
-	{
-	  BufferAllocated data1(data_seg);
-	  bytes += data1.size();
-	  compressor.compress(data1, true);
-	  compress_bytes += data1.size();
-	  if (n_expand_per_compress == 1)
-	    {
-	      decompressor.decompress(data1);
-	      verify_eq(data_seg, data1);
-	    }
-	  else
-	    {
-	      for (size_t decompress_iter = 0; decompress_iter < n_expand_per_compress; ++decompress_iter)
-		{
-		  BufferAllocated data2(data1);
-		  decompressor.decompress(data2);
-		  verify_eq(data_seg, data2);
-		}
-	    }
-	}
+        const size_t length = std::min(block_size, source_data->size() - offset);
+        BufferAllocated data_seg;
+        frame.prepare(Frame::DECRYPT_WORK, data_seg);
+        data_seg.write(source_data->data_raw() + offset, length);
+        for (size_t compress_iter = 0; compress_iter < n_compress; ++compress_iter)
+        {
+            BufferAllocated data1(data_seg);
+            bytes += data1.size();
+            compressor.compress(data1, true);
+            compress_bytes += data1.size();
+            if (n_expand_per_compress == 1)
+            {
+                decompressor.decompress(data1);
+                verify_eq(data_seg, data1);
+            }
+            else
+            {
+                for (size_t decompress_iter = 0; decompress_iter < n_expand_per_compress; ++decompress_iter)
+                {
+                    BufferAllocated data2(data1);
+                    decompressor.decompress(data2);
+                    verify_eq(data_seg, data2);
+                }
+            }
+        }
     }
 }
 
-void test_with_corpus(Compress& compressor,
-		      Compress& decompressor,
-		      const Frame& frame,
-		      const size_t block_size,
-		      const size_t n_compress,
-		      const size_t n_expand_per_compress,
-		      size_t& bytes,
-		      size_t& compress_bytes)
+void test_with_corpus(Compress &compressor,
+                      Compress &decompressor,
+                      const Frame &frame,
+                      const size_t block_size,
+                      const size_t n_compress,
+                      const size_t n_expand_per_compress,
+                      size_t &bytes,
+                      size_t &compress_bytes)
 {
-  static const std::vector<std::string> filenames = {
-    "comp-testdata/alice29.txt",
-    "comp-testdata/asyoulik.txt",
-    "comp-testdata/cp.html",
-    "comp-testdata/fields.c",
-    "comp-testdata/geo.protodata",
-    "comp-testdata/grammar.lsp",
-    "comp-testdata/house.jpg",
-    "comp-testdata/html",
-    "comp-testdata/html_x_4",
-    "comp-testdata/kennedy.xls",
-    "comp-testdata/kppkn.gtb",
-    "comp-testdata/lcet10.txt",
-    "comp-testdata/mapreduce-osdi-1.pdf",
-    "comp-testdata/plrabn12.txt",
-    "comp-testdata/ptt5",
-    "comp-testdata/sum",
-    "comp-testdata/urls.10K",
-    "comp-testdata/xargs.1",
-   };
-  for (auto fn: filenames) {
-      test(std::string(UNITTEST_SOURCE_DIR) + '/' + fn, compressor, decompressor, frame, block_size, n_compress, n_expand_per_compress, bytes,
-	      compress_bytes);
-  }
+    static const std::vector<std::string> filenames = {
+        "comp-testdata/alice29.txt",
+        "comp-testdata/asyoulik.txt",
+        "comp-testdata/cp.html",
+        "comp-testdata/fields.c",
+        "comp-testdata/geo.protodata",
+        "comp-testdata/grammar.lsp",
+        "comp-testdata/house.jpg",
+        "comp-testdata/html",
+        "comp-testdata/html_x_4",
+        "comp-testdata/kennedy.xls",
+        "comp-testdata/kppkn.gtb",
+        "comp-testdata/lcet10.txt",
+        "comp-testdata/mapreduce-osdi-1.pdf",
+        "comp-testdata/plrabn12.txt",
+        "comp-testdata/ptt5",
+        "comp-testdata/sum",
+        "comp-testdata/urls.10K",
+        "comp-testdata/xargs.1",
+    };
+    for (auto fn : filenames)
+    {
+        test(std::string(UNITTEST_SOURCE_DIR) + '/' + fn,
+             compressor,
+             decompressor,
+             frame,
+             block_size,
+             n_compress,
+             n_expand_per_compress,
+             bytes,
+             compress_bytes);
+    }
 }
 
-enum class comppair {
+enum class comppair
+{
     lzo,
     lzoasym,
     snappy,
     lz4
 };
 
-void runTest(comppair alg, bool verbose=false)
+void runTest(comppair alg, bool verbose = false)
 {
     CompressContext::init_static();
     MySessionStats::Ptr stats(new MySessionStats);
@@ -192,71 +201,71 @@ void runTest(comppair alg, bool verbose=false)
     Compress::Ptr compress;
     Compress::Ptr decompress;
 
-    switch (alg) {
+    switch (alg)
+    {
 #if defined(HAVE_LZO)
     case comppair::lzoasym:
-	compress.reset(new CompressLZO(frame, stats, SUPPORT_SWAP, false));
-	decompress.reset(new CompressLZOAsym(frame, stats, SUPPORT_SWAP, false));
-	break;
+        compress.reset(new CompressLZO(frame, stats, SUPPORT_SWAP, false));
+        decompress.reset(new CompressLZOAsym(frame, stats, SUPPORT_SWAP, false));
+        break;
 
     case comppair::lzo:
-	compress.reset(new CompressLZO(frame, stats, SUPPORT_SWAP, false));
-	decompress = compress;
-	break;
+        compress.reset(new CompressLZO(frame, stats, SUPPORT_SWAP, false));
+        decompress = compress;
+        break;
 
 #endif
 #if defined(HAVE_LZ4)
     case comppair::lz4:
-	compress.reset(new CompressLZ4(frame, stats, false));
-	decompress = compress;
-	break;
+        compress.reset(new CompressLZ4(frame, stats, false));
+        decompress = compress;
+        break;
 #endif
 #if defined(HAVE_SNAPPY)
     case comppair::snappy:
-	compress.reset(new CompressSnappy(frame, stats, false));
-	decompress = compress;
-	break;
+        compress.reset(new CompressSnappy(frame, stats, false));
+        decompress = compress;
+        break;
 #endif
     default:
-	ASSERT_TRUE(false) << "compressor/decompressor pair not supported";
+        ASSERT_TRUE(false) << "compressor/decompressor pair not supported";
     }
     size_t bytes = 0;
     size_t compress_bytes = 0;
     test_with_corpus(*compress, *decompress, *frame, BLOCK_SIZE, N_COMPRESS, N_EXPAND, bytes, compress_bytes);
 
     if (verbose)
-	std::cout << "comp=" << compress->name() << '[' << N_COMPRESS << ']'
-		  << " decomp=" << decompress->name() << '[' << N_EXPAND << ']'
-		  << " blk=" << BLOCK_SIZE
-		  << " bytes=" << bytes
-		  << " comp-bytes=" << compress_bytes
-		  << " comp-ratio=" << (bytes ? (float) compress_bytes / bytes : 0.0)
-		  << std::endl;
+        std::cout << "comp=" << compress->name() << '[' << N_COMPRESS << ']'
+                  << " decomp=" << decompress->name() << '[' << N_EXPAND << ']'
+                  << " blk=" << BLOCK_SIZE
+                  << " bytes=" << bytes
+                  << " comp-bytes=" << compress_bytes
+                  << " comp-ratio=" << (bytes ? (float)compress_bytes / bytes : 0.0)
+                  << std::endl;
 }
 
-namespace unittests
-{
+namespace unittests {
 #if defined(HAVE_SNAPPY)
-    TEST(Compression, snappy)
-    {
-        runTest(comppair::snappy);
-    }
+TEST(Compression, snappy)
+{
+    runTest(comppair::snappy);
+}
 #endif
 #if defined(HAVE_LZO)
-    TEST(Compression, lzo)
-    {
-        runTest(comppair::lzo);
-    }
+TEST(Compression, lzo)
+{
+    runTest(comppair::lzo);
+}
 
-    TEST(Compression, lzoasym)
-    {
-        runTest(comppair::lzoasym);
-    }
+TEST(Compression, lzoasym)
+{
+    runTest(comppair::lzoasym);
+}
 #endif
 #if defined(HAVE_LZ4)
-    TEST(Compression, lz4)
-    {
-	runTest(comppair::lz4);
-    }
-#endif
+TEST(Compression, lz4)
+{
+    runTest(comppair::lz4);
 }
+#endif
+} // namespace unittests

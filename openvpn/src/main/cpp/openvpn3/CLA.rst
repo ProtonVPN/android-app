@@ -50,7 +50,7 @@ the open source license(s) involved.
 Part II
 #######
 
-Copyright (C) 2017-2020 OpenVPN Inc.
+Copyright (C) 2017-2022 OpenVPN Inc.
 
 In addition:
 

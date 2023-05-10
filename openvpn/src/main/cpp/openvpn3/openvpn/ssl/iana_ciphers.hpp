@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2020 OpenVPN Inc.
+//    Copyright (C) 2020-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -23,16 +23,16 @@
 
 namespace openvpn {
 
-  struct tls_cipher_name_pair
-  {
-    const char* openssl_name;
-    const char* iana_name;
-  };
+struct tls_cipher_name_pair
+{
+    const char *openssl_name;
+    const char *iana_name;
+};
 
-  /**
-   * SSL/TLS Cipher suite name translation table
-   */
-  static const tls_cipher_name_pair tls_cipher_name_translation_table[] = {
+/**
+ * SSL/TLS Cipher suite name translation table
+ */
+static const tls_cipher_name_pair tls_cipher_name_translation_table[] = {
     {"ADH-SEED-SHA", "TLS-DH-anon-WITH-SEED-CBC-SHA"},
     {"AES128-GCM-SHA256", "TLS-RSA-WITH-AES-128-GCM-SHA256"},
     {"AES128-SHA256", "TLS-RSA-WITH-AES-128-CBC-SHA256"},
@@ -156,19 +156,18 @@ namespace openvpn {
     {"SRP-DSS-AES-256-CBC-SHA", "TLS-SRP-SHA-DSS-WITH-AES-256-CBC-SHA"},
     {"SRP-RSA-3DES-EDE-CBC-SHA", "TLS-SRP-SHA-RSA-WITH-3DES-EDE-CBC-SHA"},
     {"SRP-RSA-AES-128-CBC-SHA", "TLS-SRP-SHA-RSA-WITH-AES-128-CBC-SHA"},
-    {"SRP-RSA-AES-256-CBC-SHA", "TLS-SRP-SHA-RSA-WITH-AES-256-CBC-SHA"}
-  };
+    {"SRP-RSA-AES-256-CBC-SHA", "TLS-SRP-SHA-RSA-WITH-AES-256-CBC-SHA"}};
 
-  inline const tls_cipher_name_pair*
-  tls_get_cipher_name_pair(const std::string& ciphername)
-  {
-    for (auto& pair: tls_cipher_name_translation_table)
-      {
-	if (pair.iana_name == ciphername || pair.openssl_name == ciphername)
-	  return &pair;
-      }
+inline const tls_cipher_name_pair *
+tls_get_cipher_name_pair(const std::string &ciphername)
+{
+    for (auto &pair : tls_cipher_name_translation_table)
+    {
+        if (pair.iana_name == ciphername || pair.openssl_name == ciphername)
+            return &pair;
+    }
 
     /* No entry found, return NULL */
     return NULL;
-  }
 }
+} // namespace openvpn

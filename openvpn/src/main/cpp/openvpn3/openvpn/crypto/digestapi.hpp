@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -29,20 +29,20 @@
 
 namespace openvpn {
 
-  // Digest/HMAC abstract base classes and factories
+// Digest/HMAC abstract base classes and factories
 
-  class DigestInstance : public RC<thread_unsafe_refcount>
-  {
+class DigestInstance : public RC<thread_unsafe_refcount>
+{
   public:
     typedef RCPtr<DigestInstance> Ptr;
 
     virtual void update(const unsigned char *in, const size_t size) = 0;
     virtual size_t final(unsigned char *out) = 0;
     virtual size_t size() const = 0;
-  };
+};
 
-  class HMACInstance : public RC<thread_unsafe_refcount>
-  {
+class HMACInstance : public RC<thread_unsafe_refcount>
+{
   public:
     typedef RCPtr<HMACInstance> Ptr;
 
@@ -50,10 +50,10 @@ namespace openvpn {
     virtual void update(const unsigned char *in, const size_t size) = 0;
     virtual size_t final(unsigned char *out) = 0;
     virtual size_t size() const = 0;
-  };
+};
 
-  class DigestContext : public RC<thread_unsafe_refcount>
-  {
+class DigestContext : public RC<thread_unsafe_refcount>
+{
   public:
     typedef RCPtr<DigestContext> Ptr;
 
@@ -63,11 +63,12 @@ namespace openvpn {
     virtual DigestInstance::Ptr new_digest() = 0;
 
     virtual HMACInstance::Ptr new_hmac(const unsigned char *key,
-				       const size_t key_size) = 0;
-  };
+                                       const size_t key_size)
+        = 0;
+};
 
-  class DigestFactory : public RC<thread_unsafe_refcount>
-  {
+class DigestFactory : public RC<thread_unsafe_refcount>
+{
   public:
     typedef RCPtr<DigestFactory> Ptr;
 
@@ -75,136 +76,134 @@ namespace openvpn {
 
     virtual DigestInstance::Ptr new_digest(const CryptoAlgs::Type digest_type) = 0;
 
-    virtual HMACInstance::Ptr new_hmac(const CryptoAlgs::Type digest_type,
-				       const unsigned char *key,
-				       const size_t key_size) = 0;
-  };
+    virtual HMACInstance::Ptr new_hmac(const CryptoAlgs::Type digest_type, const unsigned char *key, const size_t key_size) = 0;
+};
 
-  // Digest implementation using CRYPTO_API
+// Digest implementation using CRYPTO_API
 
-  template <typename CRYPTO_API>
-  class CryptoDigestInstance : public DigestInstance
-  {
+template <typename CRYPTO_API>
+class CryptoDigestInstance : public DigestInstance
+{
   public:
     CryptoDigestInstance(const CryptoAlgs::Type digest)
-      : impl(digest)
+        : impl(digest)
     {
     }
 
     virtual void update(const unsigned char *in, const size_t size)
     {
-      impl.update(in, size);
+        impl.update(in, size);
     }
 
     virtual size_t final(unsigned char *out)
     {
-      return impl.final(out);
+        return impl.final(out);
     }
 
     virtual size_t size() const
     {
-      return impl.size();
+        return impl.size();
     }
 
   private:
     typename CRYPTO_API::DigestContext impl;
-  };
+};
 
-  template <typename CRYPTO_API>
-  class CryptoHMACInstance : public HMACInstance
-  {
+template <typename CRYPTO_API>
+class CryptoHMACInstance : public HMACInstance
+{
   public:
     CryptoHMACInstance(const CryptoAlgs::Type digest,
-		       const unsigned char *key,
-		       const size_t key_size)
-      : impl(digest, key, key_size)
+                       const unsigned char *key,
+                       const size_t key_size)
+        : impl(digest, key, key_size)
     {
     }
 
     virtual void reset()
     {
-      impl.reset();
+        impl.reset();
     }
 
     virtual void update(const unsigned char *in, const size_t size)
     {
-      impl.update(in, size);
+        impl.update(in, size);
     }
 
     virtual size_t final(unsigned char *out)
     {
-      return impl.final(out);
+        return impl.final(out);
     }
 
     size_t size() const
     {
-      return impl.size();
+        return impl.size();
     }
 
   private:
     typename CRYPTO_API::HMACContext impl;
-  };
+};
 
-  template <typename CRYPTO_API>
-  class CryptoDigestContext : public DigestContext
-  {
+template <typename CRYPTO_API>
+class CryptoDigestContext : public DigestContext
+{
   public:
     CryptoDigestContext(const CryptoAlgs::Type digest_type)
-      : digest(digest_type)
+        : digest(digest_type)
     {
     }
 
     virtual std::string name() const
     {
-      return CryptoAlgs::name(digest);
+        return CryptoAlgs::name(digest);
     }
 
     virtual size_t size() const
     {
-      return CryptoAlgs::size(digest);
+        return CryptoAlgs::size(digest);
     }
 
     virtual DigestInstance::Ptr new_digest()
     {
-      return new CryptoDigestInstance<CRYPTO_API>(digest);
+        return new CryptoDigestInstance<CRYPTO_API>(digest);
     }
 
     virtual HMACInstance::Ptr new_hmac(const unsigned char *key,
-				       const size_t key_size)
+                                       const size_t key_size)
     {
-      return new CryptoHMACInstance<CRYPTO_API>(digest,
-						key,
-						key_size);
-  }
+        return new CryptoHMACInstance<CRYPTO_API>(digest,
+                                                  key,
+                                                  key_size);
+    }
 
-private:
+  private:
     CryptoAlgs::Type digest;
 };
 
 template <typename CRYPTO_API>
 class CryptoDigestFactory : public DigestFactory
 {
-public:
-  virtual DigestContext::Ptr new_context(const CryptoAlgs::Type digest_type)
-  {
-    return new CryptoDigestContext<CRYPTO_API>(digest_type);
-  }
+  public:
+    virtual DigestContext::Ptr new_context(const CryptoAlgs::Type digest_type)
+    {
+        return new CryptoDigestContext<CRYPTO_API>(digest_type);
+    }
 
-  virtual DigestInstance::Ptr new_digest(const CryptoAlgs::Type digest_type)
-  {
-    return new CryptoDigestInstance<CRYPTO_API>(digest_type);
-  }
+    virtual DigestInstance::Ptr new_digest(const CryptoAlgs::Type digest_type)
+    {
+        return new CryptoDigestInstance<CRYPTO_API>(digest_type);
+    }
 
-  virtual HMACInstance::Ptr new_hmac(const CryptoAlgs::Type digest_type,
-				     const unsigned char *key,
-				     const size_t key_size)
-  {
-    return new CryptoHMACInstance<CRYPTO_API>(digest_type,
-					      key,
-					      key_size);
-  }
+    virtual HMACInstance::Ptr new_hmac(const CryptoAlgs::Type digest_type,
+                                       const unsigned char *key,
+                                       const size_t key_size)
+    {
+        return new CryptoHMACInstance<CRYPTO_API>(digest_type,
+                                                  key,
+                                                  key_size);
+    }
 };
 
-}
+} // namespace openvpn
 
 #endif

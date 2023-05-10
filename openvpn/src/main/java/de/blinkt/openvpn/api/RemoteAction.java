@@ -24,10 +24,9 @@ import de.blinkt.openvpn.core.ProfileManager;
 public class RemoteAction extends Activity {
 
     public static final String EXTRA_NAME = "de.blinkt.openvpn.api.profileName";
-    private ExternalAppDatabase mExtAppDb;
     private boolean mDoDisconnect;
     private IOpenVPNServiceInternal mService;
-    private ServiceConnection mConnection = new ServiceConnection() {
+    private final ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
@@ -50,8 +49,6 @@ public class RemoteAction extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mExtAppDb = new ExternalAppDatabase(this);
     }
 
     @Override
@@ -74,24 +71,35 @@ public class RemoteAction extends Activity {
         Intent intent = getIntent();
         setIntent(null);
         ComponentName component = intent.getComponent();
-        if (component.getShortClassName().equals(".api.DisconnectVPN")) {
-            mService.stopVPN(false);
-        } else if (component.getShortClassName().equals(".api.ConnectVPN")) {
-            String vpnName = intent.getStringExtra(EXTRA_NAME);
-            VpnProfile profile = ProfileManager.getInstance(this).getProfileByName(vpnName);
-            if (profile == null) {
-                Toast.makeText(this, String.format("Vpn profile %s from API call not found", vpnName), Toast.LENGTH_LONG).show();
-            } else {
-                Intent startVPN = new Intent(this, LaunchVPN.class);
-                startVPN.putExtra(LaunchVPN.EXTRA_KEY, profile.getUUID().toString());
-                startVPN.setAction(Intent.ACTION_MAIN);
-                startActivity(startVPN);
-            }
+        if (component == null)
+            return;
+
+
+        switch (component.getShortClassName()) {
+            case ".api.DisconnectVPN":
+                mService.stopVPN(false);
+                break;
+            case ".api.PauseVPN":
+                mService.userPause(true);
+                break;
+            case ".api.ResumeVPN":
+                mService.userPause(false);
+                break;
+            case ".api.ConnectVPN":
+                String vpnName = intent.getStringExtra(EXTRA_NAME);
+                VpnProfile profile = ProfileManager.getInstance(this).getProfileByName(vpnName);
+                if (profile == null) {
+                    Toast.makeText(this, String.format("Vpn profile %s from API call not found", vpnName), Toast.LENGTH_LONG).show();
+                } else {
+                    Intent startVPN = new Intent(this, LaunchVPN.class);
+                    startVPN.putExtra(LaunchVPN.EXTRA_KEY, profile.getUUID().toString());
+                    startVPN.putExtra(LaunchVPN.EXTRA_START_REASON, ".api.ConnectVPN call");
+                    startVPN.setAction(Intent.ACTION_MAIN);
+                    startActivity(startVPN);
+                }
+                break;
         }
         finish();
-
-
-
     }
 
     @Override

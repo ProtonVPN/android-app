@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2015-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -365,7 +365,7 @@ static int cname##_ecb_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out, const uns
         return 1;\
 }
 
-#define EVP_MAXCHUNK ((size_t)1<<(sizeof(long)*8-2))
+#define EVP_MAXCHUNK ((size_t)1 << 30)
 
 #define BLOCK_CIPHER_func_ofb(cname, cprefix, cbits, kstruct, ksched) \
     static int cname##_ofb_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out, const unsigned char *in, size_t inl) \
@@ -589,6 +589,7 @@ int evp_cipher_asn1_to_param_ex(EVP_CIPHER_CTX *c, ASN1_TYPE *type,
 typedef struct {
     EVP_KEYMGMT *keymgmt;
     void *keydata;
+    int selection;
 } OP_CACHE_ELEM;
 
 DEFINE_STACK_OF(OP_CACHE_ELEM)
@@ -778,12 +779,14 @@ EVP_PKEY *evp_keymgmt_util_make_pkey(EVP_KEYMGMT *keymgmt, void *keydata);
 
 int evp_keymgmt_util_export(const EVP_PKEY *pk, int selection,
                             OSSL_CALLBACK *export_cb, void *export_cbarg);
-void *evp_keymgmt_util_export_to_provider(EVP_PKEY *pk, EVP_KEYMGMT *keymgmt);
+void *evp_keymgmt_util_export_to_provider(EVP_PKEY *pk, EVP_KEYMGMT *keymgmt,
+                                          int selection);
 OP_CACHE_ELEM *evp_keymgmt_util_find_operation_cache(EVP_PKEY *pk,
-                                                     EVP_KEYMGMT *keymgmt);
+                                                     EVP_KEYMGMT *keymgmt,
+                                                     int selection);
 int evp_keymgmt_util_clear_operation_cache(EVP_PKEY *pk, int locking);
-int evp_keymgmt_util_cache_keydata(EVP_PKEY *pk,
-                                   EVP_KEYMGMT *keymgmt, void *keydata);
+int evp_keymgmt_util_cache_keydata(EVP_PKEY *pk, EVP_KEYMGMT *keymgmt,
+                                   void *keydata, int selection);
 void evp_keymgmt_util_cache_keyinfo(EVP_PKEY *pk);
 void *evp_keymgmt_util_fromdata(EVP_PKEY *target, EVP_KEYMGMT *keymgmt,
                                 int selection, const OSSL_PARAM params[]);
@@ -838,6 +841,9 @@ const OSSL_PARAM *evp_keymgmt_export_types(const EVP_KEYMGMT *keymgmt,
                                            int selection);
 void *evp_keymgmt_dup(const EVP_KEYMGMT *keymgmt,
                       const void *keydata_from, int selection);
+EVP_KEYMGMT *evp_keymgmt_fetch_from_prov(OSSL_PROVIDER *prov,
+                                         const char *name,
+                                         const char *properties);
 
 /* Pulling defines out of C source files */
 
@@ -893,14 +899,18 @@ int evp_pkey_ctx_get1_id_len_prov(EVP_PKEY_CTX *ctx, size_t *id_len);
 int evp_pkey_ctx_use_cached_data(EVP_PKEY_CTX *ctx);
 # endif /* !defined(FIPS_MODULE) */
 
-int evp_method_store_flush(OSSL_LIB_CTX *libctx);
+int evp_method_store_cache_flush(OSSL_LIB_CTX *libctx);
+int evp_method_store_remove_all_provided(const OSSL_PROVIDER *prov);
+
 int evp_default_properties_enable_fips_int(OSSL_LIB_CTX *libctx, int enable,
                                            int loadconfig);
 int evp_set_default_properties_int(OSSL_LIB_CTX *libctx, const char *propq,
                                    int loadconfig, int mirrored);
 char *evp_get_global_properties_str(OSSL_LIB_CTX *libctx, int loadconfig);
 
-void evp_md_ctx_clear_digest(EVP_MD_CTX *ctx, int force);
+void evp_md_ctx_clear_digest(EVP_MD_CTX *ctx, int force, int keep_digest);
+/* just free the algctx if set, returns 0 on inconsistent state of ctx */
+int evp_md_ctx_free_algctx(EVP_MD_CTX *ctx);
 
 /* Three possible states: */
 # define EVP_PKEY_STATE_UNKNOWN         0

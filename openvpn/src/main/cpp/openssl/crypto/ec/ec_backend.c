@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -24,7 +24,8 @@
 #include "crypto/bn.h"
 #include "crypto/ec.h"
 #include "ec_local.h"
-#include "e_os.h"
+#include "internal/e_os.h"
+#include "internal/nelem.h"
 #include "internal/param_build_set.h"
 
 /* Mapping between a flag and a name */
@@ -54,7 +55,7 @@ int ossl_ec_encoding_name2id(const char *name)
         return OPENSSL_EC_NAMED_CURVE;
 
     for (i = 0, sz = OSSL_NELEM(encoding_nameid_map); i < sz; i++) {
-        if (strcasecmp(name, encoding_nameid_map[i].ptr) == 0)
+        if (OPENSSL_strcasecmp(name, encoding_nameid_map[i].ptr) == 0)
             return encoding_nameid_map[i].id;
     }
     return -1;
@@ -91,7 +92,7 @@ static int ec_check_group_type_name2id(const char *name)
         return 0;
 
     for (i = 0, sz = OSSL_NELEM(check_group_type_nameid_map); i < sz; i++) {
-        if (strcasecmp(name, check_group_type_nameid_map[i].ptr) == 0)
+        if (OPENSSL_strcasecmp(name, check_group_type_nameid_map[i].ptr) == 0)
             return check_group_type_nameid_map[i].id;
     }
     return -1;
@@ -136,7 +137,7 @@ int ossl_ec_pt_format_name2id(const char *name)
         return (int)POINT_CONVERSION_UNCOMPRESSED;
 
     for (i = 0, sz = OSSL_NELEM(format_nameid_map); i < sz; i++) {
-        if (strcasecmp(name, format_nameid_map[i].ptr) == 0)
+        if (OPENSSL_strcasecmp(name, format_nameid_map[i].ptr) == 0)
             return format_nameid_map[i].id;
     }
     return -1;
@@ -317,6 +318,11 @@ int ossl_ec_group_todata(const EC_GROUP *group, OSSL_PARAM_BLD *tmpl,
         ERR_raise(ERR_LIB_EC, EC_R_INVALID_ENCODING);
         return 0;
     }
+
+    if (!ossl_param_build_set_int(tmpl, params,
+                                  OSSL_PKEY_PARAM_EC_DECODED_FROM_EXPLICIT_PARAMS,
+                                  group->decoded_from_explicit_params))
+        return 0;
 
     curve_nid = EC_GROUP_get_curve_name(group);
 
@@ -518,7 +524,7 @@ static int ec_key_point_format_fromdata(EC_KEY *ec, const OSSL_PARAM params[])
     p = OSSL_PARAM_locate_const(params, OSSL_PKEY_PARAM_EC_POINT_CONVERSION_FORMAT);
     if (p != NULL) {
         if (!ossl_ec_pt_format_param2id(p, &format)) {
-            ECerr(0, EC_R_INVALID_FORM);
+            ERR_raise(ERR_LIB_EC, EC_R_INVALID_FORM);
             return 0;
         }
         EC_KEY_set_conv_form(ec, format);

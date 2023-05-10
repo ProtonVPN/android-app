@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -14,6 +14,9 @@
 
 #define PORT            "4433"
 #define PROTOCOL        "tcp"
+
+#define SSL_VERSION_ALLOWS_RENEGOTIATION(s) \
+    (SSL_is_dtls(s) || (SSL_version(s) < TLS1_3_VERSION))
 
 typedef int (*do_server_cb)(int s, int stype, int prot, unsigned char *context);
 int report_server_accept(BIO *out, int asock, int with_address, int with_pid);
@@ -79,6 +82,7 @@ int ssl_load_stores(SSL_CTX *ctx, const char *vfyCApath,
 void ssl_ctx_security_debug(SSL_CTX *ctx, int verbose);
 int set_keylog_file(SSL_CTX *ctx, const char *keylog_file);
 void print_ca_names(BIO *bio, SSL *s);
+void ssl_print_secure_renegotiation_notes(BIO *bio, SSL *s);
 
 #ifndef OPENSSL_NO_SRP
 /* The client side SRP context that we pass to all SRP related callbacks */

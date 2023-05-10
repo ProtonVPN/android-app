@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -25,13 +25,14 @@
 #include <openvpn/common/exception.hpp>
 
 namespace openvpn {
-  class TriStateSetting
-  {
+class TriStateSetting
+{
   public:
-    enum Type {
-      No,
-      Yes,
-      Default,
+    enum Type
+    {
+        No,
+        Yes,
+        Default,
     };
 
     TriStateSetting()
@@ -39,51 +40,54 @@ namespace openvpn {
     }
 
     explicit TriStateSetting(const Type t)
-      : type_(t)
+        : type_(t)
     {
     }
 
-    Type operator()() const { return type_; }
+    Type operator()() const
+    {
+        return type_;
+    }
 
     std::string to_string() const
     {
-      switch (type_)
-	{
-	case No:
-	  return "no";
-	case Yes:
-	  return "yes";
-	case Default:
-	default:
-	  return "default";
-	}
+        switch (type_)
+        {
+        case No:
+            return "no";
+        case Yes:
+            return "yes";
+        case Default:
+        default:
+            return "default";
+        }
     }
 
-    static TriStateSetting parse(const std::string& str)
+    static TriStateSetting parse(const std::string &str)
     {
-      if (str == "no")
-	return TriStateSetting(No);
-      else if (str == "yes")
-	return TriStateSetting(Yes);
-      else if (str == "default")
-	return TriStateSetting(Default);
-      else
-	throw Exception("IPv6Setting: unrecognized setting: '" + str + '\'');
+        if (str == "no")
+            return TriStateSetting(No);
+        else if (str == "yes")
+            return TriStateSetting(Yes);
+        else if (str == "default")
+            return TriStateSetting(Default);
+        else
+            throw Exception("IPv6Setting: unrecognized setting: '" + str + '\'');
     }
 
-    bool operator==(const TriStateSetting& other) const
+    bool operator==(const TriStateSetting &other) const
     {
-      return type_ == other.type_;
+        return type_ == other.type_;
     }
 
-    bool operator!=(const TriStateSetting& other) const
+    bool operator!=(const TriStateSetting &other) const
     {
-      return type_ != other.type_;
+        return type_ != other.type_;
     }
 
   private:
     Type type_ = Default;
-  };
-}
+};
+} // namespace openvpn
 
 #endif

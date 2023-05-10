@@ -1,0 +1,250 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": {
+                    "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                    "type": "FILEPATH"
+                },
+                "VCPKG_OVERLAY_TRIPLETS": {
+                    "value": "${sourceDir}/deps/vcpkg-triplets",
+                    "type": "FILEPATH"
+                },
+                "VCPKG_OVERLAY_PORTS": {
+                    "value": "${sourceDir}/deps/vcpkg-ports",
+                    "type": "FILEPATH"
+                }
+            }
+        },
+        {
+            "name": "base-windows",
+            "hidden": true,
+            "generator": "Visual Studio 17 2022",
+            "cacheVariables": {
+                "CLI_OVPNDCOWIN": {
+                    "value": "ON",
+                    "type": "BOOL"
+                },
+                "VCPKG_MANIFEST_DIR": "${sourceDir}/deps/vcpkg_manifests/windows"
+            },
+            "vendor": { "microsoft.com/VisualStudioSettings/CMake/1.0": { "hostOS": [ "Windows" ] } }
+        },
+        {
+            "name": "base-mingw",
+            "hidden": true,
+            "generator": "Unix Makefiles",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": {
+                    "value": "Windows",
+                    "type": "STRING"
+                },
+                "CLI_OVPNDCOWIN": {
+                    "value": "ON",
+                    "type": "BOOL"
+                },
+                "VCPKG_APPLOCAL_DEPS": {
+                    "value": "OFF",
+                    "type": "BOOL"
+                },
+                "VCPKG_MANIFEST_DIR": "${sourceDir}/deps/vcpkg_manifests/mingw"
+            }
+        },
+        {
+            "name": "x64",
+            "hidden": true,
+            "binaryDir": "build/msvc/amd64",
+            "architecture": {
+                "value": "x64"
+            }
+        },
+        {
+            "name": "x64-mingw",
+            "hidden": true,
+            "binaryDir": "build/mingw/x64",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": {
+                    "value": "x86_64-w64-mingw32-gcc-posix",
+                    "type": "STRING"
+                },
+                "CMAKE_CXX_COMPILER": {
+                    "value": "x86_64-w64-mingw32-g++-posix",
+                    "type": "STRING"
+                },
+                "VCPKG_TARGET_TRIPLET": "x64-mingw-dynamic"
+            }
+        },
+        {
+            "name": "arm64",
+            "hidden": true,
+            "binaryDir": "build/msvc/arm64",
+            "architecture": {
+                "value": "arm64"
+            }
+        },
+        {
+            "name": "x86",
+            "hidden": true,
+            "binaryDir": "build/msvc/x86",
+            "architecture": {
+                "value": "Win32"
+            }
+        },
+        {
+            "name": "i686-mingw",
+            "hidden": true,
+            "binaryDir": "build/mingw/x86",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": {
+                    "value": "i686-w64-mingw32-gcc-posix",
+                    "type": "STRING"
+                },
+                "CMAKE_CXX_COMPILER": {
+                    "value": "i686-w64-mingw32-g++-posix",
+                    "type": "STRING"
+                },
+                "VCPKG_TARGET_TRIPLET": "x86-mingw-dynamic"
+            }
+        },
+        {
+            "name": "debug",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "asan",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "ASAN"
+            }
+        },
+        {
+            "name": "mingw-x64-debug",
+            "inherits": [ "base", "base-mingw", "x64-mingw", "debug" ]
+        },
+        {
+            "name": "mingw-x64-release",
+            "inherits": [ "base", "base-mingw", "x64-mingw", "release" ]
+        },
+        {
+            "name": "mingw-x86-debug",
+            "inherits": [ "base", "base-mingw", "i686-mingw", "debug" ]
+        },
+        {
+            "name": "mingw-x86-release",
+            "inherits": [ "base", "base-mingw", "i686-mingw", "release" ]
+        },
+        {
+            "name": "win-amd64-debug",
+            "inherits": [ "base", "base-windows", "x64", "debug" ]
+        },
+        {
+            "name": "win-arm64-debug",
+            "inherits": [ "base", "base-windows", "arm64", "debug" ]
+        },
+        {
+            "name": "win-amd64_arm64-debug",
+            "inherits": [ "base", "base-windows", "arm64", "debug" ]
+        },
+        {
+            "name": "win-x86-debug",
+            "inherits": [ "base", "base-windows", "x86", "debug" ]
+        },
+        {
+            "name": "win-amd64-release",
+            "inherits": [ "base", "base-windows", "x64", "release" ]
+        },
+        {
+            "name": "win-arm64-release",
+            "inherits": [ "base", "base-windows", "arm64", "release" ]
+        },
+        {
+            "name": "win-amd64_arm64-release",
+            "inherits": [ "base", "base-windows", "arm64", "release" ]
+        },
+        {
+            "name": "win-x86-release",
+            "inherits": [ "base", "base-windows", "x86", "release" ]
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "mingw-x64-debug",
+            "configurePreset": "mingw-x64-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "mingw-x86-debug",
+            "configurePreset": "mingw-x86-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "mingw-x64-release",
+            "configurePreset": "mingw-x64-release",
+            "configuration": "Release"
+        },
+        {
+            "name": "mingw-x86-release",
+            "configurePreset": "mingw-x86-release",
+            "configuration": "Release"
+        },
+        {
+            "name": "win-amd64-debug",
+            "configurePreset": "win-amd64-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "win-arm64-debug",
+            "configurePreset": "win-arm64-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "win-x86-debug",
+            "configurePreset": "win-x86-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "win-amd64-release",
+            "configurePreset": "win-amd64-release",
+            "configuration": "Release"
+        },
+        {
+            "name": "win-arm64-release",
+            "configurePreset": "win-arm64-release",
+            "configuration": "Release"
+        },
+        {
+            "name": "win-amd64_arm64-release",
+            "configurePreset": "win-arm64-release",
+            "configuration": "Release"
+        },
+        {
+            "name": "win-x86-release",
+            "configurePreset": "win-x86-release",
+            "configuration": "Release"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "win-amd64",
+            "configurePreset": "win-amd64-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "win-x86",
+            "configurePreset": "win-x86-debug",
+            "configuration": "Debug"
+        }
+     ]
+}

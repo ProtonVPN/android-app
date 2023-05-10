@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -37,61 +37,61 @@
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/hexstr.hpp>
 
-#define OPENVPN_HASH_METHOD(T, meth)			\
-  namespace std {					\
-    template <>						\
-    struct hash<T>					\
-    {							\
-      inline std::size_t operator()(const T& obj) const	\
-      {							\
-        return obj.meth();				\
-      }							\
-    };							\
-  }
+#define OPENVPN_HASH_METHOD(T, meth)                      \
+    namespace std {                                       \
+    template <>                                           \
+    struct hash<T>                                        \
+    {                                                     \
+        inline std::size_t operator()(const T &obj) const \
+        {                                                 \
+            return obj.meth();                            \
+        }                                                 \
+    };                                                    \
+    }
 
 #ifdef USE_OPENVPN_HASH
 
 namespace openvpn {
 
-  class Hash64
-  {
+class Hash64
+{
   public:
-    Hash64(const std::uint64_t init_hashval=0)
-      : hashval(init_hashval)
+    Hash64(const std::uint64_t init_hashval = 0)
+        : hashval(init_hashval)
     {
     }
 
     void operator()(const void *data, const std::size_t size)
     {
-      hashval = XXH3_64bits_withSeed((const char *)data, size, hashval);
+        hashval = XXH3_64bits_withSeed((const char *)data, size, hashval);
     }
 
-    void operator()(const std::string& str)
+    void operator()(const std::string &str)
     {
-      (*this)(str.c_str(), str.length());
+        (*this)(str.c_str(), str.length());
     }
 
     template <typename T>
-    inline void operator()(const T& obj)
+    inline void operator()(const T &obj)
     {
-      static_assert(std::is_pod<T>::value, "Hash64: POD type required");
-      (*this)(&obj, sizeof(obj));
+        static_assert(std::is_pod<T>::value, "Hash64: POD type required");
+        (*this)(&obj, sizeof(obj));
     }
 
     std::uint64_t value() const
     {
-      return hashval;
+        return hashval;
     }
 
     std::string to_string() const
     {
-      return render_hex_number(hashval);
+        return render_hex_number(hashval);
     }
 
   private:
     std::uint64_t hashval;
-  };
+};
 
-}
+} // namespace openvpn
 
 #endif

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -28,14 +28,14 @@
 
 namespace openvpn {
 
-  // returns a string describing an i/o error code
-  template <typename ErrorCode>
-  inline std::string errinfo(ErrorCode err)
-  {
+// returns a string describing an i/o error code
+template <typename ErrorCode>
+inline std::string errinfo(ErrorCode err)
+{
     openvpn_io::error_code e(err, openvpn_io::system_category());
     return e.message();
-  }
-
 }
+
+} // namespace openvpn
 
 #endif

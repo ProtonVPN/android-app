@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -67,6 +67,19 @@ typedef unsigned long ptr_type;
  * This parameter must be >= PUSH_BUNDLE_SIZE
  */
 #define TLS_CHANNEL_BUF_SIZE 2048
+
+/* TLS control buffer minimum size
+ *
+ * A control frame might have IPv6 header (40 byte),
+ * UDP (8 byte), opcode (1), session id (8),
+ * ACK array with 4 ACKs in non-ACK_V1 packets (25 bytes)
+ * tls-crypt(56) or tls-auth(up to 72). To allow secure
+ * renegotiation (dynamic tls-crypt), we set this minimum
+ * to 154, which only allows 16 byte of payload and should
+ * be considered an absolute minimum and not a good value to
+ * set
+ */
+#define TLS_CHANNEL_MTU_MIN 154
 
 /*
  * This parameter controls the maximum size of a bundle

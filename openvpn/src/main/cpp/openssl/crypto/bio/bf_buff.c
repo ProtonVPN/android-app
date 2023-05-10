@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -383,8 +383,8 @@ static long buffer_ctrl(BIO *b, int cmd, long num, void *ptr)
         break;
     case BIO_CTRL_DUP:
         dbio = (BIO *)ptr;
-        if (!BIO_set_read_buffer_size(dbio, ctx->ibuf_size) ||
-            !BIO_set_write_buffer_size(dbio, ctx->obuf_size))
+        if (BIO_set_read_buffer_size(dbio, ctx->ibuf_size) <= 0 ||
+            BIO_set_write_buffer_size(dbio, ctx->obuf_size) <= 0)
             ret = 0;
         break;
     case BIO_CTRL_PEEK:

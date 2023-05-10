@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2020 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -47,7 +47,8 @@ BIGNUM *bn_mod_inverse_no_branch(BIGNUM *in,
     if (R == NULL)
         goto err;
 
-    BN_one(X);
+    if (!BN_one(X))
+        goto err;
     BN_zero(Y);
     if (BN_copy(B, a) == NULL)
         goto err;
@@ -235,7 +236,8 @@ BIGNUM *int_bn_mod_inverse(BIGNUM *in,
     if (R == NULL)
         goto err;
 
-    BN_one(X);
+    if (!BN_one(X))
+        goto err;
     BN_zero(Y);
     if (BN_copy(B, a) == NULL)
         goto err;
@@ -530,6 +532,37 @@ BIGNUM *BN_mod_inverse(BIGNUM *in,
         ERR_raise(ERR_LIB_BN, BN_R_NO_INVERSE);
     BN_CTX_free(new_ctx);
     return rv;
+}
+
+/*
+ * The numbers a and b are coprime if the only positive integer that is a
+ * divisor of both of them is 1.
+ * i.e. gcd(a,b) = 1.
+ *
+ * Coprimes have the property: b has a multiplicative inverse modulo a
+ * i.e there is some value x such that bx = 1 (mod a).
+ *
+ * Testing the modulo inverse is currently much faster than the constant
+ * time version of BN_gcd().
+ */
+int BN_are_coprime(BIGNUM *a, const BIGNUM *b, BN_CTX *ctx)
+{
+    int ret = 0;
+    BIGNUM *tmp;
+
+    BN_CTX_start(ctx);
+    tmp = BN_CTX_get(ctx);
+    if (tmp == NULL)
+        goto end;
+
+    ERR_set_mark();
+    BN_set_flags(a, BN_FLG_CONSTTIME);
+    ret = (BN_mod_inverse(tmp, a, b, ctx) != NULL);
+    /* Clear any errors (an error is returned if there is no inverse) */
+    ERR_pop_to_mark();
+end:
+    BN_CTX_end(ctx);
+    return ret;
 }
 
 /*-

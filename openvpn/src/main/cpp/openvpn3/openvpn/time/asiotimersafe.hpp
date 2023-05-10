@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -29,41 +29,41 @@
 // with a non-error status after the timer is cancelled.
 
 namespace openvpn {
-  class AsioTimerSafe
-  {
+class AsioTimerSafe
+{
   public:
-    AsioTimerSafe(openvpn_io::io_context& io_context)
-      : timer_(io_context),
-	epoch_(new Epoch)
+    typedef std::unique_ptr<AsioTimerSafe> UPtr;
+
+    AsioTimerSafe(openvpn_io::io_context &io_context)
+        : timer_(io_context),
+          epoch_(new Epoch)
     {
     }
 
-    std::size_t expires_at(const Time& t)
+    std::size_t expires_at(const Time &t)
     {
-      inc_epoch();
-      return timer_.expires_at(t);
+        inc_epoch();
+        return timer_.expires_at(t);
     }
 
-    std::size_t expires_after(const Time::Duration& d)
+    std::size_t expires_after(const Time::Duration &d)
     {
-      inc_epoch();
-      return timer_.expires_after(d);
+        inc_epoch();
+        return timer_.expires_after(d);
     }
 
     std::size_t cancel()
     {
-      inc_epoch();
-      return timer_.cancel();
+        inc_epoch();
+        return timer_.cancel();
     }
 
     template <typename F>
-    void async_wait(F&& func)
+    void async_wait(F &&func)
     {
-      inc_epoch();
-      timer_.async_wait([func=std::move(func), epoch=epoch(), eptr=epoch_](const openvpn_io::error_code& error)
-			 {
-			   func(epoch == eptr->epoch ? error : openvpn_io::error::operation_aborted);
-			 });
+        inc_epoch();
+        timer_.async_wait([func = std::move(func), epoch = epoch(), eptr = epoch_](const openvpn_io::error_code &error)
+                          { func(epoch == eptr->epoch ? error : openvpn_io::error::operation_aborted); });
     }
 
   private:
@@ -71,21 +71,21 @@ namespace openvpn {
 
     struct Epoch : public RC<thread_unsafe_refcount>
     {
-      typedef RCPtr<Epoch> Ptr;
-      epoch_t epoch = 0;
+        typedef RCPtr<Epoch> Ptr;
+        epoch_t epoch = 0;
     };
 
     epoch_t epoch() const
     {
-      return epoch_->epoch;
+        return epoch_->epoch;
     }
 
     void inc_epoch()
     {
-      ++epoch_->epoch;
+        ++epoch_->epoch;
     }
 
     AsioTimer timer_;
     Epoch::Ptr epoch_;
-  };
-}
+};
+} // namespace openvpn

@@ -4,8 +4,8 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
-//    Copyright (C) 2020-2020 Lev Stipakov <lev@openvpn.net>
+//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2020-2022 Lev Stipakov <lev@openvpn.net>
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -25,19 +25,21 @@
 namespace openvpn {
 namespace KoRekey {
 
-struct KeyDirection {
-  const unsigned char *cipher_key;
-  unsigned char nonce_tail[8];  // only AEAD
-  unsigned int cipher_key_size;
+struct KeyDirection
+{
+    const unsigned char *cipher_key;
+    unsigned char nonce_tail[8]; // only AEAD
+    unsigned int cipher_key_size;
 };
 
-struct KeyConfig {
-  KeyDirection encrypt;
-  KeyDirection decrypt;
+struct KeyConfig
+{
+    KeyDirection encrypt;
+    KeyDirection decrypt;
 
-  int key_id;
-  int remote_peer_id;
-  unsigned int cipher_alg;
+    int key_id;
+    int remote_peer_id;
+    unsigned int cipher_alg;
 };
 
 } // namespace KoRekey

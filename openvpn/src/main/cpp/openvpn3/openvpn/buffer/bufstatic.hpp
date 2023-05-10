@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -25,21 +25,21 @@
 
 namespace openvpn {
 
-  // constant-length Buffer for writing that cannot be extended
-  template <std::size_t N>
-  class StaticBuffer : public Buffer
-  {
+// constant-length Buffer for writing that cannot be extended
+template <std::size_t N>
+class StaticBuffer : public Buffer
+{
   public:
     StaticBuffer()
-      : Buffer(data, N, false)
+        : Buffer(data, N, false)
     {
     }
 
-    StaticBuffer(const StaticBuffer&) = delete;
-    StaticBuffer& operator=(const StaticBuffer&) = delete;
+    StaticBuffer(const StaticBuffer &) = delete;
+    StaticBuffer &operator=(const StaticBuffer &) = delete;
 
   private:
     unsigned char data[N];
-  };
+};
 
-}
+} // namespace openvpn

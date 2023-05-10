@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -38,43 +38,50 @@
 #include <openvpn/transport/protocol.hpp>
 
 namespace openvpn {
-  struct TransportClientParent;
+struct TransportClientParent;
 
-  // Base class for client transport object.
-  struct TransportClient : public virtual RC<thread_unsafe_refcount>
-  {
+// Base class for client transport object.
+struct TransportClient : public virtual RC<thread_unsafe_refcount>
+{
     typedef RCPtr<TransportClient> Ptr;
 
     virtual void transport_start() = 0;
     virtual void stop() = 0;
-    virtual bool transport_send_const(const Buffer& buf) = 0;
-    virtual bool transport_send(BufferAllocated& buf) = 0;
+    virtual bool transport_send_const(const Buffer &buf) = 0;
+    virtual bool transport_send(BufferAllocated &buf) = 0;
     virtual bool transport_send_queue_empty() = 0;
     virtual bool transport_has_send_queue() = 0;
     virtual void transport_stop_requeueing() = 0;
     virtual unsigned int transport_send_queue_size() = 0;
     virtual void reset_align_adjust(const size_t align_adjust) = 0;
     virtual IP::Addr server_endpoint_addr() const = 0;
-    virtual unsigned short server_endpoint_port() const {
-      return 0;
+    virtual unsigned short server_endpoint_port() const
+    {
+        return 0;
     }
-    virtual int native_handle() {
-      return 0;
+    virtual int native_handle()
+    {
+        return 0;
     }
-    virtual void server_endpoint_info(std::string& host, std::string& port, std::string& proto, std::string& ip_addr) const = 0;
+    // clang-format off
+    virtual void server_endpoint_info(std::string &host,
+                                      std::string &port,
+                                      std::string &proto,
+                                      std::string &ip_addr) const = 0;
+    // clang-format on
     virtual Protocol transport_protocol() const = 0;
-    virtual void transport_reparent(TransportClientParent* parent) = 0;
-  };
+    virtual void transport_reparent(TransportClientParent *parent) = 0;
+};
 
-  // Base class for parent of client transport object, used by client transport
-  // objects to communicate received data packets, exceptions, and progress
-  // notifications.
-  struct TransportClientParent
-  {
-    virtual void transport_recv(BufferAllocated& buf) = 0;
+// Base class for parent of client transport object, used by client transport
+// objects to communicate received data packets, exceptions, and progress
+// notifications.
+struct TransportClientParent
+{
+    virtual void transport_recv(BufferAllocated &buf) = 0;
     virtual void transport_needs_send() = 0; // notification that send queue is empty
-    virtual void transport_error(const Error::Type fatal_err, const std::string& err_text) = 0;
-    virtual void proxy_error(const Error::Type fatal_err, const std::string& err_text) = 0;
+    virtual void transport_error(const Error::Type fatal_err, const std::string &err_text) = 0;
+    virtual void proxy_error(const Error::Type fatal_err, const std::string &err_text) = 0;
 
     // Return true if we are transporting OpenVPN protocol
     virtual bool transport_is_openvpn_protocol() = 0;
@@ -88,24 +95,37 @@ namespace openvpn {
     // Return true if keepalive parameter(s) are enabled.
     virtual bool is_keepalive_enabled() const = 0;
 
+    // clang-format off
     // Disable keepalive for rest of session, but fetch
     // the keepalive parameters (in seconds).
-    virtual void disable_keepalive(unsigned int& keepalive_ping,
-				   unsigned int& keepalive_timeout) = 0;
+    virtual void disable_keepalive(unsigned int &keepalive_ping,
+                                   unsigned int &keepalive_timeout) = 0;
+    // clang-format on
 
-    virtual ~TransportClientParent() {}
-  };
+    virtual ~TransportClientParent()
+    {
+    }
+};
 
-  // Factory for client transport object.
-  struct TransportClientFactory : public virtual RC<thread_unsafe_refcount>
-  {
+// Factory for client transport object.
+struct TransportClientFactory : public virtual RC<thread_unsafe_refcount>
+{
     typedef RCPtr<TransportClientFactory> Ptr;
 
-    virtual TransportClient::Ptr new_transport_client_obj(openvpn_io::io_context& io_context,
-							  TransportClientParent* parent) = 0;
-    virtual bool is_relay() { return false; }
-    virtual void process_push(const OptionList&) { return; }
-  };
+    // clang-format off
+    virtual TransportClient::Ptr new_transport_client_obj(openvpn_io::io_context &io_context,
+                                                          TransportClientParent *parent) = 0;
+    // clang-format on
+
+    virtual bool is_relay()
+    {
+        return false;
+    }
+    virtual void process_push(const OptionList &)
+    {
+        return;
+    }
+};
 
 } // namespace openvpn
 

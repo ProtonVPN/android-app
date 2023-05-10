@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.4.1)
+project("ics-openvpn")
 # Git version string
 
 include(GetGitRevisionDescription.cmake)
@@ -21,6 +22,9 @@ SET(OPENVPN3OSSL ON)
 SET(SSLLIBTYPE STATIC)
 SET(OPENSSL_PATH "openssl")
 
+set(CMAKE_CXX_STANDARD 17)
+
+
 #add_subdirectory(lzo)
 include(tools.cmake)
 include(lzo.cmake)
@@ -42,6 +46,7 @@ if (NOT ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} MATCHES "build/intermediates/cmake/.*s
             -c++
             -java -package net.openvpn.ovpn3
             -outcurrentdir
+            -DOPENVPN_PLATFORM_ANDROID
             -I${CMAKE_SOURCE_DIR}/openvpn3/client
             -I${CMAKE_SOURCE_DIR}/openvpn3
             ${CMAKE_SOURCE_DIR}/openvpn3/client/ovpncli.i)
@@ -56,6 +61,8 @@ if (NOT ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} MATCHES "build/intermediates/cmake/.*s
 
     set(ovpn3_SRCS
             openvpn3/client/ovpncli.cpp
+            openvpn3/openvpn/openssl/xkey/xkey_provider.c
+            openvpn3/openvpn/openssl/xkey/xkey_helper.c
             ovpncli_wrap.cxx)
 
     add_library(ovpn3 SHARED ${ovpn3_SRCS})
@@ -80,32 +87,31 @@ if (NOT ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} MATCHES "build/intermediates/cmake/.*s
         target_link_libraries(ovpn3 mbedtls mbedx509 mbedcrypto lzo lz4)
     endif ()
 
-    target_compile_options(ovpn3 PRIVATE -std=c++1y)
     target_compile_definitions(ovpn3 PRIVATE
             -DHAVE_CONFIG_H
             -DHAVE_LZO
             -DHAVE_LZ4
             -DASIO_STANDALONE
             -DUSE_ASIO
-            -DGIT_VERSION_STRING=\"${OPENVPN3_GIT}\"
-            -DNO_ROUTE_EXCLUDE_EMULATION
+            -DOPENVPN_CORE_GIT_VERSION=\"${OPENVPN3_GIT}\"
             -DOPENVPN_SHOW_SESSION_TOKEN
             -DOPENSSL_API_COMPAT=0x10200000L
             -DOPENVPN_ALLOW_INSECURE_CERTPROFILE
+             -DENABLE_EXTERNAL_PKI
             )
 else ()
     message("Not budiling OpenVPN for output dir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 endif ()
 
-add_library(ovpnutil SHARED ovpnutil/jniglue.c ovpnutil/scan_ifs.c)
+add_library(ovpnutil SHARED ovpnutil/jniglue.c)
 target_compile_definitions(ovpnutil PRIVATE -DTARGET_ARCH_ABI=\"${ANDROID_ABI}\"
         -DOPENVPN2_GIT_REVISION=\"${OPENVPN2_GIT}\"
         -DOPENVPN3_GIT_REVISION=\"${OPENVPN3_GIT}\"
         )
 target_link_libraries(ovpnutil log)
 
-add_library(rsapss SHARED ovpnutil/rsapss.cpp)
-target_link_libraries(rsapss log crypto ssl)
+add_library(osslutil SHARED ovpnutil/osslutil.cpp)
+target_link_libraries(osslutil log crypto ssl)
 
 if (NOT ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} MATCHES "build/intermediates/cmake/.*skeleton.*/")
     add_library(osslspeedtest SHARED ovpnutil/sslspeed.c)
@@ -113,11 +119,6 @@ if (NOT ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} MATCHES "build/intermediates/cmake/.*s
 else ()
     message("Not budiling SSLSpeedTest for output dir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 endif ()
-
-# The magic Jellybean keystore signing hack. Beware dragons and dlsyms magic ahead
-add_library(jbcrypto SHARED jbcrypto/jbcrypto.cpp)
-target_link_libraries(jbcrypto log dl)
-target_compile_options(jbcrypto PRIVATE)
 
 set(openvpn_srcs
         src/compat/compat-basename.c
@@ -136,6 +137,8 @@ set(openvpn_srcs
         src/openvpn/crypto_mbedtls.c
         src/openvpn/cryptoapi.c
         src/openvpn/dhcp.c
+        src/openvpn/dns.c
+        src/openvpn/dns.h
         src/openvpn/error.c
         src/openvpn/event.c
         src/openvpn/env_set.c
@@ -164,6 +167,7 @@ set(openvpn_srcs
         src/openvpn/occ.c
         src/openvpn/openvpn.c
         src/openvpn/options.c
+        src/openvpn/options_util.c
         src/openvpn/otime.c
         src/openvpn/packet_id.c
         src/openvpn/perf.c
@@ -177,6 +181,7 @@ set(openvpn_srcs
         src/openvpn/proxy.c
         src/openvpn/ps.c
         src/openvpn/push.c
+        src/openvpn/reflect_filter.c
         src/openvpn/reliable.c
         src/openvpn/route.c
         src/openvpn/run_command.c
@@ -190,6 +195,8 @@ set(openvpn_srcs
         src/openvpn/ssl_openssl.c
         src/openvpn/ssl_mbedtls.c
         src/openvpn/ssl_ncp.c
+        src/openvpn/ssl_pkt.c
+        src/openvpn/ssl_pkt.h
         src/openvpn/ssl_util.c
         src/openvpn/ssl_verify.c
         src/openvpn/ssl_verify_openssl.c

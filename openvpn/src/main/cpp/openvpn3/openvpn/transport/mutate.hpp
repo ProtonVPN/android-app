@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,14 +27,14 @@
 
 namespace openvpn {
 
-  class TransportMutateStream : public RC<thread_unsafe_refcount>
-  {
+class TransportMutateStream : public RC<thread_unsafe_refcount>
+{
   public:
     typedef RCPtr<TransportMutateStream> Ptr;
 
-    virtual void pre_send(BufferAllocated& buf) = 0;
-    virtual void post_recv(BufferAllocated& buf) = 0;
-  };
-}
+    virtual void pre_send(BufferAllocated &buf) = 0;
+    virtual void post_recv(BufferAllocated &buf) = 0;
+};
+} // namespace openvpn
 
 #endif

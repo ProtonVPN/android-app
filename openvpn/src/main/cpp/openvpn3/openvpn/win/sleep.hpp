@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,30 +31,30 @@
 
 namespace openvpn {
 
-  class WinSleep : public Action
-  {
+class WinSleep : public Action
+{
   public:
     typedef RCPtr<WinSleep> Ptr;
 
     WinSleep(DWORD dwMilliseconds_arg)
-      : dwMilliseconds(dwMilliseconds_arg)
+        : dwMilliseconds(dwMilliseconds_arg)
     {
     }
 
-    virtual void execute(std::ostream& os) override
+    virtual void execute(std::ostream &os) override
     {
-      os << to_string() << std::endl;
-      ::Sleep(dwMilliseconds);
+        os << to_string() << std::endl;
+        ::Sleep(dwMilliseconds);
     }
 
     virtual std::string to_string() const override
     {
-      return "Sleeping for " + openvpn::to_string(dwMilliseconds) + " milliseconds...";
+        return "Sleeping for " + openvpn::to_string(dwMilliseconds) + " milliseconds...";
     }
 
   private:
     DWORD dwMilliseconds;
-  };
+};
 
-}
+} // namespace openvpn
 #endif

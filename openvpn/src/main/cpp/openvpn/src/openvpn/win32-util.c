@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -48,6 +48,21 @@ wide_string(const char *utf8, struct gc_arena *gc)
     return ucs16;
 }
 
+char *
+utf16to8(const wchar_t *utf16, struct gc_arena *gc)
+{
+    char *utf8 = NULL;
+    int n = WideCharToMultiByte(CP_UTF8, 0, utf16, -1, NULL, 0, NULL, NULL);
+    if (n > 0)
+    {
+        utf8 = gc_malloc(n, true, gc);
+        if (utf8)
+        {
+            WideCharToMultiByte(CP_UTF8, 0, utf16, -1, utf8, n, NULL, NULL);
+        }
+    }
+    return utf8;
+}
 
 /*
  * Return true if filename is safe to be used on Windows,

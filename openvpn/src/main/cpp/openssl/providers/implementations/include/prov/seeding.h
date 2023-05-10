@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -13,17 +13,6 @@
 /* Hardware-based seeding functions. */
 size_t ossl_prov_acquire_entropy_from_tsc(RAND_POOL *pool);
 size_t ossl_prov_acquire_entropy_from_cpu(RAND_POOL *pool);
-
-/*
- * Add some platform specific additional data
- *
- * This function is platform specific and adds some random noise to the
- * additional data used for generating random bytes and for reseeding
- * the drbg.
- *
- * Returns 1 on success and 0 on failure.
- */
-int ossl_rand_pool_add_additional_data(RAND_POOL *pool);
 
 /*
  * External seeding functions from the core dispatch table.

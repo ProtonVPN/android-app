@@ -12,10 +12,6 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Build;
 
-/**
- * Created by arne on 26.11.14.
- */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class LollipopDeviceStateListener extends ConnectivityManager.NetworkCallback {
 
     private String mLastConnectedStatus;

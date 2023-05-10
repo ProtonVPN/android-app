@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -33,8 +33,8 @@
 #endif
 
 namespace openvpn {
-  inline bool sleep_milliseconds(const unsigned int milliseconds)
-  {
+inline bool sleep_milliseconds(const unsigned int milliseconds)
+{
 #ifdef OPENVPN_PLATFORM_WIN
     ::Sleep(milliseconds);
     return true;
@@ -44,7 +44,7 @@ namespace openvpn {
     ts.tv_nsec = (milliseconds % 1000U) * 1000000U;
     return ::nanosleep(&ts, nullptr) == 0;
 #endif
-  }
 }
+} // namespace openvpn
 
 #endif

@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -64,7 +64,6 @@ struct cert_hash_set {
 #define VERIFY_X509_SUBJECT_DN          1
 #define VERIFY_X509_SUBJECT_RDN         2
 #define VERIFY_X509_SUBJECT_RDN_PREFIX  3
-#define VERIFY_X509_SAN                 4
 
 enum tls_auth_status
 {
@@ -177,6 +176,29 @@ bool cert_hash_compare(const struct cert_hash_set *chs1, const struct cert_hash_
  */
 void verify_user_pass(struct user_pass *up, struct tls_multi *multi,
                       struct tls_session *session);
+
+
+
+/**
+ * Runs the --client-crresponse script if one is defined.
+ *
+ * As with the management interface the script is stateless in the sense that
+ * it does not directly participate in the authentication but rather should set
+ * the files for the deferred auth like the management commands.
+ *
+ */
+void
+verify_crresponse_script(struct tls_multi *multi, const char *cr_response);
+
+/**
+ * Call the plugin OPENVPN_PLUGIN_CLIENT_CRRESPONSE.
+ *
+ * As with the management interface calling the plugin is stateless in the sense
+ * that it does not directly participate in the authentication but rather
+ * should set the files for the deferred auth like the management commands.
+ */
+void
+verify_crresponse_plugin(struct tls_multi *multi, const char *cr_response);
 
 /**
  * Perform final authentication checks, including locking of the cn, the allowed

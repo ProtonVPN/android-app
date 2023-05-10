@@ -1,3 +1,7 @@
+if (NOT WIN32)
+  return()
+endif()
+
 add_executable(ovpnagent ovpnagent.cpp)
 add_core_dependencies(ovpnagent)
 add_json_library(ovpnagent)

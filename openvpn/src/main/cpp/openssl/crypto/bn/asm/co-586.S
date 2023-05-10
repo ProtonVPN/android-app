@@ -4,7 +4,11 @@
 .align	16
 bn_mul_comba8:
 .L_bn_mul_comba8_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	pushl	%esi
 	movl	12(%esp),%esi
 	pushl	%edi
@@ -549,7 +553,11 @@ bn_mul_comba8:
 .align	16
 bn_mul_comba4:
 .L_bn_mul_comba4_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	pushl	%esi
 	movl	12(%esp),%esi
 	pushl	%edi
@@ -718,7 +726,11 @@ bn_mul_comba4:
 .align	16
 bn_sqr_comba8:
 .L_bn_sqr_comba8_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	pushl	%esi
 	pushl	%edi
 	pushl	%ebp
@@ -1127,7 +1139,11 @@ bn_sqr_comba8:
 .align	16
 bn_sqr_comba4:
 .L_bn_sqr_comba4_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	pushl	%esi
 	pushl	%edi
 	pushl	%ebp

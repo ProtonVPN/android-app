@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -29,23 +29,23 @@
 #include <openvpn/io/io.hpp>
 
 namespace openvpn {
-  namespace Win {
-    struct Error : public openvpn_io::error_code
+namespace Win {
+struct Error : public openvpn_io::error_code
+{
+    Error(const DWORD err)
+        : openvpn_io::error_code(err, openvpn_io::error::get_system_category())
     {
-      Error(const DWORD err)
-	: openvpn_io::error_code(err, openvpn_io::error::get_system_category())
-      {
-      }
-    };
+    }
+};
 
-    struct LastError : public Error
+struct LastError : public Error
+{
+    LastError()
+        : Error(::GetLastError())
     {
-      LastError()
-	: Error(::GetLastError())
-      {
-      }
-    };
-  }
-}
+    }
+};
+} // namespace Win
+} // namespace openvpn
 
 #endif

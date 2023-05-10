@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2021 Selva Nair <selva.nair@gmail.com>
+ *  Copyright (C) 2021-2023 Selva Nair <selva.nair@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by the
@@ -85,6 +85,7 @@ xkey_digest(const unsigned char *src, size_t srclen, unsigned char *buf,
     return 1;
 }
 
+#ifdef ENABLE_MANAGEMENT
 /**
  * Load external key for signing via management interface.
  * The public key must be passed in by the caller as we may not
@@ -99,14 +100,15 @@ xkey_load_management_key(OSSL_LIB_CTX *libctx, EVP_PKEY *pubkey)
 
     /* Management interface doesn't require any handle to be
      * stored in the key. We use a dummy pointer as we do need a
-     * non-NULL value to indicate private key is avaialble.
+     * non-NULL value to indicate private key is available.
      */
-    void *dummy = & "dummy";
+    void *dummy = &"dummy";
 
     XKEY_EXTERNAL_SIGN_fn *sign_op = xkey_management_sign;
 
     return xkey_load_generic_key(libctx, dummy, pubkey, sign_op, NULL);
 }
+#endif
 
 /**
  * Load a generic key into the xkey provider.
@@ -115,7 +117,7 @@ xkey_load_management_key(OSSL_LIB_CTX *libctx, EVP_PKEY *pubkey)
  */
 EVP_PKEY *
 xkey_load_generic_key(OSSL_LIB_CTX *libctx, void *handle, EVP_PKEY *pubkey,
-                      XKEY_EXTERNAL_SIGN_fn sign_op, XKEY_PRIVKEY_FREE_fn free_op)
+                      XKEY_EXTERNAL_SIGN_fn *sign_op, XKEY_PRIVKEY_FREE_fn *free_op)
 {
     EVP_PKEY *pkey = NULL;
     const char *origin = "external";
@@ -127,7 +129,8 @@ xkey_load_generic_key(OSSL_LIB_CTX *libctx, void *handle, EVP_PKEY *pubkey,
         {"handle", OSSL_PARAM_OCTET_PTR, &handle, sizeof(handle), 0},
         {"sign_op", OSSL_PARAM_OCTET_PTR, (void **) &sign_op, sizeof(sign_op), 0},
         {"free_op", OSSL_PARAM_OCTET_PTR, (void **) &free_op, sizeof(free_op), 0},
-        {NULL, 0, NULL, 0, 0}};
+        {NULL, 0, NULL, 0, 0}
+    };
 
     /* Do not use EVP_PKEY_new_from_pkey as that will take keymgmt from pubkey */
     EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new_from_name(libctx, EVP_PKEY_get0_type_name(pubkey), props);
@@ -146,6 +149,7 @@ xkey_load_generic_key(OSSL_LIB_CTX *libctx, void *handle, EVP_PKEY *pubkey,
     return pkey;
 }
 
+#ifdef ENABLE_MANAGEMENT
 /**
  * Signature callback for xkey_provider with management-external-key
  *
@@ -163,7 +167,7 @@ int
 xkey_management_sign(void *unused, unsigned char *sig, size_t *siglen,
                      const unsigned char *tbs, size_t tbslen, XKEY_SIGALG alg)
 {
-    dmsg(D_LOW, "In xkey_management_sign with keytype = %s, op = %s",
+    dmsg(D_XKEY, "In xkey_management_sign with keytype = %s, op = %s",
          alg.keytype, alg.op);
 
     (void) unused;
@@ -178,9 +182,10 @@ xkey_management_sign(void *unused, unsigned char *sig, size_t *siglen,
     bool is_message = !strcmp(alg.op, "DigestSign"); /* tbs is message, not digest */
 
     /* if management client cannot do digest -- we do it here */
-    if (!strcmp(alg.op, "DigestSign") && !(flags & MF_EXTERNAL_KEY_DIGEST))
+    if (!strcmp(alg.op, "DigestSign") && !(flags & MF_EXTERNAL_KEY_DIGEST)
+        && strcmp(alg.mdname, "none"))
     {
-        dmsg(D_LOW, "xkey_management_sign: computing digest");
+        dmsg(D_XKEY, "xkey_management_sign: computing digest");
         if (xkey_digest(tbs, tbslen, buf, &buflen, alg.mdname))
         {
             tbs = buf;
@@ -205,6 +210,10 @@ xkey_management_sign(void *unused, unsigned char *sig, size_t *siglen,
             openvpn_snprintf(alg_str, sizeof(alg_str), "ECDSA,hashalg=%s", alg.mdname);
         }
     }
+    else if (!strcmp(alg.keytype, "ED448") || !strcmp(alg.keytype, "ED25519"))
+    {
+        strncpynt(alg_str, alg.keytype, sizeof(alg_str));
+    }
     /* else assume RSA key */
     else if (!strcmp(alg.padmode, "pkcs1") && (flags & MF_EXTERNAL_KEY_PKCS1PAD))
     {
@@ -223,20 +232,21 @@ xkey_management_sign(void *unused, unsigned char *sig, size_t *siglen,
         else
         {
             openvpn_snprintf(alg_str, sizeof(alg_str), "%s,hashalg=%s",
-                            "RSA_PKCS1_PADDING", alg.mdname);
+                             "RSA_PKCS1_PADDING", alg.mdname);
         }
     }
     else if (!strcmp(alg.padmode, "none") && (flags & MF_EXTERNAL_KEY_NOPADDING)
-             &&!strcmp(alg.op, "Sign")) /* NO_PADDING requires digested data */
+             && !strcmp(alg.op, "Sign")) /* NO_PADDING requires digested data */
     {
         strncpynt(alg_str, "RSA_NO_PADDING", sizeof(alg_str));
     }
     else if (!strcmp(alg.padmode, "pss") && (flags & MF_EXTERNAL_KEY_PSSPAD))
     {
         openvpn_snprintf(alg_str, sizeof(alg_str), "%s,hashalg=%s,saltlen=%s",
-                       "RSA_PKCS1_PSS_PADDING", alg.mdname,alg.saltlen);
+                         "RSA_PKCS1_PSS_PADDING", alg.mdname, alg.saltlen);
     }
-    else {
+    else
+    {
         msg(M_NONFATAL, "RSA padding mode not supported by management-client <%s>",
             alg.padmode);
         return 0;
@@ -270,6 +280,7 @@ xkey_management_sign(void *unused, unsigned char *sig, size_t *siglen,
 
     return (*siglen > 0);
 }
+#endif /* ENABLE MANAGEMENT */
 
 /**
  * Add PKCS1 DigestInfo to tbs and return the result in *enc.
@@ -312,31 +323,31 @@ encode_pkcs1(unsigned char *enc, size_t *enc_len, const char *mdname,
     const unsigned char sha224[] = {0x30, 0x2d, 0x30, 0x0d, 0x06, 0x09, 0x60, 0x86, 0x48,
                                     0x01, 0x65, 0x03, 0x04, 0x02, 0x04, 0x05, 0x00, 0x04, 0x1c};
     const unsigned char sha512_224[] = {0x30, 0x2d, 0x30, 0x0d, 0x06, 0x09, 0x60, 0x86, 0x48,
-                                    0x01, 0x65, 0x03, 0x04, 0x02, 0x05, 0x05, 0x00, 0x04, 0x1c};
+                                        0x01, 0x65, 0x03, 0x04, 0x02, 0x05, 0x05, 0x00, 0x04, 0x1c};
     const unsigned char sha512_256[] = {0x30, 0x31, 0x30, 0x0d, 0x06, 0x09, 0x60, 0x86, 0x48,
-                                    0x01, 0x65, 0x03, 0x04, 0x02, 0x06, 0x05, 0x00, 0x04, 0x20};
+                                        0x01, 0x65, 0x03, 0x04, 0x02, 0x06, 0x05, 0x00, 0x04, 0x20};
 
     typedef struct {
-       const int nid;
-       const unsigned char *header;
-       size_t sz;
+        const int nid;
+        const unsigned char *header;
+        size_t sz;
     } DIG_INFO;
 
-#define MAKE_DI(x) {NID_##x, x, sizeof(x)}
+#define MAKE_DI(x) {NID_ ## x, x, sizeof(x)}
 
     DIG_INFO dinfo[] = {MAKE_DI(sha1), MAKE_DI(sha256), MAKE_DI(sha384),
                         MAKE_DI(sha512), MAKE_DI(sha224), MAKE_DI(sha512_224),
-                        MAKE_DI(sha512_256), {0,NULL,0}};
+                        MAKE_DI(sha512_256), {0, NULL, 0}};
 
     int out_len = 0;
     int ret = 0;
 
     int nid = OBJ_sn2nid(mdname);
-    if(nid == NID_undef)
+    if (nid == NID_undef)
     {
         /* try harder  -- name variants like SHA2-256 doesn't work */
         nid = EVP_MD_type(EVP_get_digestbyname(mdname));
-        if(nid == NID_undef)
+        if (nid == NID_undef)
         {
             msg(M_WARN, "Error: encode_pkcs11: invalid digest name <%s>", mdname);
             goto done;
@@ -362,7 +373,7 @@ encode_pkcs1(unsigned char *enc, size_t *enc_len, const char *mdname,
 
     /* locate entry for nid in dinfo table */
     DIG_INFO *di = dinfo;
-    while((di->nid != nid) && (di->nid != 0))
+    while ((di->nid != nid) && (di->nid != 0))
     {
         di++;
     }
@@ -379,7 +390,7 @@ encode_pkcs1(unsigned char *enc, size_t *enc_len, const char *mdname,
         /* combine header and digest */
         memcpy(enc, di->header, di->sz);
         memcpy(enc + di->sz, tbs, tbslen);
-        dmsg(D_LOW, "encode_pkcs1: digest length = %d encoded length = %d",
+        dmsg(D_XKEY, "encode_pkcs1: digest length = %d encoded length = %d",
              (int) tbslen, (int) out_len);
         ret = true;
     }
@@ -388,6 +399,51 @@ done:
     *enc_len = out_len; /* assignment safe as out_len is > 0 at this point */
 
     return ret;
+}
+
+/**
+ * Helper to convert ECDSA signature with r and s concatenated
+ * to a DER encoded format used by OpenSSL.
+ * Returns the size of the converted signature or <= 0 on error.
+ * On success, buf is overwritten by the DER encoded signature.
+ */
+int
+ecdsa_bin2der(unsigned char *buf, int len, size_t capacity)
+{
+    ECDSA_SIG *ecsig = NULL;
+    int rlen = len/2;
+    BIGNUM *r = BN_bin2bn(buf, rlen, NULL);
+    BIGNUM *s = BN_bin2bn(buf+rlen, rlen, NULL);
+    if (!r || !s)
+    {
+        goto err;
+    }
+    ecsig = ECDSA_SIG_new(); /* this does not allocate r, s */
+    if (!ecsig)
+    {
+        goto err;
+    }
+    if (!ECDSA_SIG_set0(ecsig, r, s)) /* ecsig takes ownership of r and s */
+    {
+        ECDSA_SIG_free(ecsig);
+        goto err;
+    }
+
+    int derlen = i2d_ECDSA_SIG(ecsig, NULL);
+    if (derlen > (int) capacity)
+    {
+        ECDSA_SIG_free(ecsig);
+        msg(M_NONFATAL, "Error: DER encoded ECDSA signature is too long (%d)\n", derlen);
+        return 0;
+    }
+    derlen = i2d_ECDSA_SIG(ecsig, &buf);
+    ECDSA_SIG_free(ecsig);
+    return derlen;
+
+err:
+    BN_free(r); /* it is ok to free NULL BN */
+    BN_free(s);
+    return 0;
 }
 
 #endif /* HAVE_XKEY_PROVIDER */

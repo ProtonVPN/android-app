@@ -5,7 +5,7 @@
 #             packet encryption, packet authentication, and
 #             packet compression.
 #
-#  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+#  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
 #  Copyright (C) 2006-2012 Alon Bar-Lev <alon.barlev@gmail.com>
 #
 
@@ -23,16 +23,12 @@ build_html_pages = openvpn.8.html openvpn-examples.5.html
 dist_doc_DATA = \
 	management-notes.txt gui-notes.txt
 
-dist_noinst_DATA = \
-	README.plugins interactive-service-notes.rst \
-	openvpn.8.rst \
-	openvpn-examples.5.rst \
+openvpn_sections = \
 	man-sections/advanced-options.rst \
+	man-sections/cipher-negotiation.rst \
 	man-sections/client-options.rst \
 	man-sections/connection-profiles.rst \
 	man-sections/encryption-options.rst \
-	man-sections/example-fingerprint.rst \
-	man-sections/examples.rst \
 	man-sections/generic-options.rst \
 	man-sections/inline-files.rst \
 	man-sections/link-options.rst \
@@ -53,24 +49,40 @@ dist_noinst_DATA = \
 	man-sections/vpn-network-options.rst \
 	man-sections/windows-options.rst
 
+openvpn_examples_sections = \
+	man-sections/example-fingerprint.rst \
+	man-sections/examples.rst
+
+dist_noinst_DATA = \
+	README.plugins interactive-service-notes.rst \
+	openvpn.8.rst \
+	openvpn-examples.5.rst \
+	$(openvpn_sections) \
+	$(openvpn_examples_sections)
+
+# dependencies
+openvpn.8 openvpn.8.html: $(openvpn_sections)
+openvpn-examples.5 openvpn-examples.5.html: $(openvpn_examples_sections)
 
 ######  GENERIC  RULES  ##########
 
 SUFFIXES = .8.rst .8 .8.html .5.rst .5 .5.html
+
+RST_FLAGS = --strict
 
 MAINTAINERCLEANFILES = \
 	$(srcdir)/Makefile.in
 
 .8.rst.8 .5.rst.5 :
 if HAVE_PYDOCUTILS
-	$(RST2MAN) $< > $@
+	$(RST2MAN) $(RST_FLAGS) $< > $@
 else
 	@echo "Missing python-docutils - skipping man page generation ($@)"
 endif
 
 .8.rst.8.html .5.rst.5.html :
 if HAVE_PYDOCUTILS
-	$(RST2HTML) $< > $@
+	$(RST2HTML) $(RST_FLAGS) $< > $@
 else
 	@echo "Missing python-docutils - skipping html page generation ($@)"
 endif

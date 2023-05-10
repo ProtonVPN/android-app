@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -35,8 +35,8 @@
 #include <mbedtls/sha512.h>
 
 namespace openvpn {
-  inline std::string crypto_self_test_mbedtls()
-  {
+inline std::string crypto_self_test_mbedtls()
+{
     std::ostringstream os;
 #ifdef MBEDTLS_SELF_TEST
     const int verbose = 1;
@@ -50,7 +50,7 @@ namespace openvpn {
     os << "mbed TLS self test: not compiled" << std::endl;
 #endif
     return os.str();
-  }
 }
+} // namespace openvpn
 
 #endif

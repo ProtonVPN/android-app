@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2017-2022 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2017, Oracle and/or its affiliates.  All rights reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
@@ -593,7 +593,7 @@ static int aria_ccm_ctrl(EVP_CIPHER_CTX *c, int type, int arg, void *ptr)
 
     case EVP_CTRL_AEAD_SET_IVLEN:
         arg = 15 - arg;
-        /* fall thru */
+        /* fall through */
     case EVP_CTRL_CCM_SET_L:
         if (arg < 2 || arg > 8)
             return 0;

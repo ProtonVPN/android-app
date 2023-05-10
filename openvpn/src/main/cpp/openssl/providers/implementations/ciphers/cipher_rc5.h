@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2020 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -10,7 +10,7 @@
 #include <openssl/rc5.h>
 #include "prov/ciphercommon.h"
 
-typedef struct prov_blowfish_ctx_st {
+typedef struct prov_rc5_ctx_st {
     PROV_CIPHER_CTX base;      /* Must be first */
     union {
         OSSL_UNION_ALIGN;

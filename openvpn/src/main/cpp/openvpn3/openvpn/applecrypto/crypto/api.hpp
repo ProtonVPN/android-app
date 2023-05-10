@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -29,8 +29,9 @@
 
 namespace openvpn {
 
-  // type container for Apple Crypto-level API
-  struct AppleCryptoAPI {
+// type container for Apple Crypto-level API
+struct AppleCryptoAPI
+{
     // cipher
     typedef AppleCrypto::CipherContext CipherContext;
     typedef AppleCrypto::CipherContextAEAD CipherContextAEAD;
@@ -40,7 +41,7 @@ namespace openvpn {
 
     // HMAC
     typedef AppleCrypto::HMACContext HMACContext;
-  };
-}
+};
+} // namespace openvpn
 
 #endif

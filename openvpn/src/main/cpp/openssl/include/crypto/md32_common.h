@@ -1,5 +1,5 @@
 /*
- * Copyright 1999-2018 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1999-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -94,6 +94,28 @@
 #endif
 
 #define ROTATE(a,n)     (((a)<<(n))|(((a)&0xffffffff)>>(32-(n))))
+
+#ifndef PEDANTIC
+# if defined(__GNUC__) && __GNUC__>=2 && \
+     !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
+#  if defined(__riscv_zbb) || defined(__riscv_zbkb)
+#   if __riscv_xlen == 64
+#   undef ROTATE
+#   define ROTATE(x, n) ({ MD32_REG_T ret;            \
+                       asm ("roriw %0, %1, %2"        \
+                       : "=r"(ret)                    \
+                       : "r"(x), "i"(32 - (n))); ret;})
+#   endif
+#   if __riscv_xlen == 32
+#   undef ROTATE
+#   define ROTATE(x, n) ({ MD32_REG_T ret;            \
+                       asm ("rori %0, %1, %2"         \
+                       : "=r"(ret)                    \
+                       : "r"(x), "i"(32 - (n))); ret;})
+#   endif
+#  endif
+# endif
+#endif
 
 #if defined(DATA_ORDER_IS_BIG_ENDIAN)
 

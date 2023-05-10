@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -69,7 +69,8 @@ crypto_init_lib_engine(const char *engine_name)
         "available");
 }
 
-provider_t *crypto_load_provider(const char *provider)
+provider_t *
+crypto_load_provider(const char *provider)
 {
     if (provider)
     {
@@ -78,7 +79,8 @@ provider_t *crypto_load_provider(const char *provider)
     return NULL;
 }
 
-void crypto_unload_provider(const char *provname, provider_t *provider)
+void
+crypto_unload_provider(const char *provname, provider_t *provider)
 {
 }
 
@@ -391,7 +393,7 @@ rand_bytes(uint8_t *output, int len)
  *
  */
 static const mbedtls_cipher_info_t *
-cipher_get(const char* ciphername)
+cipher_get(const char *ciphername)
 {
     ASSERT(ciphername);
 
@@ -403,14 +405,17 @@ cipher_get(const char* ciphername)
 }
 
 bool
-cipher_valid(const char *ciphername)
+cipher_valid_reason(const char *ciphername, const char **reason)
 {
+    ASSERT(reason);
+
     const mbedtls_cipher_info_t *cipher = cipher_get(ciphername);
 
     if (NULL == cipher)
     {
         msg(D_LOW, "Cipher algorithm '%s' not found", ciphername);
-        return NULL;
+        *reason = "disabled because unknown";
+        return false;
     }
 
     if (cipher->key_bitlen/8 > MAX_CIPHER_KEY_LENGTH)
@@ -418,10 +423,12 @@ cipher_valid(const char *ciphername)
         msg(D_LOW, "Cipher algorithm '%s' uses a default key size (%d bytes) "
             "which is larger than " PACKAGE_NAME "'s current maximum key size "
             "(%d bytes)", ciphername, cipher->key_bitlen/8, MAX_CIPHER_KEY_LENGTH);
-        return NULL;
+        *reason = "disabled due to key size too large";
+        return false;
     }
 
-    return cipher != NULL;
+    *reason = NULL;
+    return true;
 }
 
 const char *
@@ -615,25 +622,28 @@ cipher_ctx_mode(const mbedtls_cipher_context_t *ctx)
     return cipher_kt_mode(ctx->cipher_info);
 }
 
-bool cipher_ctx_mode_cbc(const cipher_ctx_t *ctx)
+bool
+cipher_ctx_mode_cbc(const cipher_ctx_t *ctx)
 {
     return ctx && cipher_ctx_mode(ctx) == OPENVPN_MODE_CBC;
 }
 
 
-bool cipher_ctx_mode_ofb_cfb(const cipher_ctx_t *ctx)
+bool
+cipher_ctx_mode_ofb_cfb(const cipher_ctx_t *ctx)
 {
     return ctx && (cipher_ctx_mode(ctx) == OPENVPN_MODE_OFB
-        || cipher_ctx_mode(ctx) == OPENVPN_MODE_CFB);
+                   || cipher_ctx_mode(ctx) == OPENVPN_MODE_CFB);
 }
 
-bool cipher_ctx_mode_aead(const cipher_ctx_t *ctx)
+bool
+cipher_ctx_mode_aead(const cipher_ctx_t *ctx)
 {
     return ctx && (cipher_ctx_mode(ctx) == OPENVPN_MODE_GCM
 #ifdef MBEDTLS_CHACHAPOLY_C
-        || cipher_ctx_mode(ctx) == MBEDTLS_MODE_CHACHAPOLY
+                   || cipher_ctx_mode(ctx) == MBEDTLS_MODE_CHACHAPOLY
 #endif
-    );
+                   );
 }
 
 int
@@ -799,11 +809,11 @@ md_kt_name(const char *mdname)
 unsigned char
 md_kt_size(const char *mdname)
 {
-    const mbedtls_md_info_t *kt = md_get(mdname);
-    if (NULL == kt)
+    if (!strcmp("none", mdname))
     {
         return 0;
     }
+    const mbedtls_md_info_t *kt = md_get(mdname);
     return mbedtls_md_get_size(kt);
 }
 
@@ -1023,7 +1033,7 @@ tls1_P_hash(const mbedtls_md_info_t *md_kt, const uint8_t *sec, int sec_len,
     ASSERT(0 == mbedtls_md_setup(ctx_tmp, md_kt, 1));
     ASSERT(0 == mbedtls_md_hmac_starts(ctx_tmp, sec, sec_len));
 
-    hmac_ctx_update(ctx,seed,seed_len);
+    hmac_ctx_update(ctx, seed, seed_len);
     hmac_ctx_final(ctx, A1);
 
     for (;; )

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,18 +31,18 @@
 
 namespace openvpn {
 
-  inline std::string cxx_demangle(const char *mangled_name)
-  {
+inline std::string cxx_demangle(const char *mangled_name)
+{
     int status;
     std::unique_ptr<char[]> realname;
 
     realname.reset(abi::__cxa_demangle(mangled_name, 0, 0, &status));
     if (!status)
-      return std::string(realname.get());
+        return std::string(realname.get());
     else
-      return "DEMANGLE_ERROR";
-  }
-
+        return "DEMANGLE_ERROR";
 }
+
+} // namespace openvpn
 
 #endif

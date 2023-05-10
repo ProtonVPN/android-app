@@ -1,9 +1,9 @@
-set(VERSION 1.27)
+set(VERSION 1.29.0)
 
 vcpkg_download_distfile(ARCHIVE
-    URLS "https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-${VERSION}/pkcs11-helper-${VERSION}.0.tar.bz2"
+    URLS "https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-${VERSION}/pkcs11-helper-${VERSION}.tar.bz2"
     FILENAME "pkcs11-helper-${VERSION}.tar.bz2"
-    SHA512 5799342cb755dae8b7ba0880d652e9d4b4f1e52a74043015e1185e1e059326cb2689bb51957db98060ac2257dee34e2f047dcf3d52ad59fd49b91fedcfc5332b
+    SHA512 c530f5a4b5826a02bfe787a1293a7595d5a0d6348daa16675bd10c6d6734b1f24a3cc73b5b89433cf1edf8815f8b7298fdfd1ed686f096bb5edfb425e9430eb2
 )
 
 vcpkg_extract_source_archive_ex(
@@ -11,9 +11,10 @@ vcpkg_extract_source_archive_ex(
     ARCHIVE ${ARCHIVE}
     REF ${VERSION}
     PATCHES
-        0001-nmake-openssl-1.1.1-support.patch
-        0002-nmake-compatibility-with-vcpkg-nmake.patch
+        0001-nmake-compatibility-with-vcpkg-nmake.patch
+        0002-config-w32-vc.h.in-indicate-OpenSSL.patch
         pkcs11-helper-001-RFC7512.patch
+        pkcs11-helper-002-dynamic_loader_flags.patch
 )
 
 vcpkg_build_nmake(

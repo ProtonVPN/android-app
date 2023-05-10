@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Technologies, Inc. <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Technologies, Inc. <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -54,7 +54,7 @@ int openvpn_popen(const struct argv *a,  const struct env_set *es);
 bool openvpn_execve_allowed(const unsigned int flags);
 
 int openvpn_execve_check(const struct argv *a, const struct env_set *es,
-                          const unsigned int flags, const char *error_message);
+                         const unsigned int flags, const char *error_message);
 
 /**
  * Will run a script and return the exit code of the script if between

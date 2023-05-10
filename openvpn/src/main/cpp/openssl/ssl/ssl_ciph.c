@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved
  * Copyright 2005 Nokia. All rights reserved.
  *
@@ -532,7 +532,8 @@ int ssl_cipher_get_evp(SSL_CTX *ctx, const SSL_SESSION *s,
         ctmp.id = s->compress_meth;
         if (ssl_comp_methods != NULL) {
             i = sk_SSL_COMP_find(ssl_comp_methods, &ctmp);
-            *comp = sk_SSL_COMP_value(ssl_comp_methods, i);
+            if (i >= 0)
+                *comp = sk_SSL_COMP_value(ssl_comp_methods, i);
         }
         /* If were only interested in comp then return success */
         if ((enc == NULL) && (md == NULL))
@@ -555,11 +556,14 @@ int ssl_cipher_get_evp(SSL_CTX *ctx, const SSL_SESSION *s,
         if (c->algorithm_mac == SSL_AEAD)
             mac_pkey_type = NULL;
     } else {
-        if (!ssl_evp_md_up_ref(ctx->ssl_digest_methods[i])) {
+        const EVP_MD *digest = ctx->ssl_digest_methods[i];
+
+        if (digest == NULL
+                || !ssl_evp_md_up_ref(digest)) {
             ssl_evp_cipher_free(*enc);
             return 0;
         }
-        *md = ctx->ssl_digest_methods[i];
+        *md = digest;
         if (mac_pkey_type != NULL)
             *mac_pkey_type = ctx->ssl_mac_pkey_id[i];
         if (mac_secret_size != NULL)
@@ -815,8 +819,9 @@ static void ssl_cipher_apply_rule(uint32_t cipher_id, uint32_t alg_mkey,
     OSSL_TRACE_BEGIN(TLS_CIPHER){
         BIO_printf(trc_out,
                    "Applying rule %d with %08x/%08x/%08x/%08x/%08x %08x (%d)\n",
-                   rule, alg_mkey, alg_auth, alg_enc, alg_mac, min_tls,
-                   algo_strength, strength_bits);
+                   rule, (unsigned int)alg_mkey, (unsigned int)alg_auth,
+                   (unsigned int)alg_enc, (unsigned int)alg_mac, min_tls,
+                   (unsigned int)algo_strength, (int)strength_bits);
     }
 
     if (rule == CIPHER_DEL || rule == CIPHER_BUMP)
@@ -860,9 +865,13 @@ static void ssl_cipher_apply_rule(uint32_t cipher_id, uint32_t alg_mkey,
                 BIO_printf(trc_out,
                            "\nName: %s:"
                            "\nAlgo = %08x/%08x/%08x/%08x/%08x Algo_strength = %08x\n",
-                           cp->name, cp->algorithm_mkey, cp->algorithm_auth,
-                           cp->algorithm_enc, cp->algorithm_mac, cp->min_tls,
-                           cp->algo_strength);
+                           cp->name,
+                           (unsigned int)cp->algorithm_mkey,
+                           (unsigned int)cp->algorithm_auth,
+                           (unsigned int)cp->algorithm_enc,
+                           (unsigned int)cp->algorithm_mac,
+                           cp->min_tls,
+                           (unsigned int)cp->algo_strength);
             }
             if (cipher_id != 0 && (cipher_id != cp->id))
                 continue;
@@ -1059,9 +1068,7 @@ static int ssl_cipher_process_rulestr(const char *rule_str,
                  * alphanumeric, so we call this an error.
                  */
                 ERR_raise(ERR_LIB_SSL, SSL_R_INVALID_COMMAND);
-                retval = found = 0;
-                l++;
-                break;
+                return 0;
             }
 
             if (rule == CIPHER_SPECIAL) {

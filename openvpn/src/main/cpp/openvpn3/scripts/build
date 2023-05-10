@@ -60,6 +60,8 @@ if [ -z "$1" ]; then
     echo " VAL=1 -- (optional) build with valgrind run-time extensions"
     echo " ASAN=1 -- (optional) enable ASAN run-time checks"
     echo " PCRE=1 -- build with PCRE library"
+    echo " SYSD=1 -- build with systemd library"
+    echo " SQLITE=1 -- build with sqlite3 library"
     for s in $(enum_build_extras) ; do
 	. $s args
     done
@@ -104,7 +106,7 @@ if [ "$MA_HYBRID" = "1" ]; then
     MTLS=1
 fi
 
-# building on Mac OS X for osx, ios, or iossim?
+# building on Mac OS X for osx or ios?
 if [ "$APPLE_FAMILY" = "1" ]; then
     [ -z "$CLANG" ] && CLANG=1
 fi
@@ -291,6 +293,18 @@ fi
 if [ "$CAP" = "1" ]; then
     LIBS="$LIBS -lcap"
     CPPFLAGS="$CPPFLAGS -DHAVE_LIBCAP"
+fi
+
+# libsystemd
+if [ "$SYSD" = "1" ]; then
+    LIBS="$LIBS -lsystemd"
+    CPPFLAGS="$CPPFLAGS -DHAVE_LIBSYSTEMD"
+fi
+
+# libsqlite3
+if [ "$SQLITE" = "1" ]; then
+    LIBS="$LIBS -lsqlite3"
+    CPPFLAGS="$CPPFLAGS -DHAVE_SQLITE"
 fi
 
 # PCRE

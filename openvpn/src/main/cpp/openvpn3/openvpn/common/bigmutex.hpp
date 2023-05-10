@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -37,16 +37,16 @@
 #include <openvpn/common/extern.hpp>
 
 namespace openvpn {
-  namespace bigmutex {
-    OPENVPN_EXTERN std::recursive_mutex the_recursive_mutex;
-  }
-
-  #ifdef OPENVPN_ENABLE_BIGMUTEX
-    #define OPENVPN_ASYNC_HANDLER \
-      std::lock_guard<std::recursive_mutex> lg(bigmutex::the_recursive_mutex);
-  #else
-    #define OPENVPN_ASYNC_HANDLER
-  #endif
+namespace bigmutex {
+OPENVPN_EXTERN std::recursive_mutex the_recursive_mutex;
 }
+
+#ifdef OPENVPN_ENABLE_BIGMUTEX
+#define OPENVPN_ASYNC_HANDLER \
+    std::lock_guard<std::recursive_mutex> lg(bigmutex::the_recursive_mutex);
+#else
+#define OPENVPN_ASYNC_HANDLER
+#endif
+} // namespace openvpn
 
 #endif

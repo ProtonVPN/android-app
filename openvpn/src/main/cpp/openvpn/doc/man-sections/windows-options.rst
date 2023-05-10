@@ -41,13 +41,22 @@ Windows-Specific Options
 
      cryptoapicert "SUBJ:Peter Runestig"
 
-  To select a certificate, based on certificate's thumbprint:
+  To select a certificate, based on certificate's thumbprint (SHA1 hash):
   ::
 
      cryptoapicert "THUMB:f6 49 24 41 01 b4 ..."
 
   The thumbprint hex string can easily be copy-and-pasted from the Windows
-  Certificate Store GUI.
+  Certificate Store GUI. The embedded spaces in the hex string are optional.
+
+  To select a certificate based on a substring in certificate's
+  issuer name:
+  ::
+
+     cryptoapicert "ISSUER:Sample CA"
+
+  The first non-expired certificate found in the user's store or the
+  machine store that matches the select-string is used.
 
 --dhcp-release
   Ask Windows to release the TAP adapter lease on shutdown. This option
@@ -238,7 +247,7 @@ Windows-Specific Options
   logged when this is found in the configuration file.
 
 --windows-driver drv
-  Specifies which tun driver to use. Values are :code:`tap-windows6`
-  (default) and :code:`wintun`.  This is a Windows-only option.
-  :code:`wintun`" requires ``--dev tun`` and the OpenVPN process to run
+  Specifies which tun driver to use. Values are :code:`ovpn-dco` (default),
+  :code:`tap-windows6` and :code:`wintun`. :code:`ovpn-dco` and :code:`wintun`
+  require ``--dev tun``. :code:`wintun` also requires OpenVPN process to run
   elevated, or be invoked using the Interactive Service.

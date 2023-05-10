@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -24,35 +24,36 @@
 #include <string>
 
 namespace openvpn {
-  namespace HaltRestart {
-    enum Type {
-      HALT,             // disconnect
-      RESTART,          // restart, don't preserve session token
-      RESTART_PSID,     // restart, preserve session token
-      RESTART_PASSIVE,  // restart, preserve session token and local client instance object
-      AUTH_FAILED,      // auth fail, don't preserve session token
-      RAW,              // pass raw message to client
-    };
+namespace HaltRestart {
+enum Type
+{
+    HALT,            // disconnect
+    RESTART,         // restart, don't preserve session token
+    RESTART_PSID,    // restart, preserve session token
+    RESTART_PASSIVE, // restart, preserve session token and local client instance object
+    AUTH_FAILED,     // auth fail, don't preserve session token
+    RAW,             // pass raw message to client
+};
 
-    inline std::string to_string(Type type)
+inline std::string to_string(Type type)
+{
+    switch (type)
     {
-      switch (type)
-	{
-	case HALT:
-	  return "HALT";
-	case RESTART:
-	  return "RESTART";
-	case RESTART_PSID:
-	  return "RESTART_PSID";
-	case RESTART_PASSIVE:
-	  return "RESTART_PASSIVE";
-	case AUTH_FAILED:
-	  return "AUTH_FAILED";
-	case RAW:
-	  return "RAW";
-	default:
-	  return "HaltRestart_?";
-	}
+    case HALT:
+        return "HALT";
+    case RESTART:
+        return "RESTART";
+    case RESTART_PSID:
+        return "RESTART_PSID";
+    case RESTART_PASSIVE:
+        return "RESTART_PASSIVE";
+    case AUTH_FAILED:
+        return "AUTH_FAILED";
+    case RAW:
+        return "RAW";
+    default:
+        return "HaltRestart_?";
     }
-  }
 }
+} // namespace HaltRestart
+} // namespace openvpn

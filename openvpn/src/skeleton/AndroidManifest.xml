@@ -4,10 +4,8 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="de.blinkt.openvpn">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!--
     <application tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
                 android:exported="true"
@@ -27,5 +25,5 @@
                 />
 
     </application>
-    -->
+
 </manifest>

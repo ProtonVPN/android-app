@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -308,7 +308,7 @@ recv_socks_reply(socket_descriptor_t sd,
     char atyp = '\0';
     int alen = 0;
     int len = 0;
-    char buf[270];		/* 4 + alen(max 256) + 2 */
+    char buf[270];              /* 4 + alen(max 256) + 2 */
     const int timeout_sec = 5;
 
     if (addr != NULL)
@@ -357,9 +357,14 @@ recv_socks_reply(socket_descriptor_t sd,
         size = recv(sd, &c, 1, MSG_NOSIGNAL);
 
         /* error? */
-        if (size != 1)
+        if (size < 0)
         {
             msg(D_LINK_ERRORS | M_ERRNO, "recv_socks_reply: TCP port read failed on recv()");
+            return false;
+        }
+        else if (size == 0)
+        {
+            msg(D_LINK_ERRORS, "ERROR: recv_socks_reply: empty response from socks server");
             return false;
         }
 
@@ -448,12 +453,12 @@ establish_socks_proxy_passthru(struct socks_proxy_info *p,
                                socket_descriptor_t sd,  /* already open to proxy */
                                const char *host,        /* openvpn server remote */
                                const char *servname,    /* openvpn server port */
-                               volatile int *signal_received)
+                               struct signal_info *sig_info)
 {
     char buf[270];
     size_t len;
 
-    if (!socks_handshake(p, sd, signal_received))
+    if (!socks_handshake(p, sd, &sig_info->signal_received))
     {
         goto error;
     }
@@ -491,7 +496,7 @@ establish_socks_proxy_passthru(struct socks_proxy_info *p,
 
 
     /* receive reply from Socks proxy and discard */
-    if (!recv_socks_reply(sd, NULL, signal_received))
+    if (!recv_socks_reply(sd, NULL, &sig_info->signal_received))
     {
         goto error;
     }
@@ -499,10 +504,8 @@ establish_socks_proxy_passthru(struct socks_proxy_info *p,
     return;
 
 error:
-    if (!*signal_received)
-    {
-        *signal_received = SIGUSR1; /* SOFT-SIGUSR1 -- socks error */
-    }
+    /* SOFT-SIGUSR1 -- socks error */
+    register_signal(sig_info, SIGUSR1, "socks-error");
     return;
 }
 
@@ -511,9 +514,9 @@ establish_socks_proxy_udpassoc(struct socks_proxy_info *p,
                                socket_descriptor_t ctrl_sd,  /* already open to proxy */
                                socket_descriptor_t udp_sd,
                                struct openvpn_sockaddr *relay_addr,
-                               volatile int *signal_received)
+                               struct signal_info *sig_info)
 {
-    if (!socks_handshake(p, ctrl_sd, signal_received))
+    if (!socks_handshake(p, ctrl_sd, &sig_info->signal_received))
     {
         goto error;
     }
@@ -534,7 +537,7 @@ establish_socks_proxy_udpassoc(struct socks_proxy_info *p,
 
     /* receive reply from Socks proxy */
     CLEAR(*relay_addr);
-    if (!recv_socks_reply(ctrl_sd, relay_addr, signal_received))
+    if (!recv_socks_reply(ctrl_sd, relay_addr, &sig_info->signal_received))
     {
         goto error;
     }
@@ -542,10 +545,8 @@ establish_socks_proxy_udpassoc(struct socks_proxy_info *p,
     return;
 
 error:
-    if (!*signal_received)
-    {
-        *signal_received = SIGUSR1; /* SOFT-SIGUSR1 -- socks error */
-    }
+    /* SOFT-SIGUSR1 -- socks error */
+    register_signal(sig_info, SIGUSR1, "socks-error");
     return;
 }
 
