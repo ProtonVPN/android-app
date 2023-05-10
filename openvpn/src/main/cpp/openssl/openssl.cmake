@@ -143,6 +143,7 @@ set(crypto_srcs
         crypto/bn/bn_word.c
         crypto/bn/bn_x931p.c
         crypto/bn/rsaz_exp.c
+        crypto/bn/rsa_sup_mul.c
         crypto/bsearch.c
         crypto/buffer/buf_err.c
         crypto/buffer/buffer.c
@@ -663,8 +664,8 @@ set(crypto_srcs
 if (${ANDROID_ABI} STREQUAL "armeabi-v7a")
     set(crypto_srcs ${crypto_srcs}
             crypto/aes/asm/aes-armv4.S
-            crypto/aes/asm/aesv8-armx.S
             crypto/aes/asm/bsaes-armv7.S
+            crypto/aes/asm/aesv8-armx.S
             crypto/armcap.c
             crypto/armv4cpuid.S
             crypto/bn/asm/armv4-gf2m.S
@@ -682,18 +683,25 @@ elseif (${ANDROID_ABI} STREQUAL "arm64-v8a")
     set(crypto_srcs ${crypto_srcs}
             crypto/aes/aes_core.c
             crypto/aes/asm/aesv8-armx-64.S
+            crypto/aes/asm/bsaes-armv8.S
             crypto/aes/asm/vpaes-armv8.S
             crypto/arm64cpuid.S
             crypto/armcap.c
             crypto/bn/asm/armv8-mont.S
+            crypto/chacha/asm/chacha-armv8-sve.S
             crypto/ec/asm/ecp_nistz256-armv8.S
+            crypto/md5/asm/md5-aarch64.S
             crypto/modes/asm/ghashv8-armx-64.S
             crypto/modes/asm/aes-gcm-armv8_64.S
+            crypto/modes/aes-gcm-armv8-unroll8_64.S
             crypto/poly1305/asm/poly1305-armv8.S
             crypto/sha/asm/sha1-armv8.S
             crypto/sha/asm/sha256-armv8.S
             crypto/sha/asm/sha512-armv8.S
             crypto/sha/asm/keccak1600-armv8.S
+            crypto/sm3/asm/sm3-armv8.S
+            crypto/sm4/asm/sm4-armv8.S
+            crypto/sm4/asm/vpsm4-armv8.S
             )
 elseif (${ANDROID_ABI} STREQUAL "x86")
     set(crypto_srcs ${crypto_srcs}
@@ -734,6 +742,9 @@ elseif (${ANDROID_ABI} STREQUAL "x86_64")
             crypto/aes/asm/vpaes-x86_64.S
             crypto/bn/asm/rsaz-avx2.S
             crypto/bn/asm/rsaz-x86_64.S
+            crypto/bn/asm/rsaz-4k-avx512.S
+            crypto/bn/asm/rsaz-2k-avx512.S
+            crypto/bn/asm/rsaz-3k-avx512.S
             crypto/bn/asm/x86_64-gcc.c
             crypto/bn/asm/x86_64-gf2m.S
             crypto/bn/asm/x86_64-mont.S
@@ -742,6 +753,7 @@ elseif (${ANDROID_ABI} STREQUAL "x86_64")
             crypto/md5/asm/md5-x86_64.S
             crypto/modes/asm/aesni-gcm-x86_64.S
             crypto/modes/asm/ghash-x86_64.S
+            crypto/modes/asm/aes-gcm-avx512.S
             crypto/poly1305/asm/poly1305-x86_64.S
             crypto/rc4/asm/rc4-md5-x86_64.S
             crypto/rc4/asm/rc4-x86_64.S
@@ -817,7 +829,6 @@ set(provider_srcs
         providers/implementations/ciphers/cipher_aes_siv.c
         providers/implementations/ciphers/cipher_tdes_common.c
         providers/implementations/ciphers/cipher_aes_ccm.c
-        providers/implementations/ciphers/cipher_sm4.c
         providers/implementations/ciphers/cipher_aes_hw.c
         providers/implementations/ciphers/cipher_aes_ocb_hw.c
         providers/implementations/ciphers/cipher_cts.c
@@ -832,7 +843,6 @@ set(provider_srcs
         providers/implementations/ciphers/ciphercommon.c
         providers/implementations/ciphers/ciphercommon_block.c
         providers/implementations/ciphers/cipher_tdes_default_hw.c
-        providers/implementations/ciphers/cipher_sm4_hw.c
         providers/implementations/ciphers/ciphercommon_gcm.c
         providers/implementations/ciphers/cipher_tdes_wrap_hw.c
         providers/implementations/ciphers/cipher_desx.c
@@ -853,6 +863,12 @@ set(provider_srcs
         providers/implementations/ciphers/cipher_aes_gcm_hw.c
         providers/implementations/ciphers/cipher_tdes_hw.c
         providers/implementations/ciphers/cipher_aes_xts_fips.c
+        providers/implementations/ciphers/cipher_sm4.c
+        providers/implementations/ciphers/cipher_sm4_ccm.c
+        providers/implementations/ciphers/cipher_sm4_ccm_hw.c
+        providers/implementations/ciphers/cipher_sm4_gcm.c
+        providers/implementations/ciphers/cipher_sm4_gcm_hw.c
+        providers/implementations/ciphers/cipher_sm4_hw.c
         providers/implementations/digests/blake2_prov.c
         providers/implementations/digests/blake2s_prov.c
         providers/implementations/digests/blake2b_prov.c
@@ -906,6 +922,7 @@ set(provider_srcs
         providers/implementations/macs/kmac_prov.c
         providers/implementations/macs/poly1305_prov.c
         providers/implementations/macs/siphash_prov.c
+        providers/implementations/rands/crngt.c
         providers/implementations/rands/drbg.c
         providers/implementations/rands/drbg_ctr.c
         providers/implementations/rands/drbg_hash.c
@@ -954,6 +971,7 @@ target_include_directories(crypto PRIVATE
 
 target_compile_definitions(crypto PRIVATE -DNO_WINDOWS_BRAINDEATH -DMODULESDIR="ossl-modules" -DOPENSSL_BUILDING_OPENSSL)
 target_compile_options(crypto PRIVATE -Wno-missing-field-initializers -Wno-unused-parameter
+        -DMD5_ASM
         -DKECCAK1600_ASM
         -DNDEBUG
         -DECP_NISTZ256_ASM
@@ -979,7 +997,11 @@ if (${ANDROID_ABI} STREQUAL "armeabi-v7a")
 elseif (${ANDROID_ABI} STREQUAL "arm64-v8a")
     target_compile_definitions(crypto PRIVATE
             -DPOLY1305_ASM
+            -DBSAES_ASM
             -DVPAES_ASM
+            -DVPSM4_ASM
+            -DOPENSSL_SM3_ASM
+            -DSM4_ASM
             )
 elseif (${ANDROID_ABI} STREQUAL "x86")
     target_compile_definitions(crypto PRIVATE
@@ -987,7 +1009,6 @@ elseif (${ANDROID_ABI} STREQUAL "x86")
             -DDES_ASM
             -DECP_NISTZ256_ASM
             -DGHASH_ASM
-            -DMD5_ASM
             -DOPENSSL_BN_ASM_GF2m
             -DOPENSSL_BN_ASM_PART_WORDS
             -DOPENSSL_IA32_SSE2
@@ -998,9 +1019,9 @@ elseif (${ANDROID_ABI} STREQUAL "x86_64")
     target_compile_definitions(crypto PRIVATE
             -DAES_ASM
             -DBSAES_ASM
+            -DCMLL_ASM
             -DECP_NISTZ256_ASM
             -DGHASH_ASM
-            -DMD5_ASM
             -DNDEBUG
             -DOPENSSL_BN_ASM_GF2m
             -DOPENSSL_BN_ASM_MONT5

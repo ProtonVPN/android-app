@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -23,13 +23,14 @@
 #define OPENVPN_TUN_BUILDER_RGWFLAGS_H
 
 namespace openvpn {
-  namespace RGWFlags {
-    // These flags are passed as the flags argument to TunBuilderBase::tun_builder_reroute_gw
-    // NOTE: must not collide with RG_x flags in rgopt.hpp.
-    enum {
-      EmulateExcludeRoutes=(1<<16),
-    };
-  }
-}
+namespace RGWFlags {
+// These flags are passed as the flags argument to TunBuilderBase::tun_builder_reroute_gw
+// NOTE: must not collide with RG_x flags in rgopt.hpp.
+enum
+{
+    EmulateExcludeRoutes = (1 << 16),
+};
+} // namespace RGWFlags
+} // namespace openvpn
 
 #endif

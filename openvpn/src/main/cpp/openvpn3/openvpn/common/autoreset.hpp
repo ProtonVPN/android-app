@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,29 +27,30 @@
 
 namespace openvpn {
 
-  template <typename T>
-  class AutoReset
-  {
+template <typename T>
+class AutoReset
+{
   public:
-    AutoReset(T& obj)
-      : obj_(&obj)
-    {}
+    AutoReset(T &obj)
+        : obj_(&obj)
+    {
+    }
 
     ~AutoReset()
     {
-      if (obj_)
-	obj_->reset();
+        if (obj_)
+            obj_->reset();
     }
 
     void disarm()
     {
-      obj_ = nullptr;
+        obj_ = nullptr;
     }
 
   private:
-    T* obj_;
-  };
+    T *obj_;
+};
 
-}
+} // namespace openvpn
 
 #endif

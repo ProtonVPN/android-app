@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2001-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -83,9 +83,9 @@ int OSSL_parse_url(const char *url, char **pscheme, char **puser, char **phost,
     else
         host = p;
 
-    /* parse host name/address as far as needed here */
+    /* parse hostname/address as far as needed here */
     if (host[0] == '[') {
-        /* ipv6 literal, which may include ':' */
+        /* IPv6 literal, which may include ':' */
         host_end = strchr(host + 1, ']');
         if (host_end == NULL)
             goto parse_err;

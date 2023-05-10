@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -80,6 +80,11 @@
 #define MSSFIX_DEFAULT     1492
 
 /*
+ * Default maximum size of control channel packets
+ */
+#define TLS_MTU_DEFAULT    1250
+
+/*
  * Alignment of payload data such as IP packet or
  * ethernet frame.
  */
@@ -133,6 +138,9 @@ struct frame {
                                  *   control frame payload (although most of
                                  *   code ignores it)
                                  */
+    int tun_max_mtu;            /**< the maximum tun-mtu size the buffers are
+                                 *   are sized for. This is the upper bound that
+                                 *   a server can push as MTU */
 
     int extra_tun;              /**< Maximum number of bytes in excess of
                                  *   the tun/tap MTU that might be read
@@ -148,27 +156,6 @@ struct frame {
 /* Forward declarations, to prevent includes */
 struct options;
 
-/* Routines which read struct frame should use the macros below */
-
-/*
- * Overhead added to packet payload due to encapsulation
- */
-#define EXTRA_FRAME(f)           ((f)->extra_frame)
-
-/*
- * Delta between tun payload size and final TCP/UDP datagram size
- * (not including extra_link additions)
- */
-#define TUN_LINK_DELTA(f)        ((f)->extra_frame + (f)->extra_tun)
-
-/*
- * This is the maximum packet size that we need to be able to
- * read from or write to a tun or tap device.  For example,
- * a tap device ifconfiged to an MTU of 1200 might actually want
- * to return a packet size of 1214 on a read().
- */
-#define PAYLOAD_SIZE(f)          ((f)->buf.payload_size)
-
 /*
  * Control buffer headroom allocations to allow for efficient prepending.
  */
@@ -183,8 +170,6 @@ struct options;
  * larger than the headroom.
  */
 #define BUF_SIZE(f) ((f)->buf.headroom + (f)->buf.payload_size + (f)->buf.tailroom)
-
-#define FRAME_HEADROOM(f)          ((f)->buf.headroom)
 
 /*
  * Function prototypes.
@@ -232,10 +217,10 @@ frame_calculate_payload_size(const struct frame *frame,
  * *  [IP][UDP][OPENVPN PROTOCOL HEADER][ **PAYLOAD incl compression header** ]
  */
 size_t
-frame_calculate_payload_overhead(const struct frame *frame,
+frame_calculate_payload_overhead(size_t extra_tun,
                                  const struct options *options,
-                                 const struct key_type *kt,
-                                 bool extra_tun);
+                                 const struct key_type *kt);
+
 
 /**
  * Calculates the size of the OpenVPN protocol header. This includes
@@ -276,22 +261,11 @@ unsigned int
 calc_packet_id_size_dc(const struct options *options,
                        const struct key_type *kt);
 
-
-/*
- * frame_set_mtu_dynamic and flags
- */
-
-#define SET_MTU_TUN         (1<<0) /* use tun/tap rather than link sizing */
-#define SET_MTU_UPPER_BOUND (1<<1) /* only decrease dynamic MTU */
-
-void frame_set_mtu_dynamic(struct frame *frame, int mtu, unsigned int flags);
-
 /*
  * allocate a buffer for socket or tun layer
  */
 void alloc_buf_sock_tun(struct buffer *buf,
-                        const struct frame *frame,
-                        const bool tuntap_buffer);
+                        const struct frame *frame);
 
 /*
  * EXTENDED_SOCKET_ERROR_CAPABILITY functions -- print extra error info
@@ -301,26 +275,10 @@ void alloc_buf_sock_tun(struct buffer *buf,
 
 #if EXTENDED_SOCKET_ERROR_CAPABILITY
 
-void set_sock_extended_error_passing(int sd);
+void set_sock_extended_error_passing(int sd, sa_family_t proto_af);
 
 const char *format_extended_socket_error(int fd, int *mtu, struct gc_arena *gc);
 
 #endif
-
-/*
- * frame member adjustment functions
- */
-
-static inline void
-frame_add_to_extra_tun(struct frame *frame, const int increment)
-{
-    frame->extra_tun += increment;
-}
-
-static inline bool
-frame_defined(const struct frame *frame)
-{
-    return frame->buf.payload_size > 0;
-}
 
 #endif /* ifndef MTU_H */

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2013-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -13,8 +13,7 @@
  */
 #include "internal/deprecated.h"
 
-#include "e_os.h"
-#include "e_os.h"
+#include "internal/e_os.h"
 #include <string.h>
 #include <openssl/core_names.h>
 #include <openssl/dh.h>
@@ -39,6 +38,8 @@ int ossl_dh_kdf_X9_42_asn1(unsigned char *out, size_t outlen,
     const char *mdname = EVP_MD_get0_name(md);
 
     kdf = EVP_KDF_fetch(libctx, OSSL_KDF_NAME_X942KDF_ASN1, propq);
+    if (kdf == NULL)
+        return 0;
     kctx = EVP_KDF_CTX_new(kdf);
     if (kctx == NULL)
         goto err;

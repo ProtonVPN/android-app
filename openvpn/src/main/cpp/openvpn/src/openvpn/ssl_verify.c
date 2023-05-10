@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -377,27 +377,15 @@ verify_peer_cert(const struct tls_options *opt, openvpn_x509_cert_t *peer_cert,
     /* verify X509 name or username against --verify-x509-[user]name */
     if (opt->verify_x509_type != VERIFY_X509_NONE)
     {
-        bool match;
-        if (opt->verify_x509_type == VERIFY_X509_SAN)
-        {
-            bool have_alt_names;
-            match = x509v3_is_host_in_alternative_names(peer_cert, opt->verify_x509_name, &have_alt_names)
-                    || (!have_alt_names && strcmp(opt->verify_x509_name, common_name) == 0);
-        }
-        else
-        {
-            match = (opt->verify_x509_type == VERIFY_X509_SUBJECT_DN
+        if ( (opt->verify_x509_type == VERIFY_X509_SUBJECT_DN
               && strcmp(opt->verify_x509_name, subject) == 0)
              || (opt->verify_x509_type == VERIFY_X509_SUBJECT_RDN
                  && strcmp(opt->verify_x509_name, common_name) == 0)
              || (opt->verify_x509_type == VERIFY_X509_SUBJECT_RDN_PREFIX
                  && strncmp(opt->verify_x509_name, common_name,
-                            strlen(opt->verify_x509_name)) == 0);
-        }
-
-        if (match)
+                            strlen(opt->verify_x509_name)) == 0) )
         {
-            msg(D_HANDSHAKE, "VERIFY X509NAME OK: %s", opt->verify_x509_name);
+            msg(D_HANDSHAKE, "VERIFY X509NAME OK: %s", subject);
         }
         else
         {
@@ -928,7 +916,8 @@ check_auth_pending_method(const char *peer_info, const char *method)
  */
 static bool
 key_state_check_auth_pending_file(struct auth_deferred_status *ads,
-                                  struct tls_multi *multi)
+                                  struct tls_multi *multi,
+                                  struct tls_session *session)
 {
     bool ret = true;
     if (ads->auth_pending_file)
@@ -942,7 +931,7 @@ key_state_check_auth_pending_file(struct auth_deferred_status *ads,
             if (!lines->head || !lines->head->next || !lines->head->next->next)
             {
                 msg(M_WARN, "auth pending control file is not at least "
-                            "three lines long.");
+                    "three lines long.");
                 buffer_list_free(lines);
                 return false;
             }
@@ -963,7 +952,7 @@ key_state_check_auth_pending_file(struct auth_deferred_status *ads,
                 return false;
             }
 
-            const char* pending_method = BSTR(iv_buf);
+            const char *pending_method = BSTR(iv_buf);
             if (!check_auth_pending_method(multi->peer_info, pending_method))
             {
                 char buf[128];
@@ -972,12 +961,12 @@ key_state_check_auth_pending_file(struct auth_deferred_status *ads,
                                  "method '%s' not supported", pending_method);
                 auth_set_client_reason(multi, buf);
                 msg(M_INFO, "Client does not supported auth pending method "
-                            "'%s'", pending_method);
+                    "'%s'", pending_method);
                 ret = false;
             }
             else
             {
-                send_auth_pending_messages(multi, BSTR(extra_buf), timeout);
+                send_auth_pending_messages(multi, session, BSTR(extra_buf), timeout);
             }
         }
 
@@ -1001,6 +990,12 @@ key_state_rm_auth_control_files(struct auth_deferred_status *ads)
         free(ads->auth_control_file);
         ads->auth_control_file = NULL;
     }
+    if (ads->auth_failed_reason_file)
+    {
+        platform_unlink(ads->auth_failed_reason_file);
+        free(ads->auth_failed_reason_file);
+        ads->auth_failed_reason_file = NULL;
+    }
     key_state_rm_auth_pending_file(ads);
 }
 
@@ -1019,13 +1014,17 @@ key_state_gen_auth_control_files(struct auth_deferred_status *ads,
     key_state_rm_auth_control_files(ads);
     const char *acf = platform_create_temp_file(opt->tmp_dir, "acf", &gc);
     const char *apf = platform_create_temp_file(opt->tmp_dir, "apf", &gc);
+    const char *afr = platform_create_temp_file(opt->tmp_dir, "afr", &gc);
 
     if (acf && apf)
     {
         ads->auth_control_file = string_alloc(acf, NULL);
         ads->auth_pending_file = string_alloc(apf, NULL);
+        ads->auth_failed_reason_file = string_alloc(afr, NULL);
+
         setenv_str(opt->es, "auth_control_file", ads->auth_control_file);
         setenv_str(opt->es, "auth_pending_file", ads->auth_pending_file);
+        setenv_str(opt->es, "auth_failed_reason_file", ads->auth_failed_reason_file);
     }
 
     gc_free(&gc);
@@ -1033,9 +1032,33 @@ key_state_gen_auth_control_files(struct auth_deferred_status *ads,
 }
 
 /**
- * Checks the auth control status from a file. The function will try 
- * to read and update the cached status if the status is still pending 
- * and the parameter cached is false. 
+ * Checks if the auth failed reason file has any content and if yes it will
+ * be returned as string allocated in gc to the caller.
+ */
+static char *
+key_state_check_auth_failed_message_file(const struct auth_deferred_status *ads,
+                                         struct tls_multi *multi,
+                                         struct gc_arena *gc)
+{
+    char *ret = NULL;
+    if (ads->auth_failed_reason_file)
+    {
+        struct buffer reason = buffer_read_from_file(ads->auth_failed_reason_file, gc);
+
+        if (BLEN(&reason))
+        {
+            ret = BSTR(&reason);
+        }
+
+    }
+    return ret;
+}
+
+
+/**
+ * Checks the auth control status from a file. The function will try
+ * to read and update the cached status if the status is still pending
+ * and the parameter cached is false.
  * The function returns the most recent known status.
  *
  * @param ads       deferred status control structure
@@ -1098,7 +1121,7 @@ update_key_auth_status(bool cached, struct key_state *ks)
         ASSERT(auth_plugin < 4 && auth_script < 4 && auth_man < 4);
 
         if (auth_plugin == ACF_FAILED || auth_script == ACF_FAILED
-           || auth_man == ACF_FAILED)
+            || auth_man == ACF_FAILED)
         {
             ks->authenticated = KS_AUTH_FALSE;
             return;
@@ -1196,12 +1219,27 @@ tls_authentication_status(struct tls_multi *multi)
 #endif
     if (failed_auth)
     {
+        struct gc_arena gc = gc_new();
+        const struct key_state *ks = get_primary_key(multi);
+        const char *plugin_message = key_state_check_auth_failed_message_file(&ks->plugin_auth, multi, &gc);
+        const char *script_message = key_state_check_auth_failed_message_file(&ks->script_auth, multi, &gc);
+
+        if (plugin_message)
+        {
+            auth_set_client_reason(multi, plugin_message);
+        }
+        if (script_message)
+        {
+            auth_set_client_reason(multi, script_message);
+        }
+
         /* We have at least one session that failed authentication. There
          * might be still another session with valid keys.
          * Although our protocol allows keeping the VPN session alive
          * with the other session (and we actually did that in earlier
          * version, this behaviour is really strange from a user (admin)
          * experience */
+        gc_free(&gc);
         return TLS_AUTHENTICATION_FAILED;
     }
     else if (success)
@@ -1260,6 +1298,21 @@ tls_authenticate_key(struct tls_multi *multi, const unsigned int mda_key_id, con
  * this is the place to start.
  *************************************************************************** */
 
+/**
+ * Check if the script/plugin left a message in the auth failed message
+ * file and relay it to the user */
+static void
+check_for_client_reason(struct tls_multi *multi,
+                        struct auth_deferred_status *status)
+{
+    struct gc_arena gc = gc_new();
+    const char *msg = key_state_check_auth_failed_message_file(status, multi, &gc);
+    if (msg)
+    {
+        auth_set_client_reason(multi, msg);
+    }
+    gc_free(&gc);
+}
 /*
  * Verify the user name and password using a script
  */
@@ -1306,12 +1359,13 @@ verify_user_pass_script(struct tls_session *session, struct tls_multi *multi,
         setenv_str(session->opt->es, "password", up->password);
     }
 
-    /* generate filename for deferred auth control file */
+    /* pre-create files for deferred auth control */
     if (!key_state_gen_auth_control_files(&ks->script_auth, session->opt))
     {
         msg(D_TLS_ERRORS, "TLS Auth Error (%s): "
-                          "could not create deferred auth control file", __func__);
-        return OPENVPN_PLUGIN_FUNC_ERROR;
+            "could not create deferred auth control file", __func__);
+        retval = OPENVPN_PLUGIN_FUNC_ERROR;
+        goto error;
     }
 
     /* call command */
@@ -1319,22 +1373,25 @@ verify_user_pass_script(struct tls_session *session, struct tls_multi *multi,
                                         "--auth-user-pass-verify");
     switch (script_ret)
     {
-       case 0:
-           retval = OPENVPN_PLUGIN_FUNC_SUCCESS;
-           break;
-       case 2:
-           retval = OPENVPN_PLUGIN_FUNC_DEFERRED;
-           break;
-       default:
-           retval = OPENVPN_PLUGIN_FUNC_ERROR;
-           break;
+        case 0:
+            retval = OPENVPN_PLUGIN_FUNC_SUCCESS;
+            break;
+
+        case 2:
+            retval = OPENVPN_PLUGIN_FUNC_DEFERRED;
+            break;
+
+        default:
+            check_for_client_reason(multi, &ks->script_auth);
+            retval = OPENVPN_PLUGIN_FUNC_ERROR;
+            break;
     }
     if (retval == OPENVPN_PLUGIN_FUNC_DEFERRED)
     {
         /* Check if we the plugin has written the pending auth control
          * file and send the pending auth to the client */
-        if(!key_state_check_auth_pending_file(&ks->script_auth,
-                                              multi))
+        if (!key_state_check_auth_pending_file(&ks->script_auth,
+                                               multi, session))
         {
             retval = OPENVPN_PLUGIN_FUNC_ERROR;
             key_state_rm_auth_control_files(&ks->script_auth);
@@ -1357,9 +1414,77 @@ done:
         platform_unlink(tmp_file);
     }
 
+error:
     argv_free(&argv);
     gc_free(&gc);
     return retval;
+}
+
+#ifdef ENABLE_PLUGIN
+void
+verify_crresponse_plugin(struct tls_multi *multi, const char *cr_response)
+{
+    struct tls_session *session = &multi->session[TM_ACTIVE];
+    setenv_str(session->opt->es, "crresponse", cr_response);
+
+    plugin_call(session->opt->plugins, OPENVPN_PLUGIN_CLIENT_CRRESPONSE, NULL,
+                NULL, session->opt->es);
+
+    setenv_del(session->opt->es, "crresponse");
+}
+#endif
+
+void
+verify_crresponse_script(struct tls_multi *multi, const char *cr_response)
+{
+
+    struct tls_session *session = &multi->session[TM_ACTIVE];
+
+    if (!session->opt->client_crresponse_script)
+    {
+        return;
+    }
+    struct argv argv = argv_new();
+    struct gc_arena gc = gc_new();
+
+    setenv_str(session->opt->es, "script_type", "client-crresponse");
+
+    /* Since cr response might be sensitive, like a stupid way to query
+     * a password via 2FA, we pass it via file instead environment */
+    const char *tmp_file = platform_create_temp_file(session->opt->tmp_dir, "cr", &gc);
+    static const char *openerrmsg = "TLS CR Response Error: could not write "
+                                    "crtext challenge response to file: %s";
+
+    if (tmp_file)
+    {
+        struct status_output *so = status_open(tmp_file, 0, -1, NULL,
+                                               STATUS_OUTPUT_WRITE);
+        status_printf(so, "%s", cr_response);
+        if (!status_close(so))
+        {
+            msg(D_TLS_ERRORS, openerrmsg, tmp_file);
+            tls_deauthenticate(multi);
+            goto done;
+        }
+    }
+    else
+    {
+        msg(D_TLS_ERRORS, openerrmsg, "creating file failed");
+        tls_deauthenticate(multi);
+        goto done;
+    }
+
+    argv_parse_cmd(&argv, session->opt->client_crresponse_script);
+    argv_printf_cat(&argv, "%s", tmp_file);
+
+
+    if (!openvpn_run_script(&argv, session->opt->es, 0, "--client-crresponse"))
+    {
+        tls_deauthenticate(multi);
+    }
+done:
+    argv_free(&argv);
+    gc_free(&gc);
 }
 
 /*
@@ -1390,13 +1515,18 @@ verify_user_pass_plugin(struct tls_session *session, struct tls_multi *multi,
     {
         /* Check if the plugin has written the pending auth control
          * file and send the pending auth to the client */
-        if(!key_state_check_auth_pending_file(&ks->plugin_auth, multi))
+        if (!key_state_check_auth_pending_file(&ks->plugin_auth, multi, session))
         {
             retval = OPENVPN_PLUGIN_FUNC_ERROR;
-            key_state_rm_auth_control_files(&ks->plugin_auth);
         }
     }
-    else
+
+    if (retval == OPENVPN_PLUGIN_FUNC_ERROR)
+    {
+        check_for_client_reason(multi, &ks->plugin_auth);
+    }
+
+    if (retval != OPENVPN_PLUGIN_FUNC_DEFERRED)
     {
         /* purge auth control filename (and file itself) for non-deferred returns */
         key_state_rm_auth_control_files(&ks->plugin_auth);
@@ -1589,10 +1719,10 @@ verify_user_pass(struct user_pass *up, struct tls_multi *multi,
     }
     /* auth succeeded? */
     bool plugin_ok = plugin_status == OPENVPN_PLUGIN_FUNC_SUCCESS
-        || plugin_status == OPENVPN_PLUGIN_FUNC_DEFERRED;
+                     || plugin_status == OPENVPN_PLUGIN_FUNC_DEFERRED;
 
     bool script_ok =  script_status == OPENVPN_PLUGIN_FUNC_SUCCESS
-        || script_status ==  OPENVPN_PLUGIN_FUNC_DEFERRED;
+                     || script_status ==  OPENVPN_PLUGIN_FUNC_DEFERRED;
 
     if (script_ok && plugin_ok && tls_lock_username(multi, up->username)
 #ifdef ENABLE_MANAGEMENT
@@ -1609,7 +1739,14 @@ verify_user_pass(struct user_pass *up, struct tls_multi *multi,
 #ifdef ENABLE_MANAGEMENT
         if (man_def_auth != KMDA_UNDEF)
         {
-            ks->authenticated = KS_AUTH_DEFERRED;
+            if (skip_auth)
+            {
+                ks->mda_status = ACF_DISABLED;
+            }
+            else
+            {
+                ks->authenticated = KS_AUTH_DEFERRED;
+            }
         }
 #endif
         if ((session->opt->ssl_flags & SSLF_USERNAME_AS_COMMON_NAME))

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -35,31 +35,31 @@
 
 namespace openvpn {
 
-  class WinCmd : public Action
-  {
+class WinCmd : public Action
+{
   public:
     typedef RCPtr<WinCmd> Ptr;
 
-    WinCmd(const std::string& command)
-      : cmd(command)
+    WinCmd(const std::string &command)
+        : cmd(command)
     {
     }
 
-    virtual void execute(std::ostream& os) override
+    virtual void execute(std::ostream &os) override
     {
-      os << cmd << std::endl;
-      std::string out = Win::call(cmd);
-      os << out;
+        os << cmd << std::endl;
+        std::string out = Win::call(cmd);
+        os << out;
     }
 
     virtual std::string to_string() const override
     {
-      return cmd;
+        return cmd;
     }
 
   private:
     std::string cmd;
-  };
+};
 
-}
+} // namespace openvpn
 #endif

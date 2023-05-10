@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2020 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2000-2022 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
@@ -612,7 +612,7 @@ OSSL_DEPRECATEDIN_3_0 int ENGINE_get_flags(const ENGINE *e);
  */
 
 /*
- * Initialise a engine type for use (or up its reference count if it's
+ * Initialise an engine type for use (or up its reference count if it's
  * already in use). This will fail if the engine is not currently operational
  * and cannot initialise.
  */
@@ -620,7 +620,7 @@ OSSL_DEPRECATEDIN_3_0 int ENGINE_get_flags(const ENGINE *e);
 OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
 #  endif
 /*
- * Free a functional reference to a engine type. This does not require a
+ * Free a functional reference to an engine type. This does not require a
  * corresponding call to ENGINE_free as it also releases a structural
  * reference.
  */
@@ -801,6 +801,7 @@ typedef int (*dynamic_bind_engine) (ENGINE *e, const char *id,
             CRYPTO_set_mem_functions(fns->mem_fns.malloc_fn, \
                                      fns->mem_fns.realloc_fn, \
                                      fns->mem_fns.free_fn); \
+            OPENSSL_init_crypto(OPENSSL_INIT_NO_ATEXIT, NULL); \
         skip_cbs: \
             if (!fn(e, id)) return 0; \
             return 1; }

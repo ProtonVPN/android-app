@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -28,3 +28,4 @@ int ossl_digest_get_approved_nid(const EVP_MD *md);
 int ossl_digest_rsa_sign_get_md_nid(OSSL_LIB_CTX *ctx, const EVP_MD *md,
                                     int sha1_allowed);
 int ossl_securitycheck_enabled(OSSL_LIB_CTX *libctx);
+int ossl_tls1_prf_ems_check_enabled(OSSL_LIB_CTX *libctx);

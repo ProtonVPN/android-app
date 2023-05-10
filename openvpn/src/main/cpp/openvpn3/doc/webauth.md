@@ -177,6 +177,7 @@ The flags are also comma separated values. Currently, the followings flag that a
     * hidden-webview   Starts the webview in hidden mode. See the web auth section for more details
     * external         Indicates that an internal webivew should NOT be used but instead a normal
                        browser is to be used.
+    * internal         Indicates that the internal webview should be used if possible 
 
 In general websites should also report ovpn-webauth without `embedded=true` parameter to allow
 clients without internal browser support to craft a url to open in an external browser that
@@ -200,6 +201,35 @@ with the following optional parameters:
                 are the same as in the `IV_SSO` parameter. For example an app supporting text based
                 challenge response and the web based authentication would add 
                 `auth=crtext&auth=openurl` to the request.
+
+Optional web based profile support
+----------------------------------
+
+In certain scenarios the web-based and the Rest API based profile import might be mixed.
+In these cases the client should offer the Rest API based import by default but also offer 
+some way of switching to the web based import flow. 
+
+The server will indicate the optional web based import by adding the `Ovpn-WebAuth-Optional` 
+header with the same format as the `Ovpn-Webauth` header instead of the `Ovpn-WebAuth` header.
+The header has the same format as the `Ovpn-WebAuth` header:
+
+    Ovpn-WebAuth-Optional: providername,flags
+
+In addition to the flags specified for `Ovpn-WebAuth`,  the `Ovpn-WebAuth-Optional` can have 
+one additional optional flag:
+
+    * name=description
+
+to allow the UI to show the name of the web import to give the user a hint when to use the
+web based import in lieu of the simple username/password based REST import. As an example
+the `Ovpn-WebAuth-Optional` header might look like:
+    
+    Ovpn-WebAuth-Optional: FlowerVPN,name=Smartcard SAML authentication,external
+
+The normal user/password based VPN import dialog for the Rest-API would then show an
+additional button/link that says: 
+    
+    Import profile using "Smartcard SAML authentication" 
 
 State API
 ---------
@@ -328,6 +358,24 @@ User is not enrolled through the WEB client yet:
       <Synopsis>REST method failed</Synopsis>
       <Message>You must enroll this user in Authenticator first before you are allowed to retrieve a connection profile. (9008)</Message>
     </Error>
+
+Webauth fallback
+----------------
+This is used when the server is configured to use username/password as general
+authentication method but some users are setup to used the web based 
+authentication method. Should a user that requires web based try to authenticate
+instead it will report an error:
+
+    <Error>
+      <Type>Authorization Required</Type>
+      <Synopsis>REST method failed</Synopsis>
+      <Message>Ovpn-WebAuth: providername,flags</Message>
+    </Error>
+
+The format and meaning of the Ovpn-WebAuth is identical to the one used in the
+detection of web based profile download. If the client encounters this error it
+should offer the user to continue to the import using the web based profile
+download method.
 
 Challenge/response authentication
 ---------------------------------

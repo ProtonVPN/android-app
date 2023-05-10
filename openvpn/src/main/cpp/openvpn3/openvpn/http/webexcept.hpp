@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -28,43 +28,53 @@
 
 #include <openvpn/http/status.hpp>
 
-# define OPENVPN_THROW_WEB(exc, status, stuff)	\
-  do {						\
-    std::ostringstream _ovpn_exc;		\
-    _ovpn_exc << stuff;				\
-    throw exc(status, _ovpn_exc.str());		\
-  } while (0)
+#define OPENVPN_THROW_WEB(exc, status, stuff) \
+    do                                        \
+    {                                         \
+        std::ostringstream _ovpn_exc;         \
+        _ovpn_exc << stuff;                   \
+        throw exc(status, _ovpn_exc.str());   \
+    } while (0)
 
 namespace openvpn {
-  namespace HTTP {
-    class WebException : public std::exception
+namespace HTTP {
+class WebException : public std::exception
+{
+  public:
+    WebException(const int status, const std::string &error)
+        : status_(status),
+          error_(error),
+          formatted(std::string(Status::to_string(status_)) + " : " + error_)
     {
-    public:
-      WebException(const int status, const std::string& error)
-	: status_(status),
-	  error_(error),
-	  formatted(std::string(Status::to_string(status_)) + " : " + error_)
-      {
-      }
+    }
 
-      WebException(const int status)
-	: status_(status),
-	  error_(Status::to_string(status_)),
-	  formatted(error_)
-      {
-      }
+    WebException(const int status)
+        : status_(status),
+          error_(Status::to_string(status_)),
+          formatted(error_)
+    {
+    }
 
-      int status() const { return status_; }
-      const std::string& error() const { return error_; }
+    int status() const
+    {
+        return status_;
+    }
+    const std::string &error() const
+    {
+        return error_;
+    }
 
-      virtual const char* what() const throw() { return formatted.c_str(); }
+    virtual const char *what() const noexcept
+    {
+        return formatted.c_str();
+    }
 
-    private:
-      const int status_;
-      const std::string error_;
-      const std::string formatted;
-    };
-  }
-}
+  private:
+    const int status_;
+    const std::string error_;
+    const std::string formatted;
+};
+} // namespace HTTP
+} // namespace openvpn
 
 #endif

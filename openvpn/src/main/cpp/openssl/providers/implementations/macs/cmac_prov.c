@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2018-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -18,6 +18,8 @@
 #include <openssl/params.h>
 #include <openssl/evp.h>
 #include <openssl/cmac.h>
+#include <openssl/err.h>
+#include <openssl/proverr.h>
 
 #include "prov/implementations.h"
 #include "prov/provider_ctx.h"
@@ -122,7 +124,8 @@ static int cmac_init(void *vmacctx, const unsigned char *key,
         return 0;
     if (key != NULL)
         return cmac_setkey(macctx, key, keylen);
-    return 1;
+    /* Reinitialize the CMAC context */
+    return CMAC_Init(macctx->ctx, NULL, 0, NULL, NULL);
 }
 
 static int cmac_update(void *vmacctx, const unsigned char *data,
@@ -194,8 +197,16 @@ static int cmac_set_ctx_params(void *vmacctx, const OSSL_PARAM params[])
     if (params == NULL)
         return 1;
 
-    if (!ossl_prov_cipher_load_from_params(&macctx->cipher, params, ctx))
-        return 0;
+    if ((p = OSSL_PARAM_locate_const(params, OSSL_MAC_PARAM_CIPHER)) != NULL) {
+        if (!ossl_prov_cipher_load_from_params(&macctx->cipher, params, ctx))
+            return 0;
+
+        if (EVP_CIPHER_get_mode(ossl_prov_cipher_cipher(&macctx->cipher))
+            != EVP_CIPH_CBC_MODE) {
+            ERR_raise(ERR_LIB_PROV, PROV_R_INVALID_MODE);
+            return 0;
+        }
+    }
 
     if ((p = OSSL_PARAM_locate_const(params, OSSL_MAC_PARAM_KEY)) != NULL) {
         if (p->data_type != OSSL_PARAM_OCTET_STRING)

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -30,8 +30,8 @@
 
 // create shortcuts for common templated classes
 namespace openvpn {
-  typedef AsyncResolvable<openvpn_io::ip::udp::resolver> AsyncResolvableUDP;
-  typedef AsyncResolvable<openvpn_io::ip::tcp::resolver> AsyncResolvableTCP;
-}
+typedef AsyncResolvable<openvpn_io::ip::udp::resolver> AsyncResolvableUDP;
+typedef AsyncResolvable<openvpn_io::ip::tcp::resolver> AsyncResolvableTCP;
+} // namespace openvpn
 
 #endif /* OPENVPN_CLIENT_ASYNC_RESOLVE_H */

@@ -5,11 +5,19 @@
 
 package de.blinkt.openvpn.core;
 
+import android.annotation.TargetApi;
+import android.net.IpPrefix;
 import android.os.Build;
+
 import androidx.annotation.NonNull;
 
+import java.lang.annotation.Target;
 import java.math.BigInteger;
+import java.net.Inet4Address;
 import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.PriorityQueue;
@@ -126,6 +134,7 @@ public class NetworkSpace {
         }
 
 
+        @NonNull
         @Override
         public String toString() {
             //String in = included ? "+" : "-";
@@ -202,6 +211,29 @@ public class NetworkSpace {
             boolean b = ourLast.compareTo(netLast) != -1;
             return a && b;
 
+        }
+
+        @TargetApi(Build.VERSION_CODES.TIRAMISU)
+        public IpPrefix getPrefix() throws UnknownHostException {
+            if (isV4){
+                /* add 0x01 00 00 00 00, so that all representations are 5 byte otherwise
+                /* numbers that are above 0x7fffffff get a leading 0x00 byte to not be negative
+                 and small number 1-3 bytes*/
+                byte[] ipBytes = netAddress.add(BigInteger.valueOf(0x0100000000L)).toByteArray();
+                ipBytes = Arrays.copyOfRange(ipBytes, 1, 5);
+
+                InetAddress inet4addr = Inet4Address.getByAddress(ipBytes);
+                return new IpPrefix(inet4addr, networkMask);
+            }
+            else
+            {
+                /* same dance for IPv6 */
+                byte[] ipBytes = netAddress.add(BigInteger.ONE.shiftLeft(128)).toByteArray();
+                ipBytes = Arrays.copyOfRange(ipBytes, 1, 17);
+
+                InetAddress inet6addr = Inet6Address.getByAddress(ipBytes);
+                return new IpPrefix(inet6addr, networkMask);
+            }
         }
     }
 
@@ -334,35 +366,6 @@ public class NetworkSpace {
         for (IpAddress ia : ipsSorted) {
             if (ia.included)
                 ips.add(ia);
-        }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            // Include postive routes from the original set under < 4.4 since these might overrule the local
-            // network but only if no smaller negative route exists
-            for (IpAddress origIp : mIpAddresses) {
-                if (!origIp.included)
-                    continue;
-
-                // The netspace exists
-                if (ipsSorted.contains(origIp))
-                    continue;
-
-                boolean skipIp = false;
-                // If there is any smaller net that is excluded we may not add the positive route back
-
-                for (IpAddress calculatedIp : ipsSorted) {
-                    if (!calculatedIp.included && origIp.containsNet(calculatedIp)) {
-                        skipIp = true;
-                        break;
-                    }
-                }
-                if (skipIp)
-                    continue;
-
-                // It is safe to include the IP
-                ips.add(origIp);
-            }
-
         }
 
         return ips;

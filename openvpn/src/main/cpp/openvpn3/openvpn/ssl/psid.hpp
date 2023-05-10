@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -33,76 +33,80 @@
 
 namespace openvpn {
 
-  class ProtoSessionID
-  {
+class ProtoSessionID
+{
   public:
-    enum {
-      SIZE=8
+    enum
+    {
+        SIZE = 8
     };
 
     ProtoSessionID()
     {
-      reset();
+        reset();
     }
 
     void reset()
     {
-      defined_ = false;
-      std::memset(id_, 0, SIZE);
+        defined_ = false;
+        std::memset(id_, 0, SIZE);
     }
 
-    explicit ProtoSessionID(Buffer& buf)
+    explicit ProtoSessionID(Buffer &buf)
     {
-      buf.read(id_, SIZE);
-      defined_ = true;
+        buf.read(id_, SIZE);
+        defined_ = true;
     }
 
     template <typename PRNG_TYPE>
-    void randomize(PRNG_TYPE& prng)
+    void randomize(PRNG_TYPE &prng)
     {
-      prng.assert_crypto();
-      prng.rand_bytes(id_, SIZE);
-      defined_ = true;
+        prng.assert_crypto();
+        prng.rand_bytes(id_, SIZE);
+        defined_ = true;
     }
 
-    void read(Buffer& buf)
+    void read(Buffer &buf)
     {
-      buf.read(id_, SIZE);
-      defined_ = true;
+        buf.read(id_, SIZE);
+        defined_ = true;
     }
 
-    void write(Buffer& buf) const
+    void write(Buffer &buf) const
     {
-      buf.write(id_, SIZE);
+        buf.write(id_, SIZE);
     }
 
-    void prepend(Buffer& buf) const
+    void prepend(Buffer &buf) const
     {
-      buf.prepend(id_, SIZE);
+        buf.prepend(id_, SIZE);
     }
 
-    bool defined() const { return defined_; }
-
-    bool match(const ProtoSessionID& other) const
+    bool defined() const
     {
-      return defined_ && other.defined_ && !crypto::memneq(id_, other.id_, SIZE);
+        return defined_;
+    }
+
+    bool match(const ProtoSessionID &other) const
+    {
+        return defined_ && other.defined_ && !crypto::memneq(id_, other.id_, SIZE);
     }
 
     std::string str() const
     {
-      return render_hex(id_, SIZE);
+        return render_hex(id_, SIZE);
     }
 
   protected:
     ProtoSessionID(const unsigned char *data)
     {
-      std::memcpy(id_, data, SIZE);
+        std::memcpy(id_, data, SIZE);
     }
 
   private:
     bool defined_;
     unsigned char id_[SIZE];
-  };
+};
 } // namespace openvpn
 
 #endif // OPENVPN_SSL_PSID_H

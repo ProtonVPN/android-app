@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,12 +27,12 @@
 
 namespace openvpn {
 #if defined(_MSC_VER) && defined(_M_X64)
-  typedef long long olong;
-  typedef unsigned long long oulong;
+typedef long long olong;
+typedef unsigned long long oulong;
 #else
-  typedef long olong;
-  typedef unsigned long oulong;
+typedef long olong;
+typedef unsigned long oulong;
 #endif
-}
+} // namespace openvpn
 
 #endif

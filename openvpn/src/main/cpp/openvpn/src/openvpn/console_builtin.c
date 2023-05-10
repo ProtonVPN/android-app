@@ -5,9 +5,9 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2014-2015  David Sommerseth <davids@redhat.com>
- *  Copyright (C) 2016-2021 David Sommerseth <davids@openvpn.net>
+ *  Copyright (C) 2016-2023 David Sommerseth <davids@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -69,7 +69,7 @@ get_console_input_win32(const char *prompt, const bool echo, char *input, const 
     input[0] = '\0';
 
     HANDLE in = GetStdHandle(STD_INPUT_HANDLE);
-    int orig_stderr = get_orig_stderr(); // guaranteed to be always valid
+    int orig_stderr = get_orig_stderr(); /* guaranteed to be always valid */
     if ((in == INVALID_HANDLE_VALUE)
         || win32_service_interrupt(&win32_signal)
         || (_write(orig_stderr, prompt, strlen(prompt)) == -1))

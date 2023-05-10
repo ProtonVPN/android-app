@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -34,22 +34,23 @@
 #endif
 
 #if defined(USE_MINICRYPTO) && (defined(OPENVPN_ARCH_x86_64) || defined(OPENVPN_ARCH_i386))
-extern "C" {
-  void OPENSSL_cpuid_setup();
+extern "C"
+{
+    void OPENSSL_cpuid_setup();
 }
 #endif
 
 namespace openvpn {
 
-  inline void init_openssl(const std::string& engine)
-  {
+inline void init_openssl(const std::string &engine)
+{
 #if defined(USE_OPENSSL)
     openssl_setup_engine(engine);
     OpenSSLContext::SSL::init_static();
 #elif defined(USE_MINICRYPTO) && (defined(OPENVPN_ARCH_x86_64) || defined(OPENVPN_ARCH_i386))
     OPENSSL_cpuid_setup();
 #endif
-  }
-
 }
+
+} // namespace openvpn
 #endif

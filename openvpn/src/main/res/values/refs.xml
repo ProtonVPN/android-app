@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2012-2016 Arne Schwabe
+  ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
+  -->
+
+<resources>
+    <drawable name="ic_menu_close_clear_cancel">@drawable/ic_baseline_close_24</drawable>
+    <drawable name="ic_menu_play">@drawable/ic_baseline_play_arrow_24</drawable>
+    <drawable name="ic_menu_pause">@drawable/ic_baseline_pause_24</drawable>
+    <drawable name="ic_menu_share">@drawable/ic_baseline_share_24</drawable>
+    <drawable name="ic_menu_save">@drawable/ic_baseline_check_24</drawable>
+    <drawable name="ic_menu_view">@drawable/ic_baseline_filter_list_24</drawable>
+    <drawable name="ic_menu_delete">@drawable/ic_baseline_delete_outline_24</drawable>
+    <drawable name="ic_menu_copy">@drawable/ic_baseline_file_copy_24</drawable>
+    <drawable name="ic_menu_delete_grey">@drawable/ic_baseline_delete_outline_24</drawable>
+    <drawable name="ic_search">@drawable/ic_baseline_search_24</drawable>
+    <drawable name="ic_stat_vpn">@drawable/ic_icon_system</drawable>
+    <drawable name="ic_quick">@drawable/ic_icon_system</drawable>
+
+    <drawable name="ic_menu_edit">@drawable/ic_edit</drawable>
+    <drawable name="ic_menu_import">@drawable/ic_baseline_archive_24</drawable>
+    <drawable name="ic_menu_add">@drawable/ic_baseline_add_circle_outline_24</drawable>
+    <drawable name="ic_dialog_alert">@drawable/ic_baseline_warning_24</drawable>
+    <drawable name="ic_menu_add_grey">@drawable/ic_baseline_add_circle_outline_24</drawable>
+    <drawable name="ic_menu_import_grey">@drawable/ic_baseline_archive_24</drawable>
+    <drawable name="ic_receipt">@drawable/ic_baseline_receipt_long_24</drawable>
+    <drawable name="ic_sort">@drawable/ic_baseline_sort_24</drawable>
+
+</resources>

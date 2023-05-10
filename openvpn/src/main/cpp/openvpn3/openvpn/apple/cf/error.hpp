@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -32,35 +32,43 @@
 
 namespace openvpn {
 
-  // string exception class
-  class CFException : public std::exception
-  {
+// string exception class
+class CFException : public std::exception
+{
   public:
-    CFException(const std::string& text)
+    explicit CFException(const std::string &text)
     {
-      errtxt = text;
+        errtxt = text;
     }
 
-    CFException(const std::string& text, const OSStatus status)
+    CFException(const std::string &text, const OSStatus status)
     {
-      set_errtxt(text, status);
+        set_errtxt(text, status);
     }
 
-    virtual const char* what() const throw() { return errtxt.c_str(); }
-    std::string what_str() const { return errtxt; }
+    virtual const char *what() const noexcept
+    {
+        return errtxt.c_str();
+    }
+    std::string what_str() const
+    {
+        return errtxt;
+    }
 
-    virtual ~CFException() throw() {}
+    virtual ~CFException() noexcept
+    {
+    }
 
   private:
-    void set_errtxt(const std::string& text, const OSStatus status)
+    void set_errtxt(const std::string &text, const OSStatus status)
     {
-      std::ostringstream s;
-      s << text << ": OSX Error code=" << status;
-      errtxt = s.str();
+        std::ostringstream s;
+        s << text << ": OSX Error code=" << status;
+        errtxt = s.str();
     }
 
     std::string errtxt;
-  };
+};
 
 } // namespace openvpn
 

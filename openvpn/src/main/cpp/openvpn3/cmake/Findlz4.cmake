@@ -1,0 +1,19 @@
+find_path(LZ4_INCLUDE_DIR NAMES lz4.h)
+find_library(LZ4_LIBRARY NAMES lz4)
+
+include(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(
+  lz4 DEFAULT_MSG
+  LZ4_LIBRARY LZ4_INCLUDE_DIR
+  )
+
+if(LZ4_LIBRARY AND NOT TARGET lz4::lz4)
+  add_library(lz4::lz4 UNKNOWN IMPORTED)
+  set_target_properties(lz4::lz4 PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES "${LZ4_INCLUDE_DIR}")
+  set_target_properties(lz4::lz4 PROPERTIES
+    IMPORTED_LINK_INTERFACE_LANGUAGES "C"
+    IMPORTED_LOCATION "${LZ4_LIBRARY}")
+endif()
+
+mark_as_advanced(LZ4_INCLUDE_DIR LZ4_LIBRARY)

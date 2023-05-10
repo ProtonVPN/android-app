@@ -21,4 +21,5 @@
 
     <color name="dataIn">#ff0000</color>
     <color name="dataOut">#0000ff</color>
+    <color name="logobackground">#F2F2F2</color>
 </resources>

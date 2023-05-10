@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -28,13 +28,13 @@
 #include <ostream>
 #include <string>
 
-#define OPENVPN_OSTREAM(TYPE, METH) \
-    template <typename Elem, typename Traits> \
-    std::basic_ostream<Elem, Traits>& operator<<( \
-      std::basic_ostream<Elem, Traits>& os, const TYPE& addr) \
-    { \
-      os << addr.METH(); \
-      return os; \
+#define OPENVPN_OSTREAM(TYPE, METH)                             \
+    template <typename Elem, typename Traits>                   \
+    std::basic_ostream<Elem, Traits> &operator<<(               \
+        std::basic_ostream<Elem, Traits> &os, const TYPE &addr) \
+    {                                                           \
+        os << addr.METH();                                      \
+        return os;                                              \
     }
 
 #endif // OPENVPN_COMMON_OSTREAM_H

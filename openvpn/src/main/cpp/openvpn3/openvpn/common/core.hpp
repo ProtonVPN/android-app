@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -39,24 +39,24 @@
 
 namespace openvpn {
 
-  inline int n_cores()
-  {
+inline int n_cores()
+{
     int count = std::thread::hardware_concurrency();
     // C++11 allows thread::hardware_concurrency() to return 0, fall back
     // to specific solution if we detect this
     if (count > 0)
-      return count;
+        return count;
 
 #if defined(__APPLE__)
     size_t count_len = sizeof(count);
     if (::sysctlbyname("hw.logicalcpu", &count, &count_len, NULL, 0) != 0)
-      count = 1;
+        count = 1;
     return count;
 #elif defined(OPENVPN_PLATFORM_LINUX)
     long ret = ::sysconf(_SC_NPROCESSORS_ONLN);
     if (ret <= 0)
-      ret = 1;
-    return ret;
+        ret = 1;
+    return static_cast<int>(ret);
 #elif defined(OPENVPN_PLATFORM_WIN)
     SYSTEM_INFO si;
     ::GetSystemInfo(&si);
@@ -64,6 +64,6 @@ namespace openvpn {
 #else
     return 1;
 #endif
-  }
-
 }
+
+} // namespace openvpn

@@ -9,11 +9,7 @@ set(GTEST_LIB gtest_main)
 # Download and unpack googletest at configure time
 
 # Ensure that this only downloaded and added once
-#include_guard(GLOBAL)
-# Unfortunately include_guard requires cmake >= 3.10
-include(mypragmaonce)
-
-my_pragma_once()
+include_guard(GLOBAL)
 
 if(NOT OVPN_GTEST_VERSION)
     set(OVPN_GTEST_VERSION release-1.11.0)

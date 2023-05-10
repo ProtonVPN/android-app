@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -39,7 +39,7 @@
 
 #ifdef USE_MBEDTLS
 #include <mbedtls/platform.h>
-#include <mbedtls/debug.h>  // for debug_set_threshold
+#include <mbedtls/debug.h> // for debug_set_threshold
 #include <openvpn/mbedtls/crypto/api.hpp>
 #include <openvpn/mbedtls/ssl/sslctx.hpp>
 #include <openvpn/mbedtls/util/rand.hpp>
@@ -56,38 +56,38 @@
 #endif
 
 namespace openvpn {
-  namespace SSLLib {
+namespace SSLLib {
 #if defined(USE_MBEDTLS)
 #define SSL_LIB_NAME "MbedTLS"
-    typedef MbedTLSCryptoAPI CryptoAPI;
-    typedef MbedTLSContext SSLAPI;
+typedef MbedTLSCryptoAPI CryptoAPI;
+typedef MbedTLSContext SSLAPI;
 #if defined OPENVPN_PLATFORM_UWP
-    typedef MbedTLSRandomWithUWPEntropy RandomAPI;
+typedef MbedTLSRandomWithUWPEntropy RandomAPI;
 #else
-    typedef MbedTLSRandom RandomAPI;
+typedef MbedTLSRandom RandomAPI;
 #endif
-    typedef MbedTLSPEM PEMAPI;
+typedef MbedTLSPEM PEMAPI;
 #elif defined(USE_MBEDTLS_APPLE_HYBRID)
-    // Uses Apple framework for CryptoAPI and MbedTLS for SSLAPI and RandomAPI
+// Uses Apple framework for CryptoAPI and MbedTLS for SSLAPI and RandomAPI
 #define SSL_LIB_NAME "MbedTLSAppleHybrid"
-    typedef AppleCryptoAPI CryptoAPI;
-    typedef MbedTLSContext SSLAPI;
-    typedef MbedTLSRandom RandomAPI;
+typedef AppleCryptoAPI CryptoAPI;
+typedef MbedTLSContext SSLAPI;
+typedef MbedTLSRandom RandomAPI;
 #elif defined(USE_APPLE_SSL)
 #define SSL_LIB_NAME "AppleSSL"
-    typedef AppleCryptoAPI CryptoAPI;
-    typedef AppleSSLContext SSLAPI;
-    typedef AppleRandom RandomAPI;
+typedef AppleCryptoAPI CryptoAPI;
+typedef AppleSSLContext SSLAPI;
+typedef AppleRandom RandomAPI;
 #elif defined(USE_OPENSSL)
 #define SSL_LIB_NAME "OpenSSL"
-    typedef OpenSSLCryptoAPI CryptoAPI;
-    typedef OpenSSLContext SSLAPI;
-    typedef OpenSSLRandom RandomAPI;
-    typedef OpenSSLPEM PEMAPI;
+typedef OpenSSLCryptoAPI CryptoAPI;
+typedef OpenSSLContext SSLAPI;
+typedef OpenSSLRandom RandomAPI;
+typedef OpenSSLPEM PEMAPI;
 #else
 #error no SSL library defined
 #endif
-  }
-}
+} // namespace SSLLib
+} // namespace openvpn
 
 #endif

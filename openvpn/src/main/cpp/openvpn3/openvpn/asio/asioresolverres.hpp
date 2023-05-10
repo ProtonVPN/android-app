@@ -27,23 +27,23 @@
 
 namespace openvpn {
 
-  template <class EPRANGE>
-  inline std::string asio_resolver_results_to_string(const EPRANGE& endpoint_range)
-  {
+template <class EPRANGE>
+inline std::string asio_resolver_results_to_string(const EPRANGE &endpoint_range)
+{
     std::string ret;
     ret.reserve(64);
     bool first = true;
     for (const auto &i : endpoint_range)
-      {
-	if (!first)
-	  ret += ' ';
-	ret += '[';
-	ret += openvpn::to_string(i.endpoint().address());
-	ret += "]:";
-	ret += openvpn::to_string(i.endpoint().port());
-	first = false;
-      }
+    {
+        if (!first)
+            ret += ' ';
+        ret += '[';
+        ret += openvpn::to_string(i.endpoint().address());
+        ret += "]:";
+        ret += openvpn::to_string(i.endpoint().port());
+        first = false;
+    }
     return ret;
-  }
-
 }
+
+} // namespace openvpn

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -25,10 +25,11 @@
 #include <cstddef> // defines size_t
 
 namespace openvpn {
-  template <typename T, std::size_t N>
-  constexpr std::size_t array_size( T (&)[N] ) {
+template <typename T, std::size_t N>
+constexpr std::size_t array_size(T (&)[N])
+{
     return N;
-  }
 }
+} // namespace openvpn
 
 #endif

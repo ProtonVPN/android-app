@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -25,12 +25,12 @@
 
 namespace openvpn {
 
-  // return ip_addr in brackets if it is IPv6
-  std::string quote_ip(const std::string& ip_addr)
-  {
+// return ip_addr in brackets if it is IPv6
+std::string quote_ip(const std::string &ip_addr)
+{
     if (ip_addr.find(':') != std::string::npos)
-      return '[' + ip_addr + ']';
+        return '[' + ip_addr + ']';
     else
-      return ip_addr;
-  }
+        return ip_addr;
 }
+} // namespace openvpn

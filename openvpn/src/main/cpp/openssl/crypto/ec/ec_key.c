@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2002-2022 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
@@ -237,6 +237,56 @@ int ossl_ec_key_gen(EC_KEY *eckey)
 }
 
 /*
+ * Refer: FIPS 140-3 IG 10.3.A Additional Comment 1
+ * Perform a KAT by duplicating the public key generation.
+ *
+ * NOTE: This issue requires a background understanding, provided in a separate
+ * document; the current IG 10.3.A AC1 is insufficient regarding the PCT for
+ * the key agreement scenario.
+ *
+ * Currently IG 10.3.A requires PCT in the mode of use prior to use of the
+ * key pair, citing the PCT defined in the associated standard. For key
+ * agreement, the only PCT defined in SP 800-56A is that of Section 5.6.2.4:
+ * the comparison of the original public key to a newly calculated public key.
+ */
+static int ecdsa_keygen_knownanswer_test(EC_KEY *eckey, BN_CTX *ctx,
+                                         OSSL_CALLBACK *cb, void *cbarg)
+{
+    int len, ret = 0;
+    OSSL_SELF_TEST *st = NULL;
+    unsigned char bytes[512] = {0};
+    EC_POINT *pub_key2 = EC_POINT_new(eckey->group);
+
+    if (pub_key2 == NULL)
+        return 0;
+
+    st = OSSL_SELF_TEST_new(cb, cbarg);
+    if (st == NULL)
+        return 0;
+
+    OSSL_SELF_TEST_onbegin(st, OSSL_SELF_TEST_TYPE_PCT_KAT,
+                               OSSL_SELF_TEST_DESC_PCT_ECDSA);
+
+    /* pub_key = priv_key * G (where G is a point on the curve) */
+    if (!EC_POINT_mul(eckey->group, pub_key2, eckey->priv_key, NULL, NULL, ctx))
+        goto err;
+
+    if (BN_num_bytes(pub_key2->X) > (int)sizeof(bytes))
+        goto err;
+    len = BN_bn2bin(pub_key2->X, bytes);
+    if (OSSL_SELF_TEST_oncorrupt_byte(st, bytes)
+            && BN_bin2bn(bytes, len, pub_key2->X) == NULL)
+        goto err;
+    ret = !EC_POINT_cmp(eckey->group, eckey->pub_key, pub_key2, ctx);
+
+err:
+    OSSL_SELF_TEST_onend(st, ret);
+    OSSL_SELF_TEST_free(st);
+    EC_POINT_free(pub_key2);
+    return ret;
+}
+
+/*
  * ECC Key generation.
  * See SP800-56AR3 5.6.1.2.2 "Key Pair Generation by Testing Candidates"
  *
@@ -332,7 +382,8 @@ static int ec_generate_key(EC_KEY *eckey, int pairwise_test)
         void *cbarg = NULL;
 
         OSSL_SELF_TEST_get_callback(eckey->libctx, &cb, &cbarg);
-        ok = ecdsa_keygen_pairwise_test(eckey, cb, cbarg);
+        ok = ecdsa_keygen_pairwise_test(eckey, cb, cbarg)
+             && ecdsa_keygen_knownanswer_test(eckey, ctx, cb, cbarg);
     }
 err:
     /* Step (9): If there is an error return an invalid keypair. */
@@ -488,6 +539,11 @@ int ossl_ec_key_public_check(const EC_KEY *eckey, BN_CTX *ctx)
         goto err;
     }
     /* 5.6.2.3.3 (Step 4) : pub_key * order is the point at infinity. */
+    if (!EC_POINT_mul(eckey->group, point, NULL, eckey->pub_key, order, ctx)) {
+        ERR_raise(ERR_LIB_EC, ERR_R_EC_LIB);
+        goto err;
+    }
+    /* Perform a second check on the public key */
     if (!EC_POINT_mul(eckey->group, point, NULL, eckey->pub_key, order, ctx)) {
         ERR_raise(ERR_LIB_EC, ERR_R_EC_LIB);
         goto err;
@@ -721,6 +777,16 @@ int EC_KEY_set_private_key(EC_KEY *key, const BIGNUM *priv_key)
         return 0;
 
     /*
+     * Return `0` to comply with legacy behavior for this function, see
+     * https://github.com/openssl/openssl/issues/18744#issuecomment-1195175696
+     */
+    if (priv_key == NULL) {
+        BN_clear_free(key->priv_key);
+        key->priv_key = NULL;
+        return 0; /* intentional for legacy compatibility */
+    }
+
+    /*
      * We should never leak the bit length of the secret scalar in the key,
      * so we always set the `BN_FLG_CONSTTIME` flag on the internal `BIGNUM`
      * holding the secret scalar.
@@ -947,8 +1013,7 @@ int ossl_ec_key_simple_oct2priv(EC_KEY *eckey, const unsigned char *buf,
         ERR_raise(ERR_LIB_EC, ERR_R_MALLOC_FAILURE);
         return 0;
     }
-    eckey->priv_key = BN_bin2bn(buf, len, eckey->priv_key);
-    if (eckey->priv_key == NULL) {
+    if (BN_bin2bn(buf, len, eckey->priv_key) == NULL) {
         ERR_raise(ERR_LIB_EC, ERR_R_BN_LIB);
         return 0;
     }

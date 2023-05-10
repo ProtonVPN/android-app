@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -305,7 +305,7 @@ const char *EVP_RAND_get0_description(const EVP_RAND *rand)
 
 int EVP_RAND_is_a(const EVP_RAND *rand, const char *name)
 {
-    return evp_is_a(rand->prov, rand->name_id, NULL, name);
+    return rand != NULL && evp_is_a(rand->prov, rand->name_id, NULL, name);
 }
 
 const OSSL_PROVIDER *EVP_RAND_get0_provider(const EVP_RAND *rand)
@@ -320,7 +320,7 @@ int EVP_RAND_get_params(EVP_RAND *rand, OSSL_PARAM params[])
     return 1;
 }
 
-static int evp_rand_ctx_up_ref(EVP_RAND_CTX *ctx)
+int EVP_RAND_CTX_up_ref(EVP_RAND_CTX *ctx)
 {
     int ref = 0;
 
@@ -345,7 +345,7 @@ EVP_RAND_CTX *EVP_RAND_CTX_new(EVP_RAND *rand, EVP_RAND_CTX *parent)
         return NULL;
     }
     if (parent != NULL) {
-        if (!evp_rand_ctx_up_ref(parent)) {
+        if (!EVP_RAND_CTX_up_ref(parent)) {
             ERR_raise(ERR_LIB_EVP, ERR_R_INTERNAL_ERROR);
             CRYPTO_THREAD_lock_free(ctx->refcnt_lock);
             OPENSSL_free(ctx);

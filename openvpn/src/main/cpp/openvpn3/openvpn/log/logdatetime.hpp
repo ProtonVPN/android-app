@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -39,11 +39,15 @@
 
 // no-op constructs normally used with logthread.hpp
 namespace openvpn {
-  namespace Log {
-    struct Context
+namespace Log {
+struct Context
+{
+    struct Wrapper
     {
-      struct Wrapper {};
-      Context(const Wrapper&) {}
     };
-  }
-}
+    Context(const Wrapper &)
+    {
+    }
+};
+} // namespace Log
+} // namespace openvpn

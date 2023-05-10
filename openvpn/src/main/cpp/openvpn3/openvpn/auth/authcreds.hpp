@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -35,68 +35,75 @@
 
 namespace openvpn {
 
-    class AuthCreds : public RC<thread_unsafe_refcount>
+class AuthCreds : public RC<thread_unsafe_refcount>
+{
+  public:
+    typedef RCPtr<AuthCreds> Ptr;
+
+    AuthCreds(std::string &&username_arg,
+              SafeString &&password_arg,
+              const std::string &peer_info_str)
+        : username(std::move(username_arg)),
+          password(std::move(password_arg))
     {
-    public:
-      typedef RCPtr<AuthCreds> Ptr;
+        peer_info.parse_from_peer_info(peer_info_str, nullptr);
+        peer_info.update_map();
+    }
 
-      AuthCreds(std::string&& username_arg,
-		SafeString&& password_arg,
-		const std::string& peer_info_str)
-	: username(std::move(username_arg)),
-	  password(std::move(password_arg))
-      {
-	peer_info.parse_from_peer_info(peer_info_str, nullptr);
-	peer_info.update_map();
-      }
+    // for unit test
+    AuthCreds(std::string username_arg,
+              SafeString password_arg,
+              OptionList peer_info_arg)
+        : username(std::move(username_arg)),
+          password(std::move(password_arg)),
+          peer_info(std::move(peer_info_arg))
+    {
+    }
 
-      // for unit test
-      AuthCreds(std::string username_arg,
-		SafeString password_arg,
-		OptionList peer_info_arg)
-	: username(std::move(username_arg)),
-	  password(std::move(password_arg)),
-	  peer_info(std::move(peer_info_arg))
-      {
-      }
+    bool defined() const
+    {
+        return !username.empty();
+    }
 
-      bool defined() const
-      {
-	return !username.empty();
-      }
+    bool is_valid_user_pass(const bool strict) const
+    {
+        return ValidateCreds::is_valid(ValidateCreds::USERNAME, username, strict)
+               && ValidateCreds::is_valid(ValidateCreds::PASSWORD, password, strict);
+    }
 
-      bool is_valid_user_pass(const bool strict) const
-      {
-	return ValidateCreds::is_valid(ValidateCreds::USERNAME, username, strict)
-	    && ValidateCreds::is_valid(ValidateCreds::PASSWORD, password, strict);
-      }
+    bool is_valid(const bool strict) const
+    {
+        return defined() && is_valid_user_pass(strict);
+    }
 
-      bool is_valid(const bool strict) const
-      {
-	return defined() && is_valid_user_pass(strict);
-      }
+    void wipe_password()
+    {
+        password.wipe();
+    }
 
-      void wipe_password()
-      {
-	password.wipe();
-      }
+    std::string to_string() const
+    {
+        std::ostringstream os;
+        os << "*** AuthCreds ***" << std::endl;
+        os << "user: '" << username << "'" << std::endl;
+        if (password.empty())
+        {
+            os << "pass: (empty)" << std::endl;
+        }
+        else
+        {
+            os << "pass: (non-empty)" << std::endl;
+        }
+        os << "peer info:" << std::endl;
+        os << peer_info.render(Option::RENDER_BRACKET | Option::RENDER_NUMBER);
+        return os.str();
+    }
 
-      std::string to_string() const
-      {
-	std::ostringstream os;
-	os << "*** AuthCreds ***" << std::endl;
-	os << "user: '" << username << "'" << std::endl;
-	os << "pass: (" << password.length() << " chars)" << std::endl;
-	os << "peer info:" << std::endl;
-	os << peer_info.render(Option::RENDER_BRACKET|Option::RENDER_NUMBER);
-	return os.str();
-      }
+    std::string username;
+    SafeString password;
+    OptionList peer_info;
+};
 
-      std::string username;
-      SafeString password;
-      OptionList peer_info;
-    };
-
-}
+} // namespace openvpn
 
 #endif

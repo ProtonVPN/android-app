@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -35,72 +35,68 @@
 #include <openvpn/init/engineinit.hpp>
 
 namespace openvpn {
-  namespace InitProcess {
-    class Init
+namespace InitProcess {
+class Init
+{
+  private:
+    class InitImpl
     {
-    private:
-      class InitImpl
-      {
       public:
-	InitImpl()
-	{
-	  // initialize time base
-	  Time::reset_base();
+        InitImpl()
+        {
+            // initialize time base
+            Time::reset_base();
 
-	  // initialize compression
-	  CompressContext::init_static();
+            // initialize compression
+            CompressContext::init_static();
 
-	  // init OpenSSL if included
-	  init_openssl("auto");
+            // init OpenSSL if included
+            init_openssl("auto");
 
-	  base64_init_static();
-	}
+            base64_init_static();
+        }
 
-	~InitImpl()
-	{
-	  base64_uninit_static();
-	}
+        ~InitImpl()
+        {
+            base64_uninit_static();
+        }
 
       private:
-	// SSL library init happens when instantiated
-	crypto_init crypto_init_;
-      };
-
-      // process-wide singular instance
-      static std::weak_ptr<InitImpl> init_instance; // GLOBAL
-      static std::mutex the_instance_mutex; // GLOBAL
-
-      // istance of this class to refcount
-      std::shared_ptr<InitImpl> initptr;
-
-    public:
-      Init()
-      {
-	std::lock_guard<std::mutex> lock(the_instance_mutex);
-
-	initptr = init_instance.lock();
-	if (!initptr)
-	  {
-	    initptr = std::make_shared<InitImpl>();
-	    init_instance = initptr;
-	  }
-      }
-
-      ~Init()
-      {
-        //explicitly reset smart pointer to make the destructor run under the lock_guard
-	std::lock_guard<std::mutex> lock(the_instance_mutex);
-	initptr.reset();
-      }
+        // SSL library init happens when instantiated
+        crypto_init crypto_init_;
     };
 
+    // process-wide singular instance
+    static std::weak_ptr<InitImpl> init_instance; // GLOBAL
+    static std::mutex the_instance_mutex;         // GLOBAL
+
+    // istance of this class to refcount
+    std::shared_ptr<InitImpl> initptr;
+
+  public:
+    Init()
+    {
+        std::lock_guard<std::mutex> lock(the_instance_mutex);
+
+        initptr = init_instance.lock();
+        if (!initptr)
+        {
+            initptr = std::make_shared<InitImpl>();
+            init_instance = initptr;
+        }
+    }
+
+    ~Init()
+    {
+        // explicitly reset smart pointer to make the destructor run under the lock_guard
+        std::lock_guard<std::mutex> lock(the_instance_mutex);
+        initptr.reset();
+    }
+};
+
 #ifdef OPENVPN_NO_EXTERN
-    std::weak_ptr<Init::InitImpl> Init::init_instance; // GLOBAL
-    std::mutex Init::the_instance_mutex; // GLOBAL
+std::weak_ptr<Init::InitImpl> Init::init_instance; // GLOBAL
+std::mutex Init::the_instance_mutex;               // GLOBAL
 #endif
-  }
-}
-
-
-
-
+} // namespace InitProcess
+} // namespace openvpn

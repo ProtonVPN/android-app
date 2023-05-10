@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2005-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -195,12 +195,6 @@ static void dgram_adjust_rcv_timeout(BIO *b)
 {
 # if defined(SO_RCVTIMEO)
     bio_dgram_data *data = (bio_dgram_data *)b->ptr;
-    union {
-        size_t s;
-        int i;
-    } sz = {
-        0
-    };
 
     /* Is a timer active? */
     if (data->next_timeout.tv_sec > 0 || data->next_timeout.tv_usec > 0) {
@@ -210,21 +204,21 @@ static void dgram_adjust_rcv_timeout(BIO *b)
 #  ifdef OPENSSL_SYS_WINDOWS
         int timeout;
 
-        sz.i = sizeof(timeout);
+        int sz = sizeof(timeout);
         if (getsockopt(b->num, SOL_SOCKET, SO_RCVTIMEO,
-                       (void *)&timeout, &sz.i) < 0) {
+                       (void *)&timeout, &sz) < 0) {
             perror("getsockopt");
         } else {
             data->socket_timeout.tv_sec = timeout / 1000;
             data->socket_timeout.tv_usec = (timeout % 1000) * 1000;
         }
 #  else
-        sz.i = sizeof(data->socket_timeout);
+        socklen_t sz = sizeof(data->socket_timeout);
         if (getsockopt(b->num, SOL_SOCKET, SO_RCVTIMEO,
-                       &(data->socket_timeout), (void *)&sz) < 0) {
+                       &(data->socket_timeout), &sz) < 0) {
             perror("getsockopt");
-        } else if (sizeof(sz.s) != sizeof(sz.i) && sz.i == 0)
-            OPENSSL_assert(sz.s <= sizeof(data->socket_timeout));
+        } else
+            OPENSSL_assert((size_t)sz <= sizeof(data->socket_timeout));
 #  endif
 
         /* Get current time */
@@ -399,7 +393,9 @@ static long dgram_ctrl(BIO *b, int cmd, long num, void *ptr)
     long ret = 1;
     int *ip;
     bio_dgram_data *data = NULL;
+# ifndef __DJGPP__
     int sockopt_val = 0;
+# endif
     int d_errno;
 # if defined(OPENSSL_SYS_LINUX) && (defined(IP_MTU_DISCOVER) || defined(IP_MTU))
     socklen_t sockopt_len;      /* assume that system supporting IP_MTU is
@@ -607,19 +603,14 @@ static long dgram_ctrl(BIO *b, int cmd, long num, void *ptr)
         break;
     case BIO_CTRL_DGRAM_GET_RECV_TIMEOUT:
         {
-            union {
-                size_t s;
-                int i;
-            } sz = {
-                0
-            };
 #  ifdef OPENSSL_SYS_WINDOWS
+            int sz = 0;
             int timeout;
             struct timeval *tv = (struct timeval *)ptr;
 
-            sz.i = sizeof(timeout);
+            sz = sizeof(timeout);
             if (getsockopt(b->num, SOL_SOCKET, SO_RCVTIMEO,
-                           (void *)&timeout, &sz.i) < 0) {
+                           (void *)&timeout, &sz) < 0) {
                 perror("getsockopt");
                 ret = -1;
             } else {
@@ -628,16 +619,15 @@ static long dgram_ctrl(BIO *b, int cmd, long num, void *ptr)
                 ret = sizeof(*tv);
             }
 #  else
-            sz.i = sizeof(struct timeval);
+            socklen_t sz = sizeof(struct timeval);
             if (getsockopt(b->num, SOL_SOCKET, SO_RCVTIMEO,
-                           ptr, (void *)&sz) < 0) {
+                           ptr, &sz) < 0) {
                 perror("getsockopt");
                 ret = -1;
-            } else if (sizeof(sz.s) != sizeof(sz.i) && sz.i == 0) {
-                OPENSSL_assert(sz.s <= sizeof(struct timeval));
-                ret = (int)sz.s;
-            } else
-                ret = sz.i;
+            } else {
+                OPENSSL_assert((size_t)sz <= sizeof(struct timeval));
+                ret = (int)sz;
+            }
 #  endif
         }
         break;
@@ -664,19 +654,14 @@ static long dgram_ctrl(BIO *b, int cmd, long num, void *ptr)
         break;
     case BIO_CTRL_DGRAM_GET_SEND_TIMEOUT:
         {
-            union {
-                size_t s;
-                int i;
-            } sz = {
-                0
-            };
 #  ifdef OPENSSL_SYS_WINDOWS
+            int sz = 0;
             int timeout;
             struct timeval *tv = (struct timeval *)ptr;
 
-            sz.i = sizeof(timeout);
+            sz = sizeof(timeout);
             if (getsockopt(b->num, SOL_SOCKET, SO_SNDTIMEO,
-                           (void *)&timeout, &sz.i) < 0) {
+                           (void *)&timeout, &sz) < 0) {
                 perror("getsockopt");
                 ret = -1;
             } else {
@@ -685,16 +670,15 @@ static long dgram_ctrl(BIO *b, int cmd, long num, void *ptr)
                 ret = sizeof(*tv);
             }
 #  else
-            sz.i = sizeof(struct timeval);
+            socklen_t sz = sizeof(struct timeval);
             if (getsockopt(b->num, SOL_SOCKET, SO_SNDTIMEO,
-                           ptr, (void *)&sz) < 0) {
+                           ptr, &sz) < 0) {
                 perror("getsockopt");
                 ret = -1;
-            } else if (sizeof(sz.s) != sizeof(sz.i) && sz.i == 0) {
-                OPENSSL_assert(sz.s <= sizeof(struct timeval));
-                ret = (int)sz.s;
-            } else
-                ret = sz.i;
+            } else {
+                OPENSSL_assert((size_t)sz <= sizeof(struct timeval));
+                ret = (int)sz;
+            }
 #  endif
         }
         break;
@@ -723,24 +707,24 @@ static long dgram_ctrl(BIO *b, int cmd, long num, void *ptr)
         break;
 # endif
     case BIO_CTRL_DGRAM_SET_DONT_FRAG:
-        sockopt_val = num ? 1 : 0;
-
         switch (data->peer.sa.sa_family) {
         case AF_INET:
 # if defined(IP_DONTFRAG)
+            sockopt_val = num ? 1 : 0;
             if ((ret = setsockopt(b->num, IPPROTO_IP, IP_DONTFRAG,
                                   &sockopt_val, sizeof(sockopt_val))) < 0) {
                 perror("setsockopt");
                 ret = -1;
             }
 # elif defined(OPENSSL_SYS_LINUX) && defined(IP_MTU_DISCOVER) && defined (IP_PMTUDISC_PROBE)
-            if ((sockopt_val = num ? IP_PMTUDISC_PROBE : IP_PMTUDISC_DONT),
-                (ret = setsockopt(b->num, IPPROTO_IP, IP_MTU_DISCOVER,
+            sockopt_val = num ? IP_PMTUDISC_PROBE : IP_PMTUDISC_DONT;
+            if ((ret = setsockopt(b->num, IPPROTO_IP, IP_MTU_DISCOVER,
                                   &sockopt_val, sizeof(sockopt_val))) < 0) {
                 perror("setsockopt");
                 ret = -1;
             }
 # elif defined(OPENSSL_SYS_WINDOWS) && defined(IP_DONTFRAGMENT)
+            sockopt_val = num ? 1 : 0;
             if ((ret = setsockopt(b->num, IPPROTO_IP, IP_DONTFRAGMENT,
                                   (const char *)&sockopt_val,
                                   sizeof(sockopt_val))) < 0) {
@@ -754,6 +738,7 @@ static long dgram_ctrl(BIO *b, int cmd, long num, void *ptr)
 # if OPENSSL_USE_IPV6
         case AF_INET6:
 #  if defined(IPV6_DONTFRAG)
+            sockopt_val = num ? 1 : 0;
             if ((ret = setsockopt(b->num, IPPROTO_IPV6, IPV6_DONTFRAG,
                                   (const void *)&sockopt_val,
                                   sizeof(sockopt_val))) < 0) {
@@ -761,8 +746,8 @@ static long dgram_ctrl(BIO *b, int cmd, long num, void *ptr)
                 ret = -1;
             }
 #  elif defined(OPENSSL_SYS_LINUX) && defined(IPV6_MTUDISCOVER)
-            if ((sockopt_val = num ? IP_PMTUDISC_PROBE : IP_PMTUDISC_DONT),
-                (ret = setsockopt(b->num, IPPROTO_IPV6, IPV6_MTU_DISCOVER,
+            sockopt_val = num ? IP_PMTUDISC_PROBE : IP_PMTUDISC_DONT;
+            if ((ret = setsockopt(b->num, IPPROTO_IPV6, IPV6_MTU_DISCOVER,
                                   &sockopt_val, sizeof(sockopt_val))) < 0) {
                 perror("setsockopt");
                 ret = -1;
@@ -1918,22 +1903,22 @@ static void get_current_time(struct timeval *t)
 {
 # if defined(_WIN32)
     SYSTEMTIME st;
-    union {
-        unsigned __int64 ul;
-        FILETIME ft;
-    } now;
+    unsigned __int64 now_ul;
+    FILETIME now_ft;
 
     GetSystemTime(&st);
-    SystemTimeToFileTime(&st, &now.ft);
+    SystemTimeToFileTime(&st, &now_ft);
+    now_ul = ((unsigned __int64)now_ft.dwHighDateTime << 32) | now_ft.dwLowDateTime;
 #  ifdef  __MINGW32__
-    now.ul -= 116444736000000000ULL;
+    now_ul -= 116444736000000000ULL;
 #  else
-    now.ul -= 116444736000000000UI64; /* re-bias to 1/1/1970 */
+    now_ul -= 116444736000000000UI64; /* re-bias to 1/1/1970 */
 #  endif
-    t->tv_sec = (long)(now.ul / 10000000);
-    t->tv_usec = ((int)(now.ul % 10000000)) / 10;
+    t->tv_sec = (long)(now_ul / 10000000);
+    t->tv_usec = ((int)(now_ul % 10000000)) / 10;
 # else
-    gettimeofday(t, NULL);
+    if (gettimeofday(t, NULL) < 0)
+        perror("gettimeofday");
 # endif
 }
 

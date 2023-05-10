@@ -21,26 +21,14 @@
 /* Use dmalloc memory debugging library */
 /* #undef DMALLOC */
 
-/* Dimension to use for empty array declaration */
-#define EMPTY_ARRAY_SIZE 0
-
-/* Enable client capability only */
-#define ENABLE_CLIENT_ONLY 1
-
 /* Enable debugging support */
 #define ENABLE_DEBUG 1
 
 /* Enable internal fragmentation support */
 #define ENABLE_FRAGMENT 1
 
-/* Enable HTTP proxy support */
-#define ENABLE_HTTP_PROXY 1
-
 /* Enable management server capability */
 #define ENABLE_MANAGEMENT 1
-
-/* Enable multi-homed UDP server capability */
-#define ENABLE_MULTIHOME 0
 
 /* Allow --askpass and --auth-user-pass passwords to be read from a file */
 #define ENABLE_PASSWORD_SAVE 1
@@ -450,13 +438,13 @@
 #define PACKAGE_NAME "OpenVPN"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "OpenVPN 2.6-icsopenvpn"
+#define PACKAGE_STRING "OpenVPN 2.7-icsopenvpn"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "openvpn"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "2.6_master"
+#define PACKAGE_VERSION "2.7_master"
 
 /* Define to the necessary symbol if this constant uses a non-standard name on
    your system. */

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,30 +27,36 @@
 #include <openvpn/buffer/buffer.hpp>
 
 namespace openvpn {
-  class AsioConstBufferSeq2
-  {
+class AsioConstBufferSeq2
+{
   public:
-    AsioConstBufferSeq2(const Buffer& b1, const Buffer& b2)
-      : buf{openvpn_io::const_buffer{b1.c_data(), b1.size()},
-	     openvpn_io::const_buffer{b2.c_data(), b2.size()}}
+    AsioConstBufferSeq2(const Buffer &b1, const Buffer &b2)
+        : buf{openvpn_io::const_buffer{b1.c_data(), b1.size()},
+              openvpn_io::const_buffer{b2.c_data(), b2.size()}}
     {
     }
 
     // Implement the ConstBufferSequence requirements.
     typedef openvpn_io::const_buffer value_type;
-    typedef const openvpn_io::const_buffer* const_iterator;
-    const openvpn_io::const_buffer* begin() const { return buf; }
-    const openvpn_io::const_buffer* end() const { return buf + 2; }
+    typedef const openvpn_io::const_buffer *const_iterator;
+    const openvpn_io::const_buffer *begin() const
+    {
+        return buf;
+    }
+    const openvpn_io::const_buffer *end() const
+    {
+        return buf + 2;
+    }
 
     size_t size() const
     {
-      return openvpn_io::buffer_size(buf[0])
-	   + openvpn_io::buffer_size(buf[1]);
+        return openvpn_io::buffer_size(buf[0])
+               + openvpn_io::buffer_size(buf[1]);
     }
 
   private:
     const openvpn_io::const_buffer buf[2];
-  };
-}
+};
+} // namespace openvpn
 
 #endif

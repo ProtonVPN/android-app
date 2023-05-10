@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -33,8 +33,8 @@
 
 namespace openvpn {
 
-  class RandomAPI : public RC<thread_unsafe_refcount>
-  {
+class RandomAPI : public RC<thread_unsafe_refcount>
+{
   public:
     typedef RCPtr<RandomAPI> Ptr;
 
@@ -53,28 +53,28 @@ namespace openvpn {
 
     // Fill a data object with random bits
     template <typename T>
-    void rand_fill(T& obj)
+    void rand_fill(T &obj)
     {
-      rand_bytes(reinterpret_cast<unsigned char *>(&obj), sizeof(T));
+        rand_bytes(reinterpret_cast<unsigned char *>(&obj), sizeof(T));
     }
 
     // Return a data object with random bits
     template <typename T>
     T rand_get()
     {
-      T ret;
-      rand_fill(ret);
-      return ret;
+        T ret;
+        rand_fill(ret);
+        return ret;
     }
 
     // Return a data object with random bits, always >= 0 for signed types
     template <typename T>
     T rand_get_positive()
     {
-      T ret = rand_get<T>();
-      if (ret < 0)
-	ret = -ret;
-      return ret;
+        T ret = rand_get<T>();
+        if (ret < 0)
+            ret = -ret;
+        return ret;
     }
 
     // Return a uniformly distributed random number in the range [0, end).
@@ -82,27 +82,28 @@ namespace openvpn {
     template <typename T>
     T randrange(const T end)
     {
-      return rand_get_positive<T>() % end;
+        return rand_get_positive<T>() % end;
     }
 
     // Return a uniformly distributed random number in the range [start, end].
     template <typename T>
     T randrange(const T start, const T end)
     {
-      if (start >= end)
-	return start;
-      else
-	return start + rand_get_positive<T>() % (end - start + 1);
+        if (start >= end)
+            return start;
+        else
+            return start + rand_get_positive<T>() % (end - start + 1);
     }
 
     // Return a uniformly distributed random number in the range [0, end).
+    // If end==0 or end==1, will always return 0.
     // This version is strictly 32-bit only and optimizes by avoiding
     // integer division.
     std::uint32_t randrange32(const std::uint32_t end)
     {
-      std::uint32_t r;
-      rand_fill(r);
-      return rand32_distribute(r, end);
+        std::uint32_t r;
+        rand_fill(r);
+        return rand32_distribute(r, end);
     }
 
     // Return a uniformly distributed random number in the range [start, end].
@@ -110,24 +111,24 @@ namespace openvpn {
     // integer division.
     std::uint32_t randrange32(const std::uint32_t start, const std::uint32_t end)
     {
-      if (start >= end)
-	return start;
-      else
-	return start + randrange32(end - start + 1);
+        if (start >= end)
+            return start;
+        else
+            return start + randrange32(end - start + 1);
     }
 
     // Return a random byte
     std::uint8_t randbyte()
     {
-      std::uint8_t byte;
-      rand_fill(byte);
-      return byte;
+        std::uint8_t byte;
+        rand_fill(byte);
+        return byte;
     }
 
     // Return a random boolean
     bool randbool()
     {
-      return bool(randbyte() & 1);
+        return bool(randbyte() & 1);
     }
 
     // Throw an exception if algorithm is not crypto-strength.
@@ -135,15 +136,24 @@ namespace openvpn {
     // for crypto purposes.
     void assert_crypto() const
     {
-      if (!is_crypto())
-	throw Exception("RandomAPI: " + name() + " algorithm is not crypto-strength");
+        if (!is_crypto())
+            throw Exception("RandomAPI: " + name() + " algorithm is not crypto-strength");
     }
 
     // UniformRandomBitGenerator for std::shuffle
     typedef unsigned int result_type;
-    static constexpr result_type min() { return result_type(0); }
-    static constexpr result_type max() { return ~result_type(0); }
-    result_type operator()() { return rand_get<result_type>(); }
-  };
+    static constexpr result_type min()
+    {
+        return result_type(0);
+    }
+    static constexpr result_type max()
+    {
+        return ~result_type(0);
+    }
+    result_type operator()()
+    {
+        return rand_get<result_type>();
+    }
+};
 
-}
+} // namespace openvpn

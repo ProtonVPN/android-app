@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2007-2022 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright Nokia 2007-2019
  * Copyright Siemens AG 2015-2019
  *
@@ -112,7 +112,7 @@ OSSL_CMP_CTX *OSSL_CMP_CTX_new(OSSL_LIB_CTX *libctx, const char *propq)
 
     ctx->log_verbosity = OSSL_CMP_LOG_INFO;
 
-    ctx->status = -1;
+    ctx->status = OSSL_CMP_PKISTATUS_unspecified;
     ctx->failInfoCode = -1;
 
     ctx->keep_alive = 1;
@@ -142,6 +142,13 @@ OSSL_CMP_CTX *OSSL_CMP_CTX_new(OSSL_LIB_CTX *libctx, const char *propq)
     return NULL;
 }
 
+#define OSSL_CMP_ITAVs_free(itavs) \
+    sk_OSSL_CMP_ITAV_pop_free(itavs, OSSL_CMP_ITAV_free);
+#define X509_EXTENSIONS_free(exts) \
+    sk_X509_EXTENSION_pop_free(exts, X509_EXTENSION_free)
+#define OSSL_CMP_PKIFREETEXT_free(text) \
+    sk_ASN1_UTF8STRING_pop_free(text, ASN1_UTF8STRING_free)
+
 /* Prepare the OSSL_CMP_CTX for next use, partly re-initializing OSSL_CMP_CTX */
 int OSSL_CMP_CTX_reinit(OSSL_CMP_CTX *ctx)
 {
@@ -155,8 +162,11 @@ int OSSL_CMP_CTX_reinit(OSSL_CMP_CTX *ctx)
         ossl_cmp_debug(ctx, "disconnected from CMP server");
         ctx->http_ctx = NULL;
     }
-    ctx->status = -1;
+    ctx->status = OSSL_CMP_PKISTATUS_unspecified;
     ctx->failInfoCode = -1;
+
+    OSSL_CMP_ITAVs_free(ctx->genm_ITAVs);
+    ctx->genm_ITAVs = NULL;
 
     return ossl_cmp_ctx_set0_statusString(ctx, NULL)
         && ossl_cmp_ctx_set0_newCert(ctx, NULL)
@@ -562,6 +572,17 @@ int OSSL_CMP_CTX_push0_geninfo_ITAV(OSSL_CMP_CTX *ctx, OSSL_CMP_ITAV *itav)
     return OSSL_CMP_ITAV_push0_stack_item(&ctx->geninfo_ITAVs, itav);
 }
 
+int OSSL_CMP_CTX_reset_geninfo_ITAVs(OSSL_CMP_CTX *ctx)
+{
+    if (ctx == NULL) {
+        ERR_raise(ERR_LIB_CMP, CMP_R_NULL_ARGUMENT);
+        return 0;
+    }
+    OSSL_CMP_ITAVs_free(ctx->geninfo_ITAVs);
+    ctx->geninfo_ITAVs = NULL;
+    return 1;
+}
+
 /* Add an itav for the body of outgoing general messages */
 int OSSL_CMP_CTX_push0_genm_ITAV(OSSL_CMP_CTX *ctx, OSSL_CMP_ITAV *itav)
 {
@@ -861,7 +882,7 @@ int OSSL_CMP_CTX_set1_senderNonce(OSSL_CMP_CTX *ctx,
 /* Set the proxy server to use for HTTP(S) connections */
 DEFINE_OSSL_CMP_CTX_set1(proxy, char)
 
-/* Set the (HTTP) host name of the CMP server */
+/* Set the (HTTP) hostname of the CMP server */
 DEFINE_OSSL_CMP_CTX_set1(server, char)
 
 /* Set the server exclusion list of the HTTP proxy server */

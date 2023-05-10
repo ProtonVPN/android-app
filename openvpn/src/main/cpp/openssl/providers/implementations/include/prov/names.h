@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2021-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -162,6 +162,8 @@
 #define PROV_NAMES_SM4_CTR "SM4-CTR:1.2.156.10197.1.104.7"
 #define PROV_NAMES_SM4_OFB "SM4-OFB:SM4-OFB128:1.2.156.10197.1.104.3"
 #define PROV_NAMES_SM4_CFB "SM4-CFB:SM4-CFB128:1.2.156.10197.1.104.4"
+#define PROV_NAMES_SM4_GCM "SM4-GCM:1.2.156.10197.1.104.8"
+#define PROV_NAMES_SM4_CCM "SM4-CCM:1.2.156.10197.1.104.9"
 #define PROV_NAMES_ChaCha20 "ChaCha20"
 #define PROV_NAMES_ChaCha20_Poly1305 "ChaCha20-Poly1305"
 #define PROV_NAMES_CAST5_ECB "CAST5-ECB"

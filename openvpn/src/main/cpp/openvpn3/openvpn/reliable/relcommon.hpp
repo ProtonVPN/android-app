@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -28,35 +28,47 @@
 
 namespace openvpn {
 
-  namespace reliable {
-    typedef PacketID::id_t id_t;    
-  }
+namespace reliable {
+typedef PacketID::id_t id_t;
+}
 
-  template <typename PACKET>
-  class ReliableMessageBase
-  {
+template <typename PACKET>
+class ReliableMessageBase
+{
   public:
     typedef reliable::id_t id_t;
 
-    ReliableMessageBase() : id_(0), erased_(false) {}
-    bool defined() const { return bool(packet); }
-    bool erased() const { return erased_; }
+    ReliableMessageBase()
+        : id_(0), erased_(false)
+    {
+    }
+    bool defined() const
+    {
+        return bool(packet);
+    }
+    bool erased() const
+    {
+        return erased_;
+    }
 
     void erase()
     {
-      id_ = id_t(0);
-      packet.reset();
-      erased_ = true;
+        id_ = id_t(0);
+        packet.reset();
+        erased_ = true;
     }
 
-    id_t id() const { return id_; }
+    id_t id() const
+    {
+        return id_;
+    }
 
     PACKET packet;
 
   protected:
     id_t id_;
     bool erased_;
-  };
+};
 
 } // namespace openvpn
 

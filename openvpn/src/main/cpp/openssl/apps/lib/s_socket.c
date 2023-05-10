@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -56,7 +56,7 @@ BIO_ADDR *ourpeer = NULL;
 /*
  * init_client - helper routine to set up socket communication
  * @sock: pointer to storage of resulting socket.
- * @host: the host name or path (for AF_UNIX) to connect to.
+ * @host: the hostname or path (for AF_UNIX) to connect to.
  * @port: the port to connect to (ignored for AF_UNIX).
  * @bindhost: source host or path (for AF_UNIX).
  * @bindport: source port (ignored for AF_UNIX).
@@ -162,7 +162,7 @@ int init_client(int *sock, const char *host, const char *port,
 #endif
 
         if (!BIO_connect(*sock, BIO_ADDRINFO_address(ai),
-                         protocol == IPPROTO_TCP ? BIO_SOCK_NODELAY : 0)) {
+                         BIO_ADDRINFO_protocol(ai) == IPPROTO_TCP ? BIO_SOCK_NODELAY : 0)) {
             BIO_closesocket(*sock);
             *sock = INVALID_SOCKET;
             continue;
@@ -239,7 +239,7 @@ int report_server_accept(BIO *out, int asock, int with_address, int with_pid)
 /*
  * do_server - helper routine to perform a server operation
  * @accept_sock: pointer to storage of resulting socket.
- * @host: the host name or path (for AF_UNIX) to connect to.
+ * @host: the hostname or path (for AF_UNIX) to connect to.
  * @port: the port to connect to (ignored for AF_UNIX).
  * @family: desired socket family, may be AF_INET, AF_INET6, AF_UNIX or
  *  AF_UNSPEC

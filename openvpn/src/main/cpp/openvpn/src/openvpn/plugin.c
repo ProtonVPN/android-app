@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -102,7 +102,7 @@ plugin_type_name(const int type)
             return "PLUGIN_CLIENT_CONNECT";
 
         case OPENVPN_PLUGIN_CLIENT_CONNECT_V2:
-            return "PLUGIN_CLIENT_CONNECT";
+            return "PLUGIN_CLIENT_CONNECT_V2";
 
         case OPENVPN_PLUGIN_CLIENT_CONNECT_DEFER:
             return "PLUGIN_CLIENT_CONNECT_DEFER";
@@ -121,6 +121,9 @@ plugin_type_name(const int type)
 
         case OPENVPN_PLUGIN_ROUTE_PREDOWN:
             return "PLUGIN_ROUTE_PREDOWN";
+
+        case OPENVPN_PLUGIN_CLIENT_CRRESPONSE:
+            return "PLUGIN_CRRESPONSE";
 
         default:
             return "PLUGIN_???";
@@ -802,7 +805,7 @@ plugin_call_ssl(const struct plugin_list *pl,
         const char **envp;
         const int n = plugin_n(pl);
         bool error = false;
-        bool deferred = false;
+        bool deferred_auth_done = false;
 
         setenv_del(es, "script_type");
         envp = make_env_array(es, false, &gc);
@@ -824,7 +827,34 @@ plugin_call_ssl(const struct plugin_list *pl,
                     break;
 
                 case OPENVPN_PLUGIN_FUNC_DEFERRED:
-                    deferred = true;
+                    if ((type == OPENVPN_PLUGIN_AUTH_USER_PASS_VERIFY)
+                        && deferred_auth_done)
+                    {
+                        /*
+                         * Do not allow deferred auth if a deferred auth has
+                         * already been started.  This should allow a single
+                         * deferred auth call to happen, with one or more
+                         * auth calls with an instant authentication result.
+                         *
+                         * The plug-in API is not designed for multiple
+                         * deferred authentications to happen, as the
+                         * auth_control_file file will be shared across all
+                         * the plug-ins.
+                         *
+                         * Since this is considered a critical configuration
+                         * error, we bail out and exit the OpenVPN process.
+                         */
+                        error = true;
+                        msg(M_FATAL,
+                            "Exiting due to multiple authentication plug-ins "
+                            "performing deferred authentication.  Only one "
+                            "authentication plug-in doing deferred auth is "
+                            "allowed.  Ignoring the result and stopping now, "
+                            "the current authentication result is not to be "
+                            "trusted.");
+                        break;
+                    }
+                    deferred_auth_done = true;
                     break;
 
                 default:
@@ -844,7 +874,7 @@ plugin_call_ssl(const struct plugin_list *pl,
         {
             return OPENVPN_PLUGIN_FUNC_ERROR;
         }
-        else if (deferred)
+        else if (deferred_auth_done)
         {
             return OPENVPN_PLUGIN_FUNC_DEFERRED;
         }

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,8 +31,8 @@
 #include <openvpn/addr/ip.hpp>
 
 namespace openvpn {
-  class TunBuilderBase
-  {
+class TunBuilderBase
+{
   public:
     // Tun builder methods, loosely based on the Android VpnService.Builder
     // abstraction.  These methods comprise an abstraction layer that
@@ -51,32 +51,32 @@ namespace openvpn {
     // Should be called first.
     virtual bool tun_builder_new()
     {
-      return false;
+        return false;
     }
 
     // Optional callback that indicates OSI layer, should be 2 or 3.
     // Defaults to 3.
     virtual bool tun_builder_set_layer(int layer)
     {
-      return true;
+        return true;
     }
 
     // Callback to set address of remote server
     // Never called more than once per tun_builder session.
-    virtual bool tun_builder_set_remote_address(const std::string& address, bool ipv6)
+    virtual bool tun_builder_set_remote_address(const std::string &address, bool ipv6)
     {
-      return false;
+        return false;
     }
 
     // Callback to add network address to VPN interface
     // May be called more than once per tun_builder session
-    virtual bool tun_builder_add_address(const std::string& address,
-					 int prefix_length,
-					 const std::string& gateway, // optional
-					 bool ipv6,
-					 bool net30)
+    virtual bool tun_builder_add_address(const std::string &address,
+                                         int prefix_length,
+                                         const std::string &gateway, // optional
+                                         bool ipv6,
+                                         bool net30)
     {
-      return false;
+        return false;
     }
 
     // Optional callback to set default value for route metric.
@@ -86,7 +86,7 @@ namespace openvpn {
     // if < 0.
     virtual bool tun_builder_set_route_metric_default(int metric)
     {
-      return true;
+        return true;
     }
 
     // Callback to reroute default gateway to VPN interface.
@@ -95,32 +95,32 @@ namespace openvpn {
     // flags are defined in RGWFlags (rgwflags.hpp).
     // Never called more than once per tun_builder session.
     virtual bool tun_builder_reroute_gw(bool ipv4,
-					bool ipv6,
-					unsigned int flags)
+                                        bool ipv6,
+                                        unsigned int flags)
     {
-      return false;
+        return false;
     }
 
     // Callback to add route to VPN interface
     // May be called more than once per tun_builder session
     // metric is optional and should be ignored if < 0
-    virtual bool tun_builder_add_route(const std::string& address,
-				       int prefix_length,
-				       int metric,
-				       bool ipv6)
+    virtual bool tun_builder_add_route(const std::string &address,
+                                       int prefix_length,
+                                       int metric,
+                                       bool ipv6)
     {
-      return false;
+        return false;
     }
 
     // Callback to exclude route from VPN interface
     // May be called more than once per tun_builder session
     // metric is optional and should be ignored if < 0
-    virtual bool tun_builder_exclude_route(const std::string& address,
-					   int prefix_length,
-					   int metric,
-					   bool ipv6)
+    virtual bool tun_builder_exclude_route(const std::string &address,
+                                           int prefix_length,
+                                           int metric,
+                                           bool ipv6)
     {
-      return false;
+        return false;
     }
 
     // Callback to add DNS server to VPN interface
@@ -129,9 +129,9 @@ namespace openvpn {
     // tunnel, while if false, only DNS traffic that matches an added search
     // domain should be routed.
     // Guaranteed to be called after tun_builder_reroute_gw.
-    virtual bool tun_builder_add_dns_server(const std::string& address, bool ipv6)
+    virtual bool tun_builder_add_dns_server(const std::string &address, bool ipv6)
     {
-      return false;
+        return false;
     }
 
     // Callback to add search domain to DNS resolver
@@ -139,60 +139,60 @@ namespace openvpn {
     // See tun_builder_add_dns_server above for description of
     // reroute_dns parameter.
     // Guaranteed to be called after tun_builder_reroute_gw.
-    virtual bool tun_builder_add_search_domain(const std::string& domain)
+    virtual bool tun_builder_add_search_domain(const std::string &domain)
     {
-      return false;
+        return false;
     }
 
     // Callback to set MTU of the VPN interface
     // Never called more than once per tun_builder session.
     virtual bool tun_builder_set_mtu(int mtu)
     {
-      return false;
+        return false;
     }
 
     // Callback to set the session name
     // Never called more than once per tun_builder session.
-    virtual bool tun_builder_set_session_name(const std::string& name)
+    virtual bool tun_builder_set_session_name(const std::string &name)
     {
-      return false;
+        return false;
     }
 
     // Callback to add a host which should bypass the proxy
     // May be called more than once per tun_builder session
-    virtual bool tun_builder_add_proxy_bypass(const std::string& bypass_host)
+    virtual bool tun_builder_add_proxy_bypass(const std::string &bypass_host)
     {
-      return false;
+        return false;
     }
 
     // Callback to set the proxy "Auto Config URL"
     // Never called more than once per tun_builder session.
-    virtual bool tun_builder_set_proxy_auto_config_url(const std::string& url)
+    virtual bool tun_builder_set_proxy_auto_config_url(const std::string &url)
     {
-      return false;
+        return false;
     }
 
     // Callback to set the HTTP proxy
     // Never called more than once per tun_builder session.
-    virtual bool tun_builder_set_proxy_http(const std::string& host, int port)
+    virtual bool tun_builder_set_proxy_http(const std::string &host, int port)
     {
-      return false;
+        return false;
     }
 
     // Callback to set the HTTPS proxy
     // Never called more than once per tun_builder session.
-    virtual bool tun_builder_set_proxy_https(const std::string& host, int port)
+    virtual bool tun_builder_set_proxy_https(const std::string &host, int port)
     {
-      return false;
+        return false;
     }
 
     // Callback to add Windows WINS server to VPN interface.
     // WINS server addresses are always IPv4.
     // May be called more than once per tun_builder session.
     // Guaranteed to be called after tun_builder_reroute_gw.
-    virtual bool tun_builder_add_wins_server(const std::string& address)
+    virtual bool tun_builder_add_wins_server(const std::string &address)
     {
-      return false;
+        return false;
     }
 
     // Optional callback that indicates whether traffic of a certain
@@ -206,16 +206,16 @@ namespace openvpn {
     // See also Android's VPNService.Builder.allowFamily method
     virtual bool tun_builder_set_allow_family(int af, bool allow)
     {
-      return true;
+        return true;
     }
 
     // Optional callback to set a DNS suffix on tun/tap adapter.
     // Currently only implemented on Windows, where it will
     // set the "Connection-specific DNS Suffix" property on
     // the TAP driver.
-    virtual bool tun_builder_set_adapter_domain_suffix(const std::string& name)
+    virtual bool tun_builder_set_adapter_domain_suffix(const std::string &name)
     {
-      return true;
+        return true;
     }
 
     // Callback to establish the VPN tunnel, returning a file descriptor
@@ -224,7 +224,7 @@ namespace openvpn {
     // Always called last after tun_builder session has been configured.
     virtual int tun_builder_establish()
     {
-      return -1;
+        return -1;
     }
 
     // Return true if tun interface may be persisted, i.e. rolled
@@ -236,7 +236,7 @@ namespace openvpn {
     // tun_builder_establish() will be called.
     virtual bool tun_builder_persist()
     {
-      return true;
+        return true;
     }
 
     // When the exclude local network option is enabled this
@@ -245,7 +245,7 @@ namespace openvpn {
     // This should be a list of CIDR networks (e.g. 192.168.0.0/24)
     virtual const std::vector<std::string> tun_builder_get_local_networks(bool ipv6)
     {
-      return {};
+        return {};
     }
 
     // Indicates a reconnection with persisted tun state.
@@ -256,9 +256,13 @@ namespace openvpn {
     // Indicates that tunnel is being torn down.
     // If disconnect == true, then the teardown is occurring
     // prior to final disconnect.
-    virtual void tun_builder_teardown(bool disconnect) {}
+    virtual void tun_builder_teardown(bool disconnect)
+    {
+    }
 
-    virtual ~TunBuilderBase() {}
+    virtual ~TunBuilderBase()
+    {
+    }
 
 #ifdef ENABLE_OVPNDCO
     /**
@@ -268,7 +272,7 @@ namespace openvpn {
      */
     virtual bool tun_builder_dco_available()
     {
-      return false;
+        return false;
     }
 
     /**
@@ -277,9 +281,9 @@ namespace openvpn {
      * @param dev_name name of ovpn-dco net device, which should be created by client
      * @return int file descriptor of socket used to direct communication with ovpn-dco kernel module
      */
-    virtual int tun_builder_dco_enable(const std::string& dev_name)
+    virtual int tun_builder_dco_enable(const std::string &dev_name)
     {
-      return -1;
+        return -1;
     }
 
     /**
@@ -292,8 +296,12 @@ namespace openvpn {
      * @vpn4 IPv4 address associated with this peer in the tunnel
      * @vpn6 IPv6 address associated with this peer in the tunnel
      */
-    virtual void tun_builder_dco_new_peer(uint32_t peer_id, uint32_t transport_fd, struct sockaddr *sa,
-					  socklen_t salen, IPv4::Addr& vpn4, IPv6::Addr& vpn6)
+    virtual void tun_builder_dco_new_peer(uint32_t peer_id,
+                                          uint32_t transport_fd,
+                                          struct sockaddr *sa,
+                                          socklen_t salen,
+                                          IPv4::Addr &vpn4,
+                                          IPv6::Addr &vpn6)
     {
     }
 
@@ -335,7 +343,7 @@ namespace openvpn {
      * @param key_slot \c OVPN_KEY_SLOT_PRIMARY or \c OVPN_KEY_SLOT_SECONDARY
      * @param kc pointer to \c KeyConfig struct which contains key data
      */
-    virtual void tun_builder_dco_new_key(unsigned int key_slot, const KoRekey::KeyConfig* kc)
+    virtual void tun_builder_dco_new_key(unsigned int key_slot, const KoRekey::KeyConfig *kc)
     {
     }
 
@@ -368,8 +376,7 @@ namespace openvpn {
     {
     }
 #endif // ENABLE_DCO
-
-  };
-}
+};
+} // namespace openvpn
 
 #endif

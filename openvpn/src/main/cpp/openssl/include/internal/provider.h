@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -37,7 +37,6 @@ int ossl_provider_up_ref(OSSL_PROVIDER *prov);
 void ossl_provider_free(OSSL_PROVIDER *prov);
 
 /* Setters */
-int ossl_provider_set_fallback(OSSL_PROVIDER *prov);
 int ossl_provider_set_module_path(OSSL_PROVIDER *prov, const char *module_path);
 int ossl_provider_add_parameter(OSSL_PROVIDER *prov, const char *name,
                                 const char *value);
@@ -95,11 +94,14 @@ void ossl_provider_unquery_operation(const OSSL_PROVIDER *prov,
                                      int operation_id,
                                      const OSSL_ALGORITHM *algs);
 
-/* Cache of bits to see if we already queried an operation */
+/*
+ * Cache of bits to see if we already added methods for an operation in
+ * the "permanent" method store.
+ * They should never be called for temporary method stores!
+ */
 int ossl_provider_set_operation_bit(OSSL_PROVIDER *provider, size_t bitnum);
 int ossl_provider_test_operation_bit(OSSL_PROVIDER *provider, size_t bitnum,
                                      int *result);
-int ossl_provider_clear_all_operation_bits(OSSL_LIB_CTX *libctx);
 
 /* Configuration */
 void ossl_provider_add_conf_module(void);

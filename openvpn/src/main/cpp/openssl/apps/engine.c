@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2000-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -347,7 +347,7 @@ int engine_main(int argc, char **argv)
             break;
         case OPT_TT:
             test_avail_noise++;
-            /* fall thru */
+            /* fall through */
         case OPT_T:
             test_avail++;
             break;

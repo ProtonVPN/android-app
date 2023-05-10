@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2017-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -224,8 +224,8 @@ static int uint32_print(BIO *out, const ASN1_VALUE **pval, const ASN1_ITEM *it,
                         int indent, const ASN1_PCTX *pctx)
 {
     if ((it->size & INTxx_FLAG_SIGNED) == INTxx_FLAG_SIGNED)
-        return BIO_printf(out, "%d\n", **(int32_t **)pval);
-    return BIO_printf(out, "%u\n", **(uint32_t **)pval);
+        return BIO_printf(out, "%d\n", (int)**(int32_t **)pval);
+    return BIO_printf(out, "%u\n", (unsigned int)**(uint32_t **)pval);
 }
 
 

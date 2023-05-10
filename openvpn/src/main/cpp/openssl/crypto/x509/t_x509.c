@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -50,7 +50,7 @@ int X509_print_ex(BIO *bp, X509 *x, unsigned long nmflags,
 {
     long l;
     int ret = 0, i;
-    char *m = NULL, mlch = ' ';
+    char mlch = ' ';
     int nmindent = 0, printok = 0;
     EVP_PKEY *pkey = NULL;
     const char *neg;
@@ -217,7 +217,6 @@ int X509_print_ex(BIO *bp, X509 *x, unsigned long nmflags,
     }
     ret = 1;
  err:
-    OPENSSL_free(m);
     return ret;
 }
 

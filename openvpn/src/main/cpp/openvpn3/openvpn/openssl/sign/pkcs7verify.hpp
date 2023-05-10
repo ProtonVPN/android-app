@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -35,54 +35,54 @@
 #include <openvpn/openssl/util/error.hpp>
 
 namespace openvpn {
-  namespace OpenSSLSign {
-    /*
-     * Verify PKCS7 signature.
-     * On success, return.
-     * On fail, throw exception.
-     */
-    inline void verify_pkcs7(const std::list<OpenSSLPKI::X509>& certs,
-			     const std::string& sig,
-			     const std::string& data)
-    {
-      STACK_OF(X509) *x509_stack = nullptr;
-      BIO *in = nullptr;
-      PKCS7 *p7 = nullptr;
+namespace OpenSSLSign {
+/*
+ * Verify PKCS7 signature.
+ * On success, return.
+ * On fail, throw exception.
+ */
+inline void verify_pkcs7(const std::list<OpenSSLPKI::X509> &certs,
+                         const std::string &sig,
+                         const std::string &data)
+{
+    STACK_OF(X509) *x509_stack = nullptr;
+    BIO *in = nullptr;
+    PKCS7 *p7 = nullptr;
 
-      auto clean = Cleanup([&]() {
+    auto clean = Cleanup([&]()
+                         {
 	  if (x509_stack)
 	    sk_X509_free(x509_stack);
 	  if (in)
 	    BIO_free(in);
 	  if (p7)
-	    PKCS7_free(p7);
-	});
+	    PKCS7_free(p7); });
 
-      /* create x509_stack from cert */
-      x509_stack = sk_X509_new_null();
-      for (const auto& cert : certs)
-	sk_X509_push(x509_stack, cert.obj());
+    /* create x509_stack from cert */
+    x509_stack = sk_X509_new_null();
+    for (const auto &cert : certs)
+        sk_X509_push(x509_stack, cert.obj());
 
-      /* get signature */
-      in = BIO_new_mem_buf(sig.c_str(), sig.length());
-      p7 = PEM_read_bio_PKCS7(in, NULL, NULL, NULL);
-      if (!p7)
-	throw OpenSSLException("OpenSSLSign::verify_pkcs7: failed to parse pkcs7 signature");
-      BIO_free(in);
-      in = nullptr;
+    /* get signature */
+    in = BIO_new_mem_buf(sig.c_str(), sig.length());
+    p7 = PEM_read_bio_PKCS7(in, NULL, NULL, NULL);
+    if (!p7)
+        throw OpenSSLException("OpenSSLSign::verify_pkcs7: failed to parse pkcs7 signature");
+    BIO_free(in);
+    in = nullptr;
 
-      /* get data */
-      in = BIO_new_mem_buf(data.c_str(), data.length());
+    /* get data */
+    in = BIO_new_mem_buf(data.c_str(), data.length());
 
-      /* OpenSSL 1.0.2e and higher no longer allows calling PKCS7_verify
-	 with both data and content.  Empty out the content. */
-      p7->d.sign->contents->d.ptr = 0;
+    /* OpenSSL 1.0.2e and higher no longer allows calling PKCS7_verify
+   with both data and content.  Empty out the content. */
+    p7->d.sign->contents->d.ptr = 0;
 
-      /* do the verify */
-      if (PKCS7_verify(p7, x509_stack, NULL, in, NULL, PKCS7_NOVERIFY) != 1)
-	throw OpenSSLException("OpenSSLSign::verify_pkcs7: verification failed");
-    }
-  }
+    /* do the verify */
+    if (PKCS7_verify(p7, x509_stack, NULL, in, NULL, PKCS7_NOVERIFY) != 1)
+        throw OpenSSLException("OpenSSLSign::verify_pkcs7: verification failed");
 }
+} // namespace OpenSSLSign
+} // namespace openvpn
 
 #endif

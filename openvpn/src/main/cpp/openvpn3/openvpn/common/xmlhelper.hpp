@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,116 +27,115 @@
 
 namespace openvpn {
 
-  class Xml
-  {
+class Xml
+{
   public:
     OPENVPN_EXCEPTION(xml_parse);
 
     struct Document : public tinyxml2::XMLDocument
     {
-      Document(const std::string& str,
-	       const std::string& title)
-      {
-	if (tinyxml2::XMLDocument::Parse(str.c_str()))
-	  OPENVPN_THROW(xml_parse, title << " : " << format_error(*this));
-      }
+        Document(const std::string &str,
+                 const std::string &title)
+        {
+            if (tinyxml2::XMLDocument::Parse(str.c_str()))
+                OPENVPN_THROW(xml_parse, title << " : " << format_error(*this));
+        }
     };
 
-    static std::string to_string(const tinyxml2::XMLDocument& doc)
+    static std::string to_string(const tinyxml2::XMLDocument &doc)
     {
-      tinyxml2::XMLPrinter printer;
-      doc.Print(&printer);
-      return printer.CStr();
+        tinyxml2::XMLPrinter printer;
+        doc.Print(&printer);
+        return printer.CStr();
     }
 
-    static std::string format_error(const tinyxml2::XMLDocument& doc)
+    static std::string format_error(const tinyxml2::XMLDocument &doc)
     {
 #if OVPN_TINYXML2_HAS_ERROR_NAME
-      std::string ret = doc.ErrorName();
+        std::string ret = doc.ErrorName();
 #else
-      tinyxml2::XMLError error = doc.ErrorID();
-      std::string ret{"XMLError " + error};
+        tinyxml2::XMLError error = doc.ErrorID();
+        std::string ret{"XMLError " + error};
 #endif
 #if OVPN_TINYXML2_HAS_ERROR_STR
-      const char *es = doc.ErrorStr();
-      if (es)
-	{
-	  ret += ' ';
-	  ret += es;
-	}
+        const char *es = doc.ErrorStr();
+        if (es)
+        {
+            ret += ' ';
+            ret += es;
+        }
 #else
-      const char *es1 = doc.GetErrorStr1();
-      const char *es2 = doc.GetErrorStr2();
-      if (es1)
-	{
-	  ret += ' ';
-	  ret += es1;
-	}
-      if (es2)
-	{
-	  ret += ' ';
-	  ret += es2;
-	}
+        const char *es1 = doc.GetErrorStr1();
+        const char *es2 = doc.GetErrorStr2();
+        if (es1)
+        {
+            ret += ' ';
+            ret += es1;
+        }
+        if (es2)
+        {
+            ret += ' ';
+            ret += es2;
+        }
 #endif
-      return ret;
+        return ret;
     }
 
-    template<typename T, typename... Args>
-    static std::string find_text(const tinyxml2::XMLNode* node,
-				 const T& first,
-				 Args... args)
+    template <typename T, typename... Args>
+    static std::string find_text(const tinyxml2::XMLNode *node,
+                                 const T &first,
+                                 Args... args)
     {
-      const tinyxml2::XMLElement* e = find(node, first, args...);
-      if (e)
-	return e->GetText();
-      else
-	return std::string();
+        const tinyxml2::XMLElement *e = find(node, first, args...);
+        if (e)
+            return e->GetText();
+        else
+            return std::string();
     }
 
-    template<typename T, typename... Args>
-    static const tinyxml2::XMLElement* find(const tinyxml2::XMLNode* node,
-					    const T& first,
-					    Args... args)
+    template <typename T, typename... Args>
+    static const tinyxml2::XMLElement *find(const tinyxml2::XMLNode *node,
+                                            const T &first,
+                                            Args... args)
     {
-      const tinyxml2::XMLElement *e = find(node, first);
-      if (e)
-	e = find(e, args...);
-      return e;
+        const tinyxml2::XMLElement *e = find(node, first);
+        if (e)
+            e = find(e, args...);
+        return e;
     }
 
-    static const tinyxml2::XMLElement* find(const tinyxml2::XMLNode* node,
-					    const std::string& first)
+    static const tinyxml2::XMLElement *find(const tinyxml2::XMLNode *node,
+                                            const std::string &first)
     {
-      return node->FirstChildElement(first.c_str());
+        return node->FirstChildElement(first.c_str());
     }
 
-    static const tinyxml2::XMLElement* find(const tinyxml2::XMLNode* node,
-					    const char *first)
+    static const tinyxml2::XMLElement *find(const tinyxml2::XMLNode *node,
+                                            const char *first)
     {
-      return node->FirstChildElement(first);
+        return node->FirstChildElement(first);
     }
 
-    static const tinyxml2::XMLElement* find(const tinyxml2::XMLElement* elem)
+    static const tinyxml2::XMLElement *find(const tinyxml2::XMLElement *elem)
     {
-      return elem;
+        return elem;
     }
 
-    static const tinyxml2::XMLElement* next_sibling(const tinyxml2::XMLNode* node,
-						    const std::string& name)
+    static const tinyxml2::XMLElement *next_sibling(const tinyxml2::XMLNode *node,
+                                                    const std::string &name)
     {
-      return node->NextSiblingElement(name.c_str());
+        return node->NextSiblingElement(name.c_str());
     }
 
-    static const tinyxml2::XMLElement* next_sibling(const tinyxml2::XMLNode* node,
-						    const char *name)
+    static const tinyxml2::XMLElement *next_sibling(const tinyxml2::XMLNode *node,
+                                                    const char *name)
     {
-      return node->NextSiblingElement(name);
+        return node->NextSiblingElement(name);
     }
 
-    static const tinyxml2::XMLElement* next_sibling(const tinyxml2::XMLNode* node)
+    static const tinyxml2::XMLElement *next_sibling(const tinyxml2::XMLNode *node)
     {
-      return node->NextSiblingElement();
+        return node->NextSiblingElement();
     }
-
-  };
-}
+};
+} // namespace openvpn

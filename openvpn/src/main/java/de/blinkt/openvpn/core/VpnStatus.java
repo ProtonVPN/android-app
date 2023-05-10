@@ -15,14 +15,13 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Vector;
 
 import de.blinkt.openvpn.R;
 
 public class VpnStatus {
-
-
     private static final LinkedList<LogItem> logbuffer;
 
     private static Vector<LogListener> logListener;
@@ -150,7 +149,6 @@ public class VpnStatus {
         VpnStatus.trafficHistory = trafficHistory;
     }
 
-
     public enum LogLevel {
         INFO(2),
         ERROR(-2),
@@ -240,7 +238,7 @@ public class VpnStatus {
         String nativeAPI;
         try {
             nativeAPI = NativeUtils.getNativeAPI();
-        } catch (UnsatisfiedLinkError ignore) {
+        } catch (UnsatisfiedLinkError|NoClassDefFoundError ignore) {
             nativeAPI = "error";
         }
 
@@ -418,15 +416,23 @@ public class VpnStatus {
     }
 
     static void newLogItem(LogItem logItem) {
-        newLogItem(logItem, false);
+        newLogItem(logItem, false, false);
     }
 
+    public static void newLogItemIfUnique(LogItem li) {
+        newLogItem(li, false, true);
+    }
 
-    synchronized static void newLogItem(LogItem logItem, boolean cachedLine) {
+    public static void newLogItem(LogItem logItem, boolean cachedLine)
+    {
+        newLogItem(logItem, cachedLine, false);
+    }
+
+    synchronized static void newLogItem(LogItem logItem, boolean cachedLine, boolean enforceUnique) {
         if (cachedLine) {
             logbuffer.addFirst(logItem);
         } else {
-            logbuffer.addLast(logItem);
+            insertLogItemByLogTime(logItem, enforceUnique);
             if (mLogFileHandler != null) {
                 Message m = mLogFileHandler.obtainMessage(LogFileHandler.LOG_MESSAGE, logItem);
                 mLogFileHandler.sendMessage(m);
@@ -443,6 +449,34 @@ public class VpnStatus {
         for (LogListener ll : logListener) {
             ll.newLog(logItem);
         }
+    }
+
+    private static void insertLogItemByLogTime(LogItem logItem, boolean enforceUnique) {
+        /* Shortcut for the shortcut that it should be added at the
+         * end to avoid traversing the list
+         */
+        if (!logbuffer.isEmpty() && logbuffer.getLast().getLogtime() <= logItem.getLogtime())
+        {
+            logbuffer.addLast(logItem);
+            return;
+        }
+
+        ListIterator<LogItem> itr = logbuffer.listIterator();
+        long newItemLogTime = logItem.getLogtime();
+        while(itr.hasNext()) {
+            LogItem laterLogItem = itr.next();
+            if (enforceUnique && laterLogItem.equals(logItem))
+                /* Identical object found, ignore new item */
+                return;
+
+            if (laterLogItem.getLogtime() > newItemLogTime) {
+                itr.previous();
+                itr.add(logItem);
+                return;
+            }
+        }
+        /* no hasNext, add at the end */
+        itr.add(logItem);
     }
 
 

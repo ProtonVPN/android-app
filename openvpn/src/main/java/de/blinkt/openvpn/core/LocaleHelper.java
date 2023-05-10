@@ -15,11 +15,23 @@ import java.util.Locale;
 public class LocaleHelper {
     static private Locale desiredLocale = null;
 
-    public static void setDesiredLocale(Context c)
-    {
+    public static void setDesiredLocale(Context c) {
         Locale current = Locale.getDefault();
         boolean defForce = true;
-        if (current.getLanguage().equals(new Locale("de").getLanguage()))
+
+        /* Languages that have proofreaders */
+        String[] whitelisted = {new Locale("de").getLanguage(), new Locale("ja").getLanguage(),
+                                new Locale("tr").getLanguage(), new Locale("zh-TW").getLanguage()};
+
+        String currentLanguage = current.getLanguage();
+        for (String lang : whitelisted) {
+            if (lang.equals(currentLanguage)) {
+                defForce = false;
+                break;
+            }
+        }
+
+        if (current.toLanguageTag().startsWith("zh-Hant"))
             defForce = false;
 
         boolean allow_translation = Preferences.getDefaultSharedPreferences(c).getBoolean("allow_translation", defForce);
@@ -62,10 +74,7 @@ public class LocaleHelper {
 
         Configuration config = new Configuration(res.getConfiguration());
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-            config.setLocale(desiredLocale);
-        else
-            config.locale = desiredLocale;
+        config.setLocale(desiredLocale);
 
         res.updateConfiguration(config, res.getDisplayMetrics());
     }

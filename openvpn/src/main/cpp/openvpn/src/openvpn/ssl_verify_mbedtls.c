@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -260,17 +260,6 @@ x509_get_subject(mbedtls_x509_crt *cert, struct gc_arena *gc)
     }
 
     return subject;
-}
-
-bool
-x509v3_is_host_in_alternative_names(mbedtls_x509_crt *cert, const char *host, bool *has_alt_names)
-{
-    msg(M_WARN, "Missing support for subject alternative names in mbedtls.");
-    if (has_alt_names != NULL)
-    {
-        *has_alt_names = false;
-    }
-    return false;
 }
 
 static void

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -93,252 +93,254 @@
 
 namespace openvpn {
 
-  // The smart pointer class
-  template <typename T>
-  class RCPtr
-  {
+// The smart pointer class
+template <typename T>
+class RCPtr
+{
   public:
     typedef T element_type;
 
     RCPtr() noexcept
-      : px(nullptr)
+        : px(nullptr)
     {
     }
 
-    RCPtr(T* p, const bool add_ref=true) noexcept
-      : px(p)
+    RCPtr(T *p, const bool add_ref = true) noexcept
+        : px(p)
     {
-      if (px && add_ref)
-	intrusive_ptr_add_ref(px);
+        if (px && add_ref)
+            intrusive_ptr_add_ref(px);
     }
 
-    RCPtr(const RCPtr& rhs) noexcept
-      : px(rhs.px)
+    RCPtr(const RCPtr &rhs) noexcept
+        : px(rhs.px)
     {
-      if (px)
-	intrusive_ptr_add_ref(px);
+        if (px)
+            intrusive_ptr_add_ref(px);
     }
 
-    RCPtr(RCPtr&& rhs) noexcept
-      : px(rhs.px)
+    RCPtr(RCPtr &&rhs) noexcept
+        : px(rhs.px)
     {
-      rhs.px = nullptr;
+        rhs.px = nullptr;
     }
 
     template <typename U>
-    RCPtr(const RCPtr<U>& rhs) noexcept
-      : px(rhs.get())
+    RCPtr(const RCPtr<U> &rhs) noexcept
+        : px(rhs.get())
     {
-      if (px)
-	intrusive_ptr_add_ref(px);
+        if (px)
+            intrusive_ptr_add_ref(px);
     }
 
     ~RCPtr()
     {
-      if (px)
-	intrusive_ptr_release(px);
+        if (px)
+            intrusive_ptr_release(px);
     }
 
-    RCPtr& operator=(const RCPtr& rhs) noexcept
+    RCPtr &operator=(const RCPtr &rhs) noexcept
     {
-      RCPtr(rhs).swap(*this);
-      return *this;
+        RCPtr(rhs).swap(*this);
+        return *this;
     }
 
-    RCPtr& operator=(RCPtr&& rhs) noexcept
+    RCPtr &operator=(RCPtr &&rhs) noexcept
     {
-      RCPtr(std::move(rhs)).swap(*this);
-      return *this;
+        RCPtr(std::move(rhs)).swap(*this);
+        return *this;
     }
 
     void reset() noexcept
     {
-      RCPtr().swap(*this);
+        RCPtr().swap(*this);
     }
 
-    void reset(T* rhs) noexcept
+    void reset(T *rhs) noexcept
     {
-      RCPtr(rhs).swap(*this);
+        RCPtr(rhs).swap(*this);
     }
 
-    void swap(RCPtr& rhs) noexcept
+    void swap(RCPtr &rhs) noexcept
     {
-      std::swap(px, rhs.px);
+        std::swap(px, rhs.px);
     }
 
-    T* get() const noexcept
+    T *get() const noexcept
     {
-      return px;
+        return px;
     }
 
-    T& operator*() const noexcept
+    T &operator*() const noexcept
     {
-      return *px;
+        return *px;
     }
 
-    T* operator->() const noexcept
+    T *operator->() const noexcept
     {
-      return px;
+        return px;
     }
 
     explicit operator bool() const noexcept
     {
-      return px != nullptr;
+        return px != nullptr;
     }
 
-    bool operator==(const RCPtr& rhs) const
+    bool operator==(const RCPtr &rhs) const
     {
-      return px == rhs.px;
+        return px == rhs.px;
     }
 
-    bool operator!=(const RCPtr& rhs) const
+    bool operator!=(const RCPtr &rhs) const
     {
-      return px != rhs.px;
+        return px != rhs.px;
     }
 
     RCPtr<T> move_strong() noexcept
     {
-      T* p = px;
-      px = nullptr;
-      return RCPtr<T>(p, false);
+        T *p = px;
+        px = nullptr;
+        return RCPtr<T>(p, false);
     }
 
     template <typename U>
     RCPtr<U> static_pointer_cast() const noexcept
     {
-      return RCPtr<U>(static_cast<U*>(px));
+        return RCPtr<U>(static_cast<U *>(px));
     }
 
     template <typename U>
     RCPtr<U> dynamic_pointer_cast() const noexcept
     {
-      return RCPtr<U>(dynamic_cast<U*>(px));
+        return RCPtr<U>(dynamic_cast<U *>(px));
     }
 
   private:
-    T* px;
-  };
+    T *px;
+};
 
-  template <typename T>
-  class RCWeakPtr
-  {
+template <typename T>
+class RCWeakPtr
+{
     typedef RCPtr<T> Strong;
 
   public:
     typedef T element_type;
 
-    RCWeakPtr() noexcept {}
-
-    RCWeakPtr(const Strong& p) noexcept
+    RCWeakPtr() noexcept
     {
-      if (p)
-	controller = p->refcount_.controller;
     }
 
-    RCWeakPtr(T* p) noexcept
+    RCWeakPtr(const Strong &p) noexcept
     {
-      if (p)
-	controller = p->refcount_.controller;
+        if (p)
+            controller = p->refcount_.controller;
     }
 
-    void reset(const Strong& p) noexcept
+    RCWeakPtr(T *p) noexcept
     {
-      if (p)
-	controller = p->refcount_.controller;
-      else
-	controller.reset();
+        if (p)
+            controller = p->refcount_.controller;
     }
 
-    void reset(T* p) noexcept
+    void reset(const Strong &p) noexcept
     {
-      if (p)
-	controller = p->refcount_.controller;
-      else
-	controller.reset();
+        if (p)
+            controller = p->refcount_.controller;
+        else
+            controller.reset();
+    }
+
+    void reset(T *p) noexcept
+    {
+        if (p)
+            controller = p->refcount_.controller;
+        else
+            controller.reset();
     }
 
     void reset() noexcept
     {
-      controller.reset();
+        controller.reset();
     }
 
-    void swap(RCWeakPtr& other) noexcept
+    void swap(RCWeakPtr &other) noexcept
     {
-      controller.swap(other.controller);
+        controller.swap(other.controller);
     }
 
     olong use_count() const noexcept
     {
-      if (controller)
-	return controller->use_count();
-      else
-	return 0;
+        if (controller)
+            return controller->use_count();
+        else
+            return 0;
     }
 
     bool expired() const noexcept
     {
-      return use_count() == 0;
+        return use_count() == 0;
     }
 
     Strong lock() const noexcept
     {
-      if (controller)
-	return controller->template lock<Strong>();
-      else
-	return Strong();
+        if (controller)
+            return controller->template lock<Strong>();
+        else
+            return Strong();
     }
 
     Strong move_strong() noexcept
     {
-      typename T::Controller::Ptr c;
-      c.swap(controller);
-      if (c)
-	return c->template lock<Strong>();
-      else
-	return Strong();
+        typename T::Controller::Ptr c;
+        c.swap(controller);
+        if (c)
+            return c->template lock<Strong>();
+        else
+            return Strong();
     }
 
   private:
     typename T::Controller::Ptr controller;
-  };
+};
 
-  class thread_unsafe_refcount
-  {
+class thread_unsafe_refcount
+{
   public:
     thread_unsafe_refcount() noexcept
-      : rc(olong(0))
+        : rc(olong(0))
     {
     }
 
     void operator++() noexcept
     {
-      ++rc;
+        ++rc;
     }
 
     olong operator--() noexcept
     {
-      return --rc;
+        return --rc;
     }
 
     bool inc_if_nonzero() noexcept
     {
-      if (rc)
-	{
-	  ++rc;
-	  return true;
-	}
-      else
-	return false;
+        if (rc)
+        {
+            ++rc;
+            return true;
+        }
+        else
+            return false;
     }
 
     olong use_count() const noexcept
     {
-      return rc;
+        return rc;
     }
 
     static constexpr bool is_thread_safe()
     {
-      return false;
+        return false;
     }
 
 #ifdef OPENVPN_RC_NOTIFY
@@ -351,80 +353,83 @@ namespace openvpn {
     template <typename T>
     class ListHead
     {
-    public:
-      ListHead() noexcept : ptr(nullptr) {}
+      public:
+        ListHead() noexcept
+            : ptr(nullptr)
+        {
+        }
 
-      T* load() noexcept
-      {
-	return ptr;
-      }
+        T *load() noexcept
+        {
+            return ptr;
+        }
 
-      void insert(T* item) noexcept
-      {
-	item->next = ptr;
-	ptr = item;
-      }
+        void insert(T *item) noexcept
+        {
+            item->next = ptr;
+            ptr = item;
+        }
 
-    private:
-      ListHead(const ListHead&) = delete;
-      ListHead& operator=(const ListHead&) = delete;
+      private:
+        ListHead(const ListHead &) = delete;
+        ListHead &operator=(const ListHead &) = delete;
 
-      T* ptr;
+        T *ptr;
     };
 #endif
 
   private:
-    thread_unsafe_refcount(const thread_unsafe_refcount&) = delete;
-    thread_unsafe_refcount& operator=(const thread_unsafe_refcount&) = delete;
+    thread_unsafe_refcount(const thread_unsafe_refcount &) = delete;
+    thread_unsafe_refcount &operator=(const thread_unsafe_refcount &) = delete;
 
     olong rc;
-  };
+};
 
-  class thread_safe_refcount
-  {
+class thread_safe_refcount
+{
   public:
     thread_safe_refcount() noexcept
-      : rc(olong(0))
+        : rc(olong(0))
     {
     }
 
     void operator++() noexcept
     {
-      rc.fetch_add(1, std::memory_order_relaxed);
+        rc.fetch_add(1, std::memory_order_relaxed);
     }
 
     olong operator--() noexcept
     {
-      // http://www.boost.org/doc/libs/1_55_0/doc/html/atomic/usage_examples.html
-      const olong ret = rc.fetch_sub(1, std::memory_order_release) - 1;
-      if (ret == 0)
-	std::atomic_thread_fence(std::memory_order_acquire);
-      return ret;
+        // http://www.boost.org/doc/libs/1_55_0/doc/html/atomic/usage_examples.html
+        const olong ret = rc.fetch_sub(1, std::memory_order_release) - 1;
+        if (ret == 0)
+            std::atomic_thread_fence(std::memory_order_acquire);
+        return ret;
     }
 
     // If refcount is 0, do nothing and return false.
     // If refcount != 0, increment it and return true.
     bool inc_if_nonzero() noexcept
     {
-      olong previous = rc.load(std::memory_order_relaxed);
-      while (true)
-	{
-	  if (!previous)
-	    break;
-	  if (rc.compare_exchange_weak(previous, previous + 1, std::memory_order_relaxed))
-	    break;
-	}
-      return previous > 0;
+        olong previous = rc.load(std::memory_order_relaxed);
+        while (true)
+        {
+            if (!previous)
+                break;
+            if (rc.compare_exchange_weak(previous, previous + 1, std::memory_order_relaxed))
+                break;
+        }
+        return previous > 0;
     }
 
     olong use_count() const noexcept
     {
-      return rc.load(std::memory_order_relaxed);
+        return rc.load(std::memory_order_relaxed);
     }
 
     static constexpr bool is_thread_safe()
     {
-      return true;
+        return true;
     }
 
 #ifdef OPENVPN_RC_NOTIFY
@@ -437,177 +442,204 @@ namespace openvpn {
     template <typename T>
     class ListHead
     {
-    public:
-      ListHead() noexcept : ptr(nullptr) {}
+      public:
+        ListHead() noexcept
+            : ptr(nullptr)
+        {
+        }
 
-      T* load() noexcept
-      {
-	return ptr.load(std::memory_order_relaxed);
-      }
+        T *load() noexcept
+        {
+            return ptr.load(std::memory_order_relaxed);
+        }
 
-      void insert(T* item) noexcept
-      {
-	T* previous = ptr.load(std::memory_order_relaxed);
-	while (true)
-	  {
-	    item->next = previous;
-	    if (ptr.compare_exchange_weak(previous, item, std::memory_order_relaxed))
-	      break;
-	  }
-      }
+        void insert(T *item) noexcept
+        {
+            T *previous = ptr.load(std::memory_order_relaxed);
+            while (true)
+            {
+                item->next = previous;
+                if (ptr.compare_exchange_weak(previous, item, std::memory_order_relaxed))
+                    break;
+            }
+        }
 
-    private:
-      ListHead(const ListHead&) = delete;
-      ListHead& operator=(const ListHead&) = delete;
+      private:
+        ListHead(const ListHead &) = delete;
+        ListHead &operator=(const ListHead &) = delete;
 
-      std::atomic<T*> ptr;
+        std::atomic<T *> ptr;
     };
 #endif
 
   private:
-    thread_safe_refcount(const thread_safe_refcount&) = delete;
-    thread_safe_refcount& operator=(const thread_safe_refcount&) = delete;
+    thread_safe_refcount(const thread_safe_refcount &) = delete;
+    thread_safe_refcount &operator=(const thread_safe_refcount &) = delete;
 
     std::atomic<olong> rc;
-  };
+};
 
-  // Reference count base class for objects tracked by RCPtr.
-  // Disallows copying and assignment.
-  template <typename RCImpl> // RCImpl = thread_safe_refcount or thread_unsafe_refcount
-  class RC
-  {
+// Reference count base class for objects tracked by RCPtr.
+// Disallows copying and assignment.
+template <typename RCImpl> // RCImpl = thread_safe_refcount or thread_unsafe_refcount
+class RC
+{
   public:
     typedef RCPtr<RC> Ptr;
 
-    RC() noexcept {}
-    virtual ~RC() {}
+    RC()
+    noexcept
+    {
+    }
+    virtual ~RC()
+    {
+    }
 
     olong use_count() const noexcept
     {
-      return refcount_.use_count();
+        return refcount_.use_count();
     }
 
     static constexpr bool is_thread_safe()
     {
-      return RCImpl::is_thread_safe();
+        return RCImpl::is_thread_safe();
     }
 
   private:
-    RC(const RC&) = delete;
-    RC& operator=(const RC&) = delete;
+    RC(const RC &) = delete;
+    RC &operator=(const RC &) = delete;
 
-    template <typename R> friend void intrusive_ptr_add_ref(R* p) noexcept;
-    template <typename R> friend void intrusive_ptr_release(R* p) noexcept;
+    template <typename R>
+    friend void intrusive_ptr_add_ref(R *p) noexcept;
+    template <typename R>
+    friend void intrusive_ptr_release(R *p) noexcept;
     RCImpl refcount_;
-  };
+};
 
-  // Like RC, but allows object to be copied and assigned.
-  template <typename RCImpl> // RCImpl = thread_safe_refcount or thread_unsafe_refcount
-  class RCCopyable
-  {
+// Like RC, but allows object to be copied and assigned.
+template <typename RCImpl> // RCImpl = thread_safe_refcount or thread_unsafe_refcount
+class RCCopyable
+{
   public:
-    RCCopyable() noexcept {}
-    RCCopyable(const RCCopyable&) noexcept {}
-    RCCopyable& operator=(const RCCopyable&) noexcept { return *this; }
-    virtual ~RCCopyable() {}
+    RCCopyable() noexcept
+    {
+    }
+    RCCopyable(const RCCopyable &) noexcept
+    {
+    }
+    RCCopyable &operator=(const RCCopyable &) noexcept
+    {
+        return *this;
+    }
+    virtual ~RCCopyable()
+    {
+    }
 
     olong use_count() const noexcept
     {
-      return refcount_.use_count();
+        return refcount_.use_count();
     }
 
   private:
-    template <typename R> friend void intrusive_ptr_add_ref(R* p) noexcept;
-    template <typename R> friend void intrusive_ptr_release(R* p) noexcept;
+    template <typename R>
+    friend void intrusive_ptr_add_ref(R *p) noexcept;
+    template <typename R>
+    friend void intrusive_ptr_release(R *p) noexcept;
     RCImpl refcount_;
-  };
+};
 
-  // Like RC, but also allows weak pointers and release notification callables
-  template <typename RCImpl> // RCImpl = thread_safe_refcount or thread_unsafe_refcount
-  class RCWeak
-  {
-    template<typename T>
+// Like RC, but also allows weak pointers and release notification callables
+template <typename RCImpl> // RCImpl = thread_safe_refcount or thread_unsafe_refcount
+class RCWeak
+{
+    template <typename T>
     friend class RCWeakPtr;
 
 #ifdef OPENVPN_RC_NOTIFY
     // Base class of release notification callables
     class NotifyBase
     {
-    public:
-      NotifyBase() noexcept {}
-      virtual void call() noexcept = 0;
-      virtual ~NotifyBase() {}
-      NotifyBase* next = nullptr;
+      public:
+        NotifyBase() noexcept
+        {
+        }
+        virtual void call() noexcept = 0;
+        virtual ~NotifyBase()
+        {
+        }
+        NotifyBase *next = nullptr;
 
-    private:
-      NotifyBase(const NotifyBase&) = delete;
-      NotifyBase& operator=(const NotifyBase&) = delete;
+      private:
+        NotifyBase(const NotifyBase &) = delete;
+        NotifyBase &operator=(const NotifyBase &) = delete;
     };
 
     // A release notification callable
     template <typename CALLABLE>
     class NotifyItem : public NotifyBase
     {
-    public:
-      NotifyItem(const CALLABLE& c) noexcept
-	: callable(c)
-      {
-      }
+      public:
+        NotifyItem(const CALLABLE &c) noexcept
+            : callable(c)
+        {
+        }
 
-      NotifyItem(CALLABLE&& c) noexcept
-      : callable(std::move(c))
-      {
-      }
+        NotifyItem(CALLABLE &&c) noexcept
+            : callable(std::move(c))
+        {
+        }
 
-    private:
-      virtual void call() noexcept override
-      {
-	callable();
-      }
+      private:
+        virtual void call() noexcept override
+        {
+            callable();
+        }
 
-      CALLABLE callable;
+        CALLABLE callable;
     };
 
     // Head of a linked-list of release notification callables
     class NotifyListHead
     {
-    public:
-      NotifyListHead() noexcept {}
+      public:
+        NotifyListHead() noexcept
+        {
+        }
 
-      template <typename CALLABLE>
-      void add(const CALLABLE& c) noexcept
-      {
-	NotifyBase* item = new NotifyItem<CALLABLE>(c);
-	head.insert(item);
-      }
+        template <typename CALLABLE>
+        void add(const CALLABLE &c) noexcept
+        {
+            NotifyBase *item = new NotifyItem<CALLABLE>(c);
+            head.insert(item);
+        }
 
-      template <typename CALLABLE>
-      void add(CALLABLE&& c) noexcept
-      {
-	NotifyBase* item = new NotifyItem<CALLABLE>(std::move(c));
-	head.insert(item);
-      }
+        template <typename CALLABLE>
+        void add(CALLABLE &&c) noexcept
+        {
+            NotifyBase *item = new NotifyItem<CALLABLE>(std::move(c));
+            head.insert(item);
+        }
 
-      void release() noexcept
-      {
-	// In thread-safe mode, list traversal is guaranteed to be
-	// contention-free because we are not called until refcount
-	// reaches zero and after a std::memory_order_acquire fence.
-	NotifyBase* nb = head.load();
-	while (nb)
-	  {
-	    NotifyBase* next = nb->next;
-	    nb->call();
-	    delete nb;
-	    nb = next;
-	  }
-      }
+        void release() noexcept
+        {
+            // In thread-safe mode, list traversal is guaranteed to be
+            // contention-free because we are not called until refcount
+            // reaches zero and after a std::memory_order_acquire fence.
+            NotifyBase *nb = head.load();
+            while (nb)
+            {
+                NotifyBase *next = nb->next;
+                nb->call();
+                delete nb;
+                nb = next;
+            }
+        }
 
-    private:
-      NotifyListHead(const NotifyListHead&) = delete;
-      NotifyListHead& operator=(const NotifyListHead&) = delete;
+      private:
+        NotifyListHead(const NotifyListHead &) = delete;
+        NotifyListHead &operator=(const NotifyListHead &) = delete;
 
-      typename RCImpl::template ListHead<NotifyBase> head;
+        typename RCImpl::template ListHead<NotifyBase> head;
     };
 #endif
 
@@ -615,59 +647,59 @@ namespace openvpn {
     // refcount from the object and place it in Controller.
     struct Controller : public RC<RCImpl>
     {
-      typedef RCPtr<Controller> Ptr;
+        typedef RCPtr<Controller> Ptr;
 
-      Controller(RCWeak* parent_arg) noexcept
-	: parent(parent_arg)
-      {
-      }
+        Controller(RCWeak *parent_arg) noexcept
+            : parent(parent_arg)
+        {
+        }
 
-      olong use_count() const noexcept
-      {
-	return rc.use_count();
-      }
+        olong use_count() const noexcept
+        {
+            return rc.use_count();
+        }
 
-      template <typename PTR>
-      PTR lock() noexcept
-      {
-	if (rc.inc_if_nonzero())
-	  return PTR(static_cast<typename PTR::element_type*>(parent), false);
-	else
-	  return PTR();
-      }
+        template <typename PTR>
+        PTR lock() noexcept
+        {
+            if (rc.inc_if_nonzero())
+                return PTR(static_cast<typename PTR::element_type *>(parent), false);
+            else
+                return PTR();
+        }
 
-      RCWeak *const parent;  // dangles (harmlessly) after rc decrements to 0
-      RCImpl rc;             // refcount
+        RCWeak *const parent; // dangles (harmlessly) after rc decrements to 0
+        RCImpl rc;            // refcount
     };
 
     struct ControllerRef
     {
-      ControllerRef(RCWeak* parent) noexcept
-        : controller(new Controller(parent))
-      {
-      }
+        ControllerRef(RCWeak *parent) noexcept
+            : controller(new Controller(parent))
+        {
+        }
 
-      void operator++() noexcept
-      {
-	++controller->rc;
-      }
+        void operator++() noexcept
+        {
+            ++controller->rc;
+        }
 
-      olong operator--() noexcept
-      {
-	return --controller->rc;
-      }
+        olong operator--() noexcept
+        {
+            return --controller->rc;
+        }
 
 #ifdef OPENVPN_RC_NOTIFY
-      void notify_release() noexcept
-      {
-	notify.release();
-      }
+        void notify_release() noexcept
+        {
+            notify.release();
+        }
 #endif
 
-      typename Controller::Ptr controller;  // object containing actual refcount
+        typename Controller::Ptr controller; // object containing actual refcount
 
 #ifdef OPENVPN_RC_NOTIFY
-      NotifyListHead notify;                // linked list of callables to be notified on object release
+        NotifyListHead notify; // linked list of callables to be notified on object release
 #endif
     };
 
@@ -676,7 +708,7 @@ namespace openvpn {
     typedef RCWeakPtr<RCWeak> WPtr;
 
     RCWeak() noexcept
-      : refcount_(this)
+        : refcount_(this)
     {
     }
 
@@ -693,57 +725,59 @@ namespace openvpn {
     // strong pointer referencing the object.
 
     template <typename CALLABLE>
-    void rc_release_notify(const CALLABLE& c) noexcept
+    void rc_release_notify(const CALLABLE &c) noexcept
     {
-      refcount_.notify.add(c);
+        refcount_.notify.add(c);
     }
 
     template <typename CALLABLE>
-    void rc_release_notify(CALLABLE&& c) noexcept
+    void rc_release_notify(CALLABLE &&c) noexcept
     {
-      refcount_.notify.add(std::move(c));
+        refcount_.notify.add(std::move(c));
     }
 #endif
 
   private:
-    RCWeak(const RCWeak&) = delete;
-    RCWeak& operator=(const RCWeak&) = delete;
+    RCWeak(const RCWeak &) = delete;
+    RCWeak &operator=(const RCWeak &) = delete;
 
-    template <typename R> friend void intrusive_ptr_add_ref(R* p) noexcept;
-    template <typename R> friend void intrusive_ptr_release(R* p) noexcept;
+    template <typename R>
+    friend void intrusive_ptr_add_ref(R *p) noexcept;
+    template <typename R>
+    friend void intrusive_ptr_release(R *p) noexcept;
 
     ControllerRef refcount_;
-  };
+};
 
-  template <typename R>
-  inline void intrusive_ptr_add_ref(R *p) noexcept
-  {
+template <typename R>
+inline void intrusive_ptr_add_ref(R *p) noexcept
+{
 #ifdef OPENVPN_RC_DEBUG
     std::cout << "ADD REF " << cxx_demangle(typeid(p).name()) << std::endl;
 #endif
     ++p->refcount_;
-  }
+}
 
-  template <typename R>
-  inline void intrusive_ptr_release(R *p) noexcept
-  {
+template <typename R>
+inline void intrusive_ptr_release(R *p) noexcept
+{
     if (--p->refcount_ == 0)
-      {
+    {
 #ifdef OPENVPN_RC_DEBUG
-	std::cout << "DEL OBJ " << cxx_demangle(typeid(p).name()) << std::endl;
+        std::cout << "DEL OBJ " << cxx_demangle(typeid(p).name()) << std::endl;
 #endif
 #ifdef OPENVPN_RC_NOTIFY
-	p->refcount_.notify_release();
+        p->refcount_.notify_release();
 #endif
-	delete p;
-      }
+        delete p;
+    }
     else
-      {
+    {
 #ifdef OPENVPN_RC_DEBUG
-	std::cout << "REL REF " << cxx_demangle(typeid(p).name()) << std::endl;
+        std::cout << "REL REF " << cxx_demangle(typeid(p).name()) << std::endl;
 #endif
-      }
-  }
+    }
+}
 
 } // namespace openvpn
 

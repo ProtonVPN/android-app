@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2021 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -26,35 +26,35 @@
 #include <openvpn/common/endian_platform.hpp>
 
 namespace openvpn {
-  namespace Endian {
+namespace Endian {
 #ifdef __MINGW32__
-    inline std::uint64_t mingw_bswap64(const std::uint64_t val)
-    {
-      return (((val & (uint64_t)0x00000000000000ffULL) << 56) |
-              ((val & (uint64_t)0x000000000000ff00ULL) << 40) |
-              ((val & (uint64_t)0x0000000000ff0000ULL) << 24) |
-              ((val & (uint64_t)0x00000000ff000000ULL) <<  8) |
-              ((val & (uint64_t)0x000000ff00000000ULL) >>  8) |
-              ((val & (uint64_t)0x0000ff0000000000ULL) >> 24) |
-              ((val & (uint64_t)0x00ff000000000000ULL) >> 40) |
-              ((val & (uint64_t)0xff00000000000000ULL) >> 56));
-    }
+inline std::uint64_t mingw_bswap64(const std::uint64_t val)
+{
+    return (((val & (uint64_t)0x00000000000000ffULL) << 56)
+            | ((val & (uint64_t)0x000000000000ff00ULL) << 40)
+            | ((val & (uint64_t)0x0000000000ff0000ULL) << 24)
+            | ((val & (uint64_t)0x00000000ff000000ULL) << 8)
+            | ((val & (uint64_t)0x000000ff00000000ULL) >> 8)
+            | ((val & (uint64_t)0x0000ff0000000000ULL) >> 24)
+            | ((val & (uint64_t)0x00ff000000000000ULL) >> 40)
+            | ((val & (uint64_t)0xff00000000000000ULL) >> 56));
+}
 #endif
-    inline std::uint64_t rev64(const std::uint64_t value)
-    {
+inline std::uint64_t rev64(const std::uint64_t value)
+{
 #ifdef OPENVPN_LITTLE_ENDIAN
 #if defined(_MSC_VER)
-      return _byteswap_uint64(value);
+    return _byteswap_uint64(value);
 #elif defined(__MINGW32__)
-      return mingw_bswap64(value);
+    return mingw_bswap64(value);
 #elif defined(__clang__) || !defined(__GLIBC__)
-      return __builtin_bswap64(value);
+    return __builtin_bswap64(value);
 #else
-      return __bswap_constant_64(value);
+    return __bswap_constant_64(value);
 #endif /* _MSC_VER */
 #else
-      return value;
+    return value;
 #endif /* OPENVPN_LITTLE_ENDIAN */
-    }
-  }
 }
+} // namespace Endian
+} // namespace openvpn

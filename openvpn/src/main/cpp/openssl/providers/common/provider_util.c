@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -19,7 +19,6 @@
 # include "crypto/evp.h"
 #endif
 #include "prov/provider_util.h"
-#include "internal/nelem.h"
 
 void ossl_prov_cipher_reset(PROV_CIPHER *pc)
 {
@@ -165,7 +164,7 @@ int ossl_prov_digest_copy(PROV_DIGEST *dst, const PROV_DIGEST *src)
 }
 
 const EVP_MD *ossl_prov_digest_fetch(PROV_DIGEST *pd, OSSL_LIB_CTX *libctx,
-                           const char *mdname, const char *propquery)
+                                     const char *mdname, const char *propquery)
 {
     EVP_MD_free(pd->alloc_md);
     pd->md = pd->alloc_md = EVP_MD_fetch(libctx, mdname, propquery);
@@ -350,4 +349,21 @@ void ossl_prov_cache_exported_algorithms(const OSSL_ALGORITHM_CAPABLE *in,
         }
         out[j++] = in[i].alg;
     }
+}
+
+/* Duplicate a lump of memory safely */
+int ossl_prov_memdup(const void *src, size_t src_len,
+                     unsigned char **dest, size_t *dest_len)
+{
+    if (src != NULL) {
+        if ((*dest = OPENSSL_memdup(src, src_len)) == NULL) {
+            ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+            return 0;
+        }
+        *dest_len = src_len;
+    } else {
+        *dest = NULL;
+        *dest_len = 0;
+    }
+    return 1;
 }

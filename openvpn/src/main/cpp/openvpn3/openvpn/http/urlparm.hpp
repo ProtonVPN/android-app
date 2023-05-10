@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -32,180 +32,183 @@
 #include <openvpn/common/string.hpp>
 
 namespace openvpn {
-  namespace URL {
-    OPENVPN_EXCEPTION(url_parameter_error);
+namespace URL {
+OPENVPN_EXCEPTION(url_parameter_error);
 
-    struct Parm
+struct Parm
+{
+    Parm()
     {
-      Parm() {}
+    }
 
-      Parm(const std::string& name_arg, const std::string& value_arg)
-	: name(name_arg), value(value_arg)
-      {
-      }
-
-      std::string to_string() const
-      {
-	std::ostringstream out;
-	out << name << '=' << value;
-	return out.str();
-      }
-
-      std::string name;
-      std::string value;
-    };
-
-    class ParmList : public std::vector<Parm>
+    Parm(const std::string &name_arg, const std::string &value_arg)
+        : name(name_arg), value(value_arg)
     {
-    public:
-      ParmList(const std::string& uri)
-      {
-	try {
-	  const std::vector<std::string> req_parms = string::split(uri, '?', 1);
-	  request_ = req_parms[0];
-	  if (req_parms.size() == 2)
-	    {
-	      const std::vector<std::string> kv_list = string::split(req_parms[1], '&');
-	      for (auto &kvstr : kv_list)
-		{
-		  const std::vector<std::string> kv = string::split(kvstr, '=', 1);
-		  Parm p;
-		  p.name = decode(kv[0]);
-		  if (kv.size() == 2)
-		    p.value = decode(kv[1]);
-		  push_back(std::move(p));
-		}
-	    }
-	}
-	catch (const std::exception& e)
-	  {
-	    throw HTTP::WebException(HTTP::Status::BadRequest, e.what());
-	  }
-      }
+    }
 
-      const Parm* get(const std::string& key) const
-      {
-	for (auto &p : *this)
-	  {
-	    if (key == p.name)
-	      return &p;
-	  }
-	return nullptr;
-      }
+    std::string to_string() const
+    {
+        std::ostringstream out;
+        out << name << '=' << value;
+        return out.str();
+    }
 
-      std::string get_value(const std::string& key) const
-      {
-	const Parm* p = get(key);
-	if (p)
-	  return p->value;
-	else
-	  return "";
-      }
+    std::string name;
+    std::string value;
+};
 
-      const std::string& get_value_required(const std::string& key) const
-      {
-	const Parm* p = get(key);
-	if (p)
-	  return p->value;
-	else
-	  throw url_parameter_error(key + " : not found");
-      }
+class ParmList : public std::vector<Parm>
+{
+  public:
+    ParmList(const std::string &uri)
+    {
+        try
+        {
+            const std::vector<std::string> req_parms = string::split(uri, '?', 1);
+            request_ = req_parms[0];
+            if (req_parms.size() == 2)
+            {
+                const std::vector<std::string> kv_list = string::split(req_parms[1], '&');
+                for (auto &kvstr : kv_list)
+                {
+                    const std::vector<std::string> kv = string::split(kvstr, '=', 1);
+                    Parm p;
+                    p.name = decode(kv[0]);
+                    if (kv.size() == 2)
+                        p.value = decode(kv[1]);
+                    push_back(std::move(p));
+                }
+            }
+        }
+        catch (const std::exception &e)
+        {
+            throw HTTP::WebException(HTTP::Status::BadRequest, e.what());
+        }
+    }
 
-      template <typename T>
-      T get_num(const std::string& name, const std::string& short_name, const T default_value) const
-      {
-	const Parm* p = get(name);
-	if (!p && !short_name.empty())
-	  p = get(short_name);
-	if (p)
-	  return parse_number_throw<T>(p->value, name);
-	else
-	  return default_value;
-      }
+    const Parm *get(const std::string &key) const
+    {
+        for (auto &p : *this)
+        {
+            if (key == p.name)
+                return &p;
+        }
+        return nullptr;
+    }
 
-      template <typename T>
-      T get_num_required(const std::string& name, const std::string& short_name) const
-      {
-	const Parm* p = get(name);
-	if (!p && !short_name.empty())
-	  p = get(short_name);
-	if (!p)
-	  throw url_parameter_error(name + " : not found");
-	return parse_number_throw<T>(p->value, name);
-      }
+    std::string get_value(const std::string &key) const
+    {
+        const Parm *p = get(key);
+        if (p)
+            return p->value;
+        else
+            return "";
+    }
 
-      bool get_bool(const std::string& name, const std::string& short_name, const bool default_value) const
-      {
-	const Parm* p = get(name);
-	if (!p && !short_name.empty())
-	  p = get(short_name);
-	if (p)
-	  {
-	    if (p->value == "0")
-	      return false;
-	    else if (p->value == "1")
-	      return true;
-	    else
-	      throw url_parameter_error(name + ": parameter must be 0 or 1");
-	  }
-	else
-	  return default_value;
-      }
+    const std::string &get_value_required(const std::string &key) const
+    {
+        const Parm *p = get(key);
+        if (p)
+            return p->value;
+        else
+            throw url_parameter_error(key + " : not found");
+    }
 
-      std::string get_string(const std::string& name, const std::string& short_name) const
-      {
-	const Parm* p = get(name);
-	if (!p && !short_name.empty())
-	  p = get(short_name);
-	if (p)
-	  return p->value;
-	else
-	  return "";
-      }
+    template <typename T>
+    T get_num(const std::string &name, const std::string &short_name, const T default_value) const
+    {
+        const Parm *p = get(name);
+        if (!p && !short_name.empty())
+            p = get(short_name);
+        if (p)
+            return parse_number_throw<T>(p->value, name);
+        else
+            return default_value;
+    }
 
-      std::string get_string_required(const std::string& name, const std::string& short_name) const
-      {
-	const Parm* p = get(name);
-	if (!p && !short_name.empty())
-	  p = get(short_name);
-	if (!p)
-	  throw url_parameter_error(name + " : not found");
-	return p->value;
-      }
+    template <typename T>
+    T get_num_required(const std::string &name, const std::string &short_name) const
+    {
+        const Parm *p = get(name);
+        if (!p && !short_name.empty())
+            p = get(short_name);
+        if (!p)
+            throw url_parameter_error(name + " : not found");
+        return parse_number_throw<T>(p->value, name);
+    }
 
-      std::string to_string() const
-      {
-	std::ostringstream out;
-	for (size_t i = 0; i < size(); ++i)
-	  out << '[' << i << "] " << (*this)[i].to_string() << std::endl;
-	return out.str();
-      }
+    bool get_bool(const std::string &name, const std::string &short_name, const bool default_value) const
+    {
+        const Parm *p = get(name);
+        if (!p && !short_name.empty())
+            p = get(short_name);
+        if (p)
+        {
+            if (p->value == "0")
+                return false;
+            else if (p->value == "1")
+                return true;
+            else
+                throw url_parameter_error(name + ": parameter must be 0 or 1");
+        }
+        else
+            return default_value;
+    }
 
-      std::string request(const bool remove_leading_slash) const
-      {
-	std::string ret = request_;
-	if (remove_leading_slash)
-	  {
-	    if (ret.length() > 0 && ret[0] == '/')
-	      ret = ret.substr(1);
-	    else
-	      throw HTTP::WebException(HTTP::Status::BadRequest, "URI missing leading slash");
-	  }
-	if (ret.empty())
-	  throw HTTP::WebException(HTTP::Status::BadRequest, "URI resource is empty");
-	return ret;
-      }
+    std::string get_string(const std::string &name, const std::string &short_name) const
+    {
+        const Parm *p = get(name);
+        if (!p && !short_name.empty())
+            p = get(short_name);
+        if (p)
+            return p->value;
+        else
+            return "";
+    }
 
-      const std::string& request() const
-      {
-	return request_;
-      }
+    std::string get_string_required(const std::string &name, const std::string &short_name) const
+    {
+        const Parm *p = get(name);
+        if (!p && !short_name.empty())
+            p = get(short_name);
+        if (!p)
+            throw url_parameter_error(name + " : not found");
+        return p->value;
+    }
 
-    private:
-      std::string request_;
-    };
+    std::string to_string() const
+    {
+        std::ostringstream out;
+        for (size_t i = 0; i < size(); ++i)
+            out << '[' << i << "] " << (*this)[i].to_string() << std::endl;
+        return out.str();
+    }
 
-  }
-}
+    std::string request(const bool remove_leading_slash) const
+    {
+        std::string ret = request_;
+        if (remove_leading_slash)
+        {
+            if (ret.length() > 0 && ret[0] == '/')
+                ret = ret.substr(1);
+            else
+                throw HTTP::WebException(HTTP::Status::BadRequest, "URI missing leading slash");
+        }
+        if (ret.empty())
+            throw HTTP::WebException(HTTP::Status::BadRequest, "URI resource is empty");
+        return ret;
+    }
+
+    const std::string &request() const
+    {
+        return request_;
+    }
+
+  private:
+    std::string request_;
+};
+
+} // namespace URL
+} // namespace openvpn
 
 #endif

@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *  Copyright (C) 2006-2010, Brainspark B.V.
  *
@@ -69,9 +69,10 @@
  * rely on function detection at configure time.
  */
 #ifndef HAVE_CTR_DRBG_UPDATE_RET
-static int mbedtls_ctr_drbg_update_ret(mbedtls_ctr_drbg_context *ctx,
-                                       const unsigned char *additional,
-                                       size_t add_len)
+static int
+mbedtls_ctr_drbg_update_ret(mbedtls_ctr_drbg_context *ctx,
+                            const unsigned char *additional,
+                            size_t add_len)
 {
     mbedtls_ctr_drbg_update(ctx, additional, add_len);
     return 0;
@@ -113,11 +114,6 @@ tls_init_lib(void)
 
 void
 tls_free_lib(void)
-{
-}
-
-void
-tls_clear_error(void)
 {
 }
 
@@ -169,7 +165,13 @@ tls_ctx_free(struct tls_root_ctx *ctx)
         free(ctx->crl);
 
 #if defined(ENABLE_PKCS11)
-        pkcs11h_certificate_freeCertificate(ctx->pkcs11_cert);
+        /* ...freeCertificate() can handle NULL ptrs, but if pkcs11 helper
+         * has not been initialized, it will ASSERT() - so, do not pass NULL
+         */
+        if (ctx->pkcs11_cert)
+        {
+            pkcs11h_certificate_freeCertificate(ctx->pkcs11_cert);
+        }
 #endif
 
         free(ctx->allowed_ciphers);
@@ -203,7 +205,7 @@ mbedtls_ssl_export_keys_cb(void *p_expkey, const unsigned char *ms,
     struct tls_key_cache *cache = &ks_ssl->tls_key_cache;
 
     static_assert(sizeof(ks_ssl->ctx->session->master)
-                    == sizeof(cache->master_secret), "master size mismatch");
+                  == sizeof(cache->master_secret), "master size mismatch");
 
     memcpy(cache->client_server_random, client_random, 32);
     memcpy(cache->client_server_random + 32, server_random, 32);
@@ -215,7 +217,7 @@ mbedtls_ssl_export_keys_cb(void *p_expkey, const unsigned char *ms,
 
 bool
 key_state_export_keying_material(struct tls_session *session,
-                                 const char* label, size_t label_size,
+                                 const char *label, size_t label_size,
                                  void *ekm, size_t ekm_size)
 {
     ASSERT(strlen(label) == label_size);
@@ -242,13 +244,13 @@ key_state_export_keying_material(struct tls_session *session,
     else
     {
         secure_memzero(ekm, session->opt->ekm_size);
-        return  false;
+        return false;
     }
 }
-#else
+#else  /* ifdef HAVE_EXPORT_KEYING_MATERIAL */
 bool
 key_state_export_keying_material(struct tls_session *session,
-                                 const char* label, size_t label_size,
+                                 const char *label, size_t label_size,
                                  void *ekm, size_t ekm_size)
 {
     /* Dummy function to avoid ifdefs in the common code */
@@ -1108,8 +1110,8 @@ key_state_ssl_init(struct key_state_ssl *ks_ssl,
     }
 
     /* Disable TLS renegotiations if the mbedtls library supports that feature.
-     * OpenVPN's renegotiation creates new SSL sessions and does not depend on
-     * this feature and TLS renegotiations have been problematic in the past. */
+    * OpenVPN's renegotiation creates new SSL sessions and does not depend on
+    * this feature and TLS renegotiations have been problematic in the past. */
 #if defined(MBEDTLS_SSL_RENEGOTIATION)
     mbedtls_ssl_conf_renegotiation(ks_ssl->ssl_config, MBEDTLS_SSL_RENEGOTIATION_DISABLED);
 #endif /* MBEDTLS_SSL_RENEGOTIATION */
@@ -1289,8 +1291,7 @@ key_state_write_plaintext_const(struct key_state_ssl *ks, const uint8_t *data, i
 }
 
 int
-key_state_read_ciphertext(struct key_state_ssl *ks, struct buffer *buf,
-                          int maxlen)
+key_state_read_ciphertext(struct key_state_ssl *ks, struct buffer *buf)
 {
     int retval = 0;
     int len = 0;
@@ -1308,10 +1309,6 @@ key_state_read_ciphertext(struct key_state_ssl *ks, struct buffer *buf,
     }
 
     len = buf_forward_capacity(buf);
-    if (maxlen < len)
-    {
-        len = maxlen;
-    }
 
     retval = endless_buf_read(&ks->bio_ctx->out, BPTR(buf), len);
 
@@ -1392,8 +1389,7 @@ key_state_write_ciphertext(struct key_state_ssl *ks, struct buffer *buf)
 }
 
 int
-key_state_read_plaintext(struct key_state_ssl *ks, struct buffer *buf,
-                         int maxlen)
+key_state_read_plaintext(struct key_state_ssl *ks, struct buffer *buf)
 {
     int retval = 0;
     int len = 0;
@@ -1411,10 +1407,6 @@ key_state_read_plaintext(struct key_state_ssl *ks, struct buffer *buf,
     }
 
     len = buf_forward_capacity(buf);
-    if (maxlen < len)
-    {
-        len = maxlen;
-    }
 
     retval = mbedtls_ssl_read(ks->ctx, BPTR(buf), len);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -28,6 +28,7 @@
 #include <openssl/bn.h>
 #include <openssl/sha.h>
 #include "crypto/dh.h"
+#include "crypto/security_bits.h"
 #include "dh_local.h"
 
 #ifndef FIPS_MODULE
@@ -169,7 +170,7 @@ static int dh_builtin_genparams(DH *ret, int prime_len, int generator,
         return 0;
     }
 
-    ctx = BN_CTX_new();
+    ctx = BN_CTX_new_ex(ret->libctx);
     if (ctx == NULL)
         goto err;
     BN_CTX_start(ctx);
@@ -213,12 +214,15 @@ static int dh_builtin_genparams(DH *ret, int prime_len, int generator,
         g = generator;
     }
 
-    if (!BN_generate_prime_ex(ret->params.p, prime_len, 1, t1, t2, cb))
+    if (!BN_generate_prime_ex2(ret->params.p, prime_len, 1, t1, t2, cb, ctx))
         goto err;
     if (!BN_GENCB_call(cb, 3, 0))
         goto err;
     if (!BN_set_word(ret->params.g, g))
         goto err;
+    /* We are using safe prime p, set key length equivalent to RFC 7919 */
+    ret->length = (2 * ossl_ifc_ffc_compute_security_bits(prime_len)
+                   + 24) / 25 * 25;
     ret->dirty_cnt++;
     ok = 1;
  err:

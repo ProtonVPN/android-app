@@ -26,9 +26,9 @@ fi
 # source helper functions
 . $O3/core/deps/functions.sh
 
-FNAME=${MBEDTLS_VERSION}-apache.tgz
+FNAME=${MBEDTLS_VERSION}.tar.gz
 PN=${MBEDTLS_VERSION#*-}
-URL=https://tls.mbed.org/download/$MBEDTLS_VERSION-apache.tgz
+URL=https://github.com/ARMmbed/mbedtls/archive/refs/tags/v${PN}.tar.gz
 CSUM=${MBEDTLS_CSUM}
 
 download
@@ -45,7 +45,7 @@ else
     echo WIPE and reunzip source
     rm -rf $MBEDTLS_VERSION
     [ -z "$DL" ] && DL=~/Downloads
-    tar xfz $DL/$MBEDTLS_VERSION-apache.tgz
+    tar xfz $DL/$MBEDTLS_VERSION.tar.gz
     cd $MBEDTLS_VERSION
 
     # enable MD4 (needed for NTLM auth)

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,25 +27,25 @@
 
 namespace openvpn {
 
-  class LogSetup : public RC<thread_safe_refcount>
-  {
+class LogSetup : public RC<thread_safe_refcount>
+{
   public:
     typedef RCPtr<LogSetup> Ptr;
 
     virtual void reopen() = 0;
-  };
+};
 
-  class MultiLogSetup : public std::vector<LogSetup::Ptr>,
-			public LogSetup
-  {
+class MultiLogSetup : public std::vector<LogSetup::Ptr>,
+                      public LogSetup
+{
   public:
     typedef RCPtr<MultiLogSetup> Ptr;
 
     virtual void reopen() override
     {
-      for (const auto &e : *this)
-	e->reopen();
+        for (const auto &e : *this)
+            e->reopen();
     }
-  };
+};
 
-}
+} // namespace openvpn

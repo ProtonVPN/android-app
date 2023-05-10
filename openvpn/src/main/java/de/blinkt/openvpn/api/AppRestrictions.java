@@ -33,7 +33,6 @@ public class AppRestrictions {
     final static int CONFIG_VERSION = 1;
     static boolean alreadyChecked = false;
     private static AppRestrictions mInstance;
-    private RestrictionsManager mRestrictionsMgr;
     private BroadcastReceiver mRestrictionsReceiver;
 
     private AppRestrictions(Context c) {
@@ -66,7 +65,7 @@ public class AppRestrictions {
         MessageDigest digest;
         try {
             digest = MessageDigest.getInstance("SHA1");
-            byte utf8_bytes[] = config.getBytes();
+            byte[] utf8_bytes = config.getBytes();
             digest.update(utf8_bytes, 0, utf8_bytes.length);
             return new BigInteger(1, digest.digest()).toString(16);
         } catch (NoSuchAlgorithmException e) {
@@ -76,10 +75,10 @@ public class AppRestrictions {
     }
 
     private void applyRestrictions(Context c) {
-        mRestrictionsMgr = (RestrictionsManager) c.getSystemService(Context.RESTRICTIONS_SERVICE);
-        if (mRestrictionsMgr == null)
+        RestrictionsManager restrictionsMgr = (RestrictionsManager) c.getSystemService(Context.RESTRICTIONS_SERVICE);
+        if (restrictionsMgr == null)
             return;
-        Bundle restrictions = mRestrictionsMgr.getApplicationRestrictions();
+        Bundle restrictions = restrictionsMgr.getApplicationRestrictions();
         if (restrictions == null)
             return;
 
@@ -116,6 +115,7 @@ public class AppRestrictions {
             String uuid = p.getString("uuid");
             String ovpn = p.getString("ovpn");
             String name = p.getString("name");
+            String certAlias = p.getString("certificate_alias");
 
             if (uuid == null || ovpn == null || name == null) {
                 VpnStatus.logError("App restriction profile misses uuid, ovpn or name key");
@@ -134,12 +134,15 @@ public class AppRestrictions {
 
             if (vpnProfile != null) {
                 // Profile exists, check if need to update it
-                if (ovpnHash.equals(vpnProfile.importedProfileHash))
+                if (ovpnHash.equals(vpnProfile.importedProfileHash)) {
+                    addCertificateAlias(vpnProfile, certAlias);
+
                     // not modified skip to next profile
                     continue;
-
+                }
             }
             addProfile(c, ovpn, uuid, name, vpnProfile);
+            addCertificateAlias(vpnProfile, certAlias);
         }
 
         Vector<VpnProfile> profilesToRemove = new Vector<>();
@@ -155,20 +158,52 @@ public class AppRestrictions {
             pm.removeProfile(c, vp);
         }
 
+        SharedPreferences defaultPrefs = Preferences.getDefaultSharedPreferences(c);
+
         if (!TextUtils.isEmpty(defaultprofile)) {
             if (!defaultprofileProvisioned) {
                 VpnStatus.logError("App restrictions: Setting a default profile UUID without providing a profile with that UUID");
             } else {
-                SharedPreferences prefs = Preferences.getDefaultSharedPreferences(c);
-                String uuid = prefs.getString("alwaysOnVpn", null);
+                String uuid = defaultPrefs.getString("alwaysOnVpn", null);
                 if (!defaultprofile.equals(uuid))
                 {
-                    SharedPreferences.Editor editor = prefs.edit();
+                    SharedPreferences.Editor editor = defaultPrefs.edit();
                     editor.putString("alwaysOnVpn", defaultprofile);
                     editor.apply();
+
                 }
             }
         }
+
+        if(restrictions.containsKey("screenoffpausevpn"))
+        {
+            boolean pauseVPN = restrictions.getBoolean("screenoffpausevpn");
+            SharedPreferences.Editor editor = defaultPrefs.edit();
+            editor.putBoolean("screenoff", pauseVPN);
+            editor.apply();
+        }
+    }
+
+    /**
+     * If certAlias is non-null will modify the profile type to use the keystore variant of
+     * the authentication method and will also set the keystore alias
+     */
+    private void addCertificateAlias(VpnProfile vpnProfile, String certAlias) {
+        if (certAlias == null)
+            return;
+
+        switch (vpnProfile.mAuthenticationType)
+        {
+            case VpnProfile.TYPE_PKCS12:
+            case VpnProfile.TYPE_CERTIFICATES:
+                vpnProfile.mAuthenticationType = VpnProfile.TYPE_KEYSTORE;
+                break;
+            case VpnProfile.TYPE_USERPASS_CERTIFICATES:
+            case VpnProfile.TYPE_USERPASS_PKCS12:
+                vpnProfile.mAuthenticationType = VpnProfile.TYPE_USERPASS_KEYSTORE;
+                break;
+        }
+        vpnProfile.mAlias = certAlias;
     }
 
     private String prepare(String config) {

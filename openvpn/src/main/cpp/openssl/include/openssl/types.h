@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2001-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -7,9 +7,21 @@
  * https://www.openssl.org/source/license.html
  */
 
+/*
+ * Unfortunate workaround to avoid symbol conflict with wincrypt.h
+ * See https://github.com/openssl/openssl/issues/9981
+ */
+#ifdef _WIN32
+# define WINCRYPT_USE_SYMBOL_PREFIX
+# undef X509_NAME
+# undef X509_EXTENSIONS
+# undef PKCS7_SIGNER_INFO
+# undef OCSP_REQUEST
+# undef OCSP_RESPONSE
+#endif
+
 #ifndef OPENSSL_TYPES_H
 # define OPENSSL_TYPES_H
-# pragma once
 
 # include <limits.h>
 
@@ -69,15 +81,6 @@ typedef struct asn1_string_table_st ASN1_STRING_TABLE;
 typedef struct ASN1_ITEM_st ASN1_ITEM;
 typedef struct asn1_pctx_st ASN1_PCTX;
 typedef struct asn1_sctx_st ASN1_SCTX;
-
-# ifdef _WIN32
-#  undef X509_NAME
-#  undef X509_EXTENSIONS
-#  undef PKCS7_ISSUER_AND_SERIAL
-#  undef PKCS7_SIGNER_INFO
-#  undef OCSP_REQUEST
-#  undef OCSP_RESPONSE
-# endif
 
 # ifdef BIGNUM
 #  undef BIGNUM

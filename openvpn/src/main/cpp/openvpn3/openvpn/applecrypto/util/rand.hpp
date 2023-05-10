@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,8 +31,8 @@
 #include <openvpn/random/randapi.hpp>
 
 namespace openvpn {
-  class AppleRandom : public RandomAPI
-  {
+class AppleRandom : public RandomAPI
+{
   public:
     OPENVPN_EXCEPTION(rand_error_apple);
 
@@ -44,35 +44,35 @@ namespace openvpn {
 
     virtual std::string name() const
     {
-      return "AppleRandom";
+        return "AppleRandom";
     }
 
     // Return true if algorithm is crypto-strength
     virtual bool is_crypto() const
     {
-      return true;
+        return true;
     }
 
     // Fill buffer with random bytes
     virtual void rand_bytes(unsigned char *buf, size_t size)
     {
-      if (!rndbytes(buf, size))
-	throw rand_error_apple("rand_bytes");
+        if (!rndbytes(buf, size))
+            throw rand_error_apple("rand_bytes");
     }
 
     // Like rand_bytes, but don't throw exception.
     // Return true on successs, false on fail.
     virtual bool rand_bytes_noexcept(unsigned char *buf, size_t size)
     {
-      return rndbytes(buf, size);
+        return rndbytes(buf, size);
     }
 
   private:
     bool rndbytes(unsigned char *buf, size_t size)
     {
-      return SecRandomCopyBytes(kSecRandomDefault, size, buf) ? false : true;
+        return SecRandomCopyBytes(kSecRandomDefault, size, buf) ? false : true;
     }
-  };
-}
+};
+} // namespace openvpn
 
 #endif

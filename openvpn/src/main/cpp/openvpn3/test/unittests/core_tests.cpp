@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -32,13 +32,13 @@
 
 openvpn::LogOutputCollector *testLog;
 
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
-  testLog = new openvpn::LogOutputCollector();
-  ::testing::InitGoogleTest (&argc, argv);
-  openvpn::InitProcess::Init init;
-  auto ret = RUN_ALL_TESTS ();
+    testLog = new openvpn::LogOutputCollector();
+    ::testing::InitGoogleTest(&argc, argv);
+    openvpn::InitProcess::Init init;
+    auto ret = RUN_ALL_TESTS();
 
-  delete testLog;
-  return ret;
+    delete testLog;
+    return ret;
 }

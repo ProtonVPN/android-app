@@ -5,8 +5,8 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
- *  Copyright (C) 2013-2021 Gert Doering <gert@greenie.muc.de>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2013-2023 Gert Doering <gert@greenie.muc.de>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -69,11 +69,11 @@ do_lz4_compress(struct buffer *buf,
      */
     if (buf->len >= COMPRESS_THRESHOLD && (compctx->flags & COMP_F_ALLOW_COMPRESS))
     {
-        const size_t ps = PAYLOAD_SIZE(frame);
+        const size_t ps = frame->buf.payload_size;
         int zlen_max = ps + COMP_EXTRA_BUFFER(ps);
         int zlen;
 
-        ASSERT(buf_init(work, FRAME_HEADROOM(frame)));
+        ASSERT(buf_init(work, frame->buf.headroom));
         ASSERT(buf_safe(work, zlen_max));
 
         if (buf->len > ps)
@@ -221,7 +221,7 @@ lz4_decompress(struct buffer *buf, struct buffer work,
         return;
     }
 
-    ASSERT(buf_init(&work, FRAME_HEADROOM(frame)));
+    ASSERT(buf_init(&work, frame->buf.headroom));
 
     /* do unframing/swap (assumes buf->len > 0) */
     {
@@ -237,6 +237,7 @@ lz4_decompress(struct buffer *buf, struct buffer work,
     }
     else if (c == NO_COMPRESS_BYTE_SWAP) /* packet was not compressed */
     {
+        /* nothing to do */
     }
     else
     {
@@ -258,7 +259,7 @@ lz4v2_decompress(struct buffer *buf, struct buffer work,
         return;
     }
 
-    ASSERT(buf_init(&work, FRAME_HEADROOM(frame)));
+    ASSERT(buf_init(&work, frame->buf.headroom));
 
     /* do unframing/swap (assumes buf->len > 0) */
     uint8_t *head = BPTR(buf);
@@ -280,12 +281,12 @@ lz4v2_decompress(struct buffer *buf, struct buffer work,
     c = head[1];
     if (c == COMP_ALGV2_LZ4_BYTE) /* packet was compressed */
     {
-        buf_advance(buf,2);
+        buf_advance(buf, 2);
         do_lz4_decompress(zlen_max, &work, buf, compctx);
     }
     else if (c == COMP_ALGV2_UNCOMPRESSED_BYTE)
     {
-        buf_advance(buf,2);
+        buf_advance(buf, 2);
     }
     else
     {

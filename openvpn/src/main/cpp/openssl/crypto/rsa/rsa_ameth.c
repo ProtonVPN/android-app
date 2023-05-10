@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2006-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -160,6 +160,7 @@ static int rsa_priv_encode(PKCS8_PRIV_KEY_INFO *p8, const EVP_PKEY *pkey)
                          strtype, str, rk, rklen)) {
         ERR_raise(ERR_LIB_RSA, ERR_R_MALLOC_FAILURE);
         ASN1_STRING_free(str);
+        OPENSSL_clear_free(rk, rklen);
         return 0;
     }
 
@@ -449,21 +450,35 @@ static RSA_PSS_PARAMS *rsa_ctx_to_pss(EVP_PKEY_CTX *pkctx)
     const EVP_MD *sigmd, *mgf1md;
     EVP_PKEY *pk = EVP_PKEY_CTX_get0_pkey(pkctx);
     int saltlen;
+    int saltlenMax = -1;
 
     if (EVP_PKEY_CTX_get_signature_md(pkctx, &sigmd) <= 0)
         return NULL;
     if (EVP_PKEY_CTX_get_rsa_mgf1_md(pkctx, &mgf1md) <= 0)
         return NULL;
-    if (!EVP_PKEY_CTX_get_rsa_pss_saltlen(pkctx, &saltlen))
+    if (EVP_PKEY_CTX_get_rsa_pss_saltlen(pkctx, &saltlen) <= 0)
         return NULL;
-    if (saltlen == -1) {
+    if (saltlen == RSA_PSS_SALTLEN_DIGEST) {
         saltlen = EVP_MD_get_size(sigmd);
-    } else if (saltlen == -2 || saltlen == -3) {
+    } else if (saltlen == RSA_PSS_SALTLEN_AUTO_DIGEST_MAX) {
+        /* FIPS 186-4 section 5 "The RSA Digital Signature Algorithm",
+         * subsection 5.5 "PKCS #1" says: "For RSASSA-PSS […] the length (in
+         * bytes) of the salt (sLen) shall satisfy 0 <= sLen <= hLen, where
+         * hLen is the length of the hash function output block (in bytes)."
+         *
+         * Provide a way to use at most the digest length, so that the default
+         * does not violate FIPS 186-4. */
+        saltlen = RSA_PSS_SALTLEN_MAX;
+        saltlenMax = EVP_MD_get_size(sigmd);
+    }
+    if (saltlen == RSA_PSS_SALTLEN_MAX || saltlen == RSA_PSS_SALTLEN_AUTO) {
         saltlen = EVP_PKEY_get_size(pk) - EVP_MD_get_size(sigmd) - 2;
         if ((EVP_PKEY_get_bits(pk) & 0x7) == 1)
             saltlen--;
         if (saltlen < 0)
             return NULL;
+        if (saltlenMax >= 0 && saltlen > saltlenMax)
+            saltlen = saltlenMax;
     }
 
     return ossl_rsa_pss_params_create(sigmd, mgf1md, saltlen);
@@ -636,22 +651,30 @@ static int rsa_item_sign(EVP_MD_CTX *ctx, const ASN1_ITEM *it, const void *asn,
     if (pad_mode == RSA_PKCS1_PADDING)
         return 2;
     if (pad_mode == RSA_PKCS1_PSS_PADDING) {
-        ASN1_STRING *os1 = NULL;
-        os1 = ossl_rsa_ctx_to_pss_string(pkctx);
-        if (!os1)
+        unsigned char aid[128];
+        size_t aid_len = 0;
+        OSSL_PARAM params[2];
+
+        params[0] = OSSL_PARAM_construct_octet_string(
+            OSSL_SIGNATURE_PARAM_ALGORITHM_ID, aid, sizeof(aid));
+        params[1] = OSSL_PARAM_construct_end();
+
+        if (EVP_PKEY_CTX_get_params(pkctx, params) <= 0)
             return 0;
-        /* Duplicate parameters if we have to */
-        if (alg2) {
-            ASN1_STRING *os2 = ASN1_STRING_dup(os1);
-            if (!os2) {
-                ASN1_STRING_free(os1);
+        if ((aid_len = params[0].return_size) == 0)
+            return 0;
+
+        if (alg1 != NULL) {
+            const unsigned char *pp = aid;
+            if (d2i_X509_ALGOR(&alg1, &pp, aid_len) == NULL)
                 return 0;
-            }
-            X509_ALGOR_set0(alg2, OBJ_nid2obj(EVP_PKEY_RSA_PSS),
-                            V_ASN1_SEQUENCE, os2);
         }
-        X509_ALGOR_set0(alg1, OBJ_nid2obj(EVP_PKEY_RSA_PSS),
-                        V_ASN1_SEQUENCE, os1);
+        if (alg2 != NULL) {
+            const unsigned char *pp = aid;
+            if (d2i_X509_ALGOR(&alg2, &pp, aid_len) == NULL)
+                return 0;
+        }
+
         return 3;
     }
     return 2;
@@ -742,7 +765,7 @@ static int rsa_int_export_to(const EVP_PKEY *from, int rsa_type,
     if (RSA_get0_n(rsa) == NULL || RSA_get0_e(rsa) == NULL)
         goto err;
 
-    if (!ossl_rsa_todata(rsa, tmpl, NULL))
+    if (!ossl_rsa_todata(rsa, tmpl, NULL, 1))
         goto err;
 
     selection |= OSSL_KEYMGMT_SELECT_PUBLIC_KEY;
@@ -835,7 +858,7 @@ static int rsa_int_import_from(const OSSL_PARAM params[], void *vpctx,
         goto err;
     }
 
-    if (!ossl_rsa_fromdata(rsa, params))
+    if (!ossl_rsa_fromdata(rsa, params, 1))
         goto err;
 
     switch (rsa_type) {

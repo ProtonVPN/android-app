@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -25,10 +25,10 @@
 #include <openvpn/apple/cf/cf.hpp>
 
 namespace openvpn {
-  namespace CF {
-    OPENVPN_CF_WRAP(ReadStream, read_stream_cast, CFReadStreamRef, CFReadStreamGetTypeID)
-    OPENVPN_CF_WRAP(WriteStream, write_stream_cast, CFWriteStreamRef, CFWriteStreamGetTypeID)
-  }
-}
+namespace CF {
+OPENVPN_CF_WRAP(ReadStream, read_stream_cast, CFReadStreamRef, CFReadStreamGetTypeID)
+OPENVPN_CF_WRAP(WriteStream, write_stream_cast, CFWriteStreamRef, CFWriteStreamGetTypeID)
+} // namespace CF
+} // namespace openvpn
 
 #endif

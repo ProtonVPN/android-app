@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2019-2021 Arne Schwabe <arne@rfc2549.org>
+ *  Copyright (C) 2019-2023 Arne Schwabe <arne@rfc2549.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -49,7 +49,7 @@ const char *aes_ciphers = "AES-256-GCM:AES-128-GCM";
  * leads to having to include even more unrelated code */
 bool
 key_state_export_keying_material(struct tls_session *session,
-                                 const char* label, size_t label_size,
+                                 const char *label, size_t label_size,
                                  void *ekm, size_t ekm_size)
 {
     ASSERT(0);
@@ -98,6 +98,12 @@ test_check_ncp_ciphers_list(void **state)
     /* If the last is optional, previous invalid ciphers should be ignored */
     assert_ptr_equal(mutate_ncp_cipher_list("Vollbit:Littlebit:AES-256-CBC:BF-CBC:?nixbit", &gc), NULL);
 
+    /* We do not support CCM ciphers */
+    assert_ptr_equal(mutate_ncp_cipher_list("AES-256-GCM:AES-128-CCM", &gc), NULL);
+
+    assert_string_equal(mutate_ncp_cipher_list("AES-256-GCM:?AES-128-CCM:AES-128-GCM", &gc),
+                        aes_ciphers);
+
     /* For testing that with OpenSSL 1.1.0+ that also accepts ciphers in
      * a different spelling the normalised cipher output is the same */
     bool have_chacha_mixed_case = cipher_valid("ChaCha20-Poly1305");
@@ -138,7 +144,7 @@ test_extract_client_ciphers(void **state)
 
     client_peer_info = "foo=bar\nIV_foo=y\nIV_NCP=2";
     peer_list = tls_peer_ncp_list(client_peer_info, &gc);
-    assert_string_equal(aes_ciphers,peer_list);
+    assert_string_equal(aes_ciphers, peer_list);
     assert_true(tls_peer_supports_ncp(client_peer_info));
 
     client_peer_info = "foo=bar\nIV_foo=y\nIV_NCP=2\nIV_CIPHERS=BF-CBC";
@@ -210,7 +216,7 @@ test_poor_man(void **state)
                                       "none", &gc);
     assert_string_equal(best_cipher, "none");
 
-    best_cipher = ncp_get_best_cipher(serverlist, NULL,NULL, &gc);
+    best_cipher = ncp_get_best_cipher(serverlist, NULL, NULL, &gc);
     assert_ptr_equal(best_cipher, NULL);
 
     gc_free(&gc);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2012-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -12,6 +12,7 @@
 #ifndef OPENSSL_NO_SSL_TRACE
 
 /* Packet trace support for OpenSSL */
+#include "internal/nelem.h"
 
 typedef struct {
     int num;
@@ -883,7 +884,7 @@ static int ssl_print_extension(BIO *bio, int indent, int server,
                          | ((unsigned int)ext[2] << 8)
                          | (unsigned int)ext[3];
         BIO_indent(bio, indent + 2, 80);
-        BIO_printf(bio, "max_early_data=%u\n", max_early_data);
+        BIO_printf(bio, "max_early_data=%u\n", (unsigned int)max_early_data);
         break;
 
     default:

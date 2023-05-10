@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -65,45 +65,49 @@ namespace MbedTLSPKI {
  *         is returned.
  */
 static std::string x509_get_subject(const mbedtls_x509_crt *cert,
-                                    bool new_format = false) {
-  if (!new_format) {
-    // Try to return the x509 subject formatted like the OpenSSL
-    // X509_NAME_oneline method.  Only attributes matched in the switch
-    // statements below will be rendered.  All other attributes will be
-    // ignored.
+                                    bool new_format = false)
+{
+    if (!new_format)
+    {
+        // Try to return the x509 subject formatted like the OpenSSL
+        // X509_NAME_oneline method.  Only attributes matched in the switch
+        // statements below will be rendered.  All other attributes will be
+        // ignored.
 
-    std::string ret;
-    for (const mbedtls_x509_name *name = &cert->subject; name != nullptr;
-         name = name->next) {
-      const char *key = nullptr;
-      if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_CN, &name->oid))
-        key = "CN";
-      else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_COUNTRY, &name->oid))
-        key = "C";
-      else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_LOCALITY, &name->oid))
-        key = "L";
-      else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_STATE, &name->oid))
-        key = "ST";
-      else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_ORGANIZATION, &name->oid))
-        key = "O";
-      else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_ORG_UNIT, &name->oid))
-        key = "OU";
-      else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_PKCS9_EMAIL, &name->oid))
-        key = "emailAddress";
+        std::string ret;
+        for (const mbedtls_x509_name *name = &cert->subject;
+             name != nullptr;
+             name = name->next)
+        {
+            const char *key = nullptr;
+            if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_CN, &name->oid))
+                key = "CN";
+            else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_COUNTRY, &name->oid))
+                key = "C";
+            else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_LOCALITY, &name->oid))
+                key = "L";
+            else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_STATE, &name->oid))
+                key = "ST";
+            else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_ORGANIZATION, &name->oid))
+                key = "O";
+            else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_ORG_UNIT, &name->oid))
+                key = "OU";
+            else if (!MBEDTLS_OID_CMP(MBEDTLS_OID_PKCS9_EMAIL, &name->oid))
+                key = "emailAddress";
 
-      // make sure that key is defined and value has no embedded nulls
-      if (key &&
-          !string::embedded_null((const char *)name->val.p, name->val.len))
-        ret += "/" + std::string(key) + "=" +
-               std::string((const char *)name->val.p, name->val.len);
+            // make sure that key is defined and value has no embedded nulls
+            if (key && !string::embedded_null((const char *)name->val.p, name->val.len))
+                ret += "/" + std::string(key)
+                       + "=" + std::string((const char *)name->val.p, name->val.len);
+        }
+        return ret;
     }
-    return ret;
-  }
 
-  char tmp_subj[MBEDTLS_MAX_SUBJECT_LENGTH] = {0};
-  int ret = mbedtls_x509_dn_gets(tmp_subj, MBEDTLS_MAX_SUBJECT_LENGTH - 1,
-                                 &cert->subject);
-  return (ret > 0 ? std::string(tmp_subj) : std::string(""));
+    char tmp_subj[MBEDTLS_MAX_SUBJECT_LENGTH] = {0};
+    int ret = mbedtls_x509_dn_gets(tmp_subj,
+                                   MBEDTLS_MAX_SUBJECT_LENGTH - 1,
+                                   &cert->subject);
+    return (ret > 0 ? std::string(tmp_subj) : std::string(""));
 }
 
 /**
@@ -116,20 +120,23 @@ static std::string x509_get_subject(const mbedtls_x509_crt *cert,
  *         resulting string may be empty if the extraction failed or the field
  *         is empty.
  */
-static std::string x509_get_common_name(const mbedtls_x509_crt *cert) {
-  const mbedtls_x509_name *name = &cert->subject;
+static std::string x509_get_common_name(const mbedtls_x509_crt *cert)
+{
+    const mbedtls_x509_name *name = &cert->subject;
 
-  // find common name
-  while (name != nullptr) {
-    if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_CN, &name->oid)) {
-      break;
+    // find common name
+    while (name != nullptr)
+    {
+        if (!MBEDTLS_OID_CMP(MBEDTLS_OID_AT_CN, &name->oid))
+        {
+            break;
+        }
+        name = name->next;
     }
-    name = name->next;
-  }
 
-  return (name ? std::string((const char *)name->val.p, name->val.len)
-               : std::string(""));
+    return (name ? std::string((const char *)name->val.p, name->val.len)
+                 : std::string(""));
 }
 
-}  // namespace MbedTLSPKI
-}  // namespace openvpn
+} // namespace MbedTLSPKI
+} // namespace openvpn

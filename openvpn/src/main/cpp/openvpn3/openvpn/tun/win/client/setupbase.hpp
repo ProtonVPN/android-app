@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -38,44 +38,55 @@
 #include <openvpn/tun/win/ringbuffer.hpp>
 
 namespace openvpn {
-  namespace TunWin {
-    struct SetupBase : public DestructorBase
+namespace TunWin {
+struct SetupBase : public DestructorBase
+{
+    typedef RCPtr<SetupBase> Ptr;
+
+    OPENVPN_EXCEPTION(tun_win_setup);
+
+    virtual HANDLE get_handle(std::ostream &os) = 0;
+
+    // clang-format off
+    virtual HANDLE establish(const TunBuilderCapture &pull,
+                             const std::wstring &openvpn_app_path,
+                             Stop *stop,
+                             std::ostream &os,
+                             RingBuffer::Ptr rings) = 0;
+    // clang-format on
+
+    virtual bool l2_ready(const TunBuilderCapture &pull) = 0;
+
+    // clang-format off
+    virtual void l2_finish(const TunBuilderCapture &pull,
+                           Stop *stop,
+                           std::ostream &os) = 0;
+    // clang-format on
+
+    virtual void confirm()
     {
-      typedef RCPtr<SetupBase> Ptr;
+    }
 
-      OPENVPN_EXCEPTION(tun_win_setup);
-
-      virtual HANDLE get_handle(std::ostream& os) = 0;
-
-      virtual HANDLE establish(const TunBuilderCapture& pull,
-			       const std::wstring& openvpn_app_path,
-			       Stop* stop,
-			       std::ostream& os,
-			       RingBuffer::Ptr rings) = 0;
-
-      virtual bool l2_ready(const TunBuilderCapture& pull) = 0;
-
-      virtual void l2_finish(const TunBuilderCapture& pull,
-			     Stop* stop,
-			     std::ostream& os) = 0;
-
-      virtual void confirm()
-      {
-      }
-
-      virtual void set_service_fail_handler(std::function<void()>&& handler)
-      {
-      }
-    };
-
-    struct SetupFactory : public RC<thread_unsafe_refcount>
+    virtual void set_service_fail_handler(std::function<void()> &&handler)
     {
-      typedef RCPtr<SetupFactory> Ptr;
+    }
 
-      virtual SetupBase::Ptr new_setup_obj(openvpn_io::io_context& io_context,
-					   const TunWin::Type tun_type, bool allow_local_dns_resolvers) = 0;
-    };
-  }
-}
+    virtual Util::TapNameGuidPair get_adapter_state() = 0;
+
+    virtual void set_adapter_state(const Util::TapNameGuidPair &state) = 0;
+};
+
+struct SetupFactory : public RC<thread_unsafe_refcount>
+{
+    typedef RCPtr<SetupFactory> Ptr;
+
+    // clang-format off
+    virtual SetupBase::Ptr new_setup_obj(openvpn_io::io_context &io_context,
+                                         const TunWin::Type tun_type,
+                                         bool allow_local_dns_resolvers) = 0;
+    // clang-format on
+};
+} // namespace TunWin
+} // namespace openvpn
 
 #endif

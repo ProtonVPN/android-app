@@ -4,8 +4,8 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
-//    Copyright (C) 2019-2020 David Sommerseth <davids@openvpn.net>
+//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2019-2022 David Sommerseth <davids@openvpn.net>
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,106 +31,114 @@ using namespace openvpn;
 
 namespace unittests {
 
-OptionList parse_testcfg(std::string& config) {
-  OptionList::Limits limits(
-      "profile is too large", ProfileParseLimits::MAX_PROFILE_SIZE,
-      ProfileParseLimits::OPT_OVERHEAD, ProfileParseLimits::TERM_OVERHEAD,
-      ProfileParseLimits::MAX_LINE_SIZE,
-      ProfileParseLimits::MAX_DIRECTIVE_SIZE);
-  OptionList opts;
-  opts.parse_from_config(config, &limits);
-  opts.update_map();
-  return opts;
+OptionList parse_testcfg(std::string &config)
+{
+    OptionList::Limits limits(
+        "profile is too large",
+        ProfileParseLimits::MAX_PROFILE_SIZE,
+        ProfileParseLimits::OPT_OVERHEAD,
+        ProfileParseLimits::TERM_OVERHEAD,
+        ProfileParseLimits::MAX_LINE_SIZE,
+        ProfileParseLimits::MAX_DIRECTIVE_SIZE);
+    OptionList opts;
+    opts.parse_from_config(config, &limits);
+    opts.update_map();
+    return opts;
 }
 
-TEST(VerifyX509Name, config_missing_args) {
-  // Missing both needed arguments
-  std::string config = "verify-x509-name";
-  EXPECT_THROW(VerifyX509Name err_no_args(parse_testcfg(config)), option_error);
+TEST(VerifyX509Name, config_missing_args)
+{
+    // Missing both needed arguments
+    std::string config = "verify-x509-name";
+    EXPECT_THROW(VerifyX509Name err_no_args(parse_testcfg(config)), option_error);
 }
 
-TEST(VerifyX509Name, config_incorrect_type) {
-  // Incorrect type
-  std::string config = "verify-x509-name localhost nonsense-arg";
-  EXPECT_THROW(VerifyX509Name err_wrong_type(parse_testcfg(config)),
-               option_error);
+TEST(VerifyX509Name, config_incorrect_type)
+{
+    // Incorrect type
+    std::string config = "verify-x509-name localhost nonsense-arg";
+    EXPECT_THROW(VerifyX509Name err_wrong_type(parse_testcfg(config)),
+                 option_error);
 }
 
-TEST(VerifyX509Name, config_correct_default_type) {
-  // Missing type argument - defaults to complete subject DN
-  std::string config =
-      "verify-x509-name \"C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
-      "emailAddress=me@myhost.mydomain\"";
-  VerifyX509Name ok_default_subj(parse_testcfg(config));
+TEST(VerifyX509Name, config_correct_default_type)
+{
+    // Missing type argument - defaults to complete subject DN
+    std::string config = "verify-x509-name \"C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
+                         "emailAddress=me@myhost.mydomain\"";
+    VerifyX509Name ok_default_subj(parse_testcfg(config));
 }
 
-TEST(VerifyX509Name, config_correct_subject) {
-  // Correct - type: subject
-  std::string config =
-      "verify-x509-name \"C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
-      "emailAddress=me@myhost.mydomain\" subject";
-  VerifyX509Name ok_subj(parse_testcfg(config));
+TEST(VerifyX509Name, config_correct_subject)
+{
+    // Correct - type: subject
+    std::string config = "verify-x509-name \"C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
+                         "emailAddress=me@myhost.mydomain\" subject";
+    VerifyX509Name ok_subj(parse_testcfg(config));
 }
 
-TEST(VerifyX509Name, config_correct_name) {
-  // Correct - type: name
-  std::string config = "verify-x509-name localhost name";
-  VerifyX509Name ok_name(parse_testcfg(config));
+TEST(VerifyX509Name, config_correct_name)
+{
+    // Correct - type: name
+    std::string config = "verify-x509-name localhost name";
+    VerifyX509Name ok_name(parse_testcfg(config));
 }
 
-TEST(VerifyX509Name, config_correct_name_prefix) {
-  // Correct - type: name-prefix
-  std::string config = "verify-x509-name Server- name-prefix";
-  VerifyX509Name ok_name_prefix(parse_testcfg(config));
+TEST(VerifyX509Name, config_correct_name_prefix)
+{
+    // Correct - type: name-prefix
+    std::string config = "verify-x509-name Server- name-prefix";
+    VerifyX509Name ok_name_prefix(parse_testcfg(config));
 }
 
-TEST(VerifyX509Name, test_subject) {
-  std::string config =
-      "verify-x509-name \"C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
-      "emailAddress=me@myhost.mydomain\"";
-  VerifyX509Name verify_def(parse_testcfg(config));
+TEST(VerifyX509Name, test_subject)
+{
+    std::string config = "verify-x509-name \"C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
+                         "emailAddress=me@myhost.mydomain\"";
+    VerifyX509Name verify_def(parse_testcfg(config));
 
-  ASSERT_TRUE(verify_def.verify(
-      "C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
-      "emailAddress=me@myhost.mydomain"));
-  ASSERT_FALSE(verify_def.verify(
-      "C=KG, ST=NA, O=OpenVPN-TEST-FAIL, CN=Wrong-Server, "
-      "emailAddress=me@myhost.mydomain"));
-  ASSERT_FALSE(verify_def.verify("server-1.example.org"));
+    ASSERT_TRUE(verify_def.verify(
+        "C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
+        "emailAddress=me@myhost.mydomain"));
+    ASSERT_FALSE(verify_def.verify(
+        "C=KG, ST=NA, O=OpenVPN-TEST-FAIL, CN=Wrong-Server, "
+        "emailAddress=me@myhost.mydomain"));
+    ASSERT_FALSE(verify_def.verify("server-1.example.org"));
 
-  // This is basically the same config as the one above,
-  // just with the 'subject' type defined explicitly
-  config =
-      "verify-x509-name \"C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
-      "emailAddress=me@myhost.mydomain\" subject";
-  VerifyX509Name verify_subj(parse_testcfg(config));
+    // This is basically the same config as the one above,
+    // just with the 'subject' type defined explicitly
+    config = "verify-x509-name \"C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
+             "emailAddress=me@myhost.mydomain\" subject";
+    VerifyX509Name verify_subj(parse_testcfg(config));
 
-  ASSERT_TRUE(verify_subj.verify(
-      "C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
-      "emailAddress=me@myhost.mydomain"));
-  ASSERT_FALSE(verify_subj.verify(
-      "C=KG, ST=NA, O=OpenVPN-TEST-FAIL, CN=Wrong-Server, "
-      "emailAddress=me@myhost.mydomain"));
-  ASSERT_FALSE(verify_subj.verify("server-1.example.org"));
+    ASSERT_TRUE(verify_subj.verify(
+        "C=KG, ST=NA, O=OpenVPN-TEST, CN=Test-Server, "
+        "emailAddress=me@myhost.mydomain"));
+    ASSERT_FALSE(verify_subj.verify(
+        "C=KG, ST=NA, O=OpenVPN-TEST-FAIL, CN=Wrong-Server, "
+        "emailAddress=me@myhost.mydomain"));
+    ASSERT_FALSE(verify_subj.verify("server-1.example.org"));
 }
 
-TEST(VerifyX509Name, test_name) {
-  std::string config = "verify-x509-name server-1.example.org name";
-  VerifyX509Name verify(parse_testcfg(config));
+TEST(VerifyX509Name, test_name)
+{
+    std::string config = "verify-x509-name server-1.example.org name";
+    VerifyX509Name verify(parse_testcfg(config));
 
-  ASSERT_TRUE(verify.verify("server-1.example.org"));
-  ASSERT_FALSE(verify.verify("server-2.example.org"));
-  ASSERT_FALSE(verify.verify("server"));
+    ASSERT_TRUE(verify.verify("server-1.example.org"));
+    ASSERT_FALSE(verify.verify("server-2.example.org"));
+    ASSERT_FALSE(verify.verify("server"));
 }
 
-TEST(VerifyX509Name, test_name_prefix) {
-  std::string config = "verify-x509-name server name-prefix";
-  VerifyX509Name verify(parse_testcfg(config));
+TEST(VerifyX509Name, test_name_prefix)
+{
+    std::string config = "verify-x509-name server name-prefix";
+    VerifyX509Name verify(parse_testcfg(config));
 
-  ASSERT_TRUE(verify.verify("server-1.example.org"));
-  ASSERT_TRUE(verify.verify("server-2.sub.example.net"));
-  ASSERT_TRUE(verify.verify("server"));
-  ASSERT_FALSE(verify.verify("some-other.example.org"));
+    ASSERT_TRUE(verify.verify("server-1.example.org"));
+    ASSERT_TRUE(verify.verify("server-2.sub.example.net"));
+    ASSERT_TRUE(verify.verify("server"));
+    ASSERT_FALSE(verify.verify("some-other.example.org"));
 }
 
-}  // namespace unittests
+} // namespace unittests

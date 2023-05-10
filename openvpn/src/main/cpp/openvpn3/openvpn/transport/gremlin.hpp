@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -36,189 +36,190 @@
 #include <openvpn/random/mtrandapi.hpp>
 
 namespace openvpn {
-  namespace Gremlin {
+namespace Gremlin {
 
-    OPENVPN_EXCEPTION(gremlin_error);
+OPENVPN_EXCEPTION(gremlin_error);
 
-    struct DelayedQueue : public RC<thread_unsafe_refcount>
+struct DelayedQueue : public RC<thread_unsafe_refcount>
+{
+  public:
+    typedef RCPtr<DelayedQueue> Ptr;
+
+    DelayedQueue(openvpn_io::io_context &io_context,
+                 const unsigned int delay_ms)
+        : dur(Time::Duration::milliseconds(delay_ms)),
+          next_event(io_context)
     {
-    public:
-      typedef RCPtr<DelayedQueue> Ptr;
+    }
 
-      DelayedQueue(openvpn_io::io_context& io_context,
-		   const unsigned int delay_ms)
-	: dur(Time::Duration::milliseconds(delay_ms)),
-	  next_event(io_context)
-      {
-      }
+    template <class F>
+    void queue(F &&func_arg)
+    {
+        const bool empty = events.empty();
+        events.emplace_back(new Event<F>(Time::now() + dur, std::move(func_arg)));
+        if (empty)
+            set_timer();
+    }
 
-      template <class F>
-      void queue(F&& func_arg)
-      {
-	const bool empty = events.empty();
-	events.emplace_back(new Event<F>(Time::now() + dur, std::move(func_arg)));
-	if (empty)
-	  set_timer();
-      }
+    size_t size() const
+    {
+        return events.size();
+    }
 
-      size_t size() const
-      {
-	return events.size();
-      }
+    void stop()
+    {
+        next_event.cancel();
+    }
 
-      void stop()
-      {
-	next_event.cancel();
-      }
+  private:
+    struct EventBase
+    {
+        virtual void call() = 0;
+        virtual const Time &fire_time() = 0;
+        virtual ~EventBase()
+        {
+        }
+    };
 
-    private:
-      struct EventBase
-      {
-	virtual void call() = 0;
-	virtual const Time& fire_time() = 0;
-	virtual ~EventBase() {}
-      };
-
-      template <class F>
-      struct Event : public EventBase
-      {
+    template <class F>
+    struct Event : public EventBase
+    {
       public:
-	Event(Time fire_arg, F&& func_arg)
-	  : fire(fire_arg),
-	    func(std::move(func_arg))
-	{
-	}
+        Event(Time fire_arg, F &&func_arg)
+            : fire(fire_arg),
+              func(std::move(func_arg))
+        {
+        }
 
-	virtual void call()
-	{
-	  func();
-	}
+        virtual void call()
+        {
+            func();
+        }
 
-	virtual const Time& fire_time()
-	{
-	  return fire;
-	}
+        virtual const Time &fire_time()
+        {
+            return fire;
+        }
 
       private:
-	Time fire;
-	F func;
-      };
+        Time fire;
+        F func;
+    };
 
-      void set_timer()
-      {
-	if (events.empty())
-	  return;
-	EventBase& ev = *events.front();
-	next_event.expires_at(ev.fire_time());
-	next_event.async_wait([self=Ptr(this)](const openvpn_io::error_code& error)
-			      {
+    void set_timer()
+    {
+        if (events.empty())
+            return;
+        EventBase &ev = *events.front();
+        next_event.expires_at(ev.fire_time());
+        next_event.async_wait([self = Ptr(this)](const openvpn_io::error_code &error)
+                              {
 				if (!error)
 				  {
 				    EventBase& ev = *self->events.front();
 				    ev.call();
 				    self->events.pop_front();
 				    self->set_timer();
-				  }
-			      });
-      }
+				  } });
+    }
 
-      Time::Duration dur;
-      AsioTimer next_event;
-      std::deque<std::unique_ptr<EventBase>> events;
-    };
+    Time::Duration dur;
+    AsioTimer next_event;
+    std::deque<std::unique_ptr<EventBase>> events;
+};
 
-    class Config : public RC<thread_unsafe_refcount>
+class Config : public RC<thread_unsafe_refcount>
+{
+  public:
+    typedef RCPtr<Config> Ptr;
+
+    Config(const std::string &config_str)
     {
-    public:
-      typedef RCPtr<Config> Ptr;
+        const std::vector<std::string> parms = string::split(config_str, ',');
+        if (parms.size() < 4)
+            throw gremlin_error("need 4 comma-separated values for send_delay_ms, recv_delay_ms, send_drop_prob, recv_drop_prob");
+        if (!parse_number(string::trim_copy(parms[0]), send_delay_ms))
+            throw gremlin_error("send_delay_ms");
+        if (!parse_number(string::trim_copy(parms[1]), recv_delay_ms))
+            throw gremlin_error("recv_delay_ms");
+        if (!parse_number(string::trim_copy(parms[2]), send_drop_probability))
+            throw gremlin_error("send_drop_probability");
+        if (!parse_number(string::trim_copy(parms[3]), recv_drop_probability))
+            throw gremlin_error("recv_drop_probability");
+    }
 
-      Config(const std::string& config_str)
-      {
-	const std::vector<std::string> parms = string::split(config_str, ',');
-	if (parms.size() < 4)
-	  throw gremlin_error("need 4 comma-separated values for send_delay_ms, recv_delay_ms, send_drop_prob, recv_drop_prob");
-	if (!parse_number(string::trim_copy(parms[0]), send_delay_ms))
-	  throw gremlin_error("send_delay_ms");
-	if (!parse_number(string::trim_copy(parms[1]), recv_delay_ms))
-	  throw gremlin_error("recv_delay_ms");
-	if (!parse_number(string::trim_copy(parms[2]), send_drop_probability))
-	  throw gremlin_error("send_drop_probability");
-	if (!parse_number(string::trim_copy(parms[3]), recv_drop_probability))
-	  throw gremlin_error("recv_drop_probability");
-      }
-
-      std::string to_string() const
-      {
-	std::ostringstream os;
-	os << '[' << send_delay_ms << ',' << recv_delay_ms << ',' << send_drop_probability << ',' << recv_drop_probability << ']';
-	return os.str();
-      }
-
-      unsigned int send_delay_ms = 0;
-      unsigned int recv_delay_ms = 0;
-      unsigned int send_drop_probability = 0;
-      unsigned int recv_drop_probability = 0;
-    };
-
-    class SendRecvQueue
+    std::string to_string() const
     {
-    public:
-      SendRecvQueue(openvpn_io::io_context& io_context,
-		    const Config::Ptr& conf_arg,
-		    const bool tcp_arg)
-	: conf(conf_arg),
-	  send(new DelayedQueue(io_context, conf->send_delay_ms)),
-	  recv(new DelayedQueue(io_context, conf->recv_delay_ms)),
-	  tcp(tcp_arg)
-      {
-      }
+        std::ostringstream os;
+        os << '[' << send_delay_ms << ',' << recv_delay_ms << ',' << send_drop_probability << ',' << recv_drop_probability << ']';
+        return os.str();
+    }
 
-      template <class F>
-      void send_queue(F&& func_arg)
-      {
-	if (tcp || flip(conf->send_drop_probability))
-	  send->queue(std::move(func_arg));
-      }
+    unsigned int send_delay_ms = 0;
+    unsigned int recv_delay_ms = 0;
+    unsigned int send_drop_probability = 0;
+    unsigned int recv_drop_probability = 0;
+};
 
-      template <class F>
-      void recv_queue(F&& func_arg)
-      {
-	if (tcp || flip(conf->recv_drop_probability))
-	  recv->queue(std::move(func_arg));
-      }
+class SendRecvQueue
+{
+  public:
+    SendRecvQueue(openvpn_io::io_context &io_context,
+                  const Config::Ptr &conf_arg,
+                  const bool tcp_arg)
+        : conf(conf_arg),
+          send(new DelayedQueue(io_context, conf->send_delay_ms)),
+          recv(new DelayedQueue(io_context, conf->recv_delay_ms)),
+          tcp(tcp_arg)
+    {
+    }
 
-      size_t send_size() const
-      {
-	return send->size();
-      }
+    template <class F>
+    void send_queue(F &&func_arg)
+    {
+        if (tcp || flip(conf->send_drop_probability))
+            send->queue(std::move(func_arg));
+    }
 
-      size_t recv_size() const
-      {
-	return recv->size();
-      }
+    template <class F>
+    void recv_queue(F &&func_arg)
+    {
+        if (tcp || flip(conf->recv_drop_probability))
+            recv->queue(std::move(func_arg));
+    }
 
-      void stop()
-      {
-	send->stop();
-	recv->stop();
-      }
+    size_t send_size() const
+    {
+        return send->size();
+    }
 
-    private:
-      bool flip(const unsigned int prob)
-      {
-	if (prob)
-	  return ri.randrange(prob) != 0;
-	else
-	  return true;
-      }
+    size_t recv_size() const
+    {
+        return recv->size();
+    }
 
-      Config::Ptr conf;
-      MTRand ri;
-      DelayedQueue::Ptr send;
-      DelayedQueue::Ptr recv;
-      bool tcp;
-    };
-  }
-}
+    void stop()
+    {
+        send->stop();
+        recv->stop();
+    }
+
+  private:
+    bool flip(const unsigned int prob)
+    {
+        if (prob)
+            return ri.randrange(prob) != 0;
+        else
+            return true;
+    }
+
+    Config::Ptr conf;
+    MTRand ri;
+    DelayedQueue::Ptr send;
+    DelayedQueue::Ptr recv;
+    bool tcp;
+};
+} // namespace Gremlin
+} // namespace openvpn
 
 #endif

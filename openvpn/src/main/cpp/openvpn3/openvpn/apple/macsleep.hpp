@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -32,87 +32,87 @@
 #include <openvpn/common/size.hpp>
 
 namespace openvpn {
-  class MacSleep
-  {
-    MacSleep(const MacSleep&) = delete;
-    MacSleep& operator=(const MacSleep&) = delete;
+class MacSleep
+{
+    MacSleep(const MacSleep &) = delete;
+    MacSleep &operator=(const MacSleep &) = delete;
 
   public:
     MacSleep()
-      : root_port(0),
-	notifyPortRef(nullptr),
-	notifierObject(0)
+        : root_port(0),
+          notifyPortRef(nullptr),
+          notifierObject(0)
     {
     }
 
     virtual ~MacSleep()
     {
-      mac_sleep_stop();
+        mac_sleep_stop();
     }
 
     bool mac_sleep_start()
     {
-      if (!root_port)
-	{
-	  root_port = IORegisterForSystemPower(this, &notifyPortRef, callback_static, &notifierObject);
-	  if (!root_port)
-	    return false;
-	  CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notifyPortRef), kCFRunLoopCommonModes);
-	}
-      return true;
+        if (!root_port)
+        {
+            root_port = IORegisterForSystemPower(this, &notifyPortRef, callback_static, &notifierObject);
+            if (!root_port)
+                return false;
+            CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notifyPortRef), kCFRunLoopCommonModes);
+        }
+        return true;
     }
 
     void mac_sleep_stop()
     {
-      if (root_port)
-	{
-	  // remove the sleep notification port from the application runloop
-	  CFRunLoopRemoveSource(CFRunLoopGetCurrent(),
-				IONotificationPortGetRunLoopSource(notifyPortRef),
-				kCFRunLoopCommonModes);
+        if (root_port)
+        {
+            // remove the sleep notification port from the application runloop
+            CFRunLoopRemoveSource(CFRunLoopGetCurrent(),
+                                  IONotificationPortGetRunLoopSource(notifyPortRef),
+                                  kCFRunLoopCommonModes);
 
-	  // deregister for system sleep notifications
-	  IODeregisterForSystemPower(&notifierObject);
+            // deregister for system sleep notifications
+            IODeregisterForSystemPower(&notifierObject);
 
-	  // IORegisterForSystemPower implicitly opens the Root Power Domain IOService
-	  // so we close it here
-	  IOServiceClose(root_port);
+            // IORegisterForSystemPower implicitly opens the Root Power Domain IOService
+            // so we close it here
+            IOServiceClose(root_port);
 
-	  // destroy the notification port allocated by IORegisterForSystemPower
-	  IONotificationPortDestroy(notifyPortRef);
+            // destroy the notification port allocated by IORegisterForSystemPower
+            IONotificationPortDestroy(notifyPortRef);
 
-	  // reset object members
-	  root_port = 0;
-	  notifyPortRef = nullptr;
-	  notifierObject = 0;
-	}
+            // reset object members
+            root_port = 0;
+            notifyPortRef = nullptr;
+            notifierObject = 0;
+        }
     }
 
     virtual void notify_sleep() = 0;
     virtual void notify_wakeup() = 0;
 
   private:
-    static void callback_static(void* arg, io_service_t service, natural_t messageType, void *messageArgument)
+    static void callback_static(void *arg, io_service_t service, natural_t messageType, void *messageArgument)
     {
-      MacSleep* self = (MacSleep*)arg;
-      self->callback(service, messageType, messageArgument);
+        MacSleep *self = (MacSleep *)arg;
+        self->callback(service, messageType, messageArgument);
     }
 
     void callback(io_service_t service, natural_t messageType, void *messageArgument)
     {
-      switch (messageType)
-	{
+        switch (messageType)
+        {
         case kIOMessageCanSystemSleep:
-	  IOAllowPowerChange(root_port, (long)messageArgument);
-	  break;
+            IOAllowPowerChange(root_port, (long)messageArgument);
+            break;
         case kIOMessageSystemWillSleep:
-	  notify_sleep();
-	  IOAllowPowerChange(root_port, (long)messageArgument);
-	  break;
-	case kIOMessageSystemHasPoweredOn:
-	  notify_wakeup();
-	  break;
-	}
+            notify_sleep();
+            IOAllowPowerChange(root_port, (long)messageArgument);
+            break;
+        case kIOMessageSystemHasPoweredOn:
+            notify_wakeup();
+            break;
+        }
     }
 
     // a reference to the Root Power Domain IOService
@@ -123,7 +123,7 @@ namespace openvpn {
 
     // notifier object, used to deregister later
     io_object_t notifierObject;
-  };
-}
+};
+} // namespace openvpn
 
 #endif

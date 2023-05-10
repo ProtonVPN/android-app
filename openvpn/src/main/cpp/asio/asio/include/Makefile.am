@@ -1,9 +1,14 @@
 # find . -name "*.*pp" | sed -e 's/^\.\///' | sed -e 's/^.*$/  & \\/' | sort
 nobase_include_HEADERS = \
+	asio/any_completion_executor.hpp \
+	asio/any_completion_handler.hpp \
 	asio/any_io_executor.hpp \
+	asio/append.hpp \
+	asio/as_tuple.hpp \
 	asio/associated_allocator.hpp \
 	asio/associated_cancellation_slot.hpp \
 	asio/associated_executor.hpp \
+	asio/associated_immediate_executor.hpp \
 	asio/associator.hpp \
 	asio/async_result.hpp \
 	asio/awaitable.hpp \
@@ -27,8 +32,10 @@ nobase_include_HEADERS = \
 	asio/basic_stream_socket.hpp \
 	asio/basic_waitable_timer.hpp \
 	asio/basic_writable_pipe.hpp \
+	asio/bind_allocator.hpp \
 	asio/bind_cancellation_slot.hpp \
 	asio/bind_executor.hpp \
+	asio/bind_immediate_executor.hpp \
 	asio/buffered_read_stream_fwd.hpp \
 	asio/buffered_read_stream.hpp \
 	asio/buffered_stream_fwd.hpp \
@@ -46,9 +53,11 @@ nobase_include_HEADERS = \
 	asio/compose.hpp \
 	asio/connect.hpp \
 	asio/connect_pipe.hpp \
+	asio/consign.hpp \
 	asio/coroutine.hpp \
 	asio/deadline_timer.hpp \
 	asio/defer.hpp \
+	asio/deferred.hpp \
 	asio/detached.hpp \
 	asio/detail/array_fwd.hpp \
 	asio/detail/array.hpp \
@@ -66,6 +75,7 @@ nobase_include_HEADERS = \
 	asio/detail/chrono.hpp \
 	asio/detail/chrono_time_traits.hpp \
 	asio/detail/completion_handler.hpp \
+	asio/detail/composed_work.hpp \
 	asio/detail/concurrency_hint.hpp \
 	asio/detail/conditionally_enabled_event.hpp \
 	asio/detail/conditionally_enabled_mutex.hpp \
@@ -83,6 +93,7 @@ nobase_include_HEADERS = \
 	asio/detail/epoll_reactor.hpp \
 	asio/detail/eventfd_select_interrupter.hpp \
 	asio/detail/event.hpp \
+	asio/detail/exception.hpp \
 	asio/detail/executor_function.hpp \
 	asio/detail/executor_op.hpp \
 	asio/detail/fd_set_adapter.hpp \
@@ -158,6 +169,9 @@ nobase_include_HEADERS = \
 	asio/detail/impl/win_static_mutex.ipp \
 	asio/detail/impl/win_thread.ipp \
 	asio/detail/impl/win_tss_ptr.ipp \
+	asio/detail/initiate_defer.hpp \
+	asio/detail/initiate_dispatch.hpp \
+	asio/detail/initiate_post.hpp \
 	asio/detail/io_control.hpp \
 	asio/detail/io_object_impl.hpp \
 	asio/detail/io_uring_descriptor_read_at_op.hpp \
@@ -283,6 +297,7 @@ nobase_include_HEADERS = \
 	asio/detail/timer_scheduler.hpp \
 	asio/detail/tss_ptr.hpp \
 	asio/detail/type_traits.hpp \
+	asio/detail/utility.hpp \
 	asio/detail/variadic_templates.hpp \
 	asio/detail/wait_handler.hpp \
 	asio/detail/wait_op.hpp \
@@ -385,6 +400,7 @@ nobase_include_HEADERS = \
 	asio/experimental/channel.hpp \
 	asio/experimental/channel_error.hpp \
 	asio/experimental/channel_traits.hpp \
+	asio/experimental/co_composed.hpp \
 	asio/experimental/co_spawn.hpp \
 	asio/experimental/concurrent_channel.hpp \
 	asio/experimental/coro.hpp \
@@ -398,25 +414,24 @@ nobase_include_HEADERS = \
 	asio/experimental/detail/channel_send_functions.hpp \
 	asio/experimental/detail/channel_send_op.hpp \
 	asio/experimental/detail/channel_service.hpp \
-	asio/experimental/detail/completion_handler_erasure.hpp \
+	asio/experimental/detail/coro_completion_handler.hpp \
 	asio/experimental/detail/coro_promise_allocator.hpp \
 	asio/experimental/detail/has_signature.hpp \
 	asio/experimental/detail/impl/channel_service.hpp \
 	asio/experimental/detail/partial_promise.hpp \
-	asio/experimental/impl/append.hpp \
 	asio/experimental/impl/as_single.hpp \
-	asio/experimental/impl/as_tuple.hpp \
 	asio/experimental/impl/channel_error.ipp \
+	asio/experimental/impl/co_composed.hpp \
 	asio/experimental/impl/coro.hpp \
-	asio/experimental/impl/deferred.hpp \
 	asio/experimental/impl/parallel_group.hpp \
-	asio/experimental/impl/prepend.hpp \
 	asio/experimental/impl/promise.hpp \
 	asio/experimental/impl/use_coro.hpp \
+	asio/experimental/impl/use_promise.hpp \
 	asio/experimental/parallel_group.hpp \
 	asio/experimental/prepend.hpp \
 	asio/experimental/promise.hpp \
 	asio/experimental/use_coro.hpp \
+	asio/experimental/use_promise.hpp \
 	asio/file_base.hpp \
 	asio/generic/basic_endpoint.hpp \
 	asio/generic/datagram_protocol.hpp \
@@ -430,19 +445,21 @@ nobase_include_HEADERS = \
 	asio/handler_invoke_hook.hpp \
 	asio/high_resolution_timer.hpp \
 	asio.hpp \
+	asio/impl/any_completion_executor.ipp \
 	asio/impl/any_io_executor.ipp \
+	asio/impl/append.hpp \
+	asio/impl/as_tuple.hpp \
 	asio/impl/awaitable.hpp \
 	asio/impl/buffered_read_stream.hpp \
 	asio/impl/buffered_write_stream.hpp \
 	asio/impl/cancellation_signal.ipp \
 	asio/impl/co_spawn.hpp \
-	asio/impl/compose.hpp \
 	asio/impl/connect.hpp \
 	asio/impl/connect_pipe.hpp \
 	asio/impl/connect_pipe.ipp \
-	asio/impl/defer.hpp \
+	asio/impl/consign.hpp \
+	asio/impl/deferred.hpp \
 	asio/impl/detached.hpp \
-	asio/impl/dispatch.hpp \
 	asio/impl/error_code.ipp \
 	asio/impl/error.ipp \
 	asio/impl/execution_context.hpp \
@@ -453,7 +470,7 @@ nobase_include_HEADERS = \
 	asio/impl/io_context.hpp \
 	asio/impl/io_context.ipp \
 	asio/impl/multiple_exceptions.ipp \
-	asio/impl/post.hpp \
+	asio/impl/prepend.hpp \
 	asio/impl/read_at.hpp \
 	asio/impl/read.hpp \
 	asio/impl/read_until.hpp \
@@ -516,6 +533,7 @@ nobase_include_HEADERS = \
 	asio/ip/unicast.hpp \
 	asio/ip/v6_only.hpp \
 	asio/is_applicable_property.hpp \
+	asio/is_contiguous_iterator.hpp \
 	asio/is_executor.hpp \
 	asio/is_read_buffered.hpp \
 	asio/is_write_buffered.hpp \
@@ -524,6 +542,7 @@ nobase_include_HEADERS = \
 	asio/local/datagram_protocol.hpp \
 	asio/local/detail/endpoint.hpp \
 	asio/local/detail/impl/endpoint.ipp \
+	asio/local/seq_packet_protocol.hpp \
 	asio/local/stream_protocol.hpp \
 	asio/multiple_exceptions.hpp \
 	asio/packaged_task.hpp \
@@ -535,18 +554,21 @@ nobase_include_HEADERS = \
 	asio/posix/stream_descriptor.hpp \
 	asio/post.hpp \
 	asio/prefer.hpp \
+	asio/prepend.hpp \
 	asio/query.hpp \
 	asio/random_access_file.hpp \
 	asio/read_at.hpp \
 	asio/read.hpp \
 	asio/read_until.hpp \
 	asio/readable_pipe.hpp \
+	asio/recycling_allocator.hpp \
 	asio/redirect_error.hpp \
 	asio/registered_buffer.hpp \
 	asio/require.hpp \
 	asio/require_concept.hpp \
 	asio/serial_port_base.hpp \
 	asio/serial_port.hpp \
+	asio/signal_set_base.hpp \
 	asio/signal_set.hpp \
 	asio/socket_base.hpp \
 	asio/spawn.hpp \

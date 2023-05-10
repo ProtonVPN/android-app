@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -26,18 +26,25 @@
 
 namespace openvpn {
 
-  class CompressNull : public Compress
-  {
+class CompressNull : public Compress
+{
   public:
-    CompressNull(const Frame::Ptr& frame, const SessionStats::Ptr& stats)
-      : Compress(frame, stats)
+    CompressNull(const Frame::Ptr &frame, const SessionStats::Ptr &stats)
+        : Compress(frame, stats)
     {
     }
 
-    virtual const char *name() const { return "null"; }
-    virtual void compress(BufferAllocated& buf, const bool hint) {}
-    virtual void decompress(BufferAllocated& buf) {}
-  };
+    virtual const char *name() const
+    {
+        return "null";
+    }
+    virtual void compress(BufferAllocated &buf, const bool hint)
+    {
+    }
+    virtual void decompress(BufferAllocated &buf)
+    {
+    }
+};
 
 } // namespace openvpn
 

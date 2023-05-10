@@ -44,8 +44,8 @@ m4/ltoptions.m4
 m4/ltsugar.m4
 m4/ltversion.m4
 m4/lt~obsolete.m4
+vcpkg_installed
 
-version.sh
 msvc-env-local.bat
 config-msvc-local.h
 config-msvc-version.h
@@ -67,6 +67,10 @@ tests/t_client-*-20??????-??????/
 t_client.rc
 t_client_ips.rc
 tests/unit_tests/**/*_testdriver
+tests/unit_tests/engine-key/client.key
+tests/unit_tests/engine-key/log.txt
+tests/unit_tests/engine-key/openssl.cnf
+tests/unit_tests/engine-key/passwd
 
 src/openvpn/openvpn
 include/openvpn-plugin.h

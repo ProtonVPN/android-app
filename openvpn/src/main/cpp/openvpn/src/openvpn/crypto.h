@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -234,7 +234,14 @@ struct crypto_options
      *   both sending and receiving
      *   directions. */
     struct packet_id packet_id; /**< Current packet ID state for both
-                                 *   sending and receiving directions. */
+                                 *   sending and receiving directions.
+                                 *
+                                 *   This contains the packet id that is
+                                 *   used for replay protection.
+                                 *
+                                 *   The packet id also used as the IV
+                                 *   for AEAD/OFB/CFG ciphers.
+                                 *   */
     struct packet_id_persist *pid_persist;
     /**< Persistent packet ID state for
      *   keeping state between successive
@@ -256,6 +263,23 @@ struct crypto_options
     /**< Bit-flag indicating that data channel key derivation
      * is done using TLS keying material export [RFC5705]
      */
+#define CO_RESEND_WKC (1<<4)
+    /**< Bit-flag indicating that the client is expected to
+     * resend the wrapped client key with the 2nd packet (packet-id 1)
+     * like with the HARD_RESET_CLIENT_V3 packet */
+#define CO_FORCE_TLSCRYPTV2_COOKIE  (1<<5)
+    /**< Bit-flag indicating that we do not allow clients that do
+     * not support resending the wrapped client key (WKc) with the
+     * third packet of the three-way handshake */
+#define CO_USE_CC_EXIT_NOTIFY       (1<<6)
+    /**< Bit-flag indicating that explicit exit notifies should be
+     * sent via the control channel instead of using an OCC message
+     */
+#define CO_USE_DYNAMIC_TLS_CRYPT   (1<<7)
+    /**< Bit-flag indicating that renegotiations are using tls-crypt
+     *   with a TLS-EKM derived key.
+     */
+
     unsigned int flags;         /**< Bit-flags determining behavior of
                                  *   security operation functions. */
 };
@@ -517,7 +541,8 @@ void key2_print(const struct key2 *k,
 void crypto_read_openvpn_key(const struct key_type *key_type,
                              struct key_ctx_bi *ctx, const char *key_file,
                              bool key_inline, const int key_direction,
-                             const char *key_name, const char *opt_name);
+                             const char *key_name, const char *opt_name,
+                             struct key2 *keydata);
 
 /*
  * Inline functions
@@ -546,5 +571,36 @@ key_ctx_bi_defined(const struct key_ctx_bi *key)
  * @param is_inline true when str contains an inline data of some sort
  */
 const char *print_key_filename(const char *str, bool is_inline);
+
+/**
+ * Creates and validates an instance of struct key_type with the provided
+ * algs.
+ *
+ * @param cipher    the cipher algorithm to use (must be a string literal)
+ * @param md        the digest algorithm to use (must be a string literal)
+ * @param optname   the name of the option requiring the key_type object
+ *
+ * @return          the initialized key_type instance
+ */
+static inline struct key_type
+create_kt(const char *cipher, const char *md, const char *optname)
+{
+    struct key_type kt;
+    kt.cipher = cipher;
+    kt.digest = md;
+
+    if (cipher_defined(kt.cipher) && !cipher_valid(kt.cipher))
+    {
+        msg(M_WARN, "ERROR: --%s requires %s support.", optname, kt.cipher);
+        return (struct key_type) { 0 };
+    }
+    if (md_defined(kt.digest) && !md_valid(kt.digest))
+    {
+        msg(M_WARN, "ERROR: --%s requires %s support.", optname, kt.digest);
+        return (struct key_type) { 0 };
+    }
+
+    return kt;
+}
 
 #endif /* CRYPTO_H */

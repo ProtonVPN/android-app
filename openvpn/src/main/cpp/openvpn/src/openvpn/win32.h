@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -38,6 +38,7 @@
 #define WIN_ROUTE_PATH_SUFFIX "\\system32\\route.exe"
 #define WIN_IPCONFIG_PATH_SUFFIX "\\system32\\ipconfig.exe"
 #define WIN_NET_PATH_SUFFIX "\\system32\\net.exe"
+#define WMIC_PATH_SUFFIX "\\system32\\wbem\\wmic.exe"
 
 /*
  * Win32-specific OpenVPN code, targeted at the mingw
@@ -46,7 +47,7 @@
 
 /* MSVC headers do not define this macro, so do it here */
 #ifndef IN6_ARE_ADDR_EQUAL
-#define IN6_ARE_ADDR_EQUAL(a,b) \
+#define IN6_ARE_ADDR_EQUAL(a, b) \
     (memcmp((const void *)(a), (const void *)(b), sizeof(struct in6_addr)) == 0)
 #endif
 
@@ -217,8 +218,7 @@ struct overlapped_io {
 
 void overlapped_io_init(struct overlapped_io *o,
                         const struct frame *frame,
-                        BOOL event_state,
-                        bool tuntap_buffer);
+                        BOOL event_state);
 
 void overlapped_io_close(struct overlapped_io *o);
 
@@ -329,6 +329,9 @@ openvpn_execve(const struct argv *a, const struct env_set *es, const unsigned in
  */
 bool
 openvpn_swprintf(wchar_t *const str, const size_t size, const wchar_t *const format, ...);
+
+/* Sleep that can be interrupted by signals and exit event */
+void win32_sleep(const int n);
 
 #endif /* ifndef OPENVPN_WIN32_H */
 #endif /* ifdef _WIN32 */

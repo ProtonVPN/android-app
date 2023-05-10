@@ -1,0 +1,13 @@
+BasedOnStyle: Microsoft
+ColumnLimit: 0
+SortIncludes: Never
+BreakBeforeBinaryOperators: All
+BinPackArguments: False
+BinPackParameters: False
+LambdaBodyIndentation: OuterScope
+IndentCaseBlocks: true
+MaxEmptyLinesToKeep: 3
+BraceWrapping:
+  AfterNamespace: false
+  AfterCaseLabel: true
+  BeforeLambdaBody: true

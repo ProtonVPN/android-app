@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2017-2022 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright 2017 Ribose Inc. All Rights Reserved.
  * Ported from Ribose contributions from Botan.
  *
@@ -17,7 +17,6 @@
 #include "internal/numbers.h"
 #include <openssl/err.h>
 #include <openssl/evp.h>
-#include <openssl/err.h>
 #include <openssl/bn.h>
 #include <string.h>
 

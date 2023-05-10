@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -19,7 +19,7 @@
 //    along with this program in the COPYING file.
 //    If not, see <http://www.gnu.org/licenses/>.
 
-#pragma  once
+#pragma once
 
 #include <openssl/opensslv.h>
 
@@ -32,8 +32,8 @@
 // Instantiate this object to ensure openssl is initialised.
 #ifdef USE_ASIO
 #include <asio/ssl/detail/openssl_init.hpp>
-  typedef asio::ssl::detail::openssl_init<> openssl_init;
+typedef asio::ssl::detail::openssl_init<> openssl_init;
 #else
-  #error no OpenSSL init code (USE_ASIO needed for OpenSSL < 1.1)
+#error no OpenSSL init code (USE_ASIO needed for OpenSSL < 1.1)
 #endif
 #endif

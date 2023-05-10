@@ -4,7 +4,11 @@
 .align	16
 fcrypt_body:
 .L_fcrypt_body_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	pushl	%ebp
 	pushl	%ebx
 	pushl	%esi

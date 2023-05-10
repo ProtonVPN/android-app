@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -47,4 +47,4 @@ void frame_calculate_dynamic(struct frame *frame, struct key_type *kt,
  */
 void frame_adjust_path_mtu(struct context *c);
 
-#endif
+#endif /* ifndef MSS_H */

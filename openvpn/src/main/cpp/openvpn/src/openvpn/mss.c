@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -214,7 +214,7 @@ adjust_payload_max_cbc(const struct key_type *kt, unsigned int target)
     if (!cipher_kt_mode_cbc(kt->cipher))
     {
         /* With stream ciphers (or block cipher in stream modes like CFB, AEAD)
-         * we can just subtract use the target as is */
+         * we can just use the target as is */
         return target;
     }
     else
@@ -234,18 +234,23 @@ get_ip_encap_overhead(const struct options *options,
 {
     /* Add the overhead of the encapsulating IP packets */
     sa_family_t af;
-    if (lsi->lsa)
+    int proto;
+
+    if (lsi && lsi->lsa)
     {
         af = lsi->lsa->actual.dest.addr.sa.sa_family;
+        proto = lsi->proto;
     }
     else
     {
         /* In the early init before the connection is established or we
          * are in listen mode we can only make an educated guess
-         * from the af of the connection entry */
+         * from the af of the connection entry, in p2mp this will be
+         * later updated */
         af = options->ce.af;
+        proto = options->ce.proto;
     }
-    return datagram_overhead(af, lsi->proto);
+    return datagram_overhead(af, proto);
 }
 
 static void
@@ -284,13 +289,21 @@ frame_calculate_mssfix(struct frame *frame, struct key_type *kt,
                        const struct options *options,
                        struct link_socket_info *lsi)
 {
+    if (options->ce.mssfix_fixed)
+    {
+        /* we subtract IPv4 and TCP overhead here, mssfix method will add the
+         * extra 20 for IPv6 */
+        frame->mss_fix = options->ce.mssfix - (20 + 20);
+        return;
+    }
+
     unsigned int overhead, payload_overhead;
 
     overhead = frame_calculate_protocol_header_size(kt, options, false);
 
     /* Calculate the number of bytes that the payload differs from the payload
      * MTU. This are fragment/compression/ethernet headers */
-    payload_overhead = frame_calculate_payload_overhead(frame, options, kt, true);
+    payload_overhead = frame_calculate_payload_overhead(frame->extra_tun, options, kt);
 
     /* We are in a "liberal" position with respect to MSS,
      * i.e. we assume that MSS can be calculated from MTU
@@ -355,9 +368,9 @@ frame_adjust_path_mtu(struct context *c)
     if (pmtu < o->ce.mssfix
         || (o->ce.mssfix_encap && pmtu < o->ce.mssfix + encap_overhead))
     {
-        const char* mtustr = o->ce.mssfix_encap ? " mtu" : "";
-        msg(D_MTU_INFO, "Note adjusting 'mssfix %d %s' to 'mssfix %d mtu' "
-                        "according to path MTU discovery", o->ce.mssfix,
+        const char *mtustr = o->ce.mssfix_encap ? " mtu" : "";
+        msg(D_MTU_INFO, "Note adjusting 'mssfix %d%s' to 'mssfix %d mtu' "
+            "according to path MTU discovery", o->ce.mssfix,
             mtustr, pmtu);
         o->ce.mssfix = pmtu;
         o->ce.mssfix_encap = true;
@@ -365,12 +378,12 @@ frame_adjust_path_mtu(struct context *c)
     }
 
 #if defined(ENABLE_FRAGMENT)
-    if (pmtu < o->ce.fragment ||
-        (o->ce.fragment_encap && pmtu < o->ce.fragment + encap_overhead))
+    if (pmtu < o->ce.fragment
+        || (o->ce.fragment_encap && pmtu < o->ce.fragment + encap_overhead))
     {
-        const char* mtustr = o->ce.fragment_encap ? " mtu" : "";
-        msg(D_MTU_INFO, "Note adjusting 'fragment %d %s' to 'fragment %d mtu' "
-                        "according to path MTU discovery", o->ce.mssfix,
+        const char *mtustr = o->ce.fragment_encap ? " mtu" : "";
+        msg(D_MTU_INFO, "Note adjusting 'fragment %d%s' to 'fragment %d mtu' "
+            "according to path MTU discovery", o->ce.fragment,
             mtustr, pmtu);
         o->ce.fragment = pmtu;
         o->ce.fragment_encap = true;

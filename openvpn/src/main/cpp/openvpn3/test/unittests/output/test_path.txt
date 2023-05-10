@@ -1,0 +1,47 @@
+basename('') = ''
+basename('/') = ''
+basename('/foo') = 'foo'
+basename('/foo/bar') = 'bar'
+basename('foo/bar/boo') = 'boo'
+basename('foo/bar/') = ''
+basename('foo\bar\boo') = 'boo'
+dirname('') = ''
+dirname('/') = '/'
+dirname('/foo') = '/'
+dirname('/foo/bar') = '/foo'
+dirname('foo/bar/boo') = 'foo/bar'
+dirname('foo/bar/') = 'foo/bar'
+dirname('foo\bar\boo') = 'foo\bar'
+is_flat('') = 0
+is_flat('/') = 0
+is_flat('foo.bar') = 1
+is_flat('foo/bar') = 0
+is_flat('c:/foo') = 0
+is_flat('c:foo') = 1
+is_flat('z:\foo') = 0
+is_flat('.') = 0
+is_flat('..') = 0
+is_flat('./foo') = 0
+join('foo', 'bar') = 'foo/bar'
+join('foo', '') = 'foo/'
+join('', 'foo/bar') = 'foo/bar'
+join('', 'bar') = 'bar'
+join('foo', '/bar') = '/bar'
+join('/', 'bar') = '/bar'
+join('', '', 'three') = 'three'
+join('one', 'two', 'three') = 'one/two/three'
+join('one', '/two', 'three') = '/two/three'
+join('one', 'two', 'three', 'four') = 'one/two/three/four'
+join('one', 'two', '', 'four') = 'one/two/four'
+ext('') = ''
+ext('foo') = ''
+ext('foo.bar') = 'bar'
+ext('foo.bar.moo') = 'moo'
+ext('foo.') = ''
+ext('.foo') = 'foo'
+splitjoin p1='' dir='' bn='' p2=''
+splitjoin p1='/' dir='/' bn='' p2='/'
+splitjoin p1='/foo' dir='/' bn='foo' p2='/foo'
+splitjoin p1='/foo/' dir='/foo' bn='' p2='/foo/'
+splitjoin p1='/foo/bar' dir='/foo' bn='bar' p2='/foo/bar'
+splitjoin p1='/foo/bar/' dir='/foo/bar' bn='' p2='/foo/bar/'

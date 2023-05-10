@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -148,6 +148,10 @@ static const OSSL_ALGORITHM deflt_digests[] = {
     { PROV_NAMES_MD5_SHA1, "provider=default", ossl_md5_sha1_functions },
 #endif /* OPENSSL_NO_MD5 */
 
+#ifndef OPENSSL_NO_RMD160
+    { PROV_NAMES_RIPEMD_160, "provider=default", ossl_ripemd160_functions },
+#endif /* OPENSSL_NO_RMD160 */
+
     { PROV_NAMES_NULL, "provider=default", ossl_nullmd_functions },
     { NULL, NULL, NULL }
 };
@@ -285,6 +289,8 @@ static const OSSL_ALGORITHM_CAPABLE deflt_ciphers[] = {
     ALG(PROV_NAMES_DES_EDE_CFB, ossl_tdes_ede2_cfb_functions),
 #endif /* OPENSSL_NO_DES */
 #ifndef OPENSSL_NO_SM4
+    ALG(PROV_NAMES_SM4_GCM, ossl_sm4128gcm_functions),
+    ALG(PROV_NAMES_SM4_CCM, ossl_sm4128ccm_functions),
     ALG(PROV_NAMES_SM4_ECB, ossl_sm4128ecb_functions),
     ALG(PROV_NAMES_SM4_CBC, ossl_sm4128cbc_functions),
     ALG(PROV_NAMES_SM4_CTR, ossl_sm4128ctr_functions),

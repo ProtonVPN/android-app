@@ -33,20 +33,8 @@ const char *auth_token_pem_name = "OpenVPN auth-token server key";
 static struct key_type
 auth_token_kt(void)
 {
-    struct key_type kt = { 0 };
-    /* We do not encrypt our session tokens */
-    kt.cipher = "none";
-    kt.digest = "SHA256";
-
-    if (!kt.digest)
-    {
-        msg(M_WARN, "ERROR: --tls-crypt requires HMAC-SHA-256 support.");
-        return (struct key_type) { 0 };
-    }
-
-    return kt;
+    return create_kt("none", "SHA256", "auth-gen-token");
 }
-
 
 void
 add_session_token_env(struct tls_session *session, struct tls_multi *multi,
@@ -186,7 +174,7 @@ generate_auth_token(const struct user_pass *up, struct tls_multi *multi)
 
     if (multi->auth_token_initial)
     {
-        /* Just enough space to fit 8 bytes+ 1 extra to decode a non padded
+        /* Just enough space to fit 8 bytes+ 1 extra to decode a non-padded
          * base64 string (multiple of 3 bytes). 9 bytes => 12 bytes base64
          * bytes
          */
@@ -336,8 +324,14 @@ verify_auth_token(struct user_pass *up, struct tls_multi *multi,
     const uint8_t *tstamp_initial = sessid + AUTH_TOKEN_SESSION_ID_LEN;
     const uint8_t *tstamp = tstamp_initial + sizeof(int64_t);
 
-    uint64_t timestamp = ntohll(*((uint64_t *) (tstamp)));
-    uint64_t timestamp_initial = ntohll(*((uint64_t *) (tstamp_initial)));
+    /* tstamp, tstamp_initial might not be aligned to an uint64, use memcpy
+     * to avoid unaligned access */
+    uint64_t timestamp = 0, timestamp_initial = 0;
+    memcpy(&timestamp, tstamp, sizeof(uint64_t));
+    timestamp = ntohll(timestamp);
+
+    memcpy(&timestamp_initial, tstamp_initial, sizeof(uint64_t));
+    timestamp_initial = ntohll(timestamp_initial);
 
     hmac_ctx_t *ctx = multi->opt.auth_token_key.hmac;
     if (check_hmac_token(ctx, b64decoded, up->username))
@@ -358,20 +352,22 @@ verify_auth_token(struct user_pass *up, struct tls_multi *multi,
         return 0;
     }
 
-    /* Accept session tokens that not expired are in the acceptable range
-     * for renogiations */
+    /* Accept session tokens only if their timestamp is in the acceptable range
+     * for renegotiations */
     bool in_renegotiation_time = now >= timestamp
-                                 && now < timestamp + 2 * session->opt->renegotiate_seconds;
+                                 && now < timestamp + 2 * session->opt->auth_token_renewal;
 
     if (!in_renegotiation_time)
     {
+        msg(M_WARN, "Timestamp (%" PRIu64 ") of auth-token is out of the renewal window",
+            timestamp);
         ret |= AUTH_TOKEN_EXPIRED;
     }
 
     /* Sanity check the initial timestamp */
     if (timestamp < timestamp_initial)
     {
-        msg(M_WARN, "Initial timestamp (%" PRIu64 " in token from client earlier than "
+        msg(M_WARN, "Initial timestamp (%" PRIu64 ") in token from client earlier than "
             "current timestamp %" PRIu64 ". Broken/unsynchronised clock?",
             timestamp_initial, timestamp);
         ret |= AUTH_TOKEN_EXPIRED;
@@ -399,7 +395,7 @@ verify_auth_token(struct user_pass *up, struct tls_multi *multi,
                                 strlen(SESSION_ID_PREFIX) + AUTH_TOKEN_SESSION_ID_BASE64_LEN))
     {
         msg(M_WARN, "--auth-gen-token: session id in token changed (Rejecting "
-                    "token.");
+            "token.");
         ret = 0;
     }
     return ret;
@@ -427,6 +423,44 @@ wipe_auth_token(struct tls_multi *multi)
 }
 
 void
+check_send_auth_token(struct context *c)
+{
+    struct tls_multi *multi = c->c2.tls_multi;
+    struct tls_session *session = &multi->session[TM_ACTIVE];
+
+    if (get_primary_key(multi)->state < S_GENERATED_KEYS
+        || get_primary_key(multi)->authenticated != KS_AUTH_TRUE)
+    {
+        /* the currently active session is still in renegotiation or another
+         * not fully authorized state. We are either very close to a
+         * renegotiation or have deauthorized the client. In both cases
+         * we just ignore the request to send another token
+         */
+        return;
+    }
+
+    if (!multi->auth_token_initial)
+    {
+        msg(D_SHOW_KEYS, "initial auth-token not generated yet, skipping "
+            "auth-token renewal.");
+        return;
+    }
+
+    if (!multi->locked_username)
+    {
+        msg(D_SHOW_KEYS, "username not locked, skipping auth-token renewal.");
+        return;
+    }
+
+    struct user_pass up;
+    strncpynt(up.username, multi->locked_username, sizeof(up.username));
+
+    generate_auth_token(&up, multi);
+
+    resend_auth_token_renegotiation(multi, session);
+}
+
+void
 resend_auth_token_renegotiation(struct tls_multi *multi, struct tls_session *session)
 {
     /*
@@ -434,12 +468,10 @@ resend_auth_token_renegotiation(struct tls_multi *multi, struct tls_session *ses
      * The initial auth-token is sent as part of the push message, for this
      * update we need to schedule an extra push message.
      *
-     * Otherwise the auth-token get pushed out as part of the "normal"
+     * Otherwise, the auth-token get pushed out as part of the "normal"
      * push-reply
      */
-    bool is_renegotiation = session->key[KS_PRIMARY].key_id != 0;
-
-    if (multi->auth_token_initial && is_renegotiation)
+    if (multi->auth_token_initial)
     {
         /*
          * We do not explicitly reschedule the sending of the

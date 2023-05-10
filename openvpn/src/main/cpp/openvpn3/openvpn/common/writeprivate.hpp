@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -47,51 +47,51 @@ namespace openvpn {
 
 #if defined(OPENVPN_PLATFORM_WIN)
 
-  inline void write_private(const std::string& path, const void *buf, size_t count)
-  {
+inline void write_private(const std::string &path, const void *buf, size_t count)
+{
     OPENVPN_THROW_EXCEPTION("write_private('" << path << "') : not implemented on Windows yet");
-  }
+}
 
 #else
 
-  inline void write_private(const std::string& path, const void *buf, ssize_t count)
-  {
-    ScopedFD fd(::open(path.c_str(), O_WRONLY|O_CREAT|O_CLOEXEC, S_IRUSR|S_IWUSR));
+inline void write_private(const std::string &path, const void *buf, ssize_t count)
+{
+    ScopedFD fd(::open(path.c_str(), O_WRONLY | O_CREAT | O_CLOEXEC, S_IRUSR | S_IWUSR));
     if (!fd.defined())
-      {
-	const int eno = errno;
-	OPENVPN_THROW_EXCEPTION(path << " : open error : " << strerror_str(eno));
-      }
+    {
+        const int eno = errno;
+        OPENVPN_THROW_EXCEPTION(path << " : open error : " << strerror_str(eno));
+    }
     if (::ftruncate(fd(), 0) < 0)
-      {
-	const int eno = errno;
-	OPENVPN_THROW_EXCEPTION(path << " : truncate error : " << strerror_str(eno));
-      }
+    {
+        const int eno = errno;
+        OPENVPN_THROW_EXCEPTION(path << " : truncate error : " << strerror_str(eno));
+    }
     const ssize_t len = write_retry(fd(), buf, count);
     if (len == -1)
-      {
-	const int eno = errno;
-	OPENVPN_THROW_EXCEPTION(path << " : write error : " << strerror_str(eno));
-      }
+    {
+        const int eno = errno;
+        OPENVPN_THROW_EXCEPTION(path << " : write error : " << strerror_str(eno));
+    }
     else if (len != count)
-      OPENVPN_THROW_EXCEPTION(path << " : unexpected write size");
+        OPENVPN_THROW_EXCEPTION(path << " : unexpected write size");
     if (!fd.close())
-      {
-	const int eno = errno;
-	OPENVPN_THROW_EXCEPTION(path << " : close error : " << strerror_str(eno));
-      }
-  }
+    {
+        const int eno = errno;
+        OPENVPN_THROW_EXCEPTION(path << " : close error : " << strerror_str(eno));
+    }
+}
 
 #endif
 
-  inline void write_private(const std::string& path, const Buffer& buf)
-  {
+inline void write_private(const std::string &path, const Buffer &buf)
+{
     write_private(path, buf.c_data(), buf.size());
-  }
-
-  inline void write_private(const std::string& path, const std::string& str)
-  {
-    write_private(path, str.c_str(), str.length());
-  }
-
 }
+
+inline void write_private(const std::string &path, const std::string &str)
+{
+    write_private(path, str.c_str(), str.length());
+}
+
+} // namespace openvpn

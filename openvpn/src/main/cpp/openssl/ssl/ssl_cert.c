@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2023 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
@@ -24,6 +24,16 @@
 #include "ssl_local.h"
 #include "ssl_cert_table.h"
 #include "internal/thread_once.h"
+#ifndef OPENSSL_NO_POSIX_IO
+# include <sys/stat.h>
+# ifdef _WIN32
+#  define stat _stat
+# endif
+#endif
+
+#ifndef S_ISDIR
+# define S_ISDIR(a) (((a) & S_IFMT) == S_IFDIR)
+#endif
 
 static int ssl_security_default_callback(const SSL *s, const SSL_CTX *ctx,
                                          int op, int bits, int nid, void *other,
@@ -751,6 +761,7 @@ int SSL_add_dir_cert_subjects_to_stack(STACK_OF(X509_NAME) *stack,
     while ((filename = OPENSSL_DIR_read(&d, dir))) {
         char buf[1024];
         int r;
+        struct stat st;
 
         if (strlen(dir) + strlen(filename) + 2 > sizeof(buf)) {
             ERR_raise(ERR_LIB_SSL, SSL_R_PATH_TOO_LONG);
@@ -761,6 +772,9 @@ int SSL_add_dir_cert_subjects_to_stack(STACK_OF(X509_NAME) *stack,
 #else
         r = BIO_snprintf(buf, sizeof(buf), "%s/%s", dir, filename);
 #endif
+        /* Skip subdirectories */
+        if (!stat(buf, &st) && S_ISDIR(st.st_mode))
+            continue;
         if (r <= 0 || r >= (int)sizeof(buf))
             goto err;
         if (!SSL_add_file_cert_subjects_to_stack(stack, buf))
@@ -971,6 +985,12 @@ int ssl_cert_set_cert_store(CERT *c, X509_STORE *store, int chain, int ref)
     return 1;
 }
 
+int ssl_cert_get_cert_store(CERT *c, X509_STORE **pstore, int chain)
+{
+    *pstore = (chain ? c->chain_store : c->verify_store);
+    return 1;
+}
+
 int ssl_get_security_level_bits(const SSL *s, const SSL_CTX *ctx, int *levelp)
 {
     int level;
@@ -1001,7 +1021,7 @@ static int ssl_security_default_callback(const SSL *s, const SSL_CTX *ctx,
                                          int op, int bits, int nid, void *other,
                                          void *ex)
 {
-    int level, minbits;
+    int level, minbits, pfs_mask;
 
     minbits = ssl_get_security_level_bits(s, ctx, &level);
 
@@ -1036,25 +1056,20 @@ static int ssl_security_default_callback(const SSL *s, const SSL_CTX *ctx,
             if (level >= 2 && c->algorithm_enc == SSL_RC4)
                 return 0;
             /* Level 3: forward secure ciphersuites only */
+            pfs_mask = SSL_kDHE | SSL_kECDHE | SSL_kDHEPSK | SSL_kECDHEPSK;
             if (level >= 3 && c->min_tls != TLS1_3_VERSION &&
-                               !(c->algorithm_mkey & (SSL_kEDH | SSL_kEECDH)))
+                               !(c->algorithm_mkey & pfs_mask))
                 return 0;
             break;
         }
     case SSL_SECOP_VERSION:
         if (!SSL_IS_DTLS(s)) {
-            /* SSLv3 not allowed at level 2 */
-            if (nid <= SSL3_VERSION && level >= 2)
-                return 0;
-            /* TLS v1.1 and above only for level 3 */
-            if (nid <= TLS1_VERSION && level >= 3)
-                return 0;
-            /* TLS v1.2 only for level 4 and above */
-            if (nid <= TLS1_1_VERSION && level >= 4)
+            /* SSLv3, TLS v1.0 and TLS v1.1 only allowed at level 0 */
+            if (nid <= TLS1_1_VERSION && level > 0)
                 return 0;
         } else {
-            /* DTLS v1.2 only for level 4 and above */
-            if (DTLS_VERSION_LT(nid, DTLS1_2_VERSION) && level >= 4)
+            /* DTLS v1.0 only allowed at level 0 */
+            if (DTLS_VERSION_LT(nid, DTLS1_2_VERSION) && level > 0)
                 return 0;
         }
         break;

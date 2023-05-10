@@ -4,7 +4,11 @@
 .align	16
 bn_mul_add_words:
 .L_bn_mul_add_words_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	call	.L000PIC_me_up
 .L000PIC_me_up:
 	popl	%eax
@@ -288,7 +292,11 @@ bn_mul_add_words:
 .align	16
 bn_mul_words:
 .L_bn_mul_words_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	call	.L010PIC_me_up
 .L010PIC_me_up:
 	popl	%eax
@@ -471,7 +479,11 @@ bn_mul_words:
 .align	16
 bn_sqr_words:
 .L_bn_sqr_words_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	call	.L017PIC_me_up
 .L017PIC_me_up:
 	popl	%eax
@@ -613,7 +625,11 @@ bn_sqr_words:
 .align	16
 bn_div_words:
 .L_bn_div_words_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	movl	4(%esp),%edx
 	movl	8(%esp),%eax
 	movl	12(%esp),%ecx
@@ -625,7 +641,11 @@ bn_div_words:
 .align	16
 bn_add_words:
 .L_bn_add_words_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	pushl	%ebp
 	pushl	%ebx
 	pushl	%esi
@@ -808,7 +828,11 @@ bn_add_words:
 .align	16
 bn_sub_words:
 .L_bn_sub_words_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	pushl	%ebp
 	pushl	%ebx
 	pushl	%esi
@@ -991,7 +1015,11 @@ bn_sub_words:
 .align	16
 bn_sub_part_words:
 .L_bn_sub_part_words_begin:
+	#ifdef __CET__
+
 .byte	243,15,30,251
+	#endif
+
 	pushl	%ebp
 	pushl	%ebx
 	pushl	%esi

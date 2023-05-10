@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -30,23 +30,23 @@
 #include <openvpn/common/size.hpp>
 
 namespace openvpn {
-  inline size_t buf_clamp_read(const size_t size)
-  {
+inline size_t buf_clamp_read(const size_t size)
+{
 #ifdef OPENVPN_BUF_CLAMP_READ
     return std::min(size, size_t(OPENVPN_BUF_CLAMP_READ));
 #else
     return size;
 #endif
-  }
+}
 
-  inline size_t buf_clamp_write(const size_t size)
-  {
+inline size_t buf_clamp_write(const size_t size)
+{
 #ifdef OPENVPN_BUF_CLAMP_WRITE
     return std::min(size, size_t(OPENVPN_BUF_CLAMP_WRITE));
 #else
     return size;
 #endif
-  }
 }
+} // namespace openvpn
 
 #endif

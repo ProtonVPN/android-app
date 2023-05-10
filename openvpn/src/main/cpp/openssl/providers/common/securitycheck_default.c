@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -18,6 +18,12 @@
 
 /* Disable the security checks in the default provider */
 int ossl_securitycheck_enabled(OSSL_LIB_CTX *libctx)
+{
+    return 0;
+}
+
+/* Disable the ems check in the default provider */
+int ossl_tls1_prf_ems_check_enabled(OSSL_LIB_CTX *libctx)
 {
     return 0;
 }

@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -273,7 +273,7 @@ buf_puts(struct buffer *buf, const char *str)
     int cap = buf_forward_capacity(buf);
     if (cap > 0)
     {
-        strncpynt((char *)ptr,str, cap);
+        strncpynt((char *)ptr, str, cap);
         *(buf->data + buf->capacity - 1) = 0; /* windows vsnprintf needs this */
         buf->len += (int) strlen((char *)ptr);
         ret = true;
@@ -409,6 +409,39 @@ gc_malloc(size_t size, bool clear, struct gc_arena *a)
     if (clear)
 #endif
     memset(ret, 0, size);
+    return ret;
+}
+
+void *
+gc_realloc(void *ptr, size_t size, struct gc_arena *a)
+{
+    void *ret = realloc(ptr, size);
+    check_malloc_return(ret);
+    if (a)
+    {
+        if (ptr && ptr != ret)
+        {
+            /* find the old entry and modify it if realloc changed
+             * the pointer */
+            struct gc_entry_special *e = NULL;
+            for (e = a->list_special; e != NULL; e = e->next)
+            {
+                if (e->addr == ptr)
+                {
+                    break;
+                }
+            }
+            ASSERT(e);
+            ASSERT(e->addr == ptr);
+            e->addr = ret;
+        }
+        else if (!ptr)
+        {
+            /* sets e->addr to newptr */
+            gc_addspecial(ret, free, a);
+        }
+    }
+
     return ret;
 }
 

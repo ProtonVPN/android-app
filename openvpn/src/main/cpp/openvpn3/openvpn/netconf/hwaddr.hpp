@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -38,27 +38,27 @@
 #endif
 
 namespace openvpn {
-  inline std::string get_hwaddr()
-  {
+inline std::string get_hwaddr()
+{
 #if defined(OPENVPN_PLATFORM_WIN) && !defined(OPENVPN_PLATFORM_UWP)
     const TunWin::Util::BestGateway dg;
     if (dg.defined())
-      {
-	const TunWin::Util::IPAdaptersInfo ai_list;
-	const IP_ADAPTER_INFO* ai = ai_list.adapter(dg.interface_index());
-	if (ai)
-	  {
-	    const MACAddr mac(ai->Address);
-	    return mac.to_string();
-	  }
-      }
+    {
+        const TunWin::Util::IPAdaptersInfo ai_list;
+        const IP_ADAPTER_INFO *ai = ai_list.adapter(dg.interface_index());
+        if (ai)
+        {
+            const MACAddr mac(ai->Address);
+            return mac.to_string();
+        }
+    }
 #elif defined(OPENVPN_PLATFORM_MAC)
     const MacGatewayInfoV4 gw;
     if (gw.hwaddr_defined())
-      {
-	const MACAddr& mac = gw.hwaddr();
-	return mac.to_string();
-      }
+    {
+        const MACAddr &mac = gw.hwaddr();
+        return mac.to_string();
+    }
 #elif defined(TARGET_OS_IPHONE)
     // as reported at https://developer.apple.com/library/content/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW34
     // we can't get the MAC address from iOS for privacy reasons, but we can
@@ -68,7 +68,7 @@ namespace openvpn {
     return std::string([uuid UTF8String]);
 #endif
     return std::string();
-  }
 }
+} // namespace openvpn
 
 #endif

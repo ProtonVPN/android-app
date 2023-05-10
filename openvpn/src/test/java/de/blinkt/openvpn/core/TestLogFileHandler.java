@@ -80,6 +80,27 @@ public class TestLogFileHandler {
         Assert.assertEquals(li, li2);
     }
 
+    @Test
+    public void testLogInsertByTime()
+    {
+        VpnStatus vpnStatus = new VpnStatus();
+        /* Add the generic information message */
+        VpnStatus.clearLog();
+
+        long[] testTimes = {1000, 20000, 1500, 500, 6000, 70000, System.currentTimeMillis()+5000};
+        for (long time: testTimes) {
+            LogItem li = new LogItem(VpnStatus.LogLevel.INFO, "unit test", time);
+            VpnStatus.newLogItemIfUnique(li);
+        }
+
+        long lastlogTime = 0;
+        for(LogItem li:VpnStatus.getlogbuffer())
+        {
+            org.junit.Assert.assertTrue(li.getLogtime() >= lastlogTime);
+            lastlogTime = li.getLogtime();
+        }
+    }
+
 
     private void testEquals(LogItem li, LogItem li2) {
         Assert.assertEquals(li.getLogLevel(), li2.getLogLevel());
@@ -119,6 +140,5 @@ public class TestLogFileHandler {
             mRestoredByteArray = Arrays.copyOf(buf, len);
         }
     }
-
 
 }

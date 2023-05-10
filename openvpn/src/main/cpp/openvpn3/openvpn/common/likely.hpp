@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -25,11 +25,11 @@
 // Branch prediction hints (these make a difference on ARM)
 #if !defined(likely) && !defined(unlikely)
 #if defined(__GNUC__)
-# define likely(x)    __builtin_expect((x),1)
-# define unlikely(x)  __builtin_expect((x),0)
+#define likely(x) __builtin_expect((x), 1)
+#define unlikely(x) __builtin_expect((x), 0)
 #else
-# define likely(x)    (x)
-# define unlikely(x)  (x)
+#define likely(x) (x)
+#define unlikely(x) (x)
 #endif
 #endif
 

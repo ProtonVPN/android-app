@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -30,39 +30,40 @@
 
 namespace openvpn {
 
-  struct IPv4Header
-  {
+struct IPv4Header
+{
     static unsigned int length(const std::uint8_t version_len)
     {
-      return (version_len & 0x0F) << 2;
+        return (version_len & 0x0F) << 2;
     }
 
     static std::uint8_t ver_len(const unsigned int version,
-				const unsigned int len)
+                                const unsigned int len)
     {
-      return ((len >> 2) & 0x0F) | (version & 0x0F) << 4;
+        return static_cast<uint8_t>(((len >> 2) & 0x0F) | (version & 0x0F) << 4);
     }
 
-    std::uint8_t    version_len;
+    std::uint8_t version_len;
 
-    std::uint8_t    tos;
-    std::uint16_t   tot_len;
-    std::uint16_t   id;
+    std::uint8_t tos;
+    std::uint16_t tot_len;
+    std::uint16_t id;
 
-    enum {
-      OFFMASK=0x1fff,
+    enum
+    {
+        OFFMASK = 0x1fff,
     };
-    std::uint16_t   frag_off;
+    std::uint16_t frag_off;
 
-    std::uint8_t    ttl;
+    std::uint8_t ttl;
 
-    std::uint8_t    protocol;
+    std::uint8_t protocol;
 
-    std::uint16_t   check;
-    std::uint32_t   saddr;
-    std::uint32_t   daddr;
+    std::uint16_t check;
+    std::uint32_t saddr;
+    std::uint32_t daddr;
     /* The options start here. */
-  };
-}
+};
+} // namespace openvpn
 
 #pragma pack(pop)

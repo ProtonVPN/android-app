@@ -2,7 +2,7 @@
 // bind_executor.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2021 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -486,7 +486,7 @@ private:
 
 /// Associate an object of type @c T with an executor of type @c Executor.
 template <typename Executor, typename T>
-inline executor_binder<typename decay<T>::type, Executor>
+ASIO_NODISCARD inline executor_binder<typename decay<T>::type, Executor>
 bind_executor(const Executor& ex, ASIO_MOVE_ARG(T) t,
     typename constraint<
       is_executor<Executor>::value || execution::is_executor<Executor>::value
@@ -498,7 +498,7 @@ bind_executor(const Executor& ex, ASIO_MOVE_ARG(T) t,
 
 /// Associate an object of type @c T with an execution context's executor.
 template <typename ExecutionContext, typename T>
-inline executor_binder<typename decay<T>::type,
+ASIO_NODISCARD inline executor_binder<typename decay<T>::type,
   typename ExecutionContext::executor_type>
 bind_executor(ExecutionContext& ctx, ASIO_MOVE_ARG(T) t,
     typename constraint<is_convertible<
@@ -518,20 +518,40 @@ struct uses_executor<executor_binder<T, Executor>, Executor>
 namespace detail {
 
 template <typename TargetAsyncResult, typename Executor, typename = void>
-struct executor_binder_async_result_completion_handler_type
+class executor_binder_completion_handler_async_result
 {
+public:
+  template <typename T>
+  explicit executor_binder_completion_handler_async_result(T&)
+  {
+  }
 };
 
 template <typename TargetAsyncResult, typename Executor>
-struct executor_binder_async_result_completion_handler_type<
+class executor_binder_completion_handler_async_result<
   TargetAsyncResult, Executor,
   typename void_type<
     typename TargetAsyncResult::completion_handler_type
   >::type>
 {
+public:
   typedef executor_binder<
     typename TargetAsyncResult::completion_handler_type, Executor>
       completion_handler_type;
+
+  explicit executor_binder_completion_handler_async_result(
+      typename TargetAsyncResult::completion_handler_type& handler)
+    : target_(handler)
+  {
+  }
+
+  typename TargetAsyncResult::return_type get()
+  {
+    return target_.get();
+  }
+
+private:
+  TargetAsyncResult target_;
 };
 
 template <typename TargetAsyncResult, typename = void>
@@ -553,20 +573,16 @@ struct executor_binder_async_result_return_type<
 
 template <typename T, typename Executor, typename Signature>
 class async_result<executor_binder<T, Executor>, Signature> :
-  public detail::executor_binder_async_result_completion_handler_type<
+  public detail::executor_binder_completion_handler_async_result<
     async_result<T, Signature>, Executor>,
   public detail::executor_binder_async_result_return_type<
     async_result<T, Signature> >
 {
 public:
   explicit async_result(executor_binder<T, Executor>& b)
-    : target_(b.get())
+    : detail::executor_binder_completion_handler_async_result<
+        async_result<T, Signature>, Executor>(b.get())
   {
-  }
-
-  typename async_result<T, Signature>::return_type get()
-  {
-    return target_.get();
   }
 
   template <typename Initiation>
@@ -659,9 +675,10 @@ public:
 
   template <typename Initiation, typename RawCompletionToken, typename... Args>
   static ASIO_INITFN_DEDUCED_RESULT_TYPE(T, Signature,
-    (async_result<T, Signature>::initiate(
+    (async_initiate<T, Signature>(
         declval<init_wrapper<typename decay<Initiation>::type> >(),
-        declval<T>(), declval<ASIO_MOVE_ARG(Args)>()...)))
+        declval<RawCompletionToken>().get(),
+        declval<ASIO_MOVE_ARG(Args)>()...)))
   initiate(
       ASIO_MOVE_ARG(Initiation) initiation,
       ASIO_MOVE_ARG(RawCompletionToken) token,
@@ -677,9 +694,9 @@ public:
 
   template <typename Initiation, typename RawCompletionToken>
   static ASIO_INITFN_DEDUCED_RESULT_TYPE(T, Signature,
-    (async_result<T, Signature>::initiate(
+    (async_initiate<T, Signature>(
         declval<init_wrapper<typename decay<Initiation>::type> >(),
-        declval<T>())))
+        declval<RawCompletionToken>().get())))
   initiate(
       ASIO_MOVE_ARG(Initiation) initiation,
       ASIO_MOVE_ARG(RawCompletionToken) token)
@@ -694,9 +711,10 @@ public:
   template <typename Initiation, typename RawCompletionToken, \
       ASIO_VARIADIC_TPARAMS(n)> \
   static ASIO_INITFN_DEDUCED_RESULT_TYPE(T, Signature, \
-    (async_result<T, Signature>::initiate( \
+    (async_initiate<T, Signature>( \
         declval<init_wrapper<typename decay<Initiation>::type> >(), \
-        declval<T>(), ASIO_VARIADIC_MOVE_DECLVAL(n)))) \
+        declval<RawCompletionToken>().get(), \
+        ASIO_VARIADIC_MOVE_DECLVAL(n)))) \
   initiate( \
       ASIO_MOVE_ARG(Initiation) initiation, \
       ASIO_MOVE_ARG(RawCompletionToken) token, \
@@ -716,18 +734,25 @@ public:
 private:
   async_result(const async_result&) ASIO_DELETED;
   async_result& operator=(const async_result&) ASIO_DELETED;
-
-  async_result<T, Signature> target_;
 };
 
 template <template <typename, typename> class Associator,
     typename T, typename Executor, typename DefaultCandidate>
 struct associator<Associator, executor_binder<T, Executor>, DefaultCandidate>
+  : Associator<T, DefaultCandidate>
 {
-  typedef typename Associator<T, DefaultCandidate>::type type;
+  static typename Associator<T, DefaultCandidate>::type
+  get(const executor_binder<T, Executor>& b) ASIO_NOEXCEPT
+  {
+    return Associator<T, DefaultCandidate>::get(b.get());
+  }
 
-  static type get(const executor_binder<T, Executor>& b,
-      const DefaultCandidate& c = DefaultCandidate()) ASIO_NOEXCEPT
+  static ASIO_AUTO_RETURN_TYPE_PREFIX2(
+      typename Associator<T, DefaultCandidate>::type)
+  get(const executor_binder<T, Executor>& b,
+      const DefaultCandidate& c) ASIO_NOEXCEPT
+    ASIO_AUTO_RETURN_TYPE_SUFFIX((
+      Associator<T, DefaultCandidate>::get(b.get(), c)))
   {
     return Associator<T, DefaultCandidate>::get(b.get(), c);
   }
@@ -738,8 +763,10 @@ struct associated_executor<executor_binder<T, Executor>, Executor1>
 {
   typedef Executor type;
 
-  static type get(const executor_binder<T, Executor>& b,
+  static ASIO_AUTO_RETURN_TYPE_PREFIX(type) get(
+      const executor_binder<T, Executor>& b,
       const Executor1& = Executor1()) ASIO_NOEXCEPT
+    ASIO_AUTO_RETURN_TYPE_SUFFIX((b.get_executor()))
   {
     return b.get_executor();
   }

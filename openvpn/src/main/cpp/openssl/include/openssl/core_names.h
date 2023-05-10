@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -21,11 +21,12 @@ extern "C" {
 #define OSSL_PROV_PARAM_CORE_MODULE_FILENAME "module-filename" /* utf8_ptr */
 
 /* Well known parameter names that Providers can define */
-#define OSSL_PROV_PARAM_NAME            "name"                /* utf8_string */
-#define OSSL_PROV_PARAM_VERSION         "version"             /* utf8_string */
-#define OSSL_PROV_PARAM_BUILDINFO       "buildinfo"           /* utf8_string */
-#define OSSL_PROV_PARAM_STATUS          "status"              /* uint */
-#define OSSL_PROV_PARAM_SECURITY_CHECKS "security-checks"     /* uint */
+#define OSSL_PROV_PARAM_NAME               "name"                /* utf8_ptr */
+#define OSSL_PROV_PARAM_VERSION            "version"             /* utf8_ptr */
+#define OSSL_PROV_PARAM_BUILDINFO          "buildinfo"           /* utf8_ptr */
+#define OSSL_PROV_PARAM_STATUS             "status"              /* uint */
+#define OSSL_PROV_PARAM_SECURITY_CHECKS    "security-checks"     /* uint */
+#define OSSL_PROV_PARAM_TLS1_PRF_EMS_CHECK "tls1-prf-ems-check"  /* uint */
 
 /* Self test callback parameters */
 #define OSSL_PROV_PARAM_SELF_TEST_PHASE  "st-phase" /* utf8_string */
@@ -217,6 +218,7 @@ extern "C" {
 #define OSSL_KDF_PARAM_PKCS12_ID    "id"        /* int */
 #define OSSL_KDF_PARAM_KBKDF_USE_L  "use-l"             /* int */
 #define OSSL_KDF_PARAM_KBKDF_USE_SEPARATOR  "use-separator"     /* int */
+#define OSSL_KDF_PARAM_KBKDF_R      "r"         /* int */
 #define OSSL_KDF_PARAM_X942_ACVPINFO        "acvp-info"
 #define OSSL_KDF_PARAM_X942_PARTYUINFO      "partyu-info"
 #define OSSL_KDF_PARAM_X942_PARTYVINFO      "partyv-info"
@@ -397,6 +399,7 @@ extern "C" {
 #define OSSL_PKEY_RSA_PSS_SALT_LEN_DIGEST "digest"
 #define OSSL_PKEY_RSA_PSS_SALT_LEN_MAX    "max"
 #define OSSL_PKEY_RSA_PSS_SALT_LEN_AUTO   "auto"
+#define OSSL_PKEY_RSA_PSS_SALT_LEN_AUTO_DIGEST_MAX "auto-digestmax"
 
 /* Key generation parameters */
 #define OSSL_PKEY_PARAM_RSA_BITS             OSSL_PKEY_PARAM_BITS

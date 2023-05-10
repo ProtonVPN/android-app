@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2021 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -39,279 +39,289 @@
 static int lastindex = 94;
 inline int BIO_get_new_index(void)
 {
-  int newval = lastindex | BIO_TYPE_SOURCE_SINK;
-  lastindex++;
-  return newval;
+    int newval = lastindex | BIO_TYPE_SOURCE_SINK;
+    lastindex++;
+    return newval;
 }
 
 inline BIO_METHOD *BIO_meth_new(int type, const char *name)
 {
-  BIO_METHOD *biom = new BIO_METHOD();
+    BIO_METHOD *biom = new BIO_METHOD();
 
-  if ((biom->name = OPENSSL_strdup(name)) == nullptr)
+    if ((biom->name = OPENSSL_strdup(name)) == nullptr)
     {
-      delete biom;
-      BIOerr(BIO_F_BIO_NEW, ERR_R_MALLOC_FAILURE);
-      return nullptr;
+        delete biom;
+        BIOerr(BIO_F_BIO_NEW, ERR_R_MALLOC_FAILURE);
+        return nullptr;
     }
-  biom->type = type;
-  return biom;
+    biom->type = type;
+    return biom;
 }
 
 inline void BIO_meth_free(BIO_METHOD *biom)
 {
-  if (biom != nullptr)
+    if (biom != nullptr)
     {
-      OPENSSL_free((void *)biom->name);
-      delete biom;
+        OPENSSL_free((void *)biom->name);
+        delete biom;
     }
 }
 
 inline RSA_METHOD *RSA_meth_new(const char *name, int flags)
 {
-  RSA_METHOD *meth = new RSA_METHOD();
+    RSA_METHOD *meth = new RSA_METHOD();
 
-  meth->flags = flags;
-  meth->name = name;
+    meth->flags = flags;
+    meth->name = name;
 
-  return meth;
+    return meth;
 }
 
 inline void RSA_meth_free(RSA_METHOD *meth)
 {
-  delete meth;
+    delete meth;
 }
 
 inline HMAC_CTX *HMAC_CTX_new()
 {
-  HMAC_CTX *ctx = new HMAC_CTX();
-  HMAC_CTX_init(ctx);
-  return ctx;
+    HMAC_CTX *ctx = new HMAC_CTX();
+    HMAC_CTX_init(ctx);
+    return ctx;
 }
 
 inline void HMAC_CTX_free(HMAC_CTX *ctx)
 {
-  if (ctx) {
-    HMAC_CTX_cleanup(ctx);
-    delete ctx;
-  }
+    if (ctx)
+    {
+        HMAC_CTX_cleanup(ctx);
+        delete ctx;
+    }
 }
 
 inline EVP_MD_CTX *EVP_MD_CTX_new()
 {
-  return new EVP_MD_CTX();
+    return new EVP_MD_CTX();
 }
 
 inline void EVP_MD_CTX_free(EVP_MD_CTX *ctx)
 {
-  delete ctx;
+    delete ctx;
 }
 
 inline void BIO_set_shutdown(BIO *a, int shut)
 {
-  a->shutdown = shut;
+    a->shutdown = shut;
 }
 
 inline int BIO_get_shutdown(BIO *a)
 {
-  return a->shutdown;
+    return a->shutdown;
 }
 
 inline void BIO_set_data(BIO *a, void *ptr)
 {
-  a->ptr = ptr;
+    a->ptr = ptr;
 }
 
 inline void *BIO_get_data(BIO *a)
 {
-  return a->ptr;
+    return a->ptr;
 }
 
 inline void BIO_set_init(BIO *a, int init)
 {
-  a->init = init;
+    a->init = init;
 }
 
 inline int BIO_get_init(BIO *a)
 {
-  return a->init;
+    return a->init;
 }
 
 inline int BIO_meth_set_write(BIO_METHOD *biom,
-			      int (*bwrite)(BIO *, const char *, int))
+                              int (*bwrite)(BIO *, const char *, int))
 {
-  biom->bwrite = bwrite;
-  return 1;
+    biom->bwrite = bwrite;
+    return 1;
 }
 
 inline int BIO_meth_set_read(BIO_METHOD *biom,
-			     int (*bread)(BIO *, char *, int))
+                             int (*bread)(BIO *, char *, int))
 {
-  biom->bread = bread;
-  return 1;
+    biom->bread = bread;
+    return 1;
 }
 
 inline int BIO_meth_set_puts(BIO_METHOD *biom,
-			     int (*bputs)(BIO *, const char *))
+                             int (*bputs)(BIO *, const char *))
 {
-  biom->bputs = bputs;
-  return 1;
+    biom->bputs = bputs;
+    return 1;
 }
 
 inline int BIO_meth_set_gets(BIO_METHOD *biom,
-			     int (*bgets)(BIO *, char *, int))
+                             int (*bgets)(BIO *, char *, int))
 {
-  biom->bgets = bgets;
-  return 1;
+    biom->bgets = bgets;
+    return 1;
 }
 
 inline int BIO_meth_set_ctrl(BIO_METHOD *biom,
-			     long (*ctrl)(BIO *, int, long, void *))
+                             long (*ctrl)(BIO *, int, long, void *))
 {
-  biom->ctrl = ctrl;
-  return 1;
+    biom->ctrl = ctrl;
+    return 1;
 }
 
 inline int BIO_meth_set_create(BIO_METHOD *biom, int (*create)(BIO *))
 {
-  biom->create = create;
-  return 1;
+    biom->create = create;
+    return 1;
 }
 
 inline int BIO_meth_set_destroy(BIO_METHOD *biom, int (*destroy)(BIO *))
 {
-  biom->destroy = destroy;
-  return 1;
+    biom->destroy = destroy;
+    return 1;
 }
 
 inline RSA *EVP_PKEY_get0_RSA(EVP_PKEY *pkey)
 {
-  return pkey->pkey.rsa;
+    return pkey->pkey.rsa;
 }
 
 inline int RSA_meth_set_pub_enc(RSA_METHOD *meth,
-				int (*pub_enc)(int flen, const unsigned char *from,
-					       unsigned char *to, RSA *rsa,
-					       int padding))
+                                int (*pub_enc)(int flen,
+                                               const unsigned char *from,
+                                               unsigned char *to,
+                                               RSA *rsa,
+                                               int padding))
 {
-  meth->rsa_pub_enc = pub_enc;
-  return 1;
+    meth->rsa_pub_enc = pub_enc;
+    return 1;
 }
 
 inline int RSA_meth_set_pub_dec(RSA_METHOD *meth,
-				int (*pub_dec)(int flen, const unsigned char *from,
-					       unsigned char *to, RSA *rsa,
-					       int padding))
+                                int (*pub_dec)(int flen,
+                                               const unsigned char *from,
+                                               unsigned char *to,
+                                               RSA *rsa,
+                                               int padding))
 {
-  meth->rsa_pub_dec = pub_dec;
-  return 1;
+    meth->rsa_pub_dec = pub_dec;
+    return 1;
 }
 
 inline int RSA_meth_set_priv_enc(RSA_METHOD *meth,
-				 int (*priv_enc)(int flen, const unsigned char *from,
-						 unsigned char *to, RSA *rsa,
-						 int padding))
+                                 int (*priv_enc)(int flen,
+                                                 const unsigned char *from,
+                                                 unsigned char *to,
+                                                 RSA *rsa,
+                                                 int padding))
 {
-  meth->rsa_priv_enc = priv_enc;
-  return 1;
+    meth->rsa_priv_enc = priv_enc;
+    return 1;
 }
 
 inline int RSA_meth_set_priv_dec(RSA_METHOD *meth,
-				 int (*priv_dec)(int flen, const unsigned char *from,
-				 unsigned char *to, RSA *rsa,
-				 int padding))
+                                 int (*priv_dec)(int flen,
+                                                 const unsigned char *from,
+                                                 unsigned char *to,
+                                                 RSA *rsa,
+                                                 int padding))
 {
-  meth->rsa_priv_dec = priv_dec;
-  return 1;
+    meth->rsa_priv_dec = priv_dec;
+    return 1;
 }
 
 inline int RSA_meth_set_init(RSA_METHOD *meth, int (*init)(RSA *rsa))
 {
-  meth->init = init;
-  return 1;
+    meth->init = init;
+    return 1;
 }
 
 inline int RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa))
 {
-  meth->finish = finish;
-  return 1;
+    meth->finish = finish;
+    return 1;
 }
 
 inline int RSA_meth_set0_app_data(RSA_METHOD *meth, void *app_data)
 {
-  meth->app_data = (char *) app_data;
-  return 1;
+    meth->app_data = (char *)app_data;
+    return 1;
 }
 
 inline void *RSA_meth_get0_app_data(const RSA_METHOD *meth)
 {
-  return (void *) meth->app_data;
+    return (void *)meth->app_data;
 }
 
 inline DSA *EVP_PKEY_get0_DSA(EVP_PKEY *pkey)
 {
-  return pkey->pkey.dsa;
+    return pkey->pkey.dsa;
 }
 
 inline void DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q, const BIGNUM **g)
 {
-  if (p != nullptr)
-    *p = d->p;
+    if (p != nullptr)
+        *p = d->p;
 
-  if (q != nullptr)
-    *q = d->q;
+    if (q != nullptr)
+        *q = d->q;
 
-  if (g != nullptr)
-    *g = d->g;
+    if (g != nullptr)
+        *g = d->g;
 }
 
 inline void RSA_set_flags(RSA *r, int flags)
 {
-  r->flags |= flags;
+    r->flags |= flags;
 }
 
 inline int RSA_set0_key(RSA *rsa, BIGNUM *n, BIGNUM *e, BIGNUM *d)
 {
-  if ((rsa->n == nullptr && n == nullptr)
-      || (rsa->e == nullptr && e == nullptr))
-    return 0;
+    if ((rsa->n == nullptr && n == nullptr)
+        || (rsa->e == nullptr && e == nullptr))
+        return 0;
 
-  if (n != nullptr)
+    if (n != nullptr)
     {
-      BN_free(rsa->n);
-      rsa->n = n;
+        BN_free(rsa->n);
+        rsa->n = n;
     }
 
-  if (e != nullptr)
+    if (e != nullptr)
     {
-      BN_free(rsa->e);
-      rsa->e = e;
+        BN_free(rsa->e);
+        rsa->e = e;
     }
 
-  if (d != nullptr)
+    if (d != nullptr)
     {
-      BN_free(rsa->d);
-      rsa->d = d;
+        BN_free(rsa->d);
+        rsa->d = d;
     }
 
-  return 1;
+    return 1;
 }
 
 inline void RSA_get0_key(const RSA *rsa, const BIGNUM **n, const BIGNUM **e, const BIGNUM **d)
 {
-  if (n != nullptr)
-    *n = rsa->n;
+    if (n != nullptr)
+        *n = rsa->n;
 
-  if (e != nullptr)
-    *e = rsa->e;
+    if (e != nullptr)
+        *e = rsa->e;
 
-  if (d != nullptr)
-    *d = rsa->d;
+    if (d != nullptr)
+        *d = rsa->d;
 }
 
 inline EC_KEY *EVP_PKEY_get0_EC_KEY(EVP_PKEY *pkey)
 {
-    if (pkey->type != EVP_PKEY_EC) {
+    if (pkey->type != EVP_PKEY_EC)
+    {
         return NULL;
     }
     return pkey->pkey.ec;
@@ -341,7 +351,7 @@ inline int EC_GROUP_order_bits(const EC_GROUP *group)
  * EVP_CIPHER_CTX_free already implicitly calls EVP_CIPHER_CTX_cleanup in
  * 1.0.2, so we can avoid using the old API.
  */
-#define EVP_CIPHER_CTX_reset	EVP_CIPHER_CTX_init
+#define EVP_CIPHER_CTX_reset EVP_CIPHER_CTX_init
 #endif
 
 #if OPENSSL_VERSION_NUMBER < 0x10101000L
@@ -387,28 +397,29 @@ inline int SSL_CTX_set1_groups(SSL_CTX *ctx, int *glist, int glistlen)
 /* Note that this is not a perfect emulation of the new function but
  * is good enough for our case of printing certificate details during
  * handshake */
-static inline
-int EVP_PKEY_get_group_name(EVP_PKEY *pkey, char *gname, size_t gname_sz,
-			    size_t *gname_len)
+static inline int EVP_PKEY_get_group_name(EVP_PKEY *pkey,
+                                          char *gname,
+                                          size_t gname_sz,
+                                          size_t *gname_len)
 {
-  if (EVP_PKEY_get0_EC_KEY(pkey) == nullptr)
+    if (EVP_PKEY_get0_EC_KEY(pkey) == nullptr)
     {
-      return 0;
+        return 0;
     }
-  const EC_KEY* ec = EVP_PKEY_get0_EC_KEY(pkey);
-  const EC_GROUP* group = EC_KEY_get0_group(ec);
+    const EC_KEY *ec = EVP_PKEY_get0_EC_KEY(pkey);
+    const EC_GROUP *group = EC_KEY_get0_group(ec);
 
-  int nid = EC_GROUP_get_curve_name(group);
+    int nid = EC_GROUP_get_curve_name(group);
 
-  if (nid == NID_undef)
+    if (nid == NID_undef)
     {
-      return 0;
+        return 0;
     }
-  const char *curve = OBJ_nid2sn(nid);
+    const char *curve = OBJ_nid2sn(nid);
 
-  std::strncpy(gname, curve, gname_sz - 1);
-  *gname_len = std::strlen(curve);
-  return 1;
+    std::strncpy(gname, curve, gname_sz - 1);
+    *gname_len = std::strlen(curve);
+    return 1;
 }
 
 /* Mimics the function but only when the default context without
@@ -416,46 +427,48 @@ int EVP_PKEY_get_group_name(EVP_PKEY *pkey, char *gname, size_t gname_sz,
 static inline const EVP_CIPHER *
 EVP_CIPHER_fetch(void *ctx, const char *algorithm, const char *properties)
 {
-  assert(!ctx);
-  assert(!properties);
-  const EVP_CIPHER *cipher = EVP_get_cipherbyname(algorithm);
+    assert(!ctx);
+    assert(!properties);
+    const EVP_CIPHER *cipher = EVP_get_cipherbyname(algorithm);
 #ifdef OPENSSL_FIPS
-  /* Rhel 8/CentOS 8 have a patched OpenSSL version that return a cipher
-   * here that is actually not usable if in FIPS mode */
+    /* Rhel 8/CentOS 8 have a patched OpenSSL version that return a cipher
+     * here that is actually not usable if in FIPS mode */
 
-  if (FIPS_mode() && !(EVP_CIPHER_flags(cipher) & EVP_CIPH_FLAG_FIPS))
-  {
-	  return nullptr;
-  }
+    if (FIPS_mode() && !(EVP_CIPHER_flags(cipher) & EVP_CIPH_FLAG_FIPS))
+    {
+        return nullptr;
+    }
 #endif
-  return cipher;
+    return cipher;
 }
 
 static inline EVP_PKEY *
-PEM_read_bio_PrivateKey_ex(BIO *bp, EVP_PKEY **x,
-				     pem_password_cb *cb, void *u,
-				     void *libctx, const char *propq)
+PEM_read_bio_PrivateKey_ex(BIO *bp,
+                           EVP_PKEY **x,
+                           pem_password_cb *cb,
+                           void *u,
+                           void *libctx,
+                           const char *propq)
 {
-  return PEM_read_bio_PrivateKey(bp, x, cb, u);
+    return PEM_read_bio_PrivateKey(bp, x, cb, u);
 }
 
 static inline void
-EVP_CIPHER_free(const EVP_CIPHER * cipher)
+EVP_CIPHER_free(const EVP_CIPHER *cipher)
 {
-  /* OpenSSL 1.1.1 and lower have no concept of dynamic EVP_CIPHER, so this is
-   * a noop */
+    /* OpenSSL 1.1.1 and lower have no concept of dynamic EVP_CIPHER, so this is
+     * a noop */
 }
 
 static inline SSL_CTX *
 SSL_CTX_new_ex(void *libctx, const char *propq, const SSL_METHOD *meth)
 {
-  return SSL_CTX_new(meth);
+    return SSL_CTX_new(meth);
 }
 
 static inline void
 OSSL_LIB_CTX_free(void *libctx)
 {
-
 }
 #define EVP_PKEY_get_bits EVP_PKEY_bits
 #endif

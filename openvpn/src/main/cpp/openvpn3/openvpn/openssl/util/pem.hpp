@@ -30,74 +30,80 @@
 #include <openssl/pem.h>
 
 namespace openvpn {
-    class OpenSSLPEM
+class OpenSSLPEM
+{
+  public:
+    static bool pem_encode(BufferAllocated &dst,
+                           const unsigned char *src,
+                           size_t src_len,
+                           const std::string &key_name)
     {
-    public:
-      static bool pem_encode(BufferAllocated& dst, const unsigned char *src,
-			     size_t src_len, const std::string& key_name)
-      {
-	bool ret = false;
-	BIO *bio = BIO_new(BIO_s_mem());
-	if (!bio)
-	  return false;
+        bool ret = false;
+        BIO *bio = BIO_new(BIO_s_mem());
+        if (!bio)
+            return false;
 
-	if (!PEM_write_bio(bio, key_name.c_str(), "", src, src_len))
-	  goto out;
+        if (!PEM_write_bio(bio, key_name.c_str(), "", src, src_len))
+            goto out;
 
-	BUF_MEM *bptr;
-	BIO_get_mem_ptr(bio, &bptr);
-	dst.write((unsigned char *)bptr->data, bptr->length);
+        BUF_MEM *bptr;
+        BIO_get_mem_ptr(bio, &bptr);
+        dst.write((unsigned char *)bptr->data, bptr->length);
 
-	ret = true;
+        ret = true;
 
-out:
-	if (!BIO_free(bio))
-	  ret = false;
+    out:
+        if (!BIO_free(bio))
+            ret = false;
 
-	return ret;
-      }
+        return ret;
+    }
 
-      static bool pem_decode(BufferAllocated& dst, const char *src,
-			     size_t src_len, const std::string& key_name)
-      {
-	bool ret = false;
-	BIO *bio;
+    static bool pem_decode(BufferAllocated &dst,
+                           const char *src,
+                           size_t src_len,
+                           const std::string &key_name)
+    {
+        bool ret = false;
+        BIO *bio;
 
-	if (!(bio = BIO_new_mem_buf(src, src_len)))
-	  throw OpenSSLException("Cannot open memory BIO for PEM decode");
+        if (!(bio = BIO_new_mem_buf(src, src_len)))
+            throw OpenSSLException("Cannot open memory BIO for PEM decode");
 
-	char *name_read = NULL;
-	char *header_read = NULL;
-	uint8_t *data_read = NULL;
-	long data_read_len = 0;
-	if (!PEM_read_bio(bio, &name_read, &header_read, &data_read,
-			  &data_read_len))
-	{
-	  OPENVPN_LOG("PEM decode failed");
-	  goto out;
-	}
+        char *name_read = NULL;
+        char *header_read = NULL;
+        uint8_t *data_read = NULL;
+        long data_read_len = 0;
+        if (!PEM_read_bio(bio,
+                          &name_read,
+                          &header_read,
+                          &data_read,
+                          &data_read_len))
+        {
+            OPENVPN_LOG("PEM decode failed");
+            goto out;
+        }
 
-	if (key_name.compare(std::string(name_read)))
-	{
-	  OPENVPN_LOG("unexpected PEM name (got '" << name_read <<
-		      "', expected '" << key_name << "')");
-	  goto out;
-	}
+        if (key_name.compare(std::string(name_read)))
+        {
+            OPENVPN_LOG("unexpected PEM name (got '" << name_read << "', expected '" << key_name << "')");
+            goto out;
+        }
 
-	dst.write(data_read, data_read_len);
+        dst.write(data_read, data_read_len);
 
-	ret = true;
-out:
-	OPENSSL_free(name_read);
-	OPENSSL_free(header_read);
-	OPENSSL_free(data_read);
+        ret = true;
+    out:
+        OPENSSL_free(name_read);
+        OPENSSL_free(header_read);
+        OPENSSL_free(data_read);
 
-	if (!BIO_free(bio))
-	  ret = false;
+        if (!BIO_free(bio))
+            ret = false;
 
-	return ret;
-      }
-    };
+        return ret;
+    }
 };
+}; // namespace openvpn
 
 #endif /* OPENVPN_OPENSSL_UTIL_PEM_H */

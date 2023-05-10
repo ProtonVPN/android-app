@@ -6,7 +6,8 @@
   -->
 
 <resources>
-     <declare-styleable name="FileSelectLayout">
+
+    <declare-styleable name="FileSelectLayout">
        <attr name="fileTitle" format="string|reference" />
       <attr name="certificate" format="boolean" />
 <!--     <attr name="taskid" format="integer" /> -->

@@ -4,9 +4,7 @@
   ~ Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
   -->
 
-<restrictions xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
-              tools:targetApi="lollipop">
-
+<restrictions xmlns:android="http://schemas.android.com/apk/res/android">
     <restriction
 
             android:key="version"
@@ -46,6 +44,12 @@
                     android:description="@string/apprest_ovpn_desc"
                     android:restrictionType="string"/>
 
+            <restriction
+                    android:key="certificate_alias"
+                    android:title="@string/apprest_certalias"
+                    android:defaultValue=""
+                    android:description="@string/apprest_certalias_desc"
+                    android:restrictionType="string"/>
             <!--
             <restriction
                     android:key="ovpn_list"
@@ -68,4 +72,9 @@
             android:restrictionType="string"
             android:defaultValue=""
             />
+    <restriction
+        android:key="screenoffpausevpn"
+        android:title="@string/restriction_pausevpn"
+        android:restrictionType="bool"
+                />
 </restrictions>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -8,7 +8,8 @@
  */
 #include <openssl/crypto.h>
 
-#ifndef OPENSSL_NO_DEPRECATED_3_0
+#ifdef OPENSSL_SYS_UNIX
+# ifndef OPENSSL_NO_DEPRECATED_3_0
 
 void OPENSSL_fork_prepare(void)
 {
@@ -22,4 +23,5 @@ void OPENSSL_fork_child(void)
 {
 }
 
+# endif
 #endif

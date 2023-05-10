@@ -358,7 +358,6 @@
     <string name="ab_tethering_44">Tethering works while the VPN is active. The tethered connection will NOT use the VPN.</string>
     <string name="ab_kitkat_mss">Early KitKat version set the wrong MSS value on TCP connections (#61948). Try to enable the mssfix option to workaround this bug.</string>
     <string name="ab_proxy">Android will keep using your proxy settings specified for the mobile/Wi-Fi connection when no DNS servers are set. OpenVPN for Android will warn you about this in the log.<p>When a VPN sets a DNS server Android will not use a proxy. There is no API to set a proxy for a VPN connection.</p></string>
-    <string name="ab_lollipop_reinstall">VPN apps may stop working when uninstalled and reinstalled again. For details see #80074</string>
     <string name="ab_not_route_to_vpn">The configured client IP and the IPs in its network mask are not routed to the VPN. OpenVPN works around this bug by explicitly adding a route that corrosponds to the client IP and its netmask</string>
     <string name="ab_persist_tun">Opening a tun device while another tun device is active, which is used for persist-tun support, crashes the VPNServices on the device. A reboot is required to make VPN work again. OpenVPN for Android tries to avoid reopening the tun device and if really needed first closes the current TUN before opening the new TUN device to avoid to crash. This may lead to a short window where packets are sent over the non-VPN connection. Even with this workaround the VPNServices sometimes crashes and requires a reboot of the device.</string>
     <string name="ab_secondary_users">VPN does not work at all for secondary users.</string>
@@ -366,7 +365,6 @@
     <string name="ab_vpn_reachability_44">Only destination can be reached over the VPN that are reachable without VPN. IPv6 VPNs does not work at all.</string>
     <string name="ab_only_cidr_title">Non CIDR Routes</string>
     <string name="ab_proxy_title">Proxy behaviour for VPNs</string>
-    <string name="ab_lollipop_reinstall_title">Reinstalling VPN apps</string>
     <string name="version_upto">%s and earlier</string>
     <string name="copy_of_profile">Copy of %s</string>
     <string name="ab_not_route_to_vpn_title">Route to the configured IP address</string>
@@ -506,5 +504,7 @@
     <string name="allow_translations_title">Allow community contributed translations</string>
     <string name="allow_translations_summary">Allows the app to be translated with translations contributed by the community. Requires a restart of the app to activate.</string>
     <string name="tls_profile">TLS Security Profile</string>
+    <string name="encrypt_profiles">Try to encrypt profiles on storage (if supported by Android OS)</string>
+    <string name="missing_notification_permission">Notification permission missing. This is used to display the status of the VPN and to notify about required user interaction like multi factor authorisation.\n\nClick this message to give the app notification permissions</string>
 
 </resources>

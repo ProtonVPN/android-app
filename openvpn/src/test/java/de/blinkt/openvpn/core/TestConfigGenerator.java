@@ -67,6 +67,10 @@ public class TestConfigGenerator {
     {
         String uglyPassword = "^OrFg1{G^SS8b4J@B$Y1Dr\\GwG-dw3aBJ/R@WI*doCVP',+:>zjqC[&b6[8=KL:`{l&:i!_4*npE?4k2c^(n>9Tjp~u2Z]l8(y&Gg<-cwR2k=yKK:-%f-ezQ\"^g)[d,kbsu$cqih\\wA~on$~)QSODtip2cd,+->qv,roF*9>6q:lTepm=r?Y-+(K]ERGn\"+AiLj<(R_'BOg:vsh0wh]BQ-PVo534;l%R*FF!+,$?Q00%839(k?E!x0R[Lx6qK\\&";
         String escapedUglyPassword = VpnProfile.openVpnEscape(uglyPassword);
+
+        String testWithQuote = "'meinpw";
+        String escapedQuote = VpnProfile.openVpnEscape(testWithQuote);
+        org.junit.Assert.assertEquals("\"'meinpw\"", escapedQuote);
     }
 
 

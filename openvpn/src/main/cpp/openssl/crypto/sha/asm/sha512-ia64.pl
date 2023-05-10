@@ -1,5 +1,5 @@
 #! /usr/bin/env perl
-# Copyright 2004-2016 The OpenSSL Project Authors. All Rights Reserved.
+# Copyright 2004-2022 The OpenSSL Project Authors. All Rights Reserved.
 #
 # Licensed under the Apache License 2.0 (the "License").  You may not use
 # this file except in compliance with the License.  You can obtain a copy
@@ -78,7 +78,7 @@
 # $output is the last argument if it looks like a file (it has an extension)
 $output = $#ARGV >= 0 && $ARGV[$#ARGV] =~ m|\.\w+$| ? pop : undef;
 
-if ($output =~ /512.*\.[s|asm]/) {
+if ($output =~ /512.*\.[s|asm]/i) {
 	$SZ=8;
 	$BITS=8*$SZ;
 	$LDW="ld8";
@@ -92,7 +92,7 @@ if ($output =~ /512.*\.[s|asm]/) {
 	@sigma0=(1,  8, 7);
 	@sigma1=(19,61, 6);
 	$rounds=80;
-} elsif ($output =~ /256.*\.[s|asm]/) {
+} elsif ($output =~ /256.*\.[s|asm]/i) {
 	$SZ=4;
 	$BITS=8*$SZ;
 	$LDW="ld4";

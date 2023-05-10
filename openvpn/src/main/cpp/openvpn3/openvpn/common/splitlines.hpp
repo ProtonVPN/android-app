@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -29,79 +29,80 @@
 #include <openvpn/common/string.hpp>
 
 namespace openvpn {
-  template <typename STRING>
-  class SplitLinesType
-  {
+template <typename STRING>
+class SplitLinesType
+{
   public:
     // Note: string/buffer passed to constructor is not locally stored,
     // so it must remain in scope and not be modified during the lifetime
     // of the SplitLines object.
-    SplitLinesType(const STRING& str, const size_t max_line_len_arg=0)
-      : data((const char *)str.c_str()),
-	size(str.length()),
-	max_line_len(max_line_len_arg)
+    SplitLinesType(const STRING &str, const size_t max_line_len_arg = 0)
+        : data((const char *)str.c_str()),
+          size(str.length()),
+          max_line_len(max_line_len_arg)
     {
     }
 
-    bool operator()(const bool trim=true)
+    bool operator()(const bool trim = true)
     {
-      line.clear();
-      overflow = false;
-      const size_t overflow_index = index + max_line_len;
-      while (index < size)
-	{
-	  if (max_line_len && index >= overflow_index)
-	    {
-	      overflow = true;
-	      return true;
-	    }
-	  const char c = data[index++];
-	  line += c;
-	  if (c == '\n' || index >= size)
-	    {
-	      if (trim)
-		string::trim_crlf(line);
-	      return true;
-	    }
-	}
-      return false;
+        line.clear();
+        overflow = false;
+        const size_t overflow_index = index + max_line_len;
+        while (index < size)
+        {
+            if (max_line_len && index >= overflow_index)
+            {
+                overflow = true;
+                return true;
+            }
+            const char c = data[index++];
+            line += c;
+            if (c == '\n' || index >= size)
+            {
+                if (trim)
+                    string::trim_crlf(line);
+                return true;
+            }
+        }
+        return false;
     }
 
     bool line_overflow() const
     {
-      return overflow;
+        return overflow;
     }
 
-    std::string& line_ref()
+    std::string &line_ref()
     {
-      return line;
+        return line;
     }
 
-    const std::string& line_ref() const
+    const std::string &line_ref() const
     {
-      return line;
+        return line;
     }
 
     std::string line_move()
     {
-      return std::move(line);
+        return std::move(line);
     }
 
-    enum Status {
-      S_OKAY,
-      S_EOF,
-      S_ERROR
+    enum Status
+    {
+        S_OKAY,
+        S_EOF,
+        S_ERROR
     };
 
-    Status next(std::string& ln, const bool trim=true)
+    Status next(std::string &ln, const bool trim = true)
     {
-      const bool s = (*this)(trim);
-      if (!s)
-	return S_EOF;
-      if (overflow)
-	return S_ERROR;
-      ln = std::move(line);
-      return S_OKAY;
+        const bool s = (*this)(trim);
+        if (!s)
+            return S_EOF;
+        if (overflow)
+            return S_ERROR;
+        ln = std::move(line);
+        return S_OKAY;
     }
 
   private:
@@ -111,9 +112,9 @@ namespace openvpn {
     size_t index = 0;
     std::string line;
     bool overflow = false;
-  };
+};
 
-  typedef SplitLinesType<std::string> SplitLines;
-}
+typedef SplitLinesType<std::string> SplitLines;
+} // namespace openvpn
 
 #endif

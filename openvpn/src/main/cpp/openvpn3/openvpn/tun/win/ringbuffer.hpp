@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -41,136 +41,140 @@
 #define WINTUN_MAX_PACKET_SIZE 0xffff
 #define WINTUN_PACKET_ALIGN 4
 
-namespace openvpn
+namespace openvpn {
+namespace TunWin {
+struct TUN_RING
 {
-  namespace TunWin
-  {
-    struct TUN_RING {
-      std::atomic_ulong head;
-      std::atomic_ulong tail;
-      std::atomic_long alertable;
-      UCHAR data[WINTUN_RING_CAPACITY + WINTUN_RING_TRAILING_BYTES + WINTUN_RING_FRAMING_SIZE];
-    };
+    std::atomic_ulong head;
+    std::atomic_ulong tail;
+    std::atomic_long alertable;
+    UCHAR data[WINTUN_RING_CAPACITY + WINTUN_RING_TRAILING_BYTES + WINTUN_RING_FRAMING_SIZE];
+};
 
-    struct TUN_REGISTER_RINGS
+struct TUN_REGISTER_RINGS
+{
+    struct
     {
-      struct
-      {
-	ULONG ring_size;
-	TUN_RING* ring;
-	HANDLE tail_moved;
-      } send, receive;
-    };
+        ULONG ring_size;
+        TUN_RING *ring;
+        HANDLE tail_moved;
+    } send, receive;
+};
 
-    typedef openvpn_io::windows::object_handle AsioEvent;
+typedef openvpn_io::windows::object_handle AsioEvent;
 
-    class RingBuffer : public RC<thread_unsafe_refcount>
+class RingBuffer : public RC<thread_unsafe_refcount>
+{
+  public:
+    typedef RCPtr<RingBuffer> Ptr;
+
+    RingBuffer(openvpn_io::io_context &io_context)
+        : send_ring_hmem(CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(TUN_RING), NULL)),
+          receive_ring_hmem(CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(TUN_RING), NULL)),
+          send_tail_moved_asio_event_(io_context)
     {
-    public:
-      typedef RCPtr<RingBuffer> Ptr;
-
-      RingBuffer(openvpn_io::io_context& io_context)
-	: send_ring_hmem(CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(TUN_RING), NULL)),
-	  receive_ring_hmem(CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(TUN_RING), NULL)),
-	  send_tail_moved_asio_event_(io_context)
-      {
-	// sanity checks
-	static_assert((sizeof(TUN_RING) - sizeof(TUN_RING::data)) == 12, "sizeof(TUN_RING) is expected to be 12");
+        // sanity checks
+        static_assert((sizeof(TUN_RING) - sizeof(TUN_RING::data)) == 12, "sizeof(TUN_RING) is expected to be 12");
 #if !defined(ATOMIC_LONG_LOCK_FREE) || (ATOMIC_LONG_LOCK_FREE != 2)
 #error Atomic long is expected to be always lock-free
 #endif
 
-	send_ring_ = (TUN_RING*)MapViewOfFile(send_ring_hmem(), FILE_MAP_ALL_ACCESS, 0, 0, sizeof(TUN_RING));
-	receive_ring_ = (TUN_RING*)MapViewOfFile(receive_ring_hmem(), FILE_MAP_ALL_ACCESS, 0, 0, sizeof(TUN_RING));
+        send_ring_ = (TUN_RING *)MapViewOfFile(send_ring_hmem(), FILE_MAP_ALL_ACCESS, 0, 0, sizeof(TUN_RING));
+        receive_ring_ = (TUN_RING *)MapViewOfFile(receive_ring_hmem(), FILE_MAP_ALL_ACCESS, 0, 0, sizeof(TUN_RING));
 
-	HANDLE handle;
-	DuplicateHandle(GetCurrentProcess(), send_ring_tail_moved_(),
-			GetCurrentProcess(), &handle, 0, FALSE, DUPLICATE_SAME_ACCESS);
-	send_tail_moved_asio_event_.assign(handle);
-      }
+        HANDLE handle;
+        DuplicateHandle(GetCurrentProcess(),
+                        send_ring_tail_moved_(),
+                        GetCurrentProcess(),
+                        &handle,
+                        0,
+                        FALSE,
+                        DUPLICATE_SAME_ACCESS);
+        send_tail_moved_asio_event_.assign(handle);
+    }
 
-      RingBuffer(openvpn_io::io_context& io_context,
-		 HANDLE client_process,
-		 const std::string& send_ring_hmem_hex,
-		 const std::string& receive_ring_hmem_hex,
-		 const std::string& send_ring_tail_moved_hex,
-		 const std::string& receive_ring_tail_moved_hex)
-	: send_tail_moved_asio_event_(io_context)
-      {
-	HANDLE remote_handle = BufHex::parse<HANDLE>(send_ring_hmem_hex, "send_ring_hmem");
-	HANDLE handle;
-	DuplicateHandle(client_process, remote_handle, GetCurrentProcess(), &handle, 0, FALSE, DUPLICATE_SAME_ACCESS);
-	send_ring_hmem.reset(handle);
+    RingBuffer(openvpn_io::io_context &io_context,
+               HANDLE client_process,
+               const std::string &send_ring_hmem_hex,
+               const std::string &receive_ring_hmem_hex,
+               const std::string &send_ring_tail_moved_hex,
+               const std::string &receive_ring_tail_moved_hex)
+        : send_tail_moved_asio_event_(io_context)
+    {
+        HANDLE remote_handle = BufHex::parse<HANDLE>(send_ring_hmem_hex, "send_ring_hmem");
+        HANDLE handle;
+        DuplicateHandle(client_process, remote_handle, GetCurrentProcess(), &handle, 0, FALSE, DUPLICATE_SAME_ACCESS);
+        send_ring_hmem.reset(handle);
 
-	remote_handle = BufHex::parse<HANDLE>(receive_ring_hmem_hex, "receive_ring_hmem");
-	DuplicateHandle(client_process, remote_handle, GetCurrentProcess(), &handle, 0, FALSE, DUPLICATE_SAME_ACCESS);
-	receive_ring_hmem.reset(handle);
+        remote_handle = BufHex::parse<HANDLE>(receive_ring_hmem_hex, "receive_ring_hmem");
+        DuplicateHandle(client_process, remote_handle, GetCurrentProcess(), &handle, 0, FALSE, DUPLICATE_SAME_ACCESS);
+        receive_ring_hmem.reset(handle);
 
-	remote_handle = BufHex::parse<HANDLE>(send_ring_tail_moved_hex, "send_ring_tail_moved");
-	DuplicateHandle(client_process, remote_handle, GetCurrentProcess(), &handle, 0, FALSE, DUPLICATE_SAME_ACCESS);
-	send_ring_tail_moved_.reset(handle);
+        remote_handle = BufHex::parse<HANDLE>(send_ring_tail_moved_hex, "send_ring_tail_moved");
+        DuplicateHandle(client_process, remote_handle, GetCurrentProcess(), &handle, 0, FALSE, DUPLICATE_SAME_ACCESS);
+        send_ring_tail_moved_.reset(handle);
 
-	remote_handle = BufHex::parse<HANDLE>(receive_ring_tail_moved_hex, "receive_ring_tail_moved");
-	DuplicateHandle(client_process, remote_handle, GetCurrentProcess(), &handle, 0, FALSE, DUPLICATE_SAME_ACCESS);
-	receive_ring_tail_moved_.reset(handle);
+        remote_handle = BufHex::parse<HANDLE>(receive_ring_tail_moved_hex, "receive_ring_tail_moved");
+        DuplicateHandle(client_process, remote_handle, GetCurrentProcess(), &handle, 0, FALSE, DUPLICATE_SAME_ACCESS);
+        receive_ring_tail_moved_.reset(handle);
 
-	send_ring_ = (TUN_RING*)MapViewOfFile(send_ring_hmem(), FILE_MAP_ALL_ACCESS, 0, 0, sizeof(TUN_RING));
-	receive_ring_ = (TUN_RING*)MapViewOfFile(receive_ring_hmem(), FILE_MAP_ALL_ACCESS, 0, 0, sizeof(TUN_RING));
-      }
+        send_ring_ = (TUN_RING *)MapViewOfFile(send_ring_hmem(), FILE_MAP_ALL_ACCESS, 0, 0, sizeof(TUN_RING));
+        receive_ring_ = (TUN_RING *)MapViewOfFile(receive_ring_hmem(), FILE_MAP_ALL_ACCESS, 0, 0, sizeof(TUN_RING));
+    }
 
-      RingBuffer(RingBuffer const&) = delete;
-      RingBuffer& operator=(RingBuffer const&) = delete;
+    RingBuffer(RingBuffer const &) = delete;
+    RingBuffer &operator=(RingBuffer const &) = delete;
 
-      ~RingBuffer()
-      {
-	UnmapViewOfFile(send_ring_);
-	UnmapViewOfFile(receive_ring_);
-      }
+    ~RingBuffer()
+    {
+        UnmapViewOfFile(send_ring_);
+        UnmapViewOfFile(receive_ring_);
+    }
 
-      HANDLE send_ring_tail_moved()
-      {
-	return send_ring_tail_moved_();
-      }
+    HANDLE send_ring_tail_moved()
+    {
+        return send_ring_tail_moved_();
+    }
 
-      HANDLE receive_ring_tail_moved()
-      {
-	return receive_ring_tail_moved_();
-      }
+    HANDLE receive_ring_tail_moved()
+    {
+        return receive_ring_tail_moved_();
+    }
 
-      TUN_RING* send_ring()
-      {
-	return send_ring_;
-      }
+    TUN_RING *send_ring()
+    {
+        return send_ring_;
+    }
 
-      TUN_RING* receive_ring()
-      {
-	return receive_ring_;
-      }
+    TUN_RING *receive_ring()
+    {
+        return receive_ring_;
+    }
 
-      AsioEvent& send_tail_moved_asio_event()
-      {
-	return send_tail_moved_asio_event_;
-      }
+    AsioEvent &send_tail_moved_asio_event()
+    {
+        return send_tail_moved_asio_event_;
+    }
 
 #ifdef HAVE_JSON
-      void serialize(Json::Value& json)
-      {
-	json["send_ring_hmem"] = BufHex::render(send_ring_hmem());
-	json["receive_ring_hmem"] = BufHex::render(receive_ring_hmem());
-	json["send_ring_tail_moved"] = BufHex::render(send_ring_tail_moved());
-	json["receive_ring_tail_moved"] = BufHex::render(receive_ring_tail_moved());
-      }
+    void serialize(Json::Value &json)
+    {
+        json["send_ring_hmem"] = BufHex::render(send_ring_hmem());
+        json["receive_ring_hmem"] = BufHex::render(receive_ring_hmem());
+        json["send_ring_tail_moved"] = BufHex::render(send_ring_tail_moved());
+        json["receive_ring_tail_moved"] = BufHex::render(receive_ring_tail_moved());
+    }
 #endif
 
-    protected:
-      Win::ScopedHANDLE send_ring_hmem;
-      Win::ScopedHANDLE receive_ring_hmem;
-      Win::Event send_ring_tail_moved_{FALSE};
-      Win::Event receive_ring_tail_moved_{FALSE};
-      AsioEvent send_tail_moved_asio_event_;
+  protected:
+    Win::ScopedHANDLE send_ring_hmem;
+    Win::ScopedHANDLE receive_ring_hmem;
+    Win::Event send_ring_tail_moved_{FALSE};
+    Win::Event receive_ring_tail_moved_{FALSE};
+    AsioEvent send_tail_moved_asio_event_;
 
-      TUN_RING* send_ring_ = nullptr;
-      TUN_RING* receive_ring_ = nullptr;
-    };
-  }
-}
+    TUN_RING *send_ring_ = nullptr;
+    TUN_RING *receive_ring_ = nullptr;
+};
+} // namespace TunWin
+} // namespace openvpn

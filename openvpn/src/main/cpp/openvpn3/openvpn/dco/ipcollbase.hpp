@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,14 +31,16 @@
 #include <openvpn/addr/ip.hpp>
 
 namespace openvpn {
-  class IPCollisionDetectBase
-  {
+class IPCollisionDetectBase
+{
   public:
     OPENVPN_EXCEPTION(ip_collision);
 
-    virtual void add(const std::string& addr_str,
-	     const unsigned int unit,
-	     ActionList& late_remove) { }
-  };
+    virtual void add(const std::string &addr_str,
+                     const unsigned int unit,
+                     ActionList &late_remove)
+    {
+    }
+};
 
-}
+} // namespace openvpn

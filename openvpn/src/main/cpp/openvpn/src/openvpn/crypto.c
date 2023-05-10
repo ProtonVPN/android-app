@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -49,14 +49,14 @@
  * work is a workspace buffer we are given of size BUF_SIZE.
  * work may be used to return output data, or the input buffer
  * may be modified and returned as output.  If output data is
- * returned in work, the data should start after FRAME_HEADROOM bytes
+ * returned in work, the data should start after buf.headroom bytes
  * of padding to leave room for downstream routines to prepend.
  *
- * Up to a total of FRAME_HEADROOM bytes may be prepended to the input buf
+ * Up to a total of buf.headroom bytes may be prepended to the input buf
  * by all routines (encryption, decryption, compression, and decompression).
  *
  * Note that the buf_prepend return will assert if we try to
- * make a header bigger than FRAME_HEADROOM.  This should not
+ * make a header bigger than buf.headroom.  This should not
  * happen unless the frame parameters are wrong.
  */
 
@@ -370,7 +370,7 @@ openvpn_decrypt_aead(struct buffer *buf, struct buffer work,
 
     ASSERT(ad_start >= buf->data && ad_start <= BPTR(buf));
 
-    ASSERT(buf_init(&work, FRAME_HEADROOM(frame)));
+    ASSERT(buf_init(&work, frame->buf.headroom));
 
     /* IV and Packet ID required for this mode */
     ASSERT(packet_id_initialized(&opt->packet_id));
@@ -532,8 +532,8 @@ openvpn_decrypt_v1(struct buffer *buf, struct buffer work,
             uint8_t iv_buf[OPENVPN_MAX_IV_LENGTH] = { 0 };
             int outlen;
 
-            /* initialize work buffer with FRAME_HEADROOM bytes of prepend capacity */
-            ASSERT(buf_init(&work, FRAME_HEADROOM(frame)));
+            /* initialize work buffer with buf.headroom bytes of prepend capacity */
+            ASSERT(buf_init(&work, frame->buf.headroom));
 
             /* read the IV from the packet */
             if (buf->len < iv_size)
@@ -835,7 +835,7 @@ init_key_ctx(struct key_ctx *ctx, const struct key *key,
         cipher_ctx_init(ctx->cipher, key->cipher, kt->cipher, enc);
 
         const char *ciphername = cipher_kt_name(kt->cipher);
-        msg(D_HANDSHAKE, "%s: Cipher '%s' initialized with %d bit key",
+        msg(D_CIPHER_INIT, "%s: Cipher '%s' initialized with %d bit key",
             prefix, ciphername, cipher_kt_key_size(kt->cipher) * 8);
 
         dmsg(D_SHOW_KEYS, "%s: CIPHER KEY: %s", prefix,
@@ -850,7 +850,7 @@ init_key_ctx(struct key_ctx *ctx, const struct key *key,
         ctx->hmac = hmac_ctx_new();
         hmac_ctx_init(ctx->hmac, key->hmac, kt->digest);
 
-        msg(D_HANDSHAKE,
+        msg(D_CIPHER_INIT,
             "%s: Using %d bit message hash '%s' for HMAC authentication",
             prefix, md_kt_size(kt->digest) * 8, md_kt_name(kt->digest));
 
@@ -996,8 +996,22 @@ generate_key_random(struct key *key, const struct key_type *kt)
     gc_free(&gc);
 }
 
-/*
- * Print key material
+static void
+key_print(const struct key *key,
+          const struct key_type *kt,
+          const char *prefix)
+{
+    struct gc_arena gc = gc_new();
+    dmsg(D_SHOW_KEY_SOURCE, "%s (cipher, %s, %d bits): %s",
+         prefix, cipher_kt_name(kt->cipher), cipher_kt_key_size(kt->cipher) * 8,
+         format_hex(key->cipher, cipher_kt_key_size(kt->cipher), 0, &gc));
+    dmsg(D_SHOW_KEY_SOURCE, "%s (hmac, %s, %d bits): %s",
+         prefix, md_kt_name(kt->digest), md_kt_size(kt->digest) * 8,
+         format_hex(key->hmac, md_kt_size(kt->digest), 0, &gc));
+    gc_free(&gc);
+}
+/**
+ * Prints the keys in a key2 structure.
  */
 void
 key2_print(const struct key2 *k,
@@ -1005,21 +1019,9 @@ key2_print(const struct key2 *k,
            const char *prefix0,
            const char *prefix1)
 {
-    struct gc_arena gc = gc_new();
     ASSERT(k->n == 2);
-    dmsg(D_SHOW_KEY_SOURCE, "%s (cipher): %s",
-         prefix0,
-         format_hex(k->keys[0].cipher, cipher_kt_key_size(kt->cipher), 0, &gc));
-    dmsg(D_SHOW_KEY_SOURCE, "%s (hmac): %s",
-         prefix0,
-         format_hex(k->keys[0].hmac, md_kt_size(kt->digest), 0, &gc));
-    dmsg(D_SHOW_KEY_SOURCE, "%s (cipher): %s",
-         prefix1,
-         format_hex(k->keys[1].cipher, cipher_kt_key_size(kt->cipher), 0, &gc));
-    dmsg(D_SHOW_KEY_SOURCE, "%s (hmac): %s",
-         prefix1,
-         format_hex(k->keys[1].hmac, md_kt_size(kt->digest), 0, &gc));
-    gc_free(&gc);
+    key_print(&k->keys[0], kt, prefix0);
+    key_print(&k->keys[1], kt, prefix1);
 }
 
 void
@@ -1035,7 +1037,7 @@ test_crypto(struct crypto_options *co, struct frame *frame)
     void *buf_p;
 
     /* init work */
-    ASSERT(buf_init(&work, FRAME_HEADROOM(frame)));
+    ASSERT(buf_init(&work, frame->buf.headroom));
 
     /* init implicit IV */
     {
@@ -1078,8 +1080,8 @@ test_crypto(struct crypto_options *co, struct frame *frame)
         ASSERT(buf_p);
         memcpy(buf_p, BPTR(&src), BLEN(&src));
 
-        /* initialize work buffer with FRAME_HEADROOM bytes of prepend capacity */
-        ASSERT(buf_init(&encrypt_workspace, FRAME_HEADROOM(frame)));
+        /* initialize work buffer with buf.headroom bytes of prepend capacity */
+        ASSERT(buf_init(&encrypt_workspace, frame->buf.headroom));
 
         /* encrypt */
         openvpn_encrypt(&buf, encrypt_workspace, co);
@@ -1121,7 +1123,8 @@ void
 crypto_read_openvpn_key(const struct key_type *key_type,
                         struct key_ctx_bi *ctx, const char *key_file,
                         bool key_inline, const int key_direction,
-                        const char *key_name, const char *opt_name)
+                        const char *key_name, const char *opt_name,
+                        struct key2 *keydata)
 {
     struct key2 key2;
     struct key_direction_state kds;
@@ -1149,6 +1152,10 @@ crypto_read_openvpn_key(const struct key_type *key_type,
 
     /* initialize key in both directions */
     init_key_ctx_bi(ctx, &key2, key_direction, key_type, key_name);
+    if (keydata)
+    {
+        *keydata = key2;
+    }
     secure_memzero(&key2, sizeof(key2));
 }
 
@@ -1298,6 +1305,7 @@ read_key_file(struct key2 *key2, const char *file, const unsigned int flags)
                 }
                 else if (isspace(c))
                 {
+                    /* ignore white space characters */
                 }
                 else
                 {
@@ -1660,12 +1668,12 @@ print_cipher(const char *ciphername)
     {
         printf(", TLS client/server mode only");
     }
-#ifdef OPENSSL_FIPS
-    if (FIPS_mode() && !(EVP_CIPHER_flags(cipher) & EVP_CIPH_FLAG_FIPS))
+
+    const char *reason;
+    if (!cipher_valid_reason(ciphername, &reason))
     {
-        printf(", disabled by FIPS mode");
+        printf(", %s", reason);
     }
-#endif
 
     printf(")\n");
 }

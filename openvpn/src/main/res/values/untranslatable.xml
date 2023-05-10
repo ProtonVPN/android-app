@@ -73,6 +73,8 @@
     <string name="apprest_name">Name</string>
     <string name="apprest_vpnlist">List of VPN configurations</string>
     <string name="apprest_vpnconf">VPN configuration</string>
+    <string name="apprest_certalias">Certificate Alias</string>
+    <string name="apprest_certalias_desc">Alias of a certificate in the Android keystore to use. Leave empty to not use the certificate store.</string>
     <string name="apprest_ver">Version of the managed configuration schema (Currently always 1)</string>
     <string name="apprest_defprof">UUID of the profile that should be selected as default profile in the app</string>
     <string name="privacy_policy">The app OpenVPN for Android does not communicate to any server other than the OpenVPN servers provided in configuration files. The author himself does not collect any data and no therefore also no data is saved. For the privacy policy for the OpenVPN server/VPN service you are using (or other services related to the project like GitHub), please refer to their respective privacy policy.</string>
@@ -82,6 +84,7 @@
     <string name="abi_mismatch">Preferred native ABI precedence of this device (%1$s) and ABI reported by native libraries (%2$s) mismatch</string>
     <string name="faq_title_ncp">Failed to negotiate cipher with server</string>
     <string name="import_from_URL">URL</string>
+    <string name="restriction_pausevpn">Pause VPN when screen is off and less than 64 kB transferred data in 60s</string>
 
     <string-array name="tls_profile_values" translatable="false">
         <item>insecure</item>

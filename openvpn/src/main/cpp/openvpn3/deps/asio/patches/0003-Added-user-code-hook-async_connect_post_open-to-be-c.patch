@@ -9,19 +9,19 @@ Subject: [PATCH] Added user code hook async_connect_post_open() to be called
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/asio/include/asio/basic_socket.hpp b/asio/include/asio/basic_socket.hpp
-index e0269678..33df2f98 100644
+index 29986a02..000e5154 100644
 --- a/asio/include/asio/basic_socket.hpp
 +++ b/asio/include/asio/basic_socket.hpp
-@@ -953,6 +953,8 @@ public:
+@@ -983,6 +983,8 @@ public:
      {
        const protocol_type protocol = peer_endpoint.protocol();
        impl_.get_service().open(impl_.get_implementation(), protocol, open_ec);
 +      if (!open_ec)
-+          async_connect_post_open(protocol, open_ec);
++        async_connect_post_open(protocol, open_ec);
      }
  
-     return async_initiate<ConnectHandler, void (asio::error_code)>(
-@@ -1791,7 +1793,7 @@ protected:
+     return async_initiate<ConnectToken, void (asio::error_code)>(
+@@ -1841,7 +1843,7 @@ protected:
     * This function destroys the socket, cancelling any outstanding asynchronous
     * operations associated with the socket as if by calling @c cancel.
     */
@@ -30,7 +30,7 @@ index e0269678..33df2f98 100644
    {
    }
  
-@@ -1807,6 +1809,11 @@ protected:
+@@ -1860,6 +1862,11 @@ protected:
  #endif
  
  private:
@@ -42,6 +42,3 @@ index e0269678..33df2f98 100644
    // Disallow copying and assignment.
    basic_socket(const basic_socket&) ASIO_DELETED;
    basic_socket& operator=(const basic_socket&) ASIO_DELETED;
--- 
-2.26.0
-

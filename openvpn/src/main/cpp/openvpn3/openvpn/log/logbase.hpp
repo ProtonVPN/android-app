@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -33,21 +33,21 @@ namespace openvpn {
 
 #ifdef OPENVPN_LOGBASE_NO_RC
 
-  struct LogBase
-  {
-    virtual void log(const std::string& str) = 0;
-  };
+struct LogBase
+{
+    virtual void log(const std::string &str) = 0;
+};
 
 #else
 
-  struct LogBase : public RC<thread_safe_refcount>
-  {
+struct LogBase : public RC<thread_safe_refcount>
+{
     typedef RCPtr<LogBase> Ptr;
-    virtual void log(const std::string& str) = 0;
-  };
+    virtual void log(const std::string &str) = 0;
+};
 
 #endif
-}
+} // namespace openvpn
 
 #include <openvpn/log/logthread.hpp>
 

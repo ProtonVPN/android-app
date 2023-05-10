@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,17 +27,21 @@
 #endif
 
 namespace openvpn {
-  namespace ExternalTransport {
+namespace ExternalTransport {
 #ifdef OPENVPN_EXTERNAL_TRANSPORT_FACTORY
-    struct Config;
-    struct Factory
+struct Config;
+struct Factory
+{
+    virtual TransportClientFactory *new_transport_factory(const Config &conf) = 0;
+    virtual ~Factory()
     {
-      virtual TransportClientFactory* new_transport_factory(const Config& conf) = 0;
-      virtual ~Factory() {}
-    };
+    }
+};
 #else
-    struct Factory {};
+struct Factory
+{
+};
 #endif
-  }
-}
+} // namespace ExternalTransport
+} // namespace openvpn
 #endif

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -31,29 +31,32 @@
 #include <os/log.h>
 
 namespace openvpn {
-  class LogBaseSimpleMac : public LogBase
-  {
+class LogBaseSimpleMac : public LogBase
+{
   public:
     typedef RCPtr<LogBaseSimpleMac> Ptr;
 
     LogBaseSimpleMac()
-      : log_context(this)
+        : log_context(this)
     {
-      os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEFAULT,
-		       "LogBaseSimple for macOS/iOS initialized");
+        os_log_with_type(OS_LOG_DEFAULT,
+                         OS_LOG_TYPE_DEFAULT,
+                         "LogBaseSimple for macOS/iOS initialized");
     }
 
-    virtual void log(const std::string& str) override
+    virtual void log(const std::string &str) override
     {
-	std::lock_guard<std::mutex> lock(mutex);
-	os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEFAULT,
-                         "OVPN-CORE: %{public}s", str.c_str());
+        std::lock_guard<std::mutex> lock(mutex);
+        os_log_with_type(OS_LOG_DEFAULT,
+                         OS_LOG_TYPE_DEFAULT,
+                         "OVPN-CORE: %{public}s",
+                         str.c_str());
     }
 
   private:
     std::mutex mutex;
     Log::Context log_context;
-  };
-}
+};
+} // namespace openvpn
 
 #endif

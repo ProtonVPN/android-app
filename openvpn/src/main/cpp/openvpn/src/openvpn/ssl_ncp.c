@@ -5,9 +5,9 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2021 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
- *  Copyright (C) 2008-2021 David Sommerseth <dazo@eurephia.org>
+ *  Copyright (C) 2008-2023 David Sommerseth <dazo@eurephia.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -121,19 +121,27 @@ mutate_ncp_cipher_list(const char *list, struct gc_arena *gc)
         }
 
         const bool nonecipher = (strcmp(token, "none") == 0);
+        const char *optstr = optional ? "optional " : "";
 
         if (nonecipher)
         {
             msg(M_WARN, "WARNING: cipher 'none' specified for --data-ciphers. "
-                        "This allows negotiation of NO encryption and "
-                        "tunnelled data WILL then be transmitted in clear text "
-                        "over the network! "
-                        "PLEASE DO RECONSIDER THIS SETTING!");
+                "This allows negotiation of NO encryption and "
+                "tunnelled data WILL then be transmitted in clear text "
+                "over the network! "
+                "PLEASE DO RECONSIDER THIS SETTING!");
         }
         if (!nonecipher && !cipher_valid(token))
         {
-            const char* optstr = optional ? "optional ": "";
             msg(M_WARN, "Unsupported %scipher in --data-ciphers: %s", optstr, token);
+            error_found = error_found || !optional;
+        }
+        else if (!nonecipher && !cipher_kt_mode_aead(token)
+                 && !cipher_kt_mode_cbc(token)
+                 && !cipher_kt_mode_ofb_cfb(token))
+        {
+            msg(M_WARN, "Unsupported %scipher algorithm '%s'. It does not use "
+                "CFB, OFB, CBC, or a supported AEAD mode", optstr, token);
             error_found = error_found || !optional;
         }
         else
@@ -221,7 +229,7 @@ const char *
 tls_peer_ncp_list(const char *peer_info, struct gc_arena *gc)
 {
     /* Check if the peer sends the IV_CIPHERS list */
-    const char *iv_ciphers = extract_var_peer_info(peer_info,"IV_CIPHERS=", gc);
+    const char *iv_ciphers = extract_var_peer_info(peer_info, "IV_CIPHERS=", gc);
     if (iv_ciphers)
     {
         return iv_ciphers;
@@ -255,8 +263,8 @@ ncp_get_best_cipher(const char *server_list, const char *peer_info,
     /* non-NCP client without OCC?  "assume nothing" */
     /* For client doing the newer version of NCP (that send IV_CIPHER)
      * we cannot assume that they will accept remote_cipher */
-    if (remote_cipher == NULL ||
-        (peer_info && strstr(peer_info, "IV_CIPHERS=")))
+    if (remote_cipher == NULL
+        || (peer_info && strstr(peer_info, "IV_CIPHERS=")))
     {
         remote_cipher = "";
     }
@@ -310,13 +318,13 @@ check_pull_client_ncp(struct context *c, const int found)
 {
     if (found & OPT_P_NCP)
     {
-        msg(D_PUSH, "OPTIONS IMPORT: data channel crypto options modified");
+        msg(D_PUSH_DEBUG, "OPTIONS IMPORT: data channel crypto options modified");
         return true;
     }
 
     /* If the server did not push a --cipher, we will switch to the
      * remote cipher if it is in our ncp-ciphers list */
-    if(tls_poor_mans_ncp(&c->options, c->c2.tls_multi->remote_ciphername))
+    if (tls_poor_mans_ncp(&c->options, c->c2.tls_multi->remote_ciphername))
     {
         return true;
     }
@@ -350,7 +358,7 @@ check_pull_client_ncp(struct context *c, const int found)
     }
 }
 
-const char*
+const char *
 get_p2p_ncp_cipher(struct tls_session *session, const char *peer_info,
                    struct gc_arena *gc)
 {
@@ -364,8 +372,8 @@ get_p2p_ncp_cipher(struct tls_session *session, const char *peer_info,
         return NULL;
     }
 
-    const char* server_ciphers;
-    const char* client_ciphers;
+    const char *server_ciphers;
+    const char *client_ciphers;
 
     if (session->opt->server)
     {
@@ -416,7 +424,12 @@ p2p_ncp_set_options(struct tls_multi *multi, struct tls_session *session)
     if (iv_proto_peer & IV_PROTO_DATA_V2)
     {
         multi->use_peer_id = true;
-        multi->peer_id = 0x76706e; // 'v' 'p' 'n'
+        multi->peer_id = 0x76706e; /* 'v' 'p' 'n' */
+    }
+
+    if (iv_proto_peer & IV_PROTO_CC_EXIT_NOTIFY)
+    {
+        session->opt->crypto_flags |= CO_USE_CC_EXIT_NOTIFY;
     }
 
 #if defined(HAVE_EXPORT_KEYING_MATERIAL)
@@ -439,7 +452,7 @@ p2p_ncp_set_options(struct tls_multi *multi, struct tls_session *session)
                  * happen or very likely the TLS encryption key exporter will
                  * also fail */
                 msg(M_NONFATAL, "TLS key export for P2P peer id failed. "
-                                "Continuing anyway, expect problems");
+                    "Continuing anyway, expect problems");
             }
             else
             {
@@ -448,7 +461,11 @@ p2p_ncp_set_options(struct tls_multi *multi, struct tls_session *session)
 
         }
     }
-#endif
+    if (iv_proto_peer & IV_PROTO_DYN_TLS_CRYPT)
+    {
+        session->opt->crypto_flags |= CO_USE_DYNAMIC_TLS_CRYPT;
+    }
+#endif /* if defined(HAVE_EXPORT_KEYING_MATERIAL) */
 }
 
 void
@@ -461,7 +478,7 @@ p2p_mode_ncp(struct tls_multi *multi, struct tls_session *session)
 
     /* Query the common cipher here to log it as part of our message.
      * We postpone switching the cipher to do_up */
-    const char* common_cipher = get_p2p_ncp_cipher(session, multi->peer_info, &gc);
+    const char *common_cipher = get_p2p_ncp_cipher(session, multi->peer_info, &gc);
 
     if (!common_cipher)
     {
@@ -484,9 +501,31 @@ p2p_mode_ncp(struct tls_multi *multi, struct tls_session *session)
     }
 
     msg(D_TLS_DEBUG_LOW, "P2P mode NCP negotiation result: "
-                         "TLS_export=%d, DATA_v2=%d, peer-id %d, cipher=%s",
+        "TLS_export=%d, DATA_v2=%d, peer-id %d, cipher=%s",
         (bool)(session->opt->crypto_flags & CO_USE_TLS_KEY_MATERIAL_EXPORT),
         multi->use_peer_id, multi->peer_id, common_cipher);
 
     gc_free(&gc);
+}
+
+
+bool
+check_session_cipher(struct tls_session *session, struct options *options)
+{
+    bool cipher_allowed_as_fallback = options->enable_ncp_fallback
+                                      && streq(options->ciphername, session->opt->config_ciphername);
+
+    if (!session->opt->server && !cipher_allowed_as_fallback
+        && !tls_item_in_cipher_list(options->ciphername, options->ncp_ciphers))
+    {
+        msg(D_TLS_ERRORS, "Error: negotiated cipher not allowed - %s not in %s",
+            options->ciphername, options->ncp_ciphers);
+        /* undo cipher push, abort connection setup */
+        options->ciphername = session->opt->config_ciphername;
+        return false;
+    }
+    else
+    {
+        return true;
+    }
 }

@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,35 +27,36 @@
 #include <openvpn/buffer/buffer.hpp>
 
 namespace openvpn {
-  namespace BufHex {
+namespace BufHex {
 
-    OPENVPN_EXCEPTION(buf_hex);
+OPENVPN_EXCEPTION(buf_hex);
 
-    template <typename T>
-    inline std::string render(const T obj)
-    {
-      const ConstBuffer buf((const unsigned char *)&obj, sizeof(obj), true);
-      return render_hex_generic(buf);
-    }
-
-    template <typename T>
-    inline T parse(const std::string& hex, const std::string& title)
-    {
-      T obj;
-      Buffer buf((unsigned char *)&obj, sizeof(obj), false);
-      try {
-	parse_hex(buf, hex);
-      }
-      catch (const BufferException& e)
-	{
-	  OPENVPN_THROW(buf_hex, title << ": buffer issue: " << e.what());
-	}
-      if (buf.size() != sizeof(obj))
-	OPENVPN_THROW(buf_hex, title << ": unexpected size");
-      return obj;
-    }
-
-  }
+template <typename T>
+inline std::string render(const T obj)
+{
+    const ConstBuffer buf((const unsigned char *)&obj, sizeof(obj), true);
+    return render_hex_generic(buf);
 }
+
+template <typename T>
+inline T parse(const std::string &hex, const std::string &title)
+{
+    T obj;
+    Buffer buf((unsigned char *)&obj, sizeof(obj), false);
+    try
+    {
+        parse_hex(buf, hex);
+    }
+    catch (const BufferException &e)
+    {
+        OPENVPN_THROW(buf_hex, title << ": buffer issue: " << e.what());
+    }
+    if (buf.size() != sizeof(obj))
+        OPENVPN_THROW(buf_hex, title << ": unexpected size");
+    return obj;
+}
+
+} // namespace BufHex
+} // namespace openvpn
 
 #endif

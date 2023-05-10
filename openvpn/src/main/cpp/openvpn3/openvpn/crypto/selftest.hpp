@@ -4,7 +4,7 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2020 OpenVPN Inc.
+//    Copyright (C) 2012-2022 OpenVPN Inc.
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License Version 3
@@ -27,11 +27,11 @@
 #include <string>
 
 #ifdef USE_OPENSSL
-//#include <openvpn/openssl/util/selftest.hpp>
+// #include <openvpn/openssl/util/selftest.hpp>
 #endif
 
 #ifdef USE_APPLE_SSL
-//#include <openvpn/applecrypto/util/selftest.hpp>
+// #include <openvpn/applecrypto/util/selftest.hpp>
 #endif
 
 #ifdef USE_MBEDTLS
@@ -39,27 +39,27 @@
 #endif
 
 #ifdef USE_MBEDTLS_APPLE_HYBRID
-//#include <openvpn/applecrypto/util/selftest.hpp>
+// #include <openvpn/applecrypto/util/selftest.hpp>
 #include <openvpn/mbedtls/util/selftest.hpp>
 #endif
 
 namespace openvpn {
-  namespace SelfTest {
-    inline std::string crypto_self_test()
-    {
-      std::string ret;
-#     ifdef USE_OPENSSL
-        //ret += crypto_self_test_openssl();
-#     endif
-#     ifdef USE_APPLE_SSL
-        //ret += crypto_self_test_apple();
-#     endif
-#     if defined(USE_MBEDTLS) || defined(USE_MBEDTLS_APPLE_HYBRID)
-        ret += crypto_self_test_mbedtls();
-#     endif
-      return ret;
-    }
-  }
+namespace SelfTest {
+inline std::string crypto_self_test()
+{
+    std::string ret;
+#ifdef USE_OPENSSL
+    // ret += crypto_self_test_openssl();
+#endif
+#ifdef USE_APPLE_SSL
+    // ret += crypto_self_test_apple();
+#endif
+#if defined(USE_MBEDTLS) || defined(USE_MBEDTLS_APPLE_HYBRID)
+    ret += crypto_self_test_mbedtls();
+#endif
+    return ret;
+}
+} // namespace SelfTest
 } // namespace openvpn
 
 #endif // OPENVPN_CRYPTO_CRYPTO_H

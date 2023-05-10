@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -53,7 +53,7 @@ static int req_cb(int operation, ASN1_VALUE **pval, const ASN1_ITEM *it,
     switch (operation) {
     case ASN1_OP_D2I_PRE:
         ASN1_OCTET_STRING_free(ret->distinguishing_id);
-        /* fall thru */
+        /* fall through */
     case ASN1_OP_NEW_POST:
         ret->distinguishing_id = NULL;
         break;
