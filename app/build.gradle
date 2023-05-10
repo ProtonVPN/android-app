@@ -427,7 +427,7 @@ task publishGenerateReleaseNotes {
     }
 }
 
-task publishInternal {
+task publishInternalReleaseNotes {
     if (name in project.gradle.startParameter.taskNames) {
         // Allow publishing with snapshots for the time being.
         // if (rootProject.extensions.extraProperties.properties["useCoreGitSubmodule"].toString().toBoolean()) {
@@ -439,7 +439,6 @@ task publishInternal {
             println "skipping publishing..."
         } else {
             dependsOn 'publishGenerateReleaseNotes'
-            dependsOn 'publishGooglePlayReleaseBundle'
             doLast {
                 helpers.notifyPublishOnSlack()
             }
