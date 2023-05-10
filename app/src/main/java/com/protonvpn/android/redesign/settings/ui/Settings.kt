@@ -19,15 +19,17 @@
 
 package com.protonvpn.android.redesign.settings.ui
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.VpnSolidButton
 
 @Composable
-fun SettingsRoute() {
-    Settings()
+fun SettingsRoute(signOut: () -> Unit) {
+    Settings(signOut)
 }
 
 @Composable
-fun Settings() {
-    Text("Settings")
+fun Settings(signOut: () -> Unit) {
+    VpnSolidButton(text = stringResource(id = R.string.settings_sign_out), onClick = signOut)
 }

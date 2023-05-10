@@ -17,20 +17,26 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.settings.ui.nav
+package com.protonvpn.android.redesign.settings.data
 
-import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
-import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
-import com.protonvpn.android.redesign.base.ui.nav.addToGraph
-import com.protonvpn.android.redesign.main_screen.ui.CoreNavigation
-import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
-import com.protonvpn.android.redesign.settings.ui.SettingsRoute
+import android.content.SharedPreferences
+import com.protonvpn.android.utils.SharedPreferencesProvider
+import dagger.Reusable
+import me.proton.core.util.android.sharedpreferences.PreferencesProvider
+import me.proton.core.util.android.sharedpreferences.boolean
+import javax.inject.Inject
 
-object SettingsScreen : ScreenNoArg<MainNav>("settings") {
+@Reusable
+class SharedSettingsPrefs @Inject constructor(
+    private val prefsProvider: SharedPreferencesProvider
+) : PreferencesProvider {
 
-    fun SafeNavGraphBuilder<MainNav>.settings(
-        coreNavigation: CoreNavigation,
-    ) = addToGraph(this) {
-        SettingsRoute(coreNavigation.signOut)
+    override val preferences: SharedPreferences
+        get() = prefsProvider.getPrefs(PREFS_NAME)
+
+    var dialogSignOutNotAskAgain: Boolean by boolean(false)
+
+    companion object {
+        private const val PREFS_NAME = "SharedSettingsPrefs"
     }
 }

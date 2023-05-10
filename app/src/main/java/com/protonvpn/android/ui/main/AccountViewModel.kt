@@ -29,14 +29,16 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.auth.VpnUserCheck
 import com.protonvpn.android.auth.usecase.HumanVerificationGuestHoleCheck
-import com.protonvpn.android.auth.usecase.OnSessionClosed
+import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.VpnLogin.Companion.GUEST_HOLE_ID
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.redesign.settings.data.SharedSettingsPrefs
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
@@ -44,7 +46,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import me.proton.core.account.domain.entity.AccountState
 import me.proton.core.account.domain.entity.AccountType
 import me.proton.core.account.domain.entity.isDisabled
 import me.proton.core.account.domain.entity.isReady
@@ -60,23 +61,24 @@ import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
 import me.proton.core.domain.entity.Product
-import me.proton.core.network.domain.NetworkManager
 import javax.inject.Inject
 
 @HiltViewModel
+@SuppressWarnings("LongParameterList")
 class AccountViewModel @Inject constructor(
-    val api: ProtonApiRetroFit,
-    val authOrchestrator: AuthOrchestrator,
-    val accountManager: AccountManager,
-    val requiredAccountType: AccountType,
-    val vpnApiClient: VpnApiClient,
-    val onSessionClosed: OnSessionClosed,
-    val certificateRepository: CertificateRepository,
-    val vpnUserCheck: VpnUserCheck,
-    val guestHole: dagger.Lazy<GuestHole>,
-    val product: Product,
-    val humanVerificationGuestHoleCheck: HumanVerificationGuestHoleCheck,
-    val networkManager: NetworkManager
+    private val mainScope: CoroutineScope,
+    private val api: ProtonApiRetroFit,
+    private val authOrchestrator: AuthOrchestrator,
+    private val accountManager: AccountManager,
+    private val requiredAccountType: AccountType,
+    private val vpnApiClient: VpnApiClient,
+    private val vpnUserCheck: VpnUserCheck,
+    private val guestHole: dagger.Lazy<GuestHole>,
+    private val product: Product,
+    private val humanVerificationGuestHoleCheck: HumanVerificationGuestHoleCheck,
+    private val logoutUseCase: Logout,
+    private val sharedSettingsPrefs: SharedSettingsPrefs,
+    private val vpnStatus: VpnStatusProviderUI,
 ) : ViewModel() {
 
     sealed class State {
@@ -156,6 +158,16 @@ class AccountViewModel @Inject constructor(
             product = product,
             loginUsername = Storage.getString(LAST_USER, null)
         )
+    }
+
+    val showDialogOnSignOut get() =
+        !sharedSettingsPrefs.dialogSignOutNotAskAgain && !vpnStatus.isDisabled
+
+    fun signOut(notAskAgain: Boolean? = null) = mainScope.launch {
+        if (notAskAgain == true) {
+            sharedSettingsPrefs.dialogSignOutNotAskAgain = true
+        }
+        logoutUseCase()
     }
 
     companion object {

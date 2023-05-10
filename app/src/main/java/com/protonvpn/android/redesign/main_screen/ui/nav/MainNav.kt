@@ -33,6 +33,7 @@ import com.protonvpn.android.redesign.countries.ui.nav.CountryListScreen.country
 import com.protonvpn.android.redesign.countries.ui.nav.CountryScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen.home
+import com.protonvpn.android.redesign.main_screen.ui.CoreNavigation
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen.settings
 
@@ -51,13 +52,15 @@ enum class MainTarget {
 
 @Composable
 fun rememberMainNav(
-    navController: NavHostController = rememberNavController()
+    coreNavigation: CoreNavigation,
+    navController: NavHostController = rememberNavController(),
 ) = remember(navController) {
-    MainNav(navController)
+    MainNav(navController, coreNavigation)
 }
 
 class MainNav(
-    mainNavController: NavHostController
+    mainNavController: NavHostController,
+    private val coreNavigation: CoreNavigation,
 ) : BaseNav<MainNav>(mainNavController, "main") {
 
     fun navigate(target: MainTarget) {
@@ -84,7 +87,7 @@ class MainNav(
     @Composable
     fun NavGraph(
         modifier: Modifier,
-        bottomSheetNav: BottomSheetNav
+        bottomSheetNav: BottomSheetNav,
     ) {
         SafeNavHost(
             modifier = modifier,
@@ -96,7 +99,7 @@ class MainNav(
                     MainTarget.Countries -> countryList {
                         bottomSheetNav.navigate(CountryScreen, CountryScreen.Args(it))
                     }
-                    MainTarget.Settings -> settings()
+                    MainTarget.Settings -> settings(coreNavigation)
                 }
             }
         }

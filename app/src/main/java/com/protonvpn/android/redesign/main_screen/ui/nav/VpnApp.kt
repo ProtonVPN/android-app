@@ -34,13 +34,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import com.protonvpn.android.redesign.main_screen.ui.BottomBarView
+import com.protonvpn.android.redesign.main_screen.ui.CoreNavigation
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun VpnApp(
     modifier: Modifier = Modifier,
+    coreNavigation: CoreNavigation,
 ) {
-    val mainNav = rememberMainNav()
+    val mainNav = rememberMainNav(coreNavigation)
     val bottomSheetNav = rememberBottomSheetNav()
     val mainNavHostInitialized = remember { mutableStateOf(false) }
 
