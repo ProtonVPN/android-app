@@ -439,7 +439,7 @@ task publishInternal {
             println "skipping publishing..."
         } else {
             dependsOn 'publishGenerateReleaseNotes'
-            dependsOn 'publishBundle'
+            dependsOn 'publishGooglePlayBundle'
             doLast {
                 helpers.notifyPublishOnSlack()
             }
