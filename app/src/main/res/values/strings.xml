@@ -879,4 +879,17 @@
          "connection details, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_details">connection details</string>
+
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out">Sign out</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_title">Sign out?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_message">You\'ll be disconnected from VPN.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_dont_ask_again">Don\'t ask me again</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_action">Sign out</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_action_cancel">Cancel</string>
 </resources>

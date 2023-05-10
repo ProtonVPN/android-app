@@ -33,8 +33,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainTarget
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionStrongUnspecified
@@ -103,15 +103,7 @@ private fun MainTarget.getIcon(selected: Boolean): Int = when (this) {
 @Preview()
 @Composable
 fun BottomBarPreviewDark() {
-    VpnTheme(isDark = true) {
+    LightAndDarkPreview { darkMode ->
         BottomBarView(selectedTarget = MainTarget.Home) {}
-    }
-}
-
-@Preview()
-@Composable
-fun BottomBarPreviewLight() {
-    VpnTheme(isDark = false) {
-        BottomBarView(selectedTarget = MainTarget.Countries) {}
     }
 }
