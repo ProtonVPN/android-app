@@ -99,6 +99,7 @@ publish-apk-internal:
   needs: ["sign-bundle"]
   script:
     - ./gradlew publishInternal
+    - ./gradlew publishBundle --artifact-dir signedBundle/
 
 publish-github:
   stage: publish
