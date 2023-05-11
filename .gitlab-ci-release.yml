@@ -98,8 +98,9 @@ publish-apk-internal:
       when: never
   needs: ["sign-bundle"]
   script:
-    - ./gradlew publishInternalReleaseNotes
+    - ./gradlew generateReleaseNotesForPublishing
     - ./gradlew publishGooglePlayBundle --artifact-dir signedBundle/
+    - ./gradlew notifyPublishOnSlack
 
 publish-github:
   stage: publish
