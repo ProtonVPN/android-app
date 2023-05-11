@@ -57,7 +57,7 @@ sign-bundle:
   variables:
     ARTIFACT_SIGNATURE_KIND: android-app-bundle
     ARTIFACT_SIGNATURE_PROFILE: android-vpn
-    ARTIFACT_SIGNATURE_TYPE: development
+    ARTIFACT_SIGNATURE_REF_TYPE: protected-branch
     ARTIFACT_SIGNATURE_FILES: app/build/outputs/bundle/googlePlayRelease/${ARCHIVES_BASE_NAME}-googlePlay-release.aab
     ARTIFACT_SIGNATURE_DEST: signedBundle/
   id_tokens:
