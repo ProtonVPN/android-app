@@ -248,7 +248,7 @@ build google play release:
     - xlarge-k8s
   script:
     - ./gradlew openvpn:assemble
-    - ./gradlew assembleGooglePlayRelease -PabiSplit -PbuildUniversalApk
+    - ./gradlew assembleGooglePlayRelease
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
     - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
@@ -271,7 +271,7 @@ build amazon release:
     - xlarge-k8s
   script:
     - ./gradlew openvpn:assemble
-    - ./gradlew assembleAmazonRelease -PabiSplit -PbuildUniversalApk
+    - ./gradlew assembleAmazonRelease
   artifacts:
     expire_in: 3 week
     paths:
@@ -288,7 +288,7 @@ build release (auto):
     - xlarge-k8s
   script:
     - ./gradlew openvpn:assemble
-    - ./gradlew assembleDirectRelease -PabiSplit -PbuildUniversalApk
+    - ./gradlew assembleDirectRelease
   artifacts:
     expire_in: 3 week
     paths:

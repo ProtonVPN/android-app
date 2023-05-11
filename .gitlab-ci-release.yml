@@ -24,7 +24,7 @@ make release branch:
     - git config user.name "$GIT_CI_USERNAME"
     # Compute version code and name
     - export VERSION_NAME=$(./gradlew -q getVersionName | tail -n 1)
-    - export VERSION_CODE_UNIVERSAL=$(./gradlew -q getUniversalVersionCode | tail -n 1)
+    - export VERSION_CODE=$(./gradlew -q getVersionCode | tail -n 1)
     # Make new release branch and add guestholes
     - ./gradlew :app:prepareGuestHoleServers
     - mv app/src/main/assets/GuestHoleServers.json app/config/
@@ -32,8 +32,8 @@ make release branch:
     - git add app/config/GuestHoleServers.json
     - git commit -m "Update guesthole servers"
     # Add f-droid metadata
-    - echo -e "What's new\n${RELEASE_NOTES}" > metadata/en-US/changelogs/${VERSION_CODE_UNIVERSAL}.txt
-    - echo -e "versionName=${VERSION_NAME}\nversionCode=${VERSION_CODE_UNIVERSAL}" > metadata/version_fdroid.txt
+    - echo -e "What's new\n${RELEASE_NOTES}" > metadata/en-US/changelogs/${VERSION_CODE}.txt
+    - echo -e "versionName=${VERSION_NAME}\nversionCode=${VERSION_CODE}" > metadata/version_fdroid.txt
     - git add -- ./metadata
     - git commit -m "Add fdroid metadata"
     # Add remote with oauth and push new branch
