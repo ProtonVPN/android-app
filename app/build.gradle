@@ -154,7 +154,7 @@ android {
         targetSdkVersion 31
         multiDexEnabled true
         versionName helpers.fullVersionName
-        versionCode helpers.getVersionCode(0)
+        versionCode helpers.getVersionCode()
         archivesBaseName = helpers.archivesBaseName
         testInstrumentationRunner "com.protonvpn.TestsRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true' // Clear app data between tests.
@@ -319,14 +319,6 @@ android {
                 "-Xopt-in=kotlin.RequiresOptIn"
         ]
     }
-    splits {
-        abi {
-            enable project.hasProperty('abiSplit')
-            reset()
-            include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-            universalApk project.hasProperty('buildUniversalApk')
-        }
-    }
     lint {
         // In our process we might temporairly have extra translations that will get removed on
         // next update.
@@ -481,21 +473,9 @@ tasks.withType(Test) {
 
 preBuild.dependsOn prepareGuestHoleServers
 
-ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':2, x86:3, x86_64:4]
-
-
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import groovy.json.StringEscapeUtils
-
-android.applicationVariants.all { variant ->
-    variant.outputs.each { output ->
-        def abiCode = project.ext.abiCodes.get(output.getFilter(OutputFile.ABI))
-        if (abiCode != null) {
-            output.versionCodeOverride = helpers.getVersionCode(abiCode)
-        }
-    }
-}
 
 class Helpers {
     private File workingDir
@@ -510,8 +490,8 @@ class Helpers {
     //  D - number of commits on development since M.m
     //  R - number of commits on release branch (from development)
     //  Version code: AMMmmDDRR as decimal integer
-    //  A - abiCode + 1
-    int getVersionCode(def abiCode) {
+    //  A - hardcoded number 6. Because abi splits were used before
+    int getVersionCode() {
         def name = fullVersionName
         def versions = name.split("\\.")
         def major = versions[0].toInteger()
@@ -522,11 +502,8 @@ class Helpers {
         // Max version code allowed by android is 2_000_000_000
         assert major < 100 && minor < 100 && dev < 100 && release < 100
 
-        // abiCode + 1 needed to always produce higher version code than in previous versioning
-        // scheme
-        // 0AMMMmmPP - old
-        // AMMmmDDRR - new
-        def code = (abiCode + 1) * 100_000_000 +
+        // 6 needs to be hardcoded as abi version before ended up at 5
+        def code = 6 * 100_000_000 +
                 major * 1_000_000 +
                 minor*10_000 +
                 dev * 100 +
@@ -534,7 +511,7 @@ class Helpers {
 
         // Just some sanity check because there's no turning back once we accidentally publish
         // some large version code
-        assert code < 600_000_000 && major < 50
+        assert code < 700_000_000 && major < 50
 
         return code
     }
@@ -599,7 +576,7 @@ class Helpers {
     }
 
     String getArchivesBaseName() {
-        return "ProtonVPN-" + fullVersionName + "(" + getVersionCode(0) + ")"
+        return "ProtonVPN-" + fullVersionName + "(" + getVersionCode() + ")"
     }
 
     String exec(String cmd, boolean throwOnError = true) {
@@ -645,9 +622,9 @@ tasks.register("getVersionName"){
         println helpers.fullVersionName
     }
 }
-tasks.register("getUniversalVersionCode"){
+tasks.register("getVersionCode"){
     doLast {
-        println helpers.getVersionCode(0)
+        println helpers.getVersionCode()
     }
 }
 tasks.register("getArchivesName"){
