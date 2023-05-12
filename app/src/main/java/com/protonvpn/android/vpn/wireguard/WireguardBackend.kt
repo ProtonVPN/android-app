@@ -69,7 +69,7 @@ import javax.inject.Singleton
 @Singleton
 class WireguardBackend @Inject constructor(
     @ApplicationContext val context: Context,
-    val networkManager: NetworkManager,
+    networkManager: NetworkManager,
     userData: UserData,
     appConfig: AppConfig,
     certificateRepository: CertificateRepository,
