@@ -159,7 +159,10 @@ class OpenVpnBackend @Inject constructor(
 
         val translatedState = when {
             openVpnState == "CONNECTRETRY" && level == ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET ->
-                VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false)
+                if (networkManager.isConnectedToNetwork())
+                    VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false)
+                else
+                    VpnState.WaitingForNetwork
             openVpnState == "RECONNECTING" ->
                 if (logmessage?.startsWith("tls-error") == true)
                     VpnState.Error(ErrorType.PEER_AUTH_FAILED, isFinal = false)
