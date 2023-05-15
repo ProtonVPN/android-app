@@ -774,11 +774,11 @@
 
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection.
-         %1$s - entry country name
-         %2$s - exit country name
-         Example: via Switzerland to Poland
+         %1$s - exit country name
+         %2$s - entry country name
+         Example: Poland via Switzerland
      -->
-    <string name="connection_info_secure_core_full">via %1$s to %2$s</string>
+    <string name="connection_info_secure_core_full">%1$s via %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          %1$s - entry country name
