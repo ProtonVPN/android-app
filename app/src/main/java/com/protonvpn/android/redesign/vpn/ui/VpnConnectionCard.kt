@@ -35,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -72,7 +73,7 @@ fun VpnConnectionCard(
         ContainerLabelRow(
             viewState.cardLabelRes,
             onHelpClick,
-            Modifier.padding(vertical = 16.dp)
+            Modifier.padding(vertical = 12.dp) // There's 4.dp padding on the help button.
         )
         val surfaceShape = ProtonTheme.shapes.large
         Surface(
@@ -149,10 +150,13 @@ private fun ContainerLabelRow(
             modifier = Modifier.weight(1f)
         )
         Row(
-            Modifier.clickable(
-                onClick = onHelpClicked,
-                role = Role.Button,
-            ),
+            Modifier
+                .clip(ProtonTheme.shapes.small)
+                .clickable(
+                    onClick = onHelpClicked,
+                    role = Role.Button,
+                )
+                .padding(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -164,7 +168,9 @@ private fun ContainerLabelRow(
                 painterResource(R.drawable.ic_proton_question_circle),
                 tint = ProtonTheme.colors.textWeak,
                 contentDescription = null,
-                modifier = Modifier.padding(start = 4.dp).size(16.dp)
+                modifier = Modifier
+                    .padding(start = 4.dp)
+                    .size(16.dp)
             )
         }
     }
