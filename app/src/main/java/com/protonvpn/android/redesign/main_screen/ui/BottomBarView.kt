@@ -37,7 +37,7 @@ import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainTarget
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.captionUnspecified
+import me.proton.core.compose.theme.captionStrongUnspecified
 
 @Composable
 fun BottomBarView(
@@ -75,7 +75,7 @@ fun BottomBarView(
                 label = {
                     Text(
                         text = label,
-                        style = ProtonTheme.typography.captionUnspecified,
+                        style = ProtonTheme.typography.captionStrongUnspecified,
                     )
                 }
             )
