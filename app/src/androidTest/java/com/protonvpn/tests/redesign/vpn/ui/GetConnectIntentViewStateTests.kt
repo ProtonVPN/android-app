@@ -206,7 +206,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         setConnectIntentRowComposable(connectIntent, serverPlViaCh)
 
         node.withTag("primaryLabel").assertContainsText("Fastest country")
-        node.withTag("secondaryLabel").hasChild(node.withText("via Switzerland to Poland")).assertIsDisplayed()
+        node.withTag("secondaryLabel").hasChild(node.withText("Poland via Switzerland")).assertIsDisplayed()
     }
 
     @Test

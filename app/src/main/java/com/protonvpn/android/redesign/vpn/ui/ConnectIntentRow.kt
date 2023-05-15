@@ -132,7 +132,7 @@ private fun ConnectIntentSecondaryLabel.label() = when (this) {
     is ConnectIntentSecondaryLabel.Country -> country.label()
     is ConnectIntentSecondaryLabel.SecureCore -> {
         if (exit != null) {
-            stringResource(R.string.connection_info_secure_core_full, entry.label(), exit.label())
+            stringResource(R.string.connection_info_secure_core_full, exit.label(), entry.label())
         } else {
             stringResource(R.string.connection_info_secure_core_entry, entry.label())
         }
