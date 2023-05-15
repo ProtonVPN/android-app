@@ -77,6 +77,7 @@ fun Flag(
         exitCountry.flagResource(context),
         entryCountryFlag,
         isSecureCore,
+        isFastest = exitCountry.isFastest,
         modifier = modifier
     )
 }
@@ -86,6 +87,7 @@ private fun Flag(
     exitCountryFlag: Int,
     entryCountryFlag: Int?,
     isSecureCore: Boolean,
+    isFastest: Boolean,
     modifier: Modifier = Modifier
 ) {
     if (isSecureCore && entryCountryFlag != null) {
@@ -120,7 +122,9 @@ private fun Flag(
         }
     } else {
         val drawScIndicatorModifier = if (isSecureCore) {
-            val color = ProtonTheme.colors.textHint
+            val color =
+                if (isFastest) ProtonTheme.colors.vpnGreen.copy(alpha = 0.24f)
+                else ProtonTheme.colors.textHint
             Modifier.drawWithCache {
                 val path = createScUnderlineArc(Size(26.dp.toPx(), 16.dp.toPx()), 6.dp.toPx())
                 onDrawBehind {
@@ -215,18 +219,21 @@ private fun FlagsPreviewHelper() {
                     exitCountryFlag = R.drawable.flag_fastest,
                     entryCountryFlag = null,
                     isSecureCore = true,
+                    isFastest = true,
                     modifier = modifier
                 )
                 Flag(
                     exitCountryFlag = R.drawable.flag_au,
                     entryCountryFlag = R.drawable.flag_ch,
                     isSecureCore = true,
+                    isFastest = false,
                     modifier = modifier
                 )
                 Flag(
                     exitCountryFlag = R.drawable.flag_us,
                     entryCountryFlag = null,
                     isSecureCore = false,
+                    isFastest = false,
                     modifier = modifier
                 )
             }
