@@ -42,7 +42,6 @@
         android:name=".ProtonApplicationHilt"
         android:allowBackup="false"
         android:banner="@drawable/tv_banner"
-        android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
