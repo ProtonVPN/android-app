@@ -294,6 +294,10 @@ android {
         exclude 'META-INF/LGPL2.1'
         exclude 'META-INF/AL2.0'
         exclude 'MANIFEST.MF'
+
+        jniLibs {
+            useLegacyPackaging = true
+        }
     }
     buildFeatures {
         compose true
