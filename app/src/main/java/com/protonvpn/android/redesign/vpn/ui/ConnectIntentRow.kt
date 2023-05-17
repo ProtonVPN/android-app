@@ -132,9 +132,9 @@ private fun ConnectIntentSecondaryLabel.label() = when (this) {
     is ConnectIntentSecondaryLabel.Country -> country.label()
     is ConnectIntentSecondaryLabel.SecureCore -> {
         if (exit != null) {
-            stringResource(R.string.connection_info_secure_core_full, exit.label(), entry.label())
+            viaCountry(exit, entry)
         } else {
-            stringResource(R.string.connection_info_secure_core_entry, entry.label())
+            viaCountry(entry)
         }
     }
 }
@@ -145,6 +145,26 @@ private fun CountryId.label(): String =
         stringResource(R.string.fastest_country)
     } else {
         CountryTools.getFullName(LocalConfiguration.current.currentLocale(), countryCode)
+    }
+
+@Composable
+private fun viaCountry(entryCountry: CountryId): String =
+    when (entryCountry) {
+        CountryId.iceland -> stringResource(R.string.connection_info_secure_core_entry_iceland)
+        CountryId.sweden -> stringResource(R.string.connection_info_secure_core_entry_sweden)
+        CountryId.switzerland -> stringResource(R.string.connection_info_secure_core_entry_switzerland)
+        else -> stringResource(R.string.connection_info_secure_core_entry_other, entryCountry.label())
+    }
+
+@Composable
+private fun viaCountry(exitCountry: CountryId, entryCountry: CountryId): String =
+    when (entryCountry) {
+        CountryId.iceland -> stringResource(R.string.connection_info_secure_core_full_iceland, exitCountry.label())
+        CountryId.sweden -> stringResource(R.string.connection_info_secure_core_full_sweden, exitCountry.label())
+        CountryId.switzerland ->
+            stringResource(R.string.connection_info_secure_core_full_switzerland, exitCountry.label())
+        else ->
+            stringResource(R.string.connection_info_secure_core_full_other, exitCountry.label(), entryCountry.label())
     }
 
 @Composable

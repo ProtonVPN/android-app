@@ -36,6 +36,12 @@ value class CountryId private constructor(val countryCode: String) {
 
     companion object {
         val fastest = CountryId("")
+
+        // Constants for countries that are compared in code.
+        val iceland = invoke("is")
+        val sweden = invoke("se")
+        val switzerland = invoke("ch")
+
         operator fun invoke(countryCode: String) = CountryId(sanitizeCountryCode(countryCode))
 
         private fun sanitizeCountryCode(code: String) =
