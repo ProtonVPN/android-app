@@ -96,7 +96,12 @@ publish-apk-internal:
       when: always
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
-  needs: ["sign-bundle"]
+  needs:
+    - job: sign-bundle
+    # Make sure tests pass before publishing. The dependency is on coverage report to avoid listing
+    # all test jobs here.
+    - job: coverage report
+      artifacts: false
   script:
     - ./gradlew generateReleaseNotesForPublishing
     - ./gradlew publishGooglePlayBundle --artifact-dir signedBundle/
