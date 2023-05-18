@@ -23,7 +23,7 @@ buildscript {
     // We should migrate to version catalogs as soon as IDE support is available:
     // https://issuetracker.google.com/issues/226078451
     ext.androidx_lifecycle_version = '2.5.1'
-    ext.core_version = '10.3.0'
+    ext.core_version = '10.6.0'
     ext.detekt_version = '1.19.0'
     ext.hilt_version = '2.44.2'
     ext.kotlin_version = '1.7.20'
