@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.redesign.base.ui
 
+import android.content.Context
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,6 +48,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,7 +57,7 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.flagResource
+import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
 
 private object FlagShapes {
@@ -190,6 +193,15 @@ private fun DrawScope.drawScUnderlineArc(offset: Offset, path: Path, color: Colo
         drawPath(path, color, style = Stroke(width = 1.85.dp.toPx(), cap = StrokeCap.Round))
     }
 }
+
+@Composable
+@DrawableRes
+private fun CountryId.flagResource(context: Context): Int =
+    if (isFastest || LocalInspectionMode.current) {
+        R.drawable.flag_fastest
+    } else {
+        CountryTools.getFlagResource(context, countryCode)
+    }
 
 @Preview
 @Composable

@@ -84,6 +84,7 @@ import me.proton.core.compose.theme.ProtonTheme
 abstract class SampleScreen(
     val title: String,
     val route: String,
+    val needsScroll: Boolean = true
 ) {
     @Composable
     abstract fun Content(modifier: Modifier, snackbarHostState: SnackbarHostState)
@@ -91,6 +92,7 @@ abstract class SampleScreen(
 
 private val sampleScreens: List<SampleScreen> = listOf(
     ConnectionCardSample(),
+    RecentsSample(),
     FlagsSample(),
     ButtonsSample(),
     TextFieldsSample(),
@@ -206,11 +208,14 @@ private fun Content(
                 NavHost(navController = navController, startDestination = sampleScreens.first().route) {
                     sampleScreens.forEach { sample ->
                         composable(sample.route) {
+                            val scrollModifier =
+                                if (sample.needsScroll) Modifier.verticalScroll(rememberScrollState())
+                                else Modifier
                             sample.Content(
                                 modifier = Modifier
                                     .padding(paddingValues)
                                     .fillMaxSize()
-                                    .verticalScroll(rememberScrollState()),
+                                    .then(scrollModifier),
                                 snackbarHostState
                             )
                         }

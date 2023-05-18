@@ -42,7 +42,7 @@ fun SamplesSectionLabel(
         Text(
             label,
             style = ProtonTheme.typography.captionStrongNorm,
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         )

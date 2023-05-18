@@ -27,7 +27,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
-import com.protonvpn.android.redesign.vpn.ui.ConnectIntentRow
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.test.shared.createServer
@@ -324,7 +324,10 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     private fun setConnectIntentRowComposable(connectIntent: ConnectIntent, connectedServer: Server? = null) {
         composeRule.setContent {
             Row {
-                ConnectIntentRow(state = getConnectIntentViewState(connectIntent, connectedServer))
+                ConnectIntentLabels(
+                    state = getConnectIntentViewState(connectIntent, connectedServer),
+                    isConnected = false
+                )
             }
         }
     }
