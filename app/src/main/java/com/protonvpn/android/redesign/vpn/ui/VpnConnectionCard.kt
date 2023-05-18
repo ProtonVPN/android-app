@@ -22,7 +22,6 @@ package com.protonvpn.android.redesign.vpn.ui
 import androidx.annotation.StringRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.heightIn
@@ -92,33 +91,22 @@ fun VpnConnectionCard(
             Column(
                 modifier = panelModifier.padding(16.dp)
             ) {
-                Box(
+                Row(
                     modifier = Modifier
                         .heightIn(min = 42.dp)
                         .padding(bottom = 16.dp)
                         .semantics(mergeDescendants = true) {},
-                    contentAlignment = Alignment.CenterStart
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.Top,
-                    ) {
-                        ConnectIntentRow(viewState.connectIntentViewState)
-                        if (canOpenPanel) {
-                            val clickLabel = stringResource(R.string.accessibility_action_open)
-                            Icon(
-                                painterResource(id = R.drawable.ic_proton_chevron_up),
-                                tint = ProtonTheme.colors.iconWeak,
-                                contentDescription =
-                                    stringResource(R.string.connection_card_accessbility_label_details),
-                                modifier = Modifier.semantics {
-                                    role = Role.Button
-                                    onClick(label = clickLabel) {
-                                        onOpenPanelClick()
-                                        true
-                                    }
-                                }
-                            )
-                        }
+                    ConnectIntentFlag(viewState.connectIntentViewState)
+                    ConnectIntentLabels(
+                        viewState.connectIntentViewState,
+                        isConnected = false,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 16.dp)
+                    )
+                    if (canOpenPanel) {
+                        OpenPanelButton(onOpenPanelClick, Modifier.align(Alignment.Top))
                     }
                 }
                 when (viewState.connectionState) {
@@ -132,6 +120,27 @@ fun VpnConnectionCard(
             }
         }
     }
+}
+
+@Composable
+private fun OpenPanelButton(
+    onOpenPanelClick: () -> Unit,
+    modifier: Modifier
+) {
+    val clickLabel = stringResource(R.string.accessibility_action_open)
+    Icon(
+        painterResource(id = R.drawable.ic_proton_chevron_up),
+        tint = ProtonTheme.colors.iconWeak,
+        contentDescription =
+        stringResource(R.string.connection_card_accessbility_label_details),
+        modifier = modifier.semantics {
+            role = Role.Button
+            onClick(label = clickLabel) {
+                onOpenPanelClick()
+                true
+            }
+        }
+    )
 }
 
 @Composable

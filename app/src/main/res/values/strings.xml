@@ -764,6 +764,25 @@
          "Connection details, button. Double tap to open"
     -->
     <string name="accessibility_action_open">open</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable because servers
+         are in maintenance.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are in maintenance will be read by a
+         screen reader as:
+         "Switzerland, in maintenance"
+     -->
+    <string name="accessibility_item_in_maintenance">in maintenance</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when there is active connection to it.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland when there is a VPN connection to a server in this country
+         will be read by a screen reader as:
+         "Switzerland, connected"
+     -->
+    <string name="accessibility_item_connected">connected</string>
 
     <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
     <string name="server_feature_label_p2p">P2P</string>
@@ -872,13 +891,25 @@
     <string name="connection_card_label_connected">Browsing safely from</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with details of the current VPN connection.
-         Only used by accessbility services.
+         Only used by accessibility services.
 
          Example:
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_details">connection details</string>
+
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_pin">Pin</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_unpin">Unpin</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_remove">Remove</string>
+    <!-- tag(Redesign_2023)
+         State description of a pinned recent item.
+         Only used by accessibility service.
+    -->
+    <string name="recent_action_accessibility_state_pinned">Pinned</string>
 
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Sign out</string>
@@ -911,5 +942,4 @@
          Ex: Poland - 192.1.1.1.1
     -->
     <string name="vpn_status_disabled_location">%1$s - %2$s</string>
-
 </resources>

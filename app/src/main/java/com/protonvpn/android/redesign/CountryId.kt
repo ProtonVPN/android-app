@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign
 
 import android.content.Context
 import androidx.annotation.DrawableRes
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import com.protonvpn.android.R
 import com.protonvpn.android.utils.CountryTools
@@ -50,7 +51,3 @@ value class CountryId private constructor(val countryCode: String) {
             }
     }
 }
-
-@DrawableRes
-fun CountryId.flagResource(context: Context): Int =
-    if (isFastest) R.drawable.flag_fastest else CountryTools.getFlagResource(context, countryCode)

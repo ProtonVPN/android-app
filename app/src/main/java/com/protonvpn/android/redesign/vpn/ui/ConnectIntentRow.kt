@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -44,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.base.ui.ActiveDot
 import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.utils.CountryTools
@@ -68,27 +68,42 @@ data class ConnectIntentViewState(
 )
 
 @Composable
-fun RowScope.ConnectIntentRow(
-    state: ConnectIntentViewState
-) {
-    with(state) {
-        Flag(exitCountry, entryCountry, isSecureCore)
-        Column(
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .weight(1f)
-        ) {
+fun ConnectIntentFlag(
+    state: ConnectIntentViewState,
+    modifier: Modifier = Modifier
+) = with(state) {
+    Flag(exitCountry, entryCountry, isSecureCore, modifier)
+}
+
+@Composable
+fun ConnectIntentLabels(
+    state: ConnectIntentViewState,
+    isConnected: Boolean,
+    modifier: Modifier = Modifier
+) = with(state) {
+    Column(
+        modifier = modifier
+    ) {
+        Row {
             Text(
                 exitCountry.label(),
                 style = ProtonTheme.typography.defaultNorm,
                 modifier = Modifier.testTag("primaryLabel")
             )
-            if (secondaryLabel != null || serverFeatures.isNotEmpty()) {
-                ServerDetailsRow(secondaryLabel?.label(), serverFeatures, modifier = Modifier.testTag("secondaryLabel"))
+            if (isConnected) {
+                ActiveDot(modifier = Modifier.padding(start = 8.dp))
             }
+        }
+        if (secondaryLabel != null || serverFeatures.isNotEmpty()) {
+            ServerDetailsRow(
+                secondaryLabel?.label(),
+                serverFeatures,
+                modifier = Modifier.testTag("secondaryLabel")
+            )
         }
     }
 }
+
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -182,16 +197,16 @@ private fun SeparatorBullet(
 @Composable
 private fun ConnectIntentRowPreview() {
     VpnTheme {
+        val state = ConnectIntentViewState(
+            exitCountry = CountryId.fastest,
+            entryCountry = null,
+            isSecureCore = false,
+            secondaryLabel = ConnectIntentSecondaryLabel.RawText("Lithuania"),
+            serverFeatures = EnumSet.of(ServerFeature.Tor)
+        )
         Row {
-            ConnectIntentRow(
-                ConnectIntentViewState(
-                    exitCountry = CountryId.fastest,
-                    entryCountry = null,
-                    isSecureCore = false,
-                    secondaryLabel = ConnectIntentSecondaryLabel.RawText("Lithuania"),
-                    serverFeatures = EnumSet.of(ServerFeature.Tor)
-                )
-            )
+            ConnectIntentFlag(state)
+            ConnectIntentLabels(state = state, isConnected = true)
         }
     }
 }
