@@ -25,20 +25,24 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetVpnConnectionCardViewState
+import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
 import com.protonvpn.android.redesign.vpn.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnConnectionState
+import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class ConnectionCardSampleViewModel @Inject constructor(
     getVpnConnectionCardViewState: GetVpnConnectionCardViewState,
+    vpnStatusViewStateFlow: VpnStatusViewStateFlow,
     private val vpnConnectionManager: VpnConnectionManager,
     private val serverManager: ServerManager
 ) : ViewModel() {
@@ -57,6 +61,12 @@ class ConnectionCardSampleViewModel @Inject constructor(
         )
     val cardViewState = getVpnConnectionCardViewState.cardViewState
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), initialCardViewState)
+
+    val vpnStateViewFlow: StateFlow<VpnStatusViewState> = vpnStatusViewStateFlow.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = VpnStatusViewState.Disabled()
+    )
 
     fun connect() {
         vpnConnectionManager.connectInBackground(
