@@ -39,8 +39,9 @@ class ServerListUpdaterPrefs @Inject constructor(
         get() = prefsProvider.getPrefs(PREFS_NAME)
 
     val ipAddressFlow: Flow<String> = preferences.observe<String>(KEY_IP_ADDRESS).map { it ?: "" }
+    val lastKnownCountryFlow: Flow<String> = preferences.observe<String>(KEY_COUNTRY).map { it ?: "" }
     var ipAddress: String by string(EMPTY_STRING, key = KEY_IP_ADDRESS)
-    var lastKnownCountry: String? by string()
+    var lastKnownCountry: String? by string(key = KEY_COUNTRY)
     var lastKnownIsp: String? by string()
     var lastNetzoneForLogicals: String? by string()
     var lastFullUpdateTimestamp: Long = 0L
@@ -51,5 +52,6 @@ class ServerListUpdaterPrefs @Inject constructor(
     companion object {
         private const val PREFS_NAME = "ServerListUpdater"
         private const val KEY_IP_ADDRESS = "ipAddress"
+        private const val KEY_COUNTRY = "lastKnownCountry"
     }
 }

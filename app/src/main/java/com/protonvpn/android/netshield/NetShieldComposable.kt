@@ -203,7 +203,7 @@ private fun NetShieldView(state: NetShieldViewState.NetShieldState, navigateToNe
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
+fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
     Row(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)

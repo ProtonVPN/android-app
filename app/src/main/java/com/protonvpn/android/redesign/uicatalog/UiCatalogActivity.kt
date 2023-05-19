@@ -96,6 +96,7 @@ private val sampleScreens: List<SampleScreen> = listOf(
     TextFieldsSample(),
     SnackbarsSample(),
     BottomBarSample(),
+    VpnStateSample()
 )
 
 @AndroidEntryPoint

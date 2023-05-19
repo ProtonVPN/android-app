@@ -39,6 +39,7 @@ import com.protonvpn.android.redesign.vpn.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnConnectionState
+import com.protonvpn.android.redesign.vpn.ui.VpnStatusView
 import kotlinx.coroutines.launch
 import me.proton.core.compose.component.VerticalSpacer
 import java.util.EnumSet
@@ -66,6 +67,11 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
 
             SamplesSectionLabel(
                 "Connection card with real state - log in first\n(shows current connection or quick connect profile)"
+            )
+            VpnStatusView(
+                stateFlow = viewModel.vpnStateViewFlow, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
             )
             VpnConnectionCard(
                 viewState = cardViewState,
