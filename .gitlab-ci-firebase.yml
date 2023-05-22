@@ -12,6 +12,7 @@
 
 .tests_preparation_script:
   stage: test
+  extends: .ndk
   tags:
     - small
   except:
@@ -105,6 +106,7 @@ real connection mobile tests:
 
 robo tests:
   stage: test
+  extends: .ndk
   timeout: 1h 30m
   tags:
     - small

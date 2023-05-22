@@ -1,8 +1,11 @@
 default:
   image: ${CI_REGISTRY}/android/shared/docker-android/ndk:v1.1.0
+
+.ndk:
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
+    - mkdir -p app
     - base64 -d - < "$PROTON_KEY_FILE2" > app/protonkey.jks
     - base64 -d -  < "$SERVICE_ACCOUNT_FILE" > app/service_account.json
     - md5sum app/protonkey.jks
@@ -23,9 +26,18 @@ variables:
   GIT_FETCH_EXTRA_FLAGS: --tags
   ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || 
+          $CI_PIPELINE_SOURCE == "schedule"
+      variables:
+        ATLAS_DEPLOY_ENV: "true"
+        ATLAS_DEPLOY_PREP: "true"
+    - if: $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "push"
+
 stages:
-  - prevent-interrupt
-  - image
   - prepare
   - build
   - sign
@@ -41,7 +53,7 @@ stages:
 # Make development and master uninterruptible.
 # Based on https://gitlab.com/gitlab-org/gitlab/-/issues/194023#note_928958193
 prevent-interrupt:
-  stage: prevent-interrupt
+  stage: .pre
   tags:
     - small
   rules:
@@ -72,61 +84,9 @@ cache:
 
   - <<: *gradle-build-cache
 
-# TODO: Switch to a shared implementation once DEVOPS-794 is finished.
-deploy:book-env-name:
-  stage: prepare
-  tags:
-    - small
-  needs: []
-  cache: []
-  before_script: []
-  variables:
-    GIT_STRATEGY: none
-  image: $CI_REGISTRY/proton/devops/atlas-cli
-  script:
-    - get_name.py -v -o deploy.env -d "$ATLAS_BASE_DOMAIN" --release "$ATLAS_RELEASE_SUFFIX" "${ENV_TAG:?}" "$CI_PROJECT_PATH" "$CI_COMMIT_REF_NAME"
-    - cat deploy.env
-  environment:
-    name: test-env/$CI_COMMIT_REF_SLUG/$CI_PIPELINE_IID
-    action: prepare
-  artifacts:
-    paths:
-      - deploy.env
-    reports:
-      dotenv: deploy.env
-    expire_in: 1 week
-  rules: &rules_deploy_env
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - when: on_success
-
-deploy:test-env:
-  extends: deploy:review
-  retry: 1
-  needs:
-    - job: deploy:book-env-name
-      artifacts: true
-  dependencies:
-    - deploy:book-env-name
-  environment:
-    name: test-env/$CI_COMMIT_REF_SLUG/$CI_PIPELINE_IID
-    on_stop: cleanup:test-env
-  cache: []
-  rules: *rules_deploy_env
-
-cleanup:test-env:
-  extends: cleanup:review
-  needs: ["deploy:test-env", "mobile tests test-env"]
-  cache: []
-  environment:
-    name: test-env/$CI_COMMIT_REF_SLUG/$CI_PIPELINE_IID
-    action: stop
-  rules: *rules_deploy_env
-
 detekt analysis:
   stage: prepare
+  extends: .ndk
   cache:
     - key: $CI_COMMIT_REF_SLUG
       policy: pull-push
@@ -147,6 +107,7 @@ detekt analysis:
 
 build google debug:
   stage: build
+  extends: .ndk
   except:
     - schedules
   tags:
@@ -166,6 +127,7 @@ build google debug:
 
 .build test:
   stage: build
+  extends: .ndk
   tags:
     - xlarge-k8s
   except:
@@ -201,6 +163,7 @@ build black:
 
 build BTI:
   stage: build
+  extends: .ndk
   when: manual
   except:
     - schedules
@@ -263,6 +226,7 @@ build google play release:
 
 .build amazon release:
   stage: build
+  extends: .ndk
   tags:
     - xlarge-k8s
   script:
@@ -308,6 +272,7 @@ build release (auto):
 
 unit tests:
   stage: test
+  extends: .ndk
   tags:
     - large
   except:
@@ -323,6 +288,7 @@ unit tests:
 
 coverage report:
   stage: report
+  extends: .ndk
   tags:
     - large
   script:
@@ -350,6 +316,7 @@ coverage report:
 
 pages:
   stage: publish
+  extends: .ndk
   tags:
     - small
   only:
@@ -366,6 +333,7 @@ pages:
 
 owasp check:
   stage: report
+  extends: .ndk
   tags:
     - large
   script:
