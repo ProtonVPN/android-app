@@ -28,14 +28,10 @@ variables:
 
 workflow:
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || 
-          $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
       variables:
         ATLAS_DEPLOY_ENV: "true"
         ATLAS_DEPLOY_PREP: "true"
-    - if: $CI_OPEN_MERGE_REQUESTS
-      when: never
-    - if: $CI_PIPELINE_SOURCE == "push"
 
 stages:
   - prepare
@@ -178,6 +174,7 @@ build BTI:
 
 build google play bundle:
   stage: build
+  extends: .ndk
   rules:
     - if: $CI_COMMIT_BRANCH == "development"
       when: always
@@ -197,6 +194,7 @@ build google play bundle:
 
 build google play release:
   stage: build
+  extends: .ndk
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: never
@@ -255,6 +253,7 @@ build amazon release (manual):
 
 build release (auto):
   stage: build
+  extends: .ndk
   rules:
     - if: $CI_COMMIT_BRANCH =~ /^release/
       when: always
