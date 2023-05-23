@@ -43,7 +43,7 @@ class ConnectionParamsWireguard(
     port: Int,
     connectingDomain: ConnectingDomain,
     entryIp: String?,
-    val transmission: TransmissionProtocol
+    transmission: TransmissionProtocol
 ) : ConnectionParams(
     profile,
     server,
@@ -65,12 +65,9 @@ class ConnectionParamsWireguard(
     ): Config {
         val entryIp = entryIp ?: requireNotNull(connectingDomain?.getEntryIp(protocolSelection))
 
-        val excludedIPs = mutableListOf<String>()
-        if (transmission != TransmissionProtocol.UDP) {
-            // Our modified WireGuard requires server IP excluded as we replaced
-            // VpnService.protect with split tunneling for TCP/TLS sockets.
-            excludedIPs += entryIp
-        }
+        // Our modified WireGuard requires server IP excluded as we replaced
+        // VpnService.protect with split tunneling to have TCP/TLS socket support.
+        val excludedIPs = mutableListOf(entryIp)
         var excludedApps: Set<String> = emptySet()
         if (userData.useSplitTunneling) {
             userData.splitTunnelIpAddresses.takeIf { it.isNotEmpty() }?.let {
