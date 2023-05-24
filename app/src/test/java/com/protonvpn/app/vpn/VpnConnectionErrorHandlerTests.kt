@@ -77,6 +77,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.HttpResponseCodes
 import me.proton.core.network.domain.NetworkManager
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -322,6 +323,32 @@ class VpnConnectionErrorHandlerTests {
 
         coVerify(exactly = 1) { serverListUpdater.updateServerList() }
         coVerify(exactly = 1) { serverManager.updateServerDomainStatus(any()) }
+    }
+
+    @Test
+    fun testAuthErrorServerRemovedFallback() = testScope.runTest {
+        coEvery { userPlanManager.computeUserInfoChanges(any(), any()) } returns listOf()
+
+        val maintenanceDomain = directConnectionParams.connectingDomain!!
+        coEvery { api.getConnectingDomain(maintenanceDomain.id!!) } answers {
+            ApiResult.Error.Http(HttpResponseCodes.HTTP_UNPROCESSABLE, "domain doesn't exist")
+        }
+
+        val pingResult = preparePings(failCountry = directProfile.country, failSecureCore = true)
+        val fallback = handler.onAuthError(directConnectionParams)
+        assertEquals(
+            VpnFallbackResult.Switch.SwitchServer(
+                directConnectionParams.server,
+                pingResult.captured.connectionParams.profile,
+                pingResult.captured,
+                SwitchServerReason.ServerInMaintenance,
+                notifyUser = true, // Country is not compatible
+                compatibleProtocol = true,
+                switchedSecureCore = false),
+            fallback
+        )
+
+        coVerify(exactly = 1) { serverListUpdater.updateServerList() }
     }
 
     @Test
