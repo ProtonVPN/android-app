@@ -46,6 +46,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.HttpResponseCodes
 import me.proton.core.network.domain.NetworkManager
 import java.io.Serializable
 import javax.inject.Inject
@@ -443,31 +444,42 @@ class VpnConnectionErrorHandler @Inject constructor(
         ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Checking if server is not in maintenance")
         val domainId = connectionParams.connectingDomain?.id ?: return null
         val result = api.getConnectingDomain(domainId)
-        if (result is ApiResult.Success) {
-            val connectingDomain = result.value.connectingDomain
-            if (!connectingDomain.isOnline) {
-                ProtonLogger.logCustom(
-                    LogCategory.CONN_SERVER_SWITCH,
-                    "Current server is in maintenance (${connectingDomain.entryDomain})"
-                )
-                serverManager.updateServerDomainStatus(connectingDomain)
-                serverListUpdater.updateServerList()
-                return if (smartReconnectEnabled) {
-                    onServerInMaintenance(connectionParams.profile, connectionParams)
-                } else {
-                    ProtonLogger.log(
-                        ConnServerSwitchServerSelected,
-                        "Smart reconnect disabled, fall back to default connection"
+        var findNewServer = false
+        when {
+            result is ApiResult.Success -> {
+                val connectingDomain = result.value.connectingDomain
+                if (!connectingDomain.isOnline) {
+                    ProtonLogger.logCustom(
+                        LogCategory.CONN_SERVER_SWITCH,
+                        "Current server is in maintenance (${connectingDomain.entryDomain})"
                     )
-                    val fallbackProfile = serverManager.defaultFallbackConnection
-                    val fallbackServer = serverManager.getServerForProfile(fallbackProfile, currentUser.vpnUser())
-                    fallbackServer?.let {
-                        VpnFallbackResult.Switch.SwitchProfile(connectionParams.server, fallbackServer, fallbackProfile)
-                    }
+                    serverManager.updateServerDomainStatus(connectingDomain)
+                    serverListUpdater.updateServerList()
+                    findNewServer = true
                 }
             }
+            result is ApiResult.Error.Http && result.httpCode == HttpResponseCodes.HTTP_UNPROCESSABLE -> {
+                serverListUpdater.updateServerList()
+                findNewServer = true
+            }
         }
-        return null
+        if (findNewServer) {
+            return if (smartReconnectEnabled) {
+                onServerInMaintenance(connectionParams.profile, connectionParams)
+            } else {
+                ProtonLogger.log(
+                    ConnServerSwitchServerSelected,
+                    "Smart reconnect disabled, fall back to default connection"
+                )
+                val fallbackProfile = serverManager.defaultFallbackConnection
+                val fallbackServer = serverManager.getServerForProfile(fallbackProfile, currentUser.vpnUser())
+                fallbackServer?.let {
+                    VpnFallbackResult.Switch.SwitchProfile(connectionParams.server, fallbackServer, fallbackProfile)
+                }
+            }
+        } else {
+            return null
+        }
     }
 
     private fun PhysicalServer.exists(): Boolean =
