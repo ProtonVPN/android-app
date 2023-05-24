@@ -69,7 +69,6 @@ sign-bundle:
 sync-app:
   cache: {}
   stage: mirror
-  extends: .ndk
   only:
     - /^release/
   except:

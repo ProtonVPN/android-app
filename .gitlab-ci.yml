@@ -1,7 +1,5 @@
 default:
   image: ${CI_REGISTRY}/android/shared/docker-android/ndk:v1.1.0
-
-.ndk:
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
@@ -25,13 +23,6 @@ variables:
   TEST_ENV_DOMAIN: $DYNAMIC_DOMAIN
   GIT_FETCH_EXTRA_FLAGS: --tags
   ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
-
-workflow:
-  rules:
-    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
-      variables:
-        ATLAS_DEPLOY_ENV: "true"
-        ATLAS_DEPLOY_PREP: "true"
 
 stages:
   - prepare
@@ -80,9 +71,29 @@ cache:
 
   - <<: *gradle-build-cache
 
+deploy:book-env-name:
+  extends: claim:review
+  rules: &rules_deploy_env
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - when: on_success
+
+deploy:test-env:
+  extends: deploy:review
+  needs:
+    - job: deploy:book-env-name
+      artifacts: true
+  rules: *rules_deploy_env
+
+cleanup:test-env:
+  extends: cleanup:review
+  needs: ["deploy:test-env", "mobile tests test-env"]
+  rules: *rules_deploy_env
+
 detekt analysis:
   stage: prepare
-  extends: .ndk
   cache:
     - key: $CI_COMMIT_REF_SLUG
       policy: pull-push
@@ -103,7 +114,6 @@ detekt analysis:
 
 build google debug:
   stage: build
-  extends: .ndk
   except:
     - schedules
   tags:
@@ -123,7 +133,6 @@ build google debug:
 
 .build test:
   stage: build
-  extends: .ndk
   tags:
     - xlarge-k8s
   except:
@@ -159,7 +168,6 @@ build black:
 
 build BTI:
   stage: build
-  extends: .ndk
   when: manual
   except:
     - schedules
@@ -174,7 +182,6 @@ build BTI:
 
 build google play bundle:
   stage: build
-  extends: .ndk
   rules:
     - if: $CI_COMMIT_BRANCH == "development"
       when: always
@@ -194,7 +201,6 @@ build google play bundle:
 
 build google play release:
   stage: build
-  extends: .ndk
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: never
@@ -224,7 +230,6 @@ build google play release:
 
 .build amazon release:
   stage: build
-  extends: .ndk
   tags:
     - xlarge-k8s
   script:
@@ -253,7 +258,6 @@ build amazon release (manual):
 
 build release (auto):
   stage: build
-  extends: .ndk
   rules:
     - if: $CI_COMMIT_BRANCH =~ /^release/
       when: always
@@ -271,7 +275,6 @@ build release (auto):
 
 unit tests:
   stage: test
-  extends: .ndk
   tags:
     - large
   except:
@@ -287,7 +290,6 @@ unit tests:
 
 coverage report:
   stage: report
-  extends: .ndk
   tags:
     - large
   script:
@@ -315,7 +317,6 @@ coverage report:
 
 pages:
   stage: publish
-  extends: .ndk
   tags:
     - small
   only:
@@ -332,7 +333,6 @@ pages:
 
 owasp check:
   stage: report
-  extends: .ndk
   tags:
     - large
   script:
