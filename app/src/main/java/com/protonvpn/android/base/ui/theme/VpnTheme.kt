@@ -29,10 +29,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.ProtonTheme3
 import me.proton.core.compose.theme.defaultUnspecified
@@ -46,10 +48,12 @@ fun VpnTheme(isDark: Boolean = isNightMode(), content: @Composable () -> Unit) {
             // Apply colors to system bars if the theme is used in an activity (don't apply when in fragments).
             if (!view.isInEditMode && view.context is Activity) {
                 val bottomBarColor = ProtonTheme.colors.backgroundSecondary
+                val systemUiController = rememberSystemUiController()
                 SideEffect {
                     val window = (view.context as Activity).window
                     window.navigationBarColor = bottomBarColor.toArgb()
                     WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !isDark
+                    systemUiController.setStatusBarColor(color = Color.Transparent)
                 }
             }
             CompositionLocalProvider(

@@ -22,6 +22,9 @@
 package com.protonvpn.android.redesign.main_screen.ui.nav
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
@@ -66,12 +69,13 @@ private fun MainScreenNavigation(
     val bottomTarget = mainNav.currentBottomBarTargetAsState()
     Scaffold(
         modifier = modifier.background(ProtonTheme.colors.backgroundNorm),
+        contentWindowInsets = WindowInsets.navigationBars,
         bottomBar = {
             BottomBarView(selectedTarget = bottomTarget, navigateTo = mainNav::navigate)
         }
     ) { paddingValues ->
         mainNav.NavGraph(
-            modifier.padding(paddingValues),
+            modifier.fillMaxSize().padding(paddingValues),
             bottomSheetNav
         )
         mainNavHostInitialized.value = true
