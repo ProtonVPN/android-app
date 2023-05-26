@@ -19,15 +19,56 @@
 
 package com.protonvpn.android.redesign.home_screen.ui
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.protonvpn.android.redesign.vpn.ui.VpnConnectionCard
+import com.protonvpn.android.redesign.vpn.ui.VpnStatusView
 
 @Composable
 fun HomeRoute() {
-    Home()
+    HomeView()
 }
 
 @Composable
-fun Home() {
-    Text("Home")
+fun HomeView() {
+    val viewModel: HomeViewModel = hiltViewModel()
+    val cardViewState = viewModel.cardViewState.collectAsStateWithLifecycle().value
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        VpnStatusView(
+            stateFlow = viewModel.vpnStateViewFlow,
+            modifier = Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            VpnConnectionCard(
+                viewState = cardViewState,
+                onConnect = viewModel::connect,
+                onDisconnect = viewModel::disconnect,
+                onOpenPanelClick = { },
+                onHelpClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+            )
+        }
+    }
 }

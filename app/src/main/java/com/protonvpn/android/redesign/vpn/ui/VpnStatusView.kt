@@ -42,8 +42,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -118,7 +118,7 @@ fun VpnStatusView(
             )
     ) {
         StatusView(
-            stateFlow = stateFlow,
+            state = statusState.value,
             modifier.padding(16.dp)
         )
     }
@@ -126,17 +126,16 @@ fun VpnStatusView(
 
 @Composable
 private fun StatusView(
-    stateFlow: StateFlow<VpnStatusViewState>,
+    state: VpnStatusViewState,
     modifier: Modifier = Modifier
 ) {
-    val statusState = stateFlow.collectAsStateWithLifecycle()
     val wasConnecting = remember { mutableStateOf(false) }
 
     Box(modifier, contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             val shouldAnimate =
-                wasConnecting.value && statusState.value is VpnStatusViewState.Connected
-            when (val state = statusState.value) {
+                wasConnecting.value && state is VpnStatusViewState.Connected
+            when (state) {
                 is VpnStatusViewState.Connected -> {
                     VpnConnectedView(state, shouldAnimate)
                 }
@@ -157,7 +156,7 @@ private fun StatusView(
 @Composable
 private fun VpnConnectedView(
     state: VpnStatusViewState.Connected,
-    shouldAnimate: Boolean,
+    shouldAnimate: Boolean
 ) {
     val offsetY = remember { Animatable(if (shouldAnimate) 1f else 0f) }
     val alpha = remember { Animatable(if (shouldAnimate) 0f else 1f) }
@@ -175,11 +174,13 @@ private fun VpnConnectedView(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .padding(8.dp)
-            .alpha(alpha.value)
+            .graphicsLayer {
+                this.alpha = alpha.value
+            }
     ) {
         Icon(
             painter = painterResource(
-                id = if (state.isSecureCoreServer) R.drawable.ic_proton_locks else R.drawable.ic_proton_lock
+                id = if (state.isSecureCoreServer) R.drawable.ic_proton_locks_filled else R.drawable.ic_proton_lock_filled
             ),
             tint = ProtonTheme.colors.vpnGreen,
             contentDescription = null,
@@ -189,16 +190,17 @@ private fun VpnConnectedView(
             text = stringResource(R.string.vpn_status_connected),
             style = ProtonTheme.typography.defaultStrongNorm,
             color = ProtonTheme.colors.vpnGreen,
-
-            )
+        )
     }
 
     Surface(
-        color = ProtonTheme.colors.backgroundDeep,
+        color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4F),
         shape = ProtonTheme.shapes.medium,
         modifier = Modifier
-            .offset { IntOffset(x = 0, y = (offsetY.value * 50).toInt()) }
-            .alpha(alpha.value)
+            .offset { IntOffset(x = 0, y = (offsetY.value * 16.dp.toPx()).toInt()) }
+            .graphicsLayer {
+                this.alpha = alpha.value
+            }
             .padding(top = 8.dp)
     ) {
         BandwidthStatsRow(false, state.netShieldStats)
@@ -217,31 +219,31 @@ private fun VpnConnectingView(state: VpnStatusViewState.Connecting) {
     Text(
         text = stringResource(R.string.vpn_status_connecting),
         style = ProtonTheme.typography.defaultStrongNorm,
-        color = ProtonTheme.colors.textNorm,
         modifier = Modifier.padding(8.dp)
     )
-    Surface(
-        color = ProtonTheme.colors.backgroundDeep,
-        shape = ProtonTheme.shapes.medium
-    ) {
-        AnimateText(
-            targetText = state.locationText?.run {
-                stringResource(
+
+    state.locationText?.let {
+        Surface(
+            color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4f),
+            shape = ProtonTheme.shapes.medium,
+        ) {
+            AnimateText(
+                targetText = stringResource(
                     R.string.vpn_status_disabled_location,
-                    BidiFormatter.getInstance().unicodeWrap(country),
-                    ip
-                )
-            } ?: "",
-            targetCharacter = '*',
-            modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-        )
+                    BidiFormatter.getInstance().unicodeWrap(it.country),
+                    it.ip
+                ),
+                targetCharacter = '*',
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+            )
+        }
     }
 }
 
 @Composable
 private fun VpnDisabledView(state: VpnStatusViewState.Disabled) {
     Icon(
-        painter = painterResource(id = R.drawable.ic_proton_lock_open),
+        painter = painterResource(id = R.drawable.ic_proton_lock_open_filled),
         contentDescription = null,
         tint = ProtonTheme.colors.notificationError,
         modifier = Modifier.padding(8.dp)
@@ -252,19 +254,19 @@ private fun VpnDisabledView(state: VpnStatusViewState.Disabled) {
         modifier = Modifier.padding(8.dp)
     )
     Surface(
-        color = ProtonTheme.colors.backgroundDeep,
+        color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4F),
         shape = ProtonTheme.shapes.medium,
     ) {
         Text(
-            text = state.locationText?.run {
+            text = state.locationText?.let {
                 stringResource(
                     R.string.vpn_status_disabled_location,
-                    BidiFormatter.getInstance().unicodeWrap(country),
-                    ip
+                    BidiFormatter.getInstance().unicodeWrap(it.country),
+                    it.ip
                 )
             } ?: stringResource(R.string.stateFragmentUnknownIp),
             style = ProtonTheme.typography.defaultWeak,
-            modifier = Modifier.padding(horizontal = 8.dp)
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
         )
     }
 }
@@ -302,6 +304,7 @@ private fun AnimateText(
             content = {
                 Text(
                     displayText.value,
+                    style = ProtonTheme.typography.defaultWeak,
                     modifier = Modifier.onGloballyPositioned {
                         if (fixedWidth.value == null) {
                             fixedWidth.value = it.size.width
@@ -346,7 +349,28 @@ private fun PreviewVpnConnectingState() {
     VpnStatusView(
         stateFlow = MutableStateFlow(
             VpnStatusViewState.Connecting(
-                (LocationText("Europe", "192.1.1.1.1"))
+                LocationText(
+                    "Europe",
+                    "192.1.1.1.1"
+                )
+            )
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewVpnDisabledStateWithRTLSymbols() {
+    VpnStatusView(
+        stateFlow = MutableStateFlow(
+            VpnStatusViewState.Disabled(
+                LocationText(
+                    "اغلب برامجا",
+                    "192.1.1.1.1"
+                )
             )
         ),
         modifier = Modifier
