@@ -17,19 +17,15 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.vpn
+package com.protonvpn.android.redesign.vpn.ui
 
-import com.protonvpn.android.models.vpn.Server
-import java.util.EnumSet
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ServerFeature
 
-enum class ServerFeature {
-    P2P,
-    Tor;
-
-    companion object {
-        fun fromServer(server: Server): Set<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java).apply {
-            if (server.isP2pServer) add(P2P)
-            if (server.isTor) add(Tor)
-        }
-    }
-}
+data class ConnectIntentViewState(
+    val exitCountry: CountryId,
+    val entryCountry: CountryId?,
+    val isSecureCore: Boolean,
+    val secondaryLabel: ConnectIntentSecondaryLabel?,
+    val serverFeatures: Set<ServerFeature>,
+)

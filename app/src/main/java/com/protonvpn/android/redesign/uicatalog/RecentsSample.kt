@@ -53,10 +53,9 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             RecentsList(
                 recents,
                 onClickAction = {},
-                onPinAction = { id ->
+                onTogglePin = { item ->
                     coroutineScope.launch {
                         delay(100) // Simulate DB overhead.
-                        val item = recents.find { it.id == id }!!
                         val recentsWithoutItem = recents - item
                         if (item.isPinned) {
                             recents = recentsWithoutItem + item.copy(isPinned = false)
@@ -65,10 +64,10 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
                         }
                     }
                 },
-                onRemoveAction = { id ->
+                onRemoveAction = { item ->
                     coroutineScope.launch {
                         delay(100) // Simulate DB overhead.
-                        recents = recents.filterNot { it.id == id }
+                        recents = recents.filterNot { it.id == item.id }
                     }
                 }
             )

@@ -324,8 +324,11 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     private fun setConnectIntentRowComposable(connectIntent: ConnectIntent, connectedServer: Server? = null) {
         composeRule.setContent {
             Row {
+                val state = getConnectIntentViewState(connectIntent, connectedServer)
                 ConnectIntentLabels(
-                    state = getConnectIntentViewState(connectIntent, connectedServer),
+                    exitCountry = state.exitCountry,
+                    secondaryLabel = state.secondaryLabel,
+                    serverFeatures = state.serverFeatures,
                     isConnected = false
                 )
             }

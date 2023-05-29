@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.recents.ui
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,19 +31,17 @@ import androidx.compose.ui.Modifier
 fun RecentsList(
     recents: List<RecentItemViewState>,
     onClickAction: (id: Long) -> Unit,
-    onPinAction: (id: Long) -> Unit,
-    onRemoveAction: (id: Long) -> Unit,
+    onTogglePin: (item: RecentItemViewState) -> Unit,
+    onRemoveAction: (item: RecentItemViewState) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier.animateContentSize()
-    ) {
+    LazyColumn(modifier = modifier) {
         items(recents, key = { it.id }) { item ->
             RecentRow(
                 item = item,
                 onClick = { onClickAction(item.id) },
-                onTogglePin = { onPinAction(item.id) },
-                onRemove = { onRemoveAction(item.id) },
+                onTogglePin = { onTogglePin(item) },
+                onRemove = { onRemoveAction(item) },
                 modifier = Modifier
                     .fillMaxSize()
                     .animateItemPlacement()

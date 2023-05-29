@@ -41,6 +41,7 @@ import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createServer
+import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every

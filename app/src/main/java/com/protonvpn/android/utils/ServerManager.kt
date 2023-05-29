@@ -40,6 +40,7 @@ import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.userstorage.ProfileManager
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.vpn.ProtocolSelection
 import io.sentry.Sentry
 import io.sentry.SentryEvent
@@ -369,6 +370,51 @@ class ServerManager @Inject constructor(
             ProfileType.DIRECT ->
                 getServerById(wrapper.serverId!!)
         }
+    }
+
+    /*
+     * Perform operations related to ConnectIntent.
+     *
+     * ConnectIntent can specify either a fastest server overall, fastest in country, a specific server and so on.
+     * Use this function to implement operations for a ConnectIntent like checking if its country/city/server is
+     * available.
+     */
+    fun <T> forConnectIntent(
+        connectIntent: ConnectIntent,
+        onFastest: (isSecureCore: Boolean) -> T,
+        onFastestInCountry: (VpnCountry, isSecureCore: Boolean) -> T,
+        onFastestInCity: (VpnCountry, List<Server>) -> T,
+        onServer: (Server) -> T,
+        fallbackResult: T
+    ): T = when(connectIntent) {
+        is ConnectIntent.FastestInCountry ->
+            if (connectIntent.country.isFastest) {
+                onFastest(false)
+            } else {
+                getVpnExitCountry(
+                    connectIntent.country.countryCode,
+                    false
+                )?.let { onFastestInCountry(it, false) } ?: fallbackResult
+            }
+        is ConnectIntent.FastestInCity -> {
+            getVpnExitCountry(connectIntent.country.countryCode, false)?.let { country ->
+                onFastestInCity(country, country.serverList.filter { it.city == connectIntent.cityEn })
+            } ?: fallbackResult
+        }
+        is ConnectIntent.SecureCore ->
+            if (connectIntent.exitCountry.isFastest) {
+                onFastest(true)
+            } else {
+                val exitCountry = getVpnExitCountry(connectIntent.exitCountry.countryCode, true)
+                if (connectIntent.entryCountry.isFastest) {
+                    exitCountry?.let { onFastestInCountry(it, true) } ?: fallbackResult
+                } else {
+                    exitCountry?.serverList?.find {
+                        it.entryCountry == connectIntent.entryCountry.countryCode
+                    }?.let { onServer(it) } ?: fallbackResult
+                }
+            }
+        is ConnectIntent.Server -> getServerById(connectIntent.serverId)?.let { onServer(it) } ?: fallbackResult
     }
 
     @Deprecated(

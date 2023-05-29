@@ -59,28 +59,14 @@ sealed interface ConnectIntentSecondaryLabel {
     data class RawText(val text: String) : ConnectIntentSecondaryLabel
 }
 
-data class ConnectIntentViewState(
-    val exitCountry: CountryId,
-    val entryCountry: CountryId?,
-    val isSecureCore: Boolean,
-    val secondaryLabel: ConnectIntentSecondaryLabel?,
-    val serverFeatures: Set<ServerFeature>,
-)
-
-@Composable
-fun ConnectIntentFlag(
-    state: ConnectIntentViewState,
-    modifier: Modifier = Modifier
-) = with(state) {
-    Flag(exitCountry, entryCountry, isSecureCore, modifier)
-}
-
 @Composable
 fun ConnectIntentLabels(
-    state: ConnectIntentViewState,
+    exitCountry: CountryId,
+    secondaryLabel: ConnectIntentSecondaryLabel?,
+    serverFeatures: Set<ServerFeature>,
     isConnected: Boolean,
     modifier: Modifier = Modifier
-) = with(state) {
+) {
     Column(
         modifier = modifier
     ) {
@@ -197,16 +183,12 @@ private fun SeparatorBullet(
 @Composable
 private fun ConnectIntentRowPreview() {
     VpnTheme {
-        val state = ConnectIntentViewState(
-            exitCountry = CountryId.fastest,
-            entryCountry = null,
-            isSecureCore = false,
-            secondaryLabel = ConnectIntentSecondaryLabel.RawText("Lithuania"),
-            serverFeatures = EnumSet.of(ServerFeature.Tor)
-        )
         Row {
-            ConnectIntentFlag(state)
-            ConnectIntentLabels(state = state, isConnected = true)
+            ConnectIntentLabels(
+                exitCountry = CountryId.fastest,
+                secondaryLabel = ConnectIntentSecondaryLabel.RawText("Lithuania"),
+                serverFeatures = EnumSet.of(ServerFeature.Tor), isConnected = true
+            )
         }
     }
 }
