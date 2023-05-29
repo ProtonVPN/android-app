@@ -24,9 +24,9 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -37,13 +37,17 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
+import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel
 import com.protonvpn.android.redesign.main_screen.ui.nav.VpnApp
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
+import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.compose.component.ProtonCenteredProgress
 
@@ -51,6 +55,10 @@ import me.proton.core.compose.component.ProtonCenteredProgress
 class MainActivity : AppCompatActivity() {
 
     private val accountViewModel: AccountViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val vpnActivityDelegate = VpnUiActivityDelegateMobile(this) {
+        retryConnectionAfterPermissions(it)
+    }
 
     private val helper = object : MainActivityHelper(this) {
 
@@ -98,8 +106,9 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
                         )
-
-                        VpnApp(coreNavigation = coreNavigation)
+                        CompositionLocalProvider(LocalVpnUiDelegate provides this@MainActivity.vpnActivityDelegate) {
+                            VpnApp(coreNavigation = coreNavigation)
+                        }
 
                         if (showSignOutDialog.value) {
                             SignOutDialog(
@@ -116,6 +125,10 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         helper.onNewIntent(accountViewModel)
+    }
+
+    private fun retryConnectionAfterPermissions(profile: Profile) {
+        homeViewModel.connect(vpnActivityDelegate, profile)
     }
 }
 

@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.home_screen.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
+import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetVpnConnectionCardViewState
@@ -32,6 +33,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -67,10 +69,10 @@ class HomeViewModel @Inject constructor(
         initialValue = VpnStatusViewState.Disabled()
     )
 
-    fun connect() {
-        // TODO use connect with VpnUiDelegate
-        vpnConnectionManager.connectInBackground(
-            serverManager.defaultConnection,
+    fun connect(vpnUiDelegate: VpnUiDelegate, profile: Profile? = null) {
+        vpnConnectionManager.connect(
+            vpnUiDelegate,
+            profile ?: serverManager.defaultConnection,
             ConnectTrigger.QuickConnect("Home screen")
         )
     }

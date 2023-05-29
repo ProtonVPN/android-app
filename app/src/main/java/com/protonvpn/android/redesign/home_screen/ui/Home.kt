@@ -27,9 +27,11 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.vpn.ui.VpnConnectionCard
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusView
 
@@ -59,9 +61,10 @@ fun HomeView() {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
+            val vpnUiDelegate = LocalVpnUiDelegate.current
             VpnConnectionCard(
                 viewState = cardViewState,
-                onConnect = viewModel::connect,
+                onConnect = { viewModel.connect(vpnUiDelegate) },
                 onDisconnect = viewModel::disconnect,
                 onOpenPanelClick = { },
                 onHelpClick = { },
