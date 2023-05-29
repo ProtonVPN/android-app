@@ -314,12 +314,12 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_11
-        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
         coreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = JavaVersion.VERSION_17.toString()
         freeCompilerArgs += [
                 "-Xopt-in=kotlin.RequiresOptIn"
         ]
@@ -697,13 +697,13 @@ dependencies {
     implementation "com.github.seancfoley:ipaddress:5.3.4"
 
     // Compose
-    def composeBom = platform('androidx.compose:compose-bom:2023.01.00')
+    def composeBom = platform('androidx.compose:compose-bom:2023.05.01')
     implementation composeBom
     androidTestImplementation composeBom
     implementation 'androidx.compose.material:material'
     implementation 'androidx.compose.ui:ui'
     implementation "androidx.compose.runtime:runtime-livedata"
-    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
 
     implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
@@ -822,7 +822,7 @@ dependencies {
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
     }
 
-    androidTestImplementation 'androidx.lifecycle:lifecycle-runtime-testing:2.6.0'
+    androidTestImplementation 'androidx.lifecycle:lifecycle-runtime-testing:2.6.1'
     androidTestImplementation('androidx.test.espresso:espresso-idling-resource:3.4.0') {
         exclude module: 'support-annotations'
     }
