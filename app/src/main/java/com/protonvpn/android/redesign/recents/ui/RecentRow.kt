@@ -67,8 +67,8 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
-import com.protonvpn.android.redesign.vpn.ui.ConnectIntentFlag
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
@@ -155,10 +155,14 @@ private fun RecentRowContent(
                         .padding(end = 8.dp)
                         .size(16.dp)
                 )
-                ConnectIntentFlag(item.connectIntent)
+                with(item.connectIntent) {
+                    Flag(exitCountry, entryCountry, isSecureCore)
+                }
             }
             ConnectIntentLabels(
-                item.connectIntent,
+                item.connectIntent.exitCountry,
+                item.connectIntent.secondaryLabel,
+                item.connectIntent.serverFeatures,
                 item.isConnected,
                 modifier = Modifier
                     .weight(1f)

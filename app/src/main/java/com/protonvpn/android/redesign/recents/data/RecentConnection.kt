@@ -17,23 +17,23 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.recents
+package com.protonvpn.android.redesign.recents.data
 
-import com.protonvpn.android.redesign.stubs.toConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.utils.ServerManager
-import dagger.Reusable
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-@Suppress("UseDataClass")
-@Reusable
-class GetMostRecentConnectIntent @Inject constructor(
-    serverManager: ServerManager,
-    effectiveUserSettings: EffectiveCurrentUserSettings
-) {
-    val mostRecent: Flow<ConnectIntent?> = effectiveUserSettings.effectiveSettings
-        .map { settings -> serverManager.defaultConnection.toConnectIntent(serverManager, settings) }
+data class RecentConnection(
+    val id: Long,
+    val isPinned: Boolean,
+    val connectIntent: ConnectIntent,
+)
+
+fun RecentConnectionEntity.toRecentConnection(): RecentConnection {
+    // TODO: what to do when data cannot be deserialized because it's invalid?
+    //  Currently this code may throw exceptions but it's probably best not to crash the app because it'll become
+    //  useless until the user cleares the data or reinstalls.
+    return RecentConnection(
+        id = id,
+        isPinned = isPinned,
+        connectIntent = connectIntentData.toConnectIntent()
+    )
 }

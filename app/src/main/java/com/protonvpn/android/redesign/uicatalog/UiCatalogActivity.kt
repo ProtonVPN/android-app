@@ -91,6 +91,7 @@ abstract class SampleScreen(
 }
 
 private val sampleScreens: List<SampleScreen> = listOf(
+    RecentsAndConnectionSample(),
     ConnectionCardSample(),
     RecentsSample(),
     FlagsSample(),

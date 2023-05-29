@@ -53,10 +53,10 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.app.userstorage.createDummyProfilesManager
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
+import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser

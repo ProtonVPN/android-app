@@ -17,10 +17,8 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.vpn.ui
+package com.protonvpn.android.redesign.recents.data
 
-sealed interface VpnConnectionState {
-    object Disconnected : VpnConnectionState
-    object Connecting : VpnConnectionState
-    object Connected : VpnConnectionState
+interface VpnRecentsDatabase {
+    fun recentsDao(): RecentsDao
 }

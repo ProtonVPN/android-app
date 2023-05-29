@@ -27,8 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
@@ -39,7 +37,6 @@ import com.protonvpn.android.redesign.vpn.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnConnectionState
-import com.protonvpn.android.redesign.vpn.ui.VpnStatusView
 import kotlinx.coroutines.launch
 import me.proton.core.compose.component.VerticalSpacer
 import java.util.EnumSet
@@ -47,9 +44,6 @@ import java.util.EnumSet
 class ConnectionCardSample : SampleScreen("Connection card", "connection_card") {
     @Composable
     override fun Content(modifier: Modifier, snackbarHostState: SnackbarHostState) {
-        val viewModel: ConnectionCardSampleViewModel = hiltViewModel()
-        val cardViewState = viewModel.cardViewState.collectAsStateWithLifecycle().value
-
         Column(
             modifier = modifier
                 .padding(16.dp)
@@ -64,23 +58,6 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                     snackbarHostState.showSnackbar("Open panel", type = ProtonSnackbarType.SUCCESS)
                 }
             }
-
-            SamplesSectionLabel(
-                "Connection card with real state - log in first\n(shows current connection or quick connect profile)"
-            )
-            VpnStatusView(
-                stateFlow = viewModel.vpnStateViewFlow, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            )
-            VpnConnectionCard(
-                viewState = cardViewState,
-                onConnect = viewModel::connect,
-                onDisconnect = viewModel::disconnect,
-                onOpenPanelClick = openAction,
-                onHelpClick = {},
-                modifier = connectionCardModifier
-            )
 
             VerticalSpacer(height = 16.dp)
             SamplesSectionLabel(label = "Connection cards in various sample states")

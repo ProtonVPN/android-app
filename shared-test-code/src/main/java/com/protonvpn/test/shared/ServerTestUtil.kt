@@ -21,6 +21,7 @@ package com.protonvpn.test.shared
 
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.Location
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetSmartProtocols
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -48,11 +49,12 @@ fun createServer(
     features: Int = 0,
     gatewayName: String? = null,
     translations: Map<String, String?>? = null,
+    isSecureCore: Boolean = false, // For convenience, adds SERVER_FEATURE_SECURE_CORE
 ) =
     Server(
         serverId = serverId,
-        entryCountry = entryCountry,
-        exitCountry = exitCountry,
+        entryCountry = entryCountry.uppercase(),
+        exitCountry = exitCountry.uppercase(),
         serverName = serverName,
         rawGatewayName = gatewayName,
         connectingDomains = listOf(dummyConnectingDomain),
@@ -62,7 +64,7 @@ fun createServer(
         tier = tier,
         region = null,
         city = city,
-        features = features,
+        features = if (isSecureCore) features or SERVER_FEATURE_SECURE_CORE else features,
         location = Location("", ""),
         translations = translations,
         score = score,

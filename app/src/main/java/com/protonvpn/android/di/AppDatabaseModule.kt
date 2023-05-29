@@ -25,6 +25,7 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDatabase
 import com.protonvpn.android.auth.data.VpnUserDatabase
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
+import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -64,6 +65,8 @@ object AppDatabaseDaoModule {
     fun providePeriodicUpdatesDao(db: PeriodicUpdatesDatabase) = db.periodicUpdatesDao()
     @Provides
     fun provideVpnUserDao(db: VpnUserDatabase) = db.vpnUserDao()
+    @Provides
+    fun provideRecentsDao(db: VpnRecentsDatabase) = db.recentsDao()
 }
 
 @Module
@@ -73,10 +76,13 @@ abstract class AppDatabaseBindsModule {
     abstract fun provideAccountDatabase(appDatabase: AppDatabase): AccountDatabase
 
     @Binds
-    abstract fun provideUserDatabase(appDatabase: AppDatabase): UserDatabase
+    abstract fun provideAddressDatabase(appDatabase: AppDatabase): AddressDatabase
 
     @Binds
-    abstract fun provideAddressDatabase(appDatabase: AppDatabase): AddressDatabase
+    abstract fun provideChallengeDatabase(appDatabase: AppDatabase): ChallengeDatabase
+
+    @Binds
+    abstract fun provideEventMetadataDatabase(appDatabase: AppDatabase): EventMetadataDatabase
 
     @Binds
     abstract fun provideFeatureFlagDatabase(appDatabase: AppDatabase): FeatureFlagDatabase
@@ -85,31 +91,22 @@ abstract class AppDatabaseBindsModule {
     abstract fun provideHumanVerificationDatabase(appDatabase: AppDatabase): HumanVerificationDatabase
 
     @Binds
-    abstract fun provideChallengeDatabase(appDatabase: AppDatabase): ChallengeDatabase
-
-    @Binds
     abstract fun provideKeySaltDatabase(appDatabase: AppDatabase): KeySaltDatabase
 
     @Binds
-    abstract fun provideUserSettingsDatabase(appDatabase: AppDatabase): UserSettingsDatabase
-
-    @Binds
-    abstract fun provideOrganizationDatabase(appDatabase: AppDatabase): OrganizationDatabase
-
-    @Binds
-    abstract fun provideVpnUserDatabase(appDatabase: AppDatabase): VpnUserDatabase
-
-    @Binds
-    abstract fun providePaymentDatabase(appDatabase: AppDatabase): PaymentDatabase
+    abstract fun provideNotificationDatabase(appDatabase: AppDatabase): NotificationDatabase
 
     @Binds
     abstract fun provideObservabilityDatabase(appDatabase: AppDatabase): ObservabilityDatabase
 
     @Binds
-    abstract fun providePeriodicUpdatesDatabase(appDatabase: AppDatabase): PeriodicUpdatesDatabase
+    abstract fun provideOrganizationDatabase(appDatabase: AppDatabase): OrganizationDatabase
 
     @Binds
-    abstract fun provideNotificationDatabase(appDatabase: AppDatabase): NotificationDatabase
+    abstract fun providePaymentDatabase(appDatabase: AppDatabase): PaymentDatabase
+
+    @Binds
+    abstract fun providePeriodicUpdatesDatabase(appDatabase: AppDatabase): PeriodicUpdatesDatabase
 
     @Binds
     abstract fun providePushDatabase(appDatabase: AppDatabase): PushDatabase
@@ -118,5 +115,14 @@ abstract class AppDatabaseBindsModule {
     abstract fun provideTelemetryDatabase(appDatabase: AppDatabase): TelemetryDatabase
 
     @Binds
-    abstract fun provideEventMetadataDatabase(appDatabase: AppDatabase): EventMetadataDatabase
+    abstract fun provideUserDatabase(appDatabase: AppDatabase): UserDatabase
+
+    @Binds
+    abstract fun provideUserSettingsDatabase(appDatabase: AppDatabase): UserSettingsDatabase
+
+    @Binds
+    abstract fun provideVpnRecentsDatabase(appDatabase: AppDatabase): VpnRecentsDatabase
+
+    @Binds
+    abstract fun provideVpnUserDatabase(appDatabase: AppDatabase): VpnUserDatabase
 }

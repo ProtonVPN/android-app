@@ -45,9 +45,16 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
+import com.protonvpn.android.redesign.base.ui.Flag
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionStrongUnspecified
+
+enum class VpnConnectionState {
+    Disconnected,
+    Connecting,
+    Connected
+}
 
 @Immutable
 data class VpnConnectionCardViewState(
@@ -97,24 +104,28 @@ fun VpnConnectionCard(
                         .padding(bottom = 16.dp)
                         .semantics(mergeDescendants = true) {},
                 ) {
-                    ConnectIntentFlag(viewState.connectIntentViewState)
-                    ConnectIntentLabels(
-                        viewState.connectIntentViewState,
-                        isConnected = false,
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(start = 16.dp)
-                    )
+                    with(viewState.connectIntentViewState) {
+                        Flag(exitCountry, entryCountry, isSecureCore)
+                        ConnectIntentLabels(
+                            exitCountry,
+                            secondaryLabel,
+                            serverFeatures,
+                            isConnected = false,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 16.dp)
+                        )
+                    }
                     if (canOpenPanel) {
                         OpenPanelButton(onOpenPanelClick, Modifier.align(Alignment.Top))
                     }
                 }
                 when (viewState.connectionState) {
-                    is VpnConnectionState.Disconnected ->
+                    VpnConnectionState.Disconnected ->
                         VpnSolidButton(text = stringResource(R.string.buttonConnect), onClick = onConnect)
-                    is VpnConnectionState.Connecting ->
+                    VpnConnectionState.Connecting ->
                         VpnWeakSolidButton(text = stringResource(R.string.cancel), onClick = onDisconnect)
-                    is VpnConnectionState.Connected ->
+                    VpnConnectionState.Connected ->
                         VpnWeakSolidButton(text = stringResource(R.string.disconnect), onClick = onDisconnect)
                 }
             }

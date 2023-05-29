@@ -26,6 +26,9 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicCallInfo
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDatabase
 import com.protonvpn.android.auth.data.VpnUserDatabase
 import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.redesign.recents.data.RecentConnectionEntity
+import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
+import com.protonvpn.android.redesign.recents.data.RecentsTypeConverters
 import me.proton.core.account.data.db.AccountConverters
 import me.proton.core.account.data.db.AccountDatabase
 import me.proton.core.account.data.entity.AccountEntity
@@ -113,17 +116,20 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         EventMetadataEntity::class,
         // vpn
         PeriodicCallInfo::class,
+        RecentConnectionEntity::class,
         VpnUser::class
     ],
     autoMigrations = [
         AutoMigration(from = 3, to = 4),
         AutoMigration(from = 6, to = 7),
         AutoMigration(from = 14, to = 15),
+        AutoMigration(from = 24, to = 25),
     ],
     version = AppDatabase.version,
     exportSchema = true
 )
 @TypeConverters(
+    // Core
     AccountConverters::class,
     ChallengeConverters::class,
     CommonConverters::class,
@@ -134,29 +140,32 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
     NotificationConverters::class,
     PushConverters::class,
     EventManagerConverters::class,
+    // Vpn
+    RecentsTypeConverters::class
 )
 abstract class AppDatabase :
     BaseDatabase(),
     AccountDatabase,
     AddressDatabase,
     ChallengeDatabase,
+    EventMetadataDatabase,
     FeatureFlagDatabase,
     HumanVerificationDatabase,
     KeySaltDatabase,
-    OrganizationDatabase,
-    PeriodicUpdatesDatabase,
-    UserDatabase,
-    UserSettingsDatabase,
-    PaymentDatabase,
-    VpnUserDatabase,
-    ObservabilityDatabase,
     NotificationDatabase,
+    ObservabilityDatabase,
+    OrganizationDatabase,
+    PaymentDatabase,
+    PeriodicUpdatesDatabase,
     PushDatabase,
     TelemetryDatabase,
-    EventMetadataDatabase {
+    UserDatabase,
+    UserSettingsDatabase,
+    VpnRecentsDatabase,
+    VpnUserDatabase {
 
     companion object {
-        const val version = 24
+        const val version = 25
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,

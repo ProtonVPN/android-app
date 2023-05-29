@@ -19,12 +19,7 @@
 
 package com.protonvpn.android.redesign
 
-import android.content.Context
-import androidx.annotation.DrawableRes
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import com.protonvpn.android.R
-import com.protonvpn.android.utils.CountryTools
 
 // TODO: this class should replace raw String used for representing the country code including the logic
 //  for converting GB to UK that we have in several places.

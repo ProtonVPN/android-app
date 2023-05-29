@@ -24,31 +24,31 @@ import java.util.EnumSet
 
 sealed interface ConnectIntent {
 
-    val features: EnumSet<ServerFeature>
+    val features: Set<ServerFeature>
 
     data class FastestInCountry(
         val country: CountryId,
-        override val features: EnumSet<ServerFeature>,
+        override val features: Set<ServerFeature>,
     ) : ConnectIntent
 
     // TODO: regions
     data class FastestInCity(
         val country: CountryId,
         val cityEn: String, // Not translated.
-        override val features: EnumSet<ServerFeature>,
+        override val features: Set<ServerFeature>,
     ) : ConnectIntent
 
     data class SecureCore(
         val exitCountry: CountryId,
         val entryCountry: CountryId,
     ) : ConnectIntent {
-        override val features: EnumSet<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java)
+        override val features: Set<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java)
     }
 
     // Note: it's possible that we'll need more information about the server to be able to handle fallbacks if the
     // server is removed.
     data class Server(
         val serverId: String,
-        override val features: EnumSet<ServerFeature>,
+        override val features: Set<ServerFeature>,
     ) : ConnectIntent
 }
