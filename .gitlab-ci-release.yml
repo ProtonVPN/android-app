@@ -45,12 +45,12 @@ make release branch:
 sign-bundle:
   stage: deploy
   rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
     - if: $CI_COMMIT_BRANCH == "development"
       when: always
     - if: $CI_COMMIT_BRANCH =~ /^release/
       when: always
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
   needs: ["build google play bundle", "build google debug"]
   tags:
     - signing
@@ -90,10 +90,10 @@ publish-apk-internal:
   tags:
     - xlarge-k8s
   rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
     - if: $CI_COMMIT_BRANCH == "development"
       when: always
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
   needs:
     - job: sign-bundle
     # Make sure tests pass before publishing. The dependency is on coverage report to avoid listing
@@ -128,10 +128,10 @@ publish-github:
 publish downloads:
   extends: .publish-download-base
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^release/
-      when: always
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
+    - if: $CI_COMMIT_BRANCH =~ /^release/
+      when: always
   interruptible: false
   variables:
     ORIGIN_OAUTH_URL: "${OAUTH_DOWNLOADS_REPO_URL}"

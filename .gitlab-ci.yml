@@ -183,12 +183,12 @@ build BTI:
 build google play bundle:
   stage: build
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
     - if: $CI_COMMIT_BRANCH == "development"
       when: always
     - if: $CI_COMMIT_BRANCH =~ /^release/
       when: always
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
   tags:
     - xlarge-k8s
   script:
@@ -204,10 +204,10 @@ build google play release:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: never
-    - if: $ROBO_TEST == "true"
-      when: always
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
+    - if: $ROBO_TEST == "true"
+      when: always
     - if: $CI_COMMIT_BRANCH == "master"
       when: never
     - when: manual
