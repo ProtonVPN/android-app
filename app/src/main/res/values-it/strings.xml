@@ -336,7 +336,7 @@
     <string name="netshield_status_off">Disattivo</string>
     <string name="netshield_free_title">Naviga senza annunci pubblicitari con NetShield</string>
     <string name="netshield_free_description">Blocca pubblicità, trackers e malware su siti web e applicazioni</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="accessibility_netshield_status_on_click">Inserisci le impostazioni di NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">annuncio\nbloccato</item>
         <item quantity="other">annunci\nbloccati</item>

@@ -162,7 +162,7 @@
     <string name="error_server_unreachable">VPN bağlantısı kurulamadı. Lütfen bağlantınızı denetleyip yeniden deneyin.</string>
     <string name="error_auth_failed">Kullanıcı kimliği doğrulanamadı.</string>
     <string name="error_assessment_failed">Güvenlik değerlendirmesi yapılamadı.</string>
-    <string name="error_generic">Bağlantı kurulurken belirlenemeyen bir hata oluştu.</string>
+    <string name="error_generic">Bağlantı kurulurken belirlenemeyen bir sorun çıktı.</string>
     <string name="error_generic_with_reason">Proton VPN bir VPN bağlantısı kuramadı. Lütfen birkaç saniye sonra yeniden deneyin.<br/><br/> Ayrıntılar: %1$s</string>
     <string name="reconnect">Yeniden bağlan</string>
     <string name="reconnect_now">Şimdi yeniden bağlan</string>
@@ -326,7 +326,7 @@
     <string name="settingsEnableTelemetryTitle">Anonim kullanım istatistikleri paylaşılsın</string>
     <string name="settingsEnableTelemetryDescription">Kullanım verileri VPN engellemelerini aşmamıza ve uygulamanın başarımını artırmamıza yardımcı olur.</string>
     <string name="settingsSendCrashReportsTitle">Anonim çökme bildirimleri paylaşılsın</string>
-    <string name="settingsSendCrashReportsDescription">Çökme bildirimleri hataları düzeltmemize, güvenlik duvarlarını algılamamıza ve VPN engellemelerini aşmamıza yardımcı olur.</string>
+    <string name="settingsSendCrashReportsDescription">Çökme bildirimleri sorunları gidermemize, güvenlik duvarlarını algılamamıza ve VPN engellemelerini aşmamıza yardımcı olur.</string>
     <string name="settingsTelemetryScreenTitle">Kullanım istatistikleri</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Bu istatistikler IP adresinizi içermez ve kim olduğunuzu belirlemek için kullanılamaz. Bu verileri asla üçüncü taraflar ile paylaşmayız. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="netShieldEnabledWarning">Engellenen içerikler nedeniyle bazı sitelerin tam olarak çalışmayacağını unutmayın.</string>
@@ -355,7 +355,7 @@
     <string name="onMaintenanceDetected">Bağlandığınız VPN sunucusunda bakım yapılıyor. Bağlantınızı otomatik olarak en hızlı sunucuya geçirdik.</string>
     <string name="errorTunMultiUserPermission">Çift uygulama (örneğin Dual Messenger) ve ayrılmış tünelleme arasındaki bir çakışma nedeniyle VPN bağlantısı başlatılamadı. Lütfen bunlardan birini devre dışı bırakıp aygıtınızı yeniden başlatın.</string>
     <string name="errorTorrentNotAllowed">Bu sunucu üzerinde P2P kullanımına izin verilmiyor</string>
-    <string name="errorWireguardWithPlaceholder">WireGuard hatası: %1$s</string>
+    <string name="errorWireguardWithPlaceholder">WireGuard sorunu: %1$s</string>
     <string name="profileProtocolNotAvailable">Profilin VPN iletişim kuralı şu anda kullanılamıyor. Bağlantı kurmak için iletişim kuralını değiştirmeyi deneyin.</string>
     <string name="stateConnectedTo">%1$s ile bağlantı kuruldu</string>
     <string name="stateNotConnected">Bağlı değilsiniz</string>
@@ -375,7 +375,7 @@
     <string name="tv_detail_description_streaming_country">Beğendiğiniz içerikleri izleyin. Proton VPN Plus tarifesiyle daha fazla uygulamaya erişin.</string>
     <string name="tv_detail_description_no_streaming_country">Proton VPN Plus tarifesi ile sevdiğiniz içeriklerin fazlasını canlı izleyin.</string>
     <string name="tv_detail_description_country_not_available">Bu ülke kullanılamıyor. Proton VPN Plus tarifesi ile daha fazla yayın akışı seçeneği edinin.</string>
-    <string name="tv_detail_description_plus">Uygulamalarınız ile en sevdiğiniz videoları, filmleri ya da spor yayınlarını canlı izleyin.</string>
+    <string name="tv_detail_description_plus">Uygulamalarınız ile sevdiğiniz videoları, filmleri ya da spor yayınlarını canlı izleyin.</string>
     <string name="tv_login_title_signin">Proton VPN oturumu açın</string>
     <string name="tv_login_title_welcome">Sevdiğiniz videoları canlı izleyin</string>
     <string name="tv_login_welcome_description">YouTube ve Twitch ile birlikte 50 üzerinde ülkedeki görüntü içeriklerini izleyin. Proton VPN Plus ile Netflix, Amazon Prime ve Hulu akışlarını seyredin.</string>
@@ -445,7 +445,7 @@
     <string name="notification_smart_protocol_disabled_title">Smart Protocol şu anda devre dışı</string>
     <string name="notification_smart_protocol_disabled_content">ProtonVPN, kullandığınız ağın VPN bağlantısı engellediğini algıladı. Smart Protocol özelliğini etkinleştirmek bu kısıtlamaları aşabilir.</string>
     <string name="upsell_advanced_features">Gelişmiş özellikler: NetShield, Secure Core, Tor, P2P</string>
-    <string name="upsell_streaming_services">Dünyanın her yerinden yayın akışı hizmetlerine erişim (Netflix, Disney+, vb)</string>
+    <string name="upsell_streaming_services">Dünyanın her yerindeki yayın akışı hizmetlerine erişerek izleyin (Netflix, Disney+, vb)</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
@@ -545,7 +545,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Bu teknoloji, hizmet verilmesi zor ülkelerde Proton VPN için daha yüksek hız ve güvenlik sağlar.</string>
     <string name="streaming_title">Yayın akışı</string>
-    <string name="streaming_description">Plus sunucuları, dünyanın her yerinden yayın akışlarını (Netflix, Disney + vb.) destekler.</string>
+    <string name="streaming_description">Plus sunucuları, dünyanın her yerindeki yayın akışı hizmetlerini (Netflix, Disney + vb.) destekler.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Bu sunucular, BitTorrent ve dosya paylaşımı için en iyi başarımı sağlar.</string>
     <string name="tor_title">Tor</string>
@@ -618,7 +618,7 @@
     <string name="dynamic_report_success_title">Geri bildiriminiz için teşekkürler</string>
     <string name="dynamic_report_success_description">Olabilecek en kısa sürede size döneceğiz.</string>
     <string name="dynamic_report_field_mandatory">Bu alanın doldurulması zorunludur</string>
-    <string name="dynamic_report_logs_description">Bir günlük, soruna neden olan olayları görmemizi sağlayan bir dosya türüdür. Bunları yalnızca mühendislerimizin hataları düzeltmesine yardımcı olmaları için kullanacağız.</string>
+    <string name="dynamic_report_logs_description">Bir günlük, soruna neden olan olayları görmemizi sağlayan bir dosya türüdür. Bunları yalnızca mühendislerimizin hataları gidermesine yardımcı olmaları için kullanacağız.</string>
     <string name="dynamic_report_logs_missing">Hata günlükleri, sorununuzun temeline inmemize yardımcı olur. Bunları göndermezseniz, sorunu tam olarak araştıramayabiliriz.</string>
     <string name="dynamic_report_step1">1/3. adım</string>
     <string name="dynamic_report_step2">2/3. adım</string>

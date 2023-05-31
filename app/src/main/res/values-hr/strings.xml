@@ -22,7 +22,7 @@
     <string name="hintUsername">Korisničko ime</string>
     <string name="hintPassword">Lozinka</string>
     <string name="splitTunnellingSwitch">Sklopka za podijeljeno tuneliranje</string>
-    <string name="login">Sign in</string>
+    <string name="login">Prijavite se</string>
     <string name="hamburgerMenu">Hamburger meni</string>
     <string name="error_field_required">Ovo polje je obavezno</string>
     <string name="menuActionSignOut">Odjava</string>
@@ -35,7 +35,7 @@
     <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Enable VPN connections</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Prijavite se ponovno</string>
     <string name="mapCalloutConnect">Poveži</string>
     <string name="mapCalloutDisconnect">Odspoji</string>
     <string name="mapSwitchSecureCore">Secure Core</string>

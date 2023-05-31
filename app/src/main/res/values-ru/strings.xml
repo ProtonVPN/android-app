@@ -341,15 +341,15 @@
     <string name="accessibility_netshield_status_on_click">Введите настройки NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Реклама\nзаблокирована</item>
-        <item quantity="few">Ads\nblocked</item>
-        <item quantity="many">Ads\nblocked</item>
-        <item quantity="other">Реклама\nзаблокирована</item>
+        <item quantity="few">Рекламы\nзаблокированы</item>
+        <item quantity="many">Реклам\nзаблокированы</item>
+        <item quantity="other">Реклам\nзаблокировано</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
         <item quantity="one">Трекер\nостановлен</item>
-        <item quantity="few">Trackers\nstopped</item>
-        <item quantity="many">Trackers\nstopped</item>
-        <item quantity="other">Трекеры\nостановлены</item>
+        <item quantity="few">Трекера\nостановлены</item>
+        <item quantity="many">Трекеров\nостановлены</item>
+        <item quantity="other">Трекеров\nостановлено</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Данные\nсохранены</string>
     <string name="netShieldBlockMalwareOnly">Блокировать только вредоносные программы</string>

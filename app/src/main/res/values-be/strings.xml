@@ -325,10 +325,10 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Адкрыць налады Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Актывацыя Kill Switch адключыць Split Tunneling, бо Kill Switch блакіруе ўсе падключэнні па-за тунэлем VPN</string>
     <string name="settingsSmartProtocolDescription">Аўтаматычна выкарыстоўваць пратакол і порт, якія забяспечваюць найлепшае падключэнне.</string>
-    <string name="settingsEnableTelemetryTitle">Абагуленне ананімнай статыстыкі выкарыстання</string>
+    <string name="settingsEnableTelemetryTitle">Абагульванне ананімнай статыстыкі выкарыстання</string>
     <string name="settingsEnableTelemetryDescription">Даныя аб выкарыстанні дапамагаюць нам пераадольваць блакіроўкі VPN і паляпшаць прадукцыйнасць праграмы.</string>
-    <string name="settingsSendCrashReportsTitle">Абагуленне ананімных справаздач аб збоях</string>
-    <string name="settingsSendCrashReportsDescription">Справаздачы аб збоях дапамагаюць нам выпраўляць памылкі, вызначаць міжсеткавыя экраны, а таксама пазбягаць блакіровак VPN.</string>
+    <string name="settingsSendCrashReportsTitle">Абагульванне ананімных справаздач пра збоі</string>
+    <string name="settingsSendCrashReportsDescription">Справаздачы пра збоі дапамагаюць нам выпраўляць памылкі, вызначаць міжсеткавыя экраны, а таксама пазбягаць блакіровак VPN.</string>
     <string name="settingsTelemetryScreenTitle">Статыстыка выкарыстання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="netShieldEnabledWarning">Будзьце ўважлівы, бо некаторыя сайты могуць працаваць не належным чынам па прычыне заблакіраванага змесціва.</string>
@@ -346,12 +346,12 @@
         <item quantity="other">Рэкламы\nзаблакіраваны</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Праграма сачэння\nспынена</item>
-        <item quantity="few">Праграмы сачэння\nспынены</item>
-        <item quantity="many">Праграм сачэння\nспынены</item>
-        <item quantity="other">Праграм сачэння\nспынены</item>
+        <item quantity="one">праграма сачэння\nспынена</item>
+        <item quantity="few">праграмы сачэння\nспынены</item>
+        <item quantity="many">праграм сачэння\nспынены</item>
+        <item quantity="other">праграм сачэння\nспынены</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Даныя \nзахаваны</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">даных \nзахавана</string>
     <string name="netShieldBlockMalwareOnly">Блакіраваць толькі шкодныя праграмы</string>
     <string name="netShieldFullBlock">Блакіраваць шкодныя праграмы, праграмы сачэння і рэкламу</string>
     <string name="dialogDontShowAgain">Больш не паказваць</string>
@@ -425,8 +425,8 @@
     <string name="settingsSmartReconnectNotificationsTitle">Апавяшчэнні VPN Accelerator</string>
     <string name="settingsSmartReconnectNotificationsDescription">Атрымліваць апавяшчэнні, калі VPN Accelerator пераключае вас на хутчэйшы сервер</string>
     <string name="settingsReconnectToApplySettingsDialogContent">Новыя налады будуць ужыты пры наступным падключэнні.</string>
-    <string name="settingsReconnectToChangeDialogContent">Гэта прывядзе да перазапуску вашага падключэння.</string>
-    <string name="reconnectToEnableNetshield">Гэта прывядзе да перазапуску вашага падключэння.\n\nНататка: некаторыя сайты могуць не загружацца пры актыўным NetShield.</string>
+    <string name="settingsReconnectToChangeDialogContent">Гэта перазапусціць ваша падключэнне.</string>
+    <string name="reconnectToEnableNetshield">Гэта перазапусціць ваша падключэнне.\n\nЗаўвага: некаторыя сайты могуць не загружацца пры актыўным NetShield.</string>
     <string name="notification_subscription_expired_title">Ваша падпіска на тарыфны план Proton VPN пратэрмінавана</string>
     <string name="notification_subscription_expired_content">Нам давялося панізіць ваш тарыфны план, але мы зноў падключаем вас да самага хуткага сервера, даступнага на гэтым тарыфным плане.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Ваша падпіска была паніжана.</string>
