@@ -64,7 +64,7 @@ class LoginRobot : BaseRobot() {
         view.isDescendantOf(view.withId(R.id.passwordInput)).withId(R.id.text_input_end_icon)
     )
 
-    fun selectNeedHelp(): LoginRobot = clickElementById(R.id.helpButton)
+    fun selectNeedHelp(): LoginRobot = clickElementById(R.id.login_menu_help)
 
     class Verify : BaseVerify() {
 
