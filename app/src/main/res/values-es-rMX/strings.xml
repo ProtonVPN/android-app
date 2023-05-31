@@ -68,7 +68,7 @@
     <string name="loaderDisconnecting">Desconectando</string>
     <string name="loaderReconnecting">Reconectando</string>
     <string name="loaderReconnectNoNetwork">Esperando disponibilidad de red</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Por favor compruebe su red</string>
+    <string name="loaderReconnectNoNetworkSuggestion">Compruebe su red.</string>
     <string name="loaderCheckingAvailability">Comprobando disponibilidad del servidor</string>
     <string name="loaderCheckingAvailabilitySuggestion">Espere unos segundos</string>
     <string name="loaderCancel">Cancelar conexión</string>
@@ -119,11 +119,11 @@
     <string name="settingsModerateNatDescription"><![CDATA[La NAT moderada deshabilita la aleatorización del mapeo de direcciones locales, lo que puede reducir ligeramente su seguridad, pero permite técnicas como conexiones directas para aplicaciones como juegos en línea. <a href="%1$s">Más información</a>]]></string>
     <string name="use_coupon_title">Usar cupón</string>
     <string name="use_coupon_code_label">Código de cupón</string>
-    <string name="use_coupon_success">El cupón ha sido aplicado con éxito</string>
-    <string name="use_coupon_success_no_upgrade_yet">El cupón ha sido aplicado con éxito. Su suscripción será actualizada en unos minutos.</string>
+    <string name="use_coupon_success">El cupón ha sido aplicado.</string>
+    <string name="use_coupon_success_no_upgrade_yet">El cupón ha sido aplicado. Su suscripción será actualizada en unos minutos.</string>
     <string name="restrictedMaintenanceTitle">En mantenimiento</string>
     <string name="restrictedMaintenanceDescription">El servidor al que intenta conectar está en mantenimiento. Intente con otro servidor.</string>
-    <string name="errorUserDelinquent"><![CDATA[Su cuenta tiene una factura vencida. Por favor, pague todas las facturas pendientes en&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorUserDelinquent"><![CDATA[Su cuenta tiene una factura vencida. Pague todas las facturas pendientes en&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Ha alcanzado el número máximo de conexiones simultáneas permitidas para su cuenta. Mejore su plan de Proton VPN para obtener más conexiones.</string>
     <string name="errorEmptyName">El campo del nombre del perfil no puede estar vacío</string>
     <string name="errorEmptyCountry">El campo de país no puede estar vacío</string>
@@ -149,7 +149,7 @@
     <string name="listBasicServers">Servidores Basic (%1$d)</string>
     <string name="listPlusServers">Servidores Plus (%1$d)</string>
     <string name="insufficientPermissionsTitle">Se requiere acción del usuario</string>
-    <string name="insufficientPermissionsDetails">No se pudo establecer automáticamente la conexión VPN. Por favor, conéctese manualmente una vez para conceder permisos.</string>
+    <string name="insufficientPermissionsDetails">No se pudo establecer automáticamente la conexión VPN. Conéctese manualmente una vez para conceder permisos.</string>
     <string name="tabsCountries">Países</string>
     <string name="tabsMap">Mapa</string>
     <string name="tabsProfiles">Perfiles</string>
@@ -159,7 +159,7 @@
     <string name="state_connected">Conectado</string>
     <string name="state_disconnecting">Desconectando…</string>
     <string name="state_error">Error</string>
-    <string name="error_server_unreachable">No se pudo conectar a la VPN. Por favor, verifique la conexión y vuelva a intentarlo.</string>
+    <string name="error_server_unreachable">No se pudo conectar a la VPN. Verifique la conexión y vuelva a intentarlo.</string>
     <string name="error_auth_failed">Falló la autenticación de usuario.</string>
     <string name="error_assessment_failed">Falló la evaluación de seguridad.</string>
     <string name="error_generic">Error no especificado al conectar.</string>
@@ -197,7 +197,7 @@
     <string name="got_it">Entendido</string>
     <string name="onboardingWelcome">Bienvenido/a a bordo</string>
     <string name="proton_log">Registro Proton</string>
-    <string name="something_went_wrong">Algo salió mal</string>
+    <string name="something_went_wrong">Hubo un problema</string>
     <string name="try_again">Volver a intentar</string>
     <string name="manage">Gestionar</string>
     <string name="delete">Eliminar</string>
@@ -245,7 +245,7 @@
     <string name="bugReportThankYouToast">Gracias por su reporte</string>
     <string name="bugReportErrorEmptyEmail">El correo no puede estar vacío</string>
     <string name="bugReportErrorInvalidEmail">Dirección de correo no válida</string>
-    <string name="bugReportErrorEmptyDescription">Por favor, escríbanos lo que está sucediendo</string>
+    <string name="bugReportErrorEmptyDescription">Escríbanos lo que está sucediendo.</string>
     <string name="bugReportLabelVpnLogsTitle">Incluir registros de errores</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Esto envía registros de errores locales (no registramos la actividad) para ayudarnos a solucionar su problema</string>
     <string name="profileFastest">El más rápido</string>
@@ -254,7 +254,7 @@
     <string name="settingsSplitTunnelingTitle">Tunelización dividida</string>
     <string name="loaderAuthenticatingUser">Autenticando usuario…</string>
     <string name="loaderErrorNoInternet">No hay conexión a internet</string>
-    <string name="loaderErrorGeneric">Algo salió mal</string>
+    <string name="loaderErrorGeneric">Hubo un problema</string>
     <string name="loaderLoadingServers">Cargando servidores…</string>
     <string name="inputIpAddressLabel">Dirección IP</string>
     <string name="inputIpAddressHint">Escriba la dirección IP</string>
@@ -285,11 +285,11 @@
     <string name="saveProfileAlreadySaved">Ya guardado</string>
     <string name="openUrlError">No se pudo abrir %1$s. No se detectó un navegador en su dispositivo.</string>
     <string name="toastLoginAuthVersionError">No se puede iniciar sesión debido a una versión de autenticación incompatible. Contacte con soporte.</string>
-    <string name="loaderErrorTimeout">Tiempo de conexión agotado. Por favor, inténtelo de nuevo.</string>
+    <string name="loaderErrorTimeout">Tiempo de conexión agotado. Inténtelo de nuevo.</string>
     <string name="troubleshootButton">Solución de problemas</string>
     <string name="activityTroubleshootTitle">Solución de problemas</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Soluciones potenciales</string>
-    <string name="troubleshootNoInternetDescription">Por favor, asegúrese de que su conexión a Internet está funcionando.</string>
+    <string name="troubleshootNoInternetDescription">Asegúrese de que su conexión a Internet está funcionando.</string>
     <string name="troubleshootNoInternetTitle">No hay conexión a internet</string>
     <string name="troubleshootIspProblemTitle">Problema del proveedor de servicios de Internet (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Intente conectarse a Proton desde una red diferente (o utilice <a href=\'%1$s\'>Tor</a>)]]></string>
@@ -345,7 +345,7 @@
         <item quantity="one">Rastreador\ndetenido</item>
         <item quantity="other">Rastreadores\ndetenidos</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Datos\nguardados</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Datos\nahorrados</string>
     <string name="netShieldBlockMalwareOnly">Bloquear malware solamente</string>
     <string name="netShieldFullBlock">Bloquear malware, rastreadores, anuncios</string>
     <string name="dialogDontShowAgain">No volver a mostrar</string>
@@ -425,7 +425,7 @@
     <string name="notification_subscription_expired_content">Hemos degradado su plan, pero le estamos reconectando al servidor más rápido disponible en ese plan.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Su suscripción ha sido degradada.</string>
     <string name="notification_delinquent_title">Su cuenta de Proton VPN tiene facturas pendientes</string>
-    <string name="notification_delinquent_content">Por favor, tómese un momento para actualizar su información de facturación para mantener la suscripción activa.</string>
+    <string name="notification_delinquent_content">Tómese un momento para actualizar su información de facturación para mantener la suscripción activa.</string>
     <string name="notification_server_unreachable_content">Ha sido cambiado a un servidor más rápido similar al que ha seleccionado.</string>
     <string name="notification_max_sessions_title">Ha alcanzado el límite máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->

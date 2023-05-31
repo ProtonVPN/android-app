@@ -33,7 +33,7 @@
     <string name="connectionAllocationHelpTitle">Bedankt voor de upgrade naar\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Om uw reis met Proton VPN te beginnen wijst u VPN-verbindingen toe aan uw account of een ander sub-account.</string>
     <string name="connectionAllocationHelpDescription2">Deze stap duurt slechts een paar minuten. Daarna kunt u zich inloggen en al uw apparaten beveiligen.</string>
-    <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Er is momenteel geen VPN-verbinding ingeschakeld voor deze account. Om uw reis met Proton VPN te starten, contacteer uw beheerder. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Schakel VPN-verbindingen in</string>
     <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
     <string name="mapCalloutConnect">Verbinden</string>
@@ -331,21 +331,21 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Deze statistieken bevatten uw IP-adres niet, en kunnen niet gebruikt worden om u te identificeren. We zullen deze nooit delen met derden. <a href="%1$s">Meer informatie</a>]]></string>
     <string name="netShieldEnabledWarning">Let op: sommige websites werken mogelijk niet volledig vanwege geblokkeerde inhoud.</string>
     <string name="netShieldDescription">Blokkeer advertenties, trackers en malware </string>
-    <string name="netshield_settings_description"><![CDATA[Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. <a href="%1$s">Learn more</a>.]]></string>
-    <string name="netshield_status_on">On</string>
-    <string name="netshield_status_off">Off</string>
-    <string name="netshield_free_title">Browse ad-free with NetShield</string>
-    <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="netshield_settings_description"><![CDATA[Bescherm uzelf tegen advertenties, malware en trackers op websites en apps. Probeer NetShield uit te schakelen als websites niet laden. <a href="%1$s">Meer informatie</a>.]]></string>
+    <string name="netshield_status_on">Aan</string>
+    <string name="netshield_status_off">Uit</string>
+    <string name="netshield_free_title">Surf advertentievrij met NetShield</string>
+    <string name="netshield_free_description">Blokkeer advertenties, trackers en malware op websites en apps</string>
+    <string name="accessibility_netshield_status_on_click">NetShield instellingen ingeven</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="one">Advertentie\ngeblokkeerd</item>
+        <item quantity="other">Advertenties\ngeblokkeerd</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nstopped</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="one">Tracker\ngestopt</item>
+        <item quantity="other">Trackers\ngestopt</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nbespaard</string>
     <string name="netShieldBlockMalwareOnly">Alleen malware blokkeren</string>
     <string name="netShieldFullBlock">Malware, tracking, advertenties blokkeren</string>
     <string name="dialogDontShowAgain">Niet meer weergeven</string>

@@ -297,7 +297,7 @@
     <string name="troubleshootIspProblemDescription"><![CDATA[Spróbuj połączyć się z usługą Proton z innej sieci (lub skorzystaj z <a href=\'%1$s\'>sieci Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Konflikt z antywirusem</string>
     <string name="troubleshootAntivirusProblemDescription">Tymczasowo wyłącz lub usuń oprogramowanie antywirusowe.</string>
-    <string name="troubleshootProxyFirewallProblemTitle">Konflikt z zaporą sieciową/serwerem proxy</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Konflikt z zaporą sieciową / serwerem proxy</string>
     <string name="troubleshootProxyFirewallProblemDescription">Wyłącz zaporę oraz proxy lub skontaktuj się z administratorem sieci.</string>
     <string name="troubleshootProtonDownTitle">Proton jest niedostępny</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Sprawdź <a href=\"%1$s\">Status usług Proton</a> na naszej stronie.]]></string>
