@@ -192,6 +192,8 @@ build google play bundle:
   tags:
     - xlarge-k8s
   script:
+    # Build openvpn first, otherwise ovpnassets are not copied to app's assets.
+    - ./gradlew :openvpn:assembleRelease
     - ./gradlew :app:bundleGooglePlayRelease
   interruptible: false
   artifacts:
