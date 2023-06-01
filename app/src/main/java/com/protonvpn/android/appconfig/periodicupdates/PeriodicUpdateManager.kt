@@ -44,6 +44,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.HttpResponseCodes
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.retryAfter
@@ -52,6 +53,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
+import kotlin.time.Duration
 
 private const val MAX_JITTER_RATIO = .2f
 private val MAX_JITTER_DELAY_MS = TimeUnit.HOURS.toMillis(1)
@@ -95,7 +97,7 @@ open class PeriodicActionResult<R>(
 
 class PeriodicApiCallResult<R>(
     apiResult: ApiResult<R>,
-    nextCallDelayOverride: Long? = apiResult.retryAfter()?.inWholeMilliseconds
+    nextCallDelayOverride: Long? = apiResult.retryAfterIfApplicable()?.inWholeMilliseconds
 ) : PeriodicActionResult<ApiResult<R>>(apiResult, apiResult is ApiResult.Success, nextCallDelayOverride)
 
 /**
@@ -483,3 +485,7 @@ fun <T, R : Any> PeriodicUpdateManager.registerApiCall(
     UpdateAction(actionId, { input -> PeriodicApiCallResult(actionFunction(input)) }, defaultInput).also {
         registerUpdateAction(it, *updateSpec)
     }
+
+private fun <T> ApiResult<T>.retryAfterIfApplicable(): Duration? = (this as? ApiResult.Error.Http)?.retryAfter?.takeIf {
+    httpCode in arrayOf(HttpResponseCodes.HTTP_TOO_MANY_REQUESTS, HttpResponseCodes.HTTP_SERVICE_UNAVAILABLE)
+}
