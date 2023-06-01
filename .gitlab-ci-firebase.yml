@@ -123,8 +123,8 @@ robo tests:
       --robo-directives ignore:R.id.drawerButtonLogout=
   variables:
     TIMEOUT: $TIMEOUT_ROBO_TESTS
-    APP_LOCATION: "app/build/outputs/apk/googlePlay/release/"
-    APP_TYPE: "googlePlay-universal-release.apk"
+    APP_LOCATION: "app/build/outputs/bundle/googlePlayRelease/"
+    APP_TYPE: "googlePlay-release.aab"
     CHECKOUT_CORE_SUBMODULE: "true"
   after_script:
     - |
