@@ -271,7 +271,7 @@ class PeriodicUpdateManagerTests {
     }
 
     @Test
-    fun `when api call action response includes retry-after it is respected`() = testScope.runTest {
+    fun `when api call action response has retry-after it is respected`() = testScope.runTest {
         fun actionFunc(): ApiResult<Unit> = ApiResult.Error.Http(429, "", retryAfter = (2 * DELAY_MS).milliseconds)
         val action =
             periodicUpdateManager.registerApiCall("action", ::actionFunc, PeriodicUpdateSpec(DELAY_MS, emptySet()))
@@ -282,6 +282,22 @@ class PeriodicUpdateManagerTests {
         coVerify { mockScheduler.scheduleAt(currentTime + 2 * DELAY_MS) }
         assertEquals(
             PeriodicCallInfo(action.id, currentTime, false, 0f, currentTime + 2 * DELAY_MS, null),
+            periodicUpdatesDao.getAll().first()
+        )
+    }
+
+    @Test
+    fun `when api call action response has retry-after for unexpected error code it is ignored`() = testScope.runTest {
+        fun actionFunc(): ApiResult<Unit> = ApiResult.Error.Http(500, "", retryAfter = (2 * DELAY_MS).milliseconds)
+        val action =
+            periodicUpdateManager.registerApiCall("action", ::actionFunc, PeriodicUpdateSpec(DELAY_MS, emptySet()))
+
+        advanceTimeBy(100) // Start at time > 0 to test that it is included in results.
+        periodicUpdateManager.start()
+
+        coVerify { mockScheduler.scheduleAt(currentTime + DELAY_MS) }
+        assertEquals(
+            PeriodicCallInfo(action.id, currentTime, false, 0f, null, null),
             periodicUpdatesDao.getAll().first()
         )
     }
