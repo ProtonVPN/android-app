@@ -21,8 +21,10 @@ package com.protonvpn.android.redesign.vpn.ui
 
 import android.text.BidiFormatter
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +40,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -129,20 +132,31 @@ private fun StatusView(
     state: VpnStatusViewState,
     modifier: Modifier = Modifier
 ) {
-    val wasConnecting = remember { mutableStateOf(false) }
-
+    val transition = updateTransition(targetState = state, label = "connecting -> connected")
+    val animationProgress by transition.animateFloat(
+        transitionSpec = {
+            if (initialState is VpnStatusViewState.Connecting && targetState is VpnStatusViewState.Connected) {
+                tween(durationMillis = 500)
+            } else {
+                snap()
+            }
+        },
+        label = "progress"
+    ) { targetState ->
+        when (targetState) {
+            is VpnStatusViewState.Connected -> 1f
+            else -> 0f
+        }
+    }
     Box(modifier, contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            val shouldAnimate =
-                wasConnecting.value && state is VpnStatusViewState.Connected
             when (state) {
                 is VpnStatusViewState.Connected -> {
-                    VpnConnectedView(state, shouldAnimate)
+                    VpnConnectedView(state) { animationProgress }
                 }
 
                 is VpnStatusViewState.Connecting -> {
                     VpnConnectingView(state)
-                    wasConnecting.value = true
                 }
 
                 is VpnStatusViewState.Disabled -> {
@@ -156,26 +170,14 @@ private fun StatusView(
 @Composable
 private fun VpnConnectedView(
     state: VpnStatusViewState.Connected,
-    shouldAnimate: Boolean
+    transitionValue: () -> Float
 ) {
-    val offsetY = remember { Animatable(if (shouldAnimate) 1f else 0f) }
-    val alpha = remember { Animatable(if (shouldAnimate) 0f else 1f) }
-
-    if (shouldAnimate) {
-        LaunchedEffect(Unit) {
-            offsetY.animateTo(0f, animationSpec = tween(500))
-        }
-        LaunchedEffect(Unit) {
-            alpha.animateTo(1f, animationSpec = tween(500))
-        }
-    }
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .padding(8.dp)
             .graphicsLayer {
-                this.alpha = alpha.value
+                this.alpha = transitionValue()
             }
     ) {
         Icon(
@@ -197,9 +199,9 @@ private fun VpnConnectedView(
         color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4F),
         shape = ProtonTheme.shapes.medium,
         modifier = Modifier
-            .offset { IntOffset(x = 0, y = (offsetY.value * 16.dp.toPx()).toInt()) }
+            .offset { IntOffset(x = 0, y = (transitionValue() * 16.dp.toPx()).toInt()) }
             .graphicsLayer {
-                this.alpha = alpha.value
+                this.alpha = transitionValue()
             }
             .padding(top = 8.dp)
     ) {
