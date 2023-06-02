@@ -183,6 +183,8 @@ build BTI:
 build google play bundle:
   stage: build
   rules:
+    - if: $ROBO_TEST == "true"
+      when: always
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
     - if: $CI_COMMIT_BRANCH == "development"
@@ -195,40 +197,32 @@ build google play bundle:
     # Build openvpn first, otherwise ovpnassets are not copied to app's assets.
     - ./gradlew :openvpn:assembleRelease
     - ./gradlew :app:bundleGooglePlayRelease
+    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
+    - echo ${ARCHIVES_BASE_NAME}
+    - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
   interruptible: false
   artifacts:
     expire_in: 1 week
     paths:
     - app/build/outputs/
+    reports:
+      dotenv: deploy.env
 
 build google play release:
   stage: build
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: never
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: never
-    - if: $ROBO_TEST == "true"
-      when: always
-    - if: $CI_COMMIT_BRANCH == "master"
-      when: never
-    - when: manual
   tags:
     - xlarge-k8s
   script:
     - ./gradlew openvpn:assemble
     - ./gradlew assembleGooglePlayRelease
-    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
-    - echo ${ARCHIVES_BASE_NAME}
-    - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
   when: manual
+  except:
+    - schedules
   interruptible: false
   artifacts:
     expire_in: 1 week
     paths:
     - app/build/outputs/apk
-    reports:
-      dotenv: deploy.env
 
 .build amazon release:
   stage: build
