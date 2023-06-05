@@ -96,12 +96,12 @@ fun VpnConnectionCard(
                 Modifier
             }
             Column(
-                modifier = panelModifier.padding(16.dp)
+                modifier = panelModifier.padding(16.dp),
             ) {
                 Row(
                     modifier = Modifier
-                        .heightIn(min = 42.dp)
                         .padding(bottom = 16.dp)
+                        .heightIn(min = 42.dp)
                         .semantics(mergeDescendants = true) {},
                 ) {
                     with(viewState.connectIntentViewState) {
