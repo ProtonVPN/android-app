@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.redesign.vpn.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -44,7 +45,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ActiveDot
-import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
@@ -102,7 +102,7 @@ private fun ServerDetailsRow(
     CompositionLocalProvider(LocalContentColor provides ProtonTheme.colors.textWeak) {
         FlowRow(
             modifier = modifier,
-            verticalAlignment = Alignment.CenterVertically
+            verticalArrangement = Arrangement.Center
         ) {
             var needsBullet = false
             if (detailsText != null) {

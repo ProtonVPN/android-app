@@ -74,7 +74,7 @@ class RecentsAndConnectionSampleViewModel @Inject constructor(
         .stateIn(
             viewModelScope,
             SharingStarted.Eagerly,
-            RecentsListViewState(initialCardViewState, emptyList())
+            RecentsListViewState(initialCardViewState, emptyList(), null)
         )
 
     fun connect() {

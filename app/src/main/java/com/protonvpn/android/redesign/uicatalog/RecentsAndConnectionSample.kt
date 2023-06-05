@@ -35,9 +35,9 @@ class RecentsAndConnectionSample : SampleScreen("Connection+Recents", "connectio
     @Composable
     override fun Content(modifier: Modifier, snackbarHostState: SnackbarHostState) {
         val viewModel: RecentsAndConnectionSampleViewModel = hiltViewModel()
+        val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
         Column(modifier = modifier.padding(vertical = 16.dp)) {
-            val viewState by viewModel.viewState.collectAsStateWithLifecycle()
             RecentsList(
                 viewState,
                 onConnectClicked = viewModel::connect,
@@ -46,9 +46,8 @@ class RecentsAndConnectionSample : SampleScreen("Connection+Recents", "connectio
                 onHelpClicked = {},
                 onRecentClicked = viewModel::connectRecent,
                 onRecentPinToggle = viewModel::togglePinned,
-                onRecentRemove = viewModel::removeRecent
+                onRecentRemove = viewModel::removeRecent,
             )
         }
     }
-
 }

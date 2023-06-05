@@ -20,6 +20,18 @@
 package com.protonvpn.android.redesign.recents.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Transition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -73,10 +85,12 @@ fun VpnConnectionCard(
     onDisconnect: () -> Unit,
     onOpenPanelClick: () -> Unit,
     onHelpClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
+    itemIdsTransition: Transition<ItemIds>? = null
 ) {
     Column(
         modifier = modifier
+            .animateContentSize()
     ) {
         ContainerLabelRow(
             viewState.cardLabelRes,
@@ -100,26 +114,32 @@ fun VpnConnectionCard(
             Column(
                 modifier = panelModifier.padding(16.dp),
             ) {
-                Row(
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
-                        .heightIn(min = 42.dp)
-                        .semantics(mergeDescendants = true) {},
-                ) {
-                    with(viewState.connectIntentViewState) {
-                        Flag(exitCountry, entryCountry, isSecureCore)
-                        ConnectIntentLabels(
-                            exitCountry,
-                            secondaryLabel,
-                            serverFeatures,
-                            isConnected = false,
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 16.dp)
-                        )
-                    }
-                    if (canOpenPanel) {
-                        OpenPanelButton(onOpenPanelClick, Modifier.align(Alignment.Top))
+                AnimatedContent(
+                    targetState = viewState.connectIntentViewState,
+                    transitionSpec = { getTransitionSpec(itemIdsTransition) },
+                    label = "connect intent"
+                ) { targetState ->
+                    Row(
+                        modifier = Modifier
+                            .padding(bottom = 16.dp)
+                            .heightIn(min = 42.dp)
+                            .semantics(mergeDescendants = true) {},
+                    ) {
+                        with(targetState) {
+                            Flag(exitCountry, entryCountry, isSecureCore)
+                            ConnectIntentLabels(
+                                exitCountry,
+                                secondaryLabel,
+                                serverFeatures,
+                                isConnected = false,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(start = 16.dp)
+                            )
+                        }
+                        if (canOpenPanel) {
+                            OpenPanelButton(onOpenPanelClick, Modifier.align(Alignment.Top))
+                        }
                     }
                 }
                 when (viewState.connectionState) {
@@ -154,6 +174,26 @@ private fun OpenPanelButton(
             }
         }
     )
+}
+
+private fun AnimatedContentTransitionScope<ConnectIntentViewState>.getTransitionSpec(
+    ids: Transition<ItemIds>?
+): ContentTransform {
+    if (ids == null) return EnterTransition.None togetherWith ExitTransition.None
+
+    val isSameThingOrIdentical =
+        initialState == targetState || ids.currentState.connectionCard == ids.targetState.connectionCard
+    val fromRecents = ids.currentState.recents.contains(ids.targetState.connectionCard)
+    val toRecents = ids.targetState.recents.contains(ids.currentState.connectionCard)
+    val enter = when (!isSameThingOrIdentical && fromRecents) {
+        true -> slideInVertically { height -> height } + fadeIn()
+        else -> EnterTransition.None
+    }
+    val exit = when (!isSameThingOrIdentical && toRecents) {
+        true -> slideOutVertically { height -> height } + fadeOut()
+        else -> ExitTransition.None
+    }
+    return enter togetherWith exit
 }
 
 @Composable
