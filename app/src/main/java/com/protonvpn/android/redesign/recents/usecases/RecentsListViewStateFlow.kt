@@ -48,7 +48,8 @@ import javax.inject.Inject
 
 data class RecentsListViewState(
     val connectionCard: VpnConnectionCardViewState,
-    val recents: List<RecentItemViewState>
+    val recents: List<RecentItemViewState>,
+    val connectionCardRecentId: Long?
 )
 
 @Reusable
@@ -87,7 +88,8 @@ class RecentsListViewStateFlow @Inject constructor(
                 connectionCardIntent,
                 if (status.state == VpnState.Connected) status.connectionParams?.server else null
             ),
-            createRecentsViewState(recents, connectedIntent, connectionCardIntent, vpnUser)
+            createRecentsViewState(recents, connectedIntent, connectionCardIntent, vpnUser),
+            recents.find { it.connectIntent == connectionCardIntent }?.id
         )
     }
 
