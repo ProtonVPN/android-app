@@ -19,8 +19,12 @@
 
 package com.protonvpn.android.redesign.uicatalog
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,12 +36,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
-import com.protonvpn.android.redesign.recents.ui.RecentsList
+import com.protonvpn.android.redesign.recents.ui.RecentRow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
 
     @Composable
@@ -50,27 +55,35 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
                 "Fake recents\n(don't pay attention to ordering: items always move to the top and bottom)",
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
-            RecentsList(
-                recents,
-                onClickAction = {},
-                onTogglePin = { item ->
-                    coroutineScope.launch {
-                        delay(100) // Simulate DB overhead.
-                        val recentsWithoutItem = recents - item
-                        if (item.isPinned) {
-                            recents = recentsWithoutItem + item.copy(isPinned = false)
-                        } else {
-                            recents = listOf(item.copy(isPinned = true)) + recentsWithoutItem
-                        }
-                    }
-                },
-                onRemoveAction = { item ->
-                    coroutineScope.launch {
-                        delay(100) // Simulate DB overhead.
-                        recents = recents.filterNot { it.id == item.id }
-                    }
+
+            LazyColumn {
+                items(recents, key = { it.id }) { item ->
+                    RecentRow(
+                        item = item,
+                        onClick = {},
+                        onTogglePin = {
+                            coroutineScope.launch {
+                                delay(100) // Simulate DB overhead.
+                                val recentsWithoutItem = recents - item
+                                if (item.isPinned) {
+                                    recents = recentsWithoutItem + item.copy(isPinned = false)
+                                } else {
+                                    recents = listOf(item.copy(isPinned = true)) + recentsWithoutItem
+                                }
+                            }
+                        },
+                        onRemove = {
+                            coroutineScope.launch {
+                                delay(100) // Simulate DB overhead.
+                                recents = recents.filterNot { it.id == item.id }
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .animateItemPlacement()
+                    )
                 }
-            )
+            }
         }
     }
 

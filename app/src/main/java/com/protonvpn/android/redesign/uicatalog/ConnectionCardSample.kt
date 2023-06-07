@@ -32,11 +32,11 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.vpn.ServerFeature
-import com.protonvpn.android.redesign.vpn.ui.VpnConnectionCard
-import com.protonvpn.android.redesign.vpn.ui.VpnConnectionCardViewState
+import com.protonvpn.android.redesign.recents.ui.VpnConnectionCard
+import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
-import com.protonvpn.android.redesign.vpn.ui.VpnConnectionState
+import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import kotlinx.coroutines.launch
 import me.proton.core.compose.component.VerticalSpacer
 import java.util.EnumSet

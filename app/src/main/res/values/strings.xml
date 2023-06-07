@@ -899,6 +899,10 @@
     -->
     <string name="connection_card_accessbility_label_details">connection details</string>
 
+    <!-- tag(Redesign_2023)
+         Displayed above the list of recently made connections.
+     -->
+    <string name="recents_headline">Recents</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Pin</string>
     <!-- tag(Redesign_2023) -->

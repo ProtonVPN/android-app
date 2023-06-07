@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.vpn.ui
+package com.protonvpn.android.redesign.recents.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.border
@@ -46,6 +46,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionStrongUnspecified
