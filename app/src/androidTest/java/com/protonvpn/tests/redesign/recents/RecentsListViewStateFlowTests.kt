@@ -32,7 +32,7 @@ import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.recents.data.RecentsDao
-import com.protonvpn.android.redesign.recents.usecases.GetConnectionCardAndRecentsViewStateFlow
+import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.stubs.toProfile
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -77,7 +77,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class GetConnectionCardAndRecentsViewStateFlowTests {
+class RecentsListViewStateFlowTests {
 
     @get:Rule
     var rule = InstantTaskExecutorRule()
@@ -100,7 +100,7 @@ class GetConnectionCardAndRecentsViewStateFlowTests {
     private val serverSecureCore: Server =
         createServer("4", exitCountry = "pl", entryCountry = "ch", isSecureCore = true, tier = 2)
 
-    private lateinit var getViewState: GetConnectionCardAndRecentsViewStateFlow
+    private lateinit var viewStateFlow: RecentsListViewStateFlow
 
     @Before
     fun setup() {
@@ -140,7 +140,7 @@ class GetConnectionCardAndRecentsViewStateFlowTests {
             serverManager.setServers(listOf(serverCh, serverIs, serverSe, serverSecureCore), null)
         }
         val translator = Translator(testScope.backgroundScope, serverManager)
-        getViewState = GetConnectionCardAndRecentsViewStateFlow(
+        viewStateFlow = RecentsListViewStateFlow(
             recentsDao,
             GetConnectIntentViewState(serverManager, translator),
             serverManager,
@@ -152,7 +152,7 @@ class GetConnectionCardAndRecentsViewStateFlowTests {
 
     @Test
     fun defaultConnectionIsShownWhenThereAreNoRecents() = testScope.runTest {
-        val viewState = getViewState.first()
+        val viewState = viewStateFlow.first()
         val expectedConnectionCard =
             ConnectIntentViewState(CountryId.fastest, null, false, null, emptySet())
         assertEquals(expectedConnectionCard, viewState.connectionCard.connectIntentViewState)
@@ -165,7 +165,7 @@ class GetConnectionCardAndRecentsViewStateFlowTests {
             VpnState.Connected,
             ConnectionParams(ConnectIntentSwitzerland.toProfile(serverManager), serverCh, null, null)
         )
-        val viewState = getViewState.first()
+        val viewState = viewStateFlow.first()
         assertEquals(ConnectIntentViewSwitzerland, viewState.connectionCard.connectIntentViewState)
         assertEquals(emptyList(), viewState.recents)
     }
@@ -174,7 +174,7 @@ class GetConnectionCardAndRecentsViewStateFlowTests {
     fun mostRecentConnectionShownOnlyInConnectionCard() = testScope.runTest {
         insertRecents()
         recentsDao.insertOrUpdateForConnection(ConnectIntentIceland, 1000)
-        val viewState = getViewState.first()
+        val viewState = viewStateFlow.first()
 
         assertEquals(ConnectIntentViewIceland, viewState.connectionCard.connectIntentViewState)
         assertEquals(
@@ -190,7 +190,7 @@ class GetConnectionCardAndRecentsViewStateFlowTests {
             VpnState.Connected,
             ConnectionParams(ConnectIntentSecureCore.toProfile(serverManager), serverSecureCore, null, null)
         )
-        val viewState = getViewState.first()
+        val viewState = viewStateFlow.first()
         val expectedRecents = listOf(
             ConnectIntentViewSecureCore,
             ConnectIntentViewFastest,
@@ -214,7 +214,7 @@ class GetConnectionCardAndRecentsViewStateFlowTests {
             serverIs.copy(tier = 0),
         )
         serverManager.setServers(servers, null)
-        val viewState = getViewState.first()
+        val viewState = viewStateFlow.first()
         assertEquals(listOf(false, true, true, true), viewState.recents.map { it.isAvailable })
     }
 
@@ -228,14 +228,14 @@ class GetConnectionCardAndRecentsViewStateFlowTests {
             serverIs.copy(isOnline = false),
         )
         serverManager.setServers(servers, null)
-        val viewState = getViewState.first()
+        val viewState = viewStateFlow.first()
         assertEquals(listOf(true, true, false, false), viewState.recents.map { it.isOnline })
     }
 
     @Test
     fun serverStatusChangeIsReflectedInRecents() = testScope.runTest(dispatchTimeoutMs = 5_000) {
         insertRecents()
-        val viewStates = getViewState
+        val viewStates = viewStateFlow
             .onEach {
                 val offlineSecureCoreServer = serverSecureCore.copy(isOnline = false)
                 serverManager.setServers(

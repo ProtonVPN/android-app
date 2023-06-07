@@ -23,10 +23,10 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.recents.usecases.GetConnectionCardAndRecentsViewStateFlow
+import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
-import com.protonvpn.android.redesign.vpn.ui.VpnConnectionCardViewState
-import com.protonvpn.android.redesign.vpn.ui.VpnConnectionState
+import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
+import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
 import com.protonvpn.android.utils.ServerManager
@@ -43,7 +43,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    getConnectionCardAndRecentsViewStateFlow: GetConnectionCardAndRecentsViewStateFlow,
+    recentsListViewStateFlow: RecentsListViewStateFlow,
     vpnStatusViewStateFlow: VpnStatusViewStateFlow,
     private val vpnConnectionManager: VpnConnectionManager,
     private val serverManager: ServerManager
@@ -61,7 +61,7 @@ class HomeViewModel @Inject constructor(
             ),
             VpnConnectionState.Disconnected
         )
-    val cardViewState = getConnectionCardAndRecentsViewStateFlow
+    val cardViewState = recentsListViewStateFlow
         .map { it.connectionCard }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), initialCardViewState)
 

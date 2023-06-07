@@ -21,27 +21,60 @@ package com.protonvpn.android.redesign.recents.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.protonvpn.android.R
+import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
+import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.compose.theme.captionWeak
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecentsList(
-    recents: List<RecentItemViewState>,
-    onClickAction: (id: Long) -> Unit,
-    onTogglePin: (item: RecentItemViewState) -> Unit,
-    onRemoveAction: (item: RecentItemViewState) -> Unit,
+    viewState: RecentsListViewState,
+    onConnectClicked: () -> Unit,
+    onDisconnectClicked: () -> Unit,
+    onOpenPanelClicked: () -> Unit,
+    onHelpClicked: () -> Unit,
+    onRecentClicked: (id: Long) -> Unit,
+    onRecentPinToggle: (item: RecentItemViewState) -> Unit,
+    onRecentRemove: (item: RecentItemViewState) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
-        items(recents, key = { it.id }) { item ->
+        item {
+            VpnConnectionCard(
+                viewState = viewState.connectionCard,
+                onConnect = onConnectClicked,
+                onDisconnect = onDisconnectClicked,
+                onOpenPanelClick = onOpenPanelClicked,
+                onHelpClick = onHelpClicked,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+            )
+        }
+        if (viewState.recents.isNotEmpty()) {
+            item {
+                Text(
+                    stringResource(R.string.recents_headline),
+                    style = ProtonTheme.typography.captionWeak,
+                    modifier = Modifier.
+                        padding(top = 24.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
+                )
+            }
+        }
+        items(viewState.recents, key = { it.id }) { item ->
             RecentRow(
                 item = item,
-                onClick = { onClickAction(item.id) },
-                onTogglePin = { onTogglePin(item) },
-                onRemove = { onRemoveAction(item) },
+                onClick = { onRecentClicked(item.id) },
+                onTogglePin = { onRecentPinToggle(item) },
+                onRemove = { onRecentRemove(item) },
                 modifier = Modifier
                     .fillMaxSize()
                     .animateItemPlacement()
