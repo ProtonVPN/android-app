@@ -24,7 +24,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentRow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
@@ -57,7 +58,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             )
 
             LazyColumn {
-                items(recents, key = { it.id }) { item ->
+                itemsIndexed(recents, key = { _, item -> item.id }) { index, item ->
                     RecentRow(
                         item = item,
                         onClick = {},
@@ -82,6 +83,9 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
                             .fillMaxSize()
                             .animateItemPlacement()
                     )
+                    if (index < recents.lastIndex) {
+                        VpnDivider()
+                    }
                 }
             }
         }
