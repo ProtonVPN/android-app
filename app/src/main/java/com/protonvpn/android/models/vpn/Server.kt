@@ -27,7 +27,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import me.proton.core.network.data.protonApi.IntToBoolSerializer
-import java.util.regex.Pattern
 
 const val SERVER_FEATURE_SECURE_CORE = 1
 const val SERVER_FEATURE_TOR = 2
@@ -108,16 +107,8 @@ data class Server(
     fun getCityTranslation() = translations?.get("City")
     val displayCity get() = getCityTranslation() ?: city
 
-    val serverNumber: Int
-        get() {
-            val name = serverName
-            val m = SERVER_NUMBER_PATTERN.matcher(name)
-            return if (m.find()) {
-                Integer.valueOf(m.group(1))
-            } else {
-                1
-            }
-        }
+    @Transient
+    val serverNumber: Int = computeServerNumber()
 
     private val secureCoreServerNaming: String
         get() = CountryTools.getFullName(entryCountry) + " $SECURE_CORE_SEPARATOR " +
@@ -154,8 +145,22 @@ data class Server(
         }
     }
 
+    private fun computeServerNumber(): Int {
+        var result = 1
+        val indexStart = serverName.indexOf("#")
+        if (indexStart >= 0 && indexStart + 1 < serverName.length) {
+            val section = serverName.substring(indexStart + 1)
+            val indexEnd = section
+                .indexOfFirst { c -> c !in '0' .. '9' }
+                .let { index -> if (index >= 0) index else section.length }
+            if (indexEnd > 0) {
+                result = Integer.parseInt(section.substring(0, indexEnd))
+            }
+        }
+        return result
+    }
+
     companion object {
-        val SERVER_NUMBER_PATTERN: Pattern = Pattern.compile("#(\\d+(\\d+)?)")
         const val SECURE_CORE_SEPARATOR = ">>"
     }
 }

@@ -22,7 +22,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class StreamingServicesResponse(
+data class StreamingServicesResponse(
     @SerialName(value = "ResourceBaseURL") val resourceBaseURL: String,
     @SerialName(value = "StreamingServices") val countryToServices: Map<String, Map<String, List<StreamingService>>>
 )

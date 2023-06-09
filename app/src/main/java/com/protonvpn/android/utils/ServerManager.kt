@@ -399,8 +399,10 @@ class ServerManager @Inject constructor(
         currentUser.vpnUserCached().hasAccessToServer(server)
 
     fun setStreamingServices(value: StreamingServicesResponse) {
-        streamingServices = value
-        Storage.save(this)
+        if (streamingServices != value) {
+            streamingServices = value
+            Storage.save(this)
+        }
     }
 
     // Sorted by score (best at front)
