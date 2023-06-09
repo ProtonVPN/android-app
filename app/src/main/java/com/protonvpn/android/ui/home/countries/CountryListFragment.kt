@@ -128,7 +128,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         } else {
             addCountriesGroup(newGroups, null, viewModel.getCountriesForList(), expandedCountriesIds)
         }
-        groupAdapter.updateAsync(newGroups)
+        groupAdapter.update(newGroups)
     }
 
     private fun getExpandedCountriesIds(groupAdapter: GroupAdapter<GroupieViewHolder>) = with(groupAdapter) {
