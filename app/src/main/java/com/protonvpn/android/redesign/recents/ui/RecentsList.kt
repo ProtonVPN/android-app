@@ -24,13 +24,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
@@ -56,7 +57,9 @@ fun RecentsList(
                 onDisconnect = onDisconnectClicked,
                 onOpenPanelClick = onOpenPanelClicked,
                 onHelpClick = onHelpClicked,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             )
         }
         if (viewState.recents.isNotEmpty()) {
@@ -69,7 +72,7 @@ fun RecentsList(
                 )
             }
         }
-        items(viewState.recents, key = { it.id }) { item ->
+        itemsIndexed(viewState.recents, key = { _, item -> item.id }) { index, item ->
             RecentRow(
                 item = item,
                 onClick = { onRecentClicked(item.id) },
@@ -79,6 +82,9 @@ fun RecentsList(
                     .fillMaxSize()
                     .animateItemPlacement()
             )
+            if (index < viewState.recents.lastIndex) {
+                VpnDivider()
+            }
         }
     }
 }
