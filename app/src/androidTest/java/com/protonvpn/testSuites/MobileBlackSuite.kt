@@ -23,7 +23,8 @@ import com.protonvpn.tests.bugReport.BugReportTests
 import com.protonvpn.tests.login.LoginTests
 import com.protonvpn.tests.login.TokenExpirationTests
 import com.protonvpn.tests.login.TwoFaTests
-import com.protonvpn.tests.signup.SignupTests
+import com.protonvpn.tests.signin.SignInTests
+import com.protonvpn.tests.signup.SignUpTests
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -33,6 +34,7 @@ import org.junit.runners.Suite
     BugReportTests::class,
     TokenExpirationTests::class,
     TwoFaTests::class,
-    SignupTests::class
+    SignInTests::class,
+    SignUpTests::class
 )
 class MobileBlackSuite
