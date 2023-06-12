@@ -22,7 +22,7 @@
     <string name="hintUsername">Utilizador</string>
     <string name="hintPassword">Palavra-passe</string>
     <string name="splitTunnellingSwitch">Interruptor Split Tunneling</string>
-    <string name="login">Sign in</string>
+    <string name="login">Iniciar sessão</string>
     <string name="hamburgerMenu">Menu Hamburger</string>
     <string name="error_field_required">Este campo é requerido</string>
     <string name="menuActionSignOut">Terminar sessão</string>
@@ -30,12 +30,12 @@
     <string name="loginStartWithDevice">Iniciar com o dispositivo</string>
     <string name="loginCreateAccount">Criar nova conta</string>
     <string name="loginNeedHelp">Precisa de ajuda?</string>
-    <string name="connectionAllocationHelpTitle">Agradecemos a sua atualização para\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Agradecemos a sua atualização para\nBusiness\u00a0/\u00a0Visionary.</string>
     <string name="connectionAllocationHelpDescription1">To start your journey in Proton VPN please assign VPN connections to your account or any other sub-account.</string>
     <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Enable VPN connections</string>
-    <string name="connectionAllocationHelpLoginAgainButton">Sign in again</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Iniciar sessão novamente</string>
     <string name="mapCalloutConnect">Ligar</string>
     <string name="mapCalloutDisconnect">Desligar</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -45,7 +45,7 @@
     <string name="secureCoreActivateDialogButton">Ativar Secure Core</string>
     <string name="logoutConfirmDialogTitle">Sign out?</string>
     <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Sign out</string>
+    <string name="logoutConfirmDialogButton">Encerrar sessão</string>
     <string name="showAllProfiles">Mostrar todos os perfis</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
@@ -54,7 +54,7 @@
     <string name="dialogLearnMore">Saiba mais</string>
     <string name="dialog_read_more">Ler mais</string>
     <string name="dialog_apply">Aplicar</string>
-    <string name="dialog_applying">Applying</string>
+    <string name="dialog_applying">Aplicando</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Ligado</string>
     <string name="buttonConnect">Ligar</string>
@@ -124,7 +124,7 @@
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
     <string name="restrictedMaintenanceDescription">O servidor a que se está a tentar ligar está em manutenção. Tente outro servidor.</string>
     <string name="errorUserDelinquent"><![CDATA[A sua conta tem atualmente uma factura por pagar. Liquide as suas dívidas em&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Atingiu o máximo de ligações simultâneas permitidas na sua conta. Atualize a sua subscrição Proton VPN para obter mais ligações.</string>
+    <string name="errorMaxSessions">Atingiu o máximo de ligações simultâneas permitidas na sua conta. Actualize a sua subscrição Proton VPN para obter mais ligações.</string>
     <string name="errorEmptyName">O campo do nome do perfil não pode estar vazio</string>
     <string name="errorEmptyCountry">O campo do país não pode estar vazio</string>
     <string name="errorEmptyServer">O campo do servidor não pode estar vazio</string>
@@ -160,9 +160,9 @@
     <string name="state_disconnecting">A desligar…</string>
     <string name="state_error">Erro</string>
     <string name="error_server_unreachable">Impossível ligar à VPN. Verifique a sua ligação e tente novamente.</string>
-    <string name="error_auth_failed">Falha ao autenticar o utilizador.</string>
-    <string name="error_assessment_failed">Falha ao avaliar a segurança.</string>
-    <string name="error_generic">Falha não especificada ao ligar.</string>
+    <string name="error_auth_failed">Erro ao autenticar o utilizador.</string>
+    <string name="error_assessment_failed">Erro ao avaliar a segurança.</string>
+    <string name="error_generic">Ocorreu um erro desconhecido durante a ligação.</string>
     <string name="error_generic_with_reason">Proton VPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
     <string name="reconnect">Religar</string>
     <string name="reconnect_now">Religar agora</string>
@@ -170,7 +170,7 @@
     <string name="connect">Ligar</string>
     <string name="upgrade">Atualizar</string>
     <string name="retry">Repetir</string>
-    <string name="connection_failed">A ligação falhou</string>
+    <string name="connection_failed">Erro de ligação</string>
     <string name="create_new_profile">Novo perfil</string>
     <string name="excludeAppsTitle">Excluir aplicações</string>
     <string name="excludeAppsDescription">Adicione aplicações que deseja excluir do seu tráfego VPN.</string>
@@ -180,13 +180,13 @@
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Anexos</string>
     <string name="report_message">Reportar mensagem</string>
-    <string name="report_bug_email_label">O seu endereço electrónico</string>
+    <string name="report_bug_email_label">O seu endereço eletrónico</string>
     <string name="report_bug_email_hint">Inserir o seu endereço de email</string>
     <string name="report_bug_message_label">Mensagem</string>
     <string name="report_bug_message_hint">Please describe the bug and how and where you found it</string>
     <string name="send_report">Enviar relatório</string>
     <string name="excludeIpTitle">Excluir endereços IP</string>
-    <string name="discardChanges">Descartar alterações não gravadas?</string>
+    <string name="discardChanges">Descartar alterações não guardadas?</string>
     <string name="discard">Descartar</string>
     <string name="selectedProfileColor">Seleccione a cor para o seu perfil.</string>
     <string name="excludeIpDescription">Adicione endereços IP que deseja excluir do tráfego VPN.</string>
@@ -205,7 +205,7 @@
     <string name="deleteProfileButton">Eliminar perfil</string>
     <string name="deleteProfile">Eliminar perfil?</string>
     <string name="doneButton">Feito</string>
-    <string name="saveButton">Gravar</string>
+    <string name="saveButton">Guardar</string>
     <string name="recommendedHeader">Recomendado</string>
     <string name="countryServersHeader">Servidores do país</string>
     <string name="secureCoreCountriesHeader">Países do Secure Core</string>
@@ -243,8 +243,8 @@
     <string name="error_prepare_vpn_title">Erro: problema de permissões VPN</string>
     <string name="error_server_not_set">O servidor já não está disponível</string>
     <string name="bugReportThankYouToast">Agradecemos o seu relatório.</string>
-    <string name="bugReportErrorEmptyEmail">O correio electrónico não pode estar vazio.</string>
-    <string name="bugReportErrorInvalidEmail">Endereço de correio electrónico não válido</string>
+    <string name="bugReportErrorEmptyEmail">O correio eletrónico não pode estar vazio.</string>
+    <string name="bugReportErrorInvalidEmail">Endereço de correio eletrónico não válido</string>
     <string name="bugReportErrorEmptyDescription">Diga-nos o que aconteceu.</string>
     <string name="bugReportLabelVpnLogsTitle">Incluir diários de erros</string>
     <string name="bugReportErrorLabelVpnLogsDescription">This sends local error logs (we don\'t log activity) to help us fix your problem</string>
@@ -257,7 +257,7 @@
     <string name="loaderErrorGeneric">Algo correu mal</string>
     <string name="loaderLoadingServers">A carregar servidores…</string>
     <string name="inputIpAddressLabel">Endereço IP</string>
-    <string name="inputIpAddressHint">Gravar endereço IP</string>
+    <string name="inputIpAddressHint">Guardar endereço IP</string>
     <string name="inputIpAddressErrorInvalid">Endereço IP não válido</string>
     <string name="settingsExcludedIPAddresses">Endereços IP excluídos</string>
     <string name="settingsExcludedIPAddressesListHeader">Endereços IP excluídos (%1$d)</string>
@@ -266,7 +266,7 @@
     <string name="settingsExcludedAppsSelectedHeader">Aplicações excluídas (%1$d)</string>
     <string name="settingsExcludedAppsAvailableRegularHeader">Allowed Regular Apps (%1$d)</string>
     <string name="settingsExcludedAppsAvailableSystemHeader">Allowed System Apps (%1$d)</string>
-    <string name="settingsExcludedAppsLoadSystemAppsButton">Show system apps</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar as aplicações do sistema</string>
     <string name="listNoItems">Nenhuma</string>
     <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
          %2$d - a number of remaining items.
@@ -279,10 +279,10 @@
     <string name="excludeAlreadyExcluded">Já excluído</string>
     <string name="removeExcludedIpDialogDescription">Remover endereço IP da lista?</string>
     <string name="loaderFetchingServers">A obter servidores…</string>
-    <string name="toastProfileSaved">Gravado</string>
+    <string name="toastProfileSaved">Guardado</string>
     <string name="tileConnected">Ligado: %1$s</string>
     <string name="dialogTitleAttention">Atenção</string>
-    <string name="saveProfileAlreadySaved">Já gravado</string>
+    <string name="saveProfileAlreadySaved">Já guardado</string>
     <string name="openUrlError">%1$s não pôde ser aberto. Nenhum navegador web detectado no dispositivo.</string>
     <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Ligação expirada. Tente novamente.</string>
@@ -327,13 +327,13 @@
     <string name="settingsEnableTelemetryDescription">Usage data helps us overcome VPN blocks and improve app performance.</string>
     <string name="settingsSendCrashReportsTitle">Share anonymous crash reports</string>
     <string name="settingsSendCrashReportsDescription">Crash reports help us fix bugs, detect firewalls, and avoid VPN blocks.</string>
-    <string name="settingsTelemetryScreenTitle">Usage statistics</string>
+    <string name="settingsTelemetryScreenTitle">Estatísticas de utilização</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
     <string name="netShieldEnabledWarning">Note que algumas páginas podem não funcionar completamente devido a conteúdo bloqueado.</string>
     <string name="netShieldDescription">Bloquear anúncios, rastreio e malware </string>
     <string name="netshield_settings_description"><![CDATA[Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. <a href="%1$s">Learn more</a>.]]></string>
-    <string name="netshield_status_on">On</string>
-    <string name="netshield_status_off">Off</string>
+    <string name="netshield_status_on">Ligado</string>
+    <string name="netshield_status_off">Desligado</string>
     <string name="netshield_free_title">Browse ad-free with NetShield</string>
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
     <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
@@ -345,7 +345,7 @@
         <item quantity="one">Tracker\nstopped</item>
         <item quantity="other">Trackers\nstopped</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dados\nguardados</string>
     <string name="netShieldBlockMalwareOnly">Bloquear apenas malware</string>
     <string name="netShieldFullBlock">Bloquear malware, rastreio, anúncios</string>
     <string name="dialogDontShowAgain">Não mostrar novamente</string>
@@ -385,14 +385,14 @@
     <string name="tv_login_step2_description">Registe-se no Proton VPN</string>
     <string name="tv_login_step3_description">Insira o código:</string>
     <string name="tv_login_timer_label">Este código expira em:</string>
-    <string name="tv_login_refresh">Atualizar</string>
+    <string name="tv_login_refresh">Actualizar</string>
     <string name="tv_login_title_loading">A carregar…</string>
-    <string name="tv_login_title_refresh">A sua sessão expirou. Clique em Atualizar para começar novamente.</string>
+    <string name="tv_login_title_refresh">A sua sessão expirou. Clique em Actualizar para começar novamente.</string>
     <string name="tv_upgrade_title">Iniciar transmissão com o Plus</string>
     <string name="back">Recuar</string>
     <string name="tv_upgrade_url_details"><![CDATA[Visite <b>%1$s</b> para atualizar agora para o Proton VPN Plus.]]></string>
     <string name="tv_upgrade_description">Obtenha um plano Proton VPN Plus para aceder a mais de 500 servidores em todo o mundo e optimizar as opções para Netflix, Amazon Prime Vídeo, Disney+ e muitos outros.</string>
-    <string name="tv_vpn_error_dialog_title">Falha na ligação VPN</string>
+    <string name="tv_vpn_error_dialog_title">Erro na ligação VPN</string>
     <string name="tv_signout_label">Terminar sessão</string>
     <string name="tv_signout_dialog_title">Tem certeza de que deseja terminar a sessão?</string>
     <string name="tv_signout_dialog_description_connected">Isto desliga a sua TV de qualquer servidor VPN.</string>
@@ -415,7 +415,7 @@
     <string name="tv_server_list_action_unavailable">Indisponível</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[O VPN Accelerator ativa um conjunto único de tecnologias que melhoram o desempenho, podendo aumentar a velocidade da VPN até 400%%.. <a href="%1$s">Saiba mais</a>.]]></string>
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[O VPN Accelerator ativa um conjunto único de tecnologias que melhoram o desempenho, podendo aumentar a velocidade da VPN até 400%%. <a href="%1$s">Saiba mais</a>.]]></string>
     <string name="settingsSmartReconnectNotificationsTitle">Notificações do VPN Accelerator</string>
     <string name="settingsSmartReconnectNotificationsDescription">Receba notificações quando o VPN Accelerator mudar para um servidor mais rápido</string>
     <string name="settingsReconnectToApplySettingsDialogContent">New settings will apply next time you connect.</string>
@@ -425,7 +425,7 @@
     <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>
     <string name="notification_subscription_expired_no_reconnection_content">A sua subscrição regrediu.</string>
     <string name="notification_delinquent_title">A sua conta Proton VPN tem facturas pendentes</string>
-    <string name="notification_delinquent_content">Atualize a sua informação de facturação para manter a subscrição ativa.</string>
+    <string name="notification_delinquent_content">Actualize a sua informação de facturação para manter a subscrição ativa.</string>
     <string name="notification_server_unreachable_content">Mudou para um servidor mais rápido e semelhante ao que tinha seleccionado.</string>
     <string name="notification_max_sessions_title">Atingiu o seu limite máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
@@ -443,7 +443,7 @@
     <string name="no_thanks">Não, obrigado</string>
     <string name="enable">Ativar</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol atualmente desativado</string>
-    <string name="notification_smart_protocol_disabled_content">O Proton VPN detectou que a sua rede atual está a impedir uma ligação VPN. Ativar o Smart Protocol pode ultrapassar esta limitação.</string>
+    <string name="notification_smart_protocol_disabled_content">O Proton VPN detectou que a sua rede atual está a impedir uma ligação VPN. Activar o Smart Protocol pode ultrapassar esta limitação.</string>
     <string name="upsell_advanced_features">Funcionalidades avançadas: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Access streaming services (Netflix, Disney+, etc) anywhere in the world</string>
     <!-- Number of servers available in the service.
@@ -464,7 +464,7 @@
         <item quantity="one">%1$d país</item>
         <item quantity="other">%1$d países</item>
     </plurals>
-    <string name="upsell_upgrade_again">Atualize novamente para aproveitar todas as funcionalidades:</string>
+    <string name="upsell_upgrade_again">Actualize novamente para aproveitar todas as funcionalidades:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
     <string name="upgrade_plus_subtitle">Quando atualizar para o Plus</string>
@@ -555,7 +555,7 @@
     <string name="server_load_description">Os servidores com uma mais carga alta são mais lentos.</string>
     <string name="streaming_title_with_country">Transmissão - %1$s</string>
     <string name="streaming_services_description">Ligue a um servidor Plus neste país para iniciar a transmissão.\n\nDica: limpe a memória das aplicações de transmissão para garantir a apresentação de novos conteúdos.</string>
-    <string name="partnership_free_title">Free servers</string>
+    <string name="partnership_free_title">Servidores gratuitos</string>
     <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
     <string name="partnership_partners_title">Our partners</string>
     <string name="activity_information_learn_more">Saiba mais</string>
@@ -602,13 +602,13 @@
         <item quantity="one">%1$d país</item>
         <item quantity="other">%1$d países</item>
     </plurals>
-    <string name="onboarding_connection_info">Vamos conectá-lo ao servidor mais rápido e estável para a sua localização.</string>
+    <string name="onboarding_connection_info">Vamos ligaá-lo ao servidor mais rápido e estável para a sua localização.</string>
     <string name="onboading_connect_now">Ligar agora</string>
     <string name="onboading_connecting_now">Connecting now</string>
     <string name="onboarding_congrats_description">Your connection is protected and you’re ready to browse the web.\n\nSafely.</string>
     <string name="onboarding_congrats_title">Parabéns!</string>
     <string name="onboarding_plan_congrats_description_privacy">Aproveite o mundo da privacidade.</string>
-    <string name="onboading_connect_to_plus">Conecte-se a um servidor Plus</string>
+    <string name="onboading_connect_to_plus">Ligue-se a um servidor Plus</string>
     <string name="upgrade_use_limited_free_button">Use o plano Free limitado</string>
     <string name="dynamic_report_suggestion_didnt_work">Não funcionou?</string>
     <string name="dynamic_report_contact_us">Contacte-nos</string>
@@ -618,13 +618,13 @@
     <string name="dynamic_report_success_title">Agradecemos os seus comentários</string>
     <string name="dynamic_report_success_description">Contactaremos de volta o mais rapidamente possível.</string>
     <string name="dynamic_report_field_mandatory">Este campo é obrigatório</string>
-    <string name="dynamic_report_logs_description">Um diário é um tipo de ficheiro que lista todas as acções que levaram a um erro. Estes ficheiros serão apenas consultados pelos nossos engenheiros para corrigir erros.</string>
+    <string name="dynamic_report_logs_description">Um diário é um tipo de ficheiro que lista todas as ações que levaram a um erro. Estes ficheiros serão apenas consultados pelos nossos engenheiros para corrigir erros.</string>
     <string name="dynamic_report_logs_missing">Os diários de erro ajudam-nos a chegar à raíz do seu problema. Se não os incluir, poderemos não conseguir investigar.</string>
-    <string name="dynamic_report_step1">Step 1 of 3</string>
-    <string name="dynamic_report_step2">Step 2 of 3</string>
-    <string name="dynamic_report_step3">Step 3 of 3</string>
+    <string name="dynamic_report_step1">Passo 1 de 3</string>
+    <string name="dynamic_report_step2">Passo 2 de 3</string>
+    <string name="dynamic_report_step3">Passo 3 de 3</string>
     <string name="dynamic_report_your_issue_headline">What is your issue</string>
-    <string name="update_screen_title">Atualizar o Proton VPN</string>
+    <string name="update_screen_title">Actualizar o Proton VPN</string>
     <string name="update_screen_description">You’re more likely to have issues on older versions of Proton VPN.</string>
     <string name="server_search_menu_title">Procurar</string>
     <string name="server_search_hint">País, cidade ou servidor</string>
