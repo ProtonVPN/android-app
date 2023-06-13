@@ -40,11 +40,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
@@ -56,14 +57,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.netshield.BandwidthStatsRow
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.redesign.base.ui.vpnGreen
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.compose.theme.defaultWeak
@@ -89,51 +87,35 @@ data class LocationText(
     val ip: String,
 )
 
-@Composable
-fun VpnStatusView(
-    stateFlow: StateFlow<VpnStatusViewState>,
-    modifier: Modifier = Modifier
-) {
-    val statusState = stateFlow.collectAsStateWithLifecycle()
-    val targetColor = when (statusState.value) {
+fun Modifier.vpnStatusOverlayBackground(
+    state: VpnStatusViewState,
+): Modifier = composed {
+    val targetColor = when (state) {
         is VpnStatusViewState.Connected -> ProtonTheme.colors.vpnGreen
         is VpnStatusViewState.Connecting -> ProtonTheme.colors.shade100
         is VpnStatusViewState.Disabled -> ProtonTheme.colors.notificationError
     }
-
     val gradientColor = animateColorAsState(
         targetValue = targetColor,
         animationSpec = tween(durationMillis = 500)
     )
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        gradientColor.value.copy(alpha = 0.5F),
-                        gradientColor.value.copy(alpha = 0.0F)
-                    ),
-                    startY = 0f,
-                    endY = Float.POSITIVE_INFINITY
-                )
+    background(
+        Brush.verticalGradient(
+            colors = listOf(
+                gradientColor.value.copy(alpha = 0.5F),
+                gradientColor.value.copy(alpha = 0.0F)
             )
-    ) {
-        StatusView(
-            state = statusState.value,
-            modifier.padding(16.dp)
         )
-    }
+    )
 }
 
 @Composable
-private fun StatusView(
+fun rememberVpnStateAnimationProgress(
     state: VpnStatusViewState,
-    modifier: Modifier = Modifier
-) {
+): State<Float> {
     val transition = updateTransition(targetState = state, label = "connecting -> connected")
-    val animationProgress by transition.animateFloat(
+    return transition.animateFloat(
         transitionSpec = {
             if (initialState is VpnStatusViewState.Connecting && targetState is VpnStatusViewState.Connected) {
                 tween(durationMillis = 500)
@@ -148,11 +130,54 @@ private fun StatusView(
             else -> 0f
         }
     }
+}
+
+@Composable
+fun VpnStatusTop(
+    state: VpnStatusViewState,
+    transitionValue: () -> Float,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+    ) {
+        val contentModifier = Modifier
+            .align(Alignment.Center)
+            .padding(8.dp)
+        when (state) {
+            is VpnStatusViewState.Connected ->
+                VpnConnectedViewTop(state.isSecureCoreServer, transitionValue, contentModifier)
+
+            is VpnStatusViewState.Connecting ->
+                CircularProgressIndicator(
+                    color = ProtonTheme.colors.iconNorm,
+                    strokeWidth = 2.dp,
+                    modifier = contentModifier.size(24.dp)
+                )
+
+            is VpnStatusViewState.Disabled -> {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_proton_lock_open_filled),
+                    contentDescription = null,
+                    tint = ProtonTheme.colors.notificationError,
+                    modifier = contentModifier
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun VpnStatusBottom(
+    state: VpnStatusViewState,
+    transitionValue: () -> Float,
+    modifier: Modifier = Modifier
+) {
     Box(modifier, contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             when (state) {
                 is VpnStatusViewState.Connected -> {
-                    VpnConnectedView(state) { animationProgress }
+                    VpnConnectedView(state, transitionValue)
                 }
 
                 is VpnStatusViewState.Connecting -> {
@@ -168,21 +193,22 @@ private fun StatusView(
 }
 
 @Composable
-private fun VpnConnectedView(
-    state: VpnStatusViewState.Connected,
-    transitionValue: () -> Float
+private fun VpnConnectedViewTop(
+    isSecureCoreServer: Boolean,
+    transitionValue: () -> Float,
+    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .padding(8.dp)
-            .graphicsLayer {
-                this.alpha = transitionValue()
-            }
+        modifier = modifier
+            .graphicsLayer { this.alpha = transitionValue() }
     ) {
         Icon(
             painter = painterResource(
-                id = if (state.isSecureCoreServer) R.drawable.ic_proton_locks_filled else R.drawable.ic_proton_lock_filled
+                id = when {
+                    isSecureCoreServer -> R.drawable.ic_proton_locks_filled
+                    else -> R.drawable.ic_proton_lock_filled
+                }
             ),
             tint = ProtonTheme.colors.vpnGreen,
             contentDescription = null,
@@ -194,7 +220,13 @@ private fun VpnConnectedView(
             color = ProtonTheme.colors.vpnGreen,
         )
     }
+}
 
+@Composable
+private fun VpnConnectedView(
+    state: VpnStatusViewState.Connected,
+    transitionValue: () -> Float
+) {
     Surface(
         color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4F),
         shape = ProtonTheme.shapes.medium,
@@ -211,13 +243,6 @@ private fun VpnConnectedView(
 
 @Composable
 private fun VpnConnectingView(state: VpnStatusViewState.Connecting) {
-    CircularProgressIndicator(
-        color = ProtonTheme.colors.iconNorm,
-        strokeWidth = 2.dp,
-        modifier = Modifier
-            .padding(8.dp)
-            .size(24.dp)
-    )
     Text(
         text = stringResource(R.string.vpn_status_connecting),
         style = ProtonTheme.typography.defaultStrongNorm,
@@ -244,12 +269,6 @@ private fun VpnConnectingView(state: VpnStatusViewState.Connecting) {
 
 @Composable
 private fun VpnDisabledView(state: VpnStatusViewState.Disabled) {
-    Icon(
-        painter = painterResource(id = R.drawable.ic_proton_lock_open_filled),
-        contentDescription = null,
-        tint = ProtonTheme.colors.notificationError,
-        modifier = Modifier.padding(8.dp)
-    )
     Text(
         text = stringResource(R.string.vpn_status_disabled),
         style = ProtonTheme.typography.defaultStrongNorm,
@@ -330,13 +349,11 @@ private fun AnimateText(
 @Preview
 @Composable
 private fun PreviewVpnDisabledState() {
-    VpnStatusView(
-        stateFlow = MutableStateFlow(
-            VpnStatusViewState.Disabled(
-                LocationText(
-                    "Europe",
-                    "192.1.1.1.1"
-                )
+    PreviewHelper(
+        state = VpnStatusViewState.Disabled(
+            LocationText(
+                "Europe",
+                "192.1.1.1.1"
             )
         ),
         modifier = Modifier
@@ -348,13 +365,11 @@ private fun PreviewVpnDisabledState() {
 @Preview
 @Composable
 private fun PreviewVpnConnectingState() {
-    VpnStatusView(
-        stateFlow = MutableStateFlow(
-            VpnStatusViewState.Connecting(
-                LocationText(
-                    "Europe",
-                    "192.1.1.1.1"
-                )
+    PreviewHelper(
+        state = VpnStatusViewState.Connecting(
+            LocationText(
+                "Europe",
+                "192.1.1.1.1"
             )
         ),
         modifier = Modifier
@@ -366,13 +381,11 @@ private fun PreviewVpnConnectingState() {
 @Preview
 @Composable
 private fun PreviewVpnDisabledStateWithRTLSymbols() {
-    VpnStatusView(
-        stateFlow = MutableStateFlow(
-            VpnStatusViewState.Disabled(
-                LocationText(
-                    "اغلب برامجا",
-                    "192.1.1.1.1"
-                )
+    PreviewHelper(
+        state = VpnStatusViewState.Disabled(
+            LocationText(
+                "اغلب برامجا",
+                "192.1.1.1.1"
             )
         ),
         modifier = Modifier
@@ -384,13 +397,11 @@ private fun PreviewVpnDisabledStateWithRTLSymbols() {
 @Preview
 @Composable
 private fun PreviewVpnConnectedState() {
-    VpnStatusView(
-        stateFlow = MutableStateFlow(
-            VpnStatusViewState.Connected(
-                isSecureCoreServer = false,
-                netShieldStatsGreyedOut = false,
-                NetShieldStats(1, 0, 5234)
-            )
+    PreviewHelper(
+        state = VpnStatusViewState.Connected(
+            isSecureCoreServer = false,
+            netShieldStatsGreyedOut = false,
+            NetShieldStats(1, 0, 5234)
         ),
         modifier = Modifier
             .fillMaxWidth()
@@ -401,16 +412,22 @@ private fun PreviewVpnConnectedState() {
 @Preview
 @Composable
 private fun PreviewVpnConnectedSecureCoreState() {
-    VpnStatusView(
-        stateFlow = MutableStateFlow(
-            VpnStatusViewState.Connected(
-                isSecureCoreServer = true,
-                netShieldStatsGreyedOut = false,
-                netShieldStats = NetShieldStats(1, 0, 5234)
-            )
+    PreviewHelper(
+        state = VpnStatusViewState.Connected(
+            isSecureCoreServer = true,
+            netShieldStatsGreyedOut = false,
+            netShieldStats = NetShieldStats(1, 0, 5234)
         ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     )
+}
+
+@Composable
+private fun PreviewHelper(state: VpnStatusViewState, modifier: Modifier = Modifier) {
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        VpnStatusTop(state = state, transitionValue = { 1f })
+        VpnStatusBottom(state = state, transitionValue = { 1f })
+    }
 }

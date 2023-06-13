@@ -19,20 +19,43 @@
 
 package com.protonvpn.android.redesign.home_screen.ui
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
-import com.protonvpn.android.redesign.recents.ui.VpnConnectionCard
-import com.protonvpn.android.redesign.vpn.ui.VpnStatusView
+import com.protonvpn.android.redesign.recents.ui.RecentsList
+import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
+import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
+import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
+import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
+import kotlinx.coroutines.launch
+import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun HomeRoute() {
@@ -42,35 +65,120 @@ fun HomeRoute() {
 @Composable
 fun HomeView() {
     val viewModel: HomeViewModel = hiltViewModel()
-    val cardViewState = viewModel.cardViewState.collectAsStateWithLifecycle().value
+    val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle().value
+    val vpnState = viewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
+    val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
+    val coroutineScope = rememberCoroutineScope()
 
-    Box(
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        VpnStatusView(
-            stateFlow = viewModel.vpnStateViewFlow,
+        val (vpnStatusTop, vpnStatusBottom) = createRefs()
+
+        Spacer(
             modifier = Modifier
                 .fillMaxWidth()
-                .statusBarsPadding()
+                .height(200.dp)
+                .vpnStatusOverlayBackground(vpnState)
+        )
+        VpnStatusBottom(
+            vpnState,
+            transitionValue = { vpnStateTransitionProgress.value },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .constrainAs(vpnStatusBottom) {
+                    top.linkTo(vpnStatusTop.bottom)
+                }
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            val vpnUiDelegate = LocalVpnUiDelegate.current
-            VpnConnectionCard(
-                viewState = cardViewState,
-                onConnect = { viewModel.connect(vpnUiDelegate) },
-                onDisconnect = viewModel::disconnect,
-                onOpenPanelClick = { },
-                onHelpClick = { },
+        val vpnUiDelegate = LocalVpnUiDelegate.current
+        val connectAction = remember<() -> Unit>(vpnUiDelegate) {
+            { coroutineScope.launch { viewModel.connect(vpnUiDelegate) } }
+        }
+        val connectRecentAction = remember<(Long) -> Unit>(vpnUiDelegate) {
+            { id -> coroutineScope.launch { viewModel.connectRecent(id, vpnUiDelegate) } }
+        }
+        val listBgGradient = Brush.verticalGradient(listOf(Color.Transparent, ProtonTheme.colors.backgroundNorm))
+        val listBgGradientHeight = 100.dp
+        val listState = rememberLazyListState()
+        BoxWithConstraints {
+            RecentsList(
+                viewState = recentsViewState,
+                lazyListState = listState,
+                onConnectClicked = connectAction,
+                onDisconnectClicked = viewModel::disconnect,
+                onOpenPanelClicked = {},
+                onHelpClicked = {},
+                onRecentClicked = connectRecentAction,
+                onRecentPinToggle = viewModel::togglePinned,
+                onRecentRemove = viewModel::removeRecent,
+                itemBackgroundColor = ProtonTheme.colors.backgroundNorm,
+                maxHeight = maxHeight,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
+                    .fillMaxSize()
+                    .animateContentSize(),
+                topContent = {
+                    Spacer(
+                        modifier = Modifier
+                            .background(listBgGradient)
+                            .fillMaxWidth()
+                            .heightIn(min = listBgGradientHeight)
+                    )
+                }
             )
         }
+
+        val vpnStatusTopMinHeight = 48.dp
+        val fullCoverThresholdPx = LocalDensity.current.run {
+            (listBgGradientHeight - vpnStatusTopMinHeight).toPx()
+        }
+        val coverAlpha = remember(fullCoverThresholdPx) {
+            derivedStateOf { calculateOverlayAlpha(listState, fullCoverThresholdPx) }
+        }
+        VpnStatusTop(
+            vpnState,
+            transitionValue = { vpnStateTransitionProgress.value },
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = vpnStatusTopMinHeight)
+                .recentsScrollOverlayBackground(coverAlpha)
+                .statusBarsPadding()
+                .constrainAs(vpnStatusTop) {}
+        )
+    }
+}
+
+private fun Modifier.recentsScrollOverlayBackground(
+    alpha: State<Float>
+): Modifier = composed {
+    val separatorHeight = 1.dp
+    val backgroundColor = ProtonTheme.colors.backgroundNorm
+    val separatorColor = ProtonTheme.colors.separatorNorm
+    drawBehind {
+        drawRect(color = backgroundColor, alpha = alpha.value)
+        drawRect(
+            color = separatorColor,
+            topLeft = Offset(0f, size.height - separatorHeight.toPx()),
+            size = Size(size.width, separatorHeight.toPx()),
+            alpha = alpha.value
+        )
+    }
+}
+
+private fun calculateOverlayAlpha(lazyListState: LazyListState, fullCoverPx: Float): Float {
+    val firstVisibleItem = lazyListState.layoutInfo.visibleItemsInfo.getOrNull(0)
+    return when {
+        firstVisibleItem == null -> 0f
+        firstVisibleItem.index == 0 &&
+            lazyListState.layoutInfo.beforeContentPadding + firstVisibleItem.offset > 0 ->
+            0f
+        firstVisibleItem.index == 0 -> {
+            val onScreenSize =
+                fullCoverPx + lazyListState.layoutInfo.beforeContentPadding + firstVisibleItem.offset
+            (1f - onScreenSize / fullCoverPx).coerceIn(0f, 1f)
+        }
+        else -> 1f
     }
 }

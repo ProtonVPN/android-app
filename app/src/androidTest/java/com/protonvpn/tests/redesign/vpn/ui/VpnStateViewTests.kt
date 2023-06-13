@@ -18,11 +18,12 @@
  */
 package com.protonvpn.tests.redesign.vpn.ui
 
+import androidx.compose.foundation.layout.Column
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.redesign.vpn.ui.LocationText
-import com.protonvpn.android.redesign.vpn.ui.VpnStatusView
+import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
+import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
-import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Test
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
@@ -31,15 +32,10 @@ class VpnStatusViewTests : FusionComposeTest() {
 
     @Test
     fun disabledViewDisplay() {
-        val stateFlow = MutableStateFlow(
-            VpnStatusViewState.Disabled(
-                LocationText("Country", "192.168.0.1")
-            )
+        val state = VpnStatusViewState.Disabled(
+            LocationText("Country", "192.168.0.1")
         )
-
-        composeRule.setContent {
-            VpnStatusView(stateFlow = stateFlow)
-        }
+        setContentForState(state)
 
         node.withText("You are not protected")
             .assertIsDisplayed()
@@ -50,15 +46,10 @@ class VpnStatusViewTests : FusionComposeTest() {
 
     @Test
     fun connectingStateDisplay() {
-        val stateFlow = MutableStateFlow(
-            VpnStatusViewState.Connecting(
-                LocationText("Country", "192.168.0.1")
-            )
+        val state = VpnStatusViewState.Connecting(
+            LocationText("Country", "192.168.0.1")
         )
-
-        composeRule.setContent {
-            VpnStatusView(stateFlow = stateFlow)
-        }
+        setContentForState(state)
 
         node.withText("Protecting your identity")
             .assertIsDisplayed()
@@ -69,17 +60,13 @@ class VpnStatusViewTests : FusionComposeTest() {
 
     @Test
     fun connectedStateDisplay() {
-        val stateFlow = MutableStateFlow(
-            VpnStatusViewState.Connected(
-                isSecureCoreServer = true,
-                netShieldStatsGreyedOut = false,
-                netShieldStats = NetShieldStats(5)
-            )
+        val state = VpnStatusViewState.Connected(
+            isSecureCoreServer = true,
+            netShieldStatsGreyedOut = false,
+            netShieldStats = NetShieldStats(5)
         )
 
-        composeRule.setContent {
-            VpnStatusView(stateFlow = stateFlow)
-        }
+        setContentForState(state)
 
         node.withText("Protected")
             .assertIsDisplayed()
@@ -87,5 +74,14 @@ class VpnStatusViewTests : FusionComposeTest() {
             .hasAncestor(node.withTag("adsBlocked"))
             .withTag("value")
             .assertContainsText("5")
+    }
+
+    private fun setContentForState(state: VpnStatusViewState) {
+        composeRule.setContent {
+            Column {
+                VpnStatusTop(state = state, transitionValue = { 1f })
+                VpnStatusBottom(state = state, transitionValue = { 1f })
+            }
+        }
     }
 }

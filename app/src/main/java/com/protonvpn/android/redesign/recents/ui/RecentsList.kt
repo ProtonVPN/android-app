@@ -21,24 +21,40 @@ package com.protonvpn.android.redesign.recents.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.Transition
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.snap
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.VpnDivider
@@ -62,32 +78,62 @@ fun RecentsList(
     onRecentClicked: (id: Long) -> Unit,
     onRecentPinToggle: (item: RecentItemViewState) -> Unit,
     onRecentRemove: (item: RecentItemViewState) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    lazyListState: LazyListState = rememberLazyListState(),
+    itemBackgroundColor: Color = Color.Unspecified,
+    topContent: @Composable () -> Unit = {},
+    maxHeight: Dp = 0.dp
 ) {
     val itemIds = viewState.toItemIds()
-    val itemIdsTransition = updateTransition(targetState = itemIds)
+    val itemIdsTransition = updateTransition(targetState = itemIds, label = "item IDs")
 
-    LazyColumn(modifier = modifier) {
+    var peekHeightPx by remember { mutableIntStateOf(0) }
+    val peekHeightPxTransition = updateTransition(targetState = peekHeightPx, label = "peek height")
+    val peekHeightDp by peekHeightPxTransition.animateDp(
+        label = "peek height dp",
+        transitionSpec = {
+            when (initialState) {
+                0 -> snap()
+                else -> spring(visibilityThreshold = Dp.VisibilityThreshold)
+            }
+        },
+        targetValueByState = @Composable { px -> LocalDensity.current.run { px.toDp() } }
+    )
+    LazyColumn(
+        state = lazyListState,
+        modifier = modifier,
+        contentPadding = PaddingValues(top = (maxHeight - peekHeightDp).coerceAtLeast(0.dp))
+    ) {
         item {
-            VpnConnectionCard(
-                viewState = viewState.connectionCard,
-                onConnect = onConnectClicked,
-                onDisconnect = onDisconnectClicked,
-                onOpenPanelClick = onOpenPanelClicked,
-                onHelpClick = onHelpClicked,
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                itemIdsTransition = itemIdsTransition
-            )
-        }
-        if (viewState.recents.isNotEmpty()) {
-            item {
-                Text(
-                    stringResource(R.string.recents_headline),
-                    style = ProtonTheme.typography.captionWeak,
-                    modifier = Modifier.padding(top = 24.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
+                    .onGloballyPositioned { peekHeightPx = it.size.height }
+                    .animateItemPlacement()
+                    .animateContentSize()
+            ) {
+                topContent()
+                VpnConnectionCard(
+                    viewState = viewState.connectionCard,
+                    onConnect = onConnectClicked,
+                    onDisconnect = onDisconnectClicked,
+                    onOpenPanelClick = onOpenPanelClicked,
+                    onHelpClick = onHelpClicked,
+                    modifier = Modifier
+                        .background(itemBackgroundColor)
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    itemIdsTransition = itemIdsTransition
                 )
+                if (viewState.recents.isNotEmpty()) {
+                    Text(
+                        stringResource(R.string.recents_headline),
+                        style = ProtonTheme.typography.captionWeak,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(itemBackgroundColor)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                }
             }
         }
         itemsIndexed(viewState.recents, key = { _, item -> item.id }) { index, item ->
@@ -107,12 +153,12 @@ fun RecentsList(
                     onTogglePin = { onRecentPinToggle(item) },
                     onRemove = { onRecentRemove(item) },
                     modifier = Modifier
+                        .background(itemBackgroundColor)
                         .fillMaxSize()
-                        .animateItemPlacement()
                 )
             }
             if (index < viewState.recents.lastIndex) {
-                VpnDivider()
+                VpnDivider(Modifier.animateItemPlacement())
             }
         }
     }

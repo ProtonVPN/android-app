@@ -23,48 +23,64 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.redesign.vpn.ui.LocationText
-import com.protonvpn.android.redesign.vpn.ui.VpnStatusView
+import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
+import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
+import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
 
 class VpnStateSample : SampleScreen("Vpn state sample", "vpn_state") {
 
     @Composable
     override fun Content(modifier: Modifier, snackbarHostState: SnackbarHostState) {
         Column(modifier = modifier.padding(16.dp)) {
-            val statusFlow = MutableStateFlow<VpnStatusViewState>(VpnStatusViewState.Disabled(LocationText("Lithuania", "192.1.1.1.1")))
+            var state by remember {
+                val initialState =VpnStatusViewState.Disabled(LocationText("Lithuania", "192.1.1.1.1"))
+                mutableStateOf<VpnStatusViewState>(initialState)
+            }
             VpnSolidButton(
                 "Disabled", onClick = {
-                    statusFlow.value = VpnStatusViewState.Disabled(LocationText("Lithuania", "192.1.1.1.1"))
+                    state = VpnStatusViewState.Disabled(LocationText("Lithuania", "192.1.1.1.1"))
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             )
             VpnSolidButton(
                 "Connecting", onClick = {
-                    statusFlow.value = VpnStatusViewState.Connecting(LocationText("Lithuania", "192.1.1.1.1"))
+                    state = VpnStatusViewState.Connecting(LocationText("Lithuania", "192.1.1.1.1"))
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             )
             VpnSolidButton(
                 "Connected", onClick = {
-                    statusFlow.value = VpnStatusViewState.Connected(true, false, NetShieldStats(1, 0, 5234))
+                    state = VpnStatusViewState.Connected(true, false, NetShieldStats(1, 0, 5234))
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             )
 
-            VpnStatusView(
-                stateFlow = statusFlow, modifier = Modifier
+            val transitonProgress = rememberVpnStateAnimationProgress(state = state)
+            Column(
+                Modifier
+                    .vpnStatusOverlayBackground(state)
                     .fillMaxWidth()
-                    .padding(16.dp)
-            )
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                VpnStatusTop(state, { transitonProgress.value })
+                VpnStatusBottom(state, { transitonProgress.value })
+            }
         }
     }
 }
