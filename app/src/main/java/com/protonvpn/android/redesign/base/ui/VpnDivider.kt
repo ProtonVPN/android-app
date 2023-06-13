@@ -21,10 +21,11 @@ package com.protonvpn.android.redesign.base.ui
 
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
-inline fun VpnDivider() {
-    Divider(color = ProtonTheme.colors.separatorNorm, thickness = Dp.Hairline)
+inline fun VpnDivider(modifier: Modifier = Modifier) {
+    Divider(color = ProtonTheme.colors.separatorNorm, thickness = Dp.Hairline, modifier = modifier)
 }

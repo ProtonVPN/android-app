@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.vpn.ui
 
-import android.text.BidiFormatter
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.CountryTools

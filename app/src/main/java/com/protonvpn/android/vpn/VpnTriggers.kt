@@ -21,7 +21,7 @@ package com.protonvpn.android.vpn
 
 // This set of values is provided by the data team.
 private enum class ConnectStatsKeyword {
-    QUICK, COUNTRY, SERVER, PROFILE, MAP, TRAY, AUTO
+    QUICK, COUNTRY, SERVER, PROFILE, MAP, TRAY, AUTO, RECENT, PIN
 }
 
 private enum class DisconnectStatsKeyword {
@@ -30,6 +30,8 @@ private enum class DisconnectStatsKeyword {
 
 sealed class ConnectTrigger(statsKeyword: ConnectStatsKeyword, val description: String) {
     class QuickConnect(description: String) : ConnectTrigger(ConnectStatsKeyword.QUICK, description)
+    object RecentRegular : ConnectTrigger(ConnectStatsKeyword.RECENT, "recent")
+    object RecentPinned : ConnectTrigger(ConnectStatsKeyword.PIN, "pinned recent")
     class ConnectionPanel(description: String) : ConnectTrigger(ConnectStatsKeyword.QUICK, description)
     class Onboarding(description: String) : ConnectTrigger(ConnectStatsKeyword.QUICK, description)
     class Country(description: String) : ConnectTrigger(ConnectStatsKeyword.COUNTRY, description)

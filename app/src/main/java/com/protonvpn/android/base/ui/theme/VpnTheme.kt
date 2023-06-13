@@ -53,7 +53,7 @@ fun VpnTheme(isDark: Boolean = isNightMode(), content: @Composable () -> Unit) {
                     val window = (view.context as Activity).window
                     window.navigationBarColor = bottomBarColor.toArgb()
                     WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !isDark
-                    systemUiController.setStatusBarColor(color = Color.Transparent)
+                    systemUiController.setStatusBarColor(color = Color.Transparent, darkIcons = !isDark)
                 }
             }
             CompositionLocalProvider(
