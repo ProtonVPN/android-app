@@ -130,7 +130,7 @@ abstract class AppDatabase :
     ObservabilityDatabase {
 
     companion object {
-        const val version = 15
+        const val version = 16
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
@@ -144,6 +144,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_11_12,
             DatabaseMigrations.MIGRATION_12_13,
             DatabaseMigrations.MIGRATION_13_14,
+            DatabaseMigrations.MIGRATION_15_16,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
