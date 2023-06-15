@@ -92,7 +92,7 @@ class UserDataHelper {
         accountManager.addAccount(
             Account(userId, user.email, user.email, AccountState.Ready, sessionId, SessionState.Authenticated,
                 AccountDetails(null, null)),
-            Session(sessionId, "accessToken", "refreshToken", emptyList()))
+            Session.Authenticated(userId, sessionId, "accessToken", "refreshToken", emptyList()))
 
         vpnUserDao.insertOrUpdate(user.vpnInfoResponse.toVpnUserEntity(userId, sessionId))
         userRepository.setMockUser(User(userId, user.email, user.email, user.email, "CHF", 0, 0,

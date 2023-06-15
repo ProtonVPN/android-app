@@ -37,7 +37,6 @@ import com.protonvpn.android.telemetry.StatsBody
 import com.protonvpn.android.telemetry.StatsEvent
 import com.protonvpn.android.utils.mobileCountryCode
 import kotlinx.coroutines.CoroutineScope
-import me.proton.core.network.data.protonApi.RefreshTokenRequest
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.TimeoutOverride
 import me.proton.core.network.domain.session.SessionId
@@ -57,9 +56,6 @@ open class ProtonApiRetroFit(
 
     open suspend fun getLocation() =
         manager { getLocation() }
-
-    suspend fun refreshToken(request: RefreshTokenRequest) =
-        manager { refreshToken(request) }
 
     open suspend fun postBugReport(
         params: RequestBody,

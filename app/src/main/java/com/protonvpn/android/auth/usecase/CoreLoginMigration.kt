@@ -69,7 +69,8 @@ class CoreLoginMigration @Inject constructor(
                                 session.sessionId,
                                 SessionState.Authenticated,
                                 AccountDetails(null, null)
-                            ), Session(
+                            ), Session.Authenticated(
+                                userId,
                                 session.sessionId,
                                 session.accessToken,
                                 session.refreshToken,

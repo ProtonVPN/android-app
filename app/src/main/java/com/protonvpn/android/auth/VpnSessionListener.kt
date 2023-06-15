@@ -23,17 +23,19 @@ import io.sentry.Sentry
 import io.sentry.SentryEvent
 import me.proton.core.account.domain.repository.AccountRepository
 import me.proton.core.accountmanager.data.SessionListenerImpl
+import me.proton.core.accountmanager.domain.SessionManager
 import me.proton.core.network.domain.HttpResponseCodes
 import me.proton.core.network.domain.session.Session
 import me.proton.core.network.domain.session.SessionId
 import javax.inject.Inject
 
 class VpnSessionListener @Inject constructor(
-    private val accountRepository: AccountRepository
-) : SessionListenerImpl(accountRepository) {
+    private val accountRepository: dagger.Lazy<AccountRepository>,
+    sessionManager: dagger.Lazy<SessionManager>
+) : SessionListenerImpl(sessionManager) {
 
     override suspend fun onSessionForceLogout(session: Session, httpCode: Int) {
-        val username = accountRepository.getAccountOrNull(session.sessionId)?.username
+        val username = accountRepository.get().getAccountOrNull(session.sessionId)?.username
         reportForceLogout(username, session.sessionId, httpCode);
         super.onSessionForceLogout(session, httpCode)
     }
