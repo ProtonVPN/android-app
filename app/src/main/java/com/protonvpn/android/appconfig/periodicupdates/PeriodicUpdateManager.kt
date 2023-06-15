@@ -304,6 +304,7 @@ class PeriodicUpdateManager @Inject constructor(
 
     private suspend fun executePendingPeriodic(currentConditions: Set<UpdateCondition>) {
         updateActions.entries
+            .toList() // Work on a copy in case entries are updated during processing.
             .forEach { (id, action) ->
                 val trigger = action.firstMatchingPeriodicTrigger(currentConditions)
                 if (trigger != null) {
