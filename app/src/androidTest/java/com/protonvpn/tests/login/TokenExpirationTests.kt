@@ -32,7 +32,7 @@ import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import me.proton.core.network.domain.handlers.TokenErrorHandler
+import me.proton.core.accountmanager.data.SessionManagerImpl
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -71,7 +71,7 @@ class TokenExpirationTests {
 
     @Test
     fun sessionAndRefreshTokenExpiration() = runTest {
-        TokenErrorHandler.reset(currentUser.sessionId())
+        SessionManagerImpl.reset(currentUser.sessionId())
         TestSetup.quark!!.expireSession(TestUser.plusUser.email, true)
         homeRobot.swipeDownToRefreshServerList()
         loginRobot.verify { loginScreenIsDisplayed() }
@@ -79,7 +79,7 @@ class TokenExpirationTests {
 
     @Test
     fun sessionExpirationCheckIfNotLoggedOut() = runTest {
-        TokenErrorHandler.reset(currentUser.sessionId())
+        SessionManagerImpl.reset(currentUser.sessionId())
         TestSetup.quark!!.expireSession(TestUser.plusUser.email)
         homeRobot.swipeDownToRefreshServerList()
             .verify { loginScreenIsNotDisplayed() }

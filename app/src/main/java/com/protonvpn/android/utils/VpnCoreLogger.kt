@@ -25,6 +25,7 @@ import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
+import me.proton.core.accountmanager.data.LogTag as AccountLogTag
 import me.proton.core.humanverification.presentation.LogTag
 import me.proton.core.crypto.common.keystore.LogTag as KeystoreLogTag
 import me.proton.core.network.data.LogTag as NetworkLogTag
@@ -38,7 +39,11 @@ class VpnCoreLogger : Logger {
 
     override fun log(tag: LoggerLogTag, message: String) {
         when (tag) {
-            NetworkLogTag.REFRESH_TOKEN ->
+            AccountLogTag.SESSION_REFRESH ->
+                ProtonLogger.logCustom(LogCategory.API, message)
+            AccountLogTag.SESSION_REQUEST ->
+                ProtonLogger.logCustom(LogCategory.API, message)
+            AccountLogTag.SESSION_FORCE_LOGOUT ->
                 ProtonLogger.logCustom(LogCategory.API, message)
             NetworkLogTag.SERVER_TIME_PARSE_ERROR ->
                 ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.API, message)

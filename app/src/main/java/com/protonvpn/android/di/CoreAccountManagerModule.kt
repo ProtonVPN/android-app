@@ -18,11 +18,14 @@
 
 package com.protonvpn.android.di
 
+import android.os.SystemClock
 import com.protonvpn.android.auth.VpnSessionListener
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import me.proton.core.account.domain.repository.AccountRepository
 import me.proton.core.accountmanager.data.AccountManagerImpl
 import me.proton.core.accountmanager.data.AccountMigratorImpl
 import me.proton.core.accountmanager.data.SessionManagerImpl
@@ -31,13 +34,14 @@ import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.domain.SessionManager
 import me.proton.core.accountmanager.domain.migrator.AccountMigrator
 import me.proton.core.auth.domain.AccountWorkflowHandler
+import me.proton.core.auth.domain.repository.AuthRepository
 import me.proton.core.network.domain.session.SessionListener
 import me.proton.core.network.domain.session.SessionProvider
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface CoreAccountManagerModule {
+interface CoreAccountManagerModuleBindings {
 
     @Binds
     @Singleton
@@ -58,8 +62,22 @@ interface CoreAccountManagerModule {
     @Binds
     @Singleton
     fun provideSessionListener(impl: VpnSessionListener): SessionListener
+}
 
-    @Binds
+@Module
+@InstallIn(SingletonComponent::class)
+object CoreAccountManagerModuleProvides {
+    @Provides
     @Singleton
-    fun provideSessionManager(impl: SessionManagerImpl): SessionManager
+    fun provideSessionManager(
+        sessionListener: SessionListener,
+        sessionProvider: SessionProvider,
+        authRepository: AuthRepository,
+        accountRepository: AccountRepository
+    ): SessionManager = SessionManagerImpl(
+        sessionListener = sessionListener,
+        sessionProvider = sessionProvider,
+        authRepository = authRepository,
+        accountRepository = accountRepository
+    ) { SystemClock.elapsedRealtime() }
 }
