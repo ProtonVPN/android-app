@@ -96,7 +96,7 @@ class UserDataHelper {
 
         vpnUserDao.insertOrUpdate(user.vpnInfoResponse.toVpnUserEntity(userId, sessionId))
         userRepository.setMockUser(User(userId, user.email, user.email, user.email, "CHF", 0, 0,
-            1, 1, Role.NoOrganization, false, 0, 0, null,
+            1, 1, Role.NoOrganization, false, 0, 0, null, null,
             emptyList()))
     }
 

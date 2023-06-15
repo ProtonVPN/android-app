@@ -105,4 +105,10 @@ object DatabaseMigrations {
             AddressDatabase.MIGRATION_4.migrate(database)
         }
     }
+
+    val MIGRATION_15_16 = object : Migration(15, 16) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            UserDatabase.MIGRATION_2.migrate(database)
+        }
+    }
 }
