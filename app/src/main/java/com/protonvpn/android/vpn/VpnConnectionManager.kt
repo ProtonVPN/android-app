@@ -509,7 +509,8 @@ class VpnConnectionManager @Inject constructor(
                     onServerNotAvailable(profile, server)
                 }
             } else {
-                vpnConnectionTelemetry.onConnectionAbort()
+                // The case has been handled by delegate.onServerRestricted, don't report the event.
+                vpnConnectionTelemetry.onConnectionAbort(report = false)
             }
         }
     }

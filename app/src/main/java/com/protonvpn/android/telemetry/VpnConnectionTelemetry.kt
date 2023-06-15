@@ -94,8 +94,13 @@ class VpnConnectionTelemetry @Inject constructor(
         }
     }
 
-    fun onConnectionAbort(isFailure: Boolean = false) =
-        onConnectingFinished(if (isFailure) Outcome.FAILURE else Outcome.ABORTED, null)
+    fun onConnectionAbort(isFailure: Boolean = false, report: Boolean = true) {
+        if (report) {
+            onConnectingFinished(if (isFailure) Outcome.FAILURE else Outcome.ABORTED, null)
+        } else {
+            connectionInProgress = null
+        }
+    }
 
     private fun onConnectingFinished(outcome: Outcome, connectionParams: ConnectionParams?) {
         connectionInProgress?.let {
