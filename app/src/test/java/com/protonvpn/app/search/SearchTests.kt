@@ -19,7 +19,6 @@
 package com.protonvpn.app.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
@@ -30,11 +29,11 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -56,9 +55,6 @@ class SearchTests {
     @RelaxedMockK
     private lateinit var mockCurrentUser: CurrentUser
 
-    @MockK
-    private lateinit var appConfig: AppConfig
-
     private lateinit var search: Search
 
     private val dedicatedIpServer = createServer("dedicatedIp", "XX#1", features = SERVER_FEATURE_RESTRICTED)
@@ -71,8 +67,15 @@ class SearchTests {
         mockkObject(CountryTools)
         every { CountryTools.getPreferredLocale() } returns Locale.US
 
-        val supportsProtocol = SupportsProtocol(appConfig)
-        val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true))
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
+        val serverManager = ServerManager(
+            mockUserData,
+            mockCurrentUser,
+            { 0 },
+            supportsProtocol,
+            createInMemoryServersStore(),
+            mockk(relaxed = true)
+        )
         serverManager.setServers(testServers, Locale.getDefault().language)
         search = Search(serverManager)
     }

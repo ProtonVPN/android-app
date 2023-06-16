@@ -20,7 +20,6 @@
 package com.protonvpn.app
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
@@ -37,12 +36,12 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -65,7 +64,6 @@ class ServerManagerTests {
 
     @RelaxedMockK private lateinit var currentUser: CurrentUser
     @RelaxedMockK private lateinit var vpnUser: VpnUser
-    @MockK private lateinit var appConfig: AppConfig
 
     private lateinit var userData: UserData
 
@@ -89,8 +87,8 @@ class ServerManagerTests {
         currentUser.mockVpnUser { vpnUser }
         every { vpnUser.userTier } returns 2
         every { CountryTools.getPreferredLocale() } returns Locale.US
-        every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
-        val supportsProtocol = SupportsProtocol(appConfig)
+
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         manager = ServerManager(userData, currentUser, { 0L }, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true))
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         regularServers = serversFile.readText().deserialize(ListSerializer(Server.serializer()))

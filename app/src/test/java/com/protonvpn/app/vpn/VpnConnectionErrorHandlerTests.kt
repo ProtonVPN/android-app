@@ -58,6 +58,7 @@ import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestVpnUser
+import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.CapturingSlot
@@ -83,7 +84,6 @@ import me.proton.core.network.domain.HttpResponseCodes
 import me.proton.core.network.domain.NetworkManager
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -153,7 +153,7 @@ class VpnConnectionErrorHandlerTests {
         coEvery { api.getSession() } returns ApiResult.Success(SessionListResponse(1000, listOf()))
         prepareServerManager(MockedServers.serverList)
 
-        val supportsProtocol = SupportsProtocol(appConfig)
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val getConnectingDomain = GetConnectingDomain(supportsProtocol)
 
         val server = MockedServers.server
