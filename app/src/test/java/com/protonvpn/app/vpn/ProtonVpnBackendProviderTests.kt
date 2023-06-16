@@ -37,6 +37,7 @@ import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.createGetSmartProtocols
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.every
@@ -80,7 +81,7 @@ class ProtonVpnBackendProviderTests {
             mockOpenVpnBackend,
             mockWireGuardBackend,
             userData,
-            SupportsProtocol(mockAppConfig)
+            SupportsProtocol(createGetSmartProtocols())
         )
     }
 

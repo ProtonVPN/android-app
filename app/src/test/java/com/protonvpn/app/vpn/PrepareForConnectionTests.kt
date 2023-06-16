@@ -31,6 +31,7 @@ import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.vpn.PrepareForConnection
 import com.protonvpn.android.vpn.ServerAvailabilityCheck
+import com.protonvpn.test.shared.createGetSmartProtocols
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -88,7 +89,7 @@ class PrepareForConnetionTests {
         every {
             appConfig.getWireguardPorts()
         } returns DefaultPorts(udpPorts = listOf(10), tcpPorts = listOf(0))
-        val supportsProtocol = SupportsProtocol(appConfig)
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val getConnectingDomain = GetConnectingDomain(supportsProtocol)
         prepareForConnetion = PrepareForConnection(appConfig, serverAvailabilityCheck, getConnectingDomain)
     }

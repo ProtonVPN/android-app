@@ -71,6 +71,7 @@ import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestDispatcherProvider
+import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.mockVpnUser
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
@@ -197,10 +198,13 @@ class VpnConnectionTests {
         Dispatchers.setMain(testDispatcher)
         val clock = { testScheduler.currentTime }
 
-        userData = spyk(UserData.create())
+        userData = UserData.create()
 
-        every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
-        supportsProtocol = SupportsProtocol(appConfig)
+        val smartProtocolsConfig = SmartProtocolConfig(
+            openVPNEnabled = true, wireguardEnabled = true, wireguardTcpEnabled = true, wireguardTlsEnabled = true)
+        every { appConfig.getSmartProtocolConfig() } returns smartProtocolsConfig
+
+        supportsProtocol = SupportsProtocol(createGetSmartProtocols(smartProtocolsConfig.getSmartProtocols()))
         coEvery { currentUser.sessionId() } returns SessionId("1")
         every { vpnUser.userTier } returns 1
         currentUser.mockVpnUser { vpnUser }
@@ -224,8 +228,6 @@ class VpnConnectionTests {
 
         networkManager = MockNetworkManager()
 
-        every { appConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
-            openVPNEnabled = true, wireguardEnabled = true, wireguardTcpEnabled = true, wireguardTlsEnabled = true)
         mockOpenVpn = spyk(createMockVpnBackend(VpnProtocol.OpenVPN))
         mockWireguard = spyk(createMockVpnBackend(VpnProtocol.WireGuard))
 

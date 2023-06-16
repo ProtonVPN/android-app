@@ -51,6 +51,7 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestVpnUser
+import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -160,7 +161,7 @@ class VpnConnectionManagerTests {
         Storage.setPreferences(MockSharedPreference())
         userData = UserData.create()
         vpnStateMonitor = VpnStateMonitor()
-        val supportsProtocol = SupportsProtocol(appConfig)
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         serverManager = ServerManager(userData, mockCurrentUser, clock, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true)).apply {
             setServers(MockedServers.serverList, null)
         }

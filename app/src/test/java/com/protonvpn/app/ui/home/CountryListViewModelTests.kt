@@ -22,7 +22,6 @@ package com.protonvpn.app.ui.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
@@ -33,12 +32,12 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
@@ -70,8 +69,6 @@ class CountryListViewModelTests {
     private lateinit var mockServerListUpdater: ServerListUpdater
     @RelaxedMockK
     private lateinit var mockVpnStateMonitor: VpnStateMonitor
-    @MockK
-    private lateinit var mockAppConfig: AppConfig
 
     private lateinit var countryListViewModel: CountryListViewModel
 
@@ -83,8 +80,7 @@ class CountryListViewModelTests {
         Storage.setPreferences(MockSharedPreference())
         userData = UserData.create(null)
         val appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
-        every { mockAppConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
-        val supportsProtocol = SupportsProtocol(mockAppConfig)
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         serverManager = ServerManager(userData, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), appFeaturesPrefs)
         coEvery { mockApi.getPartnerships() } returns ApiResult.Success(PartnersResponse(emptyList()))
 

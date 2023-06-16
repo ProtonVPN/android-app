@@ -20,6 +20,7 @@
 package com.protonvpn.android.models.vpn.usecase
 
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.di.Distinct
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.Server
@@ -27,9 +28,16 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Distinct
+class GetSmartProtocols @Inject constructor(
+    val appConfig: AppConfig
+) {
+    operator fun invoke(): List<ProtocolSelection> = appConfig.getSmartProtocols()
+}
+
 @Singleton
 class SupportsProtocol @Inject constructor(
-    val appConfig: AppConfig
+    val getSmartProtocols: GetSmartProtocols
 ) {
     operator fun invoke(server: Server, protocol: ProtocolSelection) =
         server.connectingDomains.any { invoke(it, protocol) }
@@ -44,7 +52,7 @@ class SupportsProtocol @Inject constructor(
     // When AppConfig changes, list needs to be re-filtered
     operator fun invoke(connectingDomain: ConnectingDomain, protocol: ProtocolSelection) =
         if (protocol.vpn == VpnProtocol.Smart)
-            appConfig.getSmartProtocols().any { connectingDomain.supportsRealProtocol(it) }
+            getSmartProtocols().any { connectingDomain.supportsRealProtocol(it) }
         else
             connectingDomain.supportsRealProtocol(protocol)
 

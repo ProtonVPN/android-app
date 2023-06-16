@@ -22,7 +22,6 @@ package com.protonvpn.app.tv.main
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.R
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
@@ -37,15 +36,15 @@ import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createGetSmartProtocols
+import com.protonvpn.test.shared.createInMemoryServersStore
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -75,8 +74,6 @@ class TvMainViewModelTests {
     private lateinit var mockCurrentUser: CurrentUser
     @MockK
     private lateinit var mockContext: Context
-    @MockK
-    private lateinit var appConfig: AppConfig
 
     private lateinit var testDispatcher: TestCoroutineDispatcher
     private lateinit var testScope: TestCoroutineScope
@@ -102,8 +99,7 @@ class TvMainViewModelTests {
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
         vpnStatusProviderUI = VpnStatusProviderUI(testScope, vpnStateMonitor)
 
-        val supportsProtocol = SupportsProtocol(appConfig)
-        every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
 
         serverManager = ServerManager(userData, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true)).apply {
             setServers(MockedServers.serverList, "us")

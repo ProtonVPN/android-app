@@ -22,10 +22,21 @@ package com.protonvpn.test.shared
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.Location
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.usecase.GetSmartProtocols
+import com.protonvpn.android.vpn.ProtocolSelection
+import io.mockk.every
+import io.mockk.mockk
 
 private val dummyConnectingDomain =
     ConnectingDomain("1.2.34", null, "dummy.protonvpn.net", "1.2.3.5", null, null, true, "dummy")
 
+fun createGetSmartProtocols(
+    protocols: List<ProtocolSelection> = ProtocolSelection.REAL_PROTOCOLS
+): GetSmartProtocols = mockk<GetSmartProtocols>().also {
+    every { it.invoke() } returns protocols
+}
+
+@Suppress("LongParameterList")
 fun createServer(
     serverId: String = "ID",
     serverName: String = "dummyName",
@@ -53,5 +64,3 @@ fun createServer(
         score = score,
         isOnline = true
     )
-
-
