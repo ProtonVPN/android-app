@@ -186,7 +186,7 @@
     <string name="report_bug_message_hint">Opisz błąd i dołącz informację jak i gdzie go znaleźć</string>
     <string name="send_report">Wyślij raport</string>
     <string name="excludeIpTitle">Wyklucz adresy IP</string>
-    <string name="discardChanges">Odrzucić niezapisane zmiany?</string>
+    <string name="discardChanges">Czy chcesz odrzucić niezapisane zmiany?</string>
     <string name="discard">Odrzuć</string>
     <string name="selectedProfileColor">Wybierz kolor profilu</string>
     <string name="excludeIpDescription">Dodaj adresy IP, które chcesz wykluczyć z ruchu VPN.</string>

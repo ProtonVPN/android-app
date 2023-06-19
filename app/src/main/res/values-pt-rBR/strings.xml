@@ -625,7 +625,7 @@
     <string name="dynamic_report_step3">Etapa 3 de 3</string>
     <string name="dynamic_report_your_issue_headline">Reportar problema</string>
     <string name="update_screen_title">Atualizar Proton VPN</string>
-    <string name="update_screen_description">É mais provável você ter problemas em versões mais antigas do Proton VPN.</string>
+    <string name="update_screen_description">É provável você ter problemas em versões mais antigas do Proton VPN.</string>
     <string name="server_search_menu_title">Procurar</string>
     <string name="server_search_hint">País, cidade, servidor</string>
     <string name="server_search_hint_secure_core">País</string>
@@ -660,9 +660,9 @@
         <item quantity="one">Acesse %1$d país</item>
         <item quantity="other">Acesse todos os %1$d países</item>
     </plurals>
-    <string name="search_upgrade_banner_subtitle">Mais localizações = mais conteúdo desbloqueado + segurança adicional + velocidade superior</string>
+    <string name="search_upgrade_banner_subtitle">Mais localizações significam mais conteúdos desbloqueados, segurança adicional e velocidades mais rápidas.</string>
     <string name="ikev2_removed_dialog_title">O protocolo VPN IKEv2 não está mais disponível</string>
-    <string name="ikev2_removed_dialog_message">Padrões e perfis que anteriormente usavam IKEv2 agora usarão o protocolo Smart.</string>
+    <string name="ikev2_removed_dialog_message">Padrões e perfis que anteriormente usavam IKEv2 agora usarão o Smart Protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obter mais informações.</string>
 </resources>
