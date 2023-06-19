@@ -24,6 +24,16 @@ variables:
   GIT_FETCH_EXTRA_FLAGS: --tags
   ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
 
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "schedule"' # Run scheduled pipelines without deploying atlas for tests.
+    - if: '"true" == "true"' # Run all other pipelines with test env deployed to atlas.
+      variables:
+        ATLAS_DEPLOY_ENV: "true"
+        ATLAS_DEPLOY_PREP: "true"
+
 stages:
   - prepare
   - build
@@ -71,26 +81,9 @@ cache:
 
   - <<: *gradle-build-cache
 
-deploy:book-env-name:
-  extends: claim:review
-  rules: &rules_deploy_env
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - when: on_success
-
-deploy:test-env:
-  extends: deploy:review
+deploy:review:
   needs:
-    - job: deploy:book-env-name
-      artifacts: true
-  rules: *rules_deploy_env
-
-cleanup:test-env:
-  extends: cleanup:review
-  needs: ["deploy:test-env", "mobile tests test-env"]
-  rules: *rules_deploy_env
+    - claim:review
 
 detekt analysis:
   stage: prepare
