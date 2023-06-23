@@ -25,7 +25,11 @@ import com.protonvpn.android.R
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.BaseTvActivity
+import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.GetStreamingServices
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.tv.models.CountryCard
@@ -34,6 +38,7 @@ import com.protonvpn.android.tv.usecases.SetFavoriteCountry
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
 import com.protonvpn.android.tv.vpn.createProfileForCountry
 import com.protonvpn.android.userstorage.ProfileManager
+import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -107,7 +112,7 @@ class CountryDetailViewModel @Inject constructor(
     fun connect(activity: BaseTvActivity, countryCode: String) {
         connectHelper.connect(
             activity,
-            createProfileForCountry(countryCode),
+            ConnectIntent.FastestInCountry(CountryId(countryCode), emptySet()),
             ConnectTrigger.Country("country details (TV)")
         )
     }

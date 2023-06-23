@@ -21,6 +21,7 @@ package com.protonvpn.app.vpn
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import io.mockk.mockk
 import org.junit.Assert
 import org.junit.Assert.assertFalse
@@ -37,7 +38,7 @@ class WireguardParamsTests {
     @Before
     fun setup() {
         connectionParams =
-            ConnectionParamsWireguard(mockk(), mockk(), 51820, mockk(), "1.1.1.1", TransmissionProtocol.UDP)
+            ConnectionParamsWireguard(ConnectIntent.Fastest, mockk(), 51820, mockk(), "1.1.1.1", TransmissionProtocol.UDP)
     }
 
     @Test

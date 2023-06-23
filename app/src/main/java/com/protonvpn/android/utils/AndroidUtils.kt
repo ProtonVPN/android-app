@@ -24,6 +24,7 @@ import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
@@ -225,6 +226,9 @@ fun Context.getCurrentProcessName(): String? =
         val manager = getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
         manager?.runningAppProcesses?.find { it.pid == myPid }?.processName
     }
+
+tailrec fun Context.getActivity(): Activity? =
+    this as? Activity ?: (this as? ContextWrapper)?.baseContext?.getActivity()
 
 fun TelephonyManager.mobileCountryCode() =
     if (phoneType != TelephonyManager.PHONE_TYPE_CDMA && !networkCountryIso.isNullOrBlank())

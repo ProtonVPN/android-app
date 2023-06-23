@@ -85,5 +85,5 @@ class ProfilesViewModel @Inject constructor(
         allProfiles.filter { it.profile.isPreBakedProfile.not() }
     }
 
-    private fun isConnectedTo(profile: Profile) = vpnStatusProviderUI.isConnectedTo(profile)
+    private fun isConnectedTo(profile: Profile) = false
 }

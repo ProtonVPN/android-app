@@ -38,6 +38,9 @@ import com.protonvpn.android.bus.ConnectToProfile
 import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.components.featureIcons
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiConnect
+import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.Server
@@ -45,6 +48,7 @@ import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
@@ -54,7 +58,9 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.withPrevious
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -105,7 +111,7 @@ data class PromoOfferBannerModel(
 data class RecommendedConnectionModel(
     @DrawableRes val icon: Int,
     @StringRes val name: Int,
-    val profile: Profile
+    val connectIntent: ConnectIntent
 ) : ServerListItemModel()
 
 data class CollapsibleServerGroupModel(
@@ -158,10 +164,11 @@ class CountryListViewModel @Inject constructor(
     private val partnershipsRepository: PartnershipsRepository,
     private val serverListUpdater: ServerListUpdater,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
+    private val vpnConnectionManager: VpnConnectionManager,
     userSettings: EffectiveCurrentUserSettings,
     currentUser: CurrentUser,
     restrictConfig: RestrictionsConfig,
-    private val apiNotificationManager: ApiNotificationManager,
+    apiNotificationManager: ApiNotificationManager,
     private val promoOffersPrefs: PromoOffersPrefs,
 ) : ViewModel() {
 
@@ -292,7 +299,8 @@ class CountryListViewModel @Inject constructor(
 
     fun isConnectedToServer(server: Server): Boolean = vpnStatusProviderUI.isConnectedTo(server)
 
-    fun isConnectedToProfile(profile: Profile): Boolean = vpnStatusProviderUI.isConnectedTo(profile)
+    fun isConnectedTo(connectIntent: ConnectIntent): Boolean =
+        vpnStatusProviderUI.isConnectedTo(connectIntent)
 
     fun getServerPartnerships(server: Server): List<Partner> =
         partnershipsRepository.getServerPartnerships(server)
@@ -305,9 +313,7 @@ class CountryListViewModel @Inject constructor(
     data class ServerGroupTitle(val titleRes: Int, val infoType: InformationActivity.InfoType?)
 
     private fun getRestrictedRecommendedConnections(): List<RecommendedConnectionModel> =
-        listOf(serverManager.fastestProfile).map {
-            RecommendedConnectionModel(it.profileSpecialIcon!!, R.string.profileFastest, it)
-        }
+        listOf(RecommendedConnectionModel(R.drawable.ic_proton_bolt, R.string.profileFastest, ConnectIntent.Fastest))
 
     private fun createServerSections(
         userTier: Int?,
@@ -387,13 +393,16 @@ class CountryListViewModel @Inject constructor(
     private fun getFreeAndPremiumCountries(userTier: Int?, secureCore: Boolean): Pair<List<VpnCountry>, List<VpnCountry>> =
         getCountriesForList(secureCore).partition { it.hasAccessibleServer(userTier) }
 
-    fun connectToProfile(profile: Profile) {
-        val event = ConnectToProfile(
-            if (isConnectedToProfile(profile)) null else profile,
-            ConnectTrigger.Profile("fastest in country list"),
-            DisconnectTrigger.Profile("fastest in country list")
-        )
-        EventBus.post(event)
+    fun connectOrDisconnect(vpnUiDelegate: VpnUiDelegate, connectIntent: ConnectIntent, triggerDescription: String) {
+        if (!isConnectedTo(connectIntent)) {
+            ProtonLogger.log(UiConnect, triggerDescription)
+            // Note: Profile trigger is incorrect and will result in wrong telemetry category.
+            vpnConnectionManager.connect(vpnUiDelegate, connectIntent, ConnectTrigger.Profile(triggerDescription))
+        } else {
+            ProtonLogger.log(UiDisconnect, triggerDescription)
+            // Note: Profile trigger is incorrect and will result in wrong telemetry category.
+            vpnConnectionManager.disconnect(DisconnectTrigger.Profile(triggerDescription))
+        }
     }
 
     private fun createBannerList(banner: UpsellBanner?): List<ServerListItemModel> {

@@ -22,6 +22,7 @@ package com.protonvpn.app.telemetry
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.vpn.VpnState
@@ -63,7 +64,7 @@ class CommonDimensionsTests {
     @Test
     fun `values are correctly set`() {
         val connectionParams = ConnectionParams(
-            Profile.getTempProfile(ServerWrapper.makePreBakedFastest()),
+            ConnectIntent.Default,
             MockedServers.server,
             null,
             null

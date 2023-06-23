@@ -51,7 +51,7 @@ import com.protonvpn.android.tv.models.CardListRow
 import com.protonvpn.android.tv.models.CardRow
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.LogoutCard
-import com.protonvpn.android.tv.models.ProfileCard
+import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.ReportBugCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
@@ -77,7 +77,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 val selectedCountry = when (item) {
                     is CountryCard -> item.vpnCountry.flag
                     is QuickConnectCard -> viewModel.quickConnectFlag
-                    is ProfileCard -> item.connectCountry
+                    is ConnectIntentCard -> item.connectCountry
                     else -> null
                 }
                 viewModel.setSelectedCountry(selectedCountry)
@@ -140,7 +140,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
                         addToBackStack(null)
                     }
                 }
-                is ProfileCard -> {
+                is ConnectIntentCard -> {
                     viewModel.connect(requireActivity() as BaseTvActivity, item)
                 }
                 is QuickConnectCard -> {

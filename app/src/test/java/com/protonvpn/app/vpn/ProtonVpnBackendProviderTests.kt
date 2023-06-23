@@ -25,9 +25,9 @@ import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.PhysicalServer
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -62,6 +62,7 @@ class ProtonVpnBackendProviderTests {
     @MockK
     private lateinit var mockAppConfig: AppConfig
 
+    private val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
     private lateinit var vpnBackendProvider: VpnBackendProvider
 
     @Before
@@ -87,18 +88,17 @@ class ProtonVpnBackendProviderTests {
             openVPNEnabled = false, wireguardEnabled = false,
             wireguardTcpEnabled = false, wireguardTlsEnabled = true
         )
-        val profile = Profile.getTempProfile(ServerWrapper.makePreBakedFastest(), null)
         val server = MockedServers.server
         vpnBackendProvider.prepareConnection(
             ProtocolSelection(VpnProtocol.Smart),
-            profile,
+            connectIntent,
             server,
             false
         )
 
         coVerify {
             mockWireGuardBackend.prepareForConnection(
-                profile, server, setOf(TransmissionProtocol.TLS), true, any(), any())
+                connectIntent, server, setOf(TransmissionProtocol.TLS), true, any(), any())
         }
         coVerify(exactly = 0) { mockOpenVpnBackend.prepareForConnection(any(), any(), any(), any(), any()) }
     }
@@ -110,11 +110,10 @@ class ProtonVpnBackendProviderTests {
             openVPNEnabled = false, wireguardEnabled = false,
             wireguardTcpEnabled = true, wireguardTlsEnabled = true
         )
-        val profile = Profile.getTempProfile(ServerWrapper.makePreBakedFastest(), null)
         val server = MockedServers.server
         vpnBackendProvider.prepareConnection(
             ProtocolSelection(VpnProtocol.Smart),
-            profile,
+            connectIntent,
             server,
             false
         )
@@ -130,13 +129,21 @@ class ProtonVpnBackendProviderTests {
         )
         val server = MockedServers.server
         vpnBackendProvider.pingAll(
+            connectIntent,
             ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
             listOf(PhysicalServer(server, server.connectingDomains.first())),
-            null)
+            null
+        )
 
         coVerify {
             mockWireGuardBackend.prepareForConnection(
-                any(), server, setOf(TransmissionProtocol.TCP), true, any(), any())
+                connectIntent,
+                server,
+                setOf(TransmissionProtocol.TCP),
+                true,
+                any(),
+                any()
+            )
         }
     }
 }

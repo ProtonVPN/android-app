@@ -28,6 +28,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -38,10 +39,10 @@ import javax.inject.Inject
 class TvUiConnectDisconnectHelper @Inject constructor(
     private val vpnConnectionManager: VpnConnectionManager
 ) {
-    fun connect(activity: BaseTvActivity, profile: Profile?, trigger: ConnectTrigger) {
-        if (profile != null) {
+    fun connect(activity: BaseTvActivity, connectIntent: ConnectIntent?, trigger: ConnectTrigger) {
+        if (connectIntent != null) {
             ProtonLogger.log(UiConnect, trigger.description)
-            vpnConnectionManager.connect(activity.getVpnUiDelegate(), profile, trigger)
+            vpnConnectionManager.connect(activity.getVpnUiDelegate(), connectIntent, trigger)
         } else {
             showMaintenanceDialog(activity)
         }

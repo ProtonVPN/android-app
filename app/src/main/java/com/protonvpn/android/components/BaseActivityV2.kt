@@ -28,7 +28,7 @@ import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.protonvpn.android.R
-import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper
@@ -55,7 +55,7 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnUiDelegateProvider {
     @Suppress("LeakingThis")
     private lateinit var vpnUiDelegate: VpnUiActivityDelegateMobile
 
-    open fun retryConnection(profile: Profile) {}
+    open fun retryConnection(connectIntent: AnyConnectIntent) {}
 
     override fun getVpnUiDelegate(): VpnUiActivityDelegate = vpnUiDelegate
 

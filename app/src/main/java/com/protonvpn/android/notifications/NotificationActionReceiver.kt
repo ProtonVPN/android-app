@@ -23,11 +23,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.logging.logUiSettingChange
-import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.redesign.recents.data.ConnectIntentData
+import com.protonvpn.android.redesign.recents.data.toAnyConnectIntent
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -53,7 +54,7 @@ class NotificationActionReceiver : BroadcastReceiver() {
                 vpnConnectionManager.disconnect(DisconnectTrigger.Notification("user via notification"))
             }
             SMART_PROTOCOL_ACTION -> {
-                val profileToSwitch = intent.getSerializableExtra(NotificationHelper.EXTRA_SWITCH_PROFILE) as Profile
+                val connectIntentData = intent.getSerializableExtra(EXTRA_SWITCH_INTENT) as ConnectIntentData
                 notificationHelper.cancelInformationNotification()
                 ProtonLogger.logUiSettingChange(Setting.DEFAULT_PROTOCOL, "notification action")
                 val pendingResult = goAsync()
@@ -61,7 +62,7 @@ class NotificationActionReceiver : BroadcastReceiver() {
                     try {
                         userSettingsManager.updateProtocol(ProtocolSelection(VpnProtocol.Smart))
                         vpnConnectionManager.connectInBackground(
-                            profileToSwitch,
+                            connectIntentData.toAnyConnectIntent(),
                             ConnectTrigger.Notification("Enable Smart protocol from notification")
                         )
                     } finally {
@@ -75,6 +76,7 @@ class NotificationActionReceiver : BroadcastReceiver() {
     companion object {
         const val DISCONNECT_ACTION = "DISCONNECT_ACTION"
         const val SMART_PROTOCOL_ACTION = "SMART_PROTOCOL_ACTION"
+        const val EXTRA_SWITCH_INTENT = "SWITCH_INFORMATION"
 
         fun createIntent(context: Context, action: String) =
             Intent(context, NotificationActionReceiver::class.java).apply { this.action = action }

@@ -20,9 +20,10 @@ package com.protonvpn.android.vpn
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.vpn.VpnState.Connected
 import com.protonvpn.android.vpn.VpnState.Disabled
 import kotlinx.coroutines.CoroutineScope
@@ -41,8 +42,6 @@ abstract class VpnStatusProvider {
 
     abstract val status: StateFlow<VpnStateMonitor.Status>
 
-    // Temporary for poor java classes
-    val statusLiveData get() = status.asLiveData()
     val isConnectedOrDisconnectedFlow: Flow<Boolean> get() = status
         .filter { it.state == Connected || it.state == Disabled }
         .map { it.state == Connected }
@@ -62,8 +61,8 @@ abstract class VpnStatusProvider {
             state == Connected || state.isEstablishingConnection
         }
 
-    val connectionProfile
-        get() = connectionParams?.profile
+    val connectionIntent
+        get() = connectionParams?.connectIntent
 
     val isConnectingToSecureCore
         get() = connectingToServer?.isSecureCoreServer == true
@@ -74,8 +73,8 @@ abstract class VpnStatusProvider {
     fun isConnectedTo(server: Server?) =
         isConnected && connectionParams?.server?.serverId == server?.serverId
 
-    fun isConnectedTo(profile: Profile) =
-        isConnected && connectionParams?.profile == profile
+    fun isConnectedTo(connectIntent: ConnectIntent) =
+        isConnected && connectionIntent == connectIntent
 
     fun isConnectingToCountry(country: String) =
         connectingToServer?.exitCountry == country
@@ -111,18 +110,38 @@ class VpnStateMonitor @Inject constructor() : VpnStatusProvider() {
         val state: VpnState,
         val connectionParams: ConnectionParams?
     ) {
-        val profile get() = connectionParams?.profile
+        val connectIntent: AnyConnectIntent? get() = connectionParams?.connectIntent
         val server get() = connectionParams?.server
     }
 }
 
 // Status provider that ignores Guest Hole connections as those should be ignored in UI
+// TODO: reimplement all these three classes, remove inheritance on VpnStatusProvider (then uiStatus can be named just
+//  status again) and clean it up.
 @Singleton
 class VpnStatusProviderUI @Inject constructor(
     scope: CoroutineScope,
     monitor: VpnStateMonitor
 ) : VpnStatusProvider() {
-    override val status: StateFlow<VpnStateMonitor.Status> =
-        monitor.status.filter { it.profile?.isGuestHoleProfile != true }
-            .stateIn(scope, SharingStarted.Eagerly, VpnStateMonitor.Status(Disabled, null))
+    data class Status(
+        val state: VpnState,
+        val connectionParams: ConnectionParams?
+    ) {
+        val connectIntent: ConnectIntent? get() = connectionParams?.connectIntent as? ConnectIntent
+        val server get() = connectionParams?.server
+    }
+
+    override val status: StateFlow<VpnStateMonitor.Status> = monitor.status
+
+    val uiStatus: StateFlow<Status> = monitor.status
+        .map {
+            if (it.connectionParams?.connectIntent is ConnectIntent)
+                Status(it.state, it.connectionParams)
+            else
+                Status(Disabled, null)
+        }
+        .stateIn(scope, SharingStarted.Eagerly, Status(Disabled, null))
+
+    // Temporary for poor java classes
+    val uiStatusLiveData get() = uiStatus.asLiveData()
 }

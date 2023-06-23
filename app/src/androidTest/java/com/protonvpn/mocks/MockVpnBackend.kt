@@ -26,10 +26,10 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
@@ -83,18 +83,20 @@ class MockVpnBackend(
     }
 
     override suspend fun prepareForConnection(
-        profile: Profile,
+        connectIntent: AnyConnectIntent,
         server: Server,
         transmissionProtocols: Set<TransmissionProtocol>,
         scan: Boolean,
         numberOfPorts: Int,
         waitForAll: Boolean
     ): List<PrepareResult> =
-        if (scan && failScanning)
+        if (scan && failScanning) {
             emptyList()
-        else listOf(PrepareResult(this, object : ConnectionParams(
-            profile, server, getConnectingDomain.random(server, null), protocol, null
-        ) {}))
+        } else {
+            val connectionParams = object :
+                ConnectionParams(connectIntent, server, getConnectingDomain.random(server, null), protocol, null) {}
+            listOf(PrepareResult(this, connectionParams))
+        }
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)

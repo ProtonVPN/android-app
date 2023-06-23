@@ -22,9 +22,20 @@ package com.protonvpn.android.redesign.vpn
 import com.protonvpn.android.redesign.CountryId
 import java.util.EnumSet
 
-sealed interface ConnectIntent {
+sealed interface AnyConnectIntent {
 
     val features: Set<ServerFeature>
+
+    // GuestHole is special, it doesn't get saved to recents nor shown in the UI.
+    data class GuestHole(
+        val serverId: String
+    ) : AnyConnectIntent {
+        override val features: Set<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java)
+    }
+}
+
+// Regular, user-facing connect intents.
+sealed interface ConnectIntent : AnyConnectIntent {
 
     data class FastestInCountry(
         val country: CountryId,
@@ -51,4 +62,12 @@ sealed interface ConnectIntent {
         val serverId: String,
         override val features: Set<ServerFeature>,
     ) : ConnectIntent
+
+    companion object {
+        val Fastest = FastestInCountry(CountryId.fastest, EnumSet.noneOf(ServerFeature::class.java))
+        val Default = Fastest
+        // TODO: all uses of QuickConnect should be replaced with the logic for getting the proper intent.
+        //  See VPNAND-1321
+        val QuickConnect = Default
+    }
 }

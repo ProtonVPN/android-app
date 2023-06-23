@@ -27,6 +27,7 @@ import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -56,6 +57,11 @@ class ServerManager2 @Inject constructor(
     suspend fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? {
         serverManager.ensureLoaded()
         return serverManager.getVpnExitCountry(countryCode, secureCoreCountry)
+    }
+
+    suspend fun getServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?): Server? {
+        serverManager.ensureLoaded()
+        return serverManager.getServerForConnectIntent(connectIntent, vpnUser)
     }
 
     suspend fun getServerById(id: String): Server? {

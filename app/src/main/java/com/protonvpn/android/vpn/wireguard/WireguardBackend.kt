@@ -29,11 +29,11 @@ import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
@@ -98,7 +98,7 @@ class WireguardBackend @Inject constructor(
     )
 
     override suspend fun prepareForConnection(
-        profile: Profile,
+        connectIntent: AnyConnectIntent,
         server: Server,
         transmissionProtocols: Set<TransmissionProtocol>,
         scan: Boolean,
@@ -111,7 +111,7 @@ class WireguardBackend @Inject constructor(
             PrepareResult(
                 this,
                 ConnectionParamsWireguard(
-                    profile,
+                    connectIntent,
                     server,
                     it.port,
                     it.connectingDomain,

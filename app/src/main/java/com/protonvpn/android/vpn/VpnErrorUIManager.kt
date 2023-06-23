@@ -8,9 +8,9 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.notifications.NotificationActionReceiver
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.notifications.NotificationHelper.ActionItem
-import com.protonvpn.android.notifications.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
 import com.protonvpn.android.notifications.NotificationHelper.FullScreenDialog
 import com.protonvpn.android.notifications.NotificationHelper.InformationNotification
+import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.ForegroundActivityTracker
@@ -61,7 +61,7 @@ class VpnErrorUIManager @Inject constructor(
                         appContext,
                         NotificationActionReceiver.SMART_PROTOCOL_ACTION
                     ).apply {
-                        putExtra(EXTRA_SWITCH_PROFILE, switch.toProfile)
+                        putExtra(NotificationActionReceiver.EXTRA_SWITCH_INTENT, switch.connectIntent.toData())
                     }
                     notificationHelper.showInformationNotification(
                         content = R.string.notification_smart_protocol_disabled_content,

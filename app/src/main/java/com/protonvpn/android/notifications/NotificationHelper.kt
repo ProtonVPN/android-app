@@ -293,8 +293,8 @@ class NotificationHelper @Inject constructor(
         return when (vpnStatus.state) {
             CheckingAvailability, ScanningPorts -> context.getString(R.string.loaderCheckingAvailability)
             Disabled -> context.getString(R.string.loaderNotConnected)
-            Connecting -> context.getString(R.string.loaderConnectingTo, getServerName(context, vpnStatus))
-            Connected -> context.getString(R.string.loaderConnectedTo, getServerName(context, vpnStatus))
+            Connecting -> context.getString(R.string.loaderConnectingTo, getServerName(vpnStatus))
+            Connected -> context.getString(R.string.loaderConnectedTo, getServerName(vpnStatus))
             Disconnecting -> context.getString(R.string.state_disconnecting)
             Reconnecting -> context.getString(R.string.loaderReconnecting)
             WaitingForNetwork -> context.getString(R.string.loaderReconnectNoNetwork)
@@ -302,11 +302,10 @@ class NotificationHelper @Inject constructor(
         }
     }
 
-    private fun getServerName(context: Context, vpnStatus: VpnStateMonitor.Status): String {
-        val profile = vpnStatus.profile!!
+    private fun getServerName(vpnStatus: VpnStateMonitor.Status): String {
         val server = vpnStatus.server!!
-        return if (profile.isPreBakedProfile || profile.getDisplayName(context).isEmpty())
-            server.displayName else profile.getDisplayName(context)
+        // TODO: implement notification content
+        return server.displayName
     }
 
     fun buildNotification() =
@@ -370,7 +369,6 @@ class NotificationHelper @Inject constructor(
 
     companion object {
         const val CHANNEL_ID = "com.protonvpn.android"
-        const val EXTRA_SWITCH_PROFILE = "SWITCH_INFORMATION"
         const val PENDING_REQUEST_STATUS = 0
         const val PENDING_REQUEST_OTHER = 1
 

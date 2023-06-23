@@ -30,11 +30,14 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -77,21 +80,20 @@ sealed class VpnFallbackResult : Serializable {
         abstract val notifyUser: Boolean
         abstract val fromServer: Server?
         abstract val toServer: Server
-        abstract val toProfile: Profile
 
-        data class SwitchProfile(
+        data class SwitchConnectIntent(
             override val fromServer: Server?,
             override val toServer: Server,
-            override val toProfile: Profile,
+            val toConnectIntent: ConnectIntent,
             override val reason: SwitchServerReason? = null,
         ) : Switch() {
             override val notifyUser = reason != null
-            override val log get() = "SwitchProfile ${toProfile.name} reason: $reason"
+            override val log get() = "SwitchConnectIntent: ${toConnectIntent.toLog()} reason: $reason"
         }
 
         data class SwitchServer(
             override val fromServer: Server?,
-            override val toProfile: Profile,
+            val connectIntent: AnyConnectIntent,
             val preparedConnection: PrepareResult,
             override val reason: SwitchServerReason,
             val compatibleProtocol: Boolean,
@@ -152,22 +154,22 @@ class VpnConnectionErrorHandler @Inject constructor(
         changes: List<UserPlanManager.InfoChange>,
         vpnUser: VpnUser?
     ): VpnFallbackResult.Switch? {
-        val fallbackProfile = profileManager.fallbackProfile
-        val fallbackServer = serverManager.getServerForProfile(fallbackProfile, vpnUser) ?: return null
+        val fallbackIntent = ConnectIntent.Default
+        val fallbackServer = serverManager.getServerForConnectIntent(fallbackIntent, vpnUser) ?: return null
         for (change in changes) when {
             change is PlanChange && change.isDowngrade -> {
-                return VpnFallbackResult.Switch.SwitchProfile(
+                return VpnFallbackResult.Switch.SwitchConnectIntent(
                     currentServer,
                     fallbackServer,
-                    fallbackProfile,
+                    fallbackIntent,
                     SwitchServerReason.Downgrade(change.oldUser.userTierName, change.newUser.userTierName)
                 )
             }
             change is UserBecameDelinquent ->
-                return VpnFallbackResult.Switch.SwitchProfile(
+                return VpnFallbackResult.Switch.SwitchConnectIntent(
                     currentServer,
                     fallbackServer,
-                    fallbackProfile,
+                    fallbackIntent,
                     SwitchServerReason.UserBecameDelinquent
                 )
             else -> {}
@@ -181,17 +183,17 @@ class VpnConnectionErrorHandler @Inject constructor(
 
     private val smartReconnectEnabled get() = appConfig.getFeatureFlags().vpnAccelerator
 
-    suspend fun onServerNotAvailable(profile: Profile) =
-        fallbackToCompatibleServer(profile, null, false, SwitchServerReason.ServerUnavailable)
+    suspend fun onServerNotAvailable(connectIntent: AnyConnectIntent) =
+        fallbackToCompatibleServer(connectIntent, null, false, SwitchServerReason.ServerUnavailable)
 
-    suspend fun onServerInMaintenance(profile: Profile, connectionParams: ConnectionParams?) =
+    suspend fun onServerInMaintenance(connectIntent: AnyConnectIntent, connectionParams: ConnectionParams?) =
         fallbackToCompatibleServer(
-            profile, connectionParams, false, SwitchServerReason.ServerInMaintenance
+            connectIntent, connectionParams, false, SwitchServerReason.ServerInMaintenance
         )
 
     suspend fun onUnreachableError(connectionParams: ConnectionParams): VpnFallbackResult =
         fallbackToCompatibleServer(
-            connectionParams.profile,
+            connectionParams.connectIntent,
             connectionParams,
             true,
             SwitchServerReason.ServerUnreachable
@@ -199,7 +201,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             ?: VpnFallbackResult.Error(ErrorType.UNREACHABLE)
 
     private suspend fun fallbackToCompatibleServer(
-        orgProfile: Profile,
+        orgIntent: AnyConnectIntent,
         orgParams: ConnectionParams?,
         includeOriginalServer: Boolean,
         reason: SwitchServerReason
@@ -209,7 +211,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             return null
         }
 
-        if (orgProfile.isGuestHoleProfile) {
+        if (orgIntent is AnyConnectIntent.GuestHole) {
             ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Ignoring reconnection for Guest Hole")
             return null
         }
@@ -228,7 +230,8 @@ class VpnConnectionErrorHandler @Inject constructor(
         val vpnUser = currentUser.vpnUser()
         val orgPhysicalServer =
             orgParams?.connectingDomain?.let { PhysicalServer(orgParams.server, it) }?.takeIf { it.exists() }
-        val candidates = getCandidateServers(orgProfile, orgPhysicalServer, vpnUser, includeOriginalServer, settings)
+        val protocol: ProtocolSelection = orgParams?.protocolSelection ?: settings.protocol
+        val candidates = getCandidateServers(orgIntent, orgPhysicalServer, protocol, vpnUser, includeOriginalServer, settings)
 
         candidates.forEach {
             ProtonLogger.logCustom(
@@ -237,8 +240,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             )
         }
 
-        val orgProtocol = orgProfile.getProtocol(settings)
-        val pingResult = vpnBackendProvider.pingAll(orgProtocol, candidates, orgPhysicalServer) ?: run {
+        val pingResult = vpnBackendProvider.pingAll(orgIntent, protocol, candidates, orgPhysicalServer) ?: run {
             ProtonLogger.log(ConnServerSwitchFailed, "No server responded")
             return null
         }
@@ -255,23 +257,21 @@ class VpnConnectionErrorHandler @Inject constructor(
             return null
         }
 
-        val expectedProtocolConnection = pingResult.getExpectedProtocolConnection(orgProtocol)
-        val orgDirectServer = orgProfile.directServerId?.let { serverManager.getServerById(it) }
-        val score = getServerScore(pingResult.physicalServer.server, orgProfile, orgDirectServer, vpnUser, settings)
-        val secureCoreExpected = orgProfile.isSecureCore ?: settings.secureCore
-        val switchedSecureCore = secureCoreExpected && !hasCompatibility(score, CompatibilityAspect.SecureCore)
+        val expectedProtocolConnection = pingResult.getExpectedProtocolConnection(settings.protocol)
+        val orgDirectServer = (orgIntent as? ConnectIntent.Server)?.serverId?.let { serverManager.getServerById(it) }
+        val score = getServerScore(pingResult.physicalServer.server, orgIntent, orgDirectServer, vpnUser)
+        val switchedSecureCore = orgIntent.isSecureCore() && !hasCompatibility(score, CompatibilityAspect.SecureCore)
         val isCompatible = isCompatibleServer(score, pingResult.physicalServer, orgPhysicalServer) &&
             expectedProtocolConnection != null && !switchedSecureCore
 
 
         ProtonLogger.log(
             ConnServerSwitchServerSelected,
-            pingResult.profile.toLog(settings) + " " +
-                with(pingResult.physicalServer) { "${server.serverName} ${connectingDomain.entryDomain}" }
+            with(pingResult.physicalServer) { "${server.serverName} ${connectingDomain.entryDomain}" }
         )
         return VpnFallbackResult.Switch.SwitchServer(
             orgParams?.server,
-            pingResult.profile,
+            orgIntent,
             expectedProtocolConnection ?: pingResult.responses.first(),
             reason,
             notifyUser = !isCompatible,
@@ -290,7 +290,7 @@ class VpnConnectionErrorHandler @Inject constructor(
         (hasCompatibility(score, CompatibilityAspect.Tier) ||
             orgPhysicalServer == null || physicalServer.server.tier >= orgPhysicalServer.server.tier)
 
-    // Return first response that's has protocol matching settings.
+    // Return first response that's has expected protocol.
     private fun VpnBackendProvider.PingResult.getExpectedProtocolConnection(
         expectedProtocol: ProtocolSelection
     ): PrepareResult? {
@@ -301,8 +301,9 @@ class VpnConnectionErrorHandler @Inject constructor(
     }
 
     private suspend fun getCandidateServers(
-        orgProfile: Profile,
+        orgIntent: AnyConnectIntent,
         orgPhysicalServer: PhysicalServer?,
+        protocol: ProtocolSelection,
         vpnUser: VpnUser?,
         includeOrgServer: Boolean,
         settings: LocalUserSettings
@@ -311,28 +312,26 @@ class VpnConnectionErrorHandler @Inject constructor(
         if (orgPhysicalServer != null && includeOrgServer)
             candidateList += orgPhysicalServer
 
-        val orgProfileServer = orgProfile.directServerId?.let { serverManager.getServerById(it) }
-
-        val secureCoreExpected = orgProfile.isSecureCore ?: settings.secureCore
-        val gatewayName = (orgPhysicalServer?.server ?: orgProfileServer)?.gatewayName
-        val orgProtocol = orgProfile.getProtocol(settings)
+        val orgIntentServer = (orgIntent as? ConnectIntent.Server)?.let { serverManager.getServerById(it.serverId) }
+        val secureCoreExpected = orgIntent.isSecureCore()
+        val gatewayName = (orgPhysicalServer?.server ?: orgIntentServer)?.gatewayName
         val onlineServers =
-            serverManager.getOnlineAccessibleServers(secureCoreExpected, gatewayName, vpnUser, orgProtocol)
+            serverManager.getOnlineAccessibleServers(secureCoreExpected, gatewayName, vpnUser, protocol)
         val orgIsTor = orgPhysicalServer?.server?.isTor == true
-        val orgEntryIp = orgPhysicalServer?.connectingDomain?.getEntryIp(orgProtocol)
-        val scoredServers = sortServersByScore(onlineServers, orgProfile, vpnUser, settings).filter { candicate ->
+        val orgEntryIp = orgPhysicalServer?.connectingDomain?.getEntryIp(protocol)
+        val scoredServers = sortServersByScore(onlineServers, orgIntent, vpnUser).filter { candicate ->
             val ipCondition = orgPhysicalServer == null ||
-                getConnectingDomain.online(candicate, orgProtocol).any { domain ->
-                    domain.getEntryIp(orgProtocol) != orgEntryIp
+                getConnectingDomain.online(candicate, protocol).any { domain ->
+                    domain.getEntryIp(protocol) != orgEntryIp
                 }
             val torCondition = orgIsTor || !candicate.isTor
             ipCondition && torCondition
         }
 
         scoredServers.take(FALLBACK_SERVERS_COUNT - candidateList.size).map { server ->
-            getConnectingDomain.online(server, orgProtocol).filter {
+            getConnectingDomain.online(server, protocol).filter {
                 // Ignore connecting domains with the same IP as current connection.
-                it.getEntryIp(orgProtocol) != orgPhysicalServer?.connectingDomain?.getEntryIp(orgProtocol)
+                it.getEntryIp(protocol) != orgPhysicalServer?.connectingDomain?.getEntryIp(protocol)
             }.randomOrNull()?.let { connectingDomain ->
                 candidateList += PhysicalServer(server, connectingDomain)
             }
@@ -362,45 +361,67 @@ class VpnConnectionErrorHandler @Inject constructor(
 
         // For secure core add best scoring non-secure server as a last resort fallback
         if (secureCoreExpected) {
-            sortServersByScore(
-                serverManager.getOnlineAccessibleServers(false, null, vpnUser, orgProtocol),
-                orgProfile,
-                vpnUser,
-                settings
-            ).firstOrNull()?.let { fallbacks += it }
+            sortServersByScore(serverManager.getOnlineAccessibleServers(false, null, vpnUser, protocol), orgIntent, vpnUser)
+                .firstOrNull()
+                ?.let { fallbacks += it }
         }
 
         return candidateList.take(FALLBACK_SERVERS_COUNT - fallbacks.size) + fallbacks.mapNotNull { server ->
-            getConnectingDomain.random(server, orgProtocol)?.let {
+            getConnectingDomain.random(server, protocol)?.let {
                 PhysicalServer(server, it)
             }
         }
     }
 
+    private inline fun scoreForCondition(value: Int, predicate: () -> Boolean): Int =
+        if (predicate()) value else 0
+
+    fun getCountryScore(country: CountryId, server: Server): Int =
+        scoreForCondition(1 shl CompatibilityAspect.Country.ordinal) {
+            country.isFastest || country.countryCode == server.exitCountry
+        }
+
+    fun getCityScore(cityEn: String?, server: Server): Int =
+        scoreForCondition(1 shl CompatibilityAspect.City.ordinal) {
+            !server.city.isNullOrEmpty() && cityEn == server.city
+        }
+
     private fun getServerScore(
         server: Server,
-        orgProfile: Profile,
+        orgIntent: AnyConnectIntent,
         orgDirectServer: Server?,
         vpnUser: VpnUser?,
-        settings: LocalUserSettings
     ): Int {
         var score = 0
+        when (orgIntent) {
+            is ConnectIntent.FastestInCountry -> {
+                score += getCountryScore(orgIntent.country, server)
+            }
+            is ConnectIntent.FastestInCity -> {
+                score += getCountryScore(orgIntent.country, server)
+                score += getCityScore(orgIntent.cityEn, server)
+            }
+            is ConnectIntent.SecureCore -> {
+                score += getCountryScore(orgIntent.exitCountry, server)
+            }
+            is ConnectIntent.Server -> {
+                if (orgDirectServer != null) {
+                    score += getCountryScore(CountryId(orgDirectServer.exitCountry), server)
+                    score += getCityScore(orgDirectServer.city, server)
+                }
+            }
+            is AnyConnectIntent.GuestHole -> {}
+        }
 
-        if (orgProfile.country.isBlank() || orgProfile.country == server.exitCountry)
-            score += 1 shl CompatibilityAspect.Country.ordinal
-
-        if (orgDirectServer?.city.isNullOrBlank() || orgDirectServer?.city == server.city)
-            score += 1 shl CompatibilityAspect.City.ordinal
-
-        if (vpnUser?.userTier == server.tier)
+        if (vpnUser?.userTier == server.tier) {
             // Prefer servers from user tier
             score += 1 shl CompatibilityAspect.Tier.ordinal
+        }
 
-        if (orgDirectServer == null || server.features == orgDirectServer.features)
+        if (ServerFeature.fromServer(server).containsAll(orgIntent.features))
             score += 1 shl CompatibilityAspect.Features.ordinal
 
-        val secureCoreExpected = orgProfile.isSecureCore ?: settings.secureCore
-        if (!secureCoreExpected || server.isSecureCoreServer)
+        if (orgIntent.isSecureCore() == server.isSecureCoreServer)
             score += 1 shl CompatibilityAspect.SecureCore.ordinal
 
         return score
@@ -408,12 +429,11 @@ class VpnConnectionErrorHandler @Inject constructor(
 
     private suspend fun sortServersByScore(
         servers: List<Server>,
-        profile: Profile,
+        connectIntent: AnyConnectIntent,
         vpnUser: VpnUser?,
-        settings: LocalUserSettings,
     ): List<Server> {
-        val orgDirectServer = profile.directServerId?.let { serverManager.getServerById(it) }
-        return sortByScore(servers) { getServerScore(it, profile, orgDirectServer, vpnUser, settings) }
+        val orgDirectServer = (connectIntent as? ConnectIntent.Server)?.serverId?.let { serverManager.getServerById(it) }
+        return sortByScore(servers) { getServerScore(it, connectIntent, orgDirectServer, vpnUser) }
     }
 
     private fun <T> sortByScore(servers: List<T>, scoreFun: (T) -> Int) =
@@ -421,6 +441,8 @@ class VpnConnectionErrorHandler @Inject constructor(
 
     @SuppressWarnings("ReturnCount")
     suspend fun onAuthError(connectionParams: ConnectionParams): VpnFallbackResult {
+        val orgIntent = connectionParams.connectIntent
+        if (orgIntent !is ConnectIntent) return VpnFallbackResult.Error(ErrorType.AUTH_FAILED)
         try {
             handlingAuthError = true
             val vpnInfo = currentUser.vpnUser()
@@ -436,7 +458,7 @@ class VpnConnectionErrorHandler @Inject constructor(
                     if (VpnCredentials in infoChanges) {
                         // Now that credentials are refreshed we can try reconnecting.
                         return with(connectionParams) {
-                            VpnFallbackResult.Switch.SwitchProfile(server, server, profile)
+                            VpnFallbackResult.Switch.SwitchConnectIntent(server, server, orgIntent)
                         }
                     }
 
@@ -451,7 +473,7 @@ class VpnConnectionErrorHandler @Inject constructor(
                 // We couldn't establish if server is in maintenance, attempt searching for fallback anyway. Include
                 // current connection in the search.
                 ?: fallbackToCompatibleServer(
-                    connectionParams.profile, connectionParams, true, SwitchServerReason.UnknownAuthFailure)
+                    connectionParams.connectIntent, connectionParams, true, SwitchServerReason.UnknownAuthFailure)
                 ?: VpnFallbackResult.Error(ErrorType.AUTH_FAILED)
         } finally {
             handlingAuthError = false
@@ -486,16 +508,16 @@ class VpnConnectionErrorHandler @Inject constructor(
         }
         if (findNewServer) {
             return if (smartReconnectEnabled) {
-                onServerInMaintenance(connectionParams.profile, connectionParams)
+                onServerInMaintenance(connectionParams.connectIntent, connectionParams)
             } else {
                 ProtonLogger.log(
                     ConnServerSwitchServerSelected,
                     "Smart reconnect disabled, fall back to default connection"
                 )
-                val fallbackProfile = profileManager.fallbackProfile
-                val fallbackServer = serverManager.getServerForProfile(fallbackProfile, currentUser.vpnUser())
+                val fallbackIntent = ConnectIntent.Default
+                val fallbackServer = serverManager.getServerForConnectIntent(fallbackIntent, currentUser.vpnUser())
                 fallbackServer?.let {
-                    VpnFallbackResult.Switch.SwitchProfile(connectionParams.server, fallbackServer, fallbackProfile)
+                    VpnFallbackResult.Switch.SwitchConnectIntent(connectionParams.server, fallbackServer, fallbackIntent)
                 }
             }
         } else {
@@ -513,6 +535,8 @@ class VpnConnectionErrorHandler @Inject constructor(
             }
         }
     }
+
+    private fun AnyConnectIntent.isSecureCore() = this is ConnectIntent.SecureCore
 
     companion object {
         private const val FALLBACK_SERVERS_COUNT = 5

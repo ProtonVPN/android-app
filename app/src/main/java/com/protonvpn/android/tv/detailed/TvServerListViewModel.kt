@@ -34,6 +34,7 @@ import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -160,9 +161,9 @@ class TvServerListViewModel @Inject constructor(
 
         fun click(vpnUiDelegate: VpnUiDelegate, onUpgrade: () -> Unit) = when (actionState) {
             ServerActionState.DISCONNECTED -> {
-                val profile = Profile.getTempProfile(server)
+                val connectIntent = ConnectIntent.Server(server.serverId, emptySet())
                 ProtonLogger.log(UiConnect, "server tile (TV)")
-                vpnConnectionManager.connect(vpnUiDelegate, profile, ConnectTrigger.Server("user via server tile (TV)"))
+                vpnConnectionManager.connect(vpnUiDelegate, connectIntent, ConnectTrigger.Server("user via server tile (TV)"))
             }
             ServerActionState.CONNECTING, ServerActionState.CONNECTED -> {
                 ProtonLogger.log(UiDisconnect, "server tile (TV)")

@@ -28,7 +28,7 @@ import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
-import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
@@ -39,7 +39,7 @@ class VpnUiActivityDelegateTv(
     activity: ComponentActivity
 ) : VpnUiActivityDelegate(activity) {
 
-    override fun onPermissionDenied(profile: Profile) {
+    override fun onPermissionDenied(connectIntent: AnyConnectIntent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             showNoVpnPermissionDialog()
         }

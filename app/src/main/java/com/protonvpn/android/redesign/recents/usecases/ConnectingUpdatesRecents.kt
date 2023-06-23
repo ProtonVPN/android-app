@@ -20,16 +20,12 @@
 package com.protonvpn.android.redesign.recents.usecases
 
 import com.protonvpn.android.di.WallClock
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.redesign.recents.data.RecentsDao
-import com.protonvpn.android.redesign.stubs.toConnectIntent
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
@@ -41,18 +37,14 @@ class ConnectingUpdatesRecents @Inject constructor(
     mainScope: CoroutineScope,
     vpnStatusProvider: VpnStatusProviderUI,
     recentsDao: RecentsDao,
-    serverManager: ServerManager,
-    userSettings: EffectiveCurrentUserSettings,
     @WallClock clock: () -> Long
 ) {
     init {
-        combine(
-            vpnStatusProvider.status,
-            userSettings.effectiveSettings
-        ) { status, settings ->
-            status.profile?.toConnectIntent(serverManager, settings)
-        }
-            .filterNotNull()
+        vpnStatusProvider.status
+            .mapNotNull {
+                it.connectIntent
+            }
+            .filterIsInstance<ConnectIntent>()
             .distinctUntilChanged()
             .onEach { connectIntent ->
                 recentsDao.insertOrUpdateForConnection(connectIntent, clock())

@@ -28,14 +28,12 @@ import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.OnSessionClosed
-import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.ui.onboarding.WhatsNewFreeController
-import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
@@ -85,7 +83,7 @@ class HomeViewModel @Inject constructor(
     val userLiveData = currentUser.userFlow.asLiveData()
     val logoutEvent = onSessionClosed.logoutFlow.asLiveData()
 
-    private val connectEventFlow = MutableSharedFlow<Pair<Profile, ConnectTrigger>>()
+    private val connectEventFlow = MutableSharedFlow<Pair<ConnectIntent, ConnectTrigger>>()
     val connectEvent = connectEventFlow.asLiveData()
 
     // Temporary method to help java activity collect a flow
@@ -94,23 +92,6 @@ class HomeViewModel @Inject constructor(
             userPlanChangeEvent.collect {
                 onChange(it)
             }
-        }
-    }
-
-    fun getReconnectProfileOnSecureCoreChange(): Profile {
-        DebugUtils.debugAssert("Is connected or connecting") { vpnStatusProviderUI.isEstablishingOrConnected }
-        val connectedProfile = vpnStatusProviderUI.connectionParams!!.profile
-        return if (connectedProfile.isSecureCore == null && !connectedProfile.isDirectServer) {
-            // Connect to the same profile, it doesn't enforce Secure Core.
-            connectedProfile
-        } else {
-            val newProfile = Profile.getTempProfile(ServerWrapper.makeFastestForCountry(connectedProfile.country))
-            // Check if there is a server for new profile and fall back if there isn't (e.g. when switching to Secure
-            // Core while connected to Switzerland). Otherwise fallback logic will trigger, find a server and show a
-            // notification, which we want to avoid.
-            newProfile
-                .takeIf { serverManager.getServerForProfile(newProfile, currentUser.vpnUserCached()) != null }
-                ?: serverManager.defaultFallbackConnection
         }
     }
 
@@ -131,13 +112,14 @@ class HomeViewModel @Inject constructor(
 
     fun toggleSecureCore(newIsEnabled: Boolean) {
         mainScope.launch {
+            val reconnectIntent = vpnStatusProviderUI.connectionIntent
             if (vpnStatusProviderUI.isEstablishingOrConnected &&
+                reconnectIntent is ConnectIntent &&
                 vpnStatusProviderUI.isConnectingToSecureCore == !newIsEnabled
             ) {
                 userSettingManager.updateSecureCore(newIsEnabled)
 
-                val newProfile = getReconnectProfileOnSecureCoreChange();
-                connectEventFlow.emit(Pair(newProfile, ConnectTrigger.SecureCore))
+                connectEventFlow.emit(Pair(reconnectIntent, ConnectTrigger.SecureCore))
             } else {
                 userSettingManager.updateSecureCore(newIsEnabled)
             }

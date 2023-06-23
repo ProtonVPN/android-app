@@ -122,7 +122,7 @@ class SettingsActivity : BaseActivityV2() {
                 lifecycleScope.launch {
                     userSettingsManager.updateProtocol(protocol)
                 }
-                if (settingsUpdated && vpnStatusProviderUI.connectionProfile?.hasCustomProtocol() == false) {
+                if (settingsUpdated && vpnStatusProviderUI.isEstablishingOrConnected) {
                     onConnectionSettingsChanged(PREF_SHOW_PROTOCOL_RECONNECT_DIALOG)
                 }
             }

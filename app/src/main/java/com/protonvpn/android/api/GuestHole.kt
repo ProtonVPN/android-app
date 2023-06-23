@@ -28,9 +28,9 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.notifications.NotificationHelper
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
@@ -99,7 +99,7 @@ class GuestHole @Inject constructor(
     }
     private val guestHoleLocks = GuestHoleLocks()
 
-    val isGuestHoleActive: Boolean get() = vpnMonitor.connectionProfile?.isGuestHoleProfile == true
+    val isGuestHoleActive: Boolean get() = vpnMonitor.connectionIntent is AnyConnectIntent.GuestHole
 
     fun acquireNeedGuestHole(id: String) {
         guestHoleLocks.acquire(id)
@@ -137,17 +137,14 @@ class GuestHole @Inject constructor(
         var connected = vpnMonitor.isConnected
         if (!connected) {
             val vpnStatus = vpnMonitor.status
-            connected = withTimeoutOrNull(GUEST_HOLE_SERVER_TIMEOUT) {
-                val profile = Profile.getTempProfile(server)
-                    .apply {
-                        setProtocol(PROTOCOL)
-                        isGuestHoleProfile = true
-                    }
-                vpnConnectionManager.get().connect(vpnUiDelegate, profile, ConnectTrigger.GuestHole)
+            val state  = withTimeoutOrNull(GUEST_HOLE_SERVER_TIMEOUT) {
+                val connectIntent = AnyConnectIntent.GuestHole(server.serverId)
+                vpnConnectionManager.get().connect(vpnUiDelegate, connectIntent, ConnectTrigger.GuestHole)
                 vpnStatus
                     .map { it.state }
                     .first { it is VpnState.Connected || it is VpnState.Error }
-            } == VpnState.Connected
+            }
+            connected = state == VpnState.Connected
         }
         if (connected) {
             block()
@@ -293,7 +290,7 @@ class GuestHole @Inject constructor(
     }
 
     class GuestHoleVpnUiDelegate(activity: ComponentActivity) : VpnUiActivityDelegate(activity) {
-        override fun onPermissionDenied(profile: Profile) {}
+        override fun onPermissionDenied(connectIntent: AnyConnectIntent) {}
         override fun showSecureCoreUpgradeDialog() {}
         override fun showPlusUpgradeDialog() {}
         override fun showMaintenanceDialog() {}

@@ -24,13 +24,13 @@ import androidx.lifecycle.SavedStateHandle
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.PartnerType
 import com.protonvpn.android.models.vpn.PartnersResponse
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.partnerships.PartnershipsRepository
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.search.Search
 import com.protonvpn.android.search.SearchViewModel
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -44,11 +44,11 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.app.userstorage.createDummyProfilesManager
-import com.protonvpn.test.shared.createGetSmartProtocols
-import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createGetSmartProtocols
+import com.protonvpn.test.shared.createInMemoryServersStore
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -176,8 +176,9 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     @Test
     fun `when connected to CA#1 Toronto result is shown connected`() = runTest {
         val server = MockedServers.serverList.first { it.serverName == "CA#1" }
-        val profile = MockedServers.getProfile(server, VpnProtocol.Smart)
-        vpnStateFlow.value = VpnStateMonitor.Status(VpnState.Connected, ConnectionParams(profile, server, null, null))
+        val connectIntent = ConnectIntent.Server(server.serverId, emptySet())
+        vpnStateFlow.value =
+            VpnStateMonitor.Status(VpnState.Connected, ConnectionParams(connectIntent, server, null, null))
 
         searchViewModel.setQuery("tor")
         val state = searchViewModel.viewState.first()
@@ -190,8 +191,9 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     @Test
     fun `when connected to CA#1 Canada result is shown connected`() = runTest {
         val server = MockedServers.serverList.first { it.serverName == "CA#1" }
-        val profile = MockedServers.getProfile(server, VpnProtocol.Smart)
-        vpnStateFlow.value = VpnStateMonitor.Status(VpnState.Connected, ConnectionParams(profile, server, null, null))
+        val connectIntent = ConnectIntent.Server(server.serverId, emptySet())
+        vpnStateFlow.value =
+            VpnStateMonitor.Status(VpnState.Connected, ConnectionParams(connectIntent, server, null, null))
 
         searchViewModel.setQuery("can")
         val state = searchViewModel.viewState.first()

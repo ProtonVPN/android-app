@@ -22,13 +22,13 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.logging.ConnConnectScanResult
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -46,7 +46,7 @@ class ProtonVpnBackendProvider(
 
     override suspend fun prepareConnection(
         protocol: ProtocolSelection,
-        profile: Profile,
+        connectIntent: AnyConnectIntent,
         server: Server,
         alwaysScan: Boolean
     ): PrepareResult? {
@@ -59,15 +59,15 @@ class ProtonVpnBackendProvider(
         }
         return when (protocol.vpn) {
             VpnProtocol.OpenVPN ->
-                openVpn.prepareForConnection(profile, server, setOf(protocol.transmission!!), scan)
+                openVpn.prepareForConnection(connectIntent, server, setOf(protocol.transmission!!), scan)
             VpnProtocol.WireGuard ->
-                wireGuard.prepareForConnection(profile, server, setOf(protocol.transmission!!), scan)
+                wireGuard.prepareForConnection(connectIntent, server, setOf(protocol.transmission!!), scan)
             VpnProtocol.Smart -> {
                 getSmartEnabledBackends(server, null).asFlow().map {
                     val transmissionProtocols =
                         if (it == wireGuard) getSmartWireGuardTransmissionProtocols(null)
                         else ALL_TRANSMISSION_PROTOCOLS
-                    it.prepareForConnection(profile, server, transmissionProtocols, scan)
+                    it.prepareForConnection(connectIntent, server, transmissionProtocols, scan)
                 }.firstOrNull {
                     it.isNotEmpty()
                 }
@@ -91,13 +91,13 @@ class ProtonVpnBackendProvider(
         }
 
     override suspend fun pingAll(
+        orgIntent: AnyConnectIntent,
         orgProtocol: ProtocolSelection,
         preferenceList: List<PhysicalServer>,
         fullScanServer: PhysicalServer?
     ): VpnBackendProvider.PingResult? {
         val responses = coroutineScope {
             preferenceList.mapAsync { server ->
-                val profile = Profile.getTempProfile(server.server)
                 val fullScan = server === fullScanServer
                 val portsLimit = if (fullScan) Int.MAX_VALUE else PING_ALL_MAX_PORTS
                 val responses = getSmartEnabledBackends(server.server, orgProtocol.vpn).mapAsync {
@@ -105,7 +105,7 @@ class ProtonVpnBackendProvider(
                         if (it == wireGuard) getSmartWireGuardTransmissionProtocols(orgProtocol)
                         else ALL_TRANSMISSION_PROTOCOLS
                     it.prepareForConnection(
-                        profile, server.server, transmissionProtocols, true, portsLimit, waitForAll = fullScan
+                        orgIntent, server.server, transmissionProtocols, true, portsLimit, waitForAll = fullScan
                     )
                 }.flatten()
                 server to responses
@@ -115,7 +115,7 @@ class ProtonVpnBackendProvider(
         preferenceList.forEach { server ->
             val serverResponses = responses[server]
             serverResponses.whenNotNullNorEmpty { responses ->
-                return VpnBackendProvider.PingResult(responses.first().connectionParams.profile, server, responses)
+                return VpnBackendProvider.PingResult(server, responses)
             }
         }
         return null

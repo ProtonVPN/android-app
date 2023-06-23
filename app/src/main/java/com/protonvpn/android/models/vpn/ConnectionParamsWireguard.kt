@@ -24,8 +24,8 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.CertificateRepository
 import com.wireguard.config.Config
@@ -39,14 +39,14 @@ import inet.ipaddr.ipv4.IPv4AddressSeqRange
 import me.proton.core.network.domain.session.SessionId
 
 class ConnectionParamsWireguard(
-    profile: Profile,
+    connectIntent: AnyConnectIntent,
     server: Server,
     port: Int,
     connectingDomain: ConnectingDomain,
     entryIp: String?,
     transmission: TransmissionProtocol
 ) : ConnectionParams(
-    profile,
+    connectIntent,
     server,
     connectingDomain,
     VpnProtocol.WireGuard,
@@ -91,7 +91,7 @@ class ConnectionParamsWireguard(
         val iface = Interface.Builder()
             .parseAddresses("10.2.0.2/32")
             .apply {
-                if (profile.isGuestHoleProfile)
+                if (connectIntent is AnyConnectIntent.GuestHole)
                     includeApplication(context.packageName)
                 else
                     excludeApplications(excludedApps)

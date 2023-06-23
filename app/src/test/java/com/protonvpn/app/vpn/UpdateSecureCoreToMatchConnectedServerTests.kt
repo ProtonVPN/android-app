@@ -21,9 +21,9 @@ package com.protonvpn.app.vpn
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.vpn.UpdateSecureCoreToMatchConnectedServer
@@ -121,7 +121,7 @@ class UpdateSecureCoreToMatchConnectedServerTests {
     }
 
     private fun connectionParamsForServer(server: Server) = ConnectionParams(
-        Profile.getTempProfile(server),
+        ConnectIntent.Server(server.serverId, emptySet()),
         server,
         server.connectingDomains.first(),
         VpnProtocol.WireGuard

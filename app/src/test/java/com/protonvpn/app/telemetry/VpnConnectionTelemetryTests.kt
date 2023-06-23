@@ -23,8 +23,6 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
@@ -32,6 +30,8 @@ import com.protonvpn.android.models.vpn.SERVER_FEATURE_PARTNER_SERVER
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_STREAMING
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
@@ -340,7 +340,7 @@ class VpnConnectionTelemetryTests {
 
     private fun createConnectionParams(server: Server, protocolSelection: ProtocolSelection, port: Int) =
         ConnectionParams(
-            Profile.getTempProfile(ServerWrapper.makePreBakedFastest()),
+            ConnectIntent.FastestInCountry(CountryId.fastest, emptySet()),
             server,
             ConnectingDomain(entryDomain = "dummy", id = null),
             protocolSelection.vpn,

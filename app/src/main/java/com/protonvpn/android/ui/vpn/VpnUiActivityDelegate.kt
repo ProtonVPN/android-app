@@ -24,7 +24,7 @@ import android.os.Build
 import androidx.activity.ComponentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
-import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
@@ -36,20 +36,20 @@ abstract class VpnUiActivityDelegate(
     protected val activity: ComponentActivity
 ) : VpnUiDelegate {
 
-    override fun askForPermissions(intent: Intent, profile: Profile, onPermissionGranted: () -> Unit) {
+    override fun askForPermissions(intent: Intent, connectIntent: AnyConnectIntent, onPermissionGranted: () -> Unit) {
         val permissionCall = activity.activityResultRegistry.register(
             "VPNPermission", PermissionContract(intent)
         ) { permissionGranted ->
             if (permissionGranted) {
                 onPermissionGranted()
             } else {
-                onPermissionDenied(profile)
+                onPermissionDenied(connectIntent)
             }
         }
         permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)
     }
 
-    abstract fun onPermissionDenied(profile: Profile)
+    abstract fun onPermissionDenied(connectIntent: AnyConnectIntent)
 
     abstract fun showPlusUpgradeDialog()
     abstract fun showMaintenanceDialog()
@@ -67,20 +67,20 @@ abstract class VpnUiActivityDelegate(
 
 class VpnUiActivityDelegateMobile(
     activity: ComponentActivity,
-    retryConnection: ((Profile) -> Unit)? = null
+    retryConnection: ((AnyConnectIntent) -> Unit)? = null
 ) : VpnUiActivityDelegate(activity) {
 
     private val noVpnPermissionLauncher = activity.registerForActivityResult(
         NoVpnPermissionActivity.Companion.Contract()
-    ) { retryProfile ->
-        if (retryProfile != null) {
-            retryConnection?.invoke(retryProfile)
+    ) { retryConnectIntent ->
+        if (retryConnectIntent != null) {
+            retryConnection?.invoke(retryConnectIntent)
         }
     }
 
-    override fun onPermissionDenied(profile: Profile) {
+    override fun onPermissionDenied(connectIntent: AnyConnectIntent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            noVpnPermissionLauncher.launch(profile)
+            noVpnPermissionLauncher.launch(connectIntent)
     }
 
     override fun showPlusUpgradeDialog() {

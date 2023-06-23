@@ -20,7 +20,6 @@
 package com.protonvpn.android.redesign.stubs
 
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -29,6 +28,8 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.ServerManager
 import java.util.EnumSet
 
+// TODO: when implementing profiles to recents migration move this code there. And write unit tests!
+@Deprecated("Don't use profiles.")
 fun Profile.toConnectIntent(
     serverManager: ServerManager,
     userSettings: LocalUserSettings
@@ -55,32 +56,4 @@ fun Profile.toConnectIntent(
         !directServerId.isNullOrBlank() -> ConnectIntent.Server(directServerId!!, serverFeatures)
         else -> ConnectIntent.FastestInCountry(CountryId.fastest, serverFeatures)
     }
-}
-
-fun ConnectIntent.toProfile(
-    serverManager: ServerManager
-): Profile = when (this) {
-    is ConnectIntent.FastestInCountry ->
-        if (country.isFastest) {
-            Profile("", null, ServerWrapper.makePreBakedFastest(), null, false)
-        } else {
-            Profile("", null, ServerWrapper.makeFastestForCountry(country.countryCode), null, false)
-        }
-    is ConnectIntent.FastestInCity -> {
-        TODO("No way to do this with profiles")
-    }
-    is ConnectIntent.SecureCore ->
-        if (exitCountry.isFastest) {
-            Profile("", null, ServerWrapper.makePreBakedFastest(), null, true)
-        } else if (entryCountry.isFastest) {
-            Profile("", null, ServerWrapper.makeFastestForCountry(exitCountry.countryCode), null, true)
-        } else {
-            val server = serverManager
-                .getVpnExitCountry(exitCountry.countryCode, true)
-                ?.serverList
-                ?.find { server -> server.entryCountry == entryCountry.countryCode }
-            Profile("", null, ServerWrapper.makeWithServer(requireNotNull(server)), null, true)
-        }
-    is ConnectIntent.Server ->
-        Profile("", null, ServerWrapper.makeWithServer(serverManager.getServerById(serverId)!!), null, false)
 }

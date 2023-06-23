@@ -18,11 +18,17 @@
  */
 package com.protonvpn.android.ui.home.vpn;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -33,17 +39,14 @@ import com.protonvpn.android.bus.TrafficUpdate;
 import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.CountryWithFlagsView;
-import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.home.ServerListUpdater;
-import com.protonvpn.android.utils.DebugUtils;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.utils.TrafficMonitor;
 import com.protonvpn.android.vpn.DisconnectTrigger;
 import com.protonvpn.android.vpn.ErrorType;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnState;
-import com.protonvpn.android.vpn.VpnStateMonitor;
 import com.protonvpn.android.vpn.VpnStatusProviderUI;
 
 import org.joda.time.Duration;
@@ -53,13 +56,6 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import butterknife.BindView;
 import butterknife.OnClick;
 import dagger.hilt.android.AndroidEntryPoint;
@@ -122,7 +118,7 @@ public class VpnStateFragment extends BaseFragment {
     public void onViewCreated() {
         initPeekHeightLayoutListener();
 
-        vpnStatusProviderUI.getStatusLiveData().observe(getViewLifecycleOwner(), state -> updateView(false, state));
+        vpnStatusProviderUI.getUiStatusLiveData().observe(getViewLifecycleOwner(), state -> updateView(false, state));
         viewModel.getEventCollapseBottomSheetLV().observe(getViewLifecycleOwner(), ignored -> collapseBottomSheet());
     }
 
@@ -240,7 +236,7 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void showConnectedOrConnectingHeaderState(
-            @StringRes int statusText, @Nullable Server server, @NonNull Profile profile) {
+            @StringRes int statusText, @Nullable Server server) {
         textConnectedTo.setText(statusText);
         if (server != null && server.isGatewayServer()) {
             textProfile.setVisibility(View.VISIBLE);
@@ -248,20 +244,8 @@ public class VpnStateFragment extends BaseFragment {
             textProfile.setText(server.getServerName());
         } else if (server != null) {
             countryFlags.setVisibility(View.VISIBLE);
-            textProfile.setVisibility(View.INVISIBLE);
+            textProfile.setText(server.getDisplayName());
             countryFlags.setCountry(server);
-        } else {
-            textProfile.setVisibility(View.VISIBLE);
-            countryFlags.setVisibility(View.INVISIBLE);
-            textProfile.setText(profile.getDisplayName(requireContext()));
-            Drawable profileDot = null;
-            if (profile.getProfileColor() != null) {
-                profileDot = ContextCompat.getDrawable(requireContext(), R.drawable.ic_profile_custom_small);
-                profileDot.setTint(ContextCompat.getColor(requireContext(), profile.getProfileColor().getColorRes()));
-            } else {
-                DebugUtils.INSTANCE.debugAssert("Profile with no color", () -> true);
-            }
-            textProfile.setCompoundDrawablesRelativeWithIntrinsicBounds(profileDot, null, null, null);
         }
 
         textConnectedTo.setVisibility(View.VISIBLE);
@@ -281,13 +265,8 @@ public class VpnStateFragment extends BaseFragment {
         }
     }
 
-    private void updateView(boolean fromSavedState, @NonNull VpnStateMonitor.Status vpnState) {
-        Profile profile = vpnState.getProfile();
-
-        Server server = null;
-        if (profile == null || profile.isPreBakedProfile() || profile.getDisplayName(requireContext()).isEmpty()) {
-            server = vpnStatusProviderUI.getConnectingToServer();
-        }
+    private void updateView(boolean fromSavedState, @NonNull VpnStatusProviderUI.Status vpnState) {
+        Server server = vpnStatusProviderUI.getConnectingToServer();
         if (isAdded()) {
             VpnState state = vpnState.getState();
             //TODO: migrate to kotlin to use "when" here
@@ -309,7 +288,7 @@ public class VpnStateFragment extends BaseFragment {
                 initConnectingStateView(fromSavedState);
             }
             else if (VpnState.Connecting.INSTANCE.equals(state)) {
-                showConnectedOrConnectingHeaderState(R.string.loaderConnectingToLabel, server, profile);
+                showConnectedOrConnectingHeaderState(R.string.loaderConnectingToLabel, server);
                 initConnectingStateView(fromSavedState);
             }
             else if (VpnState.WaitingForNetwork.INSTANCE.equals(state)) {
@@ -318,7 +297,7 @@ public class VpnStateFragment extends BaseFragment {
                 initConnectingStateView(fromSavedState);
             }
             else if (VpnState.Connected.INSTANCE.equals(state)) {
-                showConnectedOrConnectingHeaderState(R.string.loaderConnectedToLabel, server, profile);
+                showConnectedOrConnectingHeaderState(R.string.loaderConnectedToLabel, server);
                 initConnectedStateView();
             }
             else if (VpnState.Disconnecting.INSTANCE.equals(state)) {

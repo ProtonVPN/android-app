@@ -21,8 +21,8 @@ package com.protonvpn.android.tv.models
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import com.protonvpn.android.R
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 
 sealed class Card(
     var title: Title? = null,
@@ -42,11 +42,11 @@ class CountryCard(
     backgroundImage = backgroundImage
 )
 
-class ProfileCard(
+class ConnectIntentCard(
     title: String = "",
     @DrawableRes titleDrawable: Int = R.drawable.ic_proton_bolt,
     @DrawableRes backgroundImage: Int,
-    val profile: Profile,
+    val connectIntent: ConnectIntent,
     val connectCountry: String
 ) : Card(
     bottomTitle = Title(title, titleDrawable),
