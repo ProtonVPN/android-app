@@ -30,6 +30,10 @@ import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.test.shared.MockSharedPreferencesProvider
+import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -40,7 +44,6 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -49,10 +52,7 @@ import org.junit.Test
 class VpnStatusViewStateFlowTest {
 
     @MockK
-    private lateinit var vpnStateMonitor: VpnStateMonitor
-
-    @MockK
-    private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
+    private lateinit var vpnStatusProviderUi: VpnStatusProviderUI
 
     @MockK
     private lateinit var vpnConnectionManager: VpnConnectionManager
@@ -60,35 +60,33 @@ class VpnStatusViewStateFlowTest {
     @RelaxedMockK
     private lateinit var mockCurrentUser: CurrentUser
 
-    @MockK
-    lateinit var vpnUser: VpnUser
-
+    private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
     private lateinit var vpnStatusViewStateFlow: VpnStatusViewStateFlow
-    private val server: Server = mockk()
+    private val server: Server = createServer()
     private val connectionParams = ConnectionParams(ConnectIntent.Default, server, null, null)
-    private val statusFlow =
-        MutableStateFlow(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
-    private val ipAddressFlow = MutableStateFlow("1.1.1.1")
-    private val countryFlow = MutableStateFlow("US")
-    private val netShieldStatsFlow = MutableStateFlow(NetShieldStats())
+    private lateinit var statusFlow: MutableStateFlow<VpnStateMonitor.Status>
+    private lateinit var netShieldStatsFlow: MutableStateFlow<NetShieldStats>
+    private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { vpnStateMonitor.status } returns statusFlow
-        every { serverListUpdaterPrefs.ipAddressFlow } returns ipAddressFlow
-        every { serverListUpdaterPrefs.lastKnownCountryFlow } returns countryFlow
+        serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
+        serverListUpdaterPrefs.ipAddress = "1.1.1.1"
+        serverListUpdaterPrefs.lastKnownCountry = "US"
+
+        statusFlow = MutableStateFlow(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
+        every { vpnStatusProviderUi.status } returns statusFlow
+        netShieldStatsFlow = MutableStateFlow(NetShieldStats())
         every { vpnConnectionManager.netShieldStats } returns netShieldStatsFlow
-        every { server.isSecureCoreServer } returns false
-        every { vpnUser.isFreeUser } returns false
-        every { mockCurrentUser.vpnUserFlow } returns flowOf(vpnUser)
-        mockCurrentUser.mockVpnUser {
-            vpnUser
-        }
+
+        vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)
+        every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
+        mockCurrentUser.mockVpnUser { vpnUserFlow.value }
 
         vpnStatusViewStateFlow = VpnStatusViewStateFlow(
-            vpnStateMonitor,
+            vpnStatusProviderUi,
             serverListUpdaterPrefs,
             vpnConnectionManager,
             mockCurrentUser
@@ -125,7 +123,7 @@ class VpnStatusViewStateFlowTest {
             (vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).netShieldStatsGreyedOut,
             false
         )
-        every { vpnUser.isFreeUser } returns true
+        vpnUserFlow.value = TestUser.freeUser.vpnUser
         assertEquals(
             (vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).netShieldStatsGreyedOut,
             true

@@ -24,7 +24,7 @@ import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.combine
@@ -32,14 +32,14 @@ import java.util.Locale
 import javax.inject.Inject
 
 class VpnStatusViewStateFlow @Inject constructor(
-    vpnStateMonitor: VpnStateMonitor,
+    vpnStatusProvider: VpnStatusProviderUI,
     serverListUpdaterPrefs: ServerListUpdaterPrefs,
     vpnConnectionManager: VpnConnectionManager,
     currentUser: CurrentUser
 ) : Flow<VpnStatusViewState> {
 
     private val vpnFlow = combine(
-        vpnStateMonitor.status,
+        vpnStatusProvider.status,
         serverListUpdaterPrefs.ipAddressFlow,
         serverListUpdaterPrefs.lastKnownCountryFlow,
         vpnConnectionManager.netShieldStats,
