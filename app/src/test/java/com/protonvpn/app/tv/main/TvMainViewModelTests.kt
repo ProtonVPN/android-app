@@ -28,19 +28,18 @@ import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.SavedProfilesV3
-import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.main.TvMainViewModel
-import com.protonvpn.android.tv.models.ProfileCard
+import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.usecases.SetFavoriteCountry
 import com.protonvpn.android.userstorage.ProfileManager
@@ -51,11 +50,11 @@ import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -186,7 +185,7 @@ class TvMainViewModelTests {
     @Test
     fun `recently connected country shown after quick connect`() {
         val server = MockedServers.server
-        val connectionParams = ConnectionParams(countryProfile(server.exitCountry), server, null, null)
+        val connectionParams = ConnectionParams(countryConnectIntent(server.exitCountry), server, null, null)
 
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
@@ -195,7 +194,7 @@ class TvMainViewModelTests {
         assertEquals(2, recents.size)
         assertIs<QuickConnectCard>(recents[0])
         assertEquals("Recommended", recents[0].bottomTitle?.text)
-        assertIs<ProfileCard>(recents[1])
+        assertIs<ConnectIntentCard>(recents[1])
         assertEquals("Canada", recents[1].bottomTitle?.text)
     }
 
@@ -214,7 +213,7 @@ class TvMainViewModelTests {
     @Test
     fun `recent country same as default connection is hidden from recents`() {
         val server = MockedServers.server
-        val connectionParams = ConnectionParams(countryProfile(server.exitCountry), server, null, null)
+        val connectionParams = ConnectionParams(countryConnectIntent(server.exitCountry), server, null, null)
 
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
@@ -235,8 +234,9 @@ class TvMainViewModelTests {
         val server1 = MockedServers.server
         val server2 = MockedServers.serverList[1]
         assertEquals("Both servers in this test need to be in the same country", server1.exitCountry, server2.exitCountry)
-        val countryConnectionParams = ConnectionParams(countryProfile(server1.exitCountry), server1, null, null)
-        val server2ConnectionParams = ConnectionParams(Profile.getTempProfile(server2), server2, null, null)
+        val countryConnectionParams = ConnectionParams(countryConnectIntent(server1.exitCountry), server1, null, null)
+        val server2ConnectionParams =
+            ConnectionParams(ConnectIntent.Server(server2.serverId, emptySet()), server2, null, null)
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, countryConnectionParams))
 
         val recentsBefore = viewModel.getRecentCardList(mockContext)
@@ -248,7 +248,7 @@ class TvMainViewModelTests {
         assertEquals(2, recentsAfter.size)
         assertIs<QuickConnectCard>(recentsAfter[0])
         assertEquals("Disconnect", recentsAfter[0].bottomTitle?.text)
-        assertIs<ProfileCard>(recentsAfter[1])
+        assertIs<ConnectIntentCard>(recentsAfter[1])
         assertEquals("Recommended", recentsAfter[1].bottomTitle?.text)
     }
 
@@ -261,8 +261,9 @@ class TvMainViewModelTests {
             serverManager.setServers(listOf(server1), null)
         }
 
+        // Note: this assumes that defaultConnection is for the fastest server.
         val firstDefaultServer = serverManager.getServerForProfile(serverManager.defaultConnection, vpnUserFlow.value)!!
-        val firstConnectionParams = ConnectionParams(serverManager.defaultConnection, firstDefaultServer, null, null)
+        val firstConnectionParams = ConnectionParams(ConnectIntent.Default, firstDefaultServer, null, null)
         val firstCountry = firstDefaultServer.exitCountry
 
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, firstConnectionParams))
@@ -276,7 +277,7 @@ class TvMainViewModelTests {
             serverManager.setServers(listOf(server2), null)
         }
         val secondDefaultServer = serverManager.getServerForProfile(serverManager.defaultConnection, vpnUserFlow.value)!!
-        val secondConnectionParams = ConnectionParams(serverManager.defaultConnection, secondDefaultServer, null, null)
+        val secondConnectionParams = ConnectionParams(ConnectIntent.Default, secondDefaultServer, null, null)
 
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, secondConnectionParams))
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
@@ -285,13 +286,15 @@ class TvMainViewModelTests {
         assertEquals(2, recentsAfter.size)
         assertIs<QuickConnectCard>(recentsAfter[0])
         val secondCard = recentsAfter[1]
-        assertIs<ProfileCard>(secondCard)
-        assertEquals(firstCountry, secondCard.profile.country)
+        assertIs<ConnectIntentCard>(secondCard)
+        assertEquals(firstCountry, secondCard.connectCountry)
+        val secondCardIntent = secondCard.connectIntent
+        assertIs<ConnectIntent.FastestInCountry>(secondCardIntent)
+        assertEquals(CountryId(firstCountry), secondCardIntent.country)
     }
 
-    private fun countryProfile(countryCode: String) = Profile(
-        countryCode, null, ServerWrapper.makeFastestForCountry(countryCode), ProfileColor.OLIVE.id, false
-    )
+    private fun countryConnectIntent(countryCode: String) =
+        ConnectIntent.FastestInCountry(CountryId(countryCode), emptySet())
 
     // TvMainViewModel needs to be refactored to not rely on Context - strings should be resolved in UI.
     private fun setupStrings(mockContext: Context) {

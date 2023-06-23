@@ -24,6 +24,7 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -89,11 +90,11 @@ class GuestHoleTests {
         }
         coEvery { serverManager.isDownloadedAtLeastOnce() } returns false
         every { vpnConnectionManager.connect(any(), any(), any()) } answers {
-            val profile = secondArg<Profile>()
-            val goodId = profile.directServerId == goodServer.serverId
+            val connectIntent = secondArg<AnyConnectIntent>()
+            val goodId = (connectIntent as AnyConnectIntent.GuestHole).serverId == goodServer.serverId
             val server = if (goodId) goodServer else badServer
             val state = if (goodId) VpnState.Connected else VpnState.Connecting
-            val params = ConnectionParams(profile, server, null, null)
+            val params = ConnectionParams(connectIntent, server, null, null)
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(state, params))
         }
         coEvery { vpnConnectionManager.disconnectSync(any()) } answers {

@@ -39,11 +39,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel
 import com.protonvpn.android.redesign.main_screen.ui.nav.VpnApp
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
@@ -127,8 +127,8 @@ class MainActivity : AppCompatActivity() {
         helper.onNewIntent(accountViewModel)
     }
 
-    private fun retryConnectionAfterPermissions(profile: Profile) {
-        homeViewModel.connect(vpnActivityDelegate, profile)
+    private fun retryConnectionAfterPermissions(connectIntent: AnyConnectIntent) {
+        homeViewModel.connect(vpnActivityDelegate, connectIntent)
     }
 }
 

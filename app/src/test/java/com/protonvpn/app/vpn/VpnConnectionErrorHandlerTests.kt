@@ -27,8 +27,6 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.login.Session
 import com.protonvpn.android.models.login.SessionListResponse
-import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -44,9 +42,14 @@ import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PhysicalServer
@@ -58,6 +61,7 @@ import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.TestVpnUser
@@ -95,15 +99,18 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.util.EnumSet
+import kotlin.test.assertIs
 
 @ExperimentalCoroutinesApi
 class VpnConnectionErrorHandlerTests {
 
     private lateinit var testScope: TestScope
     private lateinit var handler: VpnConnectionErrorHandler
-    private lateinit var directProfile: Profile
+    private val directConnectServer = MockedServers.server
+    private val directConnectIntent = ConnectIntent.Server(directConnectServer.serverId, emptySet())
     private lateinit var directConnectionParams: ConnectionParams
-    private val defaultFallbackConnection = Profile("fastest", null, mockk(), null, null)
+    private val defaultFallbackConnection = ConnectIntent.Default
     private val defaultFallbackServer = MockedServers.serverList[1] // Use a different server than MockedServers.server
     private lateinit var infoChangeFlow: MutableSharedFlow<List<UserPlanManager.InfoChange>>
     private lateinit var userSettingsFlow: MutableStateFlow<LocalUserSettings>
@@ -132,8 +139,7 @@ class VpnConnectionErrorHandlerTests {
         coEvery { serverManager2.getOnlineAccessibleServers(any(), any(), any(), any()) } answers {
             servers.filter { it.gatewayName == secondArg() }
         }
-        every { profileManager.fallbackProfile } returns defaultFallbackConnection
-        coEvery { serverManager2.getServerForProfile(defaultFallbackConnection, any()) } returns defaultFallbackServer
+        coEvery { serverManager2.getServerForConnectIntent(defaultFallbackConnection, any()) } returns defaultFallbackServer
 
         coEvery { serverManager2.getServerById(any()) } answers {
             servers.find { it.serverId == arg(0) }
@@ -145,6 +151,7 @@ class VpnConnectionErrorHandlerTests {
     fun setup() {
         MockKAnnotations.init(this)
         ProtonApplication.setAppContextForTest(mockk(relaxed = true))
+        Storage.setPreferences(MockSharedPreference())
 
         mockkObject(CountryTools)
         val countryCapture = slot<String>()
@@ -164,12 +171,9 @@ class VpnConnectionErrorHandlerTests {
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val getConnectingDomain = GetConnectingDomain(supportsProtocol)
 
-        val server = MockedServers.server
         val protocol = ProtocolSelection(VpnProtocol.WireGuard)
-        val connectingDomain = getConnectingDomain.random(server, protocol)!!
-        directProfile = Profile.getTempProfile(server)
-        directProfile.setProtocol(protocol)
-        directConnectionParams = ConnectionParamsWireguard(directProfile, server, 443,
+        val connectingDomain = getConnectingDomain.random(directConnectServer, protocol)!!
+        directConnectionParams = ConnectionParamsWireguard(directConnectIntent, directConnectServer, 443,
             connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!)
 
         testScope = TestScope(UnconfinedTestDispatcher())
@@ -187,7 +191,7 @@ class VpnConnectionErrorHandlerTests {
             userPlanManager.computeUserInfoChanges(any(), any())
         } returns listOf(UserPlanManager.InfoChange.UserBecameDelinquent)
         assertEquals(
-            VpnFallbackResult.Switch.SwitchProfile(
+            VpnFallbackResult.Switch.SwitchConnectIntent(
                 directConnectionParams.server,
                 defaultFallbackServer,
                 defaultFallbackConnection,
@@ -205,7 +209,7 @@ class VpnConnectionErrorHandlerTests {
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 1) }
 
         assertEquals(
-            VpnFallbackResult.Switch.SwitchProfile(
+            VpnFallbackResult.Switch.SwitchConnectIntent(
                 directConnectionParams.server,
                 defaultFallbackServer,
                 defaultFallbackConnection,
@@ -216,7 +220,7 @@ class VpnConnectionErrorHandlerTests {
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 0) }
 
         assertEquals(
-            VpnFallbackResult.Switch.SwitchProfile(
+            VpnFallbackResult.Switch.SwitchConnectIntent(
                 directConnectionParams.server,
                 defaultFallbackServer,
                 defaultFallbackConnection,
@@ -232,10 +236,10 @@ class VpnConnectionErrorHandlerTests {
             userPlanManager.computeUserInfoChanges(any(), any())
         } returns listOf(UserPlanManager.InfoChange.VpnCredentials)
         assertEquals(
-            VpnFallbackResult.Switch.SwitchProfile(
+            VpnFallbackResult.Switch.SwitchConnectIntent(
                 directConnectionParams.server,
                 directConnectionParams.server,
-                directProfile,
+                directConnectIntent,
                 null
             ),
             handler.onAuthError(directConnectionParams)
@@ -263,12 +267,13 @@ class VpnConnectionErrorHandlerTests {
         failSecureCore: Boolean = false,
     ): CapturingSlot<PrepareResult> {
         val result = CapturingSlot<PrepareResult>()
-        val pingedServers = slot<List<PhysicalServer>>()
-        coEvery { vpnBackendProvider.pingAll(any(), capture(pingedServers), any()) } answers {
+        coEvery { vpnBackendProvider.pingAll(any(), any(), any(), any()) } answers {
+            val originalConnectIntent = firstArg<AnyConnectIntent>()
+            val pingedServers = thirdArg<List<PhysicalServer>>()
             if (failAll)
                 null
             else {
-                val server = pingedServers.captured.firstOrNull { physicalServer ->
+                val server = pingedServers.firstOrNull { physicalServer ->
                     with(physicalServer.server) {
                         !(failSecureCore && isSecureCoreServer) &&
                             exitCountry != failCountry && serverName != failServerName &&
@@ -278,10 +283,9 @@ class VpnConnectionErrorHandlerTests {
                 if (server == null)
                     null
                 else {
-                    val profile = Profile.getTempProfile(server.server)
                     val connectionParams = if (useOpenVPN) {
                         ConnectionParamsOpenVpn(
-                            profile,
+                            originalConnectIntent,
                             server.server,
                             server.connectingDomain,
                             server.connectingDomain.getEntryIp(
@@ -290,7 +294,7 @@ class VpnConnectionErrorHandlerTests {
                             443)
                     } else {
                         ConnectionParamsWireguard(
-                            profile,
+                            originalConnectIntent,
                             server.server,
                             443,
                             server.connectingDomain,
@@ -299,7 +303,7 @@ class VpnConnectionErrorHandlerTests {
                             TransmissionProtocol.UDP)
                     }
                     result.captured = PrepareResult(mockk(), connectionParams)
-                    VpnBackendProvider.PingResult(profile, server, listOf(result.captured))
+                    VpnBackendProvider.PingResult(server, listOf(result.captured))
                 }
             }
         }
@@ -323,14 +327,14 @@ class VpnConnectionErrorHandlerTests {
         val maintenanceDomain = directConnectionParams.connectingDomain!!
         putDomainInMaintenance(maintenanceDomain.id!!)
 
-        val pingResult = preparePings(failCountry = directProfile.country, failSecureCore = true)
+        val pingResult = preparePings(failCountry = directConnectServer.exitCountry, failSecureCore = true)
 
         val fallback = handler.onAuthError(directConnectionParams)
         println(fallback)
         assertEquals(
             VpnFallbackResult.Switch.SwitchServer(
                 directConnectionParams.server,
-                pingResult.captured.connectionParams.profile,
+                pingResult.captured.connectionParams.connectIntent,
                 pingResult.captured,
                 SwitchServerReason.ServerInMaintenance,
                 notifyUser = true, // Country is not compatible
@@ -352,12 +356,12 @@ class VpnConnectionErrorHandlerTests {
             ApiResult.Error.Http(HttpResponseCodes.HTTP_UNPROCESSABLE, "domain doesn't exist")
         }
 
-        val pingResult = preparePings(failCountry = directProfile.country, failSecureCore = true)
+        val pingResult = preparePings(failCountry = directConnectServer.exitCountry, failSecureCore = true)
         val fallback = handler.onAuthError(directConnectionParams)
         assertEquals(
             VpnFallbackResult.Switch.SwitchServer(
                 directConnectionParams.server,
-                pingResult.captured.connectionParams.profile,
+                pingResult.captured.connectionParams.connectIntent,
                 pingResult.captured,
                 SwitchServerReason.ServerInMaintenance,
                 notifyUser = true, // Country is not compatible
@@ -379,7 +383,7 @@ class VpnConnectionErrorHandlerTests {
         assertEquals(
             VpnFallbackResult.Switch.SwitchServer(
                 directConnectionParams.server,
-                pingResult.captured.connectionParams.profile,
+                pingResult.captured.connectionParams.connectIntent,
                 pingResult.captured,
                 SwitchServerReason.ServerUnreachable,
                 notifyUser = false, // CA#2 is compatible with CA#1, switch silently
@@ -414,13 +418,30 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
+    fun testFallbackUsesTheOriginalUserIntent() = testScope.runTest {
+        val connectIntent =
+            ConnectIntent.FastestInCity(CountryId.switzerland, cityEn = "Zurich", EnumSet.of(ServerFeature.P2P))
+        val connectionParams = ConnectionParamsWireguard(
+            connectIntent,
+            directConnectServer,
+            443,
+            directConnectServer.connectingDomains.first(),
+            null,
+            TransmissionProtocol.UDP
+        )
+        preparePings(failServerName = directConnectServer.serverName, failSecureCore = true)
+        val fallback = handler.onUnreachableError(connectionParams)
+        assertIs<VpnFallbackResult.Switch.SwitchServer>(fallback)
+        assertEquals(connectIntent, fallback.connectIntent)
+    }
+
+    @Test
     fun testUnreachableSecureCoreSwitch() = testScope.runTest {
         val secureCoreServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
-        val secureCoreProfile = Profile.getTempProfile(secureCoreServer, true)
+        val secureCoreIntent = ConnectIntent.SecureCore(entryCountry = CountryId("se"), exitCountry = CountryId("fi"))
         val protocol = ProtocolSelection(VpnProtocol.WireGuard)
-        secureCoreProfile.setProtocol(protocol)
         val connectingDomain = secureCoreServer.connectingDomains.first()
-        val scConnectionParams = ConnectionParamsWireguard(secureCoreProfile, secureCoreServer, 443,
+        val scConnectionParams = ConnectionParamsWireguard(secureCoreIntent, secureCoreServer, 443,
             connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!)
 
         preparePings(failServerName = secureCoreServer.serverName)
@@ -432,11 +453,11 @@ class VpnConnectionErrorHandlerTests {
     @Test
     fun testUnreachableSecureCoreSwitchToNonSecureCore() = testScope.runTest {
         val scServer = MockedServers.serverList.find { it.serverName == "SE-FI#1" }!!
-        val scProfie = Profile.getTempProfile(scServer, true)
+        val scIntent =
+            ConnectIntent.SecureCore(exitCountry = CountryId("fi"), entryCountry = CountryId("se"))
         val protocol = ProtocolSelection(VpnProtocol.WireGuard)
         val connectingDomain = scServer.connectingDomains.first()
-        scProfie.setProtocol(protocol)
-        val scConnectionParams = ConnectionParamsWireguard(scProfie, scServer, 443,
+        val scConnectionParams = ConnectionParamsWireguard(scIntent, scServer, 443,
             connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!)
 
         // All secure core servers failed to respond, switch to non-sc in the same country.
@@ -469,16 +490,15 @@ class VpnConnectionErrorHandlerTests {
         }
 
         prepareServerManager(initialServers)
-        val fastestProfile = Profile.getTempProfile(ServerWrapper.makePreBakedFastest(), null)
-        val connectionParams = ConnectionParams(fastestProfile, initialServers[0], initialServer1Domain, null)
+        val fastestIntent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
+        val connectionParams = ConnectionParams(fastestIntent, initialServers[0], initialServer1Domain, null)
 
         val prepareResult = preparePings()
         val fallback = handler.onUnreachableError(connectionParams)
-        val preparedProfileId = prepareResult.captured.connectionParams.profile.id
         assertEquals(
             VpnFallbackResult.Switch.SwitchServer(
                 initialServers[0],
-                Profile("", null, ServerWrapper.makeWithServer(updatedServers[0]), null, null, null, null, preparedProfileId),
+                fastestIntent,
                 prepareResult.captured,
                 SwitchServerReason.ServerUnreachable,
                 compatibleProtocol = true,
@@ -495,10 +515,12 @@ class VpnConnectionErrorHandlerTests {
         val server1 = MockedServers.serverList[0]
         val server2 = MockedServers.serverList[1].copy(features = SERVER_FEATURE_TOR)
         val servers = listOf(server1, server2)
+        val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
         prepareServerManager(servers)
         preparePings(failServerName = server1.serverName)
-        val result = handler.onUnreachableError(ConnectionParams(
-            Profile.getTempProfile(server1), server1, server1.connectingDomains.first(), VpnProtocol.WireGuard))
+        val result = handler.onUnreachableError(
+            ConnectionParams(connectIntent, server1, server1.connectingDomains.first(), VpnProtocol.WireGuard)
+        )
         assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), result)
     }
 
@@ -507,10 +529,12 @@ class VpnConnectionErrorHandlerTests {
         val server1 = MockedServers.serverList[0].copy(features = SERVER_FEATURE_TOR)
         val server2 = MockedServers.serverList[1].copy(features = SERVER_FEATURE_TOR)
         val servers = listOf(server1, server2)
+        val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, EnumSet.of(ServerFeature.Tor))
         prepareServerManager(servers)
         preparePings(failServerName = server1.serverName)
-        val result = handler.onUnreachableError(ConnectionParams(
-            Profile.getTempProfile(server1), server1, server1.connectingDomains.first(), VpnProtocol.WireGuard))
+        val result = handler.onUnreachableError(
+            ConnectionParams(connectIntent, server1, server1.connectingDomains.first(), VpnProtocol.WireGuard)
+        )
         assertEquals(server2, (result as VpnFallbackResult.Switch.SwitchServer).toServer)
     }
 
@@ -525,12 +549,11 @@ class VpnConnectionErrorHandlerTests {
         )))
         val servers = listOf(server1, server2)
         prepareServerManager(servers)
+        val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
         preparePings(failServerName = server1.serverName)
-        val profile = Profile.getTempProfile(server1).copy(
-            protocol = protocol.vpn.name,
-            transmissionProtocol = protocol.transmission?.name)
-        val result = handler.onUnreachableError(ConnectionParams(profile, server1,
-            server1.connectingDomains.first(), VpnProtocol.WireGuard))
+        val result = handler.onUnreachableError(
+            ConnectionParams(connectIntent, server1, server1.connectingDomains.first(), VpnProtocol.WireGuard)
+        )
         assertEquals(server2, (result as VpnFallbackResult.Switch.SwitchServer).toServer)
     }
 
@@ -544,12 +567,17 @@ class VpnConnectionErrorHandlerTests {
             entryIpPerProtocol = mapOf(protocol.apiName to ServerEntryInfo("7.7.7.7"))
         )))
         val servers = listOf(server1, server2)
+        val connectIntent = ConnectIntent.Server(server1.serverId, emptySet())
         prepareServerManager(servers)
         preparePings(failServerName = server1.serverName)
-        val profile = Profile.getTempProfile(server1).copy(
-            protocol = VpnProtocol.OpenVPN.name)
-        val result = handler.onUnreachableError(ConnectionParams(profile, server1,
-            server1.connectingDomains.first(), VpnProtocol.OpenVPN))
+        val result = handler.onUnreachableError(
+            ConnectionParams(
+                connectIntent,
+                server1,
+                server1.connectingDomains.first(),
+                VpnProtocol.OpenVPN
+            )
+        )
         assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), result)
     }
 
@@ -560,10 +588,14 @@ class VpnConnectionErrorHandlerTests {
         val servers = listOf(MockedServers.serverList.first(), gatewayServer)
         prepareServerManager(servers)
         preparePings(failServerName = gatewayServer.serverName)
-        val profile = Profile.getTempProfile(gatewayServer)
-        val result = handler.onUnreachableError(
-            ConnectionParams(profile, gatewayServer, gatewayServer.connectingDomains.first(), VpnProtocol.WireGuard)
+        val connectIntent = ConnectIntent.Server(gatewayServer.serverId, emptySet())
+        val connectionParams = ConnectionParams(
+            connectIntent,
+            gatewayServer,
+            gatewayServer.connectingDomains.first(),
+            VpnProtocol.WireGuard
         )
+        val result = handler.onUnreachableError(connectionParams)
         assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), result)
     }
 
@@ -576,7 +608,7 @@ class VpnConnectionErrorHandlerTests {
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 0) }
         testTrackingVpnInfoChanges(
             listOf(UserPlanManager.InfoChange.PlanChange(TestUser.plusUser.vpnUser, TestUser.freeUser.vpnUser)),
-            VpnFallbackResult.Switch.SwitchProfile(
+            VpnFallbackResult.Switch.SwitchConnectIntent(
                 mockedServer,
                 defaultFallbackServer,
                 defaultFallbackConnection,
@@ -586,7 +618,7 @@ class VpnConnectionErrorHandlerTests {
 
         testTrackingVpnInfoChanges(
             listOf(UserPlanManager.InfoChange.UserBecameDelinquent),
-            VpnFallbackResult.Switch.SwitchProfile(
+            VpnFallbackResult.Switch.SwitchConnectIntent(
                 mockedServer,
                 defaultFallbackServer,
                 defaultFallbackConnection,
@@ -597,7 +629,7 @@ class VpnConnectionErrorHandlerTests {
 
     private suspend fun testTrackingVpnInfoChanges(
         infoChange: List<UserPlanManager.InfoChange>,
-        fallback: VpnFallbackResult.Switch.SwitchProfile
+        fallback: VpnFallbackResult.Switch.SwitchConnectIntent
     ) = coroutineScope {
         launch {
             val event = handler.switchConnectionFlow.first()

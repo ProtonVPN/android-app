@@ -72,8 +72,13 @@ import com.protonvpn.android.logging.Setting;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.notifications.NotificationHelper;
+import com.protonvpn.android.redesign.stubs.LegacyProfileKt;
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent;
+import com.protonvpn.android.redesign.vpn.ConnectIntent;
+import com.protonvpn.android.redesign.vpn.ServerFeature;
 import com.protonvpn.android.search.SearchResultsFragment;
 import com.protonvpn.android.search.SearchViewModel;
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached;
 import com.protonvpn.android.ui.account.AccountActivity;
 import com.protonvpn.android.ui.drawer.LogActivity;
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity;
@@ -106,6 +111,8 @@ import com.squareup.otto.Subscribe;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -141,6 +148,7 @@ public class HomeActivity extends VpnActivity {
     @Inject VpnStatusProviderUI vpnStatusProviderUI;
     @Inject ServerListUpdater serverListUpdater;
     @Inject NotificationHelper notificationHelper;
+    @Inject EffectiveCurrentUserSettingsCached userSettingsCached;
     private HomeViewModel viewModel;
     private SearchViewModel searchViewModel;
 
@@ -188,10 +196,10 @@ public class HomeActivity extends VpnActivity {
         });
 
         viewModel.getConnectEvent().observe(this, (input) -> {
-            Profile profile = input.getFirst();
+            ConnectIntent connectIntent = input.getFirst();
             ConnectTrigger trigger = input.getSecond();
             ProtonLogger.INSTANCE.log(UiReconnect, trigger.getDescription());
-            onConnect(profile, trigger);
+            onConnect(connectIntent, trigger);
         });
 
         viewModel.shouldShowWhatsNew().observe(this, (showDialog) -> {
@@ -472,7 +480,10 @@ public class HomeActivity extends VpnActivity {
             disconnect(connectTo.getDisconnectTrigger());
         } else {
             Server server = connectTo.getServer();
-            onConnect(Profile.getTempProfile(server), connectTo.getConnectTrigger());
+            onConnect(
+                    new ConnectIntent.Server(server.getServerId(), Collections.emptySet()),
+                    connectTo.getConnectTrigger()
+            );
         }
     }
 
@@ -481,14 +492,16 @@ public class HomeActivity extends VpnActivity {
         if (event.getProfile() == null) {
             disconnect(event.getDisconnectTrigger());
         } else {
-            onConnect(event.getProfile(), event.getConnectTrigger());
+            ConnectIntent connectIntent =
+                    LegacyProfileKt.toConnectIntent(event.getProfile(), serverManager, userSettingsCached.getValue());
+            onConnect(connectIntent, event.getConnectTrigger());
         }
     }
 
     @Override
-    protected Unit retryConnection(@NonNull Profile profile) {
+    protected Unit retryConnection(@NonNull AnyConnectIntent connectIntent) {
         // This trigger isn't correct but connecting here should be a very rare occurrence.
-        onConnect(profile, new ConnectTrigger.Auto("retry after missing vpn permission"));
+        onConnect(connectIntent, new ConnectTrigger.Auto("retry after missing vpn permission"));
         return Unit.INSTANCE;
     }
 
@@ -609,8 +622,9 @@ public class HomeActivity extends VpnActivity {
     }
 
     private void connectToDefaultProfile() {
-        Profile profile = serverManager.getDefaultConnection();
-        onConnect(profile, new ConnectTrigger.QuickConnect("quick connect"));
+        ConnectIntent connectIntent =
+                LegacyProfileKt.toConnectIntent(serverManager.getDefaultConnection(), serverManager, userSettingsCached.getValue());
+        onConnect(connectIntent, new ConnectTrigger.QuickConnect("quick connect"));
     }
 
     @Override

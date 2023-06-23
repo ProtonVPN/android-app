@@ -28,12 +28,11 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
@@ -93,7 +92,7 @@ class OpenVpnBackend @Inject constructor(
     }
 
     override suspend fun prepareForConnection(
-        profile: Profile,
+        connectIntent: AnyConnectIntent,
         server: Server,
         transmissionProtocols: Set<TransmissionProtocol>,
         scan: Boolean,
@@ -106,7 +105,7 @@ class OpenVpnBackend @Inject constructor(
             PrepareResult(
                 this,
                 ConnectionParamsOpenVpn(
-                    profile,
+                    connectIntent,
                     server,
                     it.connectingDomain,
                     it.entryIp,

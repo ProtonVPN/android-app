@@ -32,10 +32,13 @@ import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
+import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.tv.models.Card
+import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.DrawableImage
-import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
 import com.protonvpn.android.tv.usecases.GetCountryCard
@@ -156,14 +159,14 @@ class TvMainViewModel @Inject constructor(
         val recentsList = mutableListOf<Card>()
         recentsList.add(constructQuickConnect(context))
 
-        val defaultConnection = serverManager.defaultConnection
+        val defaultConnection = createIntentForDefaultProfile(serverManager.defaultConnection)
+        val defaultConnectCountry = getConnectCountry(serverManager.defaultConnection)
         val shouldAddFavorite = (isConnected() || isEstablishingConnection()) &&
-            !vpnStatusProviderUI.isConnectingToCountry(getConnectCountry(defaultConnection))
+            !vpnStatusProviderUI.isConnectingToCountry(defaultConnectCountry)
 
         if (shouldAddFavorite) {
-            val connectCountry = getConnectCountry(defaultConnection)
             recentsList.add(
-                ProfileCard(
+                ConnectIntentCard(
                     title = context.getString(
                         if (serverManager.defaultConnection.isPreBakedProfile)
                             R.string.tv_quick_connect_recommened
@@ -171,9 +174,9 @@ class TvMainViewModel @Inject constructor(
                             R.string.tv_quick_connect_favourite
                     ),
                     titleDrawable = profileCardTitleIcon(defaultConnection),
-                    backgroundImage = CountryTools.getLargeFlagResource(context, connectCountry),
-                    profile = defaultConnection,
-                    connectCountry = connectCountry
+                    backgroundImage = CountryTools.getLargeFlagResource(context, defaultConnectCountry),
+                    connectIntent = defaultConnection,
+                    connectCountry = defaultConnectCountry
                 )
             )
         }
@@ -184,13 +187,13 @@ class TvMainViewModel @Inject constructor(
             }
             .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
             .forEach { country ->
-                val profile = createProfileForCountry(country)
+                val connectIntent = createIntentForCountry(country)
                 recentsList.add(
-                    ProfileCard(
+                    ConnectIntentCard(
                         title = CountryTools.getFullName(country),
-                        titleDrawable = profileCardTitleIcon(profile),
+                        titleDrawable = profileCardTitleIcon(connectIntent),
                         backgroundImage = CountryTools.getLargeFlagResource(context, country),
-                        profile = profile,
+                        connectIntent = connectIntent,
                         connectCountry = country
                     )
                 )
@@ -199,13 +202,13 @@ class TvMainViewModel @Inject constructor(
     }
 
     @DrawableRes
-    private fun profileCardTitleIcon(profile: Profile): Int {
+    private fun profileCardTitleIcon(connectIntent: ConnectIntent): Int {
         val defaultConnection = serverManager.defaultConnection
-        val server = serverManager.getServerForProfile(profile, currentUser.vpnUserCached())
+        val server = serverManager.getServerForConnectIntent(connectIntent, currentUser.vpnUserCached())
         return when {
             server == null -> R.drawable.ic_proton_lock_filled
-            server.online && profile.isPreBakedProfile -> R.drawable.ic_proton_bolt
-            server.online && profile == defaultConnection -> R.drawable.ic_proton_star
+            server.online && connectIntent == ConnectIntent.Default -> R.drawable.ic_proton_bolt
+            server.online && connectIntent == createIntentForDefaultProfile(defaultConnection) -> R.drawable.ic_proton_star
             server.online -> R.drawable.ic_proton_clock_rotate_left
             else -> R.drawable.ic_proton_wrench
         }
@@ -262,16 +265,18 @@ class TvMainViewModel @Inject constructor(
             disconnect(DisconnectTrigger.QuickConnect("quick connect (TV)"))
         } else {
             connectHelper.connect(
-                activity, serverManager.defaultConnection, ConnectTrigger.QuickConnect("quick connect (TV)")
+                activity,
+                createIntentForDefaultProfile(serverManager.defaultConnection),
+                ConnectTrigger.QuickConnect("quick connect (TV)")
             )
         }
     }
 
     fun connect(activity: BaseTvActivity, countryCode: String, trigger: ConnectTrigger) {
-        connectHelper.connect(activity, createProfileForCountry(countryCode), trigger)
+        connectHelper.connect(activity, createIntentForCountry(countryCode), trigger)
     }
 
-    fun connect(activity: BaseTvActivity, card: ProfileCard) {
+    fun connect(activity: BaseTvActivity, card: ConnectIntentCard) {
         connect(activity, card.connectCountry, ConnectTrigger.QuickConnect("recents (TV)"))
     }
 
@@ -294,5 +299,14 @@ class TvMainViewModel @Inject constructor(
         return profile.country.takeIfNotBlank()
             ?: serverManager.getServerForProfile(profile, currentUser.vpnUserCached())?.exitCountry
             ?: ""
+    }
+
+    private fun createIntentForCountry(countryCode: String): ConnectIntent =
+        ConnectIntent.FastestInCountry(CountryId(countryCode), emptySet())
+
+    private fun createIntentForDefaultProfile(profile: Profile): ConnectIntent {
+        val countryCode = getConnectCountry(profile)
+        val countryId = if (countryCode.isNotEmpty()) CountryId(countryCode) else CountryId.fastest
+        return ConnectIntent.FastestInCountry(countryId, emptySet())
     }
 }

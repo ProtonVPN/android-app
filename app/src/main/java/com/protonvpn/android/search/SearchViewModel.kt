@@ -31,13 +31,13 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToAnyServer
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.partnerships.PartnershipsRepository
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -155,22 +155,23 @@ class SearchViewModel @Inject constructor(
     }
 
     fun connectCountry(vpnUiDelegate: VpnUiDelegate, item: ResultItem<VpnCountry>) =
-        connectServer(vpnUiDelegate, serverManager.getBestScoreServer(item.match.value))
+        connect(vpnUiDelegate, ConnectIntent.FastestInCountry(CountryId(item.match.value.flag), emptySet()))
+
 
     fun connectCity(vpnUiDelegate: VpnUiDelegate, item: ResultItem<List<Server>>) =
-        connectServer(vpnUiDelegate, serverManager.getBestScoreServer(item.match.value))
+        // TODO: use ConnectIntent.FastestInCity - this requires returning city name with the results
+        connect(
+            vpnUiDelegate,
+            ConnectIntent.Server(serverManager.getBestScoreServer(item.match.value)!!.serverId, emptySet())
+        )
 
     fun connectServer(vpnUiDelegate: VpnUiDelegate, item: ResultItem<Server>) =
-        connectServer(vpnUiDelegate, item.match.value)
+        connect(vpnUiDelegate, ConnectIntent.Server(item.match.value.serverId, emptySet()))
 
-    private fun connectServer(vpnUiDelegate: VpnUiDelegate, server: Server?) {
+    private fun connect(vpnUiDelegate: VpnUiDelegate, connectIntent: ConnectIntent) {
         query.value?.let { saveSearchQuery(it) }
-        if (server != null) {
-            vpnConnectionManager.connect(vpnUiDelegate, Profile.getTempProfile(server), ConnectTrigger.Search("Search UI"))
-            eventCloseFlow.tryEmit(Unit)
-        } else {
-            DebugUtils.debugAssert("No server found, should never happen") { true }
-        }
+        vpnConnectionManager.connect(vpnUiDelegate, connectIntent, ConnectTrigger.Search("Search UI"))
+        eventCloseFlow.tryEmit(Unit)
     }
 
     private suspend fun mapState(query: String, vpnUser: VpnUser?, connectedServer: Server?): ViewState {

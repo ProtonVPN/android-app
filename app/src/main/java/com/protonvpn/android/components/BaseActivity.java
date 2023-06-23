@@ -27,15 +27,13 @@ import android.view.View;
 import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
-import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent;
 import com.protonvpn.android.tv.IsTvCheck;
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager;
 import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper;
 import com.protonvpn.android.ui.snackbar.SnackbarHelper;
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate;
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile;
-import com.protonvpn.android.utils.AndroidUtils;
-import com.protonvpn.android.utils.ServerManager;
 
 import javax.inject.Inject;
 
@@ -169,7 +167,7 @@ public abstract class BaseActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    protected Unit retryConnection(@NonNull Profile profile) {
+    protected Unit retryConnection(@NonNull AnyConnectIntent connectIntent) {
         return Unit.INSTANCE;
     }
 

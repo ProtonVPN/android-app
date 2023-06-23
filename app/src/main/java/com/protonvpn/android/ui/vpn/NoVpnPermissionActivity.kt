@@ -39,8 +39,11 @@ import com.protonvpn.android.databinding.ActivityNoVpnPermissionBinding
 import com.protonvpn.android.databinding.FragmentNoVpnPermissionDisableAlwaysOnBinding
 import com.protonvpn.android.databinding.FragmentNoVpnPermissionGrantBinding
 import com.protonvpn.android.databinding.FragmentNoVpnPermissionMainBinding
-import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.ui.vpn.NoVpnPermissionActivity.Companion.EXTRA_RECONNECT_PROFILE
+import com.protonvpn.android.redesign.recents.data.ConnectIntentData
+import com.protonvpn.android.redesign.recents.data.toAnyConnectIntent
+import com.protonvpn.android.redesign.recents.data.toData
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.ui.vpn.NoVpnPermissionActivity.Companion.EXTRA_RECONNECT_INTENT
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.openVpnSettings
@@ -78,16 +81,16 @@ class NoVpnPermissionActivity : BaseActivityV2() {
 
     companion object {
 
-        const val EXTRA_RECONNECT_PROFILE = "PROFILE"
+        const val EXTRA_RECONNECT_INTENT = "ConnectIntent"
 
-        class Contract : ActivityResultContract<Profile, Profile?>() {
-            override fun createIntent(context: Context, input: Profile) =
+        class Contract : ActivityResultContract<AnyConnectIntent, AnyConnectIntent?>() {
+            override fun createIntent(context: Context, input: AnyConnectIntent) =
                 Intent(context, NoVpnPermissionActivity::class.java).apply {
-                    putExtra(EXTRA_RECONNECT_PROFILE, input)
+                    putExtra(EXTRA_RECONNECT_INTENT, input.toData())
                 }
 
-            override fun parseResult(resultCode: Int, intent: Intent?): Profile? =
-                intent?.getSerializableExtra(EXTRA_RECONNECT_PROFILE) as? Profile
+            override fun parseResult(resultCode: Int, intent: Intent?): AnyConnectIntent? =
+                (intent?.getSerializableExtra(EXTRA_RECONNECT_INTENT) as? ConnectIntentData)?.toAnyConnectIntent()
         }
     }
 }
@@ -106,8 +109,8 @@ abstract class NoVpnPermissionFragmentBase(
 
     protected fun reconnect() {
         with(requireActivity()) {
-            val profile = intent?.getSerializableExtra(EXTRA_RECONNECT_PROFILE)
-            setResult(Activity.RESULT_OK, Intent().apply { putExtra(EXTRA_RECONNECT_PROFILE, profile) })
+            val profile = intent?.getSerializableExtra(EXTRA_RECONNECT_INTENT)
+            setResult(Activity.RESULT_OK, Intent().apply { putExtra(EXTRA_RECONNECT_INTENT, profile) })
             finish()
         }
     }

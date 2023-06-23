@@ -23,12 +23,16 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.redesign.recents.data.ConnectIntentData
+import com.protonvpn.android.redesign.recents.data.toAnyConnectIntent
+import com.protonvpn.android.redesign.recents.data.toData
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import java.util.UUID
 
 open class ConnectionParams(
-    val profile: Profile,
+    val connectIntentData: ConnectIntentData,
     val server: Server,
     val connectingDomain: ConnectingDomain?,
     private val protocol: VpnProtocol?,
@@ -38,11 +42,25 @@ open class ConnectionParams(
     val uuid: UUID = UUID.randomUUID()
 ) : java.io.Serializable {
 
+    private val profile: Profile? = null // Used for handling old serialized objects.
+
     open val info get() = "IP: ${connectingDomain?.entryDomain}/$entryIp Protocol: $protocol"
 
+    val connectIntent: AnyConnectIntent get() = connectIntentData.toAnyConnectIntent()
     val protocolSelection get() = protocol?.let { ProtocolSelection(it, transmissionProtocol) }
 
     val bouncing: String? get() = connectingDomain?.label?.takeIf(String::isNotBlank)
+
+    constructor(
+        connectIntent: AnyConnectIntent,
+        server: Server,
+        connectingDomain: ConnectingDomain?,
+        protocol: VpnProtocol?,
+        entryIp: String? = null,
+        port: Int? = null,
+        transmissionProtocol: TransmissionProtocol? = null,
+        uuid: UUID = UUID.randomUUID()
+    ) : this(connectIntent.toData(), server, connectingDomain, protocol, entryIp, port, transmissionProtocol, uuid)
 
     override fun toString() = info
 
@@ -64,14 +82,16 @@ open class ConnectionParams(
             Storage.delete(ConnectionParams::class.java)
         }
 
-        fun readFromStore(ignoreUnsupported: Boolean = true): ConnectionParams? {
-            val value = Storage.load(ConnectionParams::class.java) ?: return null
-            // Ignore stored connection params for unsupported protocol
-            if (ignoreUnsupported && value.profile.isUnsupportedIKEv2()) {
-                deleteFromStore("unsupported protocol")
+        fun readIntentFromStore(expectedUuid: UUID? = null): AnyConnectIntent? {
+            val value = Storage.load(ConnectionParams::class.java)
+                ?.takeIf { expectedUuid == null || it.uuid == expectedUuid }
+                ?: return null
+            if (value.profile != null) {
+                // TODO: try to implement profile.toConnectIntent(). The problem is it needs ServerManager and UserData
+                //  but maybe the conversion can be simplified?
                 return null
             }
-            return value
+            return value.connectIntent
         }
     }
 }

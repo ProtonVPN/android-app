@@ -28,13 +28,11 @@ import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
-import com.protonvpn.android.redesign.stubs.toProfile
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -54,7 +52,6 @@ class RecentsAndConnectionSampleViewModel @Inject constructor(
     recentsListViewStateFlow: RecentsListViewStateFlow,
     private val recentsDao: RecentsDao,
     private val vpnConnectionManager: VpnConnectionManager,
-    private val serverManager: ServerManager,
     @WallClock private val clock: () -> Long
 ) : ViewModel() {
 
@@ -82,7 +79,7 @@ class RecentsAndConnectionSampleViewModel @Inject constructor(
             val connectIntent = recentsDao.getMostRecentConnection().first()?.connectIntent ?:
                 ConnectIntent.FastestInCountry(CountryId.fastest, EnumSet.noneOf(ServerFeature::class.java))
             vpnConnectionManager.connectInBackground(
-                connectIntent.toProfile(serverManager),
+                connectIntent,
                 ConnectTrigger.QuickConnect("UI catalog")
             )
         }
@@ -92,10 +89,7 @@ class RecentsAndConnectionSampleViewModel @Inject constructor(
         mainScope.launch {
             val recent = recentsDao.getById(id)
             if (recent != null) {
-                vpnConnectionManager.connectInBackground(
-                    recent.connectIntent.toProfile(serverManager),
-                    ConnectTrigger.QuickConnect("recents") // TODO: Introduce ConnectTrigger.Recents
-                )
+                vpnConnectionManager.connectInBackground(recent.connectIntent, ConnectTrigger.RecentRegular)
             }
         }
     }

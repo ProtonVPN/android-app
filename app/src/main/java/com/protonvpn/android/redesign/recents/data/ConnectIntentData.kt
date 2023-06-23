@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.recents.data
 
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import me.proton.core.util.kotlin.takeIfNotBlank
@@ -29,7 +30,8 @@ enum class ConnectIntentType {
     FASTEST,
     FASTEST_IN_CITY,
     SECURE_CORE,
-    SPECIFIC_SERVER
+    SPECIFIC_SERVER,
+    GUEST_HOLE
 }
 
 data class ConnectIntentData(
@@ -39,7 +41,7 @@ data class ConnectIntentData(
     val city: String?,
     val serverId: String?,
     val features: Set<ServerFeature>
-)
+) : java.io.Serializable
 
 fun ConnectIntentData.toConnectIntent(): ConnectIntent =
     when (connectIntentType) {
@@ -67,7 +69,13 @@ fun ConnectIntentData.toConnectIntent(): ConnectIntent =
                 serverId = requireNotNull(serverId),
                 features = features
             )
+        ConnectIntentType.GUEST_HOLE -> throw IllegalArgumentException("GUEST_HOLE is not a regular ConnectIntent type")
     }
+
+fun ConnectIntentData.toAnyConnectIntent(): AnyConnectIntent = when(connectIntentType) {
+    ConnectIntentType.GUEST_HOLE -> AnyConnectIntent.GuestHole(requireNotNull(serverId))
+    else -> this.toConnectIntent()
+}
 
 fun ConnectIntent.toData(): ConnectIntentData =
     when(this) {
@@ -108,6 +116,18 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 features = features
             )
     }
+
+fun AnyConnectIntent.toData() = when (this) {
+    is AnyConnectIntent.GuestHole -> ConnectIntentData(
+        connectIntentType = ConnectIntentType.GUEST_HOLE,
+        exitCountry = null,
+        entryCountry = null,
+        city = null,
+        serverId = serverId,
+        features = emptySet()
+    )
+    is ConnectIntent -> this.toData()
+}
 
 private fun CountryId.toDataString(): String? = countryCode.takeIfNotBlank()
 private fun String?.toCountryId(): CountryId = if (this == null) CountryId.fastest else CountryId(this)

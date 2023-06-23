@@ -22,6 +22,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.redesign.stubs.toConnectIntent
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.utils.ServerManager
@@ -36,6 +38,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
@@ -52,6 +55,7 @@ class ChangeServerViewModel @Inject constructor(
     private val serverManager: ServerManager,
     private val changeServerPrefs: ChangeServerPrefs,
     private val upgradeTelemetry: UpgradeTelemetry,
+    private val userSettings: EffectiveCurrentUserSettings,
     @WallClock private val clock: () -> Long,
 ) : ViewModel() {
 
@@ -99,7 +103,7 @@ class ChangeServerViewModel @Inject constructor(
         mainScope.launch {
             vpnConnectionManager.connect(
                 vpnUiDelegate,
-                serverManager.randomProfile,
+                serverManager.randomProfile.toConnectIntent(serverManager, userSettings.effectiveSettings.first()),
                 ConnectTrigger.QuickConnect("Change server")
             )
             // Delay to not show instant locked state before actual connection

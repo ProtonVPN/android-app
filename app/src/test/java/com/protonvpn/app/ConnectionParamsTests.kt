@@ -21,14 +21,12 @@ package com.protonvpn.app
 
 import android.content.Context
 import com.protonvpn.android.ProtonApplication
-import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.appconfig.FeatureFlags
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.utils.AndroidUtils
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
@@ -42,16 +40,17 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.util.UUID
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 class ConnectionParamsTests {
 
     @MockK lateinit var context: Context
-    @MockK lateinit var userData: UserData
-    @MockK lateinit var appConfig: AppConfig
-    @MockK lateinit var featureFlags: FeatureFlags
-    @MockK lateinit var profile: Profile
     @MockK lateinit var server: Server
     @MockK lateinit var connectingDomain: ConnectingDomain
+
+    private val connectIntent: ConnectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
 
     private lateinit var params: ConnectionParams
 
@@ -66,9 +65,8 @@ class ConnectionParamsTests {
 
         mockkObject(Constants)
         every { connectingDomain.label } returns "label"
-        every { appConfig.getFeatureFlags() } returns featureFlags
 
-        params = ConnectionParams(profile, server, connectingDomain, VpnProtocol.Smart)
+        params = ConnectionParams(connectIntent, server, connectingDomain, VpnProtocol.Smart)
     }
 
     @After
@@ -79,13 +77,15 @@ class ConnectionParamsTests {
     @Test
     fun testUuidIsRestoredWhenLoadedFromStorage() {
         Storage.save(params, ConnectionParams::class.java)
-        val restoredParams = ConnectionParams.readFromStore()
+        val restoredIntent = ConnectionParams.readIntentFromStore(params.uuid)
+        assertNotNull(restoredIntent)
 
-        Assert.assertEquals(params.uuid, restoredParams?.uuid)
+        val notRestored = ConnectionParams.readIntentFromStore(UUID.randomUUID())
+        assertNull(notRestored)
     }
 
     @Test
     fun testUuidIsDifferentForEachInstance() {
-        Assert.assertNotEquals(params.uuid, ConnectionParams(profile, server, connectingDomain, VpnProtocol.Smart).uuid)
+        Assert.assertNotEquals(params.uuid, ConnectionParams(connectIntent, server, connectingDomain, VpnProtocol.Smart).uuid)
     }
 }

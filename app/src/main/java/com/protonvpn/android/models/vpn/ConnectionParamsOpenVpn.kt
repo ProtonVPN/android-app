@@ -20,21 +20,21 @@ package com.protonvpn.android.models.vpn
 
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.utils.Constants
 import de.blinkt.openvpn.VpnProfile
 import de.blinkt.openvpn.core.Connection
 
 class ConnectionParamsOpenVpn(
-    profile: Profile,
+    connectIntent: AnyConnectIntent,
     server: Server,
     connectingDomain: ConnectingDomain,
     entryIp: String?,
     transmission: TransmissionProtocol,
     port: Int
 ) : ConnectionParams(
-    profile,
+    connectIntent,
     server,
     connectingDomain,
     VpnProtocol.OpenVPN,

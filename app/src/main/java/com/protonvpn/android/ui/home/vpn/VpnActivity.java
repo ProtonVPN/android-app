@@ -24,6 +24,7 @@ import com.protonvpn.android.components.BaseActivity;
 import com.protonvpn.android.logging.LogEventsKt;
 import com.protonvpn.android.logging.ProtonLogger;
 import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent;
 import com.protonvpn.android.vpn.ConnectTrigger;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 
@@ -41,8 +42,8 @@ public abstract class VpnActivity extends BaseActivity {
         registerForEvents();
     }
 
-    public void onConnect(@NonNull Profile profileToConnect, @NonNull ConnectTrigger trigger) {
+    public void onConnect(@NonNull AnyConnectIntent connectIntent, @NonNull ConnectTrigger trigger) {
         ProtonLogger.INSTANCE.log(LogEventsKt.UiConnect, trigger.getDescription());
-        vpnConnectionManager.connect(getVpnUiDelegate(), profileToConnect, trigger);
+        vpnConnectionManager.connect(getVpnUiDelegate(), connectIntent, trigger);
     }
 }

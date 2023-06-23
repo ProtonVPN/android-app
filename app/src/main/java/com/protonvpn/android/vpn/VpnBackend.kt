@@ -39,10 +39,10 @@ import com.protonvpn.android.logging.UserCertRefresh
 import com.protonvpn.android.logging.UserCertRevoked
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
@@ -73,7 +73,7 @@ data class PrepareResult(val backend: VpnBackend, val connectionParams: Connecti
 interface VpnBackendProvider {
     suspend fun prepareConnection(
         protocol: ProtocolSelection,
-        profile: Profile,
+        connectIntent: AnyConnectIntent,
         server: Server,
         alwaysScan: Boolean = true
     ): PrepareResult?
@@ -81,12 +81,13 @@ interface VpnBackendProvider {
     // Returns first from [preferenceList] that responded in a given time frame or null
     // [fullScanServer] when set will have all ports scanned.
     suspend fun pingAll(
+        orgIntent: AnyConnectIntent,
         orgProtocol: ProtocolSelection,
         preferenceList: List<PhysicalServer>,
         fullScanServer: PhysicalServer? = null
     ): PingResult?
 
-    data class PingResult(val profile: Profile, val physicalServer: PhysicalServer, val responses: List<PrepareResult>)
+    data class PingResult(val physicalServer: PhysicalServer, val responses: List<PrepareResult>)
 }
 
 interface AgentConnectionInterface {
@@ -224,7 +225,7 @@ abstract class VpnBackend(
     private val cachedSessionId = SyncStateFlow(mainScope, currentUser.sessionIdFlow)
 
     abstract suspend fun prepareForConnection(
-        profile: Profile,
+        connectIntent: AnyConnectIntent,
         server: Server,
         transmissionProtocols: Set<TransmissionProtocol>,
         scan: Boolean,
@@ -384,7 +385,7 @@ abstract class VpnBackend(
     // Handle updates to both VpnState and local agent's state.
     private fun processCombinedState(vpnState: VpnState, localAgentState: String?) {
         val newSelfState = if (vpnProtocol.localAgentEnabled() && cachedSessionId.value != null
-            && lastConnectionParams?.profile?.isGuestHoleProfile != true
+            && lastConnectionParams?.connectIntent !is AnyConnectIntent.GuestHole
         ) {
             if (vpnState == VpnState.Connected) {
                 handleLocalAgentStates(localAgentState)

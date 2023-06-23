@@ -22,7 +22,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.di.WallClock
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
@@ -31,12 +30,10 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
-import com.protonvpn.android.redesign.stubs.toProfile
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -48,7 +45,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.EnumSet
 import javax.inject.Inject
 
 private const val TriggerDescription = "Home screen"
@@ -60,7 +56,6 @@ class HomeViewModel @Inject constructor(
     vpnStatusViewStateFlow: VpnStatusViewStateFlow,
     private val recentsDao: RecentsDao,
     private val vpnConnectionManager: VpnConnectionManager,
-    private val serverManager: ServerManager,
     @WallClock private val clock: () -> Long
 ) : ViewModel() {
 
@@ -89,23 +84,17 @@ class HomeViewModel @Inject constructor(
         initialValue = VpnStatusViewState.Disabled()
     )
 
-    @Deprecated("Use the overload without Profile where possible")
-    fun connect(vpnUiDelegate: VpnUiDelegate, profile: Profile) {
+    fun connect(vpnUiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent) {
         vpnConnectionManager.connect(
             vpnUiDelegate,
-            profile,
+            connectIntent,
             ConnectTrigger.QuickConnect(TriggerDescription)
         )
     }
 
     suspend fun connect(vpnUiDelegate: VpnUiDelegate) {
-        val connectIntent = recentsDao.getMostRecentConnection().first()?.connectIntent ?:
-        ConnectIntent.FastestInCountry(CountryId.fastest, EnumSet.noneOf(ServerFeature::class.java))
-        vpnConnectionManager.connect(
-            vpnUiDelegate,
-            connectIntent.toProfile(serverManager),
-            ConnectTrigger.QuickConnect(TriggerDescription)
-        )
+        val connectIntent = recentsDao.getMostRecentConnection().first()?.connectIntent ?: ConnectIntent.Default
+        connect(vpnUiDelegate, connectIntent)
     }
 
     suspend fun connectRecent(id: Long, vpnUiDelegate: VpnUiDelegate) {
@@ -113,7 +102,7 @@ class HomeViewModel @Inject constructor(
         if (recent != null) {
             vpnConnectionManager.connect(
                 vpnUiDelegate,
-                recent.connectIntent.toProfile(serverManager),
+                recent.connectIntent,
                 if (recent.isPinned) ConnectTrigger.RecentPinned else ConnectTrigger.RecentRegular
             )
         }

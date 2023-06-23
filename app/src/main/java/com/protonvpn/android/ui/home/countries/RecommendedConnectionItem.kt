@@ -23,8 +23,10 @@ import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
+import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.databinding.ItemRecommendedConnectionBinding
 import com.protonvpn.android.utils.BindableItemEx
+import com.protonvpn.android.utils.getActivity
 import com.protonvpn.android.vpn.VpnStateMonitor
 
 class RecommendedConnectionItem(
@@ -34,7 +36,7 @@ class RecommendedConnectionItem(
 ): BindableItemEx<ItemRecommendedConnectionBinding>() {
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status>{
-        binding.buttonConnect.isOn = viewModel.isConnectedToProfile(item.profile)
+        binding.buttonConnect.isOn = viewModel.isConnectedTo(item.connectIntent)
     }
 
     override fun bind(viewBinding: ItemRecommendedConnectionBinding, position: Int) {
@@ -42,7 +44,10 @@ class RecommendedConnectionItem(
         with(viewBinding) {
             imageIcon.setImageResource(item.icon)
             textLabel.setText(item.name)
-            buttonConnect.setOnClickListener { viewModel.connectToProfile(item.profile) }
+            val vpnUiDelegate = (root.context.getActivity() as VpnUiDelegateProvider).getVpnUiDelegate()
+            buttonConnect.setOnClickListener {
+                viewModel.connectOrDisconnect(vpnUiDelegate, item.connectIntent, "fastest in country list")
+            }
         }
         viewModel.vpnStatus.observe(parentLifeCycle, vpnStateObserver)
     }

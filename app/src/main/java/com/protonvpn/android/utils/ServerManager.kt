@@ -19,6 +19,7 @@
 package com.protonvpn.android.utils
 
 import androidx.annotation.VisibleForTesting
+import androidx.leanback.widget.Visibility
 import androidx.lifecycle.asLiveData
 import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.BuildConfig
@@ -38,6 +39,7 @@ import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -131,7 +133,6 @@ class ServerManager @Inject constructor(
 
     val fastestProfile get() = profileManager.fastestProfile
     val randomProfile get() = profileManager.randomServerProfile
-    val defaultFallbackConnection get() = fastestProfile
 
     val defaultConnection: Profile get() = profileManager.getDefaultOrFastest()
 
@@ -372,6 +373,17 @@ class ServerManager @Inject constructor(
         }
     }
 
+    fun getServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?): Server? =
+        forConnectIntent(
+            connectIntent,
+            onFastest = { isSecureCore -> getBestScoreServer(isSecureCore, vpnUser) },
+            onFastestInCountry = { vpnCountry, isSecureCore -> getBestScoreServer(vpnCountry.serverList, vpnUser) },
+            onFastestInCity = { vpnCountry, servers -> getBestScoreServer(servers, vpnUser) },
+            onServer = { server -> server },
+            fallbackResult = null
+        )
+
+
     /*
      * Perform operations related to ConnectIntent.
      *
@@ -380,7 +392,7 @@ class ServerManager @Inject constructor(
      * available.
      */
     fun <T> forConnectIntent(
-        connectIntent: ConnectIntent,
+        connectIntent: AnyConnectIntent,
         onFastest: (isSecureCore: Boolean) -> T,
         onFastestInCountry: (VpnCountry, isSecureCore: Boolean) -> T,
         onFastestInCity: (VpnCountry, List<Server>) -> T,
@@ -415,6 +427,7 @@ class ServerManager @Inject constructor(
                 }
             }
         is ConnectIntent.Server -> getServerById(connectIntent.serverId)?.let { onServer(it) } ?: fallbackResult
+        is AnyConnectIntent.GuestHole -> getServerById(connectIntent.serverId)?.let { onServer(it) } ?: fallbackResult
     }
 
     @Deprecated(

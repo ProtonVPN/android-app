@@ -21,6 +21,9 @@ package com.protonvpn.android.logging
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.vpn.ProtocolSelection
 
@@ -56,6 +59,17 @@ fun Profile.toLog(settings: LocalUserSettings): String {
     return "Profile: $type, protocol: $protocol, server: $serverInfo"
 }
 
+fun AnyConnectIntent.toLog(): String {
+    val description = when (this) {
+        is ConnectIntent.FastestInCountry -> "Fastest in country: ${country.toLog()}"
+        is ConnectIntent.FastestInCity -> "Fastest in city: ${cityEn} (${country.toLog()})"
+        is ConnectIntent.SecureCore -> "Secure Core: ${exitCountry.countryCode} via ${entryCountry.countryCode}"
+        is ConnectIntent.Server -> "Direct server: $serverId"
+        is AnyConnectIntent.GuestHole -> "Guest hole: $serverId"
+    }
+    return "ConnectIntent: $description; features: $features"
+}
+
 fun VpnUser.toLog() =
     "plan: $planName, maxTier: $maxTier, maxConnect: $maxConnect, status: $status, subscribed: $subscribed, " +
         "services: $services, delinquent: $delinquent"
@@ -73,3 +87,5 @@ fun Boolean?.toLog() = when(this) {
 }
 
 fun List<*>.itemCountToLog() = if (isEmpty()) "None" else "$size items"
+
+fun CountryId.toLog() = if (isFastest) "fastest" else countryCode

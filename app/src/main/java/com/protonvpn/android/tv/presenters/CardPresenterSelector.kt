@@ -24,7 +24,7 @@ import androidx.leanback.widget.PresenterSelector
 import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.IconCard
-import com.protonvpn.android.tv.models.ProfileCard
+import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import java.util.HashMap
 
@@ -39,7 +39,7 @@ class CardPresenterSelector(private val context: Context) : PresenterSelector() 
             when (item) {
                 is IconCard -> IconCardPresenter(context)
                 is QuickConnectCard -> TvItemPresenter(context)
-                is ProfileCard -> TvItemPresenter(context)
+                is ConnectIntentCard -> TvItemPresenter(context)
                 is CountryCard -> TvItemPresenter(context)
             }
         }

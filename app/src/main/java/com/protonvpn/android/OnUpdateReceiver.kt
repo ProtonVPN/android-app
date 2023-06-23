@@ -26,7 +26,6 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.vpn.DefaultAvailableConnection
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -36,21 +35,16 @@ class OnUpdateReceiver : BroadcastReceiver() {
 
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var appFeaturesPrefs: AppFeaturesPrefs
-    @Inject lateinit var defaultAvailableConnection: DefaultAvailableConnection
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_MY_PACKAGE_REPLACED) {
-            val profile = ConnectionParams.readFromStore(ignoreUnsupported = false)?.profile
+            val connectIntent = ConnectionParams.readIntentFromStore()
             ProtonLogger.logCustom(
-                LogCategory.APP_UPDATE, "ACTION_MY_PACKAGE_REPLACED stored_profile=${profile != null}")
-            if (profile != null) {
-                val restoreProfile = if (profile.isUnsupportedIKEv2()) {
-                    appFeaturesPrefs.showIKEv2Migration = true
-                    defaultAvailableConnection()
-                } else {
-                    profile
-                }
-                vpnConnectionManager.onRestoreProcess(restoreProfile, "app update")
+                LogCategory.APP_UPDATE,
+                "ACTION_MY_PACKAGE_REPLACED has stored intent: ${connectIntent != null}"
+            )
+            if (connectIntent != null) {
+                vpnConnectionManager.onRestoreProcess(connectIntent, "app update")
             }
         }
     }

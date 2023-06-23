@@ -1,10 +1,10 @@
 package com.protonvpn.app
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
@@ -48,15 +48,13 @@ class RecentsManagerTests {
     private fun mockedConnectionParams(
         country: String,
         serverName: String = country,
-        profileName: String = ""
     ): ConnectionParams {
-        val wrapper = ServerWrapper.makeFastestForCountry(country)
-        val profile = Profile(profileName, null, wrapper, null, null)
+        val connectIntent = ConnectIntent.FastestInCountry(CountryId(country), emptySet())
         val server = mockk<Server>()
         every { server.flag } returns country
         every { server.exitCountry } returns country
         every { server.serverName } returns serverName
-        return ConnectionParams(profile, server, mockk(), mockk())
+        return ConnectionParams(connectIntent, server, mockk(), mockk())
     }
 
     @Test

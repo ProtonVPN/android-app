@@ -57,7 +57,6 @@ class HomeViewModelRecentsTests {
             vpnStatusViewStateFlow = mockk(relaxed = true),
             recentsDao = mockRecentsDao,
             vpnConnectionManager = mockk(),
-            serverManager = mockk(),
             clock = testScheduler::currentTime
         )
     }

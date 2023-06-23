@@ -32,12 +32,14 @@ import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
@@ -80,7 +82,6 @@ import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
-import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -130,11 +131,11 @@ class VpnConnectionTests {
 
     private val permissionDelegate = VpnPermissionDelegate { null }
     private lateinit var scope: TestScope
-    private lateinit var serverManager: ServerManager
     private lateinit var testDispatcherProvider: TestDispatcherProvider
     private lateinit var monitor: VpnStateMonitor
     private lateinit var manager: VpnConnectionManager
     private lateinit var networkManager: MockNetworkManager
+    private lateinit var serverManager: ServerManager
 
     private lateinit var currentUserProvider: TestCurrentUserProvider
 
@@ -176,14 +177,14 @@ class VpnConnectionTests {
     private lateinit var supportsProtocol: SupportsProtocol
     private lateinit var userSettingsFlow: MutableStateFlow<LocalUserSettings>
 
-    private lateinit var profileSmart: Profile
-    private lateinit var profileOpenVPN: Profile
-    private lateinit var profileWireguard: Profile
-    private lateinit var profileWireguardTls: Profile
+    private val connectIntentFastest = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
+    private val connectIntentCountry =
+        ConnectIntent.FastestInCountry(CountryId(MockedServers.server.exitCountry), emptySet())
+    private val connectIntentGuestHole = AnyConnectIntent.GuestHole(MockedServers.server.serverId)
+    private val connectIntentNoServer = ConnectIntent.Server("nonexistent", emptySet())
 
-    private lateinit var fallbackOpenVpnProfile: Profile
-    private lateinit var serverWireguard: Server
-    private lateinit var fallbackServer: Server
+    private val serverWireguard: Server = MockedServers.serverList[1]
+    private val fallbackServer: Server = MockedServers.serverList[2]
 
     private val switchServerFlow = MutableSharedFlow<VpnFallbackResult.Switch>()
 
@@ -285,16 +286,6 @@ class VpnConnectionTests {
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
-        val server = MockedServers.server
-        serverWireguard = MockedServers.serverList[1]
-        fallbackServer = MockedServers.serverList[2]
-
-        profileSmart = MockedServers.getProfile(server, VpnProtocol.Smart)
-        profileOpenVPN = MockedServers.getProfile(server, VpnProtocol.OpenVPN)
-        profileWireguard = MockedServers.getProfile(serverWireguard, VpnProtocol.WireGuard)
-        profileWireguardTls = MockedServers.getProfile(server, VpnProtocol.WireGuard, transmissionProtocol = TransmissionProtocol.TLS)
-        fallbackOpenVpnProfile = MockedServers.getProfile(fallbackServer, VpnProtocol.OpenVPN, "fallback")
-
         setupMockAgent { client ->
             client.onState(agentConsts.stateConnecting)
             client.onState(agentConsts.stateConnected)
@@ -334,7 +325,7 @@ class VpnConnectionTests {
     @Test
     fun whenScanFailsForWireguardThenOpenVpnIsUsed() = scope.runTest {
         mockWireguard.failScanning = true
-        manager.connect(mockVpnUiDelegate, profileSmart, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
         Assert.assertEquals(VpnProtocol.OpenVPN, monitor.status.value.connectionParams?.protocolSelection?.vpn)
@@ -344,7 +335,7 @@ class VpnConnectionTests {
     fun whenFeatureFlagIsOffNoConnectionIsMade() = scope.runTest {
         every { appConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = false)
         userSettingsFlow.update { it.copy(protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)) }
-        manager.connect(mockVpnUiDelegate, profileWireguardTls, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 
         verify { mockVpnUiDelegate.onProtocolNotSupported() }
         Assert.assertEquals(VpnState.Disabled, monitor.state)
@@ -355,7 +346,7 @@ class VpnConnectionTests {
         mockWireguard.failScanning = true
         mockOpenVpn.failScanning = true
         userSettingsFlow.update { it.copy(protocol = ProtocolSelection(VpnProtocol.Smart)) }
-        manager.connect(mockVpnUiDelegate, profileSmart, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 
         // When scanning fails we'll fallback to attempt connecting with WireGuard regardless of
         // selected protocol
@@ -371,7 +362,7 @@ class VpnConnectionTests {
     fun whenNoInternetWhileConnectingUseWireguard() = scope.runTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         userSettingsFlow.update { it.copy(protocol = ProtocolSelection(VpnProtocol.Smart)) }
-        manager.connect(mockVpnUiDelegate, profileSmart, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 
         // Always fall back to WireGuard, regardless of selected protocol.
         coVerify(exactly = 0) {
@@ -391,7 +382,7 @@ class VpnConnectionTests {
         userSettingsFlow.update {
             it.copy(protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP))
         }
-        manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 
         coVerify(exactly = 1) {
             mockWireguard.prepareForConnection(any(), any(), any(),false)
@@ -404,7 +395,7 @@ class VpnConnectionTests {
     fun localAgentIsNotUsedForGuesthole() = scope.runTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
         currentUserProvider.sessionId = null
-        manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 
         coVerify(exactly = 1) {
             mockWireguard.prepareForConnection(any(), any(), any(),false)
@@ -474,7 +465,7 @@ class VpnConnectionTests {
 
     @Test fun dontConnectAfterFailedPingForGuestHole() = scope.runTest {
         coEvery { mockWireguard.prepareForConnection(any(), any(), any(), true) } returns emptyList()
-        manager.connect(mockVpnUiDelegate, profileWireguard.copy(isGuestHoleProfile = true), trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentGuestHole, trigger)
         coVerify(exactly = 0) { mockWireguard.connect(any()) }
     }
 
@@ -493,7 +484,7 @@ class VpnConnectionTests {
             appFeaturesPrefs
         )
 
-        manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 
         every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
         guestHole.onAlternativesUnblock {
@@ -506,28 +497,29 @@ class VpnConnectionTests {
     @Test
     fun whenAuthErrorRequiresFallbackThenVpnConnectionIsReestablished() = scope.runTest {
         mockWireguard.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL, isFinal = false)
-        mockOpenVpn.stateOnConnect = VpnState.Connected
-        val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
+        val fallbackResult = VpnFallbackResult.Switch.SwitchConnectIntent(
             serverWireguard,
             fallbackServer,
-            fallbackOpenVpnProfile,
+            connectIntentFastest,
             SwitchServerReason.Downgrade("PLUS", "FREE")
         )
-        coEvery { vpnErrorHandler.onAuthError(any()) } returns fallbackResult
+        coEvery { vpnErrorHandler.onAuthError(any()) } answers {
+            // Next connect attempt should succeed
+            mockWireguard.stateOnConnect = VpnState.Connected
+            fallbackResult
+        }
 
         val fallbacks = runWhileCollecting(monitor.vpnConnectionNotificationFlow) {
-            manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+            manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
         }
 
-        coVerify(exactly = 1) {
+        coVerify(exactly = 2) {
             mockWireguard.connect(not(isNull()))
-        }
-        coVerify(exactly = 1) {
-            mockOpenVpn.connect(not(isNull()))
         }
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
-        Assert.assertEquals(fallbackOpenVpnProfile, monitor.connectionProfile)
+        Assert.assertEquals(connectIntentFastest, monitor.connectionIntent)
+        Assert.assertEquals(fallbackServer, monitor.connectingToServer)
         Assert.assertEquals(listOf(fallbackResult), fallbacks)
     }
 
@@ -537,7 +529,7 @@ class VpnConnectionTests {
         coEvery { vpnErrorHandler.onAuthError(any()) } returns VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
 
         val fallbacks = runWhileCollecting(monitor.vpnConnectionNotificationFlow) {
-            manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+            manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
         }
 
         coVerify(exactly = 1) {
@@ -555,7 +547,7 @@ class VpnConnectionTests {
             client.onError(agentConsts.errorCodeMaxSessionsPlus, "")
         }
         val notifications = runWhileCollecting(monitor.vpnConnectionNotificationFlow) {
-            manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+            manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
         }
 
         assertEquals(VpnState.Disabled, monitor.state)
@@ -566,15 +558,16 @@ class VpnConnectionTests {
     fun whenUnreachableInternalStateIsReachedThenSwitchServer() = scope.runTest {
         mockWireguard.stateOnConnect = VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false)
 
-        val fallbackConnection = mockOpenVpn.prepareForConnection(
-            fallbackOpenVpnProfile, fallbackServer, emptySet(), true).first()
+        val fallbackConnection = mockOpenVpn
+            .prepareForConnection(connectIntentFastest, fallbackServer, emptySet(), true)
+            .first()
         val fallbackResult = VpnFallbackResult.Switch.SwitchServer(serverWireguard,
-            fallbackOpenVpnProfile, fallbackConnection, SwitchServerReason.ServerUnreachable,
+            connectIntentFastest, fallbackConnection, SwitchServerReason.ServerUnreachable,
             compatibleProtocol = false, switchedSecureCore = false, notifyUser = true)
         coEvery { vpnErrorHandler.onUnreachableError(any()) } returns fallbackResult
 
         val fallbacks = runWhileCollecting(monitor.vpnConnectionNotificationFlow) {
-            manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+            manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
         }
 
         coVerify(exactly = 1) {
@@ -593,13 +586,13 @@ class VpnConnectionTests {
             }
         }
 
-        manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
         Assert.assertEquals(VpnState.Connected, monitor.state)
 
-        val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
+        val fallbackResult = VpnFallbackResult.Switch.SwitchConnectIntent(
             serverWireguard,
             fallbackServer,
-            fallbackOpenVpnProfile,
+            connectIntentFastest,
             SwitchServerReason.Downgrade("PLUS", "FREE")
         )
         switchServerFlow.emit(fallbackResult)
@@ -613,23 +606,24 @@ class VpnConnectionTests {
     @Test
     fun whenConnectingToOfflineServerThenSwitchToOtherServer() = scope.runTest {
         val offlineServer = MockedServers.serverList.first { it.serverName == "SE#3" }
-        val profile = Profile.getTempProfile(offlineServer)
+        val offlineServerConnectIntent = ConnectIntent.Server(offlineServer.serverId, emptySet())
         coEvery {
-            vpnErrorHandler.onServerInMaintenance(profile, null)
-        } returns VpnFallbackResult.Switch.SwitchProfile(
+            vpnErrorHandler.onServerInMaintenance(offlineServerConnectIntent, null)
+        } returns VpnFallbackResult.Switch.SwitchConnectIntent(
             offlineServer,
             serverWireguard,
-            profileWireguard,
+            offlineServerConnectIntent,
             SwitchServerReason.ServerInMaintenance
         )
 
         // Returning false means fallback will be used.
         every { mockVpnUiDelegate.onServerRestricted(any()) } returns false
 
-        manager.connect(mockVpnUiDelegate, profile, trigger)
+        manager.connect(mockVpnUiDelegate, offlineServerConnectIntent, trigger)
 
         Assert.assertEquals(VpnState.Connected, monitor.state)
-        Assert.assertEquals(profileWireguard, monitor.connectionProfile)
+        Assert.assertEquals(offlineServerConnectIntent, monitor.connectionIntent)
+        Assert.assertEquals(serverWireguard, monitor.connectingToServer)
 
         verify { mockVpnUiDelegate.onServerRestricted(ReasonRestricted.Maintenance) }
     }
@@ -642,10 +636,10 @@ class VpnConnectionTests {
                 fallbacks += it
             }
         }
-        val fallbackResult = VpnFallbackResult.Switch.SwitchProfile(
+        val fallbackResult = VpnFallbackResult.Switch.SwitchConnectIntent(
             serverWireguard,
             fallbackServer,
-            fallbackOpenVpnProfile,
+            connectIntentFastest,
             SwitchServerReason.Downgrade("PLUS", "FREE")
         )
         switchServerFlow.emit(fallbackResult)
@@ -662,7 +656,7 @@ class VpnConnectionTests {
             client.onState(agentConsts.stateHardJailed)
             client.onError(agentConsts.errorCodePolicyViolationLowPlan, "")
         }
-        manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 
         assertEquals(ErrorType.POLICY_VIOLATION_LOW_PLAN, (mockWireguard.selfState as? VpnState.Error)?.type)
     }
@@ -769,7 +763,7 @@ class VpnConnectionTests {
             localAgentConnectAttempt++
         }
         val vpnStates = runWhileCollecting(monitor.status) {
-            manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+            manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
         }
         assertEquals(2, localAgentConnectAttempt)
         assertEquals(expectedVpnStates, vpnStates.map { it.state })
@@ -778,12 +772,12 @@ class VpnConnectionTests {
 
     @Test
     fun whenFreeUserConnectsToSecureCoreServerThenUserIsNotified() = scope.runTest {
-        val secureCoreProfile =
-            MockedServers.getProfile(MockedServers.serverList.find { it.isSecureCoreServer }!!, VpnProtocol.WireGuard)
+        val secureCoreIntent =
+            ConnectIntent.SecureCore(exitCountry = CountryId.fastest, entryCountry = CountryId.fastest)
         currentUserProvider.vpnUser = TestUser.freeUser.vpnUser
         every { mockVpnUiDelegate.onServerRestricted(any()) } returns true
 
-        manager.connect(mockVpnUiDelegate, secureCoreProfile, trigger)
+        manager.connect(mockVpnUiDelegate, secureCoreIntent, trigger)
 
         verify { mockVpnUiDelegate.onServerRestricted(ReasonRestricted.SecureCoreUpgradeNeeded) }
     }
@@ -795,7 +789,7 @@ class VpnConnectionTests {
             nativeClient = client
             mockAgent
         }
-        manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
         assertNotNull(nativeClient)
         nativeClient!!.onState(agentConsts.stateConnected)
         assertEquals(VpnState.Connected, mockWireguard.selfState)
@@ -815,10 +809,12 @@ class VpnConnectionTests {
             client.onState(agentConsts.stateHardJailed)
             client.onError(agentConsts.errorCodeMaxSessionsPlus, "")
         }
-        manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 
         val dimensions = slot<Map<String, String>>()
-        verify(exactly = 1) { mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), capture(dimensions)) }
+        verify(exactly = 1) {
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), capture(dimensions))
+        }
         assertEquals("failure", dimensions.captured["outcome"])
     }
 
@@ -831,7 +827,7 @@ class VpnConnectionTests {
             client.onState(agentConsts.stateHardJailed)
             client.onError(agentConsts.errorCodeMaxSessionsPlus, "")
         }
-        manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 
         val connectDimensions = slot<Map<String, String>>()
         val disconnectDimensions = slot<Map<String, String>>()
@@ -846,8 +842,8 @@ class VpnConnectionTests {
 
     @Test
     fun whenProfileFallbackOnConnectThenTelemetryReportsASingleEvent() = scope.runTest {
-        val switch = VpnFallbackResult.Switch.SwitchProfile(
-            null, MockedServers.server, profileOpenVPN, SwitchServerReason.ServerUnavailable
+        val switch = VpnFallbackResult.Switch.SwitchConnectIntent(
+            null, MockedServers.server, connectIntentFastest, SwitchServerReason.ServerUnavailable
         )
         fallbackOnConnectReportsSingleEventTest(switch, "success")
     }
@@ -855,7 +851,7 @@ class VpnConnectionTests {
     @Test
     fun whenCompatibleServerFallbackOnConnectThenTelemetryReportsASingleEvent() = scope.runTest {
         val switch = createServerSwitch(
-            profileOpenVPN, VpnProtocol.OpenVPN, mockOpenVpn, MockedServers.server, compatibleProtocol = true
+            connectIntentFastest, VpnProtocol.OpenVPN, mockOpenVpn, MockedServers.server, compatibleProtocol = true
         )
         fallbackOnConnectReportsSingleEventTest(switch, "success")
     }
@@ -863,17 +859,17 @@ class VpnConnectionTests {
     @Test
     fun whenIncompatibleServerFallbackOnConnectThenTelemetryReportsASingleEvent() = scope.runTest {
         val switch = createServerSwitch(
-            profileOpenVPN, VpnProtocol.OpenVPN, mockOpenVpn, MockedServers.server, compatibleProtocol = false
+            connectIntentFastest, VpnProtocol.OpenVPN, mockOpenVpn, MockedServers.server, compatibleProtocol = false
         )
         fallbackOnConnectReportsSingleEventTest(switch, "failure")
     }
 
     @Test
     fun whenReconnectingToFallbackThenTelemetryReportsDisconnectWithSuccess() = scope.runTest {
-        manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentCountry, trigger)
 
-        val switch = VpnFallbackResult.Switch.SwitchProfile(
-            null, MockedServers.server, profileOpenVPN, SwitchServerReason.ServerUnavailable
+        val switch = VpnFallbackResult.Switch.SwitchConnectIntent(
+            null, MockedServers.server, connectIntentFastest, SwitchServerReason.ServerUnavailable
         )
         switchServerFlow.emit(switch)
 
@@ -886,14 +882,9 @@ class VpnConnectionTests {
 
     @Test
     fun whenGuestHoleFailsThenTelemetryReportsFailure() = scope.runTest {
-        val guestHoleProfile =
-            Profile.getTempProfile(MockedServers.server).apply {
-                isGuestHoleProfile = true
-                setProtocol(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP))
-            }
-        coEvery { mockWireguard.prepareForConnection(guestHoleProfile, any(), any(), any()) } returns emptyList()
+        coEvery { mockWireguard.prepareForConnection(connectIntentGuestHole, any(), any(), any()) } returns emptyList()
 
-        manager.connect(mockVpnUiDelegate, guestHoleProfile, trigger)
+        manager.connect(mockVpnUiDelegate, connectIntentGuestHole, ConnectTrigger.GuestHole)
 
         val dimensions = slot<Map<String, String>>()
         verifyOrder {
@@ -906,12 +897,11 @@ class VpnConnectionTests {
         fallbackSwitch: VpnFallbackResult.Switch,
         expectedOutcome: String
     ) {
-        val profileNonexistentServer = Profile.getTempProfile(createServer("nonexistent"))
         coEvery {
-            vpnErrorHandler.onServerNotAvailable(profileNonexistentServer)
+            vpnErrorHandler.onServerNotAvailable(connectIntentNoServer)
         } returns fallbackSwitch
 
-        manager.connect(mockVpnUiDelegate, profileNonexistentServer, ConnectTrigger.QuickConnect("test"))
+        manager.connect(mockVpnUiDelegate, connectIntentNoServer, ConnectTrigger.QuickConnect("test"))
 
         val dimensions = slot<Map<String, String>>()
         verify(exactly = 1) {
@@ -942,14 +932,14 @@ class VpnConnectionTests {
         )
 
     private fun createServerSwitch(
-        newProfile: Profile,
+        orgConnectIntent: ConnectIntent,
         protocol: VpnProtocol,
         backend: VpnBackend,
         newServer: Server,
         compatibleProtocol: Boolean
     ): VpnFallbackResult.Switch.SwitchServer {
         val fallbackConnectionParams =  ConnectionParams(
-            newProfile,
+            orgConnectIntent,
             newServer,
             newServer.connectingDomains.first(),
             protocol
@@ -957,7 +947,7 @@ class VpnConnectionTests {
         val fallbackConnection = PrepareResult(backend, fallbackConnectionParams)
         return VpnFallbackResult.Switch.SwitchServer(
             null,
-            newProfile,
+            orgConnectIntent,
             fallbackConnection,
             SwitchServerReason.ServerUnavailable,
             compatibleProtocol = compatibleProtocol,

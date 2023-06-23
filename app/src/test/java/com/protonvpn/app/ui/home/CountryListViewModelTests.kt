@@ -65,6 +65,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -159,11 +160,12 @@ class CountryListViewModelTests {
             PartnershipsRepository(mockApi),
             mockServerListUpdater,
             VpnStatusProviderUI(scope, mockVpnStateMonitor),
+            vpnConnectionManager = mockk(),
             EffectiveCurrentUserSettings(scope.backgroundScope, effectiveSettingsFlow),
             mockCurrentUser,
             RestrictionsConfig(scope.backgroundScope, restrictionsFlow),
             mockNotificationsManager,
-            promoOfferPrefs
+            promoOfferPrefs,
         )
     }
 

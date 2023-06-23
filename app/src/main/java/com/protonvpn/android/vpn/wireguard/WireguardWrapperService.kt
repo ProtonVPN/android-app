@@ -25,10 +25,10 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.notifications.NotificationHelper
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.CurrentVpnServiceProvider
-import com.protonvpn.android.vpn.DefaultAvailableConnection
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.wireguard.android.backend.GoBackend
@@ -42,7 +42,6 @@ class WireguardWrapperService : GoBackend.VpnService() {
     @Inject lateinit var wireguardBackend: WireguardBackend
     @Inject lateinit var connectionManager: VpnConnectionManager
     @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
-    @Inject lateinit var defaultAvailableConnection: DefaultAvailableConnection
     @Inject lateinit var currentUser: CurrentUser
     @Inject lateinit var vpnStateMonitor: VpnStateMonitor
 
@@ -78,8 +77,8 @@ class WireguardWrapperService : GoBackend.VpnService() {
     }
 
     private fun handleProcessRestore(): Boolean {
-        ConnectionParams.readFromStore()?.profile?.let { profile ->
-            return connectionManager.onRestoreProcess(profile, "service restart")
+        ConnectionParams.readIntentFromStore()?.let { connectIntent ->
+            return connectionManager.onRestoreProcess(connectIntent, "service restart")
         }
         return false
     }
@@ -88,7 +87,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
         // It's possible to get the always-on intent twice which causes a reconnection. Let's prevent this.
         return if (vpnStateMonitor.isDisabled) {
             connectionManager.connectInBackground(
-                defaultAvailableConnection(),
+                ConnectIntent.QuickConnect,
                 ConnectTrigger.Auto("always-on")
             )
             true

@@ -23,6 +23,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
@@ -64,7 +65,7 @@ class VpnStatusViewStateFlowTest {
 
     private lateinit var vpnStatusViewStateFlow: VpnStatusViewStateFlow
     private val server: Server = mockk()
-    private val connectionParams = ConnectionParams(mockk(), server, mockk(), mockk())
+    private val connectionParams = ConnectionParams(ConnectIntent.Default, server, null, null)
     private val statusFlow =
         MutableStateFlow(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
     private val ipAddressFlow = MutableStateFlow("1.1.1.1")
