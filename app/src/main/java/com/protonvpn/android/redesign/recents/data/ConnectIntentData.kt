@@ -25,7 +25,7 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import me.proton.core.util.kotlin.takeIfNotBlank
 
-// TODO: fastest in state/region
+// TODO: fastest in state/region (VPNAND-1329)
 enum class ConnectIntentType {
     FASTEST,
     FASTEST_IN_CITY,

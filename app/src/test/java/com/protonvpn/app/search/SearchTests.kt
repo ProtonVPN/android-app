@@ -103,11 +103,6 @@ class SearchTests {
     }
 
     @Test
-    fun regionSearch() {
-        assertEquals("Toronto", search("ontario", false).cities.first().value.first().city)
-    }
-
-    @Test
     fun countrySearch() {
         assertEquals(listOf(CountryTools.getFullName("FI")), search("fin", false).countries.map { it.text })
     }

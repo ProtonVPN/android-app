@@ -120,19 +120,19 @@ class CountryResultBinding(
 }
 
 class CityResultBinding(
-    item: SearchViewModel.ResultItem<List<Server>>,
+    item: SearchViewModel.ResultItem<Search.CityResult>,
     matchLength: Int,
-    onConnect: (SearchViewModel.ResultItem<List<Server>>) -> Unit,
+    onConnect: (SearchViewModel.ResultItem<Search.CityResult>) -> Unit,
     onDisconnect: () -> Unit,
     onUpgrade: (countryCode: String) -> Unit,
-) : SearchResultBinding<List<Server>, ItemSearchResultTwoLineBinding>(
+) : SearchResultBinding<Search.CityResult, ItemSearchResultTwoLineBinding>(
     R.layout.item_search_result_two_line, item, matchLength, onConnect, onDisconnect, onUpgrade
 ) {
-    override val countryCode: String = item.match.value.first().exitCountry
+    override val countryCode: String = item.match.value.exitCountry
 
     override fun bind(binding: ItemSearchResultTwoLineBinding, position: Int) {
         with(binding) {
-            val servers = item.match.value
+            val servers = item.match.value.servers
             bindFeaturesAndButtons(featuresAndButtons, showFeatures = true)
             with(featuresAndButtons) {
                 featureIcons = servers.flatMapTo(mutableSetOf()) { it.featureIcons() }
