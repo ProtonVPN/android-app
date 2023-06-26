@@ -37,7 +37,6 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
-import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope

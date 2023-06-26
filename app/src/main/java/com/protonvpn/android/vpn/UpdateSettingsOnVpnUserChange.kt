@@ -22,6 +22,8 @@ package com.protonvpn.android.vpn
 import android.content.Context
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
@@ -61,6 +63,11 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
                     val defaultProfileServer =
                         serverManager.getServerForProfile(serverManager.defaultConnection, vpnUser)
                     if (defaultProfileServer == null || !vpnUser.hasAccessToServer(defaultProfileServer)) {
+                        val reason = when {
+                            defaultProfileServer == null -> "the server no longer exists"
+                            else -> "the user no longer has access to the profile's server"
+                        }
+                        ProtonLogger.logCustom(LogCategory.SETTINGS, "reset default profile: $reason")
                         userData.defaultProfileId = null
                     }
                 }
