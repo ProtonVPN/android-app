@@ -431,7 +431,7 @@
     <string name="notification_subscription_expired_content">Нам давялося панізіць ваш тарыфны план, але мы зноў падключаем вас да самага хуткага сервера, даступнага на гэтым тарыфным плане.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Ваша падпіска была паніжана.</string>
     <string name="notification_delinquent_title">У вашым уліковым запісе Proton VPN ёсць неаплачаныя рахункі</string>
-    <string name="notification_delinquent_content">Знайдзіце крыху часу, каб абнавіць вашу плацежную інфармацыю для таго, каб падпіска засталася актыўнай.</string>
+    <string name="notification_delinquent_content">Знайдзіце крыху часу, каб абнавіць вашу плацежную інфармацыю, каб падпіска засталася актыўнай.</string>
     <string name="notification_server_unreachable_content">Вы былі пераключаны на больш хуткі сервер, які адпавядае таму, што вы выбралі.</string>
     <string name="notification_max_sessions_title">Вы дасягнулі максімальнай колькасці прылад</string>
     <!-- The number of devices will always be greater than 1. -->

@@ -367,7 +367,7 @@
     <string name="stateNotConnected">Ви не під\'єднані</string>
     <string name="recents">Нещодавні</string>
     <string name="tvQuickConnectDescription">Країни поблизу</string>
-    <string name="tvQuickConnectSubDescription">Сервер трансляцій</string>
+    <string name="tvQuickConnectSubDescription">Стримінговий сервер</string>
     <string name="nameEurope">Європа</string>
     <string name="nameAmerica">Америка</string>
     <string name="nameAsia">Азія</string>
@@ -376,11 +376,11 @@
     <string name="tvRowMore">Ще</string>
     <string name="tv_detail_default_connection_checkbox">Моя улюблена країна</string>
     <string name="tv_detail_default_connection_checkbox_short">Улюблені</string>
-    <string name="tv_detail_connect_streaming">Потокове відео з Plus</string>
+    <string name="tv_detail_connect_streaming">Стримінг з Plus</string>
     <string name="tv_detail_connect">З\'єднатися</string>
-    <string name="tv_detail_description_streaming_country">Переглядайте свої улюблені матеріали. Отримайте доступ до більшої кількості додатків з тарифним планом Proton VPN Plus.</string>
+    <string name="tv_detail_description_streaming_country">Переглядайте свої улюблені матеріали. Отримайте доступ до більшої кількості застосунків з тарифним планом Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Переглядайте більше улюблених матеріалів з тарифним планом Proton VPN Plus.</string>
-    <string name="tv_detail_description_country_not_available">Ця країна недоступна. Отримайте більше можливостей потокової трансляції з тарифним планом Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Ця країна недоступна. Отримайте більше можливостей стримінгу з тарифним планом Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Дивіться улюблене відео, фільми або спортивні передачі у своїх програмах.</string>
     <string name="tv_login_title_signin">Увійти до Proton VPN</string>
     <string name="tv_login_title_welcome">Переглядайте свої улюблені відеоматеріали</string>
@@ -397,7 +397,7 @@
     <string name="tv_upgrade_title">Розпочніть перегляд з Plus</string>
     <string name="back">Назад</string>
     <string name="tv_upgrade_url_details"><![CDATA[Перейдіть до <b>%1$s</b>, щоб покращити до Proton VPN Plus уже зараз.]]></string>
-    <string name="tv_upgrade_description">Отримайте тарифний план Proton VPN Plus для доступу до 500+ серверів у всьому світі та оптимізованими параметрами для потокового передавання відео з Netflix, Amazon Prime Video, Disney+ тощо.</string>
+    <string name="tv_upgrade_description">Отримайте тарифний план Proton VPN Plus для доступу до 500+ серверів у всьому світі та оптимізованими параметрами для стримінгу відео з Netflix, Amazon Prime Video, Disney+ тощо.</string>
     <string name="tv_vpn_error_dialog_title">Не вдалося під\'єднатися до VPN</string>
     <string name="tv_signout_label">Вийти</string>
     <string name="tv_signout_dialog_title">Ви дійсно хочете вийти?</string>
@@ -453,7 +453,7 @@
     <string name="notification_smart_protocol_disabled_title">Smart Protocol зараз вимкнено</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN виявив, що ваша мережа запобігає з\'єднанню з VPN. Увімкнення Smart Protocol допоможе обійти це обмеження.</string>
     <string name="upsell_advanced_features">Додаткові функції: NetShield, Secure Core, Tor, P2P</string>
-    <string name="upsell_streaming_services">Доступ до потокових сервісів (Netflix, Disney+ та ін.) у будь-якій частині світу</string>
+    <string name="upsell_streaming_services">Доступ до стримінгових сервісів (Netflix, Disney+ тощо) у будь-якій частині світу</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
@@ -538,7 +538,7 @@
      You now have access to 1300+ secure servers and other premium features.
      -->
     <string name="onboarding_plan_congrats_description">Тепер у вас є доступ до %1$s та інших функцій преміум.</string>
-    <string name="upgrade_plus_countries_streaming">Отримайте доступ до глобальних сервісів трансляції</string>
+    <string name="upgrade_plus_countries_streaming">Отримайте доступ до глобальних стримінгових сервісів</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
         <item quantity="one">Під\'єднайте %d пристрій</item>
@@ -564,8 +564,8 @@
     <string name="info_features">Можливості</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ця технологія дає змогу Proton VPN забезпечити вищу швидкість та безпеку в країнах з ускладненим обслуговуванням.</string>
-    <string name="streaming_title">Потокове передавання</string>
-    <string name="streaming_description">Сервери Plus підтримують трансляції (Netflix, Disney+ тощо) звідусіль у світі.</string>
+    <string name="streaming_title">Стримінг</string>
+    <string name="streaming_description">Сервери Plus підтримують стримінг (Netflix, Disney+ тощо) звідусіль у світі.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Ці сервери забезпечують найкращу швидкодію для BitTorrent та обміну файлами.</string>
     <string name="tor_title">Tor</string>
@@ -573,8 +573,8 @@
     <string name="info_performance">Швидкодія</string>
     <string name="server_load_title">Завантаження сервера</string>
     <string name="server_load_description">Високозавантажені сервери повільніші за малонавантажені сервери.</string>
-    <string name="streaming_title_with_country">Потокове передавання: %1$s</string>
-    <string name="streaming_services_description">З\'єднайтеся з сервером Plus у цій країні, щоб почати потокову трансляцію.\n\nПідказка: Очистьте кеш додатків трансляції, щоб забезпечити появу нових матеріалів.</string>
+    <string name="streaming_title_with_country">Стримінг: %1$s</string>
+    <string name="streaming_services_description">З\'єднайтеся з сервером Plus у цій країні, щоб розпочати стримінг.\n\nПідказка: Очистьте кеш застосунків стримінгу, щоб забезпечити появу нових матеріалів.</string>
     <string name="partnership_free_title">Безплатні сервери</string>
     <string name="partnership_free_description">Безпека та приватність для всіх. Безплатні сервери не мають обмежень за обсягом даних, і ми ніколи навмисно не сповільнюватимемо швидкість вашого вебперегляду.</string>
     <string name="partnership_partners_title">Наші партнери</string>
@@ -588,7 +588,7 @@
     <string name="onboarding_welcome_description">Довідайтеся, як одержати максимум від Proton VPN всього за кілька секунд.</string>
     <string name="onboarding_welcome_action">Розпочнімо</string>
     <string name="onboarding_available_on_plus">Доступно з Plus</string>
-    <string name="onboarding_streaming_title">Розблокувати трансляції</string>
+    <string name="onboarding_streaming_title">Розблокувати стримінг</string>
     <string name="onboarding_streaming_description">Захищений доступ до будь-якого вмісту навіть під час подорожей в інші країни. Тепер і на Android TV.</string>
     <string name="onboarding_protection_title">Будьте захищені всюди</string>
     <string name="onboarding_protection_description">Proton VPN підтримує всі пристрої, включно з Windows, macOS і багатьма іншими.</string>

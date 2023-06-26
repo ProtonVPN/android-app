@@ -67,10 +67,10 @@
     <string name="loaderConnectedToLabel">Conectado a:</string>
     <string name="loaderDisconnecting">Desconectando</string>
     <string name="loaderReconnecting">Reconectando</string>
-    <string name="loaderReconnectNoNetwork">Aguardando uma rede utilizável</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Por favor, verifique sua rede</string>
+    <string name="loaderReconnectNoNetwork">Aguardando uma rede usável</string>
+    <string name="loaderReconnectNoNetworkSuggestion">Verifique sua rede</string>
     <string name="loaderCheckingAvailability">Verificando a disponibilidade do servidor</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Por favor, aguarde alguns segundos</string>
+    <string name="loaderCheckingAvailabilitySuggestion">Aguarde alguns segundos</string>
     <string name="loaderCancel">Cancelar conexão</string>
     <string name="quickConnect">Conexão rápida</string>
     <string name="notConnectedCurrentIp">IP atual: %1$s</string>
@@ -119,12 +119,12 @@
     <string name="settingsModerateNatDescription"><![CDATA[O NAT moderado desabilita a randomização do mapeamento de endereços locais, o que pode reduzir um pouco sua segurança, mas permite técnicas como conexões diretas para aplicativos como jogos online. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="use_coupon_title">Usar cupom</string>
     <string name="use_coupon_code_label">Código de cupom</string>
-    <string name="use_coupon_success">Cupom aplicado com sucesso</string>
-    <string name="use_coupon_success_no_upgrade_yet">Cupom aplicado com sucesso. Sua assinatura terá um upgrade em alguns minutos.</string>
+    <string name="use_coupon_success">Cupom aplicado</string>
+    <string name="use_coupon_success_no_upgrade_yet">Cupom aplicado. Sua assinatura terá um upgrade em alguns minutos.</string>
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
-    <string name="restrictedMaintenanceDescription">O servidor que você está tentando conectar está em manutenção. Por favor, tente outro servidor.</string>
-    <string name="errorUserDelinquent"><![CDATA[A sua conta tem uma fatura em atraso. Por favor, pague todas as faturas pendentes em&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Você atingiu o número máximo de conexões simultâneas permitidas para sua conta. Por favor, faça o upgrade do seu plano Proton VPN para ter mais conexões.</string>
+    <string name="restrictedMaintenanceDescription">O servidor que você está tentando conectar está em manutenção. Tente outro servidor.</string>
+    <string name="errorUserDelinquent"><![CDATA[A sua conta tem uma fatura em atraso. Pague todas as faturas pendentes em &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorMaxSessions">Você atingiu o número máximo de conexões simultâneas permitidas para sua conta. Faça o upgrade do seu plano Proton VPN para ter mais conexões.</string>
     <string name="errorEmptyName">O nome do perfil não pode estar vazio</string>
     <string name="errorEmptyCountry">O campo do país não pode estar vazio</string>
     <string name="errorEmptyServer">O campo do servidor não pode estar vazio</string>
@@ -149,7 +149,7 @@
     <string name="listBasicServers">Servidores Basic (%1$d)</string>
     <string name="listPlusServers">Servidores Plus (%1$d)</string>
     <string name="insufficientPermissionsTitle">Ação do usuário necessária</string>
-    <string name="insufficientPermissionsDetails">Não foi possível estabelecer uma conexão automaticamente com a VPN. Por favor, efetue a conexão manualmente para conceder as permissões.</string>
+    <string name="insufficientPermissionsDetails">Não foi possível estabelecer uma conexão automaticamente com a VPN. Efetue a conexão manualmente para conceder as permissões.</string>
     <string name="tabsCountries">Países</string>
     <string name="tabsMap">Mapa</string>
     <string name="tabsProfiles">Perfis</string>
@@ -163,7 +163,7 @@
     <string name="error_auth_failed">Falha na autenticação do usuário.</string>
     <string name="error_assessment_failed">Falha na auditoria de segurança.</string>
     <string name="error_generic">Falha desconhecida durante a conexão.</string>
-    <string name="error_generic_with_reason">O Proton VPN não pôde estabelecer uma conexão. Por favor, tente novamente em alguns segundos.<br/><br/> Detalhes: %1$s</string>
+    <string name="error_generic_with_reason">O Proton VPN não pôde estabelecer uma conexão. Tente novamente em alguns segundos.<br/><br/> Detalhes: %1$s</string>
     <string name="reconnect">Reconectar</string>
     <string name="reconnect_now">Reconectar agora</string>
     <string name="try_reconnecting">Tentar reconectar</string>
@@ -238,14 +238,14 @@
     <string name="noVpnPermissionProtonAppLabel">Aplicativo Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Outros aplicativos VPN</string>
     <string name="noVpnPermissionOpenSettings">Abrir configurações de VPN do Android</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Por favor, desative a VPN sempre ativa para todos os outros aplicativos de VPN nas configurações de VPN no Android, pois isso impede que o Proton VPN estabeleça uma conexão VPN. Também conceda permissões para VPN no caso de aparecer uma janela solicitando permissões de VPN. Outros aplicativos VPN também podem ter que ser desinstalados para evitar conflitos. Após isso, tente novamente. <a href="%1$s">Saiba mais</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Desative a VPN sempre ativa para todos os outros aplicativos de VPN nas configurações de VPN no Android, pois isso impede que o Proton VPN estabeleça uma conexão VPN. Também conceda permissões para VPN no caso de aparecer uma janela solicitando permissões de VPN. Outros aplicativos VPN também podem ter que ser desinstalados para evitar conflitos. Após isso, tente novamente. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="error_prepare_vpn_settings">Vá para configurações da VPN no Android</string>
     <string name="error_prepare_vpn_title">Erro: problema de permissão na VPN</string>
     <string name="error_server_not_set">O servidor não está mais disponível</string>
     <string name="bugReportThankYouToast">Obrigado pelo seu feedback</string>
     <string name="bugReportErrorEmptyEmail">O e-mail não pode estar em branco</string>
     <string name="bugReportErrorInvalidEmail">Endereço de e-mail inválido</string>
-    <string name="bugReportErrorEmptyDescription">Por favor, descreva o que está acontecendo</string>
+    <string name="bugReportErrorEmptyDescription">Descreva o que está acontecendo</string>
     <string name="bugReportLabelVpnLogsTitle">Incluir registros de erros</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Envia registros de erros locais (não registramos atividades) para nos ajudar a corrigir seu problema</string>
     <string name="profileFastest">Mais rápido</string>
@@ -282,14 +282,14 @@
     <string name="toastProfileSaved">Salvo</string>
     <string name="tileConnected">Conectado: %1$s</string>
     <string name="dialogTitleAttention">Atenção</string>
-    <string name="saveProfileAlreadySaved">Já utilizado</string>
+    <string name="saveProfileAlreadySaved">Já usado</string>
     <string name="openUrlError">Não foi possível abrir %1$s. O navegador de internet não foi detectado no seu dispositivo.</string>
-    <string name="toastLoginAuthVersionError">Não foi possível fazer login devido a versão de autenticação não suportada. Por favor, entre em contato com o suporte.</string>
-    <string name="loaderErrorTimeout">A conexão expirou. Por favor, tente novamente.</string>
+    <string name="toastLoginAuthVersionError">Não foi possível Iniciar sessão devido a versão de autenticação não suportada. Entre em contato com o suporte.</string>
+    <string name="loaderErrorTimeout">A conexão expirou. Tente novamente.</string>
     <string name="troubleshootButton">Resolução de problemas</string>
     <string name="activityTroubleshootTitle">Solução de problemas</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Soluções potenciais</string>
-    <string name="troubleshootNoInternetDescription">Por favor, verifique se sua conexão com à internet esteja funcionando corretamente.</string>
+    <string name="troubleshootNoInternetDescription">Verifique se sua conexão com à internet esteja funcionando corretamente.</string>
     <string name="troubleshootNoInternetTitle">Sem conexão com a internet</string>
     <string name="troubleshootIspProblemTitle">Problema no provedor de serviços internet (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Tente conectar ao Proton a partir de uma rede diferente (ou use o<a href=\'%1$s\'>Tor</a>)]]></string>
@@ -350,10 +350,10 @@
     <string name="netShieldFullBlock">Bloquear malware, rastreadores e anúncios</string>
     <string name="dialogDontShowAgain">Não mostrar novamente</string>
     <string name="paidFeature">Recurso pago</string>
-    <string name="guestHoleActivated">O acesso ao Proton VPN pode estar limitado em sua região, portanto isso levará mais tempo do que o normal. Por favor, aguarde enquanto nós trabalhamos em torno deste problema.</string>
+    <string name="guestHoleActivated">O acesso ao Proton VPN pode estar limitado em sua região, portanto isso levará mais tempo do que o normal. Aguarde enquanto nós trabalhamos em torno deste problema.</string>
     <string name="guestHoleNotificationContent">Tentando contornar problemas de rede. Isso ajudará você a acessar o Proton VPN.</string>
     <string name="onMaintenanceDetected">O servidor VPN ao qual você estava conectado está passando por uma manutenção. Vamos conectar você automaticamente ao servidor mais rápido disponível.</string>
-    <string name="errorTunMultiUserPermission">Não foi possível iniciar a conexão VPN devido a um conflito entre o Dual-app (por exemplo, o Dual Messenger) e o Split Tunneling. Por favor, desative um desses e reinicie seu dispositivo.</string>
+    <string name="errorTunMultiUserPermission">Não foi possível iniciar a conexão VPN devido a um conflito entre o Dual-app (por exemplo, o Dual Messenger) e o Split Tunneling. Desative um desses e reinicie seu dispositivo.</string>
     <string name="errorTorrentNotAllowed">P2P não é permitido neste servidor</string>
     <string name="errorWireguardWithPlaceholder">Erro WireGuard%1$s</string>
     <string name="profileProtocolNotAvailable">O protocolo VPN deste perfil não está disponível no momento. Para conectar, tente mudar o protocolo.</string>
@@ -406,7 +406,7 @@
 
          Example: 76% Server Load -->
     <string name="tv_server_list_load">%1$s%% Carga do servidor</string>
-    <string name="tv_recently_used_servers">Servidores utilizados recentemente (%1$d)</string>
+    <string name="tv_recently_used_servers">Servidores usados recentemente (%1$d)</string>
     <string name="tv_available_servers">Servidores disponíveis (%1$d)</string>
     <string name="tv_locked_servers">Servidores bloqueados (%1$d)</string>
     <string name="tv_other_servers">Outros servidores (%1$d)</string>
@@ -425,7 +425,7 @@
     <string name="notification_subscription_expired_content">Tivemos que fazer o downgrade do seu plano, mas estamos reconectando você ao servidor mais rápido disponível nesse plano.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Sua assinatura foi rebaixada.</string>
     <string name="notification_delinquent_title">Sua conta Proton VPN tem faturas pendentes</string>
-    <string name="notification_delinquent_content">Por favor, reserve um momento para atualizar suas informações de pagamento para manter sua assinatura ativa.</string>
+    <string name="notification_delinquent_content">Reserve um momento para atualizar suas informações de pagamento para manter sua assinatura ativa.</string>
     <string name="notification_server_unreachable_content">Você foi reconectado para o servidor mais rápido similar ao que você selecionou.</string>
     <string name="notification_max_sessions_title">Você atingiu o número máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
@@ -433,7 +433,7 @@
         <item quantity="one">Desconecte outro dispositivo para conectar esse ou atualize para o Plus para conectar %1$d dispositivo ao mesmo tempo.</item>
         <item quantity="other">Desconecte outro dispositivo para conectar esse ou atualize para o Plus para conectar %1$d dispositivos ao mesmo tempo.</item>
     </plurals>
-    <string name="notification_max_sessions_content">Por favor, desconecte outro dispositivo para conectar esse.</string>
+    <string name="notification_max_sessions_content">Desconecte outro dispositivo para conectar esse.</string>
     <string name="notification_cancel_to_free">Você está no plano Gratuito. Servidores e recursos gratuitos estão disponíveis.</string>
     <string name="notification_cancel_to_basic">Você está no plano Basic. Servidores e recursos dos planos Basic &amp; Gratuito estão disponíveis.</string>
     <string name="notification_cancel_to_delinquent">Você será capaz de acessar recursos premium novamente após o pagamento das faturas pendentes.</string>

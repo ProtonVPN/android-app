@@ -24,7 +24,7 @@
     <string name="splitTunnellingSwitch">Interruptor Split Tunneling</string>
     <string name="login">Iniciar sessão</string>
     <string name="hamburgerMenu">Menu Hamburger</string>
-    <string name="error_field_required">Este campo é requerido</string>
+    <string name="error_field_required">Este campo é obrigatório</string>
     <string name="menuActionSignOut">Terminar sessão</string>
     <string name="loginSlogan">Internet segura em qualquer sítio</string>
     <string name="loginStartWithDevice">Iniciar com o dispositivo</string>
@@ -45,7 +45,7 @@
     <string name="secureCoreActivateDialogButton">Ativar Secure Core</string>
     <string name="logoutConfirmDialogTitle">Terminar sessão?</string>
     <string name="logoutConfirmDialogMessage">Terminar a sessão desconectará o seu dispositivo da VPN.</string>
-    <string name="logoutConfirmDialogButton">Encerrar sessão</string>
+    <string name="logoutConfirmDialogButton">Terminar sessãoo</string>
     <string name="showAllProfiles">Mostrar todos os perfis</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
@@ -109,7 +109,7 @@
     <string name="settingsDnsLeakDescription">Impedir a fuga de consultas de DNS para terceiros (sempre ligado)</string>
     <string name="settingsDefaultMtu">1375</string>
     <string name="settingsMtuSizeTitle">Tamanho MTU</string>
-    <string name="settingsMtuDescription">Caso o valor predefinido não seja adequado para uma rede em particular, insira um valor dentro do intervalo 1280-1500. Altere só se souber o que está a fazer.</string>
+    <string name="settingsMtuDescription">Caso o valor predefinido não seja adequado para uma rede em particular, introduza um valor dentro do intervalo 1280-1500. Altere só se souber o que está a fazer.</string>
     <string name="settingsMtuRangeInvalid">O valor MTU deve estar dentro do intervalo 1280-1500</string>
     <string name="settingsDefaultConnectionTitle">Ligação rápida</string>
     <string name="settingsDefaultConnectionDescription">O botão Ligação rápida liga-o ao perfil seleccionado</string>
@@ -119,12 +119,12 @@
     <string name="settingsModerateNatDescription"><![CDATA[O NAT moderado desativa a aleatoriedade no mapeamento de endereços locais, o que pode reduzir ligeiramente a sua segurança, mas permite a utilização de tecnologias como ligações diretas em aplicações. Útil, por exemplo, em jogos online. <a href="%1$s">Saiba mais</a>.]]></string>
     <string name="use_coupon_title">Usar cupão</string>
     <string name="use_coupon_code_label">Código do cupão</string>
-    <string name="use_coupon_success">O cupão foi usado</string>
+    <string name="use_coupon_success">O cupão foi utilizado</string>
     <string name="use_coupon_success_no_upgrade_yet">Cupão aplicado com sucesso. A sua assinatura será atualizada dentro de minutos.</string>
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
     <string name="restrictedMaintenanceDescription">O servidor a que se está a tentar ligar está em manutenção. Tente outro servidor.</string>
-    <string name="errorUserDelinquent"><![CDATA[A sua conta tem atualmente uma factura por pagar. Liquide as suas dívidas em&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Atingiu o máximo de ligações simultâneas permitidas na sua conta. Actualize a sua subscrição Proton VPN para obter mais ligações.</string>
+    <string name="errorUserDelinquent"><![CDATA[A sua conta tem atualmente uma fatura por pagar. Liquide as suas dívidas em&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorMaxSessions">Atingiu o máximo de ligações simultâneas permitidas na sua conta. Atualize a sua subscrição Proton VPN para obter mais ligações.</string>
     <string name="errorEmptyName">O campo do nome do perfil não pode estar vazio</string>
     <string name="errorEmptyCountry">O campo do país não pode estar vazio</string>
     <string name="errorEmptyServer">O campo do servidor não pode estar vazio</string>
@@ -134,7 +134,7 @@
     <string name="onboardingDialogProfiles">Crie perfis para os seus servidores favoritos e obtenha um acesso rápido. Mais, manter premido o ícone do Proton VPN ao fundo do ecrã mostra-lhe todos os perfis. Toque num deles para ligar a VPN.</string>
     <string name="onboardingNetshield">Mantém-nos protegidos contra malware, anúncios e rastreadores.\nNota: se algumas páginas não carregarem, tente desativar o NetShield.</string>
     <string name="onboardingFAB">Ligação rápida/Perfis</string>
-    <string name="onboardingFABDescription">Toque aqui para se ligar rapidamente</string>
+    <string name="onboardingFABDescription">Toque aqui para obter uma ligação mais rápida</string>
     <string name="onboardingSignup">Registe-se</string>
     <string name="onboardingSkip">Saltar</string>
     <string name="onboardingNext">Seguinte</string>
@@ -148,8 +148,8 @@
     <string name="listFreeServers">Servidores Free (%1$d)</string>
     <string name="listBasicServers">Servidores Basic (%1$d)</string>
     <string name="listPlusServers">Servidores Plus (%1$d)</string>
-    <string name="insufficientPermissionsTitle">Ação do utilizador requerida</string>
-    <string name="insufficientPermissionsDetails">Impossível estabelecer uma ligação VPN automaticamente. Ligue-se manualmente esta vez para conceder permissões.</string>
+    <string name="insufficientPermissionsTitle">Ação do utilizador obrigatória</string>
+    <string name="insufficientPermissionsDetails">Não é possível estabelecer uma ligação VPN automaticamente. Ligue-se manualmente esta vez para conceder permissões.</string>
     <string name="tabsCountries">Países</string>
     <string name="tabsMap">Mapa</string>
     <string name="tabsProfiles">Perfis</string>
@@ -159,7 +159,7 @@
     <string name="state_connected">Ligado</string>
     <string name="state_disconnecting">A desligar…</string>
     <string name="state_error">Erro</string>
-    <string name="error_server_unreachable">Impossível ligar à VPN. Verifique a sua ligação e tente novamente.</string>
+    <string name="error_server_unreachable">Não é possível ligar à VPN. Verifique a sua ligação e tente novamente.</string>
     <string name="error_auth_failed">Erro ao autenticar o utilizador.</string>
     <string name="error_assessment_failed">Erro ao avaliar a segurança.</string>
     <string name="error_generic">Ocorreu um erro desconhecido durante a ligação.</string>
@@ -239,7 +239,7 @@
     <string name="noVpnPermissionOtherAppLabel">Outras aplicações VPN</string>
     <string name="noVpnPermissionOpenSettings">Abrir definições de VPN do Android</string>
     <string name="error_prepare_vpn_description"><![CDATA[Desative a opção Sempre ligada para todas as outras aplicações VPN nas definições do sistema Android, elas impedem o Proton VPN de estabelecer uma ligação VPN. Conceda também permissões, se um diálogo aparecer. As outras aplicações VPN podem também precisar de ser desinstaladas para evitar conflitos. Tente novamente a seguir. <a href="%1$s">Saiba mais</a>]]></string>
-    <string name="error_prepare_vpn_settings">Ir para as configurações de VPN do Android</string>
+    <string name="error_prepare_vpn_settings">Ir para as definições de VPN do Android</string>
     <string name="error_prepare_vpn_title">Erro: problema de permissões VPN</string>
     <string name="error_server_not_set">O servidor já não está disponível</string>
     <string name="bugReportThankYouToast">Agradecemos o seu relatório.</string>
@@ -275,7 +275,7 @@
         <item quantity="one">%1$s e mais %2$d</item>
         <item quantity="other">%1$s e mais %2$d</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Impossível alterar enquanto ligado</string>
+    <string name="settingsCannotChangeWhileConnected">Não é possível alterar enquanto ligado</string>
     <string name="excludeAlreadyExcluded">Já excluído</string>
     <string name="removeExcludedIpDialogDescription">Remover endereço IP da lista?</string>
     <string name="loaderFetchingServers">A obter servidores…</string>
@@ -296,17 +296,17 @@
     <string name="troubleshootAntivirusProblemTitle">Interferência do antivírus</string>
     <string name="troubleshootAntivirusProblemDescription">Desative temporariamente o antivírus ou remova-o.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferência de Proxy/Firewall</string>
-    <string name="troubleshootProxyFirewallProblemDescription">Desative proxies e/ou firewalls ou entre em contacto com o administrador de rede.</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Desative proxies e/ou firewalls ou entre em contato com o administrador de rede.</string>
     <string name="troubleshootProtonDownTitle">O Proton está indisponível</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Verifique o <a href=\"%1$s\">estado do Proton</a> no estado do nosso sistema.]]></string>
     <string name="troubleshootContactUsSectionTitle">Ainda precisa de ajuda? Contate-nos diretamente</string>
     <string name="troubleshootCustomerSupport">Apoio ao cliente</string>
-    <string name="settingsAllowAlternativeRoutingTitle">Redireccionamento alternativo</string>
+    <string name="settingsAllowAlternativeRoutingTitle">Redirecionamento alternativo</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permita que a aplicação use caminhos alternativos para aceder aos servidores do Proton. <a href="%1$s">Saiba mais</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueio governamental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[O seu país pode estar a bloquear op acesso ao Proton. Tente utilizar o <a href=\'%1$s\'>Tor</a> para aceder ao Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN Sempre ligada e Kill switch</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Configure como o Proton VPN se comporta se a sua ligação for interrompida.</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Defina como o Proton VPN se comporta se a sua ligação for interrompida.</string>
     <string name="settingsAlwaysOnWindowHeader">Como activar a VPN sempre activa e o Kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Abra as <b>definições</b> do dispositivo tocando no botão abaixo]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -336,7 +336,7 @@
     <string name="netshield_status_off">Desligado</string>
     <string name="netshield_free_title">Navegue sem anúncios com o NetShield.</string>
     <string name="netshield_free_description">Bloqueia anúncios, rastreadores e malware em sítios web e aplicações</string>
-    <string name="accessibility_netshield_status_on_click">Inserir as configurações do NetShield</string>
+    <string name="accessibility_netshield_status_on_click">Inserir as definições do NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Anúncio\nbloqueado</item>
         <item quantity="other">Anúncios\nbloqueados</item>
@@ -353,7 +353,7 @@
     <string name="guestHoleActivated">O acesso ao Proton VPN pode estar limitado na sua zona, a ligação será mais demorada do que o normal. Aguarde.</string>
     <string name="guestHoleNotificationContent">A tentar contornar problemas de rede. Isto irá ajudá-lo a aceder ao Proton VPN.</string>
     <string name="onMaintenanceDetected">O servidor VPN ao qual tinha ligação está em manutenção. Reestabeleceremos ligação automaticamente ao servidor mais rápido disponível.</string>
-    <string name="errorTunMultiUserPermission">Não foi possível inicializar a ligação VPN devido a um conflito entre aplicação dupla (por exemplo, Dual Messenger) e o Split Tunneling. Desative um desses e reinicie o dispositivo.</string>
+    <string name="errorTunMultiUserPermission">Não é possível inicializar a ligação VPN devido a um conflito entre aplicação dupla (por exemplo, Dual Messenger) e o Split Tunneling. Desative um desses e reinicie o dispositivo.</string>
     <string name="errorTorrentNotAllowed">O P2P não é permitido neste servidor.</string>
     <string name="errorWireguardWithPlaceholder">Erro WireGuard %1$s</string>
     <string name="profileProtocolNotAvailable">O protocolo VPN deste perfil não está atualmente disponível. Para estabelecer ligação, tente alterar o protocolo.</string>
@@ -383,11 +383,11 @@
     <string name="tv_login_welcome_button">Iniciar sessão</string>
     <string name="tv_login_step1_description"><![CDATA[Vá para <b>%1$s</b> no seu dispositivo móvel ou computador]]></string>
     <string name="tv_login_step2_description">Registe-se no Proton VPN</string>
-    <string name="tv_login_step3_description">Insira o código:</string>
+    <string name="tv_login_step3_description">Introduza o código:</string>
     <string name="tv_login_timer_label">Este código expira em:</string>
-    <string name="tv_login_refresh">Actualizar</string>
+    <string name="tv_login_refresh">Atualizar</string>
     <string name="tv_login_title_loading">A carregar…</string>
-    <string name="tv_login_title_refresh">A sua sessão expirou. Clique em Actualizar para começar novamente.</string>
+    <string name="tv_login_title_refresh">A sua sessão expirou. Clique em Atualizar para começar novamente.</string>
     <string name="tv_upgrade_title">Iniciar transmissão com o Plus</string>
     <string name="back">Recuar</string>
     <string name="tv_upgrade_url_details"><![CDATA[Visite <b>%1$s</b> para atualizar agora para o Proton VPN Plus.]]></string>
@@ -422,10 +422,10 @@
     <string name="settingsReconnectToChangeDialogContent">Isto reiniciará a sua ligação.</string>
     <string name="reconnectToEnableNetshield">Isto irá reiniciar a sua ligação.\n\nNota: Alguns sites podem não carregar com o NetShield ativado.</string>
     <string name="notification_subscription_expired_title">O seu plano de subscrição Proton VPN expirou</string>
-    <string name="notification_subscription_expired_content">Tivemos de regredir o seu plano, mas estamos a ligá-lo novamente ao servidor mais rápido disponível nesse plano.</string>
+    <string name="notification_subscription_expired_content">Tivemos de regredir o seu plano, mas estamos a ligá-lo novamente ao servidor mais rápido disponível neste plano.</string>
     <string name="notification_subscription_expired_no_reconnection_content">A sua subscrição foi alterada.</string>
-    <string name="notification_delinquent_title">A sua conta Proton VPN tem facturas pendentes</string>
-    <string name="notification_delinquent_content">Actualize a sua informação de facturação para manter a subscrição ativa.</string>
+    <string name="notification_delinquent_title">A sua conta Proton VPN tem faturas pendentes</string>
+    <string name="notification_delinquent_content">Atualize a sua informação de faturação para manter a subscrição ativa.</string>
     <string name="notification_server_unreachable_content">Mudou para um servidor mais rápido e semelhante ao que tinha seleccionado.</string>
     <string name="notification_max_sessions_title">Atingiu o seu limite máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
@@ -436,7 +436,7 @@
     <string name="notification_max_sessions_content">Desligue outro dispositivo para ligar este.</string>
     <string name="notification_cancel_to_free">Está no plano Free. Estão disponíveis servidores e funcionalidades Free.</string>
     <string name="notification_cancel_to_basic">Está no plano Basic. Estão disponíveis servidores e funcionalidades Free e Basic.</string>
-    <string name="notification_cancel_to_delinquent">Poderá voltar a aceder a funcionalidades especiais após liquidar as facturas pendentes.</string>
+    <string name="notification_cancel_to_delinquent">Poderá voltar a aceder a funcionalidades especiais após liquidar as faturas pendentes.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Do servidor: </string>
     <string name="reconnect_to_server">Para o servidor: </string>
@@ -464,7 +464,7 @@
         <item quantity="one">%1$d país</item>
         <item quantity="other">%1$d países</item>
     </plurals>
-    <string name="upsell_upgrade_again">Actualize novamente para aproveitar todas as funcionalidades:</string>
+    <string name="upsell_upgrade_again">Atualize novamente para aproveitar todas as funcionalidades:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
     <string name="upgrade_plus_subtitle">Quando atualizar para o Plus</string>
@@ -624,7 +624,7 @@
     <string name="dynamic_report_step2">Passo 2 de 3</string>
     <string name="dynamic_report_step3">Passo 3 de 3</string>
     <string name="dynamic_report_your_issue_headline">Reportar um problema</string>
-    <string name="update_screen_title">Actualizar o Proton VPN</string>
+    <string name="update_screen_title">Atualizar o Proton VPN</string>
     <string name="update_screen_description">É provável que tenha problemas com versões mais antigas do Proton VPN.</string>
     <string name="server_search_menu_title">Pesquisar</string>
     <string name="server_search_hint">País, cidade ou servidor</string>

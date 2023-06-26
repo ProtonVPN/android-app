@@ -168,7 +168,7 @@
     <string name="reconnect_now">Reconectare</string>
     <string name="try_reconnecting">Încercare reconectare</string>
     <string name="connect">Conectare</string>
-    <string name="upgrade">Modernizare</string>
+    <string name="upgrade">Modificare</string>
     <string name="retry">Reîncercare</string>
     <string name="connection_failed">Conexiunea a eșuat</string>
     <string name="create_new_profile">Profil nou</string>
