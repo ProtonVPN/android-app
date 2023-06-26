@@ -1,39 +1,56 @@
-ProtonVPN is a secure and free VPN, now featuring better connection stability, faster speeds, and even more security features.
+Proton VPN is the world's ONLY free VPN service that is safe to use and respects your privacy. Proton VPN is created by the CERN scientists behind Proton Mail - the world's largest encrypted email service. Proton’s VPN offers secure and encrypted internet access with advanced security features and access to blocked websites and streaming platforms.
 
-ProtonVPN is the world's ONLY free VPN service that respects your privacy and is safe to use. Millions of people use ProtonVPN because:
-- We do not record your browsing history
-- We do not display privacy-invading ads
-- We do not sell your data to third parties
-- We do not limit how much you can download
+Used by millions worldwide, Proton’s secure no-logs VPN offers 24/7 private internet access, and does not record your browsing history, display ads, sell your data to third parties, or limit downloads.
 
-ProtonVPN is created by the CERN scientists behind ProtonMail, the world's largest encrypted email service with 20 million users, including many activists and journalists such as Reporters Without Borders.
+FREE VPN features available to ALL users:
 
-ProtonVPN’s Free VPN Service includes:
+1. VPN accelerator - increases Proton VPN's speeds by up to 400% to give users an express service
+2. Unlimited data with no bandwidth or speed restrictions
+3. Strictly NO logs
+4. Full disk encrypted servers protect your data
+5. Bypass geo-restrictions - smart protocol selection automatically overcomes VPN bans and unblocks censored content
+6. Perfect forward secrecy - encrypted traffic cannot be captured and decrypted later
+7. DNS leak protection - DNS queries are also encrypted to ensure that your browsing activity cannot be exposed through DNS leaks
+8. Split tunneling support allows you to select which apps go through the VPN tunnel
+9. Always-on VPN/kill switch offers protection against leaks caused by accidental disconnections
 
-✔ STRONG ENCRYPTION - Your data is protected with AES-256 and 4096 RSA.
+PREMIUM features:
 
-✔ SWISS-BASED - Your data is protected by some of the strongest privacy laws in the world.
+1. 1400+ high speed servers across 60+ countries
+2. Fast VPN: High speed servers with connections up to 10 Gbps
+3. Connect up to 10 devices to VPN at the same time
+4. Stream films, sports events, and videos on any streaming service (Netflix, Hulu, Amazon Prime Video, Disney+ etc)
+5. Access to blocked or censored content
+6. File-sharing and P2P support
+7. Adblocker (NetShield) - a DNS filtering feature that protects users from malware, blocks ads, and prevents website trackers from following you across the web
+8. Secure Core servers protect against network-based attacks with multi-hop VPN
+9. Tor over VPN provides automatic integration with the Tor anonymity network
 
-✔ NO LOGS. EVER - We never log or share user data. Even if authorities request information, we have nothing to share.
+Why Proton VPN?
 
-✔ PERFECT FORWARD SECRECY - Your encrypted traffic cannot be captured and decrypted later.
+• No personal data required to sign up
+• Proton VPN's Secure Core architecture allows our secure VPN service to defend against network-based attacks
+• Unique VPN Accelerator technology increases your VPN speeds by over 400%
+• Uses only VPN protocols that are proven to be secure: OpenVPN, IKEv2, and WireGuard (no PPTP and L2TP/IPSec).
+• Independently audited by SEC Consult with all results published on our website
+• Physical data centres accessible only via biometric verification
+• Trusted open-source code that can be reviewed for security by anyone
+• Data protection using AES-256 and 4096 RSA encryption
+• Multi-platform support for use across Android, Linux, Windows, MacOS, iOS and more
 
-✔ MULTI-PROTOCOL SUPPORT - ProtonVPN supports secure VPN protocols: WireGuard and OpenVPN.
+Join the privacy revolution
+Your support is important as it allows us to continue our mission to bring online freedom and the right to privacy to people around the globe. Get our private VPN free today and enjoy fast VPN connections and a secure internet, from anywhere.
 
-✔ DNS LEAK PROTECTION - We encrypt your DNS to ensure your browsing activity cannot be exposed through DNS queries.
+Experts’ opinion:
 
-✔ ALWAYS-ON VPN/KILL SWITCH - Protect your IP address from being leaked through accidental disconnects.
+Mozilla: “There are many VPN vendors out there, but not all of them are created equal. Proton VPN offers a secure, reliable, and easy-to-use VPN service and is operated by the makers of ProtonMail, a respected, privacy-oriented email service... As a company they have a track record of fighting for online privacy and they share our dedication to internet safety and security.”
 
-✔ FULL DISK ENCRYPTION - Our VPN servers are fully encrypted to protect your data.
+PCMag: “[Proton VPN’s] focus on exacting security at an affordable price tag makes it a compelling choice. Plus, its free version is the best we've tested so far.”
 
-✔ ANONYMOUS - You do not need to share any personal data to use ProtonVPN.
+Follow Proton VPN on social for all the latest news and offers:
+Facebook: /proton
+Twitter: @protonvpn
+Reddit: /protonvpn
+Instagram: /protonprivacy
 
-✔ SPLIT TUNNELING SUPPORT - This advanced feature allows you to select what traffic goes through the VPN tunnel.
-
-✔ BYPASS BLOCKING - Smart protocol selection automatically overcomes VPN bans and unblocks censored content.
-
-✔ TRUSTED - Our code has undergone a security audit and is open source.
-
-✔ MULTIPLE PLATFORM SUPPORT - Easy to use on Android, iOS, Windows, macOS, Linux, and more.
-
-Note: Free users can only connect one device to Free servers in Japan, the Netherlands, and the US.
+Notice for users in China and UAE - Proton VPN may be blocked due to government restrictions outside our control.
