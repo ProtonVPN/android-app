@@ -116,7 +116,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Standart olmayan bağlantı noktaları</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN ağı üzerinde standart olmayan bağlantı noktalarından trafik akışına izin vererek herhangi bir özel gereksinim için Proton VPN kullanabilirsiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="settingsModerateNatTitle">Ilımlı NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrimiçi oyunlar gibi uygulamaların doğrudan bağlantı kurması gibi tekniklere izin veren yerel adres eşlemelerini rastgeleleştirme özelliğini devre dışı bırakır. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrim içi oyunlar gibi uygulamaların doğrudan bağlantı kurması gibi tekniklere izin veren yerel adres eşlemelerini rastgeleleştirme özelliğini devre dışı bırakır. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="use_coupon_title">Kupon kullan</string>
     <string name="use_coupon_code_label">Kupon kodu</string>
     <string name="use_coupon_success">Kupon uygulandı</string>
@@ -532,7 +532,7 @@
     <string name="upgrade_safe_mode_title">Standart olmayan bağlantı noktalarından trafik geçebilsin</string>
     <string name="upgrade_safe_mode_message">Standart olmayan bağlantı noktaları kullanmanızı gerektiren gelişmiş veya profesyonel bilgi işlem gereksinimleriniz mi var? Bu ve diğer ücretli özelliklere erişmek için VPN Plus tarifesine yükseltin.</string>
     <string name="upgrade_moderate_nat_title">Ilımlı NAT kullanılsın</string>
-    <string name="upgrade_moderate_nat_message">Ilımlı NAT, 2. tür NAT olarak da bilinir ve çeşitli uygulamalar ve çevrimiçi video oyunlarıyla ilgili çevrimiçi deneyiminizi iyileştirebilir. Plus tarifesi ile bu ve başka özellikleri kullanabilirsiniz.</string>
+    <string name="upgrade_moderate_nat_message">Ilımlı NAT, 2. tür NAT olarak da bilinir ve çeşitli uygulamalar ve çevrim içi video oyunlarıyla ilgili çevrim içi deneyiminizi iyileştirebilir. Plus tarifesi ile bu ve başka özellikleri kullanabilirsiniz.</string>
     <string name="upgrade_moderate_nat_learn_more">Ilımlı NAT nedir?</string>
     <string name="upgrade_see_plans_button">Tarifelere ve ücretlere bakın</string>
     <string name="upgrade_not_now_button">Şimdi değil</string>

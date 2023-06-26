@@ -247,7 +247,7 @@
     <string name="bugReportErrorInvalidEmail">Alamat email tidak valid</string>
     <string name="bugReportErrorEmptyDescription">Mohon tulis ke kami mengenai apa yang sedang terjadi</string>
     <string name="bugReportLabelVpnLogsTitle">Sertakan log error</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">Aplikasi kami akan mengirimkan log error lokal (tanpa catatan rekam jejak aktivitas) untuk membantu kami dalam menangani masalah Anda</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Tindakan ini akan mengirimkan log error lokal (tanpa catatan rekam jejak aktivitas) untuk membantu kami dalam menangani masalah Anda</string>
     <string name="profileFastest">Tercepat</string>
     <string name="profileRandom">Acak</string>
     <string name="settingsSplitTunnelingDescription">Split Tunneling memungkinkan aplikasi atau alamat IP tertentu untuk dikecualikan dari lalu lintas VPN.</string>
