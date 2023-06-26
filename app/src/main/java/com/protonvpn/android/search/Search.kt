@@ -37,8 +37,13 @@ class Search @Inject constructor(
         val text get() = textMatch.text
         val index get() = textMatch.index
     }
+    data class CityResult(val country: String, val nameEn: String, val servers: List<Server>) {
+        val exitCountry = servers.first().exitCountry
+    }
+
+    // TODO: implement support for regions (VPNAND-1329)
     data class Result(
-        val cities: List<Match<List<Server>>>,
+        val cities: List<Match<CityResult>>,
         val countries: List<Match<VpnCountry>>,
         val servers: List<Match<Server>>,
     ) {
@@ -73,10 +78,9 @@ class Search @Inject constructor(
 
     private fun Char.isSeparator() = isWhitespace() || this in SEPARATORS
 
-    private fun searchCities(term: String, countries: List<VpnCountry>): List<Match<List<Server>>> {
+    private fun searchCities(term: String, countries: List<VpnCountry>): List<Match<CityResult>> {
         val lang = Locale.getDefault().language
-        val results = linkedMapOf<TextMatch, MutableList<Server>>()
-        countries.forEach { country ->
+        return countries.map { country ->
             val cityMatches = country.serverList.asSequence().map { it.city }.filterNotNull().distinct().mapNotNull {
                 find(term, it, true)
             }.associateBy { it.text }
@@ -86,20 +90,19 @@ class Search @Inject constructor(
                 }.associateBy { it.text }
             } else
                 null
-            val regionMatches = country.serverList.asSequence().map { it.region }.filterNotNull().distinct()
-                .mapNotNull { find(term, it, true) }.associateBy { it.text }
+
+            val results = linkedMapOf<TextMatch, MutableList<Server>>()
             country.serverList.forEach { server ->
                 translatedCityMatches?.get(server.getCityTranslation())?.let { match ->
                     results.getOrPut(match) { mutableListOf() } += server
                 } ?: cityMatches[server.city]?.let { match ->
                     results.getOrPut(match) { mutableListOf() } += server
                 }
-                regionMatches[server.region]?.let { match ->
-                    results.getOrPut(match) { mutableListOf() } += server
-                }
             }
-        }
-        return results.map { Match(it.key, it.value.toList()) }.toList()
+            results.map { (textMatch, servers) ->
+                Match(textMatch, CityResult(country.flag, servers.first().city!!, servers))
+            }
+        }.flatten()
     }
 
     private fun searchCountries(term: String, countries: List<VpnCountry>): List<Match<VpnCountry>> {

@@ -204,7 +204,7 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
         viewModel.connectCountry((requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate(), item)
     }
 
-    private fun connectCity(item: SearchViewModel.ResultItem<List<Server>>) {
+    private fun connectCity(item: SearchViewModel.ResultItem<Search.CityResult>) {
         viewModel.connectCity((requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate(), item)
     }
 

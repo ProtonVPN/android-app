@@ -86,7 +86,7 @@ class SearchViewModel @Inject constructor(
         class SearchResults(
             val query: String,
             val countries: List<ResultItem<VpnCountry>>,
-            val cities: List<ResultItem<List<Server>>>,
+            val cities: List<ResultItem<Search.CityResult>>,
             val servers: List<ResultItem<Server>>,
             val showUpgradeBanner: Boolean
         ) : ViewState()
@@ -158,12 +158,10 @@ class SearchViewModel @Inject constructor(
         connect(vpnUiDelegate, ConnectIntent.FastestInCountry(CountryId(item.match.value.flag), emptySet()))
 
 
-    fun connectCity(vpnUiDelegate: VpnUiDelegate, item: ResultItem<List<Server>>) =
-        // TODO: use ConnectIntent.FastestInCity - this requires returning city name with the results
-        connect(
-            vpnUiDelegate,
-            ConnectIntent.Server(serverManager.getBestScoreServer(item.match.value)!!.serverId, emptySet())
-        )
+    fun connectCity(vpnUiDelegate: VpnUiDelegate, item: ResultItem<Search.CityResult>) {
+        val intent = with(item.match.value) { ConnectIntent.FastestInCity(CountryId(country), nameEn, emptySet()) }
+        connect(vpnUiDelegate, intent)
+    }
 
     fun connectServer(vpnUiDelegate: VpnUiDelegate, item: ResultItem<Server>) =
         connect(vpnUiDelegate, ConnectIntent.Server(item.match.value.serverId, emptySet()))
@@ -232,13 +230,13 @@ class SearchViewModel @Inject constructor(
             )
         }
 
-    private suspend fun mapCity(match: Search.Match<List<Server>>, vpnUser: VpnUser?, connectedServer: Server?) =
-        match.value.let { servers ->
+    private fun mapCity(match: Search.Match<Search.CityResult>, vpnUser: VpnUser?, connectedServer: Server?) =
+        match.value.let { city ->
             ResultItem(
                 match,
-                servers.contains(connectedServer),
-                vpnUser.hasAccessToAnyServer(servers) && !restrictions.restrictServerList(),
-                servers.any { it.online },
+                city.servers.contains(connectedServer),
+                vpnUser.hasAccessToAnyServer(city.servers),
+                city.servers.any { it.online },
                 partnerships = emptyList()
             )
         }
