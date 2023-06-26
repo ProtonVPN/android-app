@@ -28,6 +28,10 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemProfileSelectionBinding
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiSetting
+import com.protonvpn.android.logging.logUiSettingChange
+import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.HeaderViewHolder
@@ -69,6 +73,7 @@ class SettingsDefaultProfileActivity : BaseActivityV2() {
 
         groupAdapter.setOnItemClickListener { item, _ ->
             if (item is ProfileViewHolder) {
+                ProtonLogger.logUiSettingChange(Setting.QUICK_CONNECT_PROFILE, "quick profile setting screen")
                 userData.defaultProfileId = item.profile.id
                 finish()
             }
