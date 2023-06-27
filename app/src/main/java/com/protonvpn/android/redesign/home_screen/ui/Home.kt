@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.home_screen.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,8 +27,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
@@ -46,12 +49,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
+import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
@@ -65,6 +70,10 @@ fun HomeRoute() {
     HomeView()
 }
 
+private val ListBgGradientHeightBasic = 100.dp
+private val ListBgGradientHeightExpanded = 200.dp
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun HomeView() {
     val viewModel: HomeViewModel = hiltViewModel()
@@ -95,10 +104,12 @@ fun HomeView() {
             vpnState,
             transitionValue = { vpnStateTransitionProgress.value },
             modifier = Modifier
+                .widthIn(max = 480.dp)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .constrainAs(vpnStatusBottom) {
                     top.linkTo(vpnStatusTop.bottom)
+                    centerHorizontallyTo(parent)
                 }
         )
 
@@ -111,10 +122,19 @@ fun HomeView() {
         }
         val listBgColor = ProtonTheme.colors.backgroundNorm
         val listBgGradientColors = listOf(Color.Transparent, listBgColor)
-        val listBgGradientHeight = 100.dp
         val listState = rememberLazyListState()
         val bgOffset = remember { derivedStateOf { calculateBgOffset(listState) } }
         BoxWithConstraints {
+            val viewportSize = DpSize(maxWidth, maxHeight)
+            val widthSizeClass = remember(viewportSize) {
+                // Normally the window size class should be computed from the screen size (e.g. in activity).
+                // The Home view can however be displayed side-by-side with the connection panel, so compute its
+                // size class here to take that into account.
+                WindowSizeClass.calculateFromSize(viewportSize).widthSizeClass
+            }
+            val horizontalPadding = ProtonTheme.getPaddingForWindowWidthClass(widthSizeClass)
+            val listBgGradientHeight = if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientHeightBasic else ListBgGradientHeightExpanded
+            val listBgGradientOffset = if (widthSizeClass == WindowWidthSizeClass.Compact) 0.dp else ListBgGradientHeightExpanded / 2
             RecentsList(
                 viewState = recentsViewState,
                 lazyListState = listState,
@@ -126,24 +146,25 @@ fun HomeView() {
                 onRecentPinToggle = viewModel::togglePinned,
                 onRecentRemove = viewModel::removeRecent,
                 maxHeight = maxHeight,
+                horizontalContentPadding = horizontalPadding,
                 modifier = Modifier
                     .fillMaxSize()
                     .drawBehind {
+                        val gradientTop = bgOffset.value.toFloat() - listBgGradientHeight.toPx()
+                        val gradientBottom = bgOffset.value.toFloat() + listBgGradientOffset.toPx()
                         drawRect(
                             brush = Brush.linearGradient(
-                                listBgGradientColors,
-                                start = Offset(0f, bgOffset.value.toFloat() - listBgGradientHeight.toPx()),
-                                end = Offset(0f, bgOffset.value.toFloat())
+                                listBgGradientColors, start = Offset(0f, gradientTop), end = Offset(0f, gradientBottom)
                             )
                         )
-                        drawRect(listBgColor, topLeft = Offset(0f, bgOffset.value.toFloat()))
+                        drawRect(listBgColor, topLeft = Offset(0f, gradientBottom))
                     }
             )
         }
 
         val vpnStatusTopMinHeight = 48.dp
         val fullCoverThresholdPx = LocalDensity.current.run {
-            (listBgGradientHeight - vpnStatusTopMinHeight).toPx()
+            (ListBgGradientHeightBasic - vpnStatusTopMinHeight).toPx()
         }
         val coverAlpha = remember(fullCoverThresholdPx) {
             derivedStateOf { calculateOverlayAlpha(listState, fullCoverThresholdPx) }
