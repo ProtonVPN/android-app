@@ -32,12 +32,10 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -48,8 +46,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -80,8 +78,6 @@ fun RecentsList(
     onRecentRemove: (item: RecentItemViewState) -> Unit,
     modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState(),
-    itemBackgroundColor: Color = Color.Unspecified,
-    topContent: @Composable () -> Unit = {},
     maxHeight: Dp = 0.dp
 ) {
     val itemIds = viewState.toItemIds()
@@ -102,7 +98,8 @@ fun RecentsList(
     LazyColumn(
         state = lazyListState,
         modifier = modifier,
-        contentPadding = PaddingValues(top = (maxHeight - peekHeightDp).coerceAtLeast(0.dp))
+        contentPadding = PaddingValues(top = (maxHeight - peekHeightDp).coerceAtLeast(0.dp)),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
             Column(
@@ -111,17 +108,13 @@ fun RecentsList(
                     .animateItemPlacement()
                     .animateContentSize()
             ) {
-                topContent()
                 VpnConnectionCard(
                     viewState = viewState.connectionCard,
                     onConnect = onConnectClicked,
                     onDisconnect = onDisconnectClicked,
                     onOpenPanelClick = onOpenPanelClicked,
                     onHelpClick = onHelpClicked,
-                    modifier = Modifier
-                        .background(itemBackgroundColor)
-                        .fillMaxWidth()
-                        .padding(16.dp),
+                    modifier = Modifier.padding(16.dp),
                     itemIdsTransition = itemIdsTransition
                 )
                 if (viewState.recents.isNotEmpty()) {
@@ -129,8 +122,6 @@ fun RecentsList(
                         stringResource(R.string.recents_headline),
                         style = ProtonTheme.typography.captionWeak,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .background(itemBackgroundColor)
                             .padding(horizontal = 16.dp, vertical = 8.dp)
                     )
                 }
@@ -152,9 +143,6 @@ fun RecentsList(
                     onClick = { onRecentClicked(item.id) },
                     onTogglePin = { onRecentPinToggle(item) },
                     onRemove = { onRecentRemove(item) },
-                    modifier = Modifier
-                        .background(itemBackgroundColor)
-                        .fillMaxSize()
                 )
             }
             if (index < viewState.recents.lastIndex) {

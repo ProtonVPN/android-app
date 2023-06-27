@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.home_screen.ui
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
@@ -39,15 +38,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
@@ -73,6 +76,12 @@ fun HomeView() {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
+            // Put something in the background to pretend there's a map. TODO: remove when map is added.
+            .paint(
+                painter = painterResource(R.drawable.ic_proton_earth_filled),
+                alpha = 0.2f,
+                contentScale = ContentScale.Crop
+            )
     ) {
         val (vpnStatusTop, vpnStatusBottom) = createRefs()
 
@@ -100,9 +109,11 @@ fun HomeView() {
         val connectRecentAction = remember<(Long) -> Unit>(vpnUiDelegate) {
             { id -> coroutineScope.launch { viewModel.connectRecent(id, vpnUiDelegate) } }
         }
-        val listBgGradient = Brush.verticalGradient(listOf(Color.Transparent, ProtonTheme.colors.backgroundNorm))
+        val listBgColor = ProtonTheme.colors.backgroundNorm
+        val listBgGradientColors = listOf(Color.Transparent, listBgColor)
         val listBgGradientHeight = 100.dp
         val listState = rememberLazyListState()
+        val bgOffset = remember { derivedStateOf { calculateBgOffset(listState) } }
         BoxWithConstraints {
             RecentsList(
                 viewState = recentsViewState,
@@ -114,19 +125,19 @@ fun HomeView() {
                 onRecentClicked = connectRecentAction,
                 onRecentPinToggle = viewModel::togglePinned,
                 onRecentRemove = viewModel::removeRecent,
-                itemBackgroundColor = ProtonTheme.colors.backgroundNorm,
                 maxHeight = maxHeight,
                 modifier = Modifier
                     .fillMaxSize()
-                    .animateContentSize(),
-                topContent = {
-                    Spacer(
-                        modifier = Modifier
-                            .background(listBgGradient)
-                            .fillMaxWidth()
-                            .heightIn(min = listBgGradientHeight)
-                    )
-                }
+                    .drawBehind {
+                        drawRect(
+                            brush = Brush.linearGradient(
+                                listBgGradientColors,
+                                start = Offset(0f, bgOffset.value.toFloat() - listBgGradientHeight.toPx()),
+                                end = Offset(0f, bgOffset.value.toFloat())
+                            )
+                        )
+                        drawRect(listBgColor, topLeft = Offset(0f, bgOffset.value.toFloat()))
+                    }
             )
         }
 
@@ -164,6 +175,16 @@ private fun Modifier.recentsScrollOverlayBackground(
             size = Size(size.width, separatorHeight.toPx()),
             alpha = alpha.value
         )
+    }
+}
+
+private fun calculateBgOffset(lazyListState: LazyListState): Int {
+    val firstVisibleItem = lazyListState.layoutInfo.visibleItemsInfo.getOrNull(0)
+    return when {
+        firstVisibleItem == null -> lazyListState.layoutInfo.beforeContentPadding
+        firstVisibleItem.index == 0 ->
+            (lazyListState.layoutInfo.beforeContentPadding + firstVisibleItem.offset).coerceAtLeast(0)
+        else -> 0
     }
 }
 
