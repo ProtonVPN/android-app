@@ -875,7 +875,7 @@
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
-    <string name="connection_card_label_connecting">Connecting…</string>
+    <string name="connection_card_label_connecting">Connecting to…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
