@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.base.ui.MaxContentWidth
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import me.proton.core.compose.theme.ProtonTheme
@@ -78,7 +79,8 @@ fun RecentsList(
     onRecentRemove: (item: RecentItemViewState) -> Unit,
     modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState(),
-    maxHeight: Dp = 0.dp
+    horizontalContentPadding: Dp = 0.dp,
+    maxHeight: Dp = 0.dp,
 ) {
     val itemIds = viewState.toItemIds()
     val itemIdsTransition = updateTransition(targetState = itemIds, label = "item IDs")
@@ -98,12 +100,16 @@ fun RecentsList(
     LazyColumn(
         state = lazyListState,
         modifier = modifier,
-        contentPadding = PaddingValues(top = (maxHeight - peekHeightDp).coerceAtLeast(0.dp)),
+        contentPadding = PaddingValues(
+            top = (maxHeight - peekHeightDp).coerceAtLeast(0.dp),
+            start = horizontalContentPadding, end = horizontalContentPadding
+        ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
             Column(
                 modifier = Modifier
+                    .widthIn(max = ProtonTheme.MaxContentWidth)
                     .onGloballyPositioned { peekHeightPx = it.size.height }
                     .animateItemPlacement()
                     .animateContentSize()
@@ -136,7 +142,9 @@ fun RecentsList(
                 visibleState = isVisible,
                 enter = slideInVertically { height -> -height } + fadeIn(),
                 exit = ExitTransition.None,
-                modifier = Modifier.animateItemPlacement(),
+                modifier = Modifier
+                    .widthIn(max = ProtonTheme.MaxContentWidth)
+                    .animateItemPlacement(),
             ) {
                 RecentRow(
                     item = item,
@@ -146,7 +154,9 @@ fun RecentsList(
                 )
             }
             if (index < viewState.recents.lastIndex) {
-                VpnDivider(Modifier.animateItemPlacement())
+                VpnDivider(Modifier
+                    .widthIn(max = ProtonTheme.MaxContentWidth)
+                    .animateItemPlacement())
             }
         }
     }
