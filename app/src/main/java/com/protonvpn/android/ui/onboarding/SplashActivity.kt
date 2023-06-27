@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.onboarding
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.main.TvMainActivity
@@ -52,6 +53,7 @@ class SplashActivity : AppCompatActivity() {
         isTv.onUiLaunched(isTvIntent)
 
         val nextActivity = if (isTv()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             TvMainActivity::class.java
         } else {
             MobileMainActivity::class.java
