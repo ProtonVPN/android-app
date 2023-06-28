@@ -50,6 +50,7 @@ import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.SyncStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
@@ -222,6 +223,7 @@ abstract class VpnBackend(
     protected var lastConnectionParams: ConnectionParams? = null
     val lastKnownExitIp = MutableStateFlow<String?>(null)
     val netShieldStatsFlow = MutableStateFlow(NetShieldStats())
+    private val cachedSessionId by SyncStateFlow(mainScope, currentUser.sessionIdFlow)
 
     abstract suspend fun prepareForConnection(
         profile: Profile,
@@ -408,7 +410,7 @@ abstract class VpnBackend(
 
     // Handle updates to both VpnState and local agent's state.
     private fun processCombinedState(vpnState: VpnState, localAgentState: String?) {
-        val newSelfState = if (vpnProtocol.localAgentEnabled() && currentUser.sessionIdCached() != null
+        val newSelfState = if (vpnProtocol.localAgentEnabled() && cachedSessionId.value != null
             && lastConnectionParams?.profile?.isGuestHoleProfile != true
         ) {
             if (vpnState == VpnState.Connected) {

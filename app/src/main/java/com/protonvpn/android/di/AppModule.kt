@@ -43,6 +43,8 @@ import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsUpdateWorker
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerScheduler
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerSchedulerImpl
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
+import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.UserData
@@ -361,5 +363,9 @@ object AppModule {
         @Singleton
         @Binds
         fun bindImagePrefetcher(glide: GlideImagePrefetcher): ImagePrefetcher
+
+        @Singleton
+        @Binds
+        fun providerCurrentUserProvider(provider: DefaultCurrentUserProvider): CurrentUserProvider
     }
 }
