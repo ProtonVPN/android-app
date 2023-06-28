@@ -18,10 +18,10 @@
  */
 package com.protonvpn.android.models.vpn
 
+import com.protonvpn.android.utils.VpnIntToBoolSerializer
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import me.proton.core.network.data.protonApi.IntToBoolSerializer
 
 @Serializable
 data class ServerEntryInfo(
@@ -38,7 +38,7 @@ data class ConnectingDomain(
     // FIXME nullable id should be removed after some time, as it is needed only for migration
     @SerialName(value = "ID") val id: String?,
     @SerialName(value = "Label") val label: String? = null,
-    @Serializable(with = IntToBoolSerializer::class)
+    @Serializable(with = VpnIntToBoolSerializer::class)
     @SerialName(value = "Status") var isOnline: Boolean = true,
     @SerialName(value = "X25519PublicKey") val publicKeyX25519: String? = null
 ) : java.io.Serializable {

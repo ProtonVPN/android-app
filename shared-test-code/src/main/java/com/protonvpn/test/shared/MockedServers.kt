@@ -25,7 +25,6 @@ import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.vpn.ProtocolSelection
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 object MockedServers {
@@ -242,19 +241,19 @@ object MockedServers {
   },
   {
     "ID": "10",
-    "EntryCountry": "FR",
+    "EntryCountry": "CH",
     "ExitCountry": "FI",
-    "Name": "FR-FI#1",
+    "Name": "CH-FI#1",
     "Servers": [
       {
         "EntryIP": "127.0.0.8",
-        "Domain": "fr-fi-01.protonvpn.com",
+        "Domain": "ch-fi-01.protonvpn.com",
         "ExitIP": "127.0.0.8",
         "ID": null,
         "X25519PublicKey": "fake-key"
       }
     ],
-    "Domain": "fr-fi-01.protonvpn.com",
+    "Domain": "ch-fi-01.protonvpn.com",
     "Load": 10.0,
     "Tier": 2,
     "Region": null,

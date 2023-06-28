@@ -405,7 +405,7 @@ class VpnConnectionErrorHandlerTests {
 
         preparePings(failServerName = secureCoreServer.serverName)
         val fallback = handler.onUnreachableError(scConnectionParams) as VpnFallbackResult.Switch.SwitchServer
-        assertEquals("FR-FI#1", fallback.preparedConnection.connectionParams.server.serverName)
+        assertEquals("CH-FI#1", fallback.preparedConnection.connectionParams.server.serverName)
         assertFalse(fallback.notifyUser) // fallback is compatible
     }
 

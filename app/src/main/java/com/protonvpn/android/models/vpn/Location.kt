@@ -22,7 +22,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-open class Location(
+data class Location(
     @SerialName(value = "Lat") val latitude: String,
     @SerialName(value = "Long") val longitude: String
 ) : java.io.Serializable {

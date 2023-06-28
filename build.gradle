@@ -28,7 +28,7 @@ buildscript {
     ext.hilt_version = '2.44.2'
     ext.kotlin_version = '1.8.10'
     ext.kotlinx_coroutines_version = '1.6.4'
-    ext.kotlinx_serialization_json_version = '1.4.1'
+    ext.kotlinx_serialization_json_version = '1.5.1'
     ext.mockk_version = '1.13.3'
 
     repositories {

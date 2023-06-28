@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023. Proton AG
+ *
+ * This file is part of ProtonVPN.
+ *
+ * ProtonVPN is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ProtonVPN is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.protonvpn.app
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -16,6 +35,7 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.app.vpn.createInMemoryServersStore
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
@@ -60,7 +80,7 @@ class ServerManagerTests {
         every { CountryTools.getPreferredLocale() } returns Locale.US
         every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
         val supportsProtocol = SupportsProtocol(appConfig)
-        manager = ServerManager(userData, currentUser, { 0L }, supportsProtocol, mockk(relaxed = true))
+        manager = ServerManager(userData, currentUser, { 0L }, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true))
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         val list = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 

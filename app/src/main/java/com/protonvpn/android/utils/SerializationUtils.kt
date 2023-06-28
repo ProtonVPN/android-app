@@ -25,11 +25,18 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import me.proton.core.network.data.protonApi.IntToBoolSerializer
 import me.proton.core.network.domain.client.ClientId
 import me.proton.core.network.domain.client.ClientIdType
 import me.proton.core.network.domain.client.CookieSessionId
 import me.proton.core.network.domain.client.getType
 import me.proton.core.network.domain.session.SessionId
+import me.proton.core.util.kotlin.toBoolean
 import java.lang.reflect.Type
 
 // GSON have a problem with deserializing ClientId class (exception on private constructor)
@@ -47,5 +54,18 @@ class ClientIdGsonSerializer : JsonSerializer<ClientId>, JsonDeserializer<Client
             ClientIdType.SESSION -> ClientId.AccountSession(SessionId(id))
             ClientIdType.COOKIE -> ClientId.CookieSession(CookieSessionId(id))
         }
+    }
+}
+
+object VpnIntToBoolSerializer : KSerializer<Boolean> {
+
+    override val descriptor =
+        PrimitiveSerialDescriptor(IntToBoolSerializer::class.qualifiedName!!, PrimitiveKind.INT)
+
+    override fun deserialize(decoder: Decoder): Boolean =
+        decoder.decodeInt().toBoolean()
+
+    override fun serialize(encoder: Encoder, value: Boolean) {
+        encoder.encodeInt(if (value) 1 else 0)
     }
 }

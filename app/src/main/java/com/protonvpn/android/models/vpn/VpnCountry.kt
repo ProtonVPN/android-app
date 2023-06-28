@@ -22,23 +22,20 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.utils.CountryTools
+import kotlinx.serialization.Transient
 import java.io.Serializable
-import java.util.Collections
 
-class VpnCountry(
+@kotlinx.serialization.Serializable
+data class VpnCountry(
     val flag: String,
-    serverList: List<Server>,
+    val serverList: List<Server>,
 ) : Markable, Serializable {
-    val serverList: List<Server>
-    val translatedCoordinates: TranslatedCoordinates
+
+    @Transient
+    val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(flag)
 
     val countryName: String
         get() = CountryTools.getFullName(flag)
-
-    init {
-        this.serverList = sortServers(serverList)
-        this.translatedCoordinates = TranslatedCoordinates(flag)
-    }
 
     fun hasAccessibleServer(vpnUser: VpnUser?): Boolean =
         serverList.any { vpnUser.hasAccessToServer(it) }
@@ -47,14 +44,6 @@ class VpnCountry(
         serverList.any { vpnUser.hasAccessToServer(it) && it.online }
 
     fun isUnderMaintenance(): Boolean = !serverList.any { it.online }
-
-    private fun sortServers(serverList: List<Server>): List<Server> {
-        Collections.sort(serverList,
-                compareBy<Server> { !it.isFreeServer }
-                        .thenBy { it.serverNumber >= 100 }
-                        .thenBy { it.serverNumber })
-        return serverList
-    }
 
     fun hasConnectedServer(server: Server?): Boolean {
         if (server == null) {
@@ -73,5 +62,7 @@ class VpnCountry(
 
     override fun getConnectableServers(): List<Server> = serverList
 
-    fun isSecureCoreCountry(): Boolean = flag == "IS" || flag == "SE" || flag == "CH"
+    fun isSecureCoreCountry(): Boolean = isSecureCoreCountry(flag)
 }
+
+fun isSecureCoreCountry(flag: String): Boolean = flag == "IS" || flag == "SE" || flag == "CH"

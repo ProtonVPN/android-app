@@ -42,6 +42,7 @@ import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.app.vpn.createInMemoryServersStore
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -104,7 +105,7 @@ class TvMainViewModelTests {
         val supportsProtocol = SupportsProtocol(appConfig)
         every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
 
-        serverManager = ServerManager(userData, mockCurrentUser, { 0 }, supportsProtocol, mockk(relaxed = true)).apply {
+        serverManager = ServerManager(userData, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true)).apply {
             setServers(MockedServers.serverList, "us")
         }
         vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)

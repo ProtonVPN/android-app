@@ -42,6 +42,7 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.app.vpn.createInMemoryServersStore
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -108,7 +109,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
 
         val supportsProtocol = SupportsProtocol(appConfig)
-        val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, supportsProtocol, mockk(relaxed = true))
+        val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true))
         serverManager.setServers(MockedServers.serverList, null)
         val search = Search(serverManager)
         partnershipsRepository = PartnershipsRepository(mockApi)
