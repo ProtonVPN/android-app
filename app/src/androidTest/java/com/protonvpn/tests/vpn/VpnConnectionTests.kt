@@ -29,7 +29,6 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.SmartProtocolConfig
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
@@ -70,9 +69,11 @@ import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
+import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
-import com.protonvpn.test.shared.mockVpnUser
+import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -125,8 +126,7 @@ class VpnConnectionTests {
     private lateinit var manager: VpnConnectionManager
     private lateinit var networkManager: MockNetworkManager
 
-    @RelaxedMockK
-    private lateinit var currentUser: CurrentUser
+    private lateinit var currentUserProvider: TestCurrentUserProvider
 
     @RelaxedMockK
     lateinit var serverManager: ServerManager
@@ -148,9 +148,6 @@ class VpnConnectionTests {
 
     @MockK
     lateinit var mockVpnBackgroundUiDelegate: VpnBackgroundUiDelegate
-
-    @RelaxedMockK
-    lateinit var vpnUser: VpnUser
 
     @RelaxedMockK
     lateinit var getNetZone: GetNetZone
@@ -205,9 +202,8 @@ class VpnConnectionTests {
         every { appConfig.getSmartProtocolConfig() } returns smartProtocolsConfig
 
         supportsProtocol = SupportsProtocol(createGetSmartProtocols(smartProtocolsConfig.getSmartProtocols()))
-        coEvery { currentUser.sessionId() } returns SessionId("1")
-        every { vpnUser.userTier } returns 1
-        currentUser.mockVpnUser { vpnUser }
+        currentUserProvider = TestCurrentUserProvider(vpnUser = TestUser.badUser.vpnUser, sessionId = SessionId("1"))
+        val currentUser = CurrentUser(scope.backgroundScope, currentUserProvider)
 
         every { mockVpnUiDelegate.shouldSkipAccessRestrictions() } returns false
         every { mockVpnBackgroundUiDelegate.shouldSkipAccessRestrictions() } returns false
@@ -228,8 +224,8 @@ class VpnConnectionTests {
 
         networkManager = MockNetworkManager()
 
-        mockOpenVpn = spyk(createMockVpnBackend(VpnProtocol.OpenVPN))
-        mockWireguard = spyk(createMockVpnBackend(VpnProtocol.WireGuard))
+        mockOpenVpn = spyk(createMockVpnBackend(currentUser, VpnProtocol.OpenVPN))
+        mockWireguard = spyk(createMockVpnBackend(currentUser, VpnProtocol.WireGuard))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
@@ -378,8 +374,7 @@ class VpnConnectionTests {
     @Test
     fun localAgentIsNotUsedForGuesthole() = scope.runTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        coEvery { currentUser.sessionId() } returns null
-        every { currentUser.sessionIdCached() } returns null
+        currentUserProvider.sessionId = null
         manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
 
         coVerify(exactly = 1) {
@@ -394,8 +389,7 @@ class VpnConnectionTests {
     @Test
     fun whenGuestholeIsTriggeredVpnConnectionIsEstablishedOnlyForTheCall() = scope.runTest {
         // Guest Hole requires no user is logged in.
-        coEvery { currentUser.sessionId() } returns null
-        every { currentUser.sessionIdCached() } returns null
+        currentUserProvider.sessionId = null
 
         mockOpenVpn.stateOnConnect = VpnState.Connected
         val guestHole = GuestHole(
@@ -757,7 +751,7 @@ class VpnConnectionTests {
     fun whenFreeUserConnectsToSecureCoreServerThenUserIsNotified() = scope.runTest {
         val secureCoreProfile =
             MockedServers.getProfile(MockedServers.serverList.find { it.isSecureCoreServer }!!, VpnProtocol.WireGuard)
-        every { vpnUser.userTier } returns 0
+        currentUserProvider.vpnUser = TestUser.freeUser.vpnUser
         every { mockVpnUiDelegate.onServerRestricted(any()) } returns true
 
         manager.connect(mockVpnUiDelegate, secureCoreProfile, trigger)
@@ -898,7 +892,7 @@ class VpnConnectionTests {
         assertEquals("quick", dimensions.captured["vpn_trigger"]) // Initial trigger is reported.
     }
 
-    private fun createMockVpnBackend(protocol: VpnProtocol): MockVpnBackend =
+    private fun createMockVpnBackend(currentUser: CurrentUser, protocol: VpnProtocol): MockVpnBackend =
         MockVpnBackend(
             scope.backgroundScope,
             testDispatcherProvider,

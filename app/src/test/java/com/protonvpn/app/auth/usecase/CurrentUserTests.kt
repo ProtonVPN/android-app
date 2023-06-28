@@ -21,6 +21,7 @@ package com.protonvpn.app.auth.usecase
 
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
 import com.protonvpn.test.shared.TestVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -56,7 +57,8 @@ class CurrentUserTests {
         every { mockAccountManager.getPrimaryUserId() } returns
             flowOf(null, UserId("1"), UserId("1"), null, null, UserId("2"))
         coEvery { mockVpnUserDao.getByUserId(any()) } answers { flowOf(TestVpnUser.create(firstArg<UserId>().id)) }
-        val currentUser = CurrentUser(this, mockAccountManager, mockVpnUserDao, mockk(relaxed = true))
+        val currentUserProvider = DefaultCurrentUserProvider(mockAccountManager, mockVpnUserDao, mockk(relaxed = true))
+        val currentUser = CurrentUser(this, currentUserProvider)
 
         val loginEvents = currentUser.eventVpnLogin.toList()
         val expected = listOf(TestVpnUser.create("1"), TestVpnUser.create("2"))
