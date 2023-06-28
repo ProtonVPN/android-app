@@ -46,6 +46,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
@@ -93,6 +94,7 @@ import me.proton.core.network.domain.serverconnection.DohAlternativesListener
 import me.proton.core.util.kotlin.takeIfNotBlank
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 import kotlin.random.Random
@@ -337,6 +339,17 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDelegatedSnackManager() = DelegatedSnackManager(SystemClock::elapsedRealtime)
+
+    @Provides
+    @Singleton
+    fun provideServerStore(
+        @ApplicationContext context: Context,
+        dispatcherProvider: VpnDispatcherProvider
+    ) = ServersStore.create(
+        scope,
+        dispatcherProvider,
+        File(context.filesDir, ServersStore.STORE_FILENAME)
+    )
 
     @Module
     @InstallIn(SingletonComponent::class)

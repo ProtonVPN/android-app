@@ -687,6 +687,7 @@ dependencies {
     implementation 'com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.0'
     implementation 'org.slf4j:slf4j-api:1.7.36'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_json_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-cbor:$kotlinx_serialization_json_version"
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'com.airbnb.android:lottie:5.2.0'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'

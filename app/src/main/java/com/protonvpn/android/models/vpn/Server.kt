@@ -21,12 +21,12 @@ package com.protonvpn.android.models.vpn
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils.debugAssert
+import com.protonvpn.android.utils.VpnIntToBoolSerializer
 import com.protonvpn.android.utils.hasFlag
 import com.protonvpn.android.utils.implies
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import me.proton.core.network.data.protonApi.IntToBoolSerializer
 
 const val SERVER_FEATURE_SECURE_CORE = 1
 const val SERVER_FEATURE_TOR = 2
@@ -55,7 +55,7 @@ data class Server(
 
     @SerialName(value = "Score") var score: Double,
 
-    @Serializable(with = IntToBoolSerializer::class)
+    @Serializable(with = VpnIntToBoolSerializer::class)
     @SerialName(value = "Status")
     private var isOnline: Boolean
 ) : Markable, java.io.Serializable {

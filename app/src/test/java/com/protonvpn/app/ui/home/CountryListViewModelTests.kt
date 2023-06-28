@@ -36,6 +36,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.app.vpn.createInMemoryServersStore
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestUser
@@ -84,7 +85,7 @@ class CountryListViewModelTests {
         val appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
         every { mockAppConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
         val supportsProtocol = SupportsProtocol(mockAppConfig)
-        serverManager = ServerManager(userData, mockCurrentUser, { 0 }, supportsProtocol, appFeaturesPrefs)
+        serverManager = ServerManager(userData, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), appFeaturesPrefs)
         coEvery { mockApi.getPartnerships() } returns ApiResult.Success(PartnersResponse(emptyList()))
 
         val servers = listOf(

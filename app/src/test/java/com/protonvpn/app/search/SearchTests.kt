@@ -27,6 +27,7 @@ import com.protonvpn.android.search.Search
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.app.vpn.createInMemoryServersStore
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import io.mockk.MockKAnnotations
@@ -66,7 +67,7 @@ class SearchTests {
         every { CountryTools.getPreferredLocale() } returns Locale.US
 
         val supportsProtocol = SupportsProtocol(appConfig)
-        val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, supportsProtocol, mockk(relaxed = true))
+        val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true))
         serverManager.setServers(MockedServers.serverList, Locale.getDefault().language)
         search = Search(serverManager)
     }
@@ -102,6 +103,6 @@ class SearchTests {
 
     @Test
     fun secureCoreServerSearch() {
-        assertTrue(search("FI", true).servers.any { it.value.serverName == "FR-FI#1" })
+        assertTrue(search("FI", true).servers.any { it.value.serverName == "CH-FI#1" })
     }
 }
