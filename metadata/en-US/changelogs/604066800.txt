@@ -1,0 +1,2 @@
+What's new
+- Improved security and enhanced performance with the latest OpenVPN update - Updated Proton terms and conditions: https://proton.me/legal/terms
