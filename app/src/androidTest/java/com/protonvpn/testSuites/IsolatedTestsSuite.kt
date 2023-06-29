@@ -20,21 +20,26 @@
 package com.protonvpn.testSuites
 
 import com.protonvpn.tests.netshield.NetShieldComponentTests
+import com.protonvpn.tests.redesign.base.ui.ProtonTextFieldTests
 import com.protonvpn.tests.redesign.base.ui.nav.NavigationTests
 import com.protonvpn.tests.redesign.recents.RecentsDaoTests
 import com.protonvpn.tests.redesign.recents.RecentsListUiTests
-import com.protonvpn.tests.redesign.recents.RecentsListViewStateFlowTests
 import com.protonvpn.tests.redesign.vpn.ui.GetConnectIntentViewStateTests
+import com.protonvpn.tests.redesign.vpn.ui.VpnStatusViewTests
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
+// These tests don't run the whole application and are fully isolated, i.e. leave no storage, register WorkManager jobs,
+// global listeners (e.g. application lifecycle) etc.
+// Therefore they can be run without test orchestrator when their amount is large enough to justify a separate CI job.
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
     GetConnectIntentViewStateTests::class,
     NavigationTests::class,
     NetShieldComponentTests::class,
+    ProtonTextFieldTests::class,
     RecentsDaoTests::class,
     RecentsListUiTests::class,
-    RecentsListViewStateFlowTests::class,
+    VpnStatusViewTests::class,
 )
-class UiComponentsSuite
+class IsolatedTestsSuite

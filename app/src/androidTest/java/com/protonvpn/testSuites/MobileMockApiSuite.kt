@@ -40,12 +40,12 @@ import org.junit.runners.Suite
 //    LogoutTests::class,
     ConnectionTests::class,
     FreeRescopeTests::class,
+    // Note: when we have a lot of isolated tests they can be run in a separate CI job without test orchestrator.
+    IsolatedTestsSuite::class,
     LiveEventTests::class,
     MockedBugReportTests::class,
     ProtonLoggerImplTests::class,
     TelemetryCacheTests::class,
-    // Note: when we have a lot of UI component tests they can be run in a separate CI job without test orchestrator.
-    UiComponentsSuite::class,
     UserDataMigrationTests::class,
     VpnConnectionTests::class,
     WelcomeOfferTests::class,
