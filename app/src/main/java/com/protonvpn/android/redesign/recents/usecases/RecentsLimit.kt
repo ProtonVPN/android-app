@@ -19,7 +19,9 @@
 
 package com.protonvpn.android.redesign.recents.usecases
 
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.recents.data.RecentsDao
+import com.protonvpn.android.utils.flatMapLatestNotNull
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -31,16 +33,20 @@ private const val MAX_UNPINNED_RECENTS = 6
 @Singleton
 class RecentsLimit @Inject constructor(
     mainScope: CoroutineScope,
-    recentsDao: RecentsDao
+    recentsDao: RecentsDao,
+    currentUser: CurrentUser
 ) {
+
     init {
-        recentsDao.getUnpinnedCount()
-            .onEach { count ->
-                // Note: this is doable with a trigger, might also
-                if (count > MAX_UNPINNED_RECENTS) {
-                    recentsDao.deleteExcessUnpinnedRecents(MAX_UNPINNED_RECENTS)
+        currentUser.userFlow.flatMapLatestNotNull { user ->
+            recentsDao.getUnpinnedCount(user.userId)
+                .onEach { count ->
+                    // Note: this is doable with a trigger. Doing it this way truncates the list after an update has
+                    // been emitted potentially showing the longer list for a split second.
+                    if (count > MAX_UNPINNED_RECENTS) {
+                        recentsDao.deleteExcessUnpinnedRecents(user.userId, MAX_UNPINNED_RECENTS)
+                    }
                 }
-            }
-            .launchIn(mainScope)
+        }.launchIn(mainScope)
     }
 }

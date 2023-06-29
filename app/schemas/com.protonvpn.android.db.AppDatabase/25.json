@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 25,
-    "identityHash": "a17e630817788a7148cf1dbc934853e7",
+    "identityHash": "3e6deee507bd1c5c7a4ff538a861d1bc",
     "entities": [
       {
         "tableName": "AccountEntity",
@@ -1931,12 +1931,18 @@
       },
       {
         "tableName": "recents",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `isPinned` INTEGER NOT NULL, `lastConnectionAttemptTimestamp` INTEGER NOT NULL, `lastPinnedTimestamp` INTEGER NOT NULL, `connectIntentType` TEXT NOT NULL, `exitCountry` TEXT, `entryCountry` TEXT, `city` TEXT, `serverId` TEXT, `features` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` TEXT NOT NULL, `isPinned` INTEGER NOT NULL, `lastConnectionAttemptTimestamp` INTEGER NOT NULL, `lastPinnedTimestamp` INTEGER NOT NULL, `connectIntentType` TEXT NOT NULL, `exitCountry` TEXT, `entryCountry` TEXT, `city` TEXT, `serverId` TEXT, `features` TEXT NOT NULL, FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -2002,6 +2008,15 @@
         },
         "indices": [
           {
+            "name": "index_recents_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_recents_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
             "name": "index_recents_isPinned",
             "unique": false,
             "columnNames": [
@@ -2029,7 +2044,19 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_recents_lastPinnedTimestamp` ON `${TABLE_NAME}` (`lastPinnedTimestamp`)"
           }
         ],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "AccountEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "userId"
+            ]
+          }
+        ]
       },
       {
         "tableName": "VpnUser",
@@ -2175,7 +2202,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a17e630817788a7148cf1dbc934853e7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3e6deee507bd1c5c7a4ff538a861d1bc')"
     ]
   }
 }

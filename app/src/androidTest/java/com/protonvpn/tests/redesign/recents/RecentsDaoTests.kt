@@ -27,9 +27,15 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.testsHelper.AccountTestHelper
+import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestAccount1
+import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestAccount2
+import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestSession1
+import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestSession2
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import me.proton.core.domain.entity.UserId
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -39,11 +45,25 @@ class RecentsDaoTests {
 
     private lateinit var recentsDao: RecentsDao
 
+    private val intentFastest = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
+    private val intentSweden = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
+    private val intentIceland = ConnectIntent.FastestInCountry(CountryId.iceland, emptySet())
+
+    private val userId1 = TestAccount1.userId
+    private val userId2 = TestAccount2.userId
+
     @Before
     fun setup() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val db = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
             .buildDatabase()
+
+        val accountHelper = AccountTestHelper()
+        accountHelper.withAccountManager(db) { accountManager ->
+            accountManager.addAccount(TestAccount1, TestSession1)
+            accountManager.addAccount(TestAccount2, TestSession2)
+        }
+
         recentsDao = db.recentsDao()
     }
 
@@ -52,12 +72,9 @@ class RecentsDaoTests {
         val connection1 = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
         val connection2 = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
         val connection3 = ConnectIntent.FastestInCountry(CountryId.fastest, setOf(ServerFeature.P2P))
-        val recents = with(recentsDao) {
-            insertOrUpdateForConnection(connection1, 1)
-            insertOrUpdateForConnection(connection2, 2)
-            insertOrUpdateForConnection(connection3, 3)
-            getRecentsList().first()
-        }
+        insertIntents(userId1, connection1 to 1, connection2 to 2, connection3 to 3)
+
+        val recents = recentsDao.getRecentsList(userId1).first()
         assertEquals(listOf(connection3, connection2, connection1), recents.map { it.connectIntent })
     }
 
@@ -66,13 +83,10 @@ class RecentsDaoTests {
         val connection1 = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
         val connection2 = ConnectIntent.FastestInCountry(CountryId.fastest, setOf(ServerFeature.P2P))
         val connection3 = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        val recents = with(recentsDao) {
-            insertOrUpdateForConnection(connection1, 1)
-            insertOrUpdateForConnection(connection2, 2)
-            insertOrUpdateForConnection(connection3, 3)
-            insertOrUpdateForConnection(connection1, 4)
-            getRecentsList().first()
-        }
+        insertIntents(userId1, connection1 to 1, connection2 to 2, connection3 to 3)
+        recentsDao.insertOrUpdateForConnection(userId1, connection1, 4)
+
+        val recents = recentsDao.getRecentsList(userId1).first()
         assertEquals(listOf(connection1, connection3, connection2), recents.map { it.connectIntent })
     }
 
@@ -82,12 +96,12 @@ class RecentsDaoTests {
         val recent2 = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
         val pinned = ConnectIntent.Server("server1", emptySet())
         val recents = with(recentsDao) {
-            insertOrUpdateForConnection(pinned, 1)
-            val pinnedId = getMostRecentConnection().first()!!.id
+            insertOrUpdateForConnection(userId1, pinned, 1)
+            val pinnedId = getMostRecentConnection(userId1).first()!!.id
             pin(pinnedId, 1)
-            insertOrUpdateForConnection(recent1, 2)
-            insertOrUpdateForConnection(recent2, 3)
-            getRecentsList().first()
+            insertOrUpdateForConnection(userId1, recent1, 2)
+            insertOrUpdateForConnection(userId1, recent2, 3)
+            getRecentsList(userId1).first()
         }
         assertEquals(listOf(pinned, recent2, recent1), recents.map { it.connectIntent })
         assertEquals(listOf(true, false, false), recents.map { it.isPinned })
@@ -99,17 +113,55 @@ class RecentsDaoTests {
         val mostRecent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
         val pinned = ConnectIntent.Server("server1", emptySet())
         val recents = with(recentsDao) {
-            insertOrUpdateForConnection(pinned, 100)
-            val pinnedId = getMostRecentConnection().first()!!.id
+            insertOrUpdateForConnection(userId1, pinned, 100)
+            val pinnedId = getMostRecentConnection(userId1).first()!!.id
             pin(pinnedId, 1)
-            insertOrUpdateForConnection(recent, 200)
-            insertOrUpdateForConnection(mostRecent, 300)
+            insertOrUpdateForConnection(userId1, recent, 200)
+            insertOrUpdateForConnection(userId1, mostRecent, 300)
 
             unpin(pinnedId)
-            getRecentsList().first()
+            getRecentsList(userId1).first()
         }
         assertEquals(listOf(mostRecent, pinned, recent), recents.map { it.connectIntent })
         assertEquals(listOf(false, false, false), recents.map { it.isPinned })
+    }
+
+    @Test
+    fun connectionHistoryUpdatedSeparatelyForEachUser() = runTest {
+        insertIntents(userId1, intentFastest to 100, intentSweden to 200, intentIceland to 300)
+        insertIntents(userId2, intentSweden to 100, intentIceland to 200, intentFastest to 300)
+
+        assertEquals(
+            listOf(intentIceland, intentSweden, intentFastest),
+            recentsDao.getRecentsList(userId1).first().map { it.connectIntent }
+        )
+        assertEquals(
+            listOf(intentFastest, intentIceland, intentSweden),
+            recentsDao.getRecentsList(userId2).first().map { it.connectIntent }
+        )
+
+        // Update affects only user 1's recents
+        recentsDao.insertOrUpdateForConnection(userId1, intentSweden, 1000)
+        assertEquals(
+            listOf(intentSweden, intentIceland, intentFastest),
+            recentsDao.getRecentsList(userId1).first().map { it.connectIntent }
+        )
+        assertEquals(
+            listOf(intentFastest, intentIceland, intentSweden),
+            recentsDao.getRecentsList(userId2).first().map { it.connectIntent }
+        )
+    }
+
+    @Test
+    fun recentsLimitEnforcedForEachUserSeparately() = runTest {
+        insertIntents(userId1, intentFastest to 100, intentSweden to 200, intentIceland to 300)
+        insertIntents(userId2, intentSweden to 100, intentIceland to 200, intentFastest to 300)
+
+        recentsDao.deleteExcessUnpinnedRecents(userId1, 2)
+        val user1Recents = recentsDao.getRecentsList(userId1).first()
+        val user2Recents = recentsDao.getRecentsList(userId2).first()
+        assertEquals(2, user1Recents.size)
+        assertEquals(3, user2Recents.size)
     }
 
     @Test
@@ -126,10 +178,16 @@ class RecentsDaoTests {
             ConnectIntent.Server("server1", setOf(ServerFeature.Tor))
         )
         connectIntents.forEachIndexed { index, intent ->
-            recentsDao.insertOrUpdateForConnection(intent, timestamp = index.toLong())
+            recentsDao.insertOrUpdateForConnection(userId1, intent, timestamp = index.toLong())
         }
-        val recents = recentsDao.getRecentsList().first()
+        val recents = recentsDao.getRecentsList(userId1).first()
         val recentIntents = recents.map { it.connectIntent }
         assertEquals(connectIntents.reversed(), recentIntents)
+    }
+
+    private suspend fun insertIntents(userId: UserId, vararg intentsWithTime: Pair<ConnectIntent, Long>) {
+        intentsWithTime.forEach {
+            recentsDao.insertOrUpdateForConnection(userId, it.first, it.second)
+        }
     }
 }

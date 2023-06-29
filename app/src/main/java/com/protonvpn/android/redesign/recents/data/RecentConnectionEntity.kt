@@ -21,19 +21,32 @@ package com.protonvpn.android.redesign.recents.data
 
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import me.proton.core.account.data.entity.AccountEntity
+import me.proton.core.domain.entity.UserId
 
 @Entity(
     tableName = "recents",
     indices = [
+        Index(value = ["userId"]),
         Index(value = ["isPinned"]),
         Index(value = ["lastConnectionAttemptTimestamp"]),
         Index(value = ["lastPinnedTimestamp"])
+    ],
+    foreignKeys = [
+        ForeignKey(
+            entity = AccountEntity::class,
+            parentColumns = ["userId"],
+            childColumns = ["userId"],
+            onDelete = ForeignKey.CASCADE
+        )
     ]
 )
 data class RecentConnectionEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val userId: UserId,
     val isPinned: Boolean,
     val lastConnectionAttemptTimestamp: Long,
     val lastPinnedTimestamp: Long,

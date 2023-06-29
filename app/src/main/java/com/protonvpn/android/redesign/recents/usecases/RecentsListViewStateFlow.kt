@@ -26,13 +26,13 @@ import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.recents.data.RecentConnection
-import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.flatMapLatestNotNull
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.Reusable
@@ -49,7 +49,7 @@ data class RecentsListViewState(
 
 @Reusable
 class RecentsListViewStateFlow @Inject constructor(
-    recentsDao: RecentsDao,
+    recentsManager: RecentsManager,
     private val getConnectIntentViewState: GetConnectIntentViewState,
     private val serverManager: ServerManager,
     vpnStatusProvider: VpnStatusProviderUI,
@@ -58,27 +58,29 @@ class RecentsListViewStateFlow @Inject constructor(
     // Used on clean installations.
     private val defaultConnectIntent = ConnectIntent.Default
 
-    private val viewState: Flow<RecentsListViewState> = combine(
-        recentsDao.getRecentsList(),
-        recentsDao.getMostRecentConnection(),
-        vpnStatusProvider.uiStatus,
-        currentUser.vpnUserFlow,
-        serverManager.serverListVersion
-    ) { recents, mostRecent, status, vpnUser, _ ->
-        val connectedIntent = status.connectIntent?.takeIf {
-            status.state == VpnState.Connected || status.state.isEstablishingConnection
+    private val viewState: Flow<RecentsListViewState> = currentUser.vpnUserFlow
+        .flatMapLatestNotNull { vpnUser ->
+            combine(
+                recentsManager.getRecentsList(),
+                recentsManager.getMostRecentConnection(),
+                vpnStatusProvider.uiStatus,
+                serverManager.serverListVersion // Update whenever servers change.
+            ) { recents, mostRecent, status, _ ->
+                val connectedIntent = status.connectIntent?.takeIf {
+                    status.state == VpnState.Connected || status.state.isEstablishingConnection
+                }
+                val connectionCardIntent = connectedIntent ?: mostRecent?.connectIntent ?: defaultConnectIntent
+                RecentsListViewState(
+                    createCardState(
+                        status.state,
+                        connectionCardIntent,
+                        if (status.state == VpnState.Connected) status.connectionParams?.server else null
+                    ),
+                    createRecentsViewState(recents, connectedIntent, connectionCardIntent, vpnUser),
+                    recents.find { it.connectIntent == connectionCardIntent }?.id
+                )
+            }
         }
-        val connectionCardIntent = connectedIntent ?: mostRecent?.connectIntent ?: defaultConnectIntent
-        RecentsListViewState(
-            createCardState(
-                status.state,
-                connectionCardIntent,
-                if (status.state == VpnState.Connected) status.connectionParams?.server else null
-            ),
-            createRecentsViewState(recents, connectedIntent, connectionCardIntent, vpnUser),
-            recents.find { it.connectIntent == connectionCardIntent }?.id
-        )
-    }
 
     override suspend fun collect(collector: FlowCollector<RecentsListViewState>) =
         viewState.collect(collector)

@@ -27,22 +27,23 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import me.proton.core.domain.entity.UserId
 
 @Dao
 abstract class RecentsDao {
 
-    fun getRecentsList(): Flow<List<RecentConnection>> = getRecentsEntityList().map { recents ->
+    fun getRecentsList(userId: UserId): Flow<List<RecentConnection>> = getRecentsEntityList(userId).map { recents ->
         recents.map { entity -> entity.toRecentConnection() }
     }
 
-    fun getMostRecentConnection(): Flow<RecentConnection?> = getMostRecentConnectionEntity().map {
+    fun getMostRecentConnection(userId: UserId): Flow<RecentConnection?> = getMostRecentConnectionEntity(userId).map {
         it?.toRecentConnection()
     }
 
     suspend fun getById(id: Long): RecentConnection? = getSync(id)?.toRecentConnection()
 
-    @Query("SELECT count(id) FROM recents WHERE isPinned = 0")
-    abstract fun getUnpinnedCount(): Flow<Int>
+    @Query("SELECT count(id) FROM recents WHERE userId = :userId AND isPinned = 0")
+    abstract fun getUnpinnedCount(userId: UserId): Flow<Int>
 
     @Query(
         "UPDATE recents SET isPinned = 1, lastPinnedTimestamp = :timestamp WHERE id = :id"
@@ -63,23 +64,31 @@ abstract class RecentsDao {
     )
     abstract suspend fun unpin(id: Long)
 
-    suspend fun insertOrUpdateForConnection(connectIntent: ConnectIntent, timestamp: Long) =
-        insertOrUpdateForConnection(connectIntent.toData(), timestamp)
+    suspend fun insertOrUpdateForConnection(userId: UserId, connectIntent: ConnectIntent, timestamp: Long) =
+        insertOrUpdateForConnection(userId, connectIntent.toData(), timestamp)
 
     @Query("""
         DELETE FROM recents WHERE id IN (
-            SELECT id FROM recents WHERE isPinned = 0 ORDER BY lastConnectionAttemptTimestamp DESC LIMIT -1 OFFSET :max
+            SELECT id FROM recents
+             WHERE isPinned = 0 AND userId = :userId
+             ORDER BY lastConnectionAttemptTimestamp DESC
+             LIMIT -1 OFFSET :max
         )
     """)
-    abstract suspend fun deleteExcessUnpinnedRecents(max: Int)
+    abstract suspend fun deleteExcessUnpinnedRecents(userId: UserId, max: Int)
 
     @Query("DELETE FROM recents WHERE id = :id")
     abstract suspend fun delete(id: Long)
 
 
     @Transaction
-    protected open suspend fun insertOrUpdateForConnection(connectIntentData: ConnectIntentData, timestamp: Long) {
+    protected open suspend fun insertOrUpdateForConnection(
+        userId: UserId,
+        connectIntentData: ConnectIntentData,
+        timestamp: Long
+    ) {
         val updatedRows = updateConnectionTimestamp(
+            userId,
             connectIntentData.connectIntentType,
             connectIntentData.exitCountry,
             connectIntentData.entryCountry,
@@ -91,6 +100,7 @@ abstract class RecentsDao {
         if (updatedRows == 0) {
             insert(
                 RecentConnectionEntity(
+                    userId = userId,
                     isPinned = false,
                     connectIntentData = connectIntentData,
                     lastPinnedTimestamp = 0,
@@ -102,15 +112,16 @@ abstract class RecentsDao {
 
     @Query("""
         SELECT * FROM recents
+         WHERE userId = :userId
         ORDER BY isPinned DESC,
                  CASE WHEN isPinned THEN lastPinnedTimestamp
                                     ELSE -lastConnectionAttemptTimestamp
                  END ASC
         """)
-    protected abstract fun getRecentsEntityList(): Flow<List<RecentConnectionEntity>>
+    protected abstract fun getRecentsEntityList(userId: UserId): Flow<List<RecentConnectionEntity>>
 
-    @Query("SELECT * FROM recents ORDER BY lastConnectionAttemptTimestamp DESC LIMIT 1")
-    protected abstract fun getMostRecentConnectionEntity(): Flow<RecentConnectionEntity?>
+    @Query("SELECT * FROM recents WHERE userId = :userId ORDER BY lastConnectionAttemptTimestamp DESC LIMIT 1")
+    protected abstract fun getMostRecentConnectionEntity(userId: UserId): Flow<RecentConnectionEntity?>
 
     @Query("SELECT * FROM recents WHERE id = :id")
     protected abstract suspend fun getSync(id: Long): RecentConnectionEntity?
@@ -121,7 +132,8 @@ abstract class RecentsDao {
     @Query("""
         UPDATE recents
           SET lastConnectionAttemptTimestamp = :timestamp
-        WHERE connectIntentType = :connectIntentType
+        WHERE userId = :userId 
+          AND connectIntentType = :connectIntentType
           AND exitCountry IS :exitCountry
           AND entryCountry IS :entryCountry
           AND city IS :city
@@ -129,6 +141,7 @@ abstract class RecentsDao {
           AND features = :features
         """)
     protected abstract suspend fun updateConnectionTimestamp(
+        userId: UserId,
         connectIntentType: ConnectIntentType,
         exitCountry: String?,
         entryCountry: String?,
