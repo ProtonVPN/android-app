@@ -20,25 +20,20 @@
 package com.protonvpn.tests.redesign.recents
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
-import androidx.test.platform.app.InstrumentationRegistry
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.db.AppDatabase
-import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
-import com.protonvpn.android.redesign.recents.data.RecentsDao
+import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
+import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.ServerManager
@@ -47,6 +42,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
@@ -58,6 +54,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
@@ -69,7 +66,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.concurrent.Executors
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -82,15 +78,12 @@ class RecentsListViewStateFlowTests {
     var rule = InstantTaskExecutorRule()
 
     @MockK
-    private lateinit var mockCurrentUser: CurrentUser
+    private lateinit var mockRecentsManager: RecentsManager
 
-    @MockK
-    private lateinit var mockVpnStatusProvider: VpnStatusProviderUI
+    private lateinit var vpnStateMonitor: VpnStateMonitor
 
+    private lateinit var currentUserProvider: TestCurrentUserProvider
     private lateinit var serverManager: ServerManager
-    private lateinit var vpnStatusFlow: MutableStateFlow<VpnStatusProviderUI.Status>
-    private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
-    private lateinit var recentsDao: RecentsDao
     private lateinit var testScope: TestScope
 
     private val serverCh: Server = createServer("1", exitCountry = "ch", tier = 2)
@@ -106,31 +99,27 @@ class RecentsListViewStateFlowTests {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
 
-        vpnStatusFlow = MutableStateFlow(VpnStatusProviderUI.Status(VpnState.Disabled, null))
-        coEvery { mockVpnStatusProvider.uiStatus } returns vpnStatusFlow
-        vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)
-        coEvery { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
-
+        currentUserProvider = TestCurrentUserProvider(TestUser.plusUser.vpnUser)
         val testCoroutineScheduler = TestCoroutineScheduler()
         val testDispatcher = UnconfinedTestDispatcher(testCoroutineScheduler)
         testScope = TestScope(testDispatcher)
+        val currentUser = CurrentUser(testScope.backgroundScope, currentUserProvider)
+        val clock = { testCoroutineScheduler.currentTime }
 
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val db = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
-            // Transactions "take over" a thread and cause deadlocks if run on the test thread.
-            .setTransactionExecutor(Executors.newSingleThreadExecutor())
-            .buildDatabase()
-        recentsDao = db.recentsDao()
+        vpnStateMonitor = VpnStateMonitor()
+        val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
+
+        coEvery { mockRecentsManager.getRecentsList() } returns flowOf(emptyList())
+        coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(null)
 
         val settingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        val effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
         val effectiveUserSettingsCached = EffectiveCurrentUserSettingsCached(settingsFlow)
 
         serverManager = ServerManager(
             testScope.backgroundScope,
             effectiveUserSettingsCached,
-            mockCurrentUser,
-            { testCoroutineScheduler.currentTime },
+            currentUser,
+            clock,
             SupportsProtocol(createGetSmartProtocols()),
             createInMemoryServersStore(),
             mockk(),
@@ -140,11 +129,11 @@ class RecentsListViewStateFlowTests {
         }
         val translator = Translator(testScope.backgroundScope, serverManager)
         viewStateFlow = RecentsListViewStateFlow(
-            recentsDao,
+            mockRecentsManager,
             GetConnectIntentViewState(serverManager, translator),
             serverManager,
-            mockVpnStatusProvider,
-            mockCurrentUser
+            vpnStatusProviderUI,
+            currentUser
         )
     }
 
@@ -159,9 +148,11 @@ class RecentsListViewStateFlowTests {
 
     @Test
     fun whenConnectedTheConnectionIsShownInConnectionCard() = testScope.runTest {
-        vpnStatusFlow.value = VpnStatusProviderUI.Status(
-            VpnState.Connected,
-            ConnectionParams(ConnectIntentSwitzerland, serverCh, null, null)
+        vpnStateMonitor.updateStatus(
+            VpnStateMonitor.Status(
+                VpnState.Connected,
+                ConnectionParams(ConnectIntentSwitzerland, serverCh, null, null)
+            )
         )
         val viewState = viewStateFlow.first()
         assertEquals(ConnectIntentViewSwitzerland, viewState.connectionCard.connectIntentViewState)
@@ -170,8 +161,9 @@ class RecentsListViewStateFlowTests {
 
     @Test
     fun mostRecentConnectionShownOnlyInConnectionCard() = testScope.runTest {
-        insertRecents()
-        recentsDao.insertOrUpdateForConnection(ConnectIntentIceland, 1000)
+        coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
+        coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(RecentIceland)
+
         val viewState = viewStateFlow.first()
 
         assertEquals(ConnectIntentViewIceland, viewState.connectionCard.connectIntentViewState)
@@ -183,10 +175,12 @@ class RecentsListViewStateFlowTests {
 
     @Test
     fun pinnedItemWithActiveConnectionIsDisplayedInRecents() = testScope.runTest {
-        insertRecents()
-        vpnStatusFlow.value = VpnStatusProviderUI.Status(
-            VpnState.Connected,
-            ConnectionParams(ConnectIntentSecureCore, serverSecureCore, null, null)
+        coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
+        vpnStateMonitor.updateStatus(
+            VpnStateMonitor.Status(
+                VpnState.Connected,
+                ConnectionParams(ConnectIntentSecureCore, serverSecureCore, null, null)
+            )
         )
         val viewState = viewStateFlow.first()
         val expectedRecents = listOf(
@@ -203,8 +197,8 @@ class RecentsListViewStateFlowTests {
 
     @Test
     fun paidServersUnavailableToFreeUser() = testScope.runTest {
-        insertRecents()
-        vpnUserFlow.value = TestUser.freeUser.vpnUser
+        coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
+        currentUserProvider.vpnUser = TestUser.freeUser.vpnUser
         val servers = listOf(
             serverSecureCore,
             serverCh,
@@ -218,7 +212,7 @@ class RecentsListViewStateFlowTests {
 
     @Test
     fun offlineServersAreMarkedOffline() = testScope.runTest {
-        insertRecents()
+        coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
         val servers = listOf(
             serverSecureCore,
             serverCh,
@@ -232,7 +226,7 @@ class RecentsListViewStateFlowTests {
 
     @Test
     fun serverStatusChangeIsReflectedInRecents() = testScope.runTest(dispatchTimeoutMs = 5_000) {
-        insertRecents()
+        coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
         val viewStates = viewStateFlow
             .onEach {
                 val offlineSecureCoreServer = serverSecureCore.copy(isOnline = false)
@@ -250,19 +244,6 @@ class RecentsListViewStateFlowTests {
         assertNotNull(secureCoreItemAfter)
         assertTrue(secureCoreItemBefore.isOnline)
         assertFalse(secureCoreItemAfter.isOnline)
-    }
-
-    private suspend fun insertRecents() {
-        with(recentsDao) {
-            // Pinned items:
-            insertOrUpdateForConnection(ConnectIntentSecureCore, 4)
-            getRecentsList().first().forEach { pin(it.id, 100) }
-
-            // Most recent first for the code to match order in UI.
-            insertOrUpdateForConnection(ConnectIntentFastest, 3)
-            insertOrUpdateForConnection(ConnectIntentSweden, 2)
-            insertOrUpdateForConnection(ConnectIntentIceland, 1)
-        }
     }
 
     companion object {
@@ -284,6 +265,13 @@ class RecentsListViewStateFlowTests {
         val ConnectIntentViewSweden = createViewStateForFastestInCountry(ConnectIntentSweden)
         val ConnectIntentViewIceland = createViewStateForFastestInCountry(ConnectIntentIceland)
         val ConnectIntentViewSwitzerland = createViewStateForFastestInCountry(ConnectIntentSwitzerland)
+
+        val RecentSecureCore = RecentConnection(1, true, ConnectIntentSecureCore)
+        val RecentFastest = RecentConnection(2, false, ConnectIntentFastest)
+        val RecentSweden = RecentConnection(3, false, ConnectIntentSweden)
+        val RecentIceland = RecentConnection(4, false, ConnectIntentIceland)
+
+        val DefaultRecents = listOf(RecentSecureCore, RecentFastest, RecentSweden, RecentIceland)
 
         private fun createViewStateForFastestInCountry(intent: ConnectIntent.FastestInCountry) =
             ConnectIntentViewState(intent.country, null, false, null, intent.features)

@@ -21,17 +21,16 @@ package com.protonvpn.android.redesign.home_screen.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
-import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
-import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
+import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
+import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -39,24 +38,20 @@ import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TriggerDescription = "Home screen"
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val mainScope: CoroutineScope,
     recentsListViewStateFlow: RecentsListViewStateFlow,
     vpnStatusViewStateFlow: VpnStatusViewStateFlow,
-    private val recentsDao: RecentsDao,
+    private val recentsManager: RecentsManager,
     private val vpnConnectionManager: VpnConnectionManager,
-    @WallClock private val clock: () -> Long
 ) : ViewModel() {
 
     private val initialCardViewState =
@@ -93,12 +88,12 @@ class HomeViewModel @Inject constructor(
     }
 
     suspend fun connect(vpnUiDelegate: VpnUiDelegate) {
-        val connectIntent = recentsDao.getMostRecentConnection().first()?.connectIntent ?: ConnectIntent.Default
+        val connectIntent = recentsManager.getMostRecentConnection().first()?.connectIntent ?: ConnectIntent.Default
         connect(vpnUiDelegate, connectIntent)
     }
 
     suspend fun connectRecent(id: Long, vpnUiDelegate: VpnUiDelegate) {
-        val recent = recentsDao.getById(id)
+        val recent = recentsManager.getRecentById(id)
         if (recent != null) {
             vpnConnectionManager.connect(
                 vpnUiDelegate,
@@ -112,19 +107,15 @@ class HomeViewModel @Inject constructor(
         vpnConnectionManager.disconnect(DisconnectTrigger.QuickConnect(TriggerDescription))
     }
 
-    fun togglePinned(item: RecentItemViewState) = mainScope.launch {
+    fun togglePinned(item: RecentItemViewState) {
         if (item.isPinned) {
-            recentsDao.unpin(item.id)
+            recentsManager.unpin(item.id)
         } else {
-            recentsDao.pin(item.id, clock())
+            recentsManager.pin(item.id)
         }
     }
 
-    fun removeRecent(item: RecentItemViewState) = mainScope.launch {
-        if (item.isConnected) {
-            recentsDao.unpin(item.id)
-        } else {
-            recentsDao.delete(item.id)
-        }
+    fun removeRecent(item: RecentItemViewState) {
+        recentsManager.remove(item.id)
     }
 }
