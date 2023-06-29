@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.tests.redesign.recents
+package com.protonvpn.app.redesign.recents.usecases
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.usecase.CurrentUser
