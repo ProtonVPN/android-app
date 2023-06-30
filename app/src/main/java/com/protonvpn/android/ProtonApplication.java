@@ -76,6 +76,7 @@ import dagger.hilt.components.SingletonComponent;
 import go.Seq;
 import kotlinx.coroutines.ExecutorsKt;
 import me.proton.core.accountmanager.data.AccountStateHandler;
+import me.proton.core.eventmanager.data.CoreEventManagerStarter;
 import me.proton.core.humanverification.presentation.HumanVerificationStateHandler;
 import me.proton.core.util.kotlin.CoreLogger;
 
@@ -95,6 +96,7 @@ public class ProtonApplication extends Application {
         AccountStateHandler getAccountStateHandler();
         CertificateRepository getCertificateRepository();
         CloseSessionOnForceLogout getCloseSessionOnForceLogout();
+        CoreEventManagerStarter getCoreEventManagerStarter();
         CoreLoginMigration getCoreLoginMigration();
         CurrentStateLogger getCurrentStateLogger();
         HumanVerificationStateHandler getHumanVerificationStateHandler();
@@ -149,6 +151,10 @@ public class ProtonApplication extends Application {
 
         // Migrate before anything else that uses the AccountManager.
         dependencies.getCoreLoginMigration().migrateIfNeeded();
+
+        // Start the EventLoop for all logged in Users.
+        // Currently disabled. Will enable when Account Recovery feature will be enabled.
+        // dependencies.getCoreEventManagerStarter().start();
 
         // Logging
         dependencies.getCurrentStateLogger().logCurrentState();

@@ -38,6 +38,9 @@ import me.proton.core.challenge.data.entity.ChallengeFrameEntity
 import me.proton.core.crypto.android.keystore.CryptoConverters
 import me.proton.core.data.room.db.BaseDatabase
 import me.proton.core.data.room.db.CommonConverters
+import me.proton.core.eventmanager.data.db.EventManagerConverters
+import me.proton.core.eventmanager.data.db.EventMetadataDatabase
+import me.proton.core.eventmanager.data.entity.EventMetadataEntity
 import me.proton.core.featureflag.data.db.FeatureFlagDatabase
 import me.proton.core.featureflag.data.entity.FeatureFlagEntity
 import me.proton.core.humanverification.data.db.HumanVerificationConverters
@@ -102,6 +105,8 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         NotificationEntity::class,
         // push
         PushEntity::class,
+        // event-manager
+        EventMetadataEntity::class,
         // vpn
         PeriodicCallInfo::class,
         VpnUser::class
@@ -124,6 +129,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
     UserSettingsConverters::class,
     NotificationConverters::class,
     PushConverters::class,
+    EventManagerConverters::class,
 )
 abstract class AppDatabase :
     BaseDatabase(),
@@ -141,10 +147,11 @@ abstract class AppDatabase :
     VpnUserDatabase,
     ObservabilityDatabase,
     NotificationDatabase,
-    PushDatabase {
+    PushDatabase,
+    EventMetadataDatabase {
 
     companion object {
-        const val version = 17
+        const val version = 18
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
@@ -160,6 +167,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_13_14,
             DatabaseMigrations.MIGRATION_15_16,
             DatabaseMigrations.MIGRATION_16_17,
+            DatabaseMigrations.MIGRATION_17_18,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
