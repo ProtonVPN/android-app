@@ -45,10 +45,16 @@ import me.proton.core.humanverification.data.db.HumanVerificationDatabase
 import me.proton.core.humanverification.data.entity.HumanVerificationEntity
 import me.proton.core.key.data.db.KeySaltDatabase
 import me.proton.core.key.data.entity.KeySaltEntity
+import me.proton.core.notification.data.local.db.NotificationConverters
+import me.proton.core.notification.data.local.db.NotificationDatabase
+import me.proton.core.notification.data.local.db.NotificationEntity
 import me.proton.core.observability.data.db.ObservabilityDatabase
 import me.proton.core.observability.data.entity.ObservabilityEventEntity
 import me.proton.core.payment.data.local.db.PaymentDatabase
 import me.proton.core.payment.data.local.entity.GooglePurchaseEntity
+import me.proton.core.push.data.local.db.PushConverters
+import me.proton.core.push.data.local.db.PushDatabase
+import me.proton.core.push.data.local.db.PushEntity
 import me.proton.core.user.data.db.AddressDatabase
 import me.proton.core.user.data.db.UserConverters
 import me.proton.core.user.data.db.UserDatabase
@@ -92,6 +98,10 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         GooglePurchaseEntity::class,
         // observability
         ObservabilityEventEntity::class,
+        // notification
+        NotificationEntity::class,
+        // push
+        PushEntity::class,
         // vpn
         PeriodicCallInfo::class,
         VpnUser::class
@@ -111,7 +121,9 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
     CryptoConverters::class,
     HumanVerificationConverters::class,
     UserConverters::class,
-    UserSettingsConverters::class
+    UserSettingsConverters::class,
+    NotificationConverters::class,
+    PushConverters::class,
 )
 abstract class AppDatabase :
     BaseDatabase(),
@@ -127,10 +139,12 @@ abstract class AppDatabase :
     UserSettingsDatabase,
     PaymentDatabase,
     VpnUserDatabase,
-    ObservabilityDatabase {
+    ObservabilityDatabase,
+    NotificationDatabase,
+    PushDatabase {
 
     companion object {
-        const val version = 16
+        const val version = 17
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
@@ -145,6 +159,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_12_13,
             DatabaseMigrations.MIGRATION_13_14,
             DatabaseMigrations.MIGRATION_15_16,
+            DatabaseMigrations.MIGRATION_16_17,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
