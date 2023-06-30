@@ -19,4 +19,8 @@
 <resources>
     <bool name="core_feature_account_recovery_enabled">false</bool>
     <bool name="core_feature_auth_sso_enabled">false</bool>
+
+    <integer name="core_feature_event_manager_worker_repeat_internal_foreground_seconds">120</integer>
+    <integer name="core_feature_event_manager_worker_repeat_internal_background_seconds">7200</integer>
+    <integer name="core_feature_event_manager_worker_backoff_delay_seconds">60</integer>
 </resources>
