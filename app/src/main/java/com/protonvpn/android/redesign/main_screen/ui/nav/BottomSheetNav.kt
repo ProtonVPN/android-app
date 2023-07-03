@@ -21,7 +21,9 @@
 
 package com.protonvpn.android.redesign.main_screen.ui.nav
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
@@ -29,10 +31,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.Screen
@@ -45,16 +48,42 @@ import com.protonvpn.android.redesign.main_screen.ui.nav.EmptyScreenSheet.emptyS
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun rememberBottomSheetNav(
     scope: CoroutineScope = rememberCoroutineScope(),
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController = rememberAnimatedNavController(),
     sheetState: ModalBottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden),
 ): BottomSheetNav =
     remember(scope, navController, sheetState) {
         BottomSheetNav(scope, navController, sheetState)
     }
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun BottomSheetNavigation(
+    modifier: Modifier,
+    bottomSheetNav: BottomSheetNav
+) {
+    LaunchedEffect(bottomSheetNav.sheetState) {
+        var wasVisible = false
+        snapshotFlow { bottomSheetNav.sheetState.isVisible }.collect { isVisible ->
+            // Clear nav stack when bottom sheet is hidden outside of our control (e.g. user
+            // clicking the blend).
+            if (wasVisible && !isVisible)
+                bottomSheetNav.popUpToStart()
+            wasVisible = isVisible
+        }
+    }
+
+    ModalBottomSheetLayout(
+        sheetState = bottomSheetNav.sheetState,
+        sheetContent = {
+            bottomSheetNav.NavHost(modifier)
+        }
+    ) {}
+}
 
 class BottomSheetNav(
     val scope: CoroutineScope,
@@ -89,19 +118,19 @@ class BottomSheetNav(
     }
 
     @Composable
-    fun NavGraph(modifier: Modifier) {
+    fun NavHost(modifier: Modifier) {
         SafeNavHost(
             modifier = modifier,
             startScreen = EmptyScreenSheet
         ) {
             // Hide the sheet whenever navigated to empty route
             emptySheet(this@BottomSheetNav)
-            country { city ->
+            country(onCityClicked = { city ->
                 navigate(ServersScreen, ServersScreen.Args("", city))
-            }
-            servers {
+            })
+            servers(onServerClicked = {
                 popUpToStart()
-            }
+            })
         }
 
         // TODO: there seems to be some issue causing the sheet to enter hidden state after

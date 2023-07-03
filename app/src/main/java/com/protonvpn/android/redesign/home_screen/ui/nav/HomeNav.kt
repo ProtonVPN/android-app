@@ -19,15 +19,54 @@
 
 package com.protonvpn.android.redesign.home_screen.ui.nav
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
+import com.protonvpn.android.redesign.home_screen.ui.ConnectionDetailsRoute
 import com.protonvpn.android.redesign.home_screen.ui.HomeRoute
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
+import com.protonvpn.android.redesign.main_screen.ui.nav.RootNav
 
 object HomeScreen : ScreenNoArg<MainNav>("home") {
+    fun SafeNavGraphBuilder<MainNav>.home(onConnectionCardClick: () -> Unit) = addToGraph(this) {
+        HomeRoute(onConnectionCardClick)
+    }
+}
 
-    fun SafeNavGraphBuilder<MainNav>.home() = addToGraph(this) {
-        HomeRoute()
+object ConnectionDetailsScreen : ScreenNoArg<RootNav>("connectionStatus") {
+    
+    private const val TRANSITION_DURATION_MILLIS = 400
+
+    fun SafeNavGraphBuilder<RootNav>.connectionStatus(
+        onBackIconClick: () -> Unit
+    ) = addToGraph(
+        this,
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Up,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        },
+        exitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        },
+        popEnterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Up,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        }) {
+        ConnectionDetailsRoute(onBackClicked = onBackIconClick)
     }
 }

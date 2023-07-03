@@ -20,12 +20,13 @@
 package com.protonvpn.android.redesign.base.ui.nav
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
-import androidx.navigation.compose.NavHost
+import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogEventType
@@ -119,6 +120,7 @@ open class BaseNav<N : BaseNav<N>>(
         ProtonLogger.log(NavLog, "$name $message")
     }
 
+    @OptIn(ExperimentalAnimationApi::class)
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     @Composable
     fun SafeNavHost(
@@ -126,7 +128,7 @@ open class BaseNav<N : BaseNav<N>>(
         startScreen: ScreenNoArg<N>, // Starting screen can't have arguments
         build: SafeNavGraphBuilder<N>.() -> Unit
     ) {
-        NavHost(
+        AnimatedNavHost(
             modifier = modifier,
             navController = controller,
             startDestination = startScreen.route,
