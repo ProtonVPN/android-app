@@ -132,7 +132,7 @@
     <string name="errorEmptyExitCountry">Kraj wyjścia nie może być pusty</string>
     <string name="onboardingDialogMapView">Użyj widoku mapy, aby połączyć się i sprawdzić lokalizację serwera VPN.</string>
     <string name="onboardingDialogProfiles">Utwórz profile dla swoich ulubionych serwerów i miej do nich łatwy dostęp. Długie naciśnięcie ikony Proton VPN na dole ekranu wyświetli wszystkie profile. Po wybraniu profilu połączysz się z usługą VPN.</string>
-    <string name="onboardingNetshield">Chroń się przed złośliwym oprogramowaniem, reklamami i skryptami śledzącymi.\nUwaga: Wyłącz tę funkcję, jeśli niektóre strony internetowe przestaną działać.</string>
+    <string name="onboardingNetshield">Chroń się przed złośliwym oprogramowaniem, reklamami i elementami śledzącymi.\nUwaga: Wyłącz tę funkcję, jeśli niektóre strony internetowe przestaną działać.</string>
     <string name="onboardingFAB">Szybkie połączenie / profile</string>
     <string name="onboardingFABDescription">Kliknij na ten przycisk, aby połączyć się najszybciej</string>
     <string name="onboardingSignup">Zarejestruj się</string>
@@ -332,12 +332,12 @@
     <string name="settingsTelemetryScreenTitle">Statystyki użytkowania</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Te statystyki nie zawierają adresu IP i nie mogą zostać użyte do identyfikacji użytkownika. Dane nie zostaną udostępnione stronom trzecim. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
-    <string name="netShieldDescription">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie </string>
-    <string name="netshield_settings_description"><![CDATA[Chroń się przed reklamami, złośliwym oprogramowaniem i skryptami śledzącymi na stronach internetowych oraz w aplikacjach. Jeśli strony internetowe się nie ładują, spróbuj wyłączyć funkcję NetShield. <a href="%1$s">Dowiedz się więcej</a>.]]></string>
+    <string name="netShieldDescription">Zablokuj reklamy, elementy śledzące i złośliwe oprogramowanie </string>
+    <string name="netshield_settings_description"><![CDATA[Chroń się przed reklamami, złośliwym oprogramowaniem i elementami śledzącymi na stronach internetowych oraz w aplikacjach. Jeśli strony internetowe się nie ładują, spróbuj wyłączyć funkcję NetShield. <a href="%1$s">Dowiedz się więcej</a>.]]></string>
     <string name="netshield_status_on">Włączone</string>
     <string name="netshield_status_off">Wyłączone</string>
     <string name="netshield_free_title">Przeglądaj bez reklam dzięki funkcji NetShield</string>
-    <string name="netshield_free_description">Zablokuj reklamy, skrypty śledzące i złośliwe oprogramowanie na stronach internetowych oraz w aplikacjach</string>
+    <string name="netshield_free_description">Zablokuj reklamy, elementy śledzące i złośliwe oprogramowanie na stronach internetowych oraz w aplikacjach</string>
     <string name="accessibility_netshield_status_on_click">Przejdź do ustawień funkcji NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">reklama\nzablokowana</item>
@@ -346,15 +346,15 @@
         <item quantity="other">reklam\nzablokowanych</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">skrypt śledzący\nzatrzymany</item>
-        <item quantity="few">skrypty śledzące\nzatrzymane</item>
-        <item quantity="many">skryptów śledzących\nzatrzymanych</item>
-        <item quantity="other">skryptów śledzących\nzatrzymanych</item>
+        <item quantity="one">element śledzący\nzatrzymany</item>
+        <item quantity="few">elementy śledzące\nzatrzymane</item>
+        <item quantity="many">elementów śledzących\nzatrzymanych</item>
+        <item quantity="other">elementów śledzących\nzatrzymanych</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">zaoszczędzonych
 danych</string>
     <string name="netShieldBlockMalwareOnly">Zablokuj złośliwe oprogramowanie</string>
-    <string name="netShieldFullBlock">Zablokuj złośliwe oprogramowanie, skrypty śledzące i reklamy</string>
+    <string name="netShieldFullBlock">Zablokuj złośliwe oprogramowanie, elementy śledzące i reklamy</string>
     <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>
     <string name="paidFeature">Płatna funkcja</string>
     <string name="guestHoleActivated">Dostęp do usługi Proton VPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
@@ -486,7 +486,7 @@ danych</string>
     <string name="upgrade_secure_core_countries">Przekieruj ruch przez ultra bezpieczne serwery w Szwajcarii, Szwecji i Islandii</string>
     <string name="upgrade_secure_core_encryption">Dodatkowa warstwa szyfrowania połączenia VPN</string>
     <string name="upgrade_secure_core_protect">Chroń się przed atakami sieciowymi</string>
-    <string name="upgrade_netshield_block_ads">Zablokuj reklamy i skrypty śledzące</string>
+    <string name="upgrade_netshield_block_ads">Zablokuj reklamy i elementy śledzące</string>
     <string name="upgrade_netshield_block_malware">Chroń swoje urządzenie przed złośliwym oprogramowaniem</string>
     <string name="upgrade_netshield_speed">Przeglądaj Internet z najwyższą prędkością</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -594,7 +594,7 @@ danych</string>
     <string name="onboarding_protection_title">Bądź wszędzie chroniony</string>
     <string name="onboarding_protection_description">Aplikacja Proton VPN wspiera wszystkie urządzenia, w tym systemy Windows, macOS i wiele innych.</string>
     <string name="onboarding_netshield_title">Zablokuj reklamy i wiele więcej</string>
-    <string name="onboarding_netshield_description">Zablokuj złośliwe oprogramowanie, reklamy i skrypty śledzące w przeglądarce oraz aplikacjach.</string>
+    <string name="onboarding_netshield_description">Zablokuj złośliwe oprogramowanie, reklamy i elementy śledzące w przeglądarce oraz aplikacjach.</string>
     <string name="onboarding_telemetry_title">Pomóż nam pokonać cenzurę</string>
     <string name="onboarding_connection_title">Nawiąż pierwsze połączenie</string>
     <!-- Parameters:
