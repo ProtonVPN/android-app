@@ -322,7 +322,7 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Buka pengaturan Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Mengaktifkan kill switch akan menonaktifkan split tunneling, karena kill switch akan memblokir seluruh koneksi yang berada di luar tunnel VPN utama</string>
     <string name="settingsSmartProtocolDescription">Secara otomatis menggunakan protokol dan port yang menawarkan konektivitas terbaik.</string>
-    <string name="settingsEnableTelemetryTitle">Bagikan statistik penggunaan anonim</string>
+    <string name="settingsEnableTelemetryTitle">Bagikan statistik pemakaian anonim</string>
     <string name="settingsEnableTelemetryDescription">Data penggunaan membantu kami dalam menangkal pemblokiran VPN dan meningkatkan performa aplikasi.</string>
     <string name="settingsSendCrashReportsTitle">Bagikan laporan crash anonim</string>
     <string name="settingsSendCrashReportsDescription">Laporan crash membantu kami dalam memperbaiki bug, mendeteksi firewall, dan menangkal pemblokiran VPN.</string>

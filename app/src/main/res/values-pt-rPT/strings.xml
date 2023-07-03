@@ -112,7 +112,7 @@
     <string name="settingsMtuDescription">Caso o valor predefinido não seja adequado para uma rede em particular, introduza um valor dentro do intervalo 1280-1500. Altere só se souber o que está a fazer.</string>
     <string name="settingsMtuRangeInvalid">O valor MTU deve estar dentro do intervalo 1280-1500</string>
     <string name="settingsDefaultConnectionTitle">Ligação rápida</string>
-    <string name="settingsDefaultConnectionDescription">O botão Ligação rápida liga-o ao perfil seleccionado</string>
+    <string name="settingsDefaultConnectionDescription">O botão Ligação rápida liga-o ao perfil selecionado</string>
     <string name="settingsAllowNonStandardPortsTitle">Portas não padrão</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilize o Proton VPN para necessidades especiais, permitindo tráfego de portas incomuns na rede VPN.<a href="%1$s">Saiba mais</a>.]]></string>
     <string name="settingsModerateNatTitle">NAT moderado</string>
@@ -296,7 +296,7 @@
     <string name="troubleshootAntivirusProblemTitle">Interferência do antivírus</string>
     <string name="troubleshootAntivirusProblemDescription">Desative temporariamente o antivírus ou remova-o.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferência de Proxy/Firewall</string>
-    <string name="troubleshootProxyFirewallProblemDescription">Desative proxies e/ou firewalls ou entre em contato com o administrador de rede.</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Desative proxies e/ou firewalls ou entre em contacto com o administrador de rede.</string>
     <string name="troubleshootProtonDownTitle">O Proton está indisponível</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Verifique o <a href=\"%1$s\">estado do Proton</a> no estado do nosso sistema.]]></string>
     <string name="troubleshootContactUsSectionTitle">Ainda precisa de ajuda? Contate-nos diretamente</string>
@@ -400,7 +400,7 @@
     <string name="tv_quick_connect_recommened">Recomendado</string>
     <string name="tv_quick_connect_favourite">Favorito</string>
     <string name="tv_country_maintenance_dialog_title">O país está indisponível</string>
-    <string name="tv_country_maintenance_dialog_description">Tente novamente mais tarde ou seleccione outro país.</string>
+    <string name="tv_country_maintenance_dialog_description">Tente novamente mais tarde ou selecione outro país.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
@@ -426,7 +426,7 @@
     <string name="notification_subscription_expired_no_reconnection_content">A sua subscrição foi alterada.</string>
     <string name="notification_delinquent_title">A sua conta Proton VPN tem faturas pendentes</string>
     <string name="notification_delinquent_content">Atualize a sua informação de faturação para manter a subscrição ativa.</string>
-    <string name="notification_server_unreachable_content">Mudou para um servidor mais rápido e semelhante ao que tinha seleccionado.</string>
+    <string name="notification_server_unreachable_content">Mudou para um servidor mais rápido e semelhante ao que tinha selecionado.</string>
     <string name="notification_max_sessions_title">Atingiu o seu limite máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
