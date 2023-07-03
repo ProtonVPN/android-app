@@ -66,8 +66,8 @@ import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
-fun HomeRoute() {
-    HomeView()
+fun HomeRoute(onConnectionCardClick: () -> Unit) {
+    HomeView(onConnectionCardClick)
 }
 
 private val ListBgGradientHeightBasic = 100.dp
@@ -75,7 +75,7 @@ private val ListBgGradientHeightExpanded = 200.dp
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun HomeView() {
+fun HomeView(onConnectionCardClick: () -> Unit) {
     val viewModel: HomeViewModel = hiltViewModel()
     val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle().value
     val vpnState = viewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
@@ -140,7 +140,7 @@ fun HomeView() {
                 lazyListState = listState,
                 onConnectClicked = connectAction,
                 onDisconnectClicked = viewModel::disconnect,
-                onOpenPanelClicked = {},
+                onOpenPanelClicked = onConnectionCardClick,
                 onHelpClicked = {},
                 onRecentClicked = connectRecentAction,
                 onRecentPinToggle = viewModel::togglePinned,

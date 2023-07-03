@@ -20,11 +20,16 @@
 package com.protonvpn.android.redesign.base.ui.nav
 
 import android.net.Uri
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import me.proton.core.util.kotlin.deserialize
@@ -91,14 +96,23 @@ abstract class Graph<N : BaseNav<N>>(route: String) : ScreenNoArg<N>(route)
 
 // Add screen into the navigation graph.
 // As extension method to workaround internal compiler errors.
+@OptIn(ExperimentalAnimationApi::class)
 fun <N : BaseNav<N>> Screen<*, N>.addToGraph(
     builder: SafeNavGraphBuilder<N>,
-    content: @Composable (NavBackStackEntry) -> Unit
+    enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = null,
+    exitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = null,
+    popEnterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = null,
+    popExitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = null,
+    content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
 ) {
     builder.builder.composable(
-        route = routePattern,
+        routePattern,
+        enterTransition = enterTransition,
+        exitTransition = exitTransition,
+        popEnterTransition = popEnterTransition,
+        popExitTransition = popExitTransition,
         arguments = navArgs,
-        content = content,
+        content = content
     )
 }
 

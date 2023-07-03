@@ -19,6 +19,7 @@
 
 package com.protonvpn.tests.redesign.base.ui.nav
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -27,9 +28,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
-import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
+import com.google.accompanist.navigation.animation.AnimatedComposeNavigator
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.base.ui.nav.Graph
@@ -67,17 +68,20 @@ class NavigationTests : FusionComposeTest() {
     lateinit var navA: NavA
     lateinit var navB: NavB
 
+    @OptIn(ExperimentalAnimationApi::class)
     @Before
     fun setup() {
         withContent {
             navA = NavA(TestNavHostController(LocalContext.current))
             navB = NavB(TestNavHostController(LocalContext.current))
-            navA.controller.navigatorProvider.addNavigator(ComposeNavigator())
-            navB.controller.navigatorProvider.addNavigator(ComposeNavigator())
+            navA.controller.navigatorProvider.addNavigator(AnimatedComposeNavigator())
+            navB.controller.navigatorProvider.addNavigator(AnimatedComposeNavigator())
             VpnTheme {
                 Column(Modifier.fillMaxSize()) {
                     navA.SafeNavHost(
-                        Modifier.weight(1f).testTag(navA.name),
+                        Modifier
+                            .weight(1f)
+                            .testTag(navA.name),
                         startScreen = ScreenA1
                     ) {
                         a1()
@@ -89,7 +93,9 @@ class NavigationTests : FusionComposeTest() {
                         a3()
                     }
                     navB.SafeNavHost(
-                        Modifier.weight(1f).testTag(navB.name),
+                        Modifier
+                            .weight(1f)
+                            .testTag(navB.name),
                         startScreen = ScreenB1
                     ) {
                         b1()
@@ -218,6 +224,7 @@ object ScreenA23 : ScreenNoArg<NavA>("A23") {
 object ScreenA3 : Screen<ScreenA3.Args, NavA>("A3") {
     @Serializable
     data class Args(val s: String, val i: Int)
+
     fun SafeNavGraphBuilder<NavA>.a3() =
         addToGraph(this) {
             val (s, i) = getArgs<Args>(it)

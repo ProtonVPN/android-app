@@ -19,23 +19,39 @@
 
 package com.protonvpn.android.redesign.main_screen.ui.nav
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
+import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
+import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
+import com.protonvpn.android.redesign.base.ui.nav.addToGraph
 import com.protonvpn.android.redesign.base.ui.nav.baseRoute
 import com.protonvpn.android.redesign.base.ui.nav.popToStartNavOptions
 import com.protonvpn.android.redesign.countries.ui.nav.CountryListScreen
 import com.protonvpn.android.redesign.countries.ui.nav.CountryListScreen.countryList
 import com.protonvpn.android.redesign.countries.ui.nav.CountryScreen
+import com.protonvpn.android.redesign.home_screen.ui.nav.ConnectionDetailsScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen.home
+import com.protonvpn.android.redesign.main_screen.ui.BottomBarView
 import com.protonvpn.android.redesign.main_screen.ui.CoreNavigation
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen.settings
+import me.proton.core.compose.theme.ProtonTheme
 
 enum class MainTarget {
     Home, Countries, Settings;
@@ -50,18 +66,25 @@ enum class MainTarget {
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun rememberMainNav(
     coreNavigation: CoreNavigation,
-    navController: NavHostController = rememberNavController(),
-) = remember(navController) {
-    MainNav(navController, coreNavigation)
+    rootController: NavHostController,
+    selfController: NavHostController = rememberAnimatedNavController(),
+) = remember(selfController) {
+    MainNav(
+        selfNav = selfController,
+        coreNavigation = coreNavigation,
+        rootNav = rootController
+    )
 }
 
 class MainNav(
-    mainNavController: NavHostController,
+    selfNav: NavHostController,
     private val coreNavigation: CoreNavigation,
-) : BaseNav<MainNav>(mainNavController, "main") {
+    private val rootNav: NavHostController,
+) : BaseNav<MainNav>(selfNav, "main") {
 
     fun navigate(target: MainTarget) {
         // Don't record whole history of bottom bar navigation
@@ -69,8 +92,10 @@ class MainNav(
         when (target) {
             MainTarget.Home ->
                 navigateInternal(HomeScreen, navOptions)
+
             MainTarget.Countries ->
                 navigateInternal(CountryListScreen, navOptions)
+
             MainTarget.Settings ->
                 navigateInternal(SettingsScreen, navOptions)
         }
@@ -85,9 +110,9 @@ class MainNav(
     }
 
     @Composable
-    fun NavGraph(
+    fun NavHost(
         modifier: Modifier,
-        bottomSheetNav: BottomSheetNav,
+        bottomSheetNav: BottomSheetNav
     ) {
         SafeNavHost(
             modifier = modifier,
@@ -95,13 +120,61 @@ class MainNav(
         ) {
             MainTarget.values().forEach { target ->
                 when (target) {
-                    MainTarget.Home -> home()
-                    MainTarget.Countries -> countryList {
+                    MainTarget.Home -> home(onConnectionCardClick = {
+                        rootNav.navigate(ConnectionDetailsScreen.route)
+                    })
+
+                    MainTarget.Countries -> countryList(onCountryClick = {
                         bottomSheetNav.navigate(CountryScreen, CountryScreen.Args(it))
-                    }
+                    })
+
                     MainTarget.Settings -> settings(coreNavigation)
                 }
             }
+        }
+    }
+}
+
+
+object MainScreen : ScreenNoArg<RootNav>("main") {
+    @Composable
+    private fun MainScreenNavigation(
+        modifier: Modifier,
+        mainNav: MainNav,
+        bottomSheetNav: BottomSheetNav,
+        mainNavHostInitialized: MutableState<Boolean>
+    ) {
+        val bottomTarget = mainNav.currentBottomBarTargetAsState()
+        Scaffold(
+            modifier = modifier.background(ProtonTheme.colors.backgroundNorm),
+            contentWindowInsets = WindowInsets.navigationBars,
+            bottomBar = {
+                BottomBarView(selectedTarget = bottomTarget, navigateTo = mainNav::navigate)
+            }
+        ) { paddingValues ->
+            mainNav.NavHost(
+                modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                bottomSheetNav
+            )
+            mainNavHostInitialized.value = true
+        }
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    fun SafeNavGraphBuilder<RootNav>.mainScreen(
+        coreNavigation: CoreNavigation,
+        rootNav: NavHostController
+    ) = addToGraph(this) {
+        val mainNav = rememberMainNav(coreNavigation, rootNav)
+        val bottomSheetNav = rememberBottomSheetNav()
+        val mainNavHostInitialized = remember { mutableStateOf(false) }
+        MainScreenNavigation(Modifier, mainNav, bottomSheetNav, mainNavHostInitialized)
+        if (mainNavHostInitialized.value) {
+            // Global bottom sheet need to be defined on the top of hierarchy so it's not drawn under
+            // the bottom bar. Bottom sheet M3 will not have this limitation.
+            BottomSheetNavigation(Modifier, bottomSheetNav)
         }
     }
 }

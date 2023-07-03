@@ -17,91 +17,24 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file:OptIn(ExperimentalMaterialApi::class)
-
 package com.protonvpn.android.redesign.main_screen.ui.nav
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material3.Scaffold
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import com.protonvpn.android.redesign.main_screen.ui.BottomBarView
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.protonvpn.android.redesign.main_screen.ui.CoreNavigation
-import me.proton.core.compose.theme.ProtonTheme
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun VpnApp(
     modifier: Modifier = Modifier,
     coreNavigation: CoreNavigation,
 ) {
-    val mainNav = rememberMainNav(coreNavigation)
-    val bottomSheetNav = rememberBottomSheetNav()
-    val mainNavHostInitialized = remember { mutableStateOf(false) }
+    val rootController = rememberAnimatedNavController()
 
-    MainScreenNavigation(modifier, mainNav, bottomSheetNav, mainNavHostInitialized)
-
-    // Make sure that NavHost for sheet is created after main one for proper back handler order.
-    if (mainNavHostInitialized.value) {
-        // Global bottom sheet need to be defined on the top of hierarchy so it's not drawn under
-        // the bottom bar. Bottom sheet M3 will not have this limitation.
-        BottomSheetNavigation(Modifier, bottomSheetNav)
-    }
-}
-
-@Composable
-private fun MainScreenNavigation(
-    modifier: Modifier,
-    mainNav: MainNav,
-    bottomSheetNav: BottomSheetNav,
-    mainNavHostInitialized: MutableState<Boolean>
-) {
-    val bottomTarget = mainNav.currentBottomBarTargetAsState()
-    Scaffold(
-        modifier = modifier.background(ProtonTheme.colors.backgroundNorm),
-        contentWindowInsets = WindowInsets.navigationBars,
-        bottomBar = {
-            BottomBarView(selectedTarget = bottomTarget, navigateTo = mainNav::navigate)
-        }
-    ) { paddingValues ->
-        mainNav.NavGraph(
-            modifier.fillMaxSize().padding(paddingValues),
-            bottomSheetNav
-        )
-        mainNavHostInitialized.value = true
-    }
-}
-
-@Composable
-private fun BottomSheetNavigation(
-    modifier: Modifier,
-    bottomSheetNav: BottomSheetNav
-) {
-    LaunchedEffect(bottomSheetNav.sheetState) {
-        var wasVisible = false
-        snapshotFlow { bottomSheetNav.sheetState.isVisible }.collect { isVisible ->
-            // Clear nav stack when bottom sheet is hidden outside of our control (e.g. user
-            // clicking the blend).
-            if (wasVisible && !isVisible)
-                bottomSheetNav.popUpToStart()
-            wasVisible = isVisible
-        }
-    }
-
-    ModalBottomSheetLayout(
-        sheetState = bottomSheetNav.sheetState,
-        sheetContent = {
-            bottomSheetNav.NavGraph(modifier)
-        }
-    ) {}
+    RootNav(rootController).NavHost(
+        modifier = modifier,
+        coreNavigation = coreNavigation
+    )
 }
