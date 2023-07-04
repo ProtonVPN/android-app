@@ -53,6 +53,7 @@
     <string name="showAllProfiles">Show all profiles</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogContinue">Continue</string>
     <string name="dialogLearnMore">Learn more</string>
@@ -757,7 +758,7 @@
 
     <!-- tag(Redesign_2023)
          Text added to button labels that open a UI element (e.g. a panel).
-         Only used by accessbility services.
+         Only used by accessibility services.
          Example:
          a button with label "connection details" and this action label will be read by a screen
          reader as:
@@ -765,15 +766,41 @@
     -->
     <string name="accessibility_action_open">open</string>
     <!-- tag(Redesign_2023)
+         Text added to clickable elements that initiate a VPN connection.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland will be read by a screen reader as:
+         "Switzerland. Double tap to connect"
+        -->
+    <string name="accessibility_action_connect">connect</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that redirect the user to upgrade their subscription plan.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland that requires upgrading subscription to become
+         available will be read by a screen reader as:
+         "Unavailable, Switzerland. Double tap to upgrade"
+        -->
+    <string name="accessibility_action_upgrade">upgrade</string>
+    <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
          Only used by accessibility services.
          Example:
          a row for country Switzerland where all servers are in maintenance will be read by a
          screen reader as:
-         "Switzerland, in maintenance"
+         "in maintenance, Switzerland"
      -->
     <string name="accessibility_item_in_maintenance">in maintenance</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are unavailable will be read by a screen
+         reader as:
+         "unavailable, Switzerland"
+     -->
+    <string name="accessibility_item_unavailable">unavailable</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when there is active connection to it.
          Only used by accessibility services.
@@ -914,6 +941,15 @@
          Only used by accessibility service.
     -->
     <string name="recent_action_accessibility_state_pinned">Pinned</string>
+
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_city_servers_in_maintenance">All servers in this city are under maintenance</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_in_maintenance">Server under maintenance</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_not_available">Server not available</string>
 
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Sign out</string>

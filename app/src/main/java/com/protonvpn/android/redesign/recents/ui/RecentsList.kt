@@ -74,7 +74,7 @@ fun RecentsList(
     onDisconnectClicked: () -> Unit,
     onOpenPanelClicked: () -> Unit,
     onHelpClicked: () -> Unit,
-    onRecentClicked: (id: Long) -> Unit,
+    onRecentClicked: (item: RecentItemViewState) -> Unit,
     onRecentPinToggle: (item: RecentItemViewState) -> Unit,
     onRecentRemove: (item: RecentItemViewState) -> Unit,
     modifier: Modifier = Modifier,
@@ -148,7 +148,7 @@ fun RecentsList(
             ) {
                 RecentRow(
                     item = item,
-                    onClick = { onRecentClicked(item.id) },
+                    onClick = { onRecentClicked(item) },
                     onTogglePin = { onRecentPinToggle(item) },
                     onRemove = { onRecentRemove(item) },
                 )

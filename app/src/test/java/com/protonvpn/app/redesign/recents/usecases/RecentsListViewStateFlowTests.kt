@@ -21,12 +21,16 @@ package com.protonvpn.app.redesign.recents.usecases
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.recents.data.RecentConnection
+import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -34,15 +38,18 @@ import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
@@ -51,6 +58,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -58,16 +66,19 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -84,6 +95,7 @@ class RecentsListViewStateFlowTests {
 
     private lateinit var currentUserProvider: TestCurrentUserProvider
     private lateinit var serverManager: ServerManager
+    private lateinit var settingsFlow: MutableStateFlow<LocalUserSettings>
     private lateinit var testScope: TestScope
 
     private val serverCh: Server = createServer("1", exitCountry = "ch", tier = 2)
@@ -103,6 +115,8 @@ class RecentsListViewStateFlowTests {
         val testCoroutineScheduler = TestCoroutineScheduler()
         val testDispatcher = UnconfinedTestDispatcher(testCoroutineScheduler)
         testScope = TestScope(testDispatcher)
+        val testDispatcherProvider = TestDispatcherProvider(testDispatcher)
+        Dispatchers.setMain(testDispatcher) // Remove this when ServerManager no longer uses asLiveData().
         val currentUser = CurrentUser(testScope.backgroundScope, currentUserProvider)
         val clock = { testCoroutineScheduler.currentTime }
 
@@ -112,15 +126,17 @@ class RecentsListViewStateFlowTests {
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(emptyList())
         coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(null)
 
-        val settingsFlow = MutableStateFlow(LocalUserSettings.Default)
+        settingsFlow = MutableStateFlow(LocalUserSettings.Default)
+        val effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
         val effectiveUserSettingsCached = EffectiveCurrentUserSettingsCached(settingsFlow)
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
 
         serverManager = ServerManager(
             testScope.backgroundScope,
             effectiveUserSettingsCached,
             currentUser,
             clock,
-            SupportsProtocol(createGetSmartProtocols()),
+            supportsProtocol,
             createInMemoryServersStore(),
             mockk(),
         )
@@ -132,9 +148,16 @@ class RecentsListViewStateFlowTests {
             mockRecentsManager,
             GetConnectIntentViewState(serverManager, translator),
             serverManager,
+            supportsProtocol,
+            effectiveUserSettings,
             vpnStatusProviderUI,
             currentUser
         )
+    }
+
+    @After
+    fun teardown() {
+        Dispatchers.resetMain() // Remove this when ServerManager no longer uses asLiveData().
     }
 
     @Test
@@ -207,7 +230,13 @@ class RecentsListViewStateFlowTests {
         )
         serverManager.setServers(servers, null)
         val viewState = viewStateFlow.first()
-        assertEquals(listOf(false, true, true, true), viewState.recents.map { it.isAvailable })
+        val expected = listOf(
+            RecentAvailability.UNAVAILABLE_PLAN,
+            RecentAvailability.ONLINE,
+            RecentAvailability.ONLINE,
+            RecentAvailability.ONLINE,
+        )
+        assertEquals(expected, viewState.recents.map { it.availability })
     }
 
     @Test
@@ -221,7 +250,14 @@ class RecentsListViewStateFlowTests {
         )
         serverManager.setServers(servers, null)
         val viewState = viewStateFlow.first()
-        assertEquals(listOf(true, true, false, false), viewState.recents.map { it.isOnline })
+
+        val expected = listOf(
+            RecentAvailability.ONLINE,
+            RecentAvailability.ONLINE,
+            RecentAvailability.AVAILABLE_OFFLINE,
+            RecentAvailability.AVAILABLE_OFFLINE,
+        )
+        assertEquals(expected, viewState.recents.map { it.availability })
     }
 
     @Test
@@ -230,10 +266,7 @@ class RecentsListViewStateFlowTests {
         val viewStates = viewStateFlow
             .onEach {
                 val offlineSecureCoreServer = serverSecureCore.copy(isOnline = false)
-                serverManager.setServers(
-                    listOf(serverCh, offlineSecureCoreServer),
-                    null
-                )
+                serverManager.setServers(listOf(serverCh, offlineSecureCoreServer), null)
             }
             .take(2)
             .toList()
@@ -242,8 +275,34 @@ class RecentsListViewStateFlowTests {
         val secureCoreItemAfter = viewStates.last().recents.find { it.isPinned }
         assertNotNull(secureCoreItemBefore)
         assertNotNull(secureCoreItemAfter)
-        assertTrue(secureCoreItemBefore.isOnline)
-        assertFalse(secureCoreItemAfter.isOnline)
+        assertEquals(RecentAvailability.ONLINE, secureCoreItemBefore.availability)
+        assertEquals(RecentAvailability.AVAILABLE_OFFLINE, secureCoreItemAfter.availability)
+    }
+
+    @Test
+    fun protocolSettingChangeIsReflectedInRecents() = testScope.runTest(dispatchTimeoutMs = 5_000) {
+        coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
+        val wgEntryProtocols = mapOf(
+            ProtocolSelection(VpnProtocol.WireGuard).apiName to ServerEntryInfo("1.2.3.5", listOf(22, 443))
+        )
+        val wgOnlyDomain =
+            ConnectingDomain(entryIp = null, wgEntryProtocols, "domain", null, "id1", publicKeyX25519 = "key")
+        val wgOnlyServer = serverSecureCore.copy(connectingDomains = listOf(wgOnlyDomain))
+        serverManager.setServers(listOf(serverCh, wgOnlyServer), null)
+
+        val viewStates = viewStateFlow
+            .onEach {
+                settingsFlow.update { it.copy(protocol = ProtocolSelection(VpnProtocol.OpenVPN)) }
+            }
+            .take(2)
+            .toList()
+
+        val itemBefore = viewStates.first().recents.find { it.isPinned }
+        val itemAfter = viewStates.last().recents.find { it.isPinned }
+        assertNotNull(itemBefore)
+        assertNotNull(itemAfter)
+        assertEquals(RecentAvailability.ONLINE, itemBefore.availability)
+        assertEquals(RecentAvailability.UNAVAILABLE_PROTOCOL, itemAfter.availability)
     }
 
     companion object {

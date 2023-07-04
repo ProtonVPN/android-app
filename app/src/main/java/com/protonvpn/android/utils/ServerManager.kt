@@ -19,7 +19,6 @@
 package com.protonvpn.android.utils
 
 import androidx.annotation.VisibleForTesting
-import androidx.leanback.widget.Visibility
 import androidx.lifecycle.asLiveData
 import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.BuildConfig
@@ -83,11 +82,12 @@ class ServerManager @Inject constructor(
     @SerializedName("secureCoreEntryCountries") private val migrateSecureCoreEntryCountries: MutableList<VpnCountry>? = null
     @SerializedName("secureCoreExitCountries") private val migrateSecureCoreExitCountries: MutableList<VpnCountry>? = null
 
-    @Transient private var filtered = FilteredServers(serversStore, currentUserSettingsCached, supportsProtocol)
+    @Transient private var grouped = GroupedServers(serversStore)
     @Transient private var guestHoleServers: List<Server>? = null
     @Transient private val isLoaded = MutableStateFlow(false)
 
     private val secureCoreCached get() = currentUserSettingsCached.value.secureCore
+    private val protocolCached get() = currentUserSettingsCached.value.protocol
 
     private var streamingServices: StreamingServicesResponse? = null
     val streamingServicesModel: StreamingServicesModel?
@@ -174,7 +174,7 @@ class ServerManager @Inject constructor(
                 }
             }
 
-            filtered.invalidate()
+            grouped.update()
 
             // Notify of loaded state and update after everything has been updated.
             isLoaded.value = true
@@ -191,7 +191,7 @@ class ServerManager @Inject constructor(
     }
 
     fun getExitCountries(secureCore: Boolean) = if (secureCore)
-        filtered.secureCoreExitCountries else filtered.vpnCountries
+        grouped.secureCoreExitCountries else grouped.vpnCountries
 
     private fun onServersUpdate() {
         ++serverListVersion.value
@@ -199,16 +199,16 @@ class ServerManager @Inject constructor(
 
     override fun toString(): String {
         val lastUpdateTimestampLog = lastUpdateTimestamp.takeIf { it != 0L }?.let { ProtonLogger.formatTime(it) }
-        return "filtered vpnCountries: ${filtered.vpnCountries.size} gateways: ${filtered.gateways.size}" +
-            " entry: ${filtered.secureCoreEntryCountries.size}" +
-            " exit: ${filtered.secureCoreExitCountries.size} " +
+        return "vpnCountries: ${grouped.vpnCountries.size} gateways: ${grouped.gateways.size}" +
+            " entry: ${grouped.secureCoreEntryCountries.size}" +
+            " exit: ${grouped.secureCoreExitCountries.size} " +
             "ServerManager Updated: $lastUpdateTimestampLog"
     }
 
     fun clearCache() {
         lastUpdateTimestamp = 0L
         Storage.delete(ServerManager::class.java)
-        filtered.invalidate()
+        grouped.update()
         // The server list itself is not deleted.
     }
 
@@ -239,7 +239,7 @@ class ServerManager @Inject constructor(
         translationsLang = language
         Storage.save(this, ServerManager::class.java)
 
-        filtered.invalidate()
+        grouped.update()
         onServersUpdate()
     }
 
@@ -285,11 +285,11 @@ class ServerManager @Inject constructor(
     fun getServerById(id: String) =
         allServers.firstOrNull { it.serverId == id } ?: getGuestHoleServers().firstOrNull { it.serverId == id }
 
-    fun getVpnCountries(): List<VpnCountry> = filtered.vpnCountries.sortedByLocaleAware { it.countryName }
+    fun getVpnCountries(): List<VpnCountry> = grouped.vpnCountries.sortedByLocaleAware { it.countryName }
 
-    fun getGateways(): List<GatewayGroup> = filtered.gateways
+    fun getGateways(): List<GatewayGroup> = grouped.gateways
 
-    fun getSecureCoreEntryCountries(): List<VpnCountry> = filtered.secureCoreEntryCountries
+    fun getSecureCoreEntryCountries(): List<VpnCountry> = grouped.secureCoreEntryCountries
 
     @Deprecated("Use the suspending getVpnExitCountry from ServerManager2")
     fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
@@ -321,7 +321,7 @@ class ServerManager @Inject constructor(
 
     fun getBestScoreServer(serverList: List<Server>, vpnUser: VpnUser?): Server? {
         val map = serverList.asSequence()
-            .filter { !it.isTor && it.online }
+            .filter { !it.isTor && it.online && supportsProtocol(it, protocolCached) }
             .groupBy { vpnUser.hasAccessToServer(it) }
             .mapValues { it.value.minByOrNull(Server::score) }
         return map[true] ?: map[false]
@@ -347,7 +347,7 @@ class ServerManager @Inject constructor(
     }
 
     fun getSecureCoreExitCountries(): List<VpnCountry> =
-        filtered.secureCoreExitCountries.sortedByLocaleAware { it.countryName }
+        grouped.secureCoreExitCountries.sortedByLocaleAware { it.countryName }
 
     fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? =
         getServerForProfile(profile, vpnUser, secureCoreCached)
@@ -453,31 +453,27 @@ class ServerManager @Inject constructor(
             ?: throw UnsupportedOperationException("Should only use this method on free tiers")
 }
 
-class FilteredServers(
+class GroupedServers(
     private val serverStore: ServersStore,
-    private val currentUserSettingsCached: EffectiveCurrentUserSettingsCached,
-    private val supportsProtocol: SupportsProtocol
 ) {
-    // Servers are filtered lazily when needed to delay access to user settings. This gives time to read settings in a
-    // non-blocking way.
-    private val currentProtocol get() = currentUserSettingsCached.value.protocol
-    private var filteredForProtocol: ProtocolSelection? = null
+    var vpnCountries: List<VpnCountry> = emptyList()
+        private set
+    var secureCoreExitCountries: List<VpnCountry> = emptyList()
+        private set
+    var secureCoreEntryCountries: List<VpnCountry> = emptyList()
+        private set
+    var gateways: List<GatewayGroup> = emptyList()
+        private set
 
-    private var filteredVpnCountries: List<VpnCountry> = emptyList()
-    private var filteredSecureCoreExitCountries: List<VpnCountry> = emptyList()
-    private var filteredSecureCoreEntryCountries: List<VpnCountry> = emptyList()
-    private var filteredGateways: List<GatewayGroup> = emptyList()
-
-    val vpnCountries: List<VpnCountry> get() = getCached { filteredVpnCountries }
-    val secureCoreExitCountries get() = getCached { filteredSecureCoreExitCountries }
-    val secureCoreEntryCountries get() = getCached { filteredSecureCoreEntryCountries }
-    val gateways get() = getCached { filteredGateways }
-
-    fun invalidate() {
-        filteredForProtocol = null
+    init {
+        update()
     }
 
-    private fun groupAndFilter() {
+    fun update() {
+        group()
+    }
+
+    private fun group() {
         fun MutableMap<String, MutableList<Server>>.addServer(key: String, server: Server, uppercase: Boolean = true) {
             val mapKey = if (uppercase) key.uppercase() else key
             getOrPut(mapKey) { mutableListOf() } += server
@@ -492,39 +488,25 @@ class FilteredServers(
         val gateways = mutableMapOf<String, MutableList<Server>>()
         val secureCoreEntryCountries = mutableMapOf<String, MutableList<Server>>()
         val secureCoreExitCountries = mutableMapOf<String, MutableList<Server>>()
-        val protocol = currentProtocol // Use a local copy in case the setting can change on some other thread.
-        for (unfilteredServer in serverStore.allServers) {
-            val filteredDomains = unfilteredServer.connectingDomains.filter { supportsProtocol(it, currentProtocol) }
-            if (filteredDomains.isNotEmpty()) {
-                val server = if (unfilteredServer.connectingDomains.size != filteredDomains.size) {
-                    unfilteredServer.copy(connectingDomains = filteredDomains)
-                } else {
-                    unfilteredServer
+        for (server in serverStore.allServers) {
+            when {
+                server.isSecureCoreServer -> {
+                    secureCoreEntryCountries.addServer(server.entryCountry, server)
+                    secureCoreExitCountries.addServer(server.exitCountry, server)
                 }
-                when {
-                    server.isSecureCoreServer -> {
-                        secureCoreEntryCountries.addServer(server.entryCountry, server)
-                        secureCoreExitCountries.addServer(server.exitCountry, server)
-                    }
 
-                    server.isGatewayServer && server.gatewayName != null ->
-                        gateways.addServer(server.gatewayName!!, server, uppercase = false)
+                server.isGatewayServer && server.gatewayName != null ->
+                    gateways.addServer(server.gatewayName!!, server, uppercase = false)
 
-                    else ->
-                        vpnCountries.addServer(server.flag, server)
+                else ->
+                    vpnCountries.addServer(server.flag, server)
 
-                }
             }
         }
-        filteredForProtocol = protocol
-        filteredVpnCountries = vpnCountries.toVpnCountries()
-        filteredSecureCoreEntryCountries = secureCoreEntryCountries.toVpnCountries(true)
-        filteredSecureCoreExitCountries = secureCoreExitCountries.toVpnCountries()
-        filteredGateways = gateways.map { (name, servers) -> GatewayGroup(name, servers) }
-    }
 
-    private fun <T> getCached(getter: () -> T): T {
-        if (currentProtocol != filteredForProtocol) groupAndFilter()
-        return getter()
+        this.vpnCountries = vpnCountries.toVpnCountries()
+        this.secureCoreEntryCountries = secureCoreEntryCountries.toVpnCountries()
+        this.secureCoreExitCountries = secureCoreExitCountries.toVpnCountries()
+        this.gateways = gateways.map { (name, servers) -> GatewayGroup(name, servers) }
     }
 }

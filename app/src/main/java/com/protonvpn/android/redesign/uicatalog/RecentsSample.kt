@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.VpnDivider
+import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentRow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
@@ -49,7 +50,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
     @Composable
     override fun Content(modifier: Modifier, snackbarHostState: SnackbarHostState) {
         Column(modifier = modifier.padding(vertical = 16.dp)) {
-            var recents by remember { mutableStateOf(listOf(item1, item2, item3, item4)) }
+            var recents by remember { mutableStateOf(listOf(item1, item2, item3, item4, item5, item6)) }
             val coroutineScope = rememberCoroutineScope()
 
             SamplesSectionLabel(
@@ -104,8 +105,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             ),
             isPinned = false,
             isConnected = false,
-            isOnline = true,
-            isAvailable = true
+            availability = RecentAvailability.ONLINE
         )
 
         private val item2 = RecentItemViewState(
@@ -119,8 +119,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             ),
             isPinned = false,
             isConnected = true,
-            isOnline = true,
-            isAvailable = true
+            availability = RecentAvailability.ONLINE
         )
 
         private val item3 = RecentItemViewState(
@@ -134,8 +133,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             ),
             isPinned = false,
             isConnected = false,
-            isOnline = true,
-            isAvailable = true
+            availability = RecentAvailability.ONLINE
         )
 
         private val item4 = RecentItemViewState(
@@ -149,8 +147,35 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             ),
             isPinned = false,
             isConnected = false,
-            isOnline = false,
-            isAvailable = true
+            availability = RecentAvailability.AVAILABLE_OFFLINE
+        )
+
+        private val item5 = RecentItemViewState(
+            id = 4,
+            ConnectIntentViewState(
+                exitCountry = CountryId("ch"),
+                entryCountry = null,
+                isSecureCore = false,
+                secondaryLabel = ConnectIntentSecondaryLabel.RawText("Zurich"),
+                serverFeatures = emptySet()
+            ),
+            isPinned = false,
+            isConnected = false,
+            availability = RecentAvailability.UNAVAILABLE_PLAN
+        )
+
+        private val item6 = RecentItemViewState(
+            id = 5,
+            ConnectIntentViewState(
+                exitCountry = CountryId("us"),
+                entryCountry = null,
+                isSecureCore = false,
+                secondaryLabel = null,
+                serverFeatures = emptySet()
+            ),
+            isPinned = false,
+            isConnected = false,
+            availability = RecentAvailability.UNAVAILABLE_PROTOCOL
         )
     }
 }
