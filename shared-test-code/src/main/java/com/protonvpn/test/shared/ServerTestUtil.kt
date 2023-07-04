@@ -50,6 +50,7 @@ fun createServer(
     gatewayName: String? = null,
     translations: Map<String, String?>? = null,
     isSecureCore: Boolean = false, // For convenience, adds SERVER_FEATURE_SECURE_CORE
+    connectingDomains: List<ConnectingDomain> = listOf(dummyConnectingDomain)
 ) =
     Server(
         serverId = serverId,

@@ -21,6 +21,7 @@ package com.protonvpn.tests.redesign.recents
 
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
@@ -60,7 +61,7 @@ class RecentsListUiTests : FusionComposeTest() {
                 VpnConnectionState.Disconnected
             ),
             listOf(
-                RecentItemViewState(0, ConnectIntentViewSwitzerland, false, false, true, true)
+                RecentItemViewState(0, ConnectIntentViewSwitzerland, false, false, RecentAvailability.ONLINE)
             ),
             null
         )

@@ -55,10 +55,12 @@ class RecentsManagerTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        testScope = TestScope(UnconfinedTestDispatcher())
+        val testDispatcher =  UnconfinedTestDispatcher()
+        testScope = TestScope(testDispatcher)
 
         currentUserProvider = TestCurrentUserProvider(TestUser.plusUser.vpnUser)
-        val currentUser = CurrentUser(testScope.backgroundScope, currentUserProvider)
+        val currentUser =
+            CurrentUser(testScope.backgroundScope, currentUserProvider)
         recentsManager =
             RecentsManager(testScope.backgroundScope, mockRecentsDao, currentUser, { testScope.currentTime })
     }

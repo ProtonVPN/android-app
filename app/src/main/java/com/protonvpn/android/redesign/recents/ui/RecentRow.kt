@@ -59,6 +59,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
@@ -77,13 +78,17 @@ import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.overlineStrongUnspecified
 
+enum class RecentAvailability() {
+    // Order is significant, see RecentsListViewStateFlow.getAvailability.
+    UNAVAILABLE_PLAN, UNAVAILABLE_PROTOCOL, AVAILABLE_OFFLINE, ONLINE
+}
+
 data class RecentItemViewState(
     val id: Long,
     val connectIntent: ConnectIntentViewState,
     val isPinned: Boolean,
     val isConnected: Boolean,
-    val isOnline: Boolean,
-    val isAvailable: Boolean,
+    val availability: RecentAvailability,
 )
 
 private object RecentRow {
@@ -117,10 +122,13 @@ fun RecentRow(
             CustomAccessibilityAction(stringResource(id = pinLabelRes)) { onTogglePin(); true },
             CustomAccessibilityAction(stringResource(id = R.string.recent_action_remove)) { onRemove(); true },
         )
+        val extraContentDescription = localItem.availability.extraContentDescription()
+        val clickActionLabel = localItem.availability.accessibilityAction()
         val semantics = Modifier
-            .clickable(onClick = onClick)
+            .clickable(onClick = onClick, onClickLabel = clickActionLabel)
             .semantics(mergeDescendants = true) {
                 if (localItem.isPinned) stateDescription = pinnedStateDescription
+                if (extraContentDescription != null) contentDescription = extraContentDescription
                 customActions = customAccessibilityActions
             }
         RecentRowContent(localItem, modifier.then(semantics))
@@ -141,7 +149,7 @@ private fun RecentRowContent(
             modifier = Modifier.align(Alignment.CenterStart),
             horizontalArrangement = Arrangement.Start
         ) {
-            val isDisabled = !item.isOnline || !item.isAvailable
+            val isDisabled = item.availability != RecentAvailability.ONLINE
             val iconRes = if (item.isPinned) R.drawable.ic_proton_pin_filled else R.drawable.ic_proton_clock_rotate_left
             Row(
                 modifier = Modifier.unavailableServerAlpha(isDisabled),
@@ -169,11 +177,11 @@ private fun RecentRowContent(
                     .padding(start = 16.dp)
                     .unavailableServerAlpha(isDisabled)
             )
-            if (item.isAvailable && !item.isOnline) {
+            if (item.availability == RecentAvailability.AVAILABLE_OFFLINE) {
                 Icon(
                     painterResource(id = R.drawable.ic_proton_wrench),
                     tint = ProtonTheme.colors.iconWeak,
-                    contentDescription = stringResource(R.string.accessibility_item_in_maintenance),
+                    contentDescription = null, // Description is added on the whole row.
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
             }
@@ -321,6 +329,24 @@ private fun ObserveDismissState(
     }
 }
 
+@Composable
+private fun RecentAvailability.accessibilityAction(): String? =
+    when (this) {
+        RecentAvailability.ONLINE -> R.string.accessibility_action_connect
+        RecentAvailability.UNAVAILABLE_PLAN -> R.string.accessibility_action_upgrade
+        RecentAvailability.AVAILABLE_OFFLINE,
+        RecentAvailability.UNAVAILABLE_PROTOCOL -> null
+    }?.let { stringResource(it) }
+
+@Composable
+private fun RecentAvailability.extraContentDescription(): String? =
+    when(this) {
+        RecentAvailability.UNAVAILABLE_PLAN,
+        RecentAvailability.UNAVAILABLE_PROTOCOL -> R.string.accessibility_item_unavailable
+        RecentAvailability.AVAILABLE_OFFLINE -> R.string.accessibility_item_in_maintenance
+        RecentAvailability.ONLINE -> null
+    }?.let { stringResource(it) }
+
 @Preview
 @Composable
 private fun PreviewRecent() {
@@ -338,8 +364,7 @@ private fun PreviewRecent() {
                 ),
                 isPinned = isPinned,
                 isConnected = true,
-                isOnline = false,
-                isAvailable = true
+                availability = RecentAvailability.AVAILABLE_OFFLINE,
             ),
             onClick = {},
             onTogglePin = { isPinned = !isPinned },

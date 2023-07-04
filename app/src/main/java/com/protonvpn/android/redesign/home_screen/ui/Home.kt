@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.redesign.home_screen.ui
 
+import android.content.Intent
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,6 +35,7 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -47,8 +49,10 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -56,12 +60,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
+import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
+import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
+import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -79,8 +88,16 @@ fun HomeView(onConnectionCardClick: () -> Unit) {
     val viewModel: HomeViewModel = hiltViewModel()
     val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle().value
     val vpnState = viewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
+    val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
     val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
     val coroutineScope = rememberCoroutineScope()
+
+    val context = LocalContext.current
+    LaunchedEffect(key1 = Unit) {
+        viewModel.eventNavigateToUpgrade.collect {
+            UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+        }
+    }
 
     ConstraintLayout(
         modifier = Modifier
@@ -117,8 +134,8 @@ fun HomeView(onConnectionCardClick: () -> Unit) {
         val connectAction = remember<() -> Unit>(vpnUiDelegate) {
             { coroutineScope.launch { viewModel.connect(vpnUiDelegate) } }
         }
-        val connectRecentAction = remember<(Long) -> Unit>(vpnUiDelegate) {
-            { id -> coroutineScope.launch { viewModel.connectRecent(id, vpnUiDelegate) } }
+        val recentClickedAction = remember<(RecentItemViewState) -> Unit>(vpnUiDelegate) {
+            { item -> coroutineScope.launch { viewModel.onRecentClicked(item, vpnUiDelegate) } }
         }
         val listBgColor = ProtonTheme.colors.backgroundNorm
         val listBgGradientColors = listOf(Color.Transparent, listBgColor)
@@ -142,7 +159,7 @@ fun HomeView(onConnectionCardClick: () -> Unit) {
                 onDisconnectClicked = viewModel::disconnect,
                 onOpenPanelClicked = onConnectionCardClick,
                 onHelpClicked = {},
-                onRecentClicked = connectRecentAction,
+                onRecentClicked = recentClickedAction,
                 onRecentPinToggle = viewModel::togglePinned,
                 onRecentRemove = viewModel::removeRecent,
                 maxHeight = maxHeight,
@@ -180,7 +197,29 @@ fun HomeView(onConnectionCardClick: () -> Unit) {
                 .constrainAs(vpnStatusTop) {}
         )
     }
+
+    HomeDialog(dialogState, onDismiss = viewModel::dismissDialog)
 }
+
+@Composable
+private fun HomeDialog(dialog: DialogState?, onDismiss: () -> Unit) {
+    if (dialog != null) {
+        val textId = when (dialog) {
+            DialogState.CountryInMaintenance -> R.string.message_country_servers_in_maintenance
+            DialogState.CityInMaintenance -> R.string.message_city_servers_in_maintenance
+            DialogState.ServerInMaintenance -> R.string.message_server_in_maintenance
+            DialogState.ServerNotAvailable -> R.string.message_server_not_available
+        }
+        ProtonAlert(
+            title = null,
+            text = stringResource(textId),
+            confirmLabel = stringResource(id = R.string.ok),
+            onConfirm = { onDismiss() },
+            onDismissRequest = onDismiss
+        )
+    }
+}
+
 
 private fun Modifier.recentsScrollOverlayBackground(
     alpha: State<Float>

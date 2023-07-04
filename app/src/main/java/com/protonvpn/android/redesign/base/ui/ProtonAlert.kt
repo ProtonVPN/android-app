@@ -28,7 +28,6 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -88,7 +87,6 @@ fun ProtonAlert(
                 }
             }
         },
-        shape = ShapeDefaults.Small,
         tonalElevation = 0.dp,
         containerColor = ProtonTheme.colors.backgroundSecondary,
     )

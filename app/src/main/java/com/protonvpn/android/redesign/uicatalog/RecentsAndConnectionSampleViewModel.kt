@@ -83,9 +83,9 @@ class RecentsAndConnectionSampleViewModel @Inject constructor(
         }
     }
 
-    fun connectRecent(id: Long) {
+    fun connectRecent(item: RecentItemViewState) {
         mainScope.launch {
-            val recent = recentsManager.getRecentById(id)
+            val recent = recentsManager.getRecentById(item.id)
             if (recent != null) {
                 vpnConnectionManager.connectInBackground(recent.connectIntent, ConnectTrigger.RecentRegular)
             }

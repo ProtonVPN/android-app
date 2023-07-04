@@ -18,10 +18,13 @@
  */
 package com.protonvpn.android.redesign.home_screen.ui
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.data.RecentConnection
+import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
@@ -38,16 +41,20 @@ import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
+import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
 
 private const val TriggerDescription = "Home screen"
+private const val DialogStateKey = "dialog"
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     recentsListViewStateFlow: RecentsListViewStateFlow,
     vpnStatusViewStateFlow: VpnStatusViewStateFlow,
     private val recentsManager: RecentsManager,
@@ -79,6 +86,15 @@ class HomeViewModel @Inject constructor(
         initialValue = VpnStatusViewState.Disabled()
     )
 
+    enum class DialogState {
+        CountryInMaintenance, CityInMaintenance, ServerInMaintenance, ServerNotAvailable
+    }
+
+    private var dialogState by savedStateHandle.state<DialogState?>(null, DialogStateKey)
+    val dialogStateFlow = savedStateHandle.getStateFlow<DialogState?>(DialogStateKey, null)
+
+    val eventNavigateToUpgrade = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+
     fun connect(vpnUiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent) {
         vpnConnectionManager.connect(
             vpnUiDelegate,
@@ -92,19 +108,28 @@ class HomeViewModel @Inject constructor(
         connect(vpnUiDelegate, connectIntent)
     }
 
-    suspend fun connectRecent(id: Long, vpnUiDelegate: VpnUiDelegate) {
-        val recent = recentsManager.getRecentById(id)
+    suspend fun onRecentClicked(item: RecentItemViewState, vpnUiDelegate: VpnUiDelegate) {
+        val recent = recentsManager.getRecentById(item.id)
         if (recent != null) {
-            vpnConnectionManager.connect(
-                vpnUiDelegate,
-                recent.connectIntent,
-                if (recent.isPinned) ConnectTrigger.RecentPinned else ConnectTrigger.RecentRegular
-            )
+            when (item.availability) {
+                RecentAvailability.UNAVAILABLE_PLAN -> eventNavigateToUpgrade.tryEmit(Unit)
+                RecentAvailability.UNAVAILABLE_PROTOCOL -> dialogState = DialogState.ServerNotAvailable
+                RecentAvailability.AVAILABLE_OFFLINE -> dialogState = recent.toMaintenanceDialogType()
+                RecentAvailability.ONLINE -> vpnConnectionManager.connect(
+                    vpnUiDelegate,
+                    recent.connectIntent,
+                    if (recent.isPinned) ConnectTrigger.RecentPinned else ConnectTrigger.RecentRegular
+                )
+            }
         }
     }
 
     fun disconnect() {
         vpnConnectionManager.disconnect(DisconnectTrigger.QuickConnect(TriggerDescription))
+    }
+
+    fun dismissDialog() {
+        dialogState = null
     }
 
     fun togglePinned(item: RecentItemViewState) {
@@ -118,4 +143,12 @@ class HomeViewModel @Inject constructor(
     fun removeRecent(item: RecentItemViewState) {
         recentsManager.remove(item.id)
     }
+
+    private fun RecentConnection.toMaintenanceDialogType() =
+        when (connectIntent) {
+            is ConnectIntent.FastestInCountry -> DialogState.CountryInMaintenance
+            is ConnectIntent.FastestInCity -> DialogState.CityInMaintenance
+            is ConnectIntent.SecureCore,
+            is ConnectIntent.Server -> DialogState.ServerInMaintenance
+        }
 }

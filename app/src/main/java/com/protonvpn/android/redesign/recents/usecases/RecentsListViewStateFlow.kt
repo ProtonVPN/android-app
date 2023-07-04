@@ -21,18 +21,21 @@ package com.protonvpn.android.redesign.recents.usecases
 
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.data.hasAccessToAnyServer
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.recents.data.RecentConnection
+import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.flatMapLatestNotNull
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.Reusable
@@ -52,6 +55,8 @@ class RecentsListViewStateFlow @Inject constructor(
     recentsManager: RecentsManager,
     private val getConnectIntentViewState: GetConnectIntentViewState,
     private val serverManager: ServerManager,
+    private val supportsProtocol: SupportsProtocol,
+    private val userSettings: EffectiveCurrentUserSettings,
     vpnStatusProvider: VpnStatusProviderUI,
     currentUser: CurrentUser
 ): Flow<RecentsListViewState> {
@@ -64,8 +69,9 @@ class RecentsListViewStateFlow @Inject constructor(
                 recentsManager.getRecentsList(),
                 recentsManager.getMostRecentConnection(),
                 vpnStatusProvider.uiStatus,
-                serverManager.serverListVersion // Update whenever servers change.
-            ) { recents, mostRecent, status, _ ->
+                serverManager.serverListVersion, // Update whenever servers change.
+                userSettings.protocol,
+            ) { recents, mostRecent, status, _, protocol ->
                 val connectedIntent = status.connectIntent?.takeIf {
                     status.state == VpnState.Connected || status.state.isEstablishingConnection
                 }
@@ -76,7 +82,7 @@ class RecentsListViewStateFlow @Inject constructor(
                         connectionCardIntent,
                         if (status.state == VpnState.Connected) status.connectionParams?.server else null
                     ),
-                    createRecentsViewState(recents, connectedIntent, connectionCardIntent, vpnUser),
+                    createRecentsViewState(recents, connectedIntent, connectionCardIntent, vpnUser, protocol),
                     recents.find { it.connectIntent == connectionCardIntent }?.id
                 )
             }
@@ -89,11 +95,12 @@ class RecentsListViewStateFlow @Inject constructor(
         recents: List<RecentConnection>,
         connectedIntent: ConnectIntent?,
         connectionCardIntent: ConnectIntent,
-        vpnUser: VpnUser?
+        vpnUser: VpnUser?,
+        protocol: ProtocolSelection
     ): List<RecentItemViewState> =
         recents.mapNotNull { recentConnection ->
             if (recentConnection.connectIntent != connectionCardIntent || recentConnection.isPinned) {
-                mapToRecentItemViewState(recentConnection, connectedIntent, vpnUser)
+                mapToRecentItemViewState(recentConnection, connectedIntent, vpnUser, protocol)
             } else {
                 null
             }
@@ -102,15 +109,15 @@ class RecentsListViewStateFlow @Inject constructor(
     private fun mapToRecentItemViewState(
         recentConnection: RecentConnection,
         connectedIntent: ConnectIntent?,
-        vpnUser: VpnUser?
+        vpnUser: VpnUser?,
+        protocol: ProtocolSelection
     ): RecentItemViewState =
         with (recentConnection) {
             RecentItemViewState(
                 id = id,
                 isPinned = isPinned,
                 isConnected = connectedIntent == connectIntent,
-                isAvailable = isAvailable(connectIntent, vpnUser),
-                isOnline = isOnlineAndAvailable(connectIntent, vpnUser),
+                availability = getAvailability(connectIntent, vpnUser, protocol),
                 connectIntent = getConnectIntentViewState(connectIntent)
             )
         }
@@ -141,23 +148,39 @@ class RecentsListViewStateFlow @Inject constructor(
         )
     }
 
-    private fun isAvailable(connectIntent: ConnectIntent, vpnUser: VpnUser?): Boolean =
+    private fun getAvailability(
+        connectIntent: ConnectIntent,
+        vpnUser: VpnUser?,
+        protocol: ProtocolSelection
+    ): RecentAvailability =
         serverManager.forConnectIntent(
             connectIntent,
-            onFastest = { true },
-            onServer = { server -> vpnUser?.hasAccessToServer(server) == true },
-            onFastestInCountry = { country, _ -> country.hasAccessibleServer(vpnUser) },
-            onFastestInCity = { _, servers -> vpnUser.hasAccessToAnyServer(servers) },
-            fallbackResult = false
+            onFastest = { isSecureCore ->
+                if (!isSecureCore || vpnUser?.isFreeUser != true) RecentAvailability.ONLINE
+                else RecentAvailability.UNAVAILABLE_PLAN
+            },
+            onFastestInCountry = { country, _ -> country.serverList.getAvailability(vpnUser, protocol) },
+            onFastestInCity = { _, servers -> servers.getAvailability(vpnUser, protocol) },
+            onServer = { server -> listOf(server).getAvailability(vpnUser, protocol) },
+            fallbackResult = RecentAvailability.UNAVAILABLE_PLAN
         )
 
-    private fun isOnlineAndAvailable(connectIntent: ConnectIntent, vpnUser: VpnUser?): Boolean =
-        serverManager.forConnectIntent(
-            connectIntent,
-            onFastest = { isSecureCore -> !isSecureCore || vpnUser?.isFreeUser != true },
-            onServer = { server -> server.online && vpnUser.hasAccessToServer(server) },
-            onFastestInCountry = { country, _ -> country.hasAccessibleOnlineServer(vpnUser) },
-            onFastestInCity = { _, servers -> servers.any { it.online && vpnUser.hasAccessToServer(it) } },
-            fallbackResult = false
-        )
+    private fun Iterable<Server>.getAvailability(vpnUser: VpnUser?, protocol: ProtocolSelection): RecentAvailability {
+        fun Server.hasAvailability(availability: RecentAvailability) = when (availability) {
+            RecentAvailability.UNAVAILABLE_PLAN -> true
+            RecentAvailability.UNAVAILABLE_PROTOCOL -> vpnUser.hasAccessToServer(this)
+            RecentAvailability.AVAILABLE_OFFLINE -> supportsProtocol(this, protocol)
+            RecentAvailability.ONLINE -> online
+        }
+
+        return maxOfOrNull { server ->
+            RecentAvailability.values()
+                .takeWhile { server.hasAvailability(it) }
+                .last()
+                .also {
+                    // The list of servers may be long and most of them should be online. Finish the loop early.
+                    if (it == RecentAvailability.ONLINE) return@maxOfOrNull RecentAvailability.ONLINE
+                }
+        } ?: RecentAvailability.UNAVAILABLE_PLAN
+    }
 }

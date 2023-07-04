@@ -22,8 +22,6 @@ package com.protonvpn.app
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.Server
@@ -41,7 +39,6 @@ import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createServer
-import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -50,7 +47,6 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -132,18 +128,6 @@ class ServerManagerTests {
         Assert.assertEquals(
             "DE#1", manager.getBestScoreServer(false)!!.serverName
         )
-    }
-
-    @Test
-    fun testFilterForProtocol() {
-        currentSettings.update {
-            it.copy(protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP))
-        }
-        val afterProtocolChange = manager.getVpnCountries()
-        Assert.assertEquals(listOf("CA#1", "DE#1"), afterProtocolChange.flatMap { it.serverList.map { it.serverName } })
-        val canada = afterProtocolChange.first { it.flag == "CA" }
-        Assert.assertEquals(1, canada.serverList.size)
-        Assert.assertEquals(1, canada.serverList.first().connectingDomains.size)
     }
 
     @Test
