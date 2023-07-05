@@ -24,6 +24,7 @@ import com.protonvpn.tests.redesign.base.ui.ProtonTextFieldTests
 import com.protonvpn.tests.redesign.base.ui.nav.NavigationTests
 import com.protonvpn.tests.redesign.recents.RecentsDaoTests
 import com.protonvpn.tests.redesign.recents.RecentsListUiTests
+import com.protonvpn.tests.redesign.recents.RecentsListValidatorTests
 import com.protonvpn.tests.redesign.vpn.ui.GetConnectIntentViewStateTests
 import com.protonvpn.tests.redesign.vpn.ui.VpnStatusViewTests
 import org.junit.runner.RunWith
@@ -40,6 +41,7 @@ import org.junit.runners.Suite
     ProtonTextFieldTests::class,
     RecentsDaoTests::class,
     RecentsListUiTests::class,
+    RecentsListValidatorTests::class,
     VpnStatusViewTests::class,
 )
 class IsolatedTestsSuite
