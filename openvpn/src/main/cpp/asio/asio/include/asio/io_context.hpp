@@ -300,7 +300,7 @@ public:
    * @note Calling the run() function from a thread that is currently calling
    * one of run(), run_one(), run_for(), run_until(), poll() or poll_one() on
    * the same io_context object may introduce the potential for deadlock. It is
-   * the caller's reponsibility to avoid this.
+   * the caller's responsibility to avoid this.
    *
    * The poll() function may also be used to dispatch ready handlers, but
    * without blocking.
@@ -331,7 +331,7 @@ public:
    * @note Calling the run() function from a thread that is currently calling
    * one of run(), run_one(), run_for(), run_until(), poll() or poll_one() on
    * the same io_context object may introduce the potential for deadlock. It is
-   * the caller's reponsibility to avoid this.
+   * the caller's responsibility to avoid this.
    *
    * The poll() function may also be used to dispatch ready handlers, but
    * without blocking.
@@ -383,7 +383,7 @@ public:
    * @note Calling the run_one() function from a thread that is currently
    * calling one of run(), run_one(), run_for(), run_until(), poll() or
    * poll_one() on the same io_context object may introduce the potential for
-   * deadlock. It is the caller's reponsibility to avoid this.
+   * deadlock. It is the caller's responsibility to avoid this.
    */
   ASIO_DECL count_type run_one();
 
@@ -405,7 +405,7 @@ public:
    * @note Calling the run_one() function from a thread that is currently
    * calling one of run(), run_one(), run_for(), run_until(), poll() or
    * poll_one() on the same io_context object may introduce the potential for
-   * deadlock. It is the caller's reponsibility to avoid this.
+   * deadlock. It is the caller's responsibility to avoid this.
    */
   ASIO_DECL count_type run_one(asio::error_code& ec);
 #endif // !defined(ASIO_NO_DEPRECATED)

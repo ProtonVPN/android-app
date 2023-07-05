@@ -341,7 +341,7 @@ public:
    * This function is used to send data on the raw socket. The function call
    * will block until the data has been sent successfully or an error occurs.
    *
-   * @param buffers One ore more data buffers to be sent on the socket.
+   * @param buffers One or more data buffers to be sent on the socket.
    *
    * @returns The number of bytes sent.
    *
@@ -372,7 +372,7 @@ public:
    * This function is used to send data on the raw socket. The function call
    * will block until the data has been sent successfully or an error occurs.
    *
-   * @param buffers One ore more data buffers to be sent on the socket.
+   * @param buffers One or more data buffers to be sent on the socket.
    *
    * @param flags Flags specifying how the send call is to be made.
    *

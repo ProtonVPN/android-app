@@ -572,7 +572,7 @@ public:
   {
   }
 
-  /// Invoke the conditional branch bsaed on the stored alue.
+  /// Invoke the conditional branch bsaed on the stored value.
   template <typename... Args>
   auto operator()(ASIO_MOVE_ARG(Args)... args) ASIO_RVALUE_REF_QUAL
     -> decltype(
