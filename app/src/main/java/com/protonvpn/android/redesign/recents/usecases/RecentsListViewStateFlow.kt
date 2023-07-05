@@ -25,6 +25,7 @@ import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
@@ -75,7 +76,10 @@ class RecentsListViewStateFlow @Inject constructor(
                 val connectedIntent = status.connectIntent?.takeIf {
                     status.state == VpnState.Connected || status.state.isEstablishingConnection
                 }
-                val connectionCardIntent = connectedIntent ?: mostRecent?.connectIntent ?: defaultConnectIntent
+                val mostRecentAvailableIntent =  mostRecent?.connectIntent?.takeIf {
+                    getAvailability(it, vpnUser, protocol) == RecentAvailability.ONLINE
+                }
+                val connectionCardIntent = connectedIntent ?: mostRecentAvailableIntent ?: defaultConnectIntent
                 RecentsListViewState(
                     createCardState(
                         status.state,

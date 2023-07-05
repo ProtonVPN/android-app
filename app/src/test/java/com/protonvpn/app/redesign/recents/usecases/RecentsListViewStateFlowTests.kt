@@ -219,6 +219,20 @@ class RecentsListViewStateFlowTests {
     }
 
     @Test
+    fun whenMostRecentIsUnavailableTheDefaultIsShownInConnectionCard() = testScope.runTest {
+        coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
+        coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(DefaultRecents.first())
+
+        val offlineSecureCore = serverSecureCore.copy(isOnline = false)
+        serverManager.setServers(listOf(serverCh, serverIs, serverSe, offlineSecureCore), null)
+
+        val viewState = viewStateFlow.first()
+
+        val expected = createViewStateForFastestInCountry(ConnectIntent.Default)
+        assertEquals(expected, viewState.connectionCard.connectIntentViewState)
+    }
+
+    @Test
     fun paidServersUnavailableToFreeUser() = testScope.runTest {
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
         currentUserProvider.vpnUser = TestUser.freeUser.vpnUser
