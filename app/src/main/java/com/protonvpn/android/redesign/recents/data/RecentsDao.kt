@@ -80,6 +80,14 @@ abstract class RecentsDao {
     @Query("DELETE FROM recents WHERE id = :id")
     abstract suspend fun delete(id: Long)
 
+    @Query("DELETE FROM recents WHERE id in (:recentIds)")
+    abstract suspend fun delete(recentIds: List<Long>)
+
+    fun getServerRecentsForAllUsers(): Flow<List<RecentConnection>> =
+        getRecentEntitiesByTypeForAllUsers(ConnectIntentType.SPECIFIC_SERVER).map { recents ->
+            recents.map { it.toRecentConnection() }
+        }
+
 
     @Transaction
     protected open suspend fun insertOrUpdateForConnection(
@@ -122,6 +130,11 @@ abstract class RecentsDao {
 
     @Query("SELECT * FROM recents WHERE userId = :userId ORDER BY lastConnectionAttemptTimestamp DESC LIMIT 1")
     protected abstract fun getMostRecentConnectionEntity(userId: UserId): Flow<RecentConnectionEntity?>
+
+    @Query("SELECT * FROM recents WHERE connectIntentType = :type")
+    protected abstract fun getRecentEntitiesByTypeForAllUsers(
+        type: ConnectIntentType
+    ): Flow<List<RecentConnectionEntity>>
 
     @Query("SELECT * FROM recents WHERE id = :id")
     protected abstract suspend fun getSync(id: Long): RecentConnectionEntity?

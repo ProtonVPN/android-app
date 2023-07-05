@@ -42,40 +42,44 @@ import kotlin.coroutines.CoroutineContext
  */
 @Singleton
 class EspressoDispatcherProvider @Inject constructor() : VpnDispatcherProvider {
+    val idlingResource = CountingIdlingResource("Dispatcher provider")
+
     override val Main: CoroutineDispatcher = IdlingResourceDispatcher(
         // Can't use Dispatchers.Main here because it will be overridden by
         // Dispatchers.setMain(EspressoDispatcherProvider.Main) in tests causing an infinite recursion when the
         // dispatch() method is called.
-        Handler(Looper.getMainLooper()).asCoroutineDispatcher("EspressoDispatcherProvider.Main")
+        Handler(Looper.getMainLooper()).asCoroutineDispatcher("EspressoDispatcherProvider.Main"),
+        idlingResource
     )
-    override val Comp: CoroutineDispatcher = IdlingResourceDispatcher(Dispatchers.Default)
-    override val Io: CoroutineDispatcher = IdlingResourceDispatcher(Dispatchers.IO)
+    override val Comp: CoroutineDispatcher = IdlingResourceDispatcher(Dispatchers.Default, idlingResource)
+    override val Io: CoroutineDispatcher = IdlingResourceDispatcher(Dispatchers.IO, idlingResource)
     override val infiniteIo = Dispatchers.IO // Ignore status of infinite tasks, otherwise tests will wait forever.
 
     override fun newSingleThreadDispatcher(): CoroutineDispatcher =
-        IdlingResourceDispatcher(Executors.newSingleThreadExecutor().asCoroutineDispatcher())
+        IdlingResourceDispatcher(Executors.newSingleThreadExecutor().asCoroutineDispatcher(), idlingResource)
 
     override fun newSingleThreadDispatcherForInifiniteIo(): CoroutineDispatcher =
         Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+}
 
-    val idlingResource = CountingIdlingResource("Dispatcher provider")
-
-    private inner class IdlingResourceDispatcher(private val dispatcher: CoroutineDispatcher) : CoroutineDispatcher() {
-        override fun dispatch(context: CoroutineContext, block: Runnable) {
-            idlingResource.increment()
-            idlingResource.dumpStateToLogs()
-            Log.d("Idling", "Block $block")
-            dispatcher.dispatch(
-                context,
-                Runnable {
-                    try {
-                        block.run()
-                    } finally {
-                        idlingResource.decrement()
-                        idlingResource.dumpStateToLogs()
-                    }
+class IdlingResourceDispatcher(
+    private val dispatcher: CoroutineDispatcher,
+    private val idlingResource: CountingIdlingResource
+) : CoroutineDispatcher() {
+    override fun dispatch(context: CoroutineContext, block: Runnable) {
+        idlingResource.increment()
+        idlingResource.dumpStateToLogs()
+        Log.d("Idling", "Block $block")
+        dispatcher.dispatch(
+            context,
+            Runnable {
+                try {
+                    block.run()
+                } finally {
+                    idlingResource.decrement()
+                    idlingResource.dumpStateToLogs()
                 }
-            )
-        }
+            }
+        )
     }
 }
