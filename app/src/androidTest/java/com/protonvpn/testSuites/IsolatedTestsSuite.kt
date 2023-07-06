@@ -22,6 +22,7 @@ package com.protonvpn.testSuites
 import com.protonvpn.tests.netshield.NetShieldComponentTests
 import com.protonvpn.tests.redesign.base.ui.ProtonTextFieldTests
 import com.protonvpn.tests.redesign.base.ui.nav.NavigationTests
+import com.protonvpn.tests.redesign.recents.MigrateProfileTests
 import com.protonvpn.tests.redesign.recents.RecentsDaoTests
 import com.protonvpn.tests.redesign.recents.RecentsListUiTests
 import com.protonvpn.tests.redesign.recents.RecentsListValidatorTests
@@ -36,6 +37,7 @@ import org.junit.runners.Suite
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
     GetConnectIntentViewStateTests::class,
+    MigrateProfileTests::class,
     NavigationTests::class,
     NetShieldComponentTests::class,
     ProtonTextFieldTests::class,

@@ -72,10 +72,9 @@ import com.protonvpn.android.logging.Setting;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.notifications.NotificationHelper;
-import com.protonvpn.android.redesign.stubs.LegacyProfileKt;
+import com.protonvpn.android.redesign.recents.usecases.MigrateProfilesKt;
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent;
 import com.protonvpn.android.redesign.vpn.ConnectIntent;
-import com.protonvpn.android.redesign.vpn.ServerFeature;
 import com.protonvpn.android.search.SearchResultsFragment;
 import com.protonvpn.android.search.SearchViewModel;
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached;
@@ -112,7 +111,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -492,8 +490,8 @@ public class HomeActivity extends VpnActivity {
         if (event.getProfile() == null) {
             disconnect(event.getDisconnectTrigger());
         } else {
-            ConnectIntent connectIntent =
-                    LegacyProfileKt.toConnectIntent(event.getProfile(), serverManager, userSettingsCached.getValue());
+            ConnectIntent connectIntent = MigrateProfilesKt.toConnectIntent(
+                    event.getProfile(), serverManager, userSettingsCached.getValue().getSecureCore());
             onConnect(connectIntent, event.getConnectTrigger());
         }
     }
@@ -622,8 +620,8 @@ public class HomeActivity extends VpnActivity {
     }
 
     private void connectToDefaultProfile() {
-        ConnectIntent connectIntent =
-                LegacyProfileKt.toConnectIntent(serverManager.getDefaultConnection(), serverManager, userSettingsCached.getValue());
+        ConnectIntent connectIntent = MigrateProfilesKt.toConnectIntent(
+                serverManager.getDefaultConnection(), serverManager, userSettingsCached.getValue().getSecureCore());
         onConnect(connectIntent, new ConnectTrigger.QuickConnect("quick connect"));
     }
 

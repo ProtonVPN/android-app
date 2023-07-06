@@ -349,9 +349,11 @@ class ServerManager @Inject constructor(
     fun getSecureCoreExitCountries(): List<VpnCountry> =
         grouped.secureCoreExitCountries.sortedByLocaleAware { it.countryName }
 
+    @Deprecated("Use getServerForConnectIntent")
     fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? =
         getServerForProfile(profile, vpnUser, secureCoreCached)
 
+    @Deprecated("Use getServerForConnectIntent")
     fun getServerForProfile(profile: Profile, vpnUser: VpnUser?, secureCoreEnabled: Boolean): Server? {
         val wrapper = profile.wrapper
         val needsSecureCore = profile.isSecureCore ?: secureCoreEnabled

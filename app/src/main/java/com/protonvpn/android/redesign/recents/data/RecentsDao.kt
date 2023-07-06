@@ -83,6 +83,9 @@ abstract class RecentsDao {
     @Query("DELETE FROM recents WHERE id in (:recentIds)")
     abstract suspend fun delete(recentIds: List<Long>)
 
+    @Insert
+    abstract suspend fun insert(recents: List<RecentConnectionEntity>)
+
     fun getServerRecentsForAllUsers(): Flow<List<RecentConnection>> =
         getRecentEntitiesByTypeForAllUsers(ConnectIntentType.SPECIFIC_SERVER).map { recents ->
             recents.map { it.toRecentConnection() }
