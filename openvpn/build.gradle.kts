@@ -120,8 +120,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility = JavaVersion.VERSION_1_8
-        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
     }
 
     splits {
@@ -194,6 +194,7 @@ dependencies {
 
     implementation("androidx.annotation:annotation:1.3.0")
     implementation("androidx.core:core:$coreVersion")
+    implementation("com.github.seancfoley:ipaddress:5.3.4")
 
 /*
     // Is there a nicer way to do this?
