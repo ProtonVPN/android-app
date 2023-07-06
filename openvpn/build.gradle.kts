@@ -252,6 +252,7 @@ dependencies {
     // https://maven.google.com/web/index.html
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.core.ktx)
+    implementation("com.github.seancfoley:ipaddress:5.4.0")
 
 /*
     uiImplementation(libs.android.view.material)
