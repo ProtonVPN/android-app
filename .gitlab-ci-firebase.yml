@@ -63,7 +63,7 @@ mobile tests mocked api:
     TEST_APP_TYPE: "black-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileMockApiSuite"
     TIMEOUT: $TIMEOUT_MOCKED_TESTS
-#    COVERAGE_FOLDER: "mobile_mocked_api"
+    COVERAGE_FOLDER: "mobile_mocked_api"
 
 mobile tests test-env:
   extends: .tests_preparation_script

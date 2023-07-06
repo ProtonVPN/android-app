@@ -259,7 +259,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  testAccountPassword
-            enableAndroidTestCoverage false // See VPNAND-1094.
+            enableAndroidTestCoverage true
             ext.alwaysUpdateBuildId = false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
