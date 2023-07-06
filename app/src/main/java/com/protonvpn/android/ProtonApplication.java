@@ -45,6 +45,7 @@ import com.protonvpn.android.logging.SettingChangesLogger;
 import com.protonvpn.android.notifications.NotificationHelper;
 import com.protonvpn.android.quicktile.QuickTileDataStoreUpdater;
 import com.protonvpn.android.redesign.recents.usecases.ConnectingUpdatesRecents;
+import com.protonvpn.android.redesign.recents.usecases.MigrateProfilesOnStart;
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator;
 import com.protonvpn.android.search.UpdateServersOnStartAndLocaleChange;
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry;
@@ -109,6 +110,7 @@ public class ProtonApplication extends Application {
         IsTvCheck getIsTv();
         LogcatLogCapture getLogcatLogCapture();
         MaintenanceTracker getMaintenanceTracker();
+        MigrateProfilesOnStart getMigrateProfilesOnStart();
         OneTimePopupNotificationTrigger getOneTimePopupNotificationTrigger();
         PeriodicUpdateManager getPeriodicUpdateManager();
         PowerStateLogger getPowerStateLogger();
@@ -175,6 +177,7 @@ public class ProtonApplication extends Application {
         dependencies.getDohEnabledProvider();
         dependencies.getHumanVerificationStateHandler().observe();
         dependencies.getMaintenanceTracker();
+        dependencies.getMigrateProfilesOnStart();
         dependencies.getNotificationPermissionManager();
         dependencies.getQuickTileDataStoreUpdater().start();
         dependencies.getRecentsValidator();
