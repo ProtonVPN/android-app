@@ -23,6 +23,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.utils.flatMapLatestNotNull
+import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -43,8 +44,8 @@ class ConnectingUpdatesRecents @Inject constructor(
     init {
         currentUser.userFlow.flatMapLatestNotNull { user ->
             vpnStatusProvider.uiStatus
-                .mapNotNull {
-                    it.connectIntent
+                .mapNotNull { vpnStatus ->
+                    vpnStatus.connectIntent.takeIf { vpnStatus.state !is VpnState.Disabled }
                 }
                 .distinctUntilChanged()
                 .onEach { connectIntent ->
