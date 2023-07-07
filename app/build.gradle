@@ -798,7 +798,7 @@ dependencies {
     implementation 'com.caverock:androidsvg:1.4'
 
     // Wireguard
-    implementation 'me.proton.vpn:wireguard-android:1.0.20230512.0'
+    implementation 'me.proton.vpn:wireguard-android:1.0.20230512.14'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // Hilt
