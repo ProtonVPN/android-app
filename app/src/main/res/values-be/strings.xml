@@ -340,10 +340,10 @@
     <string name="netshield_free_description">Блакіроўка рэкламы, праграм сачэння і шкодных праграм на вэб-сайтах і ў праграмах</string>
     <string name="accessibility_netshield_status_on_click">Увядзіце налады NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Рэклама\nзаблакіравана</item>
-        <item quantity="few">Рэкламы\nзаблакіраваны</item>
-        <item quantity="many">Рэклам\nзаблакіраваны</item>
-        <item quantity="other">Рэкламы\nзаблакіраваны</item>
+        <item quantity="one">рэклама\nзаблакіравана</item>
+        <item quantity="few">рэкламы\nзаблакіраваны</item>
+        <item quantity="many">рэклам\nзаблакіраваны</item>
+        <item quantity="other">рэклам\nзаблакіраваны</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
         <item quantity="one">праграма сачэння\nспынена</item>

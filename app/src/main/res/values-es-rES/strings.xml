@@ -32,7 +32,7 @@
     <string name="loginNeedHelp">¿Necesitas ayuda?</string>
     <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Para comenzar tu viaje en Proton VPN, asigna conexiones VPN a tu cuenta o a cualquier otra subcuenta.</string>
-    <string name="connectionAllocationHelpDescription2">Este paso le llevará sólo unos minutos. Después de eso podrás iniciar sesión y proteger todos tus dispositivos.</string>
+    <string name="connectionAllocationHelpDescription2">Este paso te llevará sólo unos minutos. Después de eso podrás iniciar sesión y proteger todos tus dispositivos.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN habilitada para esta cuenta. Para comenzar tu viaje en Proton VPN, ponte en contacto con tu administrador. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activar conexiones VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión de nuevo</string>
@@ -331,7 +331,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen tu dirección IP y no pueden ser usadas para identificarte. Nosotros nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
     <string name="netShieldEnabledWarning">Es posible que algunos sitios web no funcionen por completo debido a contenidos bloqueados.</string>
     <string name="netShieldDescription">Bloquear anuncios, rastreadores y malware </string>
-    <string name="netshield_settings_description"><![CDATA[Protégete contra anuncios, malware y rastreadores en sitios web y applicaciones. Si los sitios web no cargan, intenta deshabilitar NetShield. <a href="%1$s">
+    <string name="netshield_settings_description"><![CDATA[Protégete contra anuncios, malware y rastreadores en sitios web y aplicaciones. Si los sitios web no cargan, intenta deshabilitar NetShield. <a href="%1$s">
 Más información</a>.]]></string>
     <string name="netshield_status_on">Activado</string>
     <string name="netshield_status_off">Desactivado</string>

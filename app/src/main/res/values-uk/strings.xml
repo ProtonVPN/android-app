@@ -537,7 +537,7 @@
      Example:
      You now have access to 1300+ secure servers and other premium features.
      -->
-    <string name="onboarding_plan_congrats_description">Тепер у вас є доступ до %1$s та інших функцій преміум.</string>
+    <string name="onboarding_plan_congrats_description">Тепер у вас є доступ до %1$s та інших преміумфункцій.</string>
     <string name="upgrade_plus_countries_streaming">Отримайте доступ до глобальних стримінгових сервісів</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
