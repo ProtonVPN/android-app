@@ -30,7 +30,7 @@
     <string name="loginStartWithDevice">Iniciar com o dispositivo</string>
     <string name="loginCreateAccount">Criar nova conta</string>
     <string name="loginNeedHelp">Precisa de ajuda?</string>
-    <string name="connectionAllocationHelpTitle">Obrigado por fazer upgrade para\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Nós lhe agradecemos por fazer upgrade para\nBusiness\u00a0/\u00a0Visionary.</string>
     <string name="connectionAllocationHelpDescription1">Para iniciar sua jornada no Proton VPN, atribua conexões VPN à sua conta ou a qualquer outra subconta.</string>
     <string name="connectionAllocationHelpDescription2">Esta etapa levará apenas alguns minutos. Depois disso, você poderá iniciar sessão e proteger todos os seus dispositivos.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Não há conexões VPN ativadas para esta conta. Para iniciar sua jornada no Proton VPN, entre em contato com seu administrador. </string>
@@ -242,7 +242,7 @@
     <string name="error_prepare_vpn_settings">Vá para configurações da VPN no Android</string>
     <string name="error_prepare_vpn_title">Erro: problema de permissão na VPN</string>
     <string name="error_server_not_set">O servidor não está mais disponível</string>
-    <string name="bugReportThankYouToast">Obrigado pelo seu feedback</string>
+    <string name="bugReportThankYouToast">Nós lhe agradecemos por seu relatório.</string>
     <string name="bugReportErrorEmptyEmail">O e-mail não pode estar em branco</string>
     <string name="bugReportErrorInvalidEmail">Endereço de e-mail inválido</string>
     <string name="bugReportErrorEmptyDescription">Descreva o que está acontecendo</string>
@@ -615,7 +615,7 @@
     <string name="dynamic_report_tips_description">Essas dicas podem ajudar a resolver seu problema mais rapidamente.</string>
     <string name="dynamic_report_tips_title">Correções rápidas</string>
     <string name="dynamic_report_logs_title">Enviar registros de erro</string>
-    <string name="dynamic_report_success_title">Obrigado por seu comentário</string>
+    <string name="dynamic_report_success_title">Nós lhe agradecemos por seus comentários.</string>
     <string name="dynamic_report_success_description">Retornaremos assim que possível.</string>
     <string name="dynamic_report_field_mandatory">Este campo é obrigatório</string>
     <string name="dynamic_report_logs_description">Um log é uma categoria de arquivo que nos mostra as ações que você realizou que levaram a um erro. Nós só os usaremos para ajudar nossos engenheiros a corrigir bugs.</string>

@@ -654,8 +654,8 @@
          Examples: "Servers (5)", "Servers (1)" -->
     <string name="server_search_servers_header">Servere (%1$d)</string>
     <string name="search_empty_title">Căutare orice loc</string>
-    <string name="search_empty_hint_countries"><![CDATA[Țări: <font color="%1$s">Elveția, Statele Unite, Italia…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Țări: <font color="%1$s">Franța, Statele Unite, Italia…</font>]]></string>
+    <string name="search_empty_hint_countries"><![CDATA[Țări: <font color="%1$s">Elveția, SUA, Italia…</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Țări: <font color="%1$s">Franța, SUA, Italia…</font>]]></string>
     <string name="search_empty_hint_cities"><![CDATA[Orașe: <font color="%1$s">New York, Londra, Tokyo…</font>]]></string>
     <string name="search_empty_hint_usa_regions"><![CDATA[Regiuni SUA: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
     <string name="search_empty_hint_servers"><![CDATA[Servere: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
