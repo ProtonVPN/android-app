@@ -23,10 +23,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.protonvpn.android.redesign.main_screen.ui.MainActivity
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
-import com.protonvpn.android.ui.main.MobileMainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.notification.presentation.deeplink.HandleDeeplinkIntent
 import javax.inject.Inject
@@ -56,7 +56,7 @@ class SplashActivity : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             TvMainActivity::class.java
         } else {
-            MobileMainActivity::class.java
+            MainActivity::class.java
         }
 
         startActivity(

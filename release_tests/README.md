@@ -8,6 +8,12 @@ test suite.
 
 ## Executing tests
 
+Build and install the test app:
+
+```
+./gradlew :release_tests:installDebug
+```
+
 With Test Orchestrator that clears app data between tests:
 
 ```
