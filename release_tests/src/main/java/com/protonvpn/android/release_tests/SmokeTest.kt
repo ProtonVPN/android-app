@@ -26,6 +26,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.BySelector
 import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiSelector
 import androidx.test.uiautomator.Until
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -42,10 +43,6 @@ class SmokeTest {
 
     @Before
     fun setup() {
-        // The pulsating FAB causes test to wait until timeout even if condition is met,
-        // disable animations to avoid this.
-        disableAnimations()
-
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         launchVpnApp(device)
     }
@@ -67,10 +64,10 @@ class SmokeTest {
         // Use ID for the button because "Sign in" text is not unique (also used in header).
         device.findObject(By.res(TEST_PACKAGE, "signInButton")).click()
 
-        val hasToolbarTitle = device.wait(Until.hasObject(By.text("Proton VPN")), LONG_TIMEOUT)
-        val hasVpnStatusText = device.hasObject(By.text("Not connected (Unprotected)"))
-        assertTrue(hasToolbarTitle)
-        assertTrue(hasVpnStatusText)
+        val hasConnectButton = device.findObject(UiSelector().text("Connect")).waitForExists(LONG_TIMEOUT)
+        val hasVpnStatus = device.findObject(UiSelector().text("You are unprotected")).exists()
+        assertTrue(hasConnectButton)
+        assertTrue(hasVpnStatus)
     }
 
     private fun launchVpnApp(device: UiDevice) {

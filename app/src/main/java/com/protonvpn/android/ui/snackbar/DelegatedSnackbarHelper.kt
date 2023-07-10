@@ -21,8 +21,10 @@ package com.protonvpn.android.ui.snackbar
 
 import android.view.View
 import androidx.activity.ComponentActivity
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 
 /**
@@ -33,7 +35,7 @@ class DelegatedSnackbarHelper(
     private val activity: ComponentActivity,
     view: View,
     private val delegatedSnackManager: DelegatedSnackManager
-) : SnackbarHelper(activity.resources, view), LifecycleObserver {
+) : SnackbarHelper(activity.resources, view), DefaultLifecycleObserver {
 
     // Note: if we need to support more actions this mechanism probably will have to be extended
     // beyond a hardcoded map.
@@ -45,8 +47,7 @@ class DelegatedSnackbarHelper(
         activity.lifecycle.addObserver(this)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onResume() {
+    override fun onResume(owner: LifecycleOwner) {
         delegatedSnackManager.getPendingSnackOrNull()?.show()
     }
 
