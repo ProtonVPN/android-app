@@ -24,32 +24,45 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
 import me.proton.core.util.kotlin.DefaultDispatcherProvider
 import me.proton.core.util.kotlin.DispatcherProvider
-import kotlin.reflect.KProperty
 
-// Gives non-suspending access to flow with the use of a state flow. Note: observer will be blocked until first element
-// is read - USE WITH CAUTION.
-// usage: val fooState by SyncStateFlow(mainScope, fooFlow)
+// A StateFlow that blocks synchronous read until the first value is ready (i.e. emitted by baseFlow)
+// USE WITH CAUTION.
 class SyncStateFlow<T>(
     private val scope: CoroutineScope,
     private val baseFlow: Flow<T>,
     dispatchers: DispatcherProvider = DefaultDispatcherProvider()
-) {
+) : StateFlow<T> {
     private val _state: Deferred<StateFlow<T>> = scope.async(dispatchers.Io) {
         baseFlow.stateIn(scope, SharingStarted.Eagerly, baseFlow.first())
     }
 
+    private val flow: Flow<T> = flow {
+        val readyFlow = _state.await()
+        emitAll(readyFlow)
+    }
+
+    override val replayCache: List<T> get() = listOf(value)
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): StateFlow<T> =
-        if (_state.isCompleted)
-            _state.getCompleted()
-        else runBlocking {
-            _state.await()
-        }
+    override val value: T get() = if (_state.isCompleted) {
+        _state.getCompleted().value
+    } else runBlocking {
+        android.util.Log.w("SyncStateFlow", "blocking read")
+        _state.await().value
+    }
+
+    override suspend fun collect(collector: FlowCollector<T>): Nothing {
+        flow.collect(collector)
+        throw RuntimeException()
+    }
 }

@@ -29,25 +29,29 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemProfileSelectionBinding
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.logging.UiSetting
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.Setting
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.ui.HeaderViewHolder
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.ServerManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import com.xwray.groupie.viewbinding.BindableItem
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsDefaultProfileActivity : BaseActivityV2() {
 
-    @Inject lateinit var userData: UserData
+    @Inject lateinit var mainScope: CoroutineScope
+    @Inject lateinit var settingsManager: CurrentUserLocalSettingsManager
     @Inject lateinit var serverManager: ServerManager
+    @Inject lateinit var profileManager: ProfileManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +60,7 @@ class SettingsDefaultProfileActivity : BaseActivityV2() {
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
 
         val selectedProfile = serverManager.defaultConnection
-        val (prebakedProfiles, customProfiles) = serverManager.getSavedProfiles()
+        val (prebakedProfiles, customProfiles) = profileManager.getSavedProfiles()
             .partition { it.isPreBakedProfile }
             .toList()
             .map { profiles ->
@@ -74,7 +78,9 @@ class SettingsDefaultProfileActivity : BaseActivityV2() {
         groupAdapter.setOnItemClickListener { item, _ ->
             if (item is ProfileViewHolder) {
                 ProtonLogger.logUiSettingChange(Setting.QUICK_CONNECT_PROFILE, "quick profile setting screen")
-                userData.defaultProfileId = item.profile.id
+                mainScope.launch {
+                    settingsManager.updateDefaultProfile(item.profile.id)
+                }
                 finish()
             }
         }

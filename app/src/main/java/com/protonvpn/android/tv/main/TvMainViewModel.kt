@@ -36,10 +36,10 @@ import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.CountryCard
@@ -48,6 +48,7 @@ import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.AndroidUtils.toInt
 import com.protonvpn.android.utils.CountryTools
@@ -75,26 +76,26 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TvMainViewModel @Inject constructor(
-    appConfig: AppConfig,
+    override val appConfig: AppConfig,
     override val serverManager: ServerManager,
-    val mainScope: CoroutineScope,
+    private val profileManager: ProfileManager,
+    private val mainScope: CoroutineScope,
     val serverListUpdater: ServerListUpdater,
     val vpnStatusProviderUI: VpnStatusProviderUI,
     val vpnStateMonitor: VpnStateMonitor,
     val vpnConnectionManager: VpnConnectionManager,
     private val recentsManager: RecentsManager,
-    val userData: UserData,
+    private val userSettingsManager: CurrentUserLocalSettingsManager,
     currentUser: CurrentUser,
     logoutUseCase: Logout,
     userPlanManager: UserPlanManager,
-    purchaseEnabled: CachedPurchaseEnabled
+    purchaseEnabled: CachedPurchaseEnabled,
 ) : MainViewModel(
     mainScope,
     userPlanManager,
     logoutUseCase,
     currentUser,
     purchaseEnabled,
-    appConfig
 ), StreamingViewModelHelper {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
@@ -360,14 +361,16 @@ class TvMainViewModel @Inject constructor(
     private fun TvMapRenderer.MapRegion.isZoomedIn() = x != 0f || y != 0f || w != 1f
 
     fun isDefaultCountry(vpnCountry: VpnCountry) =
-        serverManager.findDefaultProfile()?.wrapper?.country == vpnCountry.flag
+        profileManager.findDefaultProfile()?.wrapper?.country == vpnCountry.flag
 
     fun setAsDefaultCountry(checked: Boolean, vpnCountry: VpnCountry) {
-        serverManager.deleteProfile(serverManager.findDefaultProfile())
+        profileManager.deleteProfile(profileManager.findDefaultProfile())
         if (checked) {
             val newDefaultProfile = createProfileForCountry(vpnCountry.flag)
-            serverManager.addToProfileList(newDefaultProfile)
-            userData.defaultProfileId = newDefaultProfile.id
+            profileManager.addToProfileList(newDefaultProfile)
+            mainScope.launch {
+                userSettingsManager.updateDefaultProfile(newDefaultProfile.id)
+            }
         }
     }
 

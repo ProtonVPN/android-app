@@ -22,15 +22,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkLoader
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.partnerships.PartnershipsRepository
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
@@ -45,15 +45,15 @@ class CountryListViewModel @Inject constructor(
     private val partnershipsRepository: PartnershipsRepository,
     private val serverListUpdater: ServerListUpdater,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
-    private val userData: UserData,
+    private val userSettingsCached: EffectiveCurrentUserSettingsCached,
     private val currentUser: CurrentUser
 ) : ViewModel() {
 
-    val userDataUpdateEvent = userData.updateEvent
+    val settingsLiveData = userSettingsCached.asLiveData()
     val serverListVersion = serverManager.serverListVersion
     val vpnStatus = vpnStatusProviderUI.status.asLiveData()
     val isFreeUser get() = currentUser.vpnUserCached()?.isFreeUser == true
-    val isSecureCoreEnabled get() = userData.secureCoreEnabled
+    val isSecureCoreEnabled get() = userSettingsCached.value.secureCore
 
     fun refreshServerList(networkLoader: NetworkLoader) {
         serverListUpdater.getServersList(networkLoader)
@@ -72,7 +72,7 @@ class CountryListViewModel @Inject constructor(
     data class ServerGroupTitle(val titleRes: Int, val infoType: InformationActivity.InfoType?)
 
     fun getMappedServersForGroup(group: ServerGroup): List<ServersGroup> {
-        return if (userData.secureCoreEnabled) {
+        return if (isSecureCoreEnabled) {
             listOf(ServersGroup(null, group.serverList))
         } else {
             getMappedServersForClassicView(group)
@@ -97,7 +97,7 @@ class CountryListViewModel @Inject constructor(
 
         val freeServersInfo =
             if (group is VpnCountry && partnershipsRepository.hasAnyPartnership(group))
-                InformationActivity.InfoType.Partners.Country(group.flag, userData.secureCoreEnabled)
+                InformationActivity.InfoType.Partners.Country(group.flag, isSecureCoreEnabled)
             else
                 null
 
@@ -126,13 +126,13 @@ class CountryListViewModel @Inject constructor(
     }
 
     fun getCountriesForList(): List<VpnCountry> =
-        if (userData.secureCoreEnabled)
+        if (isSecureCoreEnabled)
             serverManager.getSecureCoreExitCountries()
         else
             serverManager.getVpnCountries()
 
     fun getGatewayGroupsForList(): List<GatewayGroup> =
-        if (userData.secureCoreEnabled)
+        if (isSecureCoreEnabled)
             emptyList()
         else
             serverManager.getGateways()

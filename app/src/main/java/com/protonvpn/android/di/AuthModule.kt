@@ -59,15 +59,12 @@ object AuthModule {
     @Provides
     @Singleton
     fun provideVpnUserCheck(
-        mainScope: CoroutineScope,
         @ApplicationContext context: Context,
-        userData: UserData,
         accountManager: AccountManager,
         userManager: UserManager,
-        certificateRepository: CertificateRepository,
         vpnLogin: VpnLogin
     ): VpnUserCheck = VpnUserCheck(
-        mainScope, userData, context, accountManager, userManager, certificateRepository, vpnLogin)
+        context, accountManager, userManager, vpnLogin)
 
     @Provides
     @Singleton

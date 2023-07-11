@@ -85,7 +85,7 @@ class CurrentUser @Inject constructor(
     val eventVpnLogin =
         vpnUserFlow.withPrevious().filter { (previous, new) -> previous == null && new != null }.map { (_, new) -> new }
 
-    private val vpnUserState by SyncStateFlow(mainScope, vpnUserFlow)
+    private val vpnUserState = SyncStateFlow(mainScope, vpnUserFlow)
 
     suspend fun vpnUser() = vpnUserFlow.first()
     suspend fun user() = userFlow.first()

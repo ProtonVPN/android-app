@@ -28,28 +28,33 @@ import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.OnSessionClosed
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    appConfig: AppConfig,
-    mainScope: CoroutineScope,
-    val userData: UserData,
+    private val mainScope: CoroutineScope,
+    private val effectiveUserSettings: EffectiveCurrentUserSettingsCached,
+    private val userSettingManager: CurrentUserLocalSettingsManager,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
     private val serverManager: ServerManager,
     userPlanManager: UserPlanManager,
@@ -64,7 +69,6 @@ class HomeViewModel @Inject constructor(
     logoutUseCase,
     currentUser,
     purchaseEnabled,
-    appConfig
 ) {
 
     private var startOnboardingJob: Job? = null
@@ -72,6 +76,14 @@ class HomeViewModel @Inject constructor(
     var showIKEv2Migration
         get() = appFeaturesPrefs.showIKEv2Migration
         set(value) { appFeaturesPrefs.showIKEv2Migration = value }
+
+    val secureCore get() = effectiveUserSettings.value.secureCore
+    val secureCoreLiveData = effectiveUserSettings.map { it.secureCore }.distinctUntilChanged().asLiveData()
+    val userLiveData = currentUser.userFlow.asLiveData()
+    val logoutEvent = onSessionClosed.logoutFlow.asLiveData()
+
+    private val connectEventFlow = MutableSharedFlow<Pair<Profile, ConnectTrigger>>()
+    val connectEvent = connectEventFlow.asLiveData()
 
     // Temporary method to help java activity collect a flow
     fun collectPlanChange(activity: AppCompatActivity, onChange: (UserPlanManager.InfoChange.PlanChange) -> Unit) {
@@ -114,6 +126,18 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    val userLiveData = currentUser.userFlow.asLiveData()
-    val logoutEvent = onSessionClosed.logoutFlow.asLiveData()
+    fun toggleSecureCore(newIsEnabled: Boolean) {
+        mainScope.launch {
+            if (vpnStatusProviderUI.isEstablishingOrConnected &&
+                vpnStatusProviderUI.isConnectingToSecureCore == !newIsEnabled
+            ) {
+                userSettingManager.updateSecureCore(newIsEnabled)
+
+                val newProfile = getReconnectProfileOnSecureCoreChange();
+                connectEventFlow.emit(Pair(newProfile, ConnectTrigger.SecureCore))
+            } else {
+                userSettingManager.updateSecureCore(newIsEnabled)
+            }
+        }
+    }
 }

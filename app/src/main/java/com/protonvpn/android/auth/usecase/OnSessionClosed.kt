@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.auth.usecase
 
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.main.AccountViewModel.Companion.LAST_USER
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -34,11 +33,10 @@ import javax.inject.Singleton
 
 @Singleton
 class OnSessionClosed @Inject constructor(
-    val accountManager: AccountManager,
-    val vpnConnectionManager: VpnConnectionManager,
-    val certificateRepository: CertificateRepository,
-    val userData: UserData,
-    val serverManager: ServerManager
+    private val accountManager: AccountManager,
+    private val vpnConnectionManager: VpnConnectionManager,
+    private val certificateRepository: CertificateRepository,
+    private val serverManager: ServerManager
 ) {
     val logoutFlow = MutableSharedFlow<Account>()
 

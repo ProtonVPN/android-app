@@ -41,7 +41,6 @@ class MockSharedPreferencesProvider @Inject constructor() : SharedPreferencesPro
 class MockSharedPreference : SharedPreferences {
     private val preferenceMap: HashMap<String?, Any?> = HashMap()
     private val changeListeners = Collections.newSetFromMap(WeakHashMap<OnSharedPreferenceChangeListener, Boolean>())
-    private val preferenceEditor = MockSharedPreferenceEditor(preferenceMap, ::onPreferenceChanged)
 
     override fun getAll(): Map<String?, *> = preferenceMap
 
@@ -61,7 +60,7 @@ class MockSharedPreference : SharedPreferences {
 
     override fun contains(s: String) = preferenceMap.containsKey(s)
 
-    override fun edit() = preferenceEditor
+    override fun edit() = MockSharedPreferenceEditor(preferenceMap, ::onPreferenceChanged)
 
     override fun registerOnSharedPreferenceChangeListener(
         onSharedPreferenceChangeListener: OnSharedPreferenceChangeListener
@@ -84,6 +83,7 @@ class MockSharedPreference : SharedPreferences {
         private val onPrefChanged: (key: String?) -> Unit
     ) : SharedPreferences.Editor {
 
+        private val removals = mutableListOf<String>()
         private val editMap = HashMap<String?, Any?>()
         private var clearAll = false
 
@@ -118,7 +118,7 @@ class MockSharedPreference : SharedPreferences {
         }
 
         override fun remove(s: String): SharedPreferences.Editor {
-            editMap.remove(s)
+            removals.add(s)
             return this
         }
 
@@ -132,6 +132,7 @@ class MockSharedPreference : SharedPreferences {
                 onPrefChanged(null)
                 destinationMap.clear()
             }
+            removals.forEach { key -> destinationMap.remove(key) }
             destinationMap.putAll(editMap)
             editMap.keys.forEach(onPrefChanged)
             return true

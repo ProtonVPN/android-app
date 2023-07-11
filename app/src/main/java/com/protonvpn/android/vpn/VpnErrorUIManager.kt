@@ -4,15 +4,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.R
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.notifications.NotificationActionReceiver
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.notifications.NotificationHelper.ActionItem
 import com.protonvpn.android.notifications.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
 import com.protonvpn.android.notifications.NotificationHelper.FullScreenDialog
 import com.protonvpn.android.notifications.NotificationHelper.ReconnectionNotification
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
 import com.protonvpn.android.ui.planupgrade.EmptyUpgradeDialogActivity
@@ -21,7 +20,7 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,8 +29,7 @@ import javax.inject.Singleton
 class VpnErrorUIManager @Inject constructor(
     scope: CoroutineScope,
     @ApplicationContext private val appContext: Context,
-    private val appConfig: AppConfig,
-    private val userData: UserData,
+    private val userSettings: EffectiveCurrentUserSettings,
     private val currentUser: CurrentUser,
     private val userPlanManager: UserPlanManager,
     private val stateMonitor: VpnStateMonitor,
@@ -78,7 +76,7 @@ class VpnErrorUIManager @Inject constructor(
                             )
                         )
                     )
-                } else if (shouldAlwaysInform(switch) || vpnAcceleratorNotificationsEnabled()) {
+                } else if (shouldAlwaysInform(switch) || userSettings.vpnAcceleratorNotifications.first()) {
                     buildNotificationInformation(switch)?.let {
                         displayInformation(it)
                     }
@@ -182,9 +180,4 @@ class VpnErrorUIManager @Inject constructor(
         SwitchServerReason.UserBecameDelinquent -> appContext.getString(R.string.notification_cancel_to_delinquent)
         else -> null
     }
-
-    private fun vpnAcceleratorNotificationsEnabled() =
-        appConfig.getFeatureFlags().vpnAccelerator &&
-                userData.isVpnAcceleratorEnabled(appConfig.getFeatureFlags()) &&
-                userData.showVpnAcceleratorNotifications
 }

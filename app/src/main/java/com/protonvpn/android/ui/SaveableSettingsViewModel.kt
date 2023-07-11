@@ -20,7 +20,9 @@
 package com.protonvpn.android.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 
 /**
  * A view model base class for SaveableSettingsActivity.
@@ -32,19 +34,23 @@ abstract class SaveableSettingsViewModel : ViewModel() {
     val eventGoBack = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
 
     fun saveAndClose() {
-        val isValid = validate()
-        if (isValid) {
-            val hasAnyChanges = hasUnsavedChanges()
-            saveChanges()
-            eventFinishActivity.tryEmit(hasAnyChanges)
+        viewModelScope.launch {
+            val isValid = validate()
+            if (isValid) {
+                val hasAnyChanges = hasUnsavedChanges()
+                saveChanges()
+                eventFinishActivity.tryEmit(hasAnyChanges)
+            }
         }
     }
 
     fun onGoBack() {
-        if (hasUnsavedChanges()) {
-            eventConfirmDiscardChanges.tryEmit(Unit)
-        } else {
-            eventGoBack.tryEmit(Unit)
+        viewModelScope.launch {
+            if (hasUnsavedChanges()) {
+                eventConfirmDiscardChanges.tryEmit(Unit)
+            } else {
+                eventGoBack.tryEmit(Unit)
+            }
         }
     }
 
@@ -58,7 +64,7 @@ abstract class SaveableSettingsViewModel : ViewModel() {
      * It is called only after validate() returns true so the state must be valid.
      */
     protected abstract fun saveChanges()
-    protected abstract fun hasUnsavedChanges(): Boolean
+    protected abstract suspend fun hasUnsavedChanges(): Boolean
 
     /**
      * Validate the current input.

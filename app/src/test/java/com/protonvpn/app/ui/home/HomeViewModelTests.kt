@@ -56,7 +56,8 @@ class HomeViewModelTests {
         // Note: once more tests are added remove the mockk() calls here and use named dependencies.
         homeViewModel = HomeViewModel(
             mainScope = mockk(),
-            userData = mockk(),
+            effectiveUserSettings = mockk(),
+            userSettingManager = mockk(),
             vpnStatusProviderUI = mockVpnStatusProviderUI,
             serverManager = mockServerManager,
             userPlanManager = mockk(relaxed = true),
@@ -64,7 +65,6 @@ class HomeViewModelTests {
             logoutUseCase = mockk(),
             onSessionClosed = mockk(relaxed = true),
             purchaseEnabled = mockk(),
-            appConfig = mockk(),
             appFeaturesPrefs = mockk(relaxed = true)
         )
     }

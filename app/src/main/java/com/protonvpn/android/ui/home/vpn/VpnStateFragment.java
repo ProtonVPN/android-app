@@ -33,7 +33,6 @@ import com.protonvpn.android.bus.TrafficUpdate;
 import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.CountryWithFlagsView;
-import com.protonvpn.android.models.config.UserData;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.ui.home.ServerListUpdater;
@@ -86,7 +85,6 @@ public class VpnStateFragment extends BaseFragment {
     private View fab;
 
     @Inject ServerManager manager;
-    @Inject UserData userData;
     @Inject AppConfig appConfig;
     @Inject VpnStatusProviderUI vpnStatusProviderUI;
     @Inject VpnConnectionManager vpnConnectionManager;

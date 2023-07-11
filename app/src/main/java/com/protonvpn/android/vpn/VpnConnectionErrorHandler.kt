@@ -36,6 +36,8 @@ import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
@@ -44,6 +46,7 @@ import com.protonvpn.android.utils.UserPlanManager.InfoChange.UserBecameDelinque
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.VpnCredentials
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.HttpResponseCodes
@@ -111,7 +114,7 @@ class VpnConnectionErrorHandler @Inject constructor(
     scope: CoroutineScope,
     private val api: ProtonApiRetroFit,
     private val appConfig: AppConfig,
-    private val userData: UserData,
+    private val userSettings: EffectiveCurrentUserSettings,
     private val userPlanManager: UserPlanManager,
     private val serverManager: ServerManager,
     private val stateMonitor: VpnStateMonitor,
@@ -220,10 +223,11 @@ class VpnConnectionErrorHandler @Inject constructor(
             serverListUpdater.updateServerList()
         }
 
+        val settings = userSettings.effectiveSettings.first()
         val vpnUser = currentUser.vpnUser()
         val orgPhysicalServer =
             orgParams?.connectingDomain?.let { PhysicalServer(orgParams.server, it) }?.takeIf { it.exists() }
-        val candidates = getCandidateServers(orgProfile, orgPhysicalServer, vpnUser, includeOriginalServer)
+        val candidates = getCandidateServers(orgProfile, orgPhysicalServer, vpnUser, includeOriginalServer, settings)
 
         candidates.forEach {
             ProtonLogger.logCustom(
@@ -232,7 +236,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             )
         }
 
-        val orgProtocol = orgProfile.getProtocol(userData)
+        val orgProtocol = orgProfile.getProtocol(settings)
         val pingResult = vpnBackendProvider.pingAll(orgProtocol, candidates, orgPhysicalServer) ?: run {
             ProtonLogger.log(ConnServerSwitchFailed, "No server responded")
             return null
@@ -250,9 +254,9 @@ class VpnConnectionErrorHandler @Inject constructor(
             return null
         }
 
-        val expectedProtocolConnection = pingResult.getExpectedProtocolConnection(orgProfile)
-        val score = getServerScore(pingResult.physicalServer.server, orgProfile, vpnUser)
-        val secureCoreExpected = orgProfile.isSecureCore ?: userData.secureCoreEnabled
+        val expectedProtocolConnection = pingResult.getExpectedProtocolConnection(orgProtocol)
+        val score = getServerScore(pingResult.physicalServer.server, orgProfile, vpnUser, settings)
+        val secureCoreExpected = orgProfile.isSecureCore ?: settings.secureCore
         val switchedSecureCore = secureCoreExpected && !hasCompatibility(score, CompatibilityAspect.SecureCore)
         val isCompatible = isCompatibleServer(score, pingResult.physicalServer, orgPhysicalServer) &&
             expectedProtocolConnection != null && !switchedSecureCore
@@ -260,7 +264,7 @@ class VpnConnectionErrorHandler @Inject constructor(
 
         ProtonLogger.log(
             ConnServerSwitchServerSelected,
-            pingResult.profile.toLog(userData) + " " +
+            pingResult.profile.toLog(settings) + " " +
                 with(pingResult.physicalServer) { "${server.serverName} ${connectingDomain.entryDomain}" }
         )
         return VpnFallbackResult.Switch.SwitchServer(
@@ -284,9 +288,10 @@ class VpnConnectionErrorHandler @Inject constructor(
         (hasCompatibility(score, CompatibilityAspect.Tier) ||
             orgPhysicalServer == null || physicalServer.server.tier >= orgPhysicalServer.server.tier)
 
-    // Return first response that's has compatible protocol with [profile] or null
-    private fun VpnBackendProvider.PingResult.getExpectedProtocolConnection(profile: Profile): PrepareResult? {
-        val expectedProtocol = profile.getProtocol(userData)
+    // Return first response that's has protocol matching settings.
+    private fun VpnBackendProvider.PingResult.getExpectedProtocolConnection(
+        expectedProtocol: ProtocolSelection
+    ): PrepareResult? {
         if (expectedProtocol.vpn == VpnProtocol.Smart)
             return responses.first()
 
@@ -297,7 +302,8 @@ class VpnConnectionErrorHandler @Inject constructor(
         orgProfile: Profile,
         orgPhysicalServer: PhysicalServer?,
         vpnUser: VpnUser?,
-        includeOrgServer: Boolean
+        includeOrgServer: Boolean,
+        settings: LocalUserSettings
     ): List<PhysicalServer> {
         val candidateList = mutableListOf<PhysicalServer>()
         if (orgPhysicalServer != null && includeOrgServer)
@@ -305,14 +311,14 @@ class VpnConnectionErrorHandler @Inject constructor(
 
         val orgProfileServer = orgProfile.directServerId?.let { serverManager.getServerById(it) }
 
-        val secureCoreExpected = orgProfile.isSecureCore ?: userData.secureCoreEnabled
+        val secureCoreExpected = orgProfile.isSecureCore ?: settings.secureCore
         val gatewayName = (orgPhysicalServer?.server ?: orgProfileServer)?.gatewayName
-        val orgProtocol = orgProfile.getProtocol(userData)
+        val orgProtocol = orgProfile.getProtocol(settings)
         val onlineServers =
             serverManager.getOnlineAccessibleServers(secureCoreExpected, gatewayName, vpnUser, orgProtocol)
         val orgIsTor = orgPhysicalServer?.server?.isTor == true
         val orgEntryIp = orgPhysicalServer?.connectingDomain?.getEntryIp(orgProtocol)
-        val scoredServers = sortServersByScore(onlineServers, orgProfile, vpnUser).filter { candicate ->
+        val scoredServers = sortServersByScore(onlineServers, orgProfile, vpnUser, settings).filter { candicate ->
             val ipCondition = orgPhysicalServer == null ||
                 getConnectingDomain.online(candicate, orgProtocol).any { domain ->
                     domain.getEntryIp(orgProtocol) != orgEntryIp
@@ -357,7 +363,8 @@ class VpnConnectionErrorHandler @Inject constructor(
             sortServersByScore(
                 serverManager.getOnlineAccessibleServers(false, null, vpnUser, orgProtocol),
                 orgProfile,
-                vpnUser
+                vpnUser,
+                settings
             ).firstOrNull()?.let { fallbacks += it }
         }
 
@@ -372,6 +379,7 @@ class VpnConnectionErrorHandler @Inject constructor(
         server: Server,
         orgProfile: Profile,
         vpnUser: VpnUser?,
+        settings: LocalUserSettings
     ): Int {
         var score = 0
 
@@ -389,7 +397,7 @@ class VpnConnectionErrorHandler @Inject constructor(
         if (orgDirectServer == null || server.features == orgDirectServer.features)
             score += 1 shl CompatibilityAspect.Features.ordinal
 
-        val secureCoreExpected = orgProfile.isSecureCore ?: userData.secureCoreEnabled
+        val secureCoreExpected = orgProfile.isSecureCore ?: settings.secureCore
         if (!secureCoreExpected || server.isSecureCoreServer)
             score += 1 shl CompatibilityAspect.SecureCore.ordinal
 
@@ -400,7 +408,8 @@ class VpnConnectionErrorHandler @Inject constructor(
         servers: List<Server>,
         profile: Profile,
         vpnUser: VpnUser?,
-    ) = sortByScore(servers) { getServerScore(it, profile, vpnUser) }
+        settings: LocalUserSettings,
+    ) = sortByScore(servers) { getServerScore(it, profile, vpnUser, settings) }
 
     private fun <T> sortByScore(servers: List<T>, scoreFun: (T) -> Int) =
         servers.map { Pair(it, scoreFun(it)) }.sortedByDescending { it.second }.map { it.first }

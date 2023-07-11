@@ -26,22 +26,25 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.Setting
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class NotificationActionReceiver : BroadcastReceiver() {
 
+    @Inject lateinit var mainScope: CoroutineScope
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var notificationHelper: NotificationHelper
-    @Inject lateinit var userData: UserData
+    @Inject lateinit var userSettingsManager: CurrentUserLocalSettingsManager
 
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action) {
@@ -53,11 +56,18 @@ class NotificationActionReceiver : BroadcastReceiver() {
                 val profileToSwitch = intent.getSerializableExtra(NotificationHelper.EXTRA_SWITCH_PROFILE) as Profile
                 notificationHelper.cancelInformationNotification()
                 ProtonLogger.logUiSettingChange(Setting.DEFAULT_PROTOCOL, "notification action")
-                userData.protocol = ProtocolSelection(VpnProtocol.Smart)
-                vpnConnectionManager.connectInBackground(
-                    profileToSwitch,
-                    ConnectTrigger.Notification("Enable Smart protocol from notification")
-                )
+                val pendingResult = goAsync()
+                mainScope.launch {
+                    try {
+                        userSettingsManager.updateProtocol(ProtocolSelection(VpnProtocol.Smart))
+                        vpnConnectionManager.connectInBackground(
+                            profileToSwitch,
+                            ConnectTrigger.Notification("Enable Smart protocol from notification")
+                        )
+                    } finally {
+                        pendingResult.finish()
+                    }
+                }
             }
         }
     }

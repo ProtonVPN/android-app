@@ -34,6 +34,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Log
@@ -60,8 +61,8 @@ import javax.inject.Singleton
 class OpenVpnBackend @Inject constructor(
     @ApplicationContext private val appContext: Context,
     networkManager: NetworkManager,
-    userData: UserData,
     appConfig: AppConfig,
+    effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope,
     dispatcherProvider: VpnDispatcherProvider,
@@ -72,8 +73,8 @@ class OpenVpnBackend @Inject constructor(
     foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
-    userData,
     appConfig,
+    effectiveCurrentUserSettings,
     certificateRepository,
     networkManager,
     VpnProtocol.OpenVPN,

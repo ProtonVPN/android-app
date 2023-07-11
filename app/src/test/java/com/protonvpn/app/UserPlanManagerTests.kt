@@ -23,7 +23,6 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
@@ -55,7 +54,6 @@ class UserPlanManagerTests {
     @RelaxedMockK private lateinit var currentUser: CurrentUser
     @RelaxedMockK private lateinit var vpnUserDao: VpnUserDao
 
-    lateinit var userData: UserData
     private var vpnUser: VpnUser? = null
 
     @get:Rule var rule = InstantTaskExecutorRule()
@@ -64,7 +62,6 @@ class UserPlanManagerTests {
     fun setup() {
         MockKAnnotations.init(this)
         Storage.setPreferences(mockk(relaxed = true))
-        userData = UserData.create()
         currentUser.mockVpnUser {
             vpnUser
         }

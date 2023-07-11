@@ -19,24 +19,34 @@
 
 package com.protonvpn.android.ui.settings
 
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.Setting
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsMtuViewModel @Inject constructor(
-    private val userData: UserData
+    private val userSettingsManager: CurrentUserLocalSettingsManager
 ) : SaveableSettingsViewModel() {
 
-    var mtu = userData.mtuSize.toString()
-        private set
+    private var mtu = "0"
 
     val eventInvalidMtu = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+
+    init {
+        viewModelScope.launch {
+            mtu = valueInSettings().toString()
+        }
+    }
+
+    suspend fun getMtu() = valueInSettings().toString()
 
     fun onMtuTextChanged(text: String) {
         mtu = text
@@ -44,12 +54,14 @@ class SettingsMtuViewModel @Inject constructor(
 
     override fun saveChanges() {
         ProtonLogger.logUiSettingChange(Setting.DEFAULT_MTU, "settings")
-        // At this point the MTU value must be valid.
-        userData.mtuSize = validMtu()!!
+        viewModelScope.launch {
+            // At this point the MTU value must be valid.
+            userSettingsManager.updateMtuSize(validMtu()!!)
+        }
     }
 
-    override fun hasUnsavedChanges(): Boolean =
-        mtu != userData.mtuSize.toString()
+    override suspend fun hasUnsavedChanges(): Boolean =
+        mtu != valueInSettings().toString()
 
     override fun validate(): Boolean {
         val isValid = validMtu() != null
@@ -60,6 +72,8 @@ class SettingsMtuViewModel @Inject constructor(
 
     private fun validMtu(): Int? =
         mtu.toIntOrNull()?.takeIf { number -> number in MTU_MIN..MTU_MAX }
+
+    private suspend fun valueInSettings(): Int = userSettingsManager.rawCurrentUserSettingsFlow.first().mtuSize
 
     companion object {
         const val MTU_MAX = 1500

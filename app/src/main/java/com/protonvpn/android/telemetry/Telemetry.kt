@@ -20,17 +20,17 @@
 package com.protonvpn.android.telemetry
 
 import com.protonvpn.android.BuildConfig
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import dagger.Reusable
 import io.sentry.Sentry
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
@@ -65,8 +65,7 @@ class NoopTelemetryUploadScheduler @Inject constructor() : TelemetryUploadSchedu
 class Telemetry(
     private val mainScope: CoroutineScope,
     @WallClock private val wallClock: () -> Long,
-    private val appConfig: AppConfig,
-    private val userData: UserData,
+    private val userSettings: EffectiveCurrentUserSettings,
     private val cache: TelemetryCache,
     private val uploader: TelemetryUploader,
     private val uploadScheduler: TelemetryUploadScheduler,
@@ -84,8 +83,6 @@ class Telemetry(
         data class Failure(val isRetryable: Boolean, val retryAfter: Duration?) : UploadResult()
     }
 
-    private val isEnabled: Boolean get() = appConfig.getFeatureFlags().telemetry && userData.telemetryEnabled
-
     init {
         mainScope.launch {
             loadCache()
@@ -95,14 +92,13 @@ class Telemetry(
     @Inject constructor(
         mainScope: CoroutineScope,
         @WallClock wallClock: () -> Long,
-        appConfig: AppConfig,
-        userData: UserData,
+        userSettings: EffectiveCurrentUserSettings,
         cache: TelemetryCache,
         uploader: TelemetryUploader,
         uploadScheduler: TelemetryUploadScheduler,
         user: CurrentUser
     ) : this(
-        mainScope, wallClock, appConfig, userData, cache, uploader, uploadScheduler, user, DISCARD_AGE, MAX_EVENT_COUNT
+        mainScope, wallClock, userSettings, cache, uploader, uploadScheduler, user, DISCARD_AGE, MAX_EVENT_COUNT
     )
 
     fun event(
@@ -111,9 +107,9 @@ class Telemetry(
         values: Map<String, Long>,
         dimensions: Map<String, String>
     ) {
-        if (isEnabled) {
-            logd("$measurementGroup $event: $values $dimensions")
-            mainScope.launch {
+        mainScope.launch {
+            if (isEnabled()) {
+                logd("$measurementGroup $event: $values $dimensions")
                 addEvent(TelemetryEvent(wallClock(), measurementGroup, event, values, dimensions))
             }
         }
@@ -121,7 +117,7 @@ class Telemetry(
 
     suspend fun uploadPendingEvents(): UploadResult {
         cacheLoaded.await()
-        if (!(isEnabled && currentUser.isLoggedIn())) {
+        if (!(isEnabled() && currentUser.isLoggedIn())) {
             clearData()
             return UploadResult.Success(false)
         }
@@ -137,7 +133,7 @@ class Telemetry(
         }
     }
 
-    suspend fun uploadPendingEventsInternal(): UploadResult {
+    private suspend fun uploadPendingEventsInternal(): UploadResult {
         pendingEvents.removeIf { it.timestamp < wallClock() - discardAge.inWholeMilliseconds }
         val toUpload = pendingEvents.toList() // Work on a copy, new events may be added to pendingEvents during upload.
         val result = if (toUpload.isNotEmpty()) {
@@ -168,6 +164,8 @@ class Telemetry(
         logi("event added, total: ${pendingEvents.size}")
         cache.save(pendingEvents)
     }
+
+    private suspend fun isEnabled() = userSettings.telemetry.first()
 
     private fun logi(message: String) {
         // Remove once VPNAND-1221 is fixed.

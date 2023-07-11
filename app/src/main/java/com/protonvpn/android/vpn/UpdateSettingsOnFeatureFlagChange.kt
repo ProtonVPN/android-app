@@ -2,10 +2,10 @@ package com.protonvpn.android.vpn
 
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -15,8 +15,7 @@ import javax.inject.Singleton
 class UpdateSettingsOnFeatureFlagChange @Inject constructor(
     mainScope: CoroutineScope,
     appConfig: AppConfig,
-    private val userData: UserData,
-    private val serverManager: ServerManager
+    private val userSettingsManager: CurrentUserLocalSettingsManager
 ) {
     init {
         appConfig.appConfigUpdateEvent
@@ -26,14 +25,10 @@ class UpdateSettingsOnFeatureFlagChange @Inject constructor(
             .launchIn(mainScope)
     }
 
-    private fun checkForProtocolSupport(featureFlags: FeatureFlags) {
-        if (!userData.protocol.isSupported(featureFlags)) {
-            serverManager.findDefaultProfile()?.let {
-                if (!it.getProtocol(userData).isSupported(featureFlags)) {
-                    userData.defaultProfileId = null
-                }
-            }
-            userData.protocol = ProtocolSelection(VpnProtocol.Smart)
+    private suspend fun checkForProtocolSupport(featureFlags: FeatureFlags) {
+        val protocol = userSettingsManager.rawCurrentUserSettingsFlow.first().protocol
+        if (!protocol.isSupported(featureFlags)) {
+            userSettingsManager.updateProtocol(ProtocolSelection(VpnProtocol.Smart))
         }
     }
 }

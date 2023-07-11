@@ -25,6 +25,7 @@ import com.protonvpn.test.shared.MockedServers.serverList
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 class ServiceTestHelper {
@@ -32,13 +33,12 @@ class ServiceTestHelper {
     private val helper = ServerManagerHelper()
     private val stateMonitor = helper.vpnStateMonitor
 
-    val serverManager = helper.serverManager
-    val userData = helper.userData
     @JvmField var mockVpnBackend = helper.backend
-
     @JvmField var connectionManager = helper.vpnConnectionManager
 
-    val isSecureCoreEnabled get() = userData.secureCoreEnabled
+    val isSecureCoreEnabled get() = runBlocking {
+        helper.userSettingsManager.rawCurrentUserSettingsFlow.first().secureCore
+    }
 
     fun addProfile(protocol: VpnProtocol, name: String, serverDomain: String) = runBlocking(Dispatchers.Main){
         var server: Server? = null
@@ -47,20 +47,19 @@ class ServiceTestHelper {
         }
         checkNotNull(server) { "No mocked server for domain: $serverDomain" }
         val profile = getProfile(server, protocol, name)
-        serverManager.addToProfileList(profile)
+        helper.profileManager.addToProfileList(profile)
     }
 
     fun deleteCreatedProfiles() {
-        serverManager.deleteSavedProfiles()
-        userData.defaultProfileId = null
+        helper.profileManager.deleteSavedProfiles()
     }
 
     fun checkIfConnectedToVPN() = runBlocking(Dispatchers.Main) {
         assertTrue("User was not connected to VPN", stateMonitor.isConnected)
     }
 
-    fun enableSecureCore(state: Boolean) {
-        userData.secureCoreEnabled = state
+    suspend fun enableSecureCore(state: Boolean) {
+        helper.userSettingsManager.updateSecureCore(state)
     }
 
     fun checkIfDisconnectedFromVPN() = runBlocking(Dispatchers.Main) {

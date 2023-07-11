@@ -20,27 +20,25 @@
 package com.protonvpn.app.telemetry
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryCache
 import com.protonvpn.android.telemetry.TelemetryEvent
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploader
-import com.protonvpn.android.utils.Storage
-import com.protonvpn.test.shared.MockSharedPreference
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -72,28 +70,27 @@ class TelemetryTests {
     private lateinit var mockScheduler: TelemetryUploadScheduler
 
     @MockK
-    private lateinit var mockAppConfig: AppConfig
-
-    @MockK
     private lateinit var mockCurrentUser: CurrentUser
 
-    private lateinit var userData: UserData
+    private lateinit var effectiveUserSettings: EffectiveCurrentUserSettings
+    private lateinit var userSettings: MutableStateFlow<LocalUserSettings>
+
+    private lateinit var testScope: TestScope
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        Storage.setPreferences(MockSharedPreference())
-        userData = UserData.create()
+        testScope = TestScope(UnconfinedTestDispatcher())
+        userSettings = MutableStateFlow(LocalUserSettings.Default.copy(telemetry = true))
+        effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, userSettings)
 
-        userData.telemetryEnabled = true
-        every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(telemetry = true)
         coEvery { mockCurrentUser.isLoggedIn() } returns true
 
         coEvery { mockUploader.uploadEvents(any()) } returns Telemetry.UploadResult.Success(false)
     }
 
     @Test
-    fun `when feature and setting enabled events are saved to cache`() = runTest(UnconfinedTestDispatcher()) {
+    fun `when feature and setting enabled events are saved to cache`() = testScope.runTest {
         val telemetry = createNewTelemetryObject()
         telemetry.event(MEASUREMENT_GROUP, "event1", VALUES, DIMENSIONS)
         val event1 = createEvent(eventName = "event1")
@@ -110,8 +107,8 @@ class TelemetryTests {
     }
 
     @Test
-    fun `when feature disabled then nothing is reported`() = runTest(UnconfinedTestDispatcher()) {
-        every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(telemetry = false)
+    fun `when user setting disabled then nothing is reported`() = testScope.runTest {
+        userSettings.update { it.copy(telemetry = false) }
         val telemetry = createNewTelemetryObject()
         telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
         verify(exactly = 0) {
@@ -120,17 +117,7 @@ class TelemetryTests {
     }
 
     @Test
-    fun `when user setting disabled then nothing is reported`() = runTest(UnconfinedTestDispatcher()) {
-        userData.telemetryEnabled = false
-        val telemetry = createNewTelemetryObject()
-        telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
-        verify(exactly = 0) {
-            mockCache.save(any())
-        }
-    }
-
-    @Test
-    fun `when user is logged out events are not uploaded`() = runTest(UnconfinedTestDispatcher()) {
+    fun `when user is logged out events are not uploaded`() = testScope.runTest {
         val telemetry = createNewTelemetryObject()
         telemetry.event(MEASUREMENT_GROUP, "event", VALUES, DIMENSIONS)
         coEvery { mockCurrentUser.isLoggedIn() } returns false
@@ -141,7 +128,7 @@ class TelemetryTests {
     }
 
     @Test
-    fun `when events are uploaded they are not uploaded again`() = runTest(UnconfinedTestDispatcher()) {
+    fun `when events are uploaded they are not uploaded again`() = testScope.runTest {
         val telemetry = createNewTelemetryObject()
         telemetry.event(MEASUREMENT_GROUP, "event1", VALUES, DIMENSIONS)
         telemetry.event(MEASUREMENT_GROUP, "event2", VALUES, DIMENSIONS)
@@ -156,7 +143,7 @@ class TelemetryTests {
     }
 
     @Test
-    fun `when events are not uploaded they are uploaded again next time`() = runTest(UnconfinedTestDispatcher()) {
+    fun `when events are not uploaded they are uploaded again next time`() = testScope.runTest {
         val telemetry = createNewTelemetryObject()
         telemetry.event(MEASUREMENT_GROUP, "event1", VALUES, DIMENSIONS)
         telemetry.event(MEASUREMENT_GROUP, "event2", VALUES, DIMENSIONS)
@@ -178,42 +165,40 @@ class TelemetryTests {
     }
 
     @Test
-    fun `when upload triggers while telemetry disabled then all pending data is cleared`() =
-        runTest(UnconfinedTestDispatcher()) {
-            val telemetry = createNewTelemetryObject()
-            telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
+    fun `when upload triggers while telemetry disabled then all pending data is cleared`() = testScope.runTest {
+        val telemetry = createNewTelemetryObject()
+        telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
 
-            userData.telemetryEnabled = false
-            telemetry.uploadPendingEvents()
+        userSettings.update { it.copy(telemetry = false) }
+        telemetry.uploadPendingEvents()
 
-            verify { mockCache.save(emptyList()) }
-            coVerify(exactly = 0) { mockUploader.uploadEvents(any()) }
-        }
+        verify { mockCache.save(emptyList()) }
+        coVerify(exactly = 0) { mockUploader.uploadEvents(any()) }
+    }
 
     @Test
-    fun `when events are reported before cache is loaded then they are at the end`() =
-        runTest(UnconfinedTestDispatcher()) {
-            advanceTimeBy(10)
-            coEvery { mockCache.load(any()) } coAnswers {
-                delay(10)
-                listOf(createEvent(timestamp = 0, eventName = "cached"))
-            }
-            val telemetry = createNewTelemetryObject()
-            telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
-
-            advanceTimeBy(15)
-            telemetry.uploadPendingEvents()
-
-            val expectedEvents = listOf(
-                createEvent(timestamp = 0, eventName = "cached"),
-                createEvent(timestamp = 10)
-            )
-            coVerify { mockUploader.uploadEvents(expectedEvents) }
+    fun `when events are reported before cache is loaded then they are at the end`() = testScope.runTest {
+        advanceTimeBy(10)
+        coEvery { mockCache.load(any()) } coAnswers {
+            delay(10)
+            listOf(createEvent(timestamp = 0, eventName = "cached"))
         }
+        val telemetry = createNewTelemetryObject()
+        telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
+
+        advanceTimeBy(15)
+        telemetry.uploadPendingEvents()
+
+        val expectedEvents = listOf(
+            createEvent(timestamp = 0, eventName = "cached"),
+            createEvent(timestamp = 10)
+        )
+        coVerify { mockUploader.uploadEvents(expectedEvents) }
+    }
 
     @Test
     fun `when multiple events are reported only the first one schedules upload`() =
-        runTest(UnconfinedTestDispatcher()) {
+        testScope.runTest {
             val telemetry = createNewTelemetryObject()
             telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
             verify(exactly = 1) { mockScheduler.scheduleTelemetryUpload() }
@@ -223,7 +208,7 @@ class TelemetryTests {
         }
 
     @Test
-    fun `when event exceeds the limit then the oldest event is dropped`() = runTest(UnconfinedTestDispatcher()) {
+    fun `when event exceeds the limit then the oldest event is dropped`() = testScope.runTest {
         val telemetry = createNewTelemetryObject()
         repeat(4) { index ->
             val eventNumber = index + 1
@@ -240,45 +225,43 @@ class TelemetryTests {
     }
 
     @Test
-    fun `when loading events from cache exceeds the limit then the oldest events are dropped`() =
-        runTest(UnconfinedTestDispatcher()) {
-            coEvery { mockCache.load(any()) } coAnswers {
-                listOf(
-                    createEvent(timestamp = 0, eventName = "cached1"),
-                    createEvent(timestamp = 1, eventName = "cached2"),
-                    createEvent(timestamp = 2, eventName = "cached3"),
-                )
-            }
-            val telemetry = createNewTelemetryObject()
-            advanceTimeBy(10)
-
-            telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
-            telemetry.uploadPendingEvents()
-
-            val expectedEvents = listOf(
-                createEvent(timestamp = 1, "cached2"),
-                createEvent(timestamp = 2, "cached3"),
-                createEvent(timestamp = 10, EVENT_NAME),
+    fun `when loading events from cache exceeds the limit then the oldest events are dropped`() = testScope.runTest {
+        coEvery { mockCache.load(any()) } coAnswers {
+            listOf(
+                createEvent(timestamp = 0, eventName = "cached1"),
+                createEvent(timestamp = 1, eventName = "cached2"),
+                createEvent(timestamp = 2, eventName = "cached3"),
             )
-            coVerify { mockUploader.uploadEvents(expectedEvents) }
         }
+        val telemetry = createNewTelemetryObject()
+        advanceTimeBy(10)
+
+        telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
+        telemetry.uploadPendingEvents()
+
+        val expectedEvents = listOf(
+            createEvent(timestamp = 1, "cached2"),
+            createEvent(timestamp = 2, "cached3"),
+            createEvent(timestamp = 10, EVENT_NAME),
+        )
+        coVerify { mockUploader.uploadEvents(expectedEvents) }
+    }
 
     @Test
-    fun `when upload starts before cache is loaded it waits for load to finish`() =
-        runTest(UnconfinedTestDispatcher()) {
-            val events = listOf(createEvent())
-            coEvery { mockCache.load(any()) } coAnswers {
-                delay(10)
-                events
-            }
-            val telemetry = createNewTelemetryObject()
-
-            telemetry.uploadPendingEvents()
-            coVerify(exactly = 1) { mockUploader.uploadEvents(events) }
+    fun `when upload starts before cache is loaded it waits for load to finish`() = testScope.runTest {
+        val events = listOf(createEvent())
+        coEvery { mockCache.load(any()) } coAnswers {
+            delay(10)
+            events
         }
+        val telemetry = createNewTelemetryObject()
+
+        telemetry.uploadPendingEvents()
+        coVerify(exactly = 1) { mockUploader.uploadEvents(events) }
+    }
 
     @Test
-    fun `when events reach discard age they are not uploaded`() = runTest(UnconfinedTestDispatcher()) {
+    fun `when events reach discard age they are not uploaded`() = testScope.runTest {
         val telemetry = createNewTelemetryObject()
         telemetry.event(MEASUREMENT_GROUP, "old_event", VALUES, DIMENSIONS)
         advanceTimeBy(DISCARD_AGE.inWholeMilliseconds + 10)
@@ -289,37 +272,36 @@ class TelemetryTests {
     }
 
     @Test
-    fun `when events are added during upload they are not lost and another upload is scheduled`() =
-        runTest(UnconfinedTestDispatcher()) {
-            val telemetry = createNewTelemetryObject()
-            coEvery { mockUploader.uploadEvents(any()) } coAnswers {
-                delay(10)
-                Telemetry.UploadResult.Success(false)
-            }
-
-            val event1 = createEvent(eventName = "event1")
-            telemetry.event(MEASUREMENT_GROUP, "event1", VALUES, DIMENSIONS)
-            val uploadResultDeferred = async {
-                telemetry.uploadPendingEvents()
-            }
-
-            // Report second event:
-            advanceTimeBy(5)
-            val event2 = createEvent(eventName = "event2")
-            telemetry.event(MEASUREMENT_GROUP, "event2", VALUES, DIMENSIONS)
-
-            val uploadResult = uploadResultDeferred.await()
-            coVerify { mockUploader.uploadEvents(listOf(event1)) }
-            assertEquals(Telemetry.UploadResult.Success(true), uploadResult)
-
-            // Next upload processes the second event:
-            telemetry.uploadPendingEvents()
-            coVerify { mockUploader.uploadEvents(listOf(event2)) }
+    fun `when events are added during upload they are not lost and another upload is scheduled`() = testScope.runTest {
+        val telemetry = createNewTelemetryObject()
+        coEvery { mockUploader.uploadEvents(any()) } coAnswers {
+            delay(10)
+            Telemetry.UploadResult.Success(false)
         }
+
+        val event1 = createEvent(eventName = "event1")
+        telemetry.event(MEASUREMENT_GROUP, "event1", VALUES, DIMENSIONS)
+        val uploadResultDeferred = async {
+            telemetry.uploadPendingEvents()
+        }
+
+        // Report second event:
+        advanceTimeBy(5)
+        val event2 = createEvent(eventName = "event2")
+        telemetry.event(MEASUREMENT_GROUP, "event2", VALUES, DIMENSIONS)
+
+        val uploadResult = uploadResultDeferred.await()
+        coVerify { mockUploader.uploadEvents(listOf(event1)) }
+        assertEquals(Telemetry.UploadResult.Success(true), uploadResult)
+
+        // Next upload processes the second event:
+        telemetry.uploadPendingEvents()
+        coVerify { mockUploader.uploadEvents(listOf(event2)) }
+    }
 
     @Test
     fun `when a second upload is started before the previous one ended do nothing and return success`() =
-        runTest(UnconfinedTestDispatcher()) {
+        testScope.runTest {
             val telemetry = createNewTelemetryObject()
             coEvery { mockUploader.uploadEvents(any()) } coAnswers {
                 delay(10)
@@ -345,8 +327,7 @@ class TelemetryTests {
         Telemetry(
             backgroundScope,
             { currentTime },
-            mockAppConfig,
-            userData,
+            effectiveUserSettings,
             mockCache,
             mockUploader,
             mockScheduler,

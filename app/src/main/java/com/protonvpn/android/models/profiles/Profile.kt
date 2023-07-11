@@ -28,6 +28,7 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.vpn.ProtocolSelection
 import java.io.Serializable
 import java.util.Locale
@@ -98,11 +99,11 @@ data class Profile @JvmOverloads constructor(
     val country: String get() = wrapper.country
     val directServerId: String? get() = wrapper.serverId
 
-    fun getProtocol(userData: UserData) = protocol?.let { protocol ->
+    fun getProtocol(settings: LocalUserSettings) = protocol?.let { protocol ->
         val vpnProtocol = if (protocol == PROTOCOL_IKEv2)
             VpnProtocol.Smart else VpnProtocol.valueOf(protocol)
         ProtocolSelection(vpnProtocol, transmissionProtocol?.let(TransmissionProtocol::valueOf))
-    } ?: userData.protocol
+    } ?: settings.protocol
 
     fun setProtocol(protocol: ProtocolSelection) {
         this.protocol = protocol.vpn.toString()

@@ -19,7 +19,8 @@
 package com.protonvpn.testsHelper
 
 import com.protonvpn.android.ProtonApplication
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnBackendProvider
@@ -41,14 +42,16 @@ class ServerManagerHelper {
         fun vpnStateMonitor(): VpnStateMonitor
         fun vpnConnectionManager(): VpnConnectionManager
         fun serverManager(): ServerManager
-        fun userData(): UserData
+        fun profileManager(): ProfileManager
+        fun userSettingsManager(): CurrentUserLocalSettingsManager
         fun mockVpnBackendProvider(): VpnBackendProvider
     }
 
     @JvmField var vpnStateMonitor: VpnStateMonitor
     @JvmField var vpnConnectionManager: VpnConnectionManager
     @JvmField var serverManager: ServerManager
-    @JvmField var userData: UserData
+    @JvmField var profileManager: ProfileManager
+    @JvmField var userSettingsManager: CurrentUserLocalSettingsManager
     @JvmField var mockVpnBackendProvider: VpnBackendProvider
 
     val backend: MockVpnBackend
@@ -61,7 +64,8 @@ class ServerManagerHelper {
             vpnStateMonitor = hiltEntry.vpnStateMonitor()
             vpnConnectionManager = hiltEntry.vpnConnectionManager()
             serverManager = hiltEntry.serverManager()
-            userData = hiltEntry.userData()
+            profileManager = hiltEntry.profileManager()
+            userSettingsManager = hiltEntry.userSettingsManager()
             mockVpnBackendProvider = hiltEntry.mockVpnBackendProvider()
         }
     }

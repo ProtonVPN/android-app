@@ -22,17 +22,26 @@ import androidx.lifecycle.ViewModel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.Setting
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TroubleshootViewModel @Inject constructor(val userData: UserData) : ViewModel() {
+class TroubleshootViewModel @Inject constructor(
+    private val mainScope: CoroutineScope,
+    private val userSettingsManager: CurrentUserLocalSettingsManager,
+    private val effectiveUSerSettings: EffectiveCurrentUserSettingsCached
+) : ViewModel() {
 
-    var dnsOverHttpsEnabled: Boolean
-        get() = userData.apiUseDoH
-        set(value) {
+    val isDohEnabled get() = effectiveUSerSettings.value.apiUseDoh
+
+    fun updateDoh(isEnabled: Boolean) {
+        mainScope.launch {
             ProtonLogger.logUiSettingChange(Setting.API_DOH, "troubleshooting screen")
-            userData.apiUseDoH = value
+            userSettingsManager.updateApiUseDoh(isEnabled)
         }
+    }
 }

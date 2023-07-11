@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.appconfig
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsManager
@@ -37,7 +38,6 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -50,15 +50,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Reusable
-class GetFeatureFlags @Inject constructor(
-    appConfig: AppConfig
-) : StateFlow<FeatureFlags> {
-    val featureFlags: StateFlow<FeatureFlags> = appConfig.appConfigFlow.mapState {
-        it.featureFlags
-    }
-    override val replayCache: List<FeatureFlags> = featureFlags.replayCache
-    override val value: FeatureFlags = featureFlags.value
-    override suspend fun collect(collector: FlowCollector<FeatureFlags>): Nothing = featureFlags.collect(collector)
+class GetFeatureFlags @VisibleForTesting constructor(
+    featureFlagsFlow: StateFlow<FeatureFlags>
+) : StateFlow<FeatureFlags> by featureFlagsFlow {
+    @Inject
+    constructor(appConfig: AppConfig) : this(
+        appConfig.appConfigFlow.mapState { it.featureFlags }
+    )
 }
 
 @Singleton

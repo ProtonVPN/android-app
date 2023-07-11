@@ -24,7 +24,6 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
@@ -64,13 +63,11 @@ class ProtonVpnBackendProviderTests {
     private lateinit var mockAppConfig: AppConfig
 
     private lateinit var vpnBackendProvider: VpnBackendProvider
-    private lateinit var userData: UserData
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
-        userData = UserData.create()
 
         every { mockAppConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = true)
         every { mockAppConfig.getSmartProtocolConfig() } returns SmartProtocolConfig(
@@ -80,7 +77,6 @@ class ProtonVpnBackendProviderTests {
             mockAppConfig,
             mockOpenVpnBackend,
             mockWireGuardBackend,
-            userData,
             SupportsProtocol(createGetSmartProtocols())
         )
     }

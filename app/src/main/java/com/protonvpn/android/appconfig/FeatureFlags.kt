@@ -43,7 +43,7 @@ data class FeatureFlags(
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "SafeMode") val safeMode: Boolean = false,
     @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "NetShieldStats") val netShieldV2: Boolean = false,
+    @SerialName(value = "NetShieldStats") val netShieldV2: Boolean = false, // TODO: no longer implemented: remove it, comment out or add a comment?
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "Telemetry") val telemetry: Boolean = false,
 ) : java.io.Serializable

@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.vpn
 
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -32,18 +32,15 @@ import javax.inject.Singleton
 class UpdateSecureCoreToMatchConnectedServer @Inject constructor(
     mainScope: CoroutineScope,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
-    private val userData: UserData
+    private val userSettingsManager: CurrentUserLocalSettingsManager
 ) {
     init {
         mainScope.launch {
             vpnStatusProviderUI.status
                 .onEach { vpnState ->
                     val server = vpnState.connectionParams?.server
-                    if (vpnState.state == VpnState.Connected &&
-                        server != null &&
-                        server.isSecureCoreServer != userData.secureCoreEnabled
-                    ) {
-                        userData.secureCoreEnabled = server.isSecureCoreServer
+                    if (vpnState.state == VpnState.Connected && server != null) {
+                        userSettingsManager.updateSecureCore(server.isSecureCoreServer)
                     }
                 }
                 .launchIn(mainScope)

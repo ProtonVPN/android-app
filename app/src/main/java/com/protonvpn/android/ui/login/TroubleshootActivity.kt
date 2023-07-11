@@ -48,12 +48,12 @@ class TroubleshootActivity : BaseActivityV2() {
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
         with(binding.content) {
-            switchDnsOverHttps.isChecked = viewModel.userData.apiUseDoH
+            switchDnsOverHttps.isChecked = viewModel.isDohEnabled
             val switchDnsOverHttpsDescription =
                 getString(R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)
             switchDnsOverHttps.setInfoText(HtmlTools.fromHtml(switchDnsOverHttpsDescription), hasLinks = true)
             switchDnsOverHttps.setOnCheckedChangeListener { _, checked ->
-                viewModel.dnsOverHttpsEnabled = checked
+                viewModel.updateDoh(checked)
             }
 
             infoIspProblem.setDescription(HtmlTools.fromHtml(getString(

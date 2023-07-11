@@ -19,9 +19,9 @@
 package com.protonvpn.android.models.vpn
 
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.Constants
 import de.blinkt.openvpn.VpnProfile
 import de.blinkt.openvpn.core.Connection
@@ -46,7 +46,7 @@ class ConnectionParamsOpenVpn(
     override val info get() = "${super.info} $transmissionProtocol port: $port"
 
     fun openVpnProfile(
-        userData: UserData,
+        userSettings: LocalUserSettings,
         clientCertificate: CertificateData?
     ) = VpnProfile(server.getLabel()).apply {
         if (clientCertificate != null) {
@@ -65,20 +65,21 @@ class ConnectionParamsOpenVpn(
         mCipher = "AES-256-CBC"
         mUseTLSAuth = true
         mTunMtu = 1500
-        mMssFix = userData.mtuSize - 40
+        mMssFix = userSettings.mtuSize - 40
         mExpectTLSCert = true
         mX509AuthType = VpnProfile.X509_VERIFY_TLSREMOTE_SAN
         mCheckRemoteCN = true
         mRemoteCN = connectingDomain!!.entryDomain
         mPersistTun = true
-        mAllowLocalLAN = userData.shouldBypassLocalTraffic()
-        if (userData.useSplitTunneling && userData.splitTunnelIpAddresses.isNotEmpty()) {
+        mAllowLocalLAN = userSettings.lanConnections
+        val splitTunneling = userSettings.splitTunneling
+        if (splitTunneling.isEnabled && splitTunneling.excludedIps.isNotEmpty()) {
             mUseDefaultRoute = false
-            mExcludedRoutes = userData.splitTunnelIpAddresses.joinToString(" ")
+            mExcludedRoutes = splitTunneling.excludedIps.joinToString(" ")
         }
         mConnections[0] = Connection().apply {
-            if (userData.useSplitTunneling)
-                mAllowedAppsVpn = HashSet<String>(userData.splitTunnelApps)
+            if (splitTunneling.isEnabled)
+                mAllowedAppsVpn = HashSet<String>(splitTunneling.excludedApps)
             mServerName = entryIp ?: requireNotNull(connectingDomain.getEntryIp(protocolSelection))
             mUseUdp = transmissionProtocol == TransmissionProtocol.UDP
             mServerPort = port.toString()

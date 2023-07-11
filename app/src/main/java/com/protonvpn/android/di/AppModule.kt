@@ -29,6 +29,7 @@ import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
+import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
@@ -152,22 +153,16 @@ object AppModuleProd {
 
     @Singleton
     @Provides
-    fun provideUserPrefs(appFeaturesPrefs: AppFeaturesPrefs): UserData = UserData.load(appFeaturesPrefs)
-
-    @Singleton
-    @Provides
     fun provideVpnBackendManager(
         appConfig: AppConfig,
         wireguardBackend: WireguardBackend,
         openVpnBackend: OpenVpnBackend,
-        userData: UserData,
         supportsProtocol: SupportsProtocol,
     ): VpnBackendProvider =
         ProtonVpnBackendProvider(
             appConfig,
             openVpnBackend,
             wireguardBackend,
-            userData,
             supportsProtocol
         )
 
@@ -206,9 +201,8 @@ object AppModuleProd {
         @Binds
         fun bindTelemetryUploadScheduler(scheduler: TelemetryUploadWorkerScheduler): TelemetryUploadScheduler
 
-
-        @Binds
         @Singleton
+        @Binds
         fun provideLocalDataStoreFactory(factory: DefaultLocalDataStoreFactory): LocalDataStoreFactory
     }
 }
@@ -291,8 +285,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideVpnApiClient(userData: UserData, vpnStateMonitor: VpnStateMonitor): VpnApiClient =
-        VpnApiClient(scope, userData, vpnStateMonitor)
+    fun provideVpnApiClient(dohEnabled: DohEnabled): VpnApiClient =
+        VpnApiClient(scope, dohEnabled)
 
     @Singleton
     @Provides
@@ -373,6 +367,6 @@ object AppModule {
 
         @Singleton
         @Binds
-        fun providerCurrentUserProvider(provider: DefaultCurrentUserProvider): CurrentUserProvider
+        fun provideCurrentUserProvider(provider: DefaultCurrentUserProvider): CurrentUserProvider
     }
 }

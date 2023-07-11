@@ -38,6 +38,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.doOnLayout
+import androidx.core.widget.NestedScrollView
 import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.RequestBuilder
@@ -186,6 +187,19 @@ fun TextView.setTextOrGoneIfNullOrEmpty(newText: CharSequence?) {
     } else {
         visibility = View.GONE
     }
+}
+
+fun NestedScrollView.scrollToShowView(child: View) {
+    val scrollBounds = Rect()
+    this.getDrawingRect(scrollBounds)
+    val childTop = child.y.roundToInt()
+    val childBottom = childTop + child.height
+    val scrollByVertically = when {
+        scrollBounds.bottom < childBottom -> childBottom - scrollBounds.bottom
+        scrollBounds.top > childTop -> scrollBounds.top - childTop
+        else -> 0
+    }
+    smoothScrollBy(0, scrollByVertically)
 }
 
 private fun Rect.expandTo(minWidth: Int, minHeight: Int): Boolean {

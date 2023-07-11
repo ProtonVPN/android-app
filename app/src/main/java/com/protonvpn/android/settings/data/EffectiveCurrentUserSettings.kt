@@ -19,10 +19,20 @@
 
 package com.protonvpn.android.settings.data
 
+import android.os.Build
 import com.protonvpn.android.appconfig.GetFeatureFlags
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
+import com.protonvpn.android.netshield.NetShieldAvailability
+import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.netshield.getNetShieldAvailability
+import com.protonvpn.android.utils.SyncStateFlow
+import com.protonvpn.android.tv.IsTvCheck
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
@@ -39,31 +49,79 @@ import javax.inject.Singleton
  * flags, paid vs free plan etc.
  */
 @Singleton
-class EffectiveCurrentUserSettings @Inject constructor(
+class EffectiveCurrentUserSettings(
     mainScope: CoroutineScope,
-    localUserSettings: CurrentUserLocalSettingsManager,
-    getFeatureFlags: GetFeatureFlags
+    private val effectiveCurrentUserSettingsFlow: Flow<LocalUserSettings>
 ) {
-    private val effectiveCurrentUserSettingsFlow =  combine(
-        localUserSettings.rawCurrentUserSettingsFlow,
-        getFeatureFlags
-    ) { rawSettings, features ->
-        rawSettings.copy(
-            safeMode = rawSettings.safeMode.takeIf { features.safeMode }
-        )
-    }
-
-    val effectiveSettings: Flow<LocalUserSettings> = effectiveCurrentUserSettingsFlow
+    val effectiveSettings = effectiveCurrentUserSettingsFlow
         .distinctUntilChanged()
         .shareIn(mainScope, SharingStarted.Lazily, 1)
 
+    val apiUseDoh = distinct { it.apiUseDoh }
+    val netShield = distinct { it.netShield }
     val protocol = distinct { it.protocol }
     val safeMode = distinct { it.safeMode }
+    val secureCore = distinct { it.secureCore }
+    val telemetry = distinct { it.telemetry }
+    val vpnAcceleratorNotifications = distinct { it.vpnAcceleratorNotifications }
 
-    fun effectiveSettingsBlocking() = runBlocking {
-        effectiveCurrentUserSettingsFlow.first()
-    }
+    @Inject
+    constructor(mainScope: CoroutineScope, effectiveCurrentUserSettingsFlow: EffectiveCurrentUserSettingsFlow)
+        : this(mainScope, effectiveCurrentUserSettingsFlow as Flow<LocalUserSettings>)
 
     private fun <T> distinct(transform: (LocalUserSettings) -> T): Flow<T> =
         effectiveSettings.map(transform).distinctUntilChanged()
+}
+
+@Singleton
+class EffectiveCurrentUserSettingsFlow constructor(
+    rawCurrentUserSettingsFlow: Flow<LocalUserSettings>,
+    getFeatureFlags: GetFeatureFlags,
+    currentUser: CurrentUser,
+    isTv: IsTvCheck
+) : Flow<LocalUserSettings> {
+
+    private val effectiveSettings: Flow<LocalUserSettings> = combine(
+        rawCurrentUserSettingsFlow,
+        getFeatureFlags,
+        currentUser.vpnUserFlow,
+    ) { settings, features, vpnUser ->
+        val effectiveVpnAccelerator = !features.vpnAccelerator || settings.vpnAccelerator
+        val netShieldAvailable = vpnUser.getNetShieldAvailability() == NetShieldAvailability.AVAILABLE
+        settings.copy(
+            connectOnBoot = Build.VERSION.SDK_INT < 26 && settings.connectOnBoot,
+            lanConnections = isTv() || settings.lanConnections,
+            netShield = if (netShieldAvailable && features.netShieldEnabled) settings.netShield else NetShieldProtocol.DISABLED,
+            safeMode = settings.safeMode.takeIf { features.safeMode },
+            telemetry = features.telemetry && settings.telemetry,
+            vpnAccelerator = effectiveVpnAccelerator,
+            vpnAcceleratorNotifications =
+            features.vpnAccelerator && effectiveVpnAccelerator && settings.vpnAcceleratorNotifications,
+        )
+    }
+
+    @Inject
+    constructor(
+        localUserSettings: CurrentUserLocalSettingsManager,
+        getFeatureFlags: GetFeatureFlags,
+        currentUser: CurrentUser,
+        isTv: IsTvCheck
+    ) : this(localUserSettings.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, isTv)
+
+    override suspend fun collect(collector: FlowCollector<LocalUserSettings>) = effectiveSettings.collect(collector)
+}
+
+@Deprecated(
+    "Use EffectiveCurrentUserSettings.effectiveSettings flow, this object is for synchronous access in legacy code"
+)
+@Singleton
+class EffectiveCurrentUserSettingsCached(
+    private val stateFlow: StateFlow<LocalUserSettings>
+) : StateFlow<LocalUserSettings> by stateFlow {
+
+    @Inject constructor(
+        mainScope: CoroutineScope,
+        dispatcherProvider: VpnDispatcherProvider,
+        effectiveCurrentUserSettingsFlow: EffectiveCurrentUserSettingsFlow
+    ) : this(SyncStateFlow(mainScope, effectiveCurrentUserSettingsFlow, dispatcherProvider))
 }

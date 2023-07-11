@@ -26,12 +26,14 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ActivitySettingsMtuBinding
 import com.protonvpn.android.ui.SaveableSettingsActivity
 import com.protonvpn.android.utils.DefaultTextWatcher
 import com.protonvpn.android.utils.launchAndCollectIn
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.lang.RuntimeException
 
 class TestCrash : RuntimeException("Test exception, everything's fine")
@@ -48,20 +50,22 @@ class SettingsMtuActivity : SaveableSettingsActivity<SettingsMtuViewModel>() {
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
 
         with(binding) {
-            inputMtu.text = viewModel.mtu
-            inputMtu.addTextChangedListener(object : DefaultTextWatcher() {
-                override fun afterTextChanged(s: Editable) {
-                    viewModel.onMtuTextChanged(s.toString())
+            lifecycleScope.launch {
+                inputMtu.text = viewModel.getMtu()
+                inputMtu.addTextChangedListener(object : DefaultTextWatcher() {
+                    override fun afterTextChanged(s: Editable) {
+                        viewModel.onMtuTextChanged(s.toString())
+                    }
+                })
+                inputMtu.setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        viewModel.saveAndClose()
+                        true
+                    } else {
+                        false
+                    }
                 }
-            })
-            inputMtu.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    viewModel.saveAndClose()
-                    true
-                } else {
-                    false
-                }
-            })
+            }
             textDescription.setOnClickListener(CountingClickListener { throw TestCrash() })
 
             viewModel.eventInvalidMtu.launchAndCollectIn(this@SettingsMtuActivity) {

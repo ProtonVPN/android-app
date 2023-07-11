@@ -40,6 +40,7 @@ import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.NoopTelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
@@ -51,7 +52,6 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
-import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnBackendProvider
@@ -153,12 +153,6 @@ class MockAppModule {
         apiManager: VpnApiManager,
     ): ProtonApiRetroFit = ProtonApiRetroFit(scope, apiManager, null)
 
-    @Singleton
-    @Provides
-    fun provideUserPrefs(appFeaturesPrefs: AppFeaturesPrefs): UserData = UserData.create(appFeaturesPrefs).apply {
-        protocol = ProtocolSelection(VpnProtocol.WireGuard)
-    }
-
     @Provides
     fun provideVpnPrepareDelegate(@ApplicationContext context: Context): VpnPermissionDelegate =
         if (TestSettings.mockedConnectionUsed) {
@@ -172,10 +166,10 @@ class MockAppModule {
     fun provideVpnBackendManager(
         scope: CoroutineScope,
         dispatcherProvider: VpnDispatcherProvider,
+        userSettings: EffectiveCurrentUserSettings,
         appConfig: AppConfig,
         networkManager: NetworkManager,
         certificateRepository: CertificateRepository,
-        userData: UserData,
         openVpnBackend: OpenVpnBackend,
         wireguardBackend: WireguardBackend,
         localAgentUnreachableTracker: LocalAgentUnreachableTracker,
@@ -192,7 +186,7 @@ class MockAppModule {
                     dispatcherProvider,
                     networkManager,
                     certificateRepository,
-                    userData,
+                    userSettings,
                     appConfig,
                     VpnProtocol.OpenVPN,
                     localAgentUnreachableTracker,
@@ -206,7 +200,7 @@ class MockAppModule {
                     dispatcherProvider,
                     networkManager,
                     certificateRepository,
-                    userData,
+                    userSettings,
                     appConfig,
                     VpnProtocol.WireGuard,
                     localAgentUnreachableTracker,
@@ -216,7 +210,6 @@ class MockAppModule {
                     getConnectingDomain
                 ),
                 config = appConfig,
-                userData = userData,
                 supportsProtocol = supportsProtocol
             )
         } else {
@@ -224,7 +217,6 @@ class MockAppModule {
                 openVpn = openVpnBackend,
                 wireGuard = wireguardBackend,
                 config = appConfig,
-                userData = userData,
                 supportsProtocol = supportsProtocol
             )
         }

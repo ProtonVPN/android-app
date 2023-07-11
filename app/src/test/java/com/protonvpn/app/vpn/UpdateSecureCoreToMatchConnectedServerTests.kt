@@ -20,24 +20,27 @@
 package com.protonvpn.app.vpn
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.vpn.UpdateSecureCoreToMatchConnectedServer
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockedServers
-import com.protonvpn.test.shared.runWhileCollectingLiveData
+import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.runWhileCollecting
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -48,78 +51,77 @@ class UpdateSecureCoreToMatchConnectedServerTests {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
-    private lateinit var scope: TestCoroutineScope
+    private lateinit var testScope: TestScope
     private lateinit var vpnStateMonitor: VpnStateMonitor
-    private lateinit var userData: UserData
+    private lateinit var userSettingsManager: CurrentUserLocalSettingsManager
 
     private lateinit var updateSecureCoreToMatchConnectedServer: UpdateSecureCoreToMatchConnectedServer
 
     @Before
     fun setup() {
-        Storage.setPreferences(MockSharedPreference())
-        scope = TestCoroutineScope()
-        userData = UserData.create()
+        testScope = TestScope(UnconfinedTestDispatcher())
         vpnStateMonitor = VpnStateMonitor()
+        val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
+        userSettingsManager = CurrentUserLocalSettingsManager(
+            CurrentUser(testScope.backgroundScope, TestCurrentUserProvider(TestUser.plusUser.vpnUser)),
+            LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())
+        )
 
         updateSecureCoreToMatchConnectedServer =
-            UpdateSecureCoreToMatchConnectedServer(scope, VpnStatusProviderUI(scope, vpnStateMonitor), userData)
+            UpdateSecureCoreToMatchConnectedServer(testScope.backgroundScope, vpnStatusProviderUI, userSettingsManager)
     }
 
     @Test
-    fun `when connected to Secure Core server while SC disabled then SC is enabled`() {
-        userData.secureCoreEnabled = false
+    fun `when connected to Secure Core server while SC disabled then SC is enabled`() = testScope.runTest {
+        userSettingsManager.updateSecureCore(false)
         val secureCoreServer = MockedServers.serverList.first { it.isSecureCoreServer }
         val connectionParams = connectionParamsForServer(secureCoreServer)
 
-        val secureCoreValues = runWhileCollectingLiveData(userData.secureCoreLiveData) {
+        val secureCoreValues = runWhileCollecting(userSettingsManager.rawCurrentUserSettingsFlow) {
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
-        }
+        }.map { it.secureCore }
 
         assertEquals(listOf(false, true), secureCoreValues)
-        assertTrue(userData.secureCoreEnabled)
     }
 
     @Test
-    fun `when connected to Secure Core server while SC enabled then nothing is updated`() {
-        userData.secureCoreEnabled = true
+    fun `when connected to Secure Core server while SC enabled then nothing is updated`() = testScope.runTest {
+        userSettingsManager.updateSecureCore(true)
         val secureCoreServer = MockedServers.serverList.first { it.isSecureCoreServer }
         val connectionParams = connectionParamsForServer(secureCoreServer)
 
-        val secureCoreValues = runWhileCollectingLiveData(userData.secureCoreLiveData) {
+        val secureCoreValues = runWhileCollecting(userSettingsManager.rawCurrentUserSettingsFlow) {
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
-        }
+        }.map { it.secureCore }
 
         assertEquals(listOf(true), secureCoreValues) // Only the initial value is emitted.
-        assertTrue(userData.secureCoreEnabled)
     }
 
     @Test
-    fun `when connected to regular server while SC disabled then nothing is updated`() {
-        userData.secureCoreEnabled = false
+    fun `when connected to regular server while SC disabled then nothing is updated`() = testScope.runTest {
+        userSettingsManager.updateSecureCore(false)
         val regularServer = MockedServers.serverList.first { it.isSecureCoreServer.not() }
         val connectionParams = connectionParamsForServer(regularServer)
 
-        val secureCoreValues = runWhileCollectingLiveData(userData.secureCoreLiveData) {
+        val secureCoreValues = runWhileCollecting(userSettingsManager.rawCurrentUserSettingsFlow) {
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
-        }
+        }.map { it.secureCore }
 
         assertEquals(listOf(false), secureCoreValues) // Only the initial value is emitted.
-        assertFalse(userData.secureCoreEnabled)
     }
 
     @Test
-    fun `when connecting to Secure Core server while SC disabled then nothing is updated`() {
-        userData.secureCoreEnabled = false
+    fun `when connecting to Secure Core server while SC disabled then nothing is updated`() = testScope.runTest {
+        userSettingsManager.updateSecureCore(false)
         val secureCoreServer = MockedServers.serverList.first { it.isSecureCoreServer }
         val connectionParams = connectionParamsForServer(secureCoreServer)
 
-        val secureCoreValues = runWhileCollectingLiveData(userData.secureCoreLiveData) {
+        val secureCoreValues = runWhileCollecting(userSettingsManager.rawCurrentUserSettingsFlow) {
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.ScanningPorts, null))
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connecting, connectionParams))
-        }
+        }.map { it.secureCore }
 
         assertEquals(listOf(false), secureCoreValues)
-        assertFalse(userData.secureCoreEnabled)
     }
 
     private fun connectionParamsForServer(server: Server) = ConnectionParams(

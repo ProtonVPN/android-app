@@ -21,11 +21,11 @@ package com.protonvpn.android.vpn.openvpn
 import android.content.Intent
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.notifications.NotificationHelper
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CurrentVpnServiceProvider
@@ -39,7 +39,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OpenVPNWrapperService : OpenVPNService(), StateListener {
 
-    @Inject lateinit var userData: UserData
+    @Inject lateinit var userSettings: EffectiveCurrentUserSettingsCached
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
@@ -55,9 +55,10 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    override fun getProfile(): VpnProfile? =
-            Storage.load(ConnectionParams::class.java, ConnectionParamsOpenVpn::class.java)
-                ?.openVpnProfile(userData, Storage.load(CertificateData::class.java))
+    override fun getProfile(): VpnProfile? {
+        return Storage.load(ConnectionParams::class.java, ConnectionParamsOpenVpn::class.java)
+            ?.openVpnProfile(userSettings.value, Storage.load(CertificateData::class.java))
+    }
 
     override fun onProcessRestore(): Boolean {
         val lastServer = Storage.load(ConnectionParams::class.java, ConnectionParamsOpenVpn::class.java)

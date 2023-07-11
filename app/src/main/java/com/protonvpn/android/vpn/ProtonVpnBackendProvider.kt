@@ -28,7 +28,6 @@ import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.asFlow
@@ -42,7 +41,6 @@ class ProtonVpnBackendProvider(
     val config: AppConfig,
     val openVpn: VpnBackend,
     val wireGuard: VpnBackend,
-    val userData: UserData,
     val supportsProtocol: SupportsProtocol,
 ) : VpnBackendProvider {
 

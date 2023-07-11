@@ -14,10 +14,13 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
-import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.SaveableSettingsViewModel
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -27,8 +30,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileEditViewModel @Inject constructor(
+    private val profileManager: ProfileManager,
     private val serverManager: ServerManager,
-    private val userData: UserData,
+    private val currentUserSettings: EffectiveCurrentUserSettingsCached,
     private val currentUser: CurrentUser
 ) : SaveableSettingsViewModel() {
 
@@ -51,12 +55,13 @@ class ProfileEditViewModel @Inject constructor(
 
     private var editedProfile: Profile? = null
     private var profileNameInput: String = ""
+    private val userSettings: LocalUserSettings get() = currentUserSettings.value
 
     val profileColor = MutableStateFlow(ProfileColor.random())
-    val protocol = MutableStateFlow(getDefaultProtocol(userData))
+    val protocol = MutableStateFlow(userSettings.protocol)
     val eventSomethingWrong = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val eventValidationFailed = MutableSharedFlow<InputValidation>(extraBufferCapacity = 1)
-    private val secureCore = MutableStateFlow(userData.secureCoreEnabled)
+    private val secureCore = MutableStateFlow(false)
     private val country = MutableStateFlow<VpnCountry?>(null)
     private val serverSelection = MutableStateFlow<ServerIdSelection?>(null)
 
@@ -101,10 +106,10 @@ class ProfileEditViewModel @Inject constructor(
             editedProfile = profile
             profileNameInput = profile.getDisplayName(context)
             profileColor.value = requireNotNull(profile.profileColor)
-            secureCore.value = profile.isSecureCore ?: userData.secureCoreEnabled
             serverSelection.value = getServerSelection(profile)
             country.value = serverManager.getVpnExitCountry(profile.country, secureCore.value)
-            protocol.value = profile.getProtocol(userData)
+            secureCore.value = profile.isSecureCore ?: userSettings.secureCore
+            protocol.value = profile.getProtocol(userSettings)
         }
     }
 
@@ -180,7 +185,7 @@ class ProfileEditViewModel @Inject constructor(
         return isValid
     }
 
-    override fun hasUnsavedChanges(): Boolean {
+    override suspend fun hasUnsavedChanges(): Boolean {
         val currentProfile = editedProfile
         return if (currentProfile != null) {
             profileNameInput != currentProfile.name ||
@@ -209,15 +214,15 @@ class ProfileEditViewModel @Inject constructor(
                 setProtocol(protocol.value)
             }
         editedProfile?.let {
-            if (it.id == userData.defaultProfileId) {
+            if (it.id == userSettings.defaultProfileId) {
                 ProtonLogger.logUiSettingChange(Setting.QUICK_CONNECT_PROFILE, "profile edit")
             }
-            serverManager.editProfile(it, newProfile)
-        } ?: serverManager.addToProfileList(newProfile)
+            profileManager.editProfile(it, newProfile)
+        } ?: profileManager.addToProfileList(newProfile)
     }
 
     fun deleteProfile() {
-        serverManager.deleteProfile(editedProfile)
+        profileManager.deleteProfile(editedProfile)
     }
 
     private fun getServerSelection(profile: Profile): ServerIdSelection? = when {
@@ -226,8 +231,6 @@ class ProfileEditViewModel @Inject constructor(
         !profile.wrapper.serverId.isNullOrBlank() -> ServerIdSelection.Specific(profile.wrapper.serverId)
         else -> null
     }
-
-    private fun getDefaultProtocol(userData: UserData) = userData.protocol
 
     private fun createServerWrapper(
         serverSelection: ServerIdSelection,

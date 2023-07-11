@@ -94,6 +94,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
 import com.protonvpn.android.ui.settings.SettingsActivity;
+import com.protonvpn.android.userstorage.ProfileManager;
 import com.protonvpn.android.utils.AnimationTools;
 import com.protonvpn.android.utils.Constants;
 import com.protonvpn.android.utils.HtmlTools;
@@ -115,6 +116,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import dagger.hilt.android.AndroidEntryPoint;
+import kotlin.Pair;
 import kotlin.Unit;
 
 @AndroidEntryPoint
@@ -137,7 +139,7 @@ public class HomeActivity extends VpnActivity {
 
     VpnStateFragment fragment;
     @Inject ServerManager serverManager;
-    @Inject UserData userData;
+    @Inject ProfileManager profileManager;
     @Inject VpnStatusProviderUI vpnStatusProviderUI;
     @Inject ServerListUpdater serverListUpdater;
     @Inject NotificationHelper notificationHelper;
@@ -182,12 +184,19 @@ public class HomeActivity extends VpnActivity {
             }
         });
 
-        serverManager.getProfilesLiveData().observe(this, (Unit) -> initQuickConnectFab());
+        profileManager.getProfilesLiveData().observe(this, (Unit) -> initQuickConnectFab());
 
         viewModel.getLogoutEvent().observe(this, account -> {
             // Result CANCELLED will close MobileMainActivity
             setResult(RESULT_OK);
             finish();
+        });
+
+        viewModel.getConnectEvent().observe(this, (input) -> {
+            Profile profile = input.getFirst();
+            ConnectTrigger trigger = input.getSecond();
+            ProtonLogger.INSTANCE.log(UiReconnect, trigger.getDescription());
+            onConnect(profile, trigger);
         });
 
         new PromoOfferNotificationHelper(this, imageNotification,
@@ -261,22 +270,13 @@ public class HomeActivity extends VpnActivity {
             }
             return true;
         });
-        userData.getSecureCoreLiveData().observe(
+        viewModel.getSecureCoreLiveData().observe(
                 this, isEnabled -> switchSecureCore.setChecked(isEnabled));
     }
 
     private void toggleSecureCore() {
         LogExtensionsKt.logUiSettingChange(ProtonLogger.INSTANCE, Setting.SECURE_CORE, "main screen");
-        if (vpnStatusProviderUI.isEstablishingOrConnected() &&
-                vpnStatusProviderUI.isConnectingToSecureCore() == switchSecureCore.isChecked()) {
-            userData.setSecureCoreEnabled(!switchSecureCore.isChecked());
-
-            ProtonLogger.INSTANCE.log(UiReconnect, "user toggled SC switch");
-            Profile newProfile = viewModel.getReconnectProfileOnSecureCoreChange();
-            onConnect(newProfile, ConnectTrigger.SecureCore.INSTANCE);
-        } else {
-            userData.setSecureCoreEnabled(!switchSecureCore.isChecked());
-        }
+        viewModel.toggleSecureCore(!switchSecureCore.isChecked());
     }
 
     @SuppressLint("CheckResult")
@@ -369,7 +369,7 @@ public class HomeActivity extends VpnActivity {
         searchView.setQueryHint(getString(R.string.server_search_hint));
 
         searchView.setOnSearchClickListener((view) -> {
-            int searchHintRes = userData.getSecureCoreEnabled() ?
+            int searchHintRes = viewModel.getSecureCore() ?
                 R.string.server_search_hint_secure_core :
                 R.string.server_search_hint;
             searchView.setQueryHint(getString(searchHintRes));
@@ -541,7 +541,7 @@ public class HomeActivity extends VpnActivity {
         });
         fabQuickConnect.setClosedOnTouchOutside(true);
 
-        if (serverManager.getSavedProfiles().size() >= 6) {
+        if (profileManager.getSavedProfiles().size() >= 6) {
             addActionButtonToFab(fabQuickConnect, null, null,
                 getString(R.string.showAllProfiles), R.drawable.ic_proton_three_dots_horizontal, v -> {
                     viewPager.setCurrentItem(2);
@@ -549,7 +549,7 @@ public class HomeActivity extends VpnActivity {
                 });
         }
 
-        List<Profile> profileList = new ArrayList<>(serverManager.getSavedProfiles());
+        List<Profile> profileList = new ArrayList<>(profileManager.getSavedProfiles());
         for (final Profile profile : ReversedList.reverse(
             profileList.subList(0, profileList.size() >= 6 ? 6 : profileList.size()))) {
             addActionButtonToFab(

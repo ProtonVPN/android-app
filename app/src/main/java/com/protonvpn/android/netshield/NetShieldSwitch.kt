@@ -105,7 +105,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun onStateChange(newProtocol: NetShieldProtocol) {
         with(binding) {
-            val netShieldEnabled = newProtocol != NetShieldProtocol.DISABLED
+            val netShieldEnabled = newProtocol != NetShieldProtocol.DISABLED && !netshieldFreeMode
             switchNetshield.isChecked = netShieldEnabled
             radioGroupSettings.isVisible = netShieldEnabled
             if (netShieldEnabled) {
@@ -180,6 +180,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         })
         netshieldFreeMode = netShieldAvailability != NetShieldAvailability.AVAILABLE
         onStateChange(initialValue)
+        switchNetshield.jumpDrawablesToCurrentState()
         initUserTier(netShieldAvailability == NetShieldAvailability.UPGRADE_VPN_BUSINESS)
 
         if (!netshieldFreeMode) {

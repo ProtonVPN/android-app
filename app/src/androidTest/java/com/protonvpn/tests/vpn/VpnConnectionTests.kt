@@ -31,19 +31,23 @@ import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.AgentConnectionInterface
 import com.protonvpn.android.vpn.CertificateRepository
@@ -74,6 +78,7 @@ import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
+import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -89,7 +94,9 @@ import io.mockk.verifyOrder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
@@ -120,16 +127,13 @@ class VpnConnectionTests {
 
     private val permissionDelegate = VpnPermissionDelegate { null }
     private lateinit var scope: TestScope
+    private lateinit var serverManager: ServerManager
     private lateinit var testDispatcherProvider: TestDispatcherProvider
-    private lateinit var userData: UserData
     private lateinit var monitor: VpnStateMonitor
     private lateinit var manager: VpnConnectionManager
     private lateinit var networkManager: MockNetworkManager
 
     private lateinit var currentUserProvider: TestCurrentUserProvider
-
-    @RelaxedMockK
-    lateinit var serverManager: ServerManager
 
     @RelaxedMockK
     lateinit var appConfig: AppConfig
@@ -167,6 +171,7 @@ class VpnConnectionTests {
     private lateinit var mockOpenVpn: MockVpnBackend
     private lateinit var mockWireguard: MockVpnBackend
     private lateinit var supportsProtocol: SupportsProtocol
+    private lateinit var userSettingsFlow: MutableStateFlow<LocalUserSettings>
 
     private lateinit var profileSmart: Profile
     private lateinit var profileOpenVPN: Profile
@@ -195,7 +200,9 @@ class VpnConnectionTests {
         Dispatchers.setMain(testDispatcher)
         val clock = { testScheduler.currentTime }
 
-        userData = UserData.create()
+        userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
+        val userSettings = EffectiveCurrentUserSettings(scope.backgroundScope, userSettingsFlow)
+        val userSettingsCached = EffectiveCurrentUserSettingsCached(userSettingsFlow)
 
         val smartProtocolsConfig = SmartProtocolConfig(
             openVPNEnabled = true, wireguardEnabled = true, wireguardTcpEnabled = true, wireguardTlsEnabled = true)
@@ -224,8 +231,8 @@ class VpnConnectionTests {
 
         networkManager = MockNetworkManager()
 
-        mockOpenVpn = spyk(createMockVpnBackend(currentUser, VpnProtocol.OpenVPN))
-        mockWireguard = spyk(createMockVpnBackend(currentUser, VpnProtocol.WireGuard))
+        mockOpenVpn = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.OpenVPN))
+        mockWireguard = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.WireGuard))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
@@ -233,7 +240,6 @@ class VpnConnectionTests {
             openVpn = mockOpenVpn,
             wireGuard = mockWireguard,
             config = appConfig,
-            userData = userData,
             supportsProtocol = supportsProtocol
         )
 
@@ -251,7 +257,22 @@ class VpnConnectionTests {
             ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         ).apply { start() }
 
-        manager = VpnConnectionManager(permissionDelegate, userData, appConfig, backendProvider, networkManager, vpnErrorHandler, monitor,
+        val profileManager =
+            ProfileManager(SavedProfilesV3.defaultProfiles(), scope.backgroundScope, userSettingsCached, mockk())
+        serverManager = ServerManager(
+            userSettingsCached,
+            currentUser,
+            clock,
+            supportsProtocol,
+            createInMemoryServersStore(),
+            profileManager
+        )
+        serverManager.setServers(MockedServers.serverList, null)
+        serverManager.setBuiltInGuestHoleServersForTesting(
+            MockedServers.serverList.filter { supportsProtocol(it, GuestHole.PROTOCOL) }
+        )
+
+        manager = VpnConnectionManager(permissionDelegate, appConfig, userSettings, backendProvider, networkManager, vpnErrorHandler, monitor,
             mockVpnBackgroundUiDelegate, serverManager, certificateRepository, scope.backgroundScope, clock,
             mockk(relaxed = true), currentUser, supportsProtocol, mockk(relaxed = true), vpnConnectionTelemetry)
 
@@ -266,9 +287,6 @@ class VpnConnectionTests {
         profileWireguard = MockedServers.getProfile(serverWireguard, VpnProtocol.WireGuard)
         profileWireguardTls = MockedServers.getProfile(server, VpnProtocol.WireGuard, transmissionProtocol = TransmissionProtocol.TLS)
         fallbackOpenVpnProfile = MockedServers.getProfile(fallbackServer, VpnProtocol.OpenVPN, "fallback")
-        every { serverManager.getServerForProfile(any(), any()) } answers {
-            MockedServers.serverList.find { it.serverId == arg<Profile>(0).wrapper.serverId } ?: MockedServers.server
-        }
 
         setupMockAgent { client ->
             client.onState(agentConsts.stateConnecting)
@@ -318,6 +336,7 @@ class VpnConnectionTests {
     @Test
     fun whenFeatureFlagIsOffNoConnectionIsMade() = scope.runTest {
         every { appConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = false)
+        userSettingsFlow.update { it.copy(protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)) }
         manager.connect(mockVpnUiDelegate, profileWireguardTls, trigger)
 
         verify { mockVpnUiDelegate.onProtocolNotSupported() }
@@ -328,7 +347,7 @@ class VpnConnectionTests {
     fun whenScanForAllProtocolsFailsThenDefaultProtocolIsUsed() = scope.runTest {
         mockWireguard.failScanning = true
         mockOpenVpn.failScanning = true
-        userData.protocol = ProtocolSelection(VpnProtocol.OpenVPN)
+        userSettingsFlow.update { it.copy(protocol = ProtocolSelection(VpnProtocol.Smart)) }
         manager.connect(mockVpnUiDelegate, profileSmart, trigger)
 
         // When scanning fails we'll fallback to attempt connecting with WireGuard regardless of
@@ -344,7 +363,7 @@ class VpnConnectionTests {
     @Test
     fun whenNoInternetWhileConnectingUseWireguard() = scope.runTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        userData.protocol = ProtocolSelection(VpnProtocol.OpenVPN, null)
+        userSettingsFlow.update { it.copy(protocol = ProtocolSelection(VpnProtocol.Smart)) }
         manager.connect(mockVpnUiDelegate, profileSmart, trigger)
 
         // Always fall back to WireGuard, regardless of selected protocol.
@@ -362,6 +381,9 @@ class VpnConnectionTests {
     @Test
     fun localAgentIsUsedForWireguard() = scope.runTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
+        userSettingsFlow.update {
+            it.copy(protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP))
+        }
         manager.connect(mockVpnUiDelegate, profileWireguard, trigger)
 
         coVerify(exactly = 1) {
@@ -873,16 +895,16 @@ class VpnConnectionTests {
         assertEquals("failure", dimensions.captured["outcome"])
     }
 
-    private fun TestScope.fallbackOnConnectReportsSingleEventTest(
+    private fun fallbackOnConnectReportsSingleEventTest(
         fallbackSwitch: VpnFallbackResult.Switch,
         expectedOutcome: String
     ) {
-        every { serverManager.getServerForProfile(profileWireguard, any()) } returns null
+        val profileNonexistentServer = Profile.getTempProfile(createServer("nonexistent"))
         coEvery {
-            vpnErrorHandler.onServerNotAvailable(profileWireguard)
+            vpnErrorHandler.onServerNotAvailable(profileNonexistentServer)
         } returns fallbackSwitch
 
-        manager.connect(mockVpnUiDelegate, profileWireguard, ConnectTrigger.QuickConnect("test"))
+        manager.connect(mockVpnUiDelegate, profileNonexistentServer, ConnectTrigger.QuickConnect("test"))
 
         val dimensions = slot<Map<String, String>>()
         verify(exactly = 1) {
@@ -892,13 +914,17 @@ class VpnConnectionTests {
         assertEquals("quick", dimensions.captured["vpn_trigger"]) // Initial trigger is reported.
     }
 
-    private fun createMockVpnBackend(currentUser: CurrentUser, protocol: VpnProtocol): MockVpnBackend =
+    private fun createMockVpnBackend(
+        currentUser: CurrentUser,
+        userSettings: EffectiveCurrentUserSettings,
+        protocol: VpnProtocol
+    ): MockVpnBackend =
         MockVpnBackend(
             scope.backgroundScope,
             testDispatcherProvider,
             networkManager,
             certificateRepository,
-            userData,
+            userSettings,
             appConfig,
             protocol,
             mockLocalAgentUnreachableTracker,
