@@ -24,6 +24,7 @@ import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,9 +37,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfilesViewModel @Inject constructor(
-    val serverManager: ServerManager,
-    val currentUser: CurrentUser,
-    val vpnStatusProviderUI: VpnStatusProviderUI
+    profileManager: ProfileManager,
+    private val serverManager: ServerManager,
+    currentUser: CurrentUser,
+    private val vpnStatusProviderUI: VpnStatusProviderUI
 ) : ViewModel() {
 
     data class ProfileItem(
@@ -49,7 +51,7 @@ class ProfilesViewModel @Inject constructor(
     )
 
     private val profiles = combine(
-        serverManager.profiles,
+        profileManager.profiles,
         serverManager.serverListVersion,
         vpnStatusProviderUI.status,
         currentUser.vpnUserFlow

@@ -64,8 +64,6 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private val GUEST_HOLE_PROTOCOL = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
-
 @Singleton
 class GuestHole @Inject constructor(
     private val scope: CoroutineScope,
@@ -118,7 +116,7 @@ class GuestHole @Inject constructor(
         val holes = if (serverManager.get().isDownloadedAtLeastOnce) {
             // Mix downloaded and builtin servers
             shuffler(builtInHoles).take(GUEST_HOLE_SERVER_COUNT_MIXED) +
-                serverManager.get().getDownloadedServersForGuestHole(GUEST_HOLE_SERVER_COUNT_MIXED, GUEST_HOLE_PROTOCOL)
+                serverManager.get().getDownloadedServersForGuestHole(GUEST_HOLE_SERVER_COUNT_MIXED, PROTOCOL)
         } else {
             shuffler(builtInHoles).take(GUEST_HOLE_SERVER_COUNT).apply {
                 serverManager.get().setGuestHoleServers(this)
@@ -142,7 +140,7 @@ class GuestHole @Inject constructor(
             connected = withTimeoutOrNull(GUEST_HOLE_SERVER_TIMEOUT) {
                 val profile = Profile.getTempProfile(server)
                     .apply {
-                        setProtocol(GUEST_HOLE_PROTOCOL)
+                        setProtocol(PROTOCOL)
                         isGuestHoleProfile = true
                     }
                 vpnConnectionManager.get().connect(vpnUiDelegate, profile, ConnectTrigger.GuestHole)
@@ -291,6 +289,7 @@ class GuestHole @Inject constructor(
         private const val GUEST_HOLE_SERVER_TIMEOUT = 10_000L
         private const val GUEST_HOLE_ATTEMPT_TIMEOUT = 50_000L
         const val GUEST_HOLE_SERVERS_ASSET = "GuestHoleServers.json"
+        val PROTOCOL = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
     }
 
     class GuestHoleVpnUiDelegate(activity: ComponentActivity) : VpnUiActivityDelegate(activity) {

@@ -23,9 +23,9 @@ import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.CertificateRepository
 import com.wireguard.config.Config
@@ -60,23 +60,19 @@ class ConnectionParamsWireguard(
     @Throws(IllegalStateException::class)
     suspend fun getTunnelConfig(
         context: Context,
-        userData: UserData,
+        userSettings: LocalUserSettings,
         sessionId: SessionId?,
         certificateRepository: CertificateRepository
     ): Config {
         val entryIp = entryIp ?: requireNotNull(connectingDomain?.getEntryIp(protocolSelection))
 
-        val excludedIPs = mutableListOf<String>()
-        var excludedApps: Set<String> = emptySet()
-        if (userData.useSplitTunneling) {
-            userData.splitTunnelIpAddresses.takeIf { it.isNotEmpty() }?.let {
-                excludedIPs += it
-            }
-            userData.splitTunnelApps.takeIf { it.isNotEmpty() }?.let {
-                excludedApps = it.toSortedSet()
-            }
+        val splitTunneling = userSettings.splitTunneling
+        val excludedIPs: MutableList<String> = with(splitTunneling) {
+            excludedIps.takeIf { isEnabled }.orEmpty().toMutableList()
         }
-        if (userData.shouldBypassLocalTraffic())
+        val excludedApps: List<String> = with(splitTunneling) { excludedApps.takeIf { isEnabled }.orEmpty() }
+
+        if (userSettings.lanConnections)
             excludedIPs += NetworkUtils.getLocalNetworks(context, false).toList()
 
         val allowedIps = calculateAllowedIps(excludedIPs)

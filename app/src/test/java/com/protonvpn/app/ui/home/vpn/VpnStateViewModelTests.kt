@@ -1,10 +1,12 @@
 package com.protonvpn.app.ui.home.vpn
 
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.netshield.NetShieldViewState
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.vpn.VpnStateViewModel
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -36,15 +38,13 @@ class VpnStateViewModelTests {
     private lateinit var mockTrafficMonitor: TrafficMonitor
 
     @RelaxedMockK
-    private lateinit var mockUserData: UserData
-
+    private lateinit var mockUserSettingsManager: CurrentUserLocalSettingsManager
 
     private lateinit var currentUserProvider: TestCurrentUserProvider
     private lateinit var scope: TestScope
     private lateinit var testDispatcherProvider: TestDispatcherProvider
-    private var netshieldProtocolFlow: MutableStateFlow<NetShieldProtocol> =
-        MutableStateFlow(NetShieldProtocol.DISABLED)
-    private var netshieldStatsFlow: MutableStateFlow<NetShieldStats> = MutableStateFlow(NetShieldStats())
+    private lateinit var userSettingsFlow: MutableStateFlow<LocalUserSettings>
+    private lateinit var netshieldStatsFlow: MutableStateFlow<NetShieldStats>
 
     private lateinit var viewModel: VpnStateViewModel
 
@@ -56,12 +56,23 @@ class VpnStateViewModelTests {
         scope = TestScope(testDispatcher)
         testDispatcherProvider = TestDispatcherProvider(testDispatcher)
         Dispatchers.setMain(testDispatcher)
+
         currentUserProvider = TestCurrentUserProvider(TestUser.plusUser.vpnUser)
         val currentUser = CurrentUser(scope.backgroundScope, currentUserProvider)
 
-        every { mockUserData.netShieldStateFlow } returns netshieldProtocolFlow
+        userSettingsFlow = MutableStateFlow(LocalUserSettings.Default.copy(netShield = NetShieldProtocol.DISABLED))
+        val userSettings = EffectiveCurrentUserSettings(scope.backgroundScope, userSettingsFlow)
+
+        netshieldStatsFlow = MutableStateFlow(NetShieldStats())
         every { mockVpnConnectionManager.netShieldStats } returns netshieldStatsFlow
-        viewModel = VpnStateViewModel(mockVpnConnectionManager, mockTrafficMonitor, mockUserData, currentUser)
+        viewModel = VpnStateViewModel(
+            scope.backgroundScope,
+            mockVpnConnectionManager,
+            mockTrafficMonitor,
+            userSettings,
+            mockUserSettingsManager,
+            currentUser
+        )
     }
 
     @Test

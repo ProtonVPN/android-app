@@ -22,9 +22,6 @@ package com.protonvpn.android.auth
 import android.content.Context
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.VpnLogin
-import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.vpn.CertificateRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import me.proton.core.accountmanager.domain.AccountManager
@@ -34,12 +31,9 @@ import me.proton.core.user.domain.UserManager
 import me.proton.core.user.domain.entity.User
 
 class VpnUserCheck(
-    val mainScope: CoroutineScope,
-    val userData: UserData,
-    val context: Context,
-    val accountManager: AccountManager,
+    private val context: Context,
+    accountManager: AccountManager,
     userManager: UserManager,
-    val certificateRepository: CertificateRepository,
     private val vpnLoginUseCase: VpnLogin
 ) : DefaultUserCheck(context, accountManager, userManager) {
 

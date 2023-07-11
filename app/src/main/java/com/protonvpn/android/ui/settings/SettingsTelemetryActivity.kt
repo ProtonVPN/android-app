@@ -25,18 +25,22 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commitNow
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityTelemetrySettingsBinding
 import com.protonvpn.android.databinding.FragmentTelemetrySettingsBinding
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -60,7 +64,8 @@ class SettingsTelemetryActivity : BaseActivityV2() {
 @AndroidEntryPoint
 class SettingsTelemetryFragment : Fragment(R.layout.fragment_telemetry_settings) {
 
-    @Inject lateinit var userData: UserData
+    @Inject lateinit var mainScope: CoroutineScope
+    @Inject lateinit var userSettingsManager: CurrentUserLocalSettingsManager
     @Inject lateinit var appConfig: AppConfig
 
     private val binding by viewBinding(FragmentTelemetrySettingsBinding::bind)
@@ -77,9 +82,12 @@ class SettingsTelemetryFragment : Fragment(R.layout.fragment_telemetry_settings)
 
     private fun initEnableTelemetryToggle() = with(binding.switchEnableTelemetry) {
         isVisible = appConfig.getFeatureFlags().telemetry
-        isChecked = userData.telemetryEnabled
-        setOnCheckedChangeListener { _, isChecked ->
-            userData.telemetryEnabled = isChecked
+        lifecycleScope.launch {
+            isChecked = userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry
+            jumpDrawablesToCurrentState()
+            setOnCheckedChangeListener { _, isChecked ->
+                mainScope.launch { userSettingsManager.updateTelemetry(isChecked) }
+            }
         }
     }
 

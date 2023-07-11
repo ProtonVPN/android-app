@@ -28,7 +28,6 @@ import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.models.login.VPNInfo
 import com.protonvpn.android.models.login.VpnInfoResponse
@@ -37,7 +36,6 @@ import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvLoginViewState
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -66,15 +64,11 @@ class TvLoginViewModelTests {
     var rule = InstantTaskExecutorRule()
 
     @RelaxedMockK
-    private lateinit var userData: UserData
-    @RelaxedMockK
     private lateinit var appConfig: AppConfig
     @MockK
     private lateinit var api: ProtonApiRetroFit
     @RelaxedMockK
     private lateinit var serverListUpdater: ServerListUpdater
-    @RelaxedMockK
-    private lateinit var certificateRepository: CertificateRepository
     @MockK
     private lateinit var serverManager: ServerManager
     @RelaxedMockK
@@ -121,9 +115,8 @@ class TvLoginViewModelTests {
 
     @Test
     fun successfulLogin() = runTest {
-        val viewModel = TvLoginViewModel(this, userData, currentUser, vpnUserDao, appConfig, api,
-            serverListUpdater, serverManager, certificateRepository, accountManager, monoClockMs = { currentTime },
-            guestHole = guestHole)
+        val viewModel = TvLoginViewModel(currentUser, vpnUserDao, appConfig, api, serverListUpdater, serverManager,
+            accountManager, monoClockMs = { currentTime }, guestHole = guestHole)
         val insertedVpnUser = slot<VpnUser>()
         coEvery { vpnUserDao.insertOrUpdate(capture(insertedVpnUser)) } returns Unit
 
@@ -145,8 +138,8 @@ class TvLoginViewModelTests {
 
     @Test
     fun vpnConnectionAllocationNeeded() = runTest {
-        val viewModel = TvLoginViewModel(this, userData, currentUser, vpnUserDao, appConfig, api,
-            serverListUpdater, serverManager, certificateRepository, accountManager, monoClockMs = { currentTime },
+        val viewModel = TvLoginViewModel(currentUser, vpnUserDao, appConfig, api,
+            serverListUpdater, serverManager, accountManager, monoClockMs = { currentTime },
             guestHole = guestHole)
         coEvery { api.getVPNInfo(any()) } returns ApiResult.Success(noConnectionsVpnInfoResponse)
         viewModel.startLogin(this)

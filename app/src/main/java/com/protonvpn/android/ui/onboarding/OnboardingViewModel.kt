@@ -29,6 +29,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.suspendForPermissions
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.SentryIntegration
@@ -43,10 +44,12 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
@@ -55,8 +58,9 @@ import javax.inject.Inject
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     @ApplicationContext val app: Context,
+    private val mainScope: CoroutineScope,
     private val appConfig: AppConfig,
-    private val userData: UserData,
+    private val userLocalSettingsManager: CurrentUserLocalSettingsManager,
     private val serverManager: ServerManager,
     private val serverListUpdater: ServerListUpdater,
     private val vpnPermissionDelegate: VpnPermissionDelegate,
@@ -82,8 +86,10 @@ class OnboardingViewModel @Inject constructor(
     data class Error(val html: String?, @StringRes val res: Int = R.string.something_went_wrong)
 
     fun applyTelemetryChoice() {
-        userData.telemetryEnabled = telemetryEnabledSwitch
-        SentryIntegration.setEnabled(crashReportingSwitch)
+        mainScope.launch {
+            SentryIntegration.setEnabled(crashReportingSwitch)
+            userLocalSettingsManager.updateTelemetry(telemetryEnabledSwitch)
+        }
     }
 
     suspend fun connect(activity: ComponentActivity, delegate: VpnUiActivityDelegate): Error? {

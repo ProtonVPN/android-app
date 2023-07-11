@@ -35,7 +35,7 @@ interface LocalDataStoreFactory {
     suspend fun <T> getDataStore(
         fileName: String,
         serializer: Serializer<T>,
-        migrations: List<DataMigration<T>> = emptyList()
+        migrations: List<DataMigration<T>>
     ): DataStore<T>
 }
 

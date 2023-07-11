@@ -28,9 +28,9 @@ import android.content.Context;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.evernote.android.state.StateSaver;
+import com.protonvpn.android.api.DohEnabled;
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager;
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout;
-import com.protonvpn.android.auth.usecase.CoreLoginMigration;
 import com.protonvpn.android.components.RestartHandler;
 import com.protonvpn.android.logging.CurrentStateLogger;
 import com.protonvpn.android.logging.CurrentStateLoggerGlobal;
@@ -97,8 +97,9 @@ public class ProtonApplication extends Application {
         CertificateRepository getCertificateRepository();
         CloseSessionOnForceLogout getCloseSessionOnForceLogout();
         CoreEventManagerStarter getCoreEventManagerStarter();
-        CoreLoginMigration getCoreLoginMigration();
         CurrentStateLogger getCurrentStateLogger();
+
+        DohEnabled.Provider getDohEnabledProvider();
         HumanVerificationStateHandler getHumanVerificationStateHandler();
         LogcatLogCapture getLogcatLogCapture();
         MaintenanceTracker getMaintenanceTracker();
@@ -149,9 +150,6 @@ public class ProtonApplication extends Application {
     public void initDependencies() {
         DependencyEntryPoints dependencies = EntryPointAccessors.fromApplication(this, DependencyEntryPoints.class);
 
-        // Migrate before anything else that uses the AccountManager.
-        dependencies.getCoreLoginMigration().migrateIfNeeded();
-
         // Start the EventLoop for all logged in Users.
         // Currently disabled. Will enable when Account Recovery feature will be enabled.
         // dependencies.getCoreEventManagerStarter().start();
@@ -165,6 +163,7 @@ public class ProtonApplication extends Application {
         dependencies.getAccountStateHandler().start();
         dependencies.getCertificateRepository();
         dependencies.getCloseSessionOnForceLogout();
+        dependencies.getDohEnabledProvider();
         dependencies.getHumanVerificationStateHandler().observe();
         dependencies.getMaintenanceTracker();
         dependencies.getReviewTracker();

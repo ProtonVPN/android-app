@@ -24,16 +24,15 @@ import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,33 +41,38 @@ import javax.inject.Singleton
 class UpdateSettingsOnVpnUserChange @Inject constructor(
     @ApplicationContext private val context: Context,
     mainScope: CoroutineScope,
-    private val dispatcherProvider: DispatcherProvider,
     private val currentUser: CurrentUser,
     private val serverManager: ServerManager,
-    private val userData: UserData,
+    private val userSettingsManager: CurrentUserLocalSettingsManager,
     private val userPlanManager: UserPlanManager
 ) {
     init {
         mainScope.launch {
-            currentUser.vpnUserFlow.flowOn(dispatcherProvider.Main).collect { vpnUser ->
+            currentUser.vpnUserFlow.collect { vpnUser ->
                 if (vpnUser != null) {
-                    if (!vpnUser.isUserBasicOrAbove) {
-                        userData.setNetShieldProtocol(null)
-                        userData.safeModeEnabled = true
-                        userData.randomizedNatEnabled = true
-                    }
-                    if (!vpnUser.isUserPlusOrAbove) {
-                        userData.secureCoreEnabled = false
-                    }
-                    val defaultProfileServer =
-                        serverManager.getServerForProfile(serverManager.defaultConnection, vpnUser)
-                    if (defaultProfileServer == null || !vpnUser.hasAccessToServer(defaultProfileServer)) {
-                        val reason = when {
-                            defaultProfileServer == null -> "the server no longer exists"
-                            else -> "the user no longer has access to the profile's server"
+                    userSettingsManager.update { current ->
+                        val defaultProfileServer =
+                            serverManager.getServerForProfile(serverManager.defaultConnection, vpnUser)
+                        // Note: when a different user logs in they will initially have the other user's server list
+                        // so it's likely the defaultProfileServer isn't found and the default profile gets reset.
+                        val resetDefaultProfile =
+                            current.defaultProfileId != null &&
+                                (defaultProfileServer == null || !vpnUser.hasAccessToServer(defaultProfileServer))
+                        if (resetDefaultProfile) {
+                            val reason = when {
+                                defaultProfileServer == null -> "the server no longer exists"
+                                else -> "the user no longer has access to the profile's server"
+                            }
+                            ProtonLogger.logCustom(LogCategory.SETTINGS, "reset default profile: $reason")
                         }
-                        ProtonLogger.logCustom(LogCategory.SETTINGS, "reset default profile: $reason")
-                        userData.defaultProfileId = null
+
+                        current.copy(
+                            defaultProfileId = current.orDefaultIf(resetDefaultProfile) { it.defaultProfileId },
+                            netShield = current.orDefaultIf(vpnUser.isFreeUser) { it.netShield },
+                            randomizedNat = current.orDefaultIf(vpnUser.isFreeUser) { it.randomizedNat },
+                            safeMode = current.orDefaultIf(vpnUser.isFreeUser) { it.safeMode },
+                            secureCore = current.orDefaultIf(!vpnUser.isUserPlusOrAbove) { it.secureCore },
+                        )
                     }
                 }
             }
@@ -76,9 +80,13 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
         mainScope.launch {
             userPlanManager.planChangeFlow.collect {
                 if (it == UserPlanManager.InfoChange.PlanChange.Upgrade && !context.isTV()) {
-                    userData.setNetShieldProtocol(Constants.DEFAULT_NETSHIELD_AFTER_UPGRADE)
+                    userSettingsManager.updateNetShield(Constants.DEFAULT_NETSHIELD_AFTER_UPGRADE)
                 }
             }
         }
     }
+
+    private fun <T> LocalUserSettings.orDefaultIf(takeDefault: Boolean, getter: (LocalUserSettings) -> T ): T =
+        if (takeDefault) getter(LocalUserSettings.Default)
+        else getter(this)
 }

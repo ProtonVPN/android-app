@@ -23,8 +23,6 @@ import android.content.Context
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
-import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -36,7 +34,6 @@ import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.MockSharedPreference
-import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -56,8 +53,6 @@ class ConnectionParamsTests {
     @MockK lateinit var profile: Profile
     @MockK lateinit var server: Server
     @MockK lateinit var connectingDomain: ConnectingDomain
-    @MockK lateinit var currentUser: CurrentUser
-    @MockK lateinit var vpnUser: VpnUser
 
     private lateinit var params: ConnectionParams
 
@@ -73,11 +68,6 @@ class ConnectionParamsTests {
 
         mockkObject(Constants)
         every { Constants.VPN_USERNAME_PRODUCT_SUFFIX } returns "+pa"
-        every { vpnUser.name } returns "user"
-        currentUser.mockVpnUser { vpnUser }
-        every { userData.isVpnAcceleratorEnabled(any()) } returns true
-        every { userData.isSafeModeEnabled(any()) } returns null
-        every { userData.randomizedNatEnabled } returns true
         every { connectingDomain.label } returns "label"
         every { appConfig.getFeatureFlags() } returns featureFlags
 

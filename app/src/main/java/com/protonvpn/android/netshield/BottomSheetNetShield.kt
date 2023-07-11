@@ -69,10 +69,12 @@ class BottomSheetNetShield : BottomSheetDialogFragment() {
     ): View {
         binding = FragmentNetshieldComposeViewBinding.inflate(inflater, container, false)
         binding.composeContainer.setContent {
-            val currentNetShieldValue = parentViewModel.getCurrentNetShield().collectAsStateWithLifecycle().value
-            NetShieldBottomComposable(currentNetShieldValue) {
-                parentViewModel.setNetShieldProtocol(it)
-                dismiss()
+            val currentNetShieldValue = parentViewModel.getCurrentNetShield().collectAsStateWithLifecycle(null).value
+            if (currentNetShieldValue != null) {
+                NetShieldBottomComposable(currentNetShieldValue) {
+                    parentViewModel.setNetShieldProtocol(it)
+                    dismiss()
+                }
             }
         }
         return binding.root

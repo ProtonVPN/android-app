@@ -24,7 +24,7 @@ import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.Setting
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.sortedByLocaleAware
@@ -52,7 +52,7 @@ private const val APP_ICON_SIZE_DP = 24
 class SettingsExcludeAppsViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val installedAppsProvider: InstalledAppsProvider,
-    private val userData: UserData
+    private val userSettingsManager: CurrentUserLocalSettingsManager
 ) : SaveableSettingsViewModel() {
 
     sealed class SystemAppsState {
@@ -72,7 +72,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
 
     private val shouldLoadSystemApps = MutableStateFlow(false)
 
-    private val selectedPackages = MutableStateFlow<Set<String>>(HashSet(userData.splitTunnelApps))
+    private val selectedPackages = MutableStateFlow<Set<String>>(emptySet())
 
     private val regularAppPackages = flow {
         emit(installedAppsProvider.getInstalledInternetApps(true))
@@ -103,6 +103,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            selectedPackages.value = valueInSettings()
             val packageNames = selectedPackages.first() - regularAppPackages.first()
             selectedNonRegularApps.emit(loadApps(packageNames.toList()))
         }
@@ -153,10 +154,10 @@ class SettingsExcludeAppsViewModel @Inject constructor(
 
     override fun saveChanges() {
         ProtonLogger.logUiSettingChange(Setting.SPLIT_TUNNEL_APPS, "settings")
-        userData.splitTunnelApps = selectedPackages.value.toList()
+        viewModelScope.launch { userSettingsManager.updateExcludedApps(selectedPackages.value.toList()) }
     }
 
-    override fun hasUnsavedChanges() = selectedPackages.value != HashSet(userData.splitTunnelApps)
+    override suspend fun hasUnsavedChanges() = selectedPackages.value != valueInSettings()
 
     private suspend fun loadApps(packageNames: List<String>): List<LabeledItem> {
         if (packageNames.isEmpty()) return emptyList()
@@ -181,4 +182,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
     private fun Iterable<LabeledItem>.containsWithId(id: String): Boolean {
         return find { it.id == id } != null
     }
+
+    private suspend fun valueInSettings(): Set<String> =
+        userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling.excludedApps.toHashSet()
 }

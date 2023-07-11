@@ -30,12 +30,12 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToAnyServer
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.partnerships.PartnershipsRepository
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -51,6 +51,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.text.Collator
 import java.util.Locale
@@ -59,7 +60,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val userData: UserData,
+    private val userSettings: EffectiveCurrentUserSettings,
     private val vpnConnectionManager: VpnConnectionManager,
     vpnStatusProviderUI: VpnStatusProviderUI,
     private val serverManager: ServerManager,
@@ -115,7 +116,7 @@ class SearchViewModel @Inject constructor(
     private val eventCloseFlow = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val eventCloseLiveData = eventCloseFlow.asLiveData() // Expose flow once HomeActivity is converted to kotlin.
 
-    val secureCore get() = userData.secureCoreEnabled
+    suspend fun getSecureCore() = userSettings.effectiveSettings.first().secureCore
     val countryCount get() = serverManager.getVpnCountries().size
 
     fun setQuery(newQuery: String) {
@@ -170,7 +171,8 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun mapState(query: String, vpnUser: VpnUser?, connectedServer: Server?): ViewState {
+    private suspend fun mapState(query: String, vpnUser: VpnUser?, connectedServer: Server?): ViewState {
+        val secureCore = getSecureCore()
         val result = search(query, secureCore)
         return when {
             query.isBlank() -> {

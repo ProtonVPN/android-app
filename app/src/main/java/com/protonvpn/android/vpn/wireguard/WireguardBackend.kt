@@ -35,6 +35,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
@@ -53,6 +54,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.proton.core.network.data.di.SharedOkHttpClient
@@ -70,8 +72,8 @@ import javax.inject.Singleton
 class WireguardBackend @Inject constructor(
     @ApplicationContext val context: Context,
     networkManager: NetworkManager,
-    userData: UserData,
     appConfig: AppConfig,
+    effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     certificateRepository: CertificateRepository,
     dispatcherProvider: VpnDispatcherProvider,
     mainScope: CoroutineScope,
@@ -82,7 +84,7 @@ class WireguardBackend @Inject constructor(
     foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
-    userData, appConfig, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
+    appConfig, effectiveCurrentUserSettings, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
     dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, foregroundActivityTracker, okHttp
 ) {
     private val wireGuardIo = dispatcherProvider.newSingleThreadDispatcherForInifiniteIo()
@@ -125,8 +127,9 @@ class WireguardBackend @Inject constructor(
         vpnProtocolState = VpnState.Connecting
         val wireguardParams = connectionParams as ConnectionParamsWireguard
         try {
+            val settings = userSettings.effectiveSettings.first()
             val config = wireguardParams.getTunnelConfig(
-                context, userData, currentUser.sessionId(), certificateRepository
+                context, settings, currentUser.sessionId(), certificateRepository
             )
             val transmission = wireguardParams.protocolSelection?.transmission ?: TransmissionProtocol.UDP
             val transmissionStr = transmission.toString().lowercase()

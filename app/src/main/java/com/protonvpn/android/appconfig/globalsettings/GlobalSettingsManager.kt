@@ -21,7 +21,6 @@ package com.protonvpn.android.appconfig.globalsettings
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
-import androidx.lifecycle.asFlow
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.Data
@@ -31,9 +30,10 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.tv.IsTvCheck
-import com.protonvpn.android.utils.AndroidUtils.isTV
+import com.protonvpn.android.utils.flatMapLatestNotNull
 import dagger.Reusable
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -42,6 +42,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -105,22 +106,34 @@ class GlobalSettingsUpdateWorker @AssistedInject constructor(
 @Singleton
 class GlobalSettingsManager @Inject constructor(
     private val mainScope: CoroutineScope,
+    currentUser: CurrentUser,
     private val api: ProtonApiRetroFit,
     private val prefs: GlobalSettingsPrefs,
-    private val userData: UserData,
+    private val userLocalSettingsManager: CurrentUserLocalSettingsManager,
     private val isTv: IsTvCheck,
     private val globalSettingsUpdateScheduler: GlobalSettingUpdateScheduler
 ) {
     init {
-        prefs.telemetryEnabledFlow
-            .distinctUntilChanged()
-            .onEach { isEnabled -> if (!isEnabled) userData.telemetryEnabled = false }
-            .launchIn(mainScope)
-        userData.telemetryLiveData.asFlow()
-            .drop(1)
-            .distinctUntilChanged()
-            .onEach { isEnabled -> if (isEnabled) enableGlobalTelemetry() }
-            .launchIn(mainScope)
+        // TODO: the local cache of global telemetry flag should also be per-user.
+        currentUser.vpnUserFlow.flatMapLatestNotNull { vpnUser ->
+            prefs.telemetryEnabledFlow
+                .drop(1)
+                .distinctUntilChanged()
+                .onEach { isEnabled ->
+                    if (!isEnabled) {
+                        userLocalSettingsManager.getRawUserSettingsStore(vpnUser)
+                            .updateData { it.copy(telemetry = false) }
+                    }
+                }
+        }.launchIn(mainScope)
+
+        currentUser.vpnUserFlow.flatMapLatestNotNull { vpnUser ->
+            userLocalSettingsManager.getRawUserSettingsStore(vpnUser).data
+                .map { it.telemetry }
+                .drop(1)
+                .distinctUntilChanged()
+                .onEach { isEnabled -> if (isEnabled) enableGlobalTelemetry() }
+        }.launchIn(mainScope)
     }
 
     fun refresh() {

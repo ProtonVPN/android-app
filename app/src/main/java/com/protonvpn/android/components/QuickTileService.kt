@@ -28,7 +28,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -48,7 +47,6 @@ import javax.inject.Inject
 class QuickTileService : TileService() {
 
     @Inject lateinit var manager: ServerManager
-    @Inject lateinit var userData: UserData
     @Inject lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var currentUser: CurrentUser

@@ -24,24 +24,32 @@ package com.protonvpn.app.ui.home.profiles
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.profiles.ProfileEditViewModel
 import com.protonvpn.android.ui.home.profiles.ServerIdSelection
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.Storage
-import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkObject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -62,7 +70,7 @@ class ProfileViewModelTests {
     @MockK
     private lateinit var mockCurrentUser: CurrentUser
 
-    private lateinit var userData: UserData
+    private lateinit var testScope: TestScope
     private val server = MockedServers.server
     private val country = VpnCountry(COUNTRY_CODE, listOf(server))
 
@@ -71,22 +79,32 @@ class ProfileViewModelTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        Storage.setPreferences(MockSharedPreference())
 
         mockkObject(CountryTools)
         every { CountryTools.getPreferredLocale() } returns Locale.US
+
+        val testDispatcher = UnconfinedTestDispatcher()
+        testScope = TestScope(testDispatcher)
+        Dispatchers.setMain(testDispatcher) // This shouldn't be needed according to documentation of TestScope...
 
         every { mockServerManager.getVpnExitCountry(any(), any()) } returns null
         every { mockServerManager.getVpnExitCountry(COUNTRY_CODE, false) } returns country
         every { mockServerManager.getServerById(any()) } returns null
         every { mockServerManager.getServerById(server.serverId) } returns server
 
-        userData = UserData.create()
-        viewModel = ProfileEditViewModel(mockServerManager, userData, mockCurrentUser)
+        val userSettings = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
+        val profileManager =
+            ProfileManager(SavedProfilesV3.defaultProfiles(), testScope.backgroundScope, userSettings, mockk())
+        viewModel = ProfileEditViewModel(profileManager, mockServerManager, userSettings, mockCurrentUser)
+    }
+
+    @After
+    fun teardown() {
+        Dispatchers.resetMain()
     }
 
     @Test
-    fun `setServer handles unknown server ID`() = runTest {
+    fun `setServer handles unknown server ID`() = testScope.runTest {
         viewModel.onProfileNameTextChanged("Test profile")
         viewModel.setCountryCode(COUNTRY_CODE)
         viewModel.setServer(ServerIdSelection.Specific(INVALID_SERVER_ID))
@@ -94,7 +112,7 @@ class ProfileViewModelTests {
     }
 
     @Test
-    fun `validate verifies that selected server exists`() = runTest(UnconfinedTestDispatcher()) {
+    fun `validate verifies that selected server exists`() = testScope.runTest {
         every { mockServerManager.getServerById(INVALID_SERVER_ID) } returns server
 
         viewModel.onProfileNameTextChanged("Test profile")
@@ -111,7 +129,7 @@ class ProfileViewModelTests {
     }
 
     @Test
-    fun `setCountryCode handles unknown country code`() = runTest(UnconfinedTestDispatcher()) {
+    fun `setCountryCode handles unknown country code`() = testScope.runTest {
         viewModel.onProfileNameTextChanged("Test profile")
 
         val somethingWrongEvents = runWhileCollecting(viewModel.eventSomethingWrong) {
@@ -124,7 +142,7 @@ class ProfileViewModelTests {
     }
 
     @Test
-    fun `setting Secure Core resets selected server to Fastest`() = runTest(UnconfinedTestDispatcher()) {
+    fun `setting Secure Core resets selected server to Fastest`() = testScope.runTest {
         viewModel.onProfileNameTextChanged("Test profile")
         viewModel.setCountryCode(COUNTRY_CODE)
         viewModel.setServer(ServerIdSelection.Specific(server.serverId))

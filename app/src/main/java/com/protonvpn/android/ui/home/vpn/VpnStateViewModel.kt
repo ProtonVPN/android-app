@@ -27,29 +27,34 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiDisconnect
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.netshield.getNetShieldAvailability
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class VpnStateViewModel @Inject constructor(
+    private val mainScope: CoroutineScope,
     private val vpnConnectionManager: VpnConnectionManager,
     trafficMonitor: TrafficMonitor,
-    private val userData: UserData,
+    private val effectiveUserSettings: EffectiveCurrentUserSettings,
+    private val userSettingsManager: CurrentUserLocalSettingsManager,
     currentUser: CurrentUser
 ) : ViewModel() {
 
@@ -59,7 +64,7 @@ class VpnStateViewModel @Inject constructor(
     val trafficStatus = trafficMonitor.trafficStatus
     val netShieldViewState: StateFlow<NetShieldViewState> =
         combine(
-            userData.netShieldStateFlow,
+            effectiveUserSettings.netShield,
             vpnConnectionManager.netShieldStats,
             currentUser.vpnUserFlow
         ) { state, stats, user ->
@@ -74,10 +79,12 @@ class VpnStateViewModel @Inject constructor(
     val netShieldExpandStatus = MutableStateFlow(false)
     val bottomSheetFullyExpanded = MutableLiveData(false)
 
-    fun getCurrentNetShield() = userData.netShieldStateFlow
+    fun getCurrentNetShield() = effectiveUserSettings.netShield
 
     fun setNetShieldProtocol(netShieldProtocol: NetShieldProtocol) {
-        userData.setNetShieldProtocol(netShieldProtocol)
+        mainScope.launch {
+            userSettingsManager.updateNetShield(netShieldProtocol)
+        }
     }
 
     fun reconnect(vpnUiDelegate: VpnUiDelegate) {

@@ -22,17 +22,25 @@ package com.protonvpn.app.tv.main
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.FeatureFlags
+import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
+import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
+import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -40,6 +48,7 @@ import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -53,9 +62,13 @@ import io.mockk.mockkObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -75,38 +88,47 @@ class TvMainViewModelTests {
     @MockK
     private lateinit var mockContext: Context
 
-    private lateinit var testDispatcher: TestCoroutineDispatcher
-    private lateinit var testScope: TestCoroutineScope
-
     private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     private lateinit var serverManager: ServerManager
-    private lateinit var userData: UserData
+    private lateinit var testScope: TestScope
 
     private lateinit var viewModel: TvMainViewModel
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        testDispatcher = TestCoroutineDispatcher()
-        testScope = TestCoroutineScope(testDispatcher)
+        val testDispatcher = UnconfinedTestDispatcher()
+        testScope = TestScope(testDispatcher)
+        val bgScope = testScope.backgroundScope
         Dispatchers.setMain(testDispatcher)
         Storage.setPreferences(MockSharedPreference())
-        userData = UserData.create()
 
-        vpnStateMonitor = VpnStateMonitor()
-        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
-        vpnStatusProviderUI = VpnStatusProviderUI(testScope, vpnStateMonitor)
-
-        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
-
-        serverManager = ServerManager(userData, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true)).apply {
-            setServers(MockedServers.serverList, "us")
-        }
         vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
         every { mockCurrentUser.vpnUserCached() } answers { vpnUserFlow.value }
+
+        val userSettingsManager =
+            CurrentUserLocalSettingsManager(mockCurrentUser, LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()))
+        val userSettingsFlow = EffectiveCurrentUserSettingsFlow(
+            userSettingsManager,
+            GetFeatureFlags(MutableStateFlow(FeatureFlags())),
+            mockCurrentUser,
+            mockk(relaxed = true)
+        ).stateIn(bgScope, SharingStarted.Eagerly, LocalUserSettings.Default)
+        val userSettingsCached = EffectiveCurrentUserSettingsCached(userSettingsFlow)
+
+        vpnStateMonitor = VpnStateMonitor()
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
+        vpnStatusProviderUI = VpnStatusProviderUI(bgScope, vpnStateMonitor)
+
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
+        val profileManager =
+            ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, userSettingsCached, userSettingsManager)
+        serverManager = ServerManager(userSettingsCached, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), profileManager).apply {
+            setServers(MockedServers.serverList, "us")
+        }
 
         setupStrings(mockContext)
         mockkObject(CountryTools)
@@ -117,18 +139,24 @@ class TvMainViewModelTests {
         viewModel = TvMainViewModel(
             appConfig = mockk(relaxed = true),
             serverManager = serverManager,
-            mainScope = testScope,
+            profileManager = profileManager,
+            mainScope = bgScope,
             serverListUpdater = mockk(relaxed = true),
             vpnStatusProviderUI = vpnStatusProviderUI,
             vpnStateMonitor = vpnStateMonitor,
             vpnConnectionManager = mockk(relaxed = true),
-            recentsManager = RecentsManager(testScope, vpnStatusProviderUI, mockk(relaxed = true)),
-            userData = userData,
+            recentsManager = RecentsManager(bgScope, vpnStatusProviderUI, mockk(relaxed = true)),
+            userSettingsManager = userSettingsManager,
             currentUser = mockCurrentUser,
             logoutUseCase = mockk(relaxed = true),
             userPlanManager = mockk(relaxed = true),
             purchaseEnabled = mockk(relaxed = true)
         )
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     @Test

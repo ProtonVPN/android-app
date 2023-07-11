@@ -43,7 +43,6 @@ import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.FragmentVpnStateConnectedBinding
-import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.ui.ServerLoadColor.getColor
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
 import com.protonvpn.android.utils.ConnectionTools
@@ -245,6 +244,4 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
         }
 
     override fun netShieldComposeView(): ComposeView = binding.composeView
-
-    override fun netShieldSwitch(): NetShieldSwitch = binding.netShieldSwitch
 }

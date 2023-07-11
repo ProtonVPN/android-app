@@ -61,7 +61,7 @@ class PrepareForConnection @Inject constructor(
             val transmission = transmissionProtocols.first()
             val protocol = ProtocolSelection(vpnProtocol, transmission)
             val connectingDomain = getConnectingDomain.random(server, protocol) ?: run {
-                ProtonLogger.log(ConnConnectScan, "${protocol.displayName} not supported on ${server.displayName}")
+                ProtonLogger.log(ConnConnectScan, "${protocol.apiName} not supported on ${server.displayName}")
                 return emptyList()
             }
             val ports = connectingDomain.getEntryPorts(protocol) ?: getFallbackPorts(protocol, appConfig)

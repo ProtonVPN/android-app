@@ -32,7 +32,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.di.ElapsedRealtimeClock
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.tv.login.TvLoginViewState.Companion.toLoginError
@@ -40,7 +39,6 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.StreamingViewModelHelper
-import com.protonvpn.android.vpn.CertificateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -64,17 +62,14 @@ annotation class TvLoginPollDelayMs
 
 @HiltViewModel
 class TvLoginViewModel @Inject constructor(
-    val mainScope: CoroutineScope,
-    val userData: UserData,
-    val currentUser: CurrentUser,
-    val vpnUserDao: VpnUserDao,
+    private val currentUser: CurrentUser,
+    private val vpnUserDao: VpnUserDao,
     override val appConfig: AppConfig,
-    val api: ProtonApiRetroFit,
-    val serverListUpdater: ServerListUpdater,
+    private val api: ProtonApiRetroFit,
+    private val serverListUpdater: ServerListUpdater,
     override val serverManager: ServerManager,
-    val certificateRepository: CertificateRepository,
-    val accountManager: AccountManager,
-    val guestHole: GuestHole,
+    private val accountManager: AccountManager,
+    private val guestHole: GuestHole,
     @TvLoginPollDelayMs val pollDelayMs: Long = POLL_DELAY_MS,
     @ElapsedRealtimeClock private val monoClockMs: () -> Long
 ) : ViewModel(), StreamingViewModelHelper {

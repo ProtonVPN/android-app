@@ -25,11 +25,11 @@ import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.login.VPNInfo
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -60,17 +60,17 @@ class UserDataHelper {
     @JvmField var currentUser: CurrentUser
     @JvmField var vpnUserDao: VpnUserDao
     @JvmField var userRepository: MockUserRepository
-    @JvmField var userData: UserData
+    var userSettingsManager: CurrentUserLocalSettingsManager
 
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface UserDataHelperEntryPoint {
         fun accountManager(): AccountManager
         fun currentUser(): CurrentUser
-        fun vpnUserDao(): VpnUserDao
-        fun mockUserRepository(): MockUserRepository
-        fun userData(): UserData
         fun logoutUseCase(): Logout
+        fun mockUserRepository(): MockUserRepository
+        fun userSettingsManager(): CurrentUserLocalSettingsManager
+        fun vpnUserDao(): VpnUserDao
     }
 
     init {
@@ -79,10 +79,10 @@ class UserDataHelper {
                 ProtonApplication.getAppContext(), UserDataHelperEntryPoint::class.java)
             accountManager = hiltEntry.accountManager()
             currentUser = hiltEntry.currentUser()
-            vpnUserDao = hiltEntry.vpnUserDao()
-            userRepository = hiltEntry.mockUserRepository()
-            userData = hiltEntry.userData()
             logoutUseCase = hiltEntry.logoutUseCase()
+            userRepository = hiltEntry.mockUserRepository()
+            userSettingsManager = hiltEntry.userSettingsManager()
+            vpnUserDao = hiltEntry.vpnUserDao()
         }
     }
 
@@ -101,7 +101,7 @@ class UserDataHelper {
     }
 
     fun setProtocol(protocol: VpnProtocol, transmission: TransmissionProtocol? = null) = runBlocking(Main) {
-        userData.protocol = ProtocolSelection(protocol, transmission)
+        userSettingsManager.updateProtocol(ProtocolSelection(protocol, transmission))
     }
 
     fun logoutUser() {

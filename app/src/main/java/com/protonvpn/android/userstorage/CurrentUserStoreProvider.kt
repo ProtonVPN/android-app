@@ -19,7 +19,9 @@
 
 package com.protonvpn.android.userstorage
 
+import androidx.datastore.core.DataMigration
 import androidx.datastore.core.DataStore
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -33,14 +35,18 @@ import me.proton.core.domain.entity.UserId
 
 open class StoreProvider<T>(
     private val filename: String,
-    private val default: T,
-    private val serializer: KSerializer<T>,
-    private val factory: LocalDataStoreFactory
+    default: T,
+    serializer: KSerializer<T>,
+    private val factory: LocalDataStoreFactory,
+    private val migrations: List<DataMigration<T>> = emptyList()
 ) {
+    private val dataStoreSerializer = JsonDataStoreSerializer(default, serializer)
+
     suspend fun dataStoreWithSuffix(id: String) : DataStore<T> =
         factory.getDataStore(
             listOf(filename, id).joinToString("-"),
-            JsonDataStoreSerializer(default, serializer)
+            dataStoreSerializer,
+            migrations
         )
 }
 
@@ -59,6 +65,9 @@ class CurrentUserStoreProvider<T>(
         .map { vpnUser -> vpnUser?.userId?.toDataStoreSuffix() }
         .distinctUntilChanged()
         .map { suffix -> suffix?.let { storeProvider.dataStoreWithSuffix(suffix) } }
+
+    suspend fun getDataStoreForUser(vpnUser: VpnUser): DataStore<T> =
+        storeProvider.dataStoreWithSuffix(vpnUser.userId.toDataStoreSuffix())
 
     fun dataFlowOrDefaultIfNoUser(default: T): Flow<T> =
         data.flatMapLatest { dataStore -> dataStore?.data ?: flowOf(default) }

@@ -27,7 +27,6 @@ import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.TestCurrentUserProvider
-import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.runWhileCollecting
 import kotlinx.coroutines.ExperimentalCoroutinesApi

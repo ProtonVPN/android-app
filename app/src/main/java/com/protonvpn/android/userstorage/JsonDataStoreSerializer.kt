@@ -42,6 +42,7 @@ class JsonDataStoreSerializer<T>(
             throw CorruptionException("Unable to read LocalUserSettings", serialization)
         }
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun writeTo(t: T, output: OutputStream) =
         output.write(json.encodeToString(serializer, t).encodeToByteArray())
 }

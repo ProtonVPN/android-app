@@ -19,25 +19,27 @@
 
 package com.protonvpn.android.ui.settings
 
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.Setting
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val BITS_IN_BYTE = 8
 
 @HiltViewModel
-@OptIn(ExperimentalUnsignedTypes::class)
 class SettingsExcludeIpsViewModel @Inject constructor(
-    private val userData: UserData
+    private val userSettingsManager: CurrentUserLocalSettingsManager
 ) : SaveableSettingsViewModel() {
 
-    private val ipAddresses = MutableStateFlow(userData.splitTunnelIpAddresses)
+    private val ipAddresses = MutableStateFlow<List<String>>(emptyList())
 
     val ipAddressItems = ipAddresses.map { ips ->
         ips.map { ipv4ToNumber(it) }
@@ -46,6 +48,12 @@ class SettingsExcludeIpsViewModel @Inject constructor(
                 val ip = it.toIpv4()
                 LabeledItem(ip, ip)
             }
+    }
+
+    init {
+        viewModelScope.launch {
+            ipAddresses.value = valueInSettings()
+        }
     }
 
     fun addAddress(newAddress: String): Boolean {
@@ -72,9 +80,13 @@ class SettingsExcludeIpsViewModel @Inject constructor(
 
     override fun saveChanges() {
         ProtonLogger.logUiSettingChange(Setting.SPLIT_TUNNEL_IPS, "settings")
-        userData.splitTunnelIpAddresses = ipAddresses.value
+        viewModelScope.launch {
+            userSettingsManager.updateExcludedIps(ipAddresses.value)
+        }
     }
 
-    override fun hasUnsavedChanges(): Boolean =
-        userData.splitTunnelIpAddresses.toSet() != ipAddresses.value.toSet()
+    override suspend fun hasUnsavedChanges(): Boolean = valueInSettings() != ipAddresses.value
+
+    private suspend fun valueInSettings() =
+        userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling.excludedIps
 }

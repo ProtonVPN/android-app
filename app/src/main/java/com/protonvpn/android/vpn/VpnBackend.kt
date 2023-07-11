@@ -20,7 +20,6 @@ package com.protonvpn.android.vpn
 
 import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.proton.gopenpgp.localAgent.AgentConnection
 import com.proton.gopenpgp.localAgent.Features
@@ -39,16 +38,15 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserCertRefresh
 import com.protonvpn.android.logging.UserCertRevoked
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.SyncStateFlow
 import kotlinx.coroutines.CoroutineScope
@@ -101,8 +99,8 @@ interface AgentConnectionInterface {
 }
 
 abstract class VpnBackend(
-    val userData: UserData,
     val appConfig: AppConfig,
+    val userSettings: EffectiveCurrentUserSettings,
     val certificateRepository: CertificateRepository,
     val networkManager: NetworkManager,
     val vpnProtocol: VpnProtocol,
@@ -223,7 +221,7 @@ abstract class VpnBackend(
     protected var lastConnectionParams: ConnectionParams? = null
     val lastKnownExitIp = MutableStateFlow<String?>(null)
     val netShieldStatsFlow = MutableStateFlow(NetShieldStats())
-    private val cachedSessionId by SyncStateFlow(mainScope, currentUser.sessionIdFlow)
+    private val cachedSessionId = SyncStateFlow(mainScope, currentUser.sessionIdFlow)
 
     abstract suspend fun prepareForConnection(
         profile: Profile,
@@ -344,30 +342,16 @@ abstract class VpnBackend(
         initFeatures()
     }
 
-    private val splitTcpValue get() = userData.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
-    private val safeModeValue get() = userData.isSafeModeEnabled(appConfig.getFeatureFlags())
-
     private fun initFeatures() {
-        observeFeature(userData.netShieldSettingUpdateEvent) {
-            setInt(FEATURES_NETSHIELD, userData.getNetShieldProtocol(currentUser.vpnUserCached()).ordinal.toLong())
-        }
-        observeFeature(userData.randomizedNatLiveData) { randomizedNat ->
-            setBool(FEATURES_RANDOMIZED_NAT, randomizedNat)
-        }
-        observeFeature(userData.safeModeLiveData) {
-            safeModeValue?.let { setBool(FEATURES_SAFE_MODE, it) } ?: remove(FEATURES_SAFE_MODE)
-        }
-        observeFeature(userData.vpnAcceleratorLiveData) {
-            setBool(FEATURES_SPLIT_TCP, splitTcpValue)
-        }
-    }
-
-    private fun observeFeature(featureChange: LiveEvent, update: Features.() -> Unit) {
-        features.update()
-        featureChange.observeForever {
-            features.update()
-            agent?.setFeatures(features)
-        }
+        userSettings.effectiveSettings
+            .onEach { settings ->
+                features.setInt(FEATURES_NETSHIELD, settings.netShield.ordinal.toLong())
+                features.setBool(FEATURES_RANDOMIZED_NAT, settings.randomizedNat)
+                features.applySafeMode(settings.safeMode)
+                features.setBool(FEATURES_SPLIT_TCP, settings.vpnAccelerator)
+                agent?.setFeatures(features)
+            }
+            .launchIn(mainScope)
     }
 
     private fun onVpnProtocolStateChange(value: VpnState) {
@@ -384,23 +368,12 @@ abstract class VpnBackend(
         }
     }
 
-    private fun <T> observeFeature(featureChange: LiveData<T>, update: Features.(T) -> Unit) {
-        featureChange.observeForever {
-            it?.let {
-                features.update(it)
-                agent?.setFeatures(features)
-            }
-        }
+    private fun Features.applySafeMode(safeMode: Boolean?) {
+        if (safeMode != null) setBool(FEATURES_SAFE_MODE, safeMode)
+        else remove(FEATURES_SAFE_MODE)
     }
 
-    private fun prepareFeaturesForAgentConnection() {
-        if (appConfig.getFeatureFlags().netShieldEnabled) {
-            val netShieldValue = userData.getNetShieldProtocol(currentUser.vpnUserCached()).ordinal.toLong()
-            features.setInt(FEATURES_NETSHIELD, netShieldValue)
-        }
-        features.setBool(FEATURES_RANDOMIZED_NAT, userData.randomizedNatEnabled)
-        safeModeValue?.let { features.setBool(FEATURES_SAFE_MODE, it) } ?: features.remove(FEATURES_SAFE_MODE)
-        features.setBool(FEATURES_SPLIT_TCP, splitTcpValue)
+    private suspend fun prepareFeaturesForAgentConnection() {
         val bouncing = lastConnectionParams?.bouncing
         if (bouncing == null)
             features.remove(FEATURES_BOUNCING)

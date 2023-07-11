@@ -22,20 +22,20 @@ package com.protonvpn.app.ui.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.PartnersResponse
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.partnerships.PartnershipsRepository
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.app.userstorage.createDummyProfilesManager
 import com.protonvpn.test.shared.MockSharedPreference
-import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
@@ -46,6 +46,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import me.proton.core.network.domain.ApiResult
 import org.junit.Assert.assertEquals
@@ -59,7 +60,6 @@ class CountryListViewModelTests {
     val rule = InstantTaskExecutorRule()
 
     private lateinit var serverManager: ServerManager
-    private lateinit var userData: UserData
 
     @MockK
     private lateinit var mockApi: ProtonApiRetroFit
@@ -78,10 +78,10 @@ class CountryListViewModelTests {
         MockKAnnotations.init(this)
         val scope = TestScope()
         Storage.setPreferences(MockSharedPreference())
-        userData = UserData.create(null)
-        val appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
+        val userSettings = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
-        serverManager = ServerManager(userData, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), appFeaturesPrefs)
+        val profileManager = createDummyProfilesManager()
+        serverManager = ServerManager(userSettings, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), profileManager)
         coEvery { mockApi.getPartnerships() } returns ApiResult.Success(PartnersResponse(emptyList()))
 
         val servers = listOf(
@@ -97,7 +97,7 @@ class CountryListViewModelTests {
             PartnershipsRepository(mockApi),
             mockServerListUpdater,
             VpnStatusProviderUI(scope, mockVpnStateMonitor),
-            userData,
+            userSettings,
             mockCurrentUser
         )
     }

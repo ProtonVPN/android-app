@@ -25,6 +25,7 @@ import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.serverComparator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -61,6 +62,6 @@ class ServerSelectionViewModel @Inject constructor(
             emptyList()
         }
         val regularServers = serverManager.getVpnExitCountry(countryCode, secureCore)?.serverList ?: emptyList()
-        return (regularServers + gatewayServers).sortedWith(serverManager.serverComparator)
+        return (regularServers + gatewayServers).sortedWith(serverComparator)
     }
 }

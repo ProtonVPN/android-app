@@ -25,12 +25,12 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.vpn.AgentConnectionInterface
@@ -55,7 +55,7 @@ class MockVpnBackend(
     dispatcherProvider: VpnDispatcherProvider,
     networkManager: NetworkManager,
     certificateRepository: CertificateRepository,
-    userData: UserData,
+    userSettings: EffectiveCurrentUserSettings,
     appConfig: AppConfig,
     val protocol: VpnProtocol,
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
@@ -64,7 +64,7 @@ class MockVpnBackend(
     foregroundActivityTracker: ForegroundActivityTracker,
     val getConnectingDomain: GetConnectingDomain
 ) : VpnBackend(
-    userData = userData,
+    userSettings = userSettings,
     appConfig = appConfig,
     networkManager = networkManager,
     certificateRepository = certificateRepository,

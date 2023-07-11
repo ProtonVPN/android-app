@@ -28,13 +28,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.ScrollView
 import androidx.activity.result.ActivityResultCallback
 import androidx.annotation.ColorInt
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.core.view.isVisible
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
@@ -48,26 +48,34 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.Setting
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.netshield.getNetShieldAvailability
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeDialogActivity
 import com.protonvpn.android.ui.showGenericReconnectDialog
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.ColorUtils.combineArgb
 import com.protonvpn.android.utils.ColorUtils.mixDstOver
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.viewBinding
+import com.protonvpn.android.utils.scrollToShowView
 import com.protonvpn.android.utils.sortedByLocaleAware
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -86,22 +94,25 @@ class SettingsActivity : BaseActivityV2() {
 
     @Inject lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     @Inject lateinit var connectionManager: VpnConnectionManager
-    @Inject lateinit var userPrefs: UserData
+    @Inject lateinit var userSettingsManager: CurrentUserLocalSettingsManager
     @Inject lateinit var appConfig: AppConfig
     @Inject lateinit var installedAppsProvider: InstalledAppsProvider
     @Inject lateinit var currentUser: CurrentUser
-    @Inject lateinit var serverManager: ServerManager
+    @Inject lateinit var profileManager: ProfileManager
     @Inject lateinit var buildConfigInfo: BuildConfigInfo
 
     private val binding by viewBinding(ActivitySettingsBinding::inflate)
     private var loadExcludedAppsJob: Job? = null
+    private var currentProtocolCached: ProtocolSelection = ProtocolSelection.SMART
 
     private val protocolSelection =
         registerForActivityResult(ProtocolSelectionActivity.createContract()) { protocol ->
             if (protocol != null) {
-                val settingsUpdated = getProtocolSelection(userPrefs) != protocol
+                val settingsUpdated = currentProtocolCached != protocol
                 logUiEvent(Setting.DEFAULT_PROTOCOL)
-                userPrefs.protocol = protocol
+                lifecycleScope.launch {
+                    userSettingsManager.updateProtocol(protocol)
+                }
                 if (settingsUpdated && vpnStatusProviderUI.connectionProfile?.hasCustomProtocol() == false) {
                     onConnectionSettingsChanged(PREF_SHOW_PROTOCOL_RECONNECT_DIALOG)
                 }
@@ -133,33 +144,45 @@ class SettingsActivity : BaseActivityV2() {
         initOSRelatedVisibility()
         initDnsLeakProtection()
         initDohToggle()
+        initVpnAcceleratorToggles()
 
-        lifecycleScope.launch {
-            val user = currentUser.vpnUserFlow.firstOrNull()
-            initNonStandardPortsToggle(user)
-            initModerateNatToggle(user)
-            onUiReady()
+        with(binding.contentSettings) {
+            val flags = appConfig.getFeatureFlags()
+            switchNonStandardPorts.isVisible = flags.safeMode
+
+            if (BuildConfigUtils.displayInfo()) {
+                buildConfigInfo.isVisible = true
+                buildConfigInfo.setValue(buildConfigInfo())
+            }
         }
+
+        var isFirstUpdate = true
+        val user = lifecycleScope.async { currentUser.vpnUserFlow.firstOrNull() }
+        userSettingsManager.rawCurrentUserSettingsFlow
+            .flowWithLifecycle(lifecycle)
+            .onEach { settings ->
+                onUserDataUpdated(settings)
+                if (isFirstUpdate) {
+                    // Set listeners after initial values have been set, otherwise they will be triggered.
+                    setListeners(user.await(), settings)
+                    binding.contentSettings.root.jumpDrawablesToCurrentState()
+                    onUiReady()
+                    isFirstUpdate = false
+                }
+                currentProtocolCached = settings.protocol
+            }
+            .launchIn(lifecycleScope)
+    }
+
+    private fun setListeners(user: VpnUser?, settings: LocalUserSettings) {
         with(binding.contentSettings) {
             buttonAlwaysOn.setOnClickListener { navigateTo(SettingsAlwaysOnActivity::class.java); }
-            switchAutoStart.isChecked = userPrefs.connectOnBoot
+
             switchAutoStart.setOnCheckedChangeListener { _, isChecked ->
                 logUiEvent(Setting.CONNECT_ON_BOOT)
-                userPrefs.connectOnBoot = isChecked
-            }
-            netShieldSwitch.init(
-                userPrefs.getNetShieldProtocol(currentUser.vpnUserCached()),
-                appConfig,
-                this@SettingsActivity,
-                currentUser.vpnUserCached()?.getNetShieldAvailability(),
-                NetShieldSwitch.ReconnectDialogDelegate(
-                    getVpnUiDelegate(),
-                    vpnStatusProviderUI,
-                    connectionManager
-                )
-            ) {
-                logUiEvent(Setting.NETSHIELD_PROTOCOL)
-                userPrefs.setNetShieldProtocol(it)
+                lifecycleScope.launch {
+                    userSettingsManager.updateConnectOnBoot(isChecked)
+                }
             }
 
             buttonDefaultProfile.setOnClickListener {
@@ -169,7 +192,7 @@ class SettingsActivity : BaseActivityV2() {
             buttonMtuSize.setOnClickListener { mtuSizeSettings.launch(Unit) }
 
             buttonProtocol.setOnClickListener {
-                protocolSelection.launch(getProtocolSelection(userPrefs))
+                protocolSelection.launch(currentProtocolCached)
             }
 
             buttonExcludeIps.setOnClickListener {
@@ -187,20 +210,16 @@ class SettingsActivity : BaseActivityV2() {
                 tryToggleBypassLocal()
                 true
             }
-
-            initVpnAcceleratorToggles()
+            switchVpnAccelerator.switchClickInterceptor = {
+                tryToggleVpnAccelerator()
+                true
+            }
 
             buttonTelemetry.setOnClickListener { navigateTo(SettingsTelemetryActivity::class.java) }
             buttonLicenses.setOnClickListener { navigateTo(OssLicensesActivity::class.java) }
-            if (BuildConfigUtils.displayInfo()) {
-                buildConfigInfo.isVisible = true
-                buildConfigInfo.setValue(buildConfigInfo())
-            }
-        }
-
-        onUserDataUpdated()
-        userPrefs.updateEvent.observe(this) {
-            onUserDataUpdated()
+            initNonStandardPortsToggle(user)
+            initModerateNatToggle(user)
+            initNetShield(settings.netShield, user)
         }
     }
 
@@ -213,34 +232,25 @@ class SettingsActivity : BaseActivityV2() {
     }
 
     private fun initDohToggle() = with(binding.contentSettings) {
-        switchDnsOverHttps.isChecked = userPrefs.apiUseDoH
         val info =
             getString(R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)
         switchDnsOverHttps.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
         switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
             logUiEvent(Setting.API_DOH)
-            userPrefs.apiUseDoH = isChecked
+            lifecycleScope.launch {
+                userSettingsManager.updateApiUseDoh(isChecked)
+            }
         }
     }
 
     private fun initVpnAcceleratorToggles() = with(binding.contentSettings) {
         if (appConfig.getFeatureFlags().vpnAccelerator) {
-            updateVpnAcceleratorToggles()
             val info =
                 getString(R.string.settingsVpnAcceleratorDescription, Constants.VPN_ACCELERATOR_INFO_URL)
             switchVpnAccelerator.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
             switchVpnAccelerator.switchClickInterceptor = {
                 tryToggleVpnAccelerator()
                 true
-            }
-            userPrefs.updateEvent.observe(this@SettingsActivity) {
-                updateVpnAcceleratorToggles()
-            }
-
-            switchVpnAcceleratorNotifications.isVisible = userPrefs.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
-            switchVpnAcceleratorNotifications.isChecked = userPrefs.showVpnAcceleratorNotifications
-            switchVpnAcceleratorNotifications.setOnCheckedChangeListener { _, isChecked ->
-                userPrefs.showVpnAcceleratorNotifications = isChecked
             }
         } else {
             switchVpnAccelerator.isVisible = false
@@ -266,7 +276,6 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun initNonStandardPortsToggle(user: VpnUser?) = with(binding.contentSettings) {
         val flags = appConfig.getFeatureFlags()
-        switchNonStandardPorts.isVisible = flags.safeMode
         if (flags.safeMode) {
             val info = getString(R.string.settingsAllowNonStandardPortsDescription, Constants.SAFE_MODE_INFO_URL)
             switchNonStandardPorts.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
@@ -284,6 +293,25 @@ class SettingsActivity : BaseActivityV2() {
         }
     }
 
+    private fun initNetShield(initialValue: NetShieldProtocol, user: VpnUser?) = with(binding.contentSettings) {
+        netShieldSwitch.init(
+            initialValue,
+            appConfig,
+            this@SettingsActivity,
+            user.getNetShieldAvailability(),
+            NetShieldSwitch.ReconnectDialogDelegate(
+                getVpnUiDelegate(),
+                vpnStatusProviderUI,
+                connectionManager
+            )
+        ) {
+            logUiEvent(Setting.NETSHIELD_PROTOCOL)
+            lifecycleScope.launch {
+                userSettingsManager.updateNetShield(it)
+            }
+        }
+    }
+
     private fun initOSRelatedVisibility() = with(binding.contentSettings) {
         switchAutoStart.visibility = if (Build.VERSION.SDK_INT >= 24) GONE else VISIBLE
         buttonAlwaysOn.visibility = if (Build.VERSION.SDK_INT >= 24) VISIBLE else GONE
@@ -295,28 +323,39 @@ class SettingsActivity : BaseActivityV2() {
         }
     }
 
-    private fun updateVpnAcceleratorToggles() = with(binding.contentSettings) {
-        val isEnabled = userPrefs.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
-        switchVpnAccelerator.isChecked = isEnabled
-        switchVpnAcceleratorNotifications.isVisible = isEnabled
-    }
-
-    private fun onUserDataUpdated() = with(binding.contentSettings) {
-        switchShowSplitTunnel.isChecked = userPrefs.useSplitTunneling
+    private fun onUserDataUpdated(localUserSettings: LocalUserSettings) = with(binding.contentSettings) {
+        switchDnsOverHttps.isChecked = localUserSettings.apiUseDoh
+        switchAutoStart.isChecked = localUserSettings.connectOnBoot
+        switchShowSplitTunnel.isChecked = localUserSettings.splitTunneling.isEnabled
         splitTunnelLayout.visibility = if (switchShowSplitTunnel.isChecked) VISIBLE else GONE
-        switchBypassLocal.isChecked = userPrefs.shouldBypassLocalTraffic()
-        switchNonStandardPorts.isChecked = userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags()) != true
-        switchModerateNat.isChecked = !userPrefs.randomizedNatEnabled
+        switchBypassLocal.isChecked = localUserSettings.lanConnections
+        switchNonStandardPorts.isChecked = localUserSettings.safeMode != true
+        switchModerateNat.isChecked = !localUserSettings.randomizedNat
+        if (appConfig.getFeatureFlags().vpnAccelerator) {
+            switchVpnAcceleratorNotifications.isVisible = localUserSettings.vpnAccelerator
+            switchVpnAccelerator.isChecked = localUserSettings.vpnAccelerator
 
-        buttonDefaultProfile.setValue(serverManager.defaultConnection.getDisplayName(this@SettingsActivity))
-        buttonProtocol.setValue(getString(getProtocolSelection(userPrefs).displayName))
-        buttonExcludeIps.setValue(getListString(userPrefs.splitTunnelIpAddresses))
-        buttonMtuSize.setValue(userPrefs.mtuSize.toString())
+            switchVpnAcceleratorNotifications.isChecked = localUserSettings.vpnAcceleratorNotifications
+            switchVpnAcceleratorNotifications.setOnCheckedChangeListener { _, isChecked ->
+                lifecycleScope.launch {
+                    userSettingsManager.update { it.copy(vpnAcceleratorNotifications = isChecked) }
+                }
+            }
+        }
+
+        // Pass the localUserSettings.defaultProfileId explicitly, otherwise ProfileManager uses its cached value of
+        // settings and may return old value.
+        val defaultProfile =
+            profileManager.findProfile(localUserSettings.defaultProfileId) ?: profileManager.fallbackProfile
+        buttonDefaultProfile.setValue(defaultProfile.getDisplayName(this@SettingsActivity))
+        buttonProtocol.setValue(getString(localUserSettings.protocol.displayName))
+        buttonExcludeIps.setValue(getListString(localUserSettings.splitTunneling.excludedIps))
+        buttonMtuSize.setValue(localUserSettings.mtuSize.toString())
 
         loadExcludedAppsJob?.cancel()
         loadExcludedAppsJob = lifecycleScope.launch {
             val names = installedAppsProvider
-                .getNamesOfInstalledApps(userPrefs.splitTunnelApps)
+                .getNamesOfInstalledApps(localUserSettings.splitTunneling.excludedApps)
                 .sortedByLocaleAware { it.toString() }
             buttonExcludeApps.setValue(getListString(names))
         }
@@ -345,7 +384,9 @@ class SettingsActivity : BaseActivityV2() {
             "VPN Accelerator toggle",
             vpnStatusProviderUI.connectionProtocol?.localAgentEnabled() != true
         ) {
-            userPrefs.vpnAcceleratorEnabled = !userPrefs.isVpnAcceleratorEnabled(appConfig.getFeatureFlags())
+            lifecycleScope.launch {
+                userSettingsManager.update { it.copy(vpnAccelerator = !it.vpnAccelerator) }
+            }
         }
     }
 
@@ -353,13 +394,15 @@ class SettingsActivity : BaseActivityV2() {
         tryToggleSwitch(
             PREF_SHOW_SPLIT_TUNNELING_RECONNECT_DLG,
             "split tunneling toggle",
-            !userPrefs.isSplitTunnelingConfigEmpty,
         ) {
             logUiEvent(Setting.SPLIT_TUNNEL_ENABLED)
-            userPrefs.useSplitTunneling = !userPrefs.useSplitTunneling
-            with(binding.contentSettings) {
-                if (switchShowSplitTunnel.isChecked) {
-                    scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
+            lifecycleScope.launch {
+                userSettingsManager.toggleSplitTunnelingEnabled()
+                delay(100)
+                with(binding.contentSettings) {
+                    if (switchShowSplitTunnel.isChecked) {
+                        scrollView.scrollToShowView(splitTunnelLayout)
+                    }
                 }
             }
         }
@@ -371,7 +414,9 @@ class SettingsActivity : BaseActivityV2() {
             "LAN connections toggle"
         ) {
             logUiEvent(Setting.LAN_CONNECTIONS)
-            userPrefs.bypassLocalTraffic = !userPrefs.bypassLocalTraffic
+            lifecycleScope.launch {
+                userSettingsManager.update { it.copy(lanConnections = !it.lanConnections) }
+            }
         }
     }
 
@@ -382,7 +427,9 @@ class SettingsActivity : BaseActivityV2() {
             vpnStatusProviderUI.connectionProtocol?.localAgentEnabled() != true
         ) {
             logUiEvent(Setting.RESTRICTED_NAT)
-            userPrefs.randomizedNatEnabled = !userPrefs.randomizedNatEnabled
+            lifecycleScope.launch {
+                userSettingsManager.update { it.copy(randomizedNat = !it.randomizedNat)}
+            }
         }
     }
 
@@ -393,7 +440,9 @@ class SettingsActivity : BaseActivityV2() {
             vpnStatusProviderUI.connectionProtocol?.localAgentEnabled() != true
         ) {
             logUiEvent(Setting.SAFE_MODE)
-            userPrefs.safeModeEnabled = userPrefs.isSafeModeEnabled(appConfig.getFeatureFlags()) != true
+            lifecycleScope.launch {
+                userSettingsManager.toggleSafeMode()
+            }
         }
     }
 
@@ -413,8 +462,6 @@ class SettingsActivity : BaseActivityV2() {
             toggle()
         }
     }
-
-    private fun getProtocolSelection(userData: UserData) = userData.protocol
 
     private fun onConnectionSettingsChanged(showReconnectDialogPrefKey: String) {
         if (vpnStatusProviderUI.isEstablishingOrConnected) {

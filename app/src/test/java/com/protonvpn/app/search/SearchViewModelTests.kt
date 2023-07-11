@@ -24,7 +24,6 @@ import androidx.lifecycle.SavedStateHandle
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Partner
@@ -34,6 +33,9 @@ import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.search.Search
 import com.protonvpn.android.search.SearchViewModel
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -41,6 +43,7 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.app.userstorage.createDummyProfilesManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -51,12 +54,13 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.test.kotlin.CoroutinesTest
@@ -79,8 +83,6 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     private lateinit var searchViewModel: SearchViewModel
 
     @RelaxedMockK
-    private lateinit var mockUserData: UserData
-    @RelaxedMockK
     private lateinit var mockCurrentUser: CurrentUser
     @MockK
     private lateinit var mockConnectionManager: VpnConnectionManager
@@ -89,6 +91,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     @MockK
     private lateinit var mockApi: ProtonApiRetroFit
 
+    private lateinit var testScope: TestScope
     private lateinit var vpnStateFlow: MutableStateFlow<VpnStateMonitor.Status>
     private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
     private lateinit var partnershipsRepository: PartnershipsRepository
@@ -99,6 +102,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
         Storage.setPreferences(MockSharedPreference())
         mockkObject(CountryTools)
         every { CountryTools.getPreferredLocale() } returns Locale.US
+        testScope = TestScope()
 
         vpnStateFlow = MutableStateFlow(VpnStateMonitor.Status(VpnState.Disabled, null))
         every { mockVpnStatusProviderUI.status } returns vpnStateFlow
@@ -106,15 +110,18 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
         vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
 
+        val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, flowOf(LocalUserSettings.Default))
+        val userSettingsCached = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
-        val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true))
+        val profileManager = createDummyProfilesManager()
+        val serverManager = ServerManager(userSettingsCached, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), profileManager)
         serverManager.setServers(MockedServers.serverList, null)
         val search = Search(serverManager)
         partnershipsRepository = PartnershipsRepository(mockApi)
 
         searchViewModel = SearchViewModel(
             SavedStateHandle(),
-            mockUserData,
+            userSettings,
             mockConnectionManager,
             mockVpnStatusProviderUI,
             serverManager,

@@ -19,11 +19,19 @@
 
 package com.protonvpn.android.settings.data
 
+import androidx.datastore.core.DataMigration
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.userstorage.CurrentUserStoreProvider
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.userstorage.StoreProvider
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,17 +46,50 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     currentUser: CurrentUser,
     userSettingsStoreProvider: LocalUserSettingsStoreProvider
 ) {
-    // TODO: migrate from UserData.
     private val currentUserStoreProvider = CurrentUserStoreProvider(userSettingsStoreProvider, currentUser)
 
     val rawCurrentUserSettingsFlow = currentUserStoreProvider
         .dataFlowOrDefaultIfNoUser(LocalUserSettings.Default)
 
+    suspend fun getRawUserSettingsStore(vpnUser: VpnUser) = currentUserStoreProvider.getDataStoreForUser(vpnUser)
+
+    suspend fun updateApiUseDoh(isEnabled: Boolean) =
+        update { current -> current.copy(apiUseDoh = isEnabled) }
+
+    suspend fun updateConnectOnBoot(isEnabled: Boolean) =
+        update { current -> current.copy(connectOnBoot = isEnabled) }
+
+    suspend fun updateDefaultProfile(id: UUID?) =
+        update { current -> current.copy(defaultProfileId = id) }
+
+    suspend fun updateMtuSize(newSize: Int) =
+        update { current -> current.copy(mtuSize = newSize) }
+
+    suspend fun updateNetShield(newNetShieldProtocol: NetShieldProtocol) =
+        update { current -> current.copy(netShield = newNetShieldProtocol) }
+
     suspend fun updateProtocol(newProtocol: ProtocolSelection) =
         update { current -> current.copy(protocol = newProtocol) }
 
-    suspend fun updateSafeMode(isEnabled: Boolean) =
-        update { current -> current.copy(safeMode = isEnabled) }
+    suspend fun toggleSafeMode() =
+        update { current -> current.copy(safeMode = current.safeMode != true) }
+
+    suspend fun updateSecureCore(isEnabled: Boolean) =
+        update { current -> current.copy(secureCore = isEnabled) }
+
+    suspend fun toggleSplitTunnelingEnabled() =
+        update { current ->
+            current.copy(splitTunneling = current.splitTunneling.copy(isEnabled = !current.splitTunneling.isEnabled))
+        }
+
+    suspend fun updateExcludedApps(excludedApps: List<String>) =
+        update { current -> current.copy(splitTunneling = current.splitTunneling.copy(excludedApps = excludedApps)) }
+
+    suspend fun updateExcludedIps(excludedIps: List<String>) =
+        update { current -> current.copy(splitTunneling = current.splitTunneling.copy(excludedIps = excludedIps)) }
+
+    suspend fun updateTelemetry(isEnabled: Boolean) =
+        update { current -> current.copy(telemetry = isEnabled) }
 
     suspend fun update(transform: (current: LocalUserSettings) -> LocalUserSettings) =
         currentUserStoreProvider.updateForCurrentUser(transform)
@@ -56,10 +97,60 @@ class CurrentUserLocalSettingsManager @Inject constructor(
 
 @Singleton
 class LocalUserSettingsStoreProvider @Inject constructor(
-    factory: LocalDataStoreFactory
+    factory: LocalDataStoreFactory,
+    appFeaturesPrefs: AppFeaturesPrefs? = null
 ) : StoreProvider<LocalUserSettings>(
     "local_user_settings",
     LocalUserSettings.Default,
     LocalUserSettings.serializer(),
-    factory
+    factory,
+    listOf(UserDataMigration(appFeaturesPrefs))
 )
+
+private class UserDataMigration(
+    private val appFeaturesPrefs: AppFeaturesPrefs?
+) : DataMigration<LocalUserSettings> {
+
+    private val oldUserData by lazy { Storage.load(UserData::class.java) }
+
+    override suspend fun cleanUp() {
+        Storage.delete(UserData::class.java)
+    }
+
+    override suspend fun shouldMigrate(currentData: LocalUserSettings): Boolean {
+        val userData = oldUserData
+        return userData != null
+    }
+
+    override suspend fun migrate(currentData: LocalUserSettings): LocalUserSettings {
+        val userData = oldUserData
+        return if (userData != null) {
+            if (userData.protocol.migratingFromIKEv2())
+                appFeaturesPrefs?.showIKEv2Migration = true
+            val protocol = userData.protocol.migrate()
+
+            LocalUserSettings(
+                apiUseDoh = userData.apiUseDoH,
+                connectOnBoot = userData.connectOnBoot,
+                defaultProfileId = userData.defaultProfileId,
+                lanConnections = userData.bypassLocalTraffic,
+                mtuSize = userData.mtuSize,
+                netShield = userData.netShieldProtocol ?: LocalUserSettings.Default.netShield,
+                protocol = protocol,
+                randomizedNat = userData.randomizedNatEnabled,
+                safeMode = userData.safeModeEnabled,
+                secureCore = userData.secureCoreEnabled,
+                splitTunneling = SplitTunnelingSettings(
+                    userData.useSplitTunneling,
+                    userData.splitTunnelIpAddresses,
+                    userData.splitTunnelApps
+                ),
+                telemetry = userData.telemetryEnabled,
+                vpnAccelerator = userData.vpnAcceleratorEnabled,
+                vpnAcceleratorNotifications = userData.showVpnAcceleratorNotifications
+            )
+        } else {
+            currentData
+        }
+    }
+}

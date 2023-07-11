@@ -26,11 +26,14 @@ import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsManager
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsPrefs
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.GlobalUserSettings
-import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.IsTvCheck
-import com.protonvpn.android.utils.Storage
-import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
+import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -39,6 +42,9 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -65,10 +71,15 @@ class GlobalSettingsManagerTests {
     @MockK
     private lateinit var mockIsTvCheck: IsTvCheck
 
+    private lateinit var testUserProvider: TestCurrentUserProvider
     private lateinit var globalSettingsPrefs: GlobalSettingsPrefs
-    private lateinit var userData: UserData
     private lateinit var testScope: TestScope
+    private lateinit var userSettingsManager: CurrentUserLocalSettingsManager
+
     private lateinit var globalSettingsManager: GlobalSettingsManager
+
+    private val user1 = TestUser.plusUser.vpnUser
+    private val user2 = TestUser.freeUser.vpnUser
 
     @Before
     fun setup() {
@@ -77,16 +88,22 @@ class GlobalSettingsManagerTests {
         Dispatchers.setMain(testDispatcher)
         testScope = TestScope(testDispatcher)
 
-        Storage.setPreferences(MockSharedPreference())
-        userData = UserData.create(null)
+        testUserProvider = TestCurrentUserProvider(user1)
+        val currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        userSettingsManager = CurrentUserLocalSettingsManager(
+            currentUser,
+            LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())
+        )
+
         globalSettingsPrefs = GlobalSettingsPrefs(MockSharedPreferencesProvider())
         every { mockIsTvCheck.invoke() } returns false
 
         globalSettingsManager = GlobalSettingsManager(
             testScope.backgroundScope,
+            currentUser,
             mockApi,
             globalSettingsPrefs,
-            userData,
+            userSettingsManager,
             mockIsTvCheck,
             mockGlobalSettingUpdateScheduler
         )
@@ -99,7 +116,7 @@ class GlobalSettingsManagerTests {
 
     @Test
     fun `enabling telemetry updates global telemetry setting`() = testScope.runTest {
-        userData.telemetryEnabled = true
+        userSettingsManager.updateTelemetry(true)
         assertTrue(globalSettingsPrefs.telemetryEnabled)
         coVerify { mockGlobalSettingUpdateScheduler.updateRemoteTelemetry(true) }
     }
@@ -107,9 +124,9 @@ class GlobalSettingsManagerTests {
     @Test
     fun `disabling telemetry doesn't affect global setting`() = testScope.runTest {
         globalSettingsPrefs.telemetryEnabled = true
-        userData.telemetryEnabled = true
+        userSettingsManager.updateTelemetry(true)
 
-        userData.telemetryEnabled = false
+        userSettingsManager.updateTelemetry(false)
         assertTrue(globalSettingsPrefs.telemetryEnabled)
         coVerify(exactly = 0) { mockGlobalSettingUpdateScheduler.updateRemoteTelemetry(false) }
     }
@@ -121,20 +138,20 @@ class GlobalSettingsManagerTests {
         globalSettingsManager.refresh()
 
         assertTrue(globalSettingsPrefs.telemetryEnabled)
-        assertFalse(userData.telemetryEnabled)
+        assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
     }
 
     @Test
     fun `disabling global telemetry setting disables the local one`() = testScope.runTest {
         globalSettingsPrefs.telemetryEnabled = true
-        userData.telemetryEnabled = true
+        userSettingsManager.updateTelemetry(true)
 
         val response = GlobalSettingsResponse(GlobalUserSettings(telemetryEnabled = false))
         coEvery { mockApi.getGlobalSettings() } returns ApiResult.Success(response)
         globalSettingsManager.refresh()
 
         assertFalse(globalSettingsPrefs.telemetryEnabled)
-        assertFalse(userData.telemetryEnabled)
+        assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
     }
 
     @Test
@@ -142,16 +159,30 @@ class GlobalSettingsManagerTests {
         val response = GlobalSettingsResponse(GlobalUserSettings(telemetryEnabled = false))
         coEvery { mockApi.putTelemetryGlobalSetting(true) } returns ApiResult.Success(response)
 
-        userData.telemetryEnabled = true
+        userSettingsManager.updateTelemetry(true)
         assertTrue(globalSettingsPrefs.telemetryEnabled)
         coVerify { mockGlobalSettingUpdateScheduler.updateRemoteTelemetry(true) }
 
         // Backend responds with telemetry being false despite the update.
         globalSettingsManager.uploadGlobalTelemetrySetting(true)
 
-        assertFalse(userData.telemetryEnabled)
+        assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
         assertFalse(globalSettingsPrefs.telemetryEnabled)
         // No additional calls to uploadRemoteTelemetry.
         coVerify(exactly = 1) { mockGlobalSettingUpdateScheduler.updateRemoteTelemetry(any()) }
+    }
+
+    @Test
+    fun `when new user logs in then global telemetry is not updated`() = testScope.runTest {
+        userSettingsManager.getRawUserSettingsStore(user1).updateData { it.copy(telemetry = false) }
+        userSettingsManager.getRawUserSettingsStore(user2).updateData { it.copy(telemetry = true) }
+        globalSettingsPrefs.telemetryEnabled = false
+        assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
+
+        testUserProvider.vpnUser = user2
+
+        assertTrue(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
+        assertFalse(globalSettingsPrefs.telemetryEnabled)
+        coVerify(exactly = 0) { mockGlobalSettingUpdateScheduler.updateRemoteTelemetry(true) }
     }
 }

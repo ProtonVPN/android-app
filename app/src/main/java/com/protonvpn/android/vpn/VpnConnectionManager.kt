@@ -44,7 +44,6 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanMaxSessionsReached
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.CertificateData
@@ -52,6 +51,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.DebugUtils
@@ -60,7 +60,9 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
@@ -89,11 +91,12 @@ interface VpnUiDelegate {
     fun onProtocolNotSupported()
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
 class VpnConnectionManager @Inject constructor(
     private val permissionDelegate: VpnPermissionDelegate,
-    private val userData: UserData,
     private val appConfig: AppConfig,
+    private val userSettings: EffectiveCurrentUserSettings,
     private val backendProvider: VpnBackendProvider,
     private val networkManager: NetworkManager,
     private val vpnErrorHandler: VpnConnectionErrorHandler,
@@ -326,7 +329,7 @@ class VpnConnectionManager @Inject constructor(
 
         setSelfState(VpnState.ScanningPorts)
 
-        var protocol: ProtocolSelection = profile.getProtocol(userData)
+        var protocol: ProtocolSelection = profile.getProtocol(userSettings.effectiveSettings.first())
         val hasNetwork = networkManager.isConnectedToNetwork()
         if (!hasNetwork && protocol.vpn == VpnProtocol.Smart)
             protocol = getFallbackSmartProtocol(server)
@@ -414,7 +417,7 @@ class VpnConnectionManager @Inject constructor(
 
         connectionParams = preparedConnection.connectionParams
         with(preparedConnection) {
-            val profileInfo = connectionParams.profile.toLog(userData)
+            val profileInfo = connectionParams.profile.toLog(userSettings.effectiveSettings.first())
             ProtonLogger.log(
                 ConnConnectStart,
                 "backend: ${backend.vpnProtocol}, params: ${connectionParams.info}, $profileInfo"
@@ -480,7 +483,8 @@ class VpnConnectionManager @Inject constructor(
         trigger: ConnectTrigger,
         preferredServer: Server? = null
     ) {
-        ProtonLogger.log(ConnConnectTrigger, "${profile.toLog(userData)}, reason: ${trigger.description}")
+        val settings = userSettings.effectiveSettings.first()
+        ProtonLogger.log(ConnConnectTrigger, "${profile.toLog(settings)}, reason: ${trigger.description}")
         vpnConnectionTelemetry.onConnectionStart(trigger)
         val vpnUser = currentUser.vpnUser()
         val server = preferredServer ?: serverManager.getServerForProfile(profile, vpnUser)
@@ -488,8 +492,8 @@ class VpnConnectionManager @Inject constructor(
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {
             val protocolAllowed = trigger is ConnectTrigger.GuestHole ||
-                profile.getProtocol(userData).isSupported(appConfig.getFeatureFlags())
-            if (supportsProtocol(server, profile.getProtocol(userData).vpn) && protocolAllowed) {
+                profile.getProtocol(settings).isSupported(appConfig.getFeatureFlags())
+            if (supportsProtocol(server, profile.getProtocol(settings).vpn) && protocolAllowed) {
                 smartConnect(profile, server, trigger is ConnectTrigger.Fallback)
             } else {
                 vpnConnectionTelemetry.onConnectionAbort()

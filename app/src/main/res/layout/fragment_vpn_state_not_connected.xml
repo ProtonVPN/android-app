@@ -24,14 +24,6 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-    <com.protonvpn.android.netshield.NetShieldSwitch
-        android:id="@+id/netShieldSwitch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:descriptionText="@string/netShieldEnabledWarning"
-        app:isInConnectedScreen="true"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/composeView"
         android:layout_width="match_parent"

@@ -57,12 +57,12 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
-        observeLiveEvents()
+        observeState()
         binding.loadingContainer.setOnRefreshListener { viewModel.refreshServerList(this) }
     }
 
-    private fun observeLiveEvents() {
-        viewModel.userDataUpdateEvent.observe(viewLifecycleOwner) {
+    private fun observeState() {
+        viewModel.settingsLiveData.observe(viewLifecycleOwner) {
             updateListData()
             if (viewModel.isFreeUser)
                 binding.list.scrollToPosition(0)

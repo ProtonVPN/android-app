@@ -20,13 +20,13 @@ package com.protonvpn.app.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.search.Search
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.app.userstorage.createDummyProfilesManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.createGetSmartProtocols
@@ -50,9 +50,6 @@ class SearchTests {
     val instantTaskExecutor = InstantTaskExecutorRule()
 
     @RelaxedMockK
-    private lateinit var mockUserData: UserData
-
-    @RelaxedMockK
     private lateinit var mockCurrentUser: CurrentUser
 
     private lateinit var search: Search
@@ -69,12 +66,12 @@ class SearchTests {
 
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val serverManager = ServerManager(
-            mockUserData,
+            mockk(relaxed = true),
             mockCurrentUser,
             { 0 },
             supportsProtocol,
             createInMemoryServersStore(),
-            mockk(relaxed = true)
+            createDummyProfilesManager()
         )
         serverManager.setServers(testServers, Locale.getDefault().language)
         search = Search(serverManager)

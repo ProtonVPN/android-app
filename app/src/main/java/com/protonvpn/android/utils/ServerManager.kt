@@ -23,29 +23,25 @@ import androidx.lifecycle.asLiveData
 import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ProfileColor
-import com.protonvpn.android.models.profiles.SavedProfilesV3
-import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.profiles.ServerWrapper.ProfileType
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.LoadUpdate
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.isSecureCoreCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.vpn.ProtocolSelection
 import io.sentry.Sentry
 import io.sentry.SentryEvent
@@ -60,14 +56,18 @@ import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
+val serverComparator = compareBy<Server> { !it.isFreeServer }
+    .thenBy { it.serverNumber >= 100 }
+    .thenBy { it.serverNumber }
+
 @Singleton
 class ServerManager @Inject constructor(
-    @Transient val userData: UserData,
+    @Transient private val currentUserSettingsCached: EffectiveCurrentUserSettingsCached,
     @Transient val currentUser: CurrentUser,
     @Transient @WallClock private val wallClock: () -> Long,
     @Transient val supportsProtocol: SupportsProtocol,
     @Transient val serversStore: ServersStore,
-    appFeaturesPrefs: AppFeaturesPrefs,
+    @Transient private val profileManager: ProfileManager,
 ) : Serializable {
 
     private var serverListAppVersionCode = 0
@@ -77,11 +77,10 @@ class ServerManager @Inject constructor(
     @SerializedName("secureCoreEntryCountries") private val migrateSecureCoreEntryCountries: MutableList<VpnCountry>? = null
     @SerializedName("secureCoreExitCountries") private val migrateSecureCoreExitCountries: MutableList<VpnCountry>? = null
 
-    @Transient private var filteredVpnCountries = listOf<VpnCountry>()
-    @Transient private var filteredSecureCoreEntryCountries = listOf<VpnCountry>()
-    @Transient private var filteredSecureCoreExitCountries = listOf<VpnCountry>()
-    @Transient private var filteredGatewayGroups = listOf<GatewayGroup>()
+    @Transient private var filtered = FilteredServers(serversStore, currentUserSettingsCached, supportsProtocol)
     @Transient private var guestHoleServers: List<Server>? = null
+
+    private val secureCoreCached get() = currentUserSettingsCached.value.secureCore
 
     private var streamingServices: StreamingServicesResponse? = null
     val streamingServicesModel: StreamingServicesModel?
@@ -93,23 +92,12 @@ class ServerManager @Inject constructor(
     var translationsLang: String? = null
         private set
 
-    @Transient
-    val serverComparator = compareBy<Server> { !it.isFreeServer }
-        .thenBy { it.serverNumber >= 100 }
-        .thenBy { it.serverNumber }
-
-    @Transient
-    private val savedProfiles: SavedProfilesV3 =
-        Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles())
-            .migrateProfiles(appFeaturesPrefs)
 
     // Expose a version number of the server list so that it can be used in flow operators like
     // combine to react to updates.
     @Transient val serverListVersion = MutableStateFlow(0)
-    @Transient val profiles = MutableStateFlow(savedProfiles.profileList.toList())
     // TODO: remove the LiveDatas once there is no more Java code using them.
     @Transient val serverListVersionLiveData = serverListVersion.asLiveData()
-    @Transient val profilesLiveData = profiles.asLiveData()
 
     // isDownloadedAtLeastOnce should be true if there was an updateAt value. Remove after most users update.
     @SerializedName("updatedAt") private var migrateUpdatedAt: DateTime? = null
@@ -127,12 +115,12 @@ class ServerManager @Inject constructor(
     /** Get the number of all servers. Not very efficient. */
     val allServerCount get() = allServers.count()
 
-    val defaultFallbackConnection = getSavedProfiles()[0]
+    val defaultFallbackConnection = profileManager.getSavedProfiles()[0]
 
-    val defaultConnection: Profile get() = findDefaultProfile() ?: getSavedProfiles().first()
+    val defaultConnection: Profile get() = with(profileManager) { findDefaultProfile() ?: fallbackProfile }
 
     val defaultAvailableConnection: Profile get() =
-        (listOf(findDefaultProfile()) + getSavedProfiles())
+        (listOf(profileManager.findDefaultProfile()) + profileManager.getSavedProfiles())
             .filterNotNull()
             .first {
                 (it.isSecureCore == true).implies(currentUser.vpnUserCached()?.isUserPlusOrAbove == true)
@@ -173,100 +161,38 @@ class ServerManager @Inject constructor(
                 Storage.save(this)
             }
         }
-        userData.migrateDefaultProfile(this)
-
-        userData.protocolLiveData.observeForever {
-            filterServers()
-            onServersUpdate()
-        }
     }
 
     private fun getExitCountries(secureCore: Boolean) = if (secureCore)
-        filteredSecureCoreExitCountries else filteredVpnCountries
-
-    @VisibleForTesting fun filterCountriesForProtocol(countries: List<VpnCountry>) =
-        filterForProtocol(countries, userData.protocol) { country, newServers -> VpnCountry(country.flag, newServers) }
-
-    fun filterGatewaysForProtocol(gateways: List<GatewayGroup>) =
-        filterForProtocol(gateways, userData.protocol) { gateway, newServers -> GatewayGroup(gateway.name(), newServers) }
-
-    private fun <T : ServerGroup> filterForProtocol(
-        groups: List<T>,
-        protocol: ProtocolSelection,
-        buildResult: (T, List<Server>) -> T
-    ): List<T> =
-        groups.mapNotNull { group ->
-            val servers = group.serverList
-                .filter {
-                    supportsProtocol(it, protocol)
-                }.map { server ->
-                    val filteredDomains = server.connectingDomains.filter { supportsProtocol(it, protocol) }
-                    server.copy(
-                        isOnline = server.online && filteredDomains.any { it.isOnline },
-                        connectingDomains = filteredDomains)
-                }
-            if (servers.isNotEmpty())
-                buildResult(group, servers)
-            else
-                null
-        }
+        filtered.secureCoreExitCountries else filtered.vpnCountries
 
     private fun onServersUpdate() {
         ++serverListVersion.value
     }
 
-    private fun filterServers() {
-        fun MutableMap<String, MutableList<Server>>.addServer(key: String, server: Server, uppercase: Boolean = true) {
-            val mapKey = if (uppercase) key.uppercase() else key
-            getOrPut(mapKey) { mutableListOf() } += server
-        }
-        fun MutableMap<String, MutableList<Server>>.toVpnCountries() =
-            map { (country, servers) -> VpnCountry(country, servers.sortedWith(serverComparator)) }
-
-        val vpnCountries = mutableMapOf<String, MutableList<Server>>()
-        val gateways = mutableMapOf<String, MutableList<Server>>()
-        val secureCoreEntryCountries = mutableMapOf<String, MutableList<Server>>()
-        val secureCoreExitCountries = mutableMapOf<String, MutableList<Server>>()
-        for (server in allServers) {
-            // TODO: secure core countries shouldn't be hardcoded but calculated from server list
-            DebugUtils.debugAssert { !server.isSecureCoreServer || isSecureCoreCountry(server.entryCountry) }
-            when {
-                server.isSecureCoreServer && isSecureCoreCountry(server.entryCountry) -> {
-                    secureCoreEntryCountries.addServer(server.entryCountry, server)
-                    secureCoreExitCountries.addServer(server.exitCountry, server)
-                }
-                server.isGatewayServer && server.gatewayName != null ->
-                    gateways.addServer(server.gatewayName!!, server, uppercase = false)
-                else ->
-                    vpnCountries.addServer(server.flag, server)
-
-            }
-        }
-
-        filteredVpnCountries = filterCountriesForProtocol(vpnCountries.toVpnCountries())
-        filteredSecureCoreEntryCountries = filterCountriesForProtocol(secureCoreEntryCountries.toVpnCountries())
-        filteredSecureCoreExitCountries = filterCountriesForProtocol(secureCoreExitCountries.toVpnCountries())
-        filteredGatewayGroups =
-            filterGatewaysForProtocol(gateways.map { (name, servers) -> GatewayGroup(name, servers) } )
-    }
-
     override fun toString(): String {
         val lastUpdateTimestampLog = lastUpdateTimestamp.takeIf { it != 0L }?.let { ProtonLogger.formatTime(it) }
-        return "filtered vpnCountries: ${filteredVpnCountries.size} gateways: ${filteredGatewayGroups.size}" +
-            " entry: ${filteredSecureCoreEntryCountries.size}" +
-            " exit: ${filteredSecureCoreExitCountries.size} profiles: ${savedProfiles.profileList?.size} " +
+        return "filtered vpnCountries: ${filtered.vpnCountries.size} gateways: ${filtered.gateways.size}" +
+            " entry: ${filtered.secureCoreEntryCountries.size}" +
+            " exit: ${filtered.secureCoreExitCountries.size} " +
             "ServerManager Updated: $lastUpdateTimestampLog"
     }
 
     fun clearCache() {
         lastUpdateTimestamp = 0L
         Storage.delete(ServerManager::class.java)
+        filtered.invalidate()
         // The server list itself is not deleted.
     }
 
     fun setGuestHoleServers(serverList: List<Server>) {
         setServers(serverList, null)
         lastUpdateTimestamp = 0L
+    }
+
+    @VisibleForTesting
+    fun setBuiltInGuestHoleServersForTesting(serverList: List<Server>) {
+        guestHoleServers = serverList
     }
 
     fun getDownloadedServersForGuestHole(serverCount: Int, protocol: ProtocolSelection) =
@@ -285,7 +211,7 @@ class ServerManager @Inject constructor(
         translationsLang = language
         Storage.save(this)
 
-        filterServers()
+        filtered.invalidate()
         onServersUpdate()
     }
 
@@ -329,11 +255,11 @@ class ServerManager @Inject constructor(
     fun getServerById(id: String) =
         allServers.firstOrNull { it.serverId == id } ?: getGuestHoleServers().firstOrNull { it.serverId == id }
 
-    fun getVpnCountries(): List<VpnCountry> = filteredVpnCountries.sortedByLocaleAware { it.countryName }
+    fun getVpnCountries(): List<VpnCountry> = filtered.vpnCountries.sortedByLocaleAware { it.countryName }
 
-    fun getGateways(): List<GatewayGroup> = filteredGatewayGroups
+    fun getGateways(): List<GatewayGroup> = filtered.gateways
 
-    fun getSecureCoreEntryCountries(): List<VpnCountry> = filteredSecureCoreEntryCountries
+    fun getSecureCoreEntryCountries(): List<VpnCountry> = filtered.secureCoreEntryCountries
 
     fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
         getExitCountries(secureCoreCountry).firstOrNull { it.flag == countryCode }
@@ -378,7 +304,7 @@ class ServerManager @Inject constructor(
         getBestScoreServer(serverList, currentUser.vpnUserCached())
 
     private fun getRandomServer(vpnUser: VpnUser?): Server? {
-        val allCountries = getExitCountries(userData.secureCoreEnabled)
+        val allCountries = getExitCountries(secureCoreCached)
         val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
         return accessibleCountries.ifEmpty { allCountries }.randomNullable()?.let { getRandomServer(it, vpnUser) }
     }
@@ -389,53 +315,15 @@ class ServerManager @Inject constructor(
         return accessible.ifEmpty { online }.randomNullable()
     }
 
-    fun getSavedProfiles(): List<Profile> =
-        savedProfiles.profileList
-
-    fun deleteSavedProfiles() {
-        for (profile in getSavedProfiles().toList()) {
-            if (!profile.isPreBakedProfile) {
-                deleteProfile(profile)
-            }
-        }
-    }
-
-    fun addToProfileList(serverName: String?, color: ProfileColor, server: Server) {
-        val newProfile =
-            Profile(serverName!!, null, ServerWrapper.makeWithServer(server), color.id, server.isSecureCoreServer)
-        addToProfileList(newProfile)
-    }
-
-    fun addToProfileList(profileToSave: Profile?) {
-        if (!savedProfiles.profileList.contains(profileToSave)) {
-            savedProfiles.profileList.add(profileToSave)
-            Storage.save(savedProfiles)
-            profiles.value = getSavedProfiles().toList()
-        }
-    }
-
-    fun editProfile(oldProfile: Profile, profileToSave: Profile) {
-        savedProfiles.profileList[savedProfiles.profileList.indexOf(oldProfile)] = profileToSave
-        Storage.save(savedProfiles)
-        profiles.value = getSavedProfiles().toList()
-    }
-
-    fun deleteProfile(profileToSave: Profile?) {
-        savedProfiles.profileList.remove(profileToSave)
-        if (userData.defaultProfileId == profileToSave?.id) userData.defaultProfileId = null
-        Storage.save(savedProfiles)
-        profiles.value = getSavedProfiles().toList()
-    }
-
     fun getSecureCoreExitCountries(): List<VpnCountry> =
-        filteredSecureCoreExitCountries.sortedByLocaleAware { it.countryName }
+        filtered.secureCoreExitCountries.sortedByLocaleAware { it.countryName }
 
     fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
         val wrapper = profile.wrapper
-        val needsSecureCore = profile.isSecureCore ?: userData.secureCoreEnabled
+        val needsSecureCore = profile.isSecureCore ?: secureCoreCached
         return when (wrapper.type) {
             ProfileType.FASTEST ->
-                getBestScoreServer(userData.secureCoreEnabled, vpnUser)
+                getBestScoreServer(secureCoreCached, vpnUser)
             ProfileType.RANDOM ->
                 getRandomServer(vpnUser)
             ProfileType.RANDOM_IN_COUNTRY ->
@@ -473,10 +361,11 @@ class ServerManager @Inject constructor(
         protocol: ProtocolSelection
     ): List<Server> {
         val groups = when {
-            secureCore -> filteredSecureCoreExitCountries
+            secureCore -> filtered.secureCoreExitCountries
             gatewayName != null ->
-                filteredGatewayGroups.find { it.name() == gatewayName }?.let { listOf(it) } ?: emptyList()
-            else -> filteredVpnCountries
+                filtered.gateways.find { it.name() == gatewayName }?.let { listOf(it) } ?: emptyList()
+
+            else -> filtered.vpnCountries
         }
         return groups.asSequence().flatMap { group ->
             group.serverList.filter {
@@ -485,9 +374,6 @@ class ServerManager @Inject constructor(
         }.sortedBy { it.score }.toList()
     }
 
-    fun findDefaultProfile(): Profile? =
-        userData.defaultProfileId?.let { defaultId -> getSavedProfiles().find { it.id == defaultId } }
-
     private fun haveWireGuardSupport() =
         serversStore.allServers.any { server -> server.connectingDomains.any { it.publicKeyX25519 != null } }
 
@@ -495,4 +381,79 @@ class ServerManager @Inject constructor(
     @get:TestOnly val firstNotAccessibleVpnCountry get() =
         getVpnCountries().firstOrNull { !it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
             ?: throw UnsupportedOperationException("Should only use this method on free tiers")
+}
+
+class FilteredServers(
+    private val serverStore: ServersStore,
+    private val currentUserSettingsCached: EffectiveCurrentUserSettingsCached,
+    private val supportsProtocol: SupportsProtocol
+) {
+    // Servers are filtered lazily when needed to delay access to user settings. This gives time to read settings in a
+    // non-blocking way.
+    private val currentProtocol get() = currentUserSettingsCached.value.protocol
+    private var filteredForProtocol: ProtocolSelection? = null
+
+    private var filteredVpnCountries: List<VpnCountry> = emptyList()
+    private var filteredSecureCoreExitCountries: List<VpnCountry> = emptyList()
+    private var filteredSecureCoreEntryCountries: List<VpnCountry> = emptyList()
+    private var filteredGateways: List<GatewayGroup> = emptyList()
+
+    val vpnCountries: List<VpnCountry> get() = getCached { filteredVpnCountries }
+    val secureCoreExitCountries get() = getCached { filteredSecureCoreExitCountries }
+    val secureCoreEntryCountries get() = getCached { filteredSecureCoreEntryCountries }
+    val gateways get() = getCached { filteredGateways }
+
+    fun invalidate() {
+        filteredForProtocol = null
+    }
+
+    private fun groupAndFilter() {
+        fun MutableMap<String, MutableList<Server>>.addServer(key: String, server: Server, uppercase: Boolean = true) {
+            val mapKey = if (uppercase) key.uppercase() else key
+            getOrPut(mapKey) { mutableListOf() } += server
+        }
+        fun MutableMap<String, MutableList<Server>>.toVpnCountries() =
+            map { (country, servers) -> VpnCountry(country, servers.sortedWith(serverComparator)) }
+
+        val vpnCountries = mutableMapOf<String, MutableList<Server>>()
+        val gateways = mutableMapOf<String, MutableList<Server>>()
+        val secureCoreEntryCountries = mutableMapOf<String, MutableList<Server>>()
+        val secureCoreExitCountries = mutableMapOf<String, MutableList<Server>>()
+        val protocol = currentProtocol // Use a local copy in case the setting can change on some other thread.
+        for (unfilteredServer in serverStore.allServers) {
+            // TODO: secure core countries shouldn't be hardcoded but calculated from server list
+            DebugUtils.debugAssert { !unfilteredServer.isSecureCoreServer || isSecureCoreCountry(unfilteredServer.entryCountry) }
+            val filteredDomains = unfilteredServer.connectingDomains.filter { supportsProtocol(it, currentProtocol) }
+            if (filteredDomains.isNotEmpty()) {
+                val server = if (unfilteredServer.connectingDomains.size != filteredDomains.size) {
+                    unfilteredServer.copy(connectingDomains = filteredDomains)
+                } else {
+                    unfilteredServer
+                }
+                when {
+                    server.isSecureCoreServer && isSecureCoreCountry(server.entryCountry) -> {
+                        secureCoreEntryCountries.addServer(server.entryCountry, server)
+                        secureCoreExitCountries.addServer(server.exitCountry, server)
+                    }
+
+                    server.isGatewayServer && server.gatewayName != null ->
+                        gateways.addServer(server.gatewayName!!, server, uppercase = false)
+
+                    else ->
+                        vpnCountries.addServer(server.flag, server)
+
+                }
+            }
+        }
+        filteredForProtocol = protocol
+        filteredVpnCountries = vpnCountries.toVpnCountries()
+        filteredSecureCoreEntryCountries = secureCoreEntryCountries.toVpnCountries()
+        filteredSecureCoreExitCountries = secureCoreExitCountries.toVpnCountries()
+        filteredGateways = gateways.map { (name, servers) -> GatewayGroup(name, servers) }
+    }
+
+    private fun <T> getCached(getter: () -> T): T {
+        if (currentProtocol != filteredForProtocol) groupAndFilter()
+        return getter()
+    }
 }

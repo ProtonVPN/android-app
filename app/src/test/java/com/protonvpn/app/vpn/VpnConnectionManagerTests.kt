@@ -26,12 +26,14 @@ import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -48,6 +50,7 @@ import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.app.userstorage.createDummyProfilesManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestVpnUser
@@ -67,6 +70,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -113,7 +117,6 @@ class VpnConnectionManagerTests {
     @RelaxedMockK
     private lateinit var mockVpnConnectionTelemetry: VpnConnectionTelemetry
 
-    private lateinit var userData: UserData
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var serverManager: ServerManager
 
@@ -158,17 +161,19 @@ class VpnConnectionManagerTests {
         every { mockVpnErrorHandler.switchConnectionFlow } returns MutableSharedFlow()
         every { mockVpnUiDelegate.shouldSkipAccessRestrictions() } returns false
 
+        val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, flowOf(LocalUserSettings.Default))
+        val userSettingsCached = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
+
         Storage.setPreferences(MockSharedPreference())
-        userData = UserData.create()
         vpnStateMonitor = VpnStateMonitor()
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
-        serverManager = ServerManager(userData, mockCurrentUser, clock, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true)).apply {
-            setServers(MockedServers.serverList, null)
-        }
+        val profileManager = createDummyProfilesManager()
+        serverManager = ServerManager(userSettingsCached, mockCurrentUser, clock, supportsProtocol, createInMemoryServersStore(), profileManager)
+        serverManager.setServers(MockedServers.serverList, null)
 
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = mockk(relaxed = true),
-            userData = userData,
+            userSettings = userSettings,
             appConfig = appConfig,
             backendProvider = mockBackendProvider,
             networkManager = mockNetworkManager,

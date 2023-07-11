@@ -29,8 +29,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.color.MaterialColors
@@ -52,6 +52,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.exhaustive
 
 class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
@@ -71,19 +72,18 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
 
-        viewModel.viewState.asLiveData().observe(
-            viewLifecycleOwner,
-            Observer { updateState(it) }
-        )
+        viewModel.viewState.asLiveData().observe(viewLifecycleOwner) { updateState(it) }
 
-        with(binding.emptyStateHints) {
-            if (viewModel.secureCore) {
-                addEmptyHint(R.string.search_empty_hint_countries_secure_core)
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (viewModel.getSecureCore()) {
+                binding.emptyStateHints.addEmptyHint(R.string.search_empty_hint_countries_secure_core)
             } else {
-                addEmptyHint(R.string.search_empty_hint_countries)
-                addEmptyHint(R.string.search_empty_hint_cities)
-                addEmptyHint(R.string.search_empty_hint_usa_regions)
-                addEmptyHint(R.string.search_empty_hint_servers)
+                with(binding.emptyStateHints) {
+                    addEmptyHint(R.string.search_empty_hint_countries)
+                    addEmptyHint(R.string.search_empty_hint_cities)
+                    addEmptyHint(R.string.search_empty_hint_usa_regions)
+                    addEmptyHint(R.string.search_empty_hint_servers)
+                }
             }
         }
     }
