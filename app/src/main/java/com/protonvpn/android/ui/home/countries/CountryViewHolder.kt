@@ -37,12 +37,14 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.ExpandableItem
+import java.util.Objects
 
 private const val EXPAND_DURATION_MS = 300L
 
 abstract class CountryViewHolder(
     private val viewModel: CountryListViewModel,
     private val vpnCountry: VpnCountry,
+    private val sectionId: String,
     val parentLifecycleOwner: LifecycleOwner
 ) : BindableItemEx<ItemVpnCountryBinding>(), ExpandableItem {
 
@@ -55,7 +57,7 @@ abstract class CountryViewHolder(
                 vpnCountry.hasConnectedServer(it.server) && it.state == VpnState.Connected
     }
 
-    override fun getId() = vpnCountry.flag.hashCode().toLong()
+    override fun getId() = Objects.hash(vpnCountry.flag, sectionId).toLong()
 
     override fun bind(viewBinding: ItemVpnCountryBinding, position: Int) {
         super.bind(viewBinding, position)

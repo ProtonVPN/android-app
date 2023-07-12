@@ -74,6 +74,7 @@ class ServerManager @Inject constructor(
     @Transient private var filteredVpnCountries = listOf<VpnCountry>()
     @Transient private var filteredSecureCoreEntryCountries = listOf<VpnCountry>()
     @Transient private var filteredSecureCoreExitCountries = listOf<VpnCountry>()
+    @Transient private var filteredDedicatedIpCountries = listOf<VpnCountry>()
     @Transient private var guestHoleServers: List<Server>? = null
 
     private var streamingServices: StreamingServicesResponse? = null
@@ -184,6 +185,7 @@ class ServerManager @Inject constructor(
         filteredVpnCountries = filterForProtocol(serversStore.vpnCountries)
         filteredSecureCoreEntryCountries = filterForProtocol(serversStore.secureCoreEntryCountries)
         filteredSecureCoreExitCountries = filterForProtocol(serversStore.secureCoreExitCountries)
+        filteredDedicatedIpCountries = filterForProtocol(serversStore.dedicatedIpCountries)
     }
 
     override fun toString(): String {
@@ -221,19 +223,26 @@ class ServerManager @Inject constructor(
             map { (country, servers) -> VpnCountry(country, servers.sortedWith(serverComparator)) }
 
         val vpnCountries = mutableMapOf<String, MutableList<Server>>()
+        val dedicatedIpCountries = mutableMapOf<String, MutableList<Server>>()
         val secureCoreEntryCountries = mutableMapOf<String, MutableList<Server>>()
         val secureCoreExitCountries = mutableMapOf<String, MutableList<Server>>()
         for (server in serverList) {
             // TODO: secure core countries shouldn't be hardcoded but calculated from server list
             DebugUtils.debugAssert { !server.isSecureCoreServer || isSecureCoreCountry(server.entryCountry) }
-            if (server.isSecureCoreServer && isSecureCoreCountry(server.entryCountry)) {
-                secureCoreEntryCountries.addServer(server.entryCountry, server)
-                secureCoreExitCountries.addServer(server.exitCountry, server)
-            } else {
-                vpnCountries.addServer(server.flag, server)
+            when {
+                server.isSecureCoreServer && isSecureCoreCountry(server.entryCountry) -> {
+                    secureCoreEntryCountries.addServer(server.entryCountry, server)
+                    secureCoreExitCountries.addServer(server.exitCountry, server)
+                }
+                server.isDedicatedIpServer ->
+                    dedicatedIpCountries.addServer(server.flag, server)
+                else ->
+                    vpnCountries.addServer(server.flag, server)
+
             }
         }
         serversStore.vpnCountries = vpnCountries.toVpnCountries()
+        serversStore.dedicatedIpCountries = dedicatedIpCountries.toVpnCountries()
         serversStore.secureCoreEntryCountries = secureCoreEntryCountries.toVpnCountries()
         serversStore.secureCoreExitCountries = secureCoreExitCountries.toVpnCountries()
 
@@ -286,6 +295,8 @@ class ServerManager @Inject constructor(
         allServers.firstOrNull { it.serverId == id } ?: getGuestHoleServers().firstOrNull { it.serverId == id }
 
     fun getVpnCountries(): List<VpnCountry> = filteredVpnCountries.sortedByLocaleAware { it.countryName }
+
+    fun getDedicatedIpCountries(): List<VpnCountry> = filteredDedicatedIpCountries
 
     fun getSecureCoreEntryCountries(): List<VpnCountry> = filteredSecureCoreEntryCountries
 

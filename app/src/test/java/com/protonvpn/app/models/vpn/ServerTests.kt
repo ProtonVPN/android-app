@@ -41,15 +41,16 @@ class ServerTests {
             "raw number 123" to 1,
             "123#" to 1,
             "zero #0" to 0,
-            "# 123" to 1
+            "# 123" to 1,
+            "AA+5" to 1
         )
         testCases.forEach { (name, expectedResult )->
-            try {
-                val server = createServer(serverName = name)
-                assertEquals("Invalid result for case '$name'", expectedResult, server.serverNumber)
+            val server = try {
+                createServer(serverName = name)
             } catch (e: Throwable) {
                 throw RuntimeException("Exception for case `$name`", e)
             }
+            assertEquals("Invalid result for case '$name'", expectedResult, server.serverNumber)
         }
     }
 }

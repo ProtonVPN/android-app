@@ -66,6 +66,7 @@ object Constants {
     const val SECURE_CORE_INFO_URL = "https://protonvpn.com/support/secure-core-vpn/"
     const val MODERATE_NAT_INFO_URL = "https://protonvpn.com/support/moderate-nat"
     const val TELEMETRY_INFO_URL = "https://protonvpn.com/support/share-usage-statistics"
+    const val DEDICATED_IPS_INFO_URL = "https://protonvpn.com/support/dedicated-ips/"
 
     const val MAX_CONNECTIONS_IN_PLUS_PLAN = 10
 

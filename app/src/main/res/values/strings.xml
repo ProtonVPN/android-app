@@ -147,13 +147,13 @@
     <string name="offerTooltipShowOffer">See the offer</string>
     <string name="listItemMaintenance">Under maintenance</string>
     <string name="listAllCountries">All locations (%1$d)</string>
+    <string name="listGatewayCountries">Gateways</string>
     <string name="listFreeCountries">Free locations (%1$d)</string>
     <string name="listPremiumCountries">Basic &amp; Plus locations (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus locations (%1$d)</string>
     <string name="listFastestServer">Fastest server</string>
     <string name="listFreeServers">Free servers (%1$d)</string>
     <string name="listBasicServers">Basic servers (%1$d)</string>
-    <string name="listInternalServers" translatable="false">Internal servers (PMTEAM) (%1$d)</string>
     <string name="listPlusServers">Plus servers (%1$d)</string>
     <string name="insufficientPermissionsTitle">User action required</string>
     <string name="insufficientPermissionsDetails">Couldn\'t establish VPN connection automatically. Please connect manually one time to grant permissions.</string>
@@ -558,6 +558,7 @@
     <string name="activity_information_title">Information</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Plus servers</string>
+    <string name="activity_information_gateways_title">What is a gateway?</string>
     <string name="info_features">Features</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">This technology allows Proton VPN to provide higher speed and security in difficult-to-serve countries.</string>
@@ -579,6 +580,7 @@
     <string name="server_load_low">Low</string>
     <string name="server_load_medium">Medium</string>
     <string name="server_load_high">High</string>
+    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s dataand services through dedicated servers.</string>
     <!-- Override Human verification links from core -->
     <string name="manual_verification_link" translatable="false">https://protonvpn.com/support-form</string>
     <string name="verification_help_link" translatable="false">https://protonvpn.com/support/protonvpn-human-verification/</string>

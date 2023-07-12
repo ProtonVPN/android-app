@@ -34,6 +34,7 @@ import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.FragmentCountryListBinding
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.utils.Log
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
@@ -42,6 +43,9 @@ import com.xwray.groupie.GroupieViewHolder
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.network.domain.ApiResult
+
+private const val SECTION_REGULAR = "regular"
+private const val SECTION_DEDICATED_IPS = "dedicatedIps"
 
 @AndroidEntryPoint
 class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoader {
@@ -81,15 +85,31 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         groups: MutableList<Group>,
         @StringRes header: Int?,
         countries: List<VpnCountry>,
-        expandedCountriesIds: Set<Long>
+        expandedCountriesIds: Set<Long>,
+        showServerSections: Boolean = true,
+        groupId: String = SECTION_REGULAR,
+    ) {
+        val headerItem = header?.let { titleRes ->
+            val headerTitle = resources.getString(titleRes, countries.size)
+            HeaderItem(headerTitle, false, null)
+        }
+        addCountriesGroup(groups, headerItem, countries, expandedCountriesIds, showServerSections, groupId)
+    }
+
+    private fun addCountriesGroup(
+        groups: MutableList<Group>,
+        header: HeaderItem?,
+        countries: List<VpnCountry>,
+        expandedCountriesIds: Set<Long>,
+        showServerSections: Boolean = true,
+        groupId: String = SECTION_REGULAR,
     ) {
         if (header != null) {
-            val headerTitle = resources.getString(header, countries.size)
-            groups.add(HeaderItem(headerTitle, false, null))
+            groups.add(header)
         }
 
         for (country in countries) {
-            val expandableHeaderItem = object : CountryViewHolder(viewModel, country, viewLifecycleOwner) {
+            val expandableHeaderItem = object : CountryViewHolder(viewModel, country, groupId, viewLifecycleOwner) {
                 override fun onExpanded(position: Int) {
                     if (!viewModel.isSecureCoreEnabled) {
                         val layoutManager =
@@ -102,7 +122,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
             groups.add(ExpandableGroup(expandableHeaderItem).apply {
                 isExpanded = expandableHeaderItem.id in expandedCountriesIds &&
                     viewModel.hasAccessibleOnlineServer(country)
-                viewModel.getMappedServersForCountry(country).forEach { (title, servers) ->
+                viewModel.getMappedServersForCountry(country, showServerSections).forEach { (title, servers) ->
                     title?.let {
                         val titleString = resources.getString(it.titleRes, servers.size)
                         add(HeaderItem(titleString, true, it.infoType))
@@ -126,7 +146,25 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
             addCountriesGroup(newGroups, R.string.listFreeCountries, free, expandedCountriesIds)
             addCountriesGroup(newGroups, R.string.listPremiumCountries_new_plans, premium, expandedCountriesIds)
         } else {
-            addCountriesGroup(newGroups, null, viewModel.getCountriesForList(), expandedCountriesIds)
+            val dedicatedIpCountries = viewModel.getDedicatedIpCountriesForList()
+            if (dedicatedIpCountries.isNotEmpty()) {
+                val headerText = resources.getString(R.string.listGatewayCountries, dedicatedIpCountries.size)
+                val header = HeaderItem(headerText, false, InformationActivity.InfoType.DedicatedIps)
+                addCountriesGroup(
+                    newGroups,
+                    header,
+                    dedicatedIpCountries,
+                    expandedCountriesIds,
+                    showServerSections = false,
+                    groupId = SECTION_DEDICATED_IPS
+                )
+            }
+            addCountriesGroup(
+                newGroups,
+                R.string.listAllCountries.takeIf { dedicatedIpCountries.isNotEmpty() },
+                viewModel.getCountriesForList(),
+                expandedCountriesIds
+            )
         }
         groupAdapter.update(newGroups)
     }
@@ -134,8 +172,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
     private fun getExpandedCountriesIds(groupAdapter: GroupAdapter<GroupieViewHolder>) = with(groupAdapter) {
         (0 until groupCount).asSequence()
                 .filter { (getGroup(it) as? ExpandableGroup)?.isExpanded == true }
-                .map { getItem(it).id }
-                .toSet()
+                .mapTo(HashSet()) { getItem(it).id }
     }
 
     override fun getNetworkFrameLayout(): LoaderUI {

@@ -69,29 +69,24 @@ class CountryListViewModel @Inject constructor(
 
     data class ServerGroupTitle(val titleRes: Int, val infoType: InformationActivity.InfoType?)
 
-    fun getMappedServersForCountry(country: VpnCountry): List<ServersGroup> {
+    fun getMappedServersForCountry(country: VpnCountry, withSections: Boolean): List<ServersGroup> {
         return if (userData.secureCoreEnabled) {
             listOf(ServersGroup(null, country.connectableServers))
-        } else {
+        } else if (withSections) {
             getMappedServersForClassicView(country)
+        } else {
+            listOf(ServersGroup(null, country.connectableServers.sortedForUi()))
         }
     }
 
     private fun getMappedServersForClassicView(country: VpnCountry): List<ServersGroup> {
-        val countryServers = country.connectableServers
-            .sortedBy { it.displayCity }
-            .sortedBy { it.displayCity == null } // null cities go to the end of the list
-            .sortedBy { it.isPartneshipServer } // partnership servers go to the end of the list
+        val countryServers = country.connectableServers.sortedForUi()
         val freeServers = countryServers.filter { it.isFreeServer }
         val basicServers = countryServers.filter { it.isBasicServer }
         val plusServers = countryServers.filter { it.isPlusServer }
-        val internalServers = countryServers.filter { it.isPMTeamServer }
         val fastestServer = serverManager.getBestScoreServer(countryServers)?.copy()
 
         val groups: MutableList<ServersGroup> = mutableListOf()
-        if (internalServers.isNotEmpty()) {
-            groups.add(ServersGroup(R.string.listInternalServers, internalServers))
-        }
         fastestServer?.let {
             groups.add(ServersGroup(R.string.listFastestServer, listOf(fastestServer)))
         }
@@ -132,6 +127,12 @@ class CountryListViewModel @Inject constructor(
         else
             serverManager.getVpnCountries()
 
+    fun getDedicatedIpCountriesForList(): List<VpnCountry> =
+        if (userData.secureCoreEnabled)
+            emptyList()
+        else
+            serverManager.getDedicatedIpCountries()
+
     fun getFreeAndPremiumCountries(): Pair<List<VpnCountry>, List<VpnCountry>> =
         getCountriesForList().partition { it.hasAccessibleServer(currentUser.vpnUserCached()) }
 
@@ -143,4 +144,11 @@ class CountryListViewModel @Inject constructor(
 
     fun hasAccessibleOnlineServer(country: VpnCountry) =
         country.hasAccessibleOnlineServer(currentUser.vpnUserCached())
+
+    private fun List<Server>.sortedForUi() =
+        this.sortedBy { it.displayCity }
+            .sortedBy { it.displayCity == null } // null cities go to the end of the list
+            .sortedBy { it.isPartneshipServer } // partnership servers go to the end of the list
+
+
 }
