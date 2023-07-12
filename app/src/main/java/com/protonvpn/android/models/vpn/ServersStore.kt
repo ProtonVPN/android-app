@@ -34,18 +34,26 @@ class ServersStore(
     private val store: ObjectStore<ServersSerializationData>,
 ) {
     var vpnCountries: List<VpnCountry>
+    var dedicatedIpCountries: List<VpnCountry>
     var secureCoreEntryCountries: List<VpnCountry>
     var secureCoreExitCountries: List<VpnCountry>
 
     init {
         val data = runBlocking { store.read() }
         vpnCountries = data?.vpnCountries ?: emptyList()
+        dedicatedIpCountries = data?.dedicatedIpCountries ?: emptyList()
         secureCoreEntryCountries = data?.secureCoreEntryCountries ?: emptyList()
         secureCoreExitCountries = data?.secureCoreExitCountries ?: emptyList()
     }
 
     fun save() {
-        store.store(ServersSerializationData(vpnCountries, secureCoreEntryCountries, secureCoreExitCountries))
+        val data = ServersSerializationData(
+            vpnCountries = vpnCountries,
+            dedicatedIpCountries = dedicatedIpCountries,
+            secureCoreEntryCountries = secureCoreEntryCountries,
+            secureCoreExitCountries = secureCoreExitCountries
+        )
+        store.store(data)
     }
 
     fun migrate(
@@ -61,6 +69,7 @@ class ServersStore(
 
     fun clear() {
         vpnCountries = emptyList()
+        dedicatedIpCountries = emptyList()
         secureCoreEntryCountries = emptyList()
         secureCoreExitCountries = emptyList()
         store.clear()
@@ -91,4 +100,5 @@ class ServersSerializationData(
     val vpnCountries: List<VpnCountry>,
     val secureCoreEntryCountries: List<VpnCountry>,
     val secureCoreExitCountries: List<VpnCountry>,
+    val dedicatedIpCountries: List<VpnCountry>,
 )

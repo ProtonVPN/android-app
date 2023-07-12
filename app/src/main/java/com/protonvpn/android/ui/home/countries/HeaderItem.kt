@@ -22,7 +22,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemCountryHeaderBinding
-import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.setMinSizeTouchDelegate

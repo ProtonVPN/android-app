@@ -58,6 +58,8 @@ class InformationActivity : BaseActivityV2() {
         object Generic : InfoType()
         @Parcelize
         data class Streaming(val countryCode: String) : InfoType()
+        @Parcelize
+        object DedicatedIps : InfoType()
 
         sealed class Partners : InfoType() {
             @Parcelize
@@ -86,6 +88,7 @@ class InformationActivity : BaseActivityV2() {
             is InfoType.Generic -> setupGenericInfo()
             is InfoType.Streaming -> setupStreamingInfo(info.countryCode)
             is InfoType.Partners -> setupPartnershipInfo(info)
+            is InfoType.DedicatedIps -> setupDedicatedIpsInfo()
             null -> Unit
         }
     }
@@ -139,6 +142,15 @@ class InformationActivity : BaseActivityV2() {
             Constants.STREAMING_INFO_URL,
             titleString = getString(R.string.streaming_title_with_country, countryName),
             customViewProvider = { parent -> createStreamingServicesCustomView(country, parent) })
+    }
+
+    private fun setupDedicatedIpsInfo() {
+        addItem(
+            iconRes = R.drawable.ic_proton_servers,
+            titleRes = R.string.activity_information_gateways_title,
+            descriptionRes = R.string.info_gateways_description,
+            url = Constants.DEDICATED_IPS_INFO_URL
+        )
     }
 
     private fun createServerLoadCustomView(parent: ViewGroup) =
