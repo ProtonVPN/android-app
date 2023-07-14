@@ -20,12 +20,9 @@
 package com.protonvpn.tests.login
 
 import androidx.test.espresso.Espresso
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.data.Timeouts
-import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testRules.ProtonHiltAndroidRule
+import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,7 +32,6 @@ import me.proton.core.test.android.robots.auth.login.TwoFaRobot
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 
 /**
  * [TwoFaTests] contains UI tests for 2FA flows.
@@ -43,17 +39,15 @@ import org.junit.rules.RuleChain
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 class TwoFaTests {
+
+    @get:Rule
+    val rule = realBackendComposeRule()
+
     private val user = TestUser.twofa
     private val invalidCode = "123456"
 
-    @get:Rule
-    val rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Backend))
-        .around(ActivityScenarioRule(MobileMainActivity::class.java))
-
     @Before
     fun setUp() {
-        TestSetup.setCompletedOnboarding()
         TestSetup.quark?.jailUnban()
         AddAccountRobot()
             .signIn()

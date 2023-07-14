@@ -20,6 +20,7 @@
 package com.protonvpn.actions
 
 import com.google.android.material.textfield.TextInputEditText
+import com.protonvpn.actions.compose.HomeRobot
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
@@ -32,17 +33,15 @@ import java.net.URLDecoder
  */
 class LoginRobot : BaseRobot() {
 
-    fun signIn(testUser: TestUser): HomeRobot {
+    fun signIn(testUser: TestUser) {
         enterCredentials(testUser)
-        clickElementById<HomeRobot>(R.id.signInButton)
-        return waitUntilDisplayedByContentDesc(R.string.hamburgerMenu)
+        clickElementById<LoginRobot>(R.id.signInButton)
     }
 
-    fun signIn(testUser: User): HomeRobot {
+    fun signIn(testUser: User) {
         replaceText<LoginRobot>(R.id.usernameInput, testUser.name)
         replaceText<LoginRobot>(R.id.passwordInput, URLDecoder.decode(testUser.password, "utf-8"))
-        clickElementById<HomeRobot>(R.id.signInButton)
-        return waitUntilDisplayedByContentDesc(R.string.hamburgerMenu)
+        clickElementById<LoginRobot>(R.id.signInButton)
     }
 
     fun signInAndWaitForCountryInCountryList(testUser: TestUser, country: String): RealConnectionRobot{

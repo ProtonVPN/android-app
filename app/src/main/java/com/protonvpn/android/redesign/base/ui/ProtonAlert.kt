@@ -34,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,10 +64,12 @@ fun ProtonAlert(
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            ProtonDialogButton(onClick = { onConfirm(checkBoxValue.value) }, text = confirmLabel)
+            ProtonDialogButton(onClick = { onConfirm(checkBoxValue.value) }, text = confirmLabel,
+                modifier = Modifier.testTag("confirmButton"))
         },
         dismissButton = dismissLabel?.let {
-            { ProtonDialogButton(onClick = { onDismissButton(checkBoxValue.value) }, text = it) }
+            { ProtonDialogButton(onClick = { onDismissButton(checkBoxValue.value) }, text = it,
+                modifier = Modifier.testTag("dismissButton")) }
         },
         title = title?.let {
             { Text(text = it, style = ProtonTheme.typography.headlineNorm) }
@@ -93,10 +96,11 @@ fun ProtonAlert(
 }
 
 @Composable
-fun ProtonDialogButton(onClick: () -> Unit, text: String) {
+fun ProtonDialogButton(onClick: () -> Unit, text: String, modifier: Modifier = Modifier) {
     ProtonTextButton(
         onClick = onClick,
-        style = ProtonTheme.typography.headlineSmallUnspecified
+        style = ProtonTheme.typography.headlineSmallUnspecified,
+        modifier = modifier
     ) {
         Text(text = text)
     }

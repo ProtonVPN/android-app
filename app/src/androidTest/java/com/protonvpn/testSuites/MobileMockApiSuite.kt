@@ -37,7 +37,6 @@ import org.junit.runners.Suite
 //    HomeActivityPromoOfferTests::class,
 //    PartnershipTests::class,
 //    PromoOfferActivityTests::class,
-//    LogoutTests::class,
     ConnectionTests::class,
     FreeRescopeTests::class,
     // Note: when we have a lot of isolated tests they can be run in a separate CI job without test orchestrator.

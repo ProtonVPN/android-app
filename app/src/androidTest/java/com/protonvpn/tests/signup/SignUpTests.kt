@@ -25,11 +25,8 @@ import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.OnboardingRobot
 import com.protonvpn.actions.SignupRobot
-import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.ui.main.MobileMainActivity
-import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.testRules.ProtonHiltAndroidRule
-import com.protonvpn.testRules.ProtonHiltInjectRule
+import com.protonvpn.android.redesign.main_screen.ui.MainActivity
+import com.protonvpn.testRules.CommonRuleChains.realBackendRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.test.MinimalSignUpExternalTests
@@ -51,31 +48,20 @@ import javax.inject.Inject
 @RunWith(AndroidJUnit4::class)
 @SdkSuppress(minSdkVersion = 28) // Signups tests does not work on older versions due to animations bug
 @HiltAndroidTest
-class SignUpTests : MinimalSignUpExternalTests {
+class SignupTests : MinimalSignUpExternalTests {
 
-    @get:Rule(order = 0)
-    val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
-
-    @get:Rule(order = 1)
-    val injectRule = ProtonHiltInjectRule(hiltRule)
-
-    @get:Rule(order = 2)
-    val acceptExternalRule = AcceptExternalRule { extraHeaderProvider }
-
-    @get:Rule(order = 3)
-    val composeRule = createAndroidComposeRule<MobileMainActivity>().apply {
-        FusionConfig.Compose.testRule.set(this)
-    }
-
-    @Inject
-    lateinit var appConfig: AppConfig
+    @get:Rule
+    val rule = realBackendRule()
+        .around(AcceptExternalRule { extraHeaderProvider })
+        .around(createAndroidComposeRule<MainActivity>().apply {
+            FusionConfig.Compose.testRule.set(this)
+        })
 
     @Inject
     lateinit var extraHeaderProvider: ExtraHeaderProvider
 
     @Before
     fun setUp() {
-        TestSetup.setCompletedOnboarding()
         TestSetup.quark?.jailUnban()
     }
 
@@ -113,6 +99,5 @@ class SignUpTests : MinimalSignUpExternalTests {
             .closeWelcomeDialog()
             .apply { verify { onboardingPaymentIdDisplayed() } }
             .skipOnboardingPayment()
-            .verify { isInMainScreen() }
     }
 }

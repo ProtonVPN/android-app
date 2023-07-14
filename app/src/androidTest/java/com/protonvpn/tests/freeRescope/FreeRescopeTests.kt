@@ -31,6 +31,7 @@ import com.protonvpn.android.appconfig.DefaultPortsConfig
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.RatingConfig
 import com.protonvpn.android.appconfig.SmartProtocolConfig
+import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.data.DefaultData
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.MockedServers
@@ -72,7 +73,8 @@ class FreeRescopeTests {
     @get:Rule
     val rule = mockedLoggedInRule(
         testUser = TestUser.freeUser,
-        mockedBackend = mockApiConfig
+        mockedBackend = mockApiConfig,
+        activityClass = MobileMainActivity::class.java
     )
 
     @Before
