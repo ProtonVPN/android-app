@@ -129,7 +129,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
                     }
                     servers.forEach {
                         add(CountryExpandedViewHolder(
-                            viewModel, it, viewLifecycleOwner, title?.titleRes == R.string.listFastestServer))
+                            viewModel, it, viewLifecycleOwner, title?.titleRes == R.string.listFastestServer, groupId))
                     }
                 }
             })

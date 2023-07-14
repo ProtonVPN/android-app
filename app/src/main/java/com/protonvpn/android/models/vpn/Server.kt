@@ -90,7 +90,7 @@ data class Server(
         get() = tier == 2
 
     val isDedicatedIpServer: Boolean
-        get() = tier == 3 || features.hasFlag(SERVER_FEATURE_RESTRICTED)
+        get() = features.hasFlag(SERVER_FEATURE_RESTRICTED)
 
     val isSecureCoreServer: Boolean
         get() = features.hasFlag(SERVER_FEATURE_SECURE_CORE)

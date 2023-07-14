@@ -33,12 +33,14 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnStateMonitor
+import java.util.Objects
 
 class CountryExpandedViewHolder(
     private val viewModel: CountryListViewModel,
     private val server: Server,
     private val parentLifeCycle: LifecycleOwner,
-    private val fastest: Boolean
+    private val fastest: Boolean,
+    private val groupId: String
 ) : BindableItemEx<ItemServerListBinding>() {
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
@@ -52,7 +54,7 @@ class CountryExpandedViewHolder(
         }
     }
 
-    override fun getId() = server.serverId.hashCode().toLong()
+    override fun getId() = Objects.hash(server.serverId, groupId).toLong()
 
     override fun bind(viewBinding: ItemServerListBinding, position: Int) {
         super.bind(viewBinding, position)

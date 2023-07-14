@@ -47,13 +47,17 @@ class Search @Inject constructor(
     operator fun invoke(term: String, secureCore: Boolean): Result {
         if (term.isBlank()) return Result(emptyList(), emptyList(), emptyList())
 
-        val countries = if (secureCore)
-            serverManager.getSecureCoreExitCountries() else serverManager.getVpnCountries()
+        val countries =
+            if (secureCore) serverManager.getSecureCoreExitCountries()
+            else serverManager.getVpnCountries()
+        val allServerCountries =
+            if (secureCore) serverManager.getSecureCoreExitCountries().asSequence()
+            else sequenceOf(serverManager.getVpnCountries() + serverManager.getDedicatedIpCountries()).flatten()
         val normalizedTerm = normalize(term)
         return Result(
             searchCities(normalizedTerm, countries),
             searchCountries(normalizedTerm, countries),
-            searchServers(normalizedTerm, countries)
+            searchServers(normalizedTerm, allServerCountries)
         )
     }
 
@@ -105,7 +109,7 @@ class Search @Inject constructor(
         }.toList()
     }
 
-    private fun searchServers(term: String, countries: List<VpnCountry>): List<Match<Server>> {
+    private fun searchServers(term: String, countries: Sequence<VpnCountry>): List<Match<Server>> {
         return countries.asSequence().flatMap { it.serverList.asSequence() }.mapNotNull { server ->
             find(term, server.serverName, false)?.let { match ->
                 Match(match, server)

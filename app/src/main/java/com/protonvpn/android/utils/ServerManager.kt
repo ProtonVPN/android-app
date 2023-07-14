@@ -106,14 +106,21 @@ class ServerManager @Inject constructor(
         get() = (lastUpdateTimestamp > 0L || migrateUpdatedAt != null) && serversStore.vpnCountries.isNotEmpty()
 
     val isOutdated: Boolean
-        get() = lastUpdateTimestamp == 0L || serversStore.vpnCountries.isEmpty() ||
+        get() = lastUpdateTimestamp == 0L ||
+            (serversStore.vpnCountries.isEmpty() && serversStore.dedicatedIpCountries.isEmpty()) ||
             wallClock() - lastUpdateTimestamp >= ServerListUpdater.LIST_CALL_DELAY ||
             !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE ||
             translationsLang != Locale.getDefault().language
 
     private val allServers get() =
-        sequenceOf(serversStore.vpnCountries, serversStore.secureCoreEntryCountries, serversStore.secureCoreExitCountries)
-            .flatten().flatMap { it.serverList.asSequence() }
+        sequenceOf(
+            serversStore.vpnCountries,
+            serversStore.dedicatedIpCountries,
+            serversStore.secureCoreEntryCountries,
+            serversStore.secureCoreExitCountries
+        )
+            .flatten()
+            .flatMap { it.serverList.asSequence() }
 
     /** Get the number of all servers. Not very efficient. */
     val allServerCount get() = allServers.count()
@@ -190,7 +197,8 @@ class ServerManager @Inject constructor(
 
     override fun toString(): String {
         val lastUpdateTimestampLog = lastUpdateTimestamp.takeIf { it != 0L }?.let { ProtonLogger.formatTime(it) }
-        return "vpnCountries: ${serversStore.vpnCountries.size} entry: ${serversStore.secureCoreEntryCountries.size}" +
+        return "vpnCountries: ${serversStore.vpnCountries.size} gateways: ${serversStore.dedicatedIpCountries.size}" +
+            " entry: ${serversStore.secureCoreEntryCountries.size}" +
             " exit: ${serversStore.secureCoreExitCountries.size} saved: ${savedProfiles.profileList?.size} " +
             "ServerManager Updated: $lastUpdateTimestampLog"
     }
