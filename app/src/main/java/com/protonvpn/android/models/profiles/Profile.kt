@@ -109,14 +109,6 @@ data class Profile @JvmOverloads constructor(
         this.transmissionProtocol = protocol.transmission?.toString()
     }
 
-    fun getNetShieldProtocol(userData: UserData, vpnUser: VpnUser?, appConfig: AppConfig): NetShieldProtocol {
-        return if (appConfig.getFeatureFlags().netShieldEnabled) {
-            userData.getNetShieldProtocol(vpnUser)
-        } else {
-            NetShieldProtocol.DISABLED
-        }
-    }
-
     fun hasCustomProtocol() = protocol != null
 
     override fun equals(other: Any?): Boolean {
