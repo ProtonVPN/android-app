@@ -17,33 +17,32 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.tests.account
+package com.protonvpn.tests.connection
 
-import androidx.test.core.app.ActivityScenario
 import com.protonvpn.actions.LoginRobot
-import com.protonvpn.actions.RealConnectionRobot
+import com.protonvpn.actions.compose.ConnectionPanelRobot
+import com.protonvpn.actions.compose.ConnectionRobot
+import com.protonvpn.actions.compose.HomeRobot
+import com.protonvpn.actions.compose.interfaces.verify
+import com.protonvpn.android.R
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.vpn.ProtocolSelection
-import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.data.DefaultData
-import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testRules.ProtonHiltAndroidRule
-import com.protonvpn.testRules.TestSettingsOverrideRule
+import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testsHelper.ServerManagerHelper
-import com.protonvpn.testsHelper.TestSetup
 import com.protonvpn.testsHelper.UserDataHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import me.proton.core.test.android.robots.auth.AddAccountRobot
+import me.proton.test.fusion.ui.compose.wrappers.NodeMatchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 import javax.inject.Inject
 
 /**
@@ -52,18 +51,13 @@ import javax.inject.Inject
 @HiltAndroidTest
 class RealConnectionTests {
 
-    private val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
-
     @get:Rule
-    val rules = RuleChain
-        .outerRule(TestSettingsOverrideRule(false))
-        .around(hiltRule)
+    val rule = realBackendComposeRule()
 
     @Inject
     lateinit var vpnStateMonitor: VpnStateMonitor
 
     private val loginRobot = LoginRobot()
-    private val connectionRobot = RealConnectionRobot()
     private val addAccountRobot = AddAccountRobot()
     private lateinit var userDataHelper: UserDataHelper
 
@@ -71,48 +65,66 @@ class RealConnectionTests {
     fun setUp() {
         userDataHelper = UserDataHelper()
         userDataHelper.logoutUser()
-        hiltRule.inject()
-        TestSetup.setCompletedOnboarding()
-        ActivityScenario.launch(MobileMainActivity::class.java)
         ServerManagerHelper().serverManager.clearCache()
     }
 
     @Test
     fun realConnectionOpenVpnUDP() {
-        realConnection(ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP))
+        realConnection(
+            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
+            R.string.settingsProtocolNameOpenVpnUdp
+        )
     }
 
     @Test
     fun realConnectionOpenVpnTCP() {
-        realConnection(ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP))
+        realConnection(
+            ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+            R.string.settingsProtocolNameOpenVpnTcp
+        )
     }
 
     @Test
     fun realConnectionWireguard() {
-        realConnection(ProtocolSelection(VpnProtocol.WireGuard))
+        realConnection(
+            ProtocolSelection(VpnProtocol.WireGuard),
+            R.string.settingsProtocolNameWireguard
+        )
     }
 
     @Test
     fun realConnectionWireguardTCP() {
-        realConnection(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP))
+        realConnection(
+            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
+            R.string.settingsProtocolNameWireguardTCP
+
+        )
     }
 
     @Test
     fun realConnectionWireguardTLS() {
-        realConnection(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
+        realConnection(
+            ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
+            R.string.settingsProtocolNameWireguardTLS
+        )
     }
 
-    private fun realConnection(protocol: ProtocolSelection) {
+    private fun realConnection(protocol: ProtocolSelection, expectedProtocolName: Int) {
         userDataHelper.setProtocol(protocol.vpn, protocol.transmission)
         addAccountRobot.signIn()
-        loginRobot.signInAndWaitForCountryInCountryList(TestUser.plusUser, "Austria")
-        connectionRobot.connectThroughQuickConnectRealConnection()
-            .verify {
-                runBlocking { checkIfConnectedAndCorrectIpAddressIsDisplayed(vpnStateMonitor.exitIp.value!!) }
-                checkProtocol(protocol)
-            }
-        connectionRobot.disconnectFromVPN()
-            .verify { checkIfDisconnected() }
+        loginRobot.signIn(TestUser.plusUser)
+            HomeRobot.verify { isLoggedIn() }
+        ConnectionRobot.quickConnect()
+            .allowVpnPermission()
+            .verify { isConnected() }
+        HomeRobot.openConnectionPanel()
+        ConnectionPanelRobot.verify {
+            runBlocking { correctIpIsDisplayed(vpnStateMonitor.exitIp.value!!) }
+            correctProtocolIsDisplayed(expectedProtocolName)
+        }
+        ConnectionPanelRobot.goBack()
+        ConnectionRobot.disconnect()
+            .verify { isDisconnected() }
     }
 
     @After

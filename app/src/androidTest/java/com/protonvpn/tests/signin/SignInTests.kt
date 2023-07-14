@@ -19,15 +19,12 @@
 
 package com.protonvpn.tests.signin
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.protonvpn.actions.HomeRobot
+import com.protonvpn.actions.compose.HomeRobot
+import com.protonvpn.actions.compose.interfaces.verify
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.ui.main.MobileMainActivity
-import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.testRules.ProtonHiltAndroidRule
-import com.protonvpn.testRules.ProtonHiltInjectRule
+import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.test.MinimalSignInExternalTests
 import org.junit.Ignore
@@ -41,19 +38,13 @@ import javax.inject.Inject
 @Ignore("TODO: Update SSO credentials.")
 class SignInTests : MinimalSignInExternalTests {
 
-    @get:Rule(order = 0)
-    val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
-
-    @get:Rule(order = 1)
-    val injectRule = ProtonHiltInjectRule(hiltRule)
-
-    @get:Rule(order = 3)
-    val activityRule = ActivityScenarioRule(MobileMainActivity::class.java)
+    @get:Rule
+    val rule = realBackendComposeRule()
 
     @Inject
     lateinit var appConfig: AppConfig
 
     override fun verifyAfter() {
-        HomeRobot().verify { isInMainScreen() }
+        HomeRobot.verify { isLoggedIn() }
     }
 }

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2021 Proton AG
+ *  Copyright (c) 2023 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -20,16 +20,14 @@
 package com.protonvpn.tests.login
 
 import android.util.Log
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
+import com.protonvpn.actions.compose.HomeRobot
+import com.protonvpn.actions.compose.interfaces.verify
 import com.protonvpn.android.BuildConfig
-import com.protonvpn.android.ui.main.MobileMainActivity
-import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testRules.ProtonHiltAndroidRule
+import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.serialization.SerializationException
@@ -38,39 +36,37 @@ import me.proton.core.test.quark.data.User
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 import java.net.URLEncoder
+
 
 /**
  * [LoginTests] contains UI tests for Login flow
  */
+
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
 class LoginTests {
 
-    private lateinit var loginRobot: LoginRobot
-    private lateinit var homeRobot: HomeRobot
-
     @get:Rule
-    val rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Backend))
-        .around(ActivityScenarioRule(MobileMainActivity::class.java))
+    val rule = realBackendComposeRule()
+
+    private lateinit var loginRobot: LoginRobot
+    private lateinit var addAccountRobot: AddAccountRobot
 
     @Before
     fun setUp() {
-        TestSetup.setCompletedOnboarding()
         TestSetup.quark?.jailUnban()
         loginRobot = LoginRobot()
-        homeRobot = HomeRobot()
+        addAccountRobot = AddAccountRobot()
         AddAccountRobot().signIn()
     }
 
     @Test
     fun loginWithPlusUser() {
         loginRobot.signIn(TestUser.plusUser)
-            .verify { isInMainScreen() }
+        HomeRobot.verify { isLoggedIn() }
     }
 
     @Test
@@ -95,9 +91,9 @@ class LoginTests {
     @Test
     fun rememberMeFunctionality() {
         loginRobot.signIn(TestUser.plusUser)
-            .verify { isInMainScreen() }
-        homeRobot.logout()
-            .signIn()
+        HomeRobot.verify { isLoggedIn() }
+            .logout()
+        addAccountRobot.signIn()
             .verify { view.withText(TestUser.plusUser.email).checkDisplayed() }
     }
 
@@ -116,6 +112,6 @@ class LoginTests {
         }
 
         loginRobot.signIn(specialCharsUser)
-            .verify { isInMainScreen() }
+        HomeRobot.verify { isLoggedIn() }
     }
 }

@@ -19,12 +19,10 @@
 
 package com.protonvpn.tests.login
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.protonvpn.actions.HomeRobot
-import com.protonvpn.android.ui.main.MobileMainActivity
-import com.protonvpn.mocks.TestApiConfig
+import com.protonvpn.actions.compose.HomeRobot
+import com.protonvpn.actions.compose.interfaces.verify
 import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testRules.ProtonHiltAndroidRule
+import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,7 +32,6 @@ import me.proton.core.auth.test.robot.AddAccountRobot
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 
 /**
  * [TwoPassTests] contains UI tests for TwoPass flows.
@@ -42,16 +39,14 @@ import org.junit.rules.RuleChain
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 class TwoPassTests {
-    private val user = TestUser.twopass
 
     @get:Rule
-    val rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Backend))
-        .around(ActivityScenarioRule(MobileMainActivity::class.java))
+    val rule = realBackendComposeRule()
+
+    private val user = TestUser.twopass
 
     @Before
     fun setUp() {
-        TestSetup.setCompletedOnboarding()
         TestSetup.quark?.jailUnban()
     }
 
@@ -59,6 +54,6 @@ class TwoPassTests {
     fun signInTwoPassDoNotShowTwoPassScreen() = runTest {
         AddAccountRobot.clickSignIn()
         SignInFlow.signInInternal(user.email, user.password)
-        HomeRobot().verify { isInMainScreen() }
+        HomeRobot.verify { isLoggedIn() }
     }
 }

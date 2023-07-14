@@ -18,6 +18,9 @@
  */
 package com.protonvpn.actions
 
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.ViewMatchers
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
@@ -43,6 +46,15 @@ class ConnectionRobot : BaseRobot() {
             assertFalse(stateMonitor.isConnected)
         }
         return waitUntilDisplayedByText(R.string.loaderNotConnected)
+    }
+
+    fun clickOnConnectButtonUntilConnected(profileName: String): ConnectionRobot {
+        view.waitForCondition {
+            clickElementByIdAndContentDescription<Any>(R.id.buttonConnect, profileName)
+            Espresso.onView(ViewMatchers.withId(R.id.buttonDisconnect))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
+        return ConnectionRobot()
     }
 
     class Verify : BaseVerify(){

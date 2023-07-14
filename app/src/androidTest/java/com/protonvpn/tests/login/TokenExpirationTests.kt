@@ -41,6 +41,7 @@ import org.junit.rules.RuleChain
 import javax.inject.Inject
 import kotlin.test.assertNotNull
 
+//TODO: Adapt this test case to redesign when more options to trigger API call will be given
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 class TokenExpirationTests {

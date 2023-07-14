@@ -21,20 +21,42 @@
 
 package com.protonvpn.testRules
 
+import android.app.Activity
+import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.protonvpn.android.ui.main.MobileMainActivity
+import com.protonvpn.android.redesign.main_screen.ui.MainActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import me.proton.test.fusion.FusionConfig
 import org.junit.rules.RuleChain
 
 object CommonRuleChains {
+
+    fun Any.realBackendRule(): RuleChain {
+        val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
+
+        return RuleChain
+            .outerRule(TestSettingsOverrideRule(false))
+            .around(hiltRule)
+            .around(ProtonHiltInjectRule(hiltRule))
+    }
+
+    fun Any.realBackendComposeRule(): RuleChain {
+        val composeRule = createAndroidComposeRule<MainActivity>()
+        FusionConfig.Compose.testRule.set(composeRule)
+
+        return realBackendRule()
+            .around(composeRule)
+    }
+
     fun Any.mockedLoggedInRule(
         testUser: TestUser = TestUser.plusUser,
-        mockedBackend: TestApiConfig = TestApiConfig.Mocked(testUser)
+        mockedBackend: TestApiConfig = TestApiConfig.Mocked(testUser),
+        // Not using generics to allow for default value.
+        activityClass: Class<out ComponentActivity> = MainActivity::class.java
     ): RuleChain {
         val hiltRule = ProtonHiltAndroidRule(this, mockedBackend)
-        val composeRule = createAndroidComposeRule<MobileMainActivity>()
+        val composeRule = createAndroidComposeRule(activityClass)
         FusionConfig.Compose.testRule.set(composeRule)
 
         return RuleChain

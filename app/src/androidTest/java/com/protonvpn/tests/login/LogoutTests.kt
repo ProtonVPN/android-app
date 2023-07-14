@@ -21,21 +21,17 @@ package com.protonvpn.tests.login
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.protonvpn.actions.ConnectionRobot
-import com.protonvpn.actions.HomeRobot
-import com.protonvpn.android.ui.main.MobileMainActivity
+import com.protonvpn.actions.compose.ConnectionRobot
+import com.protonvpn.actions.compose.HomeRobot
+import com.protonvpn.actions.compose.interfaces.verify
 import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.data.DefaultData
-import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.test.shared.TestUser
-import com.protonvpn.testRules.LoggedInActivityTestRule
-import com.protonvpn.testRules.ProtonHiltAndroidRule
-import com.protonvpn.testRules.SetLoggedInUserRule
+import com.protonvpn.testRules.CommonRuleChains
+import com.protonvpn.testRules.CommonRuleChains.mockedLoggedInRule
+import com.protonvpn.testsHelper.ServiceTestHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 
 /**
@@ -45,57 +41,40 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
 class LogoutTests {
-    // Start via the MobileMainActivity so that logging out can navigate back to it.
-    private val testRule = LoggedInActivityTestRule(MobileMainActivity::class.java)
 
     @get:Rule
-    var rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Mocked(TestUser.plusUser)))
-        .around(SetLoggedInUserRule(TestUser.plusUser))
-        .around(testRule)
-
-    private lateinit var homeRobot: HomeRobot
-    private lateinit var connectionRobot: ConnectionRobot
+    val rule = mockedLoggedInRule()
 
     @Before
     fun setup() {
-        homeRobot = HomeRobot()
-        connectionRobot = ConnectionRobot()
+        ServiceTestHelper().mockVpnBackend.stateOnConnect = VpnState.Connected
     }
 
     @Test
     fun successfulLogout() {
-        homeRobot.logout()
+        HomeRobot.logout()
             .verify { addAccountElementsDisplayed() }
-    }
-
-    @Test
-    fun logoutWhileConnectedToVpn() {
-        testRule.mockStatusOnConnect(VpnState.Connected)
-        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
-            .verify { isConnected() }
-        homeRobot.logout()
-        homeRobot.verify {
-                loginScreenIsNotDisplayed()
-                warningMessageIsDisplayed()
-            }
-        homeRobot.logoutAfterWarning()
-            .verify { addAccountElementsDisplayed() }
-        connectionRobot.verify { isDisconnectedServiceHelper() }
     }
 
     @Test
     fun cancelLogoutWhileConnectedToVpn() {
-        testRule.mockStatusOnConnect(VpnState.Connected)
-        homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
+        ConnectionRobot.quickConnect()
             .verify { isConnected() }
-        homeRobot.logout()
-        homeRobot.verify {
-                loginScreenIsNotDisplayed()
-                warningMessageIsDisplayed()
-            }
-        homeRobot.clickCancel()
-        homeRobot.verify { loginScreenIsNotDisplayed() }
-        connectionRobot.verify { isConnected() }
+        HomeRobot.logout()
+        HomeRobot.verify { signOutWarningMessageIsDisplayed() }
+        HomeRobot.cancelLogout()
+            .verify { isLoggedIn() }
+        HomeRobot.navigateToHome()
+        ConnectionRobot.verify { isConnected() }
+    }
+
+    @Test
+    fun logoutWhileConnectedToVpn() {
+        ConnectionRobot.quickConnect()
+            .verify { isConnected() }
+        HomeRobot.logout()
+        HomeRobot.verify { signOutWarningMessageIsDisplayed() }
+        HomeRobot.confirmLogout()
+            .verify { addAccountElementsDisplayed() }
     }
 }
