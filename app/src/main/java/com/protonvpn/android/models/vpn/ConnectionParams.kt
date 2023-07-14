@@ -18,13 +18,9 @@
  */
 package com.protonvpn.android.models.vpn
 
-import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import java.util.UUID
@@ -43,20 +39,6 @@ open class ConnectionParams(
     open val info get() = "IP: ${connectingDomain?.entryDomain}/$entryIp Protocol: $protocol"
 
     val protocolSelection get() = protocol?.let { ProtocolSelection(it, transmissionProtocol) }
-
-    fun getVpnUsername(userData: UserData, vpnUser: VpnUser, appConfig: AppConfig): String {
-        var username = vpnUser.name + profile.getNetShieldProtocol(userData, vpnUser, appConfig).protocolString +
-            Constants.VPN_USERNAME_PRODUCT_SUFFIX
-        if (!userData.isVpnAcceleratorEnabled(appConfig.getFeatureFlags()))
-            username += "+nst"
-        val safeMode = userData.isSafeModeEnabled(appConfig.getFeatureFlags())
-        if (safeMode != null)
-            username += if (safeMode) "+sm" else "+nsm"
-        if (!userData.randomizedNatEnabled)
-            username += "+nr"
-        bouncing?.let { username += "+b:$it" }
-        return username
-    }
 
     val bouncing: String? get() = connectingDomain?.label?.takeIf(String::isNotBlank)
 

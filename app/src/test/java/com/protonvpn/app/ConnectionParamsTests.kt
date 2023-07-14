@@ -25,7 +25,6 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -79,7 +78,6 @@ class ConnectionParamsTests {
         every { userData.isVpnAcceleratorEnabled(any()) } returns true
         every { userData.isSafeModeEnabled(any()) } returns null
         every { userData.randomizedNatEnabled } returns true
-        every { profile.getNetShieldProtocol(any(), any(), any()) } returns NetShieldProtocol.ENABLED_EXTENDED
         every { connectingDomain.label } returns "label"
         every { appConfig.getFeatureFlags() } returns featureFlags
 
@@ -89,73 +87,6 @@ class ConnectionParamsTests {
     @After
     fun tearDown() {
         unmockkObject(Constants)
-    }
-
-    @Test
-    fun testUsernameSuffixes() {
-        Assert.assertEquals(
-            setOf("user", "f2", "pa", "b:label"),
-            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet()
-        )
-    }
-
-    @Test
-    fun testTvSuffix() {
-        every { Constants.VPN_USERNAME_PRODUCT_SUFFIX } returns "+pt"
-        val result = params.getVpnUsername(userData, vpnUser, appConfig).split("+")
-
-        Assert.assertEquals(
-            setOf("user", "f2", "pt", "b:label"),
-            result.toSet()
-        )
-    }
-
-    @Test
-    fun testNoLabelSuffix() {
-        every { connectingDomain.label } returns null
-        Assert.assertEquals(
-            setOf("user", "f2", "pa"),
-            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet()
-        )
-    }
-
-    @Test
-    fun testSplitTcpSuffixSettings() {
-        every { userData.isVpnAcceleratorEnabled(any()) } returns false
-        Assert.assertEquals(
-            setOf("user", "f2", "pa", "b:label", "nst"),
-            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet()
-        )
-    }
-
-    @Test
-    fun testSafeModeEnabled() {
-        every { userData.isSafeModeEnabled(any()) } returns true
-
-        Assert.assertEquals(
-            setOf("user", "f2", "pa", "b:label", "sm"),
-            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet()
-        )
-    }
-
-    @Test
-    fun testSafeModeDisabled() {
-        every { userData.isSafeModeEnabled(any()) } returns false
-
-        Assert.assertEquals(
-            setOf("user", "f2", "pa", "b:label", "nsm"),
-            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet()
-        )
-    }
-
-    @Test
-    fun testRandomizedNatDisabled() {
-        every { userData.randomizedNatEnabled } returns false
-
-        Assert.assertEquals(
-            setOf("user", "f2", "pa", "b:label", "nr"),
-            params.getVpnUsername(userData, vpnUser, appConfig).split("+").toSet()
-        )
     }
 
     @Test
