@@ -22,6 +22,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.search.Search
 import com.protonvpn.android.utils.CountryTools
@@ -30,6 +31,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.app.vpn.createInMemoryServersStore
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -59,6 +61,9 @@ class SearchTests {
 
     private lateinit var search: Search
 
+    private val dedicatedIpServer = createServer("dedicatedIp", "XX#1", features = SERVER_FEATURE_RESTRICTED)
+    private val testServers = MockedServers.serverList + dedicatedIpServer
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -68,7 +73,7 @@ class SearchTests {
 
         val supportsProtocol = SupportsProtocol(appConfig)
         val serverManager = ServerManager(mockUserData, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true))
-        serverManager.setServers(MockedServers.serverList, Locale.getDefault().language)
+        serverManager.setServers(testServers, Locale.getDefault().language)
         search = Search(serverManager)
     }
 
@@ -104,5 +109,10 @@ class SearchTests {
     @Test
     fun secureCoreServerSearch() {
         assertTrue(search("FI", true).servers.any { it.value.serverName == "CH-FI#1" })
+    }
+
+    @Test
+    fun dedicatedIpServerSearch() {
+        assertEquals(listOf(dedicatedIpServer), search("XX#1", false).servers.map { it.value })
     }
 }
