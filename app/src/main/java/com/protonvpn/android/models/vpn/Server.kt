@@ -89,6 +89,9 @@ data class Server(
     val isPlusServer: Boolean
         get() = tier == 2
 
+    val isPMTeamServer: Boolean
+        get() = tier == 3 && !isDedicatedIpServer
+
     val isDedicatedIpServer: Boolean
         get() = features.hasFlag(SERVER_FEATURE_RESTRICTED)
 
