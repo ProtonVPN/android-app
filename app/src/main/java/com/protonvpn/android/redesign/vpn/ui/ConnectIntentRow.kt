@@ -39,6 +39,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
@@ -65,6 +66,8 @@ fun ConnectIntentLabels(
     secondaryLabel: ConnectIntentSecondaryLabel?,
     serverFeatures: Set<ServerFeature>,
     isConnected: Boolean,
+    labelStyle: TextStyle = ProtonTheme.typography.defaultNorm,
+    detailsStyle: TextStyle = ProtonTheme.typography.captionUnspecified,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -73,7 +76,7 @@ fun ConnectIntentLabels(
         Row {
             Text(
                 exitCountry.label(),
-                style = ProtonTheme.typography.defaultNorm,
+                style = labelStyle,
                 modifier = Modifier.testTag("primaryLabel")
             )
             if (isConnected) {
@@ -84,6 +87,7 @@ fun ConnectIntentLabels(
             ServerDetailsRow(
                 secondaryLabel?.label(),
                 serverFeatures,
+                detailsStyle,
                 modifier = Modifier.testTag("secondaryLabel")
             )
         }
@@ -96,6 +100,7 @@ fun ConnectIntentLabels(
 private fun ServerDetailsRow(
     detailsText: String?,
     features: Set<ServerFeature>,
+    detailsStyle: TextStyle,
     modifier: Modifier = Modifier,
 ) {
     val bulletPadding = 8.dp
@@ -108,7 +113,7 @@ private fun ServerDetailsRow(
             if (detailsText != null) {
                 Text(
                     detailsText,
-                    style = ProtonTheme.typography.captionUnspecified,
+                    style = detailsStyle,
                     modifier = Modifier.padding(end = bulletPadding)
                 )
                 needsBullet = true
@@ -141,7 +146,7 @@ private fun ConnectIntentSecondaryLabel.label() = when (this) {
 }
 
 @Composable
-private fun CountryId.label(): String =
+fun CountryId.label(): String =
     if (isFastest) {
         stringResource(R.string.fastest_country)
     } else {
@@ -149,7 +154,7 @@ private fun CountryId.label(): String =
     }
 
 @Composable
-private fun viaCountry(entryCountry: CountryId): String =
+fun viaCountry(entryCountry: CountryId): String =
     when (entryCountry) {
         CountryId.iceland -> stringResource(R.string.connection_info_secure_core_entry_iceland)
         CountryId.sweden -> stringResource(R.string.connection_info_secure_core_entry_sweden)
@@ -198,7 +203,7 @@ private fun ConnectIntentRowPreview() {
 private fun ServerDetailsRowWrappingPreview() {
     VpnTheme {
         Surface(color = ProtonTheme.colors.backgroundSecondary) {
-            ServerDetailsRow(detailsText = "Zurich", features = EnumSet.of(ServerFeature.P2P, ServerFeature.Tor))
+            ServerDetailsRow(detailsText = "Zurich", features = EnumSet.of(ServerFeature.P2P, ServerFeature.Tor), detailsStyle = ProtonTheme.typography.captionUnspecified)
         }
     }
 }
