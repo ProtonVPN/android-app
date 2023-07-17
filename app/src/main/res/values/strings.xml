@@ -982,4 +982,104 @@
          Ex: Poland - 192.1.1.1.1
     -->
     <string name="vpn_status_disabled_location">%1$s - %2$s</string>
+
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_subtitle">Connection details</string>
+
+
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_show_ip">Show IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_back">Back</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_my_ip">My IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_ip">VPN IP</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+    -->
+    <string name="connection_details_connected_for">Connected for</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server">Server</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_country">Country</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_city">City</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
+    -->
+    <string name="connection_details_server_load">Server load</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_question">What is server load?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_description">Server load shows how close a server is to its maximum capacity. \n\nA high server load can slow down your connection.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_title">Low (1–75%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_description">Lightning fast speeds</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_title">Medium (76–90%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_description">Unlikely to affect VPN speed</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_title">High (91–100%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
+
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol">Protocol</string>
+
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol_description">A protocol is a set of instructions your device follows to connect and communicate with a server.</string>
+
+    <!-- tag(Redesign_2023)
+         Label in front of upload speed in connection details. It is followed by upload speed number and unit.
+    -->
+    <string name="connection_details_upload">Upload</string>
+    <!-- tag(Redesign_2023)
+         Label in front of download speed in connection details. It is followed by download speed number and unit.
+    -->
+    <string name="connection_details_download">Download</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_section_vpn_speed">VPN speed</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_question">What is VPN speed?</string>
+
+    <!-- tag(Redesign_2023)
+         Used for button title to learn more about different contexts
+    -->
+    <string name="connection_details_learn_more">Learn more</string>
+
+    <!-- tag(Redesign_2023)
+        Used to describe IP which is not known
+    -->
+    <string name="connection_details_unknown_ip">Unknown</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
+
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_bits_per_second">%1$s b/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_kb_per_second">%1$s kb/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_mb_per_second">%1$s Mb/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_gb_per_second">%1$s Gb/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_tb_per_second">%1$s Tb/s</string>
+
+    <!-- tag(Redesign_2023) -->
+    <plurals name="connection_details_days">
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
+    </plurals>
+
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_hours_shortened">%1$d hr</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_seconds_shortened">%1$d sec</string>
 </resources>
+
+

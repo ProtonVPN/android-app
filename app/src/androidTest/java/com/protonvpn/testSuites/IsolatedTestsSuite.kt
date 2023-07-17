@@ -26,6 +26,7 @@ import com.protonvpn.tests.redesign.recents.MigrateProfileTests
 import com.protonvpn.tests.redesign.recents.RecentsDaoTests
 import com.protonvpn.tests.redesign.recents.RecentsListUiTests
 import com.protonvpn.tests.redesign.recents.RecentsListValidatorTests
+import com.protonvpn.tests.redesign.vpn.ui.ConnectionDetailsTests
 import com.protonvpn.tests.redesign.vpn.ui.GetConnectIntentViewStateTests
 import com.protonvpn.tests.redesign.vpn.ui.VpnStatusViewTests
 import org.junit.runner.RunWith
@@ -36,6 +37,7 @@ import org.junit.runners.Suite
 // Therefore they can be run without test orchestrator when their amount is large enough to justify a separate CI job.
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
+    ConnectionDetailsTests::class,
     GetConnectIntentViewStateTests::class,
     MigrateProfileTests::class,
     NavigationTests::class,
