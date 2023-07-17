@@ -351,8 +351,7 @@
         <item quantity="many">elementów śledzących\nzatrzymanych</item>
         <item quantity="other">elementów śledzących\nzatrzymanych</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">zaoszczędzonych
-danych</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">zaoszczędzonych\ndanych</string>
     <string name="netShieldBlockMalwareOnly">Zablokuj złośliwe oprogramowanie</string>
     <string name="netShieldFullBlock">Zablokuj złośliwe oprogramowanie, elementy śledzące i reklamy</string>
     <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>

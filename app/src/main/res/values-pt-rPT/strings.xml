@@ -30,7 +30,7 @@
     <string name="loginStartWithDevice">Iniciar com o dispositivo</string>
     <string name="loginCreateAccount">Criar nova conta</string>
     <string name="loginNeedHelp">Precisa de ajuda?</string>
-    <string name="connectionAllocationHelpTitle">Agradecemos a sua atualização para\nBusiness\u00a0/\u00a0Visionary.</string>
+    <string name="connectionAllocationHelpTitle">Agradecemos a sua actualização para\nBusiness\u00a0/\u00a0Visionary.</string>
     <string name="connectionAllocationHelpDescription1">Para dar início à sua jornada com a Proton VPN, assigne ligações VPN à sua conta ou a qualquer outra sub-conta.</string>
     <string name="connectionAllocationHelpDescription2">Este passo demorará apenas alguns minutos. Em seguida, poderá autenticar-se e proteger todos os seus dispositivos.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Não existe ligação VPN habilitada para esta conta. Para dar início à sua jornada com a Proton VPN, contacte o seu administrador. </string>
@@ -73,7 +73,7 @@
     <string name="loaderCheckingAvailabilitySuggestion">Aguarde alguns segundos.</string>
     <string name="loaderCancel">Cancelar ligação</string>
     <string name="quickConnect">Ligação rápida</string>
-    <string name="notConnectedCurrentIp">IP atual: %1$s</string>
+    <string name="notConnectedCurrentIp">IP actual: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
@@ -120,11 +120,11 @@
     <string name="use_coupon_title">Usar cupão</string>
     <string name="use_coupon_code_label">Código do cupão</string>
     <string name="use_coupon_success">O cupão foi utilizado</string>
-    <string name="use_coupon_success_no_upgrade_yet">Cupão aplicado com sucesso. A sua assinatura será atualizada dentro de minutos.</string>
+    <string name="use_coupon_success_no_upgrade_yet">Cupão aplicado com sucesso. A sua assinatura será actualizada dentro de minutos.</string>
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
     <string name="restrictedMaintenanceDescription">O servidor a que se está a tentar ligar está em manutenção. Tente outro servidor.</string>
-    <string name="errorUserDelinquent"><![CDATA[A sua conta tem atualmente uma fatura por pagar. Liquide as suas dívidas em&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Atingiu o máximo de ligações simultâneas permitidas na sua conta. Atualize a sua subscrição Proton VPN para obter mais ligações.</string>
+    <string name="errorUserDelinquent"><![CDATA[A sua conta tem actualmente uma fatura por pagar. Liquide as suas dívidas em&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorMaxSessions">Atingiu o máximo de ligações simultâneas permitidas na sua conta. Actualize a sua subscrição Proton VPN para obter mais ligações.</string>
     <string name="errorEmptyName">O campo do nome do perfil não pode estar vazio</string>
     <string name="errorEmptyCountry">O campo do país não pode estar vazio</string>
     <string name="errorEmptyServer">O campo do servidor não pode estar vazio</string>
@@ -168,7 +168,7 @@
     <string name="reconnect_now">Religar agora</string>
     <string name="try_reconnecting">Tente reconetar-se</string>
     <string name="connect">Ligar</string>
-    <string name="upgrade">Atualizar</string>
+    <string name="upgrade">Actualizar</string>
     <string name="retry">Repetir</string>
     <string name="connection_failed">Erro de ligação</string>
     <string name="create_new_profile">Novo perfil</string>
@@ -188,7 +188,7 @@
     <string name="excludeIpTitle">Excluir endereços IP</string>
     <string name="discardChanges">Descartar alterações não guardadas?</string>
     <string name="discard">Descartar</string>
-    <string name="selectedProfileColor">Seleccione a cor para o seu perfil.</string>
+    <string name="selectedProfileColor">Selecione a cor para o seu perfil.</string>
     <string name="excludeIpDescription">Adicione endereços IP que deseja excluir do tráfego VPN.</string>
     <string name="done">FEITO</string>
     <string name="add">ADICIONAR</string>
@@ -214,7 +214,7 @@
     <string name="exitCountry">País de saída</string>
     <string name="entryCountry">País de entrada</string>
     <string name="country">País</string>
-    <string name="selectCountry">Seleccione o país</string>
+    <string name="selectCountry">Selecione o país</string>
     <string name="serverSelection">Servidor</string>
     <string name="selectServer">Selecione o servidor</string>
     <string name="protocolLabel">Protocolo</string>
@@ -247,7 +247,7 @@
     <string name="bugReportErrorInvalidEmail">O endereço de e-mail não é válido.</string>
     <string name="bugReportErrorEmptyDescription">Diga-nos o que aconteceu.</string>
     <string name="bugReportLabelVpnLogsTitle">Incluir diários de erros</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">Esta ação envia logs de erros locais (não registamos atividades) para nos ajudar a corrigir o seu problema</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Esta acção envia logs de erros locais (não registamos atividades) para nos ajudar a corrigir o seu problema</string>
     <string name="profileFastest">A mais rápida</string>
     <string name="profileRandom">Aleatória</string>
     <string name="settingsSplitTunnelingDescription">O Split Tunneling permite excluir certas aplicações ou IPs do tráfego pela VPN.</string>
@@ -356,7 +356,7 @@
     <string name="errorTunMultiUserPermission">Não é possível inicializar a ligação VPN devido a um conflito entre aplicação dupla (por exemplo, Dual Messenger) e o Split Tunneling. Desative um desses e reinicie o dispositivo.</string>
     <string name="errorTorrentNotAllowed">O P2P não é permitido neste servidor.</string>
     <string name="errorWireguardWithPlaceholder">Erro WireGuard %1$s</string>
-    <string name="profileProtocolNotAvailable">O protocolo VPN deste perfil não está atualmente disponível. Para estabelecer ligação, tente alterar o protocolo.</string>
+    <string name="profileProtocolNotAvailable">O protocolo VPN deste perfil não está actualmente disponível. Para estabelecer ligação, tente alterar o protocolo.</string>
     <string name="stateConnectedTo">Ligado a %1$s</string>
     <string name="stateNotConnected">Não há ligação</string>
     <string name="recents">Recentes</string>
@@ -385,12 +385,12 @@
     <string name="tv_login_step2_description">Registe-se no Proton VPN</string>
     <string name="tv_login_step3_description">Introduza o código:</string>
     <string name="tv_login_timer_label">Este código expira em:</string>
-    <string name="tv_login_refresh">Atualizar</string>
+    <string name="tv_login_refresh">Actualizar</string>
     <string name="tv_login_title_loading">A carregar…</string>
-    <string name="tv_login_title_refresh">A sua sessão expirou. Clique em Atualizar para começar novamente.</string>
+    <string name="tv_login_title_refresh">A sua sessão expirou. Clique em Actualizar para começar novamente.</string>
     <string name="tv_upgrade_title">Iniciar transmissão com o Plus</string>
     <string name="back">Recuar</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Visite <b>%1$s</b> para atualizar agora para o Proton VPN Plus.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[Visite <b>%1$s</b> para actualizar agora para o Proton VPN Plus.]]></string>
     <string name="tv_upgrade_description">Obtenha um plano Proton VPN Plus para aceder a mais de 500 servidores em todo o mundo e optimizar as opções para Netflix, Amazon Prime Vídeo, Disney+ e muitos outros.</string>
     <string name="tv_vpn_error_dialog_title">Erro na ligação VPN</string>
     <string name="tv_signout_label">Terminar sessão</string>
@@ -425,13 +425,13 @@
     <string name="notification_subscription_expired_content">Tivemos de regredir o seu plano, mas estamos a ligá-lo novamente ao servidor mais rápido disponível neste plano.</string>
     <string name="notification_subscription_expired_no_reconnection_content">A sua subscrição foi alterada.</string>
     <string name="notification_delinquent_title">A sua conta Proton VPN tem faturas pendentes</string>
-    <string name="notification_delinquent_content">Atualize a sua informação de faturação para manter a subscrição ativa.</string>
+    <string name="notification_delinquent_content">Actualize a sua informação de faturação para manter a subscrição ativa.</string>
     <string name="notification_server_unreachable_content">Mudou para um servidor mais rápido e semelhante ao que tinha selecionado.</string>
     <string name="notification_max_sessions_title">Atingiu o seu limite máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Desligue outro dispositivo para ligar este ou atualize para Plus para ter até %1$d dispositivo ligado simultaneamente.</item>
-        <item quantity="other">Desligue outro dispositivo para ligar este ou atualize para Plus para ter até %1$d dispositivos ligados simultaneamente.</item>
+        <item quantity="one">Desligue outro dispositivo para ligar este ou actualize para Plus para ter até %1$d dispositivo ligado simultaneamente.</item>
+        <item quantity="other">Desligue outro dispositivo para ligar este ou actualize para Plus para ter até %1$d dispositivos ligados simultaneamente.</item>
     </plurals>
     <string name="notification_max_sessions_content">Desligue outro dispositivo para ligar este.</string>
     <string name="notification_cancel_to_free">Está no plano Free. Estão disponíveis servidores e funcionalidades Free.</string>
@@ -442,8 +442,8 @@
     <string name="reconnect_to_server">Para o servidor: </string>
     <string name="no_thanks">Não, obrigado</string>
     <string name="enable">Ativar</string>
-    <string name="notification_smart_protocol_disabled_title">Smart Protocol atualmente desativado</string>
-    <string name="notification_smart_protocol_disabled_content">O Proton VPN detectou que a sua rede atual está a impedir uma ligação VPN. Ativar o Smart Protocol pode ultrapassar esta limitação.</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol actualmente desativado</string>
+    <string name="notification_smart_protocol_disabled_content">O Proton VPN detectou que a sua rede actual está a impedir uma ligação VPN. Ativar o Smart Protocol pode ultrapassar esta limitação.</string>
     <string name="upsell_advanced_features">Funcionalidades avançadas: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Aceda a serviços de streaming (Netflix, Disney+, etc.) em qualquer parte do mundo</string>
     <!-- Number of servers available in the service.
@@ -464,10 +464,10 @@
         <item quantity="one">%1$d país</item>
         <item quantity="other">%1$d países</item>
     </plurals>
-    <string name="upsell_upgrade_again">Atualize novamente para aproveitar todas as funcionalidades:</string>
+    <string name="upsell_upgrade_again">Actualize novamente para aproveitar todas as funcionalidades:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">Quando atualizar para o Plus</string>
+    <string name="upgrade_plus_subtitle">Quando actualizar para o Plus</string>
     <string name="upgrade_netshield_title_new">Desfrute de uma navegação sem publicidades com o NetShield</string>
     <string name="upgrade_secure_core_title_new">Duplique a encriptação com o Secure Core</string>
     <string name="upgrade_secure_core_countries">Encaminhe através dos servidores ultra seguros na Suíça, Suécia e Islândia</string>
@@ -530,7 +530,7 @@
     <string name="upgrade_plus_countries_speeds">Navegue na velocidade máxima (10 Gbps)</string>
     <string name="upgrade_plus_countries_more">E muitas mais funcionalidades premium</string>
     <string name="upgrade_safe_mode_title">Permitir tráfego em portas incomuns</string>
-    <string name="upgrade_safe_mode_message">Tem necessidades informáticas avançadas ou profissionais que requerem portas não standard? Atualize para o VPN Plus para aceder a esta e outras funcionalidades premium.</string>
+    <string name="upgrade_safe_mode_message">Tem necessidades informáticas avançadas ou profissionais que requerem portas não standard? Actualize para o VPN Plus para aceder a esta e outras funcionalidades premium.</string>
     <string name="upgrade_moderate_nat_title">Ativar NAT moderado</string>
     <string name="upgrade_moderate_nat_message">O NAT moderado, também conhecido como NAT Tipo 2, pode melhorar a sua experiência em linha com várias aplicações e jogos de vídeo em linha. Desbloqueie esta e outras funcionalidades com um plano Plus.</string>
     <string name="upgrade_moderate_nat_learn_more">O que é o NAT moderado?</string>
@@ -618,13 +618,13 @@
     <string name="dynamic_report_success_title">Agradecemos os seus comentários</string>
     <string name="dynamic_report_success_description">Contactaremos de volta o mais rapidamente possível.</string>
     <string name="dynamic_report_field_mandatory">Este campo é obrigatório</string>
-    <string name="dynamic_report_logs_description">Um diário é um tipo de ficheiro que lista todas as ações que levaram a um erro. Estes ficheiros serão apenas consultados pelos nossos engenheiros para corrigir erros.</string>
+    <string name="dynamic_report_logs_description">Um diário é um tipo de ficheiro que lista todas as acções que levaram a um erro. Estes ficheiros serão apenas consultados pelos nossos engenheiros para corrigir erros.</string>
     <string name="dynamic_report_logs_missing">Os diários de erro ajudam-nos a chegar à raíz do seu problema. Se não os incluir, poderemos não conseguir investigar.</string>
     <string name="dynamic_report_step1">Passo 1 de 3</string>
     <string name="dynamic_report_step2">Passo 2 de 3</string>
     <string name="dynamic_report_step3">Passo 3 de 3</string>
     <string name="dynamic_report_your_issue_headline">Reportar um problema</string>
-    <string name="update_screen_title">Atualizar o Proton VPN</string>
+    <string name="update_screen_title">Actualizar o Proton VPN</string>
     <string name="update_screen_description">É provável que tenha problemas com versões mais antigas do Proton VPN.</string>
     <string name="server_search_menu_title">Pesquisar</string>
     <string name="server_search_hint">País, cidade ou servidor</string>

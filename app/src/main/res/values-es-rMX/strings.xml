@@ -168,7 +168,7 @@
     <string name="reconnect_now">Reconectar ahora</string>
     <string name="try_reconnecting">Intentar la reconexión</string>
     <string name="connect">Conectar</string>
-    <string name="upgrade">Actualizar</string>
+    <string name="upgrade">Mejorar</string>
     <string name="retry">Reintentar</string>
     <string name="connection_failed">Falló la conexión</string>
     <string name="create_new_profile">Perfil nuevo</string>
