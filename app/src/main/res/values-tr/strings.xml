@@ -224,7 +224,7 @@
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="server">Sunucu:</string>
     <string name="session_time">Oturum süresi:</string>
-    <string name="download_volume">Miktar:</string>
+    <string name="download_volume">Veri miktarı:</string>
     <string name="download_speed">Hız:</string>
     <string name="notConnected">Bir sunucuya \n bağlı değilsiniz</string>
     <string name="activityLicensesTitle">Üçüncü taraf lisansları</string>
