@@ -25,6 +25,8 @@ class MaintenanceTracker(
             vpnStateMonitor.status.collect { status ->
                 if (status.state == VpnState.Connected) {
                     task.scheduleIn(jitterMs(getScheduleDelay()))
+                } else if (status.state == VpnState.Disabled) {
+                    task.cancelSchedule()
                 }
             }
         }
