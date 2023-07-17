@@ -84,9 +84,13 @@ class CountryListViewModel @Inject constructor(
         val freeServers = countryServers.filter { it.isFreeServer }
         val basicServers = countryServers.filter { it.isBasicServer }
         val plusServers = countryServers.filter { it.isPlusServer }
+        val internalServers = countryServers.filter { it.isPMTeamServer }
         val fastestServer = serverManager.getBestScoreServer(countryServers)?.copy()
 
         val groups: MutableList<ServersGroup> = mutableListOf()
+        if (internalServers.isNotEmpty()) {
+            groups.add(ServersGroup(R.string.listInternalServers, internalServers))
+        }
         fastestServer?.let {
             groups.add(ServersGroup(R.string.listFastestServer, listOf(fastestServer)))
         }
