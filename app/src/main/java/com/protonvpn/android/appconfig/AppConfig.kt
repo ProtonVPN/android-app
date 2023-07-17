@@ -95,13 +95,22 @@ class AppConfig @Inject constructor(
         PeriodicUpdateSpec(UPDATE_DELAY, UPDATE_DELAY_FAIL, setOf(loggedIn)),
     )
 
+    private val bugReportUpdate = periodicUpdateManager.registerApiCall(
+        "bug_report",
+        ::updateBugReportInternal,
+        PeriodicUpdateSpec(BUG_REPORT_UPDATE_DELAY, setOf(loggedIn)),
+    )
+
     init {
         userPlanManager.planChangeFlow
             .onEach { forceUpdate() }
             .launchIn(mainScope)
     }
 
-    suspend fun forceUpdate() = periodicUpdateManager.executeNow(appConfigUpdate)
+    suspend fun forceUpdate() {
+        periodicUpdateManager.executeNow(appConfigUpdate)
+        periodicUpdateManager.executeNow(bugReportUpdate)
+    }
 
     fun getMaintenanceTrackerDelay(): Long =
         maxOf(Constants.MINIMUM_MAINTENANCE_CHECK_MINUTES, appConfigResponse.underMaintenanceDetectionDelay)
@@ -129,13 +138,17 @@ class AppConfig @Inject constructor(
 
     fun getRatingConfig(): RatingConfig = appConfigResponse.ratingConfig ?: getDefaultRatingConfig()
 
-    private suspend fun updateInternal(): ApiResult<AppConfigResponse> {
-        val result = api.getAppConfig(getNetZone())
+    private suspend fun updateBugReportInternal(): ApiResult<DynamicReportModel> {
         val dynamicReportModel = api.getDynamicReportConfig()
         dynamicReportModel.valueOrNull?.let {
             Storage.save(it)
             dynamicReportModelObservable.value = it
         }
+        return dynamicReportModel
+    }
+
+    private suspend fun updateInternal(): ApiResult<AppConfigResponse> {
+        val result = api.getAppConfig(getNetZone())
         if (currentUser.isLoggedIn()) {
             globalSettingsManager.refresh()
         }
@@ -177,5 +190,6 @@ class AppConfig @Inject constructor(
         private val UPDATE_DELAY = TimeUnit.HOURS.toMillis(12)
         private val UPDATE_DELAY_UI = TimeUnit.HOURS.toMillis(2)
         private val UPDATE_DELAY_FAIL = TimeUnit.HOURS.toMillis(2)
+        private val BUG_REPORT_UPDATE_DELAY = TimeUnit.DAYS.toMillis(2)
     }
 }
