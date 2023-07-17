@@ -45,7 +45,7 @@ object Constants {
     const val URL_NETSHIELD_LEARN_MORE = "https://protonvpn.com/support/netshield/"
     const val PROTON_URL_UTM_SOURCE = "androidvpn"
     const val MINIMUM_MAINTENANCE_CHECK_MINUTES = 5L
-    const val DEFAULT_MAINTENANCE_CHECK_MINUTES = 30L
+    const val DEFAULT_MAINTENANCE_CHECK_MINUTES = 40L
     const val VPN_INFO_REFRESH_INTERVAL_MINUTES = 3L
     const val WIREGUARD_TUNNEL_NAME = "ProtonTunnel"
     const val SECONDARY_PROCESS_TAG = "SecondaryProcess"
