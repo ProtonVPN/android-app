@@ -63,7 +63,7 @@ class ServerSelectionActivity : BaseActivityV2() {
         val config = requireNotNull(getConfig(intent))
         setTitle(if (config.secureCore) R.string.entryCountry else R.string.serverSelection)
         val servers = viewModel.getServers(config.countryCode, config.secureCore)
-        if (servers != null) {
+        if (servers.isNotEmpty()) {
             initServerList(binding.recyclerServers, config.secureCore, servers)
         } else {
             snackbarHelper.errorSnack(R.string.something_went_wrong)

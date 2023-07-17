@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.home.profiles
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,8 +43,8 @@ class ServerSelectionViewModel @Inject constructor(
     )
 
     // TODO: add filtering by protocol
-    fun getServers(countryCode: String, secureCore: Boolean): List<ServerItem>? =
-        serverManager.getVpnExitCountry(countryCode, secureCore)?.serverList?.map {
+    fun getServers(countryCode: String, secureCore: Boolean): List<ServerItem> =
+        getAllServers(countryCode, secureCore).map {
             ServerItem(
                 it.serverId,
                 if (secureCore) it.entryCountry else it.exitCountry,
@@ -52,4 +53,14 @@ class ServerSelectionViewModel @Inject constructor(
                 currentUser.vpnUserCached().hasAccessToServer(it)
             )
         }
+
+    private fun getAllServers(countryCode: String, secureCore: Boolean): List<Server> {
+        val dedicatedIpServers = if (!secureCore) {
+            serverManager.getDedicatedIpCountries().find { it.flag == countryCode }?.serverList ?: emptyList()
+        } else {
+            emptyList()
+        }
+        val regularServers = serverManager.getVpnExitCountry(countryCode, secureCore)?.serverList ?: emptyList()
+        return (regularServers + dedicatedIpServers).sortedWith(serverManager.serverComparator)
+    }
 }
