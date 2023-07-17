@@ -162,7 +162,7 @@ class ApiNotificationManager @Inject constructor(
             notificationsUpdate,
             PeriodicUpdateSpec(MIN_NOTIFICATION_REFRESH_INTERVAL_MS, setOf(isLoggedIn, inForeground))
         )
-        collectJob = merge(userPlanManager.infoChangeFlow, currentUser.eventVpnLogin, appConfig.appConfigUpdateEvent)
+        collectJob = merge(userPlanManager.infoChangeFlow, currentUser.eventVpnLogin)
             .onEach { forceUpdate() }
             .launchIn(mainScope)
     }
