@@ -29,7 +29,9 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
@@ -37,6 +39,7 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.app.vpn.createInMemoryServersStore
 import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -44,11 +47,12 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNull
 import kotlinx.serialization.builtins.ListSerializer
 import me.proton.core.util.kotlin.deserialize
 import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -66,6 +70,14 @@ class ServerManagerTests {
 
     private lateinit var userData: UserData
 
+    private val dedicatedIpServer = createServer(
+        "dedicated",
+        serverName = "CA#DedicatedIp",
+        exitCountry = "CA",
+        features = SERVER_FEATURE_RESTRICTED
+    )
+    private lateinit var regularServers: List<Server>
+
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
@@ -82,9 +94,10 @@ class ServerManagerTests {
         val supportsProtocol = SupportsProtocol(appConfig)
         manager = ServerManager(userData, currentUser, { 0L }, supportsProtocol, createInMemoryServersStore(), mockk(relaxed = true))
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
-        val list = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
+        regularServers = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 
-        manager.setServers(list, null)
+        val allServers = regularServers +  dedicatedIpServer
+        manager.setServers(allServers, null)
     }
 
     @Test
@@ -109,6 +122,15 @@ class ServerManagerTests {
         val canada = filtered.first { it.flag == "CA" }
         Assert.assertEquals(1, canada.serverList.size)
         Assert.assertEquals(1, canada.serverList.first().connectingDomains.size)
+    }
+
+    @Test
+    fun testOnlineAccessibleServersSeparatesDedicatedIpsFromRegular() {
+        val dedicatedIpServers = manager.getOnlineAccessibleServers(false, true, vpnUser, ProtocolSelection.SMART)
+        val regularServers = manager.getOnlineAccessibleServers(false, false, vpnUser, ProtocolSelection.SMART)
+
+        assertEquals(listOf(dedicatedIpServer), dedicatedIpServers)
+        assertFalse(regularServers.contains(dedicatedIpServer))
     }
 
     @Test

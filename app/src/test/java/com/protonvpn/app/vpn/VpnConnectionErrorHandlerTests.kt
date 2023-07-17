@@ -35,6 +35,7 @@ import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerEntryInfo
@@ -57,6 +58,7 @@ import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestVpnUser
+import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.CapturingSlot
 import io.mockk.MockKAnnotations
@@ -81,6 +83,7 @@ import me.proton.core.network.domain.HttpResponseCodes
 import me.proton.core.network.domain.NetworkManager
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -114,8 +117,12 @@ class VpnConnectionErrorHandlerTests {
     private fun prepareServerManager(serverList: List<Server>) {
         // TODO: consider using the real ServerManager
         val servers = serverList.sortedBy { it.score }
-        every { serverManager.getOnlineAccessibleServers(false, any(), any()) } returns servers.filter { !it.isSecureCoreServer }
-        every { serverManager.getOnlineAccessibleServers(true, any(), any()) } returns servers.filter { it.isSecureCoreServer }
+        every { serverManager.getOnlineAccessibleServers(false, any(), any(), any()) } returns
+            servers.filter { !it.isSecureCoreServer }
+        every { serverManager.getOnlineAccessibleServers(true, any(), any(), any()) } returns
+            servers.filter { it.isSecureCoreServer }
+        every { serverManager.getOnlineAccessibleServers(any(), true, any(), any()) } returns
+            servers.filter { it.isDedicatedIpServer }
         every { serverManager.defaultFallbackConnection } returns defaultFallbackConnection
         every { serverManager.getServerForProfile(defaultFallbackConnection, any()) } returns defaultFallbackServer
 
@@ -530,6 +537,20 @@ class VpnConnectionErrorHandlerTests {
             protocol = VpnProtocol.OpenVPN.name)
         val result = handler.onUnreachableError(ConnectionParams(profile, server1,
             server1.connectingDomains.first(), VpnProtocol.OpenVPN))
+        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), result)
+    }
+
+    @Test
+    fun testSwitchingFromDedicatedIpServerDoesntFallBackToRegularServer() = testScope.runTest {
+        val dedicatedIpServer =
+            createServer("dedicatedIp", serverName = "Dedicated#1", features = SERVER_FEATURE_RESTRICTED)
+        val servers = listOf(MockedServers.serverList.first(), dedicatedIpServer)
+        prepareServerManager(servers)
+        preparePings(failServerName = dedicatedIpServer.serverName)
+        val profile = Profile.getTempProfile(dedicatedIpServer)
+        val result = handler.onUnreachableError(
+            ConnectionParams(profile, dedicatedIpServer, dedicatedIpServer.connectingDomains.first(), VpnProtocol.WireGuard)
+        )
         assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), result)
     }
 

@@ -303,9 +303,13 @@ class VpnConnectionErrorHandler @Inject constructor(
         if (orgPhysicalServer != null && includeOrgServer)
             candidateList += orgPhysicalServer
 
+        val orgProfileServer = orgProfile.directServerId?.let { serverManager.getServerById(it) }
+
         val secureCoreExpected = orgProfile.isSecureCore ?: userData.secureCoreEnabled
+        val isDedicatedIpServer = (orgPhysicalServer?.server ?: orgProfileServer)?.isDedicatedIpServer == true
         val orgProtocol = orgProfile.getProtocol(userData)
-        val onlineServers = serverManager.getOnlineAccessibleServers(secureCoreExpected, vpnUser, orgProtocol)
+        val onlineServers =
+            serverManager.getOnlineAccessibleServers(secureCoreExpected, isDedicatedIpServer, vpnUser, orgProtocol)
         val orgIsTor = orgPhysicalServer?.server?.isTor == true
         val orgEntryIp = orgPhysicalServer?.connectingDomain?.getEntryIp(orgProtocol)
         val scoredServers = sortServersByScore(onlineServers, orgProfile, vpnUser).filter { candicate ->
@@ -350,8 +354,11 @@ class VpnConnectionErrorHandler @Inject constructor(
 
         // For secure core add best scoring non-secure server as a last resort fallback
         if (secureCoreExpected) {
-            sortServersByScore(serverManager.getOnlineAccessibleServers(false, vpnUser, orgProtocol), orgProfile, vpnUser)
-                .firstOrNull()?.let { fallbacks += it }
+            sortServersByScore(
+                serverManager.getOnlineAccessibleServers(false, false, vpnUser, orgProtocol),
+                orgProfile,
+                vpnUser
+            ).firstOrNull()?.let { fallbacks += it }
         }
 
         return candidateList.take(FALLBACK_SERVERS_COUNT - fallbacks.size) + fallbacks.mapNotNull { server ->

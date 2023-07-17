@@ -88,6 +88,11 @@ class ServerManager @Inject constructor(
         private set
 
     @Transient
+    val serverComparator = compareBy<Server> { !it.isFreeServer }
+        .thenBy { it.serverNumber >= 100 }
+        .thenBy { it.serverNumber }
+
+    @Transient
     private val savedProfiles: SavedProfilesV3 =
         Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles())
             .migrateProfiles(appFeaturesPrefs)
@@ -221,9 +226,6 @@ class ServerManager @Inject constructor(
         ).distinct().take(serverCount)
 
     fun setServers(serverList: List<Server>, language: String?) {
-        val serverComparator = compareBy<Server> { !it.isFreeServer }
-            .thenBy { it.serverNumber >= 100 }
-            .thenBy { it.serverNumber }
         fun MutableMap<String, MutableList<Server>>.addServer(key: String, server: Server) {
             getOrPut(key.uppercase()) { mutableListOf() } += server
         }
@@ -439,12 +441,24 @@ class ServerManager @Inject constructor(
     }
 
     // Sorted by score (best at front)
-    fun getOnlineAccessibleServers(secureCore: Boolean, vpnUser: VpnUser?, protocol: ProtocolSelection): List<Server> =
-        getExitCountries(secureCore).asSequence().flatMap { country ->
+    fun getOnlineAccessibleServers(
+        secureCore: Boolean,
+        dedicatedIps: Boolean,
+        vpnUser: VpnUser?,
+        protocol: ProtocolSelection
+    ): List<Server> {
+        // Note: don't use getExitCountries here to get dedicatedIpCountries without regular ones.
+        val countries = when {
+            secureCore -> filteredSecureCoreExitCountries
+            dedicatedIps -> filteredDedicatedIpCountries
+            else -> filteredVpnCountries
+        }
+        return countries.asSequence().flatMap { country ->
             country.serverList.filter {
                 it.online && vpnUser.hasAccessToServer(it) && supportsProtocol(it, protocol)
             }.asSequence()
         }.sortedBy { it.score }.toList()
+    }
 
     fun findDefaultProfile(): Profile? =
         userData.defaultProfileId?.let { defaultId -> getSavedProfiles().find { it.id == defaultId } }
