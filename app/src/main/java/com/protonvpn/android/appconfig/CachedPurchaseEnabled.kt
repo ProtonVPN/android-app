@@ -48,6 +48,6 @@ class CachedPurchaseEnabled @Inject constructor(
     }
 
     companion object {
-        private val MIN_REFRESH_INTERVAL = TimeUnit.MINUTES.toMillis(3)
+        private val MIN_REFRESH_INTERVAL = TimeUnit.HOURS.toMillis(6)
     }
 }
