@@ -237,7 +237,7 @@ class ServerListUpdater @Inject constructor(
     }
 
     companion object {
-        private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(3)
+        private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(10)
         private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
         val LIST_CALL_DELAY = TimeUnit.HOURS.toMillis(3)
     }
