@@ -35,6 +35,7 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.utils.ServerManager
@@ -54,7 +55,6 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import java.util.Locale
@@ -97,6 +97,11 @@ class ServerListUpdater @Inject constructor(
         ::updateLocationIfVpnOff,
         PeriodicUpdateSpec(LOCATION_CALL_DELAY, setOf(inForeground, isDisconnected))
     )
+    private val streamingServicesUpdate = periodicUpdateManager.registerApiCall(
+        "streaming_services",
+        ::updateStreamingServices,
+        PeriodicUpdateSpec(STREAMING_CALL_DELAY, setOf(loggedIn, inForeground))
+    )
 
     init {
         migrateIpAddress()
@@ -115,7 +120,11 @@ class ServerListUpdater @Inject constructor(
                 if (currentUser.isLoggedIn()) periodicUpdateManager.executeNow(serverListUpdate)
             }.launchIn(scope)
         currentUser.eventVpnLogin
-            .onEach { periodicUpdateManager.executeNow(serverListUpdate) }
+            .onEach {
+                if (serverManager.streamingServicesModel == null)
+                    periodicUpdateManager.executeNow(streamingServicesUpdate)
+                periodicUpdateManager.executeNow(serverListUpdate)
+            }
             .launchIn(scope)
         userPlanManager.planChangeFlow
             .onEach { periodicUpdateManager.executeNow(serverListUpdate) }
@@ -186,6 +195,11 @@ class ServerListUpdater @Inject constructor(
     suspend fun updateServerList(loader: NetworkLoader? = null): ApiResult<ServerList> =
         periodicUpdateManager.executeNow(serverListUpdate, loader)
 
+    private suspend fun updateStreamingServices(): ApiResult<StreamingServicesResponse> =
+        api.getStreamingServices().apply {
+            valueOrNull?.let { serverManager.setStreamingServices(it) }
+        }
+
     private suspend fun updateServers(networkLoader: NetworkLoader?): ApiResult<ServerList> {
         val loaderUI = networkLoader?.networkFrameLayout
 
@@ -204,17 +218,10 @@ class ServerListUpdater @Inject constructor(
 
         val serverListResult = coroutineScope {
             guestHole.runWithGuestHoleFallback {
-                val streamingServicesJob = launch {
-                    api.getStreamingServices().valueOrNull?.let {
-                        serverManager.setStreamingServices(it)
+                api.getServerList(null, netzone, lang, realProtocolsNames).also { serverListResult ->
+                    if (serverListResult.havePartnership()) {
+                        partnershipsRepository.refresh()
                     }
-                }
-                val partnershipsJob = launch {
-                    partnershipsRepository.refresh()
-                }
-                api.getServerList(null, netzone, lang, realProtocolsNames).also {
-                    // Make sure all requests finish before the UI is updated.
-                    joinAll(streamingServicesJob, partnershipsJob)
                 }
             }
         }
@@ -226,6 +233,9 @@ class ServerListUpdater @Inject constructor(
         loaderUI?.switchToEmpty()
         return serverListResult
     }
+
+    private fun ApiResult<ServerList>.havePartnership(): Boolean =
+        this is ApiResult.Success && value.serverList.any { it.isPartneshipServer }
 
     private fun migrateIpAddress() {
         if (prefs.ipAddress.isEmpty()) {
@@ -239,6 +249,7 @@ class ServerListUpdater @Inject constructor(
     companion object {
         private val LOCATION_CALL_DELAY = TimeUnit.MINUTES.toMillis(10)
         private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
+        val STREAMING_CALL_DELAY = TimeUnit.DAYS.toMillis(2)
         val LIST_CALL_DELAY = TimeUnit.HOURS.toMillis(3)
     }
 }
