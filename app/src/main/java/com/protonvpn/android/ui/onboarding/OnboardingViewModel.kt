@@ -72,7 +72,7 @@ class OnboardingViewModel @Inject constructor(
 
     val showTelemetryPrompt get() = appConfig.getFeatureFlags().telemetry
 
-    var telemetryEnabledSwitch: Boolean = false
+    var telemetryEnabledSwitch: Boolean = true
     var crashReportingSwitch: Boolean = true
 
     suspend fun countriesCount() =
