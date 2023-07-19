@@ -199,6 +199,8 @@ class ReviewTrackerTests {
     }
 
     private fun addLongSession() {
-        trafficStatus.value = TrafficUpdate(0, 0, 0, 0, 0, 172800)
+        val sessionLengthSeconds = 172800
+        val startTimestampMs = CURRENT_TIME - sessionLengthSeconds * 1000
+        trafficStatus.value = TrafficUpdate(0, startTimestampMs, 0, 0, 0, 0, sessionLengthSeconds)
     }
 }

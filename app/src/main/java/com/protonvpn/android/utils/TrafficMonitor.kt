@@ -88,9 +88,6 @@ class TrafficMonitor constructor(
     }
 
     private fun resetSession() {
-        trafficStatus.value = TrafficUpdate(0, 0, 0, 0, 0, 0)
-        trafficHistory.value = emptyList()
-
         lastTimestamp = now()
         lastTotalDownload = TrafficStats.getTotalRxBytes()
         lastTotalUpload = TrafficStats.getTotalTxBytes()
@@ -98,6 +95,9 @@ class TrafficMonitor constructor(
         sessionDownloaded = 0L
         sessionUploaded = 0L
         sessionStart = lastTimestamp
+
+        trafficStatus.value = TrafficUpdate(0, sessionStart, 0, 0, 0, 0, 0)
+        trafficHistory.value = emptyList()
     }
 
     private fun startUpdating() {
@@ -134,7 +134,7 @@ class TrafficMonitor constructor(
 
                     val sessionTimeSeconds = (timestamp - sessionStart).toInt() / 1000
                     val update = TrafficUpdate(
-                        timestamp, downloadSpeed, uploadSpeed, sessionDownloaded,
+                        timestamp, sessionStart, downloadSpeed, uploadSpeed, sessionDownloaded,
                         sessionUploaded, sessionTimeSeconds
                     )
                     trafficStatus.value = update
