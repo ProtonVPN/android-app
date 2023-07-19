@@ -242,6 +242,11 @@ class NotificationHelper(
                         .setOngoing(true)
                         .setOnlyAlertOnce(true)
                         .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                        .setShowWhen(false)
+
+        if (trafficUpdate != null) {
+            builder.setWhen(trafficUpdate.sessionStartTimestampMs)
+        }
 
         when (vpnStatus.state) {
             Connecting, Connected -> {

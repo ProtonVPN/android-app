@@ -22,6 +22,7 @@ import com.protonvpn.android.utils.ConnectionTools
 
 class TrafficUpdate(
     val timestampMs: Long,
+    val sessionStartTimestampMs: Long,
     val downloadSpeed: Long,
     val uploadSpeed: Long,
     val sessionDownload: Long,

@@ -110,7 +110,7 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
             updateChart(it)
         })
 
-        updateTrafficInfo(TrafficUpdate(0L, 0L, 0L, 0L, 0L, 0))
+        updateTrafficInfo(TrafficUpdate(0L, 0L, 0L, 0L, 0L, 0L, 0))
     }
 
     override fun onDestroyView() {
