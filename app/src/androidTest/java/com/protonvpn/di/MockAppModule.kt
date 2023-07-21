@@ -46,6 +46,7 @@ import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
+import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.CertificateRepository
@@ -63,6 +64,7 @@ import com.protonvpn.mocks.FakeWorkManager
 import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.mocks.MockVpnBackend
 import com.protonvpn.mocks.NoopPeriodicUpdateWorkerScheduler
+import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.testsHelper.EspressoDispatcherProvider
@@ -275,6 +277,10 @@ class MockAppModule {
 
         @Binds
         fun bindTelemetryUploadScheduler(scheduler: NoopTelemetryUploadScheduler): TelemetryUploadScheduler
+
+        @Binds
+        @Singleton
+        fun bindLocalDataStoreFactory(factory: InMemoryDataStoreFactory): LocalDataStoreFactory
     }
 }
 
