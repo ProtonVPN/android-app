@@ -25,10 +25,9 @@ import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
-import me.proton.core.accountmanager.data.LogTag as AccountLogTag
 import me.proton.core.humanverification.presentation.LogTag
 import me.proton.core.crypto.common.keystore.LogTag as KeystoreLogTag
-import me.proton.core.network.data.LogTag as NetworkLogTag
+import me.proton.core.network.domain.LogTag as NetworkLogTag
 import me.proton.core.util.kotlin.Logger
 import me.proton.core.util.kotlin.LoggerLogTag
 
