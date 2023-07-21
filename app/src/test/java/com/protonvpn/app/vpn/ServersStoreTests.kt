@@ -155,13 +155,3 @@ class ServersStoreTests {
         assertEquals(emptyList(), store2.vpnCountries)
     }
 }
-
-class InMemoryObjectStore<T> : ObjectStore<T> {
-    private var value: T? = null
-    override suspend fun read(): T? = value
-    override fun store(data: T) { value = data }
-    override fun clear() { value = null }
-}
-
-fun createInMemoryServersStore() =
-    ServersStore(InMemoryObjectStore())

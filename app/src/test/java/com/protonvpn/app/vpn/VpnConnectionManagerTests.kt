@@ -51,6 +51,7 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestVpnUser
+import com.protonvpn.test.shared.createInMemoryServersStore
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
