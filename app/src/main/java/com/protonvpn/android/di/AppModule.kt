@@ -43,8 +43,8 @@ import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsUpdateWorker
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerScheduler
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerSchedulerImpl
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
+import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.UserData
@@ -56,6 +56,8 @@ import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
+import com.protonvpn.android.userstorage.DefaultLocalDataStoreFactory
+import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
@@ -203,6 +205,11 @@ object AppModuleProd {
 
         @Binds
         fun bindTelemetryUploadScheduler(scheduler: TelemetryUploadWorkerScheduler): TelemetryUploadScheduler
+
+
+        @Binds
+        @Singleton
+        fun provideLocalDataStoreFactory(factory: DefaultLocalDataStoreFactory): LocalDataStoreFactory
     }
 }
 

@@ -654,6 +654,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.core:core-ktx:1.9.0'
+    implementation "androidx.datastore:datastore:$datastore_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"

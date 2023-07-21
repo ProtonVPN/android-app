@@ -72,6 +72,7 @@ dependencies {
     implementation "me.proton.core:network:$core_version"
     implementation "me.proton.core:user-domain:$core_version"
     implementation "me.proton.core:util-kotlin:$core_version"
+    implementation "androidx.datastore:datastore-core:$datastore_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version") {
