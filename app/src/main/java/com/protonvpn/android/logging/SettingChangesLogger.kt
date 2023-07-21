@@ -19,64 +19,35 @@
 
 package com.protonvpn.android.logging
 
-import android.os.Build
-import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.config.Setting
-import com.protonvpn.android.models.config.UserData
-import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.settings.data.toLogList
+import com.protonvpn.android.utils.withPrevious
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class SettingChangesLogger @Inject constructor(
-    private val mainScope: CoroutineScope,
-    private val currentUser: CurrentUser,
-    private val serverManager: ServerManager,
-    private val userData: UserData,
+    mainScope: CoroutineScope,
+    effectiveUserSettings: EffectiveCurrentUserSettings
 ) {
     init {
-        mainScope.launch {
-            val currentVpnUser = currentUser.vpnUserFlow.stateIn(mainScope)
-            userData.settingChangeEvent.collect { setting ->
-                settingLogLine(setting, currentVpnUser.value)?.let { ProtonLogger.log(SettingsChanged, it) }
+        effectiveUserSettings.effectiveSettings
+            .map { it.toLogList() }
+            .withPrevious()
+            .onEach { (old, new) ->
+                val changeLogLines = new.filterNot { old.contains(it) }
+                if (changeLogLines.isNotEmpty()) {
+                    ProtonLogger.log(SettingsChanged, changeLogLines.joinToString("\n"))
+                }
             }
-        }
+            .launchIn(mainScope)
     }
 
-    fun getCurrentSettingsForLog(vpnUser: VpnUser?) =
-        Setting.values().mapNotNull { setting ->
-            settingLogLine(setting, vpnUser)
-        }.joinToString("\n")
-
-    private fun settingLogLine(setting: Setting, vpnUser: VpnUser?): String? =
-        settingLogValue(setting, vpnUser)?.let { "${setting.logName}: $it" }
-
-    @Suppress("CyclomaticComplexMethod")
-    private fun settingLogValue(setting: Setting, vpnUser: VpnUser?): Any? = when (setting) {
-        Setting.QUICK_CONNECT_PROFILE -> serverManager.defaultConnection.toLog(userData)
-        Setting.DEFAULT_PROTOCOL -> protocolDescription(userData)
-        Setting.NETSHIELD_PROTOCOL -> userData.getNetShieldProtocol(vpnUser)
-        Setting.SECURE_CORE -> userData.secureCoreEnabled
-        Setting.LAN_CONNECTIONS -> userData.shouldBypassLocalTraffic()
-        Setting.SPLIT_TUNNEL_ENABLED -> userData.useSplitTunneling
-        Setting.SPLIT_TUNNEL_IPS -> userData.splitTunnelIpAddresses.itemCountToLog()
-        Setting.SPLIT_TUNNEL_APPS -> userData.splitTunnelApps.itemCountToLog()
-        Setting.DEFAULT_MTU -> userData.mtuSize
-        Setting.SAFE_MODE -> userData.safeModeEnabled
-        Setting.RESTRICTED_NAT -> userData.randomizedNatEnabled
-        Setting.API_DOH -> userData.apiUseDoH
-        Setting.VPN_ACCELERATOR_ENABLED -> userData.vpnAcceleratorEnabled
-        Setting.VPN_ACCELERATOR_NOTIFICATIONS -> userData.showVpnAcceleratorNotifications
-        Setting.CONNECT_ON_BOOT ->
-            userData.connectOnBoot.takeIf { Build.VERSION.SDK_INT < Build.VERSION_CODES.O }
-        Setting.TELEMETRY -> userData.telemetryEnabled
-    }
-
-    private fun protocolDescription(userData: UserData) = userData.protocol.displayName
-
-    private fun List<*>.itemCountToLog() = if (isEmpty()) "None" else "$size items"
+    fun getCurrentSettingsForLog(settings: LocalUserSettings) =
+        settings.toLogList().joinToString("\n")
 }

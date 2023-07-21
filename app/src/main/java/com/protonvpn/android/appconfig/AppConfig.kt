@@ -32,11 +32,15 @@ import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.utils.mapState
 import com.protonvpn.android.vpn.ProtocolSelection
+import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -44,6 +48,18 @@ import me.proton.core.network.domain.ApiResult
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+
+@Reusable
+class GetFeatureFlags @Inject constructor(
+    appConfig: AppConfig
+) : StateFlow<FeatureFlags> {
+    val featureFlags: StateFlow<FeatureFlags> = appConfig.appConfigFlow.mapState {
+        it.featureFlags
+    }
+    override val replayCache: List<FeatureFlags> = featureFlags.replayCache
+    override val value: FeatureFlags = featureFlags.value
+    override suspend fun collect(collector: FlowCollector<FeatureFlags>): Nothing = featureFlags.collect(collector)
+}
 
 @Singleton
 class AppConfig @Inject constructor(

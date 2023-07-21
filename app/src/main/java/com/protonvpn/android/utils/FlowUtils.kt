@@ -19,8 +19,14 @@
 
 package com.protonvpn.android.utils
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 
 fun <T> Flow<T>.withPrevious(): Flow<Pair<T, T>> = flow {
     var isFirstElement = true
@@ -34,4 +40,18 @@ fun <T> Flow<T>.withPrevious(): Flow<Pair<T, T>> = flow {
         }
         previous = value
     }
+}
+
+// Returns transformed flow if there is a value, otherwise empty flow.
+@OptIn(ExperimentalCoroutinesApi::class)
+fun <T, R> Flow<T?>.flatMapLatestNotNull(transform: suspend (T) -> Flow<R>): Flow<R> =
+    flatMapLatest { value ->
+        if (value == null) emptyFlow()
+        else transform(value)
+    }
+
+fun <T, R> StateFlow<T>.mapState(transform: (T) -> R): StateFlow<R> {
+    val resultFlow = MutableStateFlow(transform(this.value))
+    onEach { newValue -> resultFlow.value = transform(newValue) }
+    return resultFlow
 }

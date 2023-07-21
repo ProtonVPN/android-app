@@ -22,10 +22,11 @@ package com.protonvpn.test.shared
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 
 @OptIn(ExperimentalCoroutinesApi::class)
-fun <T> TestScope.runWhileCollecting(flow: Flow<T>, block: () -> Unit): List<T> {
+fun <T> TestScope.runWhileCollecting(flow: Flow<T>, block: suspend () -> Unit): List<T> {
     val collectedValues = mutableListOf<T>()
     val collectJob = backgroundScope.launch {
         flow.collect {
@@ -33,7 +34,9 @@ fun <T> TestScope.runWhileCollecting(flow: Flow<T>, block: () -> Unit): List<T> 
         }
     }
     try {
-        block()
+        runBlocking {
+            block()
+        }
         return collectedValues
     } finally {
         collectJob.cancel()

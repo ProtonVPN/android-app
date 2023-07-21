@@ -48,3 +48,11 @@ fun ProtonLogger.logUiSettingChange(setting: Setting, where: String) {
 }
 
 fun ProtocolSelection.toLog() = "$vpn ${transmission ?: ""}"
+
+fun Boolean?.toLog() = when(this) {
+    true -> "enabled"
+    false -> "disabled"
+    null -> "unset"
+}
+
+fun List<*>.itemCountToLog() = if (isEmpty()) "None" else "$size items"
