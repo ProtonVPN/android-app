@@ -31,14 +31,13 @@ import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
-import com.protonvpn.app.vpn.createInMemoryServersStore
 import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
