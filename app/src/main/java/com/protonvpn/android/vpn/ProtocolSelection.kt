@@ -26,6 +26,7 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import java.io.Serializable
 
+@kotlinx.serialization.Serializable
 data class ProtocolSelection private constructor(
     val vpn: VpnProtocol,
     val transmission: TransmissionProtocol?

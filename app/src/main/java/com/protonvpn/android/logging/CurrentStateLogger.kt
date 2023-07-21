@@ -21,6 +21,7 @@ package com.protonvpn.android.logging
 
 import android.content.Context
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -29,6 +30,7 @@ import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -59,18 +61,20 @@ class CurrentStateLogger @Inject constructor(
     private val vpnStateMonitor: VpnStateMonitor,
     private val connectivityMonitor: ConnectivityMonitor,
     private val currentUser: CurrentUser,
+    private val effectiveUserSettings: EffectiveCurrentUserSettings,
     private val powerStateLogger: PowerStateLogger,
     private val settingChangesLogger: SettingChangesLogger
 ) {
     fun logCurrentState() {
         mainScope.launch(mainScope.coroutineContext) {
             val vpnUser = currentUser.vpnUser()
-            val settings = settingChangesLogger.getCurrentSettingsForLog(vpnUser)
+            val settings = effectiveUserSettings.effectiveSettings.first()
+            val settingsText = settingChangesLogger.getCurrentSettingsForLog(settings)
             ProtonLogger.log(UserPlanCurrent, vpnUser?.toLog() ?: "no user logged in")
             ProtonLogger.log(NetworkCurrent, connectivityMonitor.getCurrentStateForLog())
             ProtonLogger.log(ConnCurrentState, vpnStateMonitor.state.toString())
             ProtonLogger.log(OsPowerCurrent, powerStateLogger.getStatusString())
-            ProtonLogger.log(SettingsCurrent, "\n$settings")
+            ProtonLogger.log(SettingsCurrent, "\n$settingsText")
             ProtonLogger.logCustom(LogCategory.APP, "Sentry ID: ${SentryIntegration.getInstallationId()}")
         }
     }
