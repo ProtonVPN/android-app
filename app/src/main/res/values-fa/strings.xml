@@ -141,6 +141,7 @@
     <string name="offerTooltipShowOffer">دیدن پیشنهاد</string>
     <string name="listItemMaintenance">تحت عملیات نگهداری</string>
     <string name="listAllCountries">همهٔ محل‌ها (%1$d)</string>
+    <string name="listGatewayCountries">Gateways</string>
     <string name="listFreeCountries">محل‌های رایگان (%1$d)</string>
     <string name="listPremiumCountries">محل‌های Basic و Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">محل‌های Plus (%1$d)</string>
@@ -541,6 +542,7 @@
     <string name="activity_information_title">اطلاعات</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - سرورهای Plus</string>
+    <string name="activity_information_gateways_title">What is a gateway?</string>
     <string name="info_features">قابلیت‌ها</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">این فناوری به Proton VPN اجازه می‌دهد تا در کشورهایی که ارائهٔ خدمات در آن‌ها دشوار است، سرعت و امنیت بالاتری را ارائه کند.</string>
@@ -562,6 +564,7 @@
     <string name="server_load_low">پایین</string>
     <string name="server_load_medium">متوسط</string>
     <string name="server_load_high">بالا</string>
+    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s dataand services through dedicated servers.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">به Proton VPN خوش آمدید</string>

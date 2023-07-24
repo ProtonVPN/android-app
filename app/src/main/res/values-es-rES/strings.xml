@@ -69,7 +69,7 @@
     <string name="loaderReconnecting">Reconectando</string>
     <string name="loaderReconnectNoNetwork">Esperando una red utilizable</string>
     <string name="loaderReconnectNoNetworkSuggestion">Comprueba tu conexión</string>
-    <string name="loaderCheckingAvailability">Comprobando la disponibilidad del servidor</string>
+    <string name="loaderCheckingAvailability">Verificando la disponibilidad del servidor</string>
     <string name="loaderCheckingAvailabilitySuggestion">Espera unos segundos</string>
     <string name="loaderCancel">Cancelar conexión</string>
     <string name="quickConnect">Conexión rápida</string>
@@ -93,7 +93,7 @@
     <string name="accountVersion">Versión:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Para gestionar tu suscripción, tienes que ir al panel web <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Administrar cuenta</string>
-    <string name="accountButtonUseCoupon">Usar cupón</string>
+    <string name="accountButtonUseCoupon">Utilizar un cupón</string>
     <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Perfil</string>
     <string name="activityAccountTitle">Cuenta</string>
@@ -141,6 +141,7 @@
     <string name="offerTooltipShowOffer">Ver la oferta</string>
     <string name="listItemMaintenance">En mantenimiento</string>
     <string name="listAllCountries">Todas las ubicaciones (%1$d)</string>
+    <string name="listGatewayCountries">Puertas de enlace</string>
     <string name="listFreeCountries">Ubicaciones Gratuitas (%1$d)</string>
     <string name="listPremiumCountries">Ubicaciones Basic y Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Ubicaciones Plus (%1$d)</string>
@@ -161,16 +162,16 @@
     <string name="state_error">Error</string>
     <string name="error_server_unreachable">No se ha podido conectar a la VPN. Comprueba tu conexión e inténtalo de nuevo.</string>
     <string name="error_auth_failed">Autenticación de usuario fallida.</string>
-    <string name="error_assessment_failed">La evaluación de seguridad falló.</string>
+    <string name="error_assessment_failed">No se ha podido evaluar la seguridad.</string>
     <string name="error_generic">Error no especificado al conectar.</string>
     <string name="error_generic_with_reason">Proton VPN no pudo establecer una conexión VPN. Inténtalo de nuevo en unos segundos.<br/><br/>Detalles: %1$s</string>
     <string name="reconnect">Reconectar</string>
     <string name="reconnect_now">Reconectar ahora</string>
     <string name="try_reconnecting">Intentar la reconexión</string>
     <string name="connect">Conectar</string>
-    <string name="upgrade">Mejorar</string>
+    <string name="upgrade">Cambiar de plan</string>
     <string name="retry">Reintentar</string>
-    <string name="connection_failed">La conexión falló</string>
+    <string name="connection_failed">Error de conexión</string>
     <string name="create_new_profile">Nuevo perfil</string>
     <string name="excludeAppsTitle">Excluir aplicaciones</string>
     <string name="excludeAppsDescription">Agregue aplicaciones que desea excluir de su tráfico VPN.</string>
@@ -197,7 +198,7 @@
     <string name="got_it">Entendido</string>
     <string name="onboardingWelcome">¡Te damos la bienvenida!</string>
     <string name="proton_log">Registro de proton</string>
-    <string name="something_went_wrong">Algo salió mal</string>
+    <string name="something_went_wrong">Se ha producido un error.</string>
     <string name="try_again">Inténtalo de nuevo</string>
     <string name="manage">Administrar</string>
     <string name="delete">Eliminar</string>
@@ -254,7 +255,7 @@
     <string name="settingsSplitTunnelingTitle">Tunelización dividida</string>
     <string name="loaderAuthenticatingUser">Autentificando usuario…</string>
     <string name="loaderErrorNoInternet">No hay conexión a Internet.</string>
-    <string name="loaderErrorGeneric">Algo salió mal</string>
+    <string name="loaderErrorGeneric">Se ha producido un error.</string>
     <string name="loaderLoadingServers">Cargando servidores…</string>
     <string name="inputIpAddressLabel">Dirección IP</string>
     <string name="inputIpAddressHint">Escribe la dirección IP</string>
@@ -304,7 +305,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">Enrutado alternativo</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[En caso de que Proton esté bloqueado, permite que la aplicación intente rutas alternativas para llegar a los servidores de Proton. <a href="%1$s">Más información</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueo gubernamental</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Tu país puede estar bloqueando el acceso a Proton. Prueba usando <a href=\'%1$s\'>Tor</a> para acceder a Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Tu país puede estar bloqueando el acceso a Proton. Prueba utilizando <a href=\'%1$s\'>Tor</a> para acceder a Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN siempre activa y Kill Switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Configura el comportamiento de Proton VPN si tu conexión se interrumpe.</string>
     <string name="settingsAlwaysOnWindowHeader">Cómo activar la opción VPN siempre activa y Kill Switch:</string>
@@ -328,7 +329,7 @@
     <string name="settingsSendCrashReportsTitle">Compartir informes anónimos de incidencias</string>
     <string name="settingsSendCrashReportsDescription">Los informes de erorres nos ayudan a corregir errores, detectar cortafuegos y evitar bloqueos de VPN.</string>
     <string name="settingsTelemetryScreenTitle">Estadísticas de uso</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen tu dirección IP y no pueden ser usadas para identificarte. Nosotros nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen tu dirección IP y no pueden ser utilizadas para identificarte. Nosotros nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
     <string name="netShieldEnabledWarning">Es posible que algunos sitios web no funcionen por completo debido a contenidos bloqueados.</string>
     <string name="netShieldDescription">Bloquear anuncios, rastreadores y malware </string>
     <string name="netshield_settings_description"><![CDATA[Protégete contra anuncios, malware y rastreadores en sitios web y aplicaciones. Si los sitios web no cargan, intenta deshabilitar NetShield. <a href="%1$s">
@@ -393,7 +394,7 @@ Más información</a>.]]></string>
     <string name="back">Volver</string>
     <string name="tv_upgrade_url_details"><![CDATA[Visita <b>%1$s</b> para actualizar a Proton VPN Plus ahora.]]></string>
     <string name="tv_upgrade_description">Obtén un plan Proton VPN Plus para acceder a más de 500 servidores en todo el mundo y opciones de streaming optimizadas para Netflix, Amazon Prime Video, Disney + y muchos más.</string>
-    <string name="tv_vpn_error_dialog_title">Conexión VPN fallida</string>
+    <string name="tv_vpn_error_dialog_title">Error con la conexión VPN</string>
     <string name="tv_signout_label">Cerrar sesión</string>
     <string name="tv_signout_dialog_title">¿Estás seguro de que quieres cerrar sesión?</string>
     <string name="tv_signout_dialog_description_connected">Esto desconectará tu televisor de cualquier servidor VPN.</string>
@@ -424,7 +425,7 @@ Más información</a>.]]></string>
     <string name="reconnectToEnableNetshield">Esto reiniciará tu conexión.\n\nNota: algunos sitios pueden no cargar con NetShield activado.</string>
     <string name="notification_subscription_expired_title">Tu plan de suscripción a Proton VPN ha expirado.</string>
     <string name="notification_subscription_expired_content">Hemos tenido que atribuirte un plan con menos funciones pero te estamos reconectando al servidor más rápido disponible en ese plan.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">Has pasado a suscripción con menos funciones.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Has pasado a una suscripción con menos funciones.</string>
     <string name="notification_delinquent_title">Tu cuenta de Proton VPN tiene facturas pendientes.</string>
     <string name="notification_delinquent_content">Tómate un momento para actualizar tu información de facturación para mantener tu suscripción activa.</string>
     <string name="notification_server_unreachable_content">Has sido cambiado a un servidor más rápido que es similar al que has seleccionado.</string>
@@ -465,7 +466,7 @@ Más información</a>.]]></string>
         <item quantity="one">%1$d país</item>
         <item quantity="other">%1$d países</item>
     </plurals>
-    <string name="upsell_upgrade_again">Actualiza de nuevo para disfrutar de todas las funciones:</string>
+    <string name="upsell_upgrade_again">Mejora tu plan de nuevo para disfrutar de todas las funciones:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
     <string name="upgrade_plus_subtitle">Cuando mejoras a Plus</string>
@@ -542,6 +543,7 @@ Más información</a>.]]></string>
     <string name="activity_information_title">Información</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Servidores Plus</string>
+    <string name="activity_information_gateways_title">¿Qué es una puerta de enlace?</string>
     <string name="info_features">Funcionalidades</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Esta tecnología permite a Proton VPN proporcionar mayor velocidad y seguridad en países difíciles de servir.</string>
@@ -563,6 +565,7 @@ Más información</a>.]]></string>
     <string name="server_load_low">Baja</string>
     <string name="server_load_medium">Media</string>
     <string name="server_load_high">Alta</string>
+    <string name="info_gateways_description">Una puerta de enlace VPN es una conexión segura que proporciona acceso controlado a los datos y servicios de tu empresa mediante servidores dedicados.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">¡Te damos la bienvenida a Proton VPN!</string>
@@ -663,7 +666,7 @@ Más información</a>.]]></string>
     </plurals>
     <string name="search_upgrade_banner_subtitle">Más ubicaciones = más contenido desbloqueado + seguridad adicional + velocidades más rápidas</string>
     <string name="ikev2_removed_dialog_title">El protocolo IKEv2 VPN ya no está disponible</string>
-    <string name="ikev2_removed_dialog_message">Las configuraciones por defecto y los perfiles que antes usaban IKEv2 ahora usarán el protocolo Smart.</string>
+    <string name="ikev2_removed_dialog_message">Las configuraciones por defecto y los perfiles que antes utilizaban IKEv2 ahora utilizarán el protocolo Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visita <a href="https://protonvpn.com/pricing">protonvpn.com</a> para más información.</string>
 </resources>

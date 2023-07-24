@@ -141,6 +141,7 @@
     <string name="offerTooltipShowOffer">Veja a oferta</string>
     <string name="listItemMaintenance">Em manutenção</string>
     <string name="listAllCountries">Todas as localizações (%1$d)</string>
+    <string name="listGatewayCountries">Gateways</string>
     <string name="listFreeCountries">Localizações Free (%1$d)</string>
     <string name="listPremiumCountries">Localizações Basic e Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Localizações Plus (%1$d)</string>
@@ -541,6 +542,7 @@
     <string name="activity_information_title">Informação</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Servidores Plus</string>
+    <string name="activity_information_gateways_title">O que é um gateway?</string>
     <string name="info_features">Recursos</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Essa tecnologia permite que o Proton VPN forneça maior velocidade e segurança em países de difícil atendimento.</string>
@@ -562,6 +564,7 @@
     <string name="server_load_low">Baixa</string>
     <string name="server_load_medium">Média</string>
     <string name="server_load_high">Alta</string>
+    <string name="info_gateways_description">Um gateway de VPN é uma conexão segura que oferece acesso controlado aos dados e serviços da sua empresa por meio de servidores dedicados.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Boas-vindas ao Proton VPN</string>
