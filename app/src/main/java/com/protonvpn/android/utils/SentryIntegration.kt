@@ -24,8 +24,10 @@ import android.os.Build
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import io.sentry.Sentry
+import io.sentry.SentryLevel
 import io.sentry.android.core.SentryAndroid
 import io.sentry.protocol.User
+import me.proton.core.util.android.sentry.TimberLoggerIntegration
 import java.util.UUID
 
 object SentryIntegration {
@@ -71,6 +73,12 @@ object SentryIntegration {
                 SentryFingerprints.setFingerprints(event)
             }
             options.isEnableScopeSync = true
+            options.addIntegration(
+                TimberLoggerIntegration(
+                    minEventLevel = SentryLevel.ERROR, // Only errors from TimberLogger.
+                    minBreadcrumbLevel = SentryLevel.FATAL // No breadcrumb from TimberLogger.
+                )
+            )
         }
         Sentry.setUser(User().apply { id = getInstallationId() })
         // Add manufacturer because some devices report device model for "device.family" which isn't very useful for
