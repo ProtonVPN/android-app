@@ -141,6 +141,7 @@
     <string name="offerTooltipShowOffer">See the offer</string>
     <string name="listItemMaintenance">Održavanje u tijeku</string>
     <string name="listAllCountries">All locations (%1$d)</string>
+    <string name="listGatewayCountries">Gateways</string>
     <string name="listFreeCountries">Free locations (%1$d)</string>
     <string name="listPremiumCountries">Basic &amp; Plus locations (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus locations (%1$d)</string>
@@ -551,6 +552,7 @@
     <string name="activity_information_title">Informacije</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Plus poslužitelji</string>
+    <string name="activity_information_gateways_title">What is a gateway?</string>
     <string name="info_features">Značajke</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ova tehnologija omogućuje Proton VPN-u da pruža veću brzinu i sigurnost u zemljama koje je teško uslužiti.</string>
@@ -572,6 +574,7 @@
     <string name="server_load_low">Nisko</string>
     <string name="server_load_medium">Srednja</string>
     <string name="server_load_high">Visoko</string>
+    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s dataand services through dedicated servers.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Welcome to Proton VPN</string>

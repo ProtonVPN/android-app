@@ -141,6 +141,7 @@
     <string name="offerTooltipShowOffer">Zobrazit nabídku</string>
     <string name="listItemMaintenance">Probíhá údržba</string>
     <string name="listAllCountries">Všechna umístění (%1$d)</string>
+    <string name="listGatewayCountries">Brány</string>
     <string name="listFreeCountries">Bezplatná umístění (%1$d)</string>
     <string name="listPremiumCountries">Umístění tarifů Basic &amp; Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus lokace (%1$d)</string>
@@ -561,6 +562,7 @@
     <string name="activity_information_title">Informace</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Plus servery</string>
+    <string name="activity_information_gateways_title">Co je to brána?</string>
     <string name="info_features">Funkce</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Tato technologie umožňuje, aby aplikace Proton VPN byly rychlejší a bezpečnější v zemích, které nerespektují soukromí.</string>
@@ -582,6 +584,7 @@
     <string name="server_load_low">Nízká</string>
     <string name="server_load_medium">Střední</string>
     <string name="server_load_high">Vysoká</string>
+    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s dataand services through dedicated servers.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Vítejte v Proton VPN</string>

@@ -141,6 +141,7 @@
     <string name="offerTooltipShowOffer">Посмотрите предложение</string>
     <string name="listItemMaintenance">На техобслуживании</string>
     <string name="listAllCountries">Все местоположения (%1$d)</string>
+    <string name="listGatewayCountries">Gateways</string>
     <string name="listFreeCountries">Местоположения Free (%1$d)</string>
     <string name="listPremiumCountries">Местоположения Basic и Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Местоположения Plus (%1$d)</string>
@@ -561,6 +562,7 @@
     <string name="activity_information_title">Информация</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Серверы Plus</string>
+    <string name="activity_information_gateways_title">What is a gateway?</string>
     <string name="info_features">Функции</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Эта технология позволяет Proton VPN обеспечивать более высокую скорость и безопасность в трудных для обслуживания странах.</string>
@@ -582,6 +584,7 @@
     <string name="server_load_low">Низкая</string>
     <string name="server_load_medium">Средняя</string>
     <string name="server_load_high">Высокая</string>
+    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s dataand services through dedicated servers.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Добро пожаловать в Proton VPN</string>

@@ -141,6 +141,7 @@
     <string name="offerTooltipShowOffer">Voir l’offre</string>
     <string name="listItemMaintenance">En maintenance</string>
     <string name="listAllCountries">Tous les emplacements (%1$d)</string>
+    <string name="listGatewayCountries">Passerelles</string>
     <string name="listFreeCountries">Emplacements Free (%1$d)</string>
     <string name="listPremiumCountries">Emplacements Basic &amp; Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Emplacements Plus (%1$d)</string>
@@ -422,8 +423,8 @@
     <string name="settingsReconnectToChangeDialogContent">Ceci redémarrera votre connexion.</string>
     <string name="reconnectToEnableNetshield">Cela redémarrera votre connexion.\n\nNotez que certains sites peuvent ne pas se charger quand NetShield est activé.</string>
     <string name="notification_subscription_expired_title">Votre abonnement Proton VPN a expiré.</string>
-    <string name="notification_subscription_expired_content">Nous avons dû rétrograder votre abonnement, mais nous vous reconnectons au serveur le plus rapide qui est disponible avec cet abonnement.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">Votre abonnement a été rétrogradé.</string>
+    <string name="notification_subscription_expired_content">Nous avons dû vous attribuer un abonnement avec moins de fonctionalités, mais nous vous reconnectons au serveur le plus rapide qui est disponible avec cet abonnement.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Votre abonnement contient moins de fonctionnalités.</string>
     <string name="notification_delinquent_title">Vous avez des factures en retard pour votre compte Proton VPN.</string>
     <string name="notification_delinquent_content">Prenez un moment pour mettre à jour vos informations de facturation et garder votre abonnement actif.</string>
     <string name="notification_server_unreachable_content">Nous vous avons transféré vers un serveur plus rapide, similaire à celui que vous avez sélectionné.</string>
@@ -541,6 +542,7 @@
     <string name="activity_information_title">Informations</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - serveurs Plus</string>
+    <string name="activity_information_gateways_title">Qu\'est-ce qu\'une passerelle ?</string>
     <string name="info_features">Fonctionnalités</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Cette technologie permet à Proton VPN de fournir une vitesse et une sécurité plus élevées dans les pays difficiles à desservir.</string>
@@ -562,6 +564,7 @@
     <string name="server_load_low">Faible</string>
     <string name="server_load_medium">Moyenne</string>
     <string name="server_load_high">Élevée</string>
+    <string name="info_gateways_description">Une passerelle VPN est une connexion sécurisée qui permet de contrôler l\'accès aux données de votre entreprise par le biais de serveurs dédiés.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Bienvenue sur Proton VPN</string>

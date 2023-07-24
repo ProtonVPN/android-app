@@ -141,6 +141,7 @@
     <string name="offerTooltipShowOffer">Переглянути пропозицію</string>
     <string name="listItemMaintenance">Обслуговується</string>
     <string name="listAllCountries">Усі розташування (%1$d)</string>
+    <string name="listGatewayCountries">Шлюзи</string>
     <string name="listFreeCountries">Безплатні розташування (%1$d)</string>
     <string name="listPremiumCountries">Розташування Basic і Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Розташування Plus (%1$d)</string>
@@ -561,6 +562,7 @@
     <string name="activity_information_title">Відомості</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s — сервери Plus</string>
+    <string name="activity_information_gateways_title">Що таке шлюз?</string>
     <string name="info_features">Можливості</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ця технологія дає змогу Proton VPN забезпечити вищу швидкість та безпеку в країнах з ускладненим обслуговуванням.</string>
@@ -582,6 +584,7 @@
     <string name="server_load_low">Низьке</string>
     <string name="server_load_medium">Середнє</string>
     <string name="server_load_high">Високе</string>
+    <string name="info_gateways_description">VPN-шлюз - це безпечне з\'єднання, яке забезпечує контрольований доступ до даних та послуг вашої компанії через виділені сервери.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Ласкаво просимо у Proton VPN</string>

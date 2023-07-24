@@ -141,6 +141,7 @@
     <string name="offerTooltipShowOffer">Lihat penawaran ini</string>
     <string name="listItemMaintenance">Dalam pemeliharaan</string>
     <string name="listAllCountries">Seluruh lokasi (%1$d)</string>
+    <string name="listGatewayCountries">Gateways</string>
     <string name="listFreeCountries">Lokasi Free (%1$d)</string>
     <string name="listPremiumCountries">Lokasi Basic &amp; Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Lokasi Plus (%1$d)</string>
@@ -531,6 +532,7 @@
     <string name="activity_information_title">Informasi</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Server plus</string>
+    <string name="activity_information_gateways_title">What is a gateway?</string>
     <string name="info_features">Fitur</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Teknologi ini memungkinkan Proton VPN untuk menyediakan kecepatan dan keamanan layanan yang lebih tinggi di negara yang masih berkembang.</string>
@@ -552,6 +554,7 @@
     <string name="server_load_low">Rendah</string>
     <string name="server_load_medium">Sedang</string>
     <string name="server_load_high">Tinggi</string>
+    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s dataand services through dedicated servers.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Selamat datang di Proton VPN</string>

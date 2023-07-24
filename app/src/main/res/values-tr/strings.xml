@@ -33,15 +33,15 @@
     <string name="connectionAllocationHelpTitle">Business\u00a0/\u00a0Visionary tarifesine\nyükselttiğiniz için teşekkürler</string>
     <string name="connectionAllocationHelpDescription1">Proton VPN yolculuğunuza başlamak için lütfen hesabınıza ya da başka bir alt hesaba VPN bağlantıları atayın.</string>
     <string name="connectionAllocationHelpDescription2">Bu adım birkaç dakika sürecek. Bundan sonra oturum açabilir ve tüm aygıtlarınızı koruyabilirsiniz.</string>
-    <string name="connectionAllocationHelpDescription1AskAdmin">Şu anda bu hesap için herhangi bir VPN bağlantısı etkinleştirilmemiş. Proton VPN yolcuğunuza başlamak için yöneticinizle görüşün. </string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">VPN bağlantılarını etkinleştir</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Şu anda bu hesap için herhangi bir VPN bağlantısı açılmamış. Proton VPN yolcuğunuza başlamak için yöneticinizle görüşün. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">VPN bağlantılarını aç</string>
     <string name="connectionAllocationHelpLoginAgainButton">Yeniden oturum aç</string>
     <string name="mapCalloutConnect">Bağlan</string>
     <string name="mapCalloutDisconnect">Bağlantıyı kes</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Uyarı</string>
     <string name="secureCoreSpeedInfoTitle">Hız hakkında bir not…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core, en yüksek düzeyde güvenlik ve gizlilik sunar. Ancak internet hızınızı düşürebilir. Başarımı yükseltmeye gerek duyuyorsanız, Secure Core özelliğini devre dışı bırakabilirsiniz.</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core, en yüksek düzeyde güvenlik ve gizlilik sunar. Ancak internet hızınızı düşürebilir. Başarımı yükseltmeye gerek duyuyorsanız, Secure Core özelliğini kapatabilirsiniz.</string>
     <string name="secureCoreActivateDialogButton">Secure Core kullanılsın</string>
     <string name="logoutConfirmDialogTitle">Oturumu kapat?</string>
     <string name="logoutConfirmDialogMessage">Oturumu kapatmak, aygıtınızın VPN bağlantısını keser.</string>
@@ -116,7 +116,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Standart olmayan bağlantı noktaları</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN ağı üzerinde standart olmayan bağlantı noktalarından trafik akışına izin vererek herhangi bir özel gereksinim için Proton VPN kullanabilirsiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="settingsModerateNatTitle">Ilımlı NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrim içi oyunlar gibi uygulamaların doğrudan bağlantı kurması gibi tekniklere izin veren yerel adres eşlemelerini rastgeleleştirme özelliğini devre dışı bırakır. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrim içi oyunlar gibi uygulamaların doğrudan bağlantı kurması gibi tekniklere izin veren yerel adres eşlemelerini rastgeleleştirme özelliğini kapatır. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="use_coupon_title">Kupon kullan</string>
     <string name="use_coupon_code_label">Kupon kodu</string>
     <string name="use_coupon_success">Kupon uygulandı</string>
@@ -132,7 +132,7 @@
     <string name="errorEmptyExitCountry">Çıkış ülkesi alanı boş olamaz</string>
     <string name="onboardingDialogMapView">Bağlantının ve VPN sunucusunun nerede olduğunu görmek için garita görünümünü kullanın.</string>
     <string name="onboardingDialogProfiles">Beğendiğiniz sunucular için profiller oluşturarak bunlara kolayca erişin. Ayrıca, alt ekrandaki Proton VPN simgesine uzunca dokunarak tüm profillerinizi görebilirsiniz. Profillerden birine dokunarak VPN bağlantısı kurabilirsiniz.</string>
-    <string name="onboardingNetshield">Kötü amaçlı yazılımlardan, reklamlardan ve etkinlik izleyicilerden korunmanızı sağlar. \nNot: Bazı siteler yüklenmezse, NetShield korumasını devre dışı bırakmayı deneyin.</string>
+    <string name="onboardingNetshield">Kötü amaçlı yazılımlardan, reklamlardan ve etkinlik izleyicilerden korunmanızı sağlar. \nNot: Bazı siteler yüklenmezse, NetShield korumasını kapatmayı deneyin.</string>
     <string name="onboardingFAB">Hızlı bağlan / Profiller</string>
     <string name="onboardingFABDescription">En hızlı şekilde bağlanmak için bu düğmeye tıklayın</string>
     <string name="onboardingSignup">Hesap açın</string>
@@ -141,6 +141,7 @@
     <string name="offerTooltipShowOffer">Teklifi göster</string>
     <string name="listItemMaintenance">Bakım yapılıyor</string>
     <string name="listAllCountries">Tüm konumlar (%1$d)</string>
+    <string name="listGatewayCountries">Geçit yolları</string>
     <string name="listFreeCountries">Free konumları (%1$d)</string>
     <string name="listPremiumCountries">Basic ve Plus konumları (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus konumları (%1$d)</string>
@@ -233,12 +234,12 @@
     <string name="noVpnPermissionMainMessage">Proton VPN bağlantısı kurmak için şunları yapın:</string>
     <string name="noVpnPermissionGrantPermissionTitle">VPN izni verin</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Proton VPN bağlantısı kurmak için Android izinleri vermeniz gerekir. Android \"Bağlantı isteği\" yapıldığında \"Tamam\" üzerine tıklayın.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Diğer VPN uygulamalarının hep açık seçeneğini devre dışı bırakın</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android birden fazla VPN uygulamasını desteklemez. Proton VPN dışındaki diğer VPN uygulamaları için hep açık seçeneğini devre dışı bırakın.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Diğer VPN uygulamalarının hep açık seçeneğini kapatın</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android birden fazla VPN uygulamasını desteklemez. Proton VPN dışındaki diğer VPN uygulamaları için hep açık seçeneğini kapatın.</string>
     <string name="noVpnPermissionProtonAppLabel">Proton VPN uygulaması</string>
     <string name="noVpnPermissionOtherAppLabel">Diğer VPN uygulamaları</string>
     <string name="noVpnPermissionOpenSettings">Android VPN ayarlarını açın</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için hep açık seçeneğini devre dışı bırakın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için hep açık seçeneğini kapatın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="error_prepare_vpn_settings">Android VPN ayarlarına git</string>
     <string name="error_prepare_vpn_title">Hata: VPN izni sorunu</string>
     <string name="error_server_not_set">Sunucu artık kullanılamıyor</string>
@@ -294,9 +295,9 @@
     <string name="troubleshootIspProblemTitle">İnternet hizmeti sağlayıcı (ISP) sorunu</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Farklı bir ağ kullanarak Proton bağlantısı kurmayı deneyin (ya da <a href=\'%1$s\'>Tor</a> kullanın)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Antivirüs çakışması</string>
-    <string name="troubleshootAntivirusProblemDescription">Antivirus uygulamanızı geçici olarak devre dışı bırakın veya kaldırın.</string>
+    <string name="troubleshootAntivirusProblemDescription">Antivirus uygulamanızı geçici olarak kapatın ya da kaldırın.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Vekil sunucu veya güvenlik duvarı müdahalesi</string>
-    <string name="troubleshootProxyFirewallProblemDescription">Vekil sunucuları veya güvenlik duvarlarını devre dışı bırakın ya da ağ yöneticinizle görüşün.</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Vekil sunucuları veya güvenlik duvarlarını kapatın ya da ağ yöneticinizle görüşün.</string>
     <string name="troubleshootProtonDownTitle">Proton çalışmıyor</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Sistemimizin durumunu görmek için <a href=\"%1$s\">Proton durumunu</a> sayfasına bakın.]]></string>
     <string name="troubleshootContactUsSectionTitle">Hala yardım gerekiyor mu? Doğrudan bizimle görüşün</string>
@@ -307,21 +308,21 @@
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ülkeniz Proton ağına erişimi engelliyor olabilir. Proton ağına erişmek için <a href=\'%1$s\'>Tor</a> kullanmayı deneyin.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Hep açık VPN ve bağlantı kesici</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Bağlantınız kesilirse Proton VPN uygulamasının nasıl davranacağını ayarlayın</string>
-    <string name="settingsAlwaysOnWindowHeader">Hep açık VPN ve bağlantı kesici nasıl etkinleştirilir:</string>
+    <string name="settingsAlwaysOnWindowHeader">Hep açık VPN ve bağlantı kesici nasıl kullanılır:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Aşağıdaki düğmeye dokunarak aygıtınızın <b>Ayarlarını</b> açın]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Proton VPN uygulamasını bulun ve %1$s seçeneğine dokunun</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Etkinleştirmek için <b>Hep açık VPN</b> seçeneğinin yanındaki anahtara dokunun]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Açmak için <b>Hep açık VPN</b> seçeneğinin yanındaki anahtara dokunun]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Bağlantı kesiciyi etkinleştirmek için <b>VPN olmadan bağlantıları engelle</b> seçeneğinin yanındaki anahtara dokunun]]></string>
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Bağlantı kesiciyi açmak için <b>VPN olmadan bağlantılar engellensin</b> seçeneğinin yanındaki anahtara dokunun]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android ayarlarını aç</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Bağlantı kesici etkinleştirildiğinde, VPN tüneli dışındaki tüm bağlantılar engelleneceğinden ayrılmış tünelleme özelliği devre dışı bırakılır</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Bağlantı kesici açıldığında, VPN tüneli dışındaki tüm bağlantılar engelleneceğinden ayrılmış tünelleme özelliği kapatılır</string>
     <string name="settingsSmartProtocolDescription">En iyi bağlantıyı sağlayan iletişim kuralı ve bağlantı noktası otomatik olarak seçilsin.</string>
     <string name="settingsEnableTelemetryTitle">Anonim kullanım istatistikleri paylaşılsın</string>
     <string name="settingsEnableTelemetryDescription">Kullanım verileri VPN engellemelerini aşmamıza ve uygulamanın başarımını artırmamıza yardımcı olur.</string>
@@ -353,7 +354,7 @@
     <string name="guestHoleActivated">Bölgenizde Proton VPN erişimi sınırlı olabilir. Bu nedenle bu işlem normalden daha uzun sürecek. Lütfen biz bu sorunu çözerken bekleyin.</string>
     <string name="guestHoleNotificationContent">Ağ sorunları aşılmaya çalışılıyor. Bu işlem Proton VPN hizmetine erişmenize yardımcı olacak.</string>
     <string name="onMaintenanceDetected">Bağlandığınız VPN sunucusunda bakım yapılıyor. Bağlantınızı otomatik olarak en hızlı sunucuya geçirdik.</string>
-    <string name="errorTunMultiUserPermission">Çift uygulama (örneğin Dual Messenger) ve ayrılmış tünelleme arasındaki bir çakışma nedeniyle VPN bağlantısı başlatılamadı. Lütfen bunlardan birini devre dışı bırakıp aygıtınızı yeniden başlatın.</string>
+    <string name="errorTunMultiUserPermission">Çift uygulama (örneğin Dual Messenger) ve ayrılmış tünelleme arasındaki bir çakışma nedeniyle VPN bağlantısı başlatılamadı. Lütfen bunlardan birini kapatıp aygıtınızı yeniden başlatın.</string>
     <string name="errorTorrentNotAllowed">Bu sunucu üzerinde P2P kullanımına izin verilmiyor</string>
     <string name="errorWireguardWithPlaceholder">WireGuard sorunu: %1$s</string>
     <string name="profileProtocolNotAvailable">Profilin VPN iletişim kuralı şu anda kullanılamıyor. Bağlantı kurmak için iletişim kuralını değiştirmeyi deneyin.</string>
@@ -441,9 +442,9 @@
     <string name="reconnect_from_server">Sunucudan: </string>
     <string name="reconnect_to_server">Sunucuya: </string>
     <string name="no_thanks">Hayır, teşekkürler</string>
-    <string name="enable">Etkinleştir</string>
-    <string name="notification_smart_protocol_disabled_title">Smart Protocol şu anda devre dışı</string>
-    <string name="notification_smart_protocol_disabled_content">ProtonVPN, kullandığınız ağın VPN bağlantısı engellediğini algıladı. Smart Protocol özelliğini etkinleştirmek bu kısıtlamaları aşabilir.</string>
+    <string name="enable">Aç</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol şu anda kapalı</string>
+    <string name="notification_smart_protocol_disabled_content">ProtonVPN, kullandığınız ağın VPN bağlantısı engellediğini algıladı. Smart Protocol özelliğini açmak bu kısıtlamaları aşabilir.</string>
     <string name="upsell_advanced_features">Gelişmiş özellikler: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Dünyanın her yerindeki yayın akışı hizmetlerine erişerek izleyin (Netflix, Disney+, vb)</string>
     <!-- Number of servers available in the service.
@@ -541,6 +542,7 @@
     <string name="activity_information_title">Bilgiler</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Plus sunucuları</string>
+    <string name="activity_information_gateways_title">Bir geçit nedir?</string>
     <string name="info_features">Özellikler</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Bu teknoloji, hizmet verilmesi zor ülkelerde Proton VPN için daha yüksek hız ve güvenlik sağlar.</string>
@@ -562,6 +564,7 @@
     <string name="server_load_low">Düşük</string>
     <string name="server_load_medium">Orta</string>
     <string name="server_load_high">Yüksek</string>
+    <string name="info_gateways_description">VPN ağ geçidi, şirketinizin verilerine ve hizmetlerine özel sunucular üzerinden denetimli erişim sağlayan güvenli bir bağlantıdır.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN hizmetine hoş geldiniz</string>
