@@ -23,6 +23,7 @@ import android.telephony.TelephonyManager
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
@@ -65,19 +66,26 @@ open class ProtonApiRetroFit(
         loader: LoaderUI?,
         netzone: String?,
         lang: String,
-        protocols: List<String>
+        protocols: List<String>,
+        freeOnly: Boolean,
     ) = makeCall(loader) {
             it.getServers(
                 TimeoutOverride(readTimeoutSeconds = 20),
                 createNetZoneHeaders(netzone),
                 lang,
                 protocols.joinToString(","),
-                withPartners = true
+                withPartners = true,
+                if (freeOnly) VpnUser.FREE_TIER else null
             )
     }
 
-    open suspend fun getLoads(netzone: String?) =
-        manager { getLoads(createNetZoneHeaders(netzone)) }
+    open suspend fun getLoads(netzone: String?, freeOnly: Boolean) =
+        manager {
+            getLoads(
+                createNetZoneHeaders(netzone),
+                if (freeOnly) VpnUser.FREE_TIER else null
+            )
+        }
 
     open suspend fun getStreamingServices() =
         manager { getStreamingServices() }

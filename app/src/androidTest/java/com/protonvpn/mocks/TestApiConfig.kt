@@ -65,8 +65,14 @@ sealed class TestApiConfig {
                     respond("""{"Code":1000,"Card":0,"Paypal":0,"Bitcoin":0,"InApp":0}""")
                 }
 
-                rule(get, path eq "/vpn/logicals") {
-                    respond(ServerList(MockedServers.serverList))
+                rule(get, path eq "/vpn/logicals") { request ->
+                    val tier = request.requestUrl?.queryParameter("Tier")?.toInt()
+                    respond(ServerList(
+                        if (tier != null)
+                            MockedServers.serverList.filter { it.tier == tier }
+                        else
+                            MockedServers.serverList)
+                    )
                 }
 
                 rule(post, path eq "/vpn/v1/certificate") {

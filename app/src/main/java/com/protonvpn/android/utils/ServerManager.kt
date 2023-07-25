@@ -40,7 +40,6 @@ import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.isSecureCoreCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
-import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.vpn.ProtocolSelection
 import io.sentry.Sentry
@@ -104,13 +103,12 @@ class ServerManager @Inject constructor(
     val isDownloadedAtLeastOnce: Boolean
         get() = (lastUpdateTimestamp > 0L || migrateUpdatedAt != null) && serversStore.allServers.isNotEmpty()
 
-    val isOutdated: Boolean
+    val needsUpdate: Boolean
         get() = lastUpdateTimestamp == 0L || serversStore.allServers.isEmpty() ||
-            wallClock() - lastUpdateTimestamp >= ServerListUpdater.LIST_CALL_DELAY ||
             !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE ||
             translationsLang != Locale.getDefault().language
 
-    private val allServers get() = serversStore.allServers
+    val allServers get() = serversStore.allServers
 
     /** Get the number of all servers. Not very efficient. */
     val allServerCount get() = allServers.count()

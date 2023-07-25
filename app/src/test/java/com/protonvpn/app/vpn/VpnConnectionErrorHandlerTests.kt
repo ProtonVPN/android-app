@@ -455,7 +455,7 @@ class VpnConnectionErrorHandlerTests {
             ),
             initialServers[1].copy()
         )
-        every { serverManager.isOutdated } returns true
+        every { serverListUpdater.needsUpdate } returns true
         coEvery { serverListUpdater.updateServerList(any()) } answers {
             prepareServerManager(updatedServers)
             ApiResult.Success(ServerList(updatedServers))

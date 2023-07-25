@@ -219,7 +219,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             return null
         }
 
-        if (serverManager.isOutdated) {
+        if (serverListUpdater.needsUpdate) {
             serverListUpdater.updateServerList()
         }
 
