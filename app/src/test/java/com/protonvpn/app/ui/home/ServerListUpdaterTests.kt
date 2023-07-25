@@ -25,46 +25,68 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import com.protonvpn.android.ui.home.ServerListUpdaterRemoteConfig
+import com.protonvpn.android.ui.home.updateTier
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
+import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.TestUser
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.util.concurrent.TimeUnit
 
 private const val TEST_IP = "1.2.3.4"
 private const val OLD_IP = "10.0.0.1"
+private const val BACKGROUND_DELAY_MS = 1000L
+private const val FOREGROUND_DELAY_MS = 100L
+
+private const val MODIFIED_REGION = "NEW REGION"
+private val FULL_LIST = MockedServers.serverList
+private val FREE_LIST_MODIFIED = listOf(
+    MockedServers.serverList.first { it.serverName == "SE#3" }.copy(region = MODIFIED_REGION)
+)
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ServerListUpdaterTests {
 
     @get:Rule
     val instantTaskExecutor = InstantTaskExecutorRule()
+
+    private lateinit var mockRemoteConfig: ServerListUpdaterRemoteConfig
 
     @MockK
     private lateinit var mockApi: ProtonApiRetroFit
@@ -97,14 +119,29 @@ class ServerListUpdaterTests {
         serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         serverListUpdaterPrefs.ipAddress = OLD_IP
         vpnStateMonitor = VpnStateMonitor()
-
+        mockRemoteConfig = ServerListUpdaterRemoteConfig(
+            MutableStateFlow(
+                ServerListUpdaterRemoteConfig.Config(
+                    backgroundDelayMs = BACKGROUND_DELAY_MS,
+                    foregroundDelayMs = FOREGROUND_DELAY_MS
+                )
+            )
+        )
         coEvery { guestHole.runWithGuestHoleFallback(any<suspend () -> Any?>()) } coAnswers { firstArg<suspend () -> Any?>()() }
         coEvery { mockCurrentUser.isLoggedIn() } returns true
         coEvery { mockCurrentUser.eventVpnLogin } returns emptyFlow()
+        coEvery { mockCurrentUser.vpnUser() } returns TestUser.freeUser.vpnUser
         every { mockServerManager.isDownloadedAtLeastOnce } returns true
-        every { mockServerManager.isOutdated } returns false
+        every { mockServerManager.needsUpdate } returns false
+        var allServers = emptyList<Server>()
+        every { mockServerManager.setServers(any(), any()) } answers { allServers = firstArg() }
+        every { mockServerManager.allServers } answers { allServers }
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
-        coEvery { mockApi.getServerList(any(), any(), any(), any()) } returns ApiResult.Success(ServerList(emptyList()))
+        coEvery { mockApi.getServerList(any(), any(), any(), any(), any()) } answers {
+            val freeOnly = arg<Boolean>(4)
+            val list = if (freeOnly) FREE_LIST_MODIFIED else FULL_LIST
+            ApiResult.Success(ServerList(list))
+        }
         coEvery { mockPartnershipsRepository.refresh() } returns Unit
 
         every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_GSM
@@ -124,8 +161,9 @@ class ServerListUpdaterTests {
             guestHole,
             mockPeriodicUpdateManager,
             emptyFlow(),
-            emptyFlow()
-        )
+            emptyFlow(),
+            mockRemoteConfig
+        ) { testScope.currentTime + TimeUnit.DAYS.toMillis(100) } // Move wall clock away from epoch
     }
 
     @Test
@@ -173,4 +211,42 @@ class ServerListUpdaterTests {
 
         coVerify { mockPeriodicUpdateManager.executeNow<Any, Any>(match { it.id == "server_list" }) }
     }
+
+    @Test
+    fun `free user gets light list refresh`() = testScope.runTest {
+        // First update is full
+        assertFalse(serverListUpdater.freeOnlyUpdateNeeded())
+        serverListUpdater.updateServers(null)
+
+        // Not enough time passed for full refresh
+        advanceTimeBy(1)
+        assertTrue(serverListUpdater.freeOnlyUpdateNeeded())
+        serverListUpdater.updateServers(null)
+
+        // Full update needed again
+        advanceTimeBy(ServerListUpdater.FULL_SERVER_LIST_CALL_DELAY)
+        assertFalse(serverListUpdater.freeOnlyUpdateNeeded())
+        serverListUpdater.updateServers(null)
+
+        coVerifyOrder {
+            mockApi.getServerList(any(), any(), any(), any(), freeOnly = false)
+            mockServerManager.setServers(withArg { assertEquals(FULL_LIST, it) }, any())
+
+            mockApi.getServerList(any(), any(), any(), any(), freeOnly = true)
+            mockServerManager.setServers(withArg { assertTrue(it.isModifiedList()) }, any())
+
+            mockApi.getServerList(any(), any(), any(), any(), freeOnly = false)
+        }
+    }
+
+    @Test
+    fun updateTier() {
+        // Updating tier 0 with empty list removes all tier 0 servers
+        assertEquals(FULL_LIST.filter { it.tier != 0 }, FULL_LIST.updateTier(emptyList(), 0))
+        assertTrue(FULL_LIST.updateTier(FREE_LIST_MODIFIED, 0).isModifiedList())
+    }
+
+    private fun List<Server>.isModifiedList() =
+        filter { it.tier != 0 } == FULL_LIST.filter { it.tier != 0 } // Same paid servers
+            && filter { it.tier == 0 } == FREE_LIST_MODIFIED // Free servers come from new update
 }

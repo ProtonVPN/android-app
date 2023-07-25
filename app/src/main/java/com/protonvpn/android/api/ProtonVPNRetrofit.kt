@@ -67,11 +67,15 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @HeaderMap headers: Map<String, String>,
         @Query("WithTranslations") language: String,
         @Query("WithEntriesForProtocols") protocols: String,
-        @Query("WithPartnerLogicals") withPartners: Boolean
+        @Query("WithPartnerLogicals") withPartners: Boolean,
+        @Query("Tier") userTier: Int?
     ): ServerList
 
     @GET("vpn/loads")
-    suspend fun getLoads(@HeaderMap headers: Map<String, String>): LoadsResponse
+    suspend fun getLoads(
+        @HeaderMap headers: Map<String, String>,
+        @Query("Tier") userTier: Int?
+    ): LoadsResponse
 
     @GET("vpn/streamingservices")
     suspend fun getStreamingServices(): StreamingServicesResponse

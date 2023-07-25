@@ -65,15 +65,19 @@ data class VpnUser(
     val accountType get() = if (services == 4)
         "Proton VPN Account" else "Proton Mail Account"
 
-    val isFreeUser get() = maxTier == 0
+    val isFreeUser get() = maxTier == FREE_TIER
     val isBasicUser get() = userTier == 1
-    val isUserBasicOrAbove get() = userTier > 0
+    val isUserBasicOrAbove get() = userTier > FREE_TIER
     val isUserPlusOrAbove get() = userTier > 1
     val isUserDelinquent get() = delinquent >= 3
     val isPMTeam get() = maxTier == 3
 
-    val userTier: Int get() = maxTier ?: 0
+    val userTier: Int get() = maxTier ?: FREE_TIER
     val userTierName: String get() = planName ?: "free"
+
+    companion object {
+        const val FREE_TIER = 0
+    }
 }
 
 fun VpnUser?.hasAccessToServer(server: Server?) =

@@ -20,6 +20,7 @@
 package com.protonvpn.tests.partnership
 
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.actions.HomeRobot
@@ -33,6 +34,7 @@ import com.protonvpn.data.PartnersData.newsPartnerType2
 import com.protonvpn.data.PartnersData.partnerServerNews
 import com.protonvpn.data.PartnersData.partnerServerNews2
 import com.protonvpn.mocks.TestApiConfig
+import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.TestSetup
@@ -42,6 +44,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.test.fail
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
@@ -154,6 +157,20 @@ class PartnershipTests {
                     checkIfPartnerIsNotDisplayed(newsPartner2)
                 }
         }
+    }
+
+    @Test
+    fun partnersNotCalledWhenNoPartnerServers() {
+        hiltRule.mockDispatcher.prependRules {
+            rule(get, path eq "/vpn/v1/partners") {
+                fail("Partners endpoint shouldn't be called when there are no partnerships")
+            }
+            rule(get, path eq "/vpn/logicals") {
+                respond(MockedServers.serverList)
+            }
+        }
+        startApplication()
+        Espresso.onIdle()
     }
 
     private fun startApplication() {
