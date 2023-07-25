@@ -24,6 +24,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.OnboardingRobot
+import com.protonvpn.actions.SignupRobot
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.mocks.TestApiConfig
@@ -32,10 +33,16 @@ import com.protonvpn.testRules.ProtonHiltInjectRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.test.MinimalSignUpExternalTests
+import me.proton.core.auth.test.robot.AddAccountRobot
+import me.proton.core.auth.test.robot.signup.CongratsRobot
+import me.proton.core.auth.test.robot.signup.SetPasswordRobot
+import me.proton.core.auth.test.robot.signup.SignUpRobot
 import me.proton.core.auth.test.rule.AcceptExternalRule
 import me.proton.core.network.domain.client.ExtraHeaderProvider
+import me.proton.core.util.kotlin.random
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Inject
 
@@ -70,6 +77,32 @@ class SignUpTests : MinimalSignUpExternalTests {
     }
 
     override val isCongratsDisplayed = false
+
+    @Test
+    override fun signupSwitchToInternalAccountHappyPath() {
+        val testUsername = "test-${String.random()}"
+
+        AddAccountRobot
+            .clickSignUp()
+            .forExternal()
+            .clickSwitch()
+
+        SignUpRobot
+            .forInternal()
+            .fillUsername(testUsername)
+            .clickNext()
+        SetPasswordRobot
+            .fillAndClickNext("123123123")
+        SignupRobot().enterRecoveryEmail("${testUsername}@proton.ch")
+        SignupRobot().verifyViaSms()
+
+        CongratsRobot.takeIf { isCongratsDisplayed }?.apply {
+            uiElementsDisplayed()
+            clickStart()
+        }
+
+        verifyAfter()
+    }
 
     override fun verifyAfter() {
         OnboardingRobot()
