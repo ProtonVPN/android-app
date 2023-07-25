@@ -43,6 +43,6 @@ fun VpnCountry.featureIcons(): Collection<FeatureIcon> {
     val serverIcons = serverList.flatMapTo(mutableSetOf()) { server ->
         server.featureIcons().filterNot { it == FeatureIcon.STREAMING }
     }
-    val hasSmartRouting = serverList.all { !it.hostCountry.isNullOrBlank() && it.hostCountry != it.entryCountry }
+    val hasSmartRouting = serverList.all { !it.hostCountry.isNullOrBlank() && it.hostCountry != it.exitCountry }
     return if (hasSmartRouting) serverIcons + FeatureIcon.SMART_ROUTING else serverIcons
 }
