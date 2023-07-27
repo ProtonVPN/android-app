@@ -28,8 +28,10 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldViewState
+import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -61,11 +63,13 @@ class VpnStateViewModel @Inject constructor(
             vpnConnectionManager.netShieldStats,
             currentUser.vpnUserFlow
         ) { state, stats, user ->
-            if (user == null || user.isFreeUser) NetShieldViewState.UpgradeBanner
-            else {
-                NetShieldViewState.NetShieldState(state, stats)
+            val netShieldAvailability = user.getNetShieldAvailability()
+            when(netShieldAvailability) {
+                NetShieldAvailability.AVAILABLE -> NetShieldViewState.NetShieldState(state, stats)
+                NetShieldAvailability.UPGRADE_VPN_BUSINESS -> NetShieldViewState.UpgradeBusinessBanner
+                NetShieldAvailability.UPGRADE_VPN_PLUS -> NetShieldViewState.UpgradePlusBanner
             }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, NetShieldViewState.UpgradeBanner)
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, NetShieldViewState.UpgradePlusBanner)
 
     val netShieldExpandStatus = MutableStateFlow(false)
     val bottomSheetFullyExpanded = MutableLiveData(false)

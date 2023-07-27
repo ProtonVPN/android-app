@@ -352,6 +352,9 @@
     <string name="netshield_status_off">Off</string>
     <string name="netshield_free_title">Browse ad-free with NetShield</string>
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
+    <string name="netshield_business_title">Block ads with NetShield</string>
+    <string name="netshield_business_description">When you upgrade to VPN Business</string>
+
     <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Ad\nblocked</item>

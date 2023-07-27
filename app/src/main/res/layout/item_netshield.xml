@@ -40,12 +40,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <me.proton.core.presentation.ui.view.ProtonButton
-        android:id="@+id/plusFeature"
+        android:id="@+id/upgradeButton"
         style="@style/ProtonButton.Secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="@string/upgrade"
+        app:layout_constraintBottom_toBottomOf="@id/textNetShieldTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textNetShieldTitle" />
+
+    <ImageView
+        android:id="@+id/imageBusinessBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:srcCompat="@drawable/vpn_business_badge"
         app:layout_constraintBottom_toBottomOf="@id/textNetShieldTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/textNetShieldTitle" />

@@ -171,20 +171,18 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         initialValue: NetShieldProtocol,
         appConfig: AppConfig,
         lifecycleOwner: LifecycleOwner,
-        isFreeUser: Boolean,
+        netShieldAvailability: NetShieldAvailability?,
         reconnectDialogDelegate: ReconnectDialogDelegate,
         changeCallback: (protocol: NetShieldProtocol) -> Unit
     ) = with(binding) {
         appConfig.appConfigFlow.asLiveData().observe(lifecycleOwner, Observer {
             root.isVisible = appConfig.getFeatureFlags().netShieldEnabled
         })
-        netshieldFreeMode = isFreeUser
+        netshieldFreeMode = netShieldAvailability != NetShieldAvailability.AVAILABLE
         onStateChange(initialValue)
-        initUserTier()
+        initUserTier(netShieldAvailability == NetShieldAvailability.UPGRADE_VPN_BUSINESS)
 
-        if (netshieldFreeMode) {
-            initUserTier()
-        } else {
+        if (!netshieldFreeMode) {
             onChangedCallback = {
                 onStateChange(currentState)
                 changeCallback(currentState)
@@ -216,8 +214,9 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
     }
 
-    private fun initUserTier() = with(binding) {
-        plusFeature.isVisible = netshieldFreeMode
+    private fun initUserTier(needsBusinessUpgrade: Boolean) = with(binding) {
+        upgradeButton.isVisible = netshieldFreeMode && !needsBusinessUpgrade
+        imageBusinessBadge.isVisible = netshieldFreeMode && needsBusinessUpgrade
         switchNetshield.isVisible = !netshieldFreeMode
         if (netshieldFreeMode) {
             radioGroupSettings.isVisible = !isInConnectedScreen
@@ -225,7 +224,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             radiosExpanded = true
             disableCheckBox(radioFullBlocking)
             disableCheckBox(radioSimpleBlocking)
-            plusFeature.setOnClickListener { showUpgradeDialog() }
+            upgradeButton.setOnClickListener { showUpgradeDialog() }
         }
     }
 

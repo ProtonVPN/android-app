@@ -27,7 +27,9 @@ import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.LiveEvent
 import com.protonvpn.android.utils.ServerManager
@@ -218,10 +220,11 @@ class UserData private constructor() : Serializable {
         commitUpdate(Setting.NETSHIELD_PROTOCOL)
     }
 
-    fun getNetShieldProtocol(vpnUser: VpnUser?) = if (vpnUser == null || vpnUser.isFreeUser)
-        NetShieldProtocol.DISABLED
-    else
-        netShieldProtocol ?: NetShieldProtocol.ENABLED
+    fun getNetShieldProtocol(vpnUser: VpnUser?) =
+        if (vpnUser.getNetShieldAvailability() != NetShieldAvailability.AVAILABLE)
+            NetShieldProtocol.DISABLED
+        else
+            netShieldProtocol ?: NetShieldProtocol.ENABLED
 
     fun finishUserMigration() {
         migrateIsLoggedIn = false
