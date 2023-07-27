@@ -67,6 +67,8 @@ object SentryIntegration {
             options.release = BuildConfig.VERSION_NAME
             options.isEnableAutoSessionTracking = false
             options.isEnableActivityLifecycleBreadcrumbs = false // We log our own breadcrumbs.
+            options.isEnableUserInteractionBreadcrumbs = false
+            options.isEnableFramesTracking = false
             options.isAnrEnabled = false
             options.maxBreadcrumbs = 300
             options.setBeforeSend { event, _ ->
