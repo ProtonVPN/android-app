@@ -21,7 +21,8 @@ package com.protonvpn.android.netshield
 import com.protonvpn.android.R
 
 sealed class NetShieldViewState {
-    object UpgradeBanner : NetShieldViewState()
+    object UpgradePlusBanner : NetShieldViewState()
+    object UpgradeBusinessBanner : NetShieldViewState()
     data class NetShieldState(
         val protocol: NetShieldProtocol,
         val netShieldStats: NetShieldStats

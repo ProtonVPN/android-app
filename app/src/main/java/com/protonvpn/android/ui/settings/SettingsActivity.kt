@@ -50,6 +50,7 @@ import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.netshield.NetShieldSwitch
+import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeDialogActivity
@@ -150,7 +151,7 @@ class SettingsActivity : BaseActivityV2() {
                 userPrefs.getNetShieldProtocol(currentUser.vpnUserCached()),
                 appConfig,
                 this@SettingsActivity,
-                currentUser.vpnUserCached()?.isFreeUser == true,
+                currentUser.vpnUserCached()?.getNetShieldAvailability(),
                 NetShieldSwitch.ReconnectDialogDelegate(
                     getVpnUiDelegate(),
                     vpnStatusProviderUI,

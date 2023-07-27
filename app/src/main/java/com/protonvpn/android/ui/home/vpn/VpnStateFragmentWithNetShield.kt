@@ -41,6 +41,7 @@ import com.protonvpn.android.netshield.BottomSheetNetShield
 import com.protonvpn.android.netshield.NetShieldComposable
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldSwitch
+import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.android.ui.onboarding.OnboardingDialogs
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
@@ -104,7 +105,7 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
             userData.getNetShieldProtocol(currentUser.vpnUserCached()),
             appConfig,
             viewLifecycleOwner,
-            currentUser.vpnUserCached()?.isFreeUser == true,
+            currentUser.vpnUserCached()?.getNetShieldAvailability(),
             NetShieldSwitch.ReconnectDialogDelegate(
                 (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate(),
                 vpnStatusProviderUI,

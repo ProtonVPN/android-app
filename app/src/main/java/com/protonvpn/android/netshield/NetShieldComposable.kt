@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.netshield
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,6 +44,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.utils.ConnectionTools
@@ -60,24 +63,48 @@ fun NetShieldComposable(
 ) {
     val netShieldState = netShieldViewState.collectAsStateWithLifecycle()
     when (val state = netShieldState.value) {
-        is NetShieldViewState.NetShieldState -> {
-            NetShieldView(state = state, navigateToNetShield)
-        }
-        NetShieldViewState.UpgradeBanner -> {
-            UpgradeNetshield(navigateToUpgrade)
-        }
+        is NetShieldViewState.NetShieldState -> NetShieldView(state = state, navigateToNetShield)
+        NetShieldViewState.UpgradePlusBanner -> UpgradeNetShieldFree(navigateToUpgrade)
+        NetShieldViewState.UpgradeBusinessBanner -> UpgradeNetShieldBusiness()
     }
 }
 
 @Preview
 @Composable
-private fun UpgradeNetshield(navigateToUpgrade: () -> Unit = {}) {
-    Row(
-        modifier = Modifier
-            .clickable {
-                navigateToUpgrade()
-            }
+private fun UpgradeNetShieldFree(
+    navigateToUpgrade: () -> Unit = {}
+) = UpgradeNetShield(
+    R.string.netshield_free_title,
+    R.string.netshield_free_description,
+    navigateToUpgrade = navigateToUpgrade
+)
+
+@Preview
+@Composable
+private fun UpgradeNetShieldBusiness() =
+    UpgradeNetShield(
+        titleRes = R.string.netshield_business_title,
+        descriptionRes = R.string.netshield_business_description,
+        badgeIconRes = R.drawable.vpn_business_badge,
+        navigateToUpgrade = null
+    )
+
+@Composable
+private fun UpgradeNetShield(
+    @StringRes titleRes: Int,
+    @StringRes descriptionRes: Int,
+    @DrawableRes badgeIconRes: Int = ResourcesCompat.ID_NULL,
+    navigateToUpgrade: (() -> Unit)?
+) {
+    val rowClickModifier = if (navigateToUpgrade != null) {
+        Modifier
+            .clickable(onClick = navigateToUpgrade)
             .semantics(mergeDescendants = true, properties = {})
+    } else {
+        Modifier
+    }
+    Row(
+        modifier = rowClickModifier
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -92,21 +119,29 @@ private fun UpgradeNetshield(navigateToUpgrade: () -> Unit = {}) {
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = stringResource(R.string.netshield_feature_name),
+                text = stringResource(titleRes),
                 style = ProtonTheme.typography.default,
             )
             Text(
-                text = stringResource(R.string.netshield_free_description),
+                text = stringResource(descriptionRes),
                 style = ProtonTheme.typography.defaultWeak,
             )
         }
 
-        Icon(
-            painter = painterResource(id = R.drawable.ic_proton_chevron_right),
-            tint = ProtonTheme.colors.iconHint,
-            contentDescription = null,
-            modifier = Modifier.wrapContentSize()
-        )
+        if (badgeIconRes != ResourcesCompat.ID_NULL) {
+            Image(
+                painter = painterResource(id = badgeIconRes),
+                contentDescription = null
+            )
+        }
+        if (navigateToUpgrade != null) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_proton_chevron_right),
+                tint = ProtonTheme.colors.iconHint,
+                contentDescription = null,
+                modifier = Modifier.wrapContentSize()
+            )
+        }
     }
 }
 
