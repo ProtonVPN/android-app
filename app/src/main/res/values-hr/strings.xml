@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">See the offer</string>
     <string name="listItemMaintenance">Održavanje u tijeku</string>
     <string name="listAllCountries">All locations (%1$d)</string>
-    <string name="listGatewayCountries">Gateways</string>
+    <string name="listGateways">Gateways</string>
     <string name="listFreeCountries">Free locations (%1$d)</string>
     <string name="listPremiumCountries">Basic &amp; Plus locations (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus locations (%1$d)</string>

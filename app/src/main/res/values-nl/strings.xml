@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Bekijk de aanbieding</string>
     <string name="listItemMaintenance">In onderhoud</string>
     <string name="listAllCountries">Alle locaties (%1$d)</string>
-    <string name="listGatewayCountries">Gateways</string>
+    <string name="listGateways">Gateways</string>
     <string name="listFreeCountries">Gratis locaties (%1$d)</string>
     <string name="listPremiumCountries">Basic &amp; Plus locaties (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus-locaties (%1$d)</string>

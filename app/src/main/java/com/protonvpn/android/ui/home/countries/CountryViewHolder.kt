@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.ui.home.countries
 
+import android.content.Context
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
@@ -25,6 +26,8 @@ import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.components.featureIcons
 import com.protonvpn.android.databinding.ItemVpnCountryBinding
+import com.protonvpn.android.models.vpn.GatewayGroup
+import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
@@ -43,7 +46,7 @@ private const val EXPAND_DURATION_MS = 300L
 
 abstract class CountryViewHolder(
     private val viewModel: CountryListViewModel,
-    private val vpnCountry: VpnCountry,
+    private val group: ServerGroup,
     private val sectionId: String,
     val parentLifecycleOwner: LifecycleOwner
 ) : BindableItemEx<ItemVpnCountryBinding>(), ExpandableItem {
@@ -54,37 +57,36 @@ abstract class CountryViewHolder(
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
         binding.textConnected.isVisible =
-                vpnCountry.hasConnectedServer(it.server) && it.state == VpnState.Connected
+                group.hasConnectedServer(it.server) && it.state == VpnState.Connected
     }
 
-    override fun getId() = Objects.hash(vpnCountry.flag, sectionId).toLong()
+    override fun getId() = Objects.hash(group.id(), sectionId).toLong()
 
     override fun bind(viewBinding: ItemVpnCountryBinding, position: Int) {
         super.bind(viewBinding, position)
 
         val context = viewBinding.root.context
         with(viewBinding) {
-            val isOnline = !vpnCountry.isUnderMaintenance()
-            val userHasAccess = viewModel.hasAccessibleServer(vpnCountry)
+            val isOnline = !group.isUnderMaintenance()
+            val userHasAccess = viewModel.hasAccessibleServer(group)
             val accessibleAndOnline = userHasAccess && isOnline
             countryItem.setBackgroundResource(if (accessibleAndOnline)
                 countryItem.getSelectableItemBackgroundRes() else 0)
             textCountry.setTextColor(textCountry.getThemeColor(
                     if (accessibleAndOnline) R.attr.proton_text_norm else R.attr.proton_text_hint))
-            textCountry.text = vpnCountry.countryName
+            textCountry.text = group.name()
 
             buttonCross.isVisible = accessibleAndOnline
 
             adjustCross(buttonCross, expandableGroup.isExpanded, 0)
             adjustDivider(divider, expandableGroup.isExpanded, 0)
-            imageCountry.setImageResource(
-                    CountryTools.getFlagResource(context, vpnCountry.flag))
+            imageCountry.setImageResource(group.iconResource(context))
             imageCountry.alpha =
                 if (accessibleAndOnline) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
             viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
 
             imageDoubleArrows.isVisible = viewModel.isSecureCoreEnabled
-            features.featureIcons = vpnCountry.featureIcons()
+            features.featureIcons = group.featureIcons()
 
             root.setOnClickListener {
                 if (accessibleAndOnline) {
@@ -124,4 +126,9 @@ abstract class CountryViewHolder(
     override fun setExpandableGroup(onToggleListener: ExpandableGroup) {
         this.expandableGroup = onToggleListener
     }
+}
+
+fun ServerGroup.iconResource(context: Context) = when(this) {
+    is VpnCountry -> CountryTools.getFlagResource(context, flag)
+    is GatewayGroup -> R.drawable.ic_proton_servers
 }

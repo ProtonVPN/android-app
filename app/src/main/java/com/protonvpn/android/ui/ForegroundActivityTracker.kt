@@ -80,6 +80,7 @@ class ForegroundActivityTracker @Inject constructor(
             override fun onActivityStopped(activity: Activity) {
                 if (activity == currentActivity) {
                     trySend(null)
+                    currentActivity = null
                 }
             }
         }

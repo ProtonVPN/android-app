@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Переглянути пропозицію</string>
     <string name="listItemMaintenance">Обслуговується</string>
     <string name="listAllCountries">Усі розташування (%1$d)</string>
-    <string name="listGatewayCountries">Шлюзи</string>
+    <string name="listGateways">Шлюзи</string>
     <string name="listFreeCountries">Безплатні розташування (%1$d)</string>
     <string name="listPremiumCountries">Розташування Basic і Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Розташування Plus (%1$d)</string>

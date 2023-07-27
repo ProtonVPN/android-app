@@ -34,14 +34,14 @@ class ServersStore(
     private val store: ObjectStore<ServersSerializationData>,
 ) {
     var vpnCountries: List<VpnCountry>
-    var dedicatedIpCountries: List<VpnCountry>
+    var gatewayServers: List<Server>
     var secureCoreEntryCountries: List<VpnCountry>
     var secureCoreExitCountries: List<VpnCountry>
 
     init {
         val data = runBlocking { store.read() }
         vpnCountries = data?.vpnCountries ?: emptyList()
-        dedicatedIpCountries = data?.dedicatedIpCountries ?: emptyList()
+        gatewayServers = data?.gatewayServers ?: emptyList()
         secureCoreEntryCountries = data?.secureCoreEntryCountries ?: emptyList()
         secureCoreExitCountries = data?.secureCoreExitCountries ?: emptyList()
     }
@@ -49,7 +49,7 @@ class ServersStore(
     fun save() {
         val data = ServersSerializationData(
             vpnCountries = vpnCountries,
-            dedicatedIpCountries = dedicatedIpCountries,
+            gatewayServers = gatewayServers,
             secureCoreEntryCountries = secureCoreEntryCountries,
             secureCoreExitCountries = secureCoreExitCountries
         )
@@ -69,7 +69,7 @@ class ServersStore(
 
     fun clear() {
         vpnCountries = emptyList()
-        dedicatedIpCountries = emptyList()
+        gatewayServers = emptyList()
         secureCoreEntryCountries = emptyList()
         secureCoreExitCountries = emptyList()
         store.clear()
@@ -100,5 +100,5 @@ class ServersSerializationData(
     val vpnCountries: List<VpnCountry>,
     val secureCoreEntryCountries: List<VpnCountry>,
     val secureCoreExitCountries: List<VpnCountry>,
-    val dedicatedIpCountries: List<VpnCountry>,
+    val gatewayServers: List<Server> = emptyList(),
 )

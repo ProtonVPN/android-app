@@ -52,6 +52,7 @@ data class Server(
     @SerialName(value = "Features") val features: Int,
     @SerialName(value = "Location") private val location: Location,
     @SerialName(value = "Translations") private val translations: Map<String, String?>? = null,
+    @SerialName(value = "GatewayName") val rawGatewayName: String? = null,
 
     @SerialName(value = "Score") var score: Double,
 
@@ -90,9 +91,9 @@ data class Server(
         get() = tier == 2
 
     val isPMTeamServer: Boolean
-        get() = tier == 3 && !isDedicatedIpServer
+        get() = tier == 3
 
-    val isDedicatedIpServer: Boolean
+    val isGatewayServer: Boolean
         get() = features.hasFlag(SERVER_FEATURE_RESTRICTED)
 
     val isSecureCoreServer: Boolean
@@ -121,6 +122,9 @@ data class Server(
         secureCoreServerNaming
     else
         CountryTools.getFullName(flag)
+
+    val gatewayName: String? get() =
+        rawGatewayName ?: if (isGatewayServer) serverName.substringBefore("#") else null
 
     override fun getCoordinates(): TranslatedCoordinates = translatedCoordinates
 

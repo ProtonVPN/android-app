@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Zobrazit nabídku</string>
     <string name="listItemMaintenance">Probíhá údržba</string>
     <string name="listAllCountries">Všechna umístění (%1$d)</string>
-    <string name="listGatewayCountries">Brány</string>
+    <string name="listGateways">Brány</string>
     <string name="listFreeCountries">Bezplatná umístění (%1$d)</string>
     <string name="listPremiumCountries">Umístění tarifů Basic &amp; Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus lokace (%1$d)</string>

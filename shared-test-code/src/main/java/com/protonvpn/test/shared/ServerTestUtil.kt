@@ -44,13 +44,15 @@ fun createServer(
     entryCountry: String = exitCountry,
     score: Double = 0.5,
     tier: Int = 0,
-    features: Int = 0
+    features: Int = 0,
+    gatewayName: String? = null
 ) =
     Server(
         serverId = serverId,
         entryCountry = entryCountry,
         exitCountry = exitCountry,
         serverName = serverName,
+        rawGatewayName = gatewayName,
         connectingDomains = listOf(dummyConnectingDomain),
         hostCountry = null,
         domain = "dummy.protonvpn.net",
@@ -60,7 +62,7 @@ fun createServer(
         city = null,
         features = features,
         location = Location("", ""),
-        null,
+        translations = null,
         score = score,
         isOnline = true
     )

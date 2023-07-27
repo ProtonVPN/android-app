@@ -23,7 +23,7 @@ import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_STREAMING
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.utils.hasFlag
 
 enum class FeatureIcon {
@@ -39,7 +39,7 @@ fun Server.featureIcons(): Collection<FeatureIcon> = buildList {
         add(FeatureIcon.STREAMING)
 }
 
-fun VpnCountry.featureIcons(): Collection<FeatureIcon> {
+fun ServerGroup.featureIcons(): Collection<FeatureIcon> {
     val serverIcons = serverList.flatMapTo(mutableSetOf()) { server ->
         server.featureIcons().filterNot { it == FeatureIcon.STREAMING }
     }

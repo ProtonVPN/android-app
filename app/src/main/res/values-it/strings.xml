@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Guarda l\'offerta</string>
     <string name="listItemMaintenance">In manutenzione</string>
     <string name="listAllCountries">Tutte le località (%1$d)</string>
-    <string name="listGatewayCountries">Gateway</string>
+    <string name="listGateways">Gateway</string>
     <string name="listFreeCountries">Località gratuite (%1$d)</string>
     <string name="listPremiumCountries">Località Basic &amp; Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Località Plus (%1$d)</string>

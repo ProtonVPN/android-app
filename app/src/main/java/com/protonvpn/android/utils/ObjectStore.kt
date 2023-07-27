@@ -49,8 +49,12 @@ interface ObjectSerializer<T, S> {
 class KotlinCborObjectSerializer<T>(
     private val serializer: KSerializer<T>
 ) : ObjectSerializer<T, ByteArray> {
-    override fun serialize(data: T): ByteArray = Cbor.encodeToByteArray(serializer, data)
-    override fun deserialize(data: ByteArray): T = Cbor.decodeFromByteArray(serializer, data)
+    private val cbor = Cbor {
+        ignoreUnknownKeys = true
+    }
+
+    override fun serialize(data: T): ByteArray = cbor.encodeToByteArray(serializer, data)
+    override fun deserialize(data: ByteArray): T = cbor.decodeFromByteArray(serializer, data)
 }
 
 /** Writes/reads [S] to/from a file. */

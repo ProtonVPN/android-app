@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Паглядзіце прапанову</string>
     <string name="listItemMaintenance">На тэхнічным абслугоўванні</string>
     <string name="listAllCountries">Усе размяшчэнні (%1$d)</string>
-    <string name="listGatewayCountries">Шлюзы</string>
+    <string name="listGateways">Шлюзы</string>
     <string name="listFreeCountries">Бясплатныя размяшчэнні (%1$d)</string>
     <string name="listPremiumCountries">Размяшчэнні Basic і Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Размяшчэнні Plus (%1$d)</string>
