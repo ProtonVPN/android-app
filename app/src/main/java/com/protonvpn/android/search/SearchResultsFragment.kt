@@ -146,7 +146,7 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
         addSection(sections, R.string.server_search_servers_header, state.servers) {
             ServerResultBinding(it, matchLength, ::connectServer, viewModel::disconnect, this::showUpgrade)
         }
-        resultsAdapter.update(sections)
+        resultsAdapter.updateAsync(sections)
     }
 
     private fun setSecureCoreResults(query: String, state: SearchViewModel.ViewState.ScSearchResults) {
@@ -154,7 +154,7 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
         addSection(sections, R.string.server_search_sc_countries_header, state.servers) {
             SecureCoreServerResultBinding(it, query.length, ::connectServer, viewModel::disconnect, this::showUpgrade)
         }
-        resultsAdapter.update(sections)
+        resultsAdapter.updateAsync(sections)
     }
 
     private fun setSearchRecentResults(state: SearchViewModel.ViewState.SearchHistory) {
@@ -183,7 +183,7 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
                     )
                 })
         )
-        resultsAdapter.update(sections)
+        resultsAdapter.updateAsync(sections)
     }
 
     private fun <T> addSection(

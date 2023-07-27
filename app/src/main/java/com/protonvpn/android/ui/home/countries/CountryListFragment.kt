@@ -166,7 +166,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
                 expandedCountriesIds
             )
         }
-        groupAdapter.update(newGroups)
+        groupAdapter.replaceAll(newGroups)
     }
 
     private fun getExpandedCountriesIds(groupAdapter: GroupAdapter<GroupieViewHolder>) = with(groupAdapter) {
