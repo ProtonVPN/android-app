@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Vedeți oferta</string>
     <string name="listItemMaintenance">În întreținere</string>
     <string name="listAllCountries">Toate locurile (%1$d)</string>
-    <string name="listGatewayCountries">Porți de acces</string>
+    <string name="listGateways">Porți de acces</string>
     <string name="listFreeCountries">Locurile gratuite (%1$d)</string>
     <string name="listPremiumCountries">Locuri Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Locuri Plus (%1$d)</string>

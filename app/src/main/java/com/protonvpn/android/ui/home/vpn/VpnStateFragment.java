@@ -242,12 +242,16 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void showConnectedOrConnectingHeaderState(
-            @StringRes int statusText, @Nullable Server country, @NonNull Profile profile) {
+            @StringRes int statusText, @Nullable Server server, @NonNull Profile profile) {
         textConnectedTo.setText(statusText);
-        if (country != null) {
+        if (server != null && server.isGatewayServer()) {
+            textProfile.setVisibility(View.VISIBLE);
+            countryFlags.setVisibility(View.INVISIBLE);
+            textProfile.setText(server.getServerName());
+        } else if (server != null) {
             countryFlags.setVisibility(View.VISIBLE);
             textProfile.setVisibility(View.INVISIBLE);
-            countryFlags.setCountry(country);
+            countryFlags.setCountry(server);
         } else {
             textProfile.setVisibility(View.VISIBLE);
             countryFlags.setVisibility(View.INVISIBLE);

@@ -57,8 +57,8 @@ class SearchTests {
 
     private lateinit var search: Search
 
-    private val dedicatedIpServer = createServer("dedicatedIp", "XX#1", features = SERVER_FEATURE_RESTRICTED)
-    private val testServers = MockedServers.serverList + dedicatedIpServer
+    private val gatewayServer = createServer("gateway", "XX#1", features = SERVER_FEATURE_RESTRICTED)
+    private val testServers = MockedServers.serverList + gatewayServer
 
     @Before
     fun setup() {
@@ -115,7 +115,7 @@ class SearchTests {
     }
 
     @Test
-    fun dedicatedIpServerSearch() {
-        assertEquals(listOf(dedicatedIpServer), search("XX#1", false).servers.map { it.value })
+    fun gatewayServerSearch() {
+        assertEquals(listOf(gatewayServer), search("XX#1", false).servers.map { it.value })
     }
 }

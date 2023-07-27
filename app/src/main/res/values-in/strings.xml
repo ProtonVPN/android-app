@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Lihat penawaran ini</string>
     <string name="listItemMaintenance">Dalam pemeliharaan</string>
     <string name="listAllCountries">Seluruh lokasi (%1$d)</string>
-    <string name="listGatewayCountries">Gateways</string>
+    <string name="listGateways">Gateways</string>
     <string name="listFreeCountries">Lokasi Free (%1$d)</string>
     <string name="listPremiumCountries">Lokasi Basic &amp; Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Lokasi Plus (%1$d)</string>

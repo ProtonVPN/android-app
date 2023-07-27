@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Zobacz ofertę</string>
     <string name="listItemMaintenance">W trakcie przerwy technicznej</string>
     <string name="listAllCountries">Wszystkie lokalizacje (%1$d)</string>
-    <string name="listGatewayCountries">Bramy</string>
+    <string name="listGateways">Bramy</string>
     <string name="listFreeCountries">Lokalizacje planu Free (%1$d)</string>
     <string name="listPremiumCountries">Lokalizacje planu Basic i Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Lokalizacje planu Plus (%1$d)</string>

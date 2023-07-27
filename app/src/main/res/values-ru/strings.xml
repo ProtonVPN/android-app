@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Посмотрите предложение</string>
     <string name="listItemMaintenance">На техобслуживании</string>
     <string name="listAllCountries">Все местоположения (%1$d)</string>
-    <string name="listGatewayCountries">Gateways</string>
+    <string name="listGateways">Gateways</string>
     <string name="listFreeCountries">Местоположения Free (%1$d)</string>
     <string name="listPremiumCountries">Местоположения Basic и Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Местоположения Plus (%1$d)</string>

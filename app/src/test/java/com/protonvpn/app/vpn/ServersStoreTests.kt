@@ -24,7 +24,6 @@ package com.protonvpn.app.vpn
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.FileObjectStore
-import com.protonvpn.android.utils.ObjectStore
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestDispatcherProvider
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +50,7 @@ class ServersStoreTests {
     private val testFile = File("servers")
     private val tmpFile = File("servers${FileObjectStore.TMP_SUFFIX}")
     private val countries = listOf(VpnCountry("US", MockedServers.serverList))
-    private val dedicatedIpCountries = listOf(VpnCountry("US", MockedServers.serverList.subList(0, 1)))
+    private val gatewayServers = MockedServers.serverList.subList(0, 1)
     private val secureCoreEntryCountries = listOf(VpnCountry("CH", MockedServers.serverList.subList(1, 3)))
     private val secureCoreExitCountries = listOf(VpnCountry("JP", MockedServers.serverList.subList(1, 3)))
 
@@ -82,7 +81,7 @@ class ServersStoreTests {
     fun `basic store, read and clear`() = testScope.runTest {
         val store = createServersStore(testFile)
         store.vpnCountries += countries
-        store.dedicatedIpCountries = dedicatedIpCountries
+        store.gatewayServers = gatewayServers
         store.secureCoreEntryCountries = secureCoreEntryCountries
         store.secureCoreExitCountries = secureCoreExitCountries
         store.save()
@@ -90,14 +89,14 @@ class ServersStoreTests {
 
         val store2 = createServersStore(testFile)
         assertEquals(countries, store2.vpnCountries)
-        assertEquals(dedicatedIpCountries, store2.dedicatedIpCountries)
+        assertEquals(gatewayServers, store2.gatewayServers)
         assertEquals(secureCoreEntryCountries, store2.secureCoreEntryCountries)
         assertEquals(secureCoreExitCountries, store2.secureCoreExitCountries)
         store.clear()
 
         val store3 = createServersStore(testFile)
         assertEquals(emptyList(), store3.vpnCountries)
-        assertEquals(emptyList(), store3.dedicatedIpCountries)
+        assertEquals(emptyList(), store3.gatewayServers)
         assertEquals(emptyList(), store3.secureCoreEntryCountries)
         assertEquals(emptyList(), store3.secureCoreExitCountries)
         assertFalse(testFile.exists())

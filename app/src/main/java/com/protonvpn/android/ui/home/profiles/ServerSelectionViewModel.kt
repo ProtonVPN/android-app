@@ -55,12 +55,12 @@ class ServerSelectionViewModel @Inject constructor(
         }
 
     private fun getAllServers(countryCode: String, secureCore: Boolean): List<Server> {
-        val dedicatedIpServers = if (!secureCore) {
-            serverManager.getDedicatedIpCountries().find { it.flag == countryCode }?.serverList ?: emptyList()
+        val gatewayServers = if (!secureCore) {
+            serverManager.getGateways().map { it.serverList }.flatten().filter { it.flag == countryCode }
         } else {
             emptyList()
         }
         val regularServers = serverManager.getVpnExitCountry(countryCode, secureCore)?.serverList ?: emptyList()
-        return (regularServers + dedicatedIpServers).sortedWith(serverManager.serverComparator)
+        return (regularServers + gatewayServers).sortedWith(serverManager.serverComparator)
     }
 }

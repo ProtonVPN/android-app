@@ -121,8 +121,9 @@ class VpnConnectionErrorHandlerTests {
             servers.filter { !it.isSecureCoreServer }
         every { serverManager.getOnlineAccessibleServers(true, any(), any(), any()) } returns
             servers.filter { it.isSecureCoreServer }
-        every { serverManager.getOnlineAccessibleServers(any(), true, any(), any()) } returns
-            servers.filter { it.isDedicatedIpServer }
+        every { serverManager.getOnlineAccessibleServers(any(), any(), any(), any()) } answers {
+            servers.filter { it.gatewayName == secondArg() }
+        }
         every { serverManager.defaultFallbackConnection } returns defaultFallbackConnection
         every { serverManager.getServerForProfile(defaultFallbackConnection, any()) } returns defaultFallbackServer
 
@@ -541,15 +542,15 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
-    fun testSwitchingFromDedicatedIpServerDoesntFallBackToRegularServer() = testScope.runTest {
-        val dedicatedIpServer =
-            createServer("dedicatedIp", serverName = "Dedicated#1", features = SERVER_FEATURE_RESTRICTED)
-        val servers = listOf(MockedServers.serverList.first(), dedicatedIpServer)
+    fun testSwitchingFromGatewayServerDoesntFallBackToRegularServer() = testScope.runTest {
+        val gatewayServer =
+            createServer("gateway", serverName = "Gateway#1", features = SERVER_FEATURE_RESTRICTED)
+        val servers = listOf(MockedServers.serverList.first(), gatewayServer)
         prepareServerManager(servers)
-        preparePings(failServerName = dedicatedIpServer.serverName)
-        val profile = Profile.getTempProfile(dedicatedIpServer)
+        preparePings(failServerName = gatewayServer.serverName)
+        val profile = Profile.getTempProfile(gatewayServer)
         val result = handler.onUnreachableError(
-            ConnectionParams(profile, dedicatedIpServer, dedicatedIpServer.connectingDomains.first(), VpnProtocol.WireGuard)
+            ConnectionParams(profile, gatewayServer, gatewayServer.connectingDomains.first(), VpnProtocol.WireGuard)
         )
         assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), result)
     }

@@ -25,17 +25,12 @@ import com.protonvpn.android.utils.CountryTools
 import kotlinx.serialization.Transient
 import java.io.Serializable
 
-@kotlinx.serialization.Serializable
-data class VpnCountry(
-    val flag: String,
-    val serverList: List<Server>,
-) : Markable, Serializable {
+sealed class ServerGroup {
+    abstract val serverList: List<Server>
 
-    @Transient
-    val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(flag)
-
-    val countryName: String
-        get() = CountryTools.getFullName(flag)
+    // Use functions instead of properties to avoid issues with deserialization
+    abstract fun id(): String
+    abstract fun name(): String
 
     fun hasAccessibleServer(vpnUser: VpnUser?): Boolean =
         serverList.any { vpnUser.hasAccessToServer(it) }
@@ -51,6 +46,32 @@ data class VpnCountry(
         }
         return serverList.any { it.domain == server.domain }
     }
+}
+
+class GatewayGroup(
+    private val name: String,
+    override val serverList: List<Server>,
+) : ServerGroup() {
+    override fun id(): String = name
+
+    override fun name(): String = name
+}
+
+@kotlinx.serialization.Serializable
+data class VpnCountry(
+    val flag: String,
+    override val serverList: List<Server>,
+) : ServerGroup(), Markable, Serializable {
+
+    @Transient
+    val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(flag)
+
+    val countryName: String
+        get() = CountryTools.getFullName(flag)
+
+    override fun id(): String = flag
+
+    override fun name(): String = countryName
 
     override fun getCoordinates(): TranslatedCoordinates = translatedCoordinates
 

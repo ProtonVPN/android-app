@@ -20,6 +20,7 @@
 package com.protonvpn.android.search
 
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.third_party.ApacheStringUtils
 import com.protonvpn.android.utils.ServerManager
@@ -52,7 +53,7 @@ class Search @Inject constructor(
             else serverManager.getVpnCountries()
         val allServerCountries =
             if (secureCore) serverManager.getSecureCoreExitCountries().asSequence()
-            else sequenceOf(serverManager.getVpnCountries() + serverManager.getDedicatedIpCountries()).flatten()
+            else sequenceOf(serverManager.getVpnCountries() + serverManager.getGateways()).flatten()
         val normalizedTerm = normalize(term)
         return Result(
             searchCities(normalizedTerm, countries),
@@ -109,7 +110,7 @@ class Search @Inject constructor(
         }.toList()
     }
 
-    private fun searchServers(term: String, countries: Sequence<VpnCountry>): List<Match<Server>> {
+    private fun searchServers(term: String, countries: Sequence<ServerGroup>): List<Match<Server>> {
         return countries.asSequence().flatMap { it.serverList.asSequence() }.mapNotNull { server ->
             find(term, server.serverName, false)?.let { match ->
                 Match(match, server)

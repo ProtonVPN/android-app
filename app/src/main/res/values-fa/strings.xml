@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">دیدن پیشنهاد</string>
     <string name="listItemMaintenance">تحت عملیات نگهداری</string>
     <string name="listAllCountries">همهٔ محل‌ها (%1$d)</string>
-    <string name="listGatewayCountries">Gateways</string>
+    <string name="listGateways">Gateways</string>
     <string name="listFreeCountries">محل‌های رایگان (%1$d)</string>
     <string name="listPremiumCountries">محل‌های Basic و Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">محل‌های Plus (%1$d)</string>

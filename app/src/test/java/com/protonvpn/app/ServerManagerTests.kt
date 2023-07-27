@@ -67,10 +67,11 @@ class ServerManagerTests {
 
     private lateinit var userData: UserData
 
-    private val dedicatedIpServer = createServer(
+    private val gatewayServer = createServer(
         "dedicated",
-        serverName = "CA#DedicatedIp",
+        serverName = "CA Gateway#1",
         exitCountry = "CA",
+        gatewayName = "Gateway 1",
         features = SERVER_FEATURE_RESTRICTED
     )
     private lateinit var regularServers: List<Server>
@@ -93,7 +94,7 @@ class ServerManagerTests {
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         regularServers = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 
-        val allServers = regularServers +  dedicatedIpServer
+        val allServers = regularServers +  gatewayServer
         manager.setServers(allServers, null)
     }
 
@@ -114,7 +115,7 @@ class ServerManagerTests {
     @Test
     fun testFilterForProtocol() {
         userData.protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP)
-        val filtered = manager.filterForProtocol(manager.getVpnCountries())
+        val filtered = manager.filterCountriesForProtocol(manager.getVpnCountries())
         Assert.assertEquals(listOf("CA#1", "DE#1"), filtered.flatMap { it.serverList.map { it.serverName } })
         val canada = filtered.first { it.flag == "CA" }
         Assert.assertEquals(1, canada.serverList.size)
@@ -122,12 +123,13 @@ class ServerManagerTests {
     }
 
     @Test
-    fun testOnlineAccessibleServersSeparatesDedicatedIpsFromRegular() {
-        val dedicatedIpServers = manager.getOnlineAccessibleServers(false, true, vpnUser, ProtocolSelection.SMART)
-        val regularServers = manager.getOnlineAccessibleServers(false, false, vpnUser, ProtocolSelection.SMART)
+    fun testOnlineAccessibleServersSeparatesGatewaysFromRegular() {
+        val gatewayName = gatewayServer.gatewayName
+        val gatewayServers = manager.getOnlineAccessibleServers(false, gatewayName, vpnUser, ProtocolSelection.SMART)
+        val regularServers = manager.getOnlineAccessibleServers(false, null, vpnUser, ProtocolSelection.SMART)
 
-        assertEquals(listOf(dedicatedIpServer), dedicatedIpServers)
-        assertFalse(regularServers.contains(dedicatedIpServer))
+        assertEquals(listOf(gatewayServer), gatewayServers)
+        assertFalse(regularServers.contains(gatewayServer))
     }
 
     @Test

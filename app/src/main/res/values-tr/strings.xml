@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Teklifi göster</string>
     <string name="listItemMaintenance">Bakım yapılıyor</string>
     <string name="listAllCountries">Tüm konumlar (%1$d)</string>
-    <string name="listGatewayCountries">Geçit yolları</string>
+    <string name="listGateways">Geçit yolları</string>
     <string name="listFreeCountries">Free konumları (%1$d)</string>
     <string name="listPremiumCountries">Basic ve Plus konumları (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus konumları (%1$d)</string>

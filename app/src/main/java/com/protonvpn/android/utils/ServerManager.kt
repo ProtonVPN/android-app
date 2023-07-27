@@ -36,8 +36,10 @@ import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.profiles.ServerWrapper.ProfileType
 import com.protonvpn.android.models.vpn.ConnectingDomain
+import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.LoadUpdate
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
@@ -74,7 +76,7 @@ class ServerManager @Inject constructor(
     @Transient private var filteredVpnCountries = listOf<VpnCountry>()
     @Transient private var filteredSecureCoreEntryCountries = listOf<VpnCountry>()
     @Transient private var filteredSecureCoreExitCountries = listOf<VpnCountry>()
-    @Transient private var filteredDedicatedIpCountries = listOf<VpnCountry>()
+    @Transient private var filteredGatewayGroups = listOf<GatewayGroup>()
     @Transient private var guestHoleServers: List<Server>? = null
 
     private var streamingServices: StreamingServicesResponse? = null
@@ -112,7 +114,7 @@ class ServerManager @Inject constructor(
 
     val isOutdated: Boolean
         get() = lastUpdateTimestamp == 0L ||
-            (serversStore.vpnCountries.isEmpty() && serversStore.dedicatedIpCountries.isEmpty()) ||
+            (serversStore.vpnCountries.isEmpty() && serversStore.gatewayServers.isEmpty()) ||
             wallClock() - lastUpdateTimestamp >= ServerListUpdater.LIST_CALL_DELAY ||
             !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE ||
             translationsLang != Locale.getDefault().language
@@ -120,12 +122,12 @@ class ServerManager @Inject constructor(
     private val allServers get() =
         sequenceOf(
             serversStore.vpnCountries,
-            serversStore.dedicatedIpCountries,
             serversStore.secureCoreEntryCountries,
             serversStore.secureCoreExitCountries
         )
             .flatten()
             .flatMap { it.serverList.asSequence() }
+            .plus(serversStore.gatewayServers)
 
     /** Get the number of all servers. Not very efficient. */
     val allServerCount get() = allServers.count()
@@ -169,23 +171,31 @@ class ServerManager @Inject constructor(
     private fun getExitCountries(secureCore: Boolean) = if (secureCore)
         filteredSecureCoreExitCountries else filteredVpnCountries
 
-    @VisibleForTesting fun filterForProtocol(countries: List<VpnCountry>) =
-        userData.protocol.let { protocol ->
-            countries.mapNotNull { country ->
-                val servers = country.serverList
-                    .filter {
-                        supportsProtocol(it, protocol)
-                    }.map { server ->
-                        val filteredDomains = server.connectingDomains.filter { supportsProtocol(it, protocol) }
-                        server.copy(
-                            isOnline = server.online && filteredDomains.any { it.isOnline },
-                            connectingDomains = filteredDomains)
-                    }
-                if (servers.isNotEmpty())
-                    VpnCountry(country.flag, servers)
-                else
-                    null
-            }
+    @VisibleForTesting fun filterCountriesForProtocol(countries: List<VpnCountry>) =
+        filterForProtocol(countries, userData.protocol) { country, newServers -> VpnCountry(country.flag, newServers) }
+
+    fun filterGatewaysForProtocol(gateways: List<GatewayGroup>) =
+        filterForProtocol(gateways, userData.protocol) { gateway, newServers -> GatewayGroup(gateway.name(), newServers) }
+
+    private fun <T : ServerGroup> filterForProtocol(
+        groups: List<T>,
+        protocol: ProtocolSelection,
+        buildResult: (T, List<Server>) -> T
+    ): List<T> =
+        groups.mapNotNull { group ->
+            val servers = group.serverList
+                .filter {
+                    supportsProtocol(it, protocol)
+                }.map { server ->
+                    val filteredDomains = server.connectingDomains.filter { supportsProtocol(it, protocol) }
+                    server.copy(
+                        isOnline = server.online && filteredDomains.any { it.isOnline },
+                        connectingDomains = filteredDomains)
+                }
+            if (servers.isNotEmpty())
+                buildResult(group, servers)
+            else
+                null
         }
 
     private fun onServersUpdate() {
@@ -194,15 +204,24 @@ class ServerManager @Inject constructor(
     }
 
     private fun filterServers() {
-        filteredVpnCountries = filterForProtocol(serversStore.vpnCountries)
-        filteredSecureCoreEntryCountries = filterForProtocol(serversStore.secureCoreEntryCountries)
-        filteredSecureCoreExitCountries = filterForProtocol(serversStore.secureCoreExitCountries)
-        filteredDedicatedIpCountries = filterForProtocol(serversStore.dedicatedIpCountries)
+        filteredVpnCountries = filterCountriesForProtocol(serversStore.vpnCountries)
+        filteredSecureCoreEntryCountries = filterCountriesForProtocol(serversStore.secureCoreEntryCountries)
+        filteredSecureCoreExitCountries = filterCountriesForProtocol(serversStore.secureCoreExitCountries)
+
+        val gateways = groupGateways(serversStore.gatewayServers)
+        filteredGatewayGroups = filterGatewaysForProtocol(gateways)
+    }
+
+    private fun groupGateways(servers: List<Server>): List<GatewayGroup> {
+        return servers
+            .filterNot { it.gatewayName.isNullOrEmpty() }
+            .groupBy { server -> server.gatewayName!! }
+            .map { (name, servers) -> GatewayGroup(name, servers) }
     }
 
     override fun toString(): String {
         val lastUpdateTimestampLog = lastUpdateTimestamp.takeIf { it != 0L }?.let { ProtonLogger.formatTime(it) }
-        return "vpnCountries: ${serversStore.vpnCountries.size} gateways: ${serversStore.dedicatedIpCountries.size}" +
+        return "vpnCountries: ${serversStore.vpnCountries.size} gateways: ${serversStore.gatewayServers.size}" +
             " entry: ${serversStore.secureCoreEntryCountries.size}" +
             " exit: ${serversStore.secureCoreExitCountries.size} saved: ${savedProfiles.profileList?.size} " +
             "ServerManager Updated: $lastUpdateTimestampLog"
@@ -211,6 +230,7 @@ class ServerManager @Inject constructor(
     fun clearCache() {
         lastUpdateTimestamp = 0L
         Storage.delete(ServerManager::class.java)
+        serversStore.clear()
     }
 
     fun setGuestHoleServers(serverList: List<Server>) {
@@ -233,7 +253,7 @@ class ServerManager @Inject constructor(
             map { (country, servers) -> VpnCountry(country, servers.sortedWith(serverComparator)) }
 
         val vpnCountries = mutableMapOf<String, MutableList<Server>>()
-        val dedicatedIpCountries = mutableMapOf<String, MutableList<Server>>()
+        val gatewayServers = mutableListOf<Server>()
         val secureCoreEntryCountries = mutableMapOf<String, MutableList<Server>>()
         val secureCoreExitCountries = mutableMapOf<String, MutableList<Server>>()
         for (server in serverList) {
@@ -244,15 +264,15 @@ class ServerManager @Inject constructor(
                     secureCoreEntryCountries.addServer(server.entryCountry, server)
                     secureCoreExitCountries.addServer(server.exitCountry, server)
                 }
-                server.isDedicatedIpServer ->
-                    dedicatedIpCountries.addServer(server.flag, server)
+                server.isGatewayServer ->
+                    gatewayServers.add(server)
                 else ->
                     vpnCountries.addServer(server.flag, server)
 
             }
         }
         serversStore.vpnCountries = vpnCountries.toVpnCountries()
-        serversStore.dedicatedIpCountries = dedicatedIpCountries.toVpnCountries()
+        serversStore.gatewayServers = gatewayServers
         serversStore.secureCoreEntryCountries = secureCoreEntryCountries.toVpnCountries()
         serversStore.secureCoreExitCountries = secureCoreExitCountries.toVpnCountries()
 
@@ -306,7 +326,7 @@ class ServerManager @Inject constructor(
 
     fun getVpnCountries(): List<VpnCountry> = filteredVpnCountries.sortedByLocaleAware { it.countryName }
 
-    fun getDedicatedIpCountries(): List<VpnCountry> = filteredDedicatedIpCountries
+    fun getGateways(): List<GatewayGroup> = filteredGatewayGroups
 
     fun getSecureCoreEntryCountries(): List<VpnCountry> = filteredSecureCoreEntryCountries
 
@@ -443,18 +463,18 @@ class ServerManager @Inject constructor(
     // Sorted by score (best at front)
     fun getOnlineAccessibleServers(
         secureCore: Boolean,
-        dedicatedIps: Boolean,
+        gatewayName: String?,
         vpnUser: VpnUser?,
         protocol: ProtocolSelection
     ): List<Server> {
-        // Note: don't use getExitCountries here to get dedicatedIpCountries without regular ones.
-        val countries = when {
+        val groups = when {
             secureCore -> filteredSecureCoreExitCountries
-            dedicatedIps -> filteredDedicatedIpCountries
+            gatewayName != null ->
+                filteredGatewayGroups.find { it.name() == gatewayName }?.let { listOf(it) } ?: emptyList()
             else -> filteredVpnCountries
         }
-        return countries.asSequence().flatMap { country ->
-            country.serverList.filter {
+        return groups.asSequence().flatMap { group ->
+            group.serverList.filter {
                 it.online && vpnUser.hasAccessToServer(it) && supportsProtocol(it, protocol)
             }.asSequence()
         }.sortedBy { it.score }.toList()

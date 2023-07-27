@@ -107,7 +107,7 @@ class CountryListViewModelTests {
         every { mockCurrentUser.vpnUserCached() } returns TestUser.freeUser.vpnUser
 
         val country = serverManager.getVpnExitCountry("PL", false)!!
-        val serverList = countryListViewModel.getMappedServersForCountry(country, withSections = true)
+        val serverList = countryListViewModel.getMappedServersForGroup(country)
         val groupTitles = serverList.map { it.groupTitle?.titleRes }
         assertEquals(
             listOf(R.string.listFastestServer, R.string.listFreeServers, R.string.listPlusServers),
@@ -122,7 +122,7 @@ class CountryListViewModelTests {
         every { mockCurrentUser.vpnUserCached() } returns TestUser.plusUser.vpnUser
 
         val country = serverManager.getVpnExitCountry("PL", false)!!
-        val serverList = countryListViewModel.getMappedServersForCountry(country, withSections = true)
+        val serverList = countryListViewModel.getMappedServersForGroup(country)
         val groupTitles = serverList.map { it.groupTitle?.titleRes }
         assertEquals(
             listOf(R.string.listFastestServer, R.string.listPlusServers, R.string.listFreeServers),

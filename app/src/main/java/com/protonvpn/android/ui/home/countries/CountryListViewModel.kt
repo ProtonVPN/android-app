@@ -25,8 +25,10 @@ import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.models.config.UserData
+import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.ui.home.InformationActivity
@@ -69,18 +71,16 @@ class CountryListViewModel @Inject constructor(
 
     data class ServerGroupTitle(val titleRes: Int, val infoType: InformationActivity.InfoType?)
 
-    fun getMappedServersForCountry(country: VpnCountry, withSections: Boolean): List<ServersGroup> {
+    fun getMappedServersForGroup(group: ServerGroup): List<ServersGroup> {
         return if (userData.secureCoreEnabled) {
-            listOf(ServersGroup(null, country.connectableServers))
-        } else if (withSections) {
-            getMappedServersForClassicView(country)
+            listOf(ServersGroup(null, group.serverList))
         } else {
-            listOf(ServersGroup(null, country.connectableServers.sortedForUi()))
+            getMappedServersForClassicView(group)
         }
     }
 
-    private fun getMappedServersForClassicView(country: VpnCountry): List<ServersGroup> {
-        val countryServers = country.connectableServers.sortedForUi()
+    private fun getMappedServersForClassicView(group: ServerGroup): List<ServersGroup> {
+        val countryServers = group.serverList.sortedForUi()
         val freeServers = countryServers.filter { it.isFreeServer }
         val basicServers = countryServers.filter { it.isBasicServer }
         val plusServers = countryServers.filter { it.isPlusServer }
@@ -96,14 +96,14 @@ class CountryListViewModel @Inject constructor(
         }
 
         val freeServersInfo =
-            if (partnershipsRepository.hasAnyPartnership(country) == true)
-                InformationActivity.InfoType.Partners.Country(country.flag, userData.secureCoreEnabled)
+            if (group is VpnCountry && partnershipsRepository.hasAnyPartnership(group))
+                InformationActivity.InfoType.Partners.Country(group.flag, userData.secureCoreEnabled)
             else
                 null
 
         val plusServersInfo =
-            if (serverManager.streamingServicesModel?.getForAllTiers(country.flag)?.isNotEmpty() == true)
-                InformationActivity.InfoType.Streaming(country.flag)
+            if (group is VpnCountry && serverManager.streamingServicesModel?.getForAllTiers(group.flag)?.isNotEmpty() == true)
+                InformationActivity.InfoType.Streaming(group.flag)
             else
                 null
 
@@ -131,11 +131,11 @@ class CountryListViewModel @Inject constructor(
         else
             serverManager.getVpnCountries()
 
-    fun getDedicatedIpCountriesForList(): List<VpnCountry> =
+    fun getGatewayGroupsForList(): List<GatewayGroup> =
         if (userData.secureCoreEnabled)
             emptyList()
         else
-            serverManager.getDedicatedIpCountries()
+            serverManager.getGateways()
 
     fun getFreeAndPremiumCountries(): Pair<List<VpnCountry>, List<VpnCountry>> =
         getCountriesForList().partition { it.hasAccessibleServer(currentUser.vpnUserCached()) }
@@ -143,11 +143,11 @@ class CountryListViewModel @Inject constructor(
     fun hasAccessToServer(server: Server) =
         currentUser.vpnUserCached().hasAccessToServer(server)
 
-    fun hasAccessibleServer(country: VpnCountry) =
-        country.hasAccessibleServer(currentUser.vpnUserCached())
+    fun hasAccessibleServer(group: ServerGroup) =
+        group.hasAccessibleServer(currentUser.vpnUserCached())
 
-    fun hasAccessibleOnlineServer(country: VpnCountry) =
-        country.hasAccessibleOnlineServer(currentUser.vpnUserCached())
+    fun hasAccessibleOnlineServer(group: ServerGroup) =
+        group.hasAccessibleOnlineServer(currentUser.vpnUserCached())
 
     private fun List<Server>.sortedForUi() =
         this.sortedBy { it.displayCity }
