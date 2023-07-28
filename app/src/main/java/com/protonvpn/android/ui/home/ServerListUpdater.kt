@@ -130,7 +130,7 @@ class ServerListUpdater @Inject constructor(
     fun onAppStart() {
         if (serverManager.isOutdated) {
             scope.launch {
-                updateServerList()
+                if (currentUser.isLoggedIn()) updateServerList()
             }
         }
     }
