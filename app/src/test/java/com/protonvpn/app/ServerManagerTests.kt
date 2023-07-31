@@ -94,7 +94,7 @@ class ServerManagerTests {
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         regularServers = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 
-        val allServers = regularServers +  gatewayServer
+        val allServers = regularServers + gatewayServer
         manager.setServers(allServers, null)
     }
 
