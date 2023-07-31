@@ -167,24 +167,18 @@ public class HomeActivity extends VpnActivity {
         fragment = (VpnStateFragment) getSupportFragmentManager().findFragmentById(R.id.vpnStatusBar);
         initSecureCoreSwitch();
         initSnackbarHelper();
-        if (serverManager.isDownloadedAtLeastOnce() || serverManager.isOutdated()) {
-            initLayout();
-        }
-        else {
-            minimizedLoader.switchToEmpty();
-        }
-        if (canShowPopups()) {
-            initOnboarding();
-        }
+        initLayout();
 
         serverManager.getServerListVersionLiveData().observe(this, (ignored) -> {
+            if (serverManager.isDownloadedAtLeastOnce())
+                getLoadingContainer().switchToEmpty();
+            else
+                getLoadingContainer().switchToLoading();
+
             checkForOnboarding();
             if (canShowPopups()) {
                 initOnboarding();
                 notificationHelper.cancelInformationNotification(Constants.NOTIFICATION_GUESTHOLE_ID);
-            }
-            else {
-                initLayout();
             }
         });
 
@@ -200,8 +194,6 @@ public class HomeActivity extends VpnActivity {
             new ViewModelProvider(this).get(PromoOfferNotificationViewModel.class));
 
         searchViewModel.getEventCloseLiveData().observe(this, isOpen -> searchMenuItem.collapseActionView());
-
-        serverListUpdater.setDefaultNetworkLoader(getLifecycle(), this);
     }
 
     @Override

@@ -19,9 +19,6 @@
 package com.protonvpn.android.ui.home
 
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
@@ -81,8 +78,6 @@ class ServerListUpdater @Inject constructor(
     @IsLoggedIn loggedIn: Flow<Boolean>,
     @IsInForeground inForeground: Flow<Boolean>
 ) {
-    private var networkLoader: NetworkLoader? = null
-
     val ipAddress = prefs.ipAddressFlow
 
     // Country and ISP are used by "Report an issue" form.
@@ -94,7 +89,7 @@ class ServerListUpdater @Inject constructor(
     private val serverListUpdate = periodicUpdateManager.registerApiCall(
         "server_list",
         ::updateServers,
-        { networkLoader },
+        { null as NetworkLoader? },
         PeriodicUpdateSpec(LIST_CALL_DELAY, setOf(loggedIn, inForeground))
     )
     private val locationUpdate = periodicUpdateManager.registerAction(
@@ -133,16 +128,6 @@ class ServerListUpdater @Inject constructor(
                 if (currentUser.isLoggedIn()) updateServerList()
             }
         }
-    }
-
-    fun setDefaultNetworkLoader(lifecycle: Lifecycle, loader: NetworkLoader?) {
-        networkLoader = loader
-
-        lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onDestroy(owner: LifecycleOwner) {
-                networkLoader = null
-            }
-        })
     }
 
     fun getServersList(networkLoader: NetworkLoader?): Job = scope.launch(Dispatchers.Main) {

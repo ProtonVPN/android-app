@@ -141,7 +141,6 @@ class TvMainViewModel @Inject constructor(
     val listVersion = serverManager.serverListVersion
 
     fun onViewInit(lifecycle: Lifecycle) {
-        serverListUpdater.setDefaultNetworkLoader(lifecycle, null)
         lifecycle.addObserver(this)
     }
 
