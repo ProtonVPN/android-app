@@ -33,26 +33,21 @@ import java.io.File
 class ServersStore(
     private val store: ObjectStore<ServersSerializationData>,
 ) {
-    var vpnCountries: List<VpnCountry>
-    var gatewayServers: List<Server>
-    var secureCoreEntryCountries: List<VpnCountry>
-    var secureCoreExitCountries: List<VpnCountry>
+    var allServers: List<Server> = emptyList()
 
     init {
         val data = runBlocking { store.read() }
-        vpnCountries = data?.vpnCountries ?: emptyList()
-        gatewayServers = data?.gatewayServers ?: emptyList()
-        secureCoreEntryCountries = data?.secureCoreEntryCountries ?: emptyList()
-        secureCoreExitCountries = data?.secureCoreExitCountries ?: emptyList()
+        if (data != null) {
+            allServers = if (data.allServers.isEmpty() && data.vpnCountries.isNotEmpty()) {
+                extractServers(data.vpnCountries, data.secureCoreEntryCountries, data.secureCoreExitCountries)
+            } else {
+                data.allServers
+            }
+        }
     }
 
     fun save() {
-        val data = ServersSerializationData(
-            vpnCountries = vpnCountries,
-            gatewayServers = gatewayServers,
-            secureCoreEntryCountries = secureCoreEntryCountries,
-            secureCoreExitCountries = secureCoreExitCountries
-        )
+        val data = ServersSerializationData(allServers)
         store.store(data)
     }
 
@@ -61,19 +56,19 @@ class ServersStore(
         secureCoreEntryCountries: List<VpnCountry>,
         secureCoreExitCountries: List<VpnCountry>,
     ) {
-        this.vpnCountries = vpnCountries
-        this.secureCoreEntryCountries = secureCoreEntryCountries
-        this.secureCoreExitCountries = secureCoreExitCountries
+        allServers = extractServers(vpnCountries, secureCoreEntryCountries, secureCoreExitCountries)
         save()
     }
 
     fun clear() {
-        vpnCountries = emptyList()
-        gatewayServers = emptyList()
-        secureCoreEntryCountries = emptyList()
-        secureCoreExitCountries = emptyList()
+        allServers = emptyList()
         store.clear()
     }
+
+    private fun extractServers(vararg countryLists: List<VpnCountry>): List<Server> =
+        countryLists.asSequence()
+            .flatMap { countries -> countries.asSequence().flatMap { country -> country.serverList } }
+            .toList()
 
     companion object {
         const val STORE_FILENAME = "servers_data"
@@ -97,8 +92,10 @@ class ServersStore(
 // This class is serialized to file, take that into account when changing it.
 @kotlinx.serialization.Serializable
 class ServersSerializationData(
-    val vpnCountries: List<VpnCountry>,
-    val secureCoreEntryCountries: List<VpnCountry>,
-    val secureCoreExitCountries: List<VpnCountry>,
-    val gatewayServers: List<Server> = emptyList(),
+    val allServers: List<Server> = emptyList(),
+
+    // Deprecated, used only for migration.
+    val vpnCountries: List<VpnCountry> = emptyList(),
+    val secureCoreEntryCountries: List<VpnCountry> = emptyList(),
+    val secureCoreExitCountries: List<VpnCountry> = emptyList(),
 )
