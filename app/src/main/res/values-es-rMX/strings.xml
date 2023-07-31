@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Ver la oferta</string>
     <string name="listItemMaintenance">En mantenimiento</string>
     <string name="listAllCountries">Todas las ubicaciones (%1$d)</string>
-    <string name="listGateways">Puertas de enlace</string>
+    <string name="listGatewayCountries">Puertas de enlace</string>
     <string name="listFreeCountries">Ubicaciones gratuitas (%1$d)</string>
     <string name="listPremiumCountries">Ubicaciones Basic y Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Ubicaciones Plus (%1$d)</string>
@@ -161,7 +161,7 @@
     <string name="state_disconnecting">Desconectando…</string>
     <string name="state_error">Error</string>
     <string name="error_server_unreachable">No se pudo conectar a la VPN. Verifique la conexión y vuelva a intentarlo.</string>
-    <string name="error_auth_failed">Falló la autenticación de usuario.</string>
+    <string name="error_auth_failed">Error en la autenticación de usuario.</string>
     <string name="error_assessment_failed">No se pudo evaluar la seguridad.</string>
     <string name="error_generic">Error no especificado al conectar.</string>
     <string name="error_generic_with_reason">Proton VPN no pudo establecer una conexión VPN. Intente otra vez en unos segundos.<br/><br/> Detalles: %1$s</string>
