@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Паглядзіце прапанову</string>
     <string name="listItemMaintenance">На тэхнічным абслугоўванні</string>
     <string name="listAllCountries">Усе размяшчэнні (%1$d)</string>
-    <string name="listGateways">Шлюзы</string>
+    <string name="listGatewayCountries">Шлюзы</string>
     <string name="listFreeCountries">Бясплатныя размяшчэнні (%1$d)</string>
     <string name="listPremiumCountries">Размяшчэнні Basic і Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Размяшчэнні Plus (%1$d)</string>
@@ -230,7 +230,7 @@
     <string name="notConnected">Вы не падключаны \n да сервера</string>
     <string name="activityLicensesTitle">Ліцэнзіі старонніх бакоў</string>
     <string name="stateFragmentUnknownIp">Невядома</string>
-    <string name="noVpnPermissionMainTitle">Патрабуецца дзеянне для падключэння да VPN</string>
+    <string name="noVpnPermissionMainTitle">Дзеянне, якія неабходны для падключэння да VPN</string>
     <string name="noVpnPermissionMainMessage">Для падключэння да Proton VPN, зрабіце наступнае:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Даць дазвол на VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android патрабуецца ваш дазвол на падключэнне да Proton VPN. Ухваліце яго націснуўшы на кнопку \"Добра\" пасля таго, як убачыце акно \"Запыт на падключэнне\" ад вашай сістэмы.</string>

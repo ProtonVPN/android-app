@@ -88,7 +88,7 @@
     <string name="accountDetails">Detalhes da conta</string>
     <string name="accountSubscription">Assinatura</string>
     <string name="accountUser">Usuário:</string>
-    <string name="accountType">Tipo de conta:</string>
+    <string name="accountType">Tipo da conta:</string>
     <string name="accountTier">Assinatura ativa:</string>
     <string name="accountVersion">Versão:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Para gerenciar sua assinatura, você deve ir para o painel da web <font color="%1$s"> protonvpn.com </font>.]]></string>
@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Veja a oferta</string>
     <string name="listItemMaintenance">Em manutenção</string>
     <string name="listAllCountries">Todas as localizações (%1$d)</string>
-    <string name="listGateways">Gateways</string>
+    <string name="listGatewayCountries">Gateways</string>
     <string name="listFreeCountries">Localizações Free (%1$d)</string>
     <string name="listPremiumCountries">Localizações Basic e Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Localizações Plus (%1$d)</string>
@@ -161,9 +161,9 @@
     <string name="state_disconnecting">Desconectando…</string>
     <string name="state_error">Erro</string>
     <string name="error_server_unreachable">Não foi possível conectar à VPN. Verifique sua conexão e tente novamente.</string>
-    <string name="error_auth_failed">Falha na autenticação do usuário.</string>
-    <string name="error_assessment_failed">Falha na auditoria de segurança.</string>
-    <string name="error_generic">Falha desconhecida durante a conexão.</string>
+    <string name="error_auth_failed">Erro na autenticação do usuário.</string>
+    <string name="error_assessment_failed">Erro na auditoria de segurança.</string>
+    <string name="error_generic">Ocorreu um erro desconhecido durante a conexão.</string>
     <string name="error_generic_with_reason">O Proton VPN não pôde estabelecer uma conexão. Tente novamente em alguns segundos.<br/><br/> Detalhes: %1$s</string>
     <string name="reconnect">Reconectar</string>
     <string name="reconnect_now">Reconectar agora</string>
@@ -171,7 +171,7 @@
     <string name="connect">Conectar</string>
     <string name="upgrade">Fazer upgrade</string>
     <string name="retry">Tentar novamente</string>
-    <string name="connection_failed">Falha na conexão</string>
+    <string name="connection_failed">Erro na conexão</string>
     <string name="create_new_profile">Novo perfil</string>
     <string name="excludeAppsTitle">Excluir aplicativos</string>
     <string name="excludeAppsDescription">Adicione aplicativos que você deseja excluir do tráfego da VPN.</string>
@@ -245,7 +245,7 @@
     <string name="error_server_not_set">O servidor não está mais disponível</string>
     <string name="bugReportThankYouToast">Nós lhe agradecemos por seu relatório.</string>
     <string name="bugReportErrorEmptyEmail">O e-mail não pode estar em branco</string>
-    <string name="bugReportErrorInvalidEmail">Endereço de e-mail inválido</string>
+    <string name="bugReportErrorInvalidEmail">O endereço de e-mail não é válido.</string>
     <string name="bugReportErrorEmptyDescription">Descreva o que está acontecendo</string>
     <string name="bugReportLabelVpnLogsTitle">Incluir registros de erros</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Envia registros de erros locais (não registramos atividades) para nos ajudar a corrigir seu problema</string>
@@ -259,7 +259,7 @@
     <string name="loaderLoadingServers">Carregando servidores…</string>
     <string name="inputIpAddressLabel">Endereço IP</string>
     <string name="inputIpAddressHint">Gravar endereço IP</string>
-    <string name="inputIpAddressErrorInvalid">Endereço de IP inválido</string>
+    <string name="inputIpAddressErrorInvalid">O endereço de IP não é válido.</string>
     <string name="settingsExcludedIPAddresses">Endereços IP excluídos</string>
     <string name="settingsExcludedIPAddressesListHeader">Endereços IP excluídos (%1$d)</string>
     <string name="settingsExcludedApps">Aplicativos excluídos</string>
@@ -326,8 +326,8 @@
     <string name="settingsSmartProtocolDescription">Usar automaticamente o protocolo e a porta que oferecem a melhor conectividade.</string>
     <string name="settingsEnableTelemetryTitle">Compartilhar estatísticas anônimas de uso</string>
     <string name="settingsEnableTelemetryDescription">Dados de uso nos ajudam a superar bloqueios de VPN e a melhorar o aplicativo.</string>
-    <string name="settingsSendCrashReportsTitle">Compartilhar relatórios de falhas anônimos</string>
-    <string name="settingsSendCrashReportsDescription">Relatórios de falhas nos ajudam a corrigir erros, detectar firewalls e evitar bloqueios de VPN.</string>
+    <string name="settingsSendCrashReportsTitle">Compartilhar relatórios de erros anônimos</string>
+    <string name="settingsSendCrashReportsDescription">Os relatórios de erros nos ajudam a corrigir erros, detectar firewalls e evitar bloqueios de VPN.</string>
     <string name="settingsTelemetryScreenTitle">Estatísticas de uso</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm seu endereço IP, e não podem ser usadas para te identificar. Nunca as compartilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="netShieldEnabledWarning">Cuidado, alguns sites podem não funcionar completamente por causa de conteúdos bloqueados.</string>
@@ -393,7 +393,7 @@
     <string name="back">Voltar</string>
     <string name="tv_upgrade_url_details"><![CDATA[Visite <b>%1$s</b> para atualizar agora para o Proton VPN Plus.]]></string>
     <string name="tv_upgrade_description">Obtenha um plano Proton VPN Plus para acessar mais de 500 servidores em todo o mundo e opções de streaming otimizadas para Netflix, Amazon Prime Video, Disney + e muitos mais.</string>
-    <string name="tv_vpn_error_dialog_title">Falha na conexão VPN</string>
+    <string name="tv_vpn_error_dialog_title">Erro na conexão VPN</string>
     <string name="tv_signout_label">Encerrar sessão</string>
     <string name="tv_signout_dialog_title">Você tem certeza que deseja encerrar a sessão?</string>
     <string name="tv_signout_dialog_description_connected">Isso desconectará sua TV de qualquer servidor VPN.</string>
