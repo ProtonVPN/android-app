@@ -40,6 +40,7 @@ import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Item
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.network.domain.ApiResult
@@ -162,8 +163,13 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
 
     private fun getExpandedCountriesIds(groupAdapter: GroupAdapter<GroupieViewHolder>) = with(groupAdapter) {
         (0 until groupCount).asSequence()
-                .filter { (getGroup(it) as? ExpandableGroup)?.isExpanded == true }
-                .mapTo(HashSet()) { getItem(it).id }
+            .map { getTopLevelGroup(it) }
+            .filterIsInstance<ExpandableGroup>()
+            .filter { it.isExpanded }
+            .mapNotNullTo(HashSet()) {
+                // The 0th item is the "parent", in this case CountryViewHolder.
+                (it.getGroup(0) as? Item<*>)?.id
+            }
     }
 
     override fun getNetworkFrameLayout(): LoaderUI {
