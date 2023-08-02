@@ -168,7 +168,7 @@ class VpnConnectionManagerTests {
         vpnStateMonitor = VpnStateMonitor()
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager = createDummyProfilesManager()
-        serverManager = ServerManager(userSettingsCached, mockCurrentUser, clock, supportsProtocol, createInMemoryServersStore(), profileManager)
+        serverManager = ServerManager(userSettingsCached, mockCurrentUser, clock, supportsProtocol, createInMemoryServersStore(), profileManager, mockk(relaxed = true))
         serverManager.setServers(MockedServers.serverList, null)
 
         vpnConnectionManager = VpnConnectionManager(

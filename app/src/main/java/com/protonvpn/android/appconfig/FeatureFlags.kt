@@ -46,4 +46,6 @@ data class FeatureFlags(
     @SerialName(value = "NetShieldStats") val netShieldV2: Boolean = false, // TODO: no longer implemented: remove it, comment out or add a comment?
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "Telemetry") val telemetry: Boolean = false,
+    @Serializable(with = IntToBoolSerializer::class)
+    @SerialName(value = "ShowNewFreePlan") val showNewFreePlan: Boolean = false,
 ) : java.io.Serializable

@@ -39,6 +39,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.BaseActivityV2
@@ -100,6 +101,7 @@ class SettingsActivity : BaseActivityV2() {
     @Inject lateinit var currentUser: CurrentUser
     @Inject lateinit var profileManager: ProfileManager
     @Inject lateinit var buildConfigInfo: BuildConfigInfo
+    @Inject lateinit var restrictions: RestrictionsConfig
 
     private val binding by viewBinding(ActivitySettingsBinding::inflate)
     private var loadExcludedAppsJob: Job? = null
@@ -192,6 +194,9 @@ class SettingsActivity : BaseActivityV2() {
                 }
             }
 
+            val restrictQuickConnect = !restrictions.restrictQuickConnect()
+            textSectionQuickConnect.isVisible = restrictQuickConnect
+            buttonDefaultProfile.isVisible = restrictQuickConnect
             buttonDefaultProfile.setOnClickListener {
                 navigateTo(SettingsDefaultProfileActivity::class.java)
             }

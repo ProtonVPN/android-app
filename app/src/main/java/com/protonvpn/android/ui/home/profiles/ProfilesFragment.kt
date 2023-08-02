@@ -25,8 +25,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.ConnectToProfile
 import com.protonvpn.android.bus.EventBus
@@ -34,6 +34,8 @@ import com.protonvpn.android.databinding.FragmentProfilesBinding
 import com.protonvpn.android.databinding.ItemProfileListBinding
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.HeaderViewHolder
+import com.protonvpn.android.ui.planupgrade.UpgradeProfilesDialogActivity
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -42,6 +44,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
@@ -61,19 +64,24 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
         with(binding) {
             list.adapter = adapter
             textCreateProfile.setOnClickListener {
-                ProfileEditActivity.navigateForCreation(this@ProfilesFragment)
+                lifecycleScope.launch {
+                    if (viewModel.canCreateProfile())
+                        ProfileEditActivity.navigateForCreation(this@ProfilesFragment)
+                    else
+                        context?.launchActivity<UpgradeProfilesDialogActivity>()
+                }
             }
             // Profiles don't have IDs so they always animate as remove + add which doesn't look
             // good, let's disable animations.
             list.itemAnimator = null
         }
         val editAction = { profile: Profile -> ProfileEditActivity.navigateForEdit(this, profile) }
-        viewModel.preBakedProfiles.asLiveData().observe(viewLifecycleOwner, Observer {
+        viewModel.preBakedProfiles.asLiveData().observe(viewLifecycleOwner) {
             prebakedProfilesSection.update(it.map { ProfileViewHolder(it, editAction) })
-        })
-        viewModel.userCreatedProfiles.asLiveData().observe(viewLifecycleOwner, Observer {
+        }
+        viewModel.userCreatedProfiles.asLiveData().observe(viewLifecycleOwner) {
             customProfilesSection.update(it.map { ProfileViewHolder(it, editAction) })
-        })
+        }
     }
 
     private class ProfileViewHolder(
@@ -89,30 +97,34 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
 
             textServer.text = profile.getDisplayName(textServer.context)
 
-            val hasAccess = item.hasAccess
-            buttonUpgrade.isVisible = !hasAccess && server != null
-            buttonConnect.isVisible = hasAccess && online
+            val accessType = item.accessType
+            buttonUpgrade.isVisible = accessType != ProfilesViewModel.AccessType.Full && server != null
+            buttonConnect.isVisible = accessType == ProfilesViewModel.AccessType.Full && online
             buttonConnect.isOn = item.isConnected
 
-            imageWrench.isVisible = hasAccess && !online
+            imageWrench.isVisible = accessType == ProfilesViewModel.AccessType.Full && !online
             buttonConnect.contentDescription = textServer.text
 
             val editClickListener = View.OnClickListener {
                 editAction(profile)
             }
             val connectUpgradeClickListener = View.OnClickListener {
-                val event = ConnectToProfile(
-                    profile.takeUnless { item.isConnected },
-                    ConnectTrigger.Profile("profile power button"),
-                    DisconnectTrigger.Profile("profile power button")
-                )
-                EventBus.post(event)
+                if (item.accessType == ProfilesViewModel.AccessType.Restricted) {
+                    profileItem.context.launchActivity<UpgradeProfilesDialogActivity>()
+                } else {
+                    val event = ConnectToProfile(
+                        profile.takeUnless { item.isConnected },
+                        ConnectTrigger.Profile("profile power button"),
+                        DisconnectTrigger.Profile("profile power button")
+                    )
+                    EventBus.post(event)
+                }
             }
             buttonConnect.setOnClickListener(connectUpgradeClickListener)
             buttonUpgrade.setOnClickListener(connectUpgradeClickListener)
             buttonUpgrade.contentDescription = textServer.text
             textServerNotSet.isVisible = server == null
-            profileEditButton.isVisible = !profile.isPreBakedProfile
+            profileEditButton.isVisible = item.canEdit
             imageIcon.setImageResource(profile.profileSpecialIcon ?: R.drawable.ic_profile_custom)
             imageIcon.imageTintList = if (profile.profileColor != null) {
                 val color =
@@ -122,7 +134,7 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
                 null
             }
             profileEditButton.setOnClickListener(editClickListener)
-            profileItem.setOnClickListener(if (profile.isPreBakedProfile) null else editClickListener)
+            profileItem.setOnClickListener(if (item.canEdit) editClickListener else null)
             profileItem.setBackgroundResource(
                 if (profile.isPreBakedProfile) 0 else profileItem.getSelectableItemBackgroundRes()
             )

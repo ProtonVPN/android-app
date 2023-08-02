@@ -30,6 +30,7 @@ import android.widget.ImageView;
 
 import com.google.android.material.color.MaterialColors;
 import com.protonvpn.android.R;
+import com.protonvpn.android.appconfig.RestrictionsConfig;
 import com.protonvpn.android.auth.usecase.CurrentUser;
 import com.protonvpn.android.auth.data.VpnUser;
 import com.protonvpn.android.auth.data.VpnUserKt;
@@ -45,7 +46,7 @@ import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.models.vpn.TranslatedCoordinates;
 import com.protonvpn.android.models.vpn.VpnCountry;
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached;
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity;
+import com.protonvpn.android.ui.planupgrade.UpgradeCountryDialogActivity;
 import com.protonvpn.android.utils.CountryTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.vpn.ConnectTrigger;
@@ -90,6 +91,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     @Inject VpnConnectionManager vpnConnectionManager;
     @Inject EffectiveCurrentUserSettingsCached userSettings;
     @Inject CurrentUser currentVpnUser;
+    @Inject RestrictionsConfig restrictionsConfig;
     private List<CompositePathView.DrawablePath> paths = new ArrayList<>();
     private ImageView secureCoreMarker = null;
     private MapViewModel viewModel;
@@ -179,7 +181,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
             VpnUser user = currentVpnUser.vpnUserCached();
             int selectedMarker = vpnStatusProviderUI.isConnectedToAny(country.getConnectableServers()) ?
                 R.drawable.ic_marker_colored :
-                VpnUserKt.hasAccessToAnyServer(user, country.getConnectableServers()) ?
+                VpnUserKt.hasAccessToAnyServer(user, country.getConnectableServers()) && !restrictionsConfig.restrictMap() ?
                     R.drawable.ic_marker_available : R.drawable.ic_marker;
 
             if ((country.equals(selectedCountry)) && getSecureCoreEnabled()
@@ -302,7 +304,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
 
         List<Server> countryServers = country.getConnectableServers();
         VpnUser user = currentVpnUser.vpnUserCached();
-        boolean hasAccess = VpnUserKt.hasAccessToAnyServer(user, countryServers);
+        boolean hasAccess = VpnUserKt.hasAccessToAnyServer(user, countryServers) && !restrictionsConfig.restrictMap();
 
         binding.countryWithFlags.setCountry(country);
         binding.countryWithFlags.setEnabled(hasAccess);
@@ -333,7 +335,8 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                 currentConnection ? R.drawable.ic_marker_colored : R.drawable.ic_marker_available);
         } else {
             binding.buttonUpgrade.setOnClickListener(v ->
-                requireContext().startActivity(new Intent(requireContext(), UpgradePlusCountriesDialogActivity.class))
+                requireContext().startActivity(
+                    UpgradeCountryDialogActivity.createIntent(requireContext(), country.getMarkerCountryCode()))
             );
 
             binding.buttonConnect.setVisibility(View.GONE);

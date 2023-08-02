@@ -54,6 +54,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -114,7 +115,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
         val userSettingsCached = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager = createDummyProfilesManager()
-        val serverManager = ServerManager(userSettingsCached, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), profileManager)
+        val serverManager = ServerManager(userSettingsCached, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), profileManager, mockk(relaxed = true))
         serverManager.setServers(MockedServers.serverList, null)
         val search = Search(serverManager)
         partnershipsRepository = PartnershipsRepository(mockApi)

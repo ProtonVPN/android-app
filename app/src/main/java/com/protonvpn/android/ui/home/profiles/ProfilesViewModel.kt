@@ -20,6 +20,7 @@ package com.protonvpn.android.ui.home.profiles
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.Profile
@@ -39,16 +40,21 @@ import javax.inject.Inject
 class ProfilesViewModel @Inject constructor(
     profileManager: ProfileManager,
     private val serverManager: ServerManager,
-    currentUser: CurrentUser,
-    private val vpnStatusProviderUI: VpnStatusProviderUI
+    private val currentUser: CurrentUser,
+    private val vpnStatusProviderUI: VpnStatusProviderUI,
+    private val restrictions: RestrictionsConfig
 ) : ViewModel() {
 
+    enum class AccessType { Full, Restricted, NoAccess }
     data class ProfileItem(
         val profile: Profile,
         val server: Server?,
         val isConnected: Boolean,
-        val hasAccess: Boolean
+        val accessType: AccessType,
+        val canEdit: Boolean
     )
+
+    fun canCreateProfile() = !restrictions.restrictProfile()
 
     private val profiles = combine(
         profileManager.profiles,
@@ -56,9 +62,19 @@ class ProfilesViewModel @Inject constructor(
         vpnStatusProviderUI.status,
         currentUser.vpnUserFlow
     ) { allProfiles, _, _, vpnUser ->
-        allProfiles.map {
-            val server = serverManager.getServerForProfile(it, vpnUser)
-            ProfileItem(it, server, isConnected = isConnectedTo(it), hasAccess = vpnUser.hasAccessToServer(server))
+        allProfiles.map { profile ->
+            val server = serverManager.getServerForProfile(profile, vpnUser)
+            val restrict = restrictions.restrictProfile()
+            val hasAccess = when {
+                restrict -> AccessType.Restricted
+                !vpnUser.hasAccessToServer(server) -> AccessType.NoAccess
+                else -> AccessType.Full
+            }
+            val canEdit = !restrict && !profile.isPreBakedProfile
+            ProfileItem(
+                profile, server, isConnected = isConnectedTo(profile),
+                accessType = hasAccess, canEdit = canEdit
+            )
         }
     }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
