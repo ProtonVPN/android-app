@@ -494,6 +494,17 @@
     <string name="upgrade_secure_core_countries">Route through ultra secure servers in Switzerland, Sweden, and Iceland</string>
     <string name="upgrade_secure_core_encryption">Add another layer of encryption to your VPN connection</string>
     <string name="upgrade_secure_core_protect">Protect yourself from network attacks</string>
+    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds (up to 10 Gbps)</string>
+    <string name="upgrade_vpn_accelerator_feature_speed">Increase connection speeds by up to 400% with VPN Accelerator</string>
+    <string name="upgrade_vpn_accelerator_feature_distant_servers">Improved speed and stability when connected to distant servers</string>
+    <string name="upgrade_vpn_accelerator_feature_less_crowded">Access faster, less crowded servers</string>
+    <string name="upgrade_split_tunneling_title">Get the best of both worlds</string>
+    <string name="upgrade_split_tunneling_two_locations">Browse from two locations at once with split tunneling</string>
+    <string name="upgrade_split_tunneling_feature_allow_exceptions">Allow trusted apps and IP addresses to connect directly to the internet, while protecting everything else with your VPN</string>
+    <string name="upgrade_customization_title">Unlock advanced VPN customization</string>
+    <string name="upgrade_customization_lan">Access devices on your local area network (LAN)</string>
+    <string name="upgrade_customization_feature_profiles">Save frequently used connections with Profiles</string>
+    <string name="upgrade_customization_feature_quick_connect_profile">Get instant access to your profiles with quick connect</string>
     <string name="upgrade_netshield_block_ads">Block ads and trackers</string>
     <string name="upgrade_netshield_block_malware">Protect your device from malware</string>
     <string name="upgrade_netshield_speed">Browse at the highest speeds</string>
@@ -690,4 +701,26 @@
     <string name="ikev2_removed_dialog_message">Defaults and profiles that previously used IKEv2 will now use the Smart protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visit <a href="https://protonvpn.com/pricing">protonvpn.com</a> for more info.</string>
+
+    <string name="free_upsell_header_title">Browse from all %1$d countries with VPN Plus</string>
+
+    <!-- Example: Want to connect to Italy? -->
+    <string name="upgrade_country_title">Want to connect to %1$s?</string>
+    <string name="upgrade_country_message">Unlock country selection with VPN Plus</string>
+    <string name="upgrade_country_feature_money_back">30-day money back guarantee</string>
+    <!-- Example: Higher speeds (10 Gbps) -->
+    <string name="upgrade_country_feature_speed">Higher speeds (%1$d Gbps)</string>
+    <string name="upgrade_country_feature_stream">Stream your favorite movies</string>
+    <plurals name="upgrade_country_feature_protect">
+        <item quantity="one">Protect up to %1$d device</item>
+        <item quantity="other">Protect up to %1$d devices</item>
+    </plurals>
+    <plurals name="upgrade_country_feature_count">
+        <item quantity="one">Browse from %1$d country</item>
+        <item quantity="other">Browse from %1$d countries</item>
+    </plurals>
+    <string name="upgrade_moderate_nat_title2">Level up your gaming experience</string>
+    <string name="upgrade_moderate_nat_message2">Unlock NAT Type 2 with VPN Plus</string>
+    <string name="upgrade_moderate_nat_feature_gaming">Improve online gaming and video call performance</string>
+    <string name="upgrade_moderate_nat_feature_optimize">NAT Type 2 (moderate) optimizes speed and stability by enabling direct connections between devices</string>
 </resources>

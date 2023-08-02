@@ -23,6 +23,8 @@
     <color name="black">#000000</color>
     <color name="blackOverlay">#80000000</color>
 
+    <color name="protonVpnGreen">#1C9C7C</color>
+
     <!-- TV -->
     <color name="tvAccent">#6D4AFF</color>
     <color name="tvAccentLighten">#8A6EFF</color>

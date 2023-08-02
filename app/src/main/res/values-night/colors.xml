@@ -19,4 +19,6 @@
   -->
 <resources>
     <color name="notificationDetailsStroke">#494D55</color>
+
+    <color name="protonVpnGreen">#27DDB1</color>
 </resources>

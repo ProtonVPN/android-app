@@ -23,14 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="24dp">
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:navigationIcon="@drawable/ic_proton_cross" />
+    android:background="@drawable/update_dialog_bg">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -56,6 +49,12 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true" />
 
+                <FrameLayout
+                    android:id="@+id/customViewContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
+
                 <TextView
                     android:id="@+id/textTitle"
                     style="@style/Proton.Text.Headline"
@@ -66,26 +65,28 @@
 
                 <TextView
                     android:id="@+id/textMessage"
-                    style="@style/Proton.Text.Default"
+                    style="@style/Proton.Text.Default.Weak"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center_horizontal" />
 
                 <LinearLayout
+                    android:id="@+id/layoutFeatureItemsContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/upgrade_features_box"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/layoutFeatureItems"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="26dp"
-                        android:orientation="vertical"
-                        android:visibility="gone" />
+                        android:orientation="vertical"/>
 
                     <TextView
                         android:id="@+id/upgradeCountriesMoreCaption"

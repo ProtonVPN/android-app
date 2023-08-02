@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="96dp"
+    android:layout_height="96dp"
+    android:layout_gravity="center"
+    android:background="@drawable/upgrade_country_flag_backgroud">
+
+    <ImageView
+        android:id="@+id/upgradeFlag"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        tools:src="@drawable/flag_it"/>
+</FrameLayout>
