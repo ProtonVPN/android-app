@@ -48,7 +48,8 @@ abstract class CountryViewHolder(
     private val viewModel: CountryListViewModel,
     private val group: ServerGroup,
     private val sectionId: String,
-    val parentLifecycleOwner: LifecycleOwner
+    private val isAccessibleAndOnline: Boolean,
+    private val parentLifecycleOwner: LifecycleOwner
 ) : BindableItemEx<ItemVpnCountryBinding>(), ExpandableItem {
 
     private lateinit var expandableGroup: ExpandableGroup
@@ -57,7 +58,7 @@ abstract class CountryViewHolder(
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
         binding.textConnected.isVisible =
-                group.hasConnectedServer(it.server) && it.state == VpnState.Connected
+            group.hasConnectedServer(it.server) && it.state == VpnState.Connected && isAccessibleAndOnline
     }
 
     override fun getId() = Objects.hash(group.id(), sectionId).toLong()
@@ -67,29 +68,27 @@ abstract class CountryViewHolder(
 
         val context = viewBinding.root.context
         with(viewBinding) {
-            val isOnline = !group.isUnderMaintenance()
-            val userHasAccess = viewModel.hasAccessibleServer(group)
-            val accessibleAndOnline = userHasAccess && isOnline
-            countryItem.setBackgroundResource(if (accessibleAndOnline)
-                countryItem.getSelectableItemBackgroundRes() else 0)
-            textCountry.setTextColor(textCountry.getThemeColor(
-                    if (accessibleAndOnline) R.attr.proton_text_norm else R.attr.proton_text_hint))
             textCountry.text = group.name()
-
-            buttonCross.isVisible = accessibleAndOnline
-
-            adjustCross(buttonCross, expandableGroup.isExpanded, 0)
-            adjustDivider(divider, expandableGroup.isExpanded, 0)
             imageCountry.setImageResource(group.iconResource(context))
-            imageCountry.alpha =
-                if (accessibleAndOnline) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
-            viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
-
             imageDoubleArrows.isVisible = viewModel.isSecureCoreEnabled
             features.featureIcons = group.featureIcons()
-
+            countryItem.setBackgroundResource(
+                if (isAccessibleAndOnline)
+                    countryItem.getSelectableItemBackgroundRes() else 0
+            )
+            textCountry.setTextColor(
+                textCountry.getThemeColor(
+                    if (isAccessibleAndOnline) R.attr.proton_text_norm else R.attr.proton_text_hint
+                )
+            )
+            buttonCross.isVisible = isAccessibleAndOnline
+            imageCountry.alpha =
+                if (isAccessibleAndOnline) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
+            if (!isAccessibleAndOnline) {
+                features.color = context.getColor(R.color.icon_weak)
+            }
             root.setOnClickListener {
-                if (accessibleAndOnline) {
+                if (isAccessibleAndOnline) {
                     expandableGroup.onToggleExpanded()
                     if (expandableGroup.isExpanded) {
                         onExpanded(position)
@@ -98,12 +97,12 @@ abstract class CountryViewHolder(
                     adjustDivider(divider, expandableGroup.isExpanded, EXPAND_DURATION_MS)
                 }
             }
-
-            iconUnderMaintenance.isVisible = !isOnline && userHasAccess
-            buttonUpgrade.isVisible = !userHasAccess
+            iconUnderMaintenance.isVisible = group.isUnderMaintenance() && !isAccessibleAndOnline
+            buttonUpgrade.isVisible = !isAccessibleAndOnline
             buttonUpgrade.setOnClickListener {
                 it.context.launchActivity<UpgradePlusCountriesDialogActivity>()
             }
+            viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
         }
     }
 
@@ -116,7 +115,8 @@ abstract class CountryViewHolder(
     override fun initializeViewBinding(view: View) = ItemVpnCountryBinding.bind(view)
 
     private fun adjustCross(view: View, expanded: Boolean, animDuration: Long) {
-        view.animate().setDuration(animDuration).rotation((if (expanded) 0 else 180).toFloat()).start()
+        view.animate().setDuration(animDuration).rotation((if (expanded) 0 else 180).toFloat())
+            .start()
     }
 
     private fun adjustDivider(view: View, expanded: Boolean, animDurationMs: Long) {
@@ -128,7 +128,7 @@ abstract class CountryViewHolder(
     }
 }
 
-fun ServerGroup.iconResource(context: Context) = when(this) {
+fun ServerGroup.iconResource(context: Context) = when (this) {
     is VpnCountry -> CountryTools.getFlagResource(context, flag)
     is GatewayGroup -> R.drawable.ic_proton_servers
 }

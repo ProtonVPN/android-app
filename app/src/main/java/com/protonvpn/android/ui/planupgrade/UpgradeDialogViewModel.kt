@@ -23,7 +23,7 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.vpn.ServersStore
+import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -38,7 +38,7 @@ class UpgradeDialogViewModel @Inject constructor(
     private val authOrchestrator: AuthOrchestrator,
     private val plansOrchestrator: PlansOrchestrator,
     private val isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
-    private val serversStore: ServersStore
+    private val serverManager: ServerManager
 ) : ViewModel() {
 
     enum class State { Init, Fail, Success }
@@ -64,6 +64,5 @@ class UpgradeDialogViewModel @Inject constructor(
 
     fun showUpgrade() = isInAppUpgradeAllowed()
 
-    fun countriesCount() =
-        serversStore.allServers.asSequence().map { it.exitCountry }.distinct().count()
+    fun countriesCount() = serverManager.getVpnCountries().size
 }

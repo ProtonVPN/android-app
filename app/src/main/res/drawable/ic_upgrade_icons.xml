@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap
+            android:gravity="center_vertical|left"
+            android:src="@drawable/ic_proton_arrow_right"/>
+    </item>
+    <item>
+        <bitmap
+            android:gravity="center_vertical|right"
+            android:src="@drawable/ic_plus_label"/>
+    </item>
+</layer-list>

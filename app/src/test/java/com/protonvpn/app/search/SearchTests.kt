@@ -71,7 +71,8 @@ class SearchTests {
             { 0 },
             supportsProtocol,
             createInMemoryServersStore(),
-            createDummyProfilesManager()
+            createDummyProfilesManager(),
+            mockk(relaxed = true),
         )
         serverManager.setServers(testServers, Locale.getDefault().language)
         search = Search(serverManager)

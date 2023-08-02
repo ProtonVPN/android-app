@@ -18,12 +18,18 @@
  */
 package com.protonvpn.android.ui.home.countries
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkLoader
+import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.bus.ConnectToProfile
+import com.protonvpn.android.bus.EventBus
+import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.models.vpn.Server
@@ -35,9 +41,17 @@ import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+
+data class RecommendedConnection(
+    @DrawableRes val icon: Int,
+    @StringRes val name: Int,
+    val profile: Profile
+)
 
 @HiltViewModel
 class CountryListViewModel @Inject constructor(
@@ -46,7 +60,8 @@ class CountryListViewModel @Inject constructor(
     private val serverListUpdater: ServerListUpdater,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
     private val userSettingsCached: EffectiveCurrentUserSettingsCached,
-    private val currentUser: CurrentUser
+    private val currentUser: CurrentUser,
+    private val restrictConfig: RestrictionsConfig
 ) : ViewModel() {
 
     val settingsLiveData = userSettingsCached.asLiveData()
@@ -55,21 +70,41 @@ class CountryListViewModel @Inject constructor(
     val isFreeUser get() = currentUser.vpnUserCached()?.isFreeUser == true
     val isSecureCoreEnabled get() = userSettingsCached.value.secureCore
 
+    val isServerListRestricted = restrictConfig.restrictionFlow
+
+    fun isServerListRestricted() = restrictConfig.restrictServerList()
+
     fun refreshServerList(networkLoader: NetworkLoader) {
         serverListUpdater.getServersList(networkLoader)
     }
 
     fun isConnectedToServer(server: Server): Boolean = vpnStatusProviderUI.isConnectedTo(server)
 
-    fun getServerPartnerships(server: Server): List<Partner> = partnershipsRepository.getServerPartnerships(server)
+    fun isConnectedToProfile(profile: Profile): Boolean = vpnStatusProviderUI.isConnectedTo(profile)
+
+    fun getServerPartnerships(server: Server): List<Partner> =
+        partnershipsRepository.getServerPartnerships(server)
 
     data class ServersGroup(val groupTitle: ServerGroupTitle?, val servers: List<Server>) {
-        constructor(titleRes: Int, servers: List<Server>, infoType: InformationActivity.InfoType? = null) : this(
+        constructor(
+            titleRes: Int,
+            servers: List<Server>,
+            infoType: InformationActivity.InfoType? = null
+        ) : this(
             ServerGroupTitle(titleRes, infoType), servers
         )
     }
 
     data class ServerGroupTitle(val titleRes: Int, val infoType: InformationActivity.InfoType?)
+
+    fun getRecommendedConnections(): List<RecommendedConnection> =
+        if (isFreeUser && !isSecureCoreEnabled && isServerListRestricted()) {
+            listOf(serverManager.fastestProfile).map {
+                RecommendedConnection(it.profileSpecialIcon!!, R.string.profileFastest, it)
+            }
+        } else {
+            emptyList()
+        }
 
     fun getMappedServersForGroup(group: ServerGroup): List<ServersGroup> {
         return if (isSecureCoreEnabled) {
@@ -140,6 +175,9 @@ class CountryListViewModel @Inject constructor(
     fun getFreeAndPremiumCountries(): Pair<List<VpnCountry>, List<VpnCountry>> =
         getCountriesForList().partition { it.hasAccessibleServer(currentUser.vpnUserCached()) }
 
+    fun getFreeCountries(): List<VpnCountry> =
+        getCountriesForList().filter { it.hasAccessibleServer(currentUser.vpnUserCached()) }
+
     fun hasAccessToServer(server: Server) =
         currentUser.vpnUserCached().hasAccessToServer(server)
 
@@ -148,6 +186,15 @@ class CountryListViewModel @Inject constructor(
 
     fun hasAccessibleOnlineServer(group: ServerGroup) =
         group.hasAccessibleOnlineServer(currentUser.vpnUserCached())
+
+    fun connectToProfile(profile: Profile) {
+        val event = ConnectToProfile(
+            if (isConnectedToProfile(profile)) null else profile,
+            ConnectTrigger.Profile("fastest in country list"),
+            DisconnectTrigger.Profile("fastest in country list")
+        )
+        EventBus.post(event)
+    }
 
     private fun List<Server>.sortedForUi() =
         this.sortedBy { it.displayCity }

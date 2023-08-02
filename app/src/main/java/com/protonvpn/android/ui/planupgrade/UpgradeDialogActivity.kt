@@ -187,6 +187,21 @@ class UpgradeSecureCoreDialogActivity : UpgradeDialogActivity() {
 }
 
 @AndroidEntryPoint
+class UpgradeProfilesDialogActivity : UpgradeDialogActivity() {
+
+    override fun setViews(binding: ActivityUpgradeDialogBinding) = with(binding) {
+        imagePicture.setImageResource(R.drawable.upgrade_profiles)
+        textTitle.setText(R.string.upgrade_profiles_title)
+        textMessage.setText(R.string.upgrade_profiles_text)
+        with(layoutFeatureItems) {
+            addFeature(R.string.upgrade_profiles_feature_save, R.drawable.ic_proton_globe)
+            addFeature(R.string.upgrade_profiles_feature_customize, R.drawable.ic_proton_rocket)
+            addFeature(R.string.upgrade_profiles_feature_auto_connect, R.drawable.ic_proton_play)
+        }
+    }
+}
+
+@AndroidEntryPoint
 class UpgradeVpnAcceleratorDialogActivity : UpgradeDialogActivity() {
 
     override fun setViews(binding: ActivityUpgradeDialogBinding) = with(binding) {

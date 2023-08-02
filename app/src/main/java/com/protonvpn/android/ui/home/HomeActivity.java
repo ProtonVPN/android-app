@@ -532,7 +532,7 @@ public class HomeActivity extends VpnActivity {
             }
         });
         fabQuickConnect.setOnMenuButtonLongClickListener(view -> {
-            if (!fabQuickConnect.isOpened() && OnboardingPreferences.wasFloatingButtonUsed()) {
+            if (!viewModel.isQuickConnectRestricted() && !fabQuickConnect.isOpened() && OnboardingPreferences.wasFloatingButtonUsed()) {
                 fabQuickConnect.open(true);
             }
             return true;

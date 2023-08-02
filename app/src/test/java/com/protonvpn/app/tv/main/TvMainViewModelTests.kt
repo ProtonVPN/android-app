@@ -126,7 +126,7 @@ class TvMainViewModelTests {
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager =
             ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, userSettingsCached, userSettingsManager)
-        serverManager = ServerManager(userSettingsCached, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), profileManager).apply {
+        serverManager = ServerManager(userSettingsCached, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), profileManager, mockk(relaxed = true)).apply {
             setServers(MockedServers.serverList, "us")
         }
 

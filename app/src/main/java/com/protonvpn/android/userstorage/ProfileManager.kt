@@ -58,6 +58,8 @@ class ProfileManager @VisibleForTesting constructor(
     fun getSavedProfiles(): List<Profile> =
         savedProfiles.profileList
 
+    val fastestProfile get() = getSavedProfiles().first()
+
     fun findDefaultProfile(): Profile? = findProfile(effectiveUserSettings.value.defaultProfileId)
 
     fun findProfile(id: UUID?): Profile? = getSavedProfiles().find { it.id == id }

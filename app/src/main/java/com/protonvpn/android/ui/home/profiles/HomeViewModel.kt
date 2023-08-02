@@ -22,9 +22,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
+import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.OnSessionClosed
@@ -62,7 +62,8 @@ class HomeViewModel @Inject constructor(
     logoutUseCase: Logout,
     onSessionClosed: OnSessionClosed,
     purchaseEnabled: CachedPurchaseEnabled,
-    val appFeaturesPrefs: AppFeaturesPrefs
+    val appFeaturesPrefs: AppFeaturesPrefs,
+    private val restrictionsConfig: RestrictionsConfig
 ) : MainViewModel(
     mainScope,
     userPlanManager,
@@ -140,4 +141,6 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    val isQuickConnectRestricted get() = restrictionsConfig.restrictQuickConnect()
 }
