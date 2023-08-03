@@ -77,7 +77,7 @@ object SentryIntegration {
             options.isEnableScopeSync = true
             options.addIntegration(
                 TimberLoggerIntegration(
-                    minEventLevel = SentryLevel.ERROR, // Only errors from TimberLogger.
+                    minEventLevel = SentryLevel.FATAL, // Disabled temporarily, switch to ERROR when logging is fixed.
                     minBreadcrumbLevel = SentryLevel.FATAL // No breadcrumb from TimberLogger.
                 )
             )
