@@ -47,6 +47,10 @@ import com.protonvpn.android.models.vpn.isSecureCoreCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.vpn.ProtocolSelection
+import io.sentry.Sentry
+import io.sentry.SentryEvent
+import io.sentry.SentryLevel
+import io.sentry.protocol.Message
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.builtins.ListSerializer
 import org.jetbrains.annotations.TestOnly
@@ -140,17 +144,34 @@ class ServerManager @Inject constructor(
         if (oldManager != null) {
             if (oldManager.migrateVpnCountries?.isEmpty() == false && serversStore.allServers.isEmpty()) {
                 // Migrate from old server store
-                serversStore.migrate(
-                    vpnCountries = oldManager.migrateVpnCountries,
-                    secureCoreEntryCountries = oldManager.migrateSecureCoreEntryCountries ?: emptyList(),
-                    secureCoreExitCountries = oldManager.migrateSecureCoreExitCountries ?: emptyList(),
-                )
+                try {
+                    serversStore.migrate(
+                        vpnCountries = oldManager.migrateVpnCountries,
+                        secureCoreEntryCountries = oldManager.migrateSecureCoreEntryCountries
+                            ?: emptyList(),
+                        secureCoreExitCountries = oldManager.migrateSecureCoreExitCountries
+                            ?: emptyList(),
+                    )
+                } catch (e: Exception) {
+                    // With some old/corrupted Storage we can get e.g. NullPointerException on
+                    // migration, let's start with empty list in that case
+                    serversStore.clear()
+                    val event = SentryEvent(e).apply {
+                        message = Message().apply { message = "Unable to migrate server list" }
+                        level = SentryLevel.ERROR
+                    }
+                    Sentry.captureEvent(event)
+                }
             }
             streamingServices = oldManager.streamingServices
             migrateUpdatedAt = oldManager.migrateUpdatedAt
             lastUpdateTimestamp = oldManager.lastUpdateTimestamp
             serverListAppVersionCode = oldManager.serverListAppVersionCode
             translationsLang = oldManager.translationsLang
+
+            if (oldManager.migrateVpnCountries?.isEmpty() == false) {
+                Storage.save(this)
+            }
         }
         userData.migrateDefaultProfile(this)
 
