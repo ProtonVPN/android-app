@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Переглянути пропозицію</string>
     <string name="listItemMaintenance">Обслуговується</string>
     <string name="listAllCountries">Усі розташування (%1$d)</string>
-    <string name="listGatewayCountries">Шлюзи</string>
+    <string name="listGateways">Шлюзи</string>
     <string name="listFreeCountries">Безплатні розташування (%1$d)</string>
     <string name="listPremiumCountries">Розташування Basic і Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Розташування Plus (%1$d)</string>
@@ -339,6 +339,8 @@
     <string name="netshield_status_off">Вимк</string>
     <string name="netshield_free_title">Користуйтеся інтернетом без реклами завдяки NetShield</string>
     <string name="netshield_free_description">Блокуйте рекламу, стеження та зловмисні програми на вебсайтах і в програмах</string>
+    <string name="netshield_business_title">Блокувати рекламу за допомогою NetShield</string>
+    <string name="netshield_business_description">Коли ви поліпшуєте до VPN Business</string>
     <string name="accessibility_netshield_status_on_click">Увійти до налаштувань NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Оголошення\nзаблоковано</item>
