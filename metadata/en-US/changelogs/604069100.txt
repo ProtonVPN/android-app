@@ -1,0 +1,2 @@
+What's new
+- Improved security and enhanced performance with the latest WireGuard update - We’ve addressed an issue that occasionally caused VPN connections to take longer than expected.
