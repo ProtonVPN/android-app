@@ -161,7 +161,11 @@ data class Server(
                 .indexOfFirst { c -> c !in '0' .. '9' }
                 .let { index -> if (index >= 0) index else section.length }
             if (indexEnd > 0) {
-                result = Integer.parseInt(section.substring(0, indexEnd))
+                try {
+                    result = Integer.parseInt(section.substring(0, indexEnd)).coerceAtLeast(0)
+                } catch (e: NumberFormatException) {
+                    result = 1
+                }
             }
         }
         return result
