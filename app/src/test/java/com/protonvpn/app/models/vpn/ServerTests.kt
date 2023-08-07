@@ -42,7 +42,10 @@ class ServerTests {
             "123#" to 1,
             "zero #0" to 0,
             "# 123" to 1,
-            "AA+5" to 1
+            "AA+5" to 1,
+            "very long#123123123123123" to 1,
+            "negative#-1234" to 1,
+            "fraction#123.456" to 123,
         )
         testCases.forEach { (name, expectedResult )->
             val server = try {
