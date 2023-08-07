@@ -23,6 +23,7 @@ import android.webkit.WebView
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.startup.AppInitializer
 import androidx.work.Configuration
+import com.protonvpn.android.logging.MemoryMonitor
 import com.protonvpn.android.ui.promooffers.TestNotificationLoader
 import com.protonvpn.android.utils.isMainProcess
 import dagger.hilt.android.HiltAndroidApp
@@ -38,6 +39,7 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
     @Inject lateinit var workerFactory: HiltWorkerFactory
     @Inject lateinit var testNotificationLoader: dagger.Lazy<TestNotificationLoader>
     @Inject lateinit var updateMigration: UpdateMigration
+    @Inject lateinit var memoryMonitor: dagger.Lazy<MemoryMonitor>
 
     override fun onCreate() {
         super.onCreate()
@@ -56,9 +58,15 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
             }
 
             updateMigration.handleUpdate()
+            memoryMonitor.get().start()
         }
     }
 
     override fun getWorkManagerConfiguration(): Configuration =
         Configuration.Builder().setWorkerFactory(workerFactory).build()
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        memoryMonitor.get().onTrimMemory()
+    }
 }
