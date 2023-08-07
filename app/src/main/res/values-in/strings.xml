@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Lihat penawaran ini</string>
     <string name="listItemMaintenance">Dalam pemeliharaan</string>
     <string name="listAllCountries">Seluruh lokasi (%1$d)</string>
-    <string name="listGatewayCountries">Gateways</string>
+    <string name="listGateways">Gateway</string>
     <string name="listFreeCountries">Lokasi Free (%1$d)</string>
     <string name="listPremiumCountries">Lokasi Basic &amp; Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Lokasi Plus (%1$d)</string>
@@ -336,6 +336,8 @@
     <string name="netshield_status_off">Nonaktif</string>
     <string name="netshield_free_title">Jelajahi internet tanpa iklan dengan NetShield</string>
     <string name="netshield_free_description">Blokir iklan, pelacak, dan malware pada berbagai situs web dan aplikasi</string>
+    <string name="netshield_business_title">Block ads with NetShield</string>
+    <string name="netshield_business_description">When you upgrade to VPN Business</string>
     <string name="accessibility_netshield_status_on_click">Masukkan pengaturan NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="other">Iklan yang\ndiblokir</item>
@@ -532,7 +534,7 @@
     <string name="activity_information_title">Informasi</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Server plus</string>
-    <string name="activity_information_gateways_title">What is a gateway?</string>
+    <string name="activity_information_gateways_title">Apa itu gateway?</string>
     <string name="info_features">Fitur</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Teknologi ini memungkinkan Proton VPN untuk menyediakan kecepatan dan keamanan layanan yang lebih tinggi di negara yang masih berkembang.</string>

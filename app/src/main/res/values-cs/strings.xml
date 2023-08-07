@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Zobrazit nabídku</string>
     <string name="listItemMaintenance">Probíhá údržba</string>
     <string name="listAllCountries">Všechna umístění (%1$d)</string>
-    <string name="listGatewayCountries">Brány</string>
+    <string name="listGateways">Brány</string>
     <string name="listFreeCountries">Bezplatná umístění (%1$d)</string>
     <string name="listPremiumCountries">Umístění tarifů Basic &amp; Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus lokace (%1$d)</string>
@@ -339,6 +339,8 @@
     <string name="netshield_status_off">Vypnuto</string>
     <string name="netshield_free_title">Prohlížejte bez reklam s NetShield</string>
     <string name="netshield_free_description">Blokujte reklamy, sledovací prvky a malware na webových stránkách a v aplikacích</string>
+    <string name="netshield_business_title">Blokovat reklamy pomoci NetShield</string>
+    <string name="netshield_business_description">Dostupné po navýšení na tarif VPN Business</string>
     <string name="accessibility_netshield_status_on_click">Přejít do nastavení NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Reklama\nzablokována</item>

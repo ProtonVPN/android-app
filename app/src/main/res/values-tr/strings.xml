@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Teklifi göster</string>
     <string name="listItemMaintenance">Bakım yapılıyor</string>
     <string name="listAllCountries">Tüm konumlar (%1$d)</string>
-    <string name="listGatewayCountries">Geçit yolları</string>
+    <string name="listGateways">Ağ geçitleri</string>
     <string name="listFreeCountries">Free konumları (%1$d)</string>
     <string name="listPremiumCountries">Basic ve Plus konumları (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus konumları (%1$d)</string>
@@ -337,6 +337,8 @@
     <string name="netshield_status_off">Kapalı</string>
     <string name="netshield_free_title">NetShield ile reklamlar olmadan gezinin</string>
     <string name="netshield_free_description">Siteler ile uygulamalarda bulunabilecek reklamları, izleyicileri ve kötü amaçlı yazılımları engelleyin</string>
+    <string name="netshield_business_title">NetShield ile reklamları engelleyin</string>
+    <string name="netshield_business_description">VPN Business tarifesine yükselttiğinizde</string>
     <string name="accessibility_netshield_status_on_click">NetShield ayarlarını yazın</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Engellenen\nreklam</item>

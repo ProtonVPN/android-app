@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Guarda l\'offerta</string>
     <string name="listItemMaintenance">In manutenzione</string>
     <string name="listAllCountries">Tutte le località (%1$d)</string>
-    <string name="listGatewayCountries">Gateway</string>
+    <string name="listGateways">Gateway</string>
     <string name="listFreeCountries">Località gratuite (%1$d)</string>
     <string name="listPremiumCountries">Località Basic &amp; Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Località Plus (%1$d)</string>
@@ -337,6 +337,8 @@
     <string name="netshield_status_off">Disattivo</string>
     <string name="netshield_free_title">Naviga senza annunci pubblicitari con NetShield</string>
     <string name="netshield_free_description">Blocca pubblicità, trackers e malware su siti web e applicazioni</string>
+    <string name="netshield_business_title">Blocca gli annunci con NetShield</string>
+    <string name="netshield_business_description">Quando esegui l\'upgrade a VPN Business</string>
     <string name="accessibility_netshield_status_on_click">Inserisci le impostazioni di NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">annuncio\nbloccato</item>
