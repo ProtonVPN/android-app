@@ -47,7 +47,7 @@ import com.protonvpn.android.databinding.ActivitySettingsBinding
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.logging.logUiSettingChange
-import com.protonvpn.android.models.config.Setting
+import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.netshield.getNetShieldAvailability
@@ -338,6 +338,7 @@ class SettingsActivity : BaseActivityV2() {
             switchVpnAcceleratorNotifications.isChecked = localUserSettings.vpnAcceleratorNotifications
             switchVpnAcceleratorNotifications.setOnCheckedChangeListener { _, isChecked ->
                 lifecycleScope.launch {
+                    logUiEvent(Setting.VPN_ACCELERATOR_NOTIFICATIONS)
                     userSettingsManager.update { it.copy(vpnAcceleratorNotifications = isChecked) }
                 }
             }
@@ -385,6 +386,7 @@ class SettingsActivity : BaseActivityV2() {
             vpnStatusProviderUI.connectionProtocol?.localAgentEnabled() != true
         ) {
             lifecycleScope.launch {
+                logUiEvent(Setting.VPN_ACCELERATOR_ENABLED)
                 userSettingsManager.update { it.copy(vpnAccelerator = !it.vpnAccelerator) }
             }
         }

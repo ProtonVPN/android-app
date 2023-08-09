@@ -20,10 +20,28 @@
 package com.protonvpn.android.logging
 
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.models.config.Setting
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.vpn.ProtocolSelection
+
+enum class Setting(val logName: String) {
+    QUICK_CONNECT_PROFILE("Quick connect"),
+    DEFAULT_PROTOCOL("Default protocol"),
+    NETSHIELD_PROTOCOL("NetShield protocol"),
+    SECURE_CORE("Secure Core"),
+    LAN_CONNECTIONS("LAN connections"),
+    SPLIT_TUNNEL_ENABLED("Split Tunneling enabled"),
+    SPLIT_TUNNEL_APPS("Split Tunneling excluded apps"),
+    SPLIT_TUNNEL_IPS("Split Tunneling excluded IPs"),
+    DEFAULT_MTU("Default MTU"),
+    SAFE_MODE("Safe Mode"),
+    RESTRICTED_NAT("Restricted NAT"),
+    VPN_ACCELERATOR_ENABLED("VPN Accelerator enabled"),
+    VPN_ACCELERATOR_NOTIFICATIONS("VPN Accelerator notifications"),
+    API_DOH("Use DoH for API"),
+    CONNECT_ON_BOOT("Connect on boot"),
+    TELEMETRY("Telemetry")
+}
 
 fun Profile.toLog(settings: LocalUserSettings): String {
     val type = when {

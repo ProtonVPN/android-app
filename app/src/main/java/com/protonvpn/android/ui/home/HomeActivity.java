@@ -69,8 +69,7 @@ import com.protonvpn.android.logging.LogCategory;
 import com.protonvpn.android.logging.LogEventsKt;
 import com.protonvpn.android.logging.LogExtensionsKt;
 import com.protonvpn.android.logging.ProtonLogger;
-import com.protonvpn.android.models.config.Setting;
-import com.protonvpn.android.models.config.UserData;
+import com.protonvpn.android.logging.Setting;
 import com.protonvpn.android.models.profiles.Profile;
 import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.notifications.NotificationHelper;
@@ -116,7 +115,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import dagger.hilt.android.AndroidEntryPoint;
-import kotlin.Pair;
 import kotlin.Unit;
 
 @AndroidEntryPoint

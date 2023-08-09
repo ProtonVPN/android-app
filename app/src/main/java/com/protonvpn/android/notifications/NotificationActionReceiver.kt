@@ -25,7 +25,7 @@ import android.content.Intent
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.logging.logUiSettingChange
-import com.protonvpn.android.models.config.Setting
+import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager

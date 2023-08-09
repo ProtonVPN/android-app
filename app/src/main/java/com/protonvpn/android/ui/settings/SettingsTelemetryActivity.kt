@@ -31,6 +31,9 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityTelemetrySettingsBinding
 import com.protonvpn.android.databinding.FragmentTelemetrySettingsBinding
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.Setting
+import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
@@ -86,7 +89,10 @@ class SettingsTelemetryFragment : Fragment(R.layout.fragment_telemetry_settings)
             isChecked = userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry
             jumpDrawablesToCurrentState()
             setOnCheckedChangeListener { _, isChecked ->
-                mainScope.launch { userSettingsManager.updateTelemetry(isChecked) }
+                mainScope.launch {
+                    ProtonLogger.logUiSettingChange(Setting.TELEMETRY, "usage stats screen")
+                    userSettingsManager.updateTelemetry(isChecked)
+                }
             }
         }
     }

@@ -22,7 +22,7 @@ package com.protonvpn.android.ui.settings
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.logUiSettingChange
-import com.protonvpn.android.models.config.Setting
+import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

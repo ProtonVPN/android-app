@@ -24,25 +24,6 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import java.io.Serializable
 import java.util.UUID
 
-enum class Setting(val logName: String) {
-    QUICK_CONNECT_PROFILE("Quick connect"),
-    DEFAULT_PROTOCOL("Default protocol"),
-    NETSHIELD_PROTOCOL("NetShield protocol"),
-    SECURE_CORE("Secure Core"),
-    LAN_CONNECTIONS("LAN connections"),
-    SPLIT_TUNNEL_ENABLED("Split Tunneling enabled"),
-    SPLIT_TUNNEL_APPS("Split Tunneling excluded apps"),
-    SPLIT_TUNNEL_IPS("Split Tunneling excluded IPs"),
-    DEFAULT_MTU("Default MTU"),
-    SAFE_MODE("Safe Mode"),
-    RESTRICTED_NAT("Restricted NAT"),
-    VPN_ACCELERATOR_ENABLED("VPN Accelerator enabled"),
-    VPN_ACCELERATOR_NOTIFICATIONS("VPN Accelerator notifications"),
-    API_DOH("Use DoH for API"),
-    CONNECT_ON_BOOT("Connect on boot"),
-    TELEMETRY("Telemetry")
-}
-
 class UserData private constructor() : Serializable {
 
     val connectOnBoot = false
