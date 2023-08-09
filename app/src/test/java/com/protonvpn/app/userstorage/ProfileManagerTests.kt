@@ -32,9 +32,7 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
-import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
@@ -77,7 +75,7 @@ class ProfileManagerTests {
         effectiveUserSettings = MutableStateFlow(LocalUserSettings.Default)
         val currentUserSettings = EffectiveCurrentUserSettingsCached(effectiveUserSettings)
         settingsManager =
-            CurrentUserLocalSettingsManager(currentUser,LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()))
+            CurrentUserLocalSettingsManager(LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()))
 
         profileManager =
             ProfileManager(SavedProfilesV3.defaultProfiles(), testScope.backgroundScope, currentUserSettings, settingsManager)

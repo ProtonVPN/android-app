@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.KSerializer
@@ -77,4 +78,22 @@ class CurrentUserStoreProvider<T>(
         data.first()?.updateData(transform)
 
     private fun UserId.toDataStoreSuffix() = id // It's url-friendly Base64 therefore safe for filenames.
+}
+
+// A drop-in replacement for CurrentUserStoreProvider until we implement VPNAND-1381.
+@OptIn(ExperimentalCoroutinesApi::class)
+class SharedStoreProvider<T>(
+    private val storeProvider: StoreProvider<T>,
+) {
+    val data: Flow<DataStore<T>?> = flow { emit(getDataStore()) }
+
+    suspend fun getDataStoreForUser(vpnUser: VpnUser): DataStore<T> = getDataStore()
+
+    fun dataFlowOrDefaultIfNoUser(default: T): Flow<T> =
+        data.flatMapLatest { dataStore -> dataStore?.data ?: flowOf(default) }
+
+    suspend fun updateForCurrentUser(transform: (current: T) -> T): T? =
+        data.first()?.updateData(transform)
+
+    private suspend fun getDataStore() = storeProvider.dataStoreWithSuffix("shared")
 }

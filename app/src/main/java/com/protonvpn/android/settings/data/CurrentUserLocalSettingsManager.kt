@@ -22,15 +22,13 @@ package com.protonvpn.android.settings.data
 import androidx.datastore.core.DataMigration
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.netshield.NetShieldProtocol
-import com.protonvpn.android.userstorage.CurrentUserStoreProvider
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
+import com.protonvpn.android.userstorage.SharedStoreProvider
 import com.protonvpn.android.userstorage.StoreProvider
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -43,10 +41,11 @@ import javax.inject.Singleton
  */
 @Singleton
 class CurrentUserLocalSettingsManager @Inject constructor(
-    currentUser: CurrentUser,
     userSettingsStoreProvider: LocalUserSettingsStoreProvider
 ) {
-    private val currentUserStoreProvider = CurrentUserStoreProvider(userSettingsStoreProvider, currentUser)
+    // Switch to CurrentUserStoreProvider when implementing VPNAND-1381.
+    //private val currentUserStoreProvider = CurrentUserStoreProvider(userSettingsStoreProvider, currentUser)
+    private val currentUserStoreProvider = SharedStoreProvider(userSettingsStoreProvider)
 
     val rawCurrentUserSettingsFlow = currentUserStoreProvider
         .dataFlowOrDefaultIfNoUser(LocalUserSettings.Default)

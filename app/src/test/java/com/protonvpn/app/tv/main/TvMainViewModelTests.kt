@@ -110,7 +110,7 @@ class TvMainViewModelTests {
         every { mockCurrentUser.vpnUserCached() } answers { vpnUserFlow.value }
 
         val userSettingsManager =
-            CurrentUserLocalSettingsManager(mockCurrentUser, LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()))
+            CurrentUserLocalSettingsManager(LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()))
         val userSettingsFlow = EffectiveCurrentUserSettingsFlow(
             userSettingsManager,
             GetFeatureFlags(MutableStateFlow(FeatureFlags())),
