@@ -27,6 +27,9 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.suspendForPermissions
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.Setting
+import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
@@ -87,6 +90,7 @@ class OnboardingViewModel @Inject constructor(
 
     fun applyTelemetryChoice() {
         mainScope.launch {
+            ProtonLogger.logUiSettingChange(Setting.TELEMETRY, "onboarding")
             SentryIntegration.setEnabled(crashReportingSwitch)
             userLocalSettingsManager.updateTelemetry(telemetryEnabledSwitch)
         }
