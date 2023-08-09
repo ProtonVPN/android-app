@@ -104,7 +104,6 @@ class UpdateSettingsOnVpnUserChangeTests {
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
 
         userSettingsManager = CurrentUserLocalSettingsManager(
-            mockCurrentUser,
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())
         )
 

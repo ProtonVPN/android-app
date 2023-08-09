@@ -58,7 +58,7 @@ class UserDataMigrationTests {
         val storeProvider = LocalUserSettingsStoreProvider(
             DefaultLocalDataStoreFactory(InstrumentationRegistry.getInstrumentation().targetContext)
         )
-        userSettingsManager = CurrentUserLocalSettingsManager(currentUser, storeProvider)
+        userSettingsManager = CurrentUserLocalSettingsManager(storeProvider)
     }
 
     @Test

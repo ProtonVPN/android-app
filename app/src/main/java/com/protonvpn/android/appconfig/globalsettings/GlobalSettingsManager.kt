@@ -114,7 +114,7 @@ class GlobalSettingsManager @Inject constructor(
     private val globalSettingsUpdateScheduler: GlobalSettingUpdateScheduler
 ) {
     init {
-        // TODO: the local cache of global telemetry flag should also be per-user.
+        // The local cache of global telemetry flag should also be per-user (VPNAND-1381)
         currentUser.vpnUserFlow.flatMapLatestNotNull { vpnUser ->
             prefs.telemetryEnabledFlow
                 .drop(1)

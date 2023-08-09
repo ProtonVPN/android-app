@@ -20,7 +20,6 @@
 package com.protonvpn.app.vpn
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -33,8 +32,6 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockedServers
-import com.protonvpn.test.shared.TestCurrentUserProvider
-import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.runWhileCollecting
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
@@ -63,7 +60,6 @@ class UpdateSecureCoreToMatchConnectedServerTests {
         vpnStateMonitor = VpnStateMonitor()
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         userSettingsManager = CurrentUserLocalSettingsManager(
-            CurrentUser(testScope.backgroundScope, TestCurrentUserProvider(TestUser.plusUser.vpnUser)),
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())
         )
 
