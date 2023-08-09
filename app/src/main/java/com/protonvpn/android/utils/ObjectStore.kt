@@ -93,7 +93,8 @@ class FileObjectStore<T, S> constructor(
                     }
                     tmpFile.delete()
                 }
-            } catch (e: IllegalArgumentException) {
+            } catch (e: RuntimeException) {
+                // Deserialization can throw IllegalArgumentExceptions and IllegalStateExceptions (e.g. on EOF).
                 ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.APP, "Failed to deserialize ${storeFile.name}: ${e.message}")
                 null
             }
