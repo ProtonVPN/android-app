@@ -261,7 +261,7 @@ class ServerManager @Inject constructor(
     fun clearCache() {
         lastUpdateTimestamp = 0L
         Storage.delete(ServerManager::class.java)
-        serversStore.clear()
+        // The server list itself is not deleted.
     }
 
     fun setGuestHoleServers(serverList: List<Server>) {
