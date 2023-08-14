@@ -340,7 +340,7 @@
     <string name="netshield_free_title">Користуйтеся інтернетом без реклами завдяки NetShield</string>
     <string name="netshield_free_description">Блокуйте рекламу, стеження та зловмисні програми на вебсайтах і в програмах</string>
     <string name="netshield_business_title">Блокувати рекламу за допомогою NetShield</string>
-    <string name="netshield_business_description">Коли ви поліпшуєте до VPN Business</string>
+    <string name="netshield_business_description">Доступно в тарифному плані VPN Business</string>
     <string name="accessibility_netshield_status_on_click">Увійти до налаштувань NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Оголошення\nзаблоковано</item>
@@ -349,10 +349,10 @@
         <item quantity="other">Оголошень\nзаблоковано</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Елемент стеження\nзупинено</item>
-        <item quantity="few">Елементи стеження\nзупинено</item>
-        <item quantity="many">Елементів стеження\nзупинено</item>
-        <item quantity="other">Елементів стеження\nзупинено</item>
+        <item quantity="one">Зупинені\nвистежувачі</item>
+        <item quantity="few">Зупинені\nвистежувачі</item>
+        <item quantity="many">Зупинені\nвистежувачі</item>
+        <item quantity="other">Зупинені\nвистежувачі</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Заощаджено\nданих</string>
     <string name="netShieldBlockMalwareOnly">Блокувати лише зловмисні програми</string>
@@ -381,7 +381,7 @@
     <string name="tv_detail_default_connection_checkbox_short">Улюблені</string>
     <string name="tv_detail_connect_streaming">Стримінг з Plus</string>
     <string name="tv_detail_connect">З\'єднатися</string>
-    <string name="tv_detail_description_streaming_country">Переглядайте свої улюблені матеріали. Отримайте доступ до більшої кількості застосунків з тарифним планом Proton VPN Plus.</string>
+    <string name="tv_detail_description_streaming_country">Переглядайте свої улюблені матеріали. Отримайте доступ до більшої кількості програм з тарифним планом Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Переглядайте більше улюблених матеріалів з тарифним планом Proton VPN Plus.</string>
     <string name="tv_detail_description_country_not_available">Ця країна недоступна. Отримайте більше можливостей стримінгу з тарифним планом Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Дивіться улюблене відео, фільми або спортивні передачі у своїх програмах.</string>
@@ -578,7 +578,7 @@
     <string name="server_load_title">Завантаження сервера</string>
     <string name="server_load_description">Високозавантажені сервери повільніші за малонавантажені сервери.</string>
     <string name="streaming_title_with_country">Стримінг: %1$s</string>
-    <string name="streaming_services_description">З\'єднайтеся з сервером Plus у цій країні, щоб розпочати стримінг.\n\nПідказка: Очистьте кеш застосунків стримінгу, щоб забезпечити появу нових матеріалів.</string>
+    <string name="streaming_services_description">З\'єднайтеся з сервером Plus у цій країні, щоб розпочати стримінг.\n\nПідказка: очистьте кеш програм стримінгу, щоб забезпечити появу нових матеріалів.</string>
     <string name="partnership_free_title">Безплатні сервери</string>
     <string name="partnership_free_description">Безпека та приватність для всіх. Безплатні сервери не мають обмежень за обсягом даних, і ми ніколи навмисно не сповільнюватимемо швидкість вашого вебперегляду.</string>
     <string name="partnership_partners_title">Наші партнери</string>
@@ -586,7 +586,7 @@
     <string name="server_load_low">Низьке</string>
     <string name="server_load_medium">Середнє</string>
     <string name="server_load_high">Високе</string>
-    <string name="info_gateways_description">VPN-шлюз - це безпечне з\'єднання, яке забезпечує контрольований доступ до даних та послуг вашої компанії через виділені сервери.</string>
+    <string name="info_gateways_description">VPN-шлюз – це захищене з\'єднання, що забезпечує контрольований доступ до даних і сервісів вашої компанії через спеціалізовані сервери.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Ласкаво просимо у Proton VPN</string>
@@ -598,7 +598,7 @@
     <string name="onboarding_protection_title">Будьте захищені всюди</string>
     <string name="onboarding_protection_description">Proton VPN підтримує всі пристрої, включно з Windows, macOS і багатьма іншими.</string>
     <string name="onboarding_netshield_title">Блокуйте рекламу і багато чого іншого</string>
-    <string name="onboarding_netshield_description">Блокуйте зловмисні програми, рекламу й елементи стеження в браузері та всіх застосунках.</string>
+    <string name="onboarding_netshield_description">Блокуйте зловмисні програми, рекламу та стеження в браузері та в усіх програмах.</string>
     <string name="onboarding_telemetry_title">Допоможіть нам протистояти цензурі</string>
     <string name="onboarding_connection_title">Встановіть ваше перше з\'єднання</string>
     <!-- Parameters:
