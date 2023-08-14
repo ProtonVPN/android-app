@@ -566,7 +566,7 @@
     <string name="server_load_low">Düşük</string>
     <string name="server_load_medium">Orta</string>
     <string name="server_load_high">Yüksek</string>
-    <string name="info_gateways_description">VPN ağ geçidi, şirketinizin verilerine ve hizmetlerine özel sunucular üzerinden denetimli erişim sağlayan güvenli bir bağlantıdır.</string>
+    <string name="info_gateways_description">VPN ağ geçidi, şirketinizin verilerine ve hizmetlerine size ayrılmış sunucular üzerinden denetimli erişim sağlayan güvenli bir bağlantıdır.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN hizmetine hoş geldiniz</string>

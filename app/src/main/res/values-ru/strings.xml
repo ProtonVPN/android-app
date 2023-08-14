@@ -141,7 +141,7 @@
     <string name="offerTooltipShowOffer">Посмотрите предложение</string>
     <string name="listItemMaintenance">На техобслуживании</string>
     <string name="listAllCountries">Все местоположения (%1$d)</string>
-    <string name="listGateways">Gateways</string>
+    <string name="listGateways">Шлюзы</string>
     <string name="listFreeCountries">Местоположения Free (%1$d)</string>
     <string name="listPremiumCountries">Местоположения Basic и Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Местоположения Plus (%1$d)</string>
@@ -339,7 +339,7 @@
     <string name="netshield_status_off">Выкл</string>
     <string name="netshield_free_title">Просматривайте веб-сайты без рекламы с помощью NetShield</string>
     <string name="netshield_free_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
-    <string name="netshield_business_title">Block ads with NetShield</string>
+    <string name="netshield_business_title">Блокировать рекламу c NetShield</string>
     <string name="netshield_business_description">When you upgrade to VPN Business</string>
     <string name="accessibility_netshield_status_on_click">Введите настройки NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
@@ -564,7 +564,7 @@
     <string name="activity_information_title">Информация</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Серверы Plus</string>
-    <string name="activity_information_gateways_title">What is a gateway?</string>
+    <string name="activity_information_gateways_title">Что такое шлюз?</string>
     <string name="info_features">Функции</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Эта технология позволяет Proton VPN обеспечивать более высокую скорость и безопасность в трудных для обслуживания странах.</string>
@@ -586,7 +586,7 @@
     <string name="server_load_low">Низкая</string>
     <string name="server_load_medium">Средняя</string>
     <string name="server_load_high">Высокая</string>
-    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s dataand services through dedicated servers.</string>
+    <string name="info_gateways_description">VPN-шлюз – это безопасное соединение, предоставляющее контролируемый доступ к данным и сервисам вашей компании через выделенные серверы.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Добро пожаловать в Proton VPN</string>
