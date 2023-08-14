@@ -22,7 +22,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
     android:background="@drawable/background_rounded_secondary"
     android:foreground="?android:selectableItemBackground"
     android:padding="16dp">

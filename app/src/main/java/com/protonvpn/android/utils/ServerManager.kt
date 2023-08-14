@@ -132,6 +132,9 @@ class ServerManager @Inject constructor(
                 (it.isSecureCore == true).implies(currentUser.vpnUserCached()?.isUserPlusOrAbove == true)
             }
 
+    val freeCountries get() = getVpnCountries()
+        .filter { country -> country.serverList.any { server -> server.isFreeServer } }
+
     init {
         val oldManager =
             Storage.load(ServerManager::class.java)
