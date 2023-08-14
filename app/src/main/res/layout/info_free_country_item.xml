@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  Copyright (c) 2021. Proton Technologies AG
+  Copyright (c) 2023. Proton AG
 
   This file is part of ProtonVPN.
 
@@ -16,28 +16,23 @@
   You should have received a copy of the GNU General Public License
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="14dp"
-    android:paddingHorizontal="@dimen/screen_padding_horizontal"
-    android:gravity="center_vertical">
-
-    <TextView
-        android:id="@+id/textHeader"
-        style="@style/Proton.Text.DefaultSmall.Weak"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="8dp"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
-        android:id="@+id/info_icon"
-        style="Border"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:padding="12dp"
-        android:src="@drawable/ic_info_circle"
-        android:visibility="gone"
-        app:tint="@color/icon_hint" />
+        android:id="@+id/imageFlag"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        tools:src="@drawable/flag_it"/>
+
+    <TextView
+        android:id="@+id/countryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        style="@style/Proton.Text.Default"/>
 </LinearLayout>

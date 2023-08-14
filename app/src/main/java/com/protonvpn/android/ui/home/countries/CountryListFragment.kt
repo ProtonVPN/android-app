@@ -20,6 +20,7 @@ package com.protonvpn.android.ui.home.countries
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -36,10 +37,12 @@ import com.protonvpn.android.databinding.FragmentCountryListBinding
 import com.protonvpn.android.databinding.ItemFreeUpsellBinding
 import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.ui.HeaderViewHolder
+import com.protonvpn.android.ui.home.FreeConnectionsInfoActivity
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Log
+import com.protonvpn.android.utils.ViewUtils.toPx
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
@@ -190,7 +193,9 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
 
         val recommendedConnections = viewModel.getRecommendedConnections()
         if (recommendedConnections.isNotEmpty()) {
-            newGroups.add(Section(HeaderViewHolder(R.string.free_connection_header)))
+            newGroups.add(Section(HeaderViewHolder(R.string.free_connection_header) {
+                activity?.launchActivity<FreeConnectionsInfoActivity>()
+            }))
             recommendedConnections.forEach {
                 newGroups.add(RecommendedConnectionItem(viewModel, viewLifecycleOwner, it))
             }
@@ -288,7 +293,15 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         }
 
         override fun getLayout(): Int = R.layout.item_free_upsell
-        override fun initializeViewBinding(view: View) = ItemFreeUpsellBinding.bind(view)
+        override fun initializeViewBinding(view: View) =
+            ItemFreeUpsellBinding.bind(view).apply {
+                root.layoutParams = ViewGroup.MarginLayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    leftMargin = 16.toPx()
+                    rightMargin = 16.toPx()
+                }
+            }
     }
-
 }

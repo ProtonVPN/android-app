@@ -729,4 +729,8 @@
     <string name="upgrade_moderate_nat_message2">Unlock NAT Type 2 with VPN Plus</string>
     <string name="upgrade_moderate_nat_feature_gaming">Improve online gaming and video call performance</string>
     <string name="upgrade_moderate_nat_feature_optimize">NAT Type 2 (moderate) optimizes speed and stability by enabling direct connections between devices</string>
+    <string name="free_connections_info_message">Proton Free automatically connects you to the fastest available server. This will normally be the closest server to your location.</string>
+    <string name="free_connections_info_server_locations">Free server locations (%1$d)</string>
+    <string name="free_connections_info_banner_text">Get worldwide coverage with VPN Plus</string>
+    <string name="free_connection_info_title">Free connections</string>
 </resources>

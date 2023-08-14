@@ -21,15 +21,18 @@ package com.protonvpn.android.ui
 
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemHeaderBinding
 import com.protonvpn.android.utils.DebugUtils
 import com.xwray.groupie.viewbinding.BindableItem
+import me.proton.core.presentation.utils.onClick
 
 data class HeaderViewHolder(
     @StringRes private val textRes: Int = 0,
     private val text: String? = null,
-    private val itemId: Long = 1
+    private val itemId: Long = 1,
+    private val infoButtonAction: (() -> Unit)? = null
 ) : BindableItem<ItemHeaderBinding>(itemId) {
 
     init {
@@ -44,6 +47,9 @@ data class HeaderViewHolder(
         } else {
             viewBinding.textHeader.setText(textRes)
         }
+        viewBinding.infoIcon.isVisible = infoButtonAction != null
+        if (infoButtonAction != null)
+            viewBinding.infoIcon.onClick(infoButtonAction)
     }
 
     override fun initializeViewBinding(view: View): ItemHeaderBinding = ItemHeaderBinding.bind(view)
