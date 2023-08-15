@@ -24,27 +24,57 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RestrictionsConfig @Inject constructor(
+class RestrictionsConfig(
     scope: CoroutineScope,
-    val appConfig: AppConfig,
-    val currentUser: CurrentUser
+    private val restrictionFlowInternal: Flow<Restrictions>,
 ) {
-    val restrictionFlow: Flow<Boolean> = combine(
-        currentUser.vpnUserFlow,
-        appConfig.appConfigFlow
-    ) { vpnUser, appConfig ->
-        appConfig.featureFlags.showNewFreePlan && vpnUser?.isFreeUser != false
-    }.distinctUntilChanged()
+    @Inject constructor(
+        scope: CoroutineScope,
+        appConfig: AppConfig,
+        currentUser: CurrentUser
+    ) : this(
+        scope,
+        createRestrictionFlow(appConfig, currentUser)
+    )
 
-    private val internalRestrictionState = SyncStateFlow(scope, restrictionFlow)
+    val restrictionFlow = SyncStateFlow(scope, restrictionFlowInternal)
 
-    private fun restrictUser() = internalRestrictionState.value
-    fun restrictServerList() = restrictUser()
-    fun restrictMap() = restrictUser()
-    fun restrictProfile() = restrictUser()
-    fun restrictQuickConnect() = restrictUser()
+    suspend fun restrictServerList() = restrictionFlowInternal.first().serverList
+    suspend fun restrictProfile() = restrictionFlowInternal.first().profile
+
+    @Deprecated("use suspending restrictQuickConnect")
+    fun restrictQuickConnectSync() = restrictionFlow.value.quickConnect
+
+    @Deprecated("use suspending restrictMap")
+    fun restrictMapSync() = restrictionFlow.value.map
+
+    companion object {
+        private fun createRestrictionFlow(appConfig: AppConfig, currentUser: CurrentUser) =
+            combine(
+                currentUser.vpnUserFlow,
+                appConfig.appConfigFlow
+            ) { vpnUser, appConfigResponse ->
+                val restrictUser = appConfigResponse.featureFlags.showNewFreePlan && vpnUser?.isFreeUser != false
+                Restrictions(restrictUser)
+            }.distinctUntilChanged()
+    }
+}
+
+data class Restrictions(
+    val serverList: Boolean,
+    val map: Boolean,
+    val profile: Boolean,
+    val quickConnect: Boolean,
+    val vpnAccelerator: Boolean,
+    val lan: Boolean,
+    val splitTunneling: Boolean,
+    val safeMode: Boolean
+) {
+    constructor(restrict: Boolean)
+        : this(restrict, restrict, restrict, restrict, restrict, restrict, restrict, restrict)
 }

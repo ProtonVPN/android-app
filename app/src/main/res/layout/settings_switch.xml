@@ -18,18 +18,41 @@
   -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
 
-    <com.protonvpn.android.components.SwitchEx
-        android:id="@+id/switchButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:layout_marginTop="12dp"
-        android:duplicateParentState="true"
-        android:textAlignment="viewStart"
-        tools:text="Some setting" />
+        android:duplicateParentState="true">
+
+        <TextView
+            android:id="@+id/switchTitle"
+            style="@style/Proton.Text.Default"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            tools:text="Some pretty long setting name to see how it wraps"/>
+
+        <com.protonvpn.android.components.SwitchEx
+            android:id="@+id/switchButton"
+            style="@style/ProtonSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"/>
+
+        <ImageView
+            android:id="@+id/upgradeIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:srcCompat="@drawable/ic_free_upgrade"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textInfo"

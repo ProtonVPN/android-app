@@ -142,5 +142,5 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    val isQuickConnectRestricted get() = restrictionsConfig.restrictQuickConnect()
+    val isQuickConnectRestricted get() = restrictionsConfig.restrictQuickConnectSync()
 }

@@ -181,7 +181,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
             VpnUser user = currentVpnUser.vpnUserCached();
             int selectedMarker = vpnStatusProviderUI.isConnectedToAny(country.getConnectableServers()) ?
                 R.drawable.ic_marker_colored :
-                VpnUserKt.hasAccessToAnyServer(user, country.getConnectableServers()) && !restrictionsConfig.restrictMap() ?
+                VpnUserKt.hasAccessToAnyServer(user, country.getConnectableServers()) && !restrictionsConfig.restrictMapSync() ?
                     R.drawable.ic_marker_available : R.drawable.ic_marker;
 
             if ((country.equals(selectedCountry)) && getSecureCoreEnabled()
@@ -304,7 +304,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
 
         List<Server> countryServers = country.getConnectableServers();
         VpnUser user = currentVpnUser.vpnUserCached();
-        boolean hasAccess = VpnUserKt.hasAccessToAnyServer(user, countryServers) && !restrictionsConfig.restrictMap();
+        boolean hasAccess = VpnUserKt.hasAccessToAnyServer(user, countryServers) && !restrictionsConfig.restrictMapSync();
 
         binding.countryWithFlags.setCountry(country);
         binding.countryWithFlags.setEnabled(hasAccess);

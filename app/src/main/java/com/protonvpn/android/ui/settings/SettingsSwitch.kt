@@ -29,6 +29,7 @@ import android.view.TouchDelegate
 import android.widget.Checkable
 import android.widget.CompoundButton
 import androidx.core.content.res.use
+import androidx.core.view.isVisible
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.SettingsSwitchBinding
 import kotlinx.parcelize.Parcelize
@@ -72,7 +73,7 @@ class SettingsSwitch : SettingsItemBase<SettingsSwitchBinding>, Checkable {
     override fun inflate(context: Context): SettingsSwitchBinding =
         SettingsSwitchBinding.inflate(LayoutInflater.from(context), this)
 
-    override fun textTitle() = binding.switchButton
+    override fun textTitle() = binding.switchTitle
     override fun textInfo() = binding.textInfo
     override fun dividerBelow() = binding.dividerBelow
 
@@ -86,10 +87,6 @@ class SettingsSwitch : SettingsItemBase<SettingsSwitchBinding>, Checkable {
         binding.switchButton.toggle()
     }
 
-    fun setOnCheckedChangeListener(listener: CompoundButton.OnCheckedChangeListener) {
-        binding.switchButton.setOnCheckedChangeListener(listener)
-    }
-
     fun setOnCheckedChangeListener(listener: (CompoundButton, Boolean) -> Unit) {
         binding.switchButton.setOnCheckedChangeListener(listener)
     }
@@ -97,6 +94,13 @@ class SettingsSwitch : SettingsItemBase<SettingsSwitchBinding>, Checkable {
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         binding.switchButton.isEnabled = enabled
+    }
+
+    val inUpgradeMode get() = binding.upgradeIcon.isVisible
+
+    fun setShowUpgrade(value: Boolean) {
+        binding.upgradeIcon.isVisible = value
+        binding.switchButton.isVisible = !value
     }
 
     @SuppressLint("DrawAllocation")

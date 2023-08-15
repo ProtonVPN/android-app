@@ -39,6 +39,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -55,10 +56,14 @@ import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.ProtocolSelectionActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeCustomizationDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorDialogActivity
 import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.userstorage.ProfileManager
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.ColorUtils.combineArgb
 import com.protonvpn.android.utils.ColorUtils.mixDstOver
@@ -74,6 +79,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -101,7 +107,7 @@ class SettingsActivity : BaseActivityV2() {
     @Inject lateinit var currentUser: CurrentUser
     @Inject lateinit var profileManager: ProfileManager
     @Inject lateinit var buildConfigInfo: BuildConfigInfo
-    @Inject lateinit var restrictions: RestrictionsConfig
+    @Inject lateinit var restrictionsConfig: RestrictionsConfig
 
     private val binding by viewBinding(ActivitySettingsBinding::inflate)
     private var loadExcludedAppsJob: Job? = null
@@ -160,10 +166,15 @@ class SettingsActivity : BaseActivityV2() {
 
         var isFirstUpdate = true
         val user = lifecycleScope.async { currentUser.vpnUserFlow.firstOrNull() }
-        userSettingsManager.rawCurrentUserSettingsFlow
-            .flowWithLifecycle(lifecycle)
-            .onEach { settings ->
+        combine(
+            userSettingsManager.rawCurrentUserSettingsFlow,
+            restrictionsConfig.restrictionFlow
+        ) { settings, restrictions ->
+            settings to restrictions
+        }.flowWithLifecycle(lifecycle)
+            .onEach { (settings, restrictions) ->
                 onUserDataUpdated(settings)
+                onRestrictionsUpdated(restrictions)
                 if (isFirstUpdate) {
                     // Set listeners after initial values have been set, otherwise they will be triggered.
                     setListeners(user.await(), settings)
@@ -194,9 +205,6 @@ class SettingsActivity : BaseActivityV2() {
                 }
             }
 
-            val restrictQuickConnect = !restrictions.restrictQuickConnect()
-            textSectionQuickConnect.isVisible = restrictQuickConnect
-            buttonDefaultProfile.isVisible = restrictQuickConnect
             buttonDefaultProfile.setOnClickListener {
                 navigateTo(SettingsDefaultProfileActivity::class.java)
             }
@@ -268,8 +276,10 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun initModerateNatToggle(user: VpnUser?) = with(binding.contentSettings) {
         val info = getString(R.string.settingsModerateNatDescription, Constants.MODERATE_NAT_INFO_URL)
+        val accessible = user?.isUserBasicOrAbove == true
         switchModerateNat.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
-        if (user?.isUserBasicOrAbove == true) {
+        switchModerateNat.setShowUpgrade(!accessible)
+        if (accessible) {
             switchModerateNat.switchClickInterceptor = {
                 tryToggleNatMode()
                 true
@@ -331,7 +341,17 @@ class SettingsActivity : BaseActivityV2() {
         }
     }
 
-    private fun onUserDataUpdated(localUserSettings: LocalUserSettings) = with(binding.contentSettings) {
+    private fun onRestrictionsUpdated(restrictions: Restrictions) = with(binding.contentSettings) {
+        val restrictQuickConnect = restrictions.quickConnect
+        textSectionQuickConnect.isVisible = !restrictQuickConnect
+        buttonDefaultProfile.isVisible = !restrictQuickConnect
+
+        switchVpnAccelerator.setShowUpgrade(restrictions.vpnAccelerator)
+        switchBypassLocal.setShowUpgrade(restrictions.lan)
+        switchShowSplitTunnel.setShowUpgrade(restrictions.splitTunneling)
+    }
+
+    private fun onUserDataUpdated(localUserSettings: LocalUserSettings, ) = with(binding.contentSettings) {
         switchDnsOverHttps.isChecked = localUserSettings.apiUseDoh
         switchAutoStart.isChecked = localUserSettings.connectOnBoot
         switchShowSplitTunnel.isChecked = localUserSettings.splitTunneling.isEnabled
@@ -342,7 +362,6 @@ class SettingsActivity : BaseActivityV2() {
         if (appConfig.getFeatureFlags().vpnAccelerator) {
             switchVpnAcceleratorNotifications.isVisible = localUserSettings.vpnAccelerator
             switchVpnAccelerator.isChecked = localUserSettings.vpnAccelerator
-
             switchVpnAcceleratorNotifications.isChecked = localUserSettings.vpnAcceleratorNotifications
         }
 
@@ -382,30 +401,38 @@ class SettingsActivity : BaseActivityV2() {
     }
 
     private fun tryToggleVpnAccelerator() {
-        tryToggleSwitch(
-            PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DLG,
-            "VPN Accelerator toggle",
-            vpnStatusProviderUI.connectionProtocol?.localAgentEnabled() != true
-        ) {
-            lifecycleScope.launch {
-                logUiEvent(Setting.VPN_ACCELERATOR_ENABLED)
-                userSettingsManager.update { it.copy(vpnAccelerator = !it.vpnAccelerator) }
+        if (binding.contentSettings.switchVpnAccelerator.inUpgradeMode) {
+            launchActivity<UpgradeVpnAcceleratorDialogActivity>()
+        } else {
+            tryToggleSwitch(
+                PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DLG,
+                "VPN Accelerator toggle",
+                vpnStatusProviderUI.connectionProtocol?.localAgentEnabled() != true
+            ) {
+                lifecycleScope.launch {
+                    logUiEvent(Setting.VPN_ACCELERATOR_ENABLED)
+                    userSettingsManager.update { it.copy(vpnAccelerator = !it.vpnAccelerator) }
+                }
             }
         }
     }
 
     private fun tryToggleSplitTunneling() {
-        tryToggleSwitch(
-            PREF_SHOW_SPLIT_TUNNELING_RECONNECT_DLG,
-            "split tunneling toggle",
-        ) {
-            logUiEvent(Setting.SPLIT_TUNNEL_ENABLED)
-            lifecycleScope.launch {
-                userSettingsManager.toggleSplitTunnelingEnabled()
-                delay(100)
-                with(binding.contentSettings) {
-                    if (switchShowSplitTunnel.isChecked) {
-                        scrollView.scrollToShowView(splitTunnelLayout)
+        if (binding.contentSettings.switchShowSplitTunnel.inUpgradeMode) {
+            launchActivity<UpgradeSplitTunnelingDialogActivity>()
+        } else {
+            tryToggleSwitch(
+                PREF_SHOW_SPLIT_TUNNELING_RECONNECT_DLG,
+                "split tunneling toggle",
+            ) {
+                logUiEvent(Setting.SPLIT_TUNNEL_ENABLED)
+                lifecycleScope.launch {
+                    userSettingsManager.toggleSplitTunnelingEnabled()
+                    delay(100)
+                    with(binding.contentSettings) {
+                        if (switchShowSplitTunnel.isChecked) {
+                            scrollView.scrollToShowView(splitTunnelLayout)
+                        }
                     }
                 }
             }
@@ -413,13 +440,17 @@ class SettingsActivity : BaseActivityV2() {
     }
 
     private fun tryToggleBypassLocal() {
-        tryToggleSwitch(
-            PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG,
-            "LAN connections toggle"
-        ) {
-            logUiEvent(Setting.LAN_CONNECTIONS)
-            lifecycleScope.launch {
-                userSettingsManager.update { it.copy(lanConnections = !it.lanConnections) }
+        if (binding.contentSettings.switchBypassLocal.inUpgradeMode) {
+            launchActivity<UpgradeCustomizationDialogActivity>()
+        } else {
+            tryToggleSwitch(
+                PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG,
+                "LAN connections toggle"
+            ) {
+                logUiEvent(Setting.LAN_CONNECTIONS)
+                lifecycleScope.launch {
+                    userSettingsManager.update { it.copy(lanConnections = !it.lanConnections) }
+                }
             }
         }
     }

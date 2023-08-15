@@ -18,13 +18,16 @@
  */
 package com.protonvpn.android.netshield
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.TouchDelegate
 import android.widget.CompoundButton
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
@@ -95,13 +98,6 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         get() {
             return binding.radioGroupSettings.checkedRadioButtonId == R.id.radioFullBlocking
         }
-
-    fun setNetShieldValue(newProtocol: NetShieldProtocol) {
-        // Disable the change listener to not propagate the programmatically set value back to UserData.
-        binding.switchNetshield.setOnCheckedChangeListener(null)
-        onStateChange(newProtocol)
-        binding.switchNetshield.setOnCheckedChangeListener { _, _ -> onChangedCallback() }
-    }
 
     private fun onStateChange(newProtocol: NetShieldProtocol) {
         with(binding) {
@@ -181,7 +177,8 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         netshieldFreeMode = netShieldAvailability != NetShieldAvailability.AVAILABLE
         onStateChange(initialValue)
         switchNetshield.jumpDrawablesToCurrentState()
-        initUserTier(netShieldAvailability == NetShieldAvailability.UPGRADE_VPN_BUSINESS)
+        val needsBusinessUpgrade = netShieldAvailability == NetShieldAvailability.UPGRADE_VPN_BUSINESS
+        initUserTier(needsBusinessUpgrade)
 
         if (!netshieldFreeMode) {
             onChangedCallback = {
@@ -212,11 +209,16 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             radioFullBlocking.switchClickInterceptor = dialogInterceptor
             radioSimpleBlocking.switchClickInterceptor = dialogInterceptor
             switchNetshield.switchClickInterceptor = dialogInterceptor
+        } else if (!needsBusinessUpgrade){
+            switchNetshield.switchClickInterceptor = {
+                showUpgradeDialog()
+                true
+            }
         }
     }
 
     private fun initUserTier(needsBusinessUpgrade: Boolean) = with(binding) {
-        upgradeButton.isVisible = netshieldFreeMode && !needsBusinessUpgrade
+        upgradeIcon.isVisible = netshieldFreeMode && !needsBusinessUpgrade
         imageBusinessBadge.isVisible = netshieldFreeMode && needsBusinessUpgrade
         switchNetshield.isVisible = !netshieldFreeMode
         if (netshieldFreeMode) {
@@ -225,8 +227,13 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
             radiosExpanded = true
             disableCheckBox(radioFullBlocking)
             disableCheckBox(radioSimpleBlocking)
-            upgradeButton.setOnClickListener { showUpgradeDialog() }
         }
+    }
+
+    @SuppressLint("DrawAllocation")
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+        touchDelegate = TouchDelegate(Rect(0, 0, width, height), binding.switchNetshield)
     }
 
     private fun disableCheckBox(view: RadioButtonEx) {

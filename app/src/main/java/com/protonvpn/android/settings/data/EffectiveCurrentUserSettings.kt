@@ -21,13 +21,15 @@ package com.protonvpn.android.settings.data
 
 import android.os.Build
 import com.protonvpn.android.appconfig.GetFeatureFlags
+import com.protonvpn.android.appconfig.Restrictions
+import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
-import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.utils.SyncStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -35,10 +37,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -63,6 +63,7 @@ class EffectiveCurrentUserSettings(
     val safeMode = distinct { it.safeMode }
     val secureCore = distinct { it.secureCore }
     val telemetry = distinct { it.telemetry }
+    val vpnAccelerator = distinct { it.vpnAccelerator }
     val vpnAcceleratorNotifications = distinct { it.vpnAcceleratorNotifications }
 
     @Inject
@@ -78,25 +79,35 @@ class EffectiveCurrentUserSettingsFlow constructor(
     rawCurrentUserSettingsFlow: Flow<LocalUserSettings>,
     getFeatureFlags: GetFeatureFlags,
     currentUser: CurrentUser,
-    isTv: IsTvCheck
+    isTv: IsTvCheck,
+    restrictionFlow: Flow<Restrictions>
 ) : Flow<LocalUserSettings> {
 
     private val effectiveSettings: Flow<LocalUserSettings> = combine(
         rawCurrentUserSettingsFlow,
         getFeatureFlags,
         currentUser.vpnUserFlow,
-    ) { settings, features, vpnUser ->
-        val effectiveVpnAccelerator = !features.vpnAccelerator || settings.vpnAccelerator
+        restrictionFlow
+    ) { settings, features, vpnUser, restrictions ->
+        val effectiveVpnAccelerator = !features.vpnAccelerator || restrictions.vpnAccelerator || settings.vpnAccelerator
         val netShieldAvailable = vpnUser.getNetShieldAvailability() == NetShieldAvailability.AVAILABLE
+        val effectiveSplitTunneling = if (restrictions.splitTunneling)
+            SplitTunnelingSettings(isEnabled = false) else settings.splitTunneling
+        val effectiveSafeMode = when {
+            !features.safeMode -> null
+            restrictions.safeMode -> true // safe mode enabled when setting is restricted
+            else -> settings.safeMode
+        }
         settings.copy(
             connectOnBoot = Build.VERSION.SDK_INT < 26 && settings.connectOnBoot,
-            lanConnections = isTv() || settings.lanConnections,
+            lanConnections = isTv() || (!restrictions.lan && settings.lanConnections),
             netShield = if (netShieldAvailable && features.netShieldEnabled) settings.netShield else NetShieldProtocol.DISABLED,
-            safeMode = settings.safeMode.takeIf { features.safeMode },
+            safeMode = effectiveSafeMode,
             telemetry = features.telemetry && settings.telemetry,
             vpnAccelerator = effectiveVpnAccelerator,
             vpnAcceleratorNotifications =
-            features.vpnAccelerator && effectiveVpnAccelerator && settings.vpnAcceleratorNotifications,
+                features.vpnAccelerator && effectiveVpnAccelerator && settings.vpnAcceleratorNotifications,
+            splitTunneling = effectiveSplitTunneling
         )
     }
 
@@ -105,8 +116,9 @@ class EffectiveCurrentUserSettingsFlow constructor(
         localUserSettings: CurrentUserLocalSettingsManager,
         getFeatureFlags: GetFeatureFlags,
         currentUser: CurrentUser,
-        isTv: IsTvCheck
-    ) : this(localUserSettings.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, isTv)
+        isTv: IsTvCheck,
+        restrictions: RestrictionsConfig
+    ) : this(localUserSettings.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, isTv, restrictions.restrictionFlow)
 
     override suspend fun collect(collector: FlowCollector<LocalUserSettings>) = effectiveSettings.collect(collector)
 }
