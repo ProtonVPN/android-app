@@ -27,47 +27,50 @@
     android:paddingHorizontal="16dp"
     android:paddingVertical="4dp">
 
-    <androidx.appcompat.widget.AppCompatCheckedTextView
-        android:id="@+id/textNetShieldTitle"
-        style="@style/Proton.Text.Default"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/switch_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:drawableEnd="@drawable/ic_proton_chevron_selector"
-        android:drawablePadding="4dp"
-        android:text="@string/netshield_feature_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <me.proton.core.presentation.ui.view.ProtonButton
-        android:id="@+id/upgradeButton"
-        style="@style/ProtonButton.Secondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:text="@string/upgrade"
-        app:layout_constraintBottom_toBottomOf="@id/textNetShieldTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textNetShieldTitle" />
+        <androidx.appcompat.widget.AppCompatCheckedTextView
+            android:id="@+id/textNetShieldTitle"
+            style="@style/Proton.Text.Default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_proton_chevron_selector"
+            android:drawablePadding="4dp"
+            android:text="@string/netshield_feature_name" />
 
-    <ImageView
-        android:id="@+id/imageBusinessBadge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:srcCompat="@drawable/vpn_business_badge"
-        app:layout_constraintBottom_toBottomOf="@id/textNetShieldTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textNetShieldTitle" />
+        <View
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="0dp"/>
 
-    <com.protonvpn.android.components.SwitchEx
-        android:id="@+id/switchNetshield"
-        style="@style/ProtonSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/textNetShieldTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textNetShieldTitle" />
+        <ImageView
+            android:id="@+id/upgradeIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:srcCompat="@drawable/ic_free_upgrade"/>
+
+        <ImageView
+            android:id="@+id/imageBusinessBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:srcCompat="@drawable/vpn_business_badge"/>
+
+        <com.protonvpn.android.components.SwitchEx
+            android:id="@+id/switchNetshield"
+            style="@style/ProtonSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textNetDescription"
@@ -78,7 +81,7 @@
         android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textNetShieldTitle"
+        app:layout_constraintTop_toBottomOf="@id/switch_container"
         app:layout_constraintVertical_bias="0"
         tools:text="@string/netShieldEnabledWarning" />
 

@@ -21,10 +21,12 @@ package com.protonvpn.app.settings.data
 
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.GetFeatureFlags
+import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -53,6 +55,7 @@ class EffectiveCurrentUserSettingsFlowTests {
 
     private lateinit var featureFlagsFlow: MutableStateFlow<FeatureFlags>
     private lateinit var rawSettingsFlow: MutableStateFlow<LocalUserSettings>
+    private lateinit var restrictionFlow: MutableStateFlow<Restrictions>
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
 
@@ -69,6 +72,7 @@ class EffectiveCurrentUserSettingsFlowTests {
         testUserProvider = TestCurrentUserProvider(plusUser)
         featureFlagsFlow = MutableStateFlow(FeatureFlags())
         rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
+        restrictionFlow = MutableStateFlow(Restrictions(false))
 
         every { mockIsTv.invoke() } returns false
 
@@ -77,7 +81,8 @@ class EffectiveCurrentUserSettingsFlowTests {
             rawSettingsFlow,
             GetFeatureFlags(featureFlagsFlow),
             currentUser,
-            mockIsTv
+            mockIsTv,
+            restrictionFlow
         )
     }
 
@@ -86,6 +91,18 @@ class EffectiveCurrentUserSettingsFlowTests {
         every { mockIsTv.invoke() } returns true
         rawSettingsFlow.update { it.copy(lanConnections = false) }
         assertTrue(effectiveSettings().lanConnections)
+
+        // Even when restricted
+        restrictionFlow.value = restrictionFlow.value.copy(lan = true)
+        assertTrue(effectiveSettings().lanConnections)
+    }
+
+    @Test
+    fun `LAN connection is disabled when restricted`() = testScope.runTest {
+        rawSettingsFlow.update { it.copy(lanConnections = true) }
+        assertTrue(effectiveSettings().lanConnections)
+        restrictionFlow.value = restrictionFlow.value.copy(lan = true)
+        assertFalse(effectiveSettings().lanConnections)
     }
 
     @Test
@@ -131,6 +148,19 @@ class EffectiveCurrentUserSettingsFlowTests {
 
         rawSettingsFlow.update { it.copy(safeMode = true) }
         assertEquals(true, effectiveSettings().safeMode)
+    }
+
+    @Test
+    fun `SafeMode enabled when restricted`() = testScope.runTest {
+        featureFlagsFlow.update { it.copy(safeMode = true) }
+        rawSettingsFlow.update { it.copy(safeMode = false) }
+        assertEquals(false, effectiveSettings().safeMode)
+        restrictionFlow.value = restrictionFlow.value.copy(safeMode = true)
+        assertEquals(true, effectiveSettings().safeMode)
+
+        // But when feature flag is off it should be null
+        featureFlagsFlow.update { it.copy(safeMode = false) }
+        assertEquals(null, effectiveSettings().safeMode)
     }
 
     @Test
@@ -181,6 +211,24 @@ class EffectiveCurrentUserSettingsFlowTests {
 
         rawSettingsFlow.update { it.copy(vpnAccelerator = true, vpnAcceleratorNotifications = false) }
         assertFalse(effectiveSettings().vpnAcceleratorNotifications)
+    }
+
+    @Test
+    fun `VPN Accelerator enabled when restricted`() = testScope.runTest {
+        featureFlagsFlow.update { it.copy(vpnAccelerator = true) }
+        rawSettingsFlow.update { it.copy(vpnAccelerator = false) }
+        assertFalse(effectiveSettings().vpnAccelerator)
+        restrictionFlow.value = restrictionFlow.value.copy(vpnAccelerator = true)
+        assertTrue(effectiveSettings().vpnAccelerator)
+    }
+
+    @Test
+    fun `Split tunnel empty when restricted`() = testScope.runTest {
+        val splitTunnel = SplitTunnelingSettings(isEnabled = true, listOf("1.1.1.1"), listOf("app"))
+        rawSettingsFlow.update { it.copy(splitTunneling = splitTunnel) }
+        assertEquals(splitTunnel, effectiveSettings().splitTunneling)
+        restrictionFlow.value = restrictionFlow.value.copy(splitTunneling = true)
+        assertEquals(SplitTunnelingSettings(), effectiveSettings().splitTunneling)
     }
 
     private suspend fun effectiveSettings() = effectiveSettingsFlow.first()

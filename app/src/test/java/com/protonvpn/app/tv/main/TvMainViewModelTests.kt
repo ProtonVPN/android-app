@@ -24,6 +24,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.GetFeatureFlags
+import com.protonvpn.android.appconfig.Restrictions
+import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.Profile
@@ -63,6 +65,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -115,7 +118,8 @@ class TvMainViewModelTests {
             userSettingsManager,
             GetFeatureFlags(MutableStateFlow(FeatureFlags())),
             mockCurrentUser,
-            mockk(relaxed = true)
+            mockk(relaxed = true),
+            RestrictionsConfig(testScope, flowOf(Restrictions(false))),
         ).stateIn(bgScope, SharingStarted.Eagerly, LocalUserSettings.Default)
         val userSettingsCached = EffectiveCurrentUserSettingsCached(userSettingsFlow)
 

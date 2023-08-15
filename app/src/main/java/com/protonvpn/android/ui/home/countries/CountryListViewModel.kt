@@ -72,7 +72,7 @@ class CountryListViewModel @Inject constructor(
 
     val isServerListRestricted = restrictConfig.restrictionFlow
 
-    fun isServerListRestricted() = restrictConfig.restrictServerList()
+    suspend fun isServerListRestricted() = restrictConfig.restrictServerList()
 
     fun refreshServerList(networkLoader: NetworkLoader) {
         serverListUpdater.getServersList(networkLoader)
@@ -97,7 +97,7 @@ class CountryListViewModel @Inject constructor(
 
     data class ServerGroupTitle(val titleRes: Int, val infoType: InformationActivity.InfoType?)
 
-    fun getRecommendedConnections(): List<RecommendedConnection> =
+    suspend fun getRecommendedConnections(): List<RecommendedConnection> =
         if (isFreeUser && !isSecureCoreEnabled && isServerListRestricted()) {
             listOf(serverManager.fastestProfile).map {
                 RecommendedConnection(it.profileSpecialIcon!!, R.string.profileFastest, it)

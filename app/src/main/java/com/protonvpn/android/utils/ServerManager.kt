@@ -119,7 +119,7 @@ class ServerManager @Inject constructor(
     val defaultFallbackConnection get() = fastestProfile
 
     val defaultConnection: Profile get() = with(profileManager) {
-        if (restrictions.restrictQuickConnect()) {
+        if (restrictions.restrictQuickConnectSync()) {
             fastestProfile
         } else {
             findDefaultProfile() ?: fastestProfile

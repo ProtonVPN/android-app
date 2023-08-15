@@ -40,6 +40,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="16dp"
         android:layout_weight="1"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
@@ -84,11 +85,12 @@
         app:srcCompat="@drawable/ic_proton_wrench"
         app:tint="?attr/proton_icon_weak" />
 
-    <me.proton.core.presentation.ui.view.ProtonButton
+    <ImageView
         android:id="@+id/buttonUpgrade"
-        style="@style/ProtonButton.Secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp"
-        android:text="@string/upgrade"/>
+        android:layout_marginVertical="8dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:srcCompat="@drawable/ic_free_upgrade"/>
 </LinearLayout>

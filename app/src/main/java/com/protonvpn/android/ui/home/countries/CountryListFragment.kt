@@ -95,7 +95,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
     }
 
-    private fun addCountriesGroup(
+    private suspend fun addCountriesGroup(
         groups: MutableList<Group>,
         @StringRes header: Int?,
         serverGroups: List<ServerGroup>,
@@ -117,7 +117,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         )
     }
 
-    private fun addCountriesGroup(
+    private suspend fun addCountriesGroup(
         groups: MutableList<Group>,
         header: HeaderItem?,
         serverGroups: List<ServerGroup>,
@@ -131,9 +131,10 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         headerGroups?.let {
             groups.addAll(it)
         }
+        val restricted = viewModel.isServerListRestricted()
         for (group in serverGroups) {
             val expandableHeaderItem =
-                getCountryViewHolder(group, groupId)
+                getCountryViewHolder(group, groupId, restricted)
 
             groups.add(ExpandableGroup(expandableHeaderItem).apply {
                 isExpanded =
@@ -163,12 +164,12 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
 
     private fun getCountryViewHolder(
         group: ServerGroup,
-        groupId: String = SECTION_REGULAR
+        groupId: String = SECTION_REGULAR,
+        restricted: Boolean,
     ): CountryViewHolder {
         val isOnline = !group.isUnderMaintenance()
         val userHasAccess = viewModel.hasAccessibleServer(group)
-        val accessibleAndOnline =
-            userHasAccess && isOnline && !viewModel.isServerListRestricted()
+        val accessibleAndOnline = userHasAccess && isOnline && !restricted
         val expandableCountry =
             object : CountryViewHolder(
                 viewModel, group, groupId, accessibleAndOnline, viewLifecycleOwner
@@ -184,7 +185,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         return expandableCountry
     }
 
-    private fun updateListForFree(
+    private suspend fun updateListForFree(
         newGroups: MutableList<Group>, expandedCountriesIds: HashSet<Long>
     ) {
         val isNewFree = viewModel.isServerListRestricted()

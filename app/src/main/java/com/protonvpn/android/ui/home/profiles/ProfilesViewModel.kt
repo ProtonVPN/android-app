@@ -54,7 +54,7 @@ class ProfilesViewModel @Inject constructor(
         val canEdit: Boolean
     )
 
-    fun canCreateProfile() = !restrictions.restrictProfile()
+    suspend fun canCreateProfile() = !restrictions.restrictProfile()
 
     private val profiles = combine(
         profileManager.profiles,
