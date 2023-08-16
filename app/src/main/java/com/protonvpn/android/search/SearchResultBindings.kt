@@ -235,8 +235,8 @@ class UpgradeBannerItem(
 ) : BindableItem<ItemSearchUpgradeBannerBinding>(1) {
     override fun bind(binding: ItemSearchUpgradeBannerBinding, position: Int) = with(binding) {
         val resources = root.resources
-        textTitle.text = resources.getQuantityString(
-            R.plurals.search_upgrade_banner_title, countryCount, countryCount
+        textMessage.text = resources.getQuantityString(
+            R.plurals.search_upsell_banner_message, countryCount, countryCount
         )
         root.setOnClickListener { onClick() }
     }
