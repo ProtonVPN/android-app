@@ -20,6 +20,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
@@ -31,41 +32,46 @@
         android:id="@+id/imageIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textTitle"
-        app:srcCompat="@drawable/ic_proton_globe"
-        app:tint="?attr/proton_icon_weak" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/upsell_worldwide_cover" />
 
     <ImageView
         android:id="@+id/imageChevron"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textTitle"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_proton_chevron_right"
         app:tint="?attr/proton_icon_hint" />
 
-    <TextView
-        android:id="@+id/textTitle"
-        style="@style/Proton.Text.DefaultSmall"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
-        app:layout_constraintEnd_toStartOf="@id/imageChevron"
-        app:layout_constraintStart_toEndOf="@id/imageIcon"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textSubtitle"
-        style="@style/Proton.Text.Caption.Weak"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/search_upgrade_banner_subtitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/imageChevron"
         app:layout_constraintStart_toEndOf="@id/imageIcon"
-        app:layout_constraintTop_toBottomOf="@id/textTitle" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textTitle"
+            style="@style/Proton.Text.Default.Bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_upsell_banner_title" />
+
+        <TextView
+            android:id="@+id/textMessage"
+            style="@style/Proton.Text.DefaultSmall.Weak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            tools:text="Unlock geoblocked content from 10 countries with VPN Plus." />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
