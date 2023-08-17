@@ -30,7 +30,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -86,9 +85,7 @@ import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity;
 import com.protonvpn.android.ui.home.vpn.VpnActivity;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.onboarding.OnboardingActivity;
-import com.protonvpn.android.ui.onboarding.OnboardingDialogs;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
-import com.protonvpn.android.ui.onboarding.TooltipManager;
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
@@ -144,8 +141,6 @@ public class HomeActivity extends VpnActivity {
     private HomeViewModel viewModel;
     private SearchViewModel searchViewModel;
 
-    private final TooltipManager tooltipManager = new TooltipManager(this);
-
     private final ActivityResultLauncher<Unit> secureCoreSpeedInfoDialog =
             registerForActivityResult(
                     SecureCoreSpeedInfoActivity.createContract(),
@@ -177,7 +172,6 @@ public class HomeActivity extends VpnActivity {
 
             checkForOnboarding();
             if (canShowPopups()) {
-                initOnboarding();
                 notificationHelper.cancelInformationNotification(Constants.NOTIFICATION_GUESTHOLE_ID);
             }
         });
@@ -291,20 +285,6 @@ public class HomeActivity extends VpnActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 fragment.collapseBottomSheet();
-                if (tab.isSelected()) {
-                    View tabView = ((LinearLayout) tabs.getChildAt(0)).getChildAt(tab.getPosition());
-                    if (getString(R.string.tabsMap).equals(tab.getText().toString())
-                            && !isBottomSheetExpanded()) {
-                        OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView, getString(R.string.tabsMap),
-                                getString(R.string.onboardingDialogMapView), OnboardingPreferences.MAPVIEW_DIALOG);
-                    }
-                    if (getString(R.string.tabsProfiles).equals(tab.getText().toString())
-                            && !isBottomSheetExpanded() && OnboardingPreferences.wasFloatingButtonUsed()) {
-                        OnboardingDialogs.showDialogOnView(tooltipManager, tabView, tabView,
-                                getString(R.string.tabsProfiles), getString(R.string.onboardingDialogProfiles),
-                                OnboardingPreferences.PROFILES_DIALOG);
-                    }
-                }
             }
 
             @Override
@@ -330,11 +310,6 @@ public class HomeActivity extends VpnActivity {
             intent.putExtras(newIntent);
             startActivity(intent);
         }
-    }
-
-    private void initOnboarding() {
-        OnboardingDialogs.showDialogOnFab(tooltipManager, fabQuickConnect, getString(R.string.onboardingFAB),
-            getString(R.string.onboardingFABDescription), OnboardingPreferences.FLOATINGACTION_DIALOG);
     }
 
     private void initDrawerView() {
@@ -527,12 +502,11 @@ public class HomeActivity extends VpnActivity {
 
                 if (!vpnStatusProviderUI.isConnected()) {
                     Storage.saveBoolean(OnboardingPreferences.FLOATING_BUTTON_USED, true);
-                    Storage.saveBoolean(OnboardingPreferences.FLOATINGACTION_DIALOG, true);
                 }
             }
         });
         fabQuickConnect.setOnMenuButtonLongClickListener(view -> {
-            if (!viewModel.isQuickConnectRestricted() && !fabQuickConnect.isOpened() && OnboardingPreferences.wasFloatingButtonUsed()) {
+            if (!viewModel.isQuickConnectRestricted() && !fabQuickConnect.isOpened()) {
                 fabQuickConnect.open(true);
             }
             return true;
@@ -634,10 +608,6 @@ public class HomeActivity extends VpnActivity {
         else {
             return getLoadingContainer();
         }
-    }
-
-    public TooltipManager getTooltips() {
-        return tooltipManager;
     }
 
     private boolean shouldCloseFab() {
