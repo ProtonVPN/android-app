@@ -27,15 +27,10 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.netshield.BottomSheetNetShield
 import com.protonvpn.android.netshield.NetShieldComposable
-import com.protonvpn.android.ui.home.HomeActivity
-import com.protonvpn.android.ui.onboarding.OnboardingDialogs
-import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldDialogActivity
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -68,19 +63,6 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
             }
         }
         netShieldComposeView().isVisible = true
-
-        val onboardingView = netShieldComposeView()
-        parentViewModel.bottomSheetFullyExpanded.observe(viewLifecycleOwner, Observer { isExpanded ->
-            if (isExpanded) {
-                // Once we migrate to Hilt we should be able to inject Tooltips easily.
-                val tooltips = (requireActivity() as HomeActivity).tooltips
-                OnboardingDialogs.showDialogOnView(
-                    tooltips, onboardingView, onboardingView,
-                    getString(R.string.onboarding_netshield_title), getString(R.string.onboardingNetshield),
-                    OnboardingPreferences.NETSHIELD_DIALOG
-                )
-            }
-        })
     }
 
     protected abstract fun netShieldComposeView(): ComposeView
