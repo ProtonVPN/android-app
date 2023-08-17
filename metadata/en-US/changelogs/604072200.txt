@@ -1,0 +1,3 @@
+What's new
+Introducing support for Proton VPN B2B plans.
+Safeguard your organization and your employees with the new VPN Essential and Business subscriptions, while empowering access control to your company's files and services through gateways and dedicated servers.
