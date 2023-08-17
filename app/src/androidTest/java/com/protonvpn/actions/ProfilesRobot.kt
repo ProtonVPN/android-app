@@ -169,7 +169,7 @@ class ProfilesRobot : BaseRobot() {
         fun errorEmptyCountryIsVisible() =
             checkIfElementIsDisplayedByStringId(R.string.errorEmptyCountry)
 
-        fun upgradeButtonIsDisplayed() = checkIfElementIsDisplayedByStringId(R.string.upgrade)
+        fun upgradeButtonIsDisplayed() = checkIfElementIsDisplayedById(R.id.buttonUpgrade)
 
         fun defaultProfileOptionsAreVisible() {
             checkIfElementIsDisplayedByStringId(R.string.profileFastest)
