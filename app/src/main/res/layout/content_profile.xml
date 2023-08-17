@@ -75,12 +75,12 @@
                 android:paddingVertical="12dp"
                 android:text="@string/secure_core" />
 
-            <me.proton.core.presentation.ui.view.ProtonButton
+            <ImageView
                 android:id="@+id/buttonUpgrade"
-                style="@style/ProtonButton.Secondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/upgrade"/>
+                android:layout_marginVertical="12dp"
+                app:srcCompat="@drawable/ic_free_upgrade"/>
         </LinearLayout>
 
         <View style="@style/Divider.Small" />
