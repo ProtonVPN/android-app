@@ -63,8 +63,8 @@ class HomeViewModel @Inject constructor(
     onSessionClosed: OnSessionClosed,
     purchaseEnabled: CachedPurchaseEnabled,
     val appFeaturesPrefs: AppFeaturesPrefs,
-    private val restrictionsConfig: RestrictionsConfig
-) : MainViewModel(
+    private val restrictionsConfig: RestrictionsConfig,
+    ) : MainViewModel(
     mainScope,
     userPlanManager,
     logoutUseCase,
@@ -140,6 +140,11 @@ class HomeViewModel @Inject constructor(
                 userSettingManager.updateSecureCore(newIsEnabled)
             }
         }
+    }
+
+    fun shouldShowWhatsNew() = restrictionsConfig.restrictQuickConnectSync() && appFeaturesPrefs.showWhatsNew
+    fun onWhatsNewShown() {
+        appFeaturesPrefs.showWhatsNew = false
     }
 
     val isQuickConnectRestricted get() = restrictionsConfig.restrictQuickConnectSync()
