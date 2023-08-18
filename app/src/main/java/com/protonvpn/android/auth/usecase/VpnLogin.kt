@@ -24,6 +24,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
@@ -51,7 +52,8 @@ class VpnLogin @Inject constructor(
     val purchaseEnabled: CachedPurchaseEnabled,
     val appConfig: AppConfig,
     val serverListUpdater: ServerListUpdater,
-    val guestHole: GuestHole
+    val guestHole: GuestHole,
+    private val appFeaturesPrefs: AppFeaturesPrefs,
 ) {
     sealed class Result {
         class Success(val vpnUser: VpnUser) : Result()
@@ -60,6 +62,8 @@ class VpnLogin @Inject constructor(
     }
 
     suspend operator fun invoke(user: User, context: Context): Result {
+        // Only show what's new for users who are logged-in
+        appFeaturesPrefs.showWhatsNew = false
         purchaseEnabled.refresh()
         val sessionId = sessionProvider.getSessionId(user.userId)
         requireNotNull(sessionId)

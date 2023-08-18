@@ -43,6 +43,8 @@ class AppFeaturesPrefs @Inject constructor(
 
     var lastAppInUseTimestamp: Long by long(Long.MAX_VALUE)
 
+    var showWhatsNew: Boolean by boolean(true)
+
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
     }
