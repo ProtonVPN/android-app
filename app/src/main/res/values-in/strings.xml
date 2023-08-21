@@ -336,8 +336,8 @@
     <string name="netshield_status_off">Nonaktif</string>
     <string name="netshield_free_title">Jelajahi internet tanpa iklan dengan NetShield</string>
     <string name="netshield_free_description">Blokir iklan, pelacak, dan malware pada berbagai situs web dan aplikasi</string>
-    <string name="netshield_business_title">Block ads with NetShield</string>
-    <string name="netshield_business_description">When you upgrade to VPN Business</string>
+    <string name="netshield_business_title">Blokir iklan dengan NetShield</string>
+    <string name="netshield_business_description">Ketika Anda meningkatkan ke VPN Business</string>
     <string name="accessibility_netshield_status_on_click">Masukkan pengaturan NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="other">Iklan yang\ndiblokir</item>
@@ -556,7 +556,7 @@
     <string name="server_load_low">Rendah</string>
     <string name="server_load_medium">Sedang</string>
     <string name="server_load_high">Tinggi</string>
-    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s dataand services through dedicated servers.</string>
+    <string name="info_gateways_description">Gateway VPN merupakan koneksi aman yang menyediakan akses terkendali ke data dan layanan milik perusahaan Anda melalui server khusus.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Selamat datang di Proton VPN</string>
