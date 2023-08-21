@@ -338,7 +338,7 @@
     <string name="netshield_free_title">Surf advertentievrij met NetShield</string>
     <string name="netshield_free_description">Blokkeer advertenties, trackers en malware op websites en apps</string>
     <string name="netshield_business_title">Blokkeer advertenties met NetShield</string>
-    <string name="netshield_business_description">Wanneer je upgrade naar VPN Zakelijk</string>
+    <string name="netshield_business_description">Wanneer u upgradet naar VPN Zakelijk</string>
     <string name="accessibility_netshield_status_on_click">NetShield instellingen ingeven</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Advertentie\ngeblokkeerd</item>
@@ -566,7 +566,7 @@
     <string name="server_load_low">Laag</string>
     <string name="server_load_medium">Gemiddeld</string>
     <string name="server_load_high">Hoog</string>
-    <string name="info_gateways_description">Een VPN-toegangspoort is een beveiligde verbinding die gecontroleerde toegang biedt tot de gegevens en diensten van uw bedrijf via dedicated servers.</string>
+    <string name="info_gateways_description">Een VPN-toegangspoort is een beveiligde verbinding die gecontroleerde toegang biedt tot de gegevens en diensten van uw bedrijf via toegewezen servers.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Welkom bij Proton VPN</string>
