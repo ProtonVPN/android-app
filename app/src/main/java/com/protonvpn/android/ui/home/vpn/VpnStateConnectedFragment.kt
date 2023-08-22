@@ -20,7 +20,6 @@
 package com.protonvpn.android.ui.home.vpn
 
 import android.animation.LayoutTransition
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.DashPathEffect
 import android.os.Bundle
@@ -48,6 +47,7 @@ import com.protonvpn.android.databinding.FragmentVpnStateConnectedBinding
 import com.protonvpn.android.ui.ServerLoadColor.getColor
 import com.protonvpn.android.ui.planupgrade.EmptyUpgradeDialogActivity
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.ViewUtils.toDp
@@ -99,15 +99,18 @@ class VpnStateConnectedFragment :
 
             composeChangeServer.setContent {
                 ProtonTheme3(isDark = true) {
-                    ChangeServerComposable(state = changeServerViewModel.state,
+                    ChangeServerComposable(
+                        state = changeServerViewModel.state,
                         onChangeServerClick = {
                             changeServerViewModel.changeServer(
                                 (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate()
                             )
                         },
                         onUpgradeClick = {
-                            requireContext().startActivity(Intent(requireContext(), EmptyUpgradeDialogActivity::class.java))
-                        })
+                            requireContext().launchActivity<EmptyUpgradeDialogActivity>()
+                        },
+                        onUpgradeModalOpened = changeServerViewModel::onUpgradeModalOpened
+                    )
                 }
             }
             buttonDisconnect.setOnClickListener {

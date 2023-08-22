@@ -21,6 +21,8 @@ package com.protonvpn.android.ui.home.vpn
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.RestrictionsConfig
+import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -48,7 +50,8 @@ class ChangeServerViewModel @Inject constructor(
     private val restrictConfig: RestrictionsConfig,
     private val vpnConnectionManager: VpnConnectionManager,
     private val serverManager: ServerManager,
-    private val changeServerPrefs: ChangeServerPrefs
+    private val changeServerPrefs: ChangeServerPrefs,
+    private val upgradeTelemetry: UpgradeTelemetry
 ) : ViewModel() {
 
     private val tickFlow = changeServerPrefs.lastChangeTimestampFlow.flatMapLatest {
@@ -120,7 +123,12 @@ class ChangeServerViewModel @Inject constructor(
             changeServerPrefs.lastChangeTimestamp = System.currentTimeMillis()
         }
     }
+
+    fun onUpgradeModalOpened() {
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.CHANGE_SERVER)
+    }
 }
+
 sealed class ChangeServerViewState {
     object Hidden : ChangeServerViewState()
     object Unlocked : ChangeServerViewState()

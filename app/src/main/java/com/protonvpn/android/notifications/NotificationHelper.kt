@@ -36,6 +36,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity.Companion.EXTRA_NOTIFICATION_DETAILS
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
@@ -132,7 +133,8 @@ class NotificationHelper(
         class Activity(
             override val title: String,
             val activityIntent: Intent,
-            val closeAfterSuccess: Boolean
+            val closeAfterSuccess: Boolean,
+            val upgradeSource: UpgradeSource?
         ) : ActionItem()
 
         @Parcelize

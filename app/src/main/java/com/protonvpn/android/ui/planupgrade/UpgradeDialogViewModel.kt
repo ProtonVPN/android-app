@@ -23,6 +23,8 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,11 +40,16 @@ class UpgradeDialogViewModel @Inject constructor(
     private val authOrchestrator: AuthOrchestrator,
     private val plansOrchestrator: PlansOrchestrator,
     private val isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
-    private val serverManager: ServerManager
+    private val serverManager: ServerManager,
+    private val upgradeTelemetry: UpgradeTelemetry
 ) : ViewModel() {
 
     enum class State { Init, Fail, Success }
     val state = MutableStateFlow(State.Init)
+
+    fun reportUpgradeFlowStart(upgradeSource: UpgradeSource) {
+        upgradeTelemetry.onUpgradeFlowStarted(upgradeSource)
+    }
 
     fun setupOrchestrators(activity: ComponentActivity) {
         authOrchestrator.register(activity)
@@ -50,14 +57,19 @@ class UpgradeDialogViewModel @Inject constructor(
 
         plansOrchestrator.onUpgradeResult { result ->
             viewModelScope.launch {
-                state.value = if (result != null && result.billingResult.subscriptionCreated)
-                    State.Success else State.Fail
+                state.value = if (result != null && result.billingResult.subscriptionCreated) {
+                    upgradeTelemetry.onUpgradeSuccess(result.planId)
+                    State.Success
+                } else {
+                    State.Fail
+                }
             }
         }
     }
 
     suspend fun planUpgrade() {
         currentUser.vpnUser()?.userId?.let { userId ->
+            upgradeTelemetry.onUpgradeAttempt()
             plansOrchestrator.startUpgradeWorkflow(userId)
         }
     }

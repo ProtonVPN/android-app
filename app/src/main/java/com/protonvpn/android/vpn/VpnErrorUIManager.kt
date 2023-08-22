@@ -12,6 +12,7 @@ import com.protonvpn.android.notifications.NotificationHelper.Companion.EXTRA_SW
 import com.protonvpn.android.notifications.NotificationHelper.FullScreenDialog
 import com.protonvpn.android.notifications.NotificationHelper.ReconnectionNotification
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
 import com.protonvpn.android.ui.planupgrade.EmptyUpgradeDialogActivity
@@ -46,7 +47,7 @@ class VpnErrorUIManager @Inject constructor(
                             title = appContext.getString(R.string.notification_subscription_expired_title),
                             content = appContext.getString(R.string.notification_subscription_expired_no_reconnection_content),
                             reconnectionInformation = null,
-                            action = createPlanUpgradeAction(),
+                            action = createPlanUpgradeAction(UpgradeSource.DOWNGRADE),
                             fullScreenDialog = FullScreenDialog(null, true, null)
                         )
                     )
@@ -114,7 +115,7 @@ class VpnErrorUIManager @Inject constructor(
                         content = notificationHelper.getContentString(it),
                         reconnectionInformation = buildReconnectionInfo(switch),
                         action = if (it is SwitchServerReason.Downgrade || it is SwitchServerReason.UserBecameDelinquent)
-                            createPlanUpgradeAction()
+                            createPlanUpgradeAction(UpgradeSource.DOWNGRADE)
                         else null,
                         fullScreenDialog = if (it is SwitchServerReason.Downgrade || it is SwitchServerReason.UserBecameDelinquent)
                             FullScreenDialog(hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(it))
@@ -135,10 +136,12 @@ class VpnErrorUIManager @Inject constructor(
                             Constants.MAX_CONNECTIONS_IN_PLUS_PLAN,
                         )
                     }
+                    val action =
+                        if (!isUserPlusOrAbove) createPlanUpgradeAction(UpgradeSource.MAX_CONNECTIONS) else null
                     ReconnectionNotification(
                         title = appContext.getString(R.string.notification_max_sessions_title),
                         content = content,
-                        action = if (!isUserPlusOrAbove) createPlanUpgradeAction() else null,
+                        action = action,
                         fullScreenDialog = FullScreenDialog(
                             fullScreenIcon = if (isUserPlusOrAbove)
                                 R.drawable.maximum_device_limit_warning
@@ -151,10 +154,11 @@ class VpnErrorUIManager @Inject constructor(
         }
     }
 
-    private fun createPlanUpgradeAction(): ActionItem = ActionItem.Activity(
+    private fun createPlanUpgradeAction(upgradeSource: UpgradeSource?): ActionItem = ActionItem.Activity(
         appContext.getString(R.string.upgrade),
         Intent(appContext, EmptyUpgradeDialogActivity::class.java),
-        true
+        true,
+        upgradeSource
     )
 
     private fun buildReconnectionInfo(switch: VpnFallbackResult.Switch): NotificationHelper.ReconnectionInformation? {

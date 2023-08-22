@@ -38,6 +38,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
 import com.protonvpn.android.databinding.UpgradeCountryCustomImageBinding
+import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
@@ -48,8 +49,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-abstract class UpgradeDialogActivity : BaseActivityV2() {
+abstract class UpgradeDialogActivity(private val upgradeSource: UpgradeSource) : BaseActivityV2() {
 
     protected val viewModel by viewModels<UpgradeDialogViewModel>()
     protected val binding by viewBinding(ActivityUpsellDialogBinding::inflate)
@@ -58,6 +58,7 @@ abstract class UpgradeDialogActivity : BaseActivityV2() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        viewModel.reportUpgradeFlowStart(upgradeSource)
         viewModel.setupOrchestrators(this)
         viewModel.state.asLiveData().observe(this) { state ->
             if (state == UpgradeDialogViewModel.State.Success) {
@@ -93,7 +94,7 @@ class EmptyUpgradeDialogActivity : AppCompatActivity() {
 }
 
 @AndroidEntryPoint
-class UpgradeNetShieldDialogActivity : UpgradeDialogActivity() {
+class UpgradeNetShieldDialogActivity : UpgradeDialogActivity(UpgradeSource.NETSHIELD) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +113,7 @@ class UpgradeNetShieldDialogActivity : UpgradeDialogActivity() {
 }
 
 @AndroidEntryPoint
-class UpgradeSecureCoreDialogActivity : UpgradeDialogActivity() {
+class UpgradeSecureCoreDialogActivity : UpgradeDialogActivity(UpgradeSource.SECURE_CORE) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,7 +132,7 @@ class UpgradeSecureCoreDialogActivity : UpgradeDialogActivity() {
 }
 
 @AndroidEntryPoint
-class UpgradeProfilesDialogActivity : UpgradeDialogActivity() {
+class UpgradeProfilesDialogActivity : UpgradeDialogActivity(UpgradeSource.PROFILES) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -150,7 +151,7 @@ class UpgradeProfilesDialogActivity : UpgradeDialogActivity() {
 }
 
 @AndroidEntryPoint
-class UpgradeVpnAcceleratorDialogActivity : UpgradeDialogActivity() {
+class UpgradeVpnAcceleratorDialogActivity : UpgradeDialogActivity(UpgradeSource.VPN_ACCELERATOR) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -168,7 +169,7 @@ class UpgradeVpnAcceleratorDialogActivity : UpgradeDialogActivity() {
 }
 
 @AndroidEntryPoint
-class UpgradeCustomizationDialogActivity : UpgradeDialogActivity() {
+abstract class UpgradeCustomizationDialogActivity(upgradeSource: UpgradeSource) : UpgradeDialogActivity(upgradeSource) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -186,7 +187,10 @@ class UpgradeCustomizationDialogActivity : UpgradeDialogActivity() {
 }
 
 @AndroidEntryPoint
-class UpgradeSplitTunnelingDialogActivity : UpgradeDialogActivity() {
+class UpgradeAllowLanDialogActivity : UpgradeCustomizationDialogActivity(UpgradeSource.ALLOW_LAN)
+
+@AndroidEntryPoint
+class UpgradeSplitTunnelingDialogActivity : UpgradeDialogActivity(UpgradeSource.SPLIT_TUNNELING) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -203,7 +207,7 @@ class UpgradeSplitTunnelingDialogActivity : UpgradeDialogActivity() {
 }
 
 @AndroidEntryPoint
-class UpgradeCountryDialogActivity : UpgradeDialogActivity() {
+class UpgradeCountryDialogActivity : UpgradeDialogActivity(UpgradeSource.COUNTRIES) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -260,7 +264,7 @@ class UpgradeCountryDialogActivity : UpgradeDialogActivity() {
 }
 
 @AndroidEntryPoint
-open class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity() {
+open class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity(UpgradeSource.COUNTRIES) {
 
     @Inject lateinit var serverManager: ServerManager
 
@@ -319,7 +323,7 @@ class UpgradePlusOnboardingDialogActivity : UpgradePlusCountriesDialogActivity()
 }
 
 @AndroidEntryPoint
-class UpgradeSafeModeDialogActivity : UpgradeDialogActivity() {
+class UpgradeSafeModeDialogActivity : UpgradeDialogActivity(UpgradeSource.SAFE_MODE) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -336,7 +340,7 @@ class UpgradeSafeModeDialogActivity : UpgradeDialogActivity() {
 }
 
 @AndroidEntryPoint
-class UpgradeModerateNatDialogActivity : UpgradeDialogActivity() {
+class UpgradeModerateNatDialogActivity : UpgradeDialogActivity(UpgradeSource.MODERATE_NAT) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
