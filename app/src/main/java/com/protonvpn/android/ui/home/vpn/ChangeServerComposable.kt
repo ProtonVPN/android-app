@@ -70,6 +70,7 @@ fun ChangeServerComposable(
     state: StateFlow<ChangeServerViewState>,
     onChangeServerClick: () -> Unit,
     onUpgradeClick: () -> Unit,
+    onUpgradeModalOpened: () -> Unit,
 ) {
     val currentState = state.collectAsStateWithLifecycle().value
     val isModalVisible = remember { mutableStateOf(false) }
@@ -86,7 +87,10 @@ fun ChangeServerComposable(
                     onClick = {
                         when (currentState) {
                             is ChangeServerViewState.Unlocked -> onChangeServerClick()
-                            is ChangeServerViewState.Locked -> isModalVisible.value = true
+                            is ChangeServerViewState.Locked -> {
+                                onUpgradeModalOpened()
+                                isModalVisible.value = true
+                            }
                             else -> Unit
                         }
                     }
@@ -239,7 +243,8 @@ fun UnlockedButtonPreview() {
     ChangeServerComposable(
         state = MutableStateFlow(ChangeServerViewState.Unlocked),
         onChangeServerClick = { },
-        onUpgradeClick = {}
+        onUpgradeClick = {},
+        onUpgradeModalOpened = {},
     )
 }
 
@@ -249,7 +254,8 @@ fun LockedButtonPreview() {
     ChangeServerComposable(
         state = MutableStateFlow(ChangeServerViewState.Locked("00:12", 12, 20, true)),
         onChangeServerClick = { },
-        onUpgradeClick = {}
+        onUpgradeClick = {},
+        onUpgradeModalOpened = {},
     )
 }
 

@@ -32,7 +32,6 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import me.proton.core.presentation.utils.onClick
 
 @AndroidEntryPoint
 class CongratsPlanActivity : BaseActivityV2() {

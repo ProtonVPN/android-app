@@ -40,6 +40,10 @@ class TestCurrentUserProvider(
         set(value) { mutableVpnUserFlow.value = value }
         get() = mutableVpnUserFlow.value
 
+    var user: User?
+        set(value) { mutableUserFlow.value = value }
+        get() = mutableUserFlow.value
+
     var sessionId: SessionId?
         set(value) { mutableSessionIdFlow.value = value }
         get() = mutableSessionIdFlow.value

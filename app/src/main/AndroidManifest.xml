@@ -270,7 +270,7 @@
         <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeProfilesDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeVpnAcceleratorDialogActivity" />
-        <activity android:name=".ui.planupgrade.UpgradeCustomizationDialogActivity" />
+        <activity android:name=".ui.planupgrade.UpgradeAllowLanDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeSplitTunnelingDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradePlusCountriesDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradePlusOnboardingDialogActivity" />

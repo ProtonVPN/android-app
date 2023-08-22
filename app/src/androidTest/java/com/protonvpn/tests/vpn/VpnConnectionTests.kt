@@ -41,6 +41,7 @@ import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.ForegroundActivityTracker
@@ -251,10 +252,10 @@ class VpnConnectionTests {
             scope.backgroundScope,
             clock,
             mockTelemetry,
+            CommonDimensions(monitor, ServerListUpdaterPrefs(MockSharedPreferencesProvider())),
             monitor,
             mockConnectivityMonitor,
-            currentUser,
-            ServerListUpdaterPrefs(MockSharedPreferencesProvider())
+            currentUser
         ).apply { start() }
 
         val profileManager =

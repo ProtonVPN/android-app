@@ -20,13 +20,23 @@
 package com.protonvpn.android.ui.home.vpn
 
 import androidx.lifecycle.ViewModel
+import com.protonvpn.android.notifications.NotificationHelper
+import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SwitchDialogViewModel @Inject constructor(
-    private val isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase
+    private val isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
+    private val upgradeTelemetry: UpgradeTelemetry
 ) : ViewModel() {
+
+    fun onInit(activityItem: NotificationHelper.ActionItem?) {
+        if (activityItem is NotificationHelper.ActionItem.Activity && activityItem.upgradeSource != null) {
+            upgradeTelemetry.onUpgradeFlowStarted(activityItem.upgradeSource)
+        }
+    }
+
     fun showUpgrade() = isInAppUpgradeAllowed()
 }

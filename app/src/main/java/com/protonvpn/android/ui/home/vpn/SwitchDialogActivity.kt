@@ -92,6 +92,7 @@ class SwitchDialogActivity : BaseActivityV2() {
                 finish()
             }
         }
+        viewModel.onInit(reconnectionNotification.action)
     }
 
     private fun initActionButton(binding: ActivitySwitchDialogBinding, actionItem: NotificationHelper.ActionItem) =

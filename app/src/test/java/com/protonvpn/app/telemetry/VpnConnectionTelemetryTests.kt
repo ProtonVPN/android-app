@@ -32,6 +32,7 @@ import com.protonvpn.android.models.vpn.SERVER_FEATURE_PARTNER_SERVER
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_STREAMING
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
@@ -112,14 +113,15 @@ class VpnConnectionTelemetryTests {
         } returns EnumSet.of(ConnectivityMonitor.Transport.WIFI)
 
         val telemetryScope = TestScope(UnconfinedTestDispatcher(testScheduler))
+        val commonDimensions = CommonDimensions(vpnStateMonitor, prefs)
         vpnConnectionTelemetry = VpnConnectionTelemetry(
             telemetryScope,
             { testScheduler.currentTime },
             mockTelemetry,
+            commonDimensions,
             vpnStateMonitor,
             mockConnectivityMonitor,
             mockCurrentUser,
-            prefs
         )
         vpnConnectionTelemetry.start()
     }
