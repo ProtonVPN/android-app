@@ -19,14 +19,21 @@
 package com.protonvpn.android.ui.home
 
 import androidx.lifecycle.ViewModel
+import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class FreeConnectionsInfoViewModel @Inject constructor(
-    private val serverManager: ServerManager
+    private val serverManager: ServerManager,
+    private val upgradeTelemetry: UpgradeTelemetry
 ) : ViewModel() {
 
     val freeCountriesCodes get() = serverManager.freeCountries.map { it.flag }
+
+    fun reportUpgradeFlowStart(upgradeSource: UpgradeSource) {
+        upgradeTelemetry.onUpgradeFlowStarted(upgradeSource)
+    }
 }
