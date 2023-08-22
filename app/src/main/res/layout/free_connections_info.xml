@@ -37,7 +37,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Proton.Text.Default"
+            style="@style/Proton.Text.DefaultSmall"
             android:text="@string/free_connections_info_message"/>
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="24dp"
-            style="@style/ProtonTextView.Body1.Bold"
+            style="@style/Proton.Text.Default.Bold"
             android:text="@string/free_connections_info_server_locations"/>
 
         <com.google.android.flexbox.FlexboxLayout
