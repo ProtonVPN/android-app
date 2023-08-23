@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.ui.home.vpn
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
@@ -27,19 +26,25 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.netshield.BottomSheetNetShield
 import com.protonvpn.android.netshield.NetShieldComposable
+import com.protonvpn.android.netshield.UpgradePromo
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
-import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.compose.theme.ProtonTheme3
 import javax.inject.Inject
 
 abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(layout) {
 
     protected val parentViewModel: VpnStateViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val changeServerViewModel: ChangeServerViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     // All these dependencies are required by the NetShieldSwitch.
     // Once we refactor it, they should be removed.
@@ -47,19 +52,27 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
     @Inject lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var currentUser: CurrentUser
+
     // End of NetShieldSwitch's dependencies.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         netShieldComposeView().setContent {
-            ProtonTheme {
-                NetShieldComposable(parentViewModel.netShieldViewState,
-                    navigateToNetShield = {
-                        BottomSheetNetShield().show(parentFragmentManager, tag)
-                    },
-                    navigateToUpgrade = {
-                        requireContext().startActivity(Intent(context, UpgradeNetShieldDialogActivity::class.java))
-                    })
+            val state = changeServerViewModel.state.collectAsStateWithLifecycle()
+            ProtonTheme3 {
+                if (state.value is ChangeServerViewState.Locked) {
+                    UpgradePromo(titleRes = R.string.not_wanted_country_title, descriptionRes = R.string.not_wanted_country_description, iconRes = R.drawable.upsell_worldwide_cover_exclamation) {
+                        requireContext().launchActivity<UpgradePlusCountriesDialogActivity>()
+                    }
+                } else {
+                    NetShieldComposable(parentViewModel.netShieldViewState,
+                        navigateToNetShield = {
+                            BottomSheetNetShield().show(parentFragmentManager, tag)
+                        },
+                        navigateToUpgrade = {
+                            requireContext().launchActivity<UpgradeNetShieldDialogActivity>()
+                        })
+                }
             }
         }
         netShieldComposeView().isVisible = true

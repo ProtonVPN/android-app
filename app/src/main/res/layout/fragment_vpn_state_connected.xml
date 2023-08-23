@@ -128,6 +128,11 @@
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:layout_weight="1" />
 
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/composeChangeServer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonDisconnect"
         android:layout_width="match_parent"
