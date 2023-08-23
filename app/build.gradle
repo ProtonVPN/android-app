@@ -797,7 +797,7 @@ dependencies {
     def leanback_version = "1.1.0-rc01"
     implementation "androidx.leanback:leanback:$leanback_version"
     implementation "androidx.leanback:leanback-preference:$leanback_version"
-    implementation 'com.caverock:androidsvg:1.4'
+    implementation 'com.caverock:androidsvg-aar:1.4'
 
     // Wireguard
     implementation 'me.proton.vpn:wireguard-android:1.0.20230512.14'

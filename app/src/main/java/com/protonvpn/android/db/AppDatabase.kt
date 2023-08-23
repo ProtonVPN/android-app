@@ -151,7 +151,7 @@ abstract class AppDatabase :
     EventMetadataDatabase {
 
     companion object {
-        const val version = 20
+        const val version = 21
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
@@ -170,6 +170,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_17_18,
             DatabaseMigrations.MIGRATION_18_19,
             DatabaseMigrations.MIGRATION_19_20,
+            DatabaseMigrations.MIGRATION_20_21,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
