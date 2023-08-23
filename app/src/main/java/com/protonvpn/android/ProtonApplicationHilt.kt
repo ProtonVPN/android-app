@@ -25,6 +25,7 @@ import androidx.startup.AppInitializer
 import androidx.work.Configuration
 import com.protonvpn.android.logging.MemoryMonitor
 import com.protonvpn.android.ui.promooffers.TestNotificationLoader
+import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.isMainProcess
 import dagger.hilt.android.HiltAndroidApp
 import me.proton.core.auth.presentation.MissingScopeInitializer
@@ -43,6 +44,7 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+        SentryIntegration.initAccountSentry() // Requires Hilt.
         if (isMainProcess()) {
             initDependencies()
 

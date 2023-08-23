@@ -122,6 +122,7 @@ def storeKeyAlias = project.hasProperty('keyStoreKeyAlias') ? keyStoreKeyAlias :
 def storePass = project.hasProperty('keyStorePassword') ? keyStorePassword : "\"Store password\""
 def storeKeyPass = project.hasProperty('keyStoreKeyPassword') ? keyStoreKeyPassword : "\"Store key password\""
 def sentryDsn = project.hasProperty('sentryDsn') ? sentryDsn : ""
+def accountSentryDsn = System.getenv("ACCOUNT_SENTRY_DSN") ?: ""
 def preferencesSalt = project.hasProperty('preferencesSalt') ? preferencesSalt : "\"Salt\""
 def preferencesKey = project.hasProperty('preferencesKey') ? preferencesKey : "\"Key\""
 def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath') ? serviceAccountFilePath : "service_account.json"
@@ -167,6 +168,7 @@ android {
         buildConfigField "String[]", "SUPPORTED_LOCALES", "{$availableLocalesJava}"
 
         buildConfigField "String", "Sentry_DSN",  "\"${StringEscapeUtils.escapeJava(sentryDsn)}\""
+        buildConfigField "String", "ACCOUNT_SENTRY_DSN",  "\"${StringEscapeUtils.escapeJava(accountSentryDsn)}\""
         buildConfigField "String", "PREF_SALT",  preferencesSalt
         buildConfigField "String", "PREF_KEY",  preferencesKey
         buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"Pass\""
