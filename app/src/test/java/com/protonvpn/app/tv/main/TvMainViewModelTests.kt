@@ -119,7 +119,7 @@ class TvMainViewModelTests {
             GetFeatureFlags(MutableStateFlow(FeatureFlags())),
             mockCurrentUser,
             mockk(relaxed = true),
-            RestrictionsConfig(testScope, flowOf(Restrictions(false))),
+            RestrictionsConfig(testScope, flowOf(Restrictions(false, mockk()))),
         ).stateIn(bgScope, SharingStarted.Eagerly, LocalUserSettings.Default)
         val userSettingsCached = EffectiveCurrentUserSettingsCached(userSettingsFlow)
 

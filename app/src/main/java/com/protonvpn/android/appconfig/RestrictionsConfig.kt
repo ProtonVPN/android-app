@@ -33,7 +33,8 @@ class RestrictionsConfig(
     scope: CoroutineScope,
     private val restrictionFlowInternal: Flow<Restrictions>,
 ) {
-    @Inject constructor(
+    @Inject
+    constructor(
         scope: CoroutineScope,
         appConfig: AppConfig,
         currentUser: CurrentUser
@@ -46,6 +47,7 @@ class RestrictionsConfig(
 
     suspend fun restrictServerList() = restrictionFlowInternal.first().serverList
     suspend fun restrictProfile() = restrictionFlowInternal.first().profile
+    suspend fun changeServerConfig() = restrictionFlowInternal.first().changeServerConfig
 
     @Deprecated("use suspending restrictQuickConnect")
     fun restrictQuickConnectSync() = restrictionFlow.value.quickConnect
@@ -60,7 +62,14 @@ class RestrictionsConfig(
                 appConfig.appConfigFlow
             ) { vpnUser, appConfigResponse ->
                 val restrictUser = appConfigResponse.featureFlags.showNewFreePlan && vpnUser?.isFreeUser != false
-                Restrictions(restrictUser)
+                Restrictions(
+                    restrictUser,
+                    ChangeServerConfig(
+                        shortDelayInSeconds = appConfigResponse.changeServerShortDelayInSeconds,
+                        maxAttemptCount = appConfigResponse.changeServerAttemptLimit,
+                        longDelayInSeconds = appConfigResponse.changeServerLongDelayInSeconds
+                    )
+                )
             }.distinctUntilChanged()
     }
 }
@@ -73,8 +82,15 @@ data class Restrictions(
     val vpnAccelerator: Boolean,
     val lan: Boolean,
     val splitTunneling: Boolean,
-    val safeMode: Boolean
+    val safeMode: Boolean,
+    val changeServerConfig: ChangeServerConfig,
 ) {
-    constructor(restrict: Boolean)
-        : this(restrict, restrict, restrict, restrict, restrict, restrict, restrict, restrict)
+    constructor(restrict: Boolean, changeServerConfig: ChangeServerConfig)
+        : this(restrict, restrict, restrict, restrict, restrict, restrict, restrict, restrict, changeServerConfig)
 }
+
+data class ChangeServerConfig(
+    val shortDelayInSeconds: Int,
+    val maxAttemptCount: Int,
+    val longDelayInSeconds: Int
+)

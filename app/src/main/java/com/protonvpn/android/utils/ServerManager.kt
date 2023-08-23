@@ -116,6 +116,7 @@ class ServerManager @Inject constructor(
     val allServerCount get() = allServers.count()
 
     val fastestProfile get() = profileManager.fastestProfile
+    val randomProfile get() = profileManager.randomServerProfile
     val defaultFallbackConnection get() = fastestProfile
 
     val defaultConnection: Profile get() = with(profileManager) {

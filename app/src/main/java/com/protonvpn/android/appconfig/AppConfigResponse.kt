@@ -25,7 +25,9 @@ import java.util.concurrent.TimeUnit
 
 val DEFAULT_SERVER_LIST_REFRESH_FOREGROUND_MINUTES = TimeUnit.HOURS.toMinutes(3)
 val DEFAULT_SERVER_LIST_REFRESH_BACKGROUND_MINUTES = TimeUnit.DAYS.toMinutes(2)
-
+const val DEFAULT_ATTEMPT_COUNT = 4
+const val DEFAULT_CHANGE_SHORT_DELAY_SECONDS = 90
+const val DEFAULT_CHANGE_LONG_DELAY_SECONDS = 1200
 @Serializable
 data class AppConfigResponse(
     @SerialName(value = "ServerRefreshInterval")
@@ -34,12 +36,24 @@ data class AppConfigResponse(
     val logicalsRefreshForegroundDelayMinutesInternal: Long? = DEFAULT_SERVER_LIST_REFRESH_FOREGROUND_MINUTES,
     @SerialName(value = "LogicalsRefreshIntervalBackgroundMinutes")
     val logicalsRefreshBackgroundDelayMinutesInternal: Long? = DEFAULT_SERVER_LIST_REFRESH_BACKGROUND_MINUTES,
+    @SerialName(value = "ChangeServerAttemptLimit")
+    val changeServerAttemptLimitInternal: Int? = 4,
+    @SerialName(value = "ChangeServerShortDelayInSeconds")
+    val changeServerShortDelayInSecondsInternal: Int? = 90,
+    @SerialName(value = "ChangeServerLongDelayInSeconds")
+    val changeServerLongDelayInSecondsInternal: Int? = 1200,
     @SerialName(value = "DefaultPorts") val defaultPortsConfig: DefaultPortsConfig?,
     @SerialName(value = "FeatureFlags") val featureFlags: FeatureFlags,
     @SerialName(value = "SmartProtocol") val smartProtocolConfig: SmartProtocolConfig?,
     @SerialName(value = "RatingSettings") val ratingConfig: RatingConfig?
 ) {
     // Workaround for GSON problem with deserializing fields with default values
+    val changeServerAttemptLimit get() =
+        changeServerAttemptLimitInternal ?: DEFAULT_ATTEMPT_COUNT
+    val changeServerShortDelayInSeconds get() =
+        changeServerShortDelayInSecondsInternal ?: DEFAULT_CHANGE_SHORT_DELAY_SECONDS
+    val changeServerLongDelayInSeconds get() =
+        changeServerLongDelayInSecondsInternal ?: DEFAULT_CHANGE_LONG_DELAY_SECONDS
     val logicalsRefreshForegroundDelayMinutes get() =
         logicalsRefreshForegroundDelayMinutesInternal ?: DEFAULT_SERVER_LIST_REFRESH_FOREGROUND_MINUTES
     val logicalsRefreshBackgroundDelayMinutes get() =

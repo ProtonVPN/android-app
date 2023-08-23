@@ -33,6 +33,7 @@ import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -72,7 +73,7 @@ class EffectiveCurrentUserSettingsFlowTests {
         testUserProvider = TestCurrentUserProvider(plusUser)
         featureFlagsFlow = MutableStateFlow(FeatureFlags())
         rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        restrictionFlow = MutableStateFlow(Restrictions(false))
+        restrictionFlow = MutableStateFlow(Restrictions(false, mockk()))
 
         every { mockIsTv.invoke() } returns false
 

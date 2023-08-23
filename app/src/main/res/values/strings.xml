@@ -739,4 +739,10 @@
         <item quantity="one">Unlock geoblocked content from %1$d country with VPN Plus</item>
         <item quantity="other">Unlock geoblocked content from %1$d countries with VPN Plus</item>
     </plurals>
+
+    <string name="server_change_max_reached">You’ve reached the maximum number of Free server changes for now.</string>
+    <string name="server_change_upsell">Get unlimited changes with VPN Plus.</string>
+    <string name="server_change_button_title">Change server</string>
+    <string name="not_wanted_country_title">Not the country you wanted?</string>
+    <string name="not_wanted_country_description">Upgrade to choose any server</string>
 </resources>

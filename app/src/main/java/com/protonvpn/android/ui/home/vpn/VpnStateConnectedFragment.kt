@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.home.vpn
 
 import android.animation.LayoutTransition
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.DashPathEffect
 import android.os.Bundle
@@ -42,8 +43,10 @@ import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.BaseActivityV2
+import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.databinding.FragmentVpnStateConnectedBinding
 import com.protonvpn.android.ui.ServerLoadColor.getColor
+import com.protonvpn.android.ui.planupgrade.EmptyUpgradeDialogActivity
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
 import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.TrafficMonitor
@@ -51,6 +54,7 @@ import com.protonvpn.android.utils.ViewUtils.toDp
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.compose.theme.ProtonTheme3
 import java.text.DecimalFormat
 
 private const val CHART_LINE_WIDTH_DP = 3f
@@ -65,10 +69,12 @@ private const val CHART_MIN_HEIGHT_DP = 50
 private const val CHART_SINGLE_LABEL_MIN_HEIGHT_DP = 100
 
 @AndroidEntryPoint
-class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragment_vpn_state_connected) {
+class VpnStateConnectedFragment :
+    VpnStateFragmentWithNetShield(R.layout.fragment_vpn_state_connected) {
 
     private val binding by viewBinding(FragmentVpnStateConnectedBinding::bind)
     private val viewModel: VpnStateConnectedViewModel by viewModels()
+    private val changeServerViewModel: ChangeServerViewModel by viewModels()
 
     private val downloadDataSet by lazy(LazyThreadSafetyMode.NONE) {
         initDataSet(MaterialColors.getColor(requireView(), R.attr.proton_notification_success))
@@ -91,6 +97,19 @@ class VpnStateConnectedFragment : VpnStateFragmentWithNetShield(R.layout.fragmen
         with(binding) {
             layoutConnected.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
+            composeChangeServer.setContent {
+                ProtonTheme3(isDark = true) {
+                    ChangeServerComposable(state = changeServerViewModel.state,
+                        onChangeServerClick = {
+                            changeServerViewModel.changeServer(
+                                (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate()
+                            )
+                        },
+                        onUpgradeClick = {
+                            requireContext().startActivity(Intent(requireContext(), EmptyUpgradeDialogActivity::class.java))
+                        })
+                }
+            }
             buttonDisconnect.setOnClickListener {
                 parentViewModel.disconnectAndClose(DisconnectTrigger.ConnectionPanel("connection panel"))
             }

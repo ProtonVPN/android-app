@@ -73,7 +73,7 @@ fun NetShieldComposable(
 @Composable
 private fun UpgradeNetShieldFree(
     navigateToUpgrade: () -> Unit = {}
-) = UpgradeNetShield(
+) = UpgradePromo(
     R.string.netshield_free_title,
     R.string.netshield_free_description,
     navigateToUpgrade = navigateToUpgrade
@@ -82,7 +82,7 @@ private fun UpgradeNetShieldFree(
 @Preview
 @Composable
 private fun UpgradeNetShieldBusiness() =
-    UpgradeNetShield(
+    UpgradePromo(
         titleRes = R.string.netshield_business_title,
         descriptionRes = R.string.netshield_business_description,
         badgeIconRes = R.drawable.vpn_business_badge,
@@ -90,9 +90,10 @@ private fun UpgradeNetShieldBusiness() =
     )
 
 @Composable
-private fun UpgradeNetShield(
+fun UpgradePromo(
     @StringRes titleRes: Int,
     @StringRes descriptionRes: Int,
+    @DrawableRes iconRes: Int = R.drawable.ic_netshield_free,
     @DrawableRes badgeIconRes: Int = ResourcesCompat.ID_NULL,
     navigateToUpgrade: (() -> Unit)?
 ) {
@@ -109,7 +110,7 @@ private fun UpgradeNetShield(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_netshield_free),
+            painter = painterResource(id = iconRes),
             contentDescription = null,
             modifier = Modifier
                 .wrapContentSize()
