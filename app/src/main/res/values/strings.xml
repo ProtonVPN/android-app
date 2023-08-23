@@ -711,7 +711,7 @@
     <string name="free_upsell_header_title">Browse from all %1$d countries with VPN Plus</string>
 
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Want to connect to %1$s?</string>
+    <string name="upgrade_country_title">Want to choose a specific country?</string>
     <string name="upgrade_country_message">Unlock country selection with VPN Plus</string>
     <string name="upgrade_country_feature_money_back">30-day money back guarantee</string>
     <!-- Example: Higher speeds (10 Gbps) -->
@@ -750,4 +750,43 @@
     <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania.</string>
     <string name="whats_new_server_selection_title">Changes to server selection</string>
     <string name="whats_new_server_selection_description">To prevent server crowding and ensure that everyone has access to fast and secure browsing, we removed manual country selection and made major improvements to automatic server selection.</string>
+    <string name="welcome_plus_title">Welcome to VPN Plus</string>
+    <string name="welcome_plus_description">Enjoy extra privacy features, supercharged performance, and next-level VPN customization.</string>
+    <string name="welcome_plus_feature_security">Advanced security features</string>
+
+    <!-- Example: Up to 10 devices at once
+         In practice one will never be a value here -->
+    <plurals name="welcome_plus_feature_devices">
+        <item quantity="one">Up to %1$d device at once</item>
+        <item quantity="other">Up to %1$d devices at once</item>
+    </plurals>
+
+    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ new servers
+     -->
+    <plurals name="welcome_plus_servers">
+        <item quantity="one">%d new server</item>
+        <item quantity="other">%d+ new servers</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="welcome_plus_countries">
+        <item quantity="one">%d country</item>
+        <item quantity="other">%d countries</item>
+    </plurals>
+
+    <!-- Parameters:
+     %1$s - replaced with "welcome_plus_servers"
+     %2$s - replaced with "welcome_plus_countries"
+
+     Example:
+     1800+ new servers in 68 countries
+     -->
+    <string name="welcome_plus_feature_servers_count">%1$s in %2$s</string>
 </resources>
