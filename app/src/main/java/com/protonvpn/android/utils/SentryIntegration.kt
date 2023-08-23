@@ -23,11 +23,17 @@ import android.app.Application
 import android.os.Build
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.utils.AndroidUtils.isTV
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
 import io.sentry.Sentry
 import io.sentry.SentryLevel
+import io.sentry.SentryOptions
 import io.sentry.android.core.SentryAndroid
 import io.sentry.protocol.User
 import me.proton.core.util.android.sentry.TimberLoggerIntegration
+import me.proton.core.util.android.sentry.project.AccountSentryHubBuilder
 import java.util.UUID
 
 object SentryIntegration {
@@ -75,17 +81,34 @@ object SentryIntegration {
                 SentryFingerprints.setFingerprints(event)
             }
             options.isEnableScopeSync = true
-            options.addIntegration(
-                TimberLoggerIntegration(
-                    minEventLevel = SentryLevel.FATAL, // Disabled temporarily, switch to ERROR when logging is fixed.
-                    minBreadcrumbLevel = SentryLevel.FATAL // No breadcrumb from TimberLogger.
-                )
-            )
         }
         Sentry.setUser(User().apply { id = getInstallationId() })
         // Add manufacturer because some devices report device model for "device.family" which isn't very useful for
         // vendor-specific issues.
         Sentry.setTag("device.manufacturer", Build.MANUFACTURER)
         Sentry.setTag("isTv", application.isTV().toString())
+    }
+
+    /** Note: should be called only once. */
+    fun initAccountSentry() {
+        val entryPoint = EntryPointAccessors.fromApplication(
+            application,
+            SentryIntegrationEntryPoint::class.java
+        )
+
+        entryPoint.accountSentryHubBuilder().invoke(
+            sentryDsn = BuildConfig.ACCOUNT_SENTRY_DSN.takeIf { !BuildConfig.DEBUG }.orEmpty(),
+            installationId = getInstallationId()
+        ) { options ->
+            options.beforeSend = SentryOptions.BeforeSendCallback { event, _ ->
+                if (isEnabled()) event else null
+            }
+        }
+    }
+
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    internal interface SentryIntegrationEntryPoint {
+        fun accountSentryHubBuilder(): AccountSentryHubBuilder
     }
 }
