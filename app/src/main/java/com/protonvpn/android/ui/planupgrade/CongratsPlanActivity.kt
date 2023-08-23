@@ -23,55 +23,68 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.databinding.ActivityOnboardingPlanCongratsBinding
+import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.onClick
-import me.proton.core.presentation.utils.viewBinding
 
 @AndroidEntryPoint
 class CongratsPlanActivity : BaseActivityV2() {
 
     private val viewModel by viewModels<CongratsPlanViewModel>()
-    private val binding by viewBinding(ActivityOnboardingPlanCongratsBinding::inflate)
+    private val binding by viewBinding(ActivityUpsellDialogBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.initBinding(
+            this,
+            imageResource = R.drawable.welcome_plus,
+            title = getString(R.string.welcome_plus_title),
+            message = getString(R.string.welcome_plus_description),
+            mainButtonLabel = R.string.onboading_connect_to_plus,
+            mainButtonAction = ::connect,
+            otherButtonLabel = R.string.got_it,
+        ) {
+            val roundedServerCount = viewModel.serverCount / 100 * 100
+            val countriesCount = viewModel.countriesCount
+            val serverCountText = resources.getQuantityString(
+                R.plurals.welcome_plus_servers, roundedServerCount, roundedServerCount)
+            val countriesCountText = resources.getQuantityString(
+                R.plurals.welcome_plus_countries, countriesCount, countriesCount)
+            addFeature(getString(R.string.welcome_plus_feature_servers_count, serverCountText, countriesCountText), R.drawable.ic_proton_globe)
+            addFeature(R.string.welcome_plus_feature_security, R.drawable.ic_proton_sliders)
+            addFeature(
+                resources.getQuantityString(R.plurals.welcome_plus_feature_devices, 10, 10),
+                R.drawable.ic_proton_locks
+            )
+        }
+
+        val connectButton = binding.buttonMainAction
+        connectButton.setLoading()
         viewModel.refreshPlan()
-        viewModel.state.asLiveData().observe(this, Observer { state ->
+        viewModel.state.asLiveData().observe(this) { state ->
             when (state) {
                 is CongratsPlanViewModel.State.Error -> {
-                    snackbarHelper.errorSnack(state.message ?: getString(R.string.something_went_wrong))
-                    binding.connect.isEnabled = false
+                    snackbarHelper.errorSnack(state.message
+                        ?: getString(R.string.something_went_wrong))
+                    connectButton.isEnabled = false
                 }
                 CongratsPlanViewModel.State.Processing ->
-                    binding.connect.setLoading()
+                    connectButton.setLoading()
                 CongratsPlanViewModel.State.Success -> {
-                    binding.connect.setIdle()
-                    binding.connect.isEnabled = true
+                    connectButton.setIdle()
+                    connectButton.isEnabled = true
                 }
             }
-        })
-
-        val serverCount = viewModel.serverCount
-        val roundedServerCount = serverCount / 100 * 100
-        val servers = resources.getQuantityString(
-            R.plurals.upgrade_plus_secure_servers,
-            roundedServerCount,
-            roundedServerCount
-        )
-        binding.description.text = getString(R.string.onboarding_plan_congrats_description, servers)
-
-        binding.connect.onClick { connect() }
-        binding.skip.onClick { finish() }
+        }
     }
 
     private fun connect() =

@@ -72,4 +72,5 @@ class CongratsPlanViewModel @Inject constructor(
     }
 
     val serverCount get() = serverManager.allServerCount
+    val countriesCount get() = serverManager.getVpnCountries().size
 }

@@ -104,13 +104,14 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <me.proton.core.presentation.ui.view.ProtonButton
+    <me.proton.core.presentation.ui.view.ProtonProgressButton
         android:id="@+id/buttonMainAction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:paddingHorizontal="@dimen/screen_padding_horizontal"
-        android:text="@string/upgrade" />
+        android:text="@string/upgrade"
+        app:initialState="idle" />
 
     <me.proton.core.presentation.ui.view.ProtonButton
         android:id="@+id/buttonOther"
