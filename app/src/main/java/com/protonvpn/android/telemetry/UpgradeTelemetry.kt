@@ -77,9 +77,10 @@ class UpgradeTelemetry @Inject constructor(
         }
     }
 
-    fun onUpgradeSuccess(newPlanId: String) {
+    fun onUpgradeSuccess(newPlanId: String?) {
         currentUpsellDimensions?.let { currentDimensions ->
-            val dimensions = currentDimensions + ("upgraded_user_plan" to newPlanId)
+            val upgradedPlan = newPlanId ?: NO_VALUE
+            val dimensions = currentDimensions + ("upgraded_user_plan" to upgradedPlan)
             currentUpsellDimensions = null
             sendEvent("upsell_success", dimensions)
         }
