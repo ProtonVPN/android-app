@@ -29,9 +29,8 @@ import com.protonvpn.android.databinding.ItemVpnCountryBinding
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.VpnCountry
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeCountryDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
-import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
@@ -100,7 +99,11 @@ abstract class CountryViewHolder(
             iconUnderMaintenance.isVisible = group.isUnderMaintenance() && !isAccessibleAndOnline
             buttonUpgrade.isVisible = !isAccessibleAndOnline
             buttonUpgrade.setOnClickListener {
-                it.context.launchActivity<UpgradePlusCountriesDialogActivity>()
+                if (group is VpnCountry) {
+                    it.context.startActivity(
+                        UpgradeCountryDialogActivity.createIntent(it.context, group.flag)
+                    )
+                }
             }
             viewModel.vpnStatus.observe(parentLifecycleOwner, vpnStateObserver)
         }
