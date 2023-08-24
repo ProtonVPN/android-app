@@ -77,6 +77,7 @@ import go.Seq;
 import kotlinx.coroutines.ExecutorsKt;
 import me.proton.core.accountmanager.data.AccountStateHandler;
 import me.proton.core.eventmanager.data.CoreEventManagerStarter;
+import me.proton.core.featureflag.data.FeatureFlagRefreshStarter;
 import me.proton.core.humanverification.presentation.HumanVerificationStateHandler;
 import me.proton.core.util.kotlin.CoreLogger;
 
@@ -98,8 +99,8 @@ public class ProtonApplication extends Application {
         CloseSessionOnForceLogout getCloseSessionOnForceLogout();
         CoreEventManagerStarter getCoreEventManagerStarter();
         CurrentStateLogger getCurrentStateLogger();
-
         DohEnabled.Provider getDohEnabledProvider();
+        FeatureFlagRefreshStarter getFeatureFlagRefreshStarter();
         HumanVerificationStateHandler getHumanVerificationStateHandler();
         LogcatLogCapture getLogcatLogCapture();
         MaintenanceTracker getMaintenanceTracker();
@@ -164,6 +165,7 @@ public class ProtonApplication extends Application {
         dependencies.getCertificateRepository();
         dependencies.getCloseSessionOnForceLogout();
         dependencies.getDohEnabledProvider();
+        dependencies.getFeatureFlagRefreshStarter().start();
         dependencies.getHumanVerificationStateHandler().observe();
         dependencies.getMaintenanceTracker();
         dependencies.getReviewTracker();
