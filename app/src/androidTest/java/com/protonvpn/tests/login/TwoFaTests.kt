@@ -22,6 +22,7 @@ package com.protonvpn.tests.login
 import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.protonvpn.android.ui.main.MobileMainActivity
+import com.protonvpn.data.Timeouts
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
@@ -71,7 +72,7 @@ class TwoFaTests {
     }
 
     @Test
-    fun revokeSessionOr3TimesInvalidCode() = runTest {
+    fun revokeSessionOr3TimesInvalidCode() = runTest(timeout = Timeouts.MEDIUM) {
         TestSetup.quark!!.expireSession(user.email, true)
         TwoFaRobot()
             .setSecondFactorInput(invalidCode)

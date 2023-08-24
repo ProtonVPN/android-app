@@ -49,7 +49,7 @@ class OnboardingRobot : BaseRobot() {
 
     class Verify : BaseVerify() {
         fun welcomeScreenIsDisplayed() {
-            view.withText(R.string.onboarding_welcome_title).withTimeout(Timeouts.LONG_TIMEOUT)
+            view.withText(R.string.onboarding_welcome_title).withTimeout(Timeouts.LONG_MS)
                 .checkDisplayed()
             checkIfElementIsDisplayedByStringId(R.string.onboarding_welcome_description)
         }
