@@ -90,6 +90,9 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun updateTelemetry(isEnabled: Boolean) =
         update { current -> current.copy(telemetry = isEnabled) }
 
+    suspend fun updateVpnAcceleratorNotifications(isEnabled: Boolean) =
+        update { current -> current.copy(vpnAcceleratorNotifications = isEnabled) }
+
     suspend fun update(transform: (current: LocalUserSettings) -> LocalUserSettings) =
         currentUserStoreProvider.updateForCurrentUser(transform)
 }

@@ -178,6 +178,13 @@ class SettingsActivity : BaseActivityV2() {
         with(binding.contentSettings) {
             buttonAlwaysOn.setOnClickListener { navigateTo(SettingsAlwaysOnActivity::class.java); }
 
+            switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
+                logUiEvent(Setting.API_DOH)
+                lifecycleScope.launch {
+                    userSettingsManager.updateApiUseDoh(isChecked)
+                }
+            }
+
             switchAutoStart.setOnCheckedChangeListener { _, isChecked ->
                 logUiEvent(Setting.CONNECT_ON_BOOT)
                 lifecycleScope.launch {
@@ -214,6 +221,12 @@ class SettingsActivity : BaseActivityV2() {
                 tryToggleVpnAccelerator()
                 true
             }
+            switchVpnAcceleratorNotifications.setOnCheckedChangeListener { _, isChecked ->
+                lifecycleScope.launch {
+                    logUiEvent(Setting.VPN_ACCELERATOR_NOTIFICATIONS)
+                    userSettingsManager.updateVpnAcceleratorNotifications(isChecked)
+                }
+            }
 
             buttonTelemetry.setOnClickListener { navigateTo(SettingsTelemetryActivity::class.java) }
             buttonLicenses.setOnClickListener { navigateTo(OssLicensesActivity::class.java) }
@@ -235,12 +248,6 @@ class SettingsActivity : BaseActivityV2() {
         val info =
             getString(R.string.settingsAllowAlternativeRoutingDescription, Constants.ALTERNATIVE_ROUTING_LEARN_URL)
         switchDnsOverHttps.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
-        switchDnsOverHttps.setOnCheckedChangeListener { _, isChecked ->
-            logUiEvent(Setting.API_DOH)
-            lifecycleScope.launch {
-                userSettingsManager.updateApiUseDoh(isChecked)
-            }
-        }
     }
 
     private fun initVpnAcceleratorToggles() = with(binding.contentSettings) {
@@ -248,10 +255,6 @@ class SettingsActivity : BaseActivityV2() {
             val info =
                 getString(R.string.settingsVpnAcceleratorDescription, Constants.VPN_ACCELERATOR_INFO_URL)
             switchVpnAccelerator.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
-            switchVpnAccelerator.switchClickInterceptor = {
-                tryToggleVpnAccelerator()
-                true
-            }
         } else {
             switchVpnAccelerator.isVisible = false
             switchVpnAcceleratorNotifications.isVisible = false
@@ -336,12 +339,6 @@ class SettingsActivity : BaseActivityV2() {
             switchVpnAccelerator.isChecked = localUserSettings.vpnAccelerator
 
             switchVpnAcceleratorNotifications.isChecked = localUserSettings.vpnAcceleratorNotifications
-            switchVpnAcceleratorNotifications.setOnCheckedChangeListener { _, isChecked ->
-                lifecycleScope.launch {
-                    logUiEvent(Setting.VPN_ACCELERATOR_NOTIFICATIONS)
-                    userSettingsManager.update { it.copy(vpnAcceleratorNotifications = isChecked) }
-                }
-            }
         }
 
         // Pass the localUserSettings.defaultProfileId explicitly, otherwise ProfileManager uses its cached value of
