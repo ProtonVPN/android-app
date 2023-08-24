@@ -24,6 +24,7 @@ import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.main.MobileMainActivity
+import com.protonvpn.data.Timeouts
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.LoginTestRule
@@ -70,7 +71,7 @@ class TokenExpirationTests {
     }
 
     @Test
-    fun sessionAndRefreshTokenExpiration() = runTest {
+    fun sessionAndRefreshTokenExpiration() = runTest(timeout = Timeouts.MEDIUM) {
         SessionManagerImpl.reset(currentUser.sessionId())
         TestSetup.quark!!.expireSession(TestUser.plusUser.email, true)
         homeRobot.swipeDownToRefreshServerList()
@@ -78,7 +79,7 @@ class TokenExpirationTests {
     }
 
     @Test
-    fun sessionExpirationCheckIfNotLoggedOut() = runTest {
+    fun sessionExpirationCheckIfNotLoggedOut() = runTest(timeout = Timeouts.MEDIUM) {
         SessionManagerImpl.reset(currentUser.sessionId())
         TestSetup.quark!!.expireSession(TestUser.plusUser.email)
         homeRobot.swipeDownToRefreshServerList()

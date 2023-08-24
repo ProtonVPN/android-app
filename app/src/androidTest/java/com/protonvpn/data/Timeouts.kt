@@ -1,7 +1,13 @@
 package com.protonvpn.data
 
+import kotlin.time.Duration.Companion.seconds
+
 object Timeouts {
-    const val SMALL_TIMEOUT = 10_000L
-    const val MEDIUM_TIMEOUT = 20_000L
-    const val LONG_TIMEOUT = 60_000L
+    val SMALL = 10.seconds
+    val MEDIUM = 20.seconds
+    val LONG = 60.seconds
+
+    val SMALL_MS = SMALL.inWholeMilliseconds
+    val MEDIUM_MS = MEDIUM.inWholeMilliseconds
+    val LONG_MS = LONG.inWholeMilliseconds
 }
