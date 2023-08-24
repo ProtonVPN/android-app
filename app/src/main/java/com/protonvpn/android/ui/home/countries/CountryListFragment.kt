@@ -190,7 +190,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
     ) {
         val isNewFree = viewModel.isServerListRestricted()
         val (free, premium) = viewModel.getFreeAndPremiumCountries()
-        val premiumList = if (isNewFree) viewModel.getCountriesForList() else premium
+        val lockedCountries = if (isNewFree) viewModel.getCountriesForList() else premium
 
         val recommendedConnections = viewModel.getRecommendedConnections()
         if (recommendedConnections.isNotEmpty()) {
@@ -211,10 +211,10 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         addCountriesGroup(
             newGroups,
             R.string.listPremiumCountries_new_plans,
-            premiumList,
+            lockedCountries,
             expandedCountriesIds,
             headerGroups = if (isNewFree) {
-                listOf(Section(FreeUpsellItem(countrySize = premium.size, onClick = {
+                listOf(Section(FreeUpsellItem(countrySize = lockedCountries.size, onClick = {
                     requireContext().launchActivity<UpgradePlusCountriesDialogActivity>()
                 })))
             } else {
