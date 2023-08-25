@@ -121,6 +121,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
         android:paddingHorizontal="@dimen/screen_padding_horizontal"
+        android:visibility="gone"
         android:text="@string/upgrade_not_now_button" />
 
 </LinearLayout>
