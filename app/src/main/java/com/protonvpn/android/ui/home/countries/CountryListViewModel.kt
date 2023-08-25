@@ -41,10 +41,16 @@ import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.withPrevious
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.scan
 import javax.inject.Inject
 
 data class RecommendedConnection(
@@ -52,6 +58,10 @@ data class RecommendedConnection(
     @StringRes val name: Int,
     val profile: Profile
 )
+enum class ListUpdateEvent {
+    REFRESH_AND_SCROLL,
+    REFRESH_ONLY
+}
 
 @HiltViewModel
 class CountryListViewModel @Inject constructor(
@@ -64,13 +74,24 @@ class CountryListViewModel @Inject constructor(
     private val restrictConfig: RestrictionsConfig
 ) : ViewModel() {
 
-    val settingsLiveData = userSettingsCached.asLiveData()
-    val serverListVersion = serverManager.serverListVersion
     val vpnStatus = vpnStatusProviderUI.status.asLiveData()
     val isFreeUser get() = currentUser.vpnUserCached()?.isFreeUser == true
     val isSecureCoreEnabled get() = userSettingsCached.value.secureCore
 
-    val isServerListRestricted = restrictConfig.restrictionFlow
+    private var wasSecureCore: Boolean? = null
+
+    val updateListFlow: Flow<ListUpdateEvent> = combine(
+        userSettingsCached.map { it.secureCore }.distinctUntilChanged(),
+        serverManager.serverListVersion,
+        restrictConfig.restrictionFlow,
+        currentUser.vpnUserFlow.map { it?.userTier }.distinctUntilChanged()
+    ) { secureCore, _, _, _ ->
+        val event =
+            if (wasSecureCore != null && wasSecureCore != secureCore) ListUpdateEvent.REFRESH_AND_SCROLL
+            else ListUpdateEvent.REFRESH_ONLY
+        wasSecureCore = secureCore
+        event
+    }
 
     suspend fun isServerListRestricted() = restrictConfig.restrictServerList()
 

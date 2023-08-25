@@ -24,7 +24,6 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,6 +51,8 @@ import com.xwray.groupie.Section
 import com.xwray.groupie.viewbinding.BindableItem
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 
@@ -72,17 +73,12 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
     }
 
     private fun observeState() {
-        // TODO merge events together
-        viewModel.settingsLiveData.observe(viewLifecycleOwner) {
+        viewModel.updateListFlow.onEach { action ->
             updateListData()
-            if (viewModel.isFreeUser) binding.list.scrollToPosition(0)
-        }
-        viewModel.serverListVersion.asLiveData().observe(viewLifecycleOwner) {
-            updateListData()
-        }
-        viewModel.isServerListRestricted.asLiveData().observe(viewLifecycleOwner) {
-            updateListData()
-        }
+            if (action == ListUpdateEvent.REFRESH_AND_SCROLL) {
+                binding.list.scrollToPosition(0)
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun initList() = with(binding.list) {
