@@ -55,13 +55,12 @@
             app:drawableTint="?attr/proton_icon_accent" />
     </FrameLayout>
 
-    <me.proton.core.presentation.ui.view.ProtonButton
+    <ImageView
         android:id="@+id/buttonUpgrade"
-        style="@style/ProtonButton.Secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/upgrade"
-        android:visibility="gone" />
+        app:srcCompat="@drawable/ic_free_upgrade"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/iconUnderMaintenance"
