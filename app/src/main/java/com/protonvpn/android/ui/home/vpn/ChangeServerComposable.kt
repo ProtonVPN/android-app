@@ -186,13 +186,22 @@ private fun UpgradeModalContent(
                 progress = animatedProgress,
                 strokeWidth = 8.dp,
                 color = ProtonTheme.colors.brandNorm,
-                trackColor = ProtonTheme.colors.backgroundSecondary,
+                trackColor = if (state is ChangeServerViewState.Locked) ProtonTheme.colors.backgroundSecondary
+                else ProtonTheme.colors.notificationSuccess,
                 modifier = Modifier.size(100.dp)
             )
-            Text(
-                text = remainingTimeText,
-                style = ProtonTheme.typography.defaultNorm
-            )
+            if (state is ChangeServerViewState.Locked) {
+                Text(
+                    text = remainingTimeText,
+                    style = ProtonTheme.typography.defaultNorm
+                )
+            } else {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_proton_checkmark),
+                    contentDescription = null,
+                    tint = ProtonTheme.colors.iconNorm
+                )
+            }
         }
 
         if (state is ChangeServerViewState.Locked) {
