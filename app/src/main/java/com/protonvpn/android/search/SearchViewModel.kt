@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToAnyServer
 import com.protonvpn.android.auth.data.hasAccessToServer
@@ -66,6 +67,7 @@ class SearchViewModel @Inject constructor(
     private val serverManager: ServerManager,
     private val parntershipsRepository: PartnershipsRepository,
     private val search: Search,
+    private val restrictions: RestrictionsConfig,
     currentUser: CurrentUser
 ) : ViewModel() {
 
@@ -205,7 +207,7 @@ class SearchViewModel @Inject constructor(
                                     ResultItem(
                                         Search.Match(countryMatch.textMatch, it),
                                         it == connectedServer,
-                                        vpnUser.hasAccessToServer(it),
+                                        vpnUser.hasAccessToServer(it) && !restrictions.restrictServerList(),
                                         it.online,
                                         parntershipsRepository.getServerPartnerships(it)
                                     )
@@ -218,33 +220,33 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun mapCountry(match: Search.Match<VpnCountry>, vpnUser: VpnUser?, connectedServer: Server?) =
+    private suspend fun mapCountry(match: Search.Match<VpnCountry>, vpnUser: VpnUser?, connectedServer: Server?) =
         with(match.value) {
             ResultItem(
                 match,
                 serverList.contains(connectedServer),
-                hasAccessibleServer(vpnUser),
+                hasAccessibleServer(vpnUser) && !restrictions.restrictServerList(),
                 !isUnderMaintenance(),
                 partnerships = emptyList()
             )
         }
 
-    private fun mapCity(match: Search.Match<List<Server>>, vpnUser: VpnUser?, connectedServer: Server?) =
+    private suspend fun mapCity(match: Search.Match<List<Server>>, vpnUser: VpnUser?, connectedServer: Server?) =
         match.value.let { servers ->
             ResultItem(
                 match,
                 servers.contains(connectedServer),
-                vpnUser.hasAccessToAnyServer(servers),
+                vpnUser.hasAccessToAnyServer(servers) && !restrictions.restrictServerList(),
                 servers.any { it.online },
                 partnerships = emptyList()
             )
         }
 
-    private fun mapServer(match: Search.Match<Server>, vpnUser: VpnUser?, connectedServer: Server?) =
+    private suspend fun mapServer(match: Search.Match<Server>, vpnUser: VpnUser?, connectedServer: Server?) =
         ResultItem(
             match,
             match.value == connectedServer,
-            vpnUser.hasAccessToServer(match.value),
+            vpnUser.hasAccessToServer(match.value) && !restrictions.restrictServerList(),
             match.value.online,
             parntershipsRepository.getServerPartnerships(match.value)
         )

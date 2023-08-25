@@ -128,7 +128,8 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
             serverManager,
             partnershipsRepository,
             search,
-            mockCurrentUser,
+            mockk(relaxed = true),
+            mockCurrentUser
         )
     }
 
