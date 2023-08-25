@@ -30,7 +30,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 class RecommendedConnectionItem(
     private val viewModel: CountryListViewModel,
     private val parentLifeCycle: LifecycleOwner,
-    private val item: RecommendedConnection
+    private val item: RecommendedConnectionModel
 ): BindableItemEx<ItemRecommendedConnectionBinding>() {
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status>{

@@ -18,21 +18,15 @@
  */
 package com.protonvpn.android.ui.home.countries
 
-import android.content.Context
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
-import com.protonvpn.android.components.featureIcons
 import com.protonvpn.android.databinding.ItemVpnCountryBinding
-import com.protonvpn.android.models.vpn.GatewayGroup
-import com.protonvpn.android.models.vpn.ServerGroup
-import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.planupgrade.UpgradeCountryDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.BindableItemEx
-import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.vpn.VpnState
@@ -43,12 +37,9 @@ import java.util.Objects
 
 private const val EXPAND_DURATION_MS = 300L
 
-abstract class CountryViewHolder(
+abstract class ServerGroupHeaderViewHolder(
     private val viewModel: CountryListViewModel,
-    private val group: ServerGroup,
-    private val sectionId: String,
-    private val isOnline: Boolean,
-    private val isAccessible: Boolean,
+    private val serverGroupModel: CollapsibleServerGroupModel,
     private val parentLifecycleOwner: LifecycleOwner
 ) : BindableItemEx<ItemVpnCountryBinding>(), ExpandableItem {
 
@@ -58,21 +49,21 @@ abstract class CountryViewHolder(
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
         binding.textConnected.isVisible =
-            group.hasConnectedServer(it.server) && it.state == VpnState.Connected && isAccessible
+            serverGroupModel.haveServer(it.server) && it.state == VpnState.Connected && serverGroupModel.accessible
     }
 
-    override fun getId() = Objects.hash(group.id(), sectionId).toLong()
+    override fun getId() = Objects.hash(serverGroupModel.id).toLong()
 
     override fun bind(viewBinding: ItemVpnCountryBinding, position: Int) {
         super.bind(viewBinding, position)
 
         val context = viewBinding.root.context
         with(viewBinding) {
-            val isAccessibleAndOnline = isAccessible && isOnline
-            textCountry.text = group.name()
-            imageCountry.setImageResource(group.iconResource(context))
-            imageDoubleArrows.isVisible = viewModel.isSecureCoreEnabled
-            features.featureIcons = group.featureIcons()
+            val isAccessibleAndOnline = serverGroupModel.accessible && serverGroupModel.online
+            textCountry.text = serverGroupModel.title
+            imageCountry.setImageResource(serverGroupModel.iconResource(context))
+            imageDoubleArrows.isVisible = serverGroupModel.secureCore
+            features.featureIcons = serverGroupModel.featureIcons()
             countryItem.setBackgroundResource(
                 if (isAccessibleAndOnline) countryItem.getSelectableItemBackgroundRes() else 0
             )
@@ -100,12 +91,13 @@ abstract class CountryViewHolder(
                     adjustDivider(divider, expandableGroup.isExpanded, EXPAND_DURATION_MS)
                 }
             }
-            iconUnderMaintenance.isVisible = group.isUnderMaintenance() && isAccessible
-            buttonUpgrade.isVisible = !isAccessible
+            iconUnderMaintenance.isVisible = !serverGroupModel.online && serverGroupModel.accessible
+            buttonUpgrade.isVisible = !serverGroupModel.accessible
             buttonUpgrade.setOnClickListener {
-                if (group is VpnCountry) {
+                val flag = serverGroupModel.countryFlag
+                if (flag != null) {
                     it.context.startActivity(
-                        UpgradeCountryDialogActivity.createIntent(it.context, group.flag)
+                        UpgradeCountryDialogActivity.createIntent(it.context, flag)
                     )
                 }
             }
@@ -133,9 +125,4 @@ abstract class CountryViewHolder(
     override fun setExpandableGroup(onToggleListener: ExpandableGroup) {
         this.expandableGroup = onToggleListener
     }
-}
-
-fun ServerGroup.iconResource(context: Context) = when (this) {
-    is VpnCountry -> CountryTools.getFlagResource(context, flag)
-    is GatewayGroup -> R.drawable.ic_proton_servers
 }

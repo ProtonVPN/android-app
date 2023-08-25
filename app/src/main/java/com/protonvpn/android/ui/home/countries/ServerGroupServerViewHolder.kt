@@ -35,9 +35,10 @@ import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnStateMonitor
 import java.util.Objects
 
-class CountryExpandedViewHolder(
+class ServerGroupServerViewHolder(
     private val viewModel: CountryListViewModel,
     private val server: Server,
+    private val serverGroupModel: CollapsibleServerGroupModel,
     private val parentLifeCycle: LifecycleOwner,
     private val fastest: Boolean,
     private val groupId: String
@@ -45,12 +46,10 @@ class CountryExpandedViewHolder(
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
         with(binding.featuresAndButtons) {
-            userHasAccess = viewModel.hasAccessToServer(server)
+            userHasAccess = serverGroupModel.hasAccessToServer(server)
             isConnected = viewModel.isConnectedToServer(server)
             isOnline = server.online
-            viewModel.getServerPartnerships(server)?.let {
-                setPartnership(it, server.serverId)
-            }
+            setPartnership(viewModel.getServerPartnerships(server), server.serverId)
         }
     }
 
@@ -61,10 +60,10 @@ class CountryExpandedViewHolder(
 
         // Sometimes we can get 2 binds in a row without unbind in between
         clear()
-        val secureCoreEnabled = viewModel.isSecureCoreEnabled
+        val secureCoreEnabled = serverGroupModel.secureCore
         with(binding) {
             root.id = if (fastest) R.id.fastest else View.NO_ID // For tests.
-            val haveAccess = viewModel.hasAccessToServer(server)
+            val haveAccess = serverGroupModel.hasAccessToServer(server)
 
             textServer.isVisible = true
             textServer.isEnabled = haveAccess && server.online

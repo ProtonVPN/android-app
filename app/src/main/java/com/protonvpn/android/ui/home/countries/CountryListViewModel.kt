@@ -18,18 +18,21 @@
  */
 package com.protonvpn.android.ui.home.countries
 
+import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkLoader
+import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.auth.data.haveAccessWith
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bus.ConnectToProfile
 import com.protonvpn.android.bus.EventBus
+import com.protonvpn.android.components.featureIcons
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.Partner
@@ -37,11 +40,13 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.partnerships.PartnershipsRepository
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
+import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.withPrevious
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -50,16 +55,81 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
-data class RecommendedConnection(
+private const val SECTION_REGULAR = "regular"
+private const val SECTION_GATEWAYS = "gateways"
+
+// Main state for this screen
+data class ServerListState(
+    val sections: List<ServerListSectionModel>
+)
+
+// Grouping of items (e.g. premium countries) with optional header and info
+data class ServerListSectionModel(
+    @StringRes private val headerRes: Int?,
+    val items: List<ServerListItemModel>,
+    val itemCount: Int = items.size, // Might be different than items.size (e.g. we exclude banner)
+    val infoType: InfoType? = null
+) {
+    enum class InfoType { FreeConnections }
+    fun getHeader(context: Context) = headerRes?.let { context.getString(it, itemCount) }
+}
+
+// Items on the server list
+sealed class ServerListItemModel
+
+data class UpsellBannerModel(val premiumCountriesCount: Int) : ServerListItemModel()
+
+data class RecommendedConnectionModel(
     @DrawableRes val icon: Int,
     @StringRes val name: Int,
     val profile: Profile
-)
-enum class ListUpdateEvent {
-    REFRESH_AND_SCROLL,
-    REFRESH_ONLY
+) : ServerListItemModel()
+
+data class CollapsibleServerGroupModel(
+    private val group: ServerGroup,
+    val sections: List<ServerTierGroupModel>,
+    val accessible: Boolean,
+    val sectionId: String,
+    val secureCore: Boolean,
+    val userTier: Int?,
+) : ServerListItemModel() {
+
+    val title get() = group.name()
+    val online get() = !group.isUnderMaintenance()
+    val id get() = "$sectionId/${group.name()}"
+    val countryFlag get() = (group as? VpnCountry)?.flag
+
+    fun haveServer(server: Server?) = if (server == null)
+        false
+    else
+        sections.any { it.servers.any { it.serverId == server.serverId } }
+
+    fun iconResource(context: Context) = when (group) {
+        is VpnCountry -> CountryTools.getFlagResource(context, group.flag)
+        is GatewayGroup -> R.drawable.ic_proton_servers
+    }
+    fun featureIcons() = group.featureIcons()
+    fun hasAccessToServer(server: Server) =
+        server.haveAccessWith(userTier)
+
+    val hasAccessibleOnlineServer get() = group.hasAccessibleServer(userTier)
+}
+
+// Servers of the same tier in a given country/group
+data class ServerTierGroupModel(
+    val groupTitle: CountryListViewModel.ServerGroupTitle?,
+    val servers: List<Server>
+) {
+    constructor(
+        titleRes: Int,
+        servers: List<Server>,
+        infoType: InformationActivity.InfoType? = null
+    ) : this(
+        CountryListViewModel.ServerGroupTitle(titleRes, infoType), servers
+    )
 }
 
 @HiltViewModel
@@ -68,33 +138,84 @@ class CountryListViewModel @Inject constructor(
     private val partnershipsRepository: PartnershipsRepository,
     private val serverListUpdater: ServerListUpdater,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
-    private val userSettingsCached: EffectiveCurrentUserSettingsCached,
-    private val currentUser: CurrentUser,
-    private val restrictConfig: RestrictionsConfig
+    userSettings: EffectiveCurrentUserSettings,
+    currentUser: CurrentUser,
+    restrictConfig: RestrictionsConfig
 ) : ViewModel() {
 
     val vpnStatus = vpnStatusProviderUI.status.asLiveData()
-    val isFreeUser get() = currentUser.vpnUserCached()?.isFreeUser == true
-    val isSecureCoreEnabled get() = userSettingsCached.value.secureCore
 
-    private var wasSecureCore: Boolean? = null
+    private val userTierFlow = currentUser.vpnUserFlow.map { it?.userTier }.distinctUntilChanged()
 
-    val updateListFlow: Flow<ListUpdateEvent> = combine(
-        userSettingsCached.map { it.secureCore }.distinctUntilChanged(),
-        serverManager.serverListVersion,
-        restrictConfig.restrictionFlow,
-        currentUser.vpnUserFlow.map { it?.userTier }.distinctUntilChanged()
-    ) { secureCore, _, _, userTier ->
-        val event = when {
-            wasSecureCore != null && wasSecureCore != secureCore && userTier == VpnUser.FREE_TIER ->
-                ListUpdateEvent.REFRESH_AND_SCROLL
-            else -> ListUpdateEvent.REFRESH_ONLY
-        }
-        wasSecureCore = secureCore
-        event
+    // Scroll to top on downgrade
+    val scrollToTop = userTierFlow.withPrevious().mapNotNull { (previous, current) ->
+        if (previous != null && current != null && current < previous)
+            Unit else null
     }
 
-    suspend fun isServerListRestricted() = restrictConfig.restrictServerList()
+    val state : Flow<ServerListState> = combine(
+        userSettings.effectiveSettings.map { it.secureCore }.distinctUntilChanged(),
+        serverManager.serverListVersion,
+        restrictConfig.restrictionFlow,
+        userTierFlow
+    ) { secureCore, _, restrictions, userTier ->
+        ServerListState(sections = getItemsFor(secureCore, restrictions, userTier))
+    }
+
+    private fun getItemsFor(
+        secureCore: Boolean,
+        restrictions: Restrictions,
+        userTier: Int?
+    ): List<ServerListSectionModel> =
+        if (userTier == VpnUser.FREE_TIER)
+            getItemsForFreeUser(secureCore, restrictions)
+        else
+            getItemsForPremiumUser(userTier, secureCore, restrictions)
+
+    private fun List<ServerGroup>.asListItems(
+        userTier: Int?,
+        secureCore: Boolean,
+        restrictions: Restrictions,
+        sectionId: String = SECTION_REGULAR
+    ) = map { group ->
+        CollapsibleServerGroupModel(
+            group,
+            createServerSections(userTier, secureCore, group),
+            accessible = group.hasAccessibleServer(userTier) && !restrictions.serverList,
+            sectionId = sectionId,
+            secureCore = secureCore,
+            userTier = userTier
+        )
+    }
+
+    private fun getItemsForFreeUser(
+        secureCore: Boolean,
+        restrictions: Restrictions
+    ): List<ServerListSectionModel> = buildList {
+        if (restrictions.serverList) {
+            val allCountries = getCountriesForList(secureCore)
+            add(ServerListSectionModel(
+                R.string.listFreeCountries,
+                getRestrictedRecommendedConnections(),
+                infoType = ServerListSectionModel.InfoType.FreeConnections)
+            )
+            val plusItems = listOf(UpsellBannerModel(allCountries.size)) + allCountries.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)
+            add(ServerListSectionModel(R.string.listPremiumCountries_new_plans, plusItems, itemCount = plusItems.size - 1))
+        } else {
+            val (free, premium) = getFreeAndPremiumCountries(userTier = VpnUser.FREE_TIER, secureCore)
+            add(ServerListSectionModel(R.string.listFreeCountries, free.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)))
+            add(ServerListSectionModel(R.string.listPremiumCountries_new_plans, premium.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)))
+        }
+    }
+
+    private fun getItemsForPremiumUser(userTier: Int?, secureCore: Boolean, restrictions: Restrictions) = buildList {
+        val gateways = getGatewayGroupsForList(secureCore)
+            .asListItems(userTier, secureCore, restrictions, sectionId = SECTION_GATEWAYS)
+        if (gateways.isNotEmpty())
+            add(ServerListSectionModel(R.string.listGateways, gateways))
+        add(ServerListSectionModel(R.string.listAllCountries.takeIf { gateways.isNotEmpty() },
+            getCountriesForList(secureCore).asListItems(userTier, secureCore, restrictions)))
+    }
 
     fun refreshServerList(networkLoader: NetworkLoader) {
         serverListUpdater.getServersList(networkLoader)
@@ -107,36 +228,29 @@ class CountryListViewModel @Inject constructor(
     fun getServerPartnerships(server: Server): List<Partner> =
         partnershipsRepository.getServerPartnerships(server)
 
-    data class ServersGroup(val groupTitle: ServerGroupTitle?, val servers: List<Server>) {
-        constructor(
-            titleRes: Int,
-            servers: List<Server>,
-            infoType: InformationActivity.InfoType? = null
-        ) : this(
-            ServerGroupTitle(titleRes, infoType), servers
-        )
-    }
-
     data class ServerGroupTitle(val titleRes: Int, val infoType: InformationActivity.InfoType?)
 
-    suspend fun getRecommendedConnections(): List<RecommendedConnection> =
-        if (isFreeUser && !isSecureCoreEnabled && isServerListRestricted()) {
-            listOf(serverManager.fastestProfile).map {
-                RecommendedConnection(it.profileSpecialIcon!!, R.string.profileFastest, it)
-            }
-        } else {
-            emptyList()
+    private fun getRestrictedRecommendedConnections(): List<RecommendedConnectionModel> =
+        listOf(serverManager.fastestProfile).map {
+            RecommendedConnectionModel(it.profileSpecialIcon!!, R.string.profileFastest, it)
         }
 
-    fun getMappedServersForGroup(group: ServerGroup): List<ServersGroup> {
-        return if (isSecureCoreEnabled) {
-            listOf(ServersGroup(null, group.serverList))
+    private fun createServerSections(
+        userTier: Int?,
+        secureCore: Boolean,
+        group: ServerGroup
+    ): List<ServerTierGroupModel> {
+        return if (secureCore) {
+            listOf(ServerTierGroupModel(null, group.serverList))
         } else {
-            getMappedServersForClassicView(group)
+            createRegularServerSections(userTier, group)
         }
     }
 
-    private fun getMappedServersForClassicView(group: ServerGroup): List<ServersGroup> {
+    private fun createRegularServerSections(
+        userTier: Int?,
+        group: ServerGroup
+    ): List<ServerTierGroupModel> {
         val countryServers = group.serverList.sortedForUi()
         val freeServers = countryServers.filter { it.isFreeServer }
         val basicServers = countryServers.filter { it.isBasicServer }
@@ -144,17 +258,17 @@ class CountryListViewModel @Inject constructor(
         val internalServers = countryServers.filter { it.isPMTeamServer }
         val fastestServer = serverManager.getBestScoreServer(countryServers)?.copy()
 
-        val groups: MutableList<ServersGroup> = mutableListOf()
+        val groups: MutableList<ServerTierGroupModel> = mutableListOf()
         if (internalServers.isNotEmpty()) {
-            groups.add(ServersGroup(R.string.listInternalServers, internalServers))
+            groups.add(ServerTierGroupModel(R.string.listInternalServers, internalServers))
         }
         fastestServer?.let {
-            groups.add(ServersGroup(R.string.listFastestServer, listOf(fastestServer)))
+            groups.add(ServerTierGroupModel(R.string.listFastestServer, listOf(fastestServer)))
         }
 
         val freeServersInfo =
             if (group is VpnCountry && partnershipsRepository.hasAnyPartnership(group))
-                InformationActivity.InfoType.Partners.Country(group.flag, isSecureCoreEnabled)
+                InformationActivity.InfoType.Partners.Country(group.flag, secureCore = false)
             else
                 null
 
@@ -164,50 +278,40 @@ class CountryListViewModel @Inject constructor(
             else
                 null
 
-        if (currentUser.vpnUserCached()?.isFreeUser == true) {
-            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers, freeServersInfo)) }
-            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, plusServersInfo)) }
-            basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
-        }
-        if (currentUser.vpnUserCached()?.isBasicUser == true) {
-            basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
-            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers, freeServersInfo)) }
-            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, plusServersInfo)) }
-        }
-        if (currentUser.vpnUserCached()?.isUserPlusOrAbove == true) {
-            plusServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listPlusServers, plusServers, plusServersInfo)) }
-            basicServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listBasicServers, basicServers)) }
-            freeServers.whenNotNullNorEmpty { groups.add(ServersGroup(R.string.listFreeServers, freeServers, freeServersInfo)) }
+        when (userTier) {
+            VpnUser.FREE_TIER -> {
+                freeServers.whenNotNullNorEmpty { groups.add(ServerTierGroupModel(R.string.listFreeServers, freeServers, freeServersInfo)) }
+                plusServers.whenNotNullNorEmpty { groups.add(ServerTierGroupModel(R.string.listPlusServers, plusServers, plusServersInfo)) }
+                basicServers.whenNotNullNorEmpty { groups.add(ServerTierGroupModel(R.string.listBasicServers, basicServers)) }
+            }
+            VpnUser.BASIC_TIER -> {
+                basicServers.whenNotNullNorEmpty { groups.add(ServerTierGroupModel(R.string.listBasicServers, basicServers)) }
+                freeServers.whenNotNullNorEmpty { groups.add(ServerTierGroupModel(R.string.listFreeServers, freeServers, freeServersInfo)) }
+                plusServers.whenNotNullNorEmpty { groups.add(ServerTierGroupModel(R.string.listPlusServers, plusServers, plusServersInfo)) }
+            }
+            else -> {
+                plusServers.whenNotNullNorEmpty { groups.add(ServerTierGroupModel(R.string.listPlusServers, plusServers, plusServersInfo)) }
+                basicServers.whenNotNullNorEmpty { groups.add(ServerTierGroupModel(R.string.listBasicServers, basicServers)) }
+                freeServers.whenNotNullNorEmpty { groups.add(ServerTierGroupModel(R.string.listFreeServers, freeServers, freeServersInfo)) }
+            }
         }
         return groups
     }
 
-    fun getCountriesForList(): List<VpnCountry> =
-        if (isSecureCoreEnabled)
+    private fun getCountriesForList(secureCore: Boolean): List<VpnCountry> =
+        if (secureCore)
             serverManager.getSecureCoreExitCountries()
         else
             serverManager.getVpnCountries()
 
-    fun getGatewayGroupsForList(): List<GatewayGroup> =
-        if (isSecureCoreEnabled)
+    private fun getGatewayGroupsForList(secureCore: Boolean): List<GatewayGroup> =
+        if (secureCore)
             emptyList()
         else
             serverManager.getGateways()
 
-    fun getFreeAndPremiumCountries(): Pair<List<VpnCountry>, List<VpnCountry>> =
-        getCountriesForList().partition { it.hasAccessibleServer(currentUser.vpnUserCached()) }
-
-    fun getFreeCountries(): List<VpnCountry> =
-        getCountriesForList().filter { it.hasAccessibleServer(currentUser.vpnUserCached()) }
-
-    fun hasAccessToServer(server: Server) =
-        currentUser.vpnUserCached().hasAccessToServer(server)
-
-    fun hasAccessibleServer(group: ServerGroup) =
-        group.hasAccessibleServer(currentUser.vpnUserCached())
-
-    fun hasAccessibleOnlineServer(group: ServerGroup) =
-        group.hasAccessibleOnlineServer(currentUser.vpnUserCached())
+    private fun getFreeAndPremiumCountries(userTier: Int?, secureCore: Boolean): Pair<List<VpnCountry>, List<VpnCountry>> =
+        getCountriesForList(secureCore).partition { it.hasAccessibleServer(userTier) }
 
     fun connectToProfile(profile: Profile) {
         val event = ConnectToProfile(
@@ -222,6 +326,4 @@ class CountryListViewModel @Inject constructor(
         this.sortedBy { it.displayCity }
             .sortedBy { it.displayCity == null } // null cities go to the end of the list
             .sortedBy { it.isPartneshipServer } // partnership servers go to the end of the list
-
-
 }

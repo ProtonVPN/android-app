@@ -51,7 +51,7 @@ import javax.inject.Singleton
 @Singleton
 class EffectiveCurrentUserSettings(
     mainScope: CoroutineScope,
-    private val effectiveCurrentUserSettingsFlow: Flow<LocalUserSettings>
+    effectiveCurrentUserSettingsFlow: Flow<LocalUserSettings>
 ) {
     val effectiveSettings = effectiveCurrentUserSettingsFlow
         .distinctUntilChanged()
