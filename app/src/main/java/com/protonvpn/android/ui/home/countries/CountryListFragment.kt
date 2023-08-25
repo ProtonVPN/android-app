@@ -21,10 +21,9 @@ package com.protonvpn.android.ui.home.countries
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -34,10 +33,8 @@ import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.FragmentCountryListBinding
 import com.protonvpn.android.databinding.ItemFreeUpsellBinding
-import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.home.FreeConnectionsInfoActivity
-import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Log
@@ -51,13 +48,7 @@ import com.xwray.groupie.Section
 import com.xwray.groupie.viewbinding.BindableItem
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
-
-private const val SECTION_REGULAR = "regular"
-private const val SECTION_GATEWAYS = "gateways"
 
 @AndroidEntryPoint
 class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoader {
@@ -68,17 +59,15 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
-        observeState()
-        binding.loadingContainer.setOnRefreshListener { viewModel.refreshServerList(this) }
-    }
 
-    private fun observeState() {
-        viewModel.updateListFlow.onEach { action ->
-            updateListData()
-            if (action == ListUpdateEvent.REFRESH_AND_SCROLL) {
-                binding.list.scrollToPosition(0)
-            }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        viewModel.scrollToTop.asLiveData().observe(viewLifecycleOwner) {
+            binding.list.scrollToPosition(0)
+        }
+        viewModel.state.asLiveData().observe(viewLifecycleOwner) { state ->
+            updateListData(state.sections)
+        }
+
+        binding.loadingContainer.setOnRefreshListener { viewModel.refreshServerList(this) }
     }
 
     private fun initList() = with(binding.list) {
@@ -91,168 +80,91 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
     }
 
-    private suspend fun addCountriesGroup(
-        groups: MutableList<Group>,
-        @StringRes header: Int?,
-        serverGroups: List<ServerGroup>,
-        expandedCountriesIds: Set<Long>,
-        groupId: String = SECTION_REGULAR,
-        headerGroups: List<Group>? = null
-    ) {
-        val headerItem = header?.let { titleRes ->
-            val headerTitle = resources.getString(titleRes, serverGroups.size)
-            HeaderItem(headerTitle, false, null)
-        }
-        addCountriesGroup(
-            groups,
-            headerItem,
-            serverGroups,
-            expandedCountriesIds,
-            groupId,
-            headerGroups
-        )
-    }
+    private fun updateListData(sections: List<ServerListSectionModel>) {
+        val newGroups = mutableListOf<Group>()
+        val groupAdapter = binding.list.adapter as GroupAdapter<GroupieViewHolder>
 
-    private suspend fun addCountriesGroup(
-        groups: MutableList<Group>,
-        header: HeaderItem?,
-        serverGroups: List<ServerGroup>,
-        expandedCountriesIds: Set<Long>,
-        groupId: String = SECTION_REGULAR,
-        headerGroups: List<Group>? = null
-    ) {
-        if (header != null) {
-            groups.add(header)
-        }
-        headerGroups?.let {
-            groups.addAll(it)
-        }
-        val restricted = viewModel.isServerListRestricted()
-        for (group in serverGroups) {
-            val expandableHeaderItem =
-                getCountryViewHolder(group, groupId, restricted)
-
-            groups.add(ExpandableGroup(expandableHeaderItem).apply {
-                isExpanded =
-                    expandableHeaderItem.id in expandedCountriesIds && viewModel.hasAccessibleOnlineServer(
-                        group
-                    )
-                viewModel.getMappedServersForGroup(group).forEach { (title, servers) ->
-                    title?.let {
-                        val titleString = resources.getString(it.titleRes, servers.size)
-                        add(HeaderItem(titleString, true, it.infoType))
-                    }
-                    servers.forEach {
-                        add(
-                            CountryExpandedViewHolder(
-                                viewModel,
-                                it,
-                                viewLifecycleOwner,
-                                title?.titleRes == R.string.listFastestServer,
-                                groupId
-                            )
-                        )
-                    }
-                }
-            })
-        }
-    }
-
-    private fun getCountryViewHolder(
-        group: ServerGroup,
-        groupId: String = SECTION_REGULAR,
-        restricted: Boolean,
-    ): CountryViewHolder {
-        val isOnline = !group.isUnderMaintenance()
-        val userHasAccess = viewModel.hasAccessibleServer(group)
-        val isAccessible = userHasAccess && !restricted
-        val expandableCountry =
-            object : CountryViewHolder(
-                viewModel, group, groupId, isOnline, isAccessible, viewLifecycleOwner
-            ) {
-                override fun onExpanded(position: Int) {
-                    if (!viewModel.isSecureCoreEnabled) {
-                        val layoutManager =
-                            this@CountryListFragment.binding.list.layoutManager as LinearLayoutManager
-                        layoutManager.scrollToPositionWithOffset(position, 0)
-                    }
-                }
-            }
-        return expandableCountry
-    }
-
-    private suspend fun updateListForFree(
-        newGroups: MutableList<Group>, expandedCountriesIds: HashSet<Long>
-    ) {
-        val isNewFree = viewModel.isServerListRestricted()
-        val (free, premium) = viewModel.getFreeAndPremiumCountries()
-        val lockedCountries = if (isNewFree) viewModel.getCountriesForList() else premium
-
-        val recommendedConnections = viewModel.getRecommendedConnections()
-        if (recommendedConnections.isNotEmpty()) {
-            newGroups.add(Section(HeaderViewHolder(R.string.free_connection_header) {
-                activity?.launchActivity<FreeConnectionsInfoActivity>()
-            }))
-            recommendedConnections.forEach {
-                newGroups.add(RecommendedConnectionItem(viewModel, viewLifecycleOwner, it))
-            }
-        } else {
-            addCountriesGroup(
-                newGroups,
-                R.string.listFreeCountries,
-                free,
-                expandedCountriesIds
-            )
-        }
-        addCountriesGroup(
-            newGroups,
-            R.string.listPremiumCountries_new_plans,
-            lockedCountries,
-            expandedCountriesIds,
-            headerGroups = if (isNewFree) {
-                listOf(Section(FreeUpsellItem(countrySize = lockedCountries.size, onClick = {
-                    requireContext().launchActivity<UpgradePlusCountriesDialogActivity>()
-                })))
-            } else {
-                emptyList()
-            }
-        )
-    }
-
-    private fun updateListData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val newGroups = mutableListOf<Group>()
-            val groupAdapter = binding.list.adapter as GroupAdapter<GroupieViewHolder>
-
-            val expandedCountriesIds = getExpandedCountriesIds(groupAdapter)
-            if (viewModel.isFreeUser && !viewModel.isSecureCoreEnabled) {
-                updateListForFree(newGroups, expandedCountriesIds)
-            } else {
-                val gatewayGroups = viewModel.getGatewayGroupsForList()
-                if (gatewayGroups.isNotEmpty()) {
-                    val headerText = resources.getString(R.string.listGateways)
-                    val header =
-                        HeaderItem(headerText, false, InformationActivity.InfoType.Gateways)
-                    addCountriesGroup(
-                        newGroups,
-                        header,
-                        gatewayGroups,
-                        expandedCountriesIds,
-                        groupId = SECTION_GATEWAYS
-                    )
-                }
-                addCountriesGroup(
-                    newGroups,
-                    R.string.listAllCountries.takeIf { gatewayGroups.isNotEmpty() },
-                    viewModel.getCountriesForList(),
-                    expandedCountriesIds
+        val expandedGroupsIds = getExpandedGroupsIds(groupAdapter)
+        for (section in sections) {
+            section.getHeader(requireContext())?.let { text ->
+                newGroups.add(
+                    Section(HeaderViewHolder(
+                        text = text,
+                        infoButtonAction = section.infoType?.toAction()
+                    ))
                 )
             }
-            groupAdapter.replaceAll(newGroups)
+            section.items.forEach {
+                newGroups.add(it, expandedGroupsIds)
+            }
+        }
+        groupAdapter.replaceAll(newGroups)
+    }
+
+    fun MutableList<Group>.add(item: ServerListItemModel, expandedGroupsIds: Set<Long>) = when (item) {
+        is RecommendedConnectionModel ->
+            add(RecommendedConnectionItem(viewModel, viewLifecycleOwner, item))
+        is CollapsibleServerGroupModel ->
+            add(getExpandableGroup(item, expandedGroupsIds))
+        is UpsellBannerModel ->
+            add(Section(
+                FreeUpsellItem(countryCount = item.premiumCountriesCount) {
+                    requireContext().launchActivity<UpgradePlusCountriesDialogActivity>()
+                }
+            ))
+    }
+
+    private fun ServerListSectionModel.InfoType.toAction() : (() -> Unit) = when(this) {
+        ServerListSectionModel.InfoType.FreeConnections -> {
+            // Returns lambda
+            { activity?.launchActivity<FreeConnectionsInfoActivity>() }
         }
     }
 
-    private fun getExpandedCountriesIds(groupAdapter: GroupAdapter<GroupieViewHolder>) =
+    private fun getExpandableGroup(
+        item: CollapsibleServerGroupModel,
+        expandedGroupsIds: Set<Long>
+    ) : ExpandableGroup {
+        val groupVH = createGroupVH(item)
+        return ExpandableGroup(groupVH).apply {
+            isExpanded =
+                groupVH.id in expandedGroupsIds && item.hasAccessibleOnlineServer
+            item.sections.forEach { (title, servers) ->
+                title?.let {
+                    val titleString = resources.getString(it.titleRes, servers.size)
+                    add(HeaderItem(titleString, true, it.infoType))
+                }
+                servers.forEach { server ->
+                    add(
+                        ServerGroupServerViewHolder(
+                            viewModel,
+                            server,
+                            item,
+                            viewLifecycleOwner,
+                            title?.titleRes == R.string.listFastestServer,
+                            item.sectionId
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun createGroupVH(serverGroup: CollapsibleServerGroupModel) =
+        object : ServerGroupHeaderViewHolder(
+            viewModel, serverGroup, viewLifecycleOwner
+        ) {
+            override fun onExpanded(position: Int) {
+                if (!serverGroup.secureCore) {
+                    val layoutManager =
+                        this@CountryListFragment.binding.list.layoutManager as LinearLayoutManager
+                    layoutManager.scrollToPositionWithOffset(position, 0)
+                }
+            }
+        }
+
+
+    private fun getExpandedGroupsIds(groupAdapter: GroupAdapter<GroupieViewHolder>) =
         with(groupAdapter) {
             (0 until groupCount).asSequence().map { getTopLevelGroup(it) }
                 .filterIsInstance<ExpandableGroup>().filter { it.isExpanded }
@@ -262,14 +174,14 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
                 }
         }
 
-    override fun getNetworkFrameLayout(): LoaderUI {
+    override fun getNetworkFrameLayout(): LoaderUI =
         try {
-            return binding.loadingContainer
+            binding.loadingContainer
         } catch (e: IllegalStateException) {
             // FIXME: getNetworkFrameLayout is called from network callbacks that are unaware of
             //  views lifecycles, this needs to be refactored, for now return fake LoaderUI.
             Log.exception(e)
-            return object : LoaderUI {
+            object : LoaderUI {
                 override val state: NetworkFrameLayout.State = NetworkFrameLayout.State.EMPTY
 
                 override fun switchToLoading() {}
@@ -278,14 +190,13 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
                 override fun switchToRetry(error: ApiResult.Error) {}
             }
         }
-    }
 
     class FreeUpsellItem(
-        private val countrySize: Int, private val onClick: () -> Unit
+        private val countryCount: Int, private val onClick: () -> Unit
     ) : BindableItem<ItemFreeUpsellBinding>(1) {
         override fun bind(binding: ItemFreeUpsellBinding, position: Int) = with(binding) {
             val resources = root.resources
-            textTitle.text = resources.getString(R.string.free_upsell_header_title, countrySize)
+            textTitle.text = resources.getString(R.string.free_upsell_header_title, countryCount)
             root.setOnClickListener { onClick() }
         }
 

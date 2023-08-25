@@ -67,7 +67,7 @@ object CountryTools {
         val configuration = context.resources.configuration
         val locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             configuration.locales[0] else configuration.locale
-        return if (locale.language in supportedLanguages) locale else Locale.US
+        return if (locale?.language in supportedLanguages) locale else Locale.US
     }
 
     fun getFullName(country: String?): String {

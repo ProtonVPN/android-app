@@ -20,6 +20,7 @@ package com.protonvpn.android.models.vpn
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.auth.data.haveAccessWith
 import com.protonvpn.android.components.Markable
 import com.protonvpn.android.utils.CountryTools
 import kotlinx.serialization.Transient
@@ -34,6 +35,9 @@ sealed class ServerGroup {
 
     fun hasAccessibleServer(vpnUser: VpnUser?): Boolean =
         serverList.any { vpnUser.hasAccessToServer(it) }
+
+    fun hasAccessibleServer(userTier: Int?): Boolean =
+        serverList.any { it.haveAccessWith(userTier) }
 
     fun hasAccessibleOnlineServer(vpnUser: VpnUser?): Boolean =
         serverList.any { vpnUser.hasAccessToServer(it) && it.online }
