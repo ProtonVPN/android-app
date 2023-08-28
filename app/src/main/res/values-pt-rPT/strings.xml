@@ -566,7 +566,7 @@
     <string name="server_load_low">Baixa</string>
     <string name="server_load_medium">Média</string>
     <string name="server_load_high">Alta</string>
-    <string name="info_gateways_description">Um gateway de VPN é uma conexão segura que oferece acesso controlado aos dados e serviços da sua empresa através de servidores dedicados.</string>
+    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s data and services through dedicated servers.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Boas vindas ao Proton VPN</string>

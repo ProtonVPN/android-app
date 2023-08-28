@@ -338,7 +338,7 @@
     <string name="netshield_free_title">Navegue sem anúncios com o NetShield</string>
     <string name="netshield_free_description">Bloqueia anúncios, rastreadores e malware em sites e aplicativos</string>
     <string name="netshield_business_title">Bloqueie anúncios com NetShield</string>
-    <string name="netshield_business_description">Quando você atualizar para o VPN Plus</string>
+    <string name="netshield_business_description">Quando você atualizar para o VPN Business</string>
     <string name="accessibility_netshield_status_on_click">Digite as configurações do NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Anúncio\nbloqueado</item>

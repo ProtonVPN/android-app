@@ -586,7 +586,7 @@
     <string name="server_load_low">Małe</string>
     <string name="server_load_medium">Średnie</string>
     <string name="server_load_high">Duże</string>
-    <string name="info_gateways_description">Brama VPN to bezpieczne połączenie, które zapewnia kontrolowany dostęp do danych i usług firmy za pomocą dedykowanych serwerów.</string>
+    <string name="info_gateways_description">Brama VPN to bezpieczne połączenie, które zapewnia kontrolowany dostęp do danych i usług firmy za pośrednictwem dedykowanych serwerów.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Witaj w Proton VPN</string>
