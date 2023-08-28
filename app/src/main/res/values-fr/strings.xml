@@ -566,7 +566,7 @@
     <string name="server_load_low">Faible</string>
     <string name="server_load_medium">Moyenne</string>
     <string name="server_load_high">Élevée</string>
-    <string name="info_gateways_description">Une passerelle VPN est une connexion sécurisée qui permet de contrôler l\'accès aux données de votre entreprise par le biais de serveurs dédiés.</string>
+    <string name="info_gateways_description">Une Passerelle VPN est une connexion sécurisée qui permet de contrôler l\'accès aux données de votre entreprise par le biais de serveurs dédiés.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Bienvenue sur Proton VPN</string>

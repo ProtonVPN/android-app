@@ -586,7 +586,7 @@
     <string name="server_load_low">Нізкая</string>
     <string name="server_load_medium">Сярэдняя</string>
     <string name="server_load_high">Высокая</string>
-    <string name="info_gateways_description">Шлюз VPN - гэта бяспечнае злучэнне, якое забяспечвае кантралюемы доступ да даных і паслуг вашай кампаніі праз вылучаныя серверы.</string>
+    <string name="info_gateways_description">Шлюз VPN - гэта бяспечнае падключэнне, якое забяспечвае кантралюемы доступ да даных і паслуг вашай кампаніі праз вылучаныя серверы.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Вітаем у Proton VPN</string>

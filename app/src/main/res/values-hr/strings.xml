@@ -576,7 +576,7 @@
     <string name="server_load_low">Nisko</string>
     <string name="server_load_medium">Srednja</string>
     <string name="server_load_high">Visoko</string>
-    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s dataand services through dedicated servers.</string>
+    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s data and services through dedicated servers.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Welcome to Proton VPN</string>

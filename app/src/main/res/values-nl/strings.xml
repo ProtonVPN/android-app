@@ -566,7 +566,7 @@
     <string name="server_load_low">Laag</string>
     <string name="server_load_medium">Gemiddeld</string>
     <string name="server_load_high">Hoog</string>
-    <string name="info_gateways_description">Een VPN-toegangspoort is een beveiligde verbinding die gecontroleerde toegang biedt tot de gegevens en diensten van uw bedrijf via toegewezen servers.</string>
+    <string name="info_gateways_description">Een VPN-gateway is een beveiligde verbinding die gecontroleerde toegang biedt tot de gegevens en diensten van uw bedrijf via toegewijde servers.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Welkom bij Proton VPN</string>
