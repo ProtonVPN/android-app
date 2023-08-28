@@ -136,11 +136,6 @@
     <string name="errorEmptyServer">Server field cannot be empty</string>
     <string name="errorEmptyEntryCountry">Entry country field cannot be empty</string>
     <string name="errorEmptyExitCountry">Exit country field cannot be empty</string>
-    <string name="onboardingDialogMapView">Use the Map View to connect and virtually see where the VPN server is.</string>
-    <string name="onboardingDialogProfiles">Create profiles for your favourite servers and have an easy access to them. Also, a long tap on Proton VPN icon at the bottom screen will show you all your profiles. A tap on one of profiles will connect you to VPN.</string>
-    <string name="onboardingNetshield">Keeps you protected from malware, ads, and trackers.\nNote: if some sites don\'t load, try disabling NetShield.</string>
-    <string name="onboardingFAB">Quick connect / Profiles</string>
-    <string name="onboardingFABDescription">Tap on this button for the quickest way to connect</string>
     <string name="onboardingSignup">Sign up</string>
     <string name="onboardingSkip">Skip</string>
     <string name="onboardingNext">Next</string>
@@ -369,7 +364,6 @@
     <string name="netShieldBlockMalwareOnly">Block malware only</string>
     <string name="netShieldFullBlock">Block malware, tracking, ads</string>
     <string name="dialogDontShowAgain">Don\'t show again</string>
-    <string name="paidFeature">Paid feature</string>
     <string name="guestHoleActivated">The access to Proton VPN may be limited in your area so this will take longer than usual. Please wait while we work around this problem.</string>
     <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access Proton VPN.</string>
     <string name="onMaintenanceDetected">The VPN server you were connected to is undergoing maintenance. We automatically reconnected you to the fastest available server.</string>
@@ -524,16 +518,6 @@
         <item quantity="one">%d secure server</item>
         <item quantity="other">%d secure servers</item>
     </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
-
-     Example:
-     1200+ secure servers
-     -->
-    <plurals name="upgrade_plus_secure_servers">
-        <item quantity="one">%d secure server</item>
-        <item quantity="other">%d+ secure servers</item>
-    </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
          Example:
@@ -551,13 +535,6 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
-    <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_secure_servers"
-
-     Example:
-     You now have access to 1300+ secure servers and other premium features.
-     -->
-    <string name="onboarding_plan_congrats_description">You now have access to %1$s and other premium features.</string>
     <string name="upgrade_plus_countries_streaming">Access global streaming services</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
@@ -569,10 +546,7 @@
     <string name="upgrade_plus_countries_more">And many more premium features</string>
     <string name="upgrade_safe_mode_title">Allow traffic to non-standard ports</string>
     <string name="upgrade_safe_mode_message">Have advanced or professional computing needs that require non-standard ports? Upgrade to VPN Plus to access this and other premium features.</string>
-    <string name="upgrade_moderate_nat_title">Enable Moderate NAT</string>
-    <string name="upgrade_moderate_nat_message">Moderate NAT, also known as NAT Type 2, can improve your online experience with various applications and online video games. Unlock this and other features with a Plus plan.</string>
     <string name="upgrade_moderate_nat_learn_more">What is Moderate NAT?</string>
-    <string name="upgrade_see_plans_button">See plans and pricing</string>
     <string name="upgrade_not_now_button">Not now</string>
     <string name="upgrade_learn_more">Learn more</string>
     <!-- Information activity -->
@@ -649,7 +623,6 @@
     <string name="onboading_connecting_now">Connecting now</string>
     <string name="onboarding_congrats_description">Your connection is protected and you’re ready to browse the web.\n\nSafely.</string>
     <string name="onboarding_congrats_title">Congratulations!</string>
-    <string name="onboarding_plan_congrats_description_privacy">Enjoy the world of privacy.</string>
     <string name="onboading_connect_to_plus">Connect to a Plus server</string>
     <string name="upgrade_use_limited_free_button">Use limited Free plan</string>
     <string name="dynamic_report_suggestion_didnt_work">Didn\'t work?</string>
@@ -694,15 +667,7 @@
     <string name="search_recents_header_title">Recently viewed (%1$d)</string>
     <string name="search_clear_history">Clear history</string>
     <string name="search_clear_history_dialog">Your search history will be lost. Continue?</string>
-    <!-- Parameters:
-     %1$s - number of countries. It is never 1.
 
-     Example: Access all 63 countries. -->
-    <plurals name="search_upgrade_banner_title">
-        <item quantity="one">Access %1$d country</item>
-        <item quantity="other">Access all %1$d countries</item>
-    </plurals>
-    <string name="search_upgrade_banner_subtitle">More locations = more unblocked content + extra security + faster speeds</string>
     <string name="ikev2_removed_dialog_title">The IKEv2 VPN protocol is no longer available</string>
     <string name="ikev2_removed_dialog_message">Defaults and profiles that previously used IKEv2 will now use the Smart protocol.</string>
     <!-- Core strings overrides -->
