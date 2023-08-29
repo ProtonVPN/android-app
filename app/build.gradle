@@ -869,4 +869,7 @@ dependencies {
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.3.0-alpha01'
 
     implementation project(path: ':openvpn')
+
+    // Fusion
+    androidTestImplementation "me.proton.test:fusion:0.9.52"
 }

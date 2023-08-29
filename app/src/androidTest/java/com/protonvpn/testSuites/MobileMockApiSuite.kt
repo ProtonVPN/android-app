@@ -22,6 +22,7 @@ package com.protonvpn.testSuites
 import com.protonvpn.tests.account.AccountTests
 import com.protonvpn.tests.bugReport.MockedBugReportTests
 import com.protonvpn.tests.connection.ConnectionTests
+import com.protonvpn.tests.freeRescope.FreeRescopeTests
 import com.protonvpn.tests.logging.ProtonLoggerImplTests
 import com.protonvpn.tests.login.LogoutTests
 import com.protonvpn.tests.map.MapTests
@@ -60,5 +61,6 @@ import org.junit.runners.Suite
     TelemetryCacheTests::class,
     UserDataMigrationTests::class,
     VpnConnectionTests::class,
+    FreeRescopeTests::class
 )
 class MobileMockApiSuite
