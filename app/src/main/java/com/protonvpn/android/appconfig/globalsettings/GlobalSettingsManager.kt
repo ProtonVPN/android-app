@@ -48,6 +48,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.isRetryable
+import me.proton.core.network.domain.session.SessionId
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -136,10 +137,10 @@ class GlobalSettingsManager @Inject constructor(
         }.launchIn(mainScope)
     }
 
-    fun refresh() {
+    fun refresh(sessionId: SessionId) {
         if (!isTv()) { // VPNAND-1185
             mainScope.launch {
-                val result = api.getGlobalSettings()
+                val result = api.getGlobalSettings(sessionId)
                 if (result is ApiResult.Success) applyChange(result.value)
             }
         }

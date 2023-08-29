@@ -79,7 +79,7 @@ class RefreshTokenTests {
                 logoutEvents += it
             }
         }
-        appConfig.forceUpdate()
+        appConfig.forceUpdate(currentUser.sessionId())
         collectJob.cancel()
         assertFalse(currentUser.isLoggedIn())
         assertEquals(1, logoutEvents.size)

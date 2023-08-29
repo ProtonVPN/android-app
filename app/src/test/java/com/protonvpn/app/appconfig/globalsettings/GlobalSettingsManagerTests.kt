@@ -72,6 +72,7 @@ class GlobalSettingsManagerTests {
     @MockK
     private lateinit var mockIsTvCheck: IsTvCheck
 
+    private lateinit var currentUser: CurrentUser
     private lateinit var testUserProvider: TestCurrentUserProvider
     private lateinit var globalSettingsPrefs: GlobalSettingsPrefs
     private lateinit var testScope: TestScope
@@ -90,7 +91,7 @@ class GlobalSettingsManagerTests {
         testScope = TestScope(testDispatcher)
 
         testUserProvider = TestCurrentUserProvider(user1)
-        val currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
         userSettingsManager = CurrentUserLocalSettingsManager(
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())
         )
@@ -134,8 +135,8 @@ class GlobalSettingsManagerTests {
     @Test
     fun `enabling global telemetry setting doesn't change the local one`() = testScope.runTest {
         val response = GlobalSettingsResponse(GlobalUserSettings(telemetryEnabled = true))
-        coEvery { mockApi.getGlobalSettings() } returns ApiResult.Success(response)
-        globalSettingsManager.refresh()
+        coEvery { mockApi.getGlobalSettings(any()) } returns ApiResult.Success(response)
+        globalSettingsManager.refresh(user1.sessionId)
 
         assertTrue(globalSettingsPrefs.telemetryEnabled)
         assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
@@ -147,8 +148,8 @@ class GlobalSettingsManagerTests {
         userSettingsManager.updateTelemetry(true)
 
         val response = GlobalSettingsResponse(GlobalUserSettings(telemetryEnabled = false))
-        coEvery { mockApi.getGlobalSettings() } returns ApiResult.Success(response)
-        globalSettingsManager.refresh()
+        coEvery { mockApi.getGlobalSettings(any()) } returns ApiResult.Success(response)
+        globalSettingsManager.refresh(user1.sessionId)
 
         assertFalse(globalSettingsPrefs.telemetryEnabled)
         assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)

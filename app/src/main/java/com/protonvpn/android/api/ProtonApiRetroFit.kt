@@ -49,11 +49,11 @@ open class ProtonApiRetroFit(
     private val telephonyManager: TelephonyManager?
 ) {
 
-    open suspend fun getAppConfig(netzone: String?): ApiResult<AppConfigResponse> =
-        manager { getAppConfig(createNetZoneHeaders(netzone)) }
+    open suspend fun getAppConfig(sessionId: SessionId?, netzone: String?): ApiResult<AppConfigResponse> =
+        manager(sessionId) { getAppConfig(createNetZoneHeaders(netzone)) }
 
-    open suspend fun getDynamicReportConfig() =
-        manager { getDynamicReportConfig() }
+    open suspend fun getDynamicReportConfig(sessionId: SessionId?) =
+        manager(sessionId) { getDynamicReportConfig() }
 
     open suspend fun getLocation() =
         manager { getLocation() }
@@ -147,8 +147,8 @@ open class ProtonApiRetroFit(
     suspend fun postStats(events: List<StatsEvent>): ApiResult<GenericResponse> =
         manager { postStats(StatsBody(events)) }
 
-    suspend fun getGlobalSettings(): ApiResult<GlobalSettingsResponse> =
-        manager { getGlobalSettings() }
+    suspend fun getGlobalSettings(sessionId: SessionId): ApiResult<GlobalSettingsResponse> =
+        manager(sessionId) { getGlobalSettings() }
 
     suspend fun putTelemetryGlobalSetting(isEnabled: Boolean): ApiResult<GlobalSettingsResponse> =
         manager { putTelemetryGlobalSetting(UpdateGlobalTelemetry(isEnabled)) }
