@@ -37,6 +37,7 @@ import com.protonvpn.android.utils.mapState
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -44,7 +45,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.session.SessionId
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -91,6 +94,7 @@ class AppConfig @Inject constructor(
     private val appConfigUpdate = periodicUpdateManager.registerApiCall(
         "app_config",
         ::updateInternal,
+        { currentUser.sessionId() },
         PeriodicUpdateSpec(UPDATE_DELAY_UI, setOf(loggedIn, inForeground)),
         PeriodicUpdateSpec(UPDATE_DELAY, UPDATE_DELAY_FAIL, setOf(loggedIn)),
     )
@@ -98,18 +102,24 @@ class AppConfig @Inject constructor(
     private val bugReportUpdate = periodicUpdateManager.registerApiCall(
         "bug_report",
         ::updateBugReportInternal,
+        { currentUser.sessionId() },
         PeriodicUpdateSpec(BUG_REPORT_UPDATE_DELAY, setOf(loggedIn)),
     )
 
     init {
         userPlanManager.planChangeFlow
-            .onEach { forceUpdate() }
+            .onEach { forceUpdate(currentUser.sessionId()) }
             .launchIn(mainScope)
     }
 
-    suspend fun forceUpdate() {
-        periodicUpdateManager.executeNow(appConfigUpdate)
-        periodicUpdateManager.executeNow(bugReportUpdate)
+    suspend fun forceUpdate(sessionId: SessionId?): ApiResult<AppConfigResponse> {
+        return coroutineScope {
+            // This can be called on login, launch in parallel.
+            val bugReportJob = launch { periodicUpdateManager.executeNow(bugReportUpdate, sessionId) }
+            periodicUpdateManager.executeNow(appConfigUpdate, sessionId).also {
+                bugReportJob.join()
+            }
+        }
     }
 
     fun getMaintenanceTrackerDelay(): Long =
@@ -138,8 +148,8 @@ class AppConfig @Inject constructor(
 
     fun getRatingConfig(): RatingConfig = appConfigResponse.ratingConfig ?: getDefaultRatingConfig()
 
-    private suspend fun updateBugReportInternal(): ApiResult<DynamicReportModel> {
-        val dynamicReportModel = api.getDynamicReportConfig()
+    private suspend fun updateBugReportInternal(sessionId: SessionId?): ApiResult<DynamicReportModel> {
+        val dynamicReportModel = api.getDynamicReportConfig(sessionId)
         dynamicReportModel.valueOrNull?.let {
             Storage.save(it)
             dynamicReportModelObservable.value = it
@@ -147,10 +157,10 @@ class AppConfig @Inject constructor(
         return dynamicReportModel
     }
 
-    private suspend fun updateInternal(): ApiResult<AppConfigResponse> {
-        val result = api.getAppConfig(getNetZone())
-        if (currentUser.isLoggedIn()) {
-            globalSettingsManager.refresh()
+    private suspend fun updateInternal(sessionId: SessionId?): ApiResult<AppConfigResponse> {
+        val result = api.getAppConfig(sessionId, getNetZone())
+        if (sessionId != null) {
+            globalSettingsManager.refresh(sessionId)
         }
         result.valueOrNull?.let { config ->
             Storage.save(config)

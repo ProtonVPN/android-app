@@ -52,6 +52,7 @@ import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.Session
+import me.proton.core.network.domain.session.SessionId
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Qualifier
@@ -81,7 +82,7 @@ class TvLoginViewModel @Inject constructor(
             if (serverManager.isDownloadedAtLeastOnce)
                 state.value = TvLoginViewState.Success
             else scope.launch {
-                loadInitialConfig()
+                loadInitialConfig(currentUser.sessionId())
             }
         } else {
             state.value = TvLoginViewState.Welcome
@@ -178,16 +179,16 @@ class TvLoginViewModel @Inject constructor(
                     else -> {
                         vpnUserDao.insertOrUpdate(
                             infoResult.value.toVpnUserEntity(userId, loginResponse.sessionId))
-                        loadInitialConfig()
+                        loadInitialConfig(loginResponse.sessionId)
                     }
                 }
             }
         }
     }
 
-    private suspend fun loadInitialConfig() {
+    private suspend fun loadInitialConfig(sessionId: SessionId?) {
         state.value = TvLoginViewState.Loading
-        appConfig.forceUpdate()
+        appConfig.forceUpdate(sessionId)
         when (val result = serverListUpdater.updateServerList()) {
             is ApiResult.Success -> {
                 guestHole.releaseNeedGuestHole(VpnLogin.GUEST_HOLE_ID)
