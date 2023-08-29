@@ -44,6 +44,8 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.not
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import me.proton.test.fusion.Fusion.node
+import me.proton.test.fusion.ui.compose.builders.OnNode
 
 /**
  * [HomeRobot] Contains all actions and verifications for home screen
@@ -75,6 +77,20 @@ class HomeRobot : BaseRobot() {
 
     fun swipeDownToCloseConnectionInfoLayout(): HomeRobot =
         swipeDownOnElementById(R.id.layoutBottomSheet)
+
+    fun connectViaFastest(): HomeRobot = clickElementById(R.id.buttonConnect)
+
+    fun pressGotIt(): HomeRobot = clickElementByText(R.string.got_it)
+
+    fun changeServer(): HomeRobot = clickElementById(R.id.composeChangeServer)
+
+    fun clickPlusLocationUpsell(serverCount: Int): HomeRobot {
+        val upsellString = InstrumentationRegistry.getInstrumentation().targetContext.getString(
+            R.string.free_upsell_header_title, serverCount
+        )
+        clickElementByText<HomeRobot>(upsellString)
+        return this
+    }
 
     fun swipeLeftToOpenMap(): MapRobot {
         swipeLeftOnElementById<MapRobot>(R.id.list)
@@ -143,6 +159,9 @@ class HomeRobot : BaseRobot() {
         return this
     }
 
+    fun clickUpgradeByCountryName(country: String) {
+        view.withId(R.id.buttonUpgrade).hasSibling(view.withText(country)).click()
+    }
 
     private fun isAllowVpnRequestVisible(): Boolean {
         val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
@@ -241,6 +260,22 @@ class HomeRobot : BaseRobot() {
         fun checkIfPartnerTypeIsShown(partnerType: PartnerType) {
             checkIfElementIsDisplayedByText(partnerType.type!!)
             checkIfElementIsDisplayedByText(partnerType.description!!)
+        }
+
+        fun changeServerAndDisconnectIsDisplayed() {
+            checkIfElementIsDisplayedById(R.id.composeChangeServer)
+            checkIfElementIsDisplayedByStringId(R.string.disconnect)
+        }
+
+        fun changeServerTimerAndBannerAreDisplayed() {
+            node.withText(R.string.not_wanted_country_title).assertIsDisplayed()
+            node.withText(R.string.not_wanted_country_description).assertIsDisplayed()
+            OnNode(shouldUseUnmergedTree = true).withTag("remainingTimeRow").assertIsDisplayed()
+        }
+
+        fun cooldownUpgradeIsShown(){
+            node.withText(R.string.upgrade).assertIsDisplayed()
+            node.withText(R.string.server_change_upsell).assertIsDisplayed()
         }
     }
 

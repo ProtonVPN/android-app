@@ -18,10 +18,12 @@
  */
 package com.protonvpn.actions
 
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
@@ -29,6 +31,7 @@ import com.protonvpn.testsHelper.ConditionalActionsHelper
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 import me.proton.core.presentation.ui.view.ProtonCheckbox
 import me.proton.core.presentation.ui.view.ProtonInput
+import org.hamcrest.Matcher
 
 /**
  * [ProfilesRobot] Contains all actions and verifications for profiles screen
@@ -126,12 +129,31 @@ class ProfilesRobot : BaseRobot() {
         return clickElementByText(R.string.delete)
     }
 
+    fun clickOnCreateNewProfileButton(): ProfilesRobot {
+        clickOnCreateNewProfileUntilMatcherIsDisplayed(ViewMatchers.withId(R.id.action_save))
+        return this
+    }
+
+    fun clickOnCreateNewProfileUntilUpsellIsShown() : UpsellModalRobot {
+        clickOnCreateNewProfileUntilMatcherIsDisplayed(ViewMatchers.withText(R.string.upgrade_profiles_text))
+        return UpsellModalRobot()
+    }
+
     fun selectOpenVPNProtocol(udp: Boolean): ProfilesRobot {
         scrollToAndClickDropDown(R.id.inputProtocol)
         val protocol =
             if (udp) R.string.settingsProtocolNameOpenVpnUdp
             else R.string.settingsProtocolNameOpenVpnTcp
         return clickElementByText(protocol)
+    }
+
+    private fun clickOnCreateNewProfileUntilMatcherIsDisplayed(matcher: Matcher<View>) {
+        waitUntilDisplayedByText<Any>(R.string.create_new_profile)
+        view.waitForCondition {
+            clickElementByText<Any>(R.string.create_new_profile)
+            Espresso.onView(matcher)
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
     }
 
     private fun scrollToAndClickDropDown(@IdRes id: Int): ProfilesRobot {
@@ -149,16 +171,6 @@ class ProfilesRobot : BaseRobot() {
             id,
             clazz
         )
-        return this
-    }
-
-    fun clickOnCreateNewProfileButton(): ProfilesRobot {
-        waitUntilDisplayedByText<Any>(R.string.create_new_profile)
-        view.waitForCondition {
-            clickElementByText<Any>(R.string.create_new_profile)
-            Espresso.onView(ViewMatchers.withId(R.id.action_save))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        }
         return this
     }
 
@@ -187,8 +199,10 @@ class ProfilesRobot : BaseRobot() {
             view.withId(R.id.textServer).withText(profileName).checkDisplayed()
         }
 
-        fun connectingToSecureCoreSpeedInfoIsDisplayed() =
-            checkIfElementIsDisplayedByStringId(R.string.secureCoreSpeedInfoTitle)
+        fun defaultProfilesArePaid() {
+            view.withId(R.id.buttonUpgrade).withContentDesc(R.string.profileFastest).checkDisplayed()
+            view.withId(R.id.buttonUpgrade).withContentDesc(R.string.profileRandom).checkDisplayed()
+        }
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)

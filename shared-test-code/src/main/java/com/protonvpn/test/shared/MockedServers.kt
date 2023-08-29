@@ -44,6 +44,8 @@ object MockedServers {
             setProtocol(ProtocolSelection(protocol, transmissionProtocol))
         }
 
+    fun getCountryCount() = serverList.map { it.exitCountry }.toSet().size
+
     @Suppress("ClassOrdering")
     val serverListJson = """
 [
@@ -469,7 +471,7 @@ object MockedServers {
             "Long": 8.2275
         },
         "Load": 2,
-        "Score": 2.0,
+        "Score": 99,
         "HostCountry": null,
         "Servers": [
           {

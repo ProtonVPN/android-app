@@ -106,7 +106,7 @@ class SecureCoreTests {
         homeRobot.setStateOfSecureCoreSwitch(true)
             .acceptSecureCoreInfoDialog()
             .swipeLeftToOpenMap()
-        mapRobot.clickOnCountryNode("Sweden")
+        mapRobot.clickOnCountryNodeSecureCore("Sweden")
             .verify { isCountryNodeSelected("Sweden") }
         mapRobot.clickOnCountryNodeUntilConnectButtonAppears("Sweden >> France")
             .clickConnectButton()
