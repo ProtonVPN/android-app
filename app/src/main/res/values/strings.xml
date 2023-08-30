@@ -493,7 +493,6 @@
     <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
     <string name="upgrade_profiles_feature_save">Save your preferred server, city, or country</string>
     <string name="upgrade_profiles_feature_customize">Set custom protocols and premium VPN features</string>
-    <string name="upgrade_profiles_feature_auto_connect">Set up auto-connect for even faster access</string>
     <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds (up to 10 Gbps)</string>
     <string name="upgrade_vpn_accelerator_feature_speed">Increase connection speeds by up to 400% with VPN Accelerator</string>
     <string name="upgrade_vpn_accelerator_feature_distant_servers">Improved speed and stability when connected to distant servers</string>

@@ -145,7 +145,6 @@ class UpgradeProfilesDialogActivity : UpgradeDialogActivity(UpgradeSource.PROFIL
         ) {
             addFeature(R.string.upgrade_profiles_feature_save, R.drawable.ic_proton_globe)
             addFeature(R.string.upgrade_profiles_feature_customize, R.drawable.ic_proton_rocket)
-            addFeature(R.string.upgrade_profiles_feature_auto_connect, R.drawable.ic_proton_play)
         }
     }
 }

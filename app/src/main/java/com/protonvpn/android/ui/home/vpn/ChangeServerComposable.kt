@@ -50,6 +50,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -189,7 +190,8 @@ private fun UpgradeModalContent(
                 strokeWidth = 8.dp,
                 color = ProtonTheme.colors.brandNorm,
                 trackColor = if (state is ChangeServerViewState.Locked) ProtonTheme.colors.backgroundSecondary
-                else ProtonTheme.colors.notificationSuccess,
+                    else ProtonTheme.colors.notificationSuccess,
+                strokeCap = StrokeCap.Round,
                 modifier = Modifier.size(100.dp)
             )
             if (state is ChangeServerViewState.Locked) {
