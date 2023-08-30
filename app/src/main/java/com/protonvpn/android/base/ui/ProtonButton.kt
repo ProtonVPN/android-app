@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.base.ui
+package com.protonvpn.android.base.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -47,7 +47,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.protonvpn.android.redesign.base.ui.theme.VpnTheme
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.theme.ProtonDimens
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
@@ -84,6 +84,8 @@ fun ProtonSolidButton(
 @Composable
 fun ButtonDefaults.protonElevation() = ButtonDefaults.buttonElevation()
 
+val ButtonDefaults.ProtonMinHeight get() = 48.dp
+
 @Composable
 fun ButtonDefaults.protonButtonColors(
     loading: Boolean = false,
@@ -116,18 +118,19 @@ fun ProtonOutlinedButton(
     contained: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     colors: ButtonColors = ButtonDefaults.protonOutlinedButtonColors(loading),
+    border: BorderStroke = ButtonDefaults.protonOutlinedBorder(enabled, loading),
     content: @Composable () -> Unit,
 ) {
     ProtonButton(
         onClick = onClick,
-        modifier = modifier.heightIn(min = ButtonDefaults.MinHeight),
+        modifier = modifier,
         enabled = enabled,
         loading = loading,
         contained = contained,
         interactionSource = interactionSource,
         elevation = null,
         shape = ProtonTheme.shapes.medium,
-        border = ButtonDefaults.protonOutlinedBorder(enabled, loading),
+        border = border,
         style = ProtonTheme.typography.defaultUnspecified,
         colors = colors,
         content = content,
@@ -143,7 +146,7 @@ fun ButtonDefaults.protonOutlinedBorder(
     when {
         loading -> ProtonTheme.colors.interactionPressed
         !enabled -> ProtonTheme.colors.interactionDisabled
-        else -> ProtonTheme.colors.brandNorm
+        else -> ProtonTheme.colors.textAccent
     },
 )
 
@@ -184,7 +187,7 @@ fun ProtonTextButton(
 ) {
     ProtonButton(
         onClick = onClick,
-        modifier = modifier.heightIn(min = ButtonDefaults.MinHeight),
+        modifier = modifier,
         enabled = enabled,
         loading = loading,
         contained = contained,
@@ -296,7 +299,7 @@ fun ProtonButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.heightIn(min = ButtonDefaults.MinHeight),
+        modifier = modifier.heightIn(min = ButtonDefaults.ProtonMinHeight),
         enabled = !loading && enabled,
         interactionSource = interactionSource,
         elevation = elevation,

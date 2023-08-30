@@ -17,18 +17,24 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.base.ui
+package com.protonvpn.android.base.ui
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -74,6 +80,18 @@ fun VpnOutlinedButton(
 }
 
 @Composable
+fun VpnOutlinedNeutralButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    isExternalLink: Boolean = false,
+) {
+    ProtonOutlinedNeutralButton(onClick = onClick, modifier = modifier.fillMaxWidth()) {
+        VpnButtonContent(text, isExternalLink)
+    }
+}
+
+@Composable
 fun VpnTextButton(
     text: String,
     onClick: () -> Unit,
@@ -84,6 +102,59 @@ fun VpnTextButton(
         VpnButtonContent(text, isExternalLink)
     }
 }
+
+// Black/white outlined button is specific to VPN.
+@Composable
+fun ProtonOutlinedNeutralButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    loading: Boolean = false,
+    contained: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    colors: ButtonColors = ButtonDefaults.protonOutlinedNeutralButtonColors(loading),
+    border: BorderStroke = ButtonDefaults.protonOutlineNeutralBorder(enabled, loading),
+    content: @Composable () -> Unit,
+) {
+    ProtonOutlinedButton(
+        onClick, modifier, enabled, loading, contained, interactionSource, colors, border, content
+    )
+}
+
+@Composable
+fun ButtonDefaults.protonOutlinedNeutralButtonColors(
+    loading: Boolean = false,
+    backgroundColor: Color = ProtonTheme.colors.backgroundNorm,
+    contentColor: Color = ProtonTheme.colors.interactionStrongNorm,
+    disabledBackgroundColor: Color = if (loading) {
+        ProtonTheme.colors.backgroundSecondary
+    } else {
+        ProtonTheme.colors.backgroundNorm
+    },
+    disabledContentColor: Color = if (loading) {
+        ProtonTheme.colors.interactionStrongNorm
+    } else {
+        ProtonTheme.colors.textDisabled
+    },
+): ButtonColors = buttonColors(
+    containerColor = backgroundColor,
+    contentColor = contentColor,
+    disabledContainerColor = disabledBackgroundColor,
+    disabledContentColor = disabledContentColor,
+)
+
+@Composable
+fun ButtonDefaults.protonOutlineNeutralBorder(
+    enabled: Boolean = true,
+    loading: Boolean = false,
+) = BorderStroke(
+    1.0.dp,
+    when {
+        loading -> ProtonTheme.colors.interactionStrongNorm
+        !enabled -> ProtonTheme.colors.iconDisabled
+        else -> ProtonTheme.colors.interactionStrongNorm
+    },
+)
 
 @Composable
 private fun VpnButtonContent(

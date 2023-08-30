@@ -39,6 +39,7 @@ import com.github.mikephil.charting.jobs.MoveViewJob
 import com.github.mikephil.charting.utils.ObjectPool
 import com.google.android.material.color.MaterialColors
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.components.BaseActivity
 import com.protonvpn.android.components.BaseActivityV2
@@ -54,7 +55,6 @@ import com.protonvpn.android.utils.ViewUtils.toDp
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import me.proton.core.compose.theme.ProtonTheme3
 import java.text.DecimalFormat
 
 private const val CHART_LINE_WIDTH_DP = 3f
@@ -98,7 +98,7 @@ class VpnStateConnectedFragment :
             layoutConnected.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
             composeChangeServer.setContent {
-                ProtonTheme3(isDark = true) {
+                VpnTheme {
                     ChangeServerComposable(
                         state = changeServerViewModel.state,
                         onChangeServerClick = {
