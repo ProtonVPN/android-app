@@ -267,7 +267,6 @@ class VpnConnectionTests {
             supportsProtocol,
             createInMemoryServersStore(),
             profileManager,
-            mockk(relaxed = true)
         )
         serverManager.setServers(MockedServers.serverList, null)
         serverManager.setBuiltInGuestHoleServersForTesting(
