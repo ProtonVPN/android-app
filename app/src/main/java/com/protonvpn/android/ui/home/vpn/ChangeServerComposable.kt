@@ -21,22 +21,14 @@ package com.protonvpn.android.ui.home.vpn
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -49,7 +41,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -59,6 +50,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonOutlinedNeutralButton
+import com.protonvpn.android.base.ui.VpnOutlinedNeutralButton
+import com.protonvpn.android.base.ui.VpnSolidButton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import me.proton.core.compose.theme.ProtonTheme
@@ -79,25 +73,20 @@ fun ChangeServerComposable(
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     if (currentState != ChangeServerViewState.Hidden) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-                .heightIn(min = 48.dp)
-                .border(1.dp, ProtonTheme.colors.shade100, RoundedCornerShape(8.dp))
-                .clickable(
-                    onClick = {
-                        when (currentState) {
-                            is ChangeServerViewState.Unlocked -> onChangeServerClick()
-                            is ChangeServerViewState.Locked -> {
-                                onUpgradeModalOpened()
-                                isModalVisible.value = true
-                            }
-                            else -> Unit
-                        }
+        ProtonOutlinedNeutralButton(
+            onClick = {
+                when (currentState) {
+                    is ChangeServerViewState.Unlocked -> onChangeServerClick()
+                    is ChangeServerViewState.Locked -> {
+                        onUpgradeModalOpened()
+                        isModalVisible.value = true
                     }
-                ),
-            contentAlignment = Alignment.Center
+
+                    else -> Unit
+                }
+            },
+            contained = false,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             when (currentState) {
                 is ChangeServerViewState.Unlocked -> {
@@ -113,7 +102,7 @@ fun ChangeServerComposable(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp, horizontal = 16.dp),
+                            .padding(horizontal = 12.dp), // Additional content padding.
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
@@ -224,26 +213,18 @@ private fun UpgradeModalContent(
             )
         }
 
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .height(48.dp),
-            shape = RoundedCornerShape(4.dp),
-            onClick = if (state is ChangeServerViewState.Locked) onUpgradeClick else onChangeServerClick,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (state is ChangeServerViewState.Locked) ProtonTheme.colors.interactionNorm else Color.Transparent
-            ),
-            border = if (state is ChangeServerViewState.Unlocked) BorderStroke(
-                1.dp,
-                ProtonTheme.colors.shade100
-            ) else null
-        ) {
-            Text(
-                stringResource(
-                    id = if (state is ChangeServerViewState.Unlocked) R.string.server_change_button_title else R.string.upgrade
-                ),
-                style = ProtonTheme.typography.defaultUnspecified,
+        val horizontalPadding = Modifier.padding(horizontal = 16.dp)
+        if (state is ChangeServerViewState.Locked) {
+            VpnSolidButton(
+                text = stringResource(R.string.upgrade),
+                onClick = onUpgradeClick,
+                modifier = horizontalPadding,
+            )
+        } else {
+            VpnOutlinedNeutralButton(
+                text = stringResource(id = R.string.server_change_button_title),
+                onClick = onChangeServerClick,
+                modifier = horizontalPadding,
             )
         }
     }
