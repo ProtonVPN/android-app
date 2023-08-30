@@ -86,7 +86,6 @@ class ProfileManagerTests {
             SupportsProtocol(createGetSmartProtocols()),
             createInMemoryServersStore(),
             profileManager,
-            mockk(relaxed = true)
         )
     }
 

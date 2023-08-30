@@ -101,7 +101,6 @@ class CountryListViewModelTests {
             supportsProtocol,
             createInMemoryServersStore(),
             profileManager,
-            mockk(relaxed = true)
         )
         coEvery { mockApi.getPartnerships() } returns ApiResult.Success(PartnersResponse(emptyList()))
 

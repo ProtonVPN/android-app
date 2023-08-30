@@ -100,6 +100,7 @@ class EffectiveCurrentUserSettingsFlow constructor(
         }
         settings.copy(
             connectOnBoot = Build.VERSION.SDK_INT < 26 && settings.connectOnBoot,
+            defaultProfileId = if (!restrictions.quickConnect || isTv()) settings.defaultProfileId else null,
             lanConnections = isTv() || (!restrictions.lan && settings.lanConnections),
             netShield = if (netShieldAvailable && features.netShieldEnabled) settings.netShield else NetShieldProtocol.DISABLED,
             safeMode = effectiveSafeMode,

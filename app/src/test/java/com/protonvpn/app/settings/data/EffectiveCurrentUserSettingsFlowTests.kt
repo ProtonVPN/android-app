@@ -47,6 +47,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import java.util.UUID
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class EffectiveCurrentUserSettingsFlowTests {
@@ -230,6 +231,19 @@ class EffectiveCurrentUserSettingsFlowTests {
         assertEquals(splitTunnel, effectiveSettings().splitTunneling)
         restrictionFlow.value = restrictionFlow.value.copy(splitTunneling = true)
         assertEquals(SplitTunnelingSettings(), effectiveSettings().splitTunneling)
+    }
+
+    // The Favorite functionality is based on defaultProfileId.
+    @Test
+    fun `Quick Connect ignored when restricted, except on TV`() = testScope.runTest {
+        val profileId = UUID.randomUUID()
+        rawSettingsFlow.update { it.copy(defaultProfileId = profileId ) }
+        restrictionFlow.value = restrictionFlow.value.copy(quickConnect = true)
+
+        assertEquals(null, effectiveSettings().defaultProfileId)
+
+        every { mockIsTv.invoke() } returns true
+        assertEquals(profileId, effectiveSettings().defaultProfileId)
     }
 
     private suspend fun effectiveSettings() = effectiveSettingsFlow.first()

@@ -115,7 +115,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
         val userSettingsCached = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager = createDummyProfilesManager()
-        val serverManager = ServerManager(userSettingsCached, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), profileManager, mockk(relaxed = true))
+        val serverManager = ServerManager(userSettingsCached, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), profileManager)
         serverManager.setServers(MockedServers.serverList, null)
         val search = Search(serverManager)
         partnershipsRepository = PartnershipsRepository(mockApi)

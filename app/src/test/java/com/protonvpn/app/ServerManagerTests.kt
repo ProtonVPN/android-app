@@ -94,7 +94,7 @@ class ServerManagerTests {
 
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         profileManager = ProfileManager(mockk(), currentUserSettings, mockk(), mockk(relaxed = true))
-        manager = ServerManager(currentUserSettings, currentUser, { 0L }, supportsProtocol, createInMemoryServersStore(), profileManager, mockk(relaxed = true))
+        manager = ServerManager(currentUserSettings, currentUser, { 0L }, supportsProtocol, createInMemoryServersStore(), profileManager)
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         regularServers = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 

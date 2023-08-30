@@ -23,7 +23,6 @@ import androidx.lifecycle.asLiveData
 import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -68,7 +67,6 @@ class ServerManager @Inject constructor(
     @Transient val supportsProtocol: SupportsProtocol,
     @Transient val serversStore: ServersStore,
     @Transient private val profileManager: ProfileManager,
-    @Transient val restrictions: RestrictionsConfig
 ) : Serializable {
 
     private var serverListAppVersionCode = 0
@@ -119,13 +117,8 @@ class ServerManager @Inject constructor(
     val randomProfile get() = profileManager.randomServerProfile
     val defaultFallbackConnection get() = fastestProfile
 
-    val defaultConnection: Profile get() = with(profileManager) {
-        if (restrictions.restrictQuickConnectSync()) {
-            fastestProfile
-        } else {
-            findDefaultProfile() ?: fastestProfile
-        }
-    }
+    val defaultConnection: Profile get() =
+        profileManager.findDefaultProfile() ?: fastestProfile
 
     val defaultAvailableConnection: Profile get() =
         (listOf(defaultConnection) + profileManager.getSavedProfiles())
