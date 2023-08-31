@@ -46,8 +46,10 @@ abstract class SearchResultBinding<Value, Binding : ViewBinding>(
     private val matchLength: Int,
     private val onConnect: (SearchViewModel.ResultItem<Value>) -> Unit,
     private val onDisconnect: () -> Unit,
-    private val onUpgrade: () -> Unit
+    private val onUpgrade: (countryCode: String) -> Unit,
 ) : BindableItem<Binding>(item.match.value.hashCode().toLong()) {
+
+    protected abstract val countryCode: String
 
     protected fun bindFeaturesAndButtons(
         featuresButtons: ServerRowFeaturesAndButtonsView,
@@ -68,7 +70,7 @@ abstract class SearchResultBinding<Value, Binding : ViewBinding>(
                 else onDisconnect()
             }
             setPowerButtonListener(powerButtonListener)
-            setUpgradeButtonListener { onUpgrade() }
+            setUpgradeButtonListener { onUpgrade(countryCode) }
         }
     }
 
@@ -96,10 +98,11 @@ class CountryResultBinding(
     matchLength: Int,
     onConnect: (SearchViewModel.ResultItem<VpnCountry>) -> Unit,
     onDisconnect: () -> Unit,
-    onUpgrade: () -> Unit
+    onUpgrade: (countryCode: String) -> Unit
 ) : SearchResultBinding<VpnCountry, ItemSearchResultCountryBinding>(
     R.layout.item_search_result_country, item, matchLength, onConnect, onDisconnect, onUpgrade
 ) {
+    override val countryCode: String = item.match.value.flag
 
     override fun bind(binding: ItemSearchResultCountryBinding, position: Int) {
         with(binding) {
@@ -121,10 +124,11 @@ class CityResultBinding(
     matchLength: Int,
     onConnect: (SearchViewModel.ResultItem<List<Server>>) -> Unit,
     onDisconnect: () -> Unit,
-    onUpgrade: () -> Unit
+    onUpgrade: (countryCode: String) -> Unit,
 ) : SearchResultBinding<List<Server>, ItemSearchResultTwoLineBinding>(
     R.layout.item_search_result_two_line, item, matchLength, onConnect, onDisconnect, onUpgrade
 ) {
+    override val countryCode: String = item.match.value.first().exitCountry
 
     override fun bind(binding: ItemSearchResultTwoLineBinding, position: Int) {
         with(binding) {
@@ -150,10 +154,12 @@ class ServerResultBinding(
     matchLength: Int,
     onConnect: (SearchViewModel.ResultItem<Server>) -> Unit,
     onDisconnect: () -> Unit,
-    onUpgrade: () -> Unit
+    onUpgrade: (countryCode: String) -> Unit,
 ) : SearchResultBinding<Server, ItemSearchResultTwoLineBinding>(
     R.layout.item_search_result_two_line, item, matchLength, onConnect, onDisconnect, onUpgrade
 ) {
+    override val countryCode: String = item.match.value.exitCountry
+
     override fun bind(binding: ItemSearchResultTwoLineBinding, position: Int) {
         with(binding) {
             val server = item.match.value
@@ -214,10 +220,12 @@ class SecureCoreServerResultBinding(
     matchLength: Int,
     onConnect: (SearchViewModel.ResultItem<Server>) -> Unit,
     onDisconnect: () -> Unit,
-    onUpgrade: () -> Unit
+    onUpgrade: (countryCode: String) -> Unit,
 ) : SearchResultBinding<Server, ItemSearchResultCountryBinding>(
     R.layout.item_search_result_country, item, matchLength, onConnect, onDisconnect, onUpgrade
 ) {
+    override val countryCode: String = item.match.value.exitCountry
+
     override fun bind(binding: ItemSearchResultCountryBinding, position: Int) {
         with(binding) {
             val server = item.match.value

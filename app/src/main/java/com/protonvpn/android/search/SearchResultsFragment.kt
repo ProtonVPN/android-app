@@ -41,6 +41,7 @@ import com.protonvpn.android.databinding.SearchEmptyHintBinding
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.HeaderViewHolder
+import com.protonvpn.android.ui.planupgrade.UpgradeCountryDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
 import com.protonvpn.android.ui.showDialogWithDontShowAgain
 import com.protonvpn.android.utils.HtmlTools
@@ -135,16 +136,16 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
         val matchLength = query.length
         val sections = mutableListOf<Section>()
         if (state.showUpgradeBanner) {
-            sections.add(Section(UpgradeBannerItem(viewModel.countryCount, this::showUpgrade)))
+            sections.add(Section(UpgradeBannerItem(viewModel.countryCount, this::showBannerUpgrade)))
         }
         addSection(sections, R.string.server_search_countries_header, state.countries) {
-            CountryResultBinding(it, matchLength, ::connectCountry, viewModel::disconnect, this::showUpgrade)
+            CountryResultBinding(it, matchLength, ::connectCountry, viewModel::disconnect, this::showCountryUpgrade)
         }
         addSection(sections, R.string.server_search_cities_header, state.cities) {
-            CityResultBinding(it, matchLength, ::connectCity, viewModel::disconnect, this::showUpgrade)
+            CityResultBinding(it, matchLength, ::connectCity, viewModel::disconnect, this::showCountryUpgrade)
         }
         addSection(sections, R.string.server_search_servers_header, state.servers) {
-            ServerResultBinding(it, matchLength, ::connectServer, viewModel::disconnect, this::showUpgrade)
+            ServerResultBinding(it, matchLength, ::connectServer, viewModel::disconnect, this::showCountryUpgrade)
         }
         resultsAdapter.updateAsync(sections)
     }
@@ -152,7 +153,7 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
     private fun setSecureCoreResults(query: String, state: SearchViewModel.ViewState.ScSearchResults) {
         val sections = mutableListOf<Section>()
         addSection(sections, R.string.server_search_sc_countries_header, state.servers) {
-            SecureCoreServerResultBinding(it, query.length, ::connectServer, viewModel::disconnect, this::showUpgrade)
+            SecureCoreServerResultBinding(it, query.length, ::connectServer, viewModel::disconnect, this::showCountryUpgrade)
         }
         resultsAdapter.updateAsync(sections)
     }
@@ -211,8 +212,12 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
         viewModel.connectServer((requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate(), item)
     }
 
-    private fun showUpgrade() {
-        startActivity(Intent(requireContext(), UpgradePlusCountriesDialogActivity::class.java));
+    private fun showCountryUpgrade(countryCode: String) {
+        startActivity(UpgradeCountryDialogActivity.createIntent(requireContext(), countryCode))
+    }
+
+    private fun showBannerUpgrade() {
+        startActivity(Intent(requireContext(), UpgradePlusCountriesDialogActivity::class.java))
     }
 
     companion object {
