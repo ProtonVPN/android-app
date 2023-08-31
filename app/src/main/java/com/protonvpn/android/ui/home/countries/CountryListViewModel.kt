@@ -25,6 +25,7 @@ import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.appconfig.RestrictionsConfig
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bus.ConnectToProfile
@@ -41,7 +42,6 @@ import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.withPrevious
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -50,7 +50,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.scan
 import javax.inject.Inject
 
 data class RecommendedConnection(
@@ -85,10 +84,12 @@ class CountryListViewModel @Inject constructor(
         serverManager.serverListVersion,
         restrictConfig.restrictionFlow,
         currentUser.vpnUserFlow.map { it?.userTier }.distinctUntilChanged()
-    ) { secureCore, _, _, _ ->
-        val event =
-            if (wasSecureCore != null && wasSecureCore != secureCore) ListUpdateEvent.REFRESH_AND_SCROLL
-            else ListUpdateEvent.REFRESH_ONLY
+    ) { secureCore, _, _, userTier ->
+        val event = when {
+            wasSecureCore != null && wasSecureCore != secureCore && userTier == VpnUser.FREE_TIER ->
+                ListUpdateEvent.REFRESH_AND_SCROLL
+            else -> ListUpdateEvent.REFRESH_ONLY
+        }
         wasSecureCore = secureCore
         event
     }
