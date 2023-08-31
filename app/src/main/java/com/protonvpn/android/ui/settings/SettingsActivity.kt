@@ -174,7 +174,7 @@ class SettingsActivity : BaseActivityV2() {
             settings to restrictions
         }.flowWithLifecycle(lifecycle)
             .onEach { (settings, restrictions) ->
-                onUserDataUpdated(settings)
+                onUserDataUpdated(settings, restrictions)
                 onRestrictionsUpdated(restrictions)
                 if (isFirstUpdate) {
                     // Set listeners after initial values have been set, otherwise they will be triggered.
@@ -353,11 +353,14 @@ class SettingsActivity : BaseActivityV2() {
         switchShowSplitTunnel.setShowUpgrade(restrictions.splitTunneling)
     }
 
-    private fun onUserDataUpdated(localUserSettings: LocalUserSettings, ) = with(binding.contentSettings) {
+    private fun onUserDataUpdated(
+        localUserSettings: LocalUserSettings,
+        restrictions: Restrictions
+    ) = with(binding.contentSettings) {
         switchDnsOverHttps.isChecked = localUserSettings.apiUseDoh
         switchAutoStart.isChecked = localUserSettings.connectOnBoot
         switchShowSplitTunnel.isChecked = localUserSettings.splitTunneling.isEnabled
-        splitTunnelLayout.visibility = if (switchShowSplitTunnel.isChecked) VISIBLE else GONE
+        splitTunnelLayout.isVisible = switchShowSplitTunnel.isChecked && !restrictions.splitTunneling
         switchBypassLocal.isChecked = localUserSettings.lanConnections
         switchNonStandardPorts.isChecked = localUserSettings.safeMode != true
         switchModerateNat.isChecked = !localUserSettings.randomizedNat
