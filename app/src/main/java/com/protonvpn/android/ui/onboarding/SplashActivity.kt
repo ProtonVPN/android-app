@@ -27,6 +27,7 @@ import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.notification.presentation.deeplink.HandleDeeplinkIntent
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,6 +35,9 @@ class SplashActivity : AppCompatActivity() {
 
     @Inject
     lateinit var deepLinkHandler: DeepLinkHandler
+
+    @Inject
+    lateinit var handleDeeplinkIntent: HandleDeeplinkIntent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen().setKeepOnScreenCondition { true }
@@ -53,9 +57,16 @@ class SplashActivity : AppCompatActivity() {
             }
         )
 
+        handleDeeplinkIntent(intent)
+
         // Remove the task to make sure the main activity has its own. See VPNAND-763.
         finishAndRemoveTask()
         overridePendingTransition(0, 0) // Disable exit animation.
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let { handleDeeplinkIntent(it) }
     }
 
     private fun processDeepLink() {
