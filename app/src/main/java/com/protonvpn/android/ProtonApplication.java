@@ -154,8 +154,7 @@ public class ProtonApplication extends Application {
         DependencyEntryPoints dependencies = EntryPointAccessors.fromApplication(this, DependencyEntryPoints.class);
 
         // Start the EventLoop for all logged in Users.
-        // Currently disabled. Will enable when Account Recovery feature will be enabled.
-        // dependencies.getCoreEventManagerStarter().start();
+        dependencies.getCoreEventManagerStarter().start();
 
         // Logging
         dependencies.getCurrentStateLogger().logCurrentState();
