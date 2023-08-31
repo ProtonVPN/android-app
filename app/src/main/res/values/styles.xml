@@ -200,16 +200,6 @@
         <item name="shapeAppearance">@style/ShapeAppearance.Oval</item>
     </style>
 
-    <style name="ProtonSwitch.AlwaysOn">
-        <!-- Thumb tint is set programmatically -->
-        <item name="android:textColor">?attr/proton_text_norm</item>
-        <item name="trackTint">@color/switch_track_always_on</item>
-    </style>
-
-    <style name="ThemeOverlay.ProtonSwitchAlwaysOn" parent="">
-        <item name="switchStyle">@style/ProtonSwitch.AlwaysOn</item>
-    </style>
-
     <style name="ProtonTheme.Vpn.Mobile">
         <item name="protonVpnPowerButtonStyle">@style/PowerButton</item>
         <item name="serverLoadLow">@color/puerto_rico</item>

@@ -95,7 +95,6 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:enabled="false"
-            android:theme="@style/ThemeOverlay.ProtonSwitchAlwaysOn"
             app:infoText="@string/settingsDnsLeakDescription"
             app:title="@string/settingsDnsLeakProtectionTitle" />
 

@@ -29,6 +29,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.activity.result.ActivityResultCallback
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
@@ -337,7 +338,8 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun initDnsLeakProtection() {
         with(binding.contentSettings.switchDnsLeak.switchView) {
-            thumbTintList = ColorStateList.valueOf(alwaysOnThumbColor(this))
+            trackTintList = ColorStateList.valueOf(alwaysOnSwitchColor(this, R.attr.brand_lighten_40))
+            thumbTintList = ColorStateList.valueOf(alwaysOnSwitchColor(this, R.attr.brand_darken_20))
         }
     }
 
@@ -524,22 +526,22 @@ class SettingsActivity : BaseActivityV2() {
     }
 
     /**
-     * Generate the always-on thumb color by painting brand_darken_20 with 50% opacity on top
+     * Generate the always-on thumb or track color by painting its color with 50% opacity on top
      * of the background color.
      * Simply using alpha in the thumb color won't work because the track will show through - the
      * thumb needs to be fully opaque.
      */
     @Suppress("MagicNumber")
     @ColorInt
-    private fun alwaysOnThumbColor(view: View): Int {
+    private fun alwaysOnSwitchColor(view: View, @AttrRes colorAttr: Int): Int {
         val bg = MaterialColors.getColor(view, R.attr.proton_background_norm)
-        val thumb = MaterialColors.getColor(view, R.attr.brand_darken_20)
-        val thumbAlpha = 0x80
+        val color = MaterialColors.getColor(view, colorAttr)
+        val alpha = 0x80
         return combineArgb(
             0xff,
-            mixDstOver(bg.red, thumb.red, thumbAlpha),
-            mixDstOver(bg.green, thumb.green, thumbAlpha),
-            mixDstOver(bg.blue, thumb.blue, thumbAlpha)
+            mixDstOver(bg.red, color.red, alpha),
+            mixDstOver(bg.green, color.green, alpha),
+            mixDstOver(bg.blue, color.blue, alpha)
         )
     }
 
