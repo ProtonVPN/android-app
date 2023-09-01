@@ -36,6 +36,7 @@ import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
 import com.protonvpn.android.databinding.ItemUpgradeFeatureBinding
+import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.onClick
@@ -45,10 +46,11 @@ fun ViewGroup.addFeature(
     @DrawableRes iconRes: Int,
     highlighted: Boolean = false
 ) {
-    addFeature(context.getString(textRes), iconRes, highlighted)
+    val htmlText = context.getString(textRes)
+    addFeature(HtmlTools.fromHtml(htmlText), iconRes, highlighted)
 }
 
-fun ViewGroup.addFeature(text: String, @DrawableRes iconRes: Int, highlighted: Boolean = false) {
+fun ViewGroup.addFeature(text: CharSequence, @DrawableRes iconRes: Int, highlighted: Boolean = false) {
     val views = ItemUpgradeFeatureBinding.inflate(LayoutInflater.from(context), this, true)
     views.text.text = text
     views.icon.setImageResource(iconRes)
@@ -63,7 +65,7 @@ fun ActivityUpsellDialogBinding.initBinding(
     activity: AppCompatActivity,
     imageResource: Int?,
     title: String,
-    message: String? = null,
+    message: CharSequence? = null,
     @StringRes mainButtonLabel: Int,
     mainButtonAction: () -> Unit,
     @StringRes otherButtonLabel: Int? = null,
@@ -109,7 +111,7 @@ fun ActivityUpsellDialogBinding.initUpgradeBinding(
     viewModel: UpgradeDialogViewModel,
     imageResource: Int? = null,
     title: String,
-    message: String? = null,
+    message: CharSequence? = null,
     @StringRes otherButtonLabel: Int? = if (viewModel.showUpgrade()) R.string.upgrade_not_now_button else null,
     otherButtonAction: () -> Unit = { activity.finish() },
     initFeatures: (LinearLayout.() -> Unit)? = null
