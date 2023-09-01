@@ -41,6 +41,7 @@ import com.protonvpn.android.databinding.UpgradeCountryCustomImageBinding
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
@@ -197,7 +198,8 @@ class UpgradeSplitTunnelingDialogActivity : UpgradeDialogActivity(UpgradeSource.
             this,
             viewModel,
             imageResource = R.drawable.upgrade_split_tunneling,
-            title = getString(R.string.upgrade_split_tunneling_title)
+            title = getString(R.string.upgrade_split_tunneling_title),
+            message = HtmlTools.fromHtml(getString(R.string.upgrade_split_tunneling_message)),
         ) {
             addFeature(R.string.upgrade_split_tunneling_two_locations, R.drawable.ic_proton_map_pin)
             addFeature(R.string.upgrade_split_tunneling_feature_allow_exceptions, R.drawable.ic_proton_checkmark_circle)
@@ -348,9 +350,7 @@ class UpgradeModerateNatDialogActivity : UpgradeDialogActivity(UpgradeSource.MOD
             viewModel,
             imageResource = R.drawable.upgrade_moderate_nat,
             title = getString(R.string.upgrade_moderate_nat_title2),
-            message = getString(R.string.upgrade_moderate_nat_message2),
-            otherButtonLabel = R.string.upgrade_moderate_nat_learn_more,
-            otherButtonAction = { openProtonUrl(Constants.MODERATE_NAT_INFO_URL) }
+            message = HtmlTools.fromHtml(getString(R.string.upgrade_moderate_nat_message2)),
         ) {
             addFeature(R.string.upgrade_moderate_nat_feature_gaming, R.drawable.ic_proton_map_pin)
             addFeature(R.string.upgrade_moderate_nat_feature_optimize, R.drawable.ic_proton_checkmark_circle)

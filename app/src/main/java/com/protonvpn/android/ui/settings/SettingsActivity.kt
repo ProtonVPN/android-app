@@ -57,7 +57,7 @@ import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.ProtocolSelectionActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeCustomizationDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingDialogActivity
@@ -365,7 +365,8 @@ class SettingsActivity : BaseActivityV2() {
         switchNonStandardPorts.isChecked = localUserSettings.safeMode != true
         switchModerateNat.isChecked = !localUserSettings.randomizedNat
         if (appConfig.getFeatureFlags().vpnAccelerator) {
-            switchVpnAcceleratorNotifications.isVisible = localUserSettings.vpnAccelerator
+            switchVpnAcceleratorNotifications.isVisible =
+                localUserSettings.vpnAccelerator && !restrictions.vpnAccelerator
             switchVpnAccelerator.isChecked = localUserSettings.vpnAccelerator
             switchVpnAcceleratorNotifications.isChecked = localUserSettings.vpnAcceleratorNotifications
         }
@@ -446,7 +447,7 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun tryToggleBypassLocal() {
         if (binding.contentSettings.switchBypassLocal.inUpgradeMode) {
-            launchActivity<UpgradeCustomizationDialogActivity>()
+            launchActivity<UpgradeAllowLanDialogActivity>()
         } else {
             tryToggleSwitch(
                 PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG,
