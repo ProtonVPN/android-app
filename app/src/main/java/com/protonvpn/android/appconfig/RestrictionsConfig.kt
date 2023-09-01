@@ -87,6 +87,9 @@ data class Restrictions(
 ) {
     constructor(restrict: Boolean, changeServerConfig: ChangeServerConfig)
         : this(restrict, restrict, restrict, restrict, restrict, restrict, restrict, restrict, changeServerConfig)
+
+    val isRestricted: Boolean =
+        serverList || map || profile || quickConnect || vpnAccelerator || lan || splitTunneling || safeMode
 }
 
 data class ChangeServerConfig(

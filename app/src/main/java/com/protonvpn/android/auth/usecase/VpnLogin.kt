@@ -24,7 +24,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
@@ -33,9 +32,9 @@ import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.ui.onboarding.WhatsNewFreeController
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.Reusable
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import me.proton.core.network.domain.ApiResult
@@ -46,17 +45,15 @@ import javax.inject.Inject
 
 @Reusable
 class VpnLogin @Inject constructor(
-    val mainScope: CoroutineScope,
-    val api: ProtonApiRetroFit,
-    val sessionProvider: SessionProvider,
-    val vpnUserDao: VpnUserDao,
-    val certificateRepository: CertificateRepository,
-    val currentUser: CurrentUser,
-    val purchaseEnabled: CachedPurchaseEnabled,
-    val appConfig: AppConfig,
-    val serverListUpdater: ServerListUpdater,
-    val guestHole: GuestHole,
-    private val appFeaturesPrefs: AppFeaturesPrefs,
+    private val api: ProtonApiRetroFit,
+    private val sessionProvider: SessionProvider,
+    private val vpnUserDao: VpnUserDao,
+    private val certificateRepository: CertificateRepository,
+    private val purchaseEnabled: CachedPurchaseEnabled,
+    private val appConfig: AppConfig,
+    private val serverListUpdater: ServerListUpdater,
+    private val guestHole: GuestHole,
+    private val whatsNewFreeController: WhatsNewFreeController
 ) {
     sealed class Result {
         class Success(val vpnUser: VpnUser) : Result()
@@ -65,8 +62,6 @@ class VpnLogin @Inject constructor(
     }
 
     suspend operator fun invoke(user: User, context: Context): Result = coroutineScope {
-        // Only show what's new for users who are logged-in
-        appFeaturesPrefs.showWhatsNew = false
         purchaseEnabled.refresh()
         val sessionId = sessionProvider.getSessionId(user.userId)
         requireNotNull(sessionId)
@@ -121,6 +116,7 @@ class VpnLogin @Inject constructor(
         if (guestHole.isGuestHoleActive)
             serverListUpdater.updateServerList(null)
         guestHole.releaseNeedGuestHole(GUEST_HOLE_ID)
+        whatsNewFreeController.initOnLogin()
     }
 
     companion object {
