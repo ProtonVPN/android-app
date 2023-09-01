@@ -23,6 +23,9 @@ import android.telephony.TelephonyManager
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
+import com.protonvpn.android.appconfig.ChangeServerConfig
+import com.protonvpn.android.appconfig.Restrictions
+import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
@@ -86,8 +89,6 @@ class ServerListUpdaterTests {
     @get:Rule
     val instantTaskExecutor = InstantTaskExecutorRule()
 
-    private lateinit var mockRemoteConfig: ServerListUpdaterRemoteConfig
-
     @MockK
     private lateinit var mockApi: ProtonApiRetroFit
     @MockK
@@ -105,8 +106,10 @@ class ServerListUpdaterTests {
     @RelaxedMockK
     private lateinit var mockPeriodicUpdateManager: PeriodicUpdateManager
 
-    private lateinit var testScope: TestScope
+    private lateinit var remoteConfig: ServerListUpdaterRemoteConfig
+    private lateinit var restrictionsFlow: MutableStateFlow<Restrictions>
     private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
+    private lateinit var testScope: TestScope
     private lateinit var vpnStateMonitor: VpnStateMonitor
 
     private lateinit var serverListUpdater: ServerListUpdater
@@ -119,7 +122,7 @@ class ServerListUpdaterTests {
         serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         serverListUpdaterPrefs.ipAddress = OLD_IP
         vpnStateMonitor = VpnStateMonitor()
-        mockRemoteConfig = ServerListUpdaterRemoteConfig(
+        remoteConfig = ServerListUpdaterRemoteConfig(
             MutableStateFlow(
                 ServerListUpdaterRemoteConfig.Config(
                     backgroundDelayMs = BACKGROUND_DELAY_MS,
@@ -127,6 +130,7 @@ class ServerListUpdaterTests {
                 )
             )
         )
+        restrictionsFlow = MutableStateFlow(Restrictions(false, ChangeServerConfig(100, 4, 60)))
         coEvery { guestHole.runWithGuestHoleFallback(any<suspend () -> Any?>()) } coAnswers { firstArg<suspend () -> Any?>()() }
         coEvery { mockCurrentUser.isLoggedIn() } returns true
         coEvery { mockCurrentUser.eventVpnLogin } returns emptyFlow()
@@ -162,7 +166,8 @@ class ServerListUpdaterTests {
             mockPeriodicUpdateManager,
             emptyFlow(),
             emptyFlow(),
-            mockRemoteConfig
+            remoteConfig,
+            RestrictionsConfig(testScope.backgroundScope, restrictionsFlow),
         ) { testScope.currentTime + TimeUnit.DAYS.toMillis(100) } // Move wall clock away from epoch
     }
 
@@ -244,6 +249,22 @@ class ServerListUpdaterTests {
         // Updating tier 0 with empty list removes all tier 0 servers
         assertEquals(FULL_LIST.filter { it.tier != 0 }, FULL_LIST.updateTier(emptyList(), 0))
         assertTrue(FULL_LIST.updateTier(FREE_LIST_MODIFIED, 0).isModifiedList())
+    }
+
+    @Test
+    fun `servers updated for free user on restrictions change`() = testScope.runTest {
+        coEvery { mockCurrentUser.vpnUser() } returns TestUser.plusUser.vpnUser
+        restrictionsFlow.value = Restrictions(true, ChangeServerConfig(100, 4, 60))
+        // No update for plus user.
+        coVerify(exactly = 0) {
+            mockPeriodicUpdateManager.executeNow<Any, Any>(match { it.id == "server_list" })
+        }
+
+        coEvery { mockCurrentUser.vpnUser() } returns TestUser.freeUser.vpnUser
+        restrictionsFlow.value = Restrictions(false, ChangeServerConfig(100, 4, 60))
+        coVerify(exactly = 1) {
+            mockPeriodicUpdateManager.executeNow<Any, Any>(match { it.id == "server_list" })
+        }
     }
 
     private fun List<Server>.isModifiedList() =
