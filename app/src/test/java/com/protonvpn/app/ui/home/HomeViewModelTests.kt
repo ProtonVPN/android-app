@@ -66,7 +66,8 @@ class HomeViewModelTests {
             onSessionClosed = mockk(relaxed = true),
             purchaseEnabled = mockk(),
             appFeaturesPrefs = mockk(relaxed = true),
-            restrictionsConfig = mockk(relaxed = true)
+            restrictionsConfig = mockk(relaxed = true),
+            whatsNewFreeController = mockk(relaxed = true)
         )
     }
 

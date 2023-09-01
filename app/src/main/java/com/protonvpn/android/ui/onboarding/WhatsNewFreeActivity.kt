@@ -21,15 +21,15 @@ package com.protonvpn.android.ui.onboarding
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.protonvpn.android.databinding.ActivityWhatsNewBinding
+import com.protonvpn.android.databinding.ActivityWhatsNewFreeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.viewBinding
 
 @AndroidEntryPoint
-class WhatsNewActivity : AppCompatActivity() {
+class WhatsNewFreeActivity : AppCompatActivity() {
 
-    private val binding by viewBinding(ActivityWhatsNewBinding::inflate)
+    private val binding by viewBinding(ActivityWhatsNewFreeBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

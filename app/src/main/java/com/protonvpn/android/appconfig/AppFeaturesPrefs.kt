@@ -22,9 +22,12 @@ package com.protonvpn.android.appconfig
 import android.content.SharedPreferences
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import dagger.Reusable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
 import me.proton.core.util.android.sharedpreferences.boolean
 import me.proton.core.util.android.sharedpreferences.long
+import me.proton.core.util.android.sharedpreferences.observe
 import me.proton.core.util.android.sharedpreferences.string
 import javax.inject.Inject
 
@@ -43,9 +46,11 @@ class AppFeaturesPrefs @Inject constructor(
 
     var lastAppInUseTimestamp: Long by long(Long.MAX_VALUE)
 
-    var showWhatsNew: Boolean by boolean(true)
+    var showWhatsNew: Boolean by boolean(default = true, key = KEY_SHOW_WHATS_NEW)
+    val showWhatsNewFlow: Flow<Boolean> = preferences.observe<Boolean>(KEY_SHOW_WHATS_NEW).map { it ?: true }
 
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
+        private const val KEY_SHOW_WHATS_NEW = "showWhatsNew"
     }
 }

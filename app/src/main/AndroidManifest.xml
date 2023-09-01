@@ -264,7 +264,7 @@
         <activity android:name=".ui.home.FreeConnectionsInfoActivity"
             android:label="@string/free_connection_info_title"/>
 
-        <activity android:name=".ui.onboarding.WhatsNewActivity" />
+        <activity android:name=".ui.onboarding.WhatsNewFreeActivity" />
         <activity android:name=".ui.planupgrade.UpgradeNetShieldDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeModerateNatDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />

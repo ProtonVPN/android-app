@@ -86,7 +86,7 @@ import com.protonvpn.android.ui.home.vpn.VpnActivity;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
-import com.protonvpn.android.ui.onboarding.WhatsNewActivity;
+import com.protonvpn.android.ui.onboarding.WhatsNewFreeActivity;
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
@@ -192,6 +192,13 @@ public class HomeActivity extends VpnActivity {
             onConnect(profile, trigger);
         });
 
+        viewModel.shouldShowWhatsNew().observe(this, (showDialog) -> {
+            if (showDialog) {
+                startActivity(new Intent(this, WhatsNewFreeActivity.class));
+                viewModel.onWhatsNewShown();
+            }
+        });
+
         new PromoOfferNotificationHelper(this, imageNotification,
             new ViewModelProvider(this).get(PromoOfferNotificationViewModel.class));
 
@@ -208,11 +215,6 @@ public class HomeActivity extends VpnActivity {
                 .setMessage(R.string.ikev2_removed_dialog_message)
                 .setPositiveButton(R.string.ok, (dialog, button) -> viewModel.setShowIKEv2Migration(false))
                 .show();
-        }
-
-        if (viewModel.shouldShowWhatsNew()) {
-            startActivity(new Intent(this, WhatsNewActivity.class));
-            viewModel.onWhatsNewShown();
         }
     }
 
