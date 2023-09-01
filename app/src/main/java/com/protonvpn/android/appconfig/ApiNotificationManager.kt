@@ -184,9 +184,9 @@ class ApiNotificationManager @Inject constructor(
             fullScreenImageSize.width,
             fullScreenImageSize.height
         )
-        response.valueOrNull?.let {
-            apiNotificationsResponse.value = it
-            Storage.save(response)
+        response.valueOrNull?.let { notifications ->
+            apiNotificationsResponse.value = notifications
+            Storage.save(notifications, ApiNotificationsResponse::class.java)
         }
         return response
     }

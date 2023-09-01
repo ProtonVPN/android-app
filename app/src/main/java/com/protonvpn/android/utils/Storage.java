@@ -121,6 +121,7 @@ public final class Storage {
         return preferences.getString(key, defValue);
     }
 
+    @Deprecated // Use the variant that takes class argument for type safety.
     public static void save(@Nullable Object data) {
         if (data != null) {
             String key = data.getClass().getName();

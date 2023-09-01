@@ -57,6 +57,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
@@ -64,6 +65,7 @@ import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -90,6 +92,7 @@ class ApiNotificationManagerTests {
     private lateinit var mockPeriodicUpdateManager: PeriodicUpdateManager
 
     private lateinit var appFeaturesPrefs: AppFeaturesPrefs
+    private lateinit var testDispatcher: TestDispatcher
     private lateinit var testScope: TestScope
     private lateinit var infoChangeFlow: MutableSharedFlow<List<UserPlanManager.InfoChange>>
     private lateinit var appConfigFlow: MutableStateFlow<AppConfigResponse>
@@ -107,7 +110,7 @@ class ApiNotificationManagerTests {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
         appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
-        val testDispatcher = UnconfinedTestDispatcher()
+        testDispatcher = UnconfinedTestDispatcher()
         testScope = TestScope(testDispatcher)
 
         appConfigFlow = MutableStateFlow(
@@ -130,20 +133,7 @@ class ApiNotificationManagerTests {
         mockkObject(PromoOfferImage)
         every { PromoOfferImage.getFullScreenImageMaxSizePx(any()) } returns PromoOfferImage.Size(100, 100)
 
-        notificationManager = ApiNotificationManager(
-            mockContext,
-            testScope.backgroundScope,
-            TestDispatcherProvider(testDispatcher),
-            { testScope.currentTime },
-            mockAppConfig,
-            mockApi,
-            mockCurrentUser,
-            mockUserPlanManager,
-            mockImagePrefercher,
-            mockPeriodicUpdateManager,
-            flowOf(true),
-            flowOf(true)
-        )
+        notificationManager = createNotificationsManager()
     }
 
     @Test
@@ -243,4 +233,35 @@ class ApiNotificationManagerTests {
             mockPeriodicUpdateManager.executeNow<Any, Any>(match { it.id == "in-app notifications" })
         }
     }
+
+    @Test
+    fun `notifications fetched from API are restored on restart`() = testScope.runTest {
+        mockResponse(
+            mockOffer("offer 1", 0, 10),
+            mockOffer("offer 2", 0, 20),
+        )
+        val expectedNotificationIds = listOf("offer 1", "offer 2")
+        notificationManager.updateNotifications()
+        assertEquals(expectedNotificationIds, notificationManager.activeListFlow.first().map { it.id })
+
+        val newNotificationManager = createNotificationsManager()
+        val notificationIds = newNotificationManager.activeListFlow.first().map { it.id }
+        assertEquals(expectedNotificationIds, notificationIds)
+    }
+
+    private fun createNotificationsManager() =
+        ApiNotificationManager(
+            mockContext,
+            testScope.backgroundScope,
+            TestDispatcherProvider(testDispatcher),
+            { testScope.currentTime },
+            mockAppConfig,
+            mockApi,
+            mockCurrentUser,
+            mockUserPlanManager,
+            mockImagePrefercher,
+            mockPeriodicUpdateManager,
+            flowOf(true),
+            flowOf(true)
+        )
 }
