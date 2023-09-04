@@ -130,11 +130,6 @@
     <string name="errorEmptyServer">Sunucu alanı boş olamaz</string>
     <string name="errorEmptyEntryCountry">Giriş ülkesi alanı boş olamaz</string>
     <string name="errorEmptyExitCountry">Çıkış ülkesi alanı boş olamaz</string>
-    <string name="onboardingDialogMapView">Bağlantının ve VPN sunucusunun nerede olduğunu görmek için garita görünümünü kullanın.</string>
-    <string name="onboardingDialogProfiles">Beğendiğiniz sunucular için profiller oluşturarak bunlara kolayca erişin. Ayrıca, alt ekrandaki Proton VPN simgesine uzunca dokunarak tüm profillerinizi görebilirsiniz. Profillerden birine dokunarak VPN bağlantısı kurabilirsiniz.</string>
-    <string name="onboardingNetshield">Kötü amaçlı yazılımlardan, reklamlardan ve etkinlik izleyicilerden korunmanızı sağlar. \nNot: Bazı siteler yüklenmezse, NetShield korumasını kapatmayı deneyin.</string>
-    <string name="onboardingFAB">Hızlı bağlan / Profiller</string>
-    <string name="onboardingFABDescription">En hızlı şekilde bağlanmak için bu düğmeye tıklayın</string>
     <string name="onboardingSignup">Hesap açın</string>
     <string name="onboardingSkip">Atla</string>
     <string name="onboardingNext">Sonraki</string>
@@ -211,6 +206,7 @@
     <string name="countryServersHeader">Ülke sunucuları</string>
     <string name="secureCoreCountriesHeader">Secure Core ülkeleri</string>
     <string name="recommendedProfilesHeader">Önerilen profiller</string>
+    <string name="free_connection_header">Ücretsiz bağlantı</string>
     <string name="yourProfilesHeader">Profilleriniz</string>
     <string name="exitCountry">Çıkış ülkesi</string>
     <string name="entryCountry">Giriş ülkesi</string>
@@ -352,7 +348,6 @@
     <string name="netShieldBlockMalwareOnly">Yalnızca kötü amaçlı yazılımlar engellensin</string>
     <string name="netShieldFullBlock">Kötü amaçlı yazılımlar, etkinlik izleyiciler ve reklamlar engellensin</string>
     <string name="dialogDontShowAgain">Bir daha gösterme</string>
-    <string name="paidFeature">Ücretli özellik</string>
     <string name="guestHoleActivated">Bölgenizde Proton VPN erişimi sınırlı olabilir. Bu nedenle bu işlem normalden daha uzun sürecek. Lütfen biz bu sorunu çözerken bekleyin.</string>
     <string name="guestHoleNotificationContent">Ağ sorunları aşılmaya çalışılıyor. Bu işlem Proton VPN hizmetine erişmenize yardımcı olacak.</string>
     <string name="onMaintenanceDetected">Bağlandığınız VPN sunucusunda bakım yapılıyor. Bağlantınızı otomatik olarak en hızlı sunucuya geçirdik.</string>
@@ -476,6 +471,22 @@
     <string name="upgrade_secure_core_countries">İsviçre, İsveç ve İzlanda\'daki çok yüksek güvenlikli sunucuları kullanabilirsiniz</string>
     <string name="upgrade_secure_core_encryption">VPN bağlantınıze ek bir şifreleme düzeyi ekleyebilirsiniz</string>
     <string name="upgrade_secure_core_protect">Kendinizi ağ saldırılarından koruyabilirsiniz</string>
+    <string name="upgrade_profiles_title">Sık kullandığınız bağlantılara hızla erişin</string>
+    <string name="upgrade_profiles_text">VPN Plus tarifesi ile profiiller özelliğini edinin</string>
+    <string name="upgrade_profiles_feature_save">Yeğlediğiniz sunucuyu, ili ve ülkeyi kaydedin</string>
+    <string name="upgrade_profiles_feature_customize">Özel iletişim kuralları ayarlayın ve ücretli VPN özelliklerine erişin</string>
+    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds (up to 10 Gbps).</string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Increase connection speeds by up to 400% with <b>VPN Accelerator</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_distant_servers">Improved speed and stability when connected to distant servers.</string>
+    <string name="upgrade_vpn_accelerator_feature_less_crowded">Daha hızlı ve daha az kalabalık sunuculara erişin</string>
+    <string name="upgrade_split_tunneling_title">İki dünyanın da en iyisini edinin</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Unlock <b>split tunneling</b> with VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_two_locations">Ayrılmış tünelleme ile aynı anda iki farklı konumdan gezinin</string>
+    <string name="upgrade_split_tunneling_feature_allow_exceptions">VPN ile kalan her şeyi korurken güvenilir uygulamaların ve IP adreslerinin doğrudan internet bağlantısı kurmasına izin verin</string>
+    <string name="upgrade_customization_title">Gelişmiş VPN özelleştirmelerine erişin</string>
+    <string name="upgrade_customization_lan"><![CDATA[Access devices on your <b>local area network (LAN)</b>]]></string>
+    <string name="upgrade_customization_feature_profiles"><![CDATA[Save frequently used connections with <b>profiles</b>]]></string>
+    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Get instant access to your profiles with <b>Quick Connect</b>]]></string>
     <string name="upgrade_netshield_block_ads">Reklam ve etkinlik izleyicileri engelleyebilirsiniz</string>
     <string name="upgrade_netshield_block_malware">Aygıtınızı kötü amaçlı yazılımlardan koruyabilirsiniz</string>
     <string name="upgrade_netshield_speed">En yüksek hızlarda gezinebilirsiniz</string>
@@ -488,16 +499,6 @@
     <plurals name="upgrade_plus_servers_new">
         <item quantity="one">%d güvenli sunucu</item>
         <item quantity="other">%d güvenli sunucu</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
-
-     Example:
-     1200+ secure servers
-     -->
-    <plurals name="upgrade_plus_secure_servers">
-        <item quantity="one">%d güvenli sunucu</item>
-        <item quantity="other">%d+ güvenli sunucu</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -516,13 +517,6 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">%1$s ile %2$s erişim</string>
-    <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_secure_servers"
-
-     Example:
-     You now have access to 1300+ secure servers and other premium features.
-     -->
-    <string name="onboarding_plan_congrats_description">Artık %1$s ve diğer ek özelliklere erişebilirsiniz.</string>
     <string name="upgrade_plus_countries_streaming">Tüm dünyaradaki yayın akışı hizmetlerine erişin</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
@@ -534,10 +528,6 @@
     <string name="upgrade_plus_countries_more">Ve pek çok diğer ücretli özellik</string>
     <string name="upgrade_safe_mode_title">Standart olmayan bağlantı noktalarından trafik geçebilsin</string>
     <string name="upgrade_safe_mode_message">Standart olmayan bağlantı noktaları kullanmanızı gerektiren gelişmiş veya profesyonel bilgi işlem gereksinimleriniz mi var? Bu ve diğer ücretli özelliklere erişmek için VPN Plus tarifesine yükseltin.</string>
-    <string name="upgrade_moderate_nat_title">Ilımlı NAT kullanılsın</string>
-    <string name="upgrade_moderate_nat_message">Ilımlı NAT, 2. tür NAT olarak da bilinir ve çeşitli uygulamalar ve çevrim içi video oyunlarıyla ilgili çevrim içi deneyiminizi iyileştirebilir. Plus tarifesi ile bu ve başka özellikleri kullanabilirsiniz.</string>
-    <string name="upgrade_moderate_nat_learn_more">Ilımlı NAT nedir?</string>
-    <string name="upgrade_see_plans_button">Tarifelere ve ücretlere bakın</string>
     <string name="upgrade_not_now_button">Şimdi değil</string>
     <string name="upgrade_learn_more">Ayrıntılı bilgi alın</string>
     <!-- Information activity -->
@@ -612,7 +602,6 @@
     <string name="onboading_connecting_now">Bağlanıyor</string>
     <string name="onboarding_congrats_description">Bağlantınız korunmaya başladı ve web üzerinde gezinebilirsiniz.\n\nGüvenle.</string>
     <string name="onboarding_congrats_title">Tebrikler!</string>
-    <string name="onboarding_plan_congrats_description_privacy">Gizliliğe saygı duyulan bir dünyanın tadını çıkarın.</string>
     <string name="onboading_connect_to_plus">Bir Plus sunucusuna bağlanın</string>
     <string name="upgrade_use_limited_free_button">Sınırlı Free tarifesini kullanın</string>
     <string name="dynamic_report_suggestion_didnt_work">İşe yaramadı mı?</string>
@@ -657,17 +646,84 @@
     <string name="search_recents_header_title">Son bakılanlar (%1$d)</string>
     <string name="search_clear_history">Geçmişi temizle</string>
     <string name="search_clear_history_dialog">Arama geçmişiniz kaybolacak. İlerlensin mi?</string>
-    <!-- Parameters:
-     %1$s - number of countries. It is never 1.
-
-     Example: Access all 63 countries. -->
-    <plurals name="search_upgrade_banner_title">
-        <item quantity="one">%1$d ülkeye erişin</item>
-        <item quantity="other">%1$d ülkeye erişin</item>
-    </plurals>
-    <string name="search_upgrade_banner_subtitle">Daha fazla konum = daha fazla engelsiz içerik + ek güvenlik + daha yüksek hız</string>
     <string name="ikev2_removed_dialog_title">IKEv2 VPN iletişim kuralı artık kullanılmıyor</string>
     <string name="ikev2_removed_dialog_message">Daha önce IKEv2 kullanan varsayılan ayarlar ve profiller artık Smart Protocol kullanacak.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Ayrıntılı bilgi almak için <a href="https://protonvpn.com/pricing">protonvpn.com</a> sayfasına bakın.</string>
+    <string name="free_upsell_header_title">VPN Plus tarifesi ile %1$d ülkenin tümünden gezinin</string>
+    <!-- Example: Want to connect to Italy? -->
+    <string name="upgrade_country_title">Belirli bir ülke seçmek ister misiniz?</string>
+    <string name="upgrade_country_message">VPN Plus tarifesi ile tüm ülkelerden seçim yapın</string>
+    <string name="upgrade_country_feature_money_back">30 gün içinde ücret iade garantisi</string>
+    <!-- Example: Higher speeds (10 Gbps) -->
+    <string name="upgrade_country_feature_speed">Daha yüksek hızlar (%1$d Gb/sn)</string>
+    <string name="upgrade_country_feature_stream">Sevdiğiniz filmleri izleyin</string>
+    <plurals name="upgrade_country_feature_protect">
+        <item quantity="one">%1$d aygıta kadar koruyun</item>
+        <item quantity="other">%1$d aygıta kadar koruyun</item>
+    </plurals>
+    <plurals name="upgrade_country_feature_count">
+        <item quantity="one">%1$d ülkeden gezinin</item>
+        <item quantity="other">%1$d ülkeden gezinin</item>
+    </plurals>
+    <string name="upgrade_moderate_nat_title2">Oyun deneyiminizi üst düzeye çıkarın</string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Unlock <b>NAT Type 2</b> with VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_feature_gaming">Çevrim içi oyun ve görüntülü görüşme başarımını artırın</string>
+    <string name="upgrade_moderate_nat_feature_optimize">NAT Type 2 (ortalama) aygıtlar arasında doğrudan bağlantı kurulmasını sağlayarak hız ve kararlılığı iyileştirir</string>
+    <string name="free_connections_info_message">Proton Free sizi otomatik olarak kullanılabilecek en hızlı sunucuya bağlar. Bu sunucu normalde konumunuza en yakın sunucudur.</string>
+    <string name="free_connections_info_server_locations">Free sunucuları konumları (%1$d)</string>
+    <string name="free_connections_info_banner_text">VPN Plus tarifesi ile tüm Dünya\'ya erişin</string>
+    <string name="free_connection_info_title">Free bağlantıları</string>
+    <string name="search_upsell_banner_title">Yayın akışlarını her yerden izleyin</string>
+    <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
+    <plurals name="search_upsell_banner_message">
+        <item quantity="one">VPN Plus tarifesiyle coğrafi olarak engellenen içeriğe %1$d ülkeden erişin</item>
+        <item quantity="other">VPN Plus tarifesiyle coğrafi olarak engellenen içeriğe %1$d ülkeden erişin</item>
+    </plurals>
+    <string name="server_change_max_reached">Yapabileceğiniz en fazla Free sunucu değişikliği sayısına ulaştınız.</string>
+    <string name="server_change_upsell">VPN Plus tarifesi ile sınırsız değişim sayısı edinin</string>
+    <string name="server_change_button_title">Sunucu değiştir</string>
+    <string name="not_wanted_country_title">İstediğiniz ülke değil mi?</string>
+    <string name="not_wanted_country_description">İstediğiniz sunucuyu seçebilmek için tarifenizi yükseltin</string>
+    <string name="whats_new_title">Yenilikler</string>
+    <string name="whats_new_added_countries_title">Yeni Free ülkeleri</string>
+    <string name="whats_new_added_countries_description">Artık Polonya ve Romanya\'da Free sunucuları var.</string>
+    <string name="whats_new_server_selection_title">Sunucu seçimindeki değişiklikler</string>
+    <string name="whats_new_server_selection_description">Sunucu kalabalığını önlemek ve herkesin hızlı ve güvenli gezinmeye erişmesini sağlamak için el ile ülke seçimini kaldırdık ve otomatik sunucu seçiminde önemli iyileştirmeler yaptık.</string>
+    <string name="welcome_plus_title">VPN Plus tarifesine hoş geldiniz</string>
+    <string name="welcome_plus_description">Ek gizlilik özelliklerinin, güçlendirilmiş başarımın ve üst düzey VPN özelleştirmenin tadını çıkarın.</string>
+    <string name="welcome_plus_feature_security">Gelişmiş güvenlik özellikleri</string>
+    <!-- Example: Up to 10 devices at once
+         In practice one will never be a value here -->
+    <plurals name="welcome_plus_feature_devices">
+        <item quantity="one">Aynı anda %1$d aygıta kadar</item>
+        <item quantity="other">Aynı anda %1$d aygıta kadar</item>
+    </plurals>
+    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ new servers
+     -->
+    <plurals name="welcome_plus_servers">
+        <item quantity="one">%d yeni sunucu</item>
+        <item quantity="other">%d yeni sunucu</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="welcome_plus_countries">
+        <item quantity="one">%d ülke</item>
+        <item quantity="other">%d ülke</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "welcome_plus_servers"
+     %2$s - replaced with "welcome_plus_countries"
+
+     Example:
+     1800+ new servers in 68 countries
+     -->
+    <string name="welcome_plus_feature_servers_count">%2$s içinde %1$s</string>
 </resources>
