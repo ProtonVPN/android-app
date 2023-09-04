@@ -130,11 +130,6 @@
     <string name="errorEmptyServer">El campo de servidor no puede estar vacío</string>
     <string name="errorEmptyEntryCountry">El campo de país de entrada no puede estar vacío</string>
     <string name="errorEmptyExitCountry">El campo de país de salida no puede estar vacío</string>
-    <string name="onboardingDialogMapView">Utilice la vista de mapa para conectarse y ver dónde está el servidor VPN.</string>
-    <string name="onboardingDialogProfiles">Cree perfiles para sus servidores favoritos y tener un acceso fácil a ellos. Además, un toque largo en el ícono de Proton VPN en la pantalla inferior le mostrará todos sus perfiles. Un toque uno de los perfiles le conectará al VPN.</string>
-    <string name="onboardingNetshield">Le mantiene protegido contra malware, anuncios y rastreadores.\nNota: si algunos sitios no se cargan, intente desactivar NetShield.</string>
-    <string name="onboardingFAB">Conexión rápida / Perfiles</string>
-    <string name="onboardingFABDescription">Toque este botón para la forma más rápida de conectarse</string>
     <string name="onboardingSignup">Registrarse</string>
     <string name="onboardingSkip">Omitir</string>
     <string name="onboardingNext">Siguiente</string>
@@ -211,6 +206,7 @@
     <string name="countryServersHeader">Servidores del país</string>
     <string name="secureCoreCountriesHeader">Países con Secure Core</string>
     <string name="recommendedProfilesHeader">Perfiles recomendados</string>
+    <string name="free_connection_header">Conexión gratuita</string>
     <string name="yourProfilesHeader">Sus perfiles</string>
     <string name="exitCountry">País de salida</string>
     <string name="entryCountry">País de entrada</string>
@@ -352,7 +348,6 @@
     <string name="netShieldBlockMalwareOnly">Bloquear malware solamente</string>
     <string name="netShieldFullBlock">Bloquear malware, rastreadores, anuncios</string>
     <string name="dialogDontShowAgain">No volver a mostrar</string>
-    <string name="paidFeature">Función de pago</string>
     <string name="guestHoleActivated">El acceso a Proton VPN podría estar limitado en su área, por lo que esto tomará más tiempo de lo usual. Espere mientras trabajamos en este problema.</string>
     <string name="guestHoleNotificationContent">Intentando eludir problemas de red. Esto le ayudará a acceder a Proton VPN.</string>
     <string name="onMaintenanceDetected">El servidor VPN al que estaba conectado está en mantenimiento. Lo reconectamos automáticamente al servidor más rápido disponible.</string>
@@ -476,6 +471,22 @@
     <string name="upgrade_secure_core_countries">Enrute a través de servidores ultra seguros en Suiza, Suecia e Islandia</string>
     <string name="upgrade_secure_core_encryption">Añada otra capa de cifrado a su conexión VPN</string>
     <string name="upgrade_secure_core_protect">Protéjase de los ataques de red</string>
+    <string name="upgrade_profiles_title">Obtenga acceso rápido a sus conexiones frecuentes</string>
+    <string name="upgrade_profiles_text">Desbloquee perfiles con VPN Plus</string>
+    <string name="upgrade_profiles_feature_save">Guarde su servidor, ciudad o país preferido</string>
+    <string name="upgrade_profiles_feature_customize">Establezca protocolos personalizados y funciones VPN premium</string>
+    <string name="upgrade_vpn_accelerator_title">Navegue a velocidades aún mayores (hasta 10 Gbps).</string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Aumente la velocidad de conexión hasta 400% con <b>VPN Accelerator</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_distant_servers">Velocidad y estabilidad mejoradas cuando se conecta a servidores distantes.</string>
+    <string name="upgrade_vpn_accelerator_feature_less_crowded">Acceda a servidores más rápidos y menos concurridos</string>
+    <string name="upgrade_split_tunneling_title">Obtenga lo mejor de ambas opciones</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Desbloquee el <b>túnel dividido</b> con VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_two_locations">Navegue desde dos ubicaciones a la vez con túnel dividido</string>
+    <string name="upgrade_split_tunneling_feature_allow_exceptions">Permita apps de confianza y direcciones IP conectarse directamente a internet, mientras protege todo lo demás con su VPN</string>
+    <string name="upgrade_customization_title">Desbloquee personalizaciones VPN avanzadas</string>
+    <string name="upgrade_customization_lan"><![CDATA[Acceda a dispositivos en su <b>red local (LAN)</b>]]></string>
+    <string name="upgrade_customization_feature_profiles"><![CDATA[Guarde las conexiones frecuentes con <b>perfiles</b>]]></string>
+    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Acceda rápidamente a sus perfiles con <b>Conexión Rápida</b>]]></string>
     <string name="upgrade_netshield_block_ads">Bloquear anuncios y rastreadores</string>
     <string name="upgrade_netshield_block_malware">Proteja su dispositivo de malware</string>
     <string name="upgrade_netshield_speed">Navegue a las velocidades máximas</string>
@@ -486,16 +497,6 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d servidor seguro</item>
-        <item quantity="other">%d servidores seguros</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
-
-     Example:
-     1200+ secure servers
-     -->
-    <plurals name="upgrade_plus_secure_servers">
         <item quantity="one">%d servidor seguro</item>
         <item quantity="other">%d servidores seguros</item>
     </plurals>
@@ -516,13 +517,6 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Acceso a más de %1$s en %2$s</string>
-    <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_secure_servers"
-
-     Example:
-     You now have access to 1300+ secure servers and other premium features.
-     -->
-    <string name="onboarding_plan_congrats_description">Ahora tiene acceso a %1$s y otras funciones premium.</string>
     <string name="upgrade_plus_countries_streaming">Acceda a servicios de transmisión global</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
@@ -534,10 +528,6 @@
     <string name="upgrade_plus_countries_more">Y mucho más funciones premium</string>
     <string name="upgrade_safe_mode_title">Permitir el tráfico a puertos no estándar</string>
     <string name="upgrade_safe_mode_message">¿Tiene necesidades informáticas avanzadas o profesionales que requieren puertos no estándar? Actualice a VPN Plus para acceder a esta y otras funciones premium.</string>
-    <string name="upgrade_moderate_nat_title">Habilitar NAT moderada</string>
-    <string name="upgrade_moderate_nat_message">La NAT moderada, también conocida como NAT Tipo 2, puede mejorar su experiencia en línea con varias aplicaciones y videojuegos en línea. Desbloquee esta y otras funciones con un plan Plus.</string>
-    <string name="upgrade_moderate_nat_learn_more">¿Qué es NAT moderada?</string>
-    <string name="upgrade_see_plans_button">Ver planes y precios</string>
     <string name="upgrade_not_now_button">Ahora no</string>
     <string name="upgrade_learn_more">Más información</string>
     <!-- Information activity -->
@@ -612,7 +602,6 @@
     <string name="onboading_connecting_now">Conectando ahora</string>
     <string name="onboarding_congrats_description">Su conexión está protegida y está listo para navegar por la web.\n\nDe forma segura.</string>
     <string name="onboarding_congrats_title">¡Felicitaciones!</string>
-    <string name="onboarding_plan_congrats_description_privacy">Disfrute del mundo de la privacidad.</string>
     <string name="onboading_connect_to_plus">Conéctese a un servidor Plus</string>
     <string name="upgrade_use_limited_free_button">Usar plan gratuito limitado</string>
     <string name="dynamic_report_suggestion_didnt_work">¿No funcionó?</string>
@@ -657,17 +646,84 @@
     <string name="search_recents_header_title">Visto reciente (%1$d)</string>
     <string name="search_clear_history">Borrar historial</string>
     <string name="search_clear_history_dialog">Se perderá su historial de búsqueda. ¿Continuar?</string>
-    <!-- Parameters:
-     %1$s - number of countries. It is never 1.
-
-     Example: Access all 63 countries. -->
-    <plurals name="search_upgrade_banner_title">
-        <item quantity="one">Acceso a %1$d país</item>
-        <item quantity="other">Acceso a %1$d países</item>
-    </plurals>
-    <string name="search_upgrade_banner_subtitle">Más ubicaciones = más contenido desbloqueado + seguridad adicional + velocidades altas</string>
     <string name="ikev2_removed_dialog_title">El protocolo IKEv2 VPN ya no está disponible</string>
     <string name="ikev2_removed_dialog_message">Las configuraciones por defecto y los perfiles que antes usaban IKEv2 ahora usarán el protocolo Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obtener más información.</string>
+    <string name="free_upsell_header_title">Navegue desde %1$d países con VPN Plus</string>
+    <!-- Example: Want to connect to Italy? -->
+    <string name="upgrade_country_title">¿Desea elegir un país específico?</string>
+    <string name="upgrade_country_message">Desbloquee el país seleccionado con VPN Plus</string>
+    <string name="upgrade_country_feature_money_back">Garantía de reembolso en 30 días</string>
+    <!-- Example: Higher speeds (10 Gbps) -->
+    <string name="upgrade_country_feature_speed">Velocidades altas (%1$d Gbps)</string>
+    <string name="upgrade_country_feature_stream">Transmita sus películas favoritas</string>
+    <plurals name="upgrade_country_feature_protect">
+        <item quantity="one">Proteja hasta %1$d dispositivo</item>
+        <item quantity="other">Proteja hasta %1$d dispositivos</item>
+    </plurals>
+    <plurals name="upgrade_country_feature_count">
+        <item quantity="one">Navegue desde %1$d país</item>
+        <item quantity="other">Navegue desde %1$d países</item>
+    </plurals>
+    <string name="upgrade_moderate_nat_title2">Suba su nivel de experiencia en juegos</string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Desbloquee <b>NAT Tipo 2</b> con VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_feature_gaming">Mejore el rendimiento de los juegos en línea y las videollamadas</string>
+    <string name="upgrade_moderate_nat_feature_optimize">NAT Tipo 2 (moderada) optimiza la velocidad y estabilidad al habilitar conexiones directas entre los dispositivos</string>
+    <string name="free_connections_info_message">Proton Free le conecta automáticamente al servidor más rápido disponible. Normalmente es el servidor más cercano a su ubicación.</string>
+    <string name="free_connections_info_server_locations">Ubicaciones de servidores gratuitos (%1$d)</string>
+    <string name="free_connections_info_banner_text">Obtenga cobertura global con VPN Plus</string>
+    <string name="free_connection_info_title">Conexiones gratuitas</string>
+    <string name="search_upsell_banner_title">Transmita desde cualquier lugar</string>
+    <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
+    <plurals name="search_upsell_banner_message">
+        <item quantity="one">Desbloquee contenido geobloqueado desde %1$d país con VPN Plus</item>
+        <item quantity="other">Desbloquee contenido geobloqueado desde %1$d países con VPN Plus</item>
+    </plurals>
+    <string name="server_change_max_reached">Ha alcanzado el número máximo de cambios de servidores gratuitos por ahora.</string>
+    <string name="server_change_upsell">Obtenga cambios ilimitados con VPN Plus.</string>
+    <string name="server_change_button_title">Cambiar servidor</string>
+    <string name="not_wanted_country_title">¿No es el país que desea?</string>
+    <string name="not_wanted_country_description">Mejore para elegir cualquier servidor</string>
+    <string name="whats_new_title">Novedades</string>
+    <string name="whats_new_added_countries_title">Nuevos países gratuitos</string>
+    <string name="whats_new_added_countries_description">Ahora hay servidores gratuitos en Polonia y Rumania.</string>
+    <string name="whats_new_server_selection_title">Cambios a la selección de servidor</string>
+    <string name="whats_new_server_selection_description">Para evitar la saturación de servidores y garantizar que todos tengan acceso a una navegación rápida y segura, eliminamos la selección manual de países e hicimos mejoras importantes en la selección automática de servidores.</string>
+    <string name="welcome_plus_title">Le damos la bienvenida a VPN Plus</string>
+    <string name="welcome_plus_description">Disfrute de funciones de privacidad adicionales, rendimiento recargado y una personalización VPN de otro nivel.</string>
+    <string name="welcome_plus_feature_security">Funciones de seguridad avanzadas</string>
+    <!-- Example: Up to 10 devices at once
+         In practice one will never be a value here -->
+    <plurals name="welcome_plus_feature_devices">
+        <item quantity="one">Hasta %1$d dispositivo a la vez</item>
+        <item quantity="other">Hasta %1$d dispositivos a la vez</item>
+    </plurals>
+    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ new servers
+     -->
+    <plurals name="welcome_plus_servers">
+        <item quantity="one">%d servidor nuevo</item>
+        <item quantity="other">%d servidores nuevos</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="welcome_plus_countries">
+        <item quantity="one">%d país</item>
+        <item quantity="other">%d países</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "welcome_plus_servers"
+     %2$s - replaced with "welcome_plus_countries"
+
+     Example:
+     1800+ new servers in 68 countries
+     -->
+    <string name="welcome_plus_feature_servers_count">%1$s en %2$s</string>
 </resources>

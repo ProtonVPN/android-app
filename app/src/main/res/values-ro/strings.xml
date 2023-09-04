@@ -130,11 +130,6 @@
     <string name="errorEmptyServer">Câmpul server nu poate fi gol</string>
     <string name="errorEmptyEntryCountry">Câmpul cu țara de intrare nu poate fi gol</string>
     <string name="errorEmptyExitCountry">Câmpul țara de ieșire nu poate fi gol</string>
-    <string name="onboardingDialogMapView">Folosiți harta pentru a vă conecta și pentru a vedea unde se află serverul VPN.</string>
-    <string name="onboardingDialogProfiles">Creeați profile pentru serverele preferate pentru a le accesa ușor. Ținând apăsat mai mult pe pictograma Proton VPN din partea de jos veți putea vedea toate profilele. Apăsând pe unul dintre profile vă va conecta la VPN.</string>
-    <string name="onboardingNetshield">Vă protejează împotriva programelor malware, reclamelor și urmăritorilor.\nNotă: dacă unele site-uri nu se încarcă, încercați să dezactivezi NetShield.</string>
-    <string name="onboardingFAB">Conectare rapidă / Profile</string>
-    <string name="onboardingFABDescription">Apăsați pe acest buton pentru cea mai rapidă cale de conectare</string>
     <string name="onboardingSignup">Înregistrare</string>
     <string name="onboardingSkip">Omitere</string>
     <string name="onboardingNext">Înainte</string>
@@ -211,6 +206,7 @@
     <string name="countryServersHeader">Țară servere</string>
     <string name="secureCoreCountriesHeader">Țări cu Secure Core</string>
     <string name="recommendedProfilesHeader">Profile recomandate</string>
+    <string name="free_connection_header">Conexiune gratuită</string>
     <string name="yourProfilesHeader">Profilele mele</string>
     <string name="exitCountry">Țară de ieșire</string>
     <string name="entryCountry">Țară de intrare</string>
@@ -355,7 +351,6 @@
     <string name="netShieldBlockMalwareOnly">Blocare doar malware</string>
     <string name="netShieldFullBlock">Blocare malware, reclame și instrumente de urmărire</string>
     <string name="dialogDontShowAgain">Nu mai arăta</string>
-    <string name="paidFeature">Funcție cu plată</string>
     <string name="guestHoleActivated">Accesul la Proton VPN poate fi limitat în zona dvs., așa că va dura mai mult decât de obicei. Așteptați până când rezolvăm această problemă.</string>
     <string name="guestHoleNotificationContent">Se încearcă evitarea problemelor de rețea. Acest lucru vă va ajuta să accesați Proton VPN.</string>
     <string name="onMaintenanceDetected">Serverul VPN la care ați avut conexiune este în întreținere. Se va reconecta automat la cel mai rapid server disponibil.</string>
@@ -482,6 +477,22 @@
     <string name="upgrade_secure_core_countries">Redirecționați traficul prin serverele foarte sigure din Elveția, Suedia si Islanda</string>
     <string name="upgrade_secure_core_encryption">Adăugați încă un nivel de criptare a conexiunii VPN</string>
     <string name="upgrade_secure_core_protect">Protejați-vă de atacurile din rețea</string>
+    <string name="upgrade_profiles_title">Obțineți acces rapid la conexiunile frecvent utilizate</string>
+    <string name="upgrade_profiles_text">Deblocați profilurile cu VPN Plus</string>
+    <string name="upgrade_profiles_feature_save">Salvați serverul, orașul sau țara favorită</string>
+    <string name="upgrade_profiles_feature_customize">Setați protocoale personale și funcții VPN premium</string>
+    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds (up to 10 Gbps).</string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Increase connection speeds by up to 400% with <b>VPN Accelerator</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_distant_servers">Improved speed and stability when connected to distant servers.</string>
+    <string name="upgrade_vpn_accelerator_feature_less_crowded">Accesați servere mai rapide, mai puțin aglomerate</string>
+    <string name="upgrade_split_tunneling_title">Obțineți maximum din ambele părți</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Unlock <b>split tunneling</b> with VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_two_locations">Navigați pe web din două locuri deodată cu divizarea traficului</string>
+    <string name="upgrade_split_tunneling_feature_allow_exceptions">Permiteți aplicațiilor și adreselor IP de încredere să se conecteze direct la internet, protejând în același timp orice altceva prin VPN</string>
+    <string name="upgrade_customization_title">Deblocați personalizarea avansată pentru VPN</string>
+    <string name="upgrade_customization_lan"><![CDATA[Access devices on your <b>local area network (LAN)</b>]]></string>
+    <string name="upgrade_customization_feature_profiles"><![CDATA[Save frequently used connections with <b>profiles</b>]]></string>
+    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Get instant access to your profiles with <b>Quick Connect</b>]]></string>
     <string name="upgrade_netshield_block_ads">Blocare reclame și urmăritori</string>
     <string name="upgrade_netshield_block_malware">Protejați dispozitivul de programele malițioase</string>
     <string name="upgrade_netshield_speed">Navigați cu viteză maximă</string>
@@ -495,17 +506,6 @@
         <item quantity="one">Un server securizat</item>
         <item quantity="few">%d servere securizate</item>
         <item quantity="other">%d de servere securizate</item>
-    </plurals>
-    <!-- Number of secure servers inserted as %1$s in the "onboarding_plan_congrats_description".
-     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
-
-     Example:
-     1200+ secure servers
-     -->
-    <plurals name="upgrade_plus_secure_servers">
-        <item quantity="one">Un server securizat</item>
-        <item quantity="few">Peste %d servere securizate</item>
-        <item quantity="other">Peste %d de servere securizate</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -525,13 +525,6 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Accesați peste %1$s în %2$s</string>
-    <!-- Parameters:
-     %1$s - replaced with "upgrade_plus_secure_servers"
-
-     Example:
-     You now have access to 1300+ secure servers and other premium features.
-     -->
-    <string name="onboarding_plan_congrats_description">Acum aveți acces la %1$s și alte funcții speciale.</string>
     <string name="upgrade_plus_countries_streaming">Accesați serviciile globale de transmisii în flux</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="upgrade_plus_countries_many_devices">
@@ -544,10 +537,6 @@
     <string name="upgrade_plus_countries_more">Și multe alte funcții speciale</string>
     <string name="upgrade_safe_mode_title">Permitere trafic la porturile nonstandard</string>
     <string name="upgrade_safe_mode_message">Aveți nevoi avansate sau profesionale de calcul care necesită porturi non-standard? Treceți la VPN Plus pentru a activa aceasta și alte funcții premium.</string>
-    <string name="upgrade_moderate_nat_title">Activare NAT moderat</string>
-    <string name="upgrade_moderate_nat_message">NAT moderat, cunoscut și ca NAT tip 2, vă poate îmbunătăți experiența online pentru diferite aplicații și jocuri video online. Obțineți-l alături și de alte funcții cu planul Plus.</string>
-    <string name="upgrade_moderate_nat_learn_more">Ce este NAT moderat?</string>
-    <string name="upgrade_see_plans_button">Vedeți planuri și prețuri</string>
     <string name="upgrade_not_now_button">Nu acum</string>
     <string name="upgrade_learn_more">Detalii</string>
     <!-- Information activity -->
@@ -624,7 +613,6 @@
     <string name="onboading_connecting_now">Acum se conectează</string>
     <string name="onboarding_congrats_description">Conexiunea este protejată și acum puteți naviga în siguranță.</string>
     <string name="onboarding_congrats_title">Felicitări!</string>
-    <string name="onboarding_plan_congrats_description_privacy">Bucurați-vă de lumea vieții private.</string>
     <string name="onboading_connect_to_plus">Conectare la un server Plus</string>
     <string name="upgrade_use_limited_free_button">Folosire plan gratuit limitat</string>
     <string name="dynamic_report_suggestion_didnt_work">Nu a funcționat?</string>
@@ -669,18 +657,90 @@
     <string name="search_recents_header_title">Recent văzute (%1$d)</string>
     <string name="search_clear_history">Golire istoric</string>
     <string name="search_clear_history_dialog">Istoricul de căutări va fi pierdut. Continuați?</string>
-    <!-- Parameters:
-     %1$s - number of countries. It is never 1.
-
-     Example: Access all 63 countries. -->
-    <plurals name="search_upgrade_banner_title">
-        <item quantity="one">Accesare o țară</item>
-        <item quantity="few">Accesare toate cele %1$d țări</item>
-        <item quantity="other">Accesare toate cele %1$d de țări</item>
-    </plurals>
-    <string name="search_upgrade_banner_subtitle">Mai multe locuri = mai mult conținut deblocat + extra securitate + viteze sporite</string>
     <string name="ikev2_removed_dialog_title">Protocolul VPN IKEv2 nu mai este disponibil</string>
     <string name="ikev2_removed_dialog_message">Setările implicite și profilurile care au folosit IKEv2 acum vor folosi Smart protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Vizitați <a href="https://protonvpn.com/pricing">protonvpn.com</a> pentru mai multe informații.</string>
+    <string name="free_upsell_header_title">Navigați pe web din toate cele %1$d de țări cu VPN Plus</string>
+    <!-- Example: Want to connect to Italy? -->
+    <string name="upgrade_country_title">Doriți să alegeți o anumită țară?</string>
+    <string name="upgrade_country_message">Deblocați selectarea țării cu VPN Plus</string>
+    <string name="upgrade_country_feature_money_back">Garantarea returnării banilor în 30 de zile</string>
+    <!-- Example: Higher speeds (10 Gbps) -->
+    <string name="upgrade_country_feature_speed">Viteză maximă (%1$d Gbps)</string>
+    <string name="upgrade_country_feature_stream">Vizionați filmele preferate</string>
+    <plurals name="upgrade_country_feature_protect">
+        <item quantity="one">Protejați maxim %1$d dispozitiv</item>
+        <item quantity="few">Protejați până la %1$d dispozitive</item>
+        <item quantity="other">Protejați până la %1$d de dispozitive</item>
+    </plurals>
+    <plurals name="upgrade_country_feature_count">
+        <item quantity="one">Navigați pe web din %1$d țară</item>
+        <item quantity="few">Navigați pe web din %1$d țări</item>
+        <item quantity="other">Navigați pe web din %1$d de țări</item>
+    </plurals>
+    <string name="upgrade_moderate_nat_title2">Îmbunătățiți-vă experiența din jocuri</string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Unlock <b>NAT Type 2</b> with VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_feature_gaming">Îmbunătățiți performanța jocurilor online și a apelurilor video</string>
+    <string name="upgrade_moderate_nat_feature_optimize">NAT de tip 2 (moderat) optimizează viteza și stabilitatea permițând conexiuni directe între dispozitive</string>
+    <string name="free_connections_info_message">Proton gratuit vă conectează automat la cel mai rapid server disponibil. Acesta va fi în mod normal cel mai apropiat server de locul de unde vă conectați.</string>
+    <string name="free_connections_info_server_locations">Locuri servere gratuite (%1$d)</string>
+    <string name="free_connections_info_banner_text">Obțineți acoperire la nivel mondial cu VPN Plus</string>
+    <string name="free_connection_info_title">Conexiuni gratuite</string>
+    <string name="search_upsell_banner_title">Vizionați transmisii în flux de oriunde</string>
+    <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
+    <plurals name="search_upsell_banner_message">
+        <item quantity="one">Deblocați conținutul blocat geografic din %1$d țară cu VPN Plus</item>
+        <item quantity="few">Deblocați conținutul blocat geografic din %1$d țări cu VPN Plus</item>
+        <item quantity="other">Deblocați conținutul blocat geografic din %1$d de țări cu VPN Plus</item>
+    </plurals>
+    <string name="server_change_max_reached">Ați atins numărul maxim de schimbări de servere gratuite pentru moment.</string>
+    <string name="server_change_upsell">Obțineți modificări nelimitate cu VPN Plus.</string>
+    <string name="server_change_button_title">Schimbare server</string>
+    <string name="not_wanted_country_title">Nu este țara pe care o doriți?</string>
+    <string name="not_wanted_country_description">Schimbați planul abonamentului pentru alege orice server</string>
+    <string name="whats_new_title">Ce este nou</string>
+    <string name="whats_new_added_countries_title">Țări noi gratuite</string>
+    <string name="whats_new_added_countries_description">Acum există servere gratuite în Polonia și România.</string>
+    <string name="whats_new_server_selection_title">Modificări la selectarea serverului</string>
+    <string name="whats_new_server_selection_description">Pentru a preveni aglomerarea serverelor și pentru a ne asigura că toată lumea are acces la navigarea rapidă și sigură, am eliminat selecția manuală a țării și am adus îmbunătățiri majore selecției automate a serverului.</string>
+    <string name="welcome_plus_title">Bun venit la VPN Plus</string>
+    <string name="welcome_plus_description">Bucurați-vă de funcții suplimentare de confidențialitate, performanță îmbunătățită și personalizare VPN la nivelul următor.</string>
+    <string name="welcome_plus_feature_security">Funcții avansate de securitate</string>
+    <!-- Example: Up to 10 devices at once
+         In practice one will never be a value here -->
+    <plurals name="welcome_plus_feature_devices">
+        <item quantity="one">Maxim %1$d dispozitiv</item>
+        <item quantity="few">Până la %1$d dispozitive simultan</item>
+        <item quantity="other">Până la %1$d de dispozitive simultan</item>
+    </plurals>
+    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ new servers
+     -->
+    <plurals name="welcome_plus_servers">
+        <item quantity="one">%d server nou</item>
+        <item quantity="few">Peste %d servere noi</item>
+        <item quantity="other">Peste %d de servere noi</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="welcome_plus_countries">
+        <item quantity="one">%d țară</item>
+        <item quantity="few">%d țări</item>
+        <item quantity="other">%d de țări</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "welcome_plus_servers"
+     %2$s - replaced with "welcome_plus_countries"
+
+     Example:
+     1800+ new servers in 68 countries
+     -->
+    <string name="welcome_plus_feature_servers_count">%1$s în %2$s</string>
 </resources>
