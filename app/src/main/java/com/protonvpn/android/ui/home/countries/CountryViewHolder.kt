@@ -47,7 +47,8 @@ abstract class CountryViewHolder(
     private val viewModel: CountryListViewModel,
     private val group: ServerGroup,
     private val sectionId: String,
-    private val isAccessibleAndOnline: Boolean,
+    private val isOnline: Boolean,
+    private val isAccessible: Boolean,
     private val parentLifecycleOwner: LifecycleOwner
 ) : BindableItemEx<ItemVpnCountryBinding>(), ExpandableItem {
 
@@ -57,7 +58,7 @@ abstract class CountryViewHolder(
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status> {
         binding.textConnected.isVisible =
-            group.hasConnectedServer(it.server) && it.state == VpnState.Connected && isAccessibleAndOnline
+            group.hasConnectedServer(it.server) && it.state == VpnState.Connected && isAccessible
     }
 
     override fun getId() = Objects.hash(group.id(), sectionId).toLong()
@@ -67,6 +68,7 @@ abstract class CountryViewHolder(
 
         val context = viewBinding.root.context
         with(viewBinding) {
+            val isAccessibleAndOnline = isAccessible && isOnline
             textCountry.text = group.name()
             imageCountry.setImageResource(group.iconResource(context))
             imageDoubleArrows.isVisible = viewModel.isSecureCoreEnabled
@@ -96,8 +98,8 @@ abstract class CountryViewHolder(
                     adjustDivider(divider, expandableGroup.isExpanded, EXPAND_DURATION_MS)
                 }
             }
-            iconUnderMaintenance.isVisible = group.isUnderMaintenance() && !isAccessibleAndOnline
-            buttonUpgrade.isVisible = !isAccessibleAndOnline
+            iconUnderMaintenance.isVisible = group.isUnderMaintenance() && isAccessible
+            buttonUpgrade.isVisible = !isAccessible
             buttonUpgrade.setOnClickListener {
                 if (group is VpnCountry) {
                     it.context.startActivity(

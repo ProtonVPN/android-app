@@ -165,10 +165,10 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
     ): CountryViewHolder {
         val isOnline = !group.isUnderMaintenance()
         val userHasAccess = viewModel.hasAccessibleServer(group)
-        val accessibleAndOnline = userHasAccess && isOnline && !restricted
+        val isAccessible = userHasAccess && !restricted
         val expandableCountry =
             object : CountryViewHolder(
-                viewModel, group, groupId, accessibleAndOnline, viewLifecycleOwner
+                viewModel, group, groupId, isOnline, isAccessible, viewLifecycleOwner
             ) {
                 override fun onExpanded(position: Int) {
                     if (!viewModel.isSecureCoreEnabled) {
