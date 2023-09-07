@@ -61,10 +61,9 @@ class DefaultCurrentUserProvider @Inject constructor(
     }.distinctUntilChanged()
 
     override val userFlow = accountManager.getPrimaryUserId().flatMapLatest { userId ->
-        if (userId == null) {
-            flowOf(null)
-        } else userManager.getUserFlow(SessionUserId(userId.id)).map {
-            (it as? DataResult.Success)?.value
+        when (userId) {
+            null -> flowOf(null)
+            else -> userManager.observeUser(SessionUserId(userId.id))
         }
     }.distinctUntilChanged()
 

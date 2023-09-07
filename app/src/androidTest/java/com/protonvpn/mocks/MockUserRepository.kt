@@ -24,9 +24,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
-import me.proton.core.domain.arch.DataResult
-import me.proton.core.domain.arch.ResponseSource
 import me.proton.core.domain.entity.SessionUserId
 import me.proton.core.user.data.repository.UserRepositoryImpl
 import me.proton.core.user.domain.entity.User
@@ -50,12 +47,11 @@ class MockUserRepository @Inject constructor(
     override suspend fun getUser(sessionUserId: SessionUserId, refresh: Boolean) =
         if (useMockUser.value) mockUser.first() else userRepositoryImpl.getUser(sessionUserId, refresh)
 
-    override fun getUserFlow(sessionUserId: SessionUserId, refresh: Boolean): Flow<DataResult<User>> =
+    override fun observeUser(sessionUserId: SessionUserId, refresh: Boolean): Flow<User?> =
         useMockUser.flatMapLatest { useMockUser ->
-            if (useMockUser) mockUser.map {
-                DataResult.Success(ResponseSource.Local, it)
-            } else {
-                userRepositoryImpl.getUserFlow(sessionUserId, refresh)
+            when {
+                useMockUser -> mockUser
+                else -> userRepositoryImpl.observeUser(sessionUserId, refresh)
             }
         }
 }
