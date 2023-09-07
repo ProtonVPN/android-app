@@ -74,8 +74,7 @@ abstract class CountryViewHolder(
             imageDoubleArrows.isVisible = viewModel.isSecureCoreEnabled
             features.featureIcons = group.featureIcons()
             countryItem.setBackgroundResource(
-                if (isAccessibleAndOnline)
-                    countryItem.getSelectableItemBackgroundRes() else 0
+                if (isAccessibleAndOnline) countryItem.getSelectableItemBackgroundRes() else 0
             )
             textCountry.setTextColor(
                 textCountry.getThemeColor(
@@ -83,11 +82,14 @@ abstract class CountryViewHolder(
                 )
             )
             buttonCross.isVisible = isAccessibleAndOnline
+            adjustCross(buttonCross, expandableGroup.isExpanded, 0)
+            adjustDivider(divider, expandableGroup.isExpanded, 0)
             imageCountry.alpha =
                 if (isAccessibleAndOnline) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
-            if (!isAccessibleAndOnline) {
-                features.color = context.getColor(R.color.icon_weak)
-            }
+            features.color = context.getColor(
+                if (!isAccessibleAndOnline) R.color.icon_weak else R.color.icon_norm
+            )
+
             root.setOnClickListener {
                 if (isAccessibleAndOnline) {
                     expandableGroup.onToggleExpanded()
