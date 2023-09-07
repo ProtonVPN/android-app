@@ -126,7 +126,8 @@ class ApiNotificationManager @Inject constructor(
             notifications.mapNotNullAsync { notification ->
                 notification.takeIf { notification.allImageUrls().ensureAllPrefetched() }
             }
-        }.flowOn(dispatcherProvider.Io)
+        }
+        .flowOn(dispatcherProvider.Io)
         .stateIn(mainScope, SharingStarted.Eagerly, emptyList())
 
     val activeListFlow = notificationsFlow

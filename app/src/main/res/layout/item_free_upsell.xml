@@ -22,9 +22,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_rounded_secondary"
-    android:foreground="?android:selectableItemBackground"
-    android:padding="16dp">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    android:background="@drawable/background_rounded_secondary_ripple"
+    android:padding="12dp">
 
     <ImageView
         android:id="@+id/imageIcon"

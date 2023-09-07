@@ -24,6 +24,7 @@ import kotlinx.serialization.Serializable
 object ApiNotificationTypes {
     const val TYPE_TOOLBAR = 0
     const val TYPE_ONE_TIME_POPUP = 1
+    const val TYPE_COUNTRY_LIST_BANNER = 2
 }
 
 @Serializable
@@ -42,7 +43,7 @@ data class ApiNotificationOffer(
     @SerialName("Action") val action: String = "OpenURL",
     @SerialName("Behaviors") val actionBehaviors: List<String> = emptyList(),
     @SerialName("Icon") val iconUrl: String? = null,
-    @SerialName("Panel") val panel: ApiNotificationOfferPanel? = null
+    @SerialName("Panel") val panel: ApiNotificationOfferPanel? = null,
 )
 
 @Serializable
@@ -56,7 +57,8 @@ data class ApiNotificationOfferPanel(
     @SerialName("FeaturesFooter") val featuresFooter: String? = null,
     @SerialName("Button") val button: ApiNotificationOfferButton? = null,
     @SerialName("PageFooter") val pageFooter: String? = null,
-    @SerialName("FullScreenImage") val fullScreenImage: ApiNotificationOfferFullScreenImage? = null
+    @SerialName("FullScreenImage") val fullScreenImage: ApiNotificationOfferFullScreenImage? = null,
+    @SerialName("ShowCountdown") val showCountdown: Boolean = false, // Only valid for banners.
 )
 
 @Serializable

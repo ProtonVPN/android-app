@@ -54,8 +54,10 @@ abstract class BindableItemEx<T : ViewBinding> : BindableItem<T>() {
     }
 
     override fun bind(viewBinding: T, position: Int) {
-        // Sometimes we can get 2 binds in a row without unbind in between
-        clear()
+        if (bindingInternal != null) {
+            // Sometimes we can get 2 binds in a row without unbind in between
+            clear()
+        }
         bindingInternal = viewBinding
     }
 
