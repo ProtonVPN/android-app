@@ -21,9 +21,11 @@ package com.protonvpn.android.ui.home.vpn
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.RestrictionsConfig
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.tickFlow
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -31,17 +33,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.lang.System.currentTimeMillis
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
@@ -51,30 +51,19 @@ class ChangeServerViewModel @Inject constructor(
     private val vpnConnectionManager: VpnConnectionManager,
     private val serverManager: ServerManager,
     private val changeServerPrefs: ChangeServerPrefs,
-    private val upgradeTelemetry: UpgradeTelemetry
+    private val upgradeTelemetry: UpgradeTelemetry,
+    @WallClock private val clock: () -> Long,
 ) : ViewModel() {
-
-    private val tickFlow = changeServerPrefs.lastChangeTimestampFlow.flatMapLatest {
-        flow {
-            while (true) {
-                val now = currentTimeMillis()
-                val elapsedS = (now - it) / 1000
-                emit(elapsedS)
-                delay(it + (elapsedS + 1) * 1000 - now)
-            }
-        }
-    }
 
     private fun restrictedStateFlow(
         changeServerPrefs: ChangeServerPrefs,
-        tickFlow: Flow<Long>
     ) = combine(
         changeServerPrefs.lastChangeTimestampFlow,
         changeServerPrefs.changeCounterFlow,
-        tickFlow,
+        tickFlow(1.seconds, clock),
         restrictConfig.restrictionFlow
-    ) { lastChangeTimestamp, actionCounter, _, restrictions ->
-        val elapsedSeconds = (System.currentTimeMillis() - lastChangeTimestamp) / 1000
+    ) { lastChangeTimestamp, actionCounter, timestamp, restrictions ->
+        val elapsedSeconds = (timestamp - lastChangeTimestamp) / 1000
         val delayInSeconds =
             if (changeServerPrefs.changeCounter == restrictConfig.changeServerConfig().maxAttemptCount) restrictions.changeServerConfig.longDelayInSeconds else restrictions.changeServerConfig.shortDelayInSeconds
         val remainingCooldown = delayInSeconds - elapsedSeconds
@@ -96,7 +85,7 @@ class ChangeServerViewModel @Inject constructor(
             if (!restrictions.quickConnect) {
                 flowOf(ChangeServerViewState.Hidden)
             } else {
-                restrictedStateFlow(changeServerPrefs, tickFlow)
+                restrictedStateFlow(changeServerPrefs)
             }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), ChangeServerViewState.Unlocked)
 

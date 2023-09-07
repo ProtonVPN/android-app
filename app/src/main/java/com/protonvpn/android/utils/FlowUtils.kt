@@ -20,12 +20,15 @@
 package com.protonvpn.android.utils
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 fun <T> Flow<T>.withPrevious(): Flow<Pair<T, T>> = flow {
     var isFirstElement = true
@@ -64,5 +67,18 @@ fun <T, R> StateFlow<T>.mapState(transform: (T) -> R): StateFlow<R> {
         override suspend fun collect(collector: FlowCollector<R>): Nothing {
             source.collect { value -> collector.emit(transform(value)) }
         }
+    }
+}
+
+fun tickFlow(step: Duration, clock: () -> Long) = flow {
+    var lastTick = clock()
+    var delay = step
+    while (true) {
+        emit(lastTick)
+        delay(delay)
+        val now = clock()
+        val excessDelay = (now - lastTick).milliseconds - delay
+        delay = (step - excessDelay).coerceAtLeast(Duration.ZERO)
+        lastTick = now
     }
 }

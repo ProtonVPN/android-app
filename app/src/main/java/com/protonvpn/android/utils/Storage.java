@@ -36,13 +36,10 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 
 import java.lang.reflect.Type;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import kotlin.jvm.functions.Function0;
-import kotlinx.serialization.descriptors.PrimitiveKind;
 import me.proton.core.network.domain.client.ClientId;
 
 public final class Storage {

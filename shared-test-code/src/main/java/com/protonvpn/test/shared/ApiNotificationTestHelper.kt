@@ -21,6 +21,7 @@ package com.protonvpn.test.shared
 
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationOffer
+import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.ApiNotificationOfferFullScreenImage
 import com.protonvpn.android.appconfig.ApiNotificationOfferImageSource
 import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
@@ -46,12 +47,19 @@ object ApiNotificationTestHelper {
             )
         )
 
-    fun mockFullScreenImagePanel(imageUrl: String?, alternativeText: String = ""): ApiNotificationOfferPanel {
+    fun mockFullScreenImagePanel(
+        imageUrl: String?,
+        alternativeText: String = "",
+        button: ApiNotificationOfferButton? = null,
+        showCountdown: Boolean = false,
+    ): ApiNotificationOfferPanel {
         val images =
             if (imageUrl != null) listOf(ApiNotificationOfferImageSource(imageUrl, "png"))
             else emptyList()
         return ApiNotificationOfferPanel(
-            fullScreenImage = ApiNotificationOfferFullScreenImage(images, alternativeText)
+            fullScreenImage = ApiNotificationOfferFullScreenImage(images, alternativeText),
+            button = button,
+            showCountdown = showCountdown,
         )
     }
 

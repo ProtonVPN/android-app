@@ -31,6 +31,7 @@ import com.protonvpn.tests.profiles.ProfileFreeUserTests
 import com.protonvpn.tests.profiles.ProfilePlusUserTests
 import com.protonvpn.tests.promooffer.HomeActivityPromoOfferTests
 import com.protonvpn.tests.promooffer.PromoOfferActivityTests
+import com.protonvpn.tests.promooffer.WelcomeOfferTests
 import com.protonvpn.tests.secureCore.SecureCoreSecurityTests
 import com.protonvpn.tests.secureCore.SecureCoreTests
 import com.protonvpn.tests.settings.SettingsTests
@@ -45,12 +46,13 @@ import org.junit.runners.Suite
 @Suite.SuiteClasses(
     AccountTests::class,
     ConnectionTests::class,
+    FreeRescopeTests::class,
     HomeActivityPromoOfferTests::class,
     LiveEventTests::class,
     LogoutTests::class,
     MapTests::class,
-    PartnershipTests::class,
     MockedBugReportTests::class,
+    PartnershipTests::class,
     ProfileFreeUserTests::class,
     ProfilePlusUserTests::class,
     PromoOfferActivityTests::class,
@@ -61,6 +63,6 @@ import org.junit.runners.Suite
     TelemetryCacheTests::class,
     UserDataMigrationTests::class,
     VpnConnectionTests::class,
-    FreeRescopeTests::class
+    WelcomeOfferTests::class,
 )
 class MobileMockApiSuite

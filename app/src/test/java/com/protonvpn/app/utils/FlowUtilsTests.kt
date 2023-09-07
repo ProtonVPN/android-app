@@ -20,6 +20,7 @@
 package com.protonvpn.app.utils
 
 import com.protonvpn.android.utils.mapState
+import com.protonvpn.android.utils.tickFlow
 import com.protonvpn.android.utils.withPrevious
 import com.protonvpn.test.shared.runWhileCollecting
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,10 +29,13 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FlowUtilsTests {
@@ -69,5 +73,14 @@ class FlowUtilsTests {
             runCurrent()
         }
         assertEquals(listOf("1", "2", "3"), updates)
+    }
+
+    @Test
+    fun `tick flow emits immediately and then every stepMs`() = runTest {
+        val flow = tickFlow(1.seconds) { currentTime }
+        val timestamps = runWhileCollecting(flow) {
+            advanceTimeBy(3001)
+        }
+        assertEquals(listOf(0L, 1000L, 2000L, 3000L), timestamps)
     }
 }

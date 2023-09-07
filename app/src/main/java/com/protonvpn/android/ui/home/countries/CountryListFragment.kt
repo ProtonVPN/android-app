@@ -20,7 +20,6 @@ package com.protonvpn.android.ui.home.countries
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
@@ -32,29 +31,36 @@ import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.FragmentCountryListBinding
-import com.protonvpn.android.databinding.ItemFreeUpsellBinding
+import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.home.FreeConnectionsInfoActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
+import com.protonvpn.android.ui.promooffers.PromoOfferButtonActions
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Log
-import com.protonvpn.android.utils.ViewUtils.toPx
+import com.protonvpn.android.utils.openUrl
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import com.xwray.groupie.Section
-import com.xwray.groupie.viewbinding.BindableItem
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.network.domain.ApiResult
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoader {
 
     private val binding by viewBinding(FragmentCountryListBinding::bind)
     private val viewModel: CountryListViewModel by viewModels()
+
+    @Inject
+    lateinit var promoOfferButtonActions: PromoOfferButtonActions
+    @Inject
+    lateinit var upgradeTelemetry: UpgradeTelemetry
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -106,12 +112,29 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
             add(RecommendedConnectionItem(viewModel, viewLifecycleOwner, item))
         is CollapsibleServerGroupModel ->
             add(getExpandableGroup(item, expandedGroupsIds))
-        is UpsellBannerModel ->
+        is FreeUpsellBannerModel ->
             add(Section(
                 FreeUpsellItem(countryCount = item.premiumCountriesCount) {
                     requireContext().launchActivity<UpgradePlusCountriesDialogActivity>()
                 }
             ))
+        is PromoOfferBannerModel ->
+            add(Section(createPromoBannerItem(item)))
+    }
+
+    private fun createPromoBannerItem(model: PromoOfferBannerModel): PromoOfferBannerItem {
+        val clickAction: suspend () -> Unit = {
+            val url = promoOfferButtonActions.getButtonUrl(model.action)
+
+            if (url != null) { // It's not null on correctly defined notifications.
+                upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER)
+                upgradeTelemetry.onUpgradeAttempt()
+                requireActivity().openUrl(url)
+            }
+        }
+        return with(model) {
+            PromoOfferBannerItem(imageUrl, alternativeText, endTimestamp, clickAction, viewLifecycleOwner)
+        }
     }
 
     private fun ServerListSectionModel.InfoType.toAction() : (() -> Unit) = when(this) {
@@ -163,7 +186,6 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
             }
         }
 
-
     private fun getExpandedGroupsIds(groupAdapter: GroupAdapter<GroupieViewHolder>) =
         with(groupAdapter) {
             (0 until groupCount).asSequence().map { getTopLevelGroup(it) }
@@ -190,26 +212,4 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
                 override fun switchToRetry(error: ApiResult.Error) {}
             }
         }
-
-    class FreeUpsellItem(
-        private val countryCount: Int, private val onClick: () -> Unit
-    ) : BindableItem<ItemFreeUpsellBinding>(1) {
-        override fun bind(binding: ItemFreeUpsellBinding, position: Int) = with(binding) {
-            val resources = root.resources
-            textTitle.text = resources.getString(R.string.free_upsell_header_title, countryCount)
-            root.setOnClickListener { onClick() }
-        }
-
-        override fun getLayout(): Int = R.layout.item_free_upsell
-        override fun initializeViewBinding(view: View) =
-            ItemFreeUpsellBinding.bind(view).apply {
-                root.layoutParams = ViewGroup.MarginLayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    leftMargin = 16.toPx()
-                    rightMargin = 16.toPx()
-                }
-            }
-    }
 }
