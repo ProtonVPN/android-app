@@ -18,8 +18,8 @@
  */
 package com.protonvpn.android.ui.home.vpn
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,7 +36,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -166,16 +166,20 @@ private fun UpgradeModalContent(
                 .padding(vertical = 16.dp),
             contentAlignment = Alignment.Center
         ) {
-            val progressValue =
-                if (state is ChangeServerViewState.Locked) state.progress else 0F
+            val animatedProgress = remember(state is ChangeServerViewState.Locked) {
+                Animatable(if (state is ChangeServerViewState.Locked) state.progress else 0f)
+            }
+            if (state is ChangeServerViewState.Locked) {
+                val animationTimeMs = remember(animatedProgress) { state.remainingSeconds * 1_000 }
+                LaunchedEffect(animatedProgress) {
+                    animatedProgress.animateTo(0f, tween(animationTimeMs, easing = LinearEasing))
+                }
+            }
             val remainingTimeText =
                 if (state is ChangeServerViewState.Locked) state.remainingTimeText else "00:00"
-            val animatedProgress by animateFloatAsState(
-                targetValue = progressValue,
-                animationSpec = tween(durationMillis = 500, easing = LinearEasing)
-            )
+
             CircularProgressIndicator(
-                progress = animatedProgress,
+                progress = animatedProgress.value,
                 strokeWidth = 8.dp,
                 color = ProtonTheme.colors.brandNorm,
                 trackColor = if (state is ChangeServerViewState.Locked) ProtonTheme.colors.backgroundSecondary
@@ -229,7 +233,6 @@ private fun UpgradeModalContent(
         }
     }
 }
-
 
 @Preview
 @Composable
