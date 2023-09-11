@@ -46,9 +46,7 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.databinding.FragmentVpnStateConnectedBinding
 import com.protonvpn.android.ui.ServerLoadColor.getColor
-import com.protonvpn.android.ui.planupgrade.EmptyUpgradeDialogActivity
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
-import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.ViewUtils.toDp
@@ -106,10 +104,10 @@ class VpnStateConnectedFragment :
                                 (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate()
                             )
                         },
-                        onUpgradeClick = {
-                            requireContext().launchActivity<EmptyUpgradeDialogActivity>()
+                        onLockedChangeServerClick = {
+                            ChangeServerBottomSheet().show(childFragmentManager, null)
+                            changeServerViewModel::onUpgradeModalOpened
                         },
-                        onUpgradeModalOpened = changeServerViewModel::onUpgradeModalOpened
                     )
                 }
             }

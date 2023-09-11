@@ -26,23 +26,19 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -60,28 +56,20 @@ import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultUnspecified
 import me.proton.core.compose.theme.defaultWeak
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChangeServerComposable(
     state: StateFlow<ChangeServerViewState>,
     onChangeServerClick: () -> Unit,
-    onUpgradeClick: () -> Unit,
-    onUpgradeModalOpened: () -> Unit,
+    onLockedChangeServerClick: () -> Unit,
 ) {
     val currentState = state.collectAsStateWithLifecycle().value
-    val isModalVisible = remember { mutableStateOf(false) }
-    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     if (currentState != ChangeServerViewState.Hidden) {
         ProtonOutlinedNeutralButton(
             onClick = {
                 when (currentState) {
                     is ChangeServerViewState.Unlocked -> onChangeServerClick()
-                    is ChangeServerViewState.Locked -> {
-                        onUpgradeModalOpened()
-                        isModalVisible.value = true
-                    }
-
+                    is ChangeServerViewState.Locked -> onLockedChangeServerClick()
                     else -> Unit
                 }
             },
@@ -131,24 +119,11 @@ fun ChangeServerComposable(
                 is ChangeServerViewState.Hidden -> {}
             }
         }
-        if (isModalVisible.value) {
-            ModalBottomSheet(
-                sheetState = bottomSheetState,
-                containerColor = ProtonTheme.colors.backgroundNorm,
-                onDismissRequest = { isModalVisible.value = false }
-            ) {
-                UpgradeModalContent(
-                    state = currentState,
-                    onChangeServerClick = onChangeServerClick,
-                    onUpgradeClick = onUpgradeClick
-                )
-            }
-        }
     }
 }
 
 @Composable
-private fun UpgradeModalContent(
+fun UpgradeModalContent(
     state: ChangeServerViewState,
     onChangeServerClick: () -> Unit,
     onUpgradeClick: () -> Unit,
@@ -156,7 +131,7 @@ private fun UpgradeModalContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 48.dp),
+            .padding(bottom = dimensionResource(R.dimen.connection_bottom_sheet_button_distance)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -240,8 +215,7 @@ fun UnlockedButtonPreview() {
     ChangeServerComposable(
         state = MutableStateFlow(ChangeServerViewState.Unlocked),
         onChangeServerClick = { },
-        onUpgradeClick = {},
-        onUpgradeModalOpened = {},
+        onLockedChangeServerClick = {},
     )
 }
 
@@ -251,8 +225,7 @@ fun LockedButtonPreview() {
     ChangeServerComposable(
         state = MutableStateFlow(ChangeServerViewState.Locked("00:12", 12, 20, true)),
         onChangeServerClick = { },
-        onUpgradeClick = {},
-        onUpgradeModalOpened = {},
+        onLockedChangeServerClick = {},
     )
 }
 

@@ -207,6 +207,7 @@
         <item name="serverLoadHigh">@color/pomegranate</item>
         <item name="serverInMaintenance">#989DA9</item>
         <item name="strong_red_color">@color/pomegranate</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.ProtonVpnBottomSheet</item>
     </style>
 
     <!-- Force dark splash screen even if system uses light mode -->
@@ -228,5 +229,20 @@
         <item name="proton_interaction_weak">?attr/strong_red_color</item>
         <item name="proton_icon_accent">?attr/strong_red_color</item>
         <item name="proton_text_accent">?attr/strong_red_color</item>
+    </style>
+
+    <style name="ThemeOverlay.ProtonVpnBottomSheet" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ProtonVpnBottomSheet</item>
+        <item name="elevationOverlayEnabled">false</item>
+    </style>
+
+    <style name="ProtonVpnBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.ProtonVpnBottomSheet</item>
+        <item name="backgroundTint">@color/background_norm</item>
+    </style>
+
+    <style name="ShapeAppearance.ProtonVpnBottomSheet" parent="ProtonBottomSheetShapeOverlay">
+        <item name="cornerSizeTopRight">28dp</item>
+        <item name="cornerSizeTopLeft">28dp</item>
     </style>
 </resources>

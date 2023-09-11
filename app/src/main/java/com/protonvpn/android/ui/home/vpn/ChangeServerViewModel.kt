@@ -62,7 +62,6 @@ class ChangeServerViewModel @Inject constructor(
                 emit(elapsedS)
                 delay(it + (elapsedS + 1) * 1000 - now)
             }
-
         }
     }
 
