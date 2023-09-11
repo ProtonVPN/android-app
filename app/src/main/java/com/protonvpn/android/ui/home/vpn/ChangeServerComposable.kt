@@ -156,7 +156,7 @@ private fun UpgradeModalContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .navigationBarsPadding(),
+            .padding(bottom = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
