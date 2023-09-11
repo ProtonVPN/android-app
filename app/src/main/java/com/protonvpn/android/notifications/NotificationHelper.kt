@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.notifications
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -213,7 +214,7 @@ class NotificationHelper(
             notificationBuilder.setAutoCancel(true)
         }
         NotificationManagerCompat.from(appContext)
-            .notify(Constants.NOTIFICATION_INFO_ID, notificationBuilder.build())
+            .notifyWithPermission(Constants.NOTIFICATION_INFO_ID, notificationBuilder.build())
     }
 
     fun cancelInformationNotification(notificationId: Int = Constants.NOTIFICATION_INFO_ID) =
@@ -286,7 +287,7 @@ class NotificationHelper(
             // correct "not connected" notification. However on Android 10+ this somehow can cause
             // notification cancel to have no effect.
             if (Build.VERSION.SDK_INT < 29 || vpnStatus.state != Disabled) {
-                notify(Constants.NOTIFICATION_ID, buildStatusNotification(vpnStatus, trafficUpdate))
+                notifyWithPermission(Constants.NOTIFICATION_ID, buildStatusNotification(vpnStatus, trafficUpdate))
             }
             if (vpnStatus.state == Disabled) {
                 cancel(Constants.NOTIFICATION_ID)
@@ -361,7 +362,14 @@ class NotificationHelper(
                     NotificationCompat.Action(R.drawable.ic_vpn_status_information, it.title, getPendingIntent(it))
                 )
             }
-            notify(notificationId, builder.build())
+            notifyWithPermission(notificationId, builder.build())
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun NotificationManagerCompat.notifyWithPermission(id: Int, notification: Notification) {
+        if (appContext.isNotificationPermissionGranted()) {
+            this.notify(id, notification)
         }
     }
 

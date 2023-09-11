@@ -57,6 +57,7 @@ import com.protonvpn.android.utils.VpnCoreLogger;
 import com.protonvpn.android.vpn.CertificateRepository;
 import com.protonvpn.android.vpn.LogcatLogCapture;
 import com.protonvpn.android.vpn.MaintenanceTracker;
+import com.protonvpn.android.notifications.NotificationPermissionManager;
 import com.protonvpn.android.vpn.UpdateSecureCoreToMatchConnectedServer;
 import com.protonvpn.android.vpn.UpdateSettingsOnFeatureFlagChange;
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
@@ -110,6 +111,7 @@ public class ProtonApplication extends Application {
         RestartHandler getRestartHandler();
         ReviewTracker getReviewTracker();
         SettingChangesLogger getSettingChangesLogger();
+        NotificationPermissionManager getNotificationPermissionManager();
         UpdateSecureCoreToMatchConnectedServer getUpdateSecureCoreToMatchConnectedServer();
         UpdateServersOnStartAndLocaleChange getUpdateServersOnLocaleChange();
         UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
@@ -174,6 +176,7 @@ public class ProtonApplication extends Application {
         dependencies.getUpdateSettingsOnVpnUserChange();
         dependencies.getUpdateSettingsOnFeatureFlagChange();
         dependencies.getVpnConnectionTelemetry().start();
+        dependencies.getNotificationPermissionManager();
 
         dependencies.getPeriodicUpdateManager().start();
         dependencies.getRestartHandler().onAppStarted();
