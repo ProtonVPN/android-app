@@ -709,4 +709,11 @@
      1800+ new servers in 68 countries
      -->
     <string name="welcome_plus_feature_servers_count">%1$s di %2$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">external link</string>
 </resources>

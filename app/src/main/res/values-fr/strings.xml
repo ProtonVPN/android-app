@@ -475,18 +475,18 @@
     <string name="upgrade_profiles_text">Accédez aux profils en passant à VPN Plus.</string>
     <string name="upgrade_profiles_feature_save">Enregistrez le serveur, la ville ou le pays que vous préférez.</string>
     <string name="upgrade_profiles_feature_customize">Définissez des protocoles personnalisés et des fonctions VPN premium.</string>
-    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds (up to 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Increase connection speeds by up to 400% with <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Improved speed and stability when connected to distant servers.</string>
+    <string name="upgrade_vpn_accelerator_title">Naviguez à des vitesses encore plus élevées (jusqu\'à 10 Gbit/s)</string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Augmentez la vitesse de connexion jusqu\'à 400 % avec <b>VPN Accelerator</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_distant_servers">Amélioration de la vitesse et de la stabilité lors de la connexion à des serveurs distants.</string>
     <string name="upgrade_vpn_accelerator_feature_less_crowded">Accédez à des serveurs plus rapides et moins occupés.</string>
-    <string name="upgrade_split_tunneling_title">Profitez du meilleur des deux mondes.</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Unlock <b>split tunneling</b> with VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Surfez à partir de deux endroits à la fois avec le split tunneling.</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">Autorisez les applications et les adresses IP de confiance à se connecter directement à internet, tout en protégeant tout le reste avec votre VPN.</string>
+    <string name="upgrade_split_tunneling_title">Utilisez votre VPN sur mesure</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Utilisez le <b>Split tunneling</b> en passant à VPN Plus.]]></string>
+    <string name="upgrade_split_tunneling_two_locations">Surfez à partir de deux endroits à la fois avec le Split tunneling.</string>
+    <string name="upgrade_split_tunneling_feature_allow_exceptions">Autorisez les applications et les adresses IP de confiance à se connecter directement à internet, en protégeant tout le reste avec votre VPN.</string>
     <string name="upgrade_customization_title">Accédez à la personnalisation avancée du VPN</string>
-    <string name="upgrade_customization_lan"><![CDATA[Access devices on your <b>local area network (LAN)</b>]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Save frequently used connections with <b>profiles</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Get instant access to your profiles with <b>Quick Connect</b>]]></string>
+    <string name="upgrade_customization_lan"><![CDATA[Accédez aux appareils sur votre <b>réseau local (LAN)</b>.]]></string>
+    <string name="upgrade_customization_feature_profiles"><![CDATA[Enregistrez dans des <b>profils</b> les connexions que vous utilisez souvent.]]></string>
+    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Accédez immédiatement à vos profils avec la <b>Connexion rapide</b>.]]></string>
     <string name="upgrade_netshield_block_ads">Bloquez les publicités et les traqueurs</string>
     <string name="upgrade_netshield_block_malware">Protégez votre appareil contre les logiciels malveillants</string>
     <string name="upgrade_netshield_speed">Naviguez aux vitesses les plus élevées</string>
@@ -657,19 +657,19 @@
     <string name="upgrade_country_feature_money_back">Garantie satisfait ou remboursé pendant 30 jours</string>
     <!-- Example: Higher speeds (10 Gbps) -->
     <string name="upgrade_country_feature_speed">Vitesses plus élevées (%1$d Gbit/s)</string>
-    <string name="upgrade_country_feature_stream">Regardez vos films préférés en streaming</string>
+    <string name="upgrade_country_feature_stream">Regardez vos films préférés en streaming.</string>
     <plurals name="upgrade_country_feature_protect">
-        <item quantity="one">Protégez %1$d appareil</item>
-        <item quantity="other">Protégez jusqu’à %1$d appareils</item>
+        <item quantity="one">Protégez %1$d appareil.</item>
+        <item quantity="other">Protégez jusqu’à %1$d appareils.</item>
     </plurals>
     <plurals name="upgrade_country_feature_count">
-        <item quantity="one">Naviguez depuis %1$d pays</item>
-        <item quantity="other">Naviguez depuis %1$d pays</item>
+        <item quantity="one">Naviguez depuis %1$d pays.</item>
+        <item quantity="other">Naviguez depuis %1$d pays.</item>
     </plurals>
     <string name="upgrade_moderate_nat_title2">Améliorez votre expérience de jeu</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Unlock <b>NAT Type 2</b> with VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Disposez du <b>NAT de type 2</b> en passant à VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_feature_gaming">Améliorez les performances des jeux en ligne et des appels vidéo.</string>
-    <string name="upgrade_moderate_nat_feature_optimize">Le NAT Type 2 (modéré) optimise la vitesse et la stabilité en permettant des connexions directes entre les appareils.</string>
+    <string name="upgrade_moderate_nat_feature_optimize">Le NAT de type 2 (modéré) optimise la vitesse et la stabilité en permettant des connexions directes entre les appareils.</string>
     <string name="free_connections_info_message">Proton Free vous connecte automatiquement au serveur disponible le plus rapide. Il s\'agit normalement du serveur le plus proche de votre emplacement.</string>
     <string name="free_connections_info_server_locations">Emplacements des serveurs Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Profitez d\'une couverture mondiale avec VPN Plus.</string>
@@ -688,7 +688,7 @@
     <string name="whats_new_title">Nouveautés</string>
     <string name="whats_new_added_countries_title">Nouveaux pays dans l\'abonnement Free</string>
     <string name="whats_new_added_countries_description">Il y a maintenant des serveurs Free en Pologne et en Roumanie.</string>
-    <string name="whats_new_server_selection_title">Changements dans la sélection des serveurs</string>
+    <string name="whats_new_server_selection_title">Changements concernant la sélection des serveurs</string>
     <string name="whats_new_server_selection_description">Pour éviter l\'encombrement des serveurs et garantir à tous l\'accès à une navigation rapide et sécurisée, nous avons supprimé la sélection manuelle des pays et apporté des améliorations importantes à la sélection automatique des serveurs.</string>
     <string name="welcome_plus_title">Bienvenue dans VPN Plus</string>
     <string name="welcome_plus_description">Profitez de fonctionnalités supplémentaires de protection de la vie privée, de meilleures performances et d\'une personnalisation poussée de votre VPN.</string>
@@ -726,4 +726,11 @@
      1800+ new servers in 68 countries
      -->
     <string name="welcome_plus_feature_servers_count">%1$s dans %2$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">lien externe</string>
 </resources>

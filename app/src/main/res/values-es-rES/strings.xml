@@ -164,7 +164,7 @@
     <string name="reconnect_now">Reconectar ahora</string>
     <string name="try_reconnecting">Intentar la reconexión</string>
     <string name="connect">Conectar</string>
-    <string name="upgrade">Cambiar de plan</string>
+    <string name="upgrade">Mejorar</string>
     <string name="retry">Reintentar</string>
     <string name="connection_failed">Error de conexión</string>
     <string name="create_new_profile">Nuevo perfil</string>
@@ -674,7 +674,7 @@ Más información</a>.]]></string>
     <string name="free_connections_info_message">Proton Free automatically connects you to the fastest available server. This will normally be the closest server to your location.</string>
     <string name="free_connections_info_server_locations">Free server locations (%1$d)</string>
     <string name="free_connections_info_banner_text">Get worldwide coverage with VPN Plus</string>
-    <string name="free_connection_info_title">Free connections</string>
+    <string name="free_connection_info_title">Conexiones gratuitas</string>
     <string name="search_upsell_banner_title">Stream from anywhere</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
@@ -716,8 +716,8 @@ Más información</a>.]]></string>
          55 countries
          -->
     <plurals name="welcome_plus_countries">
-        <item quantity="one">%d country</item>
-        <item quantity="other">%d countries</item>
+        <item quantity="one">%d país</item>
+        <item quantity="other">%d países</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
@@ -727,4 +727,11 @@ Más información</a>.]]></string>
      1800+ new servers in 68 countries
      -->
     <string name="welcome_plus_feature_servers_count">%1$s in %2$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">external link</string>
 </resources>

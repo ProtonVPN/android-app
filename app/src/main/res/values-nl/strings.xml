@@ -666,10 +666,10 @@
         <item quantity="one">Browse vanuit %1$d land</item>
         <item quantity="other">Browse vanuit %1$d landen</item>
     </plurals>
-    <string name="upgrade_moderate_nat_title2">Verbeter je game-ervaring</string>
+    <string name="upgrade_moderate_nat_title2">Verbeter uw game-ervaring</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Unlock <b>NAT Type 2</b> with VPN Plus]]></string>
     <string name="upgrade_moderate_nat_feature_gaming">Verbeter de prestaties van online gaming en videocalls</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT type 2 (matig) optimaliseert snelheid en stabiliteit door directe verbindingen tussen apparaten in te schakelen</string>
+    <string name="upgrade_moderate_nat_feature_optimize">NAT-type 2 (matig) optimaliseert snelheid en stabiliteit door directe verbindingen tussen apparaten in te schakelen</string>
     <string name="free_connections_info_message">Proton Free connecteert u automatisch met de snelste beschikbare server. Dit zal normaal gezien de dichtstbijzijnde server zijn.</string>
     <string name="free_connections_info_server_locations">Gratis serverlocaties (%1$d)</string>
     <string name="free_connections_info_banner_text">Krijg wereldwijde dekking met VPN Plus</string>
@@ -689,15 +689,15 @@
     <string name="whats_new_added_countries_title">Nieuwe gratis landen</string>
     <string name="whats_new_added_countries_description">Er zijn vanaf nu Gratis servers in Polen en Roemenië</string>
     <string name="whats_new_server_selection_title">Veranderingen aan server selectie</string>
-    <string name="whats_new_server_selection_description">To prevent server crowding and ensure that everyone has access to fast and secure browsing, we removed manual country selection and made major improvements to automatic server selection.</string>
+    <string name="whats_new_server_selection_description">Om drukke servers te voorkomen en ervoor te zorgen dat iedereen toegang heeft tot snel en veilig browsen, hebben we de handmatige landselectie verwijderd en grote verbeteringen aangebracht aan de automatische serverselectie.</string>
     <string name="welcome_plus_title">Welkom bij VPN Plus</string>
-    <string name="welcome_plus_description">Enjoy extra privacy features, supercharged performance, and next-level VPN customization.</string>
+    <string name="welcome_plus_description">Geniet van extra privacy functies, supercharged prestaties en next-level VPN aanpassingen.</string>
     <string name="welcome_plus_feature_security">Geavanceerde beveiligingsfuncties</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Up to %1$d device at once</item>
-        <item quantity="other">Up to %1$d devices at once</item>
+        <item quantity="one">Tot %1$d apparaat tegelijkertijd</item>
+        <item quantity="other">Tot %1$d apparaten tegelijkertijd</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -726,4 +726,11 @@
      1800+ new servers in 68 countries
      -->
     <string name="welcome_plus_feature_servers_count">%1$s in %2$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">externe link</string>
 </resources>

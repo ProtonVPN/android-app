@@ -480,7 +480,7 @@
     <string name="upgrade_vpn_accelerator_feature_distant_servers">Velocidade e estabilidade aprimoradas ao conectar a servidores distantes</string>
     <string name="upgrade_vpn_accelerator_feature_less_crowded">Acesse servidores mais rápidos e menos sobrecarregados</string>
     <string name="upgrade_split_tunneling_title">Obtenha o melhor dos dois mundos</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Unlock <b>split tunneling</b> with VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Desbloqueie <b>tunelamento dividido</b> com VPN Plus]]></string>
     <string name="upgrade_split_tunneling_two_locations">Navegue em dois locais ao mesmo tempo com túnel dividido</string>
     <string name="upgrade_split_tunneling_feature_allow_exceptions">Permita que aplicativos e endereços IP confiáveis se conectem diretamente a Internet, protegendo todo o resto com sua VPN</string>
     <string name="upgrade_customization_title">Desbloqueie personalizações avançadas de VPN</string>
@@ -670,28 +670,28 @@
     <string name="upgrade_moderate_nat_message2"><![CDATA[Desbloqueie <b>NAT Type 2</b> com VPN Plus]]></string>
     <string name="upgrade_moderate_nat_feature_gaming">Aprimore a performance de jogos online e chamadas de vídeo</string>
     <string name="upgrade_moderate_nat_feature_optimize">NAT Type 2 (moderado) otimiza velocidade e estabilidade por habilitar conexão direta entre dispositivos</string>
-    <string name="free_connections_info_message">Proton Free automatically connects you to the fastest available server. This will normally be the closest server to your location.</string>
-    <string name="free_connections_info_server_locations">Free server locations (%1$d)</string>
-    <string name="free_connections_info_banner_text">Get worldwide coverage with VPN Plus</string>
+    <string name="free_connections_info_message">O Proton Free automaticamente se conecta ao servidor grátis mais rápido. Normalmente será o servidor mais próximo da sua localização.</string>
+    <string name="free_connections_info_server_locations">Localizações dos servidores gratuitos (%1$d)</string>
+    <string name="free_connections_info_banner_text">Obtenha cobertura global com VPN Plus</string>
     <string name="free_connection_info_title">Conexões gratuitas</string>
     <string name="search_upsell_banner_title">Transmita de qualquer lugar</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="one">Unlock geoblocked content from %1$d country with VPN Plus</item>
-        <item quantity="other">Unlock geoblocked content from %1$d countries with VPN Plus</item>
+        <item quantity="one">Desbloqueie conteúdo geo localizado do país %1$d com o VPN Plus</item>
+        <item quantity="other">Desbloqueie conteúdo geo localizado dos países %1$d com o VPN Plus</item>
     </plurals>
-    <string name="server_change_max_reached">You’ve reached the maximum number of Free server changes for now.</string>
-    <string name="server_change_upsell">Get unlimited changes with VPN Plus.</string>
+    <string name="server_change_max_reached">Por enquanto, você alcançou o número máximo de mudanças de servidor grátis.</string>
+    <string name="server_change_upsell">Obtenha alterações ilimitadas com VPN Plus.</string>
     <string name="server_change_button_title">Alterar servidor</string>
-    <string name="not_wanted_country_title">Not the country you wanted?</string>
+    <string name="not_wanted_country_title">Não é o país que você queria?</string>
     <string name="not_wanted_country_description">Faça upgrade para escolher qualquer servidor</string>
     <string name="whats_new_title">Novidades</string>
     <string name="whats_new_added_countries_title">Novos países gratuitos</string>
-    <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania.</string>
-    <string name="whats_new_server_selection_title">Mudanças de seleção de servidor</string>
-    <string name="whats_new_server_selection_description">To prevent server crowding and ensure that everyone has access to fast and secure browsing, we removed manual country selection and made major improvements to automatic server selection.</string>
+    <string name="whats_new_added_countries_description">Agora há servidores grátis na polônia e romania.</string>
+    <string name="whats_new_server_selection_title">Mudanças na seleção de servidor</string>
+    <string name="whats_new_server_selection_description">Para prevenir a lotação de servidores e garantir que todos tenham acesso a uma navegação rápida e segura, nós removemos a seleção manual de países e fizemos grandes melhorias na seleção automática de servidores.</string>
     <string name="welcome_plus_title">Bem-vindo ao VPN Plus</string>
-    <string name="welcome_plus_description">Enjoy extra privacy features, supercharged performance, and next-level VPN customization.</string>
+    <string name="welcome_plus_description">Aproveite recursos extras de privacidade, desempenho aprimorado e customização de VPN de próximo nível.</string>
     <string name="welcome_plus_feature_security">Recursos avançados de segurança</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
@@ -726,4 +726,11 @@
      1800+ new servers in 68 countries
      -->
     <string name="welcome_plus_feature_servers_count">%1$s em %2$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">link externo</string>
 </resources>
