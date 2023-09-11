@@ -153,7 +153,7 @@ android {
     defaultConfig {
         applicationId appId
         minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion 31
+        targetSdkVersion 33
         multiDexEnabled true
         versionName helpers.fullVersionName
         versionCode helpers.getVersionCode()
