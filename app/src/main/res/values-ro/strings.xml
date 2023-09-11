@@ -481,18 +481,18 @@
     <string name="upgrade_profiles_text">Deblocați profilurile cu VPN Plus</string>
     <string name="upgrade_profiles_feature_save">Salvați serverul, orașul sau țara favorită</string>
     <string name="upgrade_profiles_feature_customize">Setați protocoale personale și funcții VPN premium</string>
-    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds (up to 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Increase connection speeds by up to 400% with <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Improved speed and stability when connected to distant servers.</string>
+    <string name="upgrade_vpn_accelerator_title">Navigați pe web la viteze și mai mari (până la 10 Gbps).</string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Creșteți viteza conexiunii cu până la 400% cu <b>VPN Accelerator</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_distant_servers">Viteză și stabilitate îmbunătățite pentru conexiunile la servere la mare distanță.</string>
     <string name="upgrade_vpn_accelerator_feature_less_crowded">Accesați servere mai rapide, mai puțin aglomerate</string>
     <string name="upgrade_split_tunneling_title">Obțineți maximum din ambele părți</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Unlock <b>split tunneling</b> with VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Deblocați <b>divizarea tunelurilor</b> cu VPN Plus]]></string>
     <string name="upgrade_split_tunneling_two_locations">Navigați pe web din două locuri deodată cu divizarea traficului</string>
     <string name="upgrade_split_tunneling_feature_allow_exceptions">Permiteți aplicațiilor și adreselor IP de încredere să se conecteze direct la internet, protejând în același timp orice altceva prin VPN</string>
     <string name="upgrade_customization_title">Deblocați personalizarea avansată pentru VPN</string>
-    <string name="upgrade_customization_lan"><![CDATA[Access devices on your <b>local area network (LAN)</b>]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Save frequently used connections with <b>profiles</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Get instant access to your profiles with <b>Quick Connect</b>]]></string>
+    <string name="upgrade_customization_lan"><![CDATA[Accesați dispozitive din <b>rețeaua locală (LAN)</b>]]></string>
+    <string name="upgrade_customization_feature_profiles"><![CDATA[Salvați conexiunile utilizate frecvent cu <b>profiluri</b>]]></string>
+    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Obțineți acces instant la profiluri prin funcția <b>Conectare rapidă</b>]]></string>
     <string name="upgrade_netshield_block_ads">Blocare reclame și urmăritori</string>
     <string name="upgrade_netshield_block_malware">Protejați dispozitivul de programele malițioase</string>
     <string name="upgrade_netshield_speed">Navigați cu viteză maximă</string>
@@ -680,7 +680,7 @@
         <item quantity="other">Navigați pe web din %1$d de țări</item>
     </plurals>
     <string name="upgrade_moderate_nat_title2">Îmbunătățiți-vă experiența din jocuri</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Unlock <b>NAT Type 2</b> with VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Deblocați <b>NAT de tip 2</b> cu VPN Plus]]></string>
     <string name="upgrade_moderate_nat_feature_gaming">Îmbunătățiți performanța jocurilor online și a apelurilor video</string>
     <string name="upgrade_moderate_nat_feature_optimize">NAT de tip 2 (moderat) optimizează viteza și stabilitatea permițând conexiuni directe între dispozitive</string>
     <string name="free_connections_info_message">Proton gratuit vă conectează automat la cel mai rapid server disponibil. Acesta va fi în mod normal cel mai apropiat server de locul de unde vă conectați.</string>
@@ -743,4 +743,11 @@
      1800+ new servers in 68 countries
      -->
     <string name="welcome_plus_feature_servers_count">%1$s în %2$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">external link</string>
 </resources>

@@ -475,18 +475,18 @@
     <string name="upgrade_profiles_text">VPN Plus tarifesi ile profiiller özelliğini edinin</string>
     <string name="upgrade_profiles_feature_save">Yeğlediğiniz sunucuyu, ili ve ülkeyi kaydedin</string>
     <string name="upgrade_profiles_feature_customize">Özel iletişim kuralları ayarlayın ve ücretli VPN özelliklerine erişin</string>
-    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds (up to 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Increase connection speeds by up to 400% with <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Improved speed and stability when connected to distant servers.</string>
+    <string name="upgrade_vpn_accelerator_title">Daha da yüksek hızlarda gezinin (10 Gb/sn değerine varan).</string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[<b>VPN Accelerator</b> ile bağlantı hızlarını %400 oranında artırın.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_distant_servers">Uzak sunucularla bağlantı kurarken daha iyi hız ve kararlılık elde edin</string>
     <string name="upgrade_vpn_accelerator_feature_less_crowded">Daha hızlı ve daha az kalabalık sunuculara erişin</string>
     <string name="upgrade_split_tunneling_title">İki dünyanın da en iyisini edinin</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Unlock <b>split tunneling</b> with VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[VPN Plus tarifesi ile <b>ayrılmış tünelleme</b> özelliğine erişin]]></string>
     <string name="upgrade_split_tunneling_two_locations">Ayrılmış tünelleme ile aynı anda iki farklı konumdan gezinin</string>
     <string name="upgrade_split_tunneling_feature_allow_exceptions">VPN ile kalan her şeyi korurken güvenilir uygulamaların ve IP adreslerinin doğrudan internet bağlantısı kurmasına izin verin</string>
     <string name="upgrade_customization_title">Gelişmiş VPN özelleştirmelerine erişin</string>
-    <string name="upgrade_customization_lan"><![CDATA[Access devices on your <b>local area network (LAN)</b>]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Save frequently used connections with <b>profiles</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Get instant access to your profiles with <b>Quick Connect</b>]]></string>
+    <string name="upgrade_customization_lan"><![CDATA[<b>Yerel ağınızdaki (LAN)</b> aygıtlara erişin]]></string>
+    <string name="upgrade_customization_feature_profiles"><![CDATA[<b>Profiller</b> ile sık kullandığınız bağlantıları kaydedin]]></string>
+    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[<b>Hızlı bağlan</b> ile profillerinize anında erişin]]></string>
     <string name="upgrade_netshield_block_ads">Reklam ve etkinlik izleyicileri engelleyebilirsiniz</string>
     <string name="upgrade_netshield_block_malware">Aygıtınızı kötü amaçlı yazılımlardan koruyabilirsiniz</string>
     <string name="upgrade_netshield_speed">En yüksek hızlarda gezinebilirsiniz</string>
@@ -667,7 +667,7 @@
         <item quantity="other">%1$d ülkeden gezinin</item>
     </plurals>
     <string name="upgrade_moderate_nat_title2">Oyun deneyiminizi üst düzeye çıkarın</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Unlock <b>NAT Type 2</b> with VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[VPN Plus tarifesi ile <b>NAT Type 2</b> özelliğine erişin]]></string>
     <string name="upgrade_moderate_nat_feature_gaming">Çevrim içi oyun ve görüntülü görüşme başarımını artırın</string>
     <string name="upgrade_moderate_nat_feature_optimize">NAT Type 2 (ortalama) aygıtlar arasında doğrudan bağlantı kurulmasını sağlayarak hız ve kararlılığı iyileştirir</string>
     <string name="free_connections_info_message">Proton Free sizi otomatik olarak kullanılabilecek en hızlı sunucuya bağlar. Bu sunucu normalde konumunuza en yakın sunucudur.</string>
@@ -726,4 +726,11 @@
      1800+ new servers in 68 countries
      -->
     <string name="welcome_plus_feature_servers_count">%2$s içinde %1$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">external link</string>
 </resources>
