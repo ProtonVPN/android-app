@@ -1,0 +1,2 @@
+What's new
+This update brings UI and performance improvements
