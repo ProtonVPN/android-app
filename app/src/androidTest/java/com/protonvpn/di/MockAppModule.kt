@@ -93,12 +93,14 @@ import me.proton.core.user.domain.repository.PassphraseRepository
 import me.proton.core.user.domain.repository.UserAddressRepository
 import me.proton.core.user.domain.repository.UserRepository
 import me.proton.core.util.android.dagger.CoreAndroidModule
+import me.proton.core.util.android.dagger.UtcClock
 import me.proton.core.util.kotlin.CoroutineScopeProvider
 import me.proton.core.util.kotlin.DefaultCoroutineScopeProvider
 import me.proton.core.util.kotlin.DispatcherProvider
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
+import java.time.Clock
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import me.proton.core.network.data.di.Constants as CoreConstants
@@ -134,6 +136,10 @@ class MockAppModule {
     @Provides
     @DohProviderUrls
     fun provideDohProviderUrls(): Array<String> = CoreConstants.DOH_PROVIDERS_URLS
+
+    @Provides
+    @UtcClock
+    fun provideClock(): Clock = Clock.systemUTC()
 
     @Provides
     @Singleton

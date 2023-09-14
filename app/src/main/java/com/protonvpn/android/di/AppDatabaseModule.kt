@@ -41,6 +41,7 @@ import me.proton.core.notification.data.local.db.NotificationDatabase
 import me.proton.core.observability.data.db.ObservabilityDatabase
 import me.proton.core.payment.data.local.db.PaymentDatabase
 import me.proton.core.push.data.local.db.PushDatabase
+import me.proton.core.telemetry.data.db.TelemetryDatabase
 import me.proton.core.user.data.db.AddressDatabase
 import me.proton.core.user.data.db.UserDatabase
 import me.proton.core.usersettings.data.db.OrganizationDatabase
@@ -112,6 +113,9 @@ abstract class AppDatabaseBindsModule {
 
     @Binds
     abstract fun providePushDatabase(appDatabase: AppDatabase): PushDatabase
+
+    @Binds
+    abstract fun provideTelemetryDatabase(appDatabase: AppDatabase): TelemetryDatabase
 
     @Binds
     abstract fun provideEventMetadataDatabase(appDatabase: AppDatabase): EventMetadataDatabase

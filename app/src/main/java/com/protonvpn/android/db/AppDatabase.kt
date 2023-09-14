@@ -58,6 +58,8 @@ import me.proton.core.payment.data.local.entity.GooglePurchaseEntity
 import me.proton.core.push.data.local.db.PushConverters
 import me.proton.core.push.data.local.db.PushDatabase
 import me.proton.core.push.data.local.db.PushEntity
+import me.proton.core.telemetry.data.db.TelemetryDatabase
+import me.proton.core.telemetry.data.entity.TelemetryEventEntity
 import me.proton.core.user.data.db.AddressDatabase
 import me.proton.core.user.data.db.UserConverters
 import me.proton.core.user.data.db.UserDatabase
@@ -105,6 +107,8 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         NotificationEntity::class,
         // push
         PushEntity::class,
+        // telemetry
+        TelemetryEventEntity::class,
         // event-manager
         EventMetadataEntity::class,
         // vpn
@@ -148,10 +152,11 @@ abstract class AppDatabase :
     ObservabilityDatabase,
     NotificationDatabase,
     PushDatabase,
+    TelemetryDatabase,
     EventMetadataDatabase {
 
     companion object {
-        const val version = 21
+        const val version = 22
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
@@ -171,6 +176,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_18_19,
             DatabaseMigrations.MIGRATION_19_20,
             DatabaseMigrations.MIGRATION_20_21,
+            DatabaseMigrations.MIGRATION_21_22,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
