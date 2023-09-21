@@ -417,8 +417,6 @@
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
     <string name="settingsVpnAcceleratorDescription"><![CDATA[قابلیت VPN Accelerator مجموعه‌ای منحصر به فرد از فناوری‌های بهبود کارایی است که می‌تواند سرعت VPN را تا ٪۴۰۰ افزایش دهد. <a href="%1$s">بیشتر بدانید</a>.]]></string>
-    <string name="settingsSmartReconnectNotificationsTitle">اعلان‌های VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsDescription">هنگامی که VPN Accelerator شما را به سروری سریع‌تر وصل می‌کند باخبر شوید</string>
     <string name="settingsReconnectToApplySettingsDialogContent">تنظیمات جدید هنگام اتصال بعدی شما اعمال خواهند شد.</string>
     <string name="settingsReconnectToChangeDialogContent">این کار اتصال شما را مجدداً راه‌اندازی خواهد کرد.</string>
     <string name="reconnectToEnableNetshield">این کار اتصال شما را مجدداً راه‌اندازی خواهد کرد.\n\nتوجه: ممکن است برخی از سایت‌ها در صورت روشن بودن NetShield بارگذاری نشوند.</string>
@@ -427,7 +425,6 @@
     <string name="notification_subscription_expired_no_reconnection_content">اشتراک شما تنزل یافته است.</string>
     <string name="notification_delinquent_title">حساب کاربری Proton VPN شما دارای چند صورت‌حساب در حال انتظار است</string>
     <string name="notification_delinquent_content">لطفاً لحظه‌ای را به بروزرسانی اطلاعات پرداخت خود اختصاص دهید تا اشتراک شما فعال بماند.</string>
-    <string name="notification_server_unreachable_content">شما به یک سرور سریع‌تر مشابه سروری که انتخاب کردید منتقل شدید.</string>
     <string name="notification_max_sessions_title">شما به حداکثر محدودیت دستگاه خود رسیدید</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

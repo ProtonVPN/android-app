@@ -199,23 +199,6 @@ class EffectiveCurrentUserSettingsFlowTests {
     }
 
     @Test
-    fun `VPN Accelerator notifications in effect only when feature and main setting is enabled`() = testScope.runTest {
-        rawSettingsFlow.update { it.copy(vpnAccelerator = true, vpnAcceleratorNotifications = true) }
-        featureFlagsFlow.update { it.copy(vpnAccelerator = false) }
-        assertFalse(effectiveSettings().vpnAcceleratorNotifications)
-
-        rawSettingsFlow.update { it.copy(vpnAccelerator = false, vpnAcceleratorNotifications = true) }
-        featureFlagsFlow.update { it.copy(vpnAccelerator = true) }
-        assertFalse(effectiveSettings().vpnAcceleratorNotifications)
-
-        rawSettingsFlow.update { it.copy(vpnAccelerator = true, vpnAcceleratorNotifications = true) }
-        assertTrue(effectiveSettings().vpnAcceleratorNotifications)
-
-        rawSettingsFlow.update { it.copy(vpnAccelerator = true, vpnAcceleratorNotifications = false) }
-        assertFalse(effectiveSettings().vpnAcceleratorNotifications)
-    }
-
-    @Test
     fun `VPN Accelerator enabled when restricted`() = testScope.runTest {
         featureFlagsFlow.update { it.copy(vpnAccelerator = true) }
         rawSettingsFlow.update { it.copy(vpnAccelerator = false) }

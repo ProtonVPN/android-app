@@ -64,7 +64,6 @@ class EffectiveCurrentUserSettings(
     val secureCore = distinct { it.secureCore }
     val telemetry = distinct { it.telemetry }
     val vpnAccelerator = distinct { it.vpnAccelerator }
-    val vpnAcceleratorNotifications = distinct { it.vpnAcceleratorNotifications }
 
     @Inject
     constructor(mainScope: CoroutineScope, effectiveCurrentUserSettingsFlow: EffectiveCurrentUserSettingsFlow)
@@ -106,8 +105,6 @@ class EffectiveCurrentUserSettingsFlow constructor(
             safeMode = effectiveSafeMode,
             telemetry = features.telemetry && settings.telemetry,
             vpnAccelerator = effectiveVpnAccelerator,
-            vpnAcceleratorNotifications =
-                features.vpnAccelerator && effectiveVpnAccelerator && settings.vpnAcceleratorNotifications,
             splitTunneling = effectiveSplitTunneling
         )
     }

@@ -48,9 +48,9 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.databinding.ActivitySettingsBinding
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.logging.logUiSettingChange
-import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldSwitch
 import com.protonvpn.android.netshield.getNetShieldAvailability
@@ -235,12 +235,6 @@ class SettingsActivity : BaseActivityV2() {
                 tryToggleVpnAccelerator()
                 true
             }
-            switchVpnAcceleratorNotifications.setOnCheckedChangeListener { _, isChecked ->
-                lifecycleScope.launch {
-                    logUiEvent(Setting.VPN_ACCELERATOR_NOTIFICATIONS)
-                    userSettingsManager.updateVpnAcceleratorNotifications(isChecked)
-                }
-            }
 
             buttonTelemetry.setOnClickListener { navigateTo(SettingsTelemetryActivity::class.java) }
             buttonLicenses.setOnClickListener { navigateTo(OssLicensesActivity::class.java) }
@@ -271,7 +265,6 @@ class SettingsActivity : BaseActivityV2() {
             switchVpnAccelerator.setInfoText(HtmlTools.fromHtml(info), hasLinks = true)
         } else {
             switchVpnAccelerator.isVisible = false
-            switchVpnAcceleratorNotifications.isVisible = false
         }
     }
 
@@ -365,10 +358,7 @@ class SettingsActivity : BaseActivityV2() {
         switchNonStandardPorts.isChecked = localUserSettings.safeMode != true
         switchModerateNat.isChecked = !localUserSettings.randomizedNat
         if (appConfig.getFeatureFlags().vpnAccelerator) {
-            switchVpnAcceleratorNotifications.isVisible =
-                localUserSettings.vpnAccelerator && !restrictions.vpnAccelerator
             switchVpnAccelerator.isChecked = localUserSettings.vpnAccelerator
-            switchVpnAcceleratorNotifications.isChecked = localUserSettings.vpnAcceleratorNotifications
         }
 
         // Pass the localUserSettings.defaultProfileId explicitly, otherwise ProfileManager uses its cached value of

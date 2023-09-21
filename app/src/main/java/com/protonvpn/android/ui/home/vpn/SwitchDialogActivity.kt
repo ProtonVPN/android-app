@@ -59,14 +59,14 @@ class SwitchDialogActivity : BaseActivityV2() {
     }
 
     private fun initUI(binding: ActivitySwitchDialogBinding) = with(binding) {
-        val reconnectionNotification =
-            intent.getParcelableExtra<NotificationHelper.ReconnectionNotification>(EXTRA_NOTIFICATION_DETAILS)!!
-        reconnectionNotification.reconnectionInformation?.let {
+        val informationNotification =
+            intent.getParcelableExtra<NotificationHelper.InformationNotification>(EXTRA_NOTIFICATION_DETAILS)!!
+        informationNotification.reconnectionInformation?.let {
             initReconnectionUI(binding, it)
         }
-        textDescription.text = reconnectionNotification.content
-        textTitle.text = reconnectionNotification.title
-        reconnectionNotification.fullScreenDialog?.let { fullScreenDialog ->
+        textDescription.text = informationNotification.content
+        textTitle.text = informationNotification.title
+        informationNotification.fullScreenDialog?.let { fullScreenDialog ->
             buttonBack.setOnClickListener {
                 fullScreenDialog.cancelToastMessage?.let { message ->
                     delegatedSnackManager.postSnack(
@@ -81,9 +81,9 @@ class SwitchDialogActivity : BaseActivityV2() {
             fullScreenDialog.fullScreenIcon?.let { it1 -> image.setImageResource(it1) }
         }
 
-        layoutUpsell.root.isVisible = reconnectionNotification.fullScreenDialog?.hasUpsellLayout == true
+        layoutUpsell.root.isVisible = informationNotification.fullScreenDialog?.hasUpsellLayout == true
         layoutUpsell.textManyCountries.text = getManyServersInManyCountriesText()
-        reconnectionNotification.action?.let { actionItem ->
+        informationNotification.action?.let { actionItem ->
             initActionButton(binding, actionItem)
         } ?: run {
             buttonBack.isVisible = false
@@ -92,7 +92,7 @@ class SwitchDialogActivity : BaseActivityV2() {
                 finish()
             }
         }
-        viewModel.onInit(reconnectionNotification.action)
+        viewModel.onInit(informationNotification.action)
     }
 
     private fun initActionButton(binding: ActivitySwitchDialogBinding, actionItem: NotificationHelper.ActionItem) =

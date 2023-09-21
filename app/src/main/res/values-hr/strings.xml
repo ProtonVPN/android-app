@@ -420,8 +420,6 @@
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
     <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator enables a set of unique performance enhancing technologies which can increase VPN speed by up to 400%%. <a href="%1$s">Learn more</a>.]]></string>
-    <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator obavijesti</string>
-    <string name="settingsSmartReconnectNotificationsDescription">Dobijte obavijest kada VPN Accelerator vas prebaci na brži poslužitelj</string>
     <string name="settingsReconnectToApplySettingsDialogContent">New settings will apply next time you connect.</string>
     <string name="settingsReconnectToChangeDialogContent">This will restart your connection.</string>
     <string name="reconnectToEnableNetshield">This will restart your connection.\n\nNote: Some sites may not load with NetShield on.</string>
@@ -430,7 +428,6 @@
     <string name="notification_subscription_expired_no_reconnection_content">Your subscription has been downgraded.</string>
     <string name="notification_delinquent_title">Vaš Proton VPN račun ima neplaćene fakture</string>
     <string name="notification_delinquent_content">Odvojite trenutak da ažurirate podatke o naplati kako biste zadržali pretplatu aktivnom.</string>
-    <string name="notification_server_unreachable_content">Prebačeni ste na brži poslužitelj sličan onome koji ste odabrali.</string>
     <string name="notification_max_sessions_title">Dostigli ste maksimalno ograničenje broja uređaja</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

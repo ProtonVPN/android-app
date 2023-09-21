@@ -10,7 +10,7 @@ import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.notifications.NotificationHelper.ActionItem
 import com.protonvpn.android.notifications.NotificationHelper.Companion.EXTRA_SWITCH_PROFILE
 import com.protonvpn.android.notifications.NotificationHelper.FullScreenDialog
-import com.protonvpn.android.notifications.NotificationHelper.ReconnectionNotification
+import com.protonvpn.android.notifications.NotificationHelper.InformationNotification
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.ForegroundActivityTracker
@@ -21,7 +21,6 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -43,7 +42,7 @@ class VpnErrorUIManager @Inject constructor(
             userPlanManager.planChangeFlow.collect {
                 if (it is UserPlanManager.InfoChange.PlanChange.Downgrade && !stateMonitor.isEstablishingOrConnected) {
                     displayInformation(
-                        ReconnectionNotification(
+                        InformationNotification(
                             title = appContext.getString(R.string.notification_subscription_expired_title),
                             content = appContext.getString(R.string.notification_subscription_expired_no_reconnection_content),
                             reconnectionInformation = null,
@@ -77,7 +76,7 @@ class VpnErrorUIManager @Inject constructor(
                             )
                         )
                     )
-                } else if (shouldAlwaysInform(switch) || userSettings.vpnAcceleratorNotifications.first()) {
+                } else if (shouldAlwaysInform(switch)) {
                     buildNotificationInformation(switch)?.let {
                         displayInformation(it)
                     }
@@ -86,14 +85,14 @@ class VpnErrorUIManager @Inject constructor(
         }
     }
 
-    private fun displayInformation(reconnectionNotification: ReconnectionNotification) {
+    private fun displayInformation(informationNotification: InformationNotification) {
         val foregroundActivity = foregroundActivityTracker.foregroundActivity
-        if (foregroundActivity != null && reconnectionNotification.fullScreenDialog != null) {
+        if (foregroundActivity != null && informationNotification.fullScreenDialog != null) {
             foregroundActivity.launchActivity<SwitchDialogActivity>(init = {
-                putExtra(SwitchDialogActivity.EXTRA_NOTIFICATION_DETAILS, reconnectionNotification)
+                putExtra(SwitchDialogActivity.EXTRA_NOTIFICATION_DETAILS, informationNotification)
             })
         } else {
-            notificationHelper.buildSwitchNotification(reconnectionNotification)
+            notificationHelper.buildSwitchNotification(informationNotification)
         }
     }
 
@@ -106,22 +105,39 @@ class VpnErrorUIManager @Inject constructor(
         }
     }
 
-    private fun buildNotificationInformation(switch: VpnFallbackResult): ReconnectionNotification? {
+    private fun buildNotificationInformation(switch: VpnFallbackResult): InformationNotification? {
         return when (switch) {
             is VpnFallbackResult.Switch -> {
-                switch.reason?.let {
-                    ReconnectionNotification(
-                        title = notificationHelper.getContentTitle(it),
-                        content = notificationHelper.getContentString(it),
-                        reconnectionInformation = buildReconnectionInfo(switch),
-                        action = if (it is SwitchServerReason.Downgrade || it is SwitchServerReason.UserBecameDelinquent)
-                            createPlanUpgradeAction(UpgradeSource.DOWNGRADE)
-                        else null,
-                        fullScreenDialog = if (it is SwitchServerReason.Downgrade || it is SwitchServerReason.UserBecameDelinquent)
-                            FullScreenDialog(hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(it))
-                        else
-                            null
-                    )
+                when (val reason = switch.reason) {
+                    is SwitchServerReason.Downgrade -> {
+                        InformationNotification(
+                            title = appContext.getString(R.string.notification_subscription_expired_title),
+                            content = appContext.getString(R.string.notification_subscription_expired_content),
+                            reconnectionInformation = switch.fromServer?.let {
+                                NotificationHelper.ReconnectionInformation(
+                                    fromServerName = it.serverName,
+                                    fromCountry = it.exitCountry,
+                                    fromCountrySecureCore = if (it.isSecureCoreServer) it.entryCountry else null,
+                                    toServerName = switch.toServer.serverName,
+                                    toCountry = switch.toServer.exitCountry,
+                                    toCountrySecureCore = if (switch.toServer.isSecureCoreServer) switch.toServer.entryCountry else null
+                                )
+                            },
+                            action = createPlanUpgradeAction(UpgradeSource.DOWNGRADE),
+                            fullScreenDialog = FullScreenDialog(hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(reason))
+                        )
+                    }
+                    is SwitchServerReason.UserBecameDelinquent -> {
+                        InformationNotification(
+                            title = appContext.getString(R.string.notification_delinquent_title),
+                            content = appContext.getString(R.string.notification_delinquent_content),
+                            action = createPlanUpgradeAction(UpgradeSource.DOWNGRADE),
+                            fullScreenDialog = FullScreenDialog(hasUpsellLayout = true, cancelToastMessage = getCancelToastMessage(reason))
+                        )
+                    }
+                    SwitchServerReason.ServerInMaintenance, SwitchServerReason.ServerUnavailable, SwitchServerReason.ServerUnreachable, SwitchServerReason.UnknownAuthFailure, null -> {
+                        null
+                    }
                 }
             }
             is VpnFallbackResult.Error -> {
@@ -138,7 +154,7 @@ class VpnErrorUIManager @Inject constructor(
                     }
                     val action =
                         if (!isUserPlusOrAbove) createPlanUpgradeAction(UpgradeSource.MAX_CONNECTIONS) else null
-                    ReconnectionNotification(
+                    InformationNotification(
                         title = appContext.getString(R.string.notification_max_sessions_title),
                         content = content,
                         action = action,
@@ -160,21 +176,6 @@ class VpnErrorUIManager @Inject constructor(
         true,
         upgradeSource
     )
-
-    private fun buildReconnectionInfo(switch: VpnFallbackResult.Switch): NotificationHelper.ReconnectionInformation? {
-        val toServer = switch.toServer
-        val fromServer = switch.fromServer
-        return if (fromServer != null && switch.reason !is SwitchServerReason.UserBecameDelinquent) {
-            NotificationHelper.ReconnectionInformation(
-                fromServerName = fromServer.serverName,
-                fromCountry = fromServer.exitCountry,
-                fromCountrySecureCore = if (fromServer.isSecureCoreServer) fromServer.entryCountry else null,
-                toServerName = toServer.serverName,
-                toCountry = toServer.exitCountry,
-                toCountrySecureCore = if (toServer.isSecureCoreServer) toServer.entryCountry else null
-            )
-        } else null
-    }
 
     private fun getCancelToastMessage(reason: SwitchServerReason) = when (reason) {
         is SwitchServerReason.Downgrade -> appContext.getString(

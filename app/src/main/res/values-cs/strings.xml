@@ -423,8 +423,6 @@
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
     <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator poskytuje sadu jedinečných technologií zvyšujících výkon, které mohou zrychlit VPN připojení až o 400%%. <a href="%1$s">Více informací</a>.]]></string>
-    <string name="settingsSmartReconnectNotificationsTitle">Upozornění VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsDescription">Buďte upozorněni když vás VPN Accelerator přepne na rychlejší server</string>
     <string name="settingsReconnectToApplySettingsDialogContent">Nové nastavení se projeví při příštím připojení.</string>
     <string name="settingsReconnectToChangeDialogContent">Toto restartuje vaše připojení.</string>
     <string name="reconnectToEnableNetshield">Toto restartuje vaše připojení.\n\nPoznámka: Některé stránky se nemusí načíst se zapnutou funkcí NetShield.</string>
@@ -433,7 +431,6 @@
     <string name="notification_subscription_expired_no_reconnection_content">Vaše předplatné bylo sníženo.</string>
     <string name="notification_delinquent_title">U Vašeho Proton VPN účtu evidujeme neuhrazené faktury</string>
     <string name="notification_delinquent_content">Prosím zkontrolujte vaše fakturační údaje pro udržení vašeho předplatného aktivním.</string>
-    <string name="notification_server_unreachable_content">Byli jste přepojeni na rychlejší server podobný tomu, který jste vybrali.</string>
     <string name="notification_max_sessions_title">Dosáhli jste maximálního počtu zařízení</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
