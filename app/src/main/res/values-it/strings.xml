@@ -427,7 +427,6 @@
     <string name="notification_subscription_expired_no_reconnection_content">Il tuo abbonamento è stato declassato.</string>
     <string name="notification_delinquent_title">Il tuo account Proton VPN ha fatture in sospeso</string>
     <string name="notification_delinquent_content">Per favore prenditi un momento per aggiornare le tue informazioni di fatturazione per mantenere attivo il tuo abbonamento.</string>
-    <string name="notification_server_unreachable_content">Sei stato passato ad un server più veloce simile a quello selezionato.</string>
     <string name="notification_max_sessions_title">Hai raggiunto il limite massimo di dispositivi</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

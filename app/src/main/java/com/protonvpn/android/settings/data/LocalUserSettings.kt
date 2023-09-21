@@ -52,7 +52,6 @@ data class LocalUserSettings(
     val splitTunneling: SplitTunnelingSettings = SplitTunnelingSettings(),
     val telemetry: Boolean = false,
     val vpnAccelerator: Boolean = true,
-    val vpnAcceleratorNotifications: Boolean = true,
     // Whenever adding a new setting add it also in toLogList below.
 ) {
     companion object {
@@ -77,7 +76,7 @@ fun LocalUserSettings.toLogList(profileManager: ProfileManager): List<String> {
         },
         "Telemetry: ${telemetry.toLog()}",
         "Use DoH for API: ${apiUseDoh.toLog()}",
-        "VPN Accelerator: ${vpnAccelerator.toLog()}; notifications: ${vpnAcceleratorNotifications.toLog()}",
+        "VPN Accelerator: ${vpnAccelerator.toLog()}",
     )
     val conditional = buildList {
         if (Build.VERSION.SDK_INT < 26)

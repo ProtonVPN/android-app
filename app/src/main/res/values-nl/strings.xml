@@ -417,8 +417,6 @@
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
     <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator maakt gebruik van een set van unieke prestatieverbeterende technologieën die de VPN-snelheid kunnen verhogen tot 400%%. <a href="%1$s">Lees meer</a>.]]></string>
-    <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator meldingen</string>
-    <string name="settingsSmartReconnectNotificationsDescription">Krijg een melding wanneer VPN Accelerator u naar een snellere server schakelt</string>
     <string name="settingsReconnectToApplySettingsDialogContent">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
     <string name="settingsReconnectToChangeDialogContent">Dit zal uw verbinding herstarten.</string>
     <string name="reconnectToEnableNetshield">Hierdoor wordt uw verbinding opnieuw opgestart.\n\nLet op: Sommige sites worden mogelijk niet geladen als NetShield is ingeschakeld.</string>
@@ -427,7 +425,6 @@
     <string name="notification_subscription_expired_no_reconnection_content">Uw abonnement is naar omlaag geschaald.</string>
     <string name="notification_delinquent_title">Uw Proton VPN-account heeft openstaande facturen</string>
     <string name="notification_delinquent_content">Neem even de tijd om uw factuurgegevens bij te werken om uw abonnement actief te houden.</string>
-    <string name="notification_server_unreachable_content">U bent overgestapt naar een snellere server die lijkt op de server die u heeft geselecteerd.</string>
     <string name="notification_max_sessions_title">U hebt uw maximum apparaat limiet bereikt</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

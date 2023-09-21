@@ -417,8 +417,6 @@
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
     <string name="settingsVpnAcceleratorDescription"><![CDATA[„VPN Accelerator“ ermöglicht eine Reihe einzigartiger leistungssteigernder Technologien, die die VPN-Geschwindigkeit um bis zu 400 %% erhöhen können. <a href="%1$s" >Mehr erfahren</a>.]]></string>
-    <string name="settingsSmartReconnectNotificationsTitle">VPN Accelerator — Benachrichtigungen</string>
-    <string name="settingsSmartReconnectNotificationsDescription">Lasse dich benachrichtigen, wenn du durch „VPN Accelerator“ mit einem schnelleren Server verbunden wirst</string>
     <string name="settingsReconnectToApplySettingsDialogContent">Die neuen Einstellungen werden erst nach dem nächsten Verbindungsaufbau übernommen.</string>
     <string name="settingsReconnectToChangeDialogContent">Dadurch wird deine Verbindung neu gestartet.</string>
     <string name="reconnectToEnableNetshield">Dadurch wird deine Verbindung neu gestartet.\n\nHinweis: Einige Websites werden bei aktiviertem NetShield möglicherweise nicht geladen.</string>
@@ -427,7 +425,6 @@
     <string name="notification_subscription_expired_no_reconnection_content">Dein Abonnement wurde herabgestuft.</string>
     <string name="notification_delinquent_title">Dein Proton VPN-Konto enthält noch offene Rechnungen</string>
     <string name="notification_delinquent_content">Bitte nimm dir einen Moment Zeit, um deine Rechnungsdaten zu aktualisieren, damit dein Abonnement aktiv bleibt.</string>
-    <string name="notification_server_unreachable_content">Du wurdest auf einen schnelleren Server umgeschaltet, der dem von dir gewählten ähnlich ist.</string>
     <string name="notification_max_sessions_title">Du hast die max. mögliche Anzahl von Geräten erreicht</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

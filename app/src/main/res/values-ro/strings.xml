@@ -420,8 +420,6 @@
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
     <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator activează un set de tehnologii unice de îmbunătățire a performanței, care pot crește viteza din VPN cu până la 400%%. <a href="%1$s">Detalii</a>.]]></string>
-    <string name="settingsSmartReconnectNotificationsTitle">Notificări VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsDescription">Primiți notificări când VPN Accelerator comută la un server mai rapid</string>
     <string name="settingsReconnectToApplySettingsDialogContent">Noile setări vor fi aplicate la următoarea conectare.</string>
     <string name="settingsReconnectToChangeDialogContent">Aceasta va reporni conexiunea.</string>
     <string name="reconnectToEnableNetshield">Aceasta va reporni conexiunea.\n\nNotă: Unele pagini web s-ar putea să nu se încarce dacă NetShield este activat.</string>
@@ -430,7 +428,6 @@
     <string name="notification_subscription_expired_no_reconnection_content">Abonamentul a fost retrogradat.</string>
     <string name="notification_delinquent_title">Contul Proton VPN are facturi în așteptare</string>
     <string name="notification_delinquent_content">Actualizați-vă informațiile de facturare pentru a păstra abonamentul activ.</string>
-    <string name="notification_server_unreachable_content">S-a comutat la un server mai rapid, similar cu cel pe care l-ați selectat.</string>
     <string name="notification_max_sessions_title">Ați atins limita maximă de dispozitive folosite</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

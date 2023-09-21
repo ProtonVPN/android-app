@@ -44,7 +44,6 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.getThemeColor
-import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnState.CheckingAvailability
 import com.protonvpn.android.vpn.VpnState.Connected
@@ -80,29 +79,8 @@ class NotificationHelper(
         }
     }
 
-    fun getContentTitle(switch: SwitchServerReason): String = appContext.getString(
-        when (switch) {
-            is SwitchServerReason.Downgrade -> R.string.notification_subscription_expired_title
-            SwitchServerReason.UserBecameDelinquent -> R.string.notification_delinquent_title
-            SwitchServerReason.ServerInMaintenance -> R.string.notification_server_maintenance_title
-            SwitchServerReason.ServerUnreachable -> R.string.notification_server_unreachable_title
-            SwitchServerReason.UnknownAuthFailure -> R.string.notification_server_unreachable_title
-            SwitchServerReason.ServerUnavailable -> R.string.notification_server_unreachable_title
-        }
-    )
-
-    fun getContentString(switch: SwitchServerReason): String = appContext.getString(
-        when (switch) {
-            is SwitchServerReason.Downgrade -> R.string.notification_subscription_expired_content
-            SwitchServerReason.UserBecameDelinquent -> R.string.notification_delinquent_content
-            SwitchServerReason.ServerInMaintenance, SwitchServerReason.ServerUnreachable -> R.string.notification_server_unreachable_content
-            SwitchServerReason.UnknownAuthFailure -> R.string.notification_server_unreachable_content
-            SwitchServerReason.ServerUnavailable -> R.string.notification_server_unreachable_content
-        }
-    )
-
     @Parcelize
-    data class ReconnectionNotification(
+    data class InformationNotification(
         val title: String,
         val content: String,
         val reconnectionInformation: ReconnectionInformation? = null,
@@ -142,7 +120,7 @@ class NotificationHelper(
         class BgAction(override val title: String, val pendingIntent: PendingIntent) : ActionItem()
     }
 
-    fun buildSwitchNotification(notificationInfo: ReconnectionNotification) {
+    fun buildSwitchNotification(notificationInfo: InformationNotification) {
         val notificationBuilder =
             NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_vpn_status_information)

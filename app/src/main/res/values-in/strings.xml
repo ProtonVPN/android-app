@@ -414,8 +414,6 @@
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
     <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator mengaktifkan serangkaian teknologi peningkatan kinerja unik yang dapat meningkatkan kecepatan VPN hingga 400%%. <a href="%1$s">Pelajari lebih lanjut</a>.]]></string>
-    <string name="settingsSmartReconnectNotificationsTitle">Notifikasi VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsDescription">Dapatkan notifikasi pada saat VPN Accelerator memindahkan Anda ke server yang lebih cepat</string>
     <string name="settingsReconnectToApplySettingsDialogContent">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
     <string name="settingsReconnectToChangeDialogContent">Tindakan ini akan menyambungkan ulang koneksi internet Anda.</string>
     <string name="reconnectToEnableNetshield">Tindakan ini akan menyambungkan ulang koneksi Anda.\n\nCatatan: Beberapa situs mungkin tidak akan dapat termuat dengan NetShield yang aktif.</string>
@@ -424,7 +422,6 @@
     <string name="notification_subscription_expired_no_reconnection_content">Paket langganan Anda telah diturunkan.</string>
     <string name="notification_delinquent_title">Akun Proton VPN Anda memiliki tagihan yang belum dilunasi</string>
     <string name="notification_delinquent_content">Silakan perbarui informasi tagihan Anda agar langganan Anda tetap aktif.</string>
-    <string name="notification_server_unreachable_content">Anda telah dipindahkan ke server lebih cepat yang serupa dengan server pilihan Anda sebelumnya.</string>
     <string name="notification_max_sessions_title">Anda telah mencapai batas jumlah perangkat maksimum yang dapat Anda sambungkan</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">

@@ -75,13 +75,6 @@
             app:infoText="@string/settingsVpnAcceleratorDescription"
             app:title="@string/settingsSmartReconnectTitle" />
 
-        <com.protonvpn.android.ui.settings.SettingsSwitch
-            android:id="@+id/switchVpnAcceleratorNotifications"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:infoText="@string/settingsSmartReconnectNotificationsDescription"
-            app:title="@string/settingsSmartReconnectNotificationsTitle" />
-
         <TextView
             style="@style/SectionHeadlineText.Brand"
             android:layout_width="match_parent"
