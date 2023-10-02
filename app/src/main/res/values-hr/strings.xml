@@ -235,6 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Proton VPN app</string>
     <string name="noVpnPermissionOtherAppLabel">Other VPN apps</string>
     <string name="noVpnPermissionOpenSettings">Open Android VPN settings</string>
+    <string name="noNotificationPermissionGrantTitle">Enable notifications</string>
+    <string name="noNotificationPermissionGrantDescription">Check your connection status outside of the app and get notified about any changes</string>
+    <string name="noNotificationPermissionGrantNowTitle">Turn on now</string>
     <string name="error_prepare_vpn_description"><![CDATA[Please disable always-on VPN for all other VPN apps in the Android VPN system settings, as that prevents Proton VPN from establishing a VPN connection. Please also grant VPN permissions if a dialog requesting VPN permissions appears. Other VPN apps may also need to be uninstalled to prevent conflicts. Afterwards, please try again. <a href="%1$s">Learn more</a>]]></string>
     <string name="error_prepare_vpn_settings">Idite u VPN postavke Androida</string>
     <string name="error_prepare_vpn_title">Pogreška: problem s VPN dopuštenjima</string>

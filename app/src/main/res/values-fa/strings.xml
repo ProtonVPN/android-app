@@ -235,6 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">برنامهٔ ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">برنامه‌های VPN دیگر</string>
     <string name="noVpnPermissionOpenSettings">تنظیمات VPN را در Android باز کنید</string>
+    <string name="noNotificationPermissionGrantTitle">Enable notifications</string>
+    <string name="noNotificationPermissionGrantDescription">Check your connection status outside of the app and get notified about any changes</string>
+    <string name="noNotificationPermissionGrantNowTitle">Turn on now</string>
     <string name="error_prepare_vpn_description"><![CDATA[لطفاً حالت همیشه روشن VPN را برای تمام برنامه‌های VPN دیگر در تنظیمات VPN سیستم اندروید غیرفعال کنید، زیرا مانع برقراری اتصال Proton VPN می‌شود. لطفاً همچنین در صورت ظاهر شدن صفحهٔ درخواست مجوز‌های VPN، اجازهٔ VPN را اعطا نمایید. ممکن است نیاز باشد برنامه‌های VPN دیگر را برای جلوگیری از تداخل به کلی حذف کنید. سپس، لطفاً دوباره امتحان کنید. <a href="%1$s">بیشتر بدانید</a>]]></string>
     <string name="error_prepare_vpn_settings">به تنظیمات VPN اندروید بروید</string>
     <string name="error_prepare_vpn_title">خطا: مشکل مجوز VPN</string>

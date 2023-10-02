@@ -235,6 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Aplicación ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Otras aplicaciones de VPN</string>
     <string name="noVpnPermissionOpenSettings">Abrir ajustes de VPN de Android</string>
+    <string name="noNotificationPermissionGrantTitle">Habilitar las notificaciones</string>
+    <string name="noNotificationPermissionGrantDescription">Verifique el estado de su conexión fuera de la app y reciba notificaciones sobre cualquier cambio.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Activar ahora</string>
     <string name="error_prepare_vpn_description"><![CDATA[Deshabilite la VPN siempre-activa para todas las demás aplicaciones VPN en los ajustes VPN del sistema de Android, ya que evita que Proton VPN establezca una conexión VPN. También conceda permisos de VPN si aparece una ventana solicitando permisos de VPN. Otras aplicaciones pueden ser desinstaladas para prevenir conflictos. Después, intente nuevamente. <a href="%1$s">Más información</a>]]></string>
     <string name="error_prepare_vpn_settings">Ir a los ajustes VPN de Android</string>
     <string name="error_prepare_vpn_title">Error: problema de permisos VPN</string>
@@ -654,7 +657,7 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">¿Desea elegir un país específico?</string>
     <string name="upgrade_country_message">Desbloquee el país seleccionado con VPN Plus</string>
-    <string name="upgrade_country_feature_money_back">Garantía de reembolso en 30 días</string>
+    <string name="upgrade_country_feature_money_back">Garantía de reembolso durante 30 días</string>
     <!-- Example: Higher speeds (10 Gbps) -->
     <string name="upgrade_country_feature_speed">Velocidades altas (%1$d Gbps)</string>
     <string name="upgrade_country_feature_stream">Transmita sus películas favoritas</string>

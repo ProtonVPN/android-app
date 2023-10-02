@@ -235,6 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Aplikacja Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Inne aplikacje VPN</string>
     <string name="noVpnPermissionOpenSettings">Otwórz ustawienia VPN systemu Android</string>
+    <string name="noNotificationPermissionGrantTitle">Włącz powiadomienia</string>
+    <string name="noNotificationPermissionGrantDescription">Sprawdź status połączenia poza aplikacją i otrzymuj powiadomienia o wszelkich zmianach.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Włącz</string>
     <string name="error_prepare_vpn_description"><![CDATA[Wyłącz funkcję stale aktywnego połączenia VPN dla wszystkich innych aplikacji w ustawieniach VPN w systemie Android. Ta funkcja uniemożliwia aplikacji Proton VPN ustanowienie połączenia. Jeśli pojawi się okno dialogowe z żądaniem uprawnień VPN, przyznaj je. Wymagane może być również odinstalowanie innych aplikacje, aby zapobiec konfliktom. Następnie spróbuj ponownie. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="error_prepare_vpn_settings">Przejdź do ustawień VPN w systemie Android</string>
     <string name="error_prepare_vpn_title">Błąd: problem z uprawnieniem VPN</string>
