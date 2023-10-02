@@ -235,6 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Aplicativo Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Outros aplicativos VPN</string>
     <string name="noVpnPermissionOpenSettings">Abrir configurações de VPN do Android</string>
+    <string name="noNotificationPermissionGrantTitle">Ativar notificações</string>
+    <string name="noNotificationPermissionGrantDescription">Verifique o status da sua conexão fora do aplicativo e seja notificado sobre quaisquer alterações.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Ativar agora</string>
     <string name="error_prepare_vpn_description"><![CDATA[Desative a VPN sempre ativa para todos os outros aplicativos de VPN nas configurações de VPN no Android, pois isso impede que o Proton VPN estabeleça uma conexão VPN. Também conceda permissões para VPN no caso de aparecer uma janela solicitando permissões de VPN. Outros aplicativos VPN também podem ter que ser desinstalados para evitar conflitos. Após isso, tente novamente. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="error_prepare_vpn_settings">Vá para configurações da VPN no Android</string>
     <string name="error_prepare_vpn_title">Erro: problema de permissão na VPN</string>
@@ -281,7 +284,7 @@
     <string name="dialogTitleAttention">Atenção</string>
     <string name="saveProfileAlreadySaved">Já usado</string>
     <string name="openUrlError">Não foi possível abrir %1$s. O navegador de internet não foi detectado no seu dispositivo.</string>
-    <string name="toastLoginAuthVersionError">Não foi possível Iniciar sessão devido a versão de autenticação não suportada. Entre em contato com o suporte.</string>
+    <string name="toastLoginAuthVersionError">Não foi possível Iniciar sessão devido à versão de autenticação não suportada. Entre em contato com o suporte.</string>
     <string name="loaderErrorTimeout">A conexão expirou. Tente novamente.</string>
     <string name="troubleshootButton">Resolução de problemas</string>
     <string name="activityTroubleshootTitle">Solução de problemas</string>

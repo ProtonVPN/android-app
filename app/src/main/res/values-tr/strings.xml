@@ -26,7 +26,7 @@
     <string name="hamburgerMenu">Hamburger menüsü</string>
     <string name="error_field_required">Bu alan zorunludur</string>
     <string name="menuActionSignOut">Oturumu kapat</string>
-    <string name="loginSlogan">Her yerde güvenli internet</string>
+    <string name="loginSlogan">Her yerde güvenli İnternet</string>
     <string name="loginStartWithDevice">Aygıtla başla</string>
     <string name="loginCreateAccount">Yeni hesap aç</string>
     <string name="loginNeedHelp">Yardım gerekiyor mu?</string>
@@ -41,7 +41,7 @@
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Uyarı</string>
     <string name="secureCoreSpeedInfoTitle">Hız hakkında bir not…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core, en yüksek düzeyde güvenlik ve gizlilik sunar. Ancak internet hızınızı düşürebilir. Başarımı yükseltmeye gerek duyuyorsanız, Secure Core özelliğini kapatabilirsiniz.</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core, en yüksek düzeyde güvenlik ve gizlilik sunar. Ancak İnternet hızınızı düşürebilir. Başarımı yükseltmeye gerek duyuyorsanız, Secure Core özelliğini kapatabilirsiniz.</string>
     <string name="secureCoreActivateDialogButton">Secure Core kullanılsın</string>
     <string name="logoutConfirmDialogTitle">Oturumu kapat?</string>
     <string name="logoutConfirmDialogMessage">Oturumu kapatmak, aygıtınızın VPN bağlantısını keser.</string>
@@ -91,7 +91,7 @@
     <string name="accountType">Hesap türü:</string>
     <string name="accountTier">Etkin abonelik:</string>
     <string name="accountVersion">Sürüm:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Aboneliğinizi yönetmek için <font color="%1$s">protonvpn.com</font> web panosuna gitmelisiniz.]]></string>
+    <string name="accountSubscriptionDetails"><![CDATA[Aboneliğinizi yönetmek için <font color="%1$s">protonvpn.com</font> İnternet panosuna gitmelisiniz.]]></string>
     <string name="accountButtonManage">Hesap yönetimi</string>
     <string name="accountButtonUseCoupon">Kupon kullan</string>
     <string name="accountFree">Proton VPN Free</string>
@@ -235,6 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Proton VPN uygulaması</string>
     <string name="noVpnPermissionOtherAppLabel">Diğer VPN uygulamaları</string>
     <string name="noVpnPermissionOpenSettings">Android VPN ayarlarını açın</string>
+    <string name="noNotificationPermissionGrantTitle">Bildirimleri aç</string>
+    <string name="noNotificationPermissionGrantDescription">Uygulamanın dışından bağlantınızı denetleyin ve değişikliklerle ilgili bildirim alın</string>
+    <string name="noNotificationPermissionGrantNowTitle">Şimdi aç</string>
     <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için hep açık seçeneğini kapatın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="error_prepare_vpn_settings">Android VPN ayarlarına git</string>
     <string name="error_prepare_vpn_title">Hata: VPN izni sorunu</string>
@@ -286,7 +289,7 @@
     <string name="troubleshootButton">Sorun gider</string>
     <string name="activityTroubleshootTitle">Sorun giderme</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Olası çözümler</string>
-    <string name="troubleshootNoInternetDescription">Lütfen internet bağlantınızın çalıştığından emin olun.</string>
+    <string name="troubleshootNoInternetDescription">Lütfen İnternet bağlantınızın çalıştığından emin olun.</string>
     <string name="troubleshootNoInternetTitle">İnternet bağlantısı yok</string>
     <string name="troubleshootIspProblemTitle">İnternet hizmeti sağlayıcı (ISP) sorunu</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Farklı bir ağ kullanarak Proton bağlantısı kurmayı deneyin (ya da <a href=\'%1$s\'>Tor</a> kullanın)]]></string>
@@ -482,7 +485,7 @@
     <string name="upgrade_split_tunneling_title">İki dünyanın da en iyisini edinin</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[VPN Plus tarifesi ile <b>ayrılmış tünelleme</b> özelliğine erişin]]></string>
     <string name="upgrade_split_tunneling_two_locations">Ayrılmış tünelleme ile aynı anda iki farklı konumdan gezinin</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">VPN ile kalan her şeyi korurken güvenilir uygulamaların ve IP adreslerinin doğrudan internet bağlantısı kurmasına izin verin</string>
+    <string name="upgrade_split_tunneling_feature_allow_exceptions">VPN ile kalan her şeyi korurken güvenilir uygulamaların ve IP adreslerinin doğrudan İnternet bağlantısı kurmasına izin verin</string>
     <string name="upgrade_customization_title">Gelişmiş VPN özelleştirmelerine erişin</string>
     <string name="upgrade_customization_lan"><![CDATA[<b>Yerel ağınızdaki (LAN)</b> aygıtlara erişin]]></string>
     <string name="upgrade_customization_feature_profiles"><![CDATA[<b>Profiller</b> ile sık kullandığınız bağlantıları kaydedin]]></string>
@@ -600,7 +603,7 @@
     <string name="onboarding_connection_info">Sizi konumunuz için en hızlı ve en kararlı sunucuya bağlayacağız.</string>
     <string name="onboading_connect_now">Bağlan</string>
     <string name="onboading_connecting_now">Bağlanıyor</string>
-    <string name="onboarding_congrats_description">Bağlantınız korunmaya başladı ve web üzerinde gezinebilirsiniz.\n\nGüvenle.</string>
+    <string name="onboarding_congrats_description">Bağlantınız korunmaya başladı ve İnternet üzerinde gezinebilirsiniz.\n\nGüvenle.</string>
     <string name="onboarding_congrats_title">Tebrikler!</string>
     <string name="onboading_connect_to_plus">Bir Plus sunucusuna bağlanın</string>
     <string name="upgrade_use_limited_free_button">Sınırlı Free tarifesini kullanın</string>
@@ -654,7 +657,7 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Belirli bir ülke seçmek ister misiniz?</string>
     <string name="upgrade_country_message">VPN Plus tarifesi ile tüm ülkelerden seçim yapın</string>
-    <string name="upgrade_country_feature_money_back">30 gün içinde ücret iade garantisi</string>
+    <string name="upgrade_country_feature_money_back">30 gün içinde ücreti geri ödeme garantisi</string>
     <!-- Example: Higher speeds (10 Gbps) -->
     <string name="upgrade_country_feature_speed">Daha yüksek hızlar (%1$d Gb/sn)</string>
     <string name="upgrade_country_feature_stream">Sevdiğiniz filmleri izleyin</string>
@@ -732,5 +735,5 @@
          a button with "Learn more" label and this suffix will be read by a screen reader as:
          "Learn more, external link button"
      -->
-    <string name="accessibility_external_link_suffix">external link</string>
+    <string name="accessibility_external_link_suffix">dış bağlantı</string>
 </resources>

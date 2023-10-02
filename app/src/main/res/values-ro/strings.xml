@@ -235,6 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Aplicația Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Alte aplicații VPN</string>
     <string name="noVpnPermissionOpenSettings">Deschidere setări VPN</string>
+    <string name="noNotificationPermissionGrantTitle">Activare notificări</string>
+    <string name="noNotificationPermissionGrantDescription">Verificare stare conexiune în afara aplicației și notificare asupra oricărei modificări</string>
+    <string name="noNotificationPermissionGrantNowTitle">Pornire acum</string>
     <string name="error_prepare_vpn_description"><![CDATA[Dezactivați opțiunea VPN permanent pentru toate celelalte aplicații VPN din setările VPN ale sistemului Android, deoarece acest lucru împiedică Proton VPN să stabilească o conexiune VPN. Acordați permisiuni VPN dacă apare un dialog care solicită permisiuni VPN. Este posibil ca și alte aplicații VPN să trebuiască să fie dezinstalate pentru a preveni conflictele. După aceea, reîncercați. <a href="%1$s">Detalii</a>]]></string>
     <string name="error_prepare_vpn_settings">Accesați setările VPN Android</string>
     <string name="error_prepare_vpn_title">Eroare: problemă permisiunii VPN</string>
@@ -749,5 +752,5 @@
          a button with "Learn more" label and this suffix will be read by a screen reader as:
          "Learn more, external link button"
      -->
-    <string name="accessibility_external_link_suffix">external link</string>
+    <string name="accessibility_external_link_suffix">legătură externă</string>
 </resources>

@@ -235,6 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Proton VPN aplikace</string>
     <string name="noVpnPermissionOtherAppLabel">Ostatní VPN aplikace</string>
     <string name="noVpnPermissionOpenSettings">Otevřete Android VPN nastavení</string>
+    <string name="noNotificationPermissionGrantTitle">Povolit upozornění</string>
+    <string name="noNotificationPermissionGrantDescription">Check your connection status outside of the app and get notified about any changes</string>
+    <string name="noNotificationPermissionGrantNowTitle">Zapnout</string>
     <string name="error_prepare_vpn_description"><![CDATA[Vypněte prosím Trvalou síť VPN pro všechny ostatní VPN aplikace v systémovém nastavení Android VPN, protože to brání aplikaci Proton VPN v navázání VPN připojení. Udělte prosím také oprávnění VPN, pokud se zobrazí dialogové okno vyžadující oprávnění VPN. Může být také nutné odinstalovat ostatní aplikace VPN, aby se zabránilo konfliktům. Poté to zkuste znovu. <a href="%1$s">Zjistěte více</a>]]></string>
     <string name="error_prepare_vpn_settings">Přejít do nastavení Android VPN</string>
     <string name="error_prepare_vpn_title">Chyba: Problém s oprávněním VPN</string>
@@ -492,13 +495,13 @@
     <string name="upgrade_vpn_accelerator_feature_distant_servers">Vyšší rychlost a stabilita při připojení ke vzdáleným serverům.</string>
     <string name="upgrade_vpn_accelerator_feature_less_crowded">Přístup k rychlejším a méně vytíženým serverům</string>
     <string name="upgrade_split_tunneling_title">Získejte to nejlepší z obou světů</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Odemknutí <b>rozděleného tunelování</b> pomocí VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Procházení ze dvou míst najednou pomocí rozděleného tunelování</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">Umožněte důvěryhodným aplikacím a IP adresám připojit se přímo k internetu, zatímco vše ostatní ochráníte pomocí sítě VPN.</string>
-    <string name="upgrade_customization_title">Odemknutí pokročilého přizpůsobení VPN</string>
-    <string name="upgrade_customization_lan"><![CDATA[Přístup k zařízením ve vaší <b>místní síti (LAN)</b>.]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Uložení často používaných připojení pomocí <b>profilů</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Získejte okamžitý přístup ke svým profilům pomocí funkce <b>Quick Connect</b>.]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Odemknutí <b>split tunnelingu</b> pomocí VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_two_locations">Procházení ze dvou míst najednou pomocí split tunneling</string>
+    <string name="upgrade_split_tunneling_feature_allow_exceptions">Umožněte důvěryhodným aplikacím a IP adresám připojit se přímo k internetu, zatímco vše ostatní chraňte pomocí sítě VPN.</string>
+    <string name="upgrade_customization_title">Odemkněte pokročilé přizpůsobení VPN</string>
+    <string name="upgrade_customization_lan"><![CDATA[Přistupujte k zařízením ve vaší <b>místní síti (LAN)</b>.]]></string>
+    <string name="upgrade_customization_feature_profiles"><![CDATA[Uložte často používaná připojení pomocí <b>profilů</b>]]></string>
+    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Získejte okamžitý přístup ke svým profilům pomocí funkce <b>Rychlé připojení</b>]]></string>
     <string name="upgrade_netshield_block_ads">Blokování reklam a sledovačů</string>
     <string name="upgrade_netshield_block_malware">Ochrana vašeho zařízení před malwarem</string>
     <string name="upgrade_netshield_speed">Procházení nejvyšší rychlostí</string>
@@ -574,7 +577,7 @@
     <string name="server_load_low">Nízká</string>
     <string name="server_load_medium">Střední</string>
     <string name="server_load_high">Vysoká</string>
-    <string name="info_gateways_description">Brána VPN je zabezpečené připojení, které poskytuje kontrolovaný přístup k datům a službám vaší společnosti prostřednictvím vyhrazených serverů.</string>
+    <string name="info_gateways_description">Brána VPN je zabezpečené připojení, které poskytuje kontrolovaný přístup k datům a službám vaší společnosti prostřednictvím dedikovaných serverů.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Vítejte v Proton VPN</string>
@@ -694,40 +697,40 @@
     </plurals>
     <string name="upgrade_moderate_nat_title2">Zvyšte úroveň svých herních zážitků</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Odblokování <b>NAT typu 2</b> pomocí VPN Plus]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">Improve online gaming and video call performance</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT Type 2 (moderate) optimizes speed and stability by enabling direct connections between devices</string>
-    <string name="free_connections_info_message">Proton Free automatically connects you to the fastest available server. This will normally be the closest server to your location.</string>
-    <string name="free_connections_info_server_locations">Free server locations (%1$d)</string>
+    <string name="upgrade_moderate_nat_feature_gaming">Zlepšení výkonu online her a videohovorů</string>
+    <string name="upgrade_moderate_nat_feature_optimize">NAT typu 2 (mírný) optimalizuje rychlost a stabilitu tím, že umožňuje přímé připojení mezi zařízeními.</string>
+    <string name="free_connections_info_message">Proton Free vás automaticky připojí k nejrychlejšímu dostupnému serveru. Obvykle se jedná o server, který je nejblíže vaší poloze.</string>
+    <string name="free_connections_info_server_locations">Bezplatná umístění (%1$d)</string>
     <string name="free_connections_info_banner_text">Get worldwide coverage with VPN Plus</string>
-    <string name="free_connection_info_title">Free connections</string>
-    <string name="search_upsell_banner_title">Stream from anywhere</string>
+    <string name="free_connection_info_title">Bezplatná připojení</string>
+    <string name="search_upsell_banner_title">Streamujte odkudkoliv</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="one">Unlock geoblocked content from %1$d country with VPN Plus</item>
-        <item quantity="few">Unlock geoblocked content from %1$d countries with VPN Plus</item>
-        <item quantity="many">Unlock geoblocked content from %1$d countries with VPN Plus</item>
+        <item quantity="one">Odemkněte geoblokovaný obsah z %1$d země s VPN Plus</item>
+        <item quantity="few">Odemkněte geoblokovaný obsah z %1$d zemí s VPN Plus</item>
+        <item quantity="many">Odemkněte geoblokovaný obsah z %1$d zemí s VPN Plus</item>
         <item quantity="other">Unlock geoblocked content from %1$d countries with VPN Plus</item>
     </plurals>
-    <string name="server_change_max_reached">You’ve reached the maximum number of Free server changes for now.</string>
-    <string name="server_change_upsell">Get unlimited changes with VPN Plus.</string>
-    <string name="server_change_button_title">Change server</string>
+    <string name="server_change_max_reached">Pro teď jste dosáhli maximální počet změn Free serverů.</string>
+    <string name="server_change_upsell">Získejte neomezené změny s VPN Plus.</string>
+    <string name="server_change_button_title">Změnit server</string>
     <string name="not_wanted_country_title">Not the country you wanted?</string>
     <string name="not_wanted_country_description">Upgrade to choose any server</string>
-    <string name="whats_new_title">What’s new</string>
-    <string name="whats_new_added_countries_title">New Free countries</string>
-    <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania.</string>
-    <string name="whats_new_server_selection_title">Changes to server selection</string>
-    <string name="whats_new_server_selection_description">To prevent server crowding and ensure that everyone has access to fast and secure browsing, we removed manual country selection and made major improvements to automatic server selection.</string>
-    <string name="welcome_plus_title">Welcome to VPN Plus</string>
+    <string name="whats_new_title">Co je nového</string>
+    <string name="whats_new_added_countries_title">Nové Free země</string>
+    <string name="whats_new_added_countries_description">Free servery jsou nyní v Polsku a Rumunsku.</string>
+    <string name="whats_new_server_selection_title">Změny ve výběru serverů</string>
+    <string name="whats_new_server_selection_description">Pro předcházení zahlcování serverů a zajištění přístupu k rychlému a bezpečnému prohlížení pro všechny jsme odstranili manuální výběr zemí a provedli zásadní zlepšení automatického výběru serverů.</string>
+    <string name="welcome_plus_title">Vítejte ve VPN Plus</string>
     <string name="welcome_plus_description">Enjoy extra privacy features, supercharged performance, and next-level VPN customization.</string>
-    <string name="welcome_plus_feature_security">Advanced security features</string>
+    <string name="welcome_plus_feature_security">Pokročilé funkce zabezpečení</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Up to %1$d device at once</item>
-        <item quantity="few">Up to %1$d devices at once</item>
-        <item quantity="many">Up to %1$d devices at once</item>
-        <item quantity="other">Up to %1$d devices at once</item>
+        <item quantity="one">Připojte až %1$d zařízení najednou</item>
+        <item quantity="few">Připojte až %1$d zařízení najednou</item>
+        <item quantity="many">Připojte až %1$d zařízení najednou</item>
+        <item quantity="other">Připojte až %1$d zařízení najednou</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -759,12 +762,12 @@
      Example:
      1800+ new servers in 68 countries
      -->
-    <string name="welcome_plus_feature_servers_count">%1$s in %2$s</string>
+    <string name="welcome_plus_feature_servers_count">%1$s v %2$s</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:
          a button with "Learn more" label and this suffix will be read by a screen reader as:
          "Learn more, external link button"
      -->
-    <string name="accessibility_external_link_suffix">external link</string>
+    <string name="accessibility_external_link_suffix">externí odkaz</string>
 </resources>

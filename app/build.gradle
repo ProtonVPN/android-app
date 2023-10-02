@@ -128,7 +128,7 @@ def preferencesKey = project.hasProperty('preferencesKey') ? preferencesKey : "\
 def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath') ? serviceAccountFilePath : "service_account.json"
 def testAccountPassword = project.hasProperty('testAccountPassword') ? testAccountPassword : "\"Pass\""
 def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
-def supportedLocales = ['b+es+419', 'be', 'cs', 'de', 'en', 'es-rES', 'es-rMX', 'fa', 'fr', 'hr', 'in', 'it', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'tr', 'uk']
+def supportedLocales = ['b+es+419', 'be', 'cs', 'de', 'en', 'es-rES', 'es-rMX', 'fa', 'fr', 'hr', 'in', 'it', 'ka', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'tr', 'uk']
 def helpers = new Helpers(rootDir)
 
 android {

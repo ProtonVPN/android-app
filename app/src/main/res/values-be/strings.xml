@@ -235,6 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Праграма Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Іншыя праграмы VPN</string>
     <string name="noVpnPermissionOpenSettings">Адкрыць налады VPN у Android</string>
+    <string name="noNotificationPermissionGrantTitle">Уключыць апавяшчэнні</string>
+    <string name="noNotificationPermissionGrantDescription">Правярайце статус свайго падключэння па-за праграмай і атрымлівайце паведамленні пра любыя змены</string>
+    <string name="noNotificationPermissionGrantNowTitle">Уключыць зараз</string>
     <string name="error_prepare_vpn_description"><![CDATA[Адключыце пастаяннае падключэнне па VPN для ўсіх іншых праграм VPN у наладах аперацыйнай сістэмы, бо гэта перашкаджае Proton VPN усталяваць падключэнне з серверам VPN. Таксама дайце правы VPN, калі з\'яўляецца адпаведнае патрабаванне дазволіць доступ па VPN. Магчыма, што неабходна будзе выдаліць іншыя праграмы VPN для прадухілення канфліктаў. Пасля гэтага паспрабуйце яшчэ раз. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="error_prepare_vpn_settings">Перайсці да налад VPN для Android</string>
     <string name="error_prepare_vpn_title">Памылка: праблема дазволу VPN</string>

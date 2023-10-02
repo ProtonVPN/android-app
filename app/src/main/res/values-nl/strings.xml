@@ -235,6 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">ProtonVPN app</string>
     <string name="noVpnPermissionOtherAppLabel">Andere VPN apps</string>
     <string name="noVpnPermissionOpenSettings">Android VPN instellingen openen</string>
+    <string name="noNotificationPermissionGrantTitle">Meldingen inschakelen</string>
+    <string name="noNotificationPermissionGrantDescription">Controleer uw verbindingsstatus buiten de app en ontvang meldingen over eventuele wijzigingen.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Nu inschakelen</string>
     <string name="error_prepare_vpn_description"><![CDATA[Schakel Altijd-actieve VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit Proton VPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen wanneer een dialoogvenster verschijnt die vraagt om VPN-machtigingen. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href="%1$s">Meer&nbsp;informatie</a>]]></string>
     <string name="error_prepare_vpn_settings">Ga naar Android VPN instellingen</string>
     <string name="error_prepare_vpn_title">Fout: VPN permissie probleem</string>
@@ -475,18 +478,18 @@
     <string name="upgrade_profiles_text">Ontgrendel profielen met VPN Plus</string>
     <string name="upgrade_profiles_feature_save">Sla uw voorkeursserver, stad of land op</string>
     <string name="upgrade_profiles_feature_customize">Stel aangepaste protocols en premium VPN-functies in</string>
-    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds (up to 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Increase connection speeds by up to 400% with <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Improved speed and stability when connected to distant servers.</string>
+    <string name="upgrade_vpn_accelerator_title">Browse aan nog hogere snelheden (tot 10 Gbps).</string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Verhoog verbindingssnelheid met tot wel 400% met <b>VPN Accelerator</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_distant_servers">Verbeterde snelheid en stabiliteit wanneer verbonden met afgelegen servers</string>
     <string name="upgrade_vpn_accelerator_feature_less_crowded">Toegang tot snellere, minder bevolkte servers</string>
     <string name="upgrade_split_tunneling_title">Krijg het beste van beide werelden</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Unlock <b>split tunneling</b> with VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Ontgrendel <b>gesplitste tunnels</b> met VPN Plus]]></string>
     <string name="upgrade_split_tunneling_two_locations">Browse van twee locaties tegelijk met gesplitste tunnels</string>
     <string name="upgrade_split_tunneling_feature_allow_exceptions">Sta vertrouwde applicaties en IP-adressen toe om direct te verbinden met het internet, terwijl uw VPN alle andere zaken beschermt</string>
     <string name="upgrade_customization_title">Ontgrendel geavanceerde VPN-aanpassingen</string>
-    <string name="upgrade_customization_lan"><![CDATA[Access devices on your <b>local area network (LAN)</b>]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Save frequently used connections with <b>profiles</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Get instant access to your profiles with <b>Quick Connect</b>]]></string>
+    <string name="upgrade_customization_lan"><![CDATA[Toegang tot apparaten op uw <b>lokaal netwerk (LAN)</b>]]></string>
+    <string name="upgrade_customization_feature_profiles"><![CDATA[Bewaar frequent gebruikte connecties met <b>profielen</b>]]></string>
+    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Krijg directe toegang tot uw profielen met <b>Quick Connect</b>]]></string>
     <string name="upgrade_netshield_block_ads">Blokkeer advertenties en trackers</string>
     <string name="upgrade_netshield_block_malware">Bescherm uw apparaat tegen malware</string>
     <string name="upgrade_netshield_speed">Browse aan de hoogste snelheden</string>
@@ -667,7 +670,7 @@
         <item quantity="other">Browse vanuit %1$d landen</item>
     </plurals>
     <string name="upgrade_moderate_nat_title2">Verbeter uw game-ervaring</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Unlock <b>NAT Type 2</b> with VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Ontgrendel <b>NAT-type 2</b> met VPN Plus]]></string>
     <string name="upgrade_moderate_nat_feature_gaming">Verbeter de prestaties van online gaming en videocalls</string>
     <string name="upgrade_moderate_nat_feature_optimize">NAT-type 2 (matig) optimaliseert snelheid en stabiliteit door directe verbindingen tussen apparaten in te schakelen</string>
     <string name="free_connections_info_message">Proton Free connecteert u automatisch met de snelste beschikbare server. Dit zal normaal gezien de dichtstbijzijnde server zijn.</string>

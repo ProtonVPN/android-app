@@ -176,8 +176,8 @@
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Lampiran</string>
     <string name="report_message">Laporkan pesan</string>
-    <string name="report_bug_email_label">Email Anda</string>
-    <string name="report_bug_email_hint">Masukkan alamat email Anda</string>
+    <string name="report_bug_email_label">Surel Anda</string>
+    <string name="report_bug_email_hint">Masukkan alamat surel Anda</string>
     <string name="report_bug_message_label">Pesan</string>
     <string name="report_bug_message_hint">Mohon deskripsikan bug dan bagaimana Anda menemukannya</string>
     <string name="send_report">Kirim laporan</string>
@@ -235,13 +235,16 @@
     <string name="noVpnPermissionProtonAppLabel">Aplikasi Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Aplikasi VPN lain</string>
     <string name="noVpnPermissionOpenSettings">Buka pengaturan VPN Android</string>
+    <string name="noNotificationPermissionGrantTitle">Aktifkan pemberitahuan</string>
+    <string name="noNotificationPermissionGrantDescription">Periksa status sambungan Anda di luar aplikasi dan dapatkan pemberitahuan tentang perubahannya</string>
+    <string name="noNotificationPermissionGrantNowTitle">Aktifkan sekarang</string>
     <string name="error_prepare_vpn_description"><![CDATA[Mohon nonaktifkan fitur always-on VPN milik aplikasi VPN lainnya pada pengaturan VPN Android milik sistem karena hal ini dapat mencegah Proton VPN untuk mengukuhkan sambungan VPN. Mohon juga berikan VPN kami izin akses apabila Anda dihadapkan dengan dialog perizinan VPN. Seluruh aplikasi VPN lain juga mungkin harus dihapus untuk menghindari konflik. Setelahnya, silakan coba lagi. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="error_prepare_vpn_settings">Tuju pengaturan VPN Android</string>
     <string name="error_prepare_vpn_title">Error: masalah perizinan VPN</string>
     <string name="error_server_not_set">Server tidak lagi tersedia</string>
     <string name="bugReportThankYouToast">Terima kasih atas laporan Anda</string>
-    <string name="bugReportErrorEmptyEmail">Email tidak boleh kosong</string>
-    <string name="bugReportErrorInvalidEmail">Alamat email tidak valid</string>
+    <string name="bugReportErrorEmptyEmail">Surel tidak boleh kosong</string>
+    <string name="bugReportErrorInvalidEmail">Alamat surel tidak valid</string>
     <string name="bugReportErrorEmptyDescription">Mohon tulis ke kami mengenai apa yang sedang terjadi</string>
     <string name="bugReportLabelVpnLogsTitle">Sertakan log error</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Tindakan ini akan mengirimkan log error lokal (tanpa catatan rekam jejak aktivitas) untuk membantu kami dalam menangani masalah Anda</string>
@@ -715,5 +718,5 @@
          a button with "Learn more" label and this suffix will be read by a screen reader as:
          "Learn more, external link button"
      -->
-    <string name="accessibility_external_link_suffix">external link</string>
+    <string name="accessibility_external_link_suffix">tautan eksternal</string>
 </resources>
