@@ -43,7 +43,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import me.proton.core.domain.entity.UserId
 import me.proton.core.user.domain.entity.User
@@ -98,7 +97,7 @@ class UpgradeTelemetryTests {
     @Test
     fun `upsell_display event dimensions`() = testScope.runTest {
         featureFlagsFlow.update { it.copy(showNewFreePlan = true) }
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.COUNTRIES)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.COUNTRIES, "ref")
 
         val expectedDimensions = mapOf(
             "modal_source" to "countries",
@@ -107,6 +106,7 @@ class UpgradeTelemetryTests {
             "vpn_status" to "off",
             "user_plan" to "free",
             "days_since_account_creation" to "0",
+            "reference" to "ref"
         )
         verify {
             mockTelemetry.event(UPSELL_GROUP, "upsell_display", emptyMap(), expectedDimensions)

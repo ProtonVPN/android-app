@@ -39,12 +39,15 @@ object ApiNotificationTestHelper {
         type: Int = ApiNotificationTypes.TYPE_TOOLBAR,
         label: String = "Offer",
         iconUrl: String = "file:///android_asset/no_such_file.png",
-        panel: ApiNotificationOfferPanel? = null
-    ) =
-        ApiNotification(
-            id, start, end, type, ApiNotificationOffer(
-                label, "https://protonvpn.com", iconUrl = iconUrl, panel = panel
-            )
+        panel: ApiNotificationOfferPanel? = null,
+        reference: String? = null,
+    ) = ApiNotification(
+            id,
+            start,
+            end,
+            type,
+            ApiNotificationOffer(label, "https://protonvpn.com", iconUrl = iconUrl, panel = panel),
+            reference
         )
 
     fun mockFullScreenImagePanel(

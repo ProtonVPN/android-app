@@ -63,9 +63,9 @@ class UpgradeTelemetry @Inject constructor(
 
     private var currentUpsellDimensions: Map<String, String>? = null
 
-    fun onUpgradeFlowStarted(upgradeSource: UpgradeSource) {
+    fun onUpgradeFlowStarted(upgradeSource: UpgradeSource, reference: String? = null) {
         mainScope.launch {
-            val dimensions = createDimensions(upgradeSource)
+            val dimensions = createDimensions(upgradeSource, reference)
             currentUpsellDimensions = dimensions
             sendEvent("upsell_display", dimensions)
         }
@@ -90,13 +90,18 @@ class UpgradeTelemetry @Inject constructor(
         telemetry.event(MEASUREMENT_GROUP, eventName, emptyMap(), dimensions)
     }
 
-    private suspend fun createDimensions(upgradeSource: UpgradeSource): Map<String, String> = buildMap {
+    private suspend fun createDimensions(
+        upgradeSource: UpgradeSource,
+        reference: String?
+    ): Map<String, String> =
+        buildMap {
         val user = currentUser.user()
         val vpnUser = currentUser.vpnUser()
 
         commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY, CommonDimensions.Key.VPN_STATUS)
         put("modal_source", upgradeSource.reportedName)
         put("new_free_plan_ui", if (getFeatureFlags.value.showNewFreePlan) "yes" else "no")
+        put("reference", reference ?: NO_VALUE)
 
         if (user != null && vpnUser != null) {
             val timeSinceCreation = (clock() - user.createdAtUtc).milliseconds.takeIf { user.createdAtUtc > 0 }
