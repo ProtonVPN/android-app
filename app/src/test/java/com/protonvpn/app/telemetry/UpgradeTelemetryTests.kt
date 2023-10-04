@@ -52,6 +52,7 @@ import org.junit.Test
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -193,6 +194,18 @@ class UpgradeTelemetryTests {
         testCase(15.days - 1.seconds, "8-14")
         testCase(15.days, ">14")
         testCase(60.days, ">14")
+    }
+
+    @Test
+    fun `upgrade more than 10 minutes after first event is ignored`() = testScope.runTest {
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.MODERATE_NAT)
+        upgradeTelemetry.onUpgradeAttempt()
+        fakeTime = 10.minutes.inWholeMilliseconds + 1
+        upgradeTelemetry.onUpgradeSuccess("new_plan")
+
+        verify(exactly = 0) {
+            mockTelemetry.event(UPSELL_GROUP, "upsell_success", any(), any())
+        }
     }
 
     // We should upstream such helpers to Account modules.
