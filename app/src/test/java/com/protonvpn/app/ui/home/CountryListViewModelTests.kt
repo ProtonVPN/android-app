@@ -261,12 +261,13 @@ class CountryListViewModelTests {
                 "Sale!",
                 button = action,
                 showCountdown = true,
-            )
+            ),
+            reference = "offer-A"
         )
         promoNotificationsFlow.value = listOf(notification)
         vpnUserFlow.value = TestUser.freeUser.vpnUser
 
-        val expectedItem = PromoOfferBannerModel("https://proton.me/banner.png", "Sale!", action, 10_000L)
+        val expectedItem = PromoOfferBannerModel("https://proton.me/banner.png", "Sale!", action, 10_000L, "offer-A")
 
         val sectionsNoRestrictions = countryListViewModel.state.first().sections
         assertEquals(expectedItem, sectionsNoRestrictions[1].items.find { it is PromoOfferBannerModel })

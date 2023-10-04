@@ -92,6 +92,7 @@ data class PromoOfferBannerModel(
     val alternativeText: String,
     val action: ApiNotificationOfferButton,
     val endTimestamp: Long?,
+    val reference: String?,
 ) : ServerListItemModel()
 
 data class RecommendedConnectionModel(
@@ -365,6 +366,7 @@ class CountryListViewModel @Inject constructor(
                 fullScreenImage.alternativeText,
                 notification.offer.panel.button,
                 TimeUnit.SECONDS.toMillis(notification.endTime).takeIf { notification.offer.panel.showCountdown },
+                notification.reference,
             )
         } else {
             null

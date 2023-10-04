@@ -127,7 +127,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
             val url = promoOfferButtonActions.getButtonUrl(model.action)
 
             if (url != null) { // It's not null on correctly defined notifications.
-                upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER)
+                upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER, model.reference)
                 upgradeTelemetry.onUpgradeAttempt()
                 requireActivity().openUrl(url)
             }

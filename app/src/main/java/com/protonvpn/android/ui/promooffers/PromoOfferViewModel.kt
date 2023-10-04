@@ -45,13 +45,12 @@ class PromoOfferViewModel @Inject constructor(
     private lateinit var currentPanel: ApiNotificationOfferPanel
 
     suspend fun init(offerId: String): ApiNotificationOfferPanel? {
-        val offerPanel = apiNotificationManager.activeListFlow
+        val notification = apiNotificationManager.activeListFlow
             .firstOrNull()
             ?.find { it.id == offerId }
-            ?.offer
-            ?.panel
+        val offerPanel = notification?.offer?.panel
         if (offerPanel != null) currentPanel = offerPanel
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER, notification?.reference)
         return offerPanel
     }
 

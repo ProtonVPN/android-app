@@ -33,7 +33,8 @@ data class ApiNotification(
     @SerialName("StartTime") val startTime: Long,
     @SerialName("EndTime") val endTime: Long,
     @SerialName("Type") val type: Int,
-    @SerialName("Offer") val offer: ApiNotificationOffer? = null
+    @SerialName("Offer") val offer: ApiNotificationOffer? = null,
+    @SerialName("Reference") val reference: String? = null,
 )
 
 @Serializable
