@@ -130,6 +130,7 @@ class ApiNotificationManager @Inject constructor(
         .flowOn(dispatcherProvider.Io)
         .stateIn(mainScope, SharingStarted.Eagerly, emptyList())
 
+    // Active notifications are sorted by end time - the ones that end sooner are first.
     val activeListFlow = notificationsFlow
         .onStart { prefetchTrigger.emit(Unit) }
         .flatMapLatest { notifications ->
@@ -139,6 +140,7 @@ class ApiNotificationManager @Inject constructor(
                     delay(TimeUnit.SECONDS.toMillis(nextUpdateDelayS))
                     val nowS = TimeUnit.MILLISECONDS.toSeconds(wallClockMs())
                     val activeNotifications = activeNotifications(nowS, notifications)
+                        .sortedBy { it.endTime }
                     emit(activeNotifications)
                     nextUpdateDelayS = nextUpdateDelayS(nowS, notifications)
                 }
