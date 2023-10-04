@@ -1,5 +1,7 @@
 default:
   image: ${CI_REGISTRY}/android/shared/docker-android/ndk:v1.2.0
+  tags:
+    - shared-small
   before_script:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
@@ -51,8 +53,6 @@ stages:
 # Based on https://gitlab.com/gitlab-org/gitlab/-/issues/194023#note_928958193
 prevent-interrupt:
   stage: .pre
-  tags:
-    - small
   rules:
     - if: $CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "master"
       when: always
@@ -95,7 +95,7 @@ detekt analysis:
   except:
     - schedules
   tags:
-    - medium
+    - shared-medium
   script:
     - ./gradlew :app:detekt
   artifacts:
@@ -265,7 +265,7 @@ build release (auto):
 unit tests:
   stage: test
   tags:
-    - large
+    - shared-large
   except:
     - schedules
   script:
@@ -280,7 +280,7 @@ unit tests:
 coverage report:
   stage: report
   tags:
-    - large
+    - shared-large
   script:
     - ./gradlew coverageReport
     - python3 jacocoConverter.py app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml app/src/main/java > app/build/reports/cobertura-coverage.xml    
@@ -306,8 +306,6 @@ coverage report:
 
 pages:
   stage: publish
-  tags:
-    - small
   only:
     refs:
       - development
@@ -323,7 +321,7 @@ pages:
 owasp check:
   stage: report
   tags:
-    - large
+    - shared-large
   script:
     - ./gradlew dependencyCheckAggregate
   when: manual

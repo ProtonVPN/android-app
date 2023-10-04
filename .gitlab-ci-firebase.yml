@@ -13,7 +13,7 @@
 .tests_preparation_script:
   stage: test
   tags:
-    - small
+    - shared-small
   except:
     - schedules
   variables:
@@ -107,7 +107,7 @@ robo tests:
   stage: test
   timeout: 1h 30m
   tags:
-    - small
+    - shared-small
   rules:
     - if: $ROBO_TEST == "true"
       when: always
