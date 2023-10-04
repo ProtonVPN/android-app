@@ -150,6 +150,17 @@ class ApiNotificationManagerTests {
     }
 
     @Test
+    fun testOrdering() = testScope.runTest {
+        mockResponse(
+            mockOffer("active2", 0L, 2L),
+            mockOffer("active1", -1L, 1L),
+        )
+        notificationManager.updateNotifications()
+
+        assertEquals(listOf("active1", "active2"), notificationManager.activeListFlow.first().map { it.id })
+    }
+
+    @Test
     fun testScheduling() = testScope.runTest {
         val apiTime = currentTime / 1000
         mockResponse(
