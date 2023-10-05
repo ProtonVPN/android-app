@@ -28,7 +28,7 @@ import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
-import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -42,15 +42,52 @@ class CongratsPlanActivity : BaseActivityV2() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        val planName = intent.getStringExtra(EXTRA_NEW_PLAN)
+        if (planName == null) {
+            finish()
+            return
+        }
 
+        initUi(planName)
+
+        val shouldRefresh = intent.getBooleanExtra(EXTRA_REFRESH_VPN_USER, false)
+        if (shouldRefresh) {
+            val mainButton = binding.buttonMainAction
+            mainButton.setLoading()
+            viewModel.refreshPlan()
+            viewModel.state.asLiveData().observe(this) { state ->
+                when (state) {
+                    is CongratsPlanViewModel.State.Error -> {
+                        snackbarHelper.errorSnack(state.message?: getString(R.string.something_went_wrong))
+                        mainButton.isEnabled = false
+                    }
+                    CongratsPlanViewModel.State.Processing ->
+                        mainButton.setLoading()
+                    CongratsPlanViewModel.State.Success -> {
+                        mainButton.setIdle()
+                        mainButton.isEnabled = true
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initUi(planName: String) {
+        when (planName) {
+            "vpnplus", "vpn2022" -> initPlusUi()
+            "bundle2022" -> initUnlimitedUi()
+            else -> initGenericUi()
+        }
+    }
+
+    private fun initPlusUi() {
         binding.initBinding(
             this,
             imageResource = R.drawable.welcome_plus,
             title = getString(R.string.welcome_plus_title),
             message = getString(R.string.welcome_plus_description),
-            mainButtonLabel = R.string.onboading_connect_to_plus,
-            mainButtonAction = ::connect,
-            otherButtonLabel = R.string.got_it,
+            mainButtonLabel = R.string.upgrade_success_get_started_button,
+            mainButtonAction = ::dismiss,
         ) {
             val roundedServerCount = viewModel.serverCount / 100 * 100
             val countriesCount = viewModel.countriesCount
@@ -65,38 +102,45 @@ class CongratsPlanActivity : BaseActivityV2() {
                 R.drawable.ic_proton_locks
             )
         }
+    }
 
-        val connectButton = binding.buttonMainAction
-        connectButton.setLoading()
-        viewModel.refreshPlan()
-        viewModel.state.asLiveData().observe(this) { state ->
-            when (state) {
-                is CongratsPlanViewModel.State.Error -> {
-                    snackbarHelper.errorSnack(state.message
-                        ?: getString(R.string.something_went_wrong))
-                    connectButton.isEnabled = false
-                }
-                CongratsPlanViewModel.State.Processing ->
-                    connectButton.setLoading()
-                CongratsPlanViewModel.State.Success -> {
-                    connectButton.setIdle()
-                    connectButton.isEnabled = true
-                }
-            }
+    private fun initUnlimitedUi() {
+        lifecycleScope.launch {
+            val storageGb = viewModel.getStorageGBs()
+            binding.initBinding(
+                this@CongratsPlanActivity,
+                imageResource = R.drawable.welcome_unlimited,
+                title = getString(R.string.welcome_unlimited_title),
+                message = HtmlTools.fromHtml(getString(R.string.welcome_unlimited_description, storageGb)),
+                mainButtonLabel = R.string.upgrade_success_get_started_button,
+                mainButtonAction = ::dismiss,
+            )
         }
     }
 
-    private fun connect() =
-        lifecycleScope.launch {
-            if (viewModel.connectPlus(this@CongratsPlanActivity, getVpnUiDelegate()))
-                finish()
-        }
+    private fun initGenericUi() {
+        binding.initBinding(
+            this,
+            imageResource = R.drawable.welcome_generic_vpn,
+            title = getString(R.string.welcome_generic_title),
+            message = getString(R.string.welcome_generic_description),
+            mainButtonLabel = R.string.upgrade_success_get_started_button,
+            mainButtonAction = ::dismiss,
+        )
+    }
 
-    override fun retryConnection(profile: Profile) {
-        connect()
+    private fun dismiss() {
+        finish()
     }
 
     companion object {
-        fun create(context: Context) = Intent(context, CongratsPlanActivity::class.java)
+        private const val EXTRA_REFRESH_VPN_USER = "refresh vpn user"
+        private const val EXTRA_NEW_PLAN = "new plan"
+
+        fun createIntent(context: Context, planName: String, refreshVpnInfo: Boolean): Intent =
+            Intent(context, CongratsPlanActivity::class.java).apply {
+                putExtra(EXTRA_REFRESH_VPN_USER, refreshVpnInfo)
+                putExtra(EXTRA_NEW_PLAN, planName)
+            }
     }
 }

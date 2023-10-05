@@ -620,7 +620,7 @@
     <string name="onboading_connecting_now">Connecting now</string>
     <string name="onboarding_congrats_description">Your connection is protected and you’re ready to browse the web.\n\nSafely.</string>
     <string name="onboarding_congrats_title">Congratulations!</string>
-    <string name="onboading_connect_to_plus">Connect to a Plus server</string>
+    <string name="upgrade_success_get_started_button">Get started</string>
     <string name="upgrade_use_limited_free_button">Use limited Free plan</string>
     <string name="dynamic_report_suggestion_didnt_work">Didn\'t work?</string>
     <string name="dynamic_report_contact_us">Contact us</string>
@@ -746,6 +746,10 @@
     <string name="welcome_plus_title">Welcome to VPN Plus</string>
     <string name="welcome_plus_description">Enjoy extra privacy features, supercharged performance, and next-level VPN customization.</string>
     <string name="welcome_plus_feature_security">Advanced security features</string>
+    <string name="welcome_unlimited_title">Welcome to Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Congratulations! You unlocked premium security and performance features on all Proton services, plus <b>%1$d&#160;GB</b> total storage.<br><br>Enjoy the best of Proton privacy.]]></string>
+    <string name="welcome_generic_title">Congratulations</string>
+    <string name="welcome_generic_description">You\'ve upgraded your subscription. Enjoy advanced privacy features and next-level performance.</string>
 
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->

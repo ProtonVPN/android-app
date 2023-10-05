@@ -24,7 +24,8 @@ import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.actions.HomeRobot
-import com.protonvpn.android.models.vpn.*
+import com.protonvpn.android.models.vpn.PartnersResponse
+import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.ui.home.HomeActivity
 import com.protonvpn.data.PartnersData.multiplePartnerServers
 import com.protonvpn.data.PartnersData.newsPartner
@@ -54,7 +55,7 @@ class PartnershipTests {
     private val partnerCountry = "Poland"
     private lateinit var homeRobot: HomeRobot
 
-    private val mockApiConfig = TestApiConfig.Mocked(TestUser.plusUser) {
+    private val mockApiConfig = TestApiConfig.Mocked(TestUser.freeUser) {
         rule(get, path eq "/vpn/v1/partners") {
             respond(PartnersResponse(listOf(newsPartnerType)))
         }

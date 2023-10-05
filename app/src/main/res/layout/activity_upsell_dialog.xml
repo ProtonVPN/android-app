@@ -22,8 +22,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/update_dialog_bg"
     android:orientation="vertical"
-    android:background="@drawable/update_dialog_bg">
+    android:paddingBottom="16dp">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

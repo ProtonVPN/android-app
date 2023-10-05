@@ -44,8 +44,12 @@ class UpgradeDialogViewModel @Inject constructor(
     private val upgradeTelemetry: UpgradeTelemetry
 ) : ViewModel() {
 
-    enum class State { Init, Fail, Success }
-    val state = MutableStateFlow(State.Init)
+    sealed interface State {
+        object Init : State
+        object Fail : State
+        data class Success(val newPlan: String) : State
+    }
+    val state = MutableStateFlow<State>(State.Init)
 
     fun reportUpgradeFlowStart(upgradeSource: UpgradeSource) {
         upgradeTelemetry.onUpgradeFlowStarted(upgradeSource)
@@ -58,8 +62,7 @@ class UpgradeDialogViewModel @Inject constructor(
         plansOrchestrator.onUpgradeResult { result ->
             viewModelScope.launch {
                 state.value = if (result != null && result.billingResult.subscriptionCreated) {
-                    upgradeTelemetry.onUpgradeSuccess(result.planId)
-                    State.Success
+                    State.Success(result.planId)
                 } else {
                     State.Fail
                 }

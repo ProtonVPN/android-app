@@ -49,6 +49,8 @@ class AppFeaturesPrefs @Inject constructor(
     var showWhatsNew: Boolean by boolean(default = true, key = KEY_SHOW_WHATS_NEW)
     val showWhatsNewFlow: Flow<Boolean> = preferences.observe<Boolean>(KEY_SHOW_WHATS_NEW).map { it ?: true }
 
+    var hasShownUpgradeSuccessForPlan: String by string(default = "")
+
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
         private const val KEY_SHOW_WHATS_NEW = "showWhatsNew"

@@ -55,6 +55,8 @@ abstract class UpgradeDialogActivity(private val upgradeSource: UpgradeSource) :
     protected val viewModel by viewModels<UpgradeDialogViewModel>()
     protected val binding by viewBinding(ActivityUpsellDialogBinding::inflate)
 
+    @Inject lateinit var showUpgradeSuccess: ShowUpgradeSuccess
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -62,8 +64,8 @@ abstract class UpgradeDialogActivity(private val upgradeSource: UpgradeSource) :
         viewModel.reportUpgradeFlowStart(upgradeSource)
         viewModel.setupOrchestrators(this)
         viewModel.state.asLiveData().observe(this) { state ->
-            if (state == UpgradeDialogViewModel.State.Success) {
-                startActivity(CongratsPlanActivity.create(this))
+            if (state is UpgradeDialogViewModel.State.Success) {
+                showUpgradeSuccess.showPlanUpgradeSuccess(this, state.newPlan, refreshVpnInfo = true)
                 setResult(Activity.RESULT_OK)
                 finish()
             }
@@ -77,12 +79,14 @@ class EmptyUpgradeDialogActivity : AppCompatActivity() {
 
     val viewModel by viewModels<UpgradeDialogViewModel>()
 
+    @Inject lateinit var showUpgradeSuccess: ShowUpgradeSuccess
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setupOrchestrators(this)
         viewModel.state.asLiveData().observe(this) { state ->
-            if (state == UpgradeDialogViewModel.State.Success) {
-                startActivity(CongratsPlanActivity.create(this))
+            if (state is UpgradeDialogViewModel.State.Success) {
+                showUpgradeSuccess.showPlanUpgradeSuccess(this, state.newPlan, refreshVpnInfo = true)
                 setResult(Activity.RESULT_OK)
             }
             if (state != UpgradeDialogViewModel.State.Init)

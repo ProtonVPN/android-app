@@ -19,38 +19,41 @@
 
 package com.protonvpn.android.ui.planupgrade
 
-import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.components.suspendForPermissions
-import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.displayText
-import com.protonvpn.android.vpn.ConnectTrigger
-import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnPermissionDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import javax.inject.Inject
 
+private const val FALLBACK_STORAGE_BYTES = 524_288_000L
+
 @HiltViewModel
 class CongratsPlanViewModel @Inject constructor(
     private val userPlanManager: UserPlanManager,
     private val serverManager: ServerManager,
-    private val vpnPermissionDelegate: VpnPermissionDelegate,
-    private val vpnConnectionManager: VpnConnectionManager
+    private val currentUser: CurrentUser,
 ) : ViewModel() {
 
     val state = MutableStateFlow<State>(State.Processing)
+
+    val serverCount get() = serverManager.allServerCount
+    val countriesCount get() = serverManager.getVpnCountries().size
 
     sealed class State {
         object Processing : State()
         object Success : State()
         class Error(val message: String?) : State()
     }
+
+    suspend fun getStorageGBs() =
+        // The user should never be null here.
+        (currentUser.user()?.maxSpace ?: FALLBACK_STORAGE_BYTES) / 1024 / 1024
 
     fun refreshPlan() = viewModelScope.launch {
         val refreshResult = userPlanManager.refreshVpnInfo()
@@ -59,18 +62,4 @@ class CongratsPlanViewModel @Inject constructor(
         else
             State.Success
     }
-
-    suspend fun connectPlus(activity: ComponentActivity, vpnUiDelegate: VpnUiActivityDelegate): Boolean {
-        val profile = serverManager.defaultFallbackConnection
-        if (activity.suspendForPermissions(vpnPermissionDelegate.prepareVpnPermission())) {
-            vpnConnectionManager.connect(vpnUiDelegate, profile, ConnectTrigger.Onboarding("onboarding plus"))
-            return true
-        } else {
-            vpnUiDelegate.onPermissionDenied(profile)
-        }
-        return false
-    }
-
-    val serverCount get() = serverManager.allServerCount
-    val countriesCount get() = serverManager.getVpnCountries().size
 }
