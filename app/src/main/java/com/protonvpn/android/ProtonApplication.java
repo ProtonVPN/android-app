@@ -47,6 +47,7 @@ import com.protonvpn.android.notifications.NotificationHelper;
 import com.protonvpn.android.search.UpdateServersOnStartAndLocaleChange;
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry;
 import com.protonvpn.android.ui.onboarding.ReviewTracker;
+import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess;
 import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger;
 import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.AndroidUtilsKt;
@@ -112,6 +113,7 @@ public class ProtonApplication extends Application {
         ReviewTracker getReviewTracker();
         SettingChangesLogger getSettingChangesLogger();
         NotificationPermissionManager getNotificationPermissionManager();
+        ShowUpgradeSuccess getShowUpgradeSuccess();
         UpdateSecureCoreToMatchConnectedServer getUpdateSecureCoreToMatchConnectedServer();
         UpdateServersOnStartAndLocaleChange getUpdateServersOnLocaleChange();
         UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
@@ -169,14 +171,16 @@ public class ProtonApplication extends Application {
         dependencies.getFeatureFlagRefreshStarter().start();
         dependencies.getHumanVerificationStateHandler().observe();
         dependencies.getMaintenanceTracker();
+        dependencies.getNotificationPermissionManager();
         dependencies.getReviewTracker();
         dependencies.getUpdateSecureCoreToMatchConnectedServer();
         dependencies.getUpdateServersOnLocaleChange();
         dependencies.getUpdateSettingsOnVpnUserChange();
         dependencies.getUpdateSettingsOnFeatureFlagChange();
+        dependencies.getShowUpgradeSuccess();
         dependencies.getVpnConnectionTelemetry().start();
-        dependencies.getNotificationPermissionManager();
 
+        // Start last.
         dependencies.getPeriodicUpdateManager().start();
         dependencies.getRestartHandler().onAppStarted();
 

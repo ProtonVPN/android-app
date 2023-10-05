@@ -20,7 +20,6 @@
 package com.protonvpn.android.ui.deeplinks
 
 import android.net.Uri
-import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +33,6 @@ private const val PROTONVPN_SCHEME = "protonvpn"
 class DeepLinkHandler @Inject constructor(
     private val mainScope: CoroutineScope,
     private val userPlanManager: UserPlanManager,
-    private val upgradeTelemetry: UpgradeTelemetry
 ) {
     fun processDeepLink(uri: Uri) {
         if (uri.scheme?.equalsNoCase(PROTONVPN_SCHEME) == true) {
@@ -47,10 +45,7 @@ class DeepLinkHandler @Inject constructor(
 
     private fun refreshVpnInfo() {
         mainScope.launch {
-            val apiResponse = userPlanManager.refreshVpnInfo()
-            // So far refresh-account is only used when upgrading, report this to telemetry.
-            val newPlanId = apiResponse.valueOrNull?.vpnInfo?.tierName
-            upgradeTelemetry.onUpgradeSuccess(newPlanId)
+            userPlanManager.refreshVpnInfo()
         }
     }
 }
