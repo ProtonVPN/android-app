@@ -642,7 +642,6 @@
     <string name="ikev2_removed_dialog_message">Pengaturan default dan profil yang sebelumnya menggunakan IKEv2 akan beralih menggunakan protokol Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Kunjungi <a href="https://protonvpn.com/pricing">protonvpn.com</a> untuk info lebih lanjut.</string>
-    <string name="free_upsell_header_title">Jelajahi internet dari seluruh %1$d negara dengan VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Ingin memilih negara tertentu?</string>
     <string name="upgrade_country_message">Akses fitur pemilihan negara dengan VPN Plus</string>

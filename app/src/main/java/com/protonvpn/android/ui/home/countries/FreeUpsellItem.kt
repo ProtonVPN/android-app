@@ -25,11 +25,11 @@ import com.protonvpn.android.databinding.ItemFreeUpsellBinding
 import com.xwray.groupie.viewbinding.BindableItem
 
 class FreeUpsellItem(
-    private val countryCount: Int, private val onClick: () -> Unit
+    private val onClick: () -> Unit
 ) : BindableItem<ItemFreeUpsellBinding>() {
     override fun bind(binding: ItemFreeUpsellBinding, position: Int) = with(binding) {
         val resources = root.resources
-        textTitle.text = resources.getString(R.string.free_upsell_header_title, countryCount)
+        textTitle.text = resources.getString(R.string.free_upsell_header_title)
         root.setOnClickListener { onClick() }
     }
 

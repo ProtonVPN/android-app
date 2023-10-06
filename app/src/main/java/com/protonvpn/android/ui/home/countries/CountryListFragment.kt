@@ -112,12 +112,10 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
             add(RecommendedConnectionItem(viewModel, viewLifecycleOwner, item))
         is CollapsibleServerGroupModel ->
             add(getExpandableGroup(item, expandedGroupsIds))
-        is FreeUpsellBannerModel ->
-            add(Section(
-                FreeUpsellItem(countryCount = item.premiumCountriesCount) {
-                    requireContext().launchActivity<UpgradePlusCountriesDialogActivity>()
-                }
-            ))
+        is FreeUpsellBannerModel -> {
+            val upsellItem = FreeUpsellItem { requireContext().launchActivity<UpgradePlusCountriesDialogActivity>() }
+            add(Section(upsellItem))
+        }
         is PromoOfferBannerModel ->
             add(Section(createPromoBannerItem(item)))
     }

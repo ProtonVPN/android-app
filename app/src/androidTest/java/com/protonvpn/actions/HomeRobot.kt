@@ -84,9 +84,9 @@ class HomeRobot : BaseRobot() {
 
     fun changeServer(): HomeRobot = clickElementById(R.id.composeChangeServer)
 
-    fun clickPlusLocationUpsell(serverCount: Int): HomeRobot {
+    fun clickPlusLocationUpsell(): HomeRobot {
         val upsellString = InstrumentationRegistry.getInstrumentation().targetContext.getString(
-            R.string.free_upsell_header_title, serverCount
+            R.string.free_upsell_header_title
         )
         clickElementByText<HomeRobot>(upsellString)
         return this
