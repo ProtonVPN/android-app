@@ -32,7 +32,6 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.registerAction
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserCertCurrentState
 import com.protonvpn.android.logging.UserCertNew
@@ -59,6 +58,7 @@ import kotlinx.serialization.Serializable
 import me.proton.core.crypto.validator.domain.prefs.CryptoPrefs
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.retryAfter
+import me.proton.core.network.domain.server.ServerClock
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
@@ -154,7 +154,7 @@ class CertificateRepository @Inject constructor(
     private val certificateStorage: CertificateStorage,
     private val keyProvider: CertificateKeyProvider,
     private val api: ProtonApiRetroFit,
-    @WallClock private val wallClock: () -> Long,
+    private val serverClock: ServerClock,
     userPlanManager: UserPlanManager,
     private val currentUser: CurrentUser,
     private val periodicUpdateManager: PeriodicUpdateManager,
@@ -294,7 +294,7 @@ class CertificateRepository @Inject constructor(
     }
 
     private fun nextRefreshDelay(apiResult: ApiResult<CertificateResponse>, certInfo: CertInfo): Long? {
-        val now = wallClock()
+        val now = serverClock.getCurrentTime().toEpochMilli()
         val timestampMs = when (apiResult) {
             is ApiResult.Success -> certInfo.refreshAt
             is ApiResult.Error -> {
@@ -323,7 +323,7 @@ class CertificateRepository @Inject constructor(
     suspend fun getCertificate(sessionId: SessionId, cancelOngoing: Boolean = false): CertificateResult =
         withContext(mainScope.coroutineContext) {
             val certInfo = getCertInfo(sessionId)
-            if (certInfo.certificatePem != null && certInfo.expiresAt > wallClock())
+            if (certInfo.certificatePem != null && certInfo.expiresAt > serverClock.getCurrentTime().toEpochMilli())
                 CertificateResult.Success(certInfo.certificatePem, certInfo.privateKeyPem)
             else
                 updateCertificate(sessionId, cancelOngoing = cancelOngoing)
