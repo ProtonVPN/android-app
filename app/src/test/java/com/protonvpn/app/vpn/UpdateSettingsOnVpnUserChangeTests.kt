@@ -123,7 +123,7 @@ class UpdateSettingsOnVpnUserChangeTests {
             NetShieldProtocol.ENABLED,
             userSettingsManager.rawCurrentUserSettingsFlow.first().netShield
         )
-        planFlow.emit(UserPlanManager.InfoChange.PlanChange.Upgrade)
+        planFlow.emit(UserPlanManager.InfoChange.PlanChange(TestUser.freeUser.vpnUser, plusUser))
         assertEquals(
             Constants.DEFAULT_NETSHIELD_AFTER_UPGRADE,
             userSettingsManager.rawCurrentUserSettingsFlow.first().netShield

@@ -153,16 +153,16 @@ class VpnConnectionErrorHandler @Inject constructor(
     ): VpnFallbackResult.Switch? {
         val fallbackProfile = serverManager.defaultFallbackConnection
         val fallbackServer = serverManager.getServerForProfile(fallbackProfile, vpnUser) ?: return null
-        for (change in changes) when (change) {
-            is PlanChange.Downgrade -> {
+        for (change in changes) when {
+            change is PlanChange && change.isDowngrade -> {
                 return VpnFallbackResult.Switch.SwitchProfile(
                     currentServer,
                     fallbackServer,
                     fallbackProfile,
-                    SwitchServerReason.Downgrade(change.fromPlan, change.toPlan)
+                    SwitchServerReason.Downgrade(change.oldUser.userTierName, change.newUser.userTierName)
                 )
             }
-            UserBecameDelinquent ->
+            change is UserBecameDelinquent ->
                 return VpnFallbackResult.Switch.SwitchProfile(
                     currentServer,
                     fallbackServer,

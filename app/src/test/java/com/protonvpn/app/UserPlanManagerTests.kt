@@ -41,6 +41,8 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -74,18 +76,34 @@ class UserPlanManagerTests {
     }
 
     @Test
-    fun planUpgradeFiresCorrectEvent() = runTest(UnconfinedTestDispatcher()) {
+    fun planUpgradeFiresPlanChange() = runTest(UnconfinedTestDispatcher()) {
         launch {
             val planChange = manager.planChangeFlow.first()
-            Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Upgrade, planChange)
+            with(planChange) {
+                // Can't compare whole objects because user has an updateTime that is different each time...
+                assertEquals("free", oldUser.userTierName)
+                assertEquals("vpnplus", newUser.userTierName)
+            }
         }
         changePlan(TestUser.freeUser.vpnUser, TestUser.plusUser.vpnInfoResponse)
     }
 
     @Test
+    fun planChangeInTheSameTierFiresEvent() = runTest(UnconfinedTestDispatcher()) {
+        launch {
+            val planChange = manager.planChangeFlow.first()
+            with(planChange) {
+                assertEquals("vpnplus", oldUser.userTierName)
+                assertEquals("vpnpro2023", newUser.userTierName)
+            }
+        }
+        changePlan(TestUser.plusUser.vpnUser, TestUser.businessEssential.vpnInfoResponse)
+    }
+
+    @Test
     fun credentialChangeFiresEvent() = runTest(UnconfinedTestDispatcher()) {
         launch {
-            Assert.assertTrue(UserPlanManager.InfoChange.VpnCredentials in manager.infoChangeFlow.first())
+            assertTrue(UserPlanManager.InfoChange.VpnCredentials in manager.infoChangeFlow.first())
         }
         changePlan(TestUser.basicUser.vpnUser, TestUser.badUser.vpnInfoResponse)
     }
@@ -94,7 +112,11 @@ class UserPlanManagerTests {
     fun planDowngradeFiresDowngrade() = runTest(UnconfinedTestDispatcher()) {
         launch {
             val planChange = manager.planChangeFlow.first()
-            Assert.assertEquals(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free"), planChange)
+            with(planChange) {
+                assertEquals("vpnplus", oldUser.userTierName)
+                assertEquals("free", newUser.userTierName)
+                assertTrue(isDowngrade)
+            }
         }
         changePlan(TestUser.plusUser.vpnUser, TestUser.freeUser.vpnInfoResponse)
     }

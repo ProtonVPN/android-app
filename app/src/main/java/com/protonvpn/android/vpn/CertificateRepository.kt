@@ -198,8 +198,7 @@ class CertificateRepository @Inject constructor(
         }
         userPlanManager.infoChangeFlow.onEach { changes ->
             for (change in changes) when (change) {
-                is UserPlanManager.InfoChange.PlanChange.Downgrade,
-                is UserPlanManager.InfoChange.PlanChange.Upgrade,
+                is UserPlanManager.InfoChange.PlanChange,
                 is UserPlanManager.InfoChange.UserBecameDelinquent -> {
                     ProtonLogger.log(UserCertRefresh, "reason: user plan change: $change")
                     currentUser.sessionId()?.let { sessionId ->

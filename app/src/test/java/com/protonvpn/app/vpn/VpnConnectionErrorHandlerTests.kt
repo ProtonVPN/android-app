@@ -58,6 +58,7 @@ import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createServer
@@ -194,7 +195,7 @@ class VpnConnectionErrorHandlerTests {
     fun testAuthErrorDowngrade() = testScope.runTest {
         coEvery {
             userPlanManager.computeUserInfoChanges(any(), any())
-        } returns listOf(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free"))
+        } returns listOf(UserPlanManager.InfoChange.PlanChange(TestUser.plusUser.vpnUser, TestUser.freeUser.vpnUser))
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 1) }
 
         assertEquals(
@@ -568,7 +569,7 @@ class VpnConnectionErrorHandlerTests {
 
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 0) }
         testTrackingVpnInfoChanges(
-            listOf(UserPlanManager.InfoChange.PlanChange.Downgrade("vpnplus", "free")),
+            listOf(UserPlanManager.InfoChange.PlanChange(TestUser.plusUser.vpnUser, TestUser.freeUser.vpnUser)),
             VpnFallbackResult.Switch.SwitchProfile(
                 mockedServer,
                 defaultFallbackServer,

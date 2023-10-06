@@ -78,8 +78,8 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
             }
         }
         mainScope.launch {
-            userPlanManager.planChangeFlow.collect {
-                if (it == UserPlanManager.InfoChange.PlanChange.Upgrade && !context.isTV()) {
+            userPlanManager.planChangeFlow.collect { planChange ->
+                if (planChange.oldUser.isFreeUser && !planChange.newUser.isFreeUser && !context.isTV()) {
                     userSettingsManager.updateNetShield(Constants.DEFAULT_NETSHIELD_AFTER_UPGRADE)
                 }
             }

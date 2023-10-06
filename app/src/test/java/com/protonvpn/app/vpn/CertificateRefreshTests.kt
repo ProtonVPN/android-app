@@ -29,6 +29,7 @@ import com.protonvpn.android.vpn.CertificateKeyProvider
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.CertificateStorage
 import com.protonvpn.android.vpn.MIN_CERT_REFRESH_DELAY
+import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -124,7 +125,9 @@ class CertificateRefreshTests {
             CertificateRepository.CertificateResult.Success(CERTIFICATE_RESPONSE.certificate, CERT_INFO.privateKeyPem)
         coVerify(exactly = 0) { mockPeriodicUpdateManager.executeNow<Any, Any>(any(), any()) }
 
-        infoChangeFlow.emit(listOf(UserPlanManager.InfoChange.PlanChange.Upgrade))
+        infoChangeFlow.emit(
+            listOf(UserPlanManager.InfoChange.PlanChange(TestUser.freeUser.vpnUser, TestUser.plusUser.vpnUser))
+        )
 
         val clearedCertInfo = CertInfo(
             CERT_INFO.privateKeyPem,
