@@ -38,15 +38,17 @@ import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.server.ServerClock
 import me.proton.core.network.domain.session.SessionId
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import java.time.Instant
 import kotlin.time.Duration.Companion.seconds
 
 /**
@@ -63,6 +65,9 @@ class CertificateRefreshTests {
 
     @MockK
     private lateinit var mockKeyProvider: CertificateKeyProvider
+
+    @MockK
+    private lateinit var mockServerClock: ServerClock
 
     @MockK
     private lateinit var mockApi: ProtonApiRetroFit
@@ -82,7 +87,6 @@ class CertificateRefreshTests {
 
         currentTimeMs = NOW_MS
         infoChangeFlow = MutableSharedFlow(extraBufferCapacity = 1)
-
         val certs = mutableMapOf<SessionId, CertInfo>()
         coEvery { mockStorage.get(any()) } answers { certs[firstArg()] }
         coEvery { mockStorage.put(any(), any()) } answers { certs[firstArg()] = secondArg() }
@@ -91,6 +95,7 @@ class CertificateRefreshTests {
 
         every { mockKeyProvider.generateCertInfo() } returns CertInfo("private", "public", "x25519")
         every { mockPlanManager.infoChangeFlow } returns infoChangeFlow
+        every { mockServerClock.getCurrentTime() } answers { Instant.ofEpochMilli(currentTimeMs) }
         coEvery { mockApi.getCertificate(any(), any()) } returns ApiResult.Success(CERTIFICATE_RESPONSE)
         coEvery { mockCurrentUser.sessionId() } returns SESSION_ID
     }
@@ -173,7 +178,7 @@ class CertificateRefreshTests {
             mockStorage,
             mockKeyProvider,
             mockApi,
-            ::currentTimeMs,
+            mockServerClock,
             mockPlanManager,
             mockCurrentUser,
             mockPeriodicUpdateManager,
