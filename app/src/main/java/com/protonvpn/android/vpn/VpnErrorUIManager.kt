@@ -40,7 +40,7 @@ class VpnErrorUIManager @Inject constructor(
     init {
         scope.launch {
             userPlanManager.planChangeFlow.collect {
-                if (it is UserPlanManager.InfoChange.PlanChange.Downgrade && !stateMonitor.isEstablishingOrConnected) {
+                if (it.isDowngrade && !stateMonitor.isEstablishingOrConnected) {
                     displayInformation(
                         InformationNotification(
                             title = appContext.getString(R.string.notification_subscription_expired_title),

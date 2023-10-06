@@ -52,9 +52,8 @@ class UserPlanManager @Inject constructor(
     @IsInForeground inForeground: Flow<Boolean>
 ) {
     sealed class InfoChange {
-        sealed class PlanChange : InfoChange() {
-            data class Downgrade(val fromPlan: String, val toPlan: String) : PlanChange()
-            object Upgrade : PlanChange()
+        data class PlanChange(val oldUser: VpnUser, val newUser: VpnUser) : InfoChange() {
+            val isDowngrade get() = oldUser.userTier > newUser.userTier
         }
         object UserBecameDelinquent : InfoChange()
         object VpnCredentials : InfoChange()
@@ -103,14 +102,8 @@ class UserPlanManager @Inject constructor(
             changes += InfoChange.VpnCredentials
         if (newUserInfo.isUserDelinquent && !currentUserInfo.isUserDelinquent)
             changes += InfoChange.UserBecameDelinquent
-        when {
-            newUserInfo.userTier < currentUserInfo.userTier -> {
-                changes +=
-                    InfoChange.PlanChange.Downgrade(currentUserInfo.userTierName, newUserInfo.userTierName)
-            }
-            newUserInfo.userTier > currentUserInfo.userTier ->
-                changes += InfoChange.PlanChange.Upgrade
-        }
+        if (newUserInfo.userTier != currentUserInfo.userTier || newUserInfo.userTierName != currentUserInfo.userTierName)
+            changes += InfoChange.PlanChange(currentUserInfo, newUserInfo)
         changes.whenNotNullNorEmpty {
             ProtonLogger.log(UserPlanChanged, "change: $it, user: ${newUserInfo.toLog()}")
         }
