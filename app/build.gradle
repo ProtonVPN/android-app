@@ -639,8 +639,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     debugImplementation 'androidx.test.espresso.idling:idling-concurrent:3.5.0'
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.9.1'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.12'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version"
     detektPlugins project(":detekt-gitlab-output-plugin")
