@@ -85,7 +85,7 @@ data class ServerListSectionModel(
 // Items on the server list
 sealed class ServerListItemModel
 
-data class FreeUpsellBannerModel(val premiumCountriesCount: Int) : ServerListItemModel()
+object FreeUpsellBannerModel : ServerListItemModel()
 
 data class PromoOfferBannerModel(
     val imageUrl: String,
@@ -213,21 +213,21 @@ class CountryListViewModel @Inject constructor(
         notification: ApiNotification?
     ): List<ServerListSectionModel> = buildList {
         if (restrictions.serverList) {
-            val allCountries = getCountriesForList(secureCore)
             add(ServerListSectionModel(
                 R.string.listFreeCountries,
                 getRestrictedRecommendedConnections(),
                 infoType = ServerListSectionModel.InfoType.FreeConnections)
             )
-            val upsellBanner = createPromoOfferBanner(notification) ?: FreeUpsellBannerModel(allCountries.size)
+            val allCountries = getCountriesForList(secureCore)
+            val upsellBanner = createPromoOfferBanner(notification) ?: FreeUpsellBannerModel
             val plusItems =
                 listOf(upsellBanner) + allCountries.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)
             add(ServerListSectionModel(R.string.listPremiumCountries_new_plans, plusItems, itemCount = plusItems.size - 1))
         } else {
-            val promoOfferBanner = createPromoOfferBanner(notification)?.let { listOf(it) } ?: emptyList()
+            val upsellBanner = createPromoOfferBanner(notification) ?: FreeUpsellBannerModel
             val (free, premiumCountries) = getFreeAndPremiumCountries(userTier = VpnUser.FREE_TIER, secureCore)
             val premiumItems =
-                promoOfferBanner + premiumCountries.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)
+                listOf(upsellBanner) + premiumCountries.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)
             add(ServerListSectionModel(R.string.listFreeCountries, free.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)))
             add(ServerListSectionModel(R.string.listPremiumCountries_new_plans, premiumItems))
         }

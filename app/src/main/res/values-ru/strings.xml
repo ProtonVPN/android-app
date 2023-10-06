@@ -675,7 +675,6 @@
     <string name="ikev2_removed_dialog_message">Значения по умолчанию и профили, которые ранее использовали IKEv2, теперь будут использовать протокол Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Посетите <a href="https://protonvpn.com/pricing">protonvpn.com</a> для получения дополнительной информации.</string>
-    <string name="free_upsell_header_title">Browse from all %1$d countries with VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Want to choose a specific country?</string>
     <string name="upgrade_country_message">Unlock country selection with VPN Plus</string>

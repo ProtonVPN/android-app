@@ -653,7 +653,6 @@
     <string name="ikev2_removed_dialog_message">پیش‌فرض‌ها و پروفایل‌هایی که قبلا از IKEv2 استفاده کردند اکنون از پروتکل هوشمند بهره می‌گیرند.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">از <a href="https://protonvpn.com/pricing">protonvpn.com</a> برای اطلاعات بیشتر بازدید کنید.</string>
-    <string name="free_upsell_header_title">Browse from all %1$d countries with VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Want to choose a specific country?</string>
     <string name="upgrade_country_message">Unlock country selection with VPN Plus</string>

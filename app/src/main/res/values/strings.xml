@@ -675,7 +675,7 @@
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visit <a href="https://protonvpn.com/pricing">protonvpn.com</a> for more info.</string>
 
-    <string name="free_upsell_header_title">Browse from all %1$d countries with VPN Plus</string>
+    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
 
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Want to choose a specific country?</string>

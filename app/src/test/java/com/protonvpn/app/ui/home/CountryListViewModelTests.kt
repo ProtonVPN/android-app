@@ -202,10 +202,17 @@ class CountryListViewModelTests {
         vpnUserFlow.value = TestUser.freeUser.vpnUser
 
         val state = countryListViewModel.state.first()
-        // 2 sections: with free PL and plus DE
+        assertEquals(
+            listOf(
+                listOf(CollapsibleServerGroupModel::class),
+                listOf(FreeUpsellBannerModel::class, CollapsibleServerGroupModel::class)
+            ),
+            state.sections.map { it.items.map { it::class } }
+        )
+        // 2 country sections: with free PL and plus DE
         assertEquals(
             listOf(listOf("PL"), listOf("DE")),
-            state.sections.map { it.items.map { (it as CollapsibleServerGroupModel).countryFlag } }
+            state.sections.map { it.items.filterIsInstance<CollapsibleServerGroupModel>().map { it.countryFlag } }
         )
 
         // We have fastest, free and plus groups for free country

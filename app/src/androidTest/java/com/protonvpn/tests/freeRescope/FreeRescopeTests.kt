@@ -113,7 +113,7 @@ class FreeRescopeTests {
 
     @Test
     fun serverListUpgradeModal() {
-        homeRobot.clickPlusLocationUpsell(MockedServers.getCountryCount())
+        homeRobot.clickPlusLocationUpsell()
         upsellModalRobot.verify { countryUpsellIsShown() }
         upsellModalRobot.closeModal()
         homeRobot.clickUpgradeByCountryName(MockedServers.serverList[0].displayName)

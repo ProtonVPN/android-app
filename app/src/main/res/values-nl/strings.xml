@@ -653,7 +653,6 @@
     <string name="ikev2_removed_dialog_message">Standaarden en profielen die eerder IKEv2 gebruikten, zullen nu het Smart-protocol gebruiken.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Bezoek <a href="https://protonvpn.com/pricing">protonvpn.com</a> voor meer informatie.</string>
-    <string name="free_upsell_header_title">Browse van alle %1$d landen met VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Wilt u een specifiek land kiezen?</string>
     <string name="upgrade_country_message">Ontgrendel land selectie met VPN Plus</string>
