@@ -182,8 +182,8 @@
     <string name="report_bug_message_hint">Décrivez le bug et indiquez comment et où vous l\'avez constaté.</string>
     <string name="send_report">Envoyer le rapport</string>
     <string name="excludeIpTitle">Exclure des adresses IP</string>
-    <string name="discardChanges">Supprimer les modifications non enregistrées ?</string>
-    <string name="discard">Ignorer</string>
+    <string name="discardChanges">Abandonner les modifications non enregistrées ?</string>
+    <string name="discard">Abandonner</string>
     <string name="selectedProfileColor">Sélectionnez une couleur pour votre profil.</string>
     <string name="excludeIpDescription">Ajoutez les adresses IP que vous voulez exclure du trafic VPN.</string>
     <string name="done">TERMINÉ</string>
@@ -653,6 +653,7 @@
     <string name="ikev2_removed_dialog_message">Les valeurs par défaut et les profils qui utilisaient auparavant IKEv2 utiliseront désormais Smart Protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Rendez-vous sur <a href="https://protonvpn.com/fr/pricing">protonvpn.com</a> pour plus d\'informations.</string>
+    <string name="free_upsell_header_title">Profitez d\'une couverture mondiale en passant à VPN Plus.</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Vous voulez choisir un pays en particulier ?</string>
     <string name="upgrade_country_message">Accédez à la sélection de pays en passant à VPN Plus.</string>
@@ -681,6 +682,36 @@
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Accédez au contenu bloqué géographiquement dans %1$d pays en passant à VPN Plus.</item>
         <item quantity="other">Accédez au contenu bloqué géographiquement dans %1$d pays en passant à VPN Plus.</item>
+    </plurals>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">Plus que %1$s:%2$s</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">%1$d seconde</item>
+        <item quantity="other">%1$d secondes</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">%1$d minute</item>
+        <item quantity="other">%1$d minutes</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">%1$d heure</item>
+        <item quantity="other">%1$d heures</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">%1$d jour</item>
+        <item quantity="other">%1$d jours</item>
     </plurals>
     <string name="server_change_max_reached">Vous avez atteint le nombre maximum de changements de serveurs Free pour le moment.</string>
     <string name="server_change_upsell">Disposez d\'un nombre illimité de changements avec VPN Plus.</string>

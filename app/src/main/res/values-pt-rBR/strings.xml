@@ -653,6 +653,7 @@
     <string name="ikev2_removed_dialog_message">Padrões e perfis que anteriormente usavam IKEv2 agora usarão o Smart Protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obter mais informações.</string>
+    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Quer escolher um país específico?</string>
     <string name="upgrade_country_message">Desbloqueie a seleção de país com VPN Plus</string>
@@ -681,6 +682,36 @@
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Desbloqueie conteúdo geo localizado do país %1$d com o VPN Plus</item>
         <item quantity="other">Desbloqueie conteúdo geo localizado dos países %1$d com o VPN Plus</item>
+    </plurals>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">%1$s %2$s restante</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">%1$d segundo</item>
+        <item quantity="other">%1$d segundos</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">%1$d minutos</item>
+        <item quantity="other">%1$d minutos</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">%1$d hora</item>
+        <item quantity="other">%1$d horas</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">%1$d dia</item>
+        <item quantity="other">%1$d dias</item>
     </plurals>
     <string name="server_change_max_reached">Por enquanto, você alcançou o número máximo de mudanças de servidor grátis.</string>
     <string name="server_change_upsell">Obtenha alterações ilimitadas com VPN Plus.</string>

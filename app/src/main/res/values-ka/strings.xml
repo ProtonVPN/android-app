@@ -653,6 +653,7 @@
     <string name="ikev2_removed_dialog_message">ნაგულისხმები მნიშვნელობები და პროფილები, რომლებიც ადრე IKEv2-ს იყენებდნენ, ახლა ჭკვიან პროტოკოლზე გადაერთვებიან.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">მეტი ინფორმაციისთვის ეწვიეთ<a href="https://protonvpn.com/pricing">protonvpn.com</a>-ს.</string>
+    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">გნებავთ მითითებული ქვეყნის არჩევა?</string>
     <string name="upgrade_country_message">განბლოკეთ ქვეყნის არჩევანი VPN Plus-თან ერთად</string>
@@ -681,6 +682,36 @@
     <plurals name="search_upsell_banner_message">
         <item quantity="one">განბლოკეთ გეოდაბლოკილი შემცველობა %1$d ქვეყნიდან, VPN Plus-თან ერთად</item>
         <item quantity="other">განბლოკეთ გეოდაბლოკილი შემცველობა %1$d ქვეყნიდან, VPN Plus-თან ერთად</item>
+    </plurals>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">დარჩა %1$s %2$s</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">%1$d წამი</item>
+        <item quantity="other">%1$d წამი</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">%1$d წუთი</item>
+        <item quantity="other">%1$d წუთი</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">%1$d საათი</item>
+        <item quantity="other">%1$d საათი</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">%1$d დღე</item>
+        <item quantity="other">%1$d დღე</item>
     </plurals>
     <string name="server_change_max_reached">მიაღწიეთ ამ დროისთვის დაშვებული უფასო სერვერების ცვლილების მაქსიმალურ რაოდენობას.</string>
     <string name="server_change_upsell">მიიღეთ განუსაზღვრელი ცვლილებები VPN Plus-თან ერთად.</string>
