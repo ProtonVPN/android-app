@@ -206,7 +206,7 @@
     <string name="countryServersHeader">Server des Landes</string>
     <string name="secureCoreCountriesHeader">„Secure Core“-Länder</string>
     <string name="recommendedProfilesHeader">Empfohlene Profile</string>
-    <string name="free_connection_header">Freie Verbindung</string>
+    <string name="free_connection_header">Free-Verbindung</string>
     <string name="yourProfilesHeader">Deine Profile</string>
     <string name="exitCountry">Ausgangsland</string>
     <string name="entryCountry">Eingangsland</string>
@@ -236,7 +236,7 @@
     <string name="noVpnPermissionOtherAppLabel">Andere VPN-Apps</string>
     <string name="noVpnPermissionOpenSettings">Android VPN-Einstellungen öffnen</string>
     <string name="noNotificationPermissionGrantTitle">Benachrichtigungen aktivieren</string>
-    <string name="noNotificationPermissionGrantDescription">Überprüfe deinen Verbindungsstatus außerhalb der App und erhalte Benachrichtigungen bei allen Änderungen</string>
+    <string name="noNotificationPermissionGrantDescription">Überprüfe deinen Verbindungsstatus außerhalb der App und erhalte Benachrichtigungen bei jeglichen Änderungen.</string>
     <string name="noNotificationPermissionGrantNowTitle">Jetzt aktivieren</string>
     <string name="error_prepare_vpn_description"><![CDATA[Bitte deaktiviere „Always-On-VPN(VPN immer eingeschaltet)“ für alle anderen VPN-Anwendungen in den Android-VPN-Systemeinstellungen, da dies Proton VPN daran hindert, eine VPN-Verbindung aufzubauen. Bitte gewähre auch VPN Berechtigungen, wenn ein Dialog zur Anforderung von VPN-Berechtigungen angezeigt wird. Andere VPN-Anwendungen müssen möglicherweise ebenfalls deinstalliert werden, um Konflikte zu vermeiden. Versuche es danach bitte erneut. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="error_prepare_vpn_settings">Android VPN-Einstellungen aufrufen</string>
@@ -474,20 +474,20 @@
     <string name="upgrade_secure_core_countries">Route über extrem sichere Server in der Schweiz, Schweden und Island</string>
     <string name="upgrade_secure_core_encryption">Füge deiner VPN-Verbindung eine weitere Verschlüsselungsebene hinzu</string>
     <string name="upgrade_secure_core_protect">Schütze dich vor Netzwerkangriffen</string>
-    <string name="upgrade_profiles_title">Erhalten Sie schnellen Zugriff auf Ihre häufigen Verbindungen</string>
+    <string name="upgrade_profiles_title">Erhalte schnellen Zugriff auf deine meistgenutzten Verbindungen</string>
     <string name="upgrade_profiles_text">Profile freischalten mit VPN Plus</string>
-    <string name="upgrade_profiles_feature_save">Speichern Sie Ihren bevorzugten Server, Ihre Stadt oder Ihr Land</string>
-    <string name="upgrade_profiles_feature_customize">Lege benutzerdefinierte Protokolle und Premium-VPN-Funktionen fest</string>
+    <string name="upgrade_profiles_feature_save">Speichere deinen bevorzugten Server, Stadt oder Land.</string>
+    <string name="upgrade_profiles_feature_customize">Lege benutzerdefinierte Protokolle und Premium-VPN-Funktionen fest.</string>
     <string name="upgrade_vpn_accelerator_title">Surfe mit noch höherer Geschwindigkeit (bis zu 10 Gbit/s).</string>
     <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Erhöhe die Verbindungsgeschwindigkeit um bis zu 400 % mit <b>VPN Accelerator</b>.]]></string>
     <string name="upgrade_vpn_accelerator_feature_distant_servers">Verbesserte Geschwindigkeit und Stabilität bei Verbindungen zu entfernten Servern.</string>
     <string name="upgrade_vpn_accelerator_feature_less_crowded">Zugriff auf schnellere, weniger überlastete Server</string>
     <string name="upgrade_split_tunneling_title">Erhalte das Beste aus beiden Welten</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Freischalten von <b>Split-Tunneling</b> mit VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Von zwei Standorten aus gleichzeitig browsen mit Split-Tunneling</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Schalte <b>Split-Tunneling</b> mit VPN Plus frei.]]></string>
+    <string name="upgrade_split_tunneling_two_locations">Von zwei Standorten aus gleichzeitig browsen mit Split-Tunneling.</string>
     <string name="upgrade_split_tunneling_feature_allow_exceptions">Erlaube vertrauenswürdigen Anwendungen und IP-Adressen, sich direkt mit dem Internet zu verbinden, während du alles andere mit deinem VPN schützt.</string>
     <string name="upgrade_customization_title">Erweiterte VPN-Anpassung freischalten</string>
-    <string name="upgrade_customization_lan"><![CDATA[Zugriff auf Geräte in deinem <b>Local Area Network (LAN)</b>]]></string>
+    <string name="upgrade_customization_lan"><![CDATA[Greife auf Geräte in deinem <b>lokalen Netzwerk (LAN)</b> zu.]]></string>
     <string name="upgrade_customization_feature_profiles"><![CDATA[Speichere häufig verwendete Verbindungen mit <b>Profilen</b>]]></string>
     <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Erhalte sofortigen Zugriff auf deine Profile mit <b>Quick Connect</b>]]></string>
     <string name="upgrade_netshield_block_ads">Blockiere Werbung und Tracker</string>
@@ -653,6 +653,7 @@
     <string name="ikev2_removed_dialog_message">Standardeinstellungen und Profile, die zuvor IKEv2 verwendet haben, verwenden nun das Smart-Protokoll.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Besuche <a href="https://protonvpn.com/de/pricing">protonvpn.com</a> für mehr Informationen.</string>
+    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Möchtest du ein bestimmtes Land auswählen?</string>
     <string name="upgrade_country_message">Mit VPN Plus die Länderauswahl freischalten</string>
@@ -665,8 +666,8 @@
         <item quantity="other">Schütze bis zu %1$d Geräte</item>
     </plurals>
     <plurals name="upgrade_country_feature_count">
-        <item quantity="one">Durchsuchen von %1$d Land</item>
-        <item quantity="other">Durchsuchen von %1$d Ländern</item>
+        <item quantity="one">Surfe von %1$d Land aus</item>
+        <item quantity="other">Surfe von %1$d Ländern aus</item>
     </plurals>
     <string name="upgrade_moderate_nat_title2">Verbessere dein Spielerlebnis</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Schalte <b>NAT-Typ 2</b> frei mit VPN Plus]]></string>
@@ -675,18 +676,48 @@
     <string name="free_connections_info_message">Proton Free verbindet dich automatisch mit dem schnellsten verfügbaren Server. Dies ist normalerweise der Server, der deinem Standort am nächsten ist.</string>
     <string name="free_connections_info_server_locations">Verfügbare Serverstandorte (%1$d)</string>
     <string name="free_connections_info_banner_text">Erhalte weltweite Abdeckung mit VPN Plus</string>
-    <string name="free_connection_info_title">Kostenlose Verbindungen</string>
+    <string name="free_connection_info_title">Free-Verbindungen</string>
     <string name="search_upsell_banner_title">Streamen von überall</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="one">Entsperren Sie geoblockierte Inhalte aus %1$d Land mit VPN Plus</item>
-        <item quantity="other">Entsperren Sie geoblockierte Inhalte aus %1$d Ländern mit VPN Plus</item>
+        <item quantity="one">Entsperre geoblockierte Inhalte aus %1$d Land mit VPN Plus</item>
+        <item quantity="other">Entsperre geoblockierte Inhalte aus %1$d Ländern mit VPN Plus</item>
+    </plurals>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">%1$s %2$s verbleiben</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">%1$d Sekunde</item>
+        <item quantity="other">%1$d Sekunden</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">%1$d Minute</item>
+        <item quantity="other">%1$d Minuten</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">%1$d Stunde</item>
+        <item quantity="other">%1$d Stunden</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">%1$d Tag</item>
+        <item quantity="other">%1$d Tage</item>
     </plurals>
     <string name="server_change_max_reached">Du hast die maximale Anzahl an kostenlosen Serverwechseln erreicht.</string>
     <string name="server_change_upsell">Erhalte unbegrenzte Wechsel mit VPN Plus.</string>
     <string name="server_change_button_title">Server wechseln</string>
     <string name="not_wanted_country_title">Nicht das Land, das du wolltest?</string>
-    <string name="not_wanted_country_description">Upgrade, um einen beliebigen Server auszuwählen</string>
+    <string name="not_wanted_country_description">Upgrade, um einen beliebigen Server auszuwählen.</string>
     <string name="whats_new_title">Was gibt es Neues?</string>
     <string name="whats_new_added_countries_title">Neue kostenlose Länder</string>
     <string name="whats_new_added_countries_description">Es gibt jetzt kostenlose Server in Polen und Rumänien.</string>

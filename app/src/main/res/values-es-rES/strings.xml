@@ -472,7 +472,7 @@ Más información</a>.]]></string>
     <string name="upgrade_plus_subtitle">Cuando mejoras a Plus</string>
     <string name="upgrade_netshield_title_new">Disfruta de una navegación sin anuncios con NetShield</string>
     <string name="upgrade_secure_core_title_new">Dobla la encriptación con Secure Core</string>
-    <string name="upgrade_secure_core_countries">Enrutamiento mediante servidores ultra seguros en Suiza, Suecia e Islandia</string>
+    <string name="upgrade_secure_core_countries">Enrutamiento con servidores ultra seguros en Suiza, Suecia e Islandia</string>
     <string name="upgrade_secure_core_encryption">Añade otra capa de encriptación a tu conexión VPN</string>
     <string name="upgrade_secure_core_protect">Protégete de los ataques a la red</string>
     <string name="upgrade_profiles_title">Obtén acceso rápido a tus conexiones frecuentes</string>
@@ -560,7 +560,7 @@ Más información</a>.]]></string>
     <string name="server_load_low">Baja</string>
     <string name="server_load_medium">Media</string>
     <string name="server_load_high">Alta</string>
-    <string name="info_gateways_description">Una puerta de enlace VPN es una conexión segura que proporciona acceso controlado a los datos y servicios de tu empresa mediante servidores dedicados.</string>
+    <string name="info_gateways_description">Una puerta de enlace VPN es una conexión segura que proporciona acceso controlado a los datos y servicios de tu empresa con servidores dedicados.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">¡Te damos la bienvenida a Proton VPN!</string>
@@ -654,6 +654,7 @@ Más información</a>.]]></string>
     <string name="ikev2_removed_dialog_message">Las configuraciones por defecto y los perfiles que antes utilizaban IKEv2 ahora utilizarán el protocolo Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visita <a href="https://protonvpn.com/pricing">protonvpn.com</a> para más información.</string>
+    <string name="free_upsell_header_title">Disfruta de una cobertura global con VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">¿Deseas elegir un país específico?</string>
     <string name="upgrade_country_message">Desbloquea el país seleccionado con VPN Plus</string>
@@ -682,6 +683,36 @@ Más información</a>.]]></string>
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Desbloquea contenido geobloqueado desde %1$d país con VPN Plus</item>
         <item quantity="other">Desbloquea contenido geobloqueado desde %1$d países con VPN Plus</item>
+    </plurals>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">Quedan %1$s %2$s</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">%1$d segundo</item>
+        <item quantity="other">%1$d segundos</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">%1$d minuto</item>
+        <item quantity="other">%1$d minutos</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">%1$d hora</item>
+        <item quantity="other">%1$d horas</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">%1$d día</item>
+        <item quantity="other">%1$d días</item>
     </plurals>
     <string name="server_change_max_reached">Has alcanzado el número máximo de cambios de servidores gratuitos por ahora.</string>
     <string name="server_change_upsell">Obtén cambios ilimitados con VPN Plus.</string>

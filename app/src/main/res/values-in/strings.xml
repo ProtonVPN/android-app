@@ -642,6 +642,7 @@
     <string name="ikev2_removed_dialog_message">Pengaturan default dan profil yang sebelumnya menggunakan IKEv2 akan beralih menggunakan protokol Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Kunjungi <a href="https://protonvpn.com/pricing">protonvpn.com</a> untuk info lebih lanjut.</string>
+    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Ingin memilih negara tertentu?</string>
     <string name="upgrade_country_message">Akses fitur pemilihan negara dengan VPN Plus</string>
@@ -667,6 +668,32 @@
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
         <item quantity="other">Akses konten yang terblokir wilayah dari %1$d negara dengan VPN Plus</item>
+    </plurals>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">%1$s %2$s lagi</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="other">%1$d detik</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="other">%1$d menit</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="other">%1$d jam</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="other">%1$d hari</item>
     </plurals>
     <string name="server_change_max_reached">Anda telah mencapai batas jumlah perubahan server Free yang diperkenankan untuk saat ini.</string>
     <string name="server_change_upsell">Ubah server tanpa batas dengan VPN Plus.</string>

@@ -375,7 +375,7 @@
     <string name="tv_detail_connect">Connetti</string>
     <string name="tv_detail_description_streaming_country">Streaming dei tuoi contenuti preferiti. Accedi ad altre app con un piano Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Streaming dei tuoi contenuti preferiti con un piano Proton VPN Plus.</string>
-    <string name="tv_detail_description_country_not_available">Questo paese non è disponibile. Ottieni ulteriori opzioni di streaming con un piano Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Questo paese non è disponibile. Ottieni più opzioni di streaming con un piano Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Trasmetti i tuoi video, film o sport preferiti con le tue app.</string>
     <string name="tv_login_title_signin">Accedi a Proton VPN</string>
     <string name="tv_login_title_welcome">Trasmetti i tuoi contenuti video preferiti</string>
@@ -444,7 +444,7 @@
     <string name="no_thanks">No, grazie</string>
     <string name="enable">Abilita</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol è attualmente disabilitato</string>
-    <string name="notification_smart_protocol_disabled_content">Proton VPN ha rilevato che la rete attuale sta impedendo una connessione alla VPN. Abilitare Smart Protocol potrebbe bypassare queste limitazioni.</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN ha rilevato che la rete attuale sta impedendo una connessione alla VPN. Abilitare Smart Protocol potrebbe evitare queste limitazioni.</string>
     <string name="upsell_advanced_features">Funzioni avanzate: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Accedi ai servizi di streaming (Netflix, Disney+, ecc.) ovunque nel mondo</string>
     <!-- Number of servers available in the service.
@@ -653,6 +653,7 @@
     <string name="ikev2_removed_dialog_message">Le impostazioni predefinite e i profili che in precedenza utilizzavano IKEv2 ora utilizzeranno il protocollo Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visita <a href="https://protonvpn.com/pricing">protonvpn.com</a> per altre info.</string>
+    <string name="free_upsell_header_title">Ottieni una copertura mondiale con VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Vuoi scegliere un paese specifico?</string>
     <string name="upgrade_country_message">Sblocca la selezione del paese con VPN Plus</string>
@@ -681,6 +682,36 @@
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Sblocca i contenuti bloccati geograficamente da %1$d paese con VPN Plus</item>
         <item quantity="other">Sblocca i contenuti bloccati geograficamente da %1$d paesi con VPN Plus</item>
+    </plurals>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">%1$s %2$s rimasti</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">%1$d secondo</item>
+        <item quantity="other">%1$d secondi</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">%1$d minuto</item>
+        <item quantity="other">%1$d minuti</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">%1$d ora</item>
+        <item quantity="other">%1$d ore</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">%1$d giorno</item>
+        <item quantity="other">%1$d giorni</item>
     </plurals>
     <string name="server_change_max_reached">Hai raggiunto il numero massimo di modifiche gratuite del server per ora.</string>
     <string name="server_change_upsell">Ottieni modifiche illimitate con VPN Plus.</string>
