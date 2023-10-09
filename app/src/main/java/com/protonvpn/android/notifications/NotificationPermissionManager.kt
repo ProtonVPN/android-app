@@ -154,7 +154,7 @@ class NotificationPermissionBottomSheetFragment : ComposeBottomSheetDialogFragme
                 onClick = onTurnOnClicked,
             )
             VpnTextButton(
-                text = stringResource(R.string.dialogDontShowAgain),
+                text = stringResource(R.string.no_thanks),
                 onClick = onDontShowAgainClicked,
             )
         }
