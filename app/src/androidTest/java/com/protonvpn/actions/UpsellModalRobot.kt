@@ -50,9 +50,10 @@ class UpsellModalRobot : BaseRobot() {
 
         fun countryUpsellIsShown(){
             checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_subtitle)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_countries_streaming)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_countries_netshield)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_countries_speeds)
+            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_countries_choose_location)
+            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_countries_even_higher_speed)
+            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_countries_access_content)
+            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_countries_stream)
         }
     }
 

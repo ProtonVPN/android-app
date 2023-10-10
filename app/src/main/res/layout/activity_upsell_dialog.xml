@@ -23,19 +23,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/update_dialog_bg"
-    android:orientation="vertical"
-    android:paddingBottom="16dp">
+    android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="48dp">
 
         <FrameLayout
+            android:id="@+id/scrolledContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/screen_padding_horizontal">
+            android:paddingHorizontal="@dimen/screen_padding_horizontal"
+            android:paddingBottom="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,32 +76,15 @@
                     android:gravity="center_horizontal" />
 
                 <LinearLayout
-                    android:id="@+id/layoutFeatureItemsContainer"
+                    android:id="@+id/layoutFeatureItems"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/upgrade_features_box"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="gone"/>
 
-                    <LinearLayout
-                        android:id="@+id/layoutFeatureItems"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="vertical"/>
-
-                    <TextView
-                        android:id="@+id/upgradeCountriesMoreCaption"
-                        style="@style/Proton.Text.Caption"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:textColor="@color/text_weak"
-                        android:text="@string/upgrade_plus_countries_more"
-                        android:visibility="gone"/>
-                </LinearLayout>
             </LinearLayout>
 
         </FrameLayout>

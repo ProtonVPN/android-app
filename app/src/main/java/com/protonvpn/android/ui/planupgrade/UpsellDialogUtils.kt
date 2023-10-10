@@ -76,14 +76,12 @@ fun ActivityUpsellDialogBinding.initBinding(
         // Set drawing under system bars and update paddings accordingly
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.statusBarColor = Color.TRANSPARENT
-        ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.updatePadding(
-                top = 24.toPx() + insets.top,
-                bottom = insets.bottom
-            )
-            WindowInsetsCompat.CONSUMED
-        }
+    }
+    ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
+        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        scrolledContent.updatePadding(top = 24.toPx() + insets.top)
+        view.updatePadding(bottom = 16.toPx() + insets.bottom)
+        WindowInsetsCompat.CONSUMED
     }
 
     imagePicture.isVisible = imageResource != null
@@ -95,7 +93,7 @@ fun ActivityUpsellDialogBinding.initBinding(
 
     initFeatures?.invoke(layoutFeatureItems)
     if (layoutFeatureItems.isNotEmpty())
-        layoutFeatureItemsContainer.isVisible = true
+        layoutFeatureItems.isVisible = true
 
     buttonMainAction.setText(mainButtonLabel)
     buttonMainAction.onClick(mainButtonAction)
