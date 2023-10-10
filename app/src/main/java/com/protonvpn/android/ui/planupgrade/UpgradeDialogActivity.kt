@@ -282,19 +282,13 @@ open class UpgradePlusCountriesDialogActivity : UpgradeDialogActivity(UpgradeSou
             title = createTitle(),
             message = getString(R.string.upgrade_plus_subtitle)
         ) {
-            val manyDevices = resources.getQuantityString(
-                R.plurals.upgrade_plus_countries_many_devices,
-                Constants.MAX_CONNECTIONS_IN_PLUS_PLAN,
-                Constants.MAX_CONNECTIONS_IN_PLUS_PLAN
-            )
-            addFeature(R.string.upgrade_plus_countries_streaming, R.drawable.ic_proton_play)
-            addFeature(manyDevices, R.drawable.ic_proton_power_off)
-            addFeature(R.string.upgrade_plus_countries_netshield, R.drawable.ic_proton_shield)
-            addFeature(R.string.upgrade_plus_countries_speeds, R.drawable.ic_proton_rocket)
+            addFeature(R.string.upgrade_plus_countries_choose_location, R.drawable.ic_proton_globe)
+            addFeature(R.string.upgrade_plus_countries_even_higher_speed, R.drawable.ic_proton_rocket)
+            addFeature(R.string.upgrade_plus_countries_access_content, R.drawable.ic_proton_lock_open)
+            addFeature(R.string.upgrade_plus_countries_stream, R.drawable.ic_proton_play)
         }
         // No margin between the image and title, the image fades out at the bottom.
         binding.textTitle.updateLayoutParams<ViewGroup.MarginLayoutParams> { topMargin = 0 }
-        binding.upgradeCountriesMoreCaption.isVisible = true
     }
 
     private fun createTitle(): String {

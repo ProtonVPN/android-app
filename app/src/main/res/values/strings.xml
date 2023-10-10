@@ -533,15 +533,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
-    <string name="upgrade_plus_countries_streaming">Access global streaming services</string>
-    <!-- The number of devices will always be greater than 1. -->
-    <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="one">Connect %d device</item>
-        <item quantity="other">Connect up to %d devices at once</item>
-    </plurals>
-    <string name="upgrade_plus_countries_netshield">Block ads and malware with NetShield</string>
-    <string name="upgrade_plus_countries_speeds">Browse at the highest speeds (10 Gbps)</string>
-    <string name="upgrade_plus_countries_more">And many more premium features</string>
+    <string name="upgrade_plus_countries_subtitle">When you upgrade to Plus</string>
+    <string name="upgrade_plus_countries_choose_location">Choose any location</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Even higher VPN speed</string>
+    <string name="upgrade_plus_countries_access_content">Access geoblocked content</string>
+    <string name="upgrade_plus_countries_stream">Stream your favorite movies</string>
     <string name="upgrade_safe_mode_title">Allow traffic to non-standard ports</string>
     <string name="upgrade_safe_mode_message">Have advanced or professional computing needs that require non-standard ports? Upgrade to VPN Plus to access this and other premium features.</string>
     <string name="upgrade_not_now_button">Not now</string>
