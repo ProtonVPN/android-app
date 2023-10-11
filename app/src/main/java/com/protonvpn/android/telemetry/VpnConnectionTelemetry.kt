@@ -30,6 +30,7 @@ import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import io.sentry.Sentry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -39,6 +40,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
+
+private class ConnectionTelemetryDebug(message: String) : Throwable(message)
 
 @Singleton
 class VpnConnectionTelemetry @Inject constructor(
@@ -88,14 +91,16 @@ class VpnConnectionTelemetry @Inject constructor(
     fun onConnectionStart(trigger: ConnectTrigger) {
         if (trigger !is ConnectTrigger.Fallback || connectionInProgress == null) {
             connectionInProgress?.let {
+                reportImmediateAutoAbortToSentry("new connection start")
                 sendConnectionEvent(Outcome.ABORTED, it, null)
             }
             connectionInProgress = ConnectionInitInfo(trigger, clock(), vpnStateMonitor.isConnected)
         }
     }
 
-    fun onConnectionAbort(isFailure: Boolean = false, report: Boolean = true) {
+    fun onConnectionAbort(isFailure: Boolean = false, report: Boolean = true, sentryInfo: String? = null) {
         if (report) {
+            if (!isFailure && sentryInfo != null) reportImmediateAutoAbortToSentry(sentryInfo)
             onConnectingFinished(if (isFailure) Outcome.FAILURE else Outcome.ABORTED, null)
         } else {
             connectionInProgress = null
@@ -115,6 +120,7 @@ class VpnConnectionTelemetry @Inject constructor(
             trigger !is DisconnectTrigger.Fallback
         ) {
             val outcome = if (trigger.isSuccess) Outcome.ABORTED else Outcome.FAILURE
+            if (outcome == Outcome.ABORTED) reportImmediateAutoAbortToSentry("disconnect")
             onConnectingFinished(outcome, connectionParams)
         } else if (lastConnectTimestampMs != null) { // Only log events when previously connected.
             sendDisconnectEvent(trigger, connectionParams)
@@ -200,6 +206,13 @@ class VpnConnectionTelemetry @Inject constructor(
     }
 
     private fun Boolean.toOutcome() = if (this) Outcome.SUCCESS else Outcome.FAILURE
+
+    private fun reportImmediateAutoAbortToSentry(sentryInfo: String) {
+        val inProgress = connectionInProgress
+        if (inProgress != null && inProgress.trigger is ConnectTrigger.Auto && clock() - inProgress.timestampMs < 150) {
+            Sentry.captureException(ConnectionTelemetryDebug("'auto' connection aborted: $sentryInfo"))
+        }
+    }
 
     companion object {
         const val MEASUREMENT_GROUP = "vpn.any.connection"

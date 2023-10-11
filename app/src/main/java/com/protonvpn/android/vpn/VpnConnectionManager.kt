@@ -298,7 +298,7 @@ class VpnConnectionManager @Inject constructor(
         if (fallback != null) {
             fallbackConnect(fallback)
         } else {
-            vpnConnectionTelemetry.onConnectionAbort()
+            vpnConnectionTelemetry.onConnectionAbort(sentryInfo = "no server available")
             vpnBackgroundUiDelegate.showInfoNotification(
                 if (server == null) R.string.error_server_not_set
                 else R.string.restrictedMaintenanceDescription
@@ -496,7 +496,7 @@ class VpnConnectionManager @Inject constructor(
             if (supportsProtocol(server, profile.getProtocol(settings).vpn) && protocolAllowed) {
                 smartConnect(profile, server, trigger is ConnectTrigger.Fallback)
             } else {
-                vpnConnectionTelemetry.onConnectionAbort()
+                vpnConnectionTelemetry.onConnectionAbort(sentryInfo = "no protocol supported")
                 delegate.onProtocolNotSupported()
             }
         } else {
