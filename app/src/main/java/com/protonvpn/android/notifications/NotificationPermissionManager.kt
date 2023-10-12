@@ -84,7 +84,10 @@ class NotificationPermissionManager @Inject constructor(
 
     private fun checkAndRequestNotificationPermission() {
         val activity = foregroundActivityTracker.foregroundActivity
-        if (activity != null && activity is AppCompatActivity && !activity.isNotificationPermissionGranted()) {
+        if (activity is AppCompatActivity &&
+            !activity.supportFragmentManager.isStateSaved &&
+            !activity.isNotificationPermissionGranted()
+        ) {
             showDialogAndRequestPermission(activity)
         }
     }
