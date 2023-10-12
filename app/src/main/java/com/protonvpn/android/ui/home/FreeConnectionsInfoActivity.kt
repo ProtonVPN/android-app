@@ -29,7 +29,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.databinding.FreeConnectionsInfoBinding
 import com.protonvpn.android.databinding.InfoFreeCountryItemBinding
 import com.protonvpn.android.telemetry.UpgradeSource
-import com.protonvpn.android.ui.planupgrade.EmptyUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -55,7 +56,7 @@ class FreeConnectionsInfoActivity : AppCompatActivity() {
                 getString(R.string.free_connections_info_server_locations, freeCountries.size)
             upsellBanner.textTitle.setText(R.string.free_connections_info_banner_text)
             upsellBanner.root.onClick {
-                launchActivity<EmptyUpgradeDialogActivity>()
+                UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(this@FreeConnectionsInfoActivity)
             }
             for (country in freeCountries) {
                 val item = InfoFreeCountryItemBinding.inflate(

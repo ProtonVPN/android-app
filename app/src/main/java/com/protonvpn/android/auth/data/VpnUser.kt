@@ -25,6 +25,7 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.hasFlag
 import me.proton.core.account.data.entity.AccountEntity
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.SessionId
@@ -72,6 +73,8 @@ data class VpnUser(
     val isUserDelinquent get() = delinquent >= 3
     val isPMTeam get() = maxTier == 3
 
+    val hasSubscription get() = subscribed != 0
+
     val userTier: Int get() = maxTier ?: FREE_TIER
     val userTierName: String get() = planName ?: "free"
 
@@ -79,6 +82,7 @@ data class VpnUser(
         const val FREE_TIER = 0
         const val BASIC_TIER = 1
         const val PLUS_TIER = 2
+        const val VPN_SUBSCRIBED_FLAG = 4
     }
 }
 

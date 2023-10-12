@@ -15,7 +15,8 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
-import com.protonvpn.android.ui.planupgrade.EmptyUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
@@ -172,7 +173,7 @@ class VpnErrorUIManager @Inject constructor(
 
     private fun createPlanUpgradeAction(upgradeSource: UpgradeSource?): ActionItem = ActionItem.Activity(
         appContext.getString(R.string.upgrade),
-        Intent(appContext, EmptyUpgradeDialogActivity::class.java),
+        UpgradeDialogActivity.createIntent<UpgradeDialogActivity, UpgradePlusCountriesHighlightsFragment>(appContext),
         true,
         upgradeSource
     )

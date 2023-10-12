@@ -41,7 +41,9 @@ class CongratsActivity : BaseActivityV2() {
 
         viewModel.server?.let { binding.connectedTo.setCountry(it) }
         binding.continueButton.onClick {
-            UpgradeOnboardingDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(this)
+            if (viewModel.ipAppUpgradeAllowed) {
+                UpgradeOnboardingDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(this)
+            }
             finish()
         }
     }

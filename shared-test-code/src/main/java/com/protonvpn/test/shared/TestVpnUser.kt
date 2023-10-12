@@ -24,9 +24,14 @@ import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.SessionId
 
 object TestVpnUser {
-    fun create(id: String = "id", maxTier: Int = 2, maxConnect: Int = 2) = VpnUser(
+    fun create(
+        id: String = "id",
+        maxTier: Int = 2,
+        maxConnect: Int = 2,
+        subscribed: Int = VpnUser.VPN_SUBSCRIBED_FLAG
+    ) = VpnUser(
         userId = UserId(id),
-        subscribed = 4,
+        subscribed = subscribed,
         services = 4,
         delinquent = 0,
         credit = 0,

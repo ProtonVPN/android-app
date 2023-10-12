@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Proton Technologies AG
+ * Copyright (c) 2023. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,21 +17,26 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui.onboarding
+package com.protonvpn.android.ui.planupgrade
 
-import androidx.lifecycle.ViewModel
-import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.telemetry.UpgradeTelemetry
 import dagger.hilt.android.lifecycle.HiltViewModel
+import me.proton.core.auth.presentation.AuthOrchestrator
+import me.proton.core.plan.presentation.PlansOrchestrator
 import javax.inject.Inject
 
 @HiltViewModel
-class CongratsViewModel @Inject constructor(
-    private val vpnStatusProviderUI: VpnStatusProviderUI,
-    private val isInAppUpgradeAllowedUseCase: IsInAppUpgradeAllowedUseCase,
-) : ViewModel() {
-
-    val server get() = vpnStatusProviderUI.connectingToServer
-
-    val ipAppUpgradeAllowed get() = isInAppUpgradeAllowedUseCase()
-}
+class UpgradeDialogViewModel @Inject constructor(
+    currentUser: CurrentUser,
+    authOrchestrator: AuthOrchestrator,
+    plansOrchestrator: PlansOrchestrator,
+    isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
+    upgradeTelemetry: UpgradeTelemetry
+) : FallbackUpgradeDialogViewModel(
+    currentUser,
+    authOrchestrator,
+    plansOrchestrator,
+    isInAppUpgradeAllowed,
+    upgradeTelemetry,
+)

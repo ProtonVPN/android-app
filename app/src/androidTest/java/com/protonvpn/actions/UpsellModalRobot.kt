@@ -25,16 +25,22 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
+import me.proton.test.fusion.Fusion.node
 
 class UpsellModalRobot : BaseRobot() {
-    fun closeModal() : UpsellModalRobot = clickElementByText(R.string.close)
+
+    fun closeModal() : UpsellModalRobot {
+        node.withText(R.string.close).click()
+        return this
+    }
+
     class Verify : BaseVerify() {
         fun profilesUpsellIsShown() {
             checkIfElementIsDisplayedByStringId(R.string.upgrade_profiles_title)
             checkIfElementIsDisplayedByStringId(R.string.upgrade_profiles_text)
             checkIfElementIsDisplayedByStringId(R.string.upgrade_profiles_feature_save)
             checkIfElementIsDisplayedByStringId(R.string.upgrade_profiles_feature_customize)
-            checkIfElementIsDisplayedByStringId(R.string.close)
+            node.withText(R.string.close).assertIsDisplayed()
         }
 
         fun specificCountryUpsellIsShown(speed: Int) {

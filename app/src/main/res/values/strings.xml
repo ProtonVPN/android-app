@@ -542,6 +542,18 @@
     <string name="upgrade_safe_mode_message">Have advanced or professional computing needs that require non-standard ports? Upgrade to VPN Plus to access this and other premium features.</string>
     <string name="upgrade_not_now_button">Not now</string>
     <string name="upgrade_learn_more">Learn more</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+
+        Examples:
+        50 PLN / month
+        $100 / year
+    -->
+    <string name="payment_price_with_period">%1$s / %2$s</string>
+    <string name="payment_price_per_month">month</string>
+    <string name="payment_price_per_year">year</string>
+    <string name="payment_price_per_2years">2 years</string>
     <!-- Information activity -->
     <string name="activity_information_title">Information</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
