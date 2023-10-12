@@ -29,6 +29,7 @@ buildscript {
 plugins {
     id 'com.android.application'
     id 'com.github.triplet.play' version '3.7.0'
+    id 'io.sentry.android.gradle' version '3.14.0'
     id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
@@ -393,6 +394,22 @@ detekt {
             outputLocation.set(file("build/reports/detekt/detekt.json"))
         }
     }
+}
+
+sentry {
+    // This configuration uploads mapping files to Sentry and requires credentials either in a
+    // local file or environment variables.
+    // To disable the upload temporarily (e.g. when building locally) add "release" to
+    // ignoredBuildTypes (I wish there was a better way...).
+    includeProguardMapping = true
+    uploadNativeSymbols = true
+    ignoredBuildTypes = ["debug"]
+    // It would be best to set only the single dimension "openSource" but it doesn't work this way.
+    ignoredFlavors = ["productionVanillaOpenSource"]
+
+    // We don't want the sentry plugin to add anything to our builds:
+    tracingInstrumentation { enabled = false }
+    autoInstallation { enabled = false }
 }
 
 tasks.withType(Detekt).configureEach {
