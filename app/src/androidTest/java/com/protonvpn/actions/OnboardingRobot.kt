@@ -38,15 +38,6 @@ class OnboardingRobot : BaseRobot() {
 
     fun skipOnboarding(): HomeRobot = clickElementById(R.id.skip)
 
-    fun closeOnboarding(paymentsDisabledFlag: Boolean): HomeRobot {
-        return if (paymentsDisabledFlag) {
-            clickElementById(R.id.buttonOther)
-        } else {
-            clickElementById(R.id.buttonMainAction)
-        }
-    }
-
-
     class Verify : BaseVerify() {
         fun welcomeScreenIsDisplayed() {
             view.withText(R.string.onboarding_welcome_title).withTimeout(Timeouts.LONG_MS)

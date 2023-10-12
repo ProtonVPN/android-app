@@ -25,7 +25,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.base.ui.ComposeBottomSheetDialogFragment
 import com.protonvpn.android.components.VpnUiDelegateProvider
-import com.protonvpn.android.ui.planupgrade.EmptyUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,7 +44,9 @@ class ChangeServerBottomSheet : ComposeBottomSheetDialogFragment() {
             onChangeServerClick = {
                 viewModel.changeServer((requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate())
             },
-            onUpgradeClick = { requireContext().launchActivity<EmptyUpgradeDialogActivity>() }
+            onUpgradeClick = {
+                UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(requireContext())
+            }
         )
     }
 }

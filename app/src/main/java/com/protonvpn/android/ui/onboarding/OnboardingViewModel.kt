@@ -33,6 +33,7 @@ import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.ServerManager
@@ -69,7 +70,8 @@ class OnboardingViewModel @Inject constructor(
     private val defaultAvailableConnection: DefaultAvailableConnection,
     private val vpnPermissionDelegate: VpnPermissionDelegate,
     private val vpnConnectionManager: VpnConnectionManager,
-    private val vpnStatusProviderUI: VpnStatusProviderUI
+    private val vpnStatusProviderUI: VpnStatusProviderUI,
+    private val isInAppUpgradeAllowedUseCase: IsInAppUpgradeAllowedUseCase,
 ) : ViewModel() {
 
     private val freeServers = viewModelScope.async(start = CoroutineStart.LAZY) {
@@ -79,6 +81,7 @@ class OnboardingViewModel @Inject constructor(
     }
 
     val showTelemetryPrompt get() = appConfig.getFeatureFlags().telemetry
+    val isInAppUpgradeAllowed get() = isInAppUpgradeAllowedUseCase()
 
     var telemetryEnabledSwitch: Boolean = true
     var crashReportingSwitch: Boolean = true

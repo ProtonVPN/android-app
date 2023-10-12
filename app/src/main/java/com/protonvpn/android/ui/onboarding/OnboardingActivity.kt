@@ -203,7 +203,9 @@ class OnboardingActivity : BaseActivityV2() {
 
     private fun navigateNext() = with(binding.pager) {
         if (currentItem + 1 == adapter?.itemCount) {
-            UpgradeOnboardingDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(this@OnboardingActivity)
+            if (viewModel.isInAppUpgradeAllowed) {
+                UpgradeOnboardingDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(this@OnboardingActivity)
+            }
             finish()
         } else {
             setCurrentItem(currentItem + 1, true)

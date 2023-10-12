@@ -28,23 +28,25 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.commitNow
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
-import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
+import com.protonvpn.android.databinding.ActivityCongratsPlanBinding
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.edgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CongratsPlanActivity : BaseActivityV2() {
 
     private val viewModel by viewModels<CongratsPlanViewModel>()
-    private val binding by viewBinding(ActivityUpsellDialogBinding::inflate)
+    private val binding by viewBinding(ActivityCongratsPlanBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,34 +57,35 @@ class CongratsPlanActivity : BaseActivityV2() {
             return
         }
 
+        setupEdgeToEdge()
         if (savedInstanceState == null) {
             initHighlights(planName)
         }
-        setupEdgeToEdge()
-        with(binding.buttonMainAction) {
-            setOnClickListener { finish() }
-            setText(R.string.upgrade_success_get_started_button)
-        }
+
+        val button = binding.buttonGetStarted
+        button.setOnClickListener { finish() }
 
         val shouldRefresh = intent.getBooleanExtra(EXTRA_REFRESH_VPN_USER, false)
         if (shouldRefresh) {
-            val mainButton = binding.buttonMainAction
-            mainButton.setLoading()
+            button.setLoading()
             viewModel.refreshPlan()
-            viewModel.state.asLiveData().observe(this) { state ->
-                when (state) {
-                    is CongratsPlanViewModel.State.Error -> {
-                        snackbarHelper.errorSnack(state.message?: getString(R.string.something_went_wrong))
-                        mainButton.isEnabled = false
-                    }
-                    CongratsPlanViewModel.State.Processing ->
-                        mainButton.setLoading()
-                    CongratsPlanViewModel.State.Success -> {
-                        mainButton.setIdle()
-                        mainButton.isEnabled = true
+            viewModel.state
+                .flowWithLifecycle(lifecycle)
+                .onEach { state ->
+                    when (state) {
+                        is CongratsPlanViewModel.State.Error -> {
+                            snackbarHelper.errorSnack(state.message ?: getString(R.string.something_went_wrong))
+                            button.isEnabled = false
+                        }
+                        CongratsPlanViewModel.State.Processing ->
+                            button.setLoading()
+                        CongratsPlanViewModel.State.Success -> {
+                            button.setIdle()
+                            button.isEnabled = true
+                        }
                     }
                 }
-            }
+                .launchIn(lifecycleScope)
         }
     }
 

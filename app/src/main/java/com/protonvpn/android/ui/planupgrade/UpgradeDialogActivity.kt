@@ -23,15 +23,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commitNow
+import androidx.fragment.app.replace
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
@@ -40,7 +40,6 @@ import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.edgeToEdge
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -71,26 +70,27 @@ open class UpgradeDialogActivity : BaseActivityV2() {
             }
         }
 
-        val showUpgrade = viewModel.showUpgrade()
-        with(binding.buttonMainAction) {
-            val action = if (showUpgrade) ::startUpgrade else ::finish
-            val label = if (showUpgrade) R.string.upgrade else R.string.close
-            setText(label)
-            setOnClickListener { action() }
-        }
-        with(binding.buttonOther) {
-            isVisible = showUpgrade
-            if (showUpgrade) {
-                setText(R.string.upgrade_not_now_button)
-                setOnClickListener { finish() }
+        if (savedInstanceState == null) {
+            supportFragmentManager.commitNow {
+                setReorderingAllowed(true)
+                replace<PaymentPanelFragment>(R.id.payment_panel_fragment)
             }
         }
+        binding.buttonClose.setOnClickListener { finish() }
 
         viewModel.state.asLiveData().observe(this) { state ->
-            if (state is UpgradeDialogViewModel.State.Success) {
-                showUpgradeSuccess.showPlanUpgradeSuccess(this, state.newPlan, refreshVpnInfo = true)
-                setResult(Activity.RESULT_OK)
-                finish()
+            when (state) {
+                CommonUpgradeDialogViewModel.State.Initializing -> {}
+                CommonUpgradeDialogViewModel.State.UpgradeDisabled -> {}
+                CommonUpgradeDialogViewModel.State.LoadingPlans -> {}
+                is CommonUpgradeDialogViewModel.State.LoadError -> {}
+                is CommonUpgradeDialogViewModel.State.PlanLoaded -> {}
+                CommonUpgradeDialogViewModel.State.PlansFallback -> {}
+                is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
+                    showUpgradeSuccess.showPlanUpgradeSuccess(this, state.newPlanName, refreshVpnInfo = true)
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
             }
         }
     }
@@ -99,14 +99,8 @@ open class UpgradeDialogActivity : BaseActivityV2() {
         edgeToEdge(root) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             fragmentContent.updatePadding(top = 24.toPx() + insets.top)
-            view.updatePadding(bottom = 16.toPx() + insets.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
-    }
-
-    private fun startUpgrade() {
-        lifecycleScope.launch {
-            viewModel.planUpgrade()
+            buttonClose.updateLayoutParams<MarginLayoutParams> { topMargin = 8.toPx() + insets.top }
+            windowInsets
         }
     }
 
@@ -114,15 +108,19 @@ open class UpgradeDialogActivity : BaseActivityV2() {
         const val FRAGMENT_CLASS_EXTRA = "highlights fragment"
         const val FRAGMENT_ARGS_EXTRA = "highlights fragment args"
 
+        inline fun <reified Activity :UpgradeDialogActivity, reified Fragment : UpgradeHighlightsFragment> createIntent(
+            context: Context,
+            args: Bundle? = null
+        ) = Intent(context, Activity::class.java).apply {
+            putExtra(FRAGMENT_CLASS_EXTRA, Fragment::class.java)
+            putExtra(FRAGMENT_ARGS_EXTRA, args)
+        }
+
         inline fun <reified Activity : UpgradeDialogActivity, reified Fragment : UpgradeHighlightsFragment> launchActivity(
             context: Context,
             args: Bundle? = null
         ) {
-            val intent = Intent(context, Activity::class.java).apply {
-                putExtra(FRAGMENT_CLASS_EXTRA, Fragment::class.java)
-                putExtra(FRAGMENT_ARGS_EXTRA, args)
-            }
-            context.startActivity(intent)
+            context.startActivity(createIntent<Activity, Fragment>(context, args))
         }
 
         inline fun <reified Fragment : UpgradeHighlightsFragment> launch(context: Context, args: Bundle? = null) =
@@ -138,37 +136,13 @@ open class UpgradeDialogActivity : BaseActivityV2() {
     }
 }
 
-// Directly navigates to plan upgrade workflow
-@AndroidEntryPoint
-class EmptyUpgradeDialogActivity : AppCompatActivity() {
-
-    val viewModel by viewModels<UpgradeDialogViewModel>()
-
-    @Inject lateinit var showUpgradeSuccess: ShowUpgradeSuccess
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.setupOrchestrators(this)
-        viewModel.state.asLiveData().observe(this) { state ->
-            if (state is UpgradeDialogViewModel.State.Success) {
-                showUpgradeSuccess.showPlanUpgradeSuccess(this, state.newPlan, refreshVpnInfo = true)
-                setResult(Activity.RESULT_OK)
-            }
-            if (state != UpgradeDialogViewModel.State.Init)
-                finish()
-        }
-        lifecycleScope.launch {
-            viewModel.planUpgrade()
-        }
-    }
-}
-
 @AndroidEntryPoint
 class UpgradeOnboardingDialogActivity : UpgradeDialogActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.buttonOther.setText(R.string.upgrade_use_limited_free_button)
+        // TODO: what about this?
+        //binding.buttonOther.setText(R.string.upgrade_use_limited_free_button)
     }
 
     companion object {
