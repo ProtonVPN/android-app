@@ -235,9 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Aplikacja Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Inne aplikacje VPN</string>
     <string name="noVpnPermissionOpenSettings">Otwórz ustawienia VPN systemu Android</string>
-    <string name="noNotificationPermissionGrantTitle">Włącz powiadomienia</string>
-    <string name="noNotificationPermissionGrantDescription">Sprawdź status połączenia poza aplikacją i otrzymuj powiadomienia o wszelkich zmianach.</string>
-    <string name="noNotificationPermissionGrantNowTitle">Włącz</string>
+    <string name="noNotificationPermissionGrantTitle">Bądź na bieżąco…</string>
+    <string name="noNotificationPermissionGrantDescription">Włącz powiadomienia, aby otrzymywać informacje o zmianach statusu połączenia.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Włącz powiadomienia</string>
     <string name="error_prepare_vpn_description"><![CDATA[Wyłącz funkcję stale aktywnego połączenia VPN dla wszystkich innych aplikacji w ustawieniach VPN w systemie Android. Ta funkcja uniemożliwia aplikacji Proton VPN ustanowienie połączenia. Jeśli pojawi się okno dialogowe z żądaniem uprawnień VPN, przyznaj je. Wymagane może być również odinstalowanie innych aplikacje, aby zapobiec konfliktom. Następnie spróbuj ponownie. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="error_prepare_vpn_settings">Przejdź do ustawień VPN w systemie Android</string>
     <string name="error_prepare_vpn_title">Błąd: problem z uprawnieniem VPN</string>
@@ -533,17 +533,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Dostęp do ponad %1$s w %2$s</string>
-    <string name="upgrade_plus_countries_streaming">Dostęp do globalnych usług streamingu</string>
-    <!-- The number of devices will always be greater than 1. -->
-    <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="one">Połącz %d urządzenie</item>
-        <item quantity="few">Połącz %d urządzenia jednocześnie</item>
-        <item quantity="many">Połącz %d urządzeń jednocześnie</item>
-        <item quantity="other">Połącz %d urządzeń jednocześnie</item>
-    </plurals>
-    <string name="upgrade_plus_countries_netshield">Zablokuj reklamy i złośliwe oprogramowanie dzięki funkcji NetShield</string>
-    <string name="upgrade_plus_countries_speeds">Przeglądaj Internet z najwyższą prędkością (10 Gb/s)</string>
-    <string name="upgrade_plus_countries_more">I wiele więcej funkcji premium</string>
+    <string name="upgrade_plus_countries_subtitle">Po ulepszeniu planu do wersji Plus</string>
+    <string name="upgrade_plus_countries_choose_location">Wybierz inną lokalizację</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Jeszcze wyższa prędkość VPN</string>
+    <string name="upgrade_plus_countries_access_content">Dostęp do zablokowanych treści</string>
+    <string name="upgrade_plus_countries_stream">Streamuj ulubione filmy</string>
     <string name="upgrade_safe_mode_title">Zezwalaj na ruch do niestandardowych portów</string>
     <string name="upgrade_safe_mode_message">Masz zaawansowane lub profesjonalne potrzeby, które wymagają niestandardowych portów? Ulepsz do planu VPN Plus, aby uzyskać dostęp do funkcji premium.</string>
     <string name="upgrade_not_now_button">Nie teraz</string>
@@ -624,7 +618,7 @@
     <string name="onboading_connecting_now">Łączenie</string>
     <string name="onboarding_congrats_description">Twoje połączenie jest chronione i możesz przeglądać Internet.\n\nBezpiecznie.</string>
     <string name="onboarding_congrats_title">Gratulacje!</string>
-    <string name="onboading_connect_to_plus">Połącz się z serwerem planu Plus</string>
+    <string name="upgrade_success_get_started_button">Rozpocznij</string>
     <string name="upgrade_use_limited_free_button">Wybierz ograniczony plan Free</string>
     <string name="dynamic_report_suggestion_didnt_work">Nie działa?</string>
     <string name="dynamic_report_contact_us">Skontaktuj się z nami</string>
@@ -759,6 +753,10 @@
     <string name="welcome_plus_title">Witaj w planie VPN Plus</string>
     <string name="welcome_plus_description">Ciesz się dodatkowymi funkcjami prywatności, zwiększoną wydajnością i dostosowaniem VPN na wyższym poziomie.</string>
     <string name="welcome_plus_feature_security">Zaawansowane funkcje bezpieczeństwa</string>
+    <string name="welcome_unlimited_title">Witaj w planie Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Gratulacje! Odblokowano funkcje premium bezpieczeństwa i wydajności we wszystkich usługach Proton oraz <b>%1$d&#160; GB</b> przestrzeni dyskowej.<br><br>Ciesz się tym, co najlepsze w prywatności Proton.]]></string>
+    <string name="welcome_generic_title">Gratulacje</string>
+    <string name="welcome_generic_description">Subskrypcja została ulepszona. Ciesz się zaawansowanymi funkcjami prywatności i wydajnością na wyższym poziomie.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">

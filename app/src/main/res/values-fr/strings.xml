@@ -206,7 +206,7 @@
     <string name="countryServersHeader">Serveurs de pays</string>
     <string name="secureCoreCountriesHeader">Pays Secure Core</string>
     <string name="recommendedProfilesHeader">Profils recommandés</string>
-    <string name="free_connection_header">Connexion Free</string>
+    <string name="free_connection_header">Connexion gratuite</string>
     <string name="yourProfilesHeader">Vos profils</string>
     <string name="exitCountry">Pays de sortie</string>
     <string name="entryCountry">Pays d\'entrée</string>
@@ -235,9 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Application Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Autres applications VPN</string>
     <string name="noVpnPermissionOpenSettings">Ouvrir les paramètres VPN Android</string>
-    <string name="noNotificationPermissionGrantTitle">Activer les notifications</string>
-    <string name="noNotificationPermissionGrantDescription">Vérifiez l\'état de votre connexion en dehors de l\'application et soyez averti de tout changement.</string>
-    <string name="noNotificationPermissionGrantNowTitle">Activer maintenant</string>
+    <string name="noNotificationPermissionGrantTitle">Ne vous laissez pas surprendre…</string>
+    <string name="noNotificationPermissionGrantDescription">Activez les notifications pour recevoir des alertes sur les changements d\'état de votre connexion.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Activer les notifications</string>
     <string name="error_prepare_vpn_description"><![CDATA[Désactivez le VPN permanent de toutes les autres applications VPN dans les paramètres du système Android VPN, car cela empêche Proton VPN d\'établir une connexion VPN. Accordez également des autorisations VPN si une boite de dialogue demandant des autorisations VPN apparaît. Il peut aussi être nécessaire de désinstaller d\'autres applications VPN pour éviter les conflits. Ensuite, réessayez. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="error_prepare_vpn_settings">Accéder aux paramètres VPN Android</string>
     <string name="error_prepare_vpn_title">Erreur : problème d\'autorisation VPN</string>
@@ -517,15 +517,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Accédez à plus de %1$s dans %2$s</string>
-    <string name="upgrade_plus_countries_streaming">Accéder aux services de streaming internationaux</string>
-    <!-- The number of devices will always be greater than 1. -->
-    <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="one">Connecter %d appareil</item>
-        <item quantity="other">Connecter %d appareils en même temps</item>
-    </plurals>
-    <string name="upgrade_plus_countries_netshield">Bloquez les publicités et les logiciels malveillants avec NetShield</string>
-    <string name="upgrade_plus_countries_speeds">Naviguez aux vitesses les plus élevées (10 Gbit/s)</string>
-    <string name="upgrade_plus_countries_more">Et bien plus de fonctionnalités premium</string>
+    <string name="upgrade_plus_countries_subtitle">En passant à l\'abonnement Plus</string>
+    <string name="upgrade_plus_countries_choose_location">Choisissez n\'importe quel emplacement.</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Profitez d\'une vitesse VPN plus élevée.</string>
+    <string name="upgrade_plus_countries_access_content">Accédez à des contenus bloqués géographiquement.</string>
+    <string name="upgrade_plus_countries_stream">Regardez vos films préférés en streaming.</string>
     <string name="upgrade_safe_mode_title">Autoriser le trafic vers les ports non standard</string>
     <string name="upgrade_safe_mode_message">Vous avez des besoins informatiques avancés ou professionnels qui nécessitent des ports non standard ? Passez à VPN Plus pour accéder à cette fonctionnalité et à d\'autres fonctionnalités premium.</string>
     <string name="upgrade_not_now_button">Plus tard</string>
@@ -602,7 +598,7 @@
     <string name="onboading_connecting_now">Connexion en cours</string>
     <string name="onboarding_congrats_description">Votre connexion est protégée, vous pouvez naviguer sur le web.\n\nEn toute sécurité.</string>
     <string name="onboarding_congrats_title">Félicitations !</string>
-    <string name="onboading_connect_to_plus">Connectez-vous à un serveur « Plus »</string>
+    <string name="upgrade_success_get_started_button">Commencer</string>
     <string name="upgrade_use_limited_free_button">Utilisez l\'abonnement limité Free</string>
     <string name="dynamic_report_suggestion_didnt_work">Cela n\'a pas fonctionné ?</string>
     <string name="dynamic_report_contact_us">Contactez-nous</string>
@@ -673,7 +669,7 @@
     <string name="free_connections_info_message">Proton Free vous connecte automatiquement au serveur disponible le plus rapide. Il s\'agit normalement du serveur le plus proche de votre emplacement.</string>
     <string name="free_connections_info_server_locations">Emplacements des serveurs Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Profitez d\'une couverture mondiale avec VPN Plus.</string>
-    <string name="free_connection_info_title">Connexions Free</string>
+    <string name="free_connection_info_title">Connexions gratuites</string>
     <string name="search_upsell_banner_title">Profitez du streaming où que vous soyez.</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
@@ -689,7 +685,7 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">Plus que %1$s:%2$s</string>
+    <string name="offer_time_left">Il reste %1$s et %2$s.</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
         <item quantity="one">%1$d seconde</item>
@@ -723,6 +719,10 @@
     <string name="welcome_plus_title">Bienvenue dans VPN Plus</string>
     <string name="welcome_plus_description">Profitez de fonctionnalités supplémentaires de protection de la vie privée, de meilleures performances et d\'une personnalisation poussée de votre VPN.</string>
     <string name="welcome_plus_feature_security">Fonctionnalités de sécurité avancées</string>
+    <string name="welcome_unlimited_title">Bienvenue dans Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Félicitations ! Vous disposez maintenant de fonctionnalités de sécurité et de performance premium pour tous les services Proton, avec un espace de stockage total de <b>%1$d&#160; Go</b>.<br><br>Profitez de ce que Proton a de mieux à offrir en matière de protection de la vie privée.]]></string>
+    <string name="welcome_generic_title">Félicitations</string>
+    <string name="welcome_generic_description">Vous avez modifié votre abonnement. Profitez de fonctionnalités avancées pour protéger votre vie privée et de meilleures performances.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">

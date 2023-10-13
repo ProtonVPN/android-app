@@ -235,9 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Додаток ProtonVpn</string>
     <string name="noVpnPermissionOtherAppLabel">Інші додатки VPN</string>
     <string name="noVpnPermissionOpenSettings">Відкрити налаштування Android VPN</string>
-    <string name="noNotificationPermissionGrantTitle">Увімкнути сповіщення</string>
-    <string name="noNotificationPermissionGrantDescription">Перевірте статус вашого з\'єднання поза програмою та отримайте сповіщення про будь-які зміни</string>
-    <string name="noNotificationPermissionGrantNowTitle">Увімкнути зараз</string>
+    <string name="noNotificationPermissionGrantTitle">Будьте в курсі подій...</string>
+    <string name="noNotificationPermissionGrantDescription">Увімкніть сповіщення для отримання попередження про зміни стану вашого з\'єднання.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Увімкнути сповіщення</string>
     <string name="error_prepare_vpn_description"><![CDATA[Вимкніть постійну VPN для всіх інших програм VPN у системних налаштуваннях Android, тому що це не дає Proton VPN встановити з\'єднання. Також дозвольте VPN, якщо з\'явиться запит про дозвіл. Можливо, також доведеться видалити інші програми VPN, щоб уникнути конфліктів. Після цього повторіть спробу. <a href="%1$s">Докладніше</a>]]></string>
     <string name="error_prepare_vpn_settings">Перейти до налаштувань VPN Android</string>
     <string name="error_prepare_vpn_title">Помилка: Проблема з дозволами VPN</string>
@@ -533,17 +533,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Доступ через %1$s у %2$s</string>
-    <string name="upgrade_plus_countries_streaming">Отримайте доступ до глобальних сервісів потокової трансляції</string>
-    <!-- The number of devices will always be greater than 1. -->
-    <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="one">Під\'єднайте %d пристрій</item>
-        <item quantity="few">Під\'єднайте %d пристрої одночасно</item>
-        <item quantity="many">Під\'єднайте %d пристроїв одночасно</item>
-        <item quantity="other">Під\'єднайте %d пристроїв одночасно</item>
-    </plurals>
-    <string name="upgrade_plus_countries_netshield">Блокуйте рекламу та зловмисні програми за допомогою NetShield</string>
-    <string name="upgrade_plus_countries_speeds">Переглядайте контент на найвищій швидкості (10 Гбіт/с)</string>
-    <string name="upgrade_plus_countries_more">І більше преміальних функцій</string>
+    <string name="upgrade_plus_countries_subtitle">У разі оновлення до тарифного плану Plus</string>
+    <string name="upgrade_plus_countries_choose_location">Обирайте будь-яке розташування</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Ще вища швидкість VPN</string>
+    <string name="upgrade_plus_countries_access_content">Отримуйте доступ до географічно заблокованих матеріалів</string>
+    <string name="upgrade_plus_countries_stream">Дивіться трансляції улюблених фільмів</string>
     <string name="upgrade_safe_mode_title">Дозволити трафік до нестандартних портів</string>
     <string name="upgrade_safe_mode_message">Маєте додаткові чи професійні обчислювальні потреби, які потребують нестандартних портів? Перейдіть до VPN Plus, щоб отримати доступ до цієї та інших преміальних функцій.</string>
     <string name="upgrade_not_now_button">Не зараз</string>
@@ -624,7 +618,7 @@
     <string name="onboading_connecting_now">Триває з\'єднання</string>
     <string name="onboarding_congrats_description">Ваше з\'єднання захищене, і ви готові до роботи в інтернеті.\n\nБезпечно.</string>
     <string name="onboarding_congrats_title">Вітаємо!</string>
-    <string name="onboading_connect_to_plus">З\'єднатися з сервером Plus</string>
+    <string name="upgrade_success_get_started_button">Розпочати</string>
     <string name="upgrade_use_limited_free_button">Використовувати обмежений тарифний план Free</string>
     <string name="dynamic_report_suggestion_didnt_work">Не працює?</string>
     <string name="dynamic_report_contact_us">Зв\'язатися з нами</string>
@@ -759,6 +753,10 @@
     <string name="welcome_plus_title">Вітаємо у VPN Plus</string>
     <string name="welcome_plus_description">Насолоджуйтесь додатковими функціями приватності, поліпшеній продуктивності та більш гнучкому налаштуванню VPN.</string>
     <string name="welcome_plus_feature_security">Розширені функції безпеки</string>
+    <string name="welcome_unlimited_title">Вітаємо у Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Вітаємо! Ви розблокували функції безпеки й продуктивності рівня преміум у всіх службах Proton, а також отримали <b>%1$d&#160;ГБ</b> обсягу сховища. <br><br>Насолоджуйтеся найкращими функціями захисту приватності від Proton.]]></string>
+    <string name="welcome_generic_title">Вітаємо</string>
+    <string name="welcome_generic_description">Ви оновили свій тарифний план. Оцініть переваги розширених функцій безпеки й продуктивності нового рівня.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">

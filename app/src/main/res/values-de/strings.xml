@@ -235,9 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Proton VPN-App</string>
     <string name="noVpnPermissionOtherAppLabel">Andere VPN-Apps</string>
     <string name="noVpnPermissionOpenSettings">Android VPN-Einstellungen öffnen</string>
-    <string name="noNotificationPermissionGrantTitle">Benachrichtigungen aktivieren</string>
-    <string name="noNotificationPermissionGrantDescription">Überprüfe deinen Verbindungsstatus außerhalb der App und erhalte Benachrichtigungen bei jeglichen Änderungen.</string>
-    <string name="noNotificationPermissionGrantNowTitle">Jetzt aktivieren</string>
+    <string name="noNotificationPermissionGrantTitle">Don’t get caught out…</string>
+    <string name="noNotificationPermissionGrantDescription">Aktiviere Benachrichtigungen, um bei Status-Änderungen deiner Verbindung informiert zu werden.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Benachrichtigungen aktivieren</string>
     <string name="error_prepare_vpn_description"><![CDATA[Bitte deaktiviere „Always-On-VPN(VPN immer eingeschaltet)“ für alle anderen VPN-Anwendungen in den Android-VPN-Systemeinstellungen, da dies Proton VPN daran hindert, eine VPN-Verbindung aufzubauen. Bitte gewähre auch VPN Berechtigungen, wenn ein Dialog zur Anforderung von VPN-Berechtigungen angezeigt wird. Andere VPN-Anwendungen müssen möglicherweise ebenfalls deinstalliert werden, um Konflikte zu vermeiden. Versuche es danach bitte erneut. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="error_prepare_vpn_settings">Android VPN-Einstellungen aufrufen</string>
     <string name="error_prepare_vpn_title">Fehler: VPN-Berechtigungsproblem</string>
@@ -517,15 +517,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Greife auf über %1$s in %2$s zu</string>
-    <string name="upgrade_plus_countries_streaming">Greife auf globale Streaming-Dienste zu</string>
-    <!-- The number of devices will always be greater than 1. -->
-    <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="one">%d Gerät verbinden</item>
-        <item quantity="other">Bis zu %d Geräte gleichzeitig verbinden</item>
-    </plurals>
-    <string name="upgrade_plus_countries_netshield">Werbung und Malware mit NetShield blockieren</string>
-    <string name="upgrade_plus_countries_speeds">Surfe mit höchster Geschwindigkeit (10 Gbit/s)</string>
-    <string name="upgrade_plus_countries_more">Sowie viele weitere Premium-Funktionen</string>
+    <string name="upgrade_plus_countries_subtitle">Wenn du auf Plus upgradest</string>
+    <string name="upgrade_plus_countries_choose_location">Wähle einen beliebigen Standort</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Noch höhere VPN-Geschwindigkeit</string>
+    <string name="upgrade_plus_countries_access_content">Zugriff auf durch Landessperren unzugängliche Inhalte</string>
+    <string name="upgrade_plus_countries_stream">Streame deine Lieblingsfilme</string>
     <string name="upgrade_safe_mode_title">Datenverkehr zu nicht standardisierten Ports zulassen</string>
     <string name="upgrade_safe_mode_message">Hast du fortgeschrittene oder professionelle Computeranforderungen, die nicht standardisierte Ports erfordern? Mit einem Upgrade auf VPN Plus erhältst du Zugang zu diesen und anderen Premium-Funktionen.</string>
     <string name="upgrade_not_now_button">Nicht jetzt</string>
@@ -602,7 +598,7 @@
     <string name="onboading_connecting_now">Verbindung wird aufgebaut</string>
     <string name="onboarding_congrats_description">Deine Verbindung ist geschützt und du kannst im Internet surfen.\n\nSicher.</string>
     <string name="onboarding_congrats_title">Herzlichen Glückwunsch!</string>
-    <string name="onboading_connect_to_plus">Verbinde dich mit einem Plus-Server</string>
+    <string name="upgrade_success_get_started_button">Erste Schritte</string>
     <string name="upgrade_use_limited_free_button">Verwende das limitierte Free-Abonnement</string>
     <string name="dynamic_report_suggestion_didnt_work">Hat es nicht geklappt?</string>
     <string name="dynamic_report_contact_us">Kontaktiere uns</string>
@@ -650,7 +646,7 @@
     <string name="ikev2_removed_dialog_message">Standardeinstellungen und Profile, die zuvor IKEv2 verwendet haben, verwenden nun das Smart-Protokoll.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Besuche <a href="https://protonvpn.com/de/pricing">protonvpn.com</a> für mehr Informationen.</string>
-    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
+    <string name="free_upsell_header_title">Erhalte weltweite Abdeckung mit VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Möchtest du ein bestimmtes Land auswählen?</string>
     <string name="upgrade_country_message">Mit VPN Plus die Länderauswahl freischalten</string>
@@ -723,6 +719,10 @@
     <string name="welcome_plus_title">Willkommen bei VPN Plus</string>
     <string name="welcome_plus_description">Genieße zusätzliche Datenschutzfunktionen, eine verbesserte Leistung und die Möglichkeit, VPN auf höchstem Niveau anzupassen.</string>
     <string name="welcome_plus_feature_security">Erweiterte Sicherheitsfunktionen</string>
+    <string name="welcome_unlimited_title">Willkommen bei Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Herzlichen Glückwunsch! Du hast die Premium Sicherheits- und Performance-Features auf allen Proton Services freigeschaltet, plus <b>%1$d&#160;GB</b> Gesamtspeicherplatz.<br><br>Genieße das Beste von Proton\'s Privatsphäre.]]></string>
+    <string name="welcome_generic_title">Herzlichen Glückwunsch</string>
+    <string name="welcome_generic_description">Du hast dein Abonnement upgegradet. Genieße erweiterte Privatsphäre und Next-Level Performance.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
