@@ -235,9 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Aplikasi Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Aplikasi VPN lain</string>
     <string name="noVpnPermissionOpenSettings">Buka pengaturan VPN Android</string>
-    <string name="noNotificationPermissionGrantTitle">Aktifkan pemberitahuan</string>
-    <string name="noNotificationPermissionGrantDescription">Periksa status sambungan Anda di luar aplikasi dan dapatkan pemberitahuan tentang perubahannya</string>
-    <string name="noNotificationPermissionGrantNowTitle">Aktifkan sekarang</string>
+    <string name="noNotificationPermissionGrantTitle">Jangan sampai ketahuan…</string>
+    <string name="noNotificationPermissionGrantDescription">Aktifkan notifikasi untuk mwmendapatkan peringatan tentang status koneksi Anda.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Aktifkan notifikasi</string>
     <string name="error_prepare_vpn_description"><![CDATA[Mohon nonaktifkan fitur always-on VPN milik aplikasi VPN lainnya pada pengaturan VPN Android milik sistem karena hal ini dapat mencegah Proton VPN untuk mengukuhkan sambungan VPN. Mohon juga berikan VPN kami izin akses apabila Anda dihadapkan dengan dialog perizinan VPN. Seluruh aplikasi VPN lain juga mungkin harus dihapus untuk menghindari konflik. Setelahnya, silakan coba lagi. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="error_prepare_vpn_settings">Tuju pengaturan VPN Android</string>
     <string name="error_prepare_vpn_title">Error: masalah perizinan VPN</string>
@@ -509,14 +509,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Akses lebih dari %1$s di %2$s</string>
-    <string name="upgrade_plus_countries_streaming">Akses berbagai layanan streaming global</string>
-    <!-- The number of devices will always be greater than 1. -->
-    <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="other">Hubungkan %d perangkat secara bersamaan</item>
-    </plurals>
-    <string name="upgrade_plus_countries_netshield">Blokir iklan dan malware dengan NetShield</string>
-    <string name="upgrade_plus_countries_speeds">Jelajahi internet pada kecepatan tertinggi (10 Gbps)</string>
-    <string name="upgrade_plus_countries_more">Dan berbagai fitur premium lainnya</string>
+    <string name="upgrade_plus_countries_subtitle">When you upgrade to Plus</string>
+    <string name="upgrade_plus_countries_choose_location">Choose any location</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Even higher VPN speed</string>
+    <string name="upgrade_plus_countries_access_content">Access geoblocked content</string>
+    <string name="upgrade_plus_countries_stream">Stream your favorite movies</string>
     <string name="upgrade_safe_mode_title">Izinkan lalu lintas data melalui port non-standar</string>
     <string name="upgrade_safe_mode_message">Memiliki keperluan tertentu yang memerlukan penggunaan port non-standar? Tingkatkan akun Anda ke VPN Plus agar Anda dapat menggunakan fitur ini dan berbagai fitur premium lainnya.</string>
     <string name="upgrade_not_now_button">Tidak sekarang</string>
@@ -591,7 +588,7 @@
     <string name="onboading_connecting_now">Sedang menghubungkan</string>
     <string name="onboarding_congrats_description">Koneksi Anda telah terlindung dan Anda kini dapat menjelajah internet secara bebas dan aman.\n\nTanpa harus khawatir.</string>
     <string name="onboarding_congrats_title">Selamat!</string>
-    <string name="onboading_connect_to_plus">Hubungkan ke server Plus</string>
+    <string name="upgrade_success_get_started_button">Mulai</string>
     <string name="upgrade_use_limited_free_button">Gunakan paket Free dengan fitur terbatas</string>
     <string name="dynamic_report_suggestion_didnt_work">Apakah solusi di atas tidak membantu?</string>
     <string name="dynamic_report_contact_us">Hubungi kami</string>
@@ -639,7 +636,7 @@
     <string name="ikev2_removed_dialog_message">Pengaturan default dan profil yang sebelumnya menggunakan IKEv2 akan beralih menggunakan protokol Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Kunjungi <a href="https://protonvpn.com/pricing">protonvpn.com</a> untuk info lebih lanjut.</string>
-    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
+    <string name="free_upsell_header_title">Dapatkan cakupan server di seluruh dunia dengan VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Ingin memilih negara tertentu?</string>
     <string name="upgrade_country_message">Akses fitur pemilihan negara dengan VPN Plus</string>
@@ -705,6 +702,10 @@
     <string name="welcome_plus_title">Selamat datang di VPN Plus</string>
     <string name="welcome_plus_description">Nikmati berbagai fitur privasi tambahan, performa yang jauh lebih cepat, dan opsi kostumisasi VPN lanjutan.</string>
     <string name="welcome_plus_feature_security">Fitur keamanan mutakhir</string>
+    <string name="welcome_unlimited_title">Selamat datang di Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Selamat! Anda telah membuka berbagai fitur keamanan dan performa premium pada seluruh layanan Proton, beserta dengan kuota penyimpanan total <b>%1$d&#160;160 GB</b>.<br><br>Nikmati privasi terbaik yang ditawarkan oleh Proton.]]></string>
+    <string name="welcome_generic_title">Selamat</string>
+    <string name="welcome_generic_description">Anda telah meningkatkan paket langganan Anda. Nikmati berbagai fitur privasi mutakhir dan performa tingkat lanjut.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">

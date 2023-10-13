@@ -235,9 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Aplicația Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Alte aplicații VPN</string>
     <string name="noVpnPermissionOpenSettings">Deschidere setări VPN</string>
-    <string name="noNotificationPermissionGrantTitle">Activare notificări</string>
-    <string name="noNotificationPermissionGrantDescription">Verificare stare conexiune în afara aplicației și notificare asupra oricărei modificări</string>
-    <string name="noNotificationPermissionGrantNowTitle">Pornire acum</string>
+    <string name="noNotificationPermissionGrantTitle">Nu vă lăsați surprinși…</string>
+    <string name="noNotificationPermissionGrantDescription">Activați notificările pentru a primi notificări privind starea conexiunii.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Activare notificări</string>
     <string name="error_prepare_vpn_description"><![CDATA[Dezactivați opțiunea VPN permanent pentru toate celelalte aplicații VPN din setările VPN ale sistemului Android, deoarece acest lucru împiedică Proton VPN să stabilească o conexiune VPN. Acordați permisiuni VPN dacă apare un dialog care solicită permisiuni VPN. Este posibil ca și alte aplicații VPN să trebuiască să fie dezinstalate pentru a preveni conflictele. După aceea, reîncercați. <a href="%1$s">Detalii</a>]]></string>
     <string name="error_prepare_vpn_settings">Accesați setările VPN Android</string>
     <string name="error_prepare_vpn_title">Eroare: problemă permisiunii VPN</string>
@@ -525,16 +525,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Accesați peste %1$s în %2$s</string>
-    <string name="upgrade_plus_countries_streaming">Accesați serviciile globale de transmisii în flux</string>
-    <!-- The number of devices will always be greater than 1. -->
-    <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="one">Conectare un dispozitiv</item>
-        <item quantity="few">Conectare %d dispozitive simultan</item>
-        <item quantity="other">Conectare %d de dispozitive simultan</item>
-    </plurals>
-    <string name="upgrade_plus_countries_netshield">Blocați reclame și malware cu NetShield</string>
-    <string name="upgrade_plus_countries_speeds">Navigați cu viteză maximă (10 Gbps)</string>
-    <string name="upgrade_plus_countries_more">Și multe alte funcții speciale</string>
+    <string name="upgrade_plus_countries_subtitle">When you upgrade to Plus</string>
+    <string name="upgrade_plus_countries_choose_location">Choose any location</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Even higher VPN speed</string>
+    <string name="upgrade_plus_countries_access_content">Access geoblocked content</string>
+    <string name="upgrade_plus_countries_stream">Stream your favorite movies</string>
     <string name="upgrade_safe_mode_title">Permitere trafic la porturile nonstandard</string>
     <string name="upgrade_safe_mode_message">Aveți nevoi avansate sau profesionale de calcul care necesită porturi non-standard? Treceți la VPN Plus pentru a activa aceasta și alte funcții premium.</string>
     <string name="upgrade_not_now_button">Nu acum</string>
@@ -613,7 +608,7 @@
     <string name="onboading_connecting_now">Acum se conectează</string>
     <string name="onboarding_congrats_description">Conexiunea este protejată și acum puteți naviga în siguranță.</string>
     <string name="onboarding_congrats_title">Felicitări!</string>
-    <string name="onboading_connect_to_plus">Conectare la un server Plus</string>
+    <string name="upgrade_success_get_started_button">Să începem</string>
     <string name="upgrade_use_limited_free_button">Folosire plan gratuit limitat</string>
     <string name="dynamic_report_suggestion_didnt_work">Nu a funcționat?</string>
     <string name="dynamic_report_contact_us">Contactați-ne</string>
@@ -661,7 +656,7 @@
     <string name="ikev2_removed_dialog_message">Setările implicite și profilurile care au folosit IKEv2 acum vor folosi Smart protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Vizitați <a href="https://protonvpn.com/pricing">protonvpn.com</a> pentru mai multe informații.</string>
-    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
+    <string name="free_upsell_header_title">Obțineți acoperire la nivel mondial cu VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Doriți să alegeți o anumită țară?</string>
     <string name="upgrade_country_message">Deblocați selectarea țării cu VPN Plus</string>
@@ -741,6 +736,10 @@
     <string name="welcome_plus_title">Bun venit la VPN Plus</string>
     <string name="welcome_plus_description">Bucurați-vă de funcții suplimentare de confidențialitate, performanță îmbunătățită și personalizare VPN la nivelul următor.</string>
     <string name="welcome_plus_feature_security">Funcții avansate de securitate</string>
+    <string name="welcome_unlimited_title">Bun venit la Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Felicitări! Ați deblocat funcții premium de securitate și performanță pentru toate serviciile Proton, plus <b>%1$d&#160; GiB</b> spațiu de stocare total.<br><br>Bucurați-vă de cea mai bună confidențialitate de la Proton.]]></string>
+    <string name="welcome_generic_title">Felicitări</string>
+    <string name="welcome_generic_description">V-ați modificat abonamentul. Bucurați-vă de funcțiile de confidențialitate și performanță de nivel superior.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">

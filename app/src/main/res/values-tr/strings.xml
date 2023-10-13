@@ -235,9 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Proton VPN uygulaması</string>
     <string name="noVpnPermissionOtherAppLabel">Diğer VPN uygulamaları</string>
     <string name="noVpnPermissionOpenSettings">Android VPN ayarlarını açın</string>
-    <string name="noNotificationPermissionGrantTitle">Bildirimleri aç</string>
-    <string name="noNotificationPermissionGrantDescription">Uygulamanın dışından bağlantınızı denetleyin ve değişikliklerle ilgili bildirim alın</string>
-    <string name="noNotificationPermissionGrantNowTitle">Şimdi aç</string>
+    <string name="noNotificationPermissionGrantTitle">Yakalanmayın…</string>
+    <string name="noNotificationPermissionGrantDescription">Bağlantı durumunuzdaki değişikliklerle ilgili uyarılar almak için bildirimleri açın.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Bildirimleri aç</string>
     <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için hep açık seçeneğini kapatın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="error_prepare_vpn_settings">Android VPN ayarlarına git</string>
     <string name="error_prepare_vpn_title">Hata: VPN izni sorunu</string>
@@ -517,15 +517,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">%1$s ile %2$s erişim</string>
-    <string name="upgrade_plus_countries_streaming">Tüm dünyaradaki yayın akışı hizmetlerine erişin</string>
-    <!-- The number of devices will always be greater than 1. -->
-    <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="one">%d aygıt bağlayın</item>
-        <item quantity="other">Aynı anda %d aygıt bağlayın</item>
-    </plurals>
-    <string name="upgrade_plus_countries_netshield">NetShield ile reklam ve kötü amaçlı yazılımları engelleyin</string>
-    <string name="upgrade_plus_countries_speeds">En yüksek hızlarda gezinin (10 Gb/sn)</string>
-    <string name="upgrade_plus_countries_more">Ve pek çok diğer ücretli özellik</string>
+    <string name="upgrade_plus_countries_subtitle">VPN Plus tarifesine yükselttiğinizde</string>
+    <string name="upgrade_plus_countries_choose_location">İstediğiniz konumu seçin</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Daha da yüksek VPN hızı</string>
+    <string name="upgrade_plus_countries_access_content">Bölgenizde engellenen içeriğe erişin</string>
+    <string name="upgrade_plus_countries_stream">En sevdiğiniz filmleri izleyin</string>
     <string name="upgrade_safe_mode_title">Standart olmayan bağlantı noktalarından trafik geçebilsin</string>
     <string name="upgrade_safe_mode_message">Standart olmayan bağlantı noktaları kullanmanızı gerektiren gelişmiş veya profesyonel bilgi işlem gereksinimleriniz mi var? Bu ve diğer ücretli özelliklere erişmek için VPN Plus tarifesine yükseltin.</string>
     <string name="upgrade_not_now_button">Şimdi değil</string>
@@ -602,7 +598,7 @@
     <string name="onboading_connecting_now">Bağlanıyor</string>
     <string name="onboarding_congrats_description">Bağlantınız korunmaya başladı ve İnternet üzerinde gezinebilirsiniz.\n\nGüvenle.</string>
     <string name="onboarding_congrats_title">Tebrikler!</string>
-    <string name="onboading_connect_to_plus">Bir Plus sunucusuna bağlanın</string>
+    <string name="upgrade_success_get_started_button">Başlayalım</string>
     <string name="upgrade_use_limited_free_button">Sınırlı Free tarifesini kullanın</string>
     <string name="dynamic_report_suggestion_didnt_work">İşe yaramadı mı?</string>
     <string name="dynamic_report_contact_us">Bize ulaşın</string>
@@ -650,7 +646,7 @@
     <string name="ikev2_removed_dialog_message">Daha önce IKEv2 kullanan varsayılan ayarlar ve profiller artık Smart Protocol kullanacak.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Ayrıntılı bilgi almak için <a href="https://protonvpn.com/pricing">protonvpn.com</a> sayfasına bakın.</string>
-    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
+    <string name="free_upsell_header_title">VPN Plus tarifesi ile tüm Dünya\'ya erişin</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Belirli bir ülke seçmek ister misiniz?</string>
     <string name="upgrade_country_message">VPN Plus tarifesi ile tüm ülkelerden seçim yapın</string>
@@ -723,6 +719,10 @@
     <string name="welcome_plus_title">VPN Plus tarifesine hoş geldiniz</string>
     <string name="welcome_plus_description">Ek gizlilik özelliklerinin, güçlendirilmiş başarımın ve üst düzey VPN özelleştirmenin tadını çıkarın.</string>
     <string name="welcome_plus_feature_security">Gelişmiş güvenlik özellikleri</string>
+    <string name="welcome_unlimited_title">Proton Unlimited tarifesine hoş geldiniz</string>
+    <string name="welcome_unlimited_description"><![CDATA[Tebrikler! Tüm Proton hizmetlerinin ücretli güvenlik ve başarım özelliklerini ve ek olarak <b>%1$d&#160; GB</b> depolama alanını kullanabilirsiniz.<br><br>En iyi Proton gizliliğinin tadını çıkarın.]]></string>
+    <string name="welcome_generic_title">Tebrikler</string>
+    <string name="welcome_generic_description">Abonelik tarifenizi yükselttiniz. Gelişmiş gizlilik özelliklerinin ve yeni nesil başarımın tadını çıkarın.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">

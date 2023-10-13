@@ -30,7 +30,7 @@
     <string name="loginStartWithDevice">Avvia con il dispositivo</string>
     <string name="loginCreateAccount">Crea nuovo account</string>
     <string name="loginNeedHelp">Hai bisogno di aiuto?</string>
-    <string name="connectionAllocationHelpTitle">Grazie per l\'aggiornamento a \nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Grazie per l\'upgrade a \nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Per iniziare il tuo viaggio in Proton VPN, assegna le connessioni VPN al tuo account o a qualsiasi altro account secondario.</string>
     <string name="connectionAllocationHelpDescription2">Questo passaggio richiederà solo pochi minuti. Dopodiché sarai in grado di accedere e proteggere tutti i tuoi dispositivi.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Al momento non è abilitata alcuna connessione VPN per questo account. Per iniziare il tuo viaggio con Proton VPN, contatta il tuo amministratore. </string>
@@ -132,7 +132,7 @@
     <string name="errorEmptyExitCountry">Il campo del paese d\'uscita non può essere vuoto</string>
     <string name="onboardingSignup">Iscriviti</string>
     <string name="onboardingSkip">Salta</string>
-    <string name="onboardingNext">Prossimo</string>
+    <string name="onboardingNext">Avanti</string>
     <string name="offerTooltipShowOffer">Guarda l\'offerta</string>
     <string name="listItemMaintenance">In manutenzione</string>
     <string name="listAllCountries">Tutte le località (%1$d)</string>
@@ -235,9 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">App ProtonVpn</string>
     <string name="noVpnPermissionOtherAppLabel">Altre app VPN</string>
     <string name="noVpnPermissionOpenSettings">Apri le impostazioni VPN di Android</string>
-    <string name="noNotificationPermissionGrantTitle">Abilita le notifiche</string>
-    <string name="noNotificationPermissionGrantDescription">Controlla lo stato della tua connessione fuori dall\'app e ricevi notifiche su eventuali modifiche</string>
-    <string name="noNotificationPermissionGrantNowTitle">Attiva ora</string>
+    <string name="noNotificationPermissionGrantTitle">Non farti prendere alla sprovvista…</string>
+    <string name="noNotificationPermissionGrantDescription">Abilita le notifiche per essere avvisato dei cambiamenti allo stato della tua connessione.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Abilita le notifiche</string>
     <string name="error_prepare_vpn_description"><![CDATA[Disabilita l\'opzione VPN sempre attiva per tutte le altre app VPN nelle impostazioni VPN di sistema di Android, in quanto ciò impedisce a Proton VPN di stabilire una connessione VPN. Concedi anche le autorizzazioni VPN se dovesse apparire una finestra di dialogo che te lo chiede. Altre app VPN potrebbero anche aver bisogno di essere disinstallate per evitare conflitti. Dopo riprova. <a href="%1$s">Scopri di più</a>]]></string>
     <string name="error_prepare_vpn_settings">Vai alle impostazioni VPN di Android</string>
     <string name="error_prepare_vpn_title">Errore: problema di autorizzazione VPN</string>
@@ -417,8 +417,6 @@
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
     <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator abilita una serie di tecnologie uniche per il miglioramento delle prestazioni che possono aumentare la velocità della VPN fino al 400%%. <a href="%1$s">Scopri di più</a>]]></string>
-    <string name="settingsSmartReconnectNotificationsTitle">Notifiche VPN Accelerator</string>
-    <string name="settingsSmartReconnectNotificationsDescription">Ricevi una notifica quando VPN Accelerator ti passa a un server più veloce</string>
     <string name="settingsReconnectToApplySettingsDialogContent">Le nuove impostazioni verranno applicate la prossima volta che ti connetterai.</string>
     <string name="settingsReconnectToChangeDialogContent">Questo riavvierà la tua connessione.</string>
     <string name="reconnectToEnableNetshield">Questo riavvierà la connessione.\n\nNota: alcuni siti potrebbero non essere caricati con NetShield attivo.</string>
@@ -519,15 +517,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Accedi a oltre %1$s in %2$s</string>
-    <string name="upgrade_plus_countries_streaming">Accedi ai servizi di streaming globali</string>
-    <!-- The number of devices will always be greater than 1. -->
-    <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="one">Collega %d dispositivo</item>
-        <item quantity="other">Collega %d dispositivi contemporaneamente</item>
-    </plurals>
-    <string name="upgrade_plus_countries_netshield">Blocca annunci e malware con NetShield</string>
-    <string name="upgrade_plus_countries_speeds">Naviga alla massima velocità (10 Gbps)</string>
-    <string name="upgrade_plus_countries_more">E molte altre funzionalità premium</string>
+    <string name="upgrade_plus_countries_subtitle">Quando effettui l\'upgrade a Plus</string>
+    <string name="upgrade_plus_countries_choose_location">Scegli qualsiasi località</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Velocità VPN ancora più elevata</string>
+    <string name="upgrade_plus_countries_access_content">Accedi ai contenuti geograficamente bloccati</string>
+    <string name="upgrade_plus_countries_stream">Guarda in streaming i tuoi film preferiti</string>
     <string name="upgrade_safe_mode_title">Consenti il ​​traffico verso porte non standard</string>
     <string name="upgrade_safe_mode_message">Hai esigenze di elaborazione avanzate o professionali che richiedono porte non standard? Effettua l\'upgrade a VPN Plus per accedere a questa e ad altre funzionalità premium.</string>
     <string name="upgrade_not_now_button">Non ora</string>
@@ -563,7 +557,7 @@
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Ti diamo il benvenuto in Proton VPN</string>
     <string name="onboarding_welcome_description">Scopri come ottenere il massimo da Proton VPN in pochi secondi.</string>
-    <string name="onboarding_welcome_action">Per iniziare</string>
+    <string name="onboarding_welcome_action">Inizia ora</string>
     <string name="onboarding_available_on_plus">Disponibile con Plus</string>
     <string name="onboarding_streaming_title">Sblocca streaming</string>
     <string name="onboarding_streaming_description">Accedi in modo sicuro a qualsiasi contenuto, anche durante un viaggio in altri paesi. Ora anche su Android TV.</string>
@@ -604,7 +598,7 @@
     <string name="onboading_connecting_now">Connessione adesso</string>
     <string name="onboarding_congrats_description">La tua connessione è protetta e sei pronto per navigare sul Web.\n\nIn sicurezza.</string>
     <string name="onboarding_congrats_title">Congratulazioni!</string>
-    <string name="onboading_connect_to_plus">Collegati ad un server Plus</string>
+    <string name="upgrade_success_get_started_button">Inizia ora</string>
     <string name="upgrade_use_limited_free_button">Usa un piano Gratuito limitato</string>
     <string name="dynamic_report_suggestion_didnt_work">Non ha funzionato?</string>
     <string name="dynamic_report_contact_us">Contattaci</string>
@@ -725,6 +719,10 @@
     <string name="welcome_plus_title">Benvenuto in VPN Plus</string>
     <string name="welcome_plus_description">Approfitta di funzioni aggiuntive per la privacy, di prestazioni potenziate e di una personalizzazione della VPN di livello superiore.</string>
     <string name="welcome_plus_feature_security">Funzioni di sicurezza avanzate</string>
+    <string name="welcome_unlimited_title">Benvenuto in Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Congratulazioni! Hai sbloccato funzionalità premium di sicurezza e prestazioni su tutti i servizi Proton, oltre a <b>%1$d&#160;GB</b> di spazio di archiviazione totale.<br><br>Goditi il ​​meglio della privacy di Proton.]]></string>
+    <string name="welcome_generic_title">Congratulazioni</string>
+    <string name="welcome_generic_description">Hai aggiornato il tuo abbonamento. Goditi funzionalità di privacy avanzate e prestazioni di livello superiore.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">

@@ -235,9 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Proton VPN -ის აპი</string>
     <string name="noVpnPermissionOtherAppLabel">სხვა VPN აპები</string>
     <string name="noVpnPermissionOpenSettings">Android-ის VPN პარამეტრების გახსნა</string>
-    <string name="noNotificationPermissionGrantTitle">გაფრთხილებების ჩართვა</string>
-    <string name="noNotificationPermissionGrantDescription">შეამოწმეთმიერთების სტატუსი აპის გარეთ და მიიღეთ გაფრთხილებები ნებისმიერ ცვლილებაზე</string>
-    <string name="noNotificationPermissionGrantNowTitle">ახლა ჩართვა</string>
+    <string name="noNotificationPermissionGrantTitle">არ დაგიჭირონ…</string>
+    <string name="noNotificationPermissionGrantDescription">ჩართეთ გაფრთხილებები, რომ თქვენი მიერთების მდგომარეობის შეცვლისას შეტყობინება მიიღოთ.</string>
+    <string name="noNotificationPermissionGrantNowTitle">გაფრთხილებების ჩართვა</string>
     <string name="error_prepare_vpn_description"><![CDATA[გამორთეთ ყოველთვის-ჩართული VPN ყველა სხვა VPN-ისთვის. ეს ხელს უშლის Proton VPN-ს შეერთების დამყარებაში. ასევე მიეცით VPN-ს უფლება, თუ ფანჯარა ამოხტება. ასევე შეიძლება, საჭირო გახდეს სხვა VPN-ის პროგრამების წაშლაც, რათა თავიდან აირიდოთ სისტემური კონფლიქტები. შემდეგ თავიდან სცადეთ. <a href="%1$s">გაიგეთ მეტი</a>]]></string>
     <string name="error_prepare_vpn_settings">Android-ის VPN-ის პარამეტრებზე გადასვლა</string>
     <string name="error_prepare_vpn_title">შეცდომა: VPN-ის წვდომის პრობლემა</string>
@@ -417,8 +417,6 @@
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
     <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN-ის ამაჩქარებელი ჩართავს წარმადობის გაზრდის უნიკალურ ტექნოლოგიებს, რომლებსაც VPN-ის სიჩქარის 400%%-მდე გაზრდა შეუძლიათ. <a href="%1$s">გაიგეთ მეტი</a>.]]></string>
-    <string name="settingsSmartReconnectNotificationsTitle">VPN ამაჩქარებლის გაფრთხილებები</string>
-    <string name="settingsSmartReconnectNotificationsDescription">გაფრთხილება, როცა VPN ამაჩქარებელი უფრო სწრაფ სერვერზე გადაგრთავთ</string>
     <string name="settingsReconnectToApplySettingsDialogContent">ახალი პარამეტრები ძალაში შემდეგი შეერთებისას შევა.</string>
     <string name="settingsReconnectToChangeDialogContent">შეერთება გადაიტვირთება.</string>
     <string name="reconnectToEnableNetshield">კავშირი თავიდან დამყარდება. \n\nგაფრთხილება: ზოგიერთი საიტი არ იტვირთება, როცა NetShield-ი ჩართულია.</string>
@@ -427,7 +425,6 @@
     <string name="notification_subscription_expired_no_reconnection_content">თქვენი გამოწერის დონე დაწეულია.</string>
     <string name="notification_delinquent_title">თქვენი Proton VPN-ის ანგარიშზე გადაუხდელი ინვოისებია დარჩენილი</string>
     <string name="notification_delinquent_content">თქვენი გამოწერის აქტიურად ქონისთვის მოიცალეთ და თქვენი გადახდის ინფორმაცია განაახლეთ.</string>
-    <string name="notification_server_unreachable_content">გადაერთეთ უფრო სწრაფ სერვერზე, რომელიც იმის მსგავსია, რომელიც აირჩიეთ.</string>
     <string name="notification_max_sessions_title">მიაღწიეთ მოწყობილობების რაოდენობის ლიმიტს</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
@@ -520,15 +517,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">მიიღეთ წვდომა მეტზე, ვიდრე %1$s-ია, %2$s-ში</string>
-    <string name="upgrade_plus_countries_streaming">წვდომა გლობალური სტრიმინგის სერვისებთან</string>
-    <!-- The number of devices will always be greater than 1. -->
-    <plurals name="upgrade_plus_countries_many_devices">
-        <item quantity="one">მიუერთეთ %d მოწყობილობა</item>
-        <item quantity="other">მიუერთეთ %d მოწყობილობა</item>
-    </plurals>
-    <string name="upgrade_plus_countries_netshield">დაბლოკეთ რეკლამა და არასასურველი პროგრამები NetShield-ით</string>
-    <string name="upgrade_plus_countries_speeds">საიტების უსწრაფესად დათვალეირება (10 გბ/წმ)</string>
-    <string name="upgrade_plus_countries_more">და კიდევ ბევრი ფასიანი ფუნქცია</string>
+    <string name="upgrade_plus_countries_subtitle">როცა Plus-ზე განახლდებით</string>
+    <string name="upgrade_plus_countries_choose_location">აირჩიეთ ნებისმიერი მდებარეობა</string>
+    <string name="upgrade_plus_countries_even_higher_speed">კიდევ უფრო სწრაფი VPN</string>
+    <string name="upgrade_plus_countries_access_content">იქონიეთ წვდომა გეოგრაფიულად დაბლოკილ შემცველობასთან</string>
+    <string name="upgrade_plus_countries_stream">დასტრიმეთ თქვენი რჩეული ფილმები</string>
     <string name="upgrade_safe_mode_title">არასტანდარტულ პორტებზე ტრაფიკის ნების დართვა</string>
     <string name="upgrade_safe_mode_message">გაქვთ დამატებითი ან პროფესიული გამოთვლითი საჭიროებები, რომლებსაც არასტანდარტულ პორტები სჭირდება? ამ და სხვა ფასიანი ფუნქციების მისაღებად განახლდით VPN Plus-ზე.</string>
     <string name="upgrade_not_now_button">არა ახლა</string>
@@ -605,7 +598,7 @@
     <string name="onboading_connecting_now">მიმდინარეობს დაკავშირება</string>
     <string name="onboarding_congrats_description">თქვენი შეერთება დაცულია და ვებგვერდების \n\n უსაფრთხოდ დასათვალიერებლად მზად ხართ.</string>
     <string name="onboarding_congrats_title">გილოცავთ!</string>
-    <string name="onboading_connect_to_plus">Plus სერვერთან მიერთება</string>
+    <string name="upgrade_success_get_started_button">დაიწყეთ</string>
     <string name="upgrade_use_limited_free_button">შეზღუდული უფასო ტარიფის გამოყენება</string>
     <string name="dynamic_report_suggestion_didnt_work">არ იმუშავა?</string>
     <string name="dynamic_report_contact_us">დაგვიკავშირდით</string>
@@ -653,7 +646,7 @@
     <string name="ikev2_removed_dialog_message">ნაგულისხმები მნიშვნელობები და პროფილები, რომლებიც ადრე IKEv2-ს იყენებდნენ, ახლა ჭკვიან პროტოკოლზე გადაერთვებიან.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">მეტი ინფორმაციისთვის ეწვიეთ<a href="https://protonvpn.com/pricing">protonvpn.com</a>-ს.</string>
-    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
+    <string name="free_upsell_header_title">იქონიეთ წვდომა ყველაფერზე VPN Plus-თან ერთად</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">გნებავთ მითითებული ქვეყნის არჩევა?</string>
     <string name="upgrade_country_message">განბლოკეთ ქვეყნის არჩევანი VPN Plus-თან ერთად</string>
@@ -726,6 +719,10 @@
     <string name="welcome_plus_title">მოგესალმებათ VPN Plus</string>
     <string name="welcome_plus_description">ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით, ჩქაროსნული წარმადობით და შემდეგ დონეზე აყვანილი VPN-ის მორგებით.</string>
     <string name="welcome_plus_feature_security">დამატებითი უსაფრთხოების ფუნქციები</string>
+    <string name="welcome_unlimited_title">მოგესალმებათ Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[გილოცავთ! თქვენ განბლოკეთ ფასიანი უსაფრთხოების და წარმადობის ფუნქციები ყველა Proton-ის სერვისისთვის, პლუს <b>%1$d&#160;გბ</b> ჯამური საცავი.<br><br>ისიამოვნეთ Proton-ის კონფიდენციალობის საუკეთესო ფუნქციებით.]]></string>
+    <string name="welcome_generic_title">გილოცავთ</string>
+    <string name="welcome_generic_description">თქვენ ასწიეთ თქვენი ტარიფი. ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით და შემდეგი დონის წარმადობით.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
