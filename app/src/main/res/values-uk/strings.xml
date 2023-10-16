@@ -235,8 +235,8 @@
     <string name="noVpnPermissionProtonAppLabel">Додаток ProtonVpn</string>
     <string name="noVpnPermissionOtherAppLabel">Інші додатки VPN</string>
     <string name="noVpnPermissionOpenSettings">Відкрити налаштування Android VPN</string>
-    <string name="noNotificationPermissionGrantTitle">Будьте в курсі подій...</string>
-    <string name="noNotificationPermissionGrantDescription">Увімкніть сповіщення для отримання попередження про зміни стану вашого з\'єднання.</string>
+    <string name="noNotificationPermissionGrantTitle">Будьте в курсі подій…</string>
+    <string name="noNotificationPermissionGrantDescription">Увімкніть сповіщення для отримання сповіщень про зміни стану вашого з\'єднання.</string>
     <string name="noNotificationPermissionGrantNowTitle">Увімкнути сповіщення</string>
     <string name="error_prepare_vpn_description"><![CDATA[Вимкніть постійну VPN для всіх інших програм VPN у системних налаштуваннях Android, тому що це не дає Proton VPN встановити з\'єднання. Також дозвольте VPN, якщо з\'явиться запит про дозвіл. Можливо, також доведеться видалити інші програми VPN, щоб уникнути конфліктів. Після цього повторіть спробу. <a href="%1$s">Докладніше</a>]]></string>
     <string name="error_prepare_vpn_settings">Перейти до налаштувань VPN Android</string>
