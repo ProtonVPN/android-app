@@ -54,6 +54,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.logging.ProtonLogger
 import me.proton.core.util.kotlin.times
 import okhttp3.internal.toHexString
+import java.io.Serializable
 import java.nio.CharBuffer
 import java.nio.charset.StandardCharsets
 import java.util.Arrays
@@ -247,6 +248,25 @@ suspend fun <T> (suspend () -> T).runCatchingCheckedExceptions(catchBlock: (e: E
     } catch (e: Exception) {
         if (e is RuntimeException) throw e
         catchBlock(e)
+    }
+
+// Google should add this to compat library at some point: https://issuetracker.google.com/issues/242048899
+inline fun <reified T : Serializable> Intent.getSerializableExtraCompat(key: String) : T? =
+    // 34 because there are some bugs in 33 (at least for Parcelable, but let's not risk it)
+    if (Build.VERSION.SDK_INT >= 34) getSerializableExtra(key, T::class.java)
+    else getSerializableExtra(key) as? T
+
+fun formatPrice(amount: Double, currency: String) : String =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        val format = android.icu.text.NumberFormat.getCurrencyInstance()
+        format.maximumFractionDigits = 2
+        format.currency = android.icu.util.Currency.getInstance(currency)
+        format.format(amount)
+    } else {
+        val format = java.text.NumberFormat.getCurrencyInstance()
+        format.maximumFractionDigits = 2
+        format.currency = java.util.Currency.getInstance(currency)
+        format.format(amount)
     }
 
 private const val MAX_STACK_TRACES = 100

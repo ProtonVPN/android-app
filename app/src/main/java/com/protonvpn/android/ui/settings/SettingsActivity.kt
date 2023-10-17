@@ -57,11 +57,12 @@ import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.ProtocolSelectionActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeSafeModeHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragment
 import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
@@ -280,7 +281,7 @@ class SettingsActivity : BaseActivityV2() {
             }
         } else {
             switchModerateNat.switchClickInterceptor = {
-                navigateTo(UpgradeModerateNatDialogActivity::class.java)
+                UpgradeDialogActivity.launch<UpgradeModerateNatHighlightsFragment>(this@SettingsActivity)
                 true
             }
         }
@@ -298,7 +299,7 @@ class SettingsActivity : BaseActivityV2() {
                 }
             } else {
                 switchNonStandardPorts.switchClickInterceptor = {
-                    navigateTo(UpgradeSafeModeDialogActivity::class.java)
+                    UpgradeDialogActivity.launch<UpgradeSafeModeHighlightsFragment>(this@SettingsActivity)
                     true
                 }
             }
@@ -398,7 +399,7 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun tryToggleVpnAccelerator() {
         if (binding.contentSettings.switchVpnAccelerator.inUpgradeMode) {
-            launchActivity<UpgradeVpnAcceleratorDialogActivity>()
+            UpgradeDialogActivity.launch<UpgradeVpnAcceleratorHighlightsFragment>(this)
         } else {
             tryToggleSwitch(
                 PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DLG,
@@ -415,7 +416,7 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun tryToggleSplitTunneling() {
         if (binding.contentSettings.switchShowSplitTunnel.inUpgradeMode) {
-            launchActivity<UpgradeSplitTunnelingDialogActivity>()
+            UpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(this)
         } else {
             tryToggleSwitch(
                 PREF_SHOW_SPLIT_TUNNELING_RECONNECT_DLG,
@@ -437,7 +438,7 @@ class SettingsActivity : BaseActivityV2() {
 
     private fun tryToggleBypassLocal() {
         if (binding.contentSettings.switchBypassLocal.inUpgradeMode) {
-            launchActivity<UpgradeAllowLanDialogActivity>()
+            UpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(this)
         } else {
             tryToggleSwitch(
                 PREF_SHOW_BYPASS_LOCAL_RECONNECT_DIALOG,

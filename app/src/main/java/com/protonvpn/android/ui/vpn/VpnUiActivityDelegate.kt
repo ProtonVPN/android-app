@@ -25,8 +25,9 @@ import androidx.activity.ComponentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
 import com.protonvpn.android.vpn.PermissionContract
 import com.protonvpn.android.vpn.ReasonRestricted
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -83,11 +84,11 @@ class VpnUiActivityDelegateMobile(
     }
 
     override fun showPlusUpgradeDialog() {
-        activity.startActivity(Intent(activity, UpgradePlusCountriesDialogActivity::class.java))
+        UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(activity)
     }
 
     override fun showSecureCoreUpgradeDialog() {
-        activity.startActivity(Intent(activity, UpgradeSecureCoreDialogActivity::class.java))
+        UpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(activity)
     }
 
     override fun showMaintenanceDialog() {
@@ -105,4 +106,3 @@ class VpnUiActivityDelegateMobile(
             .show()
     }
 }
-

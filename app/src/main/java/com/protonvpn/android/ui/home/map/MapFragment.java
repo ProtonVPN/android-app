@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.ui.home.map;
 
-import android.content.Intent;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -46,7 +45,7 @@ import com.protonvpn.android.models.vpn.Server;
 import com.protonvpn.android.models.vpn.TranslatedCoordinates;
 import com.protonvpn.android.models.vpn.VpnCountry;
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached;
-import com.protonvpn.android.ui.planupgrade.UpgradeCountryDialogActivity;
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity;
 import com.protonvpn.android.utils.CountryTools;
 import com.protonvpn.android.utils.ServerManager;
 import com.protonvpn.android.vpn.ConnectTrigger;
@@ -335,8 +334,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
                 currentConnection ? R.drawable.ic_marker_colored : R.drawable.ic_marker_available);
         } else {
             binding.buttonUpgrade.setOnClickListener(v ->
-                requireContext().startActivity(
-                    UpgradeCountryDialogActivity.createIntent(requireContext(), country.getMarkerCountryCode()))
+                    UpgradeDialogActivity.launchCountry(requireContext(), country.getMarkerCountryCode())
             );
 
             binding.buttonConnect.setVisibility(View.GONE);

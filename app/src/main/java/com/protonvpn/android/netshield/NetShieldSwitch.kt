@@ -20,7 +20,6 @@ package com.protonvpn.android.netshield
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Rect
@@ -40,8 +39,9 @@ import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.RadioButtonEx
 import com.protonvpn.android.databinding.ItemNetshieldBinding
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.showGenericReconnectDialog
-import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.android.vpn.VpnStatusProvider
@@ -254,7 +254,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun showUpgradeDialog() {
-        context.startActivity(Intent(context, UpgradeNetShieldDialogActivity::class.java))
+        UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context)
     }
 
     private fun showExpandToggle(show: Boolean) {

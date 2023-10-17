@@ -34,7 +34,8 @@ import com.protonvpn.android.databinding.FragmentProfilesBinding
 import com.protonvpn.android.databinding.ItemProfileListBinding
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.HeaderViewHolder
-import com.protonvpn.android.ui.planupgrade.UpgradeProfilesDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeProfilesHighlightsFragment
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
@@ -68,7 +69,7 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
                     if (viewModel.canCreateProfile())
                         ProfileEditActivity.navigateForCreation(this@ProfilesFragment)
                     else
-                        context?.launchActivity<UpgradeProfilesDialogActivity>()
+                        UpgradeDialogActivity.launch<UpgradeProfilesHighlightsFragment>(it.context)
                 }
             }
             // Profiles don't have IDs so they always animate as remove + add which doesn't look
@@ -110,7 +111,7 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
             }
             val connectUpgradeClickListener = View.OnClickListener {
                 if (item.accessType == ProfilesViewModel.AccessType.Restricted) {
-                    profileItem.context.launchActivity<UpgradeProfilesDialogActivity>()
+                    UpgradeDialogActivity.launch<UpgradeProfilesHighlightsFragment>(profileItem.context)
                 } else {
                     val event = ConnectToProfile(
                         profile.takeUnless { item.isConnected },

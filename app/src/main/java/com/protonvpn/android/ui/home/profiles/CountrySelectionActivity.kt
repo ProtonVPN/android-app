@@ -35,7 +35,8 @@ import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemServerSelectionBinding
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.HeaderViewHolder
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.CountryTools
 import com.xwray.groupie.GroupAdapter
@@ -63,7 +64,7 @@ class CountrySelectionActivity : BaseActivityV2() {
     private fun initCountryList(recyclerItems: RecyclerView, secureCore: Boolean) {
         val layout = LinearLayoutManager(this)
         val upgradeButtonListener = View.OnClickListener {
-            startActivity(Intent(this, UpgradePlusCountriesDialogActivity::class.java))
+            UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(this)
         }
         val sections = viewModel.getCountryGroups(secureCore).mapIndexed { index, group ->
             Section(

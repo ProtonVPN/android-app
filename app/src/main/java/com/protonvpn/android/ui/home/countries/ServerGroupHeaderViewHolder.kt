@@ -24,7 +24,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemVpnCountryBinding
-import com.protonvpn.android.ui.planupgrade.UpgradeCountryDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeCountryHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.getSelectableItemBackgroundRes
@@ -96,8 +97,9 @@ abstract class ServerGroupHeaderViewHolder(
             buttonUpgrade.setOnClickListener {
                 val flag = serverGroupModel.countryFlag
                 if (flag != null) {
-                    it.context.startActivity(
-                        UpgradeCountryDialogActivity.createIntent(it.context, flag)
+                    UpgradeDialogActivity.launch<UpgradeCountryHighlightsFragment>(
+                        it.context,
+                        UpgradeCountryHighlightsFragment.args(flag)
                     )
                 }
             }

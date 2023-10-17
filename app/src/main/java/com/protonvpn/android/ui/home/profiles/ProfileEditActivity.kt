@@ -38,14 +38,14 @@ import com.protonvpn.android.components.ProtonColorCircle
 import com.protonvpn.android.databinding.ActivityProfileEditBinding
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
-import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.SaveableSettingsActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity
-import com.protonvpn.android.utils.AndroidUtils.launchActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
 import com.protonvpn.android.utils.ViewUtils.hideKeyboard
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
+import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 
@@ -194,7 +194,10 @@ class ProfileEditActivity : SaveableSettingsActivity<ProfileEditViewModel>() {
         checkboxSecureCore.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setSecureCore(isChecked)
         }
-        buttonUpgrade.setOnClickListener { launchActivity<UpgradeSecureCoreDialogActivity>() }
+        buttonUpgrade.setOnClickListener {
+            UpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(this@ProfileEditActivity)
+        }
+
         layoutSecureCoreUpgrade.isVisible = !viewModel.isSecureCoreAvailable
         checkboxSecureCore.isVisible = viewModel.isSecureCoreAvailable
     }
