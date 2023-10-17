@@ -39,7 +39,8 @@ import com.protonvpn.android.databinding.FragmentOnboardingStepBinding
 import com.protonvpn.android.databinding.FragmentOnboardingTelemetryBinding
 import com.protonvpn.android.databinding.OnboardingStepDotBinding
 import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.ui.planupgrade.UpgradePlusOnboardingDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.getThemeColor
@@ -202,7 +203,7 @@ class OnboardingActivity : BaseActivityV2() {
 
     private fun navigateNext() = with(binding.pager) {
         if (currentItem + 1 == adapter?.itemCount) {
-            startActivity(Intent(this@OnboardingActivity, UpgradePlusOnboardingDialogActivity::class.java))
+            UpgradeOnboardingDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(this@OnboardingActivity)
             finish()
         } else {
             setCurrentItem(currentItem + 1, true)

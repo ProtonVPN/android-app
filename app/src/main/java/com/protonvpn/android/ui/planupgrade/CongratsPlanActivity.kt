@@ -22,14 +22,21 @@ package com.protonvpn.android.ui.planupgrade
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
+import androidx.fragment.app.commitNow
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
+import com.protonvpn.android.utils.edgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -48,7 +55,14 @@ class CongratsPlanActivity : BaseActivityV2() {
             return
         }
 
-        initUi(planName)
+        if (savedInstanceState == null) {
+            initHighlights(planName)
+        }
+        setupEdgeToEdge()
+        with(binding.buttonMainAction) {
+            setOnClickListener { finish() }
+            setText(R.string.upgrade_success_get_started_button)
+        }
 
         val shouldRefresh = intent.getBooleanExtra(EXTRA_REFRESH_VPN_USER, false)
         if (shouldRefresh) {
@@ -72,25 +86,50 @@ class CongratsPlanActivity : BaseActivityV2() {
         }
     }
 
-    private fun initUi(planName: String) {
-        when (planName) {
-            "vpnplus", "vpn2022" -> initPlusUi()
-            "bundle2022" -> initUnlimitedUi()
-            else -> initGenericUi()
+    private fun initHighlights(planName: String) {
+        val fragment = when (planName) {
+            "vpnplus", "vpn2022" -> CongratsPlusHighlightsFragment()
+            "bundle2022" -> CongratsUnlimitedHighlightsFragment()
+            else -> CongratsGenericHighlightsFragment()
+        }
+        supportFragmentManager.commitNow {
+            add(R.id.fragmentContent, fragment)
         }
     }
 
-    private fun initPlusUi() {
-        binding.initBinding(
-            this,
+    private fun setupEdgeToEdge() = with(binding) {
+        edgeToEdge(root) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            fragmentContent.updatePadding(top = 24.toPx() + insets.top)
+            view.updatePadding(bottom = 16.toPx() + insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
+    companion object {
+        private const val EXTRA_REFRESH_VPN_USER = "refresh vpn user"
+        private const val EXTRA_NEW_PLAN = "new plan"
+
+        fun createIntent(context: Context, planName: String, refreshVpnInfo: Boolean): Intent =
+            Intent(context, CongratsPlanActivity::class.java).apply {
+                putExtra(EXTRA_REFRESH_VPN_USER, refreshVpnInfo)
+                putExtra(EXTRA_NEW_PLAN, planName)
+            }
+    }
+}
+
+@AndroidEntryPoint
+class CongratsPlusHighlightsFragment : PlanHighlightsFragment() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.set(
             imageResource = R.drawable.welcome_plus,
             title = getString(R.string.welcome_plus_title),
             message = getString(R.string.welcome_plus_description),
-            mainButtonLabel = R.string.upgrade_success_get_started_button,
-            mainButtonAction = ::dismiss,
         ) {
-            val roundedServerCount = viewModel.serverCount / 100 * 100
-            val countriesCount = viewModel.countriesCount
+            val roundedServerCount = viewModel.allServersCount() / 100 * 100
+            val countriesCount = viewModel.countriesCount()
             val serverCountText = resources.getQuantityString(
                 R.plurals.welcome_plus_servers, roundedServerCount, roundedServerCount)
             val countriesCountText = resources.getQuantityString(
@@ -103,44 +142,35 @@ class CongratsPlanActivity : BaseActivityV2() {
             )
         }
     }
+}
 
-    private fun initUnlimitedUi() {
-        lifecycleScope.launch {
-            val storageGb = viewModel.getStorageGBs()
-            binding.initBinding(
-                this@CongratsPlanActivity,
+@AndroidEntryPoint
+class CongratsUnlimitedHighlightsFragment : PlanHighlightsFragment() {
+
+    private val congratsViewModel by viewModels<CongratsPlanViewModel>(ownerProducer = { requireActivity() })
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewLifecycleOwner.lifecycleScope.launch {
+            val storageGb = congratsViewModel.getStorageGBs()
+            binding.set(
                 imageResource = R.drawable.welcome_unlimited,
                 title = getString(R.string.welcome_unlimited_title),
                 message = HtmlTools.fromHtml(getString(R.string.welcome_unlimited_description, storageGb)),
-                mainButtonLabel = R.string.upgrade_success_get_started_button,
-                mainButtonAction = ::dismiss,
             )
         }
     }
+}
 
-    private fun initGenericUi() {
-        binding.initBinding(
-            this,
+@AndroidEntryPoint
+class CongratsGenericHighlightsFragment : PlanHighlightsFragment() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.set(
             imageResource = R.drawable.welcome_generic_vpn,
             title = getString(R.string.welcome_generic_title),
             message = getString(R.string.welcome_generic_description),
-            mainButtonLabel = R.string.upgrade_success_get_started_button,
-            mainButtonAction = ::dismiss,
         )
-    }
-
-    private fun dismiss() {
-        finish()
-    }
-
-    companion object {
-        private const val EXTRA_REFRESH_VPN_USER = "refresh vpn user"
-        private const val EXTRA_NEW_PLAN = "new plan"
-
-        fun createIntent(context: Context, planName: String, refreshVpnInfo: Boolean): Intent =
-            Intent(context, CongratsPlanActivity::class.java).apply {
-                putExtra(EXTRA_REFRESH_VPN_USER, refreshVpnInfo)
-                putExtra(EXTRA_NEW_PLAN, planName)
-            }
     }
 }

@@ -19,12 +19,12 @@
 
 package com.protonvpn.android.ui.onboarding
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityOnboardingCongratsBinding
-import com.protonvpn.android.ui.planupgrade.UpgradePlusOnboardingDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.viewBinding
@@ -41,7 +41,7 @@ class CongratsActivity : BaseActivityV2() {
 
         viewModel.server?.let { binding.connectedTo.setCountry(it) }
         binding.continueButton.onClick {
-            startActivity(Intent(this, UpgradePlusOnboardingDialogActivity::class.java))
+            UpgradeOnboardingDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(this)
             finish()
         }
     }

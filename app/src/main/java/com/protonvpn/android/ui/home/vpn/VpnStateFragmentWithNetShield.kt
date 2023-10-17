@@ -33,9 +33,9 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.netshield.BottomSheetNetShield
 import com.protonvpn.android.netshield.NetShieldComposable
 import com.protonvpn.android.netshield.UpgradePromo
-import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
-import com.protonvpn.android.utils.AndroidUtils.launchActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import me.proton.core.compose.theme.ProtonTheme3
@@ -62,7 +62,7 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
             ProtonTheme3 {
                 if (state.value is ChangeServerViewState.Locked) {
                     UpgradePromo(titleRes = R.string.not_wanted_country_title, descriptionRes = R.string.not_wanted_country_description, iconRes = R.drawable.upsell_worldwide_cover_exclamation) {
-                        requireContext().launchActivity<UpgradePlusCountriesDialogActivity>()
+                        UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(requireContext())
                     }
                 } else {
                     NetShieldComposable(parentViewModel.netShieldViewState,
@@ -70,7 +70,7 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
                             BottomSheetNetShield().show(parentFragmentManager, tag)
                         },
                         navigateToUpgrade = {
-                            requireContext().launchActivity<UpgradeNetShieldDialogActivity>()
+                            UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(requireContext())
                         })
                 }
             }

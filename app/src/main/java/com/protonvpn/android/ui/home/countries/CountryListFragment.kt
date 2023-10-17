@@ -35,7 +35,8 @@ import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.home.FreeConnectionsInfoActivity
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.promooffers.PromoOfferButtonActions
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.Log
@@ -113,7 +114,9 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
         is CollapsibleServerGroupModel ->
             add(getExpandableGroup(item, expandedGroupsIds))
         is FreeUpsellBannerModel -> {
-            val upsellItem = FreeUpsellItem { requireContext().launchActivity<UpgradePlusCountriesDialogActivity>() }
+            val upsellItem = FreeUpsellItem {
+                UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(requireContext())
+            }
             add(Section(upsellItem))
         }
         is PromoOfferBannerModel ->

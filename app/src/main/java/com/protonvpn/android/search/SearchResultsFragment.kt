@@ -41,8 +41,9 @@ import com.protonvpn.android.databinding.SearchEmptyHintBinding
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.ui.HeaderViewHolder
-import com.protonvpn.android.ui.planupgrade.UpgradeCountryDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeCountryHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.showDialogWithDontShowAgain
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -213,11 +214,14 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
     }
 
     private fun showCountryUpgrade(countryCode: String) {
-        startActivity(UpgradeCountryDialogActivity.createIntent(requireContext(), countryCode))
+        UpgradeDialogActivity.launch<UpgradeCountryHighlightsFragment>(
+            requireContext(),
+            UpgradeCountryHighlightsFragment.args(countryCode)
+        )
     }
 
     private fun showBannerUpgrade() {
-        startActivity(Intent(requireContext(), UpgradePlusCountriesDialogActivity::class.java))
+        UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(requireContext())
     }
 
     companion object {

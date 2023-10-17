@@ -87,7 +87,7 @@ import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.ui.onboarding.WhatsNewFreeActivity;
-import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreDialogActivity;
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
 import com.protonvpn.android.ui.settings.SettingsActivity;
@@ -262,7 +262,7 @@ public class HomeActivity extends VpnActivity {
     private void initSecureCoreSwitch() {
         switchSecureCore.setSwitchClickInterceptor((switchView) -> {
             if (!switchView.isChecked() && !viewModel.hasAccessToSecureCore()) {
-                startActivity(new Intent(this, UpgradeSecureCoreDialogActivity.class));
+                UpgradeDialogActivity.launchSecureCore(this);
             } else if (!switchView.isChecked()) {
                 secureCoreSpeedInfoDialog.launch(Unit.INSTANCE);
             } else {

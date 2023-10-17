@@ -23,6 +23,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
 import android.util.TypedValue
@@ -30,6 +31,7 @@ import android.view.LayoutInflater
 import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewPropertyAnimator
+import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
@@ -37,6 +39,10 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.OnApplyWindowInsetsListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import androidx.core.widget.NestedScrollView
 import androidx.viewbinding.ViewBinding
@@ -187,6 +193,12 @@ fun TextView.setTextOrGoneIfNullOrEmpty(newText: CharSequence?) {
     } else {
         visibility = View.GONE
     }
+}
+
+fun Activity.edgeToEdge(view: View, windowInsetsListener: OnApplyWindowInsetsListener) {
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+    window.statusBarColor = Color.TRANSPARENT
+    ViewCompat.setOnApplyWindowInsetsListener(view, windowInsetsListener)
 }
 
 fun NestedScrollView.scrollToShowView(child: View) {

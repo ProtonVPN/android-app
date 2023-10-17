@@ -269,17 +269,8 @@
             android:label="@string/free_connection_info_title"/>
 
         <activity android:name=".ui.onboarding.WhatsNewFreeActivity" />
-        <activity android:name=".ui.planupgrade.UpgradeNetShieldDialogActivity" />
-        <activity android:name=".ui.planupgrade.UpgradeModerateNatDialogActivity" />
-        <activity android:name=".ui.planupgrade.UpgradeSecureCoreDialogActivity" />
-        <activity android:name=".ui.planupgrade.UpgradeProfilesDialogActivity" />
-        <activity android:name=".ui.planupgrade.UpgradeVpnAcceleratorDialogActivity" />
-        <activity android:name=".ui.planupgrade.UpgradeAllowLanDialogActivity" />
-        <activity android:name=".ui.planupgrade.UpgradeSplitTunnelingDialogActivity" />
-        <activity android:name=".ui.planupgrade.UpgradePlusCountriesDialogActivity" />
-        <activity android:name=".ui.planupgrade.UpgradePlusOnboardingDialogActivity" />
-        <activity android:name=".ui.planupgrade.UpgradeSafeModeDialogActivity" />
-        <activity android:name=".ui.planupgrade.UpgradeCountryDialogActivity" />
+        <activity android:name=".ui.planupgrade.UpgradeDialogActivity" />
+        <activity android:name=".ui.planupgrade.UpgradeOnboardingDialogActivity" />
         <activity
             android:name=".ui.planupgrade.EmptyUpgradeDialogActivity"
             android:theme="@style/ProtonTheme.Transparent"/>
