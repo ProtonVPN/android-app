@@ -591,8 +591,8 @@ class VpnConnectionManager @Inject constructor(
     }
 
     fun onVpnServiceDestroyed() {
-        vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.ServiceDestroyed, connectionParams)
         ConnectionParams.readFromStore()?.takeIf { it.uuid == connectionParams?.uuid }?.let {
+            vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.ServiceDestroyed, connectionParams)
             ProtonLogger.logCustom(
                 LogCategory.CONN_DISCONNECT, "onDestroy called for current VpnService, deleting ConnectionParams"
             )
