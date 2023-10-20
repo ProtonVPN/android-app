@@ -60,6 +60,7 @@ data class ApiNotificationOfferPanel(
     @SerialName("PageFooter") val pageFooter: String? = null,
     @SerialName("FullScreenImage") val fullScreenImage: ApiNotificationOfferFullScreenImage? = null,
     @SerialName("ShowCountdown") val showCountdown: Boolean = false, // Only valid for banners.
+    @SerialName("IsDismissible") val isDismissible: Boolean = true, // Only valid for banners.
 )
 
 @Serializable

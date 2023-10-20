@@ -17,27 +17,45 @@
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    android:background="@drawable/promo_offer_banner_bg_ripple"
-    android:orientation="vertical"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="12dp">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/imageBanner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/textTimeLeft"
-        style="@style/Proton.Text.Caption.Weak"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="6 days 15 minutes left" />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/promo_offer_banner_bg_ripple"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/imageBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textTimeLeft"
+            style="@style/Proton.Text.Caption.Weak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="6 days 15 minutes left" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageClose"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="6dp"
+        android:background="@drawable/bg_banner_close_button_ripple"
+        android:contentDescription="@string/close"
+        android:padding="6dp"
+        app:srcCompat="@drawable/ic_proton_cross_small" />
+
+</FrameLayout>

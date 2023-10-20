@@ -131,7 +131,14 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
             }
         }
         return with(model) {
-            PromoOfferBannerItem(imageUrl, alternativeText, endTimestamp, clickAction, viewLifecycleOwner)
+            PromoOfferBannerItem(
+                imageUrl,
+                alternativeText,
+                endTimestamp,
+                clickAction,
+                { viewModel.onUpsellBannerDismissed(model.notificationId) }.takeIf { isDismissible },
+                viewLifecycleOwner
+            )
         }
     }
 
