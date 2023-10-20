@@ -29,6 +29,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.evernote.android.state.StateSaver;
 import com.protonvpn.android.api.DohEnabled;
+import com.protonvpn.android.appconfig.CoreFeatureFlagUpdater;
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager;
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout;
 import com.protonvpn.android.components.RestartHandler;
@@ -79,7 +80,6 @@ import go.Seq;
 import kotlinx.coroutines.ExecutorsKt;
 import me.proton.core.accountmanager.data.AccountStateHandler;
 import me.proton.core.eventmanager.data.CoreEventManagerStarter;
-import me.proton.core.featureflag.data.FeatureFlagRefreshStarter;
 import me.proton.core.humanverification.presentation.HumanVerificationStateHandler;
 import me.proton.core.util.kotlin.CoreLogger;
 
@@ -100,9 +100,9 @@ public class ProtonApplication extends Application {
         CertificateRepository getCertificateRepository();
         CloseSessionOnForceLogout getCloseSessionOnForceLogout();
         CoreEventManagerStarter getCoreEventManagerStarter();
+        CoreFeatureFlagUpdater getCoreFeatureFlagRefresher();
         CurrentStateLogger getCurrentStateLogger();
         DohEnabled.Provider getDohEnabledProvider();
-        FeatureFlagRefreshStarter getFeatureFlagRefreshStarter();
         HumanVerificationStateHandler getHumanVerificationStateHandler();
         LogcatLogCapture getLogcatLogCapture();
         MaintenanceTracker getMaintenanceTracker();
@@ -167,8 +167,8 @@ public class ProtonApplication extends Application {
         dependencies.getAccountStateHandler().start();
         dependencies.getCertificateRepository();
         dependencies.getCloseSessionOnForceLogout();
+        dependencies.getCoreFeatureFlagRefresher().start();
         dependencies.getDohEnabledProvider();
-        dependencies.getFeatureFlagRefreshStarter().start();
         dependencies.getHumanVerificationStateHandler().observe();
         dependencies.getMaintenanceTracker();
         dependencies.getNotificationPermissionManager();
