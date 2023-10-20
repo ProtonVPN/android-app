@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemPromoOfferBannerBinding
 import com.protonvpn.android.utils.BindableItemEx
+import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.protonvpn.android.utils.tickFlow
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -49,6 +50,7 @@ class PromoOfferBannerItem(
     private val alternativeText: String,
     private val endTimestamp: Long?,
     private val action: suspend () -> Unit,
+    private val dismissAction: (() -> Unit)?,
     private val parentLifecycleOwner: LifecycleOwner
 ) : BindableItemEx<ItemPromoOfferBannerBinding>() {
 
@@ -73,6 +75,10 @@ class PromoOfferBannerItem(
                     .onEach { text -> textTimeLeft.text = text }
                     .launchIn(parentLifecycleOwner.lifecycleScope)
             }
+
+            imageClose.isVisible = dismissAction != null
+            imageClose.setOnClickListener { dismissAction?.invoke() }
+            imageClose.setMinSizeTouchDelegate()
 
             root.setOnClickListener(suspendingClickAction(action))
             root.alpha = 1f

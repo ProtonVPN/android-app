@@ -45,6 +45,7 @@ import com.protonvpn.android.ui.home.countries.CountryListViewModel
 import com.protonvpn.android.ui.home.countries.FreeUpsellBannerModel
 import com.protonvpn.android.ui.home.countries.PromoOfferBannerModel
 import com.protonvpn.android.ui.home.countries.RecommendedConnectionModel
+import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -53,6 +54,7 @@ import com.protonvpn.app.userstorage.createDummyProfilesManager
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
 import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
@@ -86,6 +88,7 @@ class CountryListViewModelTests {
     private lateinit var promoNotificationsFlow: MutableStateFlow<List<ApiNotification>>
     private lateinit var restrictionsFlow: MutableStateFlow<Restrictions>
     private lateinit var countryListViewModel: CountryListViewModel
+    private lateinit var promoOfferPrefs: PromoOffersPrefs
 
     @MockK
     private lateinit var mockApi: ProtonApiRetroFit
@@ -145,6 +148,7 @@ class CountryListViewModelTests {
 
         promoNotificationsFlow = MutableStateFlow(emptyList())
         every { mockNotificationsManager.activeListFlow } returns promoNotificationsFlow
+        promoOfferPrefs = PromoOffersPrefs(MockSharedPreferencesProvider())
 
         countryListViewModel = CountryListViewModel(
             serverManager,
@@ -154,7 +158,8 @@ class CountryListViewModelTests {
             EffectiveCurrentUserSettings(scope.backgroundScope, effectiveSettingsFlow),
             mockCurrentUser,
             RestrictionsConfig(scope.backgroundScope, restrictionsFlow),
-            mockNotificationsManager
+            mockNotificationsManager,
+            promoOfferPrefs
         )
     }
 
@@ -274,7 +279,8 @@ class CountryListViewModelTests {
         promoNotificationsFlow.value = listOf(notification)
         vpnUserFlow.value = TestUser.freeUser.vpnUser
 
-        val expectedItem = PromoOfferBannerModel("https://proton.me/banner.png", "Sale!", action, 10_000L, "offer-A")
+        val expectedItem =
+            PromoOfferBannerModel("https://proton.me/banner.png", "Sale!", action, true, 10_000L, "banner", "offer-A")
 
         val sectionsNoRestrictions = countryListViewModel.state.first().sections
         assertEquals(expectedItem, sectionsNoRestrictions[1].items.find { it is PromoOfferBannerModel })
@@ -288,6 +294,11 @@ class CountryListViewModelTests {
         vpnUserFlow.value = TestUser.plusUser.vpnUser
         val plusUserSections = countryListViewModel.state.first().sections
         assertEquals(expectedItem, plusUserSections[0].items.find { it is PromoOfferBannerModel })
+
+        // Dismissed
+        promoOfferPrefs.addVisitedOffer(notification.id)
+        val plusUserSectionsWithDismissedBanner = countryListViewModel.state.first().sections
+        assertEquals(null, plusUserSectionsWithDismissedBanner[0].items.find { it is PromoOfferBannerModel })
     }
 
     private suspend fun checkPlusUserList() {
