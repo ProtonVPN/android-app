@@ -270,7 +270,7 @@ class HomeRobot : BaseRobot() {
         fun changeServerTimerAndBannerAreDisplayed() {
             node.withText(R.string.not_wanted_country_title).assertIsDisplayed()
             node.withText(R.string.not_wanted_country_description).assertIsDisplayed()
-            OnNode(shouldUseUnmergedTree = true).withTag("remainingTimeRow").assertIsDisplayed()
+            node.useUnmergedTree().withTag("remainingTimeRow").assertIsDisplayed()
         }
 
         fun cooldownUpgradeIsShown(){

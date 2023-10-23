@@ -277,3 +277,23 @@ fun Context.getCurrentProcessName(): String? =
 fun TelephonyManager.mobileCountryCode() =
     if (phoneType != TelephonyManager.PHONE_TYPE_CDMA && !networkCountryIso.isNullOrBlank())
         networkCountryIso else null
+
+
+// Catch all errors, rethrow RuntimeExceptions. Use with care.
+@Suppress("TooGenericExceptionCaught")
+fun <T> (() -> T).runChatchingCheckedExceptions(catchBlock: (e: Exception) -> T) =
+    try {
+        this()
+    } catch (e: Exception) {
+        if (e is RuntimeException) throw e
+        catchBlock(e)
+    }
+
+@Suppress("TooGenericExceptionCaught")
+suspend fun <T> (suspend () -> T).runChatchingCheckedExceptions(catchBlock: (e: Exception) -> T) =
+    try {
+        this()
+    } catch (e: Exception) {
+        if (e is RuntimeException) throw e
+        catchBlock(e)
+    }
