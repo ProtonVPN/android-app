@@ -50,8 +50,7 @@
                     android:adjustViewBounds="true"
                     android:background="@drawable/round_selectable_item_bg"
                     android:padding="8dp"
-                    android:visibility="gone"
-                    app:tint="@color/white" />
+                    android:visibility="gone" />
             </androidx.appcompat.widget.Toolbar>
 
             <com.google.android.material.tabs.TabLayout
