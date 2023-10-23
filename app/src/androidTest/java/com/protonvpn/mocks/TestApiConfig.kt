@@ -87,7 +87,8 @@ sealed class TestApiConfig {
                 listOf(
                     "/tests/ping",
                     "/domains/available",
-                    "/data/v1/stats"
+                    "/data/v1/stats",
+                    "/feature/v2/frontend"
                 ).forEach { code1000Path ->
                     rule(path eq code1000Path) { respond(GenericResponse(ResponseCodes.OK)) }
                 }

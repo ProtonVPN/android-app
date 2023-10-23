@@ -23,16 +23,19 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.registerAction
+import com.protonvpn.android.appconfig.periodicupdates.retryAfterIfApplicable
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.utils.runChatchingCheckedExceptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import me.proton.core.domain.entity.UserId
 import me.proton.core.featureflag.domain.ExperimentalProtonFeatureFlag
-import me.proton.core.featureflag.domain.FeatureFlagManager
+import me.proton.core.featureflag.domain.usecase.FetchUnleashTogglesRemote
+import me.proton.core.network.domain.ApiException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -42,7 +45,7 @@ import javax.inject.Singleton
 class CoreFeatureFlagUpdater @Inject constructor(
     private val scope: CoroutineScope,
     private val currentUser: CurrentUser,
-    private val featureFlagManager: FeatureFlagManager,
+    private val fetchFlags: FetchUnleashTogglesRemote,
     private val periodicUpdateManager: PeriodicUpdateManager,
     @IsInForeground inForeground: Flow<Boolean>,
 ) {
@@ -55,20 +58,22 @@ class CoreFeatureFlagUpdater @Inject constructor(
     )
 
     fun start() {
-        // No persistency so far for feature flags, so we need to always force refresh on start.
-        // We also need to refresh each time user changes
+        // Refresh whenever logged user changes or their plan.
         currentUser.vpnUserFlow
             .distinctUntilChangedBy { Pair(it?.userId, it?.planName) }
-            .map { it?.userId }
+            .drop(1) // Don't refresh on initial value, only on change
             .onEach {
-                periodicUpdateManager.executeNow(coreFeatureFlagsUpdate, it)
-            }.launchIn(scope)
+                periodicUpdateManager.executeNow(coreFeatureFlagsUpdate, it?.userId)
+            }
+            .launchIn(scope)
     }
 
-    private fun refreshInternal(userId: UserId?) : PeriodicActionResult<Unit> {
-        featureFlagManager.refreshAll(userId)
-        // No way to check if the refresh succeeded, worst case it'll try again later
-        return PeriodicActionResult(Unit, isSuccess = true)
+    private suspend fun refreshInternal(userId: UserId?): PeriodicActionResult<Unit> = suspend {
+        fetchFlags(userId)
+        PeriodicActionResult(Unit, isSuccess = true)
+    }.runChatchingCheckedExceptions { e ->
+        val retryAfter = (e as? ApiException)?.error?.retryAfterIfApplicable()?.inWholeMilliseconds
+        PeriodicActionResult(Unit, isSuccess = false, retryAfter)
     }
 
     companion object {

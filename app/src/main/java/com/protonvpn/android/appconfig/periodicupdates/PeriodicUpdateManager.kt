@@ -487,6 +487,6 @@ fun <T, R : Any> PeriodicUpdateManager.registerApiCall(
         registerUpdateAction(it, *updateSpec)
     }
 
-private fun <T> ApiResult<T>.retryAfterIfApplicable(): Duration? = (this as? ApiResult.Error.Http)?.retryAfter?.takeIf {
+fun <T> ApiResult<T>.retryAfterIfApplicable(): Duration? = (this as? ApiResult.Error.Http)?.retryAfter?.takeIf {
     httpCode in arrayOf(HttpResponseCodes.HTTP_TOO_MANY_REQUESTS, HttpResponseCodes.HTTP_SERVICE_UNAVAILABLE)
 }
