@@ -171,7 +171,7 @@ class VpnConnectionManager @Inject constructor(
 
                 ProtonLogger.log(
                     ConnStateChanged,
-                    "${unifiedState(newState)}, internal state: $newState, backend: ${activeBackend?.vpnProtocol}"
+                    "${unifiedState(newState)}, internal state: $newState, backend: ${activeBackend?.vpnProtocol}, fallback active: ${ongoingFallback?.isActive}"
                 )
                 DebugUtils.debugAssert {
                     val isConnectedOrConnecting = state in arrayOf(
@@ -254,6 +254,8 @@ class VpnConnectionManager @Inject constructor(
             vpnStateMonitor.vpnConnectionNotificationFlow.emit(VpnFallbackResult.Error(ErrorType.MAX_SESSIONS))
             ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
             disconnect(DisconnectTrigger.Error("max sessions reached"))
+        } else {
+            ProtonLogger.logCustom(LogCategory.CONN_DISCONNECT, "disconnecting unrecoverably: $errorType.name")
         }
     }
 
@@ -289,6 +291,7 @@ class VpnConnectionManager @Inject constructor(
     }
 
     private suspend fun onServerNotAvailable(profile: Profile, server: Server?) {
+        ProtonLogger.logCustom(LogCategory.CONN, "Current server unavailable")
         val fallback = if (server == null) {
             vpnErrorHandler.onServerNotAvailable(profile)
         } else {
