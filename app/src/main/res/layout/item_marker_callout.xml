@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:padding="8dp"
-                app:srcCompat="@drawable/ic_free_upgrade" />
+                app:srcCompat="@drawable/vpn_plus_badge" />
         </FrameLayout>
 
     </LinearLayout>

@@ -111,8 +111,7 @@ fun PaymentPanel(
                     }
                     is ViewState.PlanReady -> {
                         Image(
-                            // TODO: rename the icon to something like vpn_plus_badge
-                            painter = painterResource(id = R.drawable.ic_free_upgrade),
+                            painter = painterResource(id = R.drawable.vpn_plus_badge),
                             contentDescription = null,
                             modifier = Modifier.padding(end = 8.dp)
                         )

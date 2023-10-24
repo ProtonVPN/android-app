@@ -86,7 +86,7 @@
                 android:layout_marginStart="8dp"
                 android:background="?attr/selectableItemBackground"
                 android:padding="16dp"
-                app:srcCompat="@drawable/ic_free_upgrade" />
+                app:srcCompat="@drawable/vpn_plus_badge" />
 
             <ImageView
                 android:id="@+id/buttonCross"
