@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.deeplinks
 
 import android.net.Uri
+import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
@@ -33,6 +34,7 @@ private const val PROTONVPN_SCHEME = "protonvpn"
 class DeepLinkHandler @Inject constructor(
     private val mainScope: CoroutineScope,
     private val userPlanManager: UserPlanManager,
+    private val notificationManager: ApiNotificationManager,
 ) {
     fun processDeepLink(uri: Uri) {
         if (uri.scheme?.equalsNoCase(PROTONVPN_SCHEME) == true) {
@@ -46,6 +48,10 @@ class DeepLinkHandler @Inject constructor(
     private fun refreshVpnInfo() {
         mainScope.launch {
             userPlanManager.refreshVpnInfo()
+            // Force notifications update even if there is no plan change - the user could be updating between 1m and
+            // 12m subscriptions.
+            // This is a temporary solution, we should detect such changes.
+            notificationManager.forceUpdate()
         }
     }
 }

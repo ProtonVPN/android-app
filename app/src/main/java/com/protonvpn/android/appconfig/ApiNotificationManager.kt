@@ -175,7 +175,7 @@ class ApiNotificationManager @Inject constructor(
         periodicUpdateManager.unregister(notificationsUpdate)
     }
 
-    private suspend fun forceUpdate() {
+    suspend fun forceUpdate() {
         periodicUpdateManager.executeNow(notificationsUpdate)
     }
 
