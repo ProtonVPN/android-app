@@ -108,6 +108,8 @@
     <string name="settingsSectionQuickConnect">Quick Connect</string>
     <string name="settingsSectionConnection">Connection</string>
     <string name="settingsSectionSecurity">Security</string>
+    <!-- tag(Redesign_2023) Support section title in settings screen -->
+    <string name="settingsSectionSupport">Support</string>
     <string name="settingsSectionAdvanced">Advanced</string>
     <string name="settingsAutoStartTitle">Start with Android</string>
     <string name="settingsAutoStartDescription">Proton VPN will start automatically with each system start</string>
@@ -953,6 +955,59 @@
 
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Sign out</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_title">Settings</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_features">Features</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_netshield_title">NetShield</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_split_tunneling_title">Split Tunneling</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_kill_switch_title">Kill Switch</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_connection_category">Connection</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_protocol_title">Protocol</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_advanced_settings_title">Advanced Settings</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_general">General</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_account">Account</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_notifications_title">Notifications</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_theme_title">Theme</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_beta_access_title">Beta Access</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_widget_title">Widget</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_support">Support</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_help_center_title">Help Center</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_report_issue_title">Report an Issue</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_debug_logs_title">Debug Logs</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_improve_proton">Improve Proton</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_fight_censorship_title">Help us fight censorship</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_rate_us_title">Rate Proton VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_restore_defaults_title">Restore default settings</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out_title">Sign Out</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_app_version">App version: %1$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_third_party_licenses">Third party licenses</string>
+
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_title">Sign out?</string>
     <!-- tag(Redesign_2023) -->

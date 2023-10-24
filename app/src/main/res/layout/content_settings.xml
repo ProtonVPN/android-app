@@ -33,21 +33,6 @@
         tools:showIn="@layout/activity_settings">
 
         <TextView
-            android:id="@+id/textSectionQuickConnect"
-            style="@style/SectionHeadlineText.Brand"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
-            android:text="@string/settingsSectionQuickConnect" />
-
-        <com.protonvpn.android.ui.settings.SettingsItem
-            android:id="@+id/buttonDefaultProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/settingsDefaultConnectionTitle"
-            app:infoText="@string/settingsDefaultConnectionDescription" />
-
-        <TextView
             style="@style/SectionHeadlineText.Brand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,6 +84,33 @@
             app:withReconnectConfirmation="true"/>
 
         <View style="@style/Divider.Small" />
+
+        <TextView
+            style="@style/SectionHeadlineText.Brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/screen_padding_horizontal"
+            android:text="@string/settingsSectionSupport" />
+
+        <com.protonvpn.android.ui.settings.SettingsItem
+            android:id="@+id/buttonHelp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/drawerHelp" />
+
+        <com.protonvpn.android.ui.settings.SettingsItem
+            android:id="@+id/buttonReportProblem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/drawerReportProblem" />
+
+        <com.protonvpn.android.ui.settings.SettingsItem
+            android:id="@+id/buttonShowLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/drawerShowLog" />
+
+
 
         <TextView
             style="@style/SectionHeadlineText.Brand"

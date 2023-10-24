@@ -30,12 +30,14 @@ object Constants {
     const val NOTIFICATION_ID = 6
     const val NOTIFICATION_INFO_ID = 7
     const val NOTIFICATION_GUESTHOLE_ID = 8
+
     const val TV_SIGNUP_LINK = "protonvpn.com/signup"
     const val TV_UPGRADE_LINK = "account.protonvpn.com/account"
     const val PRIMARY_VPN_API_URL = "https://" + BuildConfig.API_DOMAIN + "/"
     const val ALTERNATIVE_ROUTING_LEARN_URL =
             "https://protonmail.com/blog/anti-censorship-alternative-routing"
     const val ACCOUNT_LOGIN_URL = "https://account.protonvpn.com/login"
+    const val URL_SUPPORT = "https://protonvpn.com/support"
     const val URL_SUPPORT_PERMISSIONS =
             "https://protonvpn.com/support/android-vpn-permissions-problem"
     const val FORCE_UPDATE_URL = "https://protonvpn.com/support/vpn-update/"

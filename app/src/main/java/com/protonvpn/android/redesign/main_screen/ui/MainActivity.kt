@@ -39,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel
@@ -47,12 +48,13 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
+import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.compose.component.ProtonCenteredProgress
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     private val accountViewModel: AccountViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
@@ -130,6 +132,8 @@ class MainActivity : AppCompatActivity() {
     private fun retryConnectionAfterPermissions(connectIntent: AnyConnectIntent) {
         homeViewModel.connect(vpnActivityDelegate, connectIntent)
     }
+
+    override fun getVpnUiDelegate(): VpnUiActivityDelegate = vpnActivityDelegate
 }
 
 class CoreNavigation(
