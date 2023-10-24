@@ -59,7 +59,7 @@
         android:id="@+id/buttonUpgrade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_free_upgrade"
+        app:srcCompat="@drawable/vpn_plus_badge"
         android:visibility="gone"/>
 
     <ImageView

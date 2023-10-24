@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             tools:visibility="visible"
-            app:srcCompat="@drawable/ic_free_upgrade"/>
+            app:srcCompat="@drawable/vpn_plus_badge"/>
 
         <ImageView
             android:id="@+id/imageBusinessBadge"
