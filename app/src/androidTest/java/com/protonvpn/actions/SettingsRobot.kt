@@ -34,8 +34,6 @@ import com.protonvpn.testsHelper.ConditionalActionsHelper
  */
 class SettingsRobot : BaseRobot() {
 
-    fun setRandomQuickConnection(): SettingsRobot = setQuickConnection(R.string.profileRandom)
-
     fun clickOnSaveMenuButton(): SettingsRobot = clickElementById(R.id.action_save)
 
     fun clickOnAlwaysOnVpnSetting(): SettingsRobot = clickElementById(R.id.buttonAlwaysOn)
@@ -59,11 +57,6 @@ class SettingsRobot : BaseRobot() {
             R.string.settingsSplitTunnelingTitle
         )
         return clickElementByText(R.string.settingsSplitTunnelingTitle)
-    }
-
-    private fun setQuickConnection(@StringRes profileName: Int): SettingsRobot {
-        clickElement<SettingsRobot>(R.id.buttonDefaultProfile, SettingsItem::class.java)
-        return clickElementByText(profileName)
     }
 
     class Verify : BaseVerify() {
@@ -90,7 +83,6 @@ class SettingsRobot : BaseRobot() {
             checkIfElementIsDisplayedByStringId(R.string.profileRandom)
 
         fun mainSettingsAreDisplayed() {
-            checkIfElementIsDisplayedById(R.id.textSectionQuickConnect)
             ConditionalActionsHelper().scrollDownInViewWithIdUntilObjectWithIdAppears(
                 R.id.scrollView,
                 R.id.buttonProtocol
