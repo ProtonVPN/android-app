@@ -1,0 +1,2 @@
+What's new
+Adds support for Korean language Minor UI and stability improvements
