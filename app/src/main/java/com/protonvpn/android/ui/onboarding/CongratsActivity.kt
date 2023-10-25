@@ -24,7 +24,6 @@ import androidx.activity.viewModels
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityOnboardingCongratsBinding
 import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.viewBinding
@@ -41,8 +40,8 @@ class CongratsActivity : BaseActivityV2() {
 
         viewModel.server?.let { binding.connectedTo.setCountry(it) }
         binding.continueButton.onClick {
-            if (viewModel.ipAppUpgradeAllowed) {
-                UpgradeOnboardingDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(this)
+            if (viewModel.inAppUpgradeAllowed) {
+                UpgradeOnboardingDialogActivity.launch(this)
             }
             finish()
         }

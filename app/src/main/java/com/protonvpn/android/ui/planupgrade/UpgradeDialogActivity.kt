@@ -26,6 +26,7 @@ import android.os.Bundle
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.viewModels
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -57,26 +58,12 @@ open class UpgradeDialogActivity : BaseActivityV2() {
 
         viewModel.setupOrchestrators(this)
         if (savedInstanceState == null) {
-            val highlightsFragmentClass: Class<out Fragment>? =
-                intent.getSerializableExtraCompat<Class<out UpgradeHighlightsFragment>>(FRAGMENT_CLASS_EXTRA)
-            val highlightsFragmentArgs = intent.getBundleExtra(FRAGMENT_ARGS_EXTRA)
-
-            if (highlightsFragmentClass != null) {
-                supportFragmentManager.commitNow {
-                    add(R.id.fragmentContent, highlightsFragmentClass, highlightsFragmentArgs)
-                }
-                val fragment = binding.fragmentContent.getFragment<UpgradeHighlightsFragment>()
-                viewModel.reportUpgradeFlowStart(fragment.upgradeSource)
-            }
+            initHighlightsFragment()
+            initPaymentsPanelFragment()
         }
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.commitNow {
-                setReorderingAllowed(true)
-                replace<PaymentPanelFragment>(R.id.payment_panel_fragment)
-            }
-        }
         binding.buttonClose.setOnClickListener { finish() }
+        binding.buttonNotNow.setOnClickListener { finish() }
 
         viewModel.state.asLiveData().observe(this) { state ->
             when (state) {
@@ -95,12 +82,34 @@ open class UpgradeDialogActivity : BaseActivityV2() {
         }
     }
 
+    private fun initHighlightsFragment() {
+        val highlightsFragmentClass: Class<out Fragment>? =
+            intent.getSerializableExtraCompat<Class<out Fragment>>(FRAGMENT_CLASS_EXTRA)
+        val highlightsFragmentArgs = intent.getBundleExtra(FRAGMENT_ARGS_EXTRA)
+
+        if (highlightsFragmentClass != null) {
+            supportFragmentManager.commitNow {
+                add(R.id.fragmentContent, highlightsFragmentClass, highlightsFragmentArgs)
+            }
+            val fragment = binding.fragmentContent.getFragment<FragmentWithUpgradeSource>()
+            viewModel.reportUpgradeFlowStart(fragment.upgradeSource)
+        }
+    }
+
+    private fun initPaymentsPanelFragment() {
+        supportFragmentManager.commitNow {
+            setReorderingAllowed(true)
+            replace<PaymentPanelFragment>(R.id.payment_panel_fragment)
+        }
+    }
+
     private fun setupEdgeToEdge() = with(binding) {
-        edgeToEdge(root) { view, windowInsets ->
+        edgeToEdge(root) { _, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             fragmentContent.updatePadding(top = 24.toPx() + insets.top)
             buttonClose.updateLayoutParams<MarginLayoutParams> { topMargin = 8.toPx() + insets.top }
-            windowInsets
+            root.updatePadding(bottom = 16.toPx() + insets.bottom)
+            WindowInsetsCompat.CONSUMED
         }
     }
 
@@ -108,7 +117,7 @@ open class UpgradeDialogActivity : BaseActivityV2() {
         const val FRAGMENT_CLASS_EXTRA = "highlights fragment"
         const val FRAGMENT_ARGS_EXTRA = "highlights fragment args"
 
-        inline fun <reified Activity :UpgradeDialogActivity, reified Fragment : UpgradeHighlightsFragment> createIntent(
+        inline fun <reified Activity :UpgradeDialogActivity, reified Fragment : FragmentWithUpgradeSource> createIntent(
             context: Context,
             args: Bundle? = null
         ) = Intent(context, Activity::class.java).apply {
@@ -116,15 +125,15 @@ open class UpgradeDialogActivity : BaseActivityV2() {
             putExtra(FRAGMENT_ARGS_EXTRA, args)
         }
 
-        inline fun <reified Activity : UpgradeDialogActivity, reified Fragment : UpgradeHighlightsFragment> launchActivity(
+        inline fun <reified Activity : UpgradeDialogActivity, reified Fragment : FragmentWithUpgradeSource> launchActivity(
             context: Context,
             args: Bundle? = null
         ) {
             context.startActivity(createIntent<Activity, Fragment>(context, args))
         }
 
-        inline fun <reified Fragment : UpgradeHighlightsFragment> launch(context: Context, args: Bundle? = null) =
-            launchActivity<UpgradeDialogActivity, Fragment>(context, args)
+        inline fun <reified Fragment : FragmentWithUpgradeSource> launch(context: Context, args: Bundle? = null)
+            = launchActivity<UpgradeDialogActivity, Fragment>(context, args)
 
         // For Java code:
         @JvmStatic
@@ -141,12 +150,12 @@ class UpgradeOnboardingDialogActivity : UpgradeDialogActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // TODO: what about this?
-        //binding.buttonOther.setText(R.string.upgrade_use_limited_free_button)
+        binding.buttonClose.isVisible = false
+        binding.buttonNotNow.isVisible = true
     }
 
     companion object {
-        inline fun <reified Fragment : UpgradeHighlightsFragment> launch(context: Context, args: Bundle? = null) =
-            launchActivity<UpgradeOnboardingDialogActivity, Fragment>(context, args)
+        fun launch(context: Context, args: Bundle? = null) =
+            launchActivity<UpgradeOnboardingDialogActivity, UpgradeHighlightsCarouselFragment>(context, args)
     }
 }

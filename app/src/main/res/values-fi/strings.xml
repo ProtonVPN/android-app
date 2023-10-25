@@ -465,31 +465,14 @@
     <string name="upsell_upgrade_again">Päivitä tilauksesi uudelleen nauttiaksesi kaikista ominaisuuksista:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">Kun päivität Plus-tilaukseen</string>
-    <string name="upgrade_netshield_title_new">Nauti mainosvapaasta selauksesta NetShieldillä</string>
-    <string name="upgrade_secure_core_title_new">Tuplaa salaus Secure Corella</string>
-    <string name="upgrade_secure_core_countries">Ohjaa tietoliikenteesi huipputurvallisten Sveitsissä, Ruotsissa ja Islannissa sijaitsevien palvelinten kautta</string>
-    <string name="upgrade_secure_core_encryption">Lisää VPN-yhteyteesi yksi salauskerros lisää</string>
-    <string name="upgrade_secure_core_protect">Suojaudu verkkohyökkäyksiltä</string>
+    <string name="upgrade_netshield_title">Nauti mainosvapaasta selauksesta NetShieldillä</string>
+    <string name="upgrade_secure_core_title">Tuplaa salaus Secure Corella</string>
     <string name="upgrade_profiles_title">Pääset nopeasti käsiksi usein käyttämiisi yhteyksiin</string>
     <string name="upgrade_profiles_text">Avaa profiilit VPN Plus -tilauksella</string>
-    <string name="upgrade_profiles_feature_save">Tallenna mieleisesi palvelin, kaupunki tai maa</string>
-    <string name="upgrade_profiles_feature_customize">Määritä muita protokollia ja VPN:n premium-ominaisuuksia</string>
     <string name="upgrade_vpn_accelerator_title">Selaa vielä korkeammilla nopeuksilla (jopa 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Paranna yhteysnopeuksia jopa 400 % <b>VPN Acceleratorilla</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Parannettu nopeus ja vakaus, kun yhteys on muodostettu kaukana sijaitseviin palvelimiin.</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">Käytä nopeampia, ruuhkattomampia palvelimia</string>
     <string name="upgrade_split_tunneling_title">Hanki molempien parhaat puolet</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Avaa <b>jaettu tunnelointi</b> VPN Plus:lla]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Jaettu tunnelointi mahdollistaa saman aikaisen selauksen kahdesta eri sijainnista</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">Salli luotettujen sovellusten ja IP-osoitteiden yhdistää Internetiin suoraan, samalla kun kaikki muut suojataan VPN-yhteydellä.</string>
     <string name="upgrade_customization_title">Avaa edistyneet VPN-mukautukset</string>
-    <string name="upgrade_customization_lan"><![CDATA[Pääsy <b>lähiverkon (LAN)</b> laitteisiin]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Tallenna käytetyimmät yhteydet <b>profiileiksi</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[<b>Pikayhteys-ominaisuudella</b> käytät profiileitasi nopeasti]]></string>
-    <string name="upgrade_netshield_block_ads">Estä mainokset ja seurannat</string>
-    <string name="upgrade_netshield_block_malware">Suojaa laitettasi haittaohjelmilta</string>
-    <string name="upgrade_netshield_speed">Selaa korkeimmilla nopeuksilla</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -518,10 +501,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">Käytä yli %1$s %2$s</string>
     <string name="upgrade_plus_countries_subtitle">Kun päivität Plus-tilaukseen</string>
-    <string name="upgrade_plus_countries_choose_location">Valitse mikä tahansa sijainti</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Vielä korkeampi VPN-nopeus</string>
-    <string name="upgrade_plus_countries_access_content">Käytä alueellisesti estettyä sisältöä</string>
-    <string name="upgrade_plus_countries_stream">Suoratoista suosikkielokuviasi</string>
     <string name="upgrade_safe_mode_title">Salli tietoliikenne epätyypillisiin portteihin</string>
     <string name="upgrade_safe_mode_message">Onko sinulla vaativia tai ammatillisia tietoteknisiä tarpeita, jotka tarvitsevat epätyypillisiä portteja? Päivitä VPN Plus -tilaukseen käyttääksesi tätä ja muita premium-ominaisuuksia.</string>
     <string name="upgrade_not_now_button">Ei nyt</string>
@@ -650,22 +629,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Haluatko valita tietyn maan?</string>
     <string name="upgrade_country_message">Avaa maavalinta VPN Plus -tilauksella</string>
-    <string name="upgrade_country_feature_money_back">30 päivän rahat takaisin -takuu</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">Korkeammat nopeudet (%1$d Gbps)</string>
-    <string name="upgrade_country_feature_stream">Suoratoista suosikkielokuviasi</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="one">Suojaa jopa %1$d laite</item>
-        <item quantity="other">Suojaa jopa %1$d laitetta</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="one">Selaa %1$d maasta</item>
-        <item quantity="other">Selaa %1$d maasta</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">Paranna pelikokemustasi</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Avaa <b>2 tyypin NAT</b> VPN Plus -tilauksella]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">Paranna suorituskyä verkkopeleille ja videopuheluille</string>
-    <string name="upgrade_moderate_nat_feature_optimize">Tyypin 2 NAT (keskitasoinen) tarjoaa optimoidun nopeuden ja vakauden mahdollistamalla suorat yhteydet laitteiden välillä.</string>
     <string name="free_connections_info_message">Proton Free yhdistää automaattisesti nopeimpaan käytettävissä olevaan palvelimeen. Yleensä tämä on lähinnä sijaintiasi oleva palvelin.</string>
     <string name="free_connections_info_server_locations">Ilmaiset palvelinsijainnnit (%1$d)</string>
     <string name="free_connections_info_banner_text">Hanki maailmanlaajuiden kattavuus VPN Plus -tilauksella</string>

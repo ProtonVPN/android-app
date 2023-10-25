@@ -45,7 +45,6 @@ import org.hamcrest.Matchers.not
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import me.proton.test.fusion.Fusion.node
-import me.proton.test.fusion.ui.compose.builders.OnNode
 
 /**
  * [HomeRobot] Contains all actions and verifications for home screen
@@ -189,7 +188,7 @@ class HomeRobot : BaseRobot() {
         fun serverListIsVisible() = checkIfElementIsDisplayedById(R.id.list)
 
         fun dialogUpgradeVisible() {
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_secure_core_title_new)
+            checkIfElementIsDisplayedByStringId(R.string.upgrade_secure_core_title)
         }
 
         fun dialogSpeedInfoVisible() {

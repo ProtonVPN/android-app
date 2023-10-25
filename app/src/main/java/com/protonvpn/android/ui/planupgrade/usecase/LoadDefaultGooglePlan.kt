@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.planupgrade.usecase
 import android.content.res.Resources
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.utils.Constants
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -36,12 +37,16 @@ import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.plan.presentation.entity.getSelectedPlan
 import javax.inject.Inject
 
+data class CycleInfo(
+    val cycle: PlanCycle,
+    val productId: String,
+)
 data class GiapPlanInfo(
     private val dynamicPlan: DynamicPlan,
     val name: String,
     val displayName: String,
-    val cycle: PlanCycle,
-    val productId: String
+    val cycles: List<CycleInfo>,
+    val preselectedCycle: PlanCycle,
 ) {
     fun getSelectedPlan(resources: Resources, cycleDurationMonths: Int) =
         dynamicPlan.getSelectedPlan(resources, cycleDurationMonths, null)
@@ -52,7 +57,8 @@ class LoadDefaultGooglePlan(
     private val vpnUserFlow: Flow<VpnUser?>,
     private val dynamicPlans: suspend (UserId?) -> List<DynamicPlan>,
     private val availablePaymentProviders: suspend () -> Set<PaymentProvider>,
-    private val defaultCycle: PlanCycle,
+    private val defaultCycles: List<PlanCycle>,
+    private val defaultPreselectedCycle: PlanCycle
 ) {
 
     @Inject constructor(
@@ -63,7 +69,8 @@ class LoadDefaultGooglePlan(
         vpnUserFlow = currentUser.vpnUserFlow,
         dynamicPlans = { getDynamicPlans(it).plans },
         availablePaymentProviders = getAvailablePaymentProviders::invoke,
-        DEFAULT_CYCLE
+        DEFAULT_CYCLES,
+        DEFAULT_PRESELECTED_CYCLE
     )
 
     private suspend fun defaultDynamicPlan() : DynamicPlan? {
@@ -76,15 +83,25 @@ class LoadDefaultGooglePlan(
     }
 
     private fun DynamicPlan.toPlanInfo(): GiapPlanInfo? {
-        val cycle =
-            defaultCycle.takeIf { defaultCycle.cycleDurationMonths in instances.keys } ?:
-            PlanCycle.values().firstOrNull {
-                it.cycleDurationMonths in instances.keys && it.cycleDurationMonths > 0
-            } ?: return null
-        val instance = instances[cycle.cycleDurationMonths] ?: return null
         val planName = name ?: return null
-        val productId = instance.vendors[AppStore.GooglePlay]?.productId ?: return null
-        return GiapPlanInfo(this, name = planName, displayName = title, cycle, productId)
+        val cycles = defaultCycles.mapNotNull { cycle ->
+            instances[cycle.cycleDurationMonths]?.vendors?.get(AppStore.GooglePlay)?.productId?.let {
+                CycleInfo(cycle, it)
+            }
+        }
+        if (cycles.isEmpty())
+            return null
+        val preselectedCycle = if (cycles.any { it.cycle == defaultPreselectedCycle })
+            defaultPreselectedCycle
+        else
+            cycles.first().cycle
+        return GiapPlanInfo(
+            this,
+            name = planName,
+            displayName = title,
+            cycles,
+            preselectedCycle
+        )
     }
 
     suspend operator fun invoke(): GiapPlanInfo? {
@@ -96,7 +113,8 @@ class LoadDefaultGooglePlan(
 
     companion object {
         // TODO: in future this should come from API
-        private val DEFAULT_CYCLE = PlanCycle.MONTHLY
-        const val DEFAULT_PLAN_NAME_VPN = "vpn2022"
+        private val DEFAULT_CYCLES = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
+        private val DEFAULT_PRESELECTED_CYCLE = PlanCycle.YEARLY
+        const val DEFAULT_PLAN_NAME_VPN = Constants.CURRENT_PLUS_PLAN
     }
 }

@@ -108,7 +108,7 @@ class FreeRescopeTests {
         mapRobot.clickOnCountryNode(DefaultData.TEST_COUNTRY)
             .verify { upgradeButtonIsVisible() }
         mapRobot.clickUpgrade()
-        upsellModalRobot.verify { specificCountryUpsellIsShown(DefaultData.SERVER_SPEED) }
+        upsellModalRobot.verify { specificCountryUpsellIsShown() }
     }
 
     @Test
@@ -117,6 +117,6 @@ class FreeRescopeTests {
         upsellModalRobot.verify { countryUpsellIsShown() }
         upsellModalRobot.closeModal()
         homeRobot.clickUpgradeByCountryName(MockedServers.serverList[0].displayName)
-        upsellModalRobot.verify { specificCountryUpsellIsShown(DefaultData.SERVER_SPEED) }
+        upsellModalRobot.verify { specificCountryUpsellIsShown() }
     }
 }

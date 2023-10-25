@@ -465,31 +465,14 @@
     <string name="upsell_upgrade_again">Uppgradera igen för att njuta av alla funktioner:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">När du uppgraderar till Plus</string>
-    <string name="upgrade_netshield_title_new">Njut av annonsfri surfning med NetShield</string>
-    <string name="upgrade_secure_core_title_new">Dubbla krypteringen med Secure Core</string>
-    <string name="upgrade_secure_core_countries">Dirigera genom ultrasäkra servrar i Schweiz, Sverige och Island</string>
-    <string name="upgrade_secure_core_encryption">Lägg till ytterligare ett lager av kryptering till din VPN-anslutning</string>
-    <string name="upgrade_secure_core_protect">Skydda dig själv från nätverksattacker</string>
+    <string name="upgrade_netshield_title">Njut av annonsfri surfning med NetShield</string>
+    <string name="upgrade_secure_core_title">Dubbla krypteringen med Secure Core</string>
     <string name="upgrade_profiles_title">Få snabb åtkomst till dina frekventa anslutningar</string>
     <string name="upgrade_profiles_text">Lås upp profiler med VPN Plus</string>
-    <string name="upgrade_profiles_feature_save">Spara din föredragna server, ort eller land</string>
-    <string name="upgrade_profiles_feature_customize">Ställ in anpassade protokoll och premium VPN-funktioner</string>
     <string name="upgrade_vpn_accelerator_title">Surfa med ännu högre hastigheter (upp till 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Öka anslutningshastigheterna med upp till 400 % med <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Förbättrad hastighet och stabilitet vid anslutning till avlägsna servrar.</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">Åtkomst till snabbare, mindre belastade servrar</string>
     <string name="upgrade_split_tunneling_title">Få det bästa av två världar</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Lås upp <b>split tunneling</b> med VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Surfa från två platser samtidigt med split tunneling</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">Tillåt betrodda appar och IP-adresser att ansluta direkt till Internet, samtidigt som du skyddar allt annat med ditt VPN</string>
     <string name="upgrade_customization_title">Lås upp avancerad VPN-anpassning</string>
-    <string name="upgrade_customization_lan"><![CDATA[Åtkomst till enheter på ditt <b>lokala nätverk (LAN)</b>]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Spara ofta använda anslutningar med <b>profiler</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Få omedelbar åtkomst till dina profiler med <b>Snabbanslut</b>]]></string>
-    <string name="upgrade_netshield_block_ads">Blockera annonser och spårare</string>
-    <string name="upgrade_netshield_block_malware">Skydda din enhet från skadlig programvara</string>
-    <string name="upgrade_netshield_speed">Surfa med de högsta hastigheterna</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -518,10 +501,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">Åtkomst till över %1$s i %2$s</string>
     <string name="upgrade_plus_countries_subtitle">När du uppgraderar till Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Välj valfri plats</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Ännu högre VPN-hastighet</string>
-    <string name="upgrade_plus_countries_access_content">Åtkomst till geoblockerat innehåll</string>
-    <string name="upgrade_plus_countries_stream">Streama dina favoritfilmer</string>
     <string name="upgrade_safe_mode_title">Tillåt trafik till icke-standardiserade portar</string>
     <string name="upgrade_safe_mode_message">Har du avancerade eller professionella datorbehov som kräver icke-standardiserade portar? Uppgradera till VPN Plus för att få åtkomst till denna och andra premiumfunktioner.</string>
     <string name="upgrade_not_now_button">Inte nu</string>
@@ -650,22 +629,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Vill du välja ett specifikt land?</string>
     <string name="upgrade_country_message">Lås upp val av länder med VPN Plus</string>
-    <string name="upgrade_country_feature_money_back">30-dagars pengarna-tillbaka-garanti</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">Högre hastigheter (%1$d Gbps)</string>
-    <string name="upgrade_country_feature_stream">Streama dina favoritfilmer</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="one">Skydda upp till %1$d enhet</item>
-        <item quantity="other">Skydda upp till %1$d enheter</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="one">Surfa från %1$d land</item>
-        <item quantity="other">Surfa från %1$d länder</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">Höj nivån på din spelupplevelse</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Lås upp <b>NAT typ 2</b> med VPN Plus]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">Förbättra prestanda för onlinespel och videosamtal</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT typ 2 (måttlig) optimerar hastighet och stabilitet genom att möjliggöra direktanslutningar mellan enheter</string>
     <string name="free_connections_info_message">Proton Free ansluter dig automatiskt till den snabbaste tillgängliga servern. Detta kommer normalt att vara den server som ligger närmast din plats.</string>
     <string name="free_connections_info_server_locations">Gratis serverplatser (%1$d)</string>
     <string name="free_connections_info_banner_text">Få täckning över hela världen med VPN Plus</string>

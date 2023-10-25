@@ -465,31 +465,14 @@
     <string name="upsell_upgrade_again">Tüm özelliklerin tadını çıkarmak için yeniden yükseltin:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">Plus tarifesine yükselttiğinizde</string>
-    <string name="upgrade_netshield_title_new">NetShield ile reklamlar olmadan gezinebilirsiniz</string>
-    <string name="upgrade_secure_core_title_new">Secure Core ile şifrelemeyi iki katına çıkarabilirsiniz</string>
-    <string name="upgrade_secure_core_countries">İsviçre, İsveç ve İzlanda\'daki çok yüksek güvenlikli sunucuları kullanabilirsiniz</string>
-    <string name="upgrade_secure_core_encryption">VPN bağlantınıze ek bir şifreleme düzeyi ekleyebilirsiniz</string>
-    <string name="upgrade_secure_core_protect">Kendinizi ağ saldırılarından koruyabilirsiniz</string>
+    <string name="upgrade_netshield_title">NetShield ile reklamlar olmadan gezinebilirsiniz</string>
+    <string name="upgrade_secure_core_title">Secure Core ile şifrelemeyi iki katına çıkarabilirsiniz</string>
     <string name="upgrade_profiles_title">Sık kullandığınız bağlantılara hızla erişin</string>
     <string name="upgrade_profiles_text">VPN Plus tarifesi ile profiiller özelliğini edinin</string>
-    <string name="upgrade_profiles_feature_save">Yeğlediğiniz sunucuyu, ili ve ülkeyi kaydedin</string>
-    <string name="upgrade_profiles_feature_customize">Özel iletişim kuralları ayarlayın ve ücretli VPN özelliklerine erişin</string>
     <string name="upgrade_vpn_accelerator_title">Daha da yüksek hızlarda gezinin (10 Gb/sn değerine varan).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[<b>VPN Accelerator</b> ile bağlantı hızlarını %400 oranında artırın.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Uzak sunucularla bağlantı kurarken daha iyi hız ve kararlılık elde edin</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">Daha hızlı ve daha az kalabalık sunuculara erişin</string>
     <string name="upgrade_split_tunneling_title">İki dünyanın da en iyisini edinin</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[VPN Plus tarifesi ile <b>ayrılmış tünelleme</b> özelliğine erişin]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Ayrılmış tünelleme ile aynı anda iki farklı konumdan gezinin</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">VPN ile kalan her şeyi korurken güvenilir uygulamaların ve IP adreslerinin doğrudan İnternet bağlantısı kurmasına izin verin</string>
     <string name="upgrade_customization_title">Gelişmiş VPN özelleştirmelerine erişin</string>
-    <string name="upgrade_customization_lan"><![CDATA[<b>Yerel ağınızdaki (LAN)</b> aygıtlara erişin]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[<b>Profiller</b> ile sık kullandığınız bağlantıları kaydedin]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[<b>Hızlı bağlan</b> ile profillerinize anında erişin]]></string>
-    <string name="upgrade_netshield_block_ads">Reklam ve etkinlik izleyicileri engelleyebilirsiniz</string>
-    <string name="upgrade_netshield_block_malware">Aygıtınızı kötü amaçlı yazılımlardan koruyabilirsiniz</string>
-    <string name="upgrade_netshield_speed">En yüksek hızlarda gezinebilirsiniz</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -518,10 +501,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">%1$s ile %2$s erişim</string>
     <string name="upgrade_plus_countries_subtitle">Plus tarifesine yükselttiğinizde</string>
-    <string name="upgrade_plus_countries_choose_location">İstediğiniz konumu seçin</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Daha yüksek VPN hızı</string>
-    <string name="upgrade_plus_countries_access_content">Bölgenizde engellenen içeriğe erişin</string>
-    <string name="upgrade_plus_countries_stream">Sevdiğiniz filmleri izleyin</string>
     <string name="upgrade_safe_mode_title">Standart olmayan bağlantı noktalarından trafik geçebilsin</string>
     <string name="upgrade_safe_mode_message">Standart olmayan bağlantı noktaları kullanmanızı gerektiren gelişmiş veya profesyonel bilgi işlem gereksinimleriniz mi var? Bu ve diğer ücretli özelliklere erişmek için VPN Plus tarifesine yükseltin.</string>
     <string name="upgrade_not_now_button">Şimdi değil</string>
@@ -650,22 +629,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Belirli bir ülke seçmek ister misiniz?</string>
     <string name="upgrade_country_message">VPN Plus tarifesi ile tüm ülkelerden seçim yapın</string>
-    <string name="upgrade_country_feature_money_back">30 gün içinde ücreti geri ödeme garantisi</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">Daha yüksek hızlar (%1$d Gb/sn)</string>
-    <string name="upgrade_country_feature_stream">Sevdiğiniz filmleri izleyin</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="one">%1$d aygıta kadar koruyun</item>
-        <item quantity="other">%1$d aygıta kadar koruyun</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="one">%1$d ülkeden gezinin</item>
-        <item quantity="other">%1$d ülkeden gezinin</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">Oyun deneyiminizi üst düzeye çıkarın</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[VPN Plus tarifesi ile <b>NAT Type 2</b> özelliğine erişin]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">Çevrim içi oyun ve görüntülü görüşme başarımını artırın</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT Type 2 (ortalama) aygıtlar arasında doğrudan bağlantı kurulmasını sağlayarak hız ve kararlılığı iyileştirir</string>
     <string name="free_connections_info_message">Proton Free sizi otomatik olarak kullanılabilecek en hızlı sunucuya bağlar. Bu sunucu normalde konumunuza en yakın sunucudur.</string>
     <string name="free_connections_info_server_locations">Free sunucuları konumları (%1$d)</string>
     <string name="free_connections_info_banner_text">VPN Plus tarifesi ile tüm Dünya\'ya erişin</string>

@@ -21,7 +21,6 @@
 
 package com.protonvpn.actions
 
-import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
@@ -37,29 +36,17 @@ class UpsellModalRobot : BaseRobot() {
     class Verify : BaseVerify() {
         fun profilesUpsellIsShown() {
             checkIfElementIsDisplayedByStringId(R.string.upgrade_profiles_title)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_profiles_text)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_profiles_feature_save)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_profiles_feature_customize)
+            checkIfElementIsDisplayedByHtmlStringId(R.string.upgrade_profiles_text)
             node.withText(R.string.close).assertIsDisplayed()
         }
 
-        fun specificCountryUpsellIsShown(speed: Int) {
-            val upsellSpeedString = InstrumentationRegistry.getInstrumentation().targetContext.getString(
-                R.string.upgrade_country_feature_speed, speed
-            )
+        fun specificCountryUpsellIsShown() {
             checkIfElementIsDisplayedByStringId(R.string.upgrade_country_title)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_country_message)
-            checkIfElementIsDisplayedByText(upsellSpeedString)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_country_feature_stream)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_country_feature_money_back)
+            checkIfElementIsDisplayedByHtmlStringId(R.string.upgrade_country_message)
         }
 
-        fun countryUpsellIsShown(){
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_subtitle)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_countries_choose_location)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_countries_even_higher_speed)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_countries_access_content)
-            checkIfElementIsDisplayedByStringId(R.string.upgrade_plus_countries_stream)
+        fun countryUpsellIsShown() {
+            checkIfElementIsDisplayedByStringId(R.string.upgrade_all_countries_title)
         }
     }
 

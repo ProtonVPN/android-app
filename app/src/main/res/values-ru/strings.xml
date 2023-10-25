@@ -477,31 +477,14 @@
     <string name="upsell_upgrade_again">Улучшите снова, чтобы воспользоваться всеми функциями:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">Когда вы улучшите до Plus</string>
-    <string name="upgrade_netshield_title_new">Воспользуйтесь просмотром веб-страниц без рекламы с помощью NetShield</string>
-    <string name="upgrade_secure_core_title_new">Удвойте шифрование с помощью Secure Core</string>
-    <string name="upgrade_secure_core_countries">Направляйте свой трафик через сверхзащищенные серверы в Швейцарии, Швеции и Исландии</string>
-    <string name="upgrade_secure_core_encryption">Добавьте еще один уровень шифрования к вашему подключению VPN</string>
-    <string name="upgrade_secure_core_protect">Защитите себя от сетевых атак</string>
+    <string name="upgrade_netshield_title">Воспользуйтесь просмотром веб-страниц без рекламы с помощью NetShield</string>
+    <string name="upgrade_secure_core_title">Удвойте шифрование с помощью Secure Core</string>
     <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
     <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
-    <string name="upgrade_profiles_feature_save">Save your preferred server, city, or country</string>
-    <string name="upgrade_profiles_feature_customize">Set custom protocols and premium VPN features</string>
     <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds (up to 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Increase connection speeds by up to 400% with <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Improved speed and stability when connected to distant servers.</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">Access faster, less crowded servers</string>
     <string name="upgrade_split_tunneling_title">Get the best of both worlds</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Unlock <b>split tunneling</b> with VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Browse from two locations at once with split tunneling</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">Allow trusted apps and IP addresses to connect directly to the internet, while protecting everything else with your VPN</string>
     <string name="upgrade_customization_title">Unlock advanced VPN customization</string>
-    <string name="upgrade_customization_lan"><![CDATA[Access devices on your <b>local area network (LAN)</b>]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Save frequently used connections with <b>profiles</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Get instant access to your profiles with <b>Quick Connect</b>]]></string>
-    <string name="upgrade_netshield_block_ads">Блокируйте рекламу и трекеры</string>
-    <string name="upgrade_netshield_block_malware">Защитите свое устройство от вредоносных программ</string>
-    <string name="upgrade_netshield_speed">Просматривайте сайты на самых высоких скоростях</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -534,10 +517,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">Получите доступ к более чем %1$s в %2$s</string>
     <string name="upgrade_plus_countries_subtitle">When you upgrade to Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Choose any location</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Even higher VPN speed</string>
-    <string name="upgrade_plus_countries_access_content">Access geoblocked content</string>
-    <string name="upgrade_plus_countries_stream">Stream your favorite movies</string>
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
     <string name="upgrade_safe_mode_message">У вас есть расширенные или профессиональные потребности использовать нестандартные порты? Перейдите на VPN Plus, чтобы получить доступ к этой и другим премиальным функциям.</string>
     <string name="upgrade_not_now_button">Не сейчас</string>
@@ -670,26 +649,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Want to choose a specific country?</string>
     <string name="upgrade_country_message">Unlock country selection with VPN Plus</string>
-    <string name="upgrade_country_feature_money_back">30-day money back guarantee</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">Higher speeds (%1$d Gbps)</string>
-    <string name="upgrade_country_feature_stream">Stream your favorite movies</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="one">Protect up to %1$d device</item>
-        <item quantity="few">Protect up to %1$d devices</item>
-        <item quantity="many">Protect up to %1$d devices</item>
-        <item quantity="other">Protect up to %1$d devices</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="one">Browse from %1$d country</item>
-        <item quantity="few">Browse from %1$d countries</item>
-        <item quantity="many">Browse from %1$d countries</item>
-        <item quantity="other">Browse from %1$d countries</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">Level up your gaming experience</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Unlock <b>NAT Type 2</b> with VPN Plus]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">Improve online gaming and video call performance</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT Type 2 (moderate) optimizes speed and stability by enabling direct connections between devices</string>
     <string name="free_connections_info_message">Proton Free automatically connects you to the fastest available server. This will normally be the closest server to your location.</string>
     <string name="free_connections_info_server_locations">Free server locations (%1$d)</string>
     <string name="free_connections_info_banner_text">Get worldwide coverage with VPN Plus</string>

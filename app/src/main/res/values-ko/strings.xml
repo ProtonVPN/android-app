@@ -459,31 +459,14 @@
     <string name="upsell_upgrade_again">다시 업그레이드하고 모든 기능들을 즐기세요:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">Plus 요금제로 업그레이드하세요</string>
-    <string name="upgrade_netshield_title_new">NetShield로 광고 없는 브라우징을 즐기세요</string>
-    <string name="upgrade_secure_core_title_new">Secure Core과 함께 이중으로 암호화하세요</string>
-    <string name="upgrade_secure_core_countries">스위스, 스웨덴과 아이슬란드의 아주 안전한 서버를 통해 라우팅</string>
-    <string name="upgrade_secure_core_encryption">VPN 연결에 암호화 계층 추가</string>
-    <string name="upgrade_secure_core_protect">네트워크 공격으로부터의 보호</string>
+    <string name="upgrade_netshield_title">NetShield로 광고 없는 브라우징을 즐기세요</string>
+    <string name="upgrade_secure_core_title">Secure Core과 함께 이중으로 암호화하세요</string>
     <string name="upgrade_profiles_title">자주 연결하는 연결에 더 빠르게 접근하세요.</string>
     <string name="upgrade_profiles_text">프로파일을 VPN Plus로 잠금 해제하세요.</string>
-    <string name="upgrade_profiles_feature_save">선호하는 서버, 도시 및 국가를 저장하세요</string>
-    <string name="upgrade_profiles_feature_customize">프로토콜을 사용자화 하고 프리미엄 VPN 기능을 누려보세요</string>
     <string name="upgrade_vpn_accelerator_title">가장 빠른 속도로 브라우징하세요 (최대 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[<b>VPN Accelerator</b>로 연결 속도가 최대 400% 향상됩니다.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">원격 서버에 연결하면 속도와 안정성이 향상됩니다.</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">빠르고, 더 여유있는 서버에 접근하세요</string>
     <string name="upgrade_split_tunneling_title">하나로 두 가지 이득을 얻으세요</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[VPN Plus로 <b>분할 터널링</b>을 활성화 하세요.]]></string>
-    <string name="upgrade_split_tunneling_two_locations">분할 터널링으로 두 위치를 하나로 연결하세요</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">VPN으로 다른 모든 것을 보호하면서 신뢰할 수 있는 앱과 IP 주소가 인터넷에 직접 연결되도록 허용하세요.</string>
     <string name="upgrade_customization_title">향상된 VPN 사용자화를 잠금 해제하세요</string>
-    <string name="upgrade_customization_lan"><![CDATA[<b>사용자의 LAN</b>에 디바이스를 접근하세요.]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[자주 사용하는 연결을 <b>프로파일</b>로 저장하세요.]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[<b>Quick Connect</b>를 통해 프로파일에 더 빠르게 연결하세요.]]></string>
-    <string name="upgrade_netshield_block_ads">광고 및 추적기 차단</string>
-    <string name="upgrade_netshield_block_malware">멀웨어로부터 기기를 보호하세요</string>
-    <string name="upgrade_netshield_speed">가장 빠른 속도에서 브라우징하세요</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -510,10 +493,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">%2$s에서 %1$s에 액세스</string>
     <string name="upgrade_plus_countries_subtitle">Plus 요금제로 업그레이드하세요</string>
-    <string name="upgrade_plus_countries_choose_location">지역을 선택하세요.</string>
-    <string name="upgrade_plus_countries_even_higher_speed">더 빠른 VPN 속도</string>
-    <string name="upgrade_plus_countries_access_content">차단된 콘텐츠에 접근하세요</string>
-    <string name="upgrade_plus_countries_stream">좋아하는 영화를 시청하세요.</string>
     <string name="upgrade_safe_mode_title">비표준 포트의 트래픽 허용</string>
     <string name="upgrade_safe_mode_message">비표준 포트가 필요한 고급 또는 전문 컴퓨팅 요구 사항이 있나요? VPN Plus로 업그레이드하여 이것과 다른 프리미엄 기능들을 이용하세요.</string>
     <string name="upgrade_not_now_button">다음에</string>
@@ -640,20 +619,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">다른 특정 국가를 선택하고 싶으세요?</string>
     <string name="upgrade_country_message">국가 선택을 VPN Plus로 잠금 해제</string>
-    <string name="upgrade_country_feature_money_back">30일 이내 환불 보장</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">더 빠른 속도 (%1$d Gbps)</string>
-    <string name="upgrade_country_feature_stream">좋아하는 영화를 시청하세요.</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="other">최대 %1$d개 장치 보호</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="other">%1$d개 국가에서 탐색</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">게이밍 경험을 극대화하세요</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[VPN Plus로 <b>NAT Type 2</b>를 활성화 하세요]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">온라인 게이밍과 영상 통화 안정성을 향상하세요.</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT type 2 (일반형)은 기기 간의 직접 연결을 통한 안전성과 속도의 두 마리 토끼를 다 잡아줍니다.</string>
     <string name="free_connections_info_message">Proton Free가 사용 가능한 가장 빠른 서버에 자동으로 연결합니다. 보통 소재한 곳에서 가장 가까운 서버가 선택됩니다.</string>
     <string name="free_connections_info_server_locations">무료 서버 지역 (%1$d)</string>
     <string name="free_connections_info_banner_text">전세계 커버리지를 VPN Plus로 누리세요</string>

@@ -22,31 +22,38 @@ package com.protonvpn.android.ui.planupgrade
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
+import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
+import me.proton.core.domain.entity.UserId
 import me.proton.core.plan.presentation.PlansOrchestrator
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.plan.presentation.onUpgradeResult
 
 interface PlanModel {
     val name: String
-    val cycle: PlanCycle
-    val id: String
+    val cycles: List<CycleInfo>
 }
 
 abstract class CommonUpgradeDialogViewModel(
-    private val currentUser: CurrentUser,
+    protected val userId: Flow<UserId?>,
     private val authOrchestrator: AuthOrchestrator,
     private val plansOrchestrator: PlansOrchestrator,
-    protected val isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
+    protected val isInAppUpgradeAllowed: () -> Boolean,
     private val upgradeTelemetry: UpgradeTelemetry
 ) : ViewModel() {
 
+    data class PriceInfo(
+        val formattedPrice: String,
+        val savePercent: Int? = null,
+        val formattedPerMonthPrice: String? = null,
+    )
     sealed class State {
         object Initializing : State()
         object UpgradeDisabled : State()
@@ -55,7 +62,7 @@ abstract class CommonUpgradeDialogViewModel(
         open class PlanLoaded(open val plan: PlanModel) : State()
         data class PurchaseReady(
             override val plan: PlanModel,
-            val formattedPrice: String,
+            val priceInfo: Map<PlanCycle, PriceInfo>,
             val inProgress: Boolean = false,
         ) : PlanLoaded(plan)
         object PlansFallback : State() // Conditions for short flow were not met, start normal account flow
@@ -93,30 +100,9 @@ abstract class CommonUpgradeDialogViewModel(
     }
 
     fun onStartFallbackUpgrade() = viewModelScope.launch {
-        currentUser.vpnUser()?.userId?.let { userId ->
+        userId.first()?.let { userId ->
             onPaymentStarted()
             plansOrchestrator.startUpgradeWorkflow(userId)
         }
-    }
-}
-
-abstract class FallbackUpgradeDialogViewModel(
-    currentUser: CurrentUser,
-    authOrchestrator: AuthOrchestrator,
-    plansOrchestrator: PlansOrchestrator,
-    isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
-    upgradeTelemetry: UpgradeTelemetry,
-) : CommonUpgradeDialogViewModel(
-    currentUser,
-    authOrchestrator,
-    plansOrchestrator,
-    isInAppUpgradeAllowed,
-    upgradeTelemetry,
-) {
-    init {
-        state.value = if (isInAppUpgradeAllowed())
-            State.PlansFallback
-        else
-            State.UpgradeDisabled
     }
 }

@@ -477,31 +477,14 @@
     <string name="upsell_upgrade_again">Ulepsz plan ponownie, aby korzystać z funkcji:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">Po ulepszeniu planu do wersji Plus</string>
-    <string name="upgrade_netshield_title_new">Ciesz się przeglądaniem bez reklam dzięki funkcji NetShield</string>
-    <string name="upgrade_secure_core_title_new">Podwójne szyfrowanie dzięki funkcji Secure Core</string>
-    <string name="upgrade_secure_core_countries">Przekieruj ruch przez ultra bezpieczne serwery w Szwajcarii, Szwecji i Islandii</string>
-    <string name="upgrade_secure_core_encryption">Dodatkowa warstwa szyfrowania połączenia VPN</string>
-    <string name="upgrade_secure_core_protect">Chroń się przed atakami sieciowymi</string>
+    <string name="upgrade_netshield_title">Ciesz się przeglądaniem bez reklam dzięki funkcji NetShield</string>
+    <string name="upgrade_secure_core_title">Podwójne szyfrowanie dzięki funkcji Secure Core</string>
     <string name="upgrade_profiles_title">Uzyskaj szybki dostęp do często wybieranych połączeń</string>
     <string name="upgrade_profiles_text">Odblokuj profile w planie VPN Plus</string>
-    <string name="upgrade_profiles_feature_save">Zapisz ulubiony serwer, miasto lub kraj</string>
-    <string name="upgrade_profiles_feature_customize">Ustaw niestandardowe protokoły i funkcje premium VPN</string>
     <string name="upgrade_vpn_accelerator_title">Przeglądaj Internet z najwyższą prędkością (10 Gb/s).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Zwiększ prędkość połączenia nawet o 400% dzięki funkcji <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Zwiększona prędkość i stabilność połączenia z odległymi serwerami.</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">Szybszy dostęp do mniej obciążonych serwerów</string>
     <string name="upgrade_split_tunneling_title">Uzyskaj to, co najlepsze z obu krajów</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Odblokuj funkcję <b>Split Tunneling</b> w planie VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Przeglądaj Internet z 2 lokalizacji jednocześnie za pomocą funkcji Split Tunneling</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">Zezwalaj zaufanym aplikacjom i adresom IP na bezpośrednie połączenie z Internetem, jednocześnie chroniąc pozostały ruch za pomocą sieci VPN.</string>
     <string name="upgrade_customization_title">Odblokuj zaawansowane ustawienia VPN</string>
-    <string name="upgrade_customization_lan"><![CDATA[Dostęp do urządzeń w <b>sieci lokalnej (LAN)</b>]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Zapisz często używane połączenia za pomocą <b>profili</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Uzyskaj natychmiastowy dostęp do swoich profili dzięki <b>szybkiemu połączeniowi</b>]]></string>
-    <string name="upgrade_netshield_block_ads">Zablokuj reklamy i elementy śledzące</string>
-    <string name="upgrade_netshield_block_malware">Chroń swoje urządzenie przed złośliwym oprogramowaniem</string>
-    <string name="upgrade_netshield_speed">Przeglądaj Internet z najwyższą prędkością</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -534,10 +517,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">Dostęp do ponad %1$s w %2$s</string>
     <string name="upgrade_plus_countries_subtitle">Po ulepszeniu planu do wersji Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Wybierz inną lokalizację</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Jeszcze wyższa prędkość VPN</string>
-    <string name="upgrade_plus_countries_access_content">Dostęp do zablokowanych treści</string>
-    <string name="upgrade_plus_countries_stream">Streamuj ulubione filmy</string>
     <string name="upgrade_safe_mode_title">Zezwalaj na ruch do niestandardowych portów</string>
     <string name="upgrade_safe_mode_message">Masz zaawansowane lub profesjonalne potrzeby, które wymagają niestandardowych portów? Ulepsz do planu VPN Plus, aby uzyskać dostęp do funkcji premium.</string>
     <string name="upgrade_not_now_button">Nie teraz</string>
@@ -670,26 +649,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Czy chcesz wybrać konkretny kraj?</string>
     <string name="upgrade_country_message">Odblokuj wybór krajów w planie VPN Plus</string>
-    <string name="upgrade_country_feature_money_back">30-dniowa gwarancja zwrotu pieniędzy</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">Najwyższa prędkość (%1$d Gb/s)</string>
-    <string name="upgrade_country_feature_stream">Streamuj ulubione filmy</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="one">Ochrona do %1$d urządzenia</item>
-        <item quantity="few">Ochrona do %1$d urządzeń</item>
-        <item quantity="many">Ochrona do %1$d urządzeń</item>
-        <item quantity="other">Ochrona do %1$d urządzeń</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="one">Przeglądaj Internet z %1$d kraju</item>
-        <item quantity="few">Przeglądaj Internet z %1$d krajów</item>
-        <item quantity="many">Przeglądaj Internet z %1$d krajów</item>
-        <item quantity="other">Przeglądaj Internet z %1$d krajów</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">Podnieś poziom swoich wrażeń z gry</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Odblokuj <b>NAT typ 2</b> w planie VPN Plus]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">Lepsza wydajność gier online i połączeń wideo</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT typ 2 (umiarkowany) optymalizuje prędkość i stabilność połączenia, umożliwiając bezpośrednie połączenia między urządzeniami</string>
     <string name="free_connections_info_message">Plan Proton Free automatycznie łączy użytkownika z najszybszym dostępnym serwerem. Zazwyczaj będzie to serwer znajdujący się najbliżej lokalizacji użytkownika.</string>
     <string name="free_connections_info_server_locations">Lokalizacje planu Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Plan VPN Plus zapewnia zasięg na całym świecie</string>

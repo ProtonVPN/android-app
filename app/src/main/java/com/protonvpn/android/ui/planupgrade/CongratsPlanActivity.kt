@@ -33,6 +33,7 @@ import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityCongratsPlanBinding
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
@@ -91,8 +92,8 @@ class CongratsPlanActivity : BaseActivityV2() {
 
     private fun initHighlights(planName: String) {
         val fragment = when (planName) {
-            "vpnplus", "vpn2022" -> CongratsPlusHighlightsFragment()
-            "bundle2022" -> CongratsUnlimitedHighlightsFragment()
+            "vpnplus", Constants.CURRENT_PLUS_PLAN -> CongratsPlusHighlightsFragment()
+            Constants.CURRENT_BUNDLE_PLAN -> CongratsUnlimitedHighlightsFragment()
             else -> CongratsGenericHighlightsFragment()
         }
         supportFragmentManager.commitNow {

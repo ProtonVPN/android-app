@@ -477,31 +477,14 @@
     <string name="upsell_upgrade_again">Znovu navyšte tarif pro využití všech funkcí:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">Když přejdete na variantu Plus</string>
-    <string name="upgrade_netshield_title_new">Prohlížení bez reklam díky službě NetShield</string>
-    <string name="upgrade_secure_core_title_new">Dvojnásobné šifrování pomocí Secure Core</string>
-    <string name="upgrade_secure_core_countries">Směrování přes mimořádně zabezpečené servery ve Švýcarsku, Švédsku a na Islandu</string>
-    <string name="upgrade_secure_core_encryption">Další vrstva šifrování vašeho VPN připojení</string>
-    <string name="upgrade_secure_core_protect">Ochrana před síťovými útoky</string>
+    <string name="upgrade_netshield_title">Prohlížení bez reklam díky službě NetShield</string>
+    <string name="upgrade_secure_core_title">Dvojnásobné šifrování pomocí Secure Core</string>
     <string name="upgrade_profiles_title">Získejte rychlý přístup ke svým častým spojením</string>
     <string name="upgrade_profiles_text">Odemknutí profilů pomocí VPN Plus</string>
-    <string name="upgrade_profiles_feature_save">Uložit preferovaný server, město nebo zemi</string>
-    <string name="upgrade_profiles_feature_customize">Nastavení vlastních protokolů a prémiových funkcí VPN</string>
     <string name="upgrade_vpn_accelerator_title">Procházejte ještě vyšší rychlostí (až 10 Gb/s).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Zvyšte rychlost připojení až o 400 % pomocí funkce <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Vyšší rychlost a stabilita při připojení ke vzdáleným serverům.</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">Přístup k rychlejším a méně vytíženým serverům</string>
     <string name="upgrade_split_tunneling_title">Získejte to nejlepší z obou světů</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Odemknutí <b>split tunnelingu</b> pomocí VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Procházení ze dvou míst najednou pomocí split tunneling</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">Umožněte důvěryhodným aplikacím a IP adresám připojit se přímo k internetu, zatímco vše ostatní chraňte pomocí sítě VPN.</string>
     <string name="upgrade_customization_title">Odemkněte pokročilé přizpůsobení VPN</string>
-    <string name="upgrade_customization_lan"><![CDATA[Přistupujte k zařízením ve vaší <b>místní síti (LAN)</b>.]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Uložte často používaná připojení pomocí <b>profilů</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Získejte okamžitý přístup ke svým profilům pomocí funkce <b>Rychlé připojení</b>]]></string>
-    <string name="upgrade_netshield_block_ads">Blokování reklam a sledovacích prvků</string>
-    <string name="upgrade_netshield_block_malware">Ochrana vašeho zařízení před malware</string>
-    <string name="upgrade_netshield_speed">Procházení nejvyšší rychlostí</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -534,10 +517,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">Přístup přes %1$s v %2$s</string>
     <string name="upgrade_plus_countries_subtitle">Po navýšení na tarif Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Vyberte si libovolné umístění</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Ještě vyšší rychlost VPN</string>
-    <string name="upgrade_plus_countries_access_content">Přístup ke geograficky blokovanému obsahu</string>
-    <string name="upgrade_plus_countries_stream">Streamujte své oblíbené filmy</string>
     <string name="upgrade_safe_mode_title">Umožnit provoz na nestandardních portech</string>
     <string name="upgrade_safe_mode_message">Máte pokročilé nebo profesionální počítačové potřeby, které vyžadují nestandardní porty? Chcete-li získat přístup k těmto a dalším prémiovým funkcím, přejděte na VPN Plus.</string>
     <string name="upgrade_not_now_button">Nyní ne</string>
@@ -670,26 +649,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Chcete si vybrat konkrétní zemi?</string>
     <string name="upgrade_country_message">Odemknutí výběru země pomocí VPN Plus</string>
-    <string name="upgrade_country_feature_money_back">30denní záruka vrácení peněz</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">Vyšší rychlosti (%1$d Gb/s)</string>
-    <string name="upgrade_country_feature_stream">Streamujte své oblíbené filmy</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="one">Chránit až %1$d zařízení</item>
-        <item quantity="few">Chránit až %1$d zařízení</item>
-        <item quantity="many">Chránit až %1$d zařízení</item>
-        <item quantity="other">Chránit až %1$d zařízení</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="one">Procházení z %1$d země</item>
-        <item quantity="few">Procházení ze %1$d zemí</item>
-        <item quantity="many">Procházení z %1$d zemí</item>
-        <item quantity="other">Procházení z %1$d zemí</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">Zvýšení úrovně vašich herních zážitků</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Odblokování <b>NAT typu 2</b> pomocí VPN Plus]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">Zlepšení výkonu online her a videohovorů</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT typu 2 (mírný) optimalizuje rychlost a stabilitu tím, že umožňuje přímé připojení mezi zařízeními.</string>
     <string name="free_connections_info_message">Proton Free vás automaticky připojí k nejrychlejšímu dostupnému serveru. Obvykle se jedná o server, který je nejblíže vaší poloze.</string>
     <string name="free_connections_info_server_locations">Umístění Free serverů (%1$d)</string>
     <string name="free_connections_info_banner_text">Získejte celosvětové pokrytí díky VPN Plus</string>

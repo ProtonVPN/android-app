@@ -471,31 +471,14 @@
     <string name="upsell_upgrade_again">Remodernizați planul pentru a accesa toate funcțiile:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">Când treceți la Plus</string>
-    <string name="upgrade_netshield_title_new">Bucurați-vă de navigarea fără reclame cu NetShield</string>
-    <string name="upgrade_secure_core_title_new">Dublați criptarea cu Secure Core</string>
-    <string name="upgrade_secure_core_countries">Redirecționați traficul prin serverele foarte sigure din Elveția, Suedia si Islanda</string>
-    <string name="upgrade_secure_core_encryption">Adăugați încă un nivel de criptare a conexiunii VPN</string>
-    <string name="upgrade_secure_core_protect">Protejați-vă de atacurile din rețea</string>
+    <string name="upgrade_netshield_title">Bucurați-vă de navigarea fără reclame cu NetShield</string>
+    <string name="upgrade_secure_core_title">Dublați criptarea cu Secure Core</string>
     <string name="upgrade_profiles_title">Obțineți acces rapid la conexiunile frecvent utilizate</string>
     <string name="upgrade_profiles_text">Deblocați profilurile cu VPN Plus</string>
-    <string name="upgrade_profiles_feature_save">Salvați serverul, orașul sau țara favorită</string>
-    <string name="upgrade_profiles_feature_customize">Setați protocoale personale și funcții VPN premium</string>
     <string name="upgrade_vpn_accelerator_title">Navigați pe web la viteze și mai mari (până la 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Creșteți viteza conexiunii cu până la 400% cu <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Viteză și stabilitate îmbunătățite pentru conexiunile la servere la mare distanță.</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">Accesați servere mai rapide, mai puțin aglomerate</string>
     <string name="upgrade_split_tunneling_title">Obțineți maximum din ambele părți</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Deblocați <b>divizarea tunelurilor</b> cu VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Navigați pe web din două locuri deodată cu divizarea traficului</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">Permiteți aplicațiilor și adreselor IP de încredere să se conecteze direct la internet, protejând în același timp orice altceva prin VPN</string>
     <string name="upgrade_customization_title">Deblocați personalizarea avansată pentru VPN</string>
-    <string name="upgrade_customization_lan"><![CDATA[Accesați dispozitive din <b>rețeaua locală (LAN)</b>]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Salvați conexiunile utilizate frecvent cu <b>profiluri</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Obțineți acces instant la profiluri prin funcția <b>Conectare rapidă</b>]]></string>
-    <string name="upgrade_netshield_block_ads">Blocare reclame și urmăritori</string>
-    <string name="upgrade_netshield_block_malware">Protejați dispozitivul de programele malițioase</string>
-    <string name="upgrade_netshield_speed">Navigați cu viteză maximă</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -526,10 +509,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">Accesați peste %1$s în %2$s</string>
     <string name="upgrade_plus_countries_subtitle">Când treceți la Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Alegeți orice țară</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Viteze VPN chiar mai mari</string>
-    <string name="upgrade_plus_countries_access_content">Accesați conținut blocat geografic</string>
-    <string name="upgrade_plus_countries_stream">Vizionați filmele preferate</string>
     <string name="upgrade_safe_mode_title">Permitere trafic la porturile nonstandard</string>
     <string name="upgrade_safe_mode_message">Aveți nevoi avansate sau profesionale de calcul care necesită porturi non-standard? Treceți la VPN Plus pentru a activa aceasta și alte funcții premium.</string>
     <string name="upgrade_not_now_button">Nu acum</string>
@@ -660,24 +639,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Doriți să alegeți o anumită țară?</string>
     <string name="upgrade_country_message">Deblocați selectarea țării cu VPN Plus</string>
-    <string name="upgrade_country_feature_money_back">Garantarea returnării banilor în 30 de zile</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">Viteză maximă (%1$d Gbps)</string>
-    <string name="upgrade_country_feature_stream">Vizionați filmele preferate</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="one">Protejați maxim %1$d dispozitiv</item>
-        <item quantity="few">Protejați până la %1$d dispozitive</item>
-        <item quantity="other">Protejați până la %1$d de dispozitive</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="one">Navigați pe web din %1$d țară</item>
-        <item quantity="few">Navigați pe web din %1$d țări</item>
-        <item quantity="other">Navigați pe web din %1$d de țări</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">Îmbunătățiți-vă experiența din jocuri</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Deblocați <b>NAT de tip 2</b> cu VPN Plus]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">Îmbunătățiți performanța jocurilor online și a apelurilor video</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT de tip 2 (moderat) optimizează viteza și stabilitatea permițând conexiuni directe între dispozitive</string>
     <string name="free_connections_info_message">Proton gratuit vă conectează automat la cel mai rapid server disponibil. Acesta va fi în mod normal cel mai apropiat server de locul de unde vă conectați.</string>
     <string name="free_connections_info_server_locations">Locuri servere gratuite (%1$d)</string>
     <string name="free_connections_info_banner_text">Obțineți acoperire la nivel mondial cu VPN Plus</string>

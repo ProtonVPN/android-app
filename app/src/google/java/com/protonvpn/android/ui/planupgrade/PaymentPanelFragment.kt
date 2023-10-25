@@ -48,6 +48,8 @@ import me.proton.core.payment.presentation.viewmodel.BillingCommonViewModel
 import me.proton.core.payment.presentation.viewmodel.BillingCommonViewModel.Companion.buildPlansList
 import me.proton.core.payment.presentation.viewmodel.BillingViewModel
 import me.proton.core.paymentiap.presentation.ui.BaseBillingIAPFragment
+import me.proton.core.paymentiap.presentation.viewmodel.GoogleProductDetails
+import me.proton.core.paymentiap.presentation.viewmodel.GoogleProductId
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.presentation.utils.errorSnack
 import me.proton.core.presentation.utils.getUserMessage
@@ -71,13 +73,19 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
                     panelViewState?.value =
                         ViewState.PlanReady(
                             state.plan.name,
-                            planCycleResId(state.plan.cycle),
-                            state.formattedPrice,
+                            state.priceInfo.map { (cycle, priceInfo) ->
+                                ViewState.CycleViewInfo(
+                                    cycle,
+                                    planPerCycleResId(cycle),
+                                    planCycleLabelResId(cycle),
+                                    priceInfo
+                                )
+                            },
                             state.inProgress
                         )
                 }
                 is CommonUpgradeDialogViewModel.State.PlanLoaded -> {
-                    queryGooglePlan(state.plan.id)
+                    queryGooglePlans(state.plan.cycles.map { GoogleProductId(it.productId) })
                 }
                 is CommonUpgradeDialogViewModel.State.LoadError ->
                     onError(state.error.getUserMessage(resources), state.error)
@@ -124,18 +132,20 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
                 VpnTheme {
                     PaymentPanel(
                         currentViewState.collectAsStateWithLifecycle().value,
+                        viewModel.selectedCycle.collectAsStateWithLifecycle().value,
                         ::onPayClicked,
                         ::onUpgradeClicked,
                         ::onErrorButtonClicked,
                         ::onCloseClicked,
+                        ::onCycleSelected
                     )
                 }
             }
         }
     }
 
-    override fun onPriceAvailable(amount: Long, currency: String, formattedPriceAndCurrency: String) {
-        viewModel.onPriceAvailable(formattedPriceAndCurrency)
+    override fun onPricesAvailable(details: Map<GoogleProductId, GoogleProductDetails>) {
+        viewModel.onPricesAvailable(details)
     }
 
     override fun onPurchaseSuccess(
@@ -187,6 +197,10 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
         requireActivity().finish()
     }
 
+    private fun onCycleSelected(cycle: PlanCycle) {
+        viewModel.selectedCycle.value = cycle
+    }
+
     private fun onError(message: String?, throwable: Throwable?) {
         panelViewState?.update {
             // If prices are already known don't change the panel state.
@@ -209,10 +223,18 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
     }
 
     @StringRes
-    private fun planCycleResId(cycle: PlanCycle): Int = when(cycle) {
+    private fun planPerCycleResId(cycle: PlanCycle): Int = when(cycle) {
         PlanCycle.MONTHLY -> R.string.payment_price_per_month
         PlanCycle.YEARLY -> R.string.payment_price_per_year
         PlanCycle.TWO_YEARS -> R.string.payment_price_per_2years
+        PlanCycle.FREE, PlanCycle.OTHER -> throw IllegalArgumentException("Invalid plan cycle")
+    }
+
+    @StringRes
+    private fun planCycleLabelResId(cycle: PlanCycle): Int = when(cycle) {
+        PlanCycle.MONTHLY -> R.string.payment_price_cycle_month_label
+        PlanCycle.YEARLY -> R.string.payment_price_cycle_year_label
+        PlanCycle.TWO_YEARS -> R.string.payment_price_cycle_2years_label
         PlanCycle.FREE, PlanCycle.OTHER -> throw IllegalArgumentException("Invalid plan cycle")
     }
 
