@@ -21,8 +21,12 @@ package com.protonvpn.matchers
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.annotation.StringRes
 import androidx.core.view.children
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.platform.app.InstrumentationRegistry
 import com.google.android.material.textview.MaterialTextView
+import com.protonvpn.android.utils.HtmlTools
 import me.proton.core.presentation.ui.view.ProtonInput
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -77,5 +81,15 @@ object ProtonMatcher {
                 description.appendText("Input field with label text $labelText")
             }
         }
+    }
+
+    fun withHtmlText(htmlText: String): Matcher<View> {
+        val text = HtmlTools.fromHtml(htmlText)
+        return ViewMatchers.withText(text.toString())
+    }
+
+    fun withHtmlText(@StringRes resId: Int): Matcher<View> {
+        val htmlText = InstrumentationRegistry.getInstrumentation().targetContext.getString(resId)
+        return withHtmlText(htmlText)
     }
 }

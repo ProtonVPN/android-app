@@ -24,7 +24,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
@@ -42,6 +41,7 @@ enum class UpgradeSource {
     MAX_CONNECTIONS,
     MODERATE_NAT,
     NETSHIELD,
+    ONBOARDING,
     P2P,
     PORT_FORWARDING,
     PROFILES,

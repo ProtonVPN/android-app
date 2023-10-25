@@ -88,6 +88,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
 import com.protonvpn.android.ui.onboarding.WhatsNewFreeActivity;
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity;
+import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
 import com.protonvpn.android.ui.settings.SettingsActivity;

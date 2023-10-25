@@ -23,10 +23,10 @@ import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
+import com.protonvpn.matchers.ProtonMatcher
 import com.protonvpn.testsHelper.ConditionalActionsHelper
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 import me.proton.core.presentation.ui.view.ProtonCheckbox
@@ -94,7 +94,7 @@ class ProfilesRobot : BaseRobot() {
     fun clickOnUpgradeButton(contentDescription: String): ConnectionRobot {
         view.waitForCondition {
             clickElementByIdAndContentDescription<Any>(R.id.buttonUpgrade, contentDescription)
-            Espresso.onView(ViewMatchers.withText(R.string.upgrade_secure_core_title_new))
+            Espresso.onView(ViewMatchers.withText(R.string.upgrade_secure_core_title))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         }
         return ConnectionRobot()
@@ -135,7 +135,7 @@ class ProfilesRobot : BaseRobot() {
     }
 
     fun clickOnCreateNewProfileUntilUpsellIsShown() : UpsellModalRobot {
-        clickOnCreateNewProfileUntilMatcherIsDisplayed(ViewMatchers.withText(R.string.upgrade_profiles_text))
+        clickOnCreateNewProfileUntilMatcherIsDisplayed(ProtonMatcher.withHtmlText(R.string.upgrade_profiles_text))
         return UpsellModalRobot()
     }
 

@@ -68,6 +68,7 @@ object Constants {
     const val DEDICATED_IPS_INFO_URL = "https://protonvpn.com/support/dedicated-ips/"
 
     const val MAX_CONNECTIONS_IN_PLUS_PLAN = 10
+    const val SERVER_SPEED_UP_TO_GBPS = 10
 
     const val TLS_AUTH_KEY_HEX =
             "6acef03f62675b4b1bbd03e53b187727\n" +
@@ -158,6 +159,10 @@ object Constants {
     val VPN_ROOT_CERTS = BuildConfig.VPN_SERVER_ROOT_CERT ?: DEFAULT_VPN_ROOT_CERTS
 
     const val LOCAL_AGENT_ADDRESS = "10.2.0.1:65432"
+
+    // Plans
+    const val CURRENT_PLUS_PLAN = "vpn2022"
+    const val CURRENT_BUNDLE_PLAN = "bundle2022"
 
     // TV
     const val TV_LOGIN_URL = "protonvpn.com/tv"

@@ -24,6 +24,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.google.common.truth.Truth.assertThat
+import com.protonvpn.matchers.ProtonMatcher
 
 /**
  * [BaseVerify] Contains common view independent verification methods
@@ -56,6 +57,9 @@ open class BaseVerify : BaseRobot() {
 
     fun checkIfElementIsDisplayedByStringId(@StringRes resId: Int) =
         view.withVisibility(ViewMatchers.Visibility.VISIBLE).withText(resId).checkDisplayed()
+
+    fun checkIfElementIsDisplayedByHtmlStringId(@StringRes resId: Int) =
+        view.withVisibility(ViewMatchers.Visibility.VISIBLE).withCustomMatcher(ProtonMatcher.withHtmlText(resId))
 
     fun checkIfElementIsDisplayedByText(text: String) =
         view.withText(text).checkDisplayed()

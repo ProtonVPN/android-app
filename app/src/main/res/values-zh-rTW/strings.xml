@@ -459,31 +459,14 @@
     <string name="upsell_upgrade_again">再次升級以享受下列種種功能：</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">當您升級至 Plus 時</string>
-    <string name="upgrade_netshield_title_new">使用 NetShield 享受無廣告的瀏覽</string>
-    <string name="upgrade_secure_core_title_new">使用 Secure Core 讓加密加倍</string>
-    <string name="upgrade_secure_core_countries">繞經位於瑞士、瑞典與冰島的超安全伺服器</string>
-    <string name="upgrade_secure_core_encryption">為您的 VPN 連線加入另一層加密</string>
-    <string name="upgrade_secure_core_protect">保護您免受網路攻擊的威脅</string>
+    <string name="upgrade_netshield_title">使用 NetShield 享受無廣告的瀏覽</string>
+    <string name="upgrade_secure_core_title">使用 Secure Core 讓加密加倍</string>
     <string name="upgrade_profiles_title">快速存取您的常用連線</string>
     <string name="upgrade_profiles_text">使用 VPN Plus 解鎖帳戶</string>
-    <string name="upgrade_profiles_feature_save">儲存您的偏好伺服器、程式或國家</string>
-    <string name="upgrade_profiles_feature_customize">設定自訂協定與進階 VPN 功能</string>
     <string name="upgrade_vpn_accelerator_title">以較高的速度瀏覽（高達 10 Gbps）。</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[使用 <b>VPN Accelerator</b> 將連線速度提昇多達 400%。]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">連線到遠端伺服器時改善了速度與穩定性。</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">更快速存取，減少群聚伺服器</string>
     <string name="upgrade_split_tunneling_title">獲得兩全其美</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[使用 VPN Plus 解鎖<b>分隔通道</b>]]></string>
-    <string name="upgrade_split_tunneling_two_locations">使用分隔通道同時瀏覽兩個地點</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">允許信任的應用程式及IP地址直接連接網路，同時使用虛擬私有網路保護任何東西</string>
     <string name="upgrade_customization_title">解鎖進階 VPN 客製化</string>
-    <string name="upgrade_customization_lan"><![CDATA[存取您<b>區域網路 (LAN)</b> 上的裝置]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[使用<b>設定檔</b>儲存經常使用的連線]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[使用<b>快速連線</b>即時存取您的設定檔]]></string>
-    <string name="upgrade_netshield_block_ads">封鎖廣告與追蹤器</string>
-    <string name="upgrade_netshield_block_malware">保護您的裝置免受惡意軟體威脅</string>
-    <string name="upgrade_netshield_speed">以最高速度瀏覽</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -510,10 +493,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">存取超過 %1$s，分布於 %2$s</string>
     <string name="upgrade_plus_countries_subtitle">當您升級至進階版</string>
-    <string name="upgrade_plus_countries_choose_location">選擇任何地址</string>
-    <string name="upgrade_plus_countries_even_higher_speed">甚至更快虛擬私有網速度</string>
-    <string name="upgrade_plus_countries_access_content">存取地理封鎖內容</string>
-    <string name="upgrade_plus_countries_stream">串流您最喜歡的電影</string>
     <string name="upgrade_safe_mode_title">允許外送至非標準連接埠的流量</string>
     <string name="upgrade_safe_mode_message">有進階或專業運算需求須要使用非標準連接埠嗎？升級至 VPN Plus 以存取此功能以及其他尊享功能。</string>
     <string name="upgrade_not_now_button">現在不要</string>
@@ -640,20 +619,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">想要選擇特定的國家嗎？</string>
     <string name="upgrade_country_message">使用VPN Plus解鎖選擇國家</string>
-    <string name="upgrade_country_feature_money_back">30天退款保證</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">更高速(%1$d Gbps)</string>
-    <string name="upgrade_country_feature_stream">串流您最喜歡的電影</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="other">保護至多%1$d裝置</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="other">於%1$d國家瀏覽</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">提升您的遊戲體驗。</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[使用 VPN Plus 解鎖<b>第二類 NAT</b>]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">提升線上遊戲及視訊通話效能</string>
-    <string name="upgrade_moderate_nat_feature_optimize">第二類 NAT（中等）透過啟用裝置之間的的直接連線來改善速度與穩定性</string>
     <string name="free_connections_info_message">Proton Free 會自動替你連接到最快且可用的伺服器。通常這些伺服器都是最接近您的地區。</string>
     <string name="free_connections_info_server_locations">免費伺服器位置 （%1$d）</string>
     <string name="free_connections_info_banner_text">使用 VPN Plus 來獲得全球的覆蓋率。</string>

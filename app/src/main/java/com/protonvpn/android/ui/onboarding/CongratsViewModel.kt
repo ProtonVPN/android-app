@@ -33,5 +33,5 @@ class CongratsViewModel @Inject constructor(
 
     val server get() = vpnStatusProviderUI.connectingToServer
 
-    val ipAppUpgradeAllowed get() = isInAppUpgradeAllowedUseCase()
+    val inAppUpgradeAllowed get() = isInAppUpgradeAllowedUseCase()
 }

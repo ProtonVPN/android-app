@@ -465,31 +465,14 @@
     <string name="upsell_upgrade_again">ყველა ფუნქციის მისაღებად გთხოვთ განახლდეთ კიდევ ერთხელ:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">როცა Plus-ზე განახლდებით</string>
-    <string name="upgrade_netshield_title_new">ისიამოვნეთ ურეკლამო ინტერნეტით NetShield-თან ერთად</string>
-    <string name="upgrade_secure_core_title_new">გააორმაგეთ შიფრაცია Secure Core-სთან ერთად</string>
-    <string name="upgrade_secure_core_countries">დააროუტეთ თქვენი ტრაფიკი ჩვენს ზედაცულ სერვერებზე, რომლებიც შვეიცარიაში, შვედეთში და ისლანდიაში მდებარეობს</string>
-    <string name="upgrade_secure_core_encryption">დაამატეთ თქვენს VPN-ს უსაფრთხოების კიდევ ერთი დონე</string>
-    <string name="upgrade_secure_core_protect">დაიცავით თავი ქსელური შეტევებისგან</string>
+    <string name="upgrade_netshield_title">ისიამოვნეთ ურეკლამო ინტერნეტით NetShield-თან ერთად</string>
+    <string name="upgrade_secure_core_title">გააორმაგეთ შიფრაცია Secure Core-სთან ერთად</string>
     <string name="upgrade_profiles_title">მიიღეთ სწრაფი წვდომა თქვენს ხშირ მიერთებებთან</string>
     <string name="upgrade_profiles_text">განბლოკეთ პროფილები VPN Plus-თან ერთად</string>
-    <string name="upgrade_profiles_feature_save">შეინახეთ რჩეული სერვერი, ქალაქი ან ქვეყანა</string>
-    <string name="upgrade_profiles_feature_customize">დააყენეთ მომხმარებლის პროტოკოლები და ფასიანი VPN-ის ფუნქციები</string>
     <string name="upgrade_vpn_accelerator_title">იმუშავეთ კიდევ უფრო სწრაფად (10 გბ/წმ-მდე).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[გაზარდეთ მიერთების სიჩქარე 400%-მდე <b>VPN-ის ამაჩქარებელთან</b> ერთად.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">გააუმჯობესეთ სიჩქარე და სტაბილურობა, როცა ძალიან შორს მყოფ სერვერს უკავშირდებით.</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">იქონიეთ წვდომა უფრო სწრაფ, ნაკლებად დატვირთულ სერვერებთან</string>
     <string name="upgrade_split_tunneling_title">მიიღეთ საუკეთესო ორივე სამყაროდან</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[განბლოკეთ <b>გაყოფილი გვირაბი</b> VPN Plus-თან ერთად]]></string>
-    <string name="upgrade_split_tunneling_two_locations">გაყოფილი გვირაბით შეგიძლიათ, ორი მდებარეობიდან ერთდროულად იმუშაოთ</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">სანდო აპებს და IP მისამართებს შეგიძლიათ, ინტერნეტთან პირდაპირი წვდომა მისცეთ მაშინ, როცა ყველაფერ დანარჩენს VPN-ით დაიცავთ</string>
     <string name="upgrade_customization_title">განბლოკეთ VPN-ის დამატებითი პარამეტრები</string>
-    <string name="upgrade_customization_lan"><![CDATA[იქონიეთ წვდომა თქვენს <b>ლოკალურ ქსელში (LAN)</b> არსებულ მოწყობილობებზე]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[შეინახეთ ხშირად გამოყენებული მიერთებები <b>პროფილებით</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[მიიღეთ მყისიერი წვდომა თქვენს პროფილებთან <b>სწრაფი მიერთებით</b>]]></string>
-    <string name="upgrade_netshield_block_ads">დაბლოკეთ რეკლამები და ტრეკერები</string>
-    <string name="upgrade_netshield_block_malware">დაიცავით თქვენი მოწყობილობა მავნე პროგრამებისგან</string>
-    <string name="upgrade_netshield_speed">საიტების უსწრაფესად დათვალეირება</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -518,10 +501,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">მიიღეთ წვდომა მეტზე, ვიდრე %1$s-ია, %2$s-ში</string>
     <string name="upgrade_plus_countries_subtitle">როცა Plus-ზე განახლდებით</string>
-    <string name="upgrade_plus_countries_choose_location">აირჩიეთ ნებისმიერი მდებარეობა</string>
-    <string name="upgrade_plus_countries_even_higher_speed">კიდევ უფრო სწრაფი VPN</string>
-    <string name="upgrade_plus_countries_access_content">იქონიეთ წვდომა გეოგრაფიულად დაბლოკილ შემცველობასთან</string>
-    <string name="upgrade_plus_countries_stream">დასტრიმეთ თქვენი რჩეული ფილმები</string>
     <string name="upgrade_safe_mode_title">არასტანდარტულ პორტებზე ტრაფიკის ნების დართვა</string>
     <string name="upgrade_safe_mode_message">გაქვთ დამატებითი ან პროფესიული გამოთვლითი საჭიროებები, რომლებსაც არასტანდარტულ პორტები სჭირდება? ამ და სხვა ფასიანი ფუნქციების მისაღებად განახლდით VPN Plus-ზე.</string>
     <string name="upgrade_not_now_button">არა ახლა</string>
@@ -650,22 +629,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">გნებავთ მითითებული ქვეყნის არჩევა?</string>
     <string name="upgrade_country_message">განბლოკეთ ქვეყნის არჩევანი VPN Plus-თან ერთად</string>
-    <string name="upgrade_country_feature_money_back">ფულის დაბრუნების 30-დღიანი გარანტია</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">ჩქაროსნული (%1$d გბ/წმ)</string>
-    <string name="upgrade_country_feature_stream">დასტრიმეთ თქვენი რჩეული ფილმები</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="one">დაიცავით %1$d მოწყობილობა</item>
-        <item quantity="other">დაიცავით %1$d მოწყობილობა</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="one">იმუშავეთ ინტერნეტში %1$d ქვეყნიდან</item>
-        <item quantity="other">იმუშავეთ ინტერნეტში %1$d ქვეყნიდან</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">ასწიეთ თქვენი თამაშის გამოცდილება</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[გაბლოკეთ <b>მეორე ტიპის NAT</b> VPN Plus-თან ერთად]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">გააუმჯობესეთ ონლაინ-თამაშების და ვიდეოზარების წარმადობა</string>
-    <string name="upgrade_moderate_nat_feature_optimize">მეორე ტიპის NAT (საშუალო) სტაბილურობისა და სიჩქარის ოპტიმიზაციას ახდენს მოწყობილობებს შორის პირდაპირი მიერთების დაშვებით</string>
     <string name="free_connections_info_message">Proton Free ავტომატურად მიუერთდება უსწრაფეს ხელმისაწვდომ სერვერს. ეს ჩვეულებრივ თქვენს მდებარეობასთან არსებული უახლოესი სერვერია.</string>
     <string name="free_connections_info_server_locations">უფასო სერვერის მდებარეობები (%1$d)</string>
     <string name="free_connections_info_banner_text">იქონიეთ წვდომა ყველაფერზე VPN Plus-თან ერთად</string>

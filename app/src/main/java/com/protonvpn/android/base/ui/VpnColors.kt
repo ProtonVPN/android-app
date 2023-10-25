@@ -17,21 +17,11 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui.planupgrade
+package com.protonvpn.android.redesign.base.ui
 
-import com.protonvpn.android.appconfig.CachedPurchaseEnabled
-import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.tv.IsTvCheck
-import dagger.Reusable
-import javax.inject.Inject
+import androidx.compose.ui.graphics.Color
+import me.proton.core.compose.theme.ProtonColors
 
-@Reusable
-class IsInAppUpgradeAllowedUseCase @Inject constructor(
-    private val currentUser: CurrentUser,
-    private val purchaseEnabled: CachedPurchaseEnabled,
-    private val isTvCheck: IsTvCheck
-) {
-    operator fun invoke() = !isTvCheck() && purchaseEnabled() && currentUser.vpnUserCached()?.let { user ->
-        user.subscribed == 0 && user.credit == 0
-    } ?: false
-}
+@Suppress("MagicNumber")
+val ProtonColors.vpnGreen: Color
+    get() = if (isDark) Color(0xFF27DDB1) else Color(0xFF1C9C7C)

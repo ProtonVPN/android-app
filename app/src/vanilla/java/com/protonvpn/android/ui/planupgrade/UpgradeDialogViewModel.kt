@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.planupgrade
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.plan.presentation.PlansOrchestrator
 import javax.inject.Inject
@@ -33,10 +34,17 @@ class UpgradeDialogViewModel @Inject constructor(
     plansOrchestrator: PlansOrchestrator,
     isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
     upgradeTelemetry: UpgradeTelemetry
-) : FallbackUpgradeDialogViewModel(
-    currentUser,
+) : CommonUpgradeDialogViewModel(
+    currentUser.userFlow.map { it?.userId },
     authOrchestrator,
     plansOrchestrator,
-    isInAppUpgradeAllowed,
+    isInAppUpgradeAllowed::invoke,
     upgradeTelemetry,
-)
+) {
+    init {
+        state.value = if (isInAppUpgradeAllowed())
+            State.PlansFallback
+        else
+            State.UpgradeDisabled
+    }
+}

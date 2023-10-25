@@ -465,31 +465,14 @@
     <string name="upsell_upgrade_again">Αναβάθμιση ξανά, προς απόλαυση όλων των χαρακτηριστικών:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">Όταν γίνει αναβάθμισή στο πρόγραμμα Plus</string>
-    <string name="upgrade_netshield_title_new">Απολάυστε σερφάρισμα χωρίς διαφημίσεις με το NetShield</string>
-    <string name="upgrade_secure_core_title_new">Διπλή κρυπτογράφηση με Secure Core</string>
-    <string name="upgrade_secure_core_countries">Περιηγηθείτε μέσω υπέρ ασφαλών διακομιστών στην Ελβετία, τη Σουηδία και την Ισλανδία</string>
-    <string name="upgrade_secure_core_encryption">Επιπρόσθετο επίπεδο κρυπτογράφησης στη σύνδεση VPN σας</string>
-    <string name="upgrade_secure_core_protect">Προστασία από δικτυακές επιθέσεις</string>
+    <string name="upgrade_netshield_title">Απολάυστε σερφάρισμα χωρίς διαφημίσεις με το NetShield</string>
+    <string name="upgrade_secure_core_title">Διπλή κρυπτογράφηση με Secure Core</string>
     <string name="upgrade_profiles_title">Αποκτήστε γρήγορη πρόσβαση στις συχνές συνδέσεις σας</string>
     <string name="upgrade_profiles_text">Ξεκλειδώστε τα προφίλ με το VPN Plus</string>
-    <string name="upgrade_profiles_feature_save">Αποθηκεύστε τον διακομιστή, την πόλη ή τη χώρα που προτιμάτε</string>
-    <string name="upgrade_profiles_feature_customize">Ορίστε προσαρμοσμένα πρωτόκολλα και premium χαρακτηριστικά VPN</string>
     <string name="upgrade_vpn_accelerator_title">Περιηγηθείτε με ακόμα υψηλότερες ταχύτητες (έως 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Αυξήστε τις ταχύτητες σύνδεσης έως και 400% με το <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Βελτιωμένη ταχύτητα και σταθερότητα όταν συνδέεστε σε απομακρυσμένους διακομιστές.</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">Αποκτήστε πρόσβαση σε ταχύτερους και λιγότερο πολυσύχναστους διακομιστές</string>
     <string name="upgrade_split_tunneling_title">Αξιοποιήστε στο έπακρο και τους δύο κόσμους</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Ξεκλειδώστε τη <b>διαίρεση σήραγγας</b> με το VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Περιηγηθείτε από δύο τοποθεσίες ταυτόχρονα με διαίρεση σήραγγας</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">Επιτρέψτε σε αξιόπιστες εφαρμογές και διευθύνσεις IP να συνδέονται απευθείας στο διαδίκτυο, προστατεύοντας παράλληλα οτιδήποτε άλλο με το VPN σας</string>
     <string name="upgrade_customization_title">Ξεκλειδώστε προχωρημένες προσαρμογές VPN</string>
-    <string name="upgrade_customization_lan"><![CDATA[Πρόσβαση σε συσκευές στο <b>τοπικό σας δίκτυο (LAN)</b>]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Αποθηκεύστε συνδέσεις που χρησιμοποιούνται συχνά με <b>προφίλ</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Αποκτήστε άμεση πρόσβαση στα προφίλ σας με <b>Γρήγορη Σύνδεση</b>]]></string>
-    <string name="upgrade_netshield_block_ads">Φραγή διαφημίσεων και ιχνηλατών</string>
-    <string name="upgrade_netshield_block_malware">Προστασία της συσκευής σας από κακόβουλο λογισμικό</string>
-    <string name="upgrade_netshield_speed">Περιήγηση με ύψιστη ταχύτητα</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -518,10 +501,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">Έχετε πρόσβαση σε πάνω από %1$s σε %2$s</string>
     <string name="upgrade_plus_countries_subtitle">Όταν γίνει αναβάθμισή στο πλάνο Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Επιλέξτε οποιαδήποτε τοποθεσία</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Ακόμα υψηλότερη ταχύτητα VPN</string>
-    <string name="upgrade_plus_countries_access_content">Πρόσβαση σε γεωγραφικά μπλοκαρισμένο περιεχόμενο</string>
-    <string name="upgrade_plus_countries_stream">Μεταδώστε τις αγαπημένες σας ταινίες</string>
     <string name="upgrade_safe_mode_title">Άδεια διακίνησης σε μη τυποποιημένες θύρες</string>
     <string name="upgrade_safe_mode_message">Έχετε προχωρημένες ή επαγγελματικές υπολογιστικές ανάγκες που απαιτούν μη τυποποιημένες θύρες; Αναβαθμίστε σε VPN Plus για πρόσβαση σε αυτό και άλλα προνομιακά χαρακτηριστικά.</string>
     <string name="upgrade_not_now_button">Όχι τώρα</string>
@@ -650,22 +629,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Θέλετε να επιλέξετε μια συγκεκριμένη χώρα;</string>
     <string name="upgrade_country_message">Ξεκλειδώστε την επιλογή χώρας με το VPN Plus</string>
-    <string name="upgrade_country_feature_money_back">Εγγύηση Επιστροφής Χρημάτων εντός 30 ημερών</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">Υψηλότερες ταχύτητες (%1$d Gbps)</string>
-    <string name="upgrade_country_feature_stream">Μεταδώστε τις αγαπημένες σας ταινίες</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="one">Προστατέψτε έως και %1$d συσκευή</item>
-        <item quantity="other">Προστατέψτε έως και %1$d συσκευές</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="one">Περιήγηση από %1$d χώρα</item>
-        <item quantity="other">Περιήγηση από %1$d χώρες</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">Αναβαθμίστε την εμπειρία παιχνιδιού σας</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Ξεκλειδώστε το <b>NAT Τύπου 2</b> με το VPN Plus]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">Βελτιώστε την απόδοση των διαδικτυακών παιχνιδιών και βιντεοκλήσεων</string>
-    <string name="upgrade_moderate_nat_feature_optimize">Το NAT Τύπου 2 (μέτριο) βελτιστοποιεί την ταχύτητα και τη σταθερότητα επιτρέποντας άμεσες συνδέσεις μεταξύ συσκευών</string>
     <string name="free_connections_info_message">Το Proton Free σας συνδέει αυτόματα στον ταχύτερο διαθέσιμο διακομιστή. Αυτός θα είναι συνήθως ο πλησιέστερος διακομιστής στην τοποθεσία σας.</string>
     <string name="free_connections_info_server_locations">Τοποθεσίες δωρεάν διακομιστών (%1$d)</string>
     <string name="free_connections_info_banner_text">Αποκτήστε παγκόσμια κάλυψη με το VPN Plus</string>

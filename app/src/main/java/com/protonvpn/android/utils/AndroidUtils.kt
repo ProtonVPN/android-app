@@ -230,7 +230,6 @@ fun TelephonyManager.mobileCountryCode() =
     if (phoneType != TelephonyManager.PHONE_TYPE_CDMA && !networkCountryIso.isNullOrBlank())
         networkCountryIso else null
 
-
 // Catch all errors, rethrow RuntimeExceptions. Use with care.
 @Suppress("TooGenericExceptionCaught")
 fun <T> (() -> T).runCatchingCheckedExceptions(catchBlock: (e: Exception) -> T) =

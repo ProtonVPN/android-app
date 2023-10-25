@@ -459,31 +459,14 @@
     <string name="upsell_upgrade_again">Tingkatkan kembali untuk menikmati semua fitur:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">Pada saat Anda meningkatkan akun Anda ke Plus</string>
-    <string name="upgrade_netshield_title_new">Nikmati penjelajahan tanpa iklan dengan NetShield</string>
-    <string name="upgrade_secure_core_title_new">Enkripsi berganda dengan Secure Core</string>
-    <string name="upgrade_secure_core_countries">Alihkan lalu lintas jaringan Anda melalui berbagai server ultra aman di Swiss, Swedia, dan Islandia</string>
-    <string name="upgrade_secure_core_encryption">Terapkan lapisan perlindungan tambahan pada koneksi VPN Anda</string>
-    <string name="upgrade_secure_core_protect">Lindungi diri Anda dari serangan berbasis jaringan</string>
+    <string name="upgrade_netshield_title">Nikmati penjelajahan tanpa iklan dengan NetShield</string>
+    <string name="upgrade_secure_core_title">Enkripsi berganda dengan Secure Core</string>
     <string name="upgrade_profiles_title">Dapatkan akses kilat ke profil koneksi yang sering Anda gunakan</string>
     <string name="upgrade_profiles_text">Akses profil dengan VPN Plus</string>
-    <string name="upgrade_profiles_feature_save">Simpan server, kota, atau negara yang sering Anda gunakan</string>
-    <string name="upgrade_profiles_feature_customize">Atur protokol khusus dan berbagai fitur VPN premium</string>
     <string name="upgrade_vpn_accelerator_title">Jelajahi internet pada kecepatan yang jauh lebih tinggi (10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Tingkatkan kecepatan koneksi VPN hingga 400% dengan <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Koneksi yang lebih cepat dan stabil pada saat terhubung ke server yang berjarak jauh.</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">Akses server yang lebih cepat dan lengang</string>
     <string name="upgrade_split_tunneling_title">Dapatkan yang terbaik</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Akses <b>split tunneling</b> dengan VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Jelajahi internet dari dua lokasi sekaligus dengan split tunneling</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">Izinkan aplikasi dan alamat IP yang terpercaya untuk dapat terhubung langsung ke internet, selagi koneksi lainnya terhubung via VPN</string>
     <string name="upgrade_customization_title">Akses opsi kustomisasi VPN lanjutan</string>
-    <string name="upgrade_customization_lan"><![CDATA[Akses perangkat pada <b>jaringan LAN Anda</b>]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Simpan koneksi yang sering Anda gunakan dengan <b>profil</b>]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Dapatkan akses instan ke profil Anda dengan <b>Quick Connect</b>]]></string>
-    <string name="upgrade_netshield_block_ads">Blokir iklan dan program pelacak</string>
-    <string name="upgrade_netshield_block_malware">Lindungi perangkat Anda dari malware</string>
-    <string name="upgrade_netshield_speed">Jelajahi internet pada kecepatan tertinggi</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -510,10 +493,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">Akses lebih dari %1$s di %2$s</string>
     <string name="upgrade_plus_countries_subtitle">Pada saat Anda meningkatkan ke Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Pilih lokasi mana pun</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Kecepatan VPN yang jauh lebih tinggi</string>
-    <string name="upgrade_plus_countries_access_content">Akses konten yang terblokir wilayah</string>
-    <string name="upgrade_plus_countries_stream">Streaming film kesayangan Anda</string>
     <string name="upgrade_safe_mode_title">Izinkan lalu lintas data melalui port non-standar</string>
     <string name="upgrade_safe_mode_message">Memiliki keperluan tertentu yang memerlukan penggunaan port non-standar? Tingkatkan akun Anda ke VPN Plus agar Anda dapat menggunakan fitur ini dan berbagai fitur premium lainnya.</string>
     <string name="upgrade_not_now_button">Tidak sekarang</string>
@@ -640,20 +619,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Ingin memilih negara tertentu?</string>
     <string name="upgrade_country_message">Akses fitur pemilihan negara dengan VPN Plus</string>
-    <string name="upgrade_country_feature_money_back">Jaminan 30 hari uang kembali</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">Kecepatan yang lebih tinggi (%1$d Gbps)</string>
-    <string name="upgrade_country_feature_stream">Streaming film kesayangan Anda</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="other">Lindungi hingga %1$d perangkat</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="other">Jelajahi internet dari %1$d negara</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">Bawa pengalaman gaming Anda ke level selanjutnya</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Akses <b>NAT Type 2</b> dengan VPN Plus]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">Tingkatkan performa game online dan panggilan video Anda</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT Type 2 (moderat) mengoptimalkan kecepatan dan stabilitas koneksi Anda dengan mengukuhkan koneksi langsung antar perangkat</string>
     <string name="free_connections_info_message">Proton Free akan menghubungkan Anda secara otomatis ke server tercepat yang tersedia. Pada umumnya, Anda akan terhubung ke server yang paling dekat dengan lokasi Anda.</string>
     <string name="free_connections_info_server_locations">Lokasi server Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Dapatkan cakupan server di seluruh dunia dengan VPN Plus</string>

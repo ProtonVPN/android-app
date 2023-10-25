@@ -477,31 +477,14 @@
     <string name="upsell_upgrade_again">Передплатіть тарифний план знову, щоб користуватись усіма можливостями:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">У разі оновлення до тарифного плану Plus</string>
-    <string name="upgrade_netshield_title_new">Насолоджуйтесь переглядом без реклами з NetShield</string>
-    <string name="upgrade_secure_core_title_new">Подвійне шифрування за допомогою Secure Core</string>
-    <string name="upgrade_secure_core_countries">Спрямовуйте передачу даних через найзахищеніші сервери у Швейцарії, Швеції та Ісландії</string>
-    <string name="upgrade_secure_core_encryption">Додайте ще один рівень шифрування до свого VPN-з\'єднання</string>
-    <string name="upgrade_secure_core_protect">Захистіть себе від мережевих атак</string>
+    <string name="upgrade_netshield_title">Насолоджуйтесь переглядом без реклами з NetShield</string>
+    <string name="upgrade_secure_core_title">Подвійне шифрування за допомогою Secure Core</string>
     <string name="upgrade_profiles_title">Отримайте швидкий доступ до частих з\'єднань</string>
     <string name="upgrade_profiles_text">Розблокуйте профілі з тарифним планом VPN Plus</string>
-    <string name="upgrade_profiles_feature_save">Зберігайте улюблений сервер, місто або країну</string>
-    <string name="upgrade_profiles_feature_customize">Налаштуйте бажані протоколи та преміумфункції VPN</string>
     <string name="upgrade_vpn_accelerator_title">Користуйтесь інтернетом на ще вищій швидкості (10 Гбіт/с).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Збільште швидкість з\'єднання до 400% за допомогою <b>VPN Accelerator</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_feature_distant_servers">Покращена швидкість і стабільність під час з\'єднання з віддаленими серверами.</string>
-    <string name="upgrade_vpn_accelerator_feature_less_crowded">Користуйтеся швидшими, менш навантаженими серверами</string>
     <string name="upgrade_split_tunneling_title">Відчуйте переваги повного контролю VPN-з\'єднання</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Користуйтеся <b>роздільним тунелюванням</b> з VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Інтернет-з\'єднання з двох місць одночасно завдяки роздільному тунелюванню</string>
-    <string name="upgrade_split_tunneling_feature_allow_exceptions">Дозвольте довіреним програмам та IP-адресам встановлювати пряме інтернет-з\'єднання, одночасно захищаючи все інше за допомогою VPN</string>
     <string name="upgrade_customization_title">Отримайте доступ до розширених налаштувань VPN</string>
-    <string name="upgrade_customization_lan"><![CDATA[Отримуйте доступ до пристроїв у своїй <b>локальній мережі (LAN)</b>]]></string>
-    <string name="upgrade_customization_feature_profiles"><![CDATA[Зберігайте <b>профілі</b> для з\'єднань, якими ви часто користуєтесь]]></string>
-    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Отримайте миттєвий доступ до своїх профілів за допомогою <b>Швидкого з\'єднання</b>]]></string>
-    <string name="upgrade_netshield_block_ads">Блокування реклами та стеження</string>
-    <string name="upgrade_netshield_block_malware">Захистіть свій пристрій від зловмисних програм</string>
-    <string name="upgrade_netshield_speed">Переглядайте контент на найвищій швидкості</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -534,10 +517,6 @@
      -->
     <string name="upgrade_plus_countries_title_new">Доступ через %1$s у %2$s</string>
     <string name="upgrade_plus_countries_subtitle">Доступно в тарифному плані Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Обирайте будь-яке розташування</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Ще вища швидкість VPN</string>
-    <string name="upgrade_plus_countries_access_content">Отримуйте доступ до географічно заблокованих матеріалів</string>
-    <string name="upgrade_plus_countries_stream">Дивіться трансляції улюблених фільмів</string>
     <string name="upgrade_safe_mode_title">Дозволити трафік до нестандартних портів</string>
     <string name="upgrade_safe_mode_message">Маєте додаткові чи професійні обчислювальні потреби, які потребують нестандартних портів? Перейдіть до VPN Plus, щоб отримати доступ до цієї та інших преміальних функцій.</string>
     <string name="upgrade_not_now_button">Не зараз</string>
@@ -670,26 +649,8 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Хочете вибрати певну країну?</string>
     <string name="upgrade_country_message">Розблокуйте вибір країни, передплативши VPN Plus</string>
-    <string name="upgrade_country_feature_money_back">Гарантія повернення коштів протягом 30 днів</string>
-    <!-- Example: Higher speeds (10 Gbps) -->
-    <string name="upgrade_country_feature_speed">Вища швидкість (%1$d Гбіт/с)</string>
-    <string name="upgrade_country_feature_stream">Дивіться трансляції улюблених фільмів</string>
-    <plurals name="upgrade_country_feature_protect">
-        <item quantity="one">Захистіть %1$d пристрій</item>
-        <item quantity="few">Захистіть до %1$d пристроїв</item>
-        <item quantity="many">Захистіть до %1$d пристроїв</item>
-        <item quantity="other">Захистіть до %1$d пристроїв</item>
-    </plurals>
-    <plurals name="upgrade_country_feature_count">
-        <item quantity="one">Інтернет-з\'єднання з %1$d країни</item>
-        <item quantity="few">Інтернет-з\'єднання з %1$d країн</item>
-        <item quantity="many">Інтернет-з\'єднання з %1$d країн</item>
-        <item quantity="other">Інтернет-з\'єднання з %1$d країн</item>
-    </plurals>
     <string name="upgrade_moderate_nat_title2">Перейдіть на новий ігровий рівень</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Розблокуйте <b>NAT Type 2</b>, передплативши VPN Plus]]></string>
-    <string name="upgrade_moderate_nat_feature_gaming">Вдоскональте режим гри онлайн та якість відеовикликів</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT Type 2 (помірний) оптимізує швидкість і стабільність, дозволяючи прямі з\'єднання між пристроями</string>
     <string name="free_connections_info_message">Proton Free автоматично з\'єднає вас з найшвидшим доступним сервером. Зазвичай це буде найближчий до вашого розташування сервер.</string>
     <string name="free_connections_info_server_locations">Розташування безплатних серверів (%1$d)</string>
     <string name="free_connections_info_banner_text">Користуйтеся світовим покриттям з VPN Plus</string>

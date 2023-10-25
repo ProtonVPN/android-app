@@ -21,35 +21,22 @@ package com.protonvpn.android.base.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.takeOrElse
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
-fun TextPlaceholder(
+fun PlaceholderRect(
     modifier: Modifier = Modifier,
     width: Dp = 64.dp,
-    textStyle: TextStyle = LocalTextStyle.current
 ) {
-    val textHeight = with(LocalDensity.current) {
-        textStyle.lineHeight.takeOrElse { 24.sp }.toDp()
-    }
-    val rectHeight = 14.dp
     Box(
         modifier
-            .size(width = width, height = textHeight)
-            .padding(vertical = (textHeight - rectHeight).coerceAtLeast(0.dp) / 2)
+            .size(width = width, height = 14.dp)
             .background(color = ProtonTheme.colors.textDisabled, shape = RoundedCornerShape(size = 4.dp))
     )
 }
