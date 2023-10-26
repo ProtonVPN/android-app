@@ -18,9 +18,10 @@
  */
 package com.protonvpn.android.ui.onboarding
 
-import android.content.Context
+import android.app.Activity
 import com.google.android.play.core.ktx.requestReview
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.play.core.tasks.OnCompleteListener
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
@@ -31,7 +32,6 @@ import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -41,8 +41,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ReviewTracker @Inject constructor(
-    @ApplicationContext private val appContext: Context,
+class ReviewTracker constructor(
     @WallClock private val wallClock: () -> Long,
     scope: CoroutineScope,
     private val appConfig: AppConfig,
@@ -50,8 +49,31 @@ class ReviewTracker @Inject constructor(
     vpnMonitor: VpnStateMonitor,
     private val foregroundActivityTracker: ForegroundActivityTracker,
     private val reviewTrackerPrefs: ReviewTrackerPrefs,
-    trafficMonitor: TrafficMonitor
+    trafficMonitor: TrafficMonitor,
+    private val requestReview: suspend (activity: Activity, onComplete: OnCompleteListener<Void>) -> Unit
 ) {
+
+    @Inject
+    constructor(
+        @WallClock wallClock: () -> Long,
+        scope: CoroutineScope,
+        appConfig: AppConfig,
+        currentUser: CurrentUser,
+        vpnMonitor: VpnStateMonitor,
+        foregroundActivityTracker: ForegroundActivityTracker,
+        reviewTrackerPrefs: ReviewTrackerPrefs,
+        trafficMonitor: TrafficMonitor,
+    ) : this(
+        wallClock,
+        scope,
+        appConfig,
+        currentUser,
+        vpnMonitor,
+        foregroundActivityTracker,
+        reviewTrackerPrefs,
+        trafficMonitor,
+        ::requestInAppReview
+    )
 
     init {
         vpnMonitor.vpnConnectionNotificationFlow.onEach {
@@ -88,30 +110,15 @@ class ReviewTracker @Inject constructor(
 
     private suspend fun createInAppReview() {
         foregroundActivityTracker.foregroundActivity?.let {
-            log("Suggest in app review")
-            try {
-                val manager = ReviewManagerFactory.create(appContext)
-                val reviewInfo = manager.requestReview()
-                manager.launchReviewFlow(it, reviewInfo).addOnCompleteListener {
-                    reviewTrackerPrefs.lastReviewTimestamp = wallClock()
-                    reviewTrackerPrefs.longSessionReached = false
-                    log("Review flow was triggered " + reviewTrackerPrefs.lastReviewTimestamp)
-                }
-            } catch (e: Exception) {
-                log("Failure to contact google play: ${e.message}")
+            requestReview(it) {
+                reviewTrackerPrefs.lastReviewTimestamp = wallClock()
+                reviewTrackerPrefs.longSessionReached = false
+                log("Review flow was triggered " + reviewTrackerPrefs.lastReviewTimestamp)
             }
         }
     }
 
     fun connectionCount(): Int = reviewTrackerPrefs.successConnectionsInRow
-
-    private fun log(message: String) {
-        ProtonLogger.logCustom(
-            LogLevel.DEBUG,
-            LogCategory.APP_REVIEW,
-            message
-        )
-    }
 
     private fun getWithDefaultMaxValue(value: Long): Long {
         return if (value == 0L)
@@ -144,5 +151,26 @@ class ReviewTracker @Inject constructor(
 
         return (reviewTrackerPrefs.successConnectionsInRow >= ratingConfig.successfulConnectionCount ||
             reviewTrackerPrefs.longSessionReached)
+    }
+
+    companion object {
+        private suspend fun requestInAppReview(activity: Activity, onComplete: OnCompleteListener<Void>) {
+            log("Suggest in app review")
+            try {
+                val manager = ReviewManagerFactory.create(activity)
+                val reviewInfo = manager.requestReview()
+                manager.launchReviewFlow(activity, reviewInfo).addOnCompleteListener(onComplete)
+            } catch (e: Exception) {
+                log("Failure to contact google play: ${e.message}")
+            }
+        }
+
+        private fun log(message: String) {
+            ProtonLogger.logCustom(
+                LogLevel.DEBUG,
+                LogCategory.APP_REVIEW,
+                message
+            )
+        }
     }
 }
