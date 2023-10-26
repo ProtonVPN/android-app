@@ -20,7 +20,7 @@
 <resources>
     <!-- Strings related to login -->
     <string name="hintUsername">Nama Pengguna</string>
-    <string name="hintPassword">Kata Sandi</string>
+    <string name="hintPassword">Kata sandi</string>
     <string name="splitTunnellingSwitch">Saklar split tunneling</string>
     <string name="login">Masuk</string>
     <string name="hamburgerMenu">Susunan Menu</string>

@@ -93,7 +93,7 @@
     <string name="accountVersion">Versione:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Per gestire il tuo abbonamento, devi andare nel pannello web <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Gestisci Account</string>
-    <string name="accountButtonUseCoupon">Utilizza coupon</string>
+    <string name="accountButtonUseCoupon">Usa un coupon</string>
     <string name="accountFree">Proton VPN Free</string>
     <string name="activityProfileTitle">Profilo</string>
     <string name="activityAccountTitle">Account</string>
@@ -117,12 +117,12 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Usa Proton VPN per qualsiasi esigenza speciale consentendo il traffico verso porte non standard attraverso la rete VPN. <a href="%1$s">Scopri di più</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderato</string>
     <string name="settingsModerateNatDescription"><![CDATA[Il NAT moderato disabilita la randomizzazione della mappatura degli indirizzi locali, che può ridurre leggermente la tua sicurezza, ma consente tecniche come le connessioni dirette per applicazioni come i giochi online. <a href="%1$s">Scopri di più</a>]]></string>
-    <string name="use_coupon_title">Utilizza coupon</string>
+    <string name="use_coupon_title">Usa un coupon</string>
     <string name="use_coupon_code_label">Codice coupon</string>
     <string name="use_coupon_success">Il coupon è stato applicato con successo</string>
     <string name="use_coupon_success_no_upgrade_yet">Il coupon è stato applicato con successo. Il tuo abbonamento verrà aggiornato in pochi minuti.</string>
     <string name="restrictedMaintenanceTitle">In manutenzione</string>
-    <string name="restrictedMaintenanceDescription">Il server al quale stai cercando di connetterti è in manutenzione. Per favore prova un altro server.</string>
+    <string name="restrictedMaintenanceDescription">Il server al quale stai provando a connetterti è in manutenzione. Prova un altro server.</string>
     <string name="errorUserDelinquent"><![CDATA[Il tuo account ha attualmente una fattura scaduta. Si prega di pagare tutte le fatture non pagate a&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Hai raggiunto il numero massimo di connessioni simultanee consentite per il tuo account. Per favore effettua l\'upgrade del tuo piano Proton VPN per ottenere più connessioni.</string>
     <string name="errorEmptyName">Il campo nome del profilo non può essere vuoto</string>
@@ -190,7 +190,7 @@
     <string name="add">AGGIUNGI</string>
     <string name="copy_to_clipboard">Copia</string>
     <string name="the_list_is_empty">La lista è vuota</string>
-    <string name="got_it">Va bene</string>
+    <string name="got_it">Ho capito</string>
     <string name="onboardingWelcome">Ti diamo il benvenuto a bordo</string>
     <string name="proton_log">Log di Proton</string>
     <string name="something_went_wrong">Qualcosa è andato storto</string>
@@ -200,9 +200,9 @@
     <string name="remove">Rimuovi</string>
     <string name="deleteProfileButton">Elimina profilo</string>
     <string name="deleteProfile">Elimina il profilo?</string>
-    <string name="doneButton">Completato</string>
+    <string name="doneButton">Fatto</string>
     <string name="saveButton">Salva</string>
-    <string name="recommendedHeader">Raccomandato</string>
+    <string name="recommendedHeader">Consigliato</string>
     <string name="countryServersHeader">Server paese</string>
     <string name="secureCoreCountriesHeader">Paesi Secure Core</string>
     <string name="recommendedProfilesHeader">Profili consigliati</string>
@@ -322,7 +322,7 @@
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tocca il pulsante accanto a <b>Blocca connessioni senza VPN</b> per abilitare il kill switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Apri impostazioni Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Attivare il kill switch disabiliterà lo split tunneling, poiché il kill switch blocca tutte le connessioni al di fuori del tunnel VPN</string>
-    <string name="settingsSmartProtocolDescription">Utilizza automaticamente il protocollo e la porta che offrono la migliore connettività.</string>
+    <string name="settingsSmartProtocolDescription">Usa automaticamente il protocollo e la porta che offrono la migliore connettività.</string>
     <string name="settingsEnableTelemetryTitle">Condividi statistiche di utilizzo anonime</string>
     <string name="settingsEnableTelemetryDescription">I dati sull\'utilizzo ci aiutano a superare i blocchi VPN e a migliorare le prestazioni delle app.</string>
     <string name="settingsSendCrashReportsTitle">Condividi segnalazioni anonime sugli arresti anomali</string>
@@ -333,7 +333,7 @@
     <string name="netShieldDescription">Blocca annunci, tracker e malware </string>
     <string name="netshield_settings_description"><![CDATA[Proteggiti da annunci, malware e tracker su siti web e app. Se i siti web non si caricano, prova a disabilitare NetShield. <a href="%1$s">Scopri di più</a>]]></string>
     <string name="netshield_status_on">Attivo</string>
-    <string name="netshield_status_off">Disattivo</string>
+    <string name="netshield_status_off">Inattivo</string>
     <string name="netshield_free_title">Naviga senza annunci pubblicitari con NetShield</string>
     <string name="netshield_free_description">Blocca annunci, trackers e malware su siti web e applicazioni</string>
     <string name="netshield_business_title">Blocca gli annunci con NetShield</string>
@@ -398,7 +398,7 @@
     <string name="tv_signout_dialog_title">Sei sicuro di volerti disconnettere?</string>
     <string name="tv_signout_dialog_description_connected">Questo disconnetterà la tua TV da qualsiasi server VPN.</string>
     <string name="tv_signout_dialog_ok">Disconnetti</string>
-    <string name="tv_quick_connect_recommened">Raccomandato</string>
+    <string name="tv_quick_connect_recommened">Consigliato</string>
     <string name="tv_quick_connect_favourite">Preferito</string>
     <string name="tv_country_maintenance_dialog_title">Paese non disponibile</string>
     <string name="tv_country_maintenance_dialog_description">Riprova più tardi o seleziona un altro paese.</string>

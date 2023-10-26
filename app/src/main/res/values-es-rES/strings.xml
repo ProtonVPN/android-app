@@ -435,7 +435,7 @@ Más información</a>.]]></string>
     <string name="notification_max_sessions_content">Por favor, desconecta otro dispositivo para conectar este.</string>
     <string name="notification_cancel_to_free">Estás en el plan Free. Hay servidores y funciones gratuitas disponibles.</string>
     <string name="notification_cancel_to_basic">Estás en el plan Basic. Hay servidores y funciones básicas y gratuitas disponibles.</string>
-    <string name="notification_cancel_to_delinquent">Podrás acceder a las funciones prémium de nuevo después de que se paguen las facturas pendientes.</string>
+    <string name="notification_cancel_to_delinquent">Podrás acceder a las funciones premium de nuevo después de que se paguen las facturas pendientes.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Desde el servidor: </string>
     <string name="reconnect_to_server">Al servidor: </string>
@@ -524,7 +524,7 @@ Más información</a>.]]></string>
     <string name="upgrade_plus_countries_access_content">Accede a contenido geobloqueado</string>
     <string name="upgrade_plus_countries_stream">Streaming de tus películas favoritas</string>
     <string name="upgrade_safe_mode_title">Permitir el tráfico a puertos no estándar</string>
-    <string name="upgrade_safe_mode_message">¿Tienes necesidades informáticas avanzadas o profesionales que requieren puertos no estándar? Actualiza a VPN Plus para acceder a esta y otras funciones prémium.</string>
+    <string name="upgrade_safe_mode_message">¿Tienes necesidades informáticas avanzadas o profesionales que requieren puertos no estándar? Actualiza a VPN Plus para acceder a esta y otras funciones premium.</string>
     <string name="upgrade_not_now_button">Ahora no</string>
     <string name="upgrade_learn_more">Más información</string>
     <!-- Information activity -->
@@ -721,7 +721,7 @@ Más información</a>.]]></string>
     <string name="welcome_plus_description">Disfruta de funciones de privacidad adicionales, rendimiento recargado y una personalización VPN de otro nivel.</string>
     <string name="welcome_plus_feature_security">Funciones de seguridad avanzadas</string>
     <string name="welcome_unlimited_title">Te damos la bienvenida a Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[¡Felicitaciones! Has desbloqueado seguridad prémium y funciones de rendimiento en todos los servicios de Proton además de <b>%1$d&#160; GB</b> de almacenamiento total.<br><br>Disfruta lo mejor de la privacidad de Proton.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[¡Felicitaciones! Has desbloqueado seguridad premium y funciones de rendimiento en todos los servicios de Proton además de <b>%1$d&#160; GB</b> de almacenamiento total.<br><br>Disfruta lo mejor de la privacidad de Proton.]]></string>
     <string name="welcome_generic_title">Enhorabuena</string>
     <string name="welcome_generic_description">Has mejorado tu suscripción. Disfruta funciones de privacidad avanzadas y rendimiento de otro nivel.</string>
     <!-- Example: Up to 10 devices at once

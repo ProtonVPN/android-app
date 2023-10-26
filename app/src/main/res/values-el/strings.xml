@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- Strings related to login -->
+    <string name="hintUsername">Όνομα Χρήστη</string>
+    <string name="hintPassword">Κωδικός</string>
+    <string name="splitTunnellingSwitch">Εναλλαγή Split tunneling</string>
+    <string name="login">Είσοδος</string>
+    <string name="hamburgerMenu">Μενού Hamburger</string>
+    <string name="error_field_required">Αυτό το πεδίο είναι υποχρεωτικό</string>
+    <string name="menuActionSignOut">Αποσύνδεση</string>
+    <string name="loginSlogan">Ασφαλές Διαδίκτυο Οπουδήποτε</string>
+    <string name="loginStartWithDevice">Εκκίνηση με την συσκευή</string>
+    <string name="loginCreateAccount">Δημιουργία νέου λογαριασμού</string>
+    <string name="loginNeedHelp">Χρειάζεστε βοήθεια;</string>
+    <string name="connectionAllocationHelpTitle">Ευχαριστούμε για την αναβάθμιση σε\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpDescription1">Για να ξεκινήσετε το ταξίδι σας με το Proton VPN παρακαλώ αναθέστε τις συνδέσεις VPN στον λογαριασμός σας ή σε δεύτερους συνδεδεμένους λογαριασμούς.</string>
+    <string name="connectionAllocationHelpDescription2">Αυτό το βήμα θα πάρει μόνο λίγα λεπτά. Μετά θα μπορείτε να συνδέεστε, προστατεύοντας όλες τις συσκευές σας.</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Αυτήν τη στιγμή δεν υπάρχει ενεργοποιημένη σύνδεση VPN για αυτόν τον λογαριασμό. Για να ξεκινήσετε το ταξίδι σας με το Proton VPN, επικοινωνήστε με τον διαχειριστή σας. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Ενεργοποίηση συνδέσεων VPN</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Προσπαθήστε ξανά</string>
+    <string name="mapCalloutConnect">Σύνδεση</string>
+    <string name="mapCalloutDisconnect">Αποσύνδεση</string>
+    <string name="mapSwitchSecureCore">Secure Core</string>
+    <string name="warning">Προειδοποίηση</string>
+    <string name="secureCoreSpeedInfoTitle">Σημείωση για την ταχύτητα…</string>
+    <string name="secureCoreSpeedInfoMessage">Η επιλογή \"Secure Core\" προσφέρει το υψηλότερο επίπεδο ασφάλειας και ιδιωτικότητας αλλά μπορεί να επηρεάσει την ταχύτητα πρόσβασής σας στο Internet. Αν χρειάζεστε καλύτερη απόδοση, μπορείτε να απενεργοποιήσετε την επιλογή \"Secure Core\".</string>
+    <string name="secureCoreActivateDialogButton">Ενεργοποίηση Secure Core</string>
+    <string name="logoutConfirmDialogTitle">Αποσύνδεση;</string>
+    <string name="logoutConfirmDialogMessage">Κάνοντας αποσύνδεση από τον λογαριασμό σας, θα αποσυνδεθεί και η συσκευή σας από το διακομιστή VPN.</string>
+    <string name="logoutConfirmDialogButton">Αποσύνδεση</string>
+    <string name="showAllProfiles">Εμφάνιση όλων των προφίλ</string>
+    <string name="yes">Ναι</string>
+    <string name="no">Όχι</string>
+    <string name="ok">ΟΚ</string>
+    <string name="dialogContinue">Συνέχεια</string>
+    <string name="dialogLearnMore">Μάθετε περισσότερα</string>
+    <string name="dialog_read_more">Διαβάστε περισσότερα</string>
+    <string name="dialog_apply">Εφαρμογή</string>
+    <string name="dialog_applying">Εφαρμογή</string>
+    <string name="secureCoreConnectVia">μέσω %1$s</string>
+    <string name="connected">Συνδεδεμένο</string>
+    <string name="buttonConnect">Σύνδεση</string>
+    <string name="loaderInitializing">Εκκίνηση Σύνδεσης…</string>
+    <string name="loaderConnectingTo">Σύνδεση σε %1$s</string>
+    <string name="loaderConnectingToLabel">Σύνδεση σε…</string>
+    <string name="loaderNotConnected">Μη συνδεδεμένο (χωρίς προστασία)</string>
+    <string name="loaderNotConnectedSuggestion">Πατήστε το κουμπί \"Γρήγορη σύνδεση\"</string>
+    <string name="loaderConnectedTo">Συνδέθηκε στο %1$s</string>
+    <string name="loaderConnectedToLabel">Συνδέθηκε σε:</string>
+    <string name="loaderDisconnecting">Γίνεται Αποσύνδεση</string>
+    <string name="loaderReconnecting">Επανασύνδεση</string>
+    <string name="loaderReconnectNoNetwork">Αναμονή για χρησιμοποιήσιμο δίκτυο</string>
+    <string name="loaderReconnectNoNetworkSuggestion">Παρακαλώ ελέγξτε το δίκτυό σας</string>
+    <string name="loaderCheckingAvailability">Έλεγχος διαθεσιμότητας διακομιστή</string>
+    <string name="loaderCheckingAvailabilitySuggestion">Παρακαλώ περιμένετε μερικά δευτερόλεπτα</string>
+    <string name="loaderCancel">Ακύρωση σύνδεσης</string>
+    <string name="quickConnect">Γρήγορη σύνδεση</string>
+    <string name="notConnectedCurrentIp">Τρέχουσα διεύθυνση IP: %1$s</string>
+    <!-- Displays a percentage value. Please use %% sign for %.
+         Example value: "70%" -->
+    <string name="serverLoad">%1$s%%</string>
+    <string name="cancel">Ακύρωση</string>
+    <string name="close">Κλείσιμο</string>
+    <string name="drawerSettings">Ρυθμίσεις</string>
+    <string name="drawerAccount">Λογαριασμός</string>
+    <string name="drawerHelp">Βοήθεια</string>
+    <string name="drawerShowLog">Αρχείο Log</string>
+    <string name="drawerReportProblem">Αναφορά προβλήματος</string>
+    <string name="drawerAppVersion">v%1$s</string>
+    <string name="accountDetails">Πληροφορίες λογαριασμού</string>
+    <string name="accountSubscription">Συνδρομή</string>
+    <string name="accountUser">Χρήστης:</string>
+    <string name="accountType">Τύπος λογαριασμού:</string>
+    <string name="accountTier">Ενεργή συνδρομή:</string>
+    <string name="accountVersion">Έκδοση:</string>
+    <string name="accountSubscriptionDetails"><![CDATA[Για να διαχειριστείτε τη συνδρομή σας, πρέπει να μεταβείτε στο <font color="%1$s">protonvpn.com</font> webpanel.]]></string>
+    <string name="accountButtonManage">Διαχείριση λογαριασμού</string>
+    <string name="accountButtonUseCoupon">Χρήση κουπονιού</string>
+    <string name="accountFree">Proton VPN Free</string>
+    <string name="activityProfileTitle">Προφίλ</string>
+    <string name="activityAccountTitle">Λογαριασμός</string>
+    <string name="activitySettingsTitle">Ρυθμίσεις</string>
+    <string name="settingsSectionQuickConnect">Γρήγορη Σύνδεση</string>
+    <string name="settingsSectionConnection">Σύνδεση</string>
+    <string name="settingsSectionSecurity">Ασφάλεια</string>
+    <string name="settingsSectionAdvanced">Προχωρημένα</string>
+    <string name="settingsAutoStartTitle">Έναρξη με το Android</string>
+    <string name="settingsAutoStartDescription">Το Proton VPN θα ξεκινάει αυτόματα με κάθε εκκίνηση του συστήματος</string>
+    <string name="settingsBypassLocalTitle">Τοπικές συνδέσεις (LAN)</string>
+    <string name="settingsDnsLeakProtectionTitle">Προστασία Διαρροής DNS</string>
+    <string name="settingsDnsLeakDescription">Αποτροπή διαρροής λεπτομερειών DNS query σε τρίτους (πάντα ενεργοποιημένο)</string>
+    <string name="settingsDefaultMtu">1375</string>
+    <string name="settingsMtuSizeTitle">Μέγεθος MTU</string>
+    <string name="settingsMtuDescription">Σε περίπτωση που η προεπιλεγμένη τιμή δεν είναι κατάλληλη για ένα συγκεκριμένο δίκτυο, εισαγάγετε μια τιμή εντός του εύρους 1280-1500. Αλλάξτε το μόνο εάν γνωρίζετε τι κάνετε.</string>
+    <string name="settingsMtuRangeInvalid">Η τιμή MTU πρέπει να είναι στο εύρος 1280 -- 1500</string>
+    <string name="settingsDefaultConnectionTitle">Γρήγορη Σύνδεση</string>
+    <string name="settingsDefaultConnectionDescription">Το κουμπί γρήγορης σύνδεσης, σας συνδέει στο επιλεγμένο προφίλ</string>
+    <string name="settingsAllowNonStandardPortsTitle">Μη τυποποιημένες θύρες</string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Χρησιμοποιήστε το Proton VPN για κάθε ειδική περιπτωση επιτρέποντας την ροή των δεδομένων από μη τυποποιημένες θύρες μέσω του δικτύου VPN. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
+    <string name="settingsModerateNatTitle">Παραμετροποιήστε το NAT</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Παραμετροποιώντας το NAT, απενεργοποιείται η τυχαιοποίηση της αντιστοίχησης των τοπικών διευθύνσεων το οποίο μπορεί να μειώσει ελαφρώς το επίπεδο ασφαλείας, αλλά επιτρέπει τις απευθείας συνδέσεις για ορισμένες εφαρμογές όπως τα διαδικτυακά παιχνίδια.<a href="%1$s">Μάθετε περισσότερα</a>]]></string>
+    <string name="use_coupon_title">Χρήση κουπονιού</string>
+    <string name="use_coupon_code_label">Κωδικός κουπονιού</string>
+    <string name="use_coupon_success">Επιτυχής εφαρμογή κουπονιού</string>
+    <string name="use_coupon_success_no_upgrade_yet">Επιτυχής εφαρμογή κουπονιού. Η συνδρομή σας θα αναβαθμιστεί εντός ολίγων λεπτών.</string>
+    <string name="restrictedMaintenanceTitle">Υπό Συντήρηση</string>
+    <string name="restrictedMaintenanceDescription">Ο διακομιστής που προσπαθείτε αυτήν τη στιγμή να συνδεθείτε βρίσκεται υπό συντήρηση. Δοκιμάστε κάποιον άλλο διακομιστή.</string>
+    <string name="errorUserDelinquent"><![CDATA[Ο λογαριασμός σας έχει εκπρόθεσμο λογαριασμό. Καταβάλλετε όλο το μη καταβληθέν ποσό στο&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorMaxSessions">Έχετε φτάσει τον μέγιστο αριθμό ταυτόχρονων συνδέσεων που επιτρέπονται για το λογαριασμό σας. Κάντε αναβάθμιση του πακέτου Proton VPN σας για περισσότερες συνδέσεις.</string>
+    <string name="errorEmptyName">Το όνομα προφίλ δεν μπορεί να είναι κενό</string>
+    <string name="errorEmptyCountry">Το πεδίο χώρας δεν μπορεί να είναι κενό</string>
+    <string name="errorEmptyServer">Το πεδίο διακομιστή δεν μπορεί να είναι κενό</string>
+    <string name="errorEmptyEntryCountry">Το πεδίο χώρας εισόδου δεν γίνεται να είναι κενό</string>
+    <string name="errorEmptyExitCountry">Το πεδίο χώρας εξόδου δεν γίνεται να είναι κενό</string>
+    <string name="onboardingSignup">Εγγραφείτε</string>
+    <string name="onboardingSkip">Παράλειψη</string>
+    <string name="onboardingNext">Επόμενο</string>
+    <string name="offerTooltipShowOffer">Δείτε την προσφορά</string>
+    <string name="listItemMaintenance">Υπό συντήρηση</string>
+    <string name="listAllCountries">Όλες οι τοποθεσίες (%1$d)</string>
+    <string name="listGateways">Πύλες</string>
+    <string name="listFreeCountries">Τοποθεσίες Δωρεάν (%1$d)</string>
+    <string name="listPremiumCountries">Τοποθεσίες Basic &amp; Plus (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Τοποθεσίες Plus (%1$d)</string>
+    <string name="listFastestServer">Ο ταχύτερος διακομιστής</string>
+    <string name="listFreeServers">Δωρεάν διακομιστές (%1$d)</string>
+    <string name="listBasicServers">Διακομιστές Basic (%1$d)</string>
+    <string name="listPlusServers">Διακομιστές Plus (%1$d)</string>
+    <string name="insufficientPermissionsTitle">Απαιτείται ενέργεια από τον χρήστη</string>
+    <string name="insufficientPermissionsDetails">Δεν ήταν δυνατή η αυτόματη σύνδεση VPN. Συνδεθείτε χειροκίνητα μία φορά για να χορηγηθούν τα δικαιώματα.</string>
+    <string name="tabsCountries">Χώρες</string>
+    <string name="tabsMap">Χάρτης</string>
+    <string name="tabsProfiles">Προφίλ</string>
+    <string name="log_title">Αρχείο καταγραφής</string>
+    <string name="disconnect">Αποσύνδεση</string>
+    <string name="state_connecting">Συνδέεται…</string>
+    <string name="state_connected">Συνδεδεμένο</string>
+    <string name="state_disconnecting">Αποσυνδέεται…</string>
+    <string name="state_error">Σφάλμα</string>
+    <string name="error_server_unreachable">Αδυναμία σύνδεσης στο VPN. Παρακαλώ ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.</string>
+    <string name="error_auth_failed">Η επαλήθευση χρήστη απέτυχε.</string>
+    <string name="error_assessment_failed">Η αξιολόγηση ασφάλειας απέτυχε.</string>
+    <string name="error_generic">Απροσδιόριστη αποτυχία κατά τη σύνδεση.</string>
+    <string name="error_generic_with_reason">Το Proton VPN δεν μπόρεσε να εγκαθιδρύσει μια σύνδεση VPN. Παρακαλούμε δοκιμάστε ξανά σε λίγο.<br/><br/>Λεπτομέρειες: %1$s</string>
+    <string name="reconnect">Επανασύνδεση</string>
+    <string name="reconnect_now">Επανασύνδεση τώρα</string>
+    <string name="try_reconnecting">Δοκιμάστε να συνδεθείτε ξανά</string>
+    <string name="connect">Σύνδεση</string>
+    <string name="upgrade">Αναβάθμιση</string>
+    <string name="retry">Δοκιμάστε ξανά</string>
+    <string name="connection_failed">Αποτυχία σύνδεσης</string>
+    <string name="create_new_profile">Νέο προφίλ</string>
+    <string name="excludeAppsTitle">Εξαίρεση Εφαρμογών</string>
+    <string name="excludeAppsDescription">Προσθέστε τις εφαρμογές που θέλετε να εξαιρέσετε από την κίνηση δικτύου VPN.</string>
+    <string name="profile_name">Όνομα προφίλ</string>
+    <string name="profile_name_hint">Καταχωρήστε το όνομα του προφίλ</string>
+    <string name="profile_color">Χρώμα προφίλ</string>
+    <string name="secure_core">Secure Core</string>
+    <string name="attachments">Συνημμένα</string>
+    <string name="report_message">Αναφορά μηνύματος</string>
+    <string name="report_bug_email_label">Το email σας</string>
+    <string name="report_bug_email_hint">Καταχωρίστε τη διεύθυνση email σας</string>
+    <string name="report_bug_message_label">Μήνυμα</string>
+    <string name="report_bug_message_hint">Παρακαλώ περιγράψτε το σφάλμα του προγράμματος και το \"πού\" και \"πώς\" το βρήκατε</string>
+    <string name="send_report">Αποστολή αναφοράς</string>
+    <string name="excludeIpTitle">Εξαίρεση Διευθύνσεων IP</string>
+    <string name="discardChanges">Απόρριψη μη αποθηκευμένων αλλαγών;</string>
+    <string name="discard">Απόρριψη</string>
+    <string name="selectedProfileColor">Παρακαλώ επιλέξτε χρώμα για το προφίλ σας</string>
+    <string name="excludeIpDescription">Προσθέστε διευθύνσεις IP που θέλετε να εξαιρούνται απο την κίνηση δικτύου VPN.</string>
+    <string name="done">ΟΛΟΚΛΗΡΩΣΗ</string>
+    <string name="add">ΠΡΟΣΘΗΚΗ</string>
+    <string name="copy_to_clipboard">Αντιγραφή</string>
+    <string name="the_list_is_empty">Η λίστα είναι κενή</string>
+    <string name="got_it">Το κατάλαβα</string>
+    <string name="onboardingWelcome">Καλώς ήρθατε</string>
+    <string name="proton_log">Αρχεία καταγραφής Proton</string>
+    <string name="something_went_wrong">Κάτι πήγε στραβά</string>
+    <string name="try_again">Προσπαθήστε ξανά</string>
+    <string name="manage">Διαχείριση</string>
+    <string name="delete">Διαγραφή</string>
+    <string name="remove">Αφαίρεση</string>
+    <string name="deleteProfileButton">Διαγραφή προφίλ</string>
+    <string name="deleteProfile">Διαγραφή προφίλ;</string>
+    <string name="doneButton">Έτοιμο</string>
+    <string name="saveButton">Αποθήκευση</string>
+    <string name="recommendedHeader">Προτεινόμενο</string>
+    <string name="countryServersHeader">Χώρα διακομιστών</string>
+    <string name="secureCoreCountriesHeader">Χώρες Secure Core</string>
+    <string name="recommendedProfilesHeader">Προτεινόμενα προφίλ</string>
+    <string name="free_connection_header">Δωρεάν σύνδεση</string>
+    <string name="yourProfilesHeader">Τα προφίλ μου</string>
+    <string name="exitCountry">Έξοδος χώρας</string>
+    <string name="entryCountry">Είσοδος χώρας</string>
+    <string name="country">Χώρα</string>
+    <string name="selectCountry">Επιλογή Χώρας</string>
+    <string name="serverSelection">Διακομιστής</string>
+    <string name="selectServer">Επιλογή Διακομιστή</string>
+    <string name="protocolLabel">Πρωτόκολλο</string>
+    <string name="selectProtocol">Επιλογή πρωτοκόλλου</string>
+    <string name="protocol">Πρωτόκολλο:</string>
+    <string name="ip">IP:</string>
+    <string name="ipWithPlaceholder">IP: %1$s</string>
+    <string name="server">Διακομιστής:</string>
+    <string name="session_time">Διάρκεια συνεδρίας:</string>
+    <string name="download_volume">Όγκος:</string>
+    <string name="download_speed">Ταχύτητα:</string>
+    <string name="notConnected">Δεν είστε συνδεδεμένοι \n σε κάποιο διακομιστή</string>
+    <string name="activityLicensesTitle">Άδειες τρίτων</string>
+    <string name="stateFragmentUnknownIp">Άγνωστο</string>
+    <string name="noVpnPermissionMainTitle">Απαιτείται ενέργεια για σύνδεση στο VPN</string>
+    <string name="noVpnPermissionMainMessage">Για σύνδεση στο Proton VPN, παρακαλούμε κάντε τα εξής:</string>
+    <string name="noVpnPermissionGrantPermissionTitle">Παροχή άδειας VPN</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Το Android απαιτεί την άδειά σας για να συνδεθεί στο Proton VPN. Δίδεται τη συγκατάθεσή σας, πατώντας το \"OK\" στο παράθυρο \"Αιτήματος σύνδεσης\" από το Android.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Απενεργοποιήστε την επιλογή \"Πάντα-Ενεργό\" από άλλες εφαρμογές VPN</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Το Android δεν υποστηρίζει πολλαπλές εφαρμογές VPN. Απενεργοποιήστε την επιλογή \"Πάντα-Ενεργό\" από τις άλλες εφαρμογές VPN εκτός του Proton VPN.</string>
+    <string name="noVpnPermissionProtonAppLabel">Εφαρμογή Proton VPN</string>
+    <string name="noVpnPermissionOtherAppLabel">Άλλες εφαρμογές VPN</string>
+    <string name="noVpnPermissionOpenSettings">Άνοιγμα ρυθμίσεων VPN του Android</string>
+    <string name="noNotificationPermissionGrantTitle">Μην ξεγελιέστε…</string>
+    <string name="noNotificationPermissionGrantDescription">Ενεργοποιήστε τις ειδοποιήσεις για να λαμβάνετε ειδοποιήσεις σχετικά με αλλαγές στην κατάσταση σύνδεσής σας.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Ενεργοποίηση ειδοποιήσεων</string>
+    <string name="error_prepare_vpn_description"><![CDATA[Παρακαλώ απενεργοποιήστε την επιλογή "Πάντα-Ενεργό" σε όλες τις υπόλοιπες εφαρμογές VPN μέσω των ρυθμίσεων συστήματος VPN του Android, καθώς αυτό αποτρέπει το Proton VPN από το να δημιουργήσει νέα σύνδεση. Επίσης παραχωρήστε δικαιώματα VPN αν εμφανιστεί ένα παράθυρο διαλόγου που τα ζητά. Οι υπόλοιπες εφαρμογές VPN θα ήταν θεμιτό να απεγκατασταθούν για την αποφυγή διενέξεων λογισμικού. Κατόπιν δοκιμάστε ξανά.<a href="%1$s">Μάθετε περισσότερα</a>]]></string>
+    <string name="error_prepare_vpn_settings">Πηγαίνετε στις ρυθμίσεις VPN του Android</string>
+    <string name="error_prepare_vpn_title">Σφάλμα: πρόβλημα δικαιόματος VPN</string>
+    <string name="error_server_not_set">Ο διακομιστής δεν είναι πλέον διαθέσιμος</string>
+    <string name="bugReportThankYouToast">Ευχαριστούμε για την αναφορά σας</string>
+    <string name="bugReportErrorEmptyEmail">Το Email δεν μπορεί να είναι κενό</string>
+    <string name="bugReportErrorInvalidEmail">Μη έγκυρη διεύθυνση email</string>
+    <string name="bugReportErrorEmptyDescription">Παρακαλούμε γράψτε μας τι συμβαίνει</string>
+    <string name="bugReportLabelVpnLogsTitle">Συμπεριλάβετε τις καταχωρήσεις λαθών</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Με αυτό αποστέλλονται οι καταχωρήσεις λαθών του λογισμικού (δεν καταχωρείται η δραστηριότητά σας) για να μας βοηθήσετε να επιλύσουμε το πρόβλημά σας</string>
+    <string name="profileFastest">Γρηγορότερο</string>
+    <string name="profileRandom">Τυχαίο</string>
+    <string name="settingsSplitTunnelingDescription">Το \"Split Tunneling\" επιτρέπει συγκεκριμένες εφαρμογές ή IP διευθύνσεις, να εξαιρούνται απο την ροή δεδομένων του VPN.</string>
+    <string name="settingsSplitTunnelingTitle">Διαίρεση σήραγγας</string>
+    <string name="loaderAuthenticatingUser">Επαλήθευση χρήστη…</string>
+    <string name="loaderErrorNoInternet">Δεν υπάρχει σύνδεση στο Διαδίκτυο</string>
+    <string name="loaderErrorGeneric">Κάτι πήγε στραβά</string>
+    <string name="loaderLoadingServers">Φόρτωση διακομιστών…</string>
+    <string name="inputIpAddressLabel">Διεύθυνση IP</string>
+    <string name="inputIpAddressHint">Καταχωρήστε την IP Διεύθυνση</string>
+    <string name="inputIpAddressErrorInvalid">Μη έγκυρη IP Διεύθυνση</string>
+    <string name="settingsExcludedIPAddresses">Εξαιρούμενες IP διευθύνσεις</string>
+    <string name="settingsExcludedIPAddressesListHeader">Εξαιρούμενες IP διευθύνσεις (%1$d)</string>
+    <string name="settingsExcludedApps">Εξαιρούμενες εφαρμογές</string>
+    <string name="settingsExcludedAppsEmpty">Προσθέστε τις εφαρμογές που θέλετε να εξαιρέσετε από την ροή δεδομένων του δικτύου VPN.</string>
+    <string name="settingsExcludedAppsSelectedHeader">Εξαιρούμενες εφαρμογές (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableRegularHeader">Επιτρεπόμενες τακτικές εφαρμογές (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableSystemHeader">Επιτρεπόμενες εφαρμογές συστήματος (%1$d)</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">Προβολή εφαρμογών συστήματος</string>
+    <string name="listNoItems">Κανένα</string>
+    <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
+         %2$d - a number of remaining items.
+         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
+    <plurals name="listFewItemsAndMore">
+        <item quantity="one">%1$s και %2$d ακόμα</item>
+        <item quantity="other">%1$s και %2$d ακόμα</item>
+    </plurals>
+    <string name="settingsCannotChangeWhileConnected">Δεν είναι δυνατή αυτή η αλλαγή οσό είστε συνδεδεμένοι</string>
+    <string name="excludeAlreadyExcluded">Έχει ήδη αποκλειστεί</string>
+    <string name="removeExcludedIpDialogDescription">Κατάργηση IP Διευθύνσης από τη λίστα;</string>
+    <string name="loaderFetchingServers">Φόρτωση διακομιστών…</string>
+    <string name="toastProfileSaved">Αποθηκεύτηκε</string>
+    <string name="tileConnected">Συνδέθηκε: %1$s</string>
+    <string name="dialogTitleAttention">Προσοχή</string>
+    <string name="saveProfileAlreadySaved">Ήδη αποθηκευμένο</string>
+    <string name="openUrlError">%1$s δεν μπόρεσε να ανοίξει. Δεν εντοπίστηκε πρόγραμμα περιήγησης στη συσκευή σας.</string>
+    <string name="toastLoginAuthVersionError">Δεν είναι δυνατή η σύνδεση, λόγω μη υποστηριζόμενης έκδοσης auth. Επικοινωνήστε με την υποστήριξη.</string>
+    <string name="loaderErrorTimeout">Λήξη χρονικού ορίου σύνδεσης. Παρακαλώ προσπαθήστε ξανά.</string>
+    <string name="troubleshootButton">Επίλυση προβλημάτων</string>
+    <string name="activityTroubleshootTitle">Επίλυση προβλημάτων</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">Πιθανές λύσεις</string>
+    <string name="troubleshootNoInternetDescription">Βεβαιωθείτε ότι η σύνδεση στο Internet σας λειτουργεί.</string>
+    <string name="troubleshootNoInternetTitle">Δεν υπάρχει σύνδεση στο Διαδίκτυο</string>
+    <string name="troubleshootIspProblemTitle">Πρόβλημα παρόχου ISP (Internet Service Provider)</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Δοκιμάστε να συνδεθείτε στο Proton από διαφορετικό δίκτυο (ή χρησιμοποιήστε <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootAntivirusProblemTitle">Παρεμβολές του Antivirus</string>
+    <string name="troubleshootAntivirusProblemDescription">Απενεργοποιήστε ή αφαιρέστε προσωρινά το antivirus.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Παρέμβαση Proxy/Firewall</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Απενεργοποιήστε οποιαδήποτε proxies ή firewalls, ή επικοινωνήστε με το διαχειριστή του δικτύου σας.</string>
+    <string name="troubleshootProtonDownTitle">Το Proton είναι εκτός λειτουργίας</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Ελέγξτε <a href=\"%1$s\">Κατάσταση Proton</a> για την κατάσταση των συστημάτων μας.]]></string>
+    <string name="troubleshootContactUsSectionTitle">Εξακολουθείται να χρειάζεστε βοήθεια; Επικοινωνήστε απ\' ευθείας μαζί μας</string>
+    <string name="troubleshootCustomerSupport">Εξυπηρέτηση πελατών</string>
+    <string name="settingsAllowAlternativeRoutingTitle">Εναλλακτική δρομολόγηση</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Στην περίπτωση που το Proton είναι μπλοκαρισμένο, επιτρέψτε στην εφαρμογή να χρησιμοποιήσει εναλλακτικές διαδρομές για την επικοινωνία με τους διακομιστές της Proton. <a href="%1$s">Μάθετε περισσότερα</a>.]]></string>
+    <string name="troubleshootGovernmentBlockTitle">Κυβερνητική απαγόρευση</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Η χώρα σας μπορεί να εμποδίζει την πρόσβαση στο Proton. Δοκιμάστε να χρησιμοποιήσετε <a href=\'%1$s\'>Tor</a> για πρόσβαση στο Proton.]]></string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">\"Πάντα-Ενεργό\" VPN &amp; Kill Switch</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Ορίστε πώς θα συμπεριφέρεται το Proton VPN αν η σύνδεση διακοπεί</string>
+    <string name="settingsAlwaysOnWindowHeader">Πως ενεργοποιείται το \"Πάντα-Ενεργό\" VPN και το Kill Switch:</string>
+    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Ανοίξτε τις <b>ρυθμίσεις</b> της συσκευής σας πατώντας στο παρακάτω κουμπί]]></string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsAlwaysOnWindowStep2">2. Βρείτε το Proton VPN και πατήστε %1$s</string>
+    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone\'s settings. -->
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[Πατήστε τον διακόπτη δίπλα στο <b>Πάντα-Ενεργό VPN</b> για να το ενεργοποιήσετε]]></string>
+    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
+         Android settings.
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone\'s settings. -->
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Πατήστε τον διακόπτη δίπλα από το <b>Μπλοκάρισμα συνδέσεων χωρίς VPN</b> για να ενεργοποιήσετε το "Kill Switch"]]></string>
+    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Άνοιγμα ρυθμίσεων Android</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Ενεργοποιώντας το Kill Switch θα απενεργοποιηθεί το split tunneling καθώς ο Kill Switch μπλοκάρει όλες τις συνδέσεις εκτός του VPN tunnel</string>
+    <string name="settingsSmartProtocolDescription">Χρησιμοποιήστε αυτόματα το πρωτόκολλο και τη θύρα που προσφέρουν την καλύτερη συνδεσιμότητα.</string>
+    <string name="settingsEnableTelemetryTitle">Κοινοποιήστε ανώνυμα στατιστικά χρήσης</string>
+    <string name="settingsEnableTelemetryDescription">Τα δεδομένα χρήσης μας βοηθούν να ξεπεράσουμε τα μπλοκαρίσματα VPN και να βελτιώσουμε την απόδοση των εφαρμογών.</string>
+    <string name="settingsSendCrashReportsTitle">Κοινοποιήστε ανώνυμες αναφορές σφαλμάτων</string>
+    <string name="settingsSendCrashReportsDescription">Οι αναφορές σφαλμάτων μάς βοηθούν να διορθώνουμε σφάλματα, να εντοπίζουμε τείχη προστασίας και να αποφεύγουμε τα μπλοκαρίσματα VPN.</string>
+    <string name="settingsTelemetryScreenTitle">Στατιστικά χρήσης</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Αυτά τα στατιστικά στοιχεία δεν περιέχουν τη διεύθυνση IP σας και δεν μπορούν να χρησιμοποιηθούν για την αναγνώρισή σας. Δε θα τα μοιραστούμε ποτέ με τρίτους. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
+    <string name="netShieldEnabledWarning">Προσοχή, ορισμένοι ιστότοποι ενδέχεται να μην λειτουργούν πλήρως, λόγω αποκλεισμένου περιεχομένου.</string>
+    <string name="netShieldDescription">Αποκλεισμός διαφημίσεων, ιχνηλατών και κακόβουλου λογισμικού </string>
+    <string name="netshield_settings_description"><![CDATA[Προστατέψτε τον εαυτό σας από διαφημίσεις, κακόβουλο λογισμικό και ιχνηλάτες στις ιστοσελίδες και στις εφαρμογές. Εάν οι ιστοσελίδες δε φορτώνουν, προσπαθήστε ξανά απενεργοποιώντας το NetShield. <a href="%1$s">Μάθετε περισσότερα</a>.]]></string>
+    <string name="netshield_status_on">Ενεργό</string>
+    <string name="netshield_status_off">Ανενεργό</string>
+    <string name="netshield_free_title">Περιηγηθείτε χωρίς διαφημίσεις με το NetShield</string>
+    <string name="netshield_free_description">Αποκλεισμός διαφημίσεων, ιχνηλατών και κακόβουλων προγραμμάτων σε ιστότοπους και εφαρμογές</string>
+    <string name="netshield_business_title">Φραγή διαφημίσεων με το NetShield</string>
+    <string name="netshield_business_description">Με αναβάθμιση σε VPN Business</string>
+    <string name="accessibility_netshield_status_on_click">Εισαγάγετε τις ρυθμίσεις NetShield</string>
+    <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
+        <item quantity="one">Διαφήμιση\nαποκλείστηκε</item>
+        <item quantity="other">Διαφημίσεις\nαποκλείστηκαν</item>
+    </plurals>
+    <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
+        <item quantity="one">Ιχνηλάτης\nσταματήθηκε</item>
+        <item quantity="other">Ιχνηλάτες\nσταματήθηκαν</item>
+    </plurals>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Δεδομένα\nσωθήκαν</string>
+    <string name="netShieldBlockMalwareOnly">Αποκλεισμός malware μόνο</string>
+    <string name="netShieldFullBlock">Αποκλεισμός κακόβουλου λογισμικού, παρακολούθησης, διαφημίσεων</string>
+    <string name="dialogDontShowAgain">Να μην εμφανιστεί ξανά</string>
+    <string name="guestHoleActivated">Η πρόσβαση στο Proton VPN ενδέχεται να είναι περιορισμένη στην περιοχή σας, αυτό θα διαρκέσει περισσότερο από το συνηθισμένο. Παρακαλώ περιμένετε όσο δουλεύουμε πάνω σε αυτό το πρόβλημα.</string>
+    <string name="guestHoleNotificationContent">Γίνεται προσπάθεια παράκαμψης των προβλημάτων δικτύου. Έτσι θα μπορέσετε να αποκτήσετε πρόσβαση στο Proton VPN.</string>
+    <string name="onMaintenanceDetected">Ο διακομιστής VPN με τον οποίο συνδεθήκατε βρίσκεται υπό συντήρηση. Σας επανασυνδέσαμε αυτόματα με τον ταχύτερο διαθέσιμο διακομιστή.</string>
+    <string name="errorTunMultiUserPermission">Δεν ήταν δυνατή η VPN σύνδεση, λόγω ότι οι λειτουργίες διπλής εφαρμογής (Dual Messenger) και Split Tunneling είναι ταυτόχρονα ενεργοποιημένες. Απενεργοποιήστε ένα από αυτά και επανεκκινήστε τη συσκευή σας.</string>
+    <string name="errorTorrentNotAllowed">Το P2P δεν επιτρέπεται σε αυτόν τον διακομιστή</string>
+    <string name="errorWireguardWithPlaceholder">Σφάλμα WireGuard %1$s</string>
+    <string name="profileProtocolNotAvailable">Το πρωτόκολλο VPN αυτού του προφίλ είναι προσωρινά μη διαθέσιμο. Για να συνδεθείτε, δοκιμάστε να αλλάξετε το πρωτόκολλο.</string>
+    <string name="stateConnectedTo">Συνδεδεμένο σε %1$s</string>
+    <string name="stateNotConnected">Δεν είστε συνδεδεμένοι</string>
+    <string name="recents">Πρόσφατα</string>
+    <string name="tvQuickConnectDescription">Κοντινές χώρες</string>
+    <string name="tvQuickConnectSubDescription">Διακομιστής ροής</string>
+    <string name="nameEurope">Ευρώπη</string>
+    <string name="nameAmerica">Αμερική</string>
+    <string name="nameAsia">Ασία</string>
+    <string name="nameAfricaAndMiddleEast">Αφρική &amp; Μέση Ανατολή</string>
+    <string name="nameOceania">Ωκεανία</string>
+    <string name="tvRowMore">Περισσότερα</string>
+    <string name="tv_detail_default_connection_checkbox">Η αγαπημένη μου χώρα</string>
+    <string name="tv_detail_default_connection_checkbox_short">Αγαπημένο</string>
+    <string name="tv_detail_connect_streaming">Stream με Plus</string>
+    <string name="tv_detail_connect">Σύνδεση</string>
+    <string name="tv_detail_description_streaming_country">Μεταδώστε το περιεχόμενο που προτιμάτε. Προσπελάστε περισσότερες εφαρμογές με ένα πρόγραμμα Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Μεταδόστε περισσότερο από το αγαπημένο σας περιεχόμενο με ένα πρόγραμμα Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Μη διαθέσιμη χώρα. Αποκτήστε περισσότερες επιλογές μετάδοσης, με ένα πρόγραμμα Proton VPN Plus.</string>
+    <string name="tv_detail_description_plus">Δείτε τα αγαπημένα σας βίντεο, ταινίες ή αθλήματα με τις εφαρμογές σας.</string>
+    <string name="tv_login_title_signin">Είσοδος στο Proton VPN</string>
+    <string name="tv_login_title_welcome">Μεταδώστε το αγαπημένο σας περιεχόμενο βίντεο</string>
+    <string name="tv_login_welcome_description">Παρακολουθήστε περιεχόμενο βίντεο σε πάνω από 50 χώρες, συμπεριλαμβανομένων των YouTube και Twitch. Κάντε stream Netflix, Amazon Prime και Hulu με Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Αποκτήστε τον λογαριασμό σας στο Proton VPN στο <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_button">Σύνδεση</string>
+    <string name="tv_login_step1_description"><![CDATA[Μεταβείτε στο <b>%1$s</b> στην κινητή συσκευή ή τον υπολογιστή σας]]></string>
+    <string name="tv_login_step2_description">Είσοδος στο Proton VPN</string>
+    <string name="tv_login_step3_description">Εισάγετε τον κωδικό:</string>
+    <string name="tv_login_timer_label">Αυτός ο κωδικός λήγει σε:</string>
+    <string name="tv_login_refresh">Ανανέωση</string>
+    <string name="tv_login_title_loading">Φόρτωση…</string>
+    <string name="tv_login_title_refresh">Η συνεδρία σας έχει λήξει. Κάντε κλικ στην ανανέωση για να ξεκινήσετε ξανά.</string>
+    <string name="tv_upgrade_title">Ξεκινήστε το streaming με Plus</string>
+    <string name="back">Πίσω</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Επισκεφθείτε το <b>%1$s</b> για άμεση αναβάθμιση σε Proton VPN Plus.]]></string>
+    <string name="tv_upgrade_description">Αποκτήστε το Proton VPN Plus για πρόσβαση σε 500+ διακομιστές παγκοσμίως και βελτιστοποιημένες επιλογές streaming για Netflix, Amazon Prime Video, Disney+, και πολλά άλλα.</string>
+    <string name="tv_vpn_error_dialog_title">Η σύνδεση VPN απέτυχε</string>
+    <string name="tv_signout_label">Αποσύνδεση</string>
+    <string name="tv_signout_dialog_title">Είστε βέβαιοι ότι θέλετε να αποσυνδεθείτε;</string>
+    <string name="tv_signout_dialog_description_connected">Αυτό θα αποσυνδέσει την τηλεόραση σας από οποιονδήποτε διακομιστή VPN.</string>
+    <string name="tv_signout_dialog_ok">Αποσύνδεση</string>
+    <string name="tv_quick_connect_recommened">Προτεινόμενο</string>
+    <string name="tv_quick_connect_favourite">Αγαπημένο</string>
+    <string name="tv_country_maintenance_dialog_title">Η χώρα δεν είναι διαθέσιμη</string>
+    <string name="tv_country_maintenance_dialog_description">Παρακαλώ δοκιμάστε ξανά αργότερα ή επιλέξτε μια διαφορετική χώρα.</string>
+    <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+         Example: 76% Server Load -->
+    <string name="tv_server_list_load">%1$s%% Φόρτωση διακομιστή</string>
+    <string name="tv_recently_used_servers">Πρόσφατα χρησιμοποιημένοι διακομιστές (%1$d)</string>
+    <string name="tv_available_servers">Διαθέσιμοι διακομιστές (%1$d)</string>
+    <string name="tv_locked_servers">Κλειδωμένοι διακομιστές (%1$d)</string>
+    <string name="tv_other_servers">Άλλοι διακομιστές (%1$d)</string>
+    <string name="tv_server_under_maintenance">Υπό Συντήρηση</string>
+    <string name="tv_server_list">Λίστα διακομιστών</string>
+    <string name="tv_server_list_action_unavailable">Μη διαθέσιμο</string>
+    <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[Το VPN Accelerator ενεργοποιεί ένα σύνολο από μοναδικές τεχνολογίες βελτίωσης της απόδοσης οι οποίες μπορούν να βελτιώσουν την ταχύτητα του VPN μέχρι και 400%%.<a href="%1$s">Μάθετε περισσότερα</a>.]]></string>
+    <string name="settingsReconnectToApplySettingsDialogContent">Οι νέες ρυθμίσεις θα εφαρμοστούν την επόμενη φορά που θα συνδεθείτε.</string>
+    <string name="settingsReconnectToChangeDialogContent">Αυτή η ενέργεια θα επανεκκινήσει την σύνδεσή σας.</string>
+    <string name="reconnectToEnableNetshield">Αυτή η ενέργεια θα επανεκκινήσει την σύνδεσή σας.\n\nΣημείωση: Κάποιες διαδικτυακές τοποθεσίες μπορεί να μη φορτώνουν με το NetShield ενεργοποιημένο.</string>
+    <string name="notification_subscription_expired_title">Η συνδρομή σας στο πρόγραμμά του Proton VPN έχει λήξει</string>
+    <string name="notification_subscription_expired_content">Πρέπει να υποβιβάσουμε το πρόγραμμά σας αλλά σας επανασυνδέουμε στον γρηγορότερο, διαθέσιμο, διακομιστή του τωρινού προγράμματος.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Η συνδρομή σας έχει υποβαθμιστεί.</string>
+    <string name="notification_delinquent_title">Ο Proton VPN λογαριασμός έχει οφειλόμενα τιμολόγια</string>
+    <string name="notification_delinquent_content">Παρακαλούμε ενημερώστε τις πληροφορίες πληρωμών σας για να διατηρήσετε την συνδρομή σας ενεργή.</string>
+    <string name="notification_max_sessions_title">Έχετε φτάσει το μέγιστο όριό σας συσκευών</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="notification_max_sessions_upsell_content">
+        <item quantity="one">Παρακαλώ αποσυνδεθείτε από την άλλη συσκευή, που είναι συνδεδεμένη, για να συνδεθείτε με αυτή ή αναβαθμίστε τη συνδρομή σε Plus με τη δυνατότητα ταυτόχρονης σύνδεσης %1$d συσκευής.</item>
+        <item quantity="other">Παρακαλώ αποσυνδεθείτε από την άλλη συσκευή, που είναι συνδεδεμένη, για να συνδεθείτε με αυτή ή αναβαθμίστε τη συνδρομή σε Plus με τη δυνατότητα ταυτόχρονης σύνδεσης %1$d συσκευών.</item>
+    </plurals>
+    <string name="notification_max_sessions_content">Παρακαλώ αποσυνδέστε την άλλη συσκευή για να συνδεθείτε με αυτή.</string>
+    <string name="notification_cancel_to_free">Χρησιμοποιήτε το Δωρεάν πρόγραμμα. Δωρεάν διακομιστές και υπηρεσίες είναι στη διάθεσή σας.</string>
+    <string name="notification_cancel_to_basic">Χρησιμοποιήτε το πρόγραμμα Basic. Οι Basic &amp; οι Δωρεάν διακομιστές και υπηρεσίες είναι στη διάθεσή σας.</string>
+    <string name="notification_cancel_to_delinquent">Η πρόσβασή σας στις premium υπηρεσίες θα αποκατασταθεί μετά την τακτοποίηση των οικονομικών εκκρεμοτήτων σας.</string>
+    <string name="vpn_accelerator">VPN Accelerator</string>
+    <string name="reconnect_from_server">Από διακομιστή: </string>
+    <string name="reconnect_to_server">Προς διακομιστή: </string>
+    <string name="no_thanks">Όχι ευχαριστώ</string>
+    <string name="enable">Ενεργοποίηση</string>
+    <string name="notification_smart_protocol_disabled_title">Το Smart Protocol είναι απενεργοποιημένο προς το παρόν</string>
+    <string name="notification_smart_protocol_disabled_content">Το Proton VPN ανίχνευσε ότι το τρέχον δίκτυό σας αποτρέπει την σύνδεση στο VPN. Ενεργοποιώντας το Smart Protocol μπορεί να παρακάμφθούν αυτοί οι περιορισμοί.</string>
+    <string name="upsell_advanced_features">Προηγμένες λειτουργίες: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_streaming_services">Αποκτήστε πρόσβαση σε υπηρεσίες ροής/streaming (Netflix, Disney+, κλπ) από οπουδήποτε στον κόσμο</string>
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_servers">
+        <item quantity="one">%1$dΔιακομιστής</item>
+        <item quantity="other">%1$dΔιακομιστές</item>
+    </plurals>
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_countries">
+        <item quantity="one">%1$dΧώρα</item>
+        <item quantity="other">%1$dΧώρες</item>
+    </plurals>
+    <string name="upsell_upgrade_again">Αναβάθμιση ξανά, προς απόλαυση όλων των χαρακτηριστικών:</string>
+    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
+         upgrade screen -->
+    <string name="upgrade_plus_subtitle">Όταν γίνει αναβάθμισή στο πρόγραμμα Plus</string>
+    <string name="upgrade_netshield_title_new">Απολάυστε σερφάρισμα χωρίς διαφημίσεις με το NetShield</string>
+    <string name="upgrade_secure_core_title_new">Διπλή κρυπτογράφηση με Secure Core</string>
+    <string name="upgrade_secure_core_countries">Περιηγηθείτε μέσω υπέρ ασφαλών διακομιστών στην Ελβετία, τη Σουηδία και την Ισλανδία</string>
+    <string name="upgrade_secure_core_encryption">Επιπρόσθετο επίπεδο κρυπτογράφησης στη σύνδεση VPN σας</string>
+    <string name="upgrade_secure_core_protect">Προστασία από δικτυακές επιθέσεις</string>
+    <string name="upgrade_profiles_title">Αποκτήστε γρήγορη πρόσβαση στις συχνές συνδέσεις σας</string>
+    <string name="upgrade_profiles_text">Ξεκλειδώστε τα προφίλ με το VPN Plus</string>
+    <string name="upgrade_profiles_feature_save">Αποθηκεύστε τον διακομιστή, την πόλη ή τη χώρα που προτιμάτε</string>
+    <string name="upgrade_profiles_feature_customize">Ορίστε προσαρμοσμένα πρωτόκολλα και premium χαρακτηριστικά VPN</string>
+    <string name="upgrade_vpn_accelerator_title">Περιηγηθείτε με ακόμα υψηλότερες ταχύτητες (έως 10 Gbps).</string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Αυξήστε τις ταχύτητες σύνδεσης έως και 400% με το <b>VPN Accelerator</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_distant_servers">Βελτιωμένη ταχύτητα και σταθερότητα όταν συνδέεστε σε απομακρυσμένους διακομιστές.</string>
+    <string name="upgrade_vpn_accelerator_feature_less_crowded">Αποκτήστε πρόσβαση σε ταχύτερους και λιγότερο πολυσύχναστους διακομιστές</string>
+    <string name="upgrade_split_tunneling_title">Αξιοποιήστε στο έπακρο και τους δύο κόσμους</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Ξεκλειδώστε τη <b>διαίρεση σήραγγας</b> με το VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_two_locations">Περιηγηθείτε από δύο τοποθεσίες ταυτόχρονα με διαίρεση σήραγγας</string>
+    <string name="upgrade_split_tunneling_feature_allow_exceptions">Επιτρέψτε σε αξιόπιστες εφαρμογές και διευθύνσεις IP να συνδέονται απευθείας στο διαδίκτυο, προστατεύοντας παράλληλα οτιδήποτε άλλο με το VPN σας</string>
+    <string name="upgrade_customization_title">Ξεκλειδώστε προχωρημένες προσαρμογές VPN</string>
+    <string name="upgrade_customization_lan"><![CDATA[Πρόσβαση σε συσκευές στο <b>τοπικό σας δίκτυο (LAN)</b>]]></string>
+    <string name="upgrade_customization_feature_profiles"><![CDATA[Αποθηκεύστε συνδέσεις που χρησιμοποιούνται συχνά με <b>προφίλ</b>]]></string>
+    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Αποκτήστε άμεση πρόσβαση στα προφίλ σας με <b>Γρήγορη Σύνδεση</b>]]></string>
+    <string name="upgrade_netshield_block_ads">Φραγή διαφημίσεων και ιχνηλατών</string>
+    <string name="upgrade_netshield_block_malware">Προστασία της συσκευής σας από κακόβουλο λογισμικό</string>
+    <string name="upgrade_netshield_speed">Περιήγηση με ύψιστη ταχύτητα</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d διασφαλισμένος διακομιστής</item>
+        <item quantity="other">%d διασφαλισμένοι διακομιστές</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="upgrade_plus_countries">
+        <item quantity="one">%d χώρα</item>
+        <item quantity="other">%d χώρες</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_servers_new"
+     %2$s - replaced with "upgrade_plus_countries"
+
+     Example:
+     Access over 1300 secure servers in 61 countries
+     -->
+    <string name="upgrade_plus_countries_title_new">Έχετε πρόσβαση σε πάνω από %1$s σε %2$s</string>
+    <string name="upgrade_plus_countries_subtitle">Όταν γίνει αναβάθμισή στο πλάνο Plus</string>
+    <string name="upgrade_plus_countries_choose_location">Επιλέξτε οποιαδήποτε τοποθεσία</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Ακόμα υψηλότερη ταχύτητα VPN</string>
+    <string name="upgrade_plus_countries_access_content">Πρόσβαση σε γεωγραφικά μπλοκαρισμένο περιεχόμενο</string>
+    <string name="upgrade_plus_countries_stream">Μεταδώστε τις αγαπημένες σας ταινίες</string>
+    <string name="upgrade_safe_mode_title">Άδεια διακίνησης σε μη τυποποιημένες θύρες</string>
+    <string name="upgrade_safe_mode_message">Έχετε προχωρημένες ή επαγγελματικές υπολογιστικές ανάγκες που απαιτούν μη τυποποιημένες θύρες; Αναβαθμίστε σε VPN Plus για πρόσβαση σε αυτό και άλλα προνομιακά χαρακτηριστικά.</string>
+    <string name="upgrade_not_now_button">Όχι τώρα</string>
+    <string name="upgrade_learn_more">Μάθετε περισσότερα</string>
+    <!-- Information activity -->
+    <string name="activity_information_title">Πληροφορίες</string>
+    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+    <string name="activity_information_plus_title">%1$s - Διακομιστές Plus</string>
+    <string name="activity_information_gateways_title">Τι είναι η πύλη;</string>
+    <string name="info_features">Χαρακτηριστικά</string>
+    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_description">Η τεχνολογία αυτή επιτρέπει στο Proton VPN να παρέχει υψηλότερες ταχύτητες Internet και ασφάλεια σε χώρες με δυσκολίες στην παροχή του.</string>
+    <string name="streaming_title">Ροή/\"Streaming\"</string>
+    <string name="streaming_description">Οι διακομιστές Plus υποστηρίζουν μετάδοση (Netflix, Disney+ κλπ.) από οπουδήποτε στον κόσμο.</string>
+    <string name="p2p_title">P2P/BitTorrent</string>
+    <string name="p2p_description">Αυτοί οι διακομιστές παρέχουν καλύτερες επιδόσεις στο διαμοιρασμό αρχείων και για το BitTorrent.</string>
+    <string name="tor_title">Tor</string>
+    <string name="tor_description">Δρομολογήστε τη ροή δεδομένων σας στο διαδίκτυο, μέσω του δικτύου Tor. Χαμηλότερη ταχύτητα, αλλα πιο ιδιωτικό.</string>
+    <string name="info_performance">Απόδοση</string>
+    <string name="server_load_title">Φόρτος Διακομιστή</string>
+    <string name="server_load_description">Διακομιστές με υψηλό φόρτο είναι πιο αργοί από τους διακομιστές με χαμηλότερο φόρτο.</string>
+    <string name="streaming_title_with_country">Ροή/\"Streaming\" - %1$s</string>
+    <string name="streaming_services_description">Συνδεθείτε σε ένα διακομιστή \"Plus\" σε αυτή τη χώρα και ξεκινήστε το \"streaming\".\n\nHint: Διαγράψτε την προσωρική μνήμη των εφαρμογών \"streaming\" για τη σίγουρη εμφάνιση νέου περιεχομένου.</string>
+    <string name="partnership_free_title">Δωρεάν διακομιστές</string>
+    <string name="partnership_free_description">Ασφάλεια και απόρρητο για όλους. Οι δωρεάν διακομιστές δεν έχουν όρια δεδομένων και ποτέ δε θα επιβραδύνουμε σκόπιμα την ταχύτητα περιήγησής σας.</string>
+    <string name="partnership_partners_title">Οι συνεργάτες μας</string>
+    <string name="activity_information_learn_more">Μάθετε Περισσότερα</string>
+    <string name="server_load_low">Χαμηλό</string>
+    <string name="server_load_medium">Μεσαία</string>
+    <string name="server_load_high">Υψηλή</string>
+    <string name="info_gateways_description">Μια πύλη VPN είναι μια ασφαλής σύνδεση που παρέχει ελεγχόμενη πρόσβαση στα δεδομένα και τις υπηρεσίες της εταιρείας σας μέσω αποκλειστικών διακομιστών.</string>
+    <!-- Override Human verification links from core -->
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Καλώς ήρθατε στο Proton VPN</string>
+    <string name="onboarding_welcome_description">Μάθετε πως να εκμεταλευτείτε στο έπακρο το Proton VPN μέσα σε μερικά δευτερόλεπτα.</string>
+    <string name="onboarding_welcome_action">Ξεκινήστε</string>
+    <string name="onboarding_available_on_plus">Διαθέσιμο με Plus</string>
+    <string name="onboarding_streaming_title">Αφαίρεση φραγής μετάδοσης</string>
+    <string name="onboarding_streaming_description">Αποκτήστε ασφαλή πρόσβαση σε κάθε είδους περιεχόμενο. ακόμα και όταν ταξιδεύετε σε άλλες χώρες. Τώρα επίσης και στο Android TV.</string>
+    <string name="onboarding_protection_title">Εξασφαλίστε προστασία παντού</string>
+    <string name="onboarding_protection_description">Το Proton VPN υποστηρίζει όλες τις συσκευές, συμπεριλαβανομένου Windows, macOS, και πολλές άλλες.</string>
+    <string name="onboarding_netshield_title">Φραγή διαφημίσεων και πολλών άλλων</string>
+    <string name="onboarding_netshield_description">Μπλοκάρει κακόβουλο λογισμικό, διαφημίσεις και τράκερς σε προγράμματα περιήγησης και σε όλες τις εφαρμογές.</string>
+    <string name="onboarding_telemetry_title">Βοηθήστε μας να καταπολεμήσουμε τη λογοκρισία</string>
+    <string name="onboarding_connection_title">Εγκαθίδρυση της πρώτης σας σύνδεσης</string>
+    <!-- Parameters:
+         %1$s - replaced with "onboarding_connection_description_servers"
+         %2$s - replaced with "onboarding_connection_description_countries"
+
+         Example:
+         Free subscription offers 65 servers in 3 countries
+    -->
+    <string name="onboarding_connection_description">Η δωρεάν συνδρομή προσφέρει %1$s διακομιστές σε %2$s χώρες</string>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         65 servers -->
+    <plurals name="onboarding_connection_description_servers">
+        <item quantity="one">%1$d διακομιστής</item>
+        <item quantity="other">%1$d διακομιστές</item>
+    </plurals>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         3 countries -->
+    <plurals name="onboarding_connection_description_countries">
+        <item quantity="one">%1$d Χώρα</item>
+        <item quantity="other">%1$d Χώρες</item>
+    </plurals>
+    <string name="onboarding_connection_info">Θα σας συνδέσουμε στον ταχύτερο και πιο ευσταθή διακομιστή για την τοποθεσία σας.</string>
+    <string name="onboading_connect_now">Σύνδεση τώρα</string>
+    <string name="onboading_connecting_now">Γίνεται σύνδεση</string>
+    <string name="onboarding_congrats_description">Η σύνδεσή σας είναι προστατευμένη και εσείς έτοιμος/η για περιήγηση του ιστού.\n\nΜε ασφάλεια.</string>
+    <string name="onboarding_congrats_title">Συγχαρητήρια!</string>
+    <string name="upgrade_success_get_started_button">Ας ξεκινήσουμε</string>
+    <string name="upgrade_use_limited_free_button">Χρησιμοποιήστε το περιορισμένο Δωρεάν πρόγραμμα</string>
+    <string name="dynamic_report_suggestion_didnt_work">Δε δούλεψε;</string>
+    <string name="dynamic_report_contact_us">Επικοινωνήστε μαζί μας</string>
+    <string name="dynamic_report_tips_description">Αυτές οι υποδείξεις μπορεί να βοηθήσουν στην ταχύτερη επίλυση του προβλήματός σας.</string>
+    <string name="dynamic_report_tips_title">Πρόχειρες λύσεις</string>
+    <string name="dynamic_report_logs_title">Αποστολή καταχωρήσεων σφαλμάτων</string>
+    <string name="dynamic_report_success_title">Ευχαριστούμε για τα σχόλιά σας</string>
+    <string name="dynamic_report_success_description">Θα σας απαντήσουμε αμέσως μόλις μπορέσουμε.</string>
+    <string name="dynamic_report_field_mandatory">Αυτό το πεδίο είναι υποχρεωτικό</string>
+    <string name="dynamic_report_logs_description">Η καταχώρηση είναι ένα τύπος αρχείου το οποίο μας υποδεικνύει τις ενέργειες που έγιναν και οδήγησαν σε σφάλμα. Θα χρησιμοποιήσουμε αυτά τα αρχεία, μόνο, για να βοηθήσουμε τους τεχνικούς μας στην επίλυση σφαλμάτων.</string>
+    <string name="dynamic_report_logs_missing">Οι καταχωρήσεις σφαλμάτων μας βοηθούν στην επίλυση του θέματός σας! Αν δεν τα συμπεριλάβετε, ίσως να μην μπορούμε να το ερευνήσουμε πλήρως.</string>
+    <string name="dynamic_report_step1">Βήμα 1 από 3</string>
+    <string name="dynamic_report_step2">Βήμα 2 από 3</string>
+    <string name="dynamic_report_step3">Βήμα 3 από 3</string>
+    <string name="dynamic_report_your_issue_headline">Ποιο είναι το πρόβλημά σας</string>
+    <string name="update_screen_title">Ενημέρωση Proton VPN</string>
+    <string name="update_screen_description">Σε παλαιότερες εκδόσεις του Proton VPN, είναι πιο πιθανό να έχετε προβλήματα.</string>
+    <string name="server_search_menu_title">Αναζήτηση</string>
+    <string name="server_search_hint">Χώρα, πόλη, διακομιστής</string>
+    <string name="server_search_hint_secure_core">Χώρα</string>
+    <!-- The parameter is the number of countries displayed in search results.
+         Examples: "Countries (5)", "Countries (1)" -->
+    <string name="server_search_countries_header">Χώρες (%1$d)</string>
+    <!-- The parameter is the number of Secure Core countries displayed in search results.
+     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
+    <string name="server_search_sc_countries_header">Χώρες Secure Core (%1$d)</string>
+    <!-- The parameter is the number of cities displayed in search results.
+         Examples: "Cities (5)", "Cities (1)" -->
+    <string name="server_search_cities_header">Πόλεις (%1$d)</string>
+    <!-- The parameter is the number of server displayed in search results.
+         Examples: "Servers (5)", "Servers (1)" -->
+    <string name="server_search_servers_header">Διακομιστές (%1$d)</string>
+    <string name="search_empty_title">Αναζήτηση οποιασδήποτε τοποθεσίας</string>
+    <string name="search_empty_hint_countries"><![CDATA[Χώρες: <font color="%1$s">Ελβετία, ΗΠΑ, Ιταλία…</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Χώρες: <font color="%1$s">Γαλλία, ΗΠΑ, Ιταλία…</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Πόλεις: <font color="%1$s">Νέα Υόρκη, Λονδίνο, Τόκιο…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[Περιοχές ΗΠΑ: <font color="%1$s">Καλιφόρνια, Φλόριντα, Κολοράντο…</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Διακομιστές: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_result_subtitle">Παρακαλούμε δοκιμάστε διαφορετική λέξη</string>
+    <string name="search_empty_result_title">Δεν βρέθηκαν αποτελέσματα</string>
+    <string name="search_recents_header_title">Πρόσφατη προβολή (%1$d)</string>
+    <string name="search_clear_history">Εκκαθάριση ιστορικού</string>
+    <string name="search_clear_history_dialog">Το ιστορικό σας αναζητήσεων θα χαθεί. Συνέχιση;</string>
+    <string name="ikev2_removed_dialog_title">Το IKEv2 VPN protocol δεν είναι πλέον διαθέσιμο</string>
+    <string name="ikev2_removed_dialog_message">Οι προεπιλογές και τα προφίλ που χρησιμοποιούσαν το IKEv2 πλέον χρησιμοποιούν Smart protocol.</string>
+    <!-- Core strings overrides -->
+    <string name="plans_customizable_features">Επισκεφθείτε το <a href="https://protonvpn.com/pricing">protonvpn.com</a>για περισσότερες πληροφορίες.</string>
+    <string name="free_upsell_header_title">Αποκτήστε παγκόσμια κάλυψη με το VPN Plus</string>
+    <!-- Example: Want to connect to Italy? -->
+    <string name="upgrade_country_title">Θέλετε να επιλέξετε μια συγκεκριμένη χώρα;</string>
+    <string name="upgrade_country_message">Ξεκλειδώστε την επιλογή χώρας με το VPN Plus</string>
+    <string name="upgrade_country_feature_money_back">Εγγύηση Επιστροφής Χρημάτων εντός 30 ημερών</string>
+    <!-- Example: Higher speeds (10 Gbps) -->
+    <string name="upgrade_country_feature_speed">Υψηλότερες ταχύτητες (%1$d Gbps)</string>
+    <string name="upgrade_country_feature_stream">Μεταδώστε τις αγαπημένες σας ταινίες</string>
+    <plurals name="upgrade_country_feature_protect">
+        <item quantity="one">Προστατέψτε έως και %1$d συσκευή</item>
+        <item quantity="other">Προστατέψτε έως και %1$d συσκευές</item>
+    </plurals>
+    <plurals name="upgrade_country_feature_count">
+        <item quantity="one">Περιήγηση από %1$d χώρα</item>
+        <item quantity="other">Περιήγηση από %1$d χώρες</item>
+    </plurals>
+    <string name="upgrade_moderate_nat_title2">Αναβαθμίστε την εμπειρία παιχνιδιού σας</string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Ξεκλειδώστε το <b>NAT Τύπου 2</b> με το VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_feature_gaming">Βελτιώστε την απόδοση των διαδικτυακών παιχνιδιών και βιντεοκλήσεων</string>
+    <string name="upgrade_moderate_nat_feature_optimize">Το NAT Τύπου 2 (μέτριο) βελτιστοποιεί την ταχύτητα και τη σταθερότητα επιτρέποντας άμεσες συνδέσεις μεταξύ συσκευών</string>
+    <string name="free_connections_info_message">Το Proton Free σας συνδέει αυτόματα στον ταχύτερο διαθέσιμο διακομιστή. Αυτός θα είναι συνήθως ο πλησιέστερος διακομιστής στην τοποθεσία σας.</string>
+    <string name="free_connections_info_server_locations">Τοποθεσίες δωρεάν διακομιστών (%1$d)</string>
+    <string name="free_connections_info_banner_text">Αποκτήστε παγκόσμια κάλυψη με το VPN Plus</string>
+    <string name="free_connection_info_title">Δωρεάν συνδέσεις</string>
+    <string name="search_upsell_banner_title">Μεταδώστε ροή από οπουδήποτε</string>
+    <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
+    <plurals name="search_upsell_banner_message">
+        <item quantity="one">Ξεκλειδώστε περιεχόμενο με γεωγραφικούς περιορισμούς από %1$d χώρα με το VPN Plus</item>
+        <item quantity="other">Ξεκλειδώστε περιεχόμενο με γεωγραφικούς περιορισμούς από %1$d χώρες με το VPN Plus</item>
+    </plurals>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">%1$s %2$s απομένουν</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">%1$d δευτερόλεπτο</item>
+        <item quantity="other">%1$d δευτερόλεπτα</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">%1$d λεπτό</item>
+        <item quantity="other">%1$d λεπτά</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">%1$d ώρα</item>
+        <item quantity="other">%1$d ώρες</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">%1$d ημέρα</item>
+        <item quantity="other">%1$d ημέρες</item>
+    </plurals>
+    <string name="server_change_max_reached">Έχετε φτάσει τον μέγιστο αριθμό αλλαγών σε δωρεάν διακομιστές προς το παρόν.</string>
+    <string name="server_change_upsell">Αποκτήστε απεριόριστες αλλαγές με το VPN Plus.</string>
+    <string name="server_change_button_title">Αλλαγή διακομιστή</string>
+    <string name="not_wanted_country_title">Δεν είναι η χώρα που θέλατε;</string>
+    <string name="not_wanted_country_description">Αναβάθμιση για να επιλέξετε οποιονδήποτε διακομιστή</string>
+    <string name="whats_new_title">Τι νέο υπάρχει</string>
+    <string name="whats_new_added_countries_title">Νέες Δωρεάν χώρες</string>
+    <string name="whats_new_added_countries_description">Υπάρχουν τώρα Δωρεάν διακομιστές στην Πολωνία και τη Ρουμανία.</string>
+    <string name="whats_new_server_selection_title">Αλλαγές στην επιλογή διακομιστή</string>
+    <string name="whats_new_server_selection_description">Για να αποτρέψουμε τον συνωστισμό διακομιστών και να διασφαλίσουμε ότι όλοι έχουν πρόσβαση σε γρήγορη και ασφαλή περιήγηση, καταργήσαμε τη μην αυτόματη επιλογή χώρας και κάναμε σημαντικές βελτιώσεις στην αυτόματη επιλογή διακομιστή.</string>
+    <string name="welcome_plus_title">Καλώς ήλθατε στο VPN Plus</string>
+    <string name="welcome_plus_description">Απολαύστε επιπλέον λειτουργίες απορρήτου, υπερφορτισμένη απόδοση και επόμενου επιπέδου προσαρμογές VPN.</string>
+    <string name="welcome_plus_feature_security">Προηγμένες λειτουργίες ασφαλείας</string>
+    <string name="welcome_unlimited_title">Καλώς ήλθατε στο Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Συγχαρητήρια! Ξεκλειδώσατε κορυφαίες δυνατότητες ασφάλειας και απόδοσης σε όλες τις υπηρεσίες Proton, καθώς και συνολικό χώρο αποθήκευσης <b>%1$d&#160;GB</b>.<br><br>Απολαύστε το καλύτερο του απορρήτου Proton.]]></string>
+    <string name="welcome_generic_title">Συγχαρητήρια</string>
+    <string name="welcome_generic_description">Έχετε αναβαθμίσει τη συνδρομή σας. Απολαύστε προηγμένες δυνατότητες απορρήτου και απόδοση επόμενου επιπέδου.</string>
+    <!-- Example: Up to 10 devices at once
+         In practice one will never be a value here -->
+    <plurals name="welcome_plus_feature_devices">
+        <item quantity="one">Μέχρι και %1$d συσκευή ταυτόχρονα</item>
+        <item quantity="other">Μέχρι και %1$d συσκευές ταυτόχρονα</item>
+    </plurals>
+    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ new servers
+     -->
+    <plurals name="welcome_plus_servers">
+        <item quantity="one">%d νέος διακομιστής</item>
+        <item quantity="other">%d+ νέοι διακομιστές</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="welcome_plus_countries">
+        <item quantity="one">%d χώρα</item>
+        <item quantity="other">%d χώρες</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "welcome_plus_servers"
+     %2$s - replaced with "welcome_plus_countries"
+
+     Example:
+     1800+ new servers in 68 countries
+     -->
+    <string name="welcome_plus_feature_servers_count">%1$s σε %2$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">εξωτερικός σύνδεσμος</string>
+</resources>

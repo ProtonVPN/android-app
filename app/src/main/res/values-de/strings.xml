@@ -235,7 +235,7 @@
     <string name="noVpnPermissionProtonAppLabel">Proton VPN-App</string>
     <string name="noVpnPermissionOtherAppLabel">Andere VPN-Apps</string>
     <string name="noVpnPermissionOpenSettings">Android VPN-Einstellungen öffnen</string>
-    <string name="noNotificationPermissionGrantTitle">Lassen Sie sich nicht überrumpeln...</string>
+    <string name="noNotificationPermissionGrantTitle">Lass dich nicht hereinlegen…</string>
     <string name="noNotificationPermissionGrantDescription">Aktiviere Benachrichtigungen, um bei Status-Änderungen deiner Verbindung informiert zu werden.</string>
     <string name="noNotificationPermissionGrantNowTitle">Benachrichtigungen aktivieren</string>
     <string name="error_prepare_vpn_description"><![CDATA[Bitte deaktiviere „Always-On-VPN(VPN immer eingeschaltet)“ für alle anderen VPN-Anwendungen in den Android-VPN-Systemeinstellungen, da dies Proton VPN daran hindert, eine VPN-Verbindung aufzubauen. Bitte gewähre auch VPN Berechtigungen, wenn ein Dialog zur Anforderung von VPN-Berechtigungen angezeigt wird. Andere VPN-Anwendungen müssen möglicherweise ebenfalls deinstalliert werden, um Konflikte zu vermeiden. Versuche es danach bitte erneut. <a href="%1$s">Mehr erfahren</a>]]></string>
@@ -520,7 +520,7 @@
     <string name="upgrade_plus_countries_subtitle">Wenn du auf Plus upgradest</string>
     <string name="upgrade_plus_countries_choose_location">Wähle einen beliebigen Standort</string>
     <string name="upgrade_plus_countries_even_higher_speed">Noch höhere VPN-Geschwindigkeit</string>
-    <string name="upgrade_plus_countries_access_content">Zugriff auf durch Landessperren unzugängliche Inhalte</string>
+    <string name="upgrade_plus_countries_access_content">Zugriff auf durch Landessperren unzugängliche Inhalte.</string>
     <string name="upgrade_plus_countries_stream">Streame deine Lieblingsfilme</string>
     <string name="upgrade_safe_mode_title">Datenverkehr zu nicht standardisierten Ports zulassen</string>
     <string name="upgrade_safe_mode_message">Hast du fortgeschrittene oder professionelle Computeranforderungen, die nicht standardisierte Ports erfordern? Mit einem Upgrade auf VPN Plus erhältst du Zugang zu diesen und anderen Premium-Funktionen.</string>

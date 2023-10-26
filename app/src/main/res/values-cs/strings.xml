@@ -533,11 +533,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Přístup přes %1$s v %2$s</string>
-    <string name="upgrade_plus_countries_subtitle">When you upgrade to Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Choose any location</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Even higher VPN speed</string>
-    <string name="upgrade_plus_countries_access_content">Access geoblocked content</string>
-    <string name="upgrade_plus_countries_stream">Stream your favorite movies</string>
+    <string name="upgrade_plus_countries_subtitle">Po navýšení na tarif Plus</string>
+    <string name="upgrade_plus_countries_choose_location">Vyberte si libovolné umístění</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Ještě vyšší rychlost VPN</string>
+    <string name="upgrade_plus_countries_access_content">Přístup ke geograficky blokovanému obsahu</string>
+    <string name="upgrade_plus_countries_stream">Streamujte své oblíbené filmy</string>
     <string name="upgrade_safe_mode_title">Umožnit provoz na nestandardních portech</string>
     <string name="upgrade_safe_mode_message">Máte pokročilé nebo profesionální počítačové potřeby, které vyžadují nestandardní porty? Chcete-li získat přístup k těmto a dalším prémiovým funkcím, přejděte na VPN Plus.</string>
     <string name="upgrade_not_now_button">Nyní ne</string>

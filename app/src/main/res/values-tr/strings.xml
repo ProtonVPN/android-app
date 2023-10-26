@@ -517,11 +517,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">%1$s ile %2$s erişim</string>
-    <string name="upgrade_plus_countries_subtitle">VPN Plus tarifesine yükselttiğinizde</string>
+    <string name="upgrade_plus_countries_subtitle">Plus tarifesine yükselttiğinizde</string>
     <string name="upgrade_plus_countries_choose_location">İstediğiniz konumu seçin</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Daha da yüksek VPN hızı</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Daha yüksek VPN hızı</string>
     <string name="upgrade_plus_countries_access_content">Bölgenizde engellenen içeriğe erişin</string>
-    <string name="upgrade_plus_countries_stream">En sevdiğiniz filmleri izleyin</string>
+    <string name="upgrade_plus_countries_stream">Sevdiğiniz filmleri izleyin</string>
     <string name="upgrade_safe_mode_title">Standart olmayan bağlantı noktalarından trafik geçebilsin</string>
     <string name="upgrade_safe_mode_message">Standart olmayan bağlantı noktaları kullanmanızı gerektiren gelişmiş veya profesyonel bilgi işlem gereksinimleriniz mi var? Bu ve diğer ücretli özelliklere erişmek için VPN Plus tarifesine yükseltin.</string>
     <string name="upgrade_not_now_button">Şimdi değil</string>

@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2017 Proton Technologies AG
+
+ This file is part of ProtonVPN.
+
+ ProtonVPN is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ProtonVPN is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- Strings related to login -->
+    <string name="hintUsername">Käyttäjätunnus</string>
+    <string name="hintPassword">Salasana</string>
+    <string name="splitTunnellingSwitch">Jaetun tunneloinnin kytkin</string>
+    <string name="login">Kirjaudu sisään</string>
+    <string name="hamburgerMenu">Hampurilaisvalikko</string>
+    <string name="error_field_required">Tämä kenttä vaaditaan</string>
+    <string name="menuActionSignOut">Kirjaudu ulos</string>
+    <string name="loginSlogan">Turvallinen Internet kaikkialla</string>
+    <string name="loginStartWithDevice">Käynnistä automaattisesti</string>
+    <string name="loginCreateAccount">Luo uusi tili</string>
+    <string name="loginNeedHelp">Tarvitsetko apua?</string>
+    <string name="connectionAllocationHelpTitle">Kiitos \nBusiness-\u00a0/\u00a0Visionary-päivityksestä</string>
+    <string name="connectionAllocationHelpDescription1">Aloittaaksesi Proton VPN -matkasi, määritä VPN-yhteydet tilillesi sekä mahdollisille alitileille.</string>
+    <string name="connectionAllocationHelpDescription2">Tämä vaihe kestää vain muutaman minuutin. Sen jälkeen voit kirjautua sisään ja suojata kaikki laitteesi.</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Tilille ei ole tällä hetkellä määritetty VPN-yhteyttä. Aloita Proton VPN -matkasi olemalla yhteydessä ylläpitoosi.</string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Määritä VPN-yhteydet</string>
+    <string name="connectionAllocationHelpLoginAgainButton">Kirjaudu sisään uudelleen</string>
+    <string name="mapCalloutConnect">Yhdistä</string>
+    <string name="mapCalloutDisconnect">Katkaise yhteys</string>
+    <string name="mapSwitchSecureCore">Secure Core</string>
+    <string name="warning">Varoitus</string>
+    <string name="secureCoreSpeedInfoTitle">Huomautus nopeudesta…</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core tarjoaa korkeimman suojauksen ja yksityisyyden, mutta se voi hidastaa yhteysnopeuttasi. Jos tarvitset enemmän suorituskykyä, voit poistaa Secure Coren käytöstä.</string>
+    <string name="secureCoreActivateDialogButton">Aktivoi Secure Core</string>
+    <string name="logoutConfirmDialogTitle">Kirjaudutaanko ulos?</string>
+    <string name="logoutConfirmDialogMessage">Uloskirjautuminen katkaisee laitteesi VPN-yhteyden.</string>
+    <string name="logoutConfirmDialogButton">Kirjaudu ulos</string>
+    <string name="showAllProfiles">Näytä kaikki profiilit</string>
+    <string name="yes">Kyllä</string>
+    <string name="no">Ei</string>
+    <string name="ok">OK</string>
+    <string name="dialogContinue">Jatka</string>
+    <string name="dialogLearnMore">Lue lisää</string>
+    <string name="dialog_read_more">Lue lisää</string>
+    <string name="dialog_apply">Käytä</string>
+    <string name="dialog_applying">Käytetään</string>
+    <string name="secureCoreConnectVia">Ohjaus: %1$s</string>
+    <string name="connected">Yhdistetty</string>
+    <string name="buttonConnect">Yhdistä</string>
+    <string name="loaderInitializing">Valmistellaan yhteyttä…</string>
+    <string name="loaderConnectingTo">Yhdistetään palvelimeen %1$s</string>
+    <string name="loaderConnectingToLabel">Yhdistetään palvelimeen…</string>
+    <string name="loaderNotConnected">Ei yhdistetty (suojaamaton)</string>
+    <string name="loaderNotConnectedSuggestion">Napauta pikayhteyspainiketta</string>
+    <string name="loaderConnectedTo">Yhdistetty sijaintiin %1$s</string>
+    <string name="loaderConnectedToLabel">Yhdistetty palvelimeen:</string>
+    <string name="loaderDisconnecting">Katkaistaan yhteyttä</string>
+    <string name="loaderReconnecting">Yhdistetään uudelleen</string>
+    <string name="loaderReconnectNoNetwork">Odotetaan käyttökelpoista verkkoa</string>
+    <string name="loaderReconnectNoNetworkSuggestion">Tarkista verkkoyhteytesi</string>
+    <string name="loaderCheckingAvailability">Tarkistetaan palvelinten tavoitettavuutta</string>
+    <string name="loaderCheckingAvailabilitySuggestion">Odota muutama sekunti</string>
+    <string name="loaderCancel">Peru yhteys</string>
+    <string name="quickConnect">Pikayhteys</string>
+    <string name="notConnectedCurrentIp">Nykyinen IP: %1$s</string>
+    <!-- Displays a percentage value. Please use %% sign for %.
+         Example value: "70%" -->
+    <string name="serverLoad">%1$s %%</string>
+    <string name="cancel">Peruuta</string>
+    <string name="close">Sulje</string>
+    <string name="drawerSettings">Asetukset</string>
+    <string name="drawerAccount">Tili</string>
+    <string name="drawerHelp">Tuki</string>
+    <string name="drawerShowLog">Näytä loki</string>
+    <string name="drawerReportProblem">Ilmoita ongelmasta</string>
+    <string name="drawerAppVersion">v%1$s</string>
+    <string name="accountDetails">Tilin tiedot</string>
+    <string name="accountSubscription">Tilaus</string>
+    <string name="accountUser">Käyttäjä:</string>
+    <string name="accountType">Tilin tyyppi:</string>
+    <string name="accountTier">Aktiivinen tilaus:</string>
+    <string name="accountVersion">Versio:</string>
+    <string name="accountSubscriptionDetails"><![CDATA[Hallitaksesi tilaustasi, avaa <font color="%1$s">protonvpn.com</font>-sivuston hallinta.]]></string>
+    <string name="accountButtonManage">Hallitse tiliä</string>
+    <string name="accountButtonUseCoupon">Käytä etukoodi</string>
+    <string name="accountFree">Proton VPN Free</string>
+    <string name="activityProfileTitle">Profiili</string>
+    <string name="activityAccountTitle">Tili</string>
+    <string name="activitySettingsTitle">Asetukset</string>
+    <string name="settingsSectionQuickConnect">Pikayhteys</string>
+    <string name="settingsSectionConnection">Yhteys</string>
+    <string name="settingsSectionSecurity">Tietoturva</string>
+    <string name="settingsSectionAdvanced">Lisäasetukset</string>
+    <string name="settingsAutoStartTitle">Suorita Androidin käynnistyessä</string>
+    <string name="settingsAutoStartDescription">Proton VPN käynnistyy automaattisesti aina kun laite käynnistyy</string>
+    <string name="settingsBypassLocalTitle">LAN-yhteydet</string>
+    <string name="settingsDnsLeakProtectionTitle">DNS-vuotosuojaus</string>
+    <string name="settingsDnsLeakDescription">Estää DNS-pyyntöjen sisältöä vuotamasta ulkopuolisille tahoille (aina käytössä)</string>
+    <string name="settingsDefaultMtu">1375</string>
+    <string name="settingsMtuSizeTitle">MTU-koko</string>
+    <string name="settingsMtuDescription">Jos oletusarvo ei jostakin syystä sovellu jollekin verkolle, syötä eri arvo väliltä 1280–1500. Muuta tätä vain, jos tiedät mitä teet.</string>
+    <string name="settingsMtuRangeInvalid">MTU-arvon on oltava väliltä 1280–1500</string>
+    <string name="settingsDefaultConnectionTitle">Pikayhteys</string>
+    <string name="settingsDefaultConnectionDescription">Pikayhteyspainike yhdistää valittuun profiiliin</string>
+    <string name="settingsAllowNonStandardPortsTitle">Epätyypilliset portit</string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Käytä Proton VPN:ää erityistapauksissa sallimalla VPN-verkon tietoliikenteen kulkea epätyypillisten porttien kautta. <a href="%1$s">Lue lisää</a>]]></string>
+    <string name="settingsModerateNatTitle">Keskitason NAT</string>
+    <string name="settingsModerateNatDescription"><![CDATA[Keskitason (eli tyypin 2) NAT, poistaa paikallisten osoitteiden sekoitetun määrityksen käytöstä. Tämä voi heikentää suojaustasi hieman, mutta mahdollistaa esimerkiksi suorien yhteyksien kaltaiset tekniikat mm. verkkopeleille. <a href="%1$s">Lue lisää</a>]]></string>
+    <string name="use_coupon_title">Käytä etukoodi</string>
+    <string name="use_coupon_code_label">Etukoodi</string>
+    <string name="use_coupon_success">Etukoodin käyttö onnistui</string>
+    <string name="use_coupon_success_no_upgrade_yet">Etukoodin käyttö onnistui. Tilauksesi päivittyy muutaman minuutin kuluessa.</string>
+    <string name="restrictedMaintenanceTitle">Huollossa</string>
+    <string name="restrictedMaintenanceDescription">Palvelin johon yrität yhdistää on huollossa. Kokeile eri palvelinta.</string>
+    <string name="errorUserDelinquent"><![CDATA[Tililläsi on erääntynyt lasku. Maksa kaikki maksamattomat laskut osoitteessa&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorMaxSessions">Olet saavuttanut tilillesi sallittujen samanaikaisten yhteyksien enimmäismäärän. Päivitä Proton VPN -tilauksesi saadaksesi lisää yhteyksiä.</string>
+    <string name="errorEmptyName">Profiilin nimi ei voi olla tyhjä</string>
+    <string name="errorEmptyCountry">Maa ei voi olla tyhjä</string>
+    <string name="errorEmptyServer">Palvelin ei voi olla tyhjä</string>
+    <string name="errorEmptyEntryCountry">Sisäänmenomaa vaaditaan</string>
+    <string name="errorEmptyExitCountry">Kohdemaa vaaditaan</string>
+    <string name="onboardingSignup">Rekisteröidy</string>
+    <string name="onboardingSkip">Ohita</string>
+    <string name="onboardingNext">Seuraava</string>
+    <string name="offerTooltipShowOffer">Näytä tarjous</string>
+    <string name="listItemMaintenance">Huollossa</string>
+    <string name="listAllCountries">Kaikki sijainnit (%1$d)</string>
+    <string name="listGateways">Yhdyskäytävät</string>
+    <string name="listFreeCountries">Ilmaiset sijainnnit (%1$d)</string>
+    <string name="listPremiumCountries">Basic- ja Plus-sijainnit (%1$d)</string>
+    <string name="listPremiumCountries_new_plans">Plus-sijainnit (%1$d)</string>
+    <string name="listFastestServer">Nopein palvelin</string>
+    <string name="listFreeServers">Ilmaispalvelimet (%1$d)</string>
+    <string name="listBasicServers">Basic-palvelimet (%1$d)</string>
+    <string name="listPlusServers">Plus-palvelimet (%1$d)</string>
+    <string name="insufficientPermissionsTitle">Käyttäjän toimia vaaditaan</string>
+    <string name="insufficientPermissionsDetails">VPN-yhteyden automaattinen muodostus ei onnistunut. Muodosta yhteys kerran manuaalisesti käyttöoikeuksien myöntämiseksi.</string>
+    <string name="tabsCountries">Maat</string>
+    <string name="tabsMap">Kartta</string>
+    <string name="tabsProfiles">Profiilit</string>
+    <string name="log_title">Loki</string>
+    <string name="disconnect">Katkaise yhteys</string>
+    <string name="state_connecting">Yhdistetään…</string>
+    <string name="state_connected">Yhdistetty</string>
+    <string name="state_disconnecting">Katkaistaan yhteyttä…</string>
+    <string name="state_error">Virhe</string>
+    <string name="error_server_unreachable">VPN-yhteyden muodostus ei onnistunut. Tarkista Internet-yhteytesi ja yritä uudelleen.</string>
+    <string name="error_auth_failed">Käyttäjän todennus epäonnistui.</string>
+    <string name="error_assessment_failed">Turvallisuusarviointi epäonnistui.</string>
+    <string name="error_generic">Määrittelemätön virhe yhdistettäessä.</string>
+    <string name="error_generic_with_reason">Proton VPN ei voinut muodostaa VPN-yhteyttä. Yritä hetken kuluttua uudelleen.<br/><br/> Tietoja: %1$s</string>
+    <string name="reconnect">Yhdistä uudelleen</string>
+    <string name="reconnect_now">Yhdistä uudelleen nyt</string>
+    <string name="try_reconnecting">Yritä yhdistää uudelleen</string>
+    <string name="connect">Yhdistä</string>
+    <string name="upgrade">Päivitä</string>
+    <string name="retry">Yritä uudelleen</string>
+    <string name="connection_failed">Yhteys epäonnistui</string>
+    <string name="create_new_profile">Uusi profiili</string>
+    <string name="excludeAppsTitle">Rajoita sovelluksia</string>
+    <string name="excludeAppsDescription">Lisää sovelluksia, jotka haluat rajoittaa VPN-tietoliikenteen ulkopuolelle.</string>
+    <string name="profile_name">Profiilin nimi</string>
+    <string name="profile_name_hint">Syötä profiilin nimi</string>
+    <string name="profile_color">Profiilin väri</string>
+    <string name="secure_core">Secure Core</string>
+    <string name="attachments">Liitteet</string>
+    <string name="report_message">Raportin viesti</string>
+    <string name="report_bug_email_label">Sähköpostiosoitteesi</string>
+    <string name="report_bug_email_hint">Syötä sähköpostiosoitteesi</string>
+    <string name="report_bug_message_label">Viesti</string>
+    <string name="report_bug_message_hint">Kuvaile vikaa sekä miten ja missä havaitsit sen</string>
+    <string name="send_report">Lähetä raportti</string>
+    <string name="excludeIpTitle">Rajoita IP-osoitteita</string>
+    <string name="discardChanges">Hylätäänkö tallentamattomat muutokset?</string>
+    <string name="discard">Hylkää</string>
+    <string name="selectedProfileColor">Valitse profiilillesi väri</string>
+    <string name="excludeIpDescription">Lisää IP-osoitteita, jotka haluat rajoittaa VPN-tietoliikenteen ulkopuolelle.</string>
+    <string name="done">VALMIS</string>
+    <string name="add">LISÄÄ</string>
+    <string name="copy_to_clipboard">Kopioi</string>
+    <string name="the_list_is_empty">Lista on tyhjä</string>
+    <string name="got_it">Selvä</string>
+    <string name="onboardingWelcome">Tervetuloa mukaan</string>
+    <string name="proton_log">Proton-loki</string>
+    <string name="something_went_wrong">Jotain meni pieleen</string>
+    <string name="try_again">Yritä uudelleen</string>
+    <string name="manage">Hallitse</string>
+    <string name="delete">Poista</string>
+    <string name="remove">Poista</string>
+    <string name="deleteProfileButton">Poista profiili</string>
+    <string name="deleteProfile">Poistetaanko profiili?</string>
+    <string name="doneButton">Valmis</string>
+    <string name="saveButton">Tallenna</string>
+    <string name="recommendedHeader">Suositukset</string>
+    <string name="countryServersHeader">Maan palvelimet</string>
+    <string name="secureCoreCountriesHeader">Secure Core -maat</string>
+    <string name="recommendedProfilesHeader">Suositellut profiilit</string>
+    <string name="free_connection_header">Ilmaisyhteys</string>
+    <string name="yourProfilesHeader">Omat profiilit</string>
+    <string name="exitCountry">Kohdemaa</string>
+    <string name="entryCountry">Sisäänmenomaa</string>
+    <string name="country">Maa</string>
+    <string name="selectCountry">Valitse maa</string>
+    <string name="serverSelection">Palvelin</string>
+    <string name="selectServer">Valitse palvelin</string>
+    <string name="protocolLabel">Protokolla</string>
+    <string name="selectProtocol">Valitse protokolla</string>
+    <string name="protocol">Protokolla:</string>
+    <string name="ip">IP:</string>
+    <string name="ipWithPlaceholder">IP: %1$s</string>
+    <string name="server">Palvelin:</string>
+    <string name="session_time">Istunnon kesto:</string>
+    <string name="download_volume">Määrä:</string>
+    <string name="download_speed">Nopeus:</string>
+    <string name="notConnected">Et ole yhteydessä \n palvelimeen</string>
+    <string name="activityLicensesTitle">Kolmansien osapuolten lisenssit</string>
+    <string name="stateFragmentUnknownIp">Tuntematon</string>
+    <string name="noVpnPermissionMainTitle">VPN-yhteyden muodostus vaatii toimenpiteitä</string>
+    <string name="noVpnPermissionMainMessage">Muodostaaksesi Proton VPN -yhteyden, tee seuraavat:</string>
+    <string name="noVpnPermissionGrantPermissionTitle">Myönnä VPN-käyttöoikeus</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Proton VPN -yhteyden muodostamiseksi sille on myönnettävä Androidin VPN-käyttöoikeus. Tämä onnistuu napauttamalla avautuvasta Androidin yhteyspyynnöstä \"Salli\".</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Poista \"Aina päällä oleva VPN\" -asetus käytöstä muilta VPN-sovelluksilta</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ei tue useiden VPN-sovellusten samanaikaista käyttöä. Poista \"Aina päällä oleva VPN\" -asetus käytöstä muilta VPN-sovelluksilta.</string>
+    <string name="noVpnPermissionProtonAppLabel">Proton VPN -sovellus</string>
+    <string name="noVpnPermissionOtherAppLabel">Muut VPN-sovellukset</string>
+    <string name="noVpnPermissionOpenSettings">Avaa Androidin VPN-asetukset</string>
+    <string name="noNotificationPermissionGrantTitle">Älä jää ilman suojausta…</string>
+    <string name="noNotificationPermissionGrantDescription">Ota ilmoitukset käyttöön saadaksesi huomautuksia yhteytesi tilamuutoksista.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Salli ilmoitukset</string>
+    <string name="error_prepare_vpn_description"><![CDATA[Poista "Aina päällä oleva VPN" -asetus käytöstä muilta VPN-sovelluksilta Andoidin VPN-asetuksista, koska se estää Proton VPN:ää muodostamasta VPN-yhteyttä. Myönnä myös VPN-käyttöoikeus, mikäli sitä pyytävä ilmoitus avautuu. On mahdollista, että jotkin VPN-sovellukset on poistettava kokonaan yhteensopivuusongelmien vuoksi. Kokeile sitten uudelleen. <a href="%1$s">Lue lisää</a>]]></string>
+    <string name="error_prepare_vpn_settings">Avaa Androidin VPN-asetukset</string>
+    <string name="error_prepare_vpn_title">Virhe: VPN-käyttöoikeusongelma</string>
+    <string name="error_server_not_set">Palvelin ei ole enää käytettävissä</string>
+    <string name="bugReportThankYouToast">Kiitos raportistasi</string>
+    <string name="bugReportErrorEmptyEmail">Sähköpostiosoite ei voi olla tyhjä</string>
+    <string name="bugReportErrorInvalidEmail">Virheellinen sähköpostiosoite</string>
+    <string name="bugReportErrorEmptyDescription">Kerro meille mitä tapahtuu</string>
+    <string name="bugReportLabelVpnLogsTitle">Sisällytä virhelokit</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Tämä auttaa meitä korjaamaan ongelman jakamalla paikalliset virhelokit (emme kirjaa käyttötietoja)</string>
+    <string name="profileFastest">Nopein</string>
+    <string name="profileRandom">Satunnainen</string>
+    <string name="settingsSplitTunnelingDescription">Jaettu tunnelointi mahdollistaa valittujen sovellusten tai IP-osoitteiden rajoittamisen VPN-tietoliikenteen ulkopuolelle.</string>
+    <string name="settingsSplitTunnelingTitle">Jaettu tunnelointi</string>
+    <string name="loaderAuthenticatingUser">Todennetaan käyttäjää…</string>
+    <string name="loaderErrorNoInternet">Ei Internet-yhteyttä</string>
+    <string name="loaderErrorGeneric">Jokin meni pieleen</string>
+    <string name="loaderLoadingServers">Ladataan palvelimia…</string>
+    <string name="inputIpAddressLabel">IP-osoite</string>
+    <string name="inputIpAddressHint">Syötä IP-osoite</string>
+    <string name="inputIpAddressErrorInvalid">Virheellinen IP-osoite</string>
+    <string name="settingsExcludedIPAddresses">Rajoitetut IP-osoitteet</string>
+    <string name="settingsExcludedIPAddressesListHeader">Rajoitetut IP-osoitteet (%1$d)</string>
+    <string name="settingsExcludedApps">Rajoitetut sovellukset</string>
+    <string name="settingsExcludedAppsEmpty">Lisää VPN-tietoliikenteen ulkopuolelle rajoitettavia sovelluksia.</string>
+    <string name="settingsExcludedAppsSelectedHeader">Rajoitetut sovellukset (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableRegularHeader">Sallitut tavalliset sovellukset (%1$d)</string>
+    <string name="settingsExcludedAppsAvailableSystemHeader">Sallitut järjestelmäsovellukset (%1$d)</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">Näytä järjestelmäsovellukset</string>
+    <string name="listNoItems">Ei mitään</string>
+    <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
+         %2$d - a number of remaining items.
+         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
+    <plurals name="listFewItemsAndMore">
+        <item quantity="one">%1$s ja %2$d lisää</item>
+        <item quantity="other">%1$s ja %2$d lisää</item>
+    </plurals>
+    <string name="settingsCannotChangeWhileConnected">Tätä ei ole mahdollista muuttaa yhteyden ollessa kytkettynä</string>
+    <string name="excludeAlreadyExcluded">On jo rajoitettu</string>
+    <string name="removeExcludedIpDialogDescription">Poistetaanko IP-osoite listalta?</string>
+    <string name="loaderFetchingServers">Noudetaan palvelimia…</string>
+    <string name="toastProfileSaved">Tallennettu</string>
+    <string name="tileConnected">Yhdistetty: %1$s</string>
+    <string name="dialogTitleAttention">Huomio</string>
+    <string name="saveProfileAlreadySaved">On jo tallennettu</string>
+    <string name="openUrlError">Osoitetta %1$s ei voitu avata, koska laitteella ei havaittu verkkoselainta.</string>
+    <string name="toastLoginAuthVersionError">Kirjautuminen ei onnistu, koska todennusversiota ei tueta. Ota yhteyttä asiakaspalveluun.</string>
+    <string name="loaderErrorTimeout">Yhteys aikakatkaistiin. Yritä uudelleen.</string>
+    <string name="troubleshootButton">Vianetsintä</string>
+    <string name="activityTroubleshootTitle">Vianetsintä</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">Mahdollisia ratkaisuja</string>
+    <string name="troubleshootNoInternetDescription">Varmista Internet-yhteytesi toiminta.</string>
+    <string name="troubleshootNoInternetTitle">Ei Internet-yhteyttä</string>
+    <string name="troubleshootIspProblemTitle">Internet-palveluntarjoajan (ISP) ongelma</string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Yritä tavoittaa Proton eri verkon (tai <a href=\'%1$s\'>Tor-verkon</a>) välityksellä.]]></string>
+    <string name="troubleshootAntivirusProblemTitle">Virustorjunnan aiheuttama häiriö</string>
+    <string name="troubleshootAntivirusProblemDescription">Poista tietoturvasovellus tilapäisesti käytöstä tai poista sen asennus.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Välityspalvelimen/palomuurin aiheuttama häiriö</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Poista välityspalvelimet ja/tai palomuurit käytöstä tai ole yhteydessä verkkosi ylläpitoon.</string>
+    <string name="troubleshootProtonDownTitle">Proton ei ole tavoitettavissa</string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Tarkasta järjestelmämme tila <a href=\"%1$s\">Proton Status</a> -sivustolta.]]></string>
+    <string name="troubleshootContactUsSectionTitle">Tarvitsetko edelleen apua? Ota meihin yhteyttä</string>
+    <string name="troubleshootCustomerSupport">Asiakaspalvelu</string>
+    <string name="settingsAllowAlternativeRoutingTitle">Vaihtoehtoinen reititys</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Mikäli Protonia ei tavoiteta, salli sovelluksen pyrkiä tavoittamaan Protonin palvelimet vaihtoehtoisten reittien välityksellä. <a href="%1$s">Lue lisää</a>]]></string>
+    <string name="troubleshootGovernmentBlockTitle">Hallinnollinen esto</string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Maasi hallinto saattaa estää pääsyn Protoniin. Yritä tavoittaa Proton <a href=\'%1$s\'>Tor-verkon</a> välityksellä.]]></string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Jatkuvatoiminen VPN ja tappokytkin</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Määritä miten Proton VPN reagoi yhteytesi häiriöihin</string>
+    <string name="settingsAlwaysOnWindowHeader">Miten jatkuvatoiminen VPN ja tappokytkin otetaan käyttöön:</string>
+    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Avaa laitteesi <b>Asetukset</b> napauttamalla alla olevaa painiketta]]></string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsAlwaysOnWindowStep2">2. Etsi Proton VPN ja napauta %1$s</string>
+    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone\'s settings. -->
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Ota <b>Jatkuvatoiminen VPN</b> -asetus käyttöön napauttamalla sen vieressä olevaa kytkintä.]]></string>
+    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
+         Android settings.
+         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
+         find this phrase in your phone\'s settings. -->
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Ota tappokytkin käyttöön napauttamalla <b>Estä VPN:n ulkopuoliset yhteydet</b> -asetuksen vieressä olevaa kytkintä]]></string>
+    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Avaa Androidin asetukset</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Tappokytkimen aktivointi poistaa jaetun tunneloinnin käytöstä, koska se estää kaikki VPN-tunnelin ulkopuoliset yhteydet</string>
+    <string name="settingsSmartProtocolDescription">Käyttää automaattisesti parhaan yhteyden tarjoavaa protokollaa ja porttia.</string>
+    <string name="settingsEnableTelemetryTitle">Jaa anonyymejä käyttötietoja</string>
+    <string name="settingsEnableTelemetryDescription">Käyttötilastot auttavat meitä kiertämään VPN-estoja ja parantamaan sovelluksen suorituskykyä.</string>
+    <string name="settingsSendCrashReportsTitle">Jaa anonyymejä virheraportteja</string>
+    <string name="settingsSendCrashReportsDescription">Virheraportit auttavat meitä korjaaman vikoja, havaitsemaan palomuureja ja kiertämään VPN-estoja.</string>
+    <string name="settingsTelemetryScreenTitle">Käyttötilastot</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Nämä tilastot eivät sisällä IP-osoitettasi, eikä sinua ole mahdollista tunnistaa niiden perusteella. Emme koskaa jaa niitä ulkopuolisille tahoille. <a href="%1$s">Lue lisää</a>]]></string>
+    <string name="netShieldEnabledWarning">Huomioi, että jotkin verkkosivustot eivät välttämättä toimi sisällön eston seurauksena oikein.</string>
+    <string name="netShieldDescription">Estä mainoksia, seurantoja ja haittaohjelmia</string>
+    <string name="netshield_settings_description"><![CDATA[Suojaudu mainoksilta, haittaohjelmilta ja seurannoilta, verkkosivustoilla ja sovelluksissa. Jos sivustot eivät lataudu, kokeile poistaa NetShield käytöstä. <a href="%1$s">Lue lisää</a>]]></string>
+    <string name="netshield_status_on">Käytössä</string>
+    <string name="netshield_status_off">Ei käytössä</string>
+    <string name="netshield_free_title">Selaa mainosvapaasti NetShieldillä</string>
+    <string name="netshield_free_description">Estä mainoksia, seurantoja ja haittaohjelmia verkkosivustoilla ja sovelluksissa</string>
+    <string name="netshield_business_title">Estä mainoksia NetShieldillä</string>
+    <string name="netshield_business_description">Päivittämällä VPN Business -tilaukseen</string>
+    <string name="accessibility_netshield_status_on_click">Avaa NetShieldin asetukset</string>
+    <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
+        <item quantity="one">Mainos\nestetty</item>
+        <item quantity="other">Mainosta\nestetty</item>
+    </plurals>
+    <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
+        <item quantity="one">Seuranta\nestetty</item>
+        <item quantity="other">Seurantaa\nestetty</item>
+    </plurals>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Tiedonsiirtoa\nsäästetty</string>
+    <string name="netShieldBlockMalwareOnly">Estä vain haittaohjelmia</string>
+    <string name="netShieldFullBlock">Estä haittaohjelmia, seurantoja ja mainoksia</string>
+    <string name="dialogDontShowAgain">Älä näytä uudelleen</string>
+    <string name="guestHoleActivated">ProtonVPN:n käyttöä on saatettu rajoittaa alueellasi, joten tämä kestää tavallista kauemmin. Odota, kun ongelma pyritään ohittamaan.</string>
+    <string name="guestHoleNotificationContent">Verkkoyhteyden ongelmia yritetään kiertää. Tämä auttaa Proton VPN-yhteyden muodostuksessa.</string>
+    <string name="onMaintenanceDetected">Käyttämäsi VPN-palvelin on huollossa. Yhdistimme sinut automaattisesti nopeimpaan käytettävissä olevaan palvelimeen.</string>
+    <string name="errorTunMultiUserPermission">VPN-yhteyden muodostus ei onnistunut monistetun sovelluksen (esim. Dual Messenger) ja jaetun tunneloinnin ristiriidan vuoksi. Poista jompikumpi käytöstä ja käynnistä laite uudelleen.</string>
+    <string name="errorTorrentNotAllowed">P2P ei ole tällä palvelimella sallittu</string>
+    <string name="errorWireguardWithPlaceholder">WireGuard-virhe %1$s</string>
+    <string name="profileProtocolNotAvailable">Profiilin VPN-protokolla ei ole tällä hetkellä käytettävissä. Kokeile vaihtaa protokollaa yhteyden muodostamiseksi.</string>
+    <string name="stateConnectedTo">Yhdistetty sijaintiin %1$s</string>
+    <string name="stateNotConnected">Et ole yhdistänyt</string>
+    <string name="recents">Viimeisimmät</string>
+    <string name="tvQuickConnectDescription">Läheiset maat</string>
+    <string name="tvQuickConnectSubDescription">Suoratoistopalvelin</string>
+    <string name="nameEurope">Eurooppa</string>
+    <string name="nameAmerica">Amerikka</string>
+    <string name="nameAsia">Aasia</string>
+    <string name="nameAfricaAndMiddleEast">Afrikka ja Lähi-Itä</string>
+    <string name="nameOceania">Oseania</string>
+    <string name="tvRowMore">Muut</string>
+    <string name="tv_detail_default_connection_checkbox">Suosikkimaani</string>
+    <string name="tv_detail_default_connection_checkbox_short">Suosikki</string>
+    <string name="tv_detail_connect_streaming">Suoratoista Plus-tilauksella</string>
+    <string name="tv_detail_connect">Yhdistä</string>
+    <string name="tv_detail_description_streaming_country">Suoratoista suosikkisisältöäsi. Proton VPN Plus -tilauksella saat käyttöösi lisää sovelluksia.</string>
+    <string name="tv_detail_description_no_streaming_country">Suoratoista enemmän suosikkisisältöäsi Proton VPN Plus -tilauksella.</string>
+    <string name="tv_detail_description_country_not_available">Tämä maa ei ole käytettävissä. Proton VPN Plus -tilauksella saat käyttöösi lisää suoratoistovaihtoehtoja.</string>
+    <string name="tv_detail_description_plus">Suoratoista sovelluksillasi suosikkivideoitasi, -elokuviasi tai -urheilua.</string>
+    <string name="tv_login_title_signin">Kirjaudu Proton VPN:ään</string>
+    <string name="tv_login_title_welcome">Suoratoista suosikkivideoitasi</string>
+    <string name="tv_login_welcome_description">Katsele videosisältöä yli 50 maasta, YouTube ja Twitch mukaan lukien. Proton VPN Plus -tilauksella suoratoistat Netflixistä, Amazon Prime Videosta ja Hulusta.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Hanki Proton VPN -tili osoitteesta <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_button">Kirjaudu sisään</string>
+    <string name="tv_login_step1_description"><![CDATA[Avaa osoite <b>%1$s</b> mobiililaitteella tai tietokoneella]]></string>
+    <string name="tv_login_step2_description">Kirjaudu Proton VPN:ään</string>
+    <string name="tv_login_step3_description">Syötä koodi:</string>
+    <string name="tv_login_timer_label">Koodi vanhenee:</string>
+    <string name="tv_login_refresh">Päivitä</string>
+    <string name="tv_login_title_loading">Ladataan…</string>
+    <string name="tv_login_title_refresh">Istuntosi on erääntynyt. Aloita uudelleen painamalla päivitystä.</string>
+    <string name="tv_upgrade_title">Aloita suoratoisto Plus-tilauksella</string>
+    <string name="back">Takaisin</string>
+    <string name="tv_upgrade_url_details"><![CDATA[Päivitä Proton VPN Plus -tilaukseen nyt osoitteessa <b>%1$s</b>.]]></string>
+    <string name="tv_upgrade_description">Hanki Proton VPN Plus -tilaus saadaksesi käyttöösi 500+ palvelinta eri puolilta maailmaa ja suoratoistoon optimoituja vaihtoehtoja Netflixille, Amazon Prime Videolle, Disney+:lle ja monille muille.</string>
+    <string name="tv_vpn_error_dialog_title">VPN-yhteys epäonnistui</string>
+    <string name="tv_signout_label">Kirjaudu ulos</string>
+    <string name="tv_signout_dialog_title">Haluatko varmasti kirjautua ulos?</string>
+    <string name="tv_signout_dialog_description_connected">Tämä katkaisee televisiosi yhteyden kaikkiin VPN-palvelimiin.</string>
+    <string name="tv_signout_dialog_ok">Kirjaudu ulos</string>
+    <string name="tv_quick_connect_recommened">Suositus</string>
+    <string name="tv_quick_connect_favourite">Suosikki</string>
+    <string name="tv_country_maintenance_dialog_title">Maa ei ole käytettävissä</string>
+    <string name="tv_country_maintenance_dialog_description">Yritä myöhemmin uudelleen tai valitse toinen maa.</string>
+    <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
+         Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
+
+         Example: 76% Server Load -->
+    <string name="tv_server_list_load">Palvelimen kuormitus %1$s %%</string>
+    <string name="tv_recently_used_servers">Viimeksi käytetyt palvelimet (%1$d)</string>
+    <string name="tv_available_servers">Käytettävissä olevat palvelimet (%1$d)</string>
+    <string name="tv_locked_servers">Lukitut palvelimet (%1$d)</string>
+    <string name="tv_other_servers">Muut palvelimet (%1$d)</string>
+    <string name="tv_server_under_maintenance">Huollossa</string>
+    <string name="tv_server_list">Palvelinluettelo</string>
+    <string name="tv_server_list_action_unavailable">Ei käytettävissä</string>
+    <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator hyödyntää ainutlaatuisia suorituskykyä parantavia tekniikoita, jotka voivat kohottaa VPN-nopeuksia jopa 400 %%. <a href="%1$s">Lue lisää</a>]]></string>
+    <string name="settingsReconnectToApplySettingsDialogContent">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
+    <string name="settingsReconnectToChangeDialogContent">Tämä muodostaa yhteyden uudelleen.</string>
+    <string name="reconnectToEnableNetshield">Tämä muodostaa yhteyden uudelleen.\n\nHuomioi: jotkin sivustot eivät välttämättä lataudu NetShieldin ollessa käytössä.</string>
+    <string name="notification_subscription_expired_title">Proton VPN -tilauksesi on päättynyt</string>
+    <string name="notification_subscription_expired_content">Tilauksesi jouduttiin vaihtamaan alempaan luokkaan, mutta sinut yhdistetään nykyisen tilauksen nopeimpaan palvelimeen.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Tilauksesi on vaihdettu alempaan luokkaan.</string>
+    <string name="notification_delinquent_title">Proton VPN -tililläsi on avoimia laskuja</string>
+    <string name="notification_delinquent_content">Ota hetki ja päivitä laskutustietosi pitääksesi tilauksesi voimassa.</string>
+    <string name="notification_max_sessions_title">Olet saavuttanut laitteiden enimmäismäärän</string>
+    <!-- The number of devices will always be greater than 1. -->
+    <plurals name="notification_max_sessions_upsell_content">
+        <item quantity="one">Katkaise yhteys joltain toiselta laitteeltasi yhdistääksesi tämän laitteen tai päivitä Plus-tilaukseen yhdistääksesi samaan aikaan %1$d laitteen.</item>
+        <item quantity="other">Katkaise yhteys joltain toiselta laitteeltasi yhdistääksesi tämän laitteen tai päivitä Plus-tilaukseen yhdistääksesi samaan aikaan %1$d laitetta.</item>
+    </plurals>
+    <string name="notification_max_sessions_content">Katkaise jonkin muun laitteen yhteys yhdistääksesi tämän laitteen.</string>
+    <string name="notification_cancel_to_free">Sinulla on ilmainen Free-tilaus. Ilmaispalvelimet ja -ominaisuudet ovat käytettävissä.</string>
+    <string name="notification_cancel_to_basic">Sinulla on Basic-tilaus. Basic- ja ilmaispalvelimet sekä -ominaisuudet ovat käytettävissä.</string>
+    <string name="notification_cancel_to_delinquent">Voit jälleen käyttää premium-ominaisuuksia, kun avoimet laskut on maksettu.</string>
+    <string name="vpn_accelerator">VPN Accelerator</string>
+    <string name="reconnect_from_server">Palvelimesta: </string>
+    <string name="reconnect_to_server">Palvelimeen: </string>
+    <string name="no_thanks">Ei kiitos</string>
+    <string name="enable">Ota käyttöön</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol ei ole tällä hetkellä käytössä</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN havaitsi nykyisen verkkosi estävän VPN-yhteyden. Smart Protocol -toiminto saattaa ohittaa rajoitukset.</string>
+    <string name="upsell_advanced_features">Lisäominaisuudet: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_streaming_services">Käytä suoratoistopalveluita (Netflix, Disney+, yms.) kaikkialla maailmassa</string>
+    <!-- Number of servers available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_servers">
+        <item quantity="one">%1$d palvelin</item>
+        <item quantity="other">%1$d palvelinta</item>
+    </plurals>
+    <!-- Number of countries available in the service.
+         This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
+         Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
+
+         Example: 1364 servers, 55 countries -->
+    <plurals name="upsell_many_countries">
+        <item quantity="one">%1$d maassa</item>
+        <item quantity="other">%1$d maassa</item>
+    </plurals>
+    <string name="upsell_upgrade_again">Päivitä tilauksesi uudelleen nauttiaksesi kaikista ominaisuuksista:</string>
+    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
+         upgrade screen -->
+    <string name="upgrade_plus_subtitle">Kun päivität Plus-tilaukseen</string>
+    <string name="upgrade_netshield_title_new">Nauti mainosvapaasta selauksesta NetShieldillä</string>
+    <string name="upgrade_secure_core_title_new">Tuplaa salaus Secure Corella</string>
+    <string name="upgrade_secure_core_countries">Ohjaa tietoliikenteesi huipputurvallisten Sveitsissä, Ruotsissa ja Islannissa sijaitsevien palvelinten kautta</string>
+    <string name="upgrade_secure_core_encryption">Lisää VPN-yhteyteesi yksi salauskerros lisää</string>
+    <string name="upgrade_secure_core_protect">Suojaudu verkkohyökkäyksiltä</string>
+    <string name="upgrade_profiles_title">Pääset nopeasti käsiksi usein käyttämiisi yhteyksiin</string>
+    <string name="upgrade_profiles_text">Avaa profiilit VPN Plus -tilauksella</string>
+    <string name="upgrade_profiles_feature_save">Tallenna mieleisesi palvelin, kaupunki tai maa</string>
+    <string name="upgrade_profiles_feature_customize">Määritä muita protokollia ja VPN:n premium-ominaisuuksia</string>
+    <string name="upgrade_vpn_accelerator_title">Selaa vielä korkeammilla nopeuksilla (jopa 10 Gbps).</string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Paranna yhteysnopeuksia jopa 400 % <b>VPN Acceleratorilla</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_distant_servers">Parannettu nopeus ja vakaus, kun yhteys on muodostettu kaukana sijaitseviin palvelimiin.</string>
+    <string name="upgrade_vpn_accelerator_feature_less_crowded">Käytä nopeampia, ruuhkattomampia palvelimia</string>
+    <string name="upgrade_split_tunneling_title">Hanki molempien parhaat puolet</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Avaa <b>jaettu tunnelointi</b> VPN Plus:lla]]></string>
+    <string name="upgrade_split_tunneling_two_locations">Jaettu tunnelointi mahdollistaa saman aikaisen selauksen kahdesta eri sijainnista</string>
+    <string name="upgrade_split_tunneling_feature_allow_exceptions">Salli luotettujen sovellusten ja IP-osoitteiden yhdistää Internetiin suoraan, samalla kun kaikki muut suojataan VPN-yhteydellä.</string>
+    <string name="upgrade_customization_title">Avaa edistyneet VPN-mukautukset</string>
+    <string name="upgrade_customization_lan"><![CDATA[Pääsy <b>lähiverkon (LAN)</b> laitteisiin]]></string>
+    <string name="upgrade_customization_feature_profiles"><![CDATA[Tallenna käytetyimmät yhteydet <b>profiileiksi</b>]]></string>
+    <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[<b>Pikayhteys-ominaisuudella</b> käytät profiileitasi nopeasti]]></string>
+    <string name="upgrade_netshield_block_ads">Estä mainokset ja seurannat</string>
+    <string name="upgrade_netshield_block_malware">Suojaa laitettasi haittaohjelmilta</string>
+    <string name="upgrade_netshield_speed">Selaa korkeimmilla nopeuksilla</string>
+    <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
+         The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+         Example:
+         1200 secure servers
+         -->
+    <plurals name="upgrade_plus_servers_new">
+        <item quantity="one">%d turvallista palvelinta</item>
+        <item quantity="other">%d turvallista palvelinta</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="upgrade_plus_countries">
+        <item quantity="one">%d maassa</item>
+        <item quantity="other">%d maassa</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "upgrade_plus_servers_new"
+     %2$s - replaced with "upgrade_plus_countries"
+
+     Example:
+     Access over 1300 secure servers in 61 countries
+     -->
+    <string name="upgrade_plus_countries_title_new">Käytä yli %1$s %2$s</string>
+    <string name="upgrade_plus_countries_subtitle">Kun päivität Plus-tilaukseen</string>
+    <string name="upgrade_plus_countries_choose_location">Valitse mikä tahansa sijainti</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Vielä korkeampi VPN-nopeus</string>
+    <string name="upgrade_plus_countries_access_content">Käytä alueellisesti estettyä sisältöä</string>
+    <string name="upgrade_plus_countries_stream">Suoratoista suosikkielokuviasi</string>
+    <string name="upgrade_safe_mode_title">Salli tietoliikenne epätyypillisiin portteihin</string>
+    <string name="upgrade_safe_mode_message">Onko sinulla vaativia tai ammatillisia tietoteknisiä tarpeita, jotka tarvitsevat epätyypillisiä portteja? Päivitä VPN Plus -tilaukseen käyttääksesi tätä ja muita premium-ominaisuuksia.</string>
+    <string name="upgrade_not_now_button">Ei nyt</string>
+    <string name="upgrade_learn_more">Lue lisää</string>
+    <!-- Information activity -->
+    <string name="activity_information_title">Tietoja</string>
+    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
+    <string name="activity_information_plus_title">%1$s - Plus-palvelimet</string>
+    <string name="activity_information_gateways_title">Mikä on yhdyskäytävä?</string>
+    <string name="info_features">Ominaisuudet</string>
+    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_description">Tämän tekniikan ansiosta Proton VPN voi tarjota paremman nopeuden ja suojauksen vaikeasti palveltavissa maissa.</string>
+    <string name="streaming_title">Suoratoisto</string>
+    <string name="streaming_description">Plus-palvelimet tukevat suoratoistoa (Netflix, Disney+ jne.) mistä päin maailmaa tahansa.</string>
+    <string name="p2p_title">P2P/BitTorrent</string>
+    <string name="p2p_description">Nämä palvelimet tarjoavat parhaan suorituskyvyn BitTorrentille ja tiedostojen jaolle.</string>
+    <string name="tor_title">Tor</string>
+    <string name="tor_description">Ohjaa Internet-tietoliikenteesi Tor-verkon kautta. Hitaampaa, mutta yksityisempää.</string>
+    <string name="info_performance">Suorituskyky</string>
+    <string name="server_load_title">Palvelinten kuormitus</string>
+    <string name="server_load_description">Korkeasti kuormitetut palvelimet ovat kevyesti kuormitettuja hitaampia.</string>
+    <string name="streaming_title_with_country">Suoratoisto - %1$s</string>
+    <string name="streaming_services_description">Yhdistä Plus-palvelimeen tässä maassa aloittaaksesi suoratoiston.\n\nVinkki: Tyhjennä suoratoistosovellusten välimuistit varmistaaksesi uuden sisällön näkymisen.</string>
+    <string name="partnership_free_title">Ilmaispalvelimet</string>
+    <string name="partnership_free_description">Suojausta ja yksityisyyttä kaikille. Ilmaisilla palvelimilla ei ole tiedonsiirtorajoituksia, emmekä koskaan hidasta selausnopeuttasi tahallisesti.</string>
+    <string name="partnership_partners_title">Kumppanimme</string>
+    <string name="activity_information_learn_more">Lue lisää</string>
+    <string name="server_load_low">Matala</string>
+    <string name="server_load_medium">Keskitasoinen</string>
+    <string name="server_load_high">Korkea</string>
+    <string name="info_gateways_description">VPN-yhdyskäytävä on suojattu yhteys, joka tarjoaa valvotun pääsyn yrityksesi tietoihin ja palveluihin kohdistettujen palvelimien välityksellä.</string>
+    <!-- Override Human verification links from core -->
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Tervetuloa Proton VPN:ään</string>
+    <string name="onboarding_welcome_description">Lue miten otat Proton VPN:stä kaiken irti vain muutamassa sekunnissa.</string>
+    <string name="onboarding_welcome_action">Aloita</string>
+    <string name="onboarding_available_on_plus">Käytettävissä Plus-tilauksella</string>
+    <string name="onboarding_streaming_title">Vapauta suoratoisto</string>
+    <string name="onboarding_streaming_description">Käytä kaikkea sisältöä turvallisesti, myös ulkomailla matkustaessasi. Nyt myös Android TV:llä.</string>
+    <string name="onboarding_protection_title">Pysy turvassa kaikkialla</string>
+    <string name="onboarding_protection_description">Proton VPN tukee kaikkia laitteita, Windows- ja macOS-laitteet mukaanlukien.</string>
+    <string name="onboarding_netshield_title">Estä mainoksia ja paljon muuta</string>
+    <string name="onboarding_netshield_description">Estä haittaohjelmat, mainokset ja seuranta selaimissa sekä muissa sovelluksissa.</string>
+    <string name="onboarding_telemetry_title">Auta meitä taistelemaan sensuuria vastaan</string>
+    <string name="onboarding_connection_title">Muodosta ensimmäinen yhteytesi</string>
+    <!-- Parameters:
+         %1$s - replaced with "onboarding_connection_description_servers"
+         %2$s - replaced with "onboarding_connection_description_countries"
+
+         Example:
+         Free subscription offers 65 servers in 3 countries
+    -->
+    <string name="onboarding_connection_description">Ilmaistilaus sisältää %1$s palvelinta %2$s maassa</string>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         65 servers -->
+    <plurals name="onboarding_connection_description_servers">
+        <item quantity="one">%1$d palvelimen</item>
+        <item quantity="other">%1$d palvelinta</item>
+    </plurals>
+    <!-- Embedded in "onboarding_connection_description", e.g.:
+         Free subscription offers 65 servers in 3 countries
+
+         Example:
+         3 countries -->
+    <plurals name="onboarding_connection_description_countries">
+        <item quantity="one">%1$d maassa</item>
+        <item quantity="other">%1$d maassa</item>
+    </plurals>
+    <string name="onboarding_connection_info">Yhteys muodostetaan sijainnillesi nopeimpaan ja vakaimpaan palvelimeen.</string>
+    <string name="onboading_connect_now">Yhdistä nyt</string>
+    <string name="onboading_connecting_now">Yhteyttä muodostetaan</string>
+    <string name="onboarding_congrats_description">Yhteytesi on suojattu ja olet valmis selaamaan verkkoa.\n\nTurvallisesti.</string>
+    <string name="onboarding_congrats_title">Onnittelut!</string>
+    <string name="upgrade_success_get_started_button">Aloita</string>
+    <string name="upgrade_use_limited_free_button">Käytä rajoitettua ilmaistilausta</string>
+    <string name="dynamic_report_suggestion_didnt_work">Eikö ratkaisua löytynyt?</string>
+    <string name="dynamic_report_contact_us">Ota yhteyttä</string>
+    <string name="dynamic_report_tips_description">Nämä vinkit voivat auttaa ratkaisemaan ongelman nopeammin.</string>
+    <string name="dynamic_report_tips_title">Nopeita korjauksia</string>
+    <string name="dynamic_report_logs_title">Lähetä virhelokit</string>
+    <string name="dynamic_report_success_title">Kiitos palautteestasi</string>
+    <string name="dynamic_report_success_description">Palaamme asiaan mahdollisimman pian.</string>
+    <string name="dynamic_report_field_mandatory">Kenttä on pakollinen</string>
+    <string name="dynamic_report_logs_description">Loki on tiedosto, josta näemme virheeseen johtaneet toimenpiteet. Käytämme näitä tietoja ainoastaan ongelmien korjaukseen.</string>
+    <string name="dynamic_report_logs_missing">Virhelokit auttavat meitä selvittämään ongelmasi perusteellisesti. Jos et halua sisällyttää niitä, emme välttämättä pysty tutkimaan ongelmaa täysin.</string>
+    <string name="dynamic_report_step1">Vaihe 1/3</string>
+    <string name="dynamic_report_step2">Vaihe 2/3</string>
+    <string name="dynamic_report_step3">Vaihe 3/3</string>
+    <string name="dynamic_report_your_issue_headline">Mikä on ongelmana</string>
+    <string name="update_screen_title">Päivitä Proton VPN</string>
+    <string name="update_screen_description">Ongelmien ilmeneminen on todennäköisempää vanhoissa Proton VPN -versioissa.</string>
+    <string name="server_search_menu_title">Haku</string>
+    <string name="server_search_hint">Maa, kaupunki, palvelin</string>
+    <string name="server_search_hint_secure_core">Maa</string>
+    <!-- The parameter is the number of countries displayed in search results.
+         Examples: "Countries (5)", "Countries (1)" -->
+    <string name="server_search_countries_header">Maat (%1$d)</string>
+    <!-- The parameter is the number of Secure Core countries displayed in search results.
+     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
+    <string name="server_search_sc_countries_header">Secure Core -maat (%1$d)</string>
+    <!-- The parameter is the number of cities displayed in search results.
+         Examples: "Cities (5)", "Cities (1)" -->
+    <string name="server_search_cities_header">Kaupungit (%1$d)</string>
+    <!-- The parameter is the number of server displayed in search results.
+         Examples: "Servers (5)", "Servers (1)" -->
+    <string name="server_search_servers_header">Palvelimet (%1$d)</string>
+    <string name="search_empty_title">Etsi kaikista sijainneista</string>
+    <string name="search_empty_hint_countries"><![CDATA[Maat: <font color="%1$s">Sveitsi, Yhdysvallat, Italia…</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Maat: <font color="%1$s">Ranska, Yhdysvallat, Italia…</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Kaupungit: <font color="%1$s">New York, Lontoo, Tokio…</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[Yhdysvaltain alueet: <font color="%1$s">Kalifornia, Florida, Colorado…</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Palvelimet: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_result_subtitle">Kokeile eri hakusanaa</string>
+    <string name="search_empty_result_title">Tuloksia ei löytynyt</string>
+    <string name="search_recents_header_title">Edelliset haut (%1$d)</string>
+    <string name="search_clear_history">Tyhjennä historia</string>
+    <string name="search_clear_history_dialog">Hakuhistoriasi katoaa. Jatketaanko?</string>
+    <string name="ikev2_removed_dialog_title">IKEv2 VPN-protokolla ei ole enää käytettävissä</string>
+    <string name="ikev2_removed_dialog_message">IKEv2-protokollaa aiemmin käyttäneet oletukset ja profiilit käyttävät nyt Smart Protocol -toimintoa.</string>
+    <!-- Core strings overrides -->
+    <string name="plans_customizable_features">Lisätietoja saat osoitteesta <a href="https://protonvpn.com/pricing">protonvpn.com</a>.</string>
+    <string name="free_upsell_header_title">Hanki maailmanlaajuinen kattavuus VPN Plus -tilauksella</string>
+    <!-- Example: Want to connect to Italy? -->
+    <string name="upgrade_country_title">Haluatko valita tietyn maan?</string>
+    <string name="upgrade_country_message">Avaa maavalinta VPN Plus -tilauksella</string>
+    <string name="upgrade_country_feature_money_back">30 päivän rahat takaisin -takuu</string>
+    <!-- Example: Higher speeds (10 Gbps) -->
+    <string name="upgrade_country_feature_speed">Korkeammat nopeudet (%1$d Gbps)</string>
+    <string name="upgrade_country_feature_stream">Suoratoista suosikkielokuviasi</string>
+    <plurals name="upgrade_country_feature_protect">
+        <item quantity="one">Suojaa jopa %1$d laite</item>
+        <item quantity="other">Suojaa jopa %1$d laitetta</item>
+    </plurals>
+    <plurals name="upgrade_country_feature_count">
+        <item quantity="one">Selaa %1$d maasta</item>
+        <item quantity="other">Selaa %1$d maasta</item>
+    </plurals>
+    <string name="upgrade_moderate_nat_title2">Paranna pelikokemustasi</string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Avaa <b>2 tyypin NAT</b> VPN Plus -tilauksella]]></string>
+    <string name="upgrade_moderate_nat_feature_gaming">Paranna suorituskyä verkkopeleille ja videopuheluille</string>
+    <string name="upgrade_moderate_nat_feature_optimize">Tyypin 2 NAT (keskitasoinen) tarjoaa optimoidun nopeuden ja vakauden mahdollistamalla suorat yhteydet laitteiden välillä.</string>
+    <string name="free_connections_info_message">Proton Free yhdistää automaattisesti nopeimpaan käytettävissä olevaan palvelimeen. Yleensä tämä on lähinnä sijaintiasi oleva palvelin.</string>
+    <string name="free_connections_info_server_locations">Ilmaiset palvelinsijainnnit (%1$d)</string>
+    <string name="free_connections_info_banner_text">Hanki maailmanlaajuiden kattavuus VPN Plus -tilauksella</string>
+    <string name="free_connection_info_title">Ilmaisyhteydet</string>
+    <string name="search_upsell_banner_title">Suoratoista mistä tahansa</string>
+    <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
+    <plurals name="search_upsell_banner_message">
+        <item quantity="one">Vapauta %1$d maahan sijainnin perusteella rajoitettu sisältö VPN Plus -tilauksella</item>
+        <item quantity="other">Vapauta %1$d maahan sijainnin perusteella rajoitettu sisältö VPN Plus -tilauksella</item>
+    </plurals>
+    <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
+         %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
+         %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
+
+         Examples:
+         3 days 11 hours left
+         1 hour 32 minutes left
+         0 minutes 50 seconds left
+     -->
+    <string name="offer_time_left">%1$s %2$s jäljellä</string>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_seconds">
+        <item quantity="one">%1$d sekunti</item>
+        <item quantity="other">%1$d sekuntia</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
+    <plurals name="time_left_minutes">
+        <item quantity="one">%1$d minuutti</item>
+        <item quantity="other">%1$d minuuttia</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 hours 5 minutes left -->
+    <plurals name="time_left_hours">
+        <item quantity="one">%1$d tunti</item>
+        <item quantity="other">%1$d tuntia</item>
+    </plurals>
+    <!-- See offer_time_left, example: 2 days 5 hours left -->
+    <plurals name="time_left_days">
+        <item quantity="one">%1$d päivä</item>
+        <item quantity="other">%1$d päivää</item>
+    </plurals>
+    <string name="server_change_max_reached">Olet saavuttanut tällä erää käytettävissä olevan Free-palvelinvaihtojen enimmäismäärän.</string>
+    <string name="server_change_upsell">Hanki rajattomasti vaihtoja VPN Plus -tilauksella</string>
+    <string name="server_change_button_title">Vaihda palvelinta</string>
+    <string name="not_wanted_country_title">Eikö tämä ole haluamasi maa?</string>
+    <string name="not_wanted_country_description">Valitse mikä tahansa palvelin päivittämällä tilauksesi</string>
+    <string name="whats_new_title">Mitä uutta</string>
+    <string name="whats_new_added_countries_title">Uusia ilmaismaita</string>
+    <string name="whats_new_added_countries_description">Puolassa ja Romaniassa on nyt ilmaispalvelimia.</string>
+    <string name="whats_new_server_selection_title">Palvelinvalinnan muutoksia</string>
+    <string name="whats_new_server_selection_description">Poistimme manuaalisen maavalinnan ja teimme automaattiseen palvelinvalintaan merkittäviä parannuksia palvelimien ruuhkautumisen estämiseksi ja nopean ja turvallisen selauksen varmistamiseksi kaikille.</string>
+    <string name="welcome_plus_title">Tervetluoa VPN Plus -tilaukseen</string>
+    <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja seuraavan tason VPN-mukautuksesta.</string>
+    <string name="welcome_plus_feature_security">Edistyneet suojausominaisuudet</string>
+    <string name="welcome_unlimited_title">Tervetuloa Proton Unlimitediin</string>
+    <string name="welcome_unlimited_description"><![CDATA[Onnittelut! Olet avannut kaikkien Proton-palveluiden premium-tason suojaus- ja suorituskykyominaisuudet, sekä <b>%1$d&#160;Gt</b> kokonaistallennustilaa.<br><br>Nauti Protonin parhaasta yksityisyydestä.]]></string>
+    <string name="welcome_generic_title">Onnittelut</string>
+    <string name="welcome_generic_description">Olet päivittänyt tilauksesi. Nauti laajemmista yksityisyysominaisuuksista ja huipputason suorituskyvystä.</string>
+    <!-- Example: Up to 10 devices at once
+         In practice one will never be a value here -->
+    <plurals name="welcome_plus_feature_devices">
+        <item quantity="one">Yhdistä enintään %1$d laitetta saman aikaisesti</item>
+        <item quantity="other">Yhdistä enintään %1$d laite saman aikaisesti</item>
+    </plurals>
+    <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
+     The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
+
+     Example:
+     1200+ new servers
+     -->
+    <plurals name="welcome_plus_servers">
+        <item quantity="one">%d uusi palvelin</item>
+        <item quantity="other">%d+ uutta palvelinta</item>
+    </plurals>
+    <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
+
+         Example:
+         55 countries
+         -->
+    <plurals name="welcome_plus_countries">
+        <item quantity="one">%d maassa</item>
+        <item quantity="other">%d maassa</item>
+    </plurals>
+    <!-- Parameters:
+     %1$s - replaced with "welcome_plus_servers"
+     %2$s - replaced with "welcome_plus_countries"
+
+     Example:
+     1800+ new servers in 68 countries
+     -->
+    <string name="welcome_plus_feature_servers_count">%1$s %2$s</string>
+    <!-- Text added to button labels that open links in a browser (as opposed to performing actions
+         within the app). Only used by accessibility services like screen readers.
+         Example:
+         a button with "Learn more" label and this suffix will be read by a screen reader as:
+         "Learn more, external link button"
+     -->
+    <string name="accessibility_external_link_suffix">ulkoinen linkki</string>
+</resources>

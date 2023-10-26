@@ -760,9 +760,9 @@
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Подключайте до %1$d устройства одновременно</item>
-        <item quantity="few">Up to %1$d devices at once</item>
-        <item quantity="many">Up to %1$d devices at once</item>
+        <item quantity="one">До %1$d устройства одновременно</item>
+        <item quantity="few">До %1$d устройств одновременно</item>
+        <item quantity="many">До %1$d устройств одновременно</item>
         <item quantity="other">Подключайте до %1$d устройств одновременно</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
@@ -773,9 +773,9 @@
      -->
     <plurals name="welcome_plus_servers">
         <item quantity="one">%d новый сервер</item>
-        <item quantity="few">%d+ new servers</item>
-        <item quantity="many">%d+ new servers</item>
-        <item quantity="other">%d+ новые сервера</item>
+        <item quantity="few">%d+ новых сервера</item>
+        <item quantity="many">%d+ новых серверов</item>
+        <item quantity="other">%d+ нового сервера</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
 
@@ -784,8 +784,8 @@
          -->
     <plurals name="welcome_plus_countries">
         <item quantity="one">%d страна</item>
-        <item quantity="few">%d countries</item>
-        <item quantity="many">%d countries</item>
+        <item quantity="few">%d страны</item>
+        <item quantity="many">%d стран</item>
         <item quantity="other">%d страны</item>
     </plurals>
     <!-- Parameters:
