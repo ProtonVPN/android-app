@@ -49,7 +49,7 @@ class UpdateMigration @Inject constructor(
 
     private fun updateAmazonUi(oldVersionCode: Int) {
         @SuppressWarnings("MagicNumber")
-        if (oldVersionCode <= 4_06_30_00 && BuildConfig.FLAVOR == Constants.FLAVOR_AMAZON && !isTv.get().invoke()) {
+        if (oldVersionCode <= 4_06_30_00 && BuildConfig.FLAVOR_distribution == Constants.DISTRIBUTION_AMAZON && !isTv.get().invoke()) {
             mainScope.launch {
                 logout.get().invoke()
             }

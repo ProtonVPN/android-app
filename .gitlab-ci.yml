@@ -115,8 +115,8 @@ build google debug:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew assembleGooglePlayDebug
-    - ./gradlew assembleGooglePlayDebugAndroidTest
+    - ./gradlew assembleProductionGooglePlayStoreDebug
+    - ./gradlew assembleProductionGooglePlayStoreDebugAndroidTest # TODO: do we need these tests?
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
     - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
@@ -138,8 +138,8 @@ build google debug:
     - echo "API host ${TEST_ENV_DOMAIN}"
     - mkdir -p app/src/androidTest/assets/sensitive
     - cat $TEST_INTERNAL_API > app/src/androidTest/assets/sensitive/internal_apis.json
-    - ./gradlew assembleBlackDebug
-    - ./gradlew assembleBlackDebugAndroidTest
+    - ./gradlew assembleBlackGooglePlayStoreDebug
+    - ./gradlew assembleBlackGooglePlayStoreDebugAndroidTest
   artifacts:
     expire_in: 1 week
     paths:
@@ -170,7 +170,7 @@ build BTI:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew assembleBtiDebug
+    - ./gradlew assembleBtiGooglePlayStoreDebug
   artifacts:
     expire_in: 3 week
     paths:
@@ -192,7 +192,7 @@ build google play bundle:
   script:
     # Build openvpn first, otherwise ovpnassets are not copied to app's assets.
     - ./gradlew :openvpn:assembleRelease
-    - ./gradlew :app:bundleGooglePlayRelease
+    - ./gradlew :app:bundleProductionGooglePlayStoreRelease
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
     - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
@@ -209,8 +209,8 @@ build google play release:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew openvpn:assemble
-    - ./gradlew assembleGooglePlayRelease
+    - ./gradlew openvpn:assembleRelease
+    - ./gradlew assembleProductionGooglePlayStoreRelease
   when: manual
   except:
     - schedules
@@ -225,8 +225,8 @@ build google play release:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew openvpn:assemble
-    - ./gradlew assembleAmazonRelease
+    - ./gradlew openvpn:assembleRelease
+    - ./gradlew assembleProductionVanillaAmazonRelease
   artifacts:
     expire_in: 3 week
     paths:
@@ -258,8 +258,8 @@ build release (auto):
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew openvpn:assemble
-    - ./gradlew assembleDirectRelease
+    - ./gradlew openvpn:assembleRelease
+    - ./gradlew assembleProductionVanillaDirectRelease
   artifacts:
     expire_in: 3 week
     paths:
@@ -272,7 +272,7 @@ unit tests:
   except:
     - schedules
   script:
-    - ./gradlew testBlackDebug
+    - ./gradlew testBlackGooglePlayStoreDebug
   artifacts:
     expire_in: 1 day
     paths:
@@ -336,7 +336,7 @@ owasp check:
 
 startReview:
   before_script:
-    - export REVIEW_APP_ARTIFACT_PATH="app/build/outputs/apk/googlePlay/debug/"${ARCHIVES_BASE_NAME}-googlePlay-debug.apk
+    - export REVIEW_APP_ARTIFACT_PATH="app/build/outputs/apk/productionGooglePlayStore/debug/"${ARCHIVES_BASE_NAME}-production-google-playStore-debug.apk
     - echo ${REVIEW_APP_ARTIFACT_PATH}
   extends: .startReview
   except:

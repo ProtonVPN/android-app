@@ -58,7 +58,7 @@ sign-bundle:
     ARTIFACT_SIGNATURE_KIND: android-app-bundle
     ARTIFACT_SIGNATURE_PROFILE: android-vpn
     ARTIFACT_SIGNATURE_REF_TYPE: protected-branch
-    ARTIFACT_SIGNATURE_FILES: app/build/outputs/bundle/googlePlayRelease/${ARCHIVES_BASE_NAME}-googlePlay-release.aab
+    ARTIFACT_SIGNATURE_FILES: app/build/outputs/bundle/productionGooglePlayStoreRelease/${ARCHIVES_BASE_NAME}-production-google-playStore-release.aab
     ARTIFACT_SIGNATURE_DEST: signedBundle/
   id_tokens:
     SIGNING_ID_TOKEN:
@@ -102,7 +102,7 @@ publish-apk-internal:
       artifacts: false
   script:
     - ./gradlew generateReleaseNotesForPublishing
-    - ./gradlew publishGooglePlayBundle --artifact-dir signedBundle/
+    - ./gradlew publishProductionGooglePlayStoreBundle --artifact-dir signedBundle/
     - ./gradlew notifyPublishOnSlack
 
 publish-github:

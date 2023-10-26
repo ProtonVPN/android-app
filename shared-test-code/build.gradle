@@ -29,19 +29,46 @@ android {
     namespace 'com.protonvpn.test.shared'
     compileSdk rootProject.ext.compileSdkVersion
 
-    flavorDimensions "default"
     defaultConfig {
         minSdk rootProject.ext.minSdkVersion
 
         consumerProguardFiles "consumer-rules.pro"
     }
+
+    flavorDimensions = ["environment", "functionality", "distribution"]
     productFlavors {
-        dev {}
-        black {}
-        googlePlay {}
-        amazon {}
-        direct {}
-        prod {}
+        production {
+            dimension "environment"
+        }
+        black {
+            dimension "environment"
+        }
+        bti {
+            dimension "environment"
+        }
+
+        vanilla {
+            dimension "functionality"
+        }
+        google {
+            dimension "functionality"
+        }
+
+        playStore {
+            dimension "distribution"
+        }
+        amazon {
+            dimension "distribution"
+        }
+        direct {
+            dimension "distribution"
+        }
+        openSource {
+            dimension "distribution"
+        }
+        dev {
+            dimension "distribution"
+        }
     }
 
     buildTypes {

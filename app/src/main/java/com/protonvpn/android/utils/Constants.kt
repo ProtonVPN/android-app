@@ -49,7 +49,7 @@ object Constants {
     const val VPN_INFO_REFRESH_INTERVAL_MINUTES = 3L
     const val WIREGUARD_TUNNEL_NAME = "ProtonTunnel"
     const val SECONDARY_PROCESS_TAG = "SecondaryProcess"
-    const val FLAVOR_AMAZON = "amazon"
+    const val DISTRIBUTION_AMAZON = "amazon"
 
     val CLIENT_ID: String
     val VPN_USERNAME_PRODUCT_SUFFIX: String

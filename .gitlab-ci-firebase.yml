@@ -57,10 +57,10 @@ mobile tests mocked api:
   variables:
     TESTS_TYPE: mobileTest
     NUM_SHARDS: 3
-    APP_LOCATION: "app/build/outputs/apk/black/debug/"
-    APP_TYPE: "black-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
-    TEST_APP_TYPE: "black-debug-androidTest.apk"
+    APP_LOCATION: "app/build/outputs/apk/blackGooglePlayStore/debug/"
+    APP_TYPE: "black-google-playStore-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/blackGooglePlayStore/debug/"
+    TEST_APP_TYPE: "black-google-playStore-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileMockApiSuite"
     TIMEOUT: $TIMEOUT_MOCKED_TESTS
     COVERAGE_FOLDER: "mobile_mocked_api"
@@ -70,10 +70,10 @@ mobile tests test-env:
   variables:
     TESTS_TYPE: mobileTest
     NUM_SHARDS: 1
-    APP_LOCATION: "app/build/outputs/apk/black/debug/"
-    APP_TYPE: "black-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
-    TEST_APP_TYPE: "black-debug-androidTest.apk"
+    APP_LOCATION: "app/build/outputs/apk/blackGooglePlayStore/debug/"
+    APP_TYPE: "black-google-playStore-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/blackGooglePlayStore/debug/"
+    TEST_APP_TYPE: "black-google-playStore-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.MobileBlackSuite"
     TIMEOUT: $TIMEOUT_GENERAL_TESTS
 #    COVERAGE_FOLDER: "mobile_test_env"
@@ -82,10 +82,10 @@ tv tests:
   extends: .tests_preparation_script
   variables:
     TESTS_TYPE: tvTest
-    APP_LOCATION: "app/build/outputs/apk/black/debug/"
-    APP_TYPE: "black-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/black/debug/"
-    TEST_APP_TYPE: "black-debug-androidTest.apk"
+    APP_LOCATION: "app/build/outputs/apk/blackGooglePlayStore/debug/"
+    APP_TYPE: "black-google-playStore-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/blackGooglePlayStore/debug/"
+    TEST_APP_TYPE: "black-google-playStore-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.TvSuite"
     TIMEOUT: $TIMEOUT_GENERAL_TESTS
 #    COVERAGE_FOLDER: "tv"
@@ -95,10 +95,10 @@ real connection mobile tests:
   allow_failure: true
   variables:
     TESTS_TYPE: realConnectionTest
-    APP_LOCATION: "app/build/outputs/apk/googlePlay/debug/"
-    APP_TYPE: "googlePlay-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/googlePlay/debug/"
-    TEST_APP_TYPE: "googlePlay-debug-androidTest.apk"
+    APP_LOCATION: "app/build/outputs/apk/productionGooglePlayStore/debug/"
+    APP_TYPE: "production-google-playStore-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/productionGooglePlayStore/debug/"
+    TEST_APP_TYPE: "production-google-playStore-debug-androidTest.apk"
     TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
     TIMEOUT: $TIMEOUT_GENERAL_TESTS
 #    COVERAGE_FOLDER: "real_connection"
@@ -123,8 +123,8 @@ robo tests:
       --robo-directives ignore:R.id.drawerButtonLogout=
   variables:
     TIMEOUT: $TIMEOUT_ROBO_TESTS
-    APP_LOCATION: "app/build/outputs/bundle/googlePlayRelease/"
-    APP_TYPE: "googlePlay-release.aab"
+    APP_LOCATION: "app/build/outputs/bundle/productionGooglePlayStoreRelease/"
+    APP_TYPE: "production-google-playStore-release.aab"
     CHECKOUT_CORE_SUBMODULE: "true"
   after_script:
     - |
