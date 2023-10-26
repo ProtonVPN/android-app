@@ -525,11 +525,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Accesați peste %1$s în %2$s</string>
-    <string name="upgrade_plus_countries_subtitle">When you upgrade to Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Choose any location</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Even higher VPN speed</string>
-    <string name="upgrade_plus_countries_access_content">Access geoblocked content</string>
-    <string name="upgrade_plus_countries_stream">Stream your favorite movies</string>
+    <string name="upgrade_plus_countries_subtitle">Când treceți la Plus</string>
+    <string name="upgrade_plus_countries_choose_location">Alegeți orice țară</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Viteze VPN chiar mai mari</string>
+    <string name="upgrade_plus_countries_access_content">Accesați conținut blocat geografic</string>
+    <string name="upgrade_plus_countries_stream">Vizionați filmele preferate</string>
     <string name="upgrade_safe_mode_title">Permitere trafic la porturile nonstandard</string>
     <string name="upgrade_safe_mode_message">Aveți nevoi avansate sau profesionale de calcul care necesită porturi non-standard? Treceți la VPN Plus pentru a activa aceasta și alte funcții premium.</string>
     <string name="upgrade_not_now_button">Nu acum</string>

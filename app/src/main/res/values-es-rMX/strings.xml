@@ -169,7 +169,7 @@
     <string name="connection_failed">Error de conexión</string>
     <string name="create_new_profile">Perfil nuevo</string>
     <string name="excludeAppsTitle">Excluir apps</string>
-    <string name="excludeAppsDescription">Añada apps que desea excluir del tráfico VPN.</string>
+    <string name="excludeAppsDescription">Añada apps que quiere excluir del tráfico VPN.</string>
     <string name="profile_name">Nombre del perfil</string>
     <string name="profile_name_hint">Escriba el nombre del perfil</string>
     <string name="profile_color">Color del perfil</string>
@@ -185,7 +185,7 @@
     <string name="discardChanges">¿Descartar los cambios sin guardar?</string>
     <string name="discard">Descartar</string>
     <string name="selectedProfileColor">Seleccione un color para su perfil</string>
-    <string name="excludeIpDescription">Añada direcciones IP que desea excluir del tráfico VPN.</string>
+    <string name="excludeIpDescription">Añada direcciones IP que quiere excluir del tráfico VPN.</string>
     <string name="done">HECHO</string>
     <string name="add">AÑADIR</string>
     <string name="copy_to_clipboard">Copiar</string>
@@ -395,7 +395,7 @@
     <string name="tv_upgrade_description">Obtenga un plan Proton VPN Plus para acceder a más de 500 servidores en todo el mundo y opciones optimizadas de streaming para Netflix, Amazon Prime Video, Disney+, y muchos más.</string>
     <string name="tv_vpn_error_dialog_title">Error con la conexión VPN</string>
     <string name="tv_signout_label">Cerrar sesión</string>
-    <string name="tv_signout_dialog_title">¿Está seguro que desea salir?</string>
+    <string name="tv_signout_dialog_title">¿Está seguro que quiere salir?</string>
     <string name="tv_signout_dialog_description_connected">Esto desconectará su televisor de cualquier servidor VPN.</string>
     <string name="tv_signout_dialog_ok">Cerrar sesión</string>
     <string name="tv_quick_connect_recommened">Recomendado</string>
@@ -648,7 +648,7 @@
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obtener más información.</string>
     <string name="free_upsell_header_title">Disfrute de una cobertura global con VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">¿Desea elegir un país específico?</string>
+    <string name="upgrade_country_title">¿Quiere elegir un país específico?</string>
     <string name="upgrade_country_message">Desbloquee el país seleccionado con VPN Plus</string>
     <string name="upgrade_country_feature_money_back">Garantía de reembolso durante 30 días</string>
     <!-- Example: Higher speeds (10 Gbps) -->

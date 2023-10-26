@@ -64,7 +64,7 @@
     <string name="loaderNotConnected">연결되지 않음 (보호되지 않음)</string>
     <string name="loaderNotConnectedSuggestion">빠른 연결 버튼을 누르세요.</string>
     <string name="loaderConnectedTo">%1$s에 연결됨</string>
-    <string name="loaderConnectedToLabel">연결 됨:</string>
+    <string name="loaderConnectedToLabel">연결됨:</string>
     <string name="loaderDisconnecting">연결을 끊는 중</string>
     <string name="loaderReconnecting">다시 연결 중</string>
     <string name="loaderReconnectNoNetwork">사용 가능한 네트워크 대기 중</string>
@@ -189,7 +189,7 @@
     <string name="done">완료</string>
     <string name="add">추가</string>
     <string name="copy_to_clipboard">복사</string>
-    <string name="the_list_is_empty">이 항목은 비어있습니다.</string>
+    <string name="the_list_is_empty">목록이 비어있음</string>
     <string name="got_it">알겠습니다</string>
     <string name="onboardingWelcome">환영합니다</string>
     <string name="proton_log">Proton 로그</string>
@@ -221,9 +221,9 @@
     <string name="ipWithPlaceholder">아이피: %1$s</string>
     <string name="server">서버:</string>
     <string name="session_time">세션 시간:</string>
-    <string name="download_volume">음량:</string>
+    <string name="download_volume">이용량:</string>
     <string name="download_speed">속도:</string>
-    <string name="notConnected">VPN 서버에 연결되어 \n있지 않습니다.</string>
+    <string name="notConnected">VPN 서버에\n연결되지 않음</string>
     <string name="activityLicensesTitle">제3자 라이센스</string>
     <string name="stateFragmentUnknownIp">알 수 없음</string>
     <string name="noVpnPermissionMainTitle">VPN 연결 동작이 필요합니다</string>
@@ -232,7 +232,7 @@
     <string name="noVpnPermissionGrantPemrissionMessage">Android에서 Proton VPN에 연결하려면 권한이 필요합니다. Android에서 \"연결 요청\" 창이 나타나면 \"확인\"을 탭하여 권한을 부여하세요.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">다른 VPN 앱에서는 항상 켜기를 비활성화하세요.</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android는 여러 개의 VPN 앱을 지원하지 않습니다. Proton VPN을 제외한 다른 VPN 앱에서 항상 켜기를 비활성화해 주세요.</string>
-    <string name="noVpnPermissionProtonAppLabel">ProtonVpn 애플리케이션</string>
+    <string name="noVpnPermissionProtonAppLabel">Proton VPN 애플리케이션</string>
     <string name="noVpnPermissionOtherAppLabel">다른 VPN 앱</string>
     <string name="noVpnPermissionOpenSettings">Android VPN 설정 열기</string>
     <string name="noNotificationPermissionGrantTitle">들키지 마세요…</string>
@@ -249,7 +249,7 @@
     <string name="bugReportLabelVpnLogsTitle">오류 로그 포함</string>
     <string name="bugReportErrorLabelVpnLogsDescription">발생한 문제를 해결하기 위해 (활동 기록을 제외한) 에러 로그를 전송합니다.</string>
     <string name="profileFastest">가장 빠르게</string>
-    <string name="profileRandom">랜덤</string>
+    <string name="profileRandom">무작위</string>
     <string name="settingsSplitTunnelingDescription">분할 터널링은 VPN 트래픽에서 제외하고 싶은 특정 앱이나 IP 주소를 설정할 수 있도록 합니다.</string>
     <string name="settingsSplitTunnelingTitle">분할 터널링</string>
     <string name="loaderAuthenticatingUser">사용자 인증 중…</string>
@@ -309,7 +309,7 @@
     <string name="settingsAlwaysOnWindowHeader">상시 VPN 및 킬 스위치를 켜는 법:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. 아래에 있는 버튼을 눌러 당신의 기기 <b>설정</b> 앱을 엽니다]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. ProtonVPN을 찾으시고 %1$s 버튼을 누르세요</string>
+    <string name="settingsAlwaysOnWindowStep2">2. Proton VPN을 찾으시고 %1$s 버튼을 누르세요</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
@@ -348,7 +348,7 @@
     <string name="netShieldBlockMalwareOnly">멀웨어만 차단</string>
     <string name="netShieldFullBlock">멀웨어, 트래커, 광고 차단</string>
     <string name="dialogDontShowAgain">다음부터 표시하지 않음</string>
-    <string name="guestHoleActivated">ProtonVPN에 대한 액세스가 귀하의 지역에서 제한될 수 있으므로 평소보다 더 오래 걸릴 수 있습니다. 이 문제를 해결하는 동안 기다려 주세요.</string>
+    <string name="guestHoleActivated">Proton VPN에 대한 액세스가 귀하의 지역에서 제한될 수 있으므로 평소보다 더 오래 걸릴 수 있습니다. 이 문제를 해결하는 동안 기다려 주세요.</string>
     <string name="guestHoleNotificationContent">네트워크 문제를 우회하려고 노력하고 있습니다. 이는 Proton VPN에 접근하는데 도움을 줄 것입니다.</string>
     <string name="onMaintenanceDetected">연결하려는 VPN 서버가 점검 중입니다. 사용 가능한 제일 빠른 서버로 자동으로 연결했습니다.</string>
     <string name="errorTunMultiUserPermission">듀얼 앱(예를 들어 듀얼 메신저)과 분할 터널링 사이에 충돌이 생겨 VPN 연결을 구성할 수 없습니다. 둘 중 하나를 비활성화 하고 기기를 재부팅 하세요.</string>
@@ -388,7 +388,7 @@
     <string name="tv_login_title_refresh">세션이 만료되었습니다. 새로 고침을 클릭하여 다시 시작합니다.</string>
     <string name="tv_upgrade_title">Plus로 스트리밍 시작</string>
     <string name="back">뒤로가기</string>
-    <string name="tv_upgrade_url_details"><![CDATA[지금 <b>%1$s</b> 방문하여 ProtonVPN Plus로 업그레이드 하세요]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[지금 <b>%1$s</b> 방문하여 Proton VPN Plus로 업그레이드 하세요]]></string>
     <string name="tv_upgrade_description">전세계 500개 이상의 서버와 Netflix, Amazon Prime Video, Disney+ 등의 최적화된 스트리밍 옵션을 액세스 하기 위하여 Proton VPN Plus 플랜을 구독하세요.</string>
     <string name="tv_vpn_error_dialog_title">VPN 연결 실패</string>
     <string name="tv_signout_label">로그아웃</string>
@@ -437,7 +437,7 @@
     <string name="no_thanks">괜찮습니다</string>
     <string name="enable">활성화</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol은 현재 비활성화 되었습니다</string>
-    <string name="notification_smart_protocol_disabled_content">ProtonVPN이 현재 네트워크에서 VPN에 연결할 수 없음을 감지했습니다. Smart Protocol을 사용하도록 설정하면 이러한 제한을 무시할 수 있습니다.</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN이 현재 네트워크에서 VPN에 연결할 수 없음을 감지했습니다. Smart Protocol을 사용하도록 설정하면 이러한 제한을 무시할 수 있습니다.</string>
     <string name="upsell_advanced_features">고급 기능: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">전 세계 어디에서나 스트리밍 서비스(Netflix, Disney+ 등) 에 액세스</string>
     <!-- Number of servers available in the service.
@@ -459,12 +459,12 @@
     <string name="upsell_upgrade_again">다시 업그레이드하고 모든 기능들을 즐기세요:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_subtitle">Plus 요금제로 업그레이드하면</string>
+    <string name="upgrade_plus_subtitle">Plus 요금제로 업그레이드하세요</string>
     <string name="upgrade_netshield_title_new">NetShield로 광고 없는 브라우징을 즐기세요</string>
     <string name="upgrade_secure_core_title_new">Secure Core과 함께 이중으로 암호화하세요</string>
     <string name="upgrade_secure_core_countries">스위스, 스웨덴과 아이슬란드의 아주 안전한 서버를 통해 라우팅</string>
-    <string name="upgrade_secure_core_encryption">VPN 연결에 암호화 계층을 추가하세요</string>
-    <string name="upgrade_secure_core_protect">네트워크 공격으로부터 나를 보호하세요</string>
+    <string name="upgrade_secure_core_encryption">VPN 연결에 암호화 계층 추가</string>
+    <string name="upgrade_secure_core_protect">네트워크 공격으로부터의 보호</string>
     <string name="upgrade_profiles_title">자주 연결하는 연결에 더 빠르게 접근하세요.</string>
     <string name="upgrade_profiles_text">프로파일을 VPN Plus로 잠금 해제하세요.</string>
     <string name="upgrade_profiles_feature_save">선호하는 서버, 도시 및 국가를 저장하세요</string>
@@ -509,7 +509,7 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">%2$s에서 %1$s에 액세스</string>
-    <string name="upgrade_plus_countries_subtitle">Plus 요금제로 업그레이드하면</string>
+    <string name="upgrade_plus_countries_subtitle">Plus 요금제로 업그레이드하세요</string>
     <string name="upgrade_plus_countries_choose_location">지역을 선택하세요.</string>
     <string name="upgrade_plus_countries_even_higher_speed">더 빠른 VPN 속도</string>
     <string name="upgrade_plus_countries_access_content">차단된 콘텐츠에 접근하세요</string>

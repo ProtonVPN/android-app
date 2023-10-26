@@ -235,9 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">ProtonVPN app</string>
     <string name="noVpnPermissionOtherAppLabel">Andere VPN apps</string>
     <string name="noVpnPermissionOpenSettings">Android VPN instellingen openen</string>
-    <string name="noNotificationPermissionGrantTitle">Don’t get caught out…</string>
-    <string name="noNotificationPermissionGrantDescription">Enable notifications to get alerted about changes to your connection status.</string>
-    <string name="noNotificationPermissionGrantNowTitle">Enable notifications</string>
+    <string name="noNotificationPermissionGrantTitle">Laat uzelf niet onbeschermd...</string>
+    <string name="noNotificationPermissionGrantDescription">Schakel meldingen in om op de hoogte te blijven van veranderingen in uw verbindingsstatus.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Meldingen inschakelen</string>
     <string name="error_prepare_vpn_description"><![CDATA[Schakel Altijd-actieve VPN uit voor alle andere VPN-apps in de Android VPN-systeeminstellingen, omdat dit Proton VPN verhindert om een VPN-verbinding tot stand te brengen. Geef ook VPN-machtigingen wanneer een dialoogvenster verschijnt die vraagt om VPN-machtigingen. Andere VPN-apps moeten mogelijk ook worden gedeïnstalleerd om conflicten te voorkomen. Probeer het daarna opnieuw. <a href="%1$s">Meer&nbsp;informatie</a>]]></string>
     <string name="error_prepare_vpn_settings">Ga naar Android VPN instellingen</string>
     <string name="error_prepare_vpn_title">Fout: VPN permissie probleem</string>
@@ -517,11 +517,11 @@
      Access over 1300 secure servers in 61 countries
      -->
     <string name="upgrade_plus_countries_title_new">Toegang tot %1$s in %2$s</string>
-    <string name="upgrade_plus_countries_subtitle">When you upgrade to Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Choose any location</string>
-    <string name="upgrade_plus_countries_even_higher_speed">Even higher VPN speed</string>
-    <string name="upgrade_plus_countries_access_content">Access geoblocked content</string>
-    <string name="upgrade_plus_countries_stream">Stream your favorite movies</string>
+    <string name="upgrade_plus_countries_subtitle">Wanneer u upgrade naar Plus</string>
+    <string name="upgrade_plus_countries_choose_location">Kies eender welke locatie</string>
+    <string name="upgrade_plus_countries_even_higher_speed">Nog hogere VPN-snelheid</string>
+    <string name="upgrade_plus_countries_access_content">Toegang tot geoblocked inhoud</string>
+    <string name="upgrade_plus_countries_stream">Stream uw favoriete films</string>
     <string name="upgrade_safe_mode_title">Laat verkeer toe naar niet-standaard poorten</string>
     <string name="upgrade_safe_mode_message">Heeft u geavanceerde professionele IT-noden die niet-standaard poorten vereisen? Upgrade naar VPN Plus om toegang te krijgen tot deze en meer premium functies.</string>
     <string name="upgrade_not_now_button">Niet nu</string>
@@ -598,7 +598,7 @@
     <string name="onboading_connecting_now">Verbinden</string>
     <string name="onboarding_congrats_description">Uw verbinding is beveiligd en u bent klaar om op het web te browsen.\n\nBeveiligd.</string>
     <string name="onboarding_congrats_title">Gefeliciteerd!</string>
-    <string name="upgrade_success_get_started_button">Get started</string>
+    <string name="upgrade_success_get_started_button">Aan de slag</string>
     <string name="upgrade_use_limited_free_button">Gebruik het beperkte gratis abonnement</string>
     <string name="dynamic_report_suggestion_didnt_work">Niet gelukt?</string>
     <string name="dynamic_report_contact_us">Contacteer ons</string>
@@ -646,7 +646,7 @@
     <string name="ikev2_removed_dialog_message">Standaarden en profielen die eerder IKEv2 gebruikten, zullen nu het Smart-protocol gebruiken.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Bezoek <a href="https://protonvpn.com/pricing">protonvpn.com</a> voor meer informatie.</string>
-    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
+    <string name="free_upsell_header_title">Krijg wereldwijde dekking met VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Wilt u een specifiek land kiezen?</string>
     <string name="upgrade_country_message">Ontgrendel land selectie met VPN Plus</string>
@@ -685,26 +685,26 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">%1$s %2$s left</string>
+    <string name="offer_time_left">%1$s %2$s over</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
-        <item quantity="one">%1$d second</item>
-        <item quantity="other">%1$d seconds</item>
+        <item quantity="one">%1$d seconde</item>
+        <item quantity="other">%1$d seconden</item>
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
-        <item quantity="one">%1$d minute</item>
-        <item quantity="other">%1$d minutes</item>
+        <item quantity="one">%1$d minuut</item>
+        <item quantity="other">%1$d minuten</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
-        <item quantity="one">%1$d hour</item>
-        <item quantity="other">%1$d hours</item>
+        <item quantity="one">%1$d uur</item>
+        <item quantity="other">%1$d uren</item>
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
-        <item quantity="one">%1$d day</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d dag</item>
+        <item quantity="other">%1$d dagen</item>
     </plurals>
     <string name="server_change_max_reached">U heeft het maximale aantal Gratis server aanpassingen voorlopig bereikt.</string>
     <string name="server_change_upsell">Krijg ongelimiteerde aanpassingen met VPN Plus</string>
@@ -719,10 +719,10 @@
     <string name="welcome_plus_title">Welkom bij VPN Plus</string>
     <string name="welcome_plus_description">Geniet van extra privacy functies, supercharged prestaties en next-level VPN aanpassingen.</string>
     <string name="welcome_plus_feature_security">Geavanceerde beveiligingsfuncties</string>
-    <string name="welcome_unlimited_title">Welcome to Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Congratulations! You unlocked premium security and performance features on all Proton services, plus <b>%1$d&#160;GB</b> total storage.<br><br>Enjoy the best of Proton privacy.]]></string>
-    <string name="welcome_generic_title">Congratulations</string>
-    <string name="welcome_generic_description">You\'ve upgraded your subscription. Enjoy advanced privacy features and next-level performance.</string>
+    <string name="welcome_unlimited_title">Welkom bij Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Proficiat! U heeft premium beveiliging en prestaties functies op alle Proton diensten, plus <b>%1$d&#160;GB</b> totale opslag. <br><br>Geniet van het beste van Proton privacy.]]></string>
+    <string name="welcome_generic_title">Gefeliciteerd</string>
+    <string name="welcome_generic_description">U heeft uw abonnement geüpgraded. Geniet van geavanceerde privacy-kenmerken en next-level prestaties.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
