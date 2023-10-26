@@ -44,6 +44,7 @@ class BuildConfigInfo @Inject constructor(
             PINS: ${certificatePins.contentToString().takeWithEllipsis(10)}
             ALT PINS: ${alternativeApiPins.toString().takeWithEllipsis(10)}
             ROOT CERT: ${if (BuildConfig.VPN_SERVER_ROOT_CERT != null) "[override]" else "[default]"}
+            BUILD FLAVOR: ${BuildConfig.FLAVOR}
         """.trimIndent()
 
     private fun String.takeWithEllipsis(n: Int) = if (length > n)

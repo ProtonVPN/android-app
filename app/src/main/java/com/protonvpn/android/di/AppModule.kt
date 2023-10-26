@@ -36,7 +36,6 @@ import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.GlideImagePrefetcher
 import com.protonvpn.android.appconfig.ImagePrefetcher
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
@@ -48,7 +47,6 @@ import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.notifications.NotificationHelper
@@ -221,7 +219,7 @@ object AppModule {
 
     @Provides
     fun provideAppStore(): AppStore =
-        if (BuildConfig.STORE_SUFFIX == "+play") AppStore.GooglePlay else AppStore.FDroid
+        if (BuildConfig.FLAVOR_functionality == "google") AppStore.GooglePlay else AppStore.FDroid
 
     @Provides
     @Singleton

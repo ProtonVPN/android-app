@@ -22,9 +22,9 @@ package com.protonvpn.android.utils
 import com.protonvpn.android.BuildConfig
 
 object BuildConfigUtils {
-    fun isBTI() = BuildConfig.FLAVOR.startsWith("bti")
-    fun isDev() = BuildConfig.FLAVOR.startsWith("dev")
-    fun isBlack() = BuildConfig.FLAVOR.startsWith("black")
+    fun isBTI() = BuildConfig.FLAVOR_environment.startsWith("bti")
+    fun isDev() = BuildConfig.FLAVOR_distribution.startsWith("dev")
+    fun isBlack() = BuildConfig.FLAVOR_environment.startsWith("black")
     fun useAltRoutingCertVerificationForMainRoute() = isBTI()
     fun displayInfo() = BuildConfig.DEBUG || isBTI()
     fun isCertificatePinningFlavor() = !(isDev() || isBlack())

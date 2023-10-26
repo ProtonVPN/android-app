@@ -55,8 +55,8 @@ task jacocoTestReport(type: JacocoReport) {
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', 'ch.protonmail.android.utils.nativelib']
-    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/blackDebug", excludes: fileFilter)
-    def mainSrc = files(["src/main/java","src/black/java"])
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/blackGooglePlayStoreDebug", excludes: fileFilter)
+    def mainSrc = files(["src/main/java","src/google/java"])
     sourceDirectories.setFrom files([mainSrc])
     classDirectories.setFrom files([debugTree])
     executionData.setFrom fileTree(dir: "$project.projectDir", includes: [
@@ -138,7 +138,6 @@ android {
     ndkVersion rootProject.ext.compileNdkVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
     useLibrary 'org.apache.http.legacy'
-    flavorDimensions "default"
     signingConfigs {
         release {
             storeFile file(storeFilePath)
@@ -192,29 +191,27 @@ android {
             }
         }
     }
+    flavorDimensions = ["environment", "functionality", "distribution"]
     productFlavors {
-        dev {
-            versionNameSuffix "-dev"
-            applicationIdSuffix '.dev'
-            buildConfigField "String", "STORE_SUFFIX", "\"\""
+        production {
+            dimension "environment"
+            getIsDefault().set(true)
             buildConfigField "String", "API_DOMAIN", productionServer
             buildConfigField "String", "HV3_DOMAIN", productionHv3Server
         }
-
         black {
-            versionNameSuffix "+black"
+            dimension "environment"
             applicationIdSuffix '.black'
             def blackToken = System.getenv("BLACK_TOKEN")
             def apiHost = System.getenv("TEST_ENV_DOMAIN")
             def apiUrl = "$apiHost/api"
             def hv3Url = "verify.$apiHost"
-            buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "String", "BLACK_TOKEN", "\"${StringEscapeUtils.escapeJava(blackToken)}\""
             buildConfigField "String", "API_DOMAIN", "\"${StringEscapeUtils.escapeJava(apiUrl)}\""
             buildConfigField "String", "HV3_DOMAIN", "\"${StringEscapeUtils.escapeJava(hv3Url)}\""
         }
         bti {
-            versionNameSuffix "+bti"
+            dimension "environment"
             applicationIdSuffix '.bti'
             def blackToken = System.getenv("BLACK_TOKEN")
             def apiHost = System.getenv("BTI_API_DOMAIN")?.replace("\"", "")
@@ -223,7 +220,6 @@ android {
             def altPins = System.getenv("BTI_ALT_ROUTE_TLS_PINNINGS")
             def dohUrls = System.getenv("BTI_AR_DOH_URLS")
             def vpnServerRootCert = System.getenv("BTI_SERVERS_ROOT_CERT")
-            buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "String", "BLACK_TOKEN", "\"${StringEscapeUtils.escapeJava(blackToken)}\""
             buildConfigField "String", "API_DOMAIN", "\"${StringEscapeUtils.escapeJava(apiHost)}\""
             buildConfigField "String", "HV3_DOMAIN", "\"${StringEscapeUtils.escapeJava(hv3Host)}\""
@@ -237,27 +233,52 @@ android {
                 buildConfigField "String", "VPN_SERVER_ROOT_CERT", "\"${StringEscapeUtils.escapeJava(vpnServerRootCert)}\""
             }
         }
-        googlePlay {
+
+        vanilla {
+            dimension "functionality"
+        }
+        google {
+            dimension "functionality"
+            getIsDefault().set(true)
+        }
+
+        playStore {
+            dimension "distribution"
+            getIsDefault().set(true)
             buildConfigField "String", "STORE_SUFFIX", "\"+play\""
-            buildConfigField "String", "API_DOMAIN", productionServer
-            buildConfigField "String", "HV3_DOMAIN", productionHv3Server
         }
         amazon {
+            dimension "distribution"
             buildConfigField "String", "STORE_SUFFIX", "\"+aws\""
-            buildConfigField "String", "API_DOMAIN", productionServer
-            buildConfigField "String", "HV3_DOMAIN", productionHv3Server
         }
         direct {
+            dimension "distribution"
             buildConfigField "String", "STORE_SUFFIX", "\"+apk\""
-            buildConfigField "String", "API_DOMAIN", productionServer
-            buildConfigField "String", "HV3_DOMAIN", productionHv3Server
         }
-        prod {
+        openSource {
+            dimension "distribution"
             buildConfigField "String", "STORE_SUFFIX", "\"+os\""
-            buildConfigField "String", "API_DOMAIN", productionServer
-            buildConfigField "String", "HV3_DOMAIN", productionHv3Server
+        }
+        dev {
+            dimension "distribution"
+            applicationIdSuffix '.dev'
+            versionNameSuffix '-dev'
+            buildConfigField "String", "STORE_SUFFIX", "\"\""
         }
     }
+    variantFilter { variant ->
+        def environment = variant.flavors[0].name
+        def functionality = variant.flavors[1].name
+        def dist = variant.flavors[2].name
+
+        if (dist == "dev")
+            return
+        if (environment == "black" && dist !in ["playStore", "direct"])
+            setIgnore(true) // We don't need all distributions for testing.
+        if (functionality == "google" && dist != "playStore" || functionality != "google" && dist == "playStore")
+            setIgnore(true)
+    }
+
     buildTypes {
         debug {
             buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  testAccountPassword
@@ -712,8 +733,8 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     
     // Play core
-    googlePlayImplementation("com.google.android.play:core:1.10.3")
-    googlePlayImplementation("com.google.android.play:core-ktx:1.8.1")
+    googleImplementation("com.google.android.play:core:1.10.3")
+    googleImplementation("com.google.android.play:core-ktx:1.8.1")
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.15.1'
@@ -770,7 +791,7 @@ dependencies {
     implementation "me.proton.core:telemetry-data:$core_version"
     implementation "me.proton.core:telemetry-domain:$core_version"
     implementation "me.proton.core:payment:$core_version"
-    googlePlayImplementation "me.proton.core:payment-iap:$core_version"
+    googleImplementation "me.proton.core:payment-iap:$core_version"
     implementation "me.proton.core:plan:$core_version"
     implementation "me.proton.core:key:$core_version"
     implementation "me.proton.core:data:$core_version"
