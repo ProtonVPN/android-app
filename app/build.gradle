@@ -181,6 +181,7 @@ android {
         buildConfigField "String", "TEST_ASSET_OVERRIDE_SHA", "\"${helpers.readFileOrDefault("test_asset_override_sha", "db95210d57b90063bfa1cac9881c7a8df326e6e2")}\""
         buildConfigField "String", "TEST_ASSET_OVERRIDE_KEY", "\"${helpers.readFileOrDefault("test_asset_override_key", "241b080fb0f1216e")}\""
         buildConfigField "String", "TEST_SUITE_ASSET_OVERRIDE_KEY", "\"${helpers.readFileOrDefault("test_suite_asset_override_key", "3ea60f6a2fbfc015")}\""
+        buildConfigField "Boolean", "ALT_ROUTING_CERT_FOR_MAIN_ROUTE", "false"
         buildConfigField "String[]", "API_TLS_PINS", "null"
         buildConfigField "String[]", "API_ALT_TLS_PINS", "null"
         buildConfigField "String[]", "DOH_SERVICES_URLS", "null"
@@ -203,31 +204,41 @@ android {
             dimension "environment"
             applicationIdSuffix '.black'
             def blackToken = System.getenv("BLACK_TOKEN")
-            def apiHost = System.getenv("TEST_ENV_DOMAIN")
-            def apiUrl = "$apiHost/api"
-            def hv3Url = "verify.$apiHost"
-            buildConfigField "String", "BLACK_TOKEN", "\"${StringEscapeUtils.escapeJava(blackToken)}\""
-            buildConfigField "String", "API_DOMAIN", "\"${StringEscapeUtils.escapeJava(apiUrl)}\""
-            buildConfigField "String", "HV3_DOMAIN", "\"${StringEscapeUtils.escapeJava(hv3Url)}\""
-        }
-        bti {
-            dimension "environment"
-            applicationIdSuffix '.bti'
-            def blackToken = System.getenv("BLACK_TOKEN")
-            def apiHost = System.getenv("BTI_API_DOMAIN")?.replace("\"", "")
-            def hv3Host = System.getenv("BTI_HV3_DOMAIN")?.replace("\"", "")
-            def apiPins = System.getenv("BTI_API_TLS_PINNINGS")
-            def altPins = System.getenv("BTI_ALT_ROUTE_TLS_PINNINGS")
-            def dohUrls = System.getenv("BTI_AR_DOH_URLS")
+            // Use either:
+            //  - TEST_ENV_DOMAIN for regular test environments,
+            //  - the BTI_* variables for the BTI environment.
+            def testEnvHost = System.getenv("TEST_ENV_DOMAIN")
+            def apiUrl, hv3Host, dohUrls, apiPinsString, altPinsString, altRoutingCertForMainRoute
+            if (testEnvHost != null) {
+                apiUrl = "${testEnvHost}/api"
+                hv3Host = "verify.$testEnvHost"
+                dohUrls = null
+                // Disable cert pinning:
+                apiPinsString = "{}"
+                altPinsString = "{}"
+                altRoutingCertForMainRoute = false
+            } else {
+                def apiHost = System.getenv("BTI_API_DOMAIN")?.replace("\"", "")
+                def apiPins = System.getenv("BTI_API_TLS_PINNINGS")
+                def altPins = System.getenv("BTI_ALT_ROUTE_TLS_PINNINGS")
+                apiUrl = apiHost
+                hv3Host = System.getenv("BTI_HV3_DOMAIN")?.replace("\"", "")
+                dohUrls = System.getenv("BTI_AR_DOH_URLS")
+                apiPinsString = "{${helpers.sanitizeStringListForBuildConfig(apiPins)}}"
+                altPinsString = altPins != null ? "{${helpers.sanitizeStringListForBuildConfig(altPins)}}" : null
+                altRoutingCertForMainRoute = true
+            }
             def vpnServerRootCert = System.getenv("BTI_SERVERS_ROOT_CERT")
             buildConfigField "String", "BLACK_TOKEN", "\"${StringEscapeUtils.escapeJava(blackToken)}\""
-            buildConfigField "String", "API_DOMAIN", "\"${StringEscapeUtils.escapeJava(apiHost)}\""
+            buildConfigField "String", "API_DOMAIN", "\"${StringEscapeUtils.escapeJava(apiUrl)}\""
             buildConfigField "String", "HV3_DOMAIN", "\"${StringEscapeUtils.escapeJava(hv3Host)}\""
-            buildConfigField "String[]", "API_TLS_PINS", "{${helpers.sanitizeStringListForBuildConfig(apiPins)}}"
+            buildConfigField "Boolean", "ALT_ROUTING_CERT_FOR_MAIN_ROUTE", "$altRoutingCertForMainRoute"
             buildConfigField "String[]", "DOH_SERVICES_URLS", "{${helpers.sanitizeStringListForBuildConfig(dohUrls)}}"
+            buildConfigField "String[]", "API_TLS_PINS", apiPinsString
+
             // Below are not mandatory
-            if (altPins != null) {
-                buildConfigField "String[]", "API_ALT_TLS_PINS", "{${helpers.sanitizeStringListForBuildConfig(altPins)}}"
+            if (altPinsString != null) {
+                buildConfigField "String[]", "API_ALT_TLS_PINS", altPinsString
             }
             if (vpnServerRootCert != null) {
                 buildConfigField "String", "VPN_SERVER_ROOT_CERT", "\"${StringEscapeUtils.escapeJava(vpnServerRootCert)}\""

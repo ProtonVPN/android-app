@@ -22,7 +22,6 @@ variables:
   ATLAS_DEPLOY_LIST:
     value: fe-vpn:branch-main
     description: List of components to deploy (fe-vpn:v4.7.0:prod+t to use a tag)
-  TEST_ENV_DOMAIN: $DYNAMIC_DOMAIN
   GIT_FETCH_EXTRA_FLAGS: --tags
   ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
 
@@ -116,7 +115,7 @@ build google debug:
     - xlarge-k8s
   script:
     - ./gradlew assembleProductionGooglePlayStoreDebug
-    - ./gradlew assembleProductionGooglePlayStoreDebugAndroidTest # TODO: do we need these tests?
+    - ./gradlew assembleProductionGooglePlayStoreDebugAndroidTest
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
     - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
@@ -147,6 +146,8 @@ build google debug:
     - app/build/tmp/kotlin-classes
 
 build test-env:
+  variables:
+    TEST_ENV_DOMAIN: $DYNAMIC_DOMAIN
   extends: .build test
 
 build black:
@@ -154,13 +155,14 @@ build black:
   variables:
     TEST_ENV_DOMAIN: $BLACK_DOMAIN
   after_script:
-    - mkdir artifacts
-    - cp -r app/build/outputs/apk/* artifacts
+    # Avoid build files clashing with the test ones.
+    - mkdir artifactsBlack
+    - mv app/build/outputs/apk/* artifactsBlack
   when: manual
   artifacts:
     expire_in: 1 week
     paths:
-      - artifacts
+      - artifactsBlack
 
 build BTI:
   stage: build
@@ -170,11 +172,15 @@ build BTI:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew assembleBtiGooglePlayStoreDebug
+    - ./gradlew assembleBlackGooglePlayStoreDebug
+  after_script:
+    # Avoid build files clashing with the test ones.
+    - mkdir artifactsBti
+    - mv app/build/outputs/apk/* artifactsBti
   artifacts:
     expire_in: 3 week
     paths:
-      - app/build/outputs/apk
+      - artifactsBti
 
 build google play bundle:
   stage: build
