@@ -22,11 +22,10 @@ package com.protonvpn.android.utils
 import com.protonvpn.android.BuildConfig
 
 object BuildConfigUtils {
-    fun isBTI() = BuildConfig.FLAVOR_environment.startsWith("bti")
     fun isDev() = BuildConfig.FLAVOR_distribution.startsWith("dev")
     fun isBlack() = BuildConfig.FLAVOR_environment.startsWith("black")
-    fun useAltRoutingCertVerificationForMainRoute() = isBTI()
-    fun displayInfo() = BuildConfig.DEBUG || isBTI()
+    fun useAltRoutingCertVerificationForMainRoute() = BuildConfig.ALT_ROUTING_CERT_FOR_MAIN_ROUTE
+    fun displayInfo() = BuildConfig.DEBUG || isBlack()
     fun isCertificatePinningFlavor() = !(isDev() || isBlack())
 
     // Make sure that DoH services URLs end with a slash (expected by OkHttp)
