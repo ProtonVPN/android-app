@@ -416,7 +416,7 @@
     <string name="tv_server_list_action_unavailable">Inte tillgänglig</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator möjliggör en uppsättning av unik prestandaförbättrande teknik som kan öka VPN-hastigheten med upp till 400%%. <a href="%1$s">Läs mer</a>.]]></string>
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator möjliggör en uppsättning unika prestandahöjande teknologier som kan öka VPN-hastigheten med upp till 400 %%. <a href="%1$s">Lär dig mer</a>.]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">Nya inställningar kommer tillämpas nästa gång du ansluter.</string>
     <string name="settingsReconnectToChangeDialogContent">Detta kommer att starta om din anslutning.</string>
     <string name="reconnectToEnableNetshield">Detta kommer att starta om din anslutning.\n\nObs! Vissa webbplatser kanske inte laddas med NetShield på.</string>
@@ -476,7 +476,7 @@
     <string name="upgrade_profiles_feature_save">Spara din föredragna server, ort eller land</string>
     <string name="upgrade_profiles_feature_customize">Ställ in anpassade protokoll och premium VPN-funktioner</string>
     <string name="upgrade_vpn_accelerator_title">Surfa med ännu högre hastigheter (upp till 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Öka anslutningshastigheterna med upp till 400 % med <b>VPN Accelerator</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Öka anslutningshastigheterna med upp till 400 % med <b>VPN Accelerator</b>.]]></string>
     <string name="upgrade_vpn_accelerator_feature_distant_servers">Förbättrad hastighet och stabilitet vid anslutning till avlägsna servrar.</string>
     <string name="upgrade_vpn_accelerator_feature_less_crowded">Åtkomst till snabbare, mindre belastade servrar</string>
     <string name="upgrade_split_tunneling_title">Få det bästa av två världar</string>

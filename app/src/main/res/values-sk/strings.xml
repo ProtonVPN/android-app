@@ -177,7 +177,7 @@
     <string name="attachments">Prílohy</string>
     <string name="report_message">Nahlásiť správu</string>
     <string name="report_bug_email_label">Váš email</string>
-    <string name="report_bug_email_hint">Zadajte vašu e-mailovú adresu</string>
+    <string name="report_bug_email_hint">Zadajte vašu emailovú adresu</string>
     <string name="report_bug_message_label">Správa</string>
     <string name="report_bug_message_hint">Popíšte prosím chybu a ako a kde ste ju našli</string>
     <string name="send_report">Odoslať hlásenie</string>

@@ -64,7 +64,7 @@
     <string name="loaderNotConnected">Bağlı değil (korunmuyor)</string>
     <string name="loaderNotConnectedSuggestion">Hızlı bağlan düğmesine dokunun</string>
     <string name="loaderConnectedTo">%1$s ile bağlantı kuruldu</string>
-    <string name="loaderConnectedToLabel">Şuraya bağlandı:</string>
+    <string name="loaderConnectedToLabel">Şuraya bağlı:</string>
     <string name="loaderDisconnecting">Bağlantı kesiliyor</string>
     <string name="loaderReconnecting">Yeniden bağlanılıyor</string>
     <string name="loaderReconnectNoNetwork">Kullanılabilecek ağ bekleniyor</string>
@@ -152,7 +152,7 @@
     <string name="log_title">Günlük</string>
     <string name="disconnect">Bağlantıyı kes</string>
     <string name="state_connecting">Bağlantı kuruluyor…</string>
-    <string name="state_connected">Bağlandı</string>
+    <string name="state_connected">Bağlı</string>
     <string name="state_disconnecting">Bağlantı kesiliyor…</string>
     <string name="state_error">Hata</string>
     <string name="error_server_unreachable">VPN bağlantısı kurulamadı. Lütfen bağlantınızı denetleyip yeniden deneyin.</string>
