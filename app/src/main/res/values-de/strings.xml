@@ -206,7 +206,7 @@
     <string name="countryServersHeader">Server des Landes</string>
     <string name="secureCoreCountriesHeader">„Secure Core“-Länder</string>
     <string name="recommendedProfilesHeader">Empfohlene Profile</string>
-    <string name="free_connection_header">Free-Verbindung</string>
+    <string name="free_connection_header">Kostenlose Verbindungen</string>
     <string name="yourProfilesHeader">Deine Profile</string>
     <string name="exitCountry">Ausgangsland</string>
     <string name="entryCountry">Eingangsland</string>
@@ -669,7 +669,7 @@
     <string name="free_connections_info_message">Proton Free verbindet dich automatisch mit dem schnellsten verfügbaren Server. Dies ist normalerweise der Server, der deinem Standort am nächsten ist.</string>
     <string name="free_connections_info_server_locations">Verfügbare Serverstandorte (%1$d)</string>
     <string name="free_connections_info_banner_text">Erhalte weltweite Abdeckung mit VPN Plus</string>
-    <string name="free_connection_info_title">Free-Verbindungen</string>
+    <string name="free_connection_info_title">Kostenlose Verbindungen</string>
     <string name="search_upsell_banner_title">Streamen von überall</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">

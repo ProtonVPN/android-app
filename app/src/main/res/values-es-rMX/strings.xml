@@ -33,16 +33,16 @@
     <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Para empezar su viaje en Proton VPN, asigne conexiones VPN a su cuenta o cualquier otra subcuenta.</string>
     <string name="connectionAllocationHelpDescription2">Este paso tomará solo unos minutos. Después será capaz de iniciar sesión y proteger todos sus dispositivos.</string>
-    <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN habilitada para esta cuenta. Para comenzar su viaje en Proton VPN contacte con su administrador. </string>
-    <string name="connectionAllocationHelpAssignConnectionsButton">Habilitar conexiones VPN</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN activada para esta cuenta. Para comenzar su viaje en Proton VPN contacte con su administrador. </string>
+    <string name="connectionAllocationHelpAssignConnectionsButton">Activar conexiones VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión de nuevo</string>
     <string name="mapCalloutConnect">Conectar</string>
     <string name="mapCalloutDisconnect">Desconectar</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Advertencia</string>
     <string name="secureCoreSpeedInfoTitle">Una nota acerca de la velocidad…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core ofrece el más alto nivel de seguridad y privacidad, pero puede reducir la velocidad de Internet. Si necesita más rendimiento, puede deshabilitar Secure Core.</string>
-    <string name="secureCoreActivateDialogButton">Habilitar Secure Core</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core ofrece el más alto nivel de seguridad y privacidad, pero puede reducir la velocidad de Internet. Si necesita más rendimiento, puede desactivar Secure Core.</string>
+    <string name="secureCoreActivateDialogButton">Activar Secure Core</string>
     <string name="logoutConfirmDialogTitle">¿Cerrar sesión?</string>
     <string name="logoutConfirmDialogMessage">Al cerrar la sesión desconectará su dispositivo de la VPN.</string>
     <string name="logoutConfirmDialogButton">Cerrar sesión</string>
@@ -116,7 +116,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Puertos no estándar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use Proton VPN para cualquier necesidad permitiendo el tráfico a puertos no estándar mediante la red VPN. <a href="%1$s">Más información</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderada</string>
-    <string name="settingsModerateNatDescription"><![CDATA[La NAT moderada deshabilita la aleatorización del mapeo de direcciones locales, lo que puede reducir ligeramente su seguridad, pero permite técnicas como conexiones directas para aplicaciones como juegos en línea. <a href="%1$s">Más información</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[La NAT moderada desactiva la aleatorización del mapeo de direcciones locales, lo que puede reducir ligeramente su seguridad, pero permite técnicas como conexiones directas para aplicaciones como juegos en línea. <a href="%1$s">Más información</a>]]></string>
     <string name="use_coupon_title">Usar cupón</string>
     <string name="use_coupon_code_label">Código de cupón</string>
     <string name="use_coupon_success">El cupón ha sido aplicado.</string>
@@ -230,15 +230,15 @@
     <string name="noVpnPermissionMainMessage">Para conectarse a Proton VPN, haga lo siguiente:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Conceder permiso a la VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android necesita su permiso para conectarse a Proton VPN. Concédalo tocando \"OK\" cuando aparezca la ventana de \"Solicitud de conexión\" de Android.</string>
-    <string name="noVpnPermissionDisableAlwaysOnTitle">Deshabilitar Siempre-activa para otras aplicaciones</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android no soporta múltiples aplicaciones VPN. Deshabilite la opción siempre-activa para cualquier aplicación VPN que no sea Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnTitle">Desactivar Siempre-activa para otras aplicaciones</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android no soporta múltiples aplicaciones VPN. Desactive la opción siempre-activa para cualquier aplicación VPN que no sea Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Aplicación ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Otras aplicaciones de VPN</string>
     <string name="noVpnPermissionOpenSettings">Abrir ajustes de VPN de Android</string>
     <string name="noNotificationPermissionGrantTitle">No se deje sorprender…</string>
-    <string name="noNotificationPermissionGrantDescription">Habilite las notificaciones para recibir alertas cuando ocurran cambios en su conexión.</string>
-    <string name="noNotificationPermissionGrantNowTitle">Habilitar notificaciones</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Deshabilite la VPN siempre-activa para todas las demás aplicaciones VPN en los ajustes VPN del sistema de Android, ya que evita que Proton VPN establezca una conexión VPN. También conceda permisos de VPN si aparece una ventana solicitando permisos de VPN. Otras aplicaciones pueden ser desinstaladas para prevenir conflictos. Después, intente nuevamente. <a href="%1$s">Más información</a>]]></string>
+    <string name="noNotificationPermissionGrantDescription">Active las notificaciones para recibir alertas cuando ocurran cambios en su conexión.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Activar notificaciones</string>
+    <string name="error_prepare_vpn_description"><![CDATA[Desactive la VPN siempre-activa para todas las demás aplicaciones VPN en los ajustes VPN del sistema de Android, ya que evita que Proton VPN establezca una conexión VPN. También conceda permisos de VPN si aparece una ventana solicitando permisos de VPN. Otras aplicaciones pueden ser desinstaladas para prevenir conflictos. Después, intente nuevamente. <a href="%1$s">Más información</a>]]></string>
     <string name="error_prepare_vpn_settings">Ir a los ajustes VPN de Android</string>
     <string name="error_prepare_vpn_title">Error: problema de permisos VPN</string>
     <string name="error_server_not_set">El servidor ya no está disponible</string>
@@ -294,9 +294,9 @@
     <string name="troubleshootIspProblemTitle">Problema del proveedor de servicios de Internet (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Intente conectarse a Proton desde una red diferente (o utilice <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interferencia del antivirus</string>
-    <string name="troubleshootAntivirusProblemDescription">Deshabilite temporalmente o elimine su software antivirus.</string>
+    <string name="troubleshootAntivirusProblemDescription">Desactive temporalmente o elimine su software antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferencia de Proxy/Firewall</string>
-    <string name="troubleshootProxyFirewallProblemDescription">Deshabilite cualquier proxy o firewall, o contacte con el administrador de su red.</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Desactive cualquier proxy o firewall, o contacte con el administrador de su red.</string>
     <string name="troubleshootProtonDownTitle">Proton está caído</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Compruebe el <a href=\"%1$s\">Estado de Proton</a> para conocer el estado de nuestro sistema.]]></string>
     <string name="troubleshootContactUsSectionTitle">¿Aún necesita ayuda? Contáctenos directamente.</string>
@@ -314,14 +314,14 @@
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Pulse el interruptor junto a <b>VPN siempre-activa</b> para habilitarla]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Pulse el interruptor junto a <b>VPN siempre-activa</b> para activarla]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Pulse el interruptor junto a <b>Bloquear conexiones sin VPN</b> para activar el interruptor de apagado]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abrir ajustes de Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activar el interruptor de apagado deshabilitará la tunelización dividida, ya que el interruptor bloquea todas las conexiones fuera del túnel VPN</string>
+    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activar el interruptor de apagado desactivará la tunelización dividida, ya que el interruptor bloquea todas las conexiones fuera del túnel VPN</string>
     <string name="settingsSmartProtocolDescription">Utiliza automáticamente el protocolo y el puerto que ofrecen la mejor conectividad.</string>
     <string name="settingsEnableTelemetryTitle">Compartir estadísticas de uso anónimas</string>
     <string name="settingsEnableTelemetryDescription">Los datos de uso nos ayudan a superar los bloqueos de VPN y mejorar el rendimiento de la aplicación.</string>
@@ -331,7 +331,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen su dirección IP y no pueden ser usadas para identificarle. Nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
     <string name="netShieldEnabledWarning">Tenga en cuenta que algunos sitios web no podrían funcionar por completo debido a contenidos bloqueados.</string>
     <string name="netShieldDescription">Bloquea anuncios, rastreadores y malware </string>
-    <string name="netshield_settings_description"><![CDATA[Protéjase de anuncios, malware y rastreadores en sitios web y apps. Si los sitios web no cargan, intente deshabilitar NetShield. <a href="%1$s">Más información</a>.]]></string>
+    <string name="netshield_settings_description"><![CDATA[Protéjase de anuncios, malware y rastreadores en sitios web y apps. Si los sitios web no cargan, intente desactivar NetShield. <a href="%1$s">Más información</a>.]]></string>
     <string name="netshield_status_on">Activado</string>
     <string name="netshield_status_off">Desactivado</string>
     <string name="netshield_free_title">Navegue sin anuncios con NetShield</string>
@@ -354,7 +354,7 @@
     <string name="guestHoleActivated">El acceso a Proton VPN podría estar limitado en su área, por lo que esto tomará más tiempo de lo usual. Espere mientras trabajamos en este problema.</string>
     <string name="guestHoleNotificationContent">Intentando eludir problemas de red. Esto le ayudará a acceder a Proton VPN.</string>
     <string name="onMaintenanceDetected">El servidor VPN al que estaba conectado está en mantenimiento. Lo reconectamos automáticamente al servidor más rápido disponible.</string>
-    <string name="errorTunMultiUserPermission">No se pudo inicializar la conexión VPN debido a un conflicto entre una app dual (por ejemplo, Dual Messenger) y Tunelización dividida. Deshabilite una de ellas y reinicie su dispositivo.</string>
+    <string name="errorTunMultiUserPermission">No se pudo inicializar la conexión VPN debido a un conflicto entre una app dual (por ejemplo, Dual Messenger) y Tunelización dividida. Desactive una de ellas y reinicie su dispositivo.</string>
     <string name="errorTorrentNotAllowed">P2P no está permitido en este servidor</string>
     <string name="errorWireguardWithPlaceholder">Error de WireGuard %1$s</string>
     <string name="profileProtocolNotAvailable">El protocolo VPN de este perfil no está disponible. Para conectarse, cambie el protocolo.</string>
@@ -416,7 +416,7 @@
     <string name="tv_server_list_action_unavailable">No disponible</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator habilita un conjunto de tecnologías únicas que mejoran el rendimiento y pueden aumentar la velocidad de VPN hasta en un 400%%. <a href="%1$s">Más información</a>.]]></string>
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator activa un conjunto de tecnologías únicas que mejoran el rendimiento y pueden aumentar la velocidad de VPN hasta en un 400%%. <a href="%1$s">Más información</a>.]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">Los ajustes nuevos se aplicarán la próxima vez que se conecte.</string>
     <string name="settingsReconnectToChangeDialogContent">Esto reiniciará su conexión.</string>
     <string name="reconnectToEnableNetshield">Esto reiniciará su conexión.\n\nNota: algunos sitios podrían no cargar con NetShield encendido.</string>
@@ -439,9 +439,9 @@
     <string name="reconnect_from_server">Del servidor: </string>
     <string name="reconnect_to_server">Al servidor: </string>
     <string name="no_thanks">No, gracias</string>
-    <string name="enable">Habilitar</string>
-    <string name="notification_smart_protocol_disabled_title">Smart Protocol está actualmente deshabilitado</string>
-    <string name="notification_smart_protocol_disabled_content">Proton VPN detectó que su red actual está impidiendo una conexión a la VPN. Habilitar Smart Protocol podría eludir estas limitaciones.</string>
+    <string name="enable">Activar</string>
+    <string name="notification_smart_protocol_disabled_title">Smart Protocol está actualmente desactivado</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN detectó que su red actual está impidiendo una conexión a la VPN. Activar Smart Protocol podría eludir estas limitaciones.</string>
     <string name="upsell_advanced_features">Funciones avanzadas: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Acceda a servicios de transmisión (Netflix, Disney+, etc.) en cualquier parte del mundo</string>
     <!-- Number of servers available in the service.
@@ -665,7 +665,7 @@
     <string name="upgrade_moderate_nat_title2">Suba su nivel de experiencia en juegos</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Desbloquee <b>NAT Tipo 2</b> con VPN Plus]]></string>
     <string name="upgrade_moderate_nat_feature_gaming">Mejore el rendimiento de los juegos en línea y las videollamadas</string>
-    <string name="upgrade_moderate_nat_feature_optimize">NAT Tipo 2 (moderada) optimiza la velocidad y estabilidad al habilitar conexiones directas entre los dispositivos</string>
+    <string name="upgrade_moderate_nat_feature_optimize">NAT Tipo 2 (moderada) optimiza la velocidad y estabilidad al activar conexiones directas entre los dispositivos</string>
     <string name="free_connections_info_message">Proton Free le conecta automáticamente al servidor más rápido disponible. Normalmente es el servidor más cercano a su ubicación.</string>
     <string name="free_connections_info_server_locations">Ubicaciones de servidores gratuitos (%1$d)</string>
     <string name="free_connections_info_banner_text">Obtenga cobertura global con VPN Plus</string>

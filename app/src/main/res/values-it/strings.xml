@@ -379,7 +379,7 @@
     <string name="tv_detail_description_plus">Trasmetti i tuoi video, film o sport preferiti con le tue app.</string>
     <string name="tv_login_title_signin">Accedi a Proton VPN</string>
     <string name="tv_login_title_welcome">Trasmetti i tuoi contenuti video preferiti</string>
-    <string name="tv_login_welcome_description">Guarda i contenuti video di oltre 50 paesi, inclusi YouTube e Twitch. Stream Netflix, Amazon Prime, e Hulu con Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description">Guarda i contenuti video di oltre 50 paesi, inclusi YouTube e Twitch. Guarda in streaming Netflix, Amazon Prime Video e Disney+ con Proton VPN Plus.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Ottieni il tuo account Proton VPN su <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Accedi</string>
     <string name="tv_login_step1_description"><![CDATA[Vai a <b>%1$s</b> sul tuo dispositivo mobile o computer]]></string>
@@ -428,8 +428,8 @@
     <string name="notification_max_sessions_title">Hai raggiunto il limite massimo di dispositivi</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Disconnetti un altro dispositivo per collegare questo o aggiorna a Plus per ottenere fino a %1$d dispositivo connesso allo stesso tempo.</item>
-        <item quantity="other">Disconnetti un altro dispositivo per collegare questo o aggiorna a Plus per ottenere fino a %1$d dispositivi connessi allo stesso tempo.</item>
+        <item quantity="one">Disconnetti un altro dispositivo per collegare questo o effettua l\'upgrade a Plus per ottenere fino a %1$d dispositivo connesso allo stesso tempo.</item>
+        <item quantity="other">Disconnetti un altro dispositivo per collegare questo o effettua l\'upgrade a Plus per ottenere fino a %1$d dispositivi connessi allo stesso tempo.</item>
     </plurals>
     <string name="notification_max_sessions_content">Disconnetti un altro dispositivo per connettere questo.</string>
     <string name="notification_cancel_to_free">Sei sul piano Gratuito. Sono disponibili i server e le funzioni Gratuite.</string>
@@ -535,7 +535,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Questa tecnologia consente a Proton VPN di fornire maggiore velocità e sicurezza in paesi difficili da servire.</string>
     <string name="streaming_title">Streaming</string>
-    <string name="streaming_description">I server Plus supportano lo streaming (Netflix, Disney+, etc) da qualsiasi parte del mondo.</string>
+    <string name="streaming_description">I server Plus supportano lo streaming (Netflix, Disney+, ecc.) da qualsiasi parte del mondo.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Questi server offrono le migliori prestazioni per BitTorrent e la condivisione di file.</string>
     <string name="tor_title">Tor</string>

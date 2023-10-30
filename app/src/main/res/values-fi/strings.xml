@@ -416,7 +416,7 @@
     <string name="tv_server_list_action_unavailable">Ei käytettävissä</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator hyödyntää ainutlaatuisia suorituskykyä parantavia tekniikoita, jotka voivat kohottaa VPN-nopeuksia jopa 400 %%. <a href="%1$s">Lue lisää</a>]]></string>
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator hyödyntää ainutlaatuisia suorituskykyä parantavia tekniikoita, jotka voivat kohottaa VPN-nopeuksia jopa 400 %%. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
     <string name="settingsReconnectToChangeDialogContent">Tämä muodostaa yhteyden uudelleen.</string>
     <string name="reconnectToEnableNetshield">Tämä muodostaa yhteyden uudelleen.\n\nHuomioi: jotkin sivustot eivät välttämättä lataudu NetShieldin ollessa käytössä.</string>
@@ -476,7 +476,7 @@
     <string name="upgrade_profiles_feature_save">Tallenna mieleisesi palvelin, kaupunki tai maa</string>
     <string name="upgrade_profiles_feature_customize">Määritä muita protokollia ja VPN:n premium-ominaisuuksia</string>
     <string name="upgrade_vpn_accelerator_title">Selaa vielä korkeammilla nopeuksilla (jopa 10 Gbps).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Paranna yhteysnopeuksia jopa 400 % <b>VPN Acceleratorilla</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Paranna yhteysnopeuksia jopa 400 % <b>VPN Acceleratorilla</b>.]]></string>
     <string name="upgrade_vpn_accelerator_feature_distant_servers">Parannettu nopeus ja vakaus, kun yhteys on muodostettu kaukana sijaitseviin palvelimiin.</string>
     <string name="upgrade_vpn_accelerator_feature_less_crowded">Käytä nopeampia, ruuhkattomampia palvelimia</string>
     <string name="upgrade_split_tunneling_title">Hanki molempien parhaat puolet</string>
