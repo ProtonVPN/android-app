@@ -51,6 +51,8 @@ class AppFeaturesPrefs @Inject constructor(
 
     var hasShownUpgradeSuccessForPlan: String by string(default = "")
 
+    var wasLaunchedForTv by boolean(default = false)
+
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
         private const val KEY_SHOW_WHATS_NEW = "showWhatsNew"

@@ -91,7 +91,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public void checkOrientation() {
         setRequestedOrientation(
-            getResources().getBoolean(R.bool.isTablet) || isTv.invoke(false) ?
+            getResources().getBoolean(R.bool.isTablet) || isTv.invoke() ?
                 SCREEN_ORIENTATION_FULL_USER : SCREEN_ORIENTATION_PORTRAIT);
     }
 
