@@ -30,7 +30,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.ActivityDynamicReportBinding
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,7 +42,7 @@ class DynamicReportActivity : BaseActivityV2() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        if (baseContext.isTV()) {
+        if (isTv()) {
             binding.layoutAppbar.toolbar.visibility = GONE
         } else {
             initToolbarWithUpEnabled(binding.layoutAppbar.toolbar)

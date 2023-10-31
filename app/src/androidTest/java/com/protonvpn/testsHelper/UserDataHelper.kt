@@ -30,8 +30,8 @@ import com.protonvpn.android.models.login.VPNInfo
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.TvLoginActivity
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.test.shared.TestUser
@@ -58,6 +58,7 @@ class UserDataHelper {
     @JvmField var logoutUseCase: Logout
     @JvmField var accountManager: AccountManager
     @JvmField var currentUser: CurrentUser
+    private var isTv: IsTvCheck
     @JvmField var vpnUserDao: VpnUserDao
     @JvmField var userRepository: MockUserRepository
     var userSettingsManager: CurrentUserLocalSettingsManager
@@ -67,6 +68,7 @@ class UserDataHelper {
     interface UserDataHelperEntryPoint {
         fun accountManager(): AccountManager
         fun currentUser(): CurrentUser
+        fun isTv(): IsTvCheck
         fun logoutUseCase(): Logout
         fun mockUserRepository(): MockUserRepository
         fun userSettingsManager(): CurrentUserLocalSettingsManager
@@ -79,6 +81,7 @@ class UserDataHelper {
                 ProtonApplication.getAppContext(), UserDataHelperEntryPoint::class.java)
             accountManager = hiltEntry.accountManager()
             currentUser = hiltEntry.currentUser()
+            isTv = hiltEntry.isTv()
             logoutUseCase = hiltEntry.logoutUseCase()
             userRepository = hiltEntry.mockUserRepository()
             userSettingsManager = hiltEntry.userSettingsManager()
@@ -109,7 +112,7 @@ class UserDataHelper {
         // Logging out starts the login activity, block it, otherwise it may crash when starting
         // after the test has finished and Hilt can no longer provide dependencies.
         val loginActivityClass =
-            if (instrumentation.targetContext.isTV()) TvLoginActivity::class.java
+            if (isTv()) TvLoginActivity::class.java
             else LoginActivity::class.java
         val monitor =
             instrumentation.addMonitor(loginActivityClass.canonicalName, null, true)

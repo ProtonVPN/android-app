@@ -29,6 +29,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.notifications.NotificationHelper
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DefaultAvailableConnection
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -53,6 +54,7 @@ class QuickTileService : TileService() {
     @Inject lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var currentUser: CurrentUser
+    @Inject lateinit var isTv: IsTvCheck
     @Inject lateinit var mainScope: CoroutineScope
 
     private var listeningScope : CoroutineScope? = null
@@ -93,7 +95,7 @@ class QuickTileService : TileService() {
                             ConnectTrigger.QuickTile
                         )
                     } else {
-                        startActivity(NotificationHelper.createMainActivityIntent(applicationContext))
+                        startActivity(NotificationHelper.createMainActivityIntent(applicationContext, isTv()))
                     }
                 } else {
                     ProtonLogger.log(UiDisconnect, "quick tile")

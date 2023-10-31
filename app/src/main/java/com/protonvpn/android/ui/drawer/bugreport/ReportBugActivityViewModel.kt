@@ -36,6 +36,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.models.login.GenericResponse
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.SentryIntegration
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,6 +59,7 @@ class ReportBugActivityViewModel @Inject constructor(
     private val serverListUpdater: ServerListUpdater,
     private val telephony: TelephonyManager?,
     private val guestHole: GuestHole,
+    private val isTv: IsTvCheck,
 ) : ViewModel() {
 
     interface DynamicInputUI {
@@ -125,7 +127,6 @@ class ReportBugActivityViewModel @Inject constructor(
     }
 
     fun prepareAndPostReport(
-        isTV: Boolean,
         emailField: ProtonInput,
         category: Category,
         dynamicInputMap: Map<InputField, DynamicInputUI>,
@@ -139,7 +140,7 @@ class ReportBugActivityViewModel @Inject constructor(
             val userGeneratedDescription = generateReportDescription(category, dynamicInputMap)
             val description =
                 "$userGeneratedDescription\n\nSentry user ID: ${SentryIntegration.getInstallationId()}"
-            val client = if (isTV) "Android TV app" else "Android app"
+            val client = if (isTv()) "Android TV app" else "Android app"
             val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("Client", client)
                 .addFormDataPart("ClientVersion", BuildConfig.VERSION_NAME)

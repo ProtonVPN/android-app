@@ -27,7 +27,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
@@ -37,9 +36,7 @@ import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.Editable
 import android.text.TextUtils.getChars
-import android.util.DisplayMetrics
 import android.util.TypedValue
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -53,17 +50,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
-import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
-import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import me.proton.core.util.kotlin.times
 import okhttp3.internal.toHexString
 import java.nio.CharBuffer
 import java.nio.charset.StandardCharsets
 import java.util.Arrays
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 object AndroidUtils {
 
@@ -85,52 +78,10 @@ object AndroidUtils {
         }
     }
 
-    /**
-     * Consider using IsTvCheck in non-UI code to make it unit-testable.
-     */
-    fun Context.isTV(log: Boolean = false): Boolean {
-        val uiMode: Int = resources.configuration.uiMode
-        val uiModeType = uiMode and Configuration.UI_MODE_TYPE_MASK
-
-        val featureTv = packageManager.hasSystemFeature(PackageManager.FEATURE_TELEVISION)
-        val featureLeanback = packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK)
-        val featureLiveTv = packageManager.hasSystemFeature(PackageManager.FEATURE_LIVE_TV)
-        val featureFireTv = packageManager.hasSystemFeature("amazon.hardware.fire_tv")
-        val displayDiagonalApprox = displayDiagonalApprox()
-
-        if (log) {
-            val message = "isTv: " +
-                "uiModeType: $uiModeType; FEATURE_TELEVISION: $featureTv; FEATURE_LEANBACK: $featureLeanback; " +
-                "FEATURE_LIVE_TV: $featureLiveTv; Amazon FireTV: $featureFireTv; diagonal: ~$displayDiagonalApprox"
-            ProtonLogger.logCustom(LogCategory.APP, message)
-        }
-
-        return if (BuildConfig.FLAVOR_distribution == Constants.DISTRIBUTION_AMAZON || Build.MANUFACTURER == "Amazon") {
-            // https://developer.amazon.com/docs/fire-tv/identify-amazon-fire-tv-devices.html
-            featureFireTv
-        } else {
-            uiModeType == Configuration.UI_MODE_TYPE_TELEVISION ||
-                featureTv ||
-                featureLeanback ||
-                featureFireTv ||
-                featureLiveTv && displayDiagonalApprox >= 10f
-        }
-    }
-
     fun Context.isRtl() =
         resources.configuration.layoutDirection == ViewCompat.LAYOUT_DIRECTION_RTL
 
     fun Boolean.toInt() = if (this) 1 else 0
-
-    fun Context.displayDiagonalApprox(): Float {
-        val defaultDisplay = (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
-        val realMetrics = DisplayMetrics()
-        defaultDisplay.getRealMetrics(realMetrics)
-
-        val widthInches = realMetrics.widthPixels / realMetrics.xdpi
-        val heightInches = realMetrics.heightPixels / realMetrics.ydpi
-        return sqrt(widthInches.pow(2f) + heightInches.pow(2f))
-    }
 
     inline fun <reified T : Any> Context.launchActivity(
         options: Bundle? = null,

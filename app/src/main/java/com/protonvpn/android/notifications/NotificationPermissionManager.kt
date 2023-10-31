@@ -41,8 +41,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ComposeBottomSheetDialogFragment
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnTextButton
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.ForegroundActivityTracker
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,10 +65,11 @@ class NotificationPermissionManager @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val vpnStateMonitor: VpnStateMonitor,
     private val foregroundActivityTracker: ForegroundActivityTracker,
-    private val notificationPrefs: NotificationPermissionPrefs
+    private val notificationPrefs: NotificationPermissionPrefs,
+    private val isTv: IsTvCheck,
 ) {
     init {
-        if (!appContext.isNotificationPermissionGranted()) {
+        if (!appContext.isNotificationPermissionGranted(isTv)) {
             vpnStateMonitor.status
                 .takeWhile { !notificationPrefs.rationaleDismissed }
                 .distinctUntilChanged()
@@ -86,7 +87,7 @@ class NotificationPermissionManager @Inject constructor(
         val activity = foregroundActivityTracker.foregroundActivity
         if (activity is AppCompatActivity &&
             !activity.supportFragmentManager.isStateSaved &&
-            !activity.isNotificationPermissionGranted()
+            !activity.isNotificationPermissionGranted(isTv)
         ) {
             showDialogAndRequestPermission(activity)
         }
@@ -98,8 +99,8 @@ class NotificationPermissionManager @Inject constructor(
     }
 }
 
-fun Context.isNotificationPermissionGranted(): Boolean {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || isTV()) {
+fun Context.isNotificationPermissionGranted(isTv: IsTvCheck): Boolean {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || isTv()) {
         return true
     }
 

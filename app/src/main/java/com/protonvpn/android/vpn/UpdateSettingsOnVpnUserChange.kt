@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.vpn
 
-import android.content.Context
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
@@ -27,11 +26,10 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.userstorage.ProfileManager
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,13 +38,13 @@ import javax.inject.Singleton
 @Suppress("UseDataClass")
 @Singleton
 class UpdateSettingsOnVpnUserChange @Inject constructor(
-    @ApplicationContext private val context: Context,
     mainScope: CoroutineScope,
     private val currentUser: CurrentUser,
     private val serverManager: ServerManager2,
     private val profileManager: ProfileManager,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
-    private val userPlanManager: UserPlanManager
+    private val userPlanManager: UserPlanManager,
+    private val isTv: IsTvCheck,
 ) {
     init {
         mainScope.launch {
@@ -81,7 +79,7 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
         }
         mainScope.launch {
             userPlanManager.planChangeFlow.collect { planChange ->
-                if (planChange.oldUser.isFreeUser && !planChange.newUser.isFreeUser && !context.isTV()) {
+                if (planChange.oldUser.isFreeUser && !planChange.newUser.isFreeUser && !isTv()) {
                     userSettingsManager.updateNetShield(Constants.DEFAULT_NETSHIELD_AFTER_UPGRADE)
                 }
             }

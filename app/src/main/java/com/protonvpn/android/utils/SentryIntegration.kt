@@ -22,17 +22,15 @@ package com.protonvpn.android.utils
 import android.app.Application
 import android.os.Build
 import com.protonvpn.android.BuildConfig
-import com.protonvpn.android.utils.AndroidUtils.isTV
+import com.protonvpn.android.tv.IsTvCheck
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import io.sentry.Sentry
-import io.sentry.SentryLevel
 import io.sentry.SentryOptions
 import io.sentry.android.core.SentryAndroid
 import io.sentry.protocol.User
-import me.proton.core.util.android.sentry.TimberLoggerIntegration
 import me.proton.core.util.android.sentry.project.AccountSentryHubBuilder
 import java.util.UUID
 
@@ -42,6 +40,12 @@ object SentryIntegration {
     private const val SENTRY_ENABLED_KEY = "sentry_is_enabled"
 
     private lateinit var application: Application
+
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface HiltEntryPoint {
+        fun isTv(): IsTvCheck
+    }
 
     @JvmStatic
     fun getInstallationId(): String =
@@ -78,7 +82,10 @@ object SentryIntegration {
             options.isAnrEnabled = false
             options.maxBreadcrumbs = 300
             options.setBeforeSend { event, _ ->
+                val deps = EntryPointAccessors.fromApplication(application, HiltEntryPoint::class.java)
                 SentryFingerprints.setFingerprints(event)
+                event.setTag("isTv", deps.isTv().toString())
+                event
             }
             options.isEnableScopeSync = true
         }
@@ -86,7 +93,6 @@ object SentryIntegration {
         // Add manufacturer because some devices report device model for "device.family" which isn't very useful for
         // vendor-specific issues.
         Sentry.setTag("device.manufacturer", Build.MANUFACTURER)
-        Sentry.setTag("isTv", application.isTV().toString())
     }
 
     /** Note: should be called only once. */

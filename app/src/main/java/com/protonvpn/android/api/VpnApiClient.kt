@@ -20,6 +20,7 @@ package com.protonvpn.android.api
 
 import android.os.Build
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.Constants
 import kotlinx.coroutines.CoroutineScope
@@ -30,13 +31,15 @@ import java.util.Locale
 
 class VpnApiClient(
     private val scope: CoroutineScope,
-    private val dohEnabled: DohEnabled
+    private val dohEnabled: DohEnabled,
+    private val isTv: IsTvCheck
 ) : ApiClient {
 
     val eventForceUpdate = MutableSharedFlow<String>(replay = 1)
 
+    private val clientId get() = if (isTv()) Constants.TV_CLIENT_ID else Constants.MOBILE_CLIENT_ID
     override val appVersionHeader get() =
-        "${Constants.CLIENT_ID}@" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
+        "${clientId}@" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
     override val enableDebugLogging = BuildConfig.DEBUG
     override val shouldUseDoh get() = dohEnabled()
 

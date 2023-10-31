@@ -46,10 +46,10 @@ import com.protonvpn.android.logging.SettingChangesLogger;
 import com.protonvpn.android.notifications.NotificationHelper;
 import com.protonvpn.android.search.UpdateServersOnStartAndLocaleChange;
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry;
+import com.protonvpn.android.tv.IsTvCheck;
 import com.protonvpn.android.ui.onboarding.ReviewTracker;
 import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess;
 import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger;
-import com.protonvpn.android.utils.AndroidUtils;
 import com.protonvpn.android.utils.AndroidUtilsKt;
 import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.SentryIntegration;
@@ -102,6 +102,7 @@ public class ProtonApplication extends Application {
         CurrentStateLogger getCurrentStateLogger();
         DohEnabled.Provider getDohEnabledProvider();
         HumanVerificationStateHandler getHumanVerificationStateHandler();
+        IsTvCheck getIsTv();
         LogcatLogCapture getLogcatLogCapture();
         MaintenanceTracker getMaintenanceTracker();
         OneTimePopupNotificationTrigger getOneTimePopupNotificationTrigger();
@@ -181,7 +182,7 @@ public class ProtonApplication extends Application {
         dependencies.getPeriodicUpdateManager().start();
         dependencies.getRestartHandler().onAppStarted();
 
-        if (!AndroidUtils.INSTANCE.isTV(this, true)) {
+        if (!dependencies.getIsTv().invoke(true)) {
             dependencies.getOneTimePopupNotificationTrigger();
         }
     }

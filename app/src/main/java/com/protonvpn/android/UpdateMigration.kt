@@ -26,10 +26,12 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import dagger.Lazy
+import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Reusable
 class UpdateMigration @Inject constructor(
     private val mainScope: CoroutineScope,
     private val isTv: Lazy<IsTvCheck>,

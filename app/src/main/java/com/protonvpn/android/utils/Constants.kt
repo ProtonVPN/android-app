@@ -20,11 +20,9 @@ package com.protonvpn.android.utils
 
 import android.app.Activity
 import com.protonvpn.android.BuildConfig
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.ui.main.MobileMainActivity
-import com.protonvpn.android.utils.AndroidUtils.isTV
 
 object Constants {
 
@@ -51,9 +49,10 @@ object Constants {
     const val SECONDARY_PROCESS_TAG = "SecondaryProcess"
     const val DISTRIBUTION_AMAZON = "amazon"
 
-    val CLIENT_ID: String
-    val VPN_USERNAME_PRODUCT_SUFFIX: String
-    val MAIN_ACTIVITY_CLASS: Class<out Activity>
+    const val MOBILE_CLIENT_ID: String = "android-vpn"
+    const val TV_CLIENT_ID: String = "android_tv-vpn"
+    val MOBILE_MAIN_ACTIVITY_CLASS: Class<out Activity> = MobileMainActivity::class.java
+    val TV_MAIN_ACTIVITY_CLASS: Class<out Activity> = TvMainActivity::class.java
     val DEFAULT_NETSHIELD_AFTER_UPGRADE = NetShieldProtocol.ENABLED_EXTENDED
 
     const val SMART_ROUTING_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+smart+routing+support&t=h_&ia=web"
@@ -69,18 +68,6 @@ object Constants {
     const val DEDICATED_IPS_INFO_URL = "https://protonvpn.com/support/dedicated-ips/"
 
     const val MAX_CONNECTIONS_IN_PLUS_PLAN = 10
-
-    init {
-        if (ProtonApplication.getAppContext().isTV()) {
-            CLIENT_ID = "android_tv-vpn"
-            VPN_USERNAME_PRODUCT_SUFFIX = "+pt"
-            MAIN_ACTIVITY_CLASS = TvMainActivity::class.java
-        } else {
-            CLIENT_ID = "android-vpn"
-            VPN_USERNAME_PRODUCT_SUFFIX = "+pa"
-            MAIN_ACTIVITY_CLASS = MobileMainActivity::class.java
-        }
-    }
 
     const val TLS_AUTH_KEY_HEX =
             "6acef03f62675b4b1bbd03e53b187727\n" +

@@ -22,16 +22,19 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
 import com.protonvpn.android.ui.main.MobileMainActivity
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.notification.presentation.deeplink.HandleDeeplinkIntent
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var isTv: IsTvCheck
 
     @Inject
     lateinit var deepLinkHandler: DeepLinkHandler
@@ -45,7 +48,7 @@ class SplashActivity : AppCompatActivity() {
 
         processDeepLink()
 
-        val nextActivity = if (isTV(log = true)) {
+        val nextActivity = if (isTv(log = true)) {
             TvMainActivity::class.java
         } else {
             MobileMainActivity::class.java

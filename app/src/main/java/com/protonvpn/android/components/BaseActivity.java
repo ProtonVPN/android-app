@@ -28,6 +28,7 @@ import com.protonvpn.android.R;
 import com.protonvpn.android.api.NetworkLoader;
 import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.models.profiles.Profile;
+import com.protonvpn.android.tv.IsTvCheck;
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager;
 import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper;
 import com.protonvpn.android.ui.snackbar.SnackbarHelper;
@@ -65,6 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     private DelegatedSnackbarHelper snackbarHelper;
     @Inject public DelegatedSnackManager delegatedSnackManager;
+    @Inject public IsTvCheck isTv;
 
     public void navigateTo(Class<? extends AppCompatActivity> className) {
         Intent intent = new Intent(this, className);
@@ -89,7 +91,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public void checkOrientation() {
         setRequestedOrientation(
-            getResources().getBoolean(R.bool.isTablet) || AndroidUtils.INSTANCE.isTV(this, false) ?
+            getResources().getBoolean(R.bool.isTablet) || isTv.invoke(false) ?
                 SCREEN_ORIENTATION_FULL_USER : SCREEN_ORIENTATION_PORTRAIT);
     }
 
