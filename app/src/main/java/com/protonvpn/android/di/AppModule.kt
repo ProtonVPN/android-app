@@ -52,6 +52,7 @@ import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
@@ -283,8 +284,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideVpnApiClient(dohEnabled: DohEnabled): VpnApiClient =
-        VpnApiClient(scope, dohEnabled)
+    fun provideVpnApiClient(dohEnabled: DohEnabled, isTvCheck: IsTvCheck): VpnApiClient =
+        VpnApiClient(scope, dohEnabled, isTvCheck)
 
     @Singleton
     @Provides
@@ -293,18 +294,6 @@ object AppModule {
     @Singleton
     @Provides
     fun provideConnectivityMonitor() = ConnectivityMonitor(scope, ProtonApplication.getAppContext())
-
-    @Singleton
-    @Provides
-    fun provideNotificationHelper(
-        vpnStateMonitor: VpnStateMonitor,
-        trafficMonitor: TrafficMonitor,
-    ) = NotificationHelper(
-        ProtonApplication.getAppContext(),
-        scope,
-        vpnStateMonitor,
-        trafficMonitor
-    )
 
     @Singleton
     @Provides

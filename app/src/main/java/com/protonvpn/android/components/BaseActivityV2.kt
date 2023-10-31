@@ -29,12 +29,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.protonvpn.android.R
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.ui.snackbar.DelegatedSnackbarHelper
 import com.protonvpn.android.ui.snackbar.SnackbarHelper
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.vpn.PermissionContract
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
@@ -47,6 +47,7 @@ interface VpnUiDelegateProvider {
 abstract class BaseActivityV2 : AppCompatActivity(), VpnUiDelegateProvider {
 
     @Inject lateinit var delegatedSnackManager: DelegatedSnackManager
+    @Inject lateinit var isTv: IsTvCheck
 
     lateinit var snackbarHelper: SnackbarHelper
         private set
@@ -61,7 +62,7 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnUiDelegateProvider {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTV())
+        requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTv())
             SCREEN_ORIENTATION_FULL_USER else SCREEN_ORIENTATION_PORTRAIT
         snackbarHelper = DelegatedSnackbarHelper(this, getContentView(), delegatedSnackManager)
         vpnUiDelegate = VpnUiActivityDelegateMobile(this) { retryConnection(it) }

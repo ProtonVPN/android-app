@@ -30,7 +30,6 @@ import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.utils.AndroidUtils
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.MockSharedPreference
@@ -63,11 +62,9 @@ class ConnectionParamsTests {
         ProtonApplication.setAppContextForTest(context)
 
         mockkObject(AndroidUtils)
-        every { context.isTV() } returns false
         Storage.setPreferences(MockSharedPreference())
 
         mockkObject(Constants)
-        every { Constants.VPN_USERNAME_PRODUCT_SUFFIX } returns "+pa"
         every { connectingDomain.label } returns "label"
         every { appConfig.getFeatureFlags() } returns featureFlags
 

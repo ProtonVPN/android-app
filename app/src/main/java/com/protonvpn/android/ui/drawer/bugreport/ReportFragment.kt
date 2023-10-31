@@ -34,7 +34,6 @@ import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.models.config.bugreport.TYPE_DROPDOWN
 import com.protonvpn.android.models.config.bugreport.TYPE_MULTILINE
 import com.protonvpn.android.models.config.bugreport.TYPE_SINGLELINE
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
@@ -65,7 +64,6 @@ class ReportFragment : Fragment(R.layout.fragment_report) {
         }
         buttonReport.setOnClickListener {
             viewModel.prepareAndPostReport(
-                isTV = requireContext().isTV(),
                 emailField = editEmail,
                 category = category,
                 dynamicInputMap = inputMap,

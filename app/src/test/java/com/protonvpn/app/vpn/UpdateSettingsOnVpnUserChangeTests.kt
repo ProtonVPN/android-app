@@ -19,9 +19,7 @@
 
 package com.protonvpn.app.vpn
 
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.Profile
@@ -30,9 +28,8 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.userstorage.ProfileManager
-import com.protonvpn.android.utils.AndroidUtils
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange
@@ -43,7 +40,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -64,9 +60,9 @@ class UpdateSettingsOnVpnUserChangeTests {
 
     @get:Rule var rule = InstantTaskExecutorRule()
 
-    @MockK private lateinit var context: Context
-
     @MockK private lateinit var mockCurrentUser: CurrentUser
+
+    @MockK private lateinit var mockIsTv: IsTvCheck
 
     @MockK private lateinit var mockProfileManager: ProfileManager
 
@@ -88,9 +84,8 @@ class UpdateSettingsOnVpnUserChangeTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        ProtonApplication.setAppContextForTest(context)
-        mockkObject(AndroidUtils)
-        every { context.isTV() } returns false
+
+        every { mockIsTv.invoke() } returns false
         val testDispatcher = UnconfinedTestDispatcher()
         testScope = TestScope(testDispatcher)
 
@@ -112,13 +107,13 @@ class UpdateSettingsOnVpnUserChangeTests {
         )
 
         updateSettingsOnVpnUserChange = UpdateSettingsOnVpnUserChange(
-            context,
             testScope.backgroundScope,
             mockCurrentUser,
             mockServerManager2,
             mockProfileManager,
             userSettingsManager,
-            mockPlanManager
+            mockPlanManager,
+            mockIsTv,
         )
     }
     @Test

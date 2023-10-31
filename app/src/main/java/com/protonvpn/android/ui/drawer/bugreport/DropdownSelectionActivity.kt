@@ -29,7 +29,6 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.ItemDropdownSelectionBinding
 import com.protonvpn.android.utils.ActivityResultUtils
-import com.protonvpn.android.utils.AndroidUtils.isTV
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,7 +38,7 @@ class DropdownSelectionActivity : BaseActivityV2() {
         super.onCreate(savedInstanceState)
         val binding = ActivityRecyclerWithToolbarBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        if (baseContext.isTV()) {
+        if (isTv()) {
             binding.contentAppbar.toolbar.visibility = View.GONE
         } else {
             initToolbarWithUpEnabled(binding.contentAppbar.toolbar)

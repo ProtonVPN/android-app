@@ -38,6 +38,7 @@ import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity.Companion.EXTRA_NOTIFICATION_DETAILS
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
@@ -55,15 +56,20 @@ import com.protonvpn.android.vpn.VpnState.Reconnecting
 import com.protonvpn.android.vpn.VpnState.ScanningPorts
 import com.protonvpn.android.vpn.VpnState.WaitingForNetwork
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NotificationHelper(
-    private val appContext: Context,
-    val scope: CoroutineScope,
-    val vpnStateMonitor: VpnStateMonitor,
+@Singleton
+class NotificationHelper @Inject constructor(
+    @ApplicationContext private val appContext: Context,
+    scope: CoroutineScope,
+    private val vpnStateMonitor: VpnStateMonitor,
     private val trafficMonitor: TrafficMonitor,
+    private val isTv: IsTvCheck,
 ) {
 
     init {
@@ -185,7 +191,7 @@ class NotificationHelper(
         }
 
         if (notificationInfo.fullScreenDialog != null) {
-            val intent = createMainActivityIntent(appContext)
+            val intent = createMainActivityIntent(appContext, isTv())
             intent.putExtra(EXTRA_NOTIFICATION_DETAILS, notificationInfo)
             val pending = PendingIntent.getActivity(appContext, PENDING_REQUEST_OTHER, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             notificationBuilder.setContentIntent(pending)
@@ -241,7 +247,7 @@ class NotificationHelper(
             else -> { /* Nothing */ }
         }
 
-        val intent = createMainActivityIntent(context)
+        val intent = createMainActivityIntent(context, isTv())
         intent.putExtra("OpenStatus", true)
         val pending =
             PendingIntent.getActivity(
@@ -332,7 +338,7 @@ class NotificationHelper(
             builder.setContentIntent(
                 PendingIntent.getActivity(
                     appContext, 0,
-                    createMainActivityIntent(appContext),
+                    createMainActivityIntent(appContext, isTv()),
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
 
             action?.let {
@@ -346,7 +352,7 @@ class NotificationHelper(
 
     @SuppressLint("MissingPermission")
     private fun NotificationManagerCompat.notifyWithPermission(id: Int, notification: Notification) {
-        if (appContext.isNotificationPermissionGranted()) {
+        if (appContext.isNotificationPermissionGranted(isTv)) {
             this.notify(id, notification)
         }
     }
@@ -384,7 +390,9 @@ class NotificationHelper(
         }
 
         // Use NEW_TASK flag to bring back the existing task to foreground.
-        fun createMainActivityIntent(context: Context) =
-            Intent(context, Constants.MAIN_ACTIVITY_CLASS).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
+        fun createMainActivityIntent(context: Context, isTv: Boolean): Intent {
+            val mainActivityClass = if (isTv) Constants.TV_MAIN_ACTIVITY_CLASS else Constants.MOBILE_MAIN_ACTIVITY_CLASS
+            return Intent(context, mainActivityClass).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
+        }
     }
 }
