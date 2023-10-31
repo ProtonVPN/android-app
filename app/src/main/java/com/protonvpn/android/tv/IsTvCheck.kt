@@ -26,21 +26,36 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import com.protonvpn.android.BuildConfig
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.Constants
-import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-@Reusable
+@Singleton
 class IsTvCheck @Inject constructor(
-    @ApplicationContext private val appContext: Context
+    @ApplicationContext private val appContext: Context,
+    private val appFeaturesPrefs: AppFeaturesPrefs
 ) {
-    // TODO: use some caching, this method may be called fairly often.
-    operator fun invoke(log: Boolean = false) = appContext.isTV(log)
+    private val isTvByAppContext: Boolean = appContext.isTV()
+    private val wasLaunchedForTv: Boolean get() = appFeaturesPrefs.wasLaunchedForTv
+
+    operator fun invoke() = wasLaunchedForTv || isTvByAppContext
+
+    fun onUiLaunched(isTvIntent: Boolean) {
+        ProtonLogger.logCustom(LogCategory.APP, "launching UI, is TV intent: $isTvIntent")
+        appFeaturesPrefs.wasLaunchedForTv = isTvIntent
+    }
+
+    // This object is created before logging is set up, so logging can't be done during construction.
+    fun logDebugInfo() {
+        appContext.isTV(true)
+        ProtonLogger.logCustom(LogCategory.APP, "Was launched for TV: $wasLaunchedForTv")
+    }
 
     /**
      * Consider using IsTvCheck in non-UI code to make it unit-testable.
@@ -56,7 +71,7 @@ class IsTvCheck @Inject constructor(
         val displayDiagonalApprox = displayDiagonalApprox()
 
         if (log) {
-            val message = "isTv: " +
+            val message = "isTv context: " +
                 "uiModeType: $uiModeType; FEATURE_TELEVISION: $featureTv; FEATURE_LEANBACK: $featureLeanback; " +
                 "FEATURE_LIVE_TV: $featureLiveTv; Amazon FireTV: $featureFireTv; diagonal: ~$displayDiagonalApprox"
             ProtonLogger.logCustom(LogCategory.APP, message)

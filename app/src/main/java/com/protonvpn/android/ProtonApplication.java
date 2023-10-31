@@ -182,7 +182,8 @@ public class ProtonApplication extends Application {
         dependencies.getPeriodicUpdateManager().start();
         dependencies.getRestartHandler().onAppStarted();
 
-        if (!dependencies.getIsTv().invoke(true)) {
+        dependencies.getIsTv().logDebugInfo();
+        if (!dependencies.getIsTv().invoke()) {
             dependencies.getOneTimePopupNotificationTrigger();
         }
     }

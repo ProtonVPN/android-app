@@ -48,7 +48,10 @@ class SplashActivity : AppCompatActivity() {
 
         processDeepLink()
 
-        val nextActivity = if (isTv(log = true)) {
+        val isTvIntent = intent.hasCategory(Intent.CATEGORY_LEANBACK_LAUNCHER)
+        isTv.onUiLaunched(isTvIntent)
+
+        val nextActivity = if (isTv()) {
             TvMainActivity::class.java
         } else {
             MobileMainActivity::class.java
