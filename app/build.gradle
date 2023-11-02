@@ -135,7 +135,7 @@ def helpers = new Helpers(rootDir)
 android {
     namespace "com.protonvpn.android"
     testNamespace 'com.protonvpn'
-    buildToolsVersion "33.0.1"
+    buildToolsVersion "34.0.0"
     ndkVersion rootProject.ext.compileNdkVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
     useLibrary 'org.apache.http.legacy'
@@ -349,7 +349,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.6"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     sourceSets {
         main.res.srcDirs += 'src/main/res_flags'
@@ -768,7 +768,7 @@ dependencies {
     implementation 'com.github.seancfoley:ipaddress:5.4.0'
 
     // Compose
-    def composeBom = platform('androidx.compose:compose-bom:2024.01.00')
+    def composeBom = platform('androidx.compose:compose-bom:2024.02.01')
     implementation composeBom
     androidTestImplementation composeBom
     implementation 'androidx.compose.animation:animation-android'

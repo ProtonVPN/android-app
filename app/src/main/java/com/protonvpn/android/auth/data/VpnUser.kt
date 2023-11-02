@@ -22,10 +22,8 @@ package com.protonvpn.android.auth.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.utils.hasFlag
 import me.proton.core.account.data.entity.AccountEntity
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.SessionId
@@ -40,7 +38,7 @@ import me.proton.core.network.domain.session.SessionId
             entity = AccountEntity::class,
             parentColumns = ["userId"],
             childColumns = ["userId"],
-            onDelete = CASCADE
+            onDelete = ForeignKey.CASCADE
         )
     ]
 )
