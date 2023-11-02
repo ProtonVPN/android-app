@@ -20,7 +20,7 @@ android {
     compileSdk = 34
 
     // Also update runcoverity.sh
-    buildToolsVersion = "33.0.1"
+    buildToolsVersion = "34.0.0"
     ndkVersion = "23.1.7779620"
 
     defaultConfig {

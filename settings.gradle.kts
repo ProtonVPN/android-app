@@ -3,7 +3,7 @@ include(":detekt-custom-rules")
 rootProject.name = "ProtonVPN"
 
 plugins {
-    id("me.proton.core.gradle-plugins.include-core-build") version "1.2.0"
+    id("me.proton.core.gradle-plugins.include-core-build") version "1.3.0"
 }
 
 includeCoreBuild {
