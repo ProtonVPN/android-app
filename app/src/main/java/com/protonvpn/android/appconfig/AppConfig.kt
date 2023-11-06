@@ -27,13 +27,14 @@ import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
-import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.GetActiveAuthenticatedAccount
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.mapState
+import com.protonvpn.android.utils.runChatchingCheckedExceptions
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
@@ -46,6 +47,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import me.proton.core.featureflag.domain.usecase.FetchUnleashTogglesRemote
+import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
 import java.util.concurrent.TimeUnit
@@ -69,13 +72,16 @@ class AppConfig @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val getNetZone: GetNetZone,
     private val globalSettingsManager: GlobalSettingsManager,
-    private val currentUser: CurrentUser,
+    private val fetchFlags: FetchUnleashTogglesRemote,
+    private val getActiveAuthenticatedAccount: GetActiveAuthenticatedAccount,
     userPlanManager: UserPlanManager,
     @IsLoggedIn loggedIn: Flow<Boolean>,
     @IsInForeground inForeground: Flow<Boolean>
 ) {
     // This value is used when filtering servers, let's have it cached
     private var smartProtocolsCached: List<ProtocolSelection>? = null
+
+    private suspend fun currentSessionId() = getActiveAuthenticatedAccount()?.sessionId
 
     val appConfigUpdateEvent = MutableSharedFlow<AppConfigResponse>(extraBufferCapacity = 1)
     val appConfigFlow = appConfigUpdateEvent.stateIn(
@@ -94,25 +100,25 @@ class AppConfig @Inject constructor(
     private val appConfigUpdate = periodicUpdateManager.registerApiCall(
         "app_config",
         ::updateInternal,
-        { currentUser.sessionId() },
+        { currentSessionId() },
         PeriodicUpdateSpec(UPDATE_DELAY_UI, setOf(loggedIn, inForeground)),
-        PeriodicUpdateSpec(UPDATE_DELAY, UPDATE_DELAY_FAIL, setOf(loggedIn)),
+        PeriodicUpdateSpec(UPDATE_DELAY, UPDATE_DELAY_FAIL, setOf()),
     )
 
     private val bugReportUpdate = periodicUpdateManager.registerApiCall(
         "bug_report",
         ::updateBugReportInternal,
-        { currentUser.sessionId() },
+        { currentSessionId() },
         PeriodicUpdateSpec(BUG_REPORT_UPDATE_DELAY, setOf(loggedIn)),
     )
 
     init {
         userPlanManager.planChangeFlow
-            .onEach { forceUpdate(currentUser.sessionId()) }
+            .onEach { forceUpdate(currentSessionId()) }
             .launchIn(mainScope)
     }
 
-    suspend fun forceUpdate(sessionId: SessionId?): ApiResult<AppConfigResponse> {
+    suspend fun forceUpdate(sessionId: SessionId?): ApiResult<Any> {
         return coroutineScope {
             // This can be called on login, launch in parallel.
             val bugReportJob = launch { periodicUpdateManager.executeNow(bugReportUpdate, sessionId) }
@@ -157,17 +163,29 @@ class AppConfig @Inject constructor(
         return dynamicReportModel
     }
 
-    private suspend fun updateInternal(sessionId: SessionId?): ApiResult<AppConfigResponse> {
+    private suspend fun updateInternal(sessionId: SessionId?): ApiResult<Any> {
         val result = api.getAppConfig(sessionId, getNetZone())
         if (sessionId != null) {
             globalSettingsManager.refresh(sessionId)
         }
+
+        val flagsResult = suspend {
+            fetchFlags(getActiveAuthenticatedAccount()?.userId)
+            ApiResult.Success(Unit)
+        }.runChatchingCheckedExceptions {
+            (it as? ApiException)?.error
+        }
+
         result.valueOrNull?.let { config ->
             Storage.save(config)
             smartProtocolsCached = null
             appConfigUpdateEvent.tryEmit(config)
         }
-        return result
+
+        return if (result is ApiResult.Success && flagsResult is ApiResult.Error)
+            flagsResult
+        else
+            result
     }
 
     private fun getDefaultConfig(): AppConfigResponse {

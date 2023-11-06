@@ -29,7 +29,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.evernote.android.state.StateSaver;
 import com.protonvpn.android.api.DohEnabled;
-import com.protonvpn.android.appconfig.CoreFeatureFlagUpdater;
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager;
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout;
 import com.protonvpn.android.components.RestartHandler;
@@ -100,7 +99,6 @@ public class ProtonApplication extends Application {
         CertificateRepository getCertificateRepository();
         CloseSessionOnForceLogout getCloseSessionOnForceLogout();
         CoreEventManagerStarter getCoreEventManagerStarter();
-        CoreFeatureFlagUpdater getCoreFeatureFlagRefresher();
         CurrentStateLogger getCurrentStateLogger();
         DohEnabled.Provider getDohEnabledProvider();
         HumanVerificationStateHandler getHumanVerificationStateHandler();
@@ -167,7 +165,6 @@ public class ProtonApplication extends Application {
         dependencies.getAccountStateHandler().start();
         dependencies.getCertificateRepository();
         dependencies.getCloseSessionOnForceLogout();
-        dependencies.getCoreFeatureFlagRefresher().start();
         dependencies.getDohEnabledProvider();
         dependencies.getHumanVerificationStateHandler().observe();
         dependencies.getMaintenanceTracker();
