@@ -518,7 +518,7 @@
      -->
     <string name="upgrade_plus_countries_title_new">Aceda a mais de %1$s em %2$s.</string>
     <string name="upgrade_plus_countries_subtitle">When you upgrade to Plus</string>
-    <string name="upgrade_plus_countries_choose_location">Choose any location</string>
+    <string name="upgrade_plus_countries_choose_location">Escolher qualquer localização</string>
     <string name="upgrade_plus_countries_even_higher_speed">Even higher VPN speed</string>
     <string name="upgrade_plus_countries_access_content">Access geoblocked content</string>
     <string name="upgrade_plus_countries_stream">Stream your favorite movies</string>
@@ -598,7 +598,7 @@
     <string name="onboading_connecting_now">Ligação agora</string>
     <string name="onboarding_congrats_description">A sua ligação está protegida e está pronto para navegar na web.\n\nSeguramente.</string>
     <string name="onboarding_congrats_title">Parabéns!</string>
-    <string name="upgrade_success_get_started_button">Get started</string>
+    <string name="upgrade_success_get_started_button">Começar</string>
     <string name="upgrade_use_limited_free_button">Use o plano Free limitado</string>
     <string name="dynamic_report_suggestion_didnt_work">Não funcionou?</string>
     <string name="dynamic_report_contact_us">Contacte-nos</string>
@@ -688,18 +688,18 @@
     <string name="offer_time_left">%1$s %2$s left</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
-        <item quantity="one">%1$d second</item>
-        <item quantity="other">%1$d seconds</item>
+        <item quantity="one">%1$d segundo</item>
+        <item quantity="other">%1$d segundos</item>
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
-        <item quantity="one">%1$d minute</item>
-        <item quantity="other">%1$d minutes</item>
+        <item quantity="one">%1$d minuto</item>
+        <item quantity="other">%1$d minutos</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
-        <item quantity="one">%1$d hour</item>
-        <item quantity="other">%1$d hours</item>
+        <item quantity="one">%1$d hora</item>
+        <item quantity="other">%1$d horas</item>
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">

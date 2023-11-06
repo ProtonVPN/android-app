@@ -325,9 +325,9 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Адкрыць налады Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Актывацыя Kill Switch адключыць Split Tunneling, бо Kill Switch блакіруе ўсе падключэнні па-за тунэлем VPN</string>
     <string name="settingsSmartProtocolDescription">Аўтаматычна выкарыстоўваць пратакол і порт, якія забяспечваюць найлепшае падключэнне.</string>
-    <string name="settingsEnableTelemetryTitle">Абагульванне ананімнай статыстыкі выкарыстання</string>
+    <string name="settingsEnableTelemetryTitle">Абагуленне ананімнай статыстыкі выкарыстання</string>
     <string name="settingsEnableTelemetryDescription">Даныя аб выкарыстанні дапамагаюць нам пераадольваць блакіроўкі VPN і паляпшаць прадукцыйнасць праграмы.</string>
-    <string name="settingsSendCrashReportsTitle">Абагульванне ананімных справаздач пра збоі</string>
+    <string name="settingsSendCrashReportsTitle">Абагуленне ананімных справаздач пра збоі</string>
     <string name="settingsSendCrashReportsDescription">Справаздачы пра збоі дапамагаюць нам выпраўляць памылкі, вызначаць міжсеткавыя экраны, а таксама пазбягаць блакіровак VPN.</string>
     <string name="settingsTelemetryScreenTitle">Статыстыка выкарыстання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
@@ -553,7 +553,7 @@
     <string name="streaming_title">Трансляцыя</string>
     <string name="streaming_description">Серверы Plus падтрымліваюць трансляцыю (Netflix, Disney+ і іншыя) з любой краіны ў свеце.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Гэтыя серверы даюць найлепшую прадукцыйнасць для BitTorrent і абагулення файла.</string>
+    <string name="p2p_description">Гэтыя серверы даюць найлепшую прадукцыйнасць для BitTorrent і абагулення файлаў.</string>
     <string name="tor_title">Tor</string>
     <string name="tor_description">Перанакіроўвае ўвесь ваш трафік праз сетку Tor. Павольна, але больш бяспечна.</string>
     <string name="info_performance">Прадукцыйнасць</string>
