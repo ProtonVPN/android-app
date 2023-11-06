@@ -488,7 +488,7 @@
     <string name="upgrade_profiles_feature_save">Uložit preferovaný server, město nebo zemi</string>
     <string name="upgrade_profiles_feature_customize">Nastavení vlastních protokolů a prémiových funkcí VPN</string>
     <string name="upgrade_vpn_accelerator_title">Procházejte ještě vyšší rychlostí (až 10 Gb/s).</string>
-    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Zvyšte rychlost připojení až o 400 % pomocí nástroje <b>VPN Accelerator</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_feature_speed"><![CDATA[Zvyšte rychlost připojení až o 400 % pomocí funkce <b>VPN Accelerator</b>.]]></string>
     <string name="upgrade_vpn_accelerator_feature_distant_servers">Vyšší rychlost a stabilita při připojení ke vzdáleným serverům.</string>
     <string name="upgrade_vpn_accelerator_feature_less_crowded">Přístup k rychlejším a méně vytíženým serverům</string>
     <string name="upgrade_split_tunneling_title">Získejte to nejlepší z obou světů</string>

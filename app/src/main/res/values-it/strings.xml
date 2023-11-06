@@ -58,7 +58,7 @@
     <string name="secureCoreConnectVia">tramite %1$s</string>
     <string name="connected">Connesso</string>
     <string name="buttonConnect">Connetti</string>
-    <string name="loaderInitializing">Inizializzando la connessione…</string>
+    <string name="loaderInitializing">Avvio della connessione in corso</string>
     <string name="loaderConnectingTo">Connessione a %1$s</string>
     <string name="loaderConnectingToLabel">Connessione a…</string>
     <string name="loaderNotConnected">Non connesso (non protetto)</string>
@@ -68,12 +68,12 @@
     <string name="loaderDisconnecting">Disconnessione in corso</string>
     <string name="loaderReconnecting">Riconnessione in corso</string>
     <string name="loaderReconnectNoNetwork">In attesa di una rete utilizzabile</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Per favore controlla la tua connessione</string>
+    <string name="loaderReconnectNoNetworkSuggestion">Controlla la tua rete</string>
     <string name="loaderCheckingAvailability">Controllo disponibilità server</string>
     <string name="loaderCheckingAvailabilitySuggestion">Attendi qualche secondo</string>
     <string name="loaderCancel">Annulla connessione</string>
     <string name="quickConnect">Connessione rapida</string>
-    <string name="notConnectedCurrentIp">IP corrente: %1$s</string>
+    <string name="notConnectedCurrentIp">IP attuale: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
@@ -284,14 +284,14 @@
     <string name="dialogTitleAttention">Attenzione</string>
     <string name="saveProfileAlreadySaved">Già salvato</string>
     <string name="openUrlError">Impossibile aprire %1$s. Il browser non è stato rilevato sul tuo dispositivo.</string>
-    <string name="toastLoginAuthVersionError">Impossibile accedere a causa della versione di autenticazione non supportata. Contatta il supporto.</string>
+    <string name="toastLoginAuthVersionError">Impossibile accedere a causa della versione di autenticazione non supportata. Contatta l\'assistenza.</string>
     <string name="loaderErrorTimeout">Connessione scaduta. Riprova.</string>
     <string name="troubleshootButton">Risoluzione problemi</string>
     <string name="activityTroubleshootTitle">Risoluzione problemi</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Potenziali soluzioni</string>
     <string name="troubleshootNoInternetDescription">Per favore assicurati che la connessione internet funzioni.</string>
     <string name="troubleshootNoInternetTitle">Nessuna connessione Internet</string>
-    <string name="troubleshootIspProblemTitle">Problema del provider Internet (ISP)</string>
+    <string name="troubleshootIspProblemTitle">Problema del fornitore di servizi Internet (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Prova a connetterti a Proton da una rete diversa (o usa <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interferenza antivirus</string>
     <string name="troubleshootAntivirusProblemDescription">Disattivare o rimuovere temporaneamente il software antivirus.</string>
@@ -351,7 +351,7 @@
     <string name="netShieldBlockMalwareOnly">Blocca solo malware</string>
     <string name="netShieldFullBlock">Blocca malware, tracciamento, annunci</string>
     <string name="dialogDontShowAgain">Non mostrare nuovamente</string>
-    <string name="guestHoleActivated">L\'accesso a Proton VPN può essere limitato nella tua zona, quindi ci vorrà più tempo del solito. Per favore attendi mentre aggiriamo questo problema.</string>
+    <string name="guestHoleActivated">L\'accesso a Proton VPN potrebbe essere limitato nella tua zona, quindi richiederà più tempo del solito. Attendi mentre aggiriamo questo problema.</string>
     <string name="guestHoleNotificationContent">Evita i problemi di rete. Questo ti aiuterà ad accedere a Proton VPN.</string>
     <string name="onMaintenanceDetected">Il server VPN a cui sei stato connesso è in manutenzione. Ti abbiamo ricollegato automaticamente al server più veloce disponibile.</string>
     <string name="errorTunMultiUserPermission">Impossibile inizializzare la connessione VPN a causa di un conflitto tra app duplicate (ad esempio doppio Messenger) e Split Tunneling. Disabilitane uno e riavvia il dispositivo.</string>
@@ -424,7 +424,7 @@
     <string name="notification_subscription_expired_content">Abbiamo dovuto eseguire il downgrade del tuo piano, ma ti stiamo riconnettendo al server più veloce disponibile con quel piano.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Il tuo abbonamento è stato declassato.</string>
     <string name="notification_delinquent_title">Il tuo account Proton VPN ha fatture in sospeso</string>
-    <string name="notification_delinquent_content">Per favore prenditi un momento per aggiornare le tue informazioni di fatturazione per mantenere attivo il tuo abbonamento.</string>
+    <string name="notification_delinquent_content">Prenditi un momento per aggiornare le tue informazioni di fatturazione e mantenere attivo il tuo abbonamento.</string>
     <string name="notification_max_sessions_title">Hai raggiunto il limite massimo di dispositivi</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
@@ -646,7 +646,7 @@
     <string name="ikev2_removed_dialog_message">Le impostazioni predefinite e i profili che in precedenza utilizzavano IKEv2 ora utilizzeranno il protocollo Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visita <a href="https://protonvpn.com/pricing">protonvpn.com</a> per altre info.</string>
-    <string name="free_upsell_header_title">Ottieni una copertura mondiale con VPN Plus</string>
+    <string name="free_upsell_header_title">Ottieni una copertura globale con VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Vuoi scegliere un paese specifico?</string>
     <string name="upgrade_country_message">Sblocca la selezione del paese con VPN Plus</string>
@@ -668,7 +668,7 @@
     <string name="upgrade_moderate_nat_feature_optimize">NAT di Tipo 2 (moderato) ottimizza velocità e stabilità abilitando le connessioni dirette tra i dispositivi</string>
     <string name="free_connections_info_message">Proton Free si connette automaticamente al server più veloce disponibile. Solitamente si tratta del server più vicino alla tua posizione.</string>
     <string name="free_connections_info_server_locations">Posizioni del server gratuito (%1$d)</string>
-    <string name="free_connections_info_banner_text">Ottieni una copertura mondiale con VPN Plus</string>
+    <string name="free_connections_info_banner_text">Ottieni una copertura globale con VPN Plus</string>
     <string name="free_connection_info_title">Connessioni gratuite</string>
     <string name="search_upsell_banner_title">Trasmissione da qualsiasi luogo</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->

@@ -406,7 +406,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% Serverlast</string>
+    <string name="tv_server_list_load">%1$s %% serverbelastning</string>
     <string name="tv_recently_used_servers">Nyligen använda servrar (%1$d)</string>
     <string name="tv_available_servers">Tillgängliga servrar (%1$d)</string>
     <string name="tv_locked_servers">Låsta servrar (%1$d)</string>
@@ -481,7 +481,7 @@
     <string name="upgrade_vpn_accelerator_feature_less_crowded">Åtkomst till snabbare, mindre belastade servrar</string>
     <string name="upgrade_split_tunneling_title">Få det bästa av två världar</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Lås upp <b>split tunneling</b> med VPN Plus]]></string>
-    <string name="upgrade_split_tunneling_two_locations">Surfa från två platser samtidigt med delad tunnling</string>
+    <string name="upgrade_split_tunneling_two_locations">Surfa från två platser samtidigt med split tunneling</string>
     <string name="upgrade_split_tunneling_feature_allow_exceptions">Tillåt betrodda appar och IP-adresser att ansluta direkt till Internet, samtidigt som du skyddar allt annat med ditt VPN</string>
     <string name="upgrade_customization_title">Lås upp avancerad VPN-anpassning</string>
     <string name="upgrade_customization_lan"><![CDATA[Åtkomst till enheter på ditt <b>lokala nätverk (LAN)</b>]]></string>
@@ -717,7 +717,7 @@
     <string name="whats_new_server_selection_title">Ändringar av serverval</string>
     <string name="whats_new_server_selection_description">För att förhindra serverbelastning och säkerställa att alla har åtkomst till snabb och säker surfning tog vi bort manuellt landsval och gjorde stora förbättringar av automatiskt serverval.</string>
     <string name="welcome_plus_title">Välkommen till VPN Plus</string>
-    <string name="welcome_plus_description">Njut av starkare integritetsskydd, kraftfullare prestanda samt högre grad av VPN-anpassning.</string>
+    <string name="welcome_plus_description">Njut av extra integritetsfunktioner, kraftfullare prestanda och nästa nivå av VPN-anpassning.</string>
     <string name="welcome_plus_feature_security">Avancerade säkerhetsfunktioner</string>
     <string name="welcome_unlimited_title">Välkommen till Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Grattis! Du har låst upp premium säkerhets- och prestandafunktioner på alla Proton-tjänster, plus <b>%1$d&#160; GB</b> totalt lagringsutrymme.<br><br>Njut av det bästa av Protons integritet.]]></string>
