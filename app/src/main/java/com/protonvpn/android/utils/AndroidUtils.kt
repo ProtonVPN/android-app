@@ -281,7 +281,7 @@ fun TelephonyManager.mobileCountryCode() =
 
 // Catch all errors, rethrow RuntimeExceptions. Use with care.
 @Suppress("TooGenericExceptionCaught")
-fun <T> (() -> T).runChatchingCheckedExceptions(catchBlock: (e: Exception) -> T) =
+fun <T> (() -> T).runCatchingCheckedExceptions(catchBlock: (e: Exception) -> T) =
     try {
         this()
     } catch (e: Exception) {
@@ -290,7 +290,7 @@ fun <T> (() -> T).runChatchingCheckedExceptions(catchBlock: (e: Exception) -> T)
     }
 
 @Suppress("TooGenericExceptionCaught")
-suspend fun <T> (suspend () -> T).runChatchingCheckedExceptions(catchBlock: (e: Exception) -> T) =
+suspend fun <T> (suspend () -> T).runCatchingCheckedExceptions(catchBlock: (e: Exception) -> T) =
     try {
         this()
     } catch (e: Exception) {

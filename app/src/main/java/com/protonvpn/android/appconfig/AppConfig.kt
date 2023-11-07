@@ -34,7 +34,7 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.mapState
-import com.protonvpn.android.utils.runChatchingCheckedExceptions
+import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
@@ -172,7 +172,7 @@ class AppConfig @Inject constructor(
         val flagsResult = suspend {
             fetchFlags(getActiveAuthenticatedAccount()?.userId)
             ApiResult.Success(Unit)
-        }.runChatchingCheckedExceptions {
+        }.runCatchingCheckedExceptions {
             (it as? ApiException)?.error
         }
 
