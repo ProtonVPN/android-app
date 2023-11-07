@@ -34,7 +34,6 @@ import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -111,7 +110,8 @@ class GuestHole @Inject constructor(
             closeGuestHole()
     }
 
-    private fun getGuestHoleServers(): List<Server> {
+    private suspend fun getGuestHoleServers(): List<Server> {
+        serverManager.get().ensureLoaded()
         val builtInHoles = serverManager.get().getGuestHoleServers()
         val holes = if (serverManager.get().isDownloadedAtLeastOnce) {
             // Mix downloaded and builtin servers

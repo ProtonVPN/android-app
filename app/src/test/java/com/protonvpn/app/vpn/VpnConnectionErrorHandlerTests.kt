@@ -41,11 +41,12 @@ import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PhysicalServer
@@ -65,13 +66,16 @@ import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.CapturingSlot
 import io.mockk.MockKAnnotations
+import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.runs
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.coroutineScope
@@ -108,7 +112,8 @@ class VpnConnectionErrorHandlerTests {
     @RelaxedMockK private lateinit var userPlanManager: UserPlanManager
     @MockK private lateinit var vpnStateMonitor: VpnStateMonitor
     @MockK private lateinit var appConfig: AppConfig
-    @RelaxedMockK private lateinit var serverManager: ServerManager
+    @MockK private lateinit var serverManager2: ServerManager2
+    @MockK private lateinit var profileManager: ProfileManager
     @RelaxedMockK private lateinit var serverListUpdater: ServerListUpdater
     @RelaxedMockK private lateinit var networkManager: NetworkManager
     @RelaxedMockK private lateinit var vpnBackendProvider: VpnBackendProvider
@@ -120,19 +125,20 @@ class VpnConnectionErrorHandlerTests {
     private fun prepareServerManager(serverList: List<Server>) {
         // TODO: consider using the real ServerManager
         val servers = serverList.sortedBy { it.score }
-        every { serverManager.getOnlineAccessibleServers(false, any(), any(), any()) } returns
+        coEvery { serverManager2.getOnlineAccessibleServers(false, any(), any(), any()) } returns
             servers.filter { !it.isSecureCoreServer }
-        every { serverManager.getOnlineAccessibleServers(true, any(), any(), any()) } returns
+        coEvery { serverManager2.getOnlineAccessibleServers(true, any(), any(), any()) } returns
             servers.filter { it.isSecureCoreServer }
-        every { serverManager.getOnlineAccessibleServers(any(), any(), any(), any()) } answers {
+        coEvery { serverManager2.getOnlineAccessibleServers(any(), any(), any(), any()) } answers {
             servers.filter { it.gatewayName == secondArg() }
         }
-        every { serverManager.defaultFallbackConnection } returns defaultFallbackConnection
-        every { serverManager.getServerForProfile(defaultFallbackConnection, any()) } returns defaultFallbackServer
+        every { profileManager.fallbackProfile } returns defaultFallbackConnection
+        coEvery { serverManager2.getServerForProfile(defaultFallbackConnection, any()) } returns defaultFallbackServer
 
-        every { serverManager.getServerById(any()) } answers {
+        coEvery { serverManager2.getServerById(any()) } answers {
             servers.find { it.serverId == arg(0) }
         }
+        coEvery { serverManager2.updateServerDomainStatus(any()) } just runs
     }
 
     @Before
@@ -171,7 +177,7 @@ class VpnConnectionErrorHandlerTests {
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, userSettingsFlow)
         handler = VpnConnectionErrorHandler(testScope.backgroundScope, api, appConfig,
-            userSettings, userPlanManager, serverManager, vpnStateMonitor, serverListUpdater,
+            userSettings, userPlanManager, serverManager2, profileManager, vpnStateMonitor, serverListUpdater,
             networkManager, vpnBackendProvider, currentUser, getConnectingDomain, errorUIManager)
     }
 
@@ -334,7 +340,7 @@ class VpnConnectionErrorHandlerTests {
         )
 
         coVerify(exactly = 1) { serverListUpdater.updateServerList() }
-        coVerify(exactly = 1) { serverManager.updateServerDomainStatus(any()) }
+        coVerify(exactly = 1) { serverManager2.updateServerDomainStatus(any()) }
     }
 
     @Test

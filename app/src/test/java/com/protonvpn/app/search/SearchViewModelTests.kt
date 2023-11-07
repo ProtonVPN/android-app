@@ -61,7 +61,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.test.kotlin.CoroutinesTest
@@ -115,8 +117,18 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
         val userSettingsCached = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager = createDummyProfilesManager()
-        val serverManager = ServerManager(userSettingsCached, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), profileManager)
-        serverManager.setServers(MockedServers.serverList, null)
+        val serverManager = ServerManager(
+            mainScope = TestScope(UnconfinedTestDispatcher()).backgroundScope, // Don't care about full initialization.
+            userSettingsCached,
+            mockCurrentUser,
+            { 0 },
+            supportsProtocol,
+            createInMemoryServersStore(),
+            profileManager
+        )
+        runBlocking {
+            serverManager.setServers(MockedServers.serverList, null)
+        }
         val search = Search(serverManager)
         partnershipsRepository = PartnershipsRepository(mockApi)
 

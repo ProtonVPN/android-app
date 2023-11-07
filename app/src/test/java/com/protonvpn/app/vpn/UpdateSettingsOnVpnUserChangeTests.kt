@@ -27,18 +27,20 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.AndroidUtils
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
@@ -66,7 +68,9 @@ class UpdateSettingsOnVpnUserChangeTests {
 
     @MockK private lateinit var mockCurrentUser: CurrentUser
 
-    @MockK private lateinit var mockServerManager: ServerManager
+    @MockK private lateinit var mockProfileManager: ProfileManager
+
+    @MockK private lateinit var mockServerManager2: ServerManager2
 
     @MockK private lateinit var mockDefaultServer: Server
 
@@ -94,10 +98,10 @@ class UpdateSettingsOnVpnUserChangeTests {
         planFlow = MutableSharedFlow()
         defaultProfile = Profile.getTempProfile(MockedServers.server)
 
-        every { mockServerManager.defaultConnection } returns defaultProfile
+        every { mockProfileManager.getDefaultOrFastest() } returns defaultProfile
         every { mockDefaultServer.tier } returns 0
         every { mockPlanManager.planChangeFlow } returns planFlow
-        every { mockServerManager.getServerForProfile(defaultProfile, any()) } answers {
+        coEvery { mockServerManager2.getServerForProfile(defaultProfile, any()) } answers {
             mockDefaultServer.takeIf { (arg<VpnUser>(1).maxTier ?: 0) >= it.tier }
         }
 
@@ -111,7 +115,8 @@ class UpdateSettingsOnVpnUserChangeTests {
             context,
             testScope.backgroundScope,
             mockCurrentUser,
-            mockServerManager,
+            mockServerManager2,
+            mockProfileManager,
             userSettingsManager,
             mockPlanManager
         )
@@ -169,7 +174,7 @@ class UpdateSettingsOnVpnUserChangeTests {
         every { mockDefaultServer.tier } returns 2
 
         // The real ServerManager may return a server that the user has no access too, see getBestScoreServer.
-        every { mockServerManager.getServerForProfile(defaultProfile, any()) } answers {
+        coEvery { mockServerManager2.getServerForProfile(defaultProfile, any()) } answers {
             mockDefaultServer
         }
 

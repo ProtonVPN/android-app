@@ -46,7 +46,10 @@ import io.sentry.Sentry
 import io.sentry.SentryEvent
 import io.sentry.SentryLevel
 import io.sentry.protocol.Message
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.serialization.builtins.ListSerializer
 import org.jetbrains.annotations.TestOnly
 import org.joda.time.DateTime
@@ -59,8 +62,10 @@ val serverComparator = compareBy<Server> { !it.isFreeServer }
     .thenBy { it.serverNumber >= 100 }
     .thenBy { it.serverNumber }
 
+@Deprecated("User ServerManager2 in new code")
 @Singleton
 class ServerManager @Inject constructor(
+    @Transient private val mainScope: CoroutineScope,
     @Transient private val currentUserSettingsCached: EffectiveCurrentUserSettingsCached,
     @Transient val currentUser: CurrentUser,
     @Transient @WallClock private val wallClock: () -> Long,
@@ -78,6 +83,7 @@ class ServerManager @Inject constructor(
 
     @Transient private var filtered = FilteredServers(serversStore, currentUserSettingsCached, supportsProtocol)
     @Transient private var guestHoleServers: List<Server>? = null
+    @Transient private val isLoaded = MutableStateFlow(false)
 
     private val secureCoreCached get() = currentUserSettingsCached.value.secureCore
 
@@ -117,14 +123,7 @@ class ServerManager @Inject constructor(
     val randomProfile get() = profileManager.randomServerProfile
     val defaultFallbackConnection get() = fastestProfile
 
-    val defaultConnection: Profile get() =
-        profileManager.findDefaultProfile() ?: fastestProfile
-
-    val defaultAvailableConnection: Profile get() =
-        (listOf(defaultConnection) + profileManager.getSavedProfiles())
-            .first {
-                (it.isSecureCore == true).implies(currentUser.vpnUserCached()?.isUserPlusOrAbove == true)
-            }
+    val defaultConnection: Profile get() = profileManager.getDefaultOrFastest()
 
     val freeCountries get() = getVpnCountries()
         .filter { country -> country.serverList.any { server -> server.isFreeServer } }
@@ -133,7 +132,16 @@ class ServerManager @Inject constructor(
         val oldManager =
             Storage.load(ServerManager::class.java)
         if (oldManager != null) {
-            if (oldManager.migrateVpnCountries?.isEmpty() == false && serversStore.allServers.isEmpty()) {
+            streamingServices = oldManager.streamingServices
+            migrateUpdatedAt = oldManager.migrateUpdatedAt
+            lastUpdateTimestamp = oldManager.lastUpdateTimestamp
+            serverListAppVersionCode = oldManager.serverListAppVersionCode
+            translationsLang = oldManager.translationsLang
+        }
+
+        mainScope.launch {
+            serversStore.load()
+            if (oldManager?.migrateVpnCountries?.isEmpty() == false && serversStore.allServers.isEmpty()) {
                 // Migrate from old server store
                 try {
                     serversStore.migrate(
@@ -154,19 +162,22 @@ class ServerManager @Inject constructor(
                     Sentry.captureEvent(event)
                 }
             }
-            streamingServices = oldManager.streamingServices
-            migrateUpdatedAt = oldManager.migrateUpdatedAt
-            lastUpdateTimestamp = oldManager.lastUpdateTimestamp
-            serverListAppVersionCode = oldManager.serverListAppVersionCode
-            translationsLang = oldManager.translationsLang
 
-            if (oldManager.migrateVpnCountries?.isEmpty() == false) {
+            onServersUpdate()
+            filtered.invalidate()
+
+            isLoaded.value = true
+            if (oldManager?.migrateVpnCountries?.isEmpty() == false) {
                 Storage.save(this)
             }
         }
     }
 
-    private fun getExitCountries(secureCore: Boolean) = if (secureCore)
+    suspend fun ensureLoaded() {
+        isLoaded.first { isLoaded -> isLoaded }
+    }
+
+    fun getExitCountries(secureCore: Boolean) = if (secureCore)
         filtered.secureCoreExitCountries else filtered.vpnCountries
 
     private fun onServersUpdate() {
@@ -188,7 +199,7 @@ class ServerManager @Inject constructor(
         // The server list itself is not deleted.
     }
 
-    fun setGuestHoleServers(serverList: List<Server>) {
+    suspend fun setGuestHoleServers(serverList: List<Server>) {
         setServers(serverList, null)
         lastUpdateTimestamp = 0L
     }
@@ -205,7 +216,8 @@ class ServerManager @Inject constructor(
             }.takeRandomStable(serverCount).shuffled()
         ).distinct().take(serverCount)
 
-    fun setServers(serverList: List<Server>, language: String?) {
+    suspend fun setServers(serverList: List<Server>, language: String?) {
+        ensureLoaded()
         serversStore.allServers = serverList
         serversStore.save()
 
@@ -218,7 +230,8 @@ class ServerManager @Inject constructor(
         onServersUpdate()
     }
 
-    fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
+    suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
+        ensureLoaded()
         allServers.flatMap { it.connectingDomains.asSequence() }
             .find { it.id == connectingDomain.id }?.let {
                 it.isOnline = connectingDomain.isOnline
@@ -229,7 +242,8 @@ class ServerManager @Inject constructor(
         onServersUpdate()
     }
 
-    fun updateLoads(loadsList: List<LoadUpdate>) {
+    suspend fun updateLoads(loadsList: List<LoadUpdate>) {
+        ensureLoaded()
         val loadsMap = loadsList.asSequence().map { it.id to it }.toMap()
         allServers.forEach { server ->
             loadsMap[server.serverId]?.let {
@@ -321,12 +335,15 @@ class ServerManager @Inject constructor(
     fun getSecureCoreExitCountries(): List<VpnCountry> =
         filtered.secureCoreExitCountries.sortedByLocaleAware { it.countryName }
 
-    fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
+    fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? =
+        getServerForProfile(profile, vpnUser, secureCoreCached)
+
+    fun getServerForProfile(profile: Profile, vpnUser: VpnUser?, secureCoreEnabled: Boolean): Server? {
         val wrapper = profile.wrapper
-        val needsSecureCore = profile.isSecureCore ?: secureCoreCached
+        val needsSecureCore = profile.isSecureCore ?: secureCoreEnabled
         return when (wrapper.type) {
             ProfileType.FASTEST ->
-                getBestScoreServer(secureCoreCached, vpnUser)
+                getBestScoreServer(secureCoreEnabled, vpnUser)
             ProfileType.RANDOM ->
                 getRandomServer(vpnUser)
             ProfileType.RANDOM_IN_COUNTRY ->
@@ -354,27 +371,6 @@ class ServerManager @Inject constructor(
             streamingServices = value
             Storage.save(this)
         }
-    }
-
-    // Sorted by score (best at front)
-    fun getOnlineAccessibleServers(
-        secureCore: Boolean,
-        gatewayName: String?,
-        vpnUser: VpnUser?,
-        protocol: ProtocolSelection
-    ): List<Server> {
-        val groups = when {
-            secureCore -> filtered.secureCoreExitCountries
-            gatewayName != null ->
-                filtered.gateways.find { it.name() == gatewayName }?.let { listOf(it) } ?: emptyList()
-
-            else -> filtered.vpnCountries
-        }
-        return groups.asSequence().flatMap { group ->
-            group.serverList.filter {
-                it.online && vpnUser.hasAccessToServer(it) && supportsProtocol(it, protocol)
-            }.asSequence()
-        }.sortedBy { it.score }.toList()
     }
 
     private fun haveWireGuardSupport() =

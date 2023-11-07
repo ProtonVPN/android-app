@@ -25,7 +25,6 @@ import com.protonvpn.android.utils.FileObjectStore
 import com.protonvpn.android.utils.KotlinCborObjectSerializer
 import com.protonvpn.android.utils.ObjectStore
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.runBlocking
 import java.io.File
 
 // Faster, dedicated server list storage. Serialization is the bottleneck and will block main
@@ -35,8 +34,8 @@ class ServersStore(
 ) {
     var allServers: List<Server> = emptyList()
 
-    init {
-        val data = runBlocking { store.read() }
+    suspend fun load() {
+        val data = store.read()
         if (data != null) {
             allServers = if (data.allServers.isEmpty() && data.vpnCountries.isNotEmpty()) {
                 extractServers(data.vpnCountries, data.secureCoreEntryCountries, data.secureCoreExitCountries)

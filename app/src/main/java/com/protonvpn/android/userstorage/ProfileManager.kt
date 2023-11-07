@@ -61,6 +61,8 @@ class ProfileManager @VisibleForTesting constructor(
     val fastestProfile get() = getSavedProfiles().first()
     val randomServerProfile get() = getSavedProfiles().first { it.isPreBakedProfile && !it.isPreBakedFastest }
     fun findDefaultProfile(): Profile? = findProfile(effectiveUserSettings.value.defaultProfileId)
+    fun getDefaultOrFastest() = findDefaultProfile() ?: fastestProfile
+
 
     fun findProfile(id: UUID?): Profile? = getSavedProfiles().find { it.id == id }
 
