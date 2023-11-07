@@ -30,7 +30,6 @@ import com.protonvpn.android.components.suspendForPermissions
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.logging.logUiSettingChange
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -39,6 +38,7 @@ import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.displayText
 import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DefaultAvailableConnection
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
@@ -66,6 +66,7 @@ class OnboardingViewModel @Inject constructor(
     private val userLocalSettingsManager: CurrentUserLocalSettingsManager,
     private val serverManager: ServerManager,
     private val serverListUpdater: ServerListUpdater,
+    private val defaultAvailableConnection: DefaultAvailableConnection,
     private val vpnPermissionDelegate: VpnPermissionDelegate,
     private val vpnConnectionManager: VpnConnectionManager,
     private val vpnStatusProviderUI: VpnStatusProviderUI
@@ -98,7 +99,7 @@ class OnboardingViewModel @Inject constructor(
 
     suspend fun connect(activity: ComponentActivity, delegate: VpnUiActivityDelegate): Error? {
         val intent = vpnPermissionDelegate.prepareVpnPermission()
-        val profile = serverManager.defaultAvailableConnection
+        val profile = defaultAvailableConnection()
         return if (activity.suspendForPermissions(intent))
             connectInternal(delegate, profile)
         else {

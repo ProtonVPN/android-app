@@ -207,6 +207,7 @@ class ServerListUpdater @Inject constructor(
     private suspend fun updateLoads(): ApiResult<LoadsResponse> {
         val result = api.getLoads(getNetZone(), currentUser.vpnUser()?.isFreeUser == true)
         if (result is ApiResult.Success) {
+            serverManager.ensureLoaded()
             serverManager.updateLoads(result.value.loadsList)
         }
         return result
@@ -300,6 +301,7 @@ class ServerListUpdater @Inject constructor(
         if (serverListResult.apiResult is ApiResult.Success) {
             prefs.lastNetzoneForLogicals = netzone
             val resultList = serverListResult.apiResult.value.serverList
+            serverManager.ensureLoaded()
             val newList = if (serverListResult.freeOnly)
                 serverManager.allServers.updateTier(resultList, VpnUser.FREE_TIER)
             else

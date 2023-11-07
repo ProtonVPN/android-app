@@ -37,6 +37,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -66,6 +69,7 @@ class SearchTests {
 
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val serverManager = ServerManager(
+            mainScope = TestScope(UnconfinedTestDispatcher()).backgroundScope, // Don't care about full initialization.
             mockk(relaxed = true),
             mockCurrentUser,
             { 0 },
@@ -73,7 +77,9 @@ class SearchTests {
             createInMemoryServersStore(),
             createDummyProfilesManager(),
         )
-        serverManager.setServers(testServers, Locale.getDefault().language)
+        runBlocking {
+            serverManager.setServers(testServers, Locale.getDefault().language)
+        }
         search = Search(serverManager)
     }
 

@@ -24,11 +24,12 @@ import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.AndroidUtils.isTV
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -42,7 +43,8 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
     @ApplicationContext private val context: Context,
     mainScope: CoroutineScope,
     private val currentUser: CurrentUser,
-    private val serverManager: ServerManager,
+    private val serverManager: ServerManager2,
+    private val profileManager: ProfileManager,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     private val userPlanManager: UserPlanManager
 ) {
@@ -50,9 +52,9 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
         mainScope.launch {
             currentUser.vpnUserFlow.collect { vpnUser ->
                 if (vpnUser != null) {
+                    val defaultProfileServer =
+                        serverManager.getServerForProfile(profileManager.getDefaultOrFastest(), vpnUser)
                     userSettingsManager.update { current ->
-                        val defaultProfileServer =
-                            serverManager.getServerForProfile(serverManager.defaultConnection, vpnUser)
                         // Note: when a different user logs in they will initially have the other user's server list
                         // so it's likely the defaultProfileServer isn't found and the default profile gets reset.
                         val resetDefaultProfile =

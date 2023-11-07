@@ -31,6 +31,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -71,6 +72,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -168,8 +170,12 @@ class VpnConnectionManagerTests {
         vpnStateMonitor = VpnStateMonitor()
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager = createDummyProfilesManager()
-        serverManager = ServerManager(userSettingsCached, mockCurrentUser, clock, supportsProtocol, createInMemoryServersStore(), profileManager)
-        serverManager.setServers(MockedServers.serverList, null)
+        serverManager = ServerManager(testScope.backgroundScope, userSettingsCached, mockCurrentUser, clock, supportsProtocol, createInMemoryServersStore(), profileManager)
+        runBlocking {
+            serverManager.setServers(MockedServers.serverList, null)
+        }
+
+        val serverManager2 = ServerManager2(serverManager, userSettings, supportsProtocol)
 
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = mockk(relaxed = true),
@@ -180,7 +186,7 @@ class VpnConnectionManagerTests {
             vpnErrorHandler = mockVpnErrorHandler,
             vpnStateMonitor = vpnStateMonitor,
             vpnBackgroundUiDelegate = mockk(relaxed = true),
-            serverManager = serverManager,
+            serverManager = serverManager2,
             certificateRepository = mockk(),
             currentVpnServiceProvider = mockk(relaxed = true),
             currentUser = mockCurrentUser,
@@ -203,6 +209,8 @@ class VpnConnectionManagerTests {
             PrepareResult(mockBackend, connectionParams)
         }
 
+        serverManager.ensureLoaded()
+        serverManager.setServers(MockedServers.serverList, null)
         vpnConnectionManager.connect(
             mockVpnUiDelegate, Profile.getTempProfile(ServerWrapper.makePreBakedFastest()), trigger
         )

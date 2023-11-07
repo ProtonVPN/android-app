@@ -80,6 +80,7 @@ class ProfileManagerTests {
         profileManager =
             ProfileManager(SavedProfilesV3.defaultProfiles(), testScope.backgroundScope, currentUserSettings, settingsManager)
         serverManager = ServerManager(
+            testScope.backgroundScope,
             currentUserSettings,
             currentUser,
             { 0 },

@@ -24,8 +24,8 @@ import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger.Auto
+import com.protonvpn.android.vpn.DefaultAvailableConnection
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +37,7 @@ import javax.inject.Inject
 class BootReceiver : BroadcastReceiver() {
 
     @Inject lateinit var mainScope: CoroutineScope
-    @Inject lateinit var manager: ServerManager
+    @Inject lateinit var defaultAvailableConnection: DefaultAvailableConnection
     @Inject lateinit var userSettings: EffectiveCurrentUserSettings
     @Inject lateinit var currentVpnUser: CurrentUser
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
@@ -51,7 +51,7 @@ class BootReceiver : BroadcastReceiver() {
                 val settings = userSettings.effectiveSettings.first()
                 val isLoggedIn = currentVpnUser.isLoggedIn()
                 if (isLoggedIn && settings.connectOnBoot) {
-                    val defaultProfile = manager.defaultConnection
+                    val defaultProfile = defaultAvailableConnection()
                     vpnConnectionManager.connectInBackground(
                         defaultProfile, Auto("legacy always-on")
                     )

@@ -51,11 +51,11 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.DebugUtils
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
@@ -102,7 +102,7 @@ class VpnConnectionManager @Inject constructor(
     private val vpnErrorHandler: VpnConnectionErrorHandler,
     private val vpnStateMonitor: VpnStateMonitor,
     private val vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
-    private val serverManager: ServerManager,
+    private val serverManager: ServerManager2,
     private val certificateRepository: CertificateRepository,
     private val scope: CoroutineScope,
     @WallClock private val now: () -> Long,

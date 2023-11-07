@@ -28,6 +28,8 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.userstorage.ProfileManager
@@ -45,8 +47,13 @@ import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.builtins.ListSerializer
 import me.proton.core.util.kotlin.deserialize
 import org.junit.Assert
@@ -58,16 +65,18 @@ import org.junit.Test
 import java.io.File
 import java.util.Locale
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ServerManagerTests {
 
     private lateinit var manager: ServerManager
+    private lateinit var serverManager2: ServerManager2
 
     @RelaxedMockK private lateinit var currentUser: CurrentUser
     @RelaxedMockK private lateinit var vpnUser: VpnUser
 
     private lateinit var currentSettings: MutableStateFlow<LocalUserSettings>
     private lateinit var profileManager: ProfileManager
-    private lateinit var userData: UserData
+    private lateinit var testScope: TestScope
 
     private val gatewayServer = createServer(
         "dedicated",
@@ -89,17 +98,24 @@ class ServerManagerTests {
         every { vpnUser.userTier } returns 2
         every { CountryTools.getPreferredLocale() } returns Locale.US
 
+        testScope = TestScope(UnconfinedTestDispatcher())
+        val bgScope = testScope.backgroundScope
+
         currentSettings = MutableStateFlow(LocalUserSettings.Default)
         val currentUserSettings = EffectiveCurrentUserSettingsCached(currentSettings)
 
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         profileManager = ProfileManager(mockk(), currentUserSettings, mockk(), mockk(relaxed = true))
-        manager = ServerManager(currentUserSettings, currentUser, { 0L }, supportsProtocol, createInMemoryServersStore(), profileManager)
+        manager = ServerManager(bgScope, currentUserSettings, currentUser, { 0L }, supportsProtocol, createInMemoryServersStore(), profileManager)
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         regularServers = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 
         val allServers = regularServers + gatewayServer
-        manager.setServers(allServers, null)
+        runBlocking {
+            manager.setServers(allServers, null)
+        }
+        serverManager2 =
+            ServerManager2(manager, EffectiveCurrentUserSettings(bgScope, currentSettings), supportsProtocol)
     }
 
     @Test
@@ -129,10 +145,10 @@ class ServerManagerTests {
     }
 
     @Test
-    fun testOnlineAccessibleServersSeparatesGatewaysFromRegular() {
+    fun testOnlineAccessibleServersSeparatesGatewaysFromRegular() = testScope.runTest {
         val gatewayName = gatewayServer.gatewayName
-        val gatewayServers = manager.getOnlineAccessibleServers(false, gatewayName, vpnUser, ProtocolSelection.SMART)
-        val regularServers = manager.getOnlineAccessibleServers(false, null, vpnUser, ProtocolSelection.SMART)
+        val gatewayServers = serverManager2.getOnlineAccessibleServers(false, gatewayName, vpnUser, ProtocolSelection.SMART)
+        val regularServers = serverManager2.getOnlineAccessibleServers(false, null, vpnUser, ProtocolSelection.SMART)
 
         assertEquals(listOf(gatewayServer), gatewayServers)
         assertFalse(regularServers.contains(gatewayServer))

@@ -68,6 +68,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -127,6 +128,7 @@ class CountryListViewModelTests {
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager = createDummyProfilesManager()
         serverManager = ServerManager(
+            scope.backgroundScope,
             EffectiveCurrentUserSettingsCached(effectiveSettingsFlow),
             mockCurrentUser,
             { 0 },
@@ -144,7 +146,9 @@ class CountryListViewModelTests {
             createServer(serverName = "DE#1", exitCountry = "DE", score = 4.0, tier = 2),
             createServer(serverName = "DE#2", exitCountry = "DE", score = 4.0, tier = 2)
         )
-        serverManager.setServers(servers, null)
+        runBlocking {
+            serverManager.setServers(servers, null)
+        }
 
         promoNotificationsFlow = MutableStateFlow(emptyList())
         every { mockNotificationsManager.activeListFlow } returns promoNotificationsFlow

@@ -37,7 +37,9 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -78,8 +80,9 @@ class GuestHoleTests {
         goodServer = servers[0]
         badServer = servers[1]
         val ghServers = listOf(badServer, goodServer)
+        coEvery { serverManager.ensureLoaded() } just runs
         every { serverManager.getGuestHoleServers() } returns ghServers
-        every { serverManager.setGuestHoleServers(any()) } returns Unit
+        coEvery { serverManager.setGuestHoleServers(any()) } just runs
         every { serverManager.getServerById(any()) } answers {
             val id = firstArg<String>()
             ghServers.find { it.serverId == id }

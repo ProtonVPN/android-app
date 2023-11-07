@@ -24,7 +24,7 @@ import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.vpn.DefaultAvailableConnection
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -34,14 +34,14 @@ class OnUpdateReceiver : BroadcastReceiver() {
 
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var appFeaturesPrefs: AppFeaturesPrefs
-    @Inject lateinit var serverManager: ServerManager
+    @Inject lateinit var defaultAvailableConnection: DefaultAvailableConnection
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_MY_PACKAGE_REPLACED) {
             ConnectionParams.readFromStore(ignoreUnsupported = false)?.profile?.let { profile ->
                 val restoreProfile = if (profile.isUnsupportedIKEv2()) {
                     appFeaturesPrefs.showIKEv2Migration = true
-                    serverManager.defaultAvailableConnection
+                    defaultAvailableConnection()
                 } else {
                     profile
                 }

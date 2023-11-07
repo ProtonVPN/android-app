@@ -38,6 +38,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -99,6 +100,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -261,6 +263,7 @@ class VpnConnectionTests {
         val profileManager =
             ProfileManager(SavedProfilesV3.defaultProfiles(), scope.backgroundScope, userSettingsCached, mockk())
         serverManager = ServerManager(
+            scope.backgroundScope,
             userSettingsCached,
             currentUser,
             clock,
@@ -268,13 +271,16 @@ class VpnConnectionTests {
             createInMemoryServersStore(),
             profileManager,
         )
-        serverManager.setServers(MockedServers.serverList, null)
+        runBlocking {
+            serverManager.setServers(MockedServers.serverList, null)
+        }
         serverManager.setBuiltInGuestHoleServersForTesting(
             MockedServers.serverList.filter { supportsProtocol(it, GuestHole.PROTOCOL) }
         )
+        val serverManager2 = ServerManager2(serverManager, userSettings, supportsProtocol)
 
         manager = VpnConnectionManager(permissionDelegate, appConfig, userSettings, backendProvider, networkManager, vpnErrorHandler, monitor,
-            mockVpnBackgroundUiDelegate, serverManager, certificateRepository, scope.backgroundScope, clock,
+            mockVpnBackgroundUiDelegate, serverManager2, certificateRepository, scope.backgroundScope, clock,
             mockk(relaxed = true), currentUser, supportsProtocol, mockk(relaxed = true), vpnConnectionTelemetry)
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered

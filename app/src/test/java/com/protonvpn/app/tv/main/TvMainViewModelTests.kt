@@ -67,6 +67,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -130,8 +131,17 @@ class TvMainViewModelTests {
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager =
             ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, userSettingsCached, userSettingsManager)
-        serverManager = ServerManager(userSettingsCached, mockCurrentUser, { 0 }, supportsProtocol, createInMemoryServersStore(), profileManager).apply {
-            setServers(MockedServers.serverList, "us")
+        serverManager = ServerManager(
+            mainScope = TestScope(UnconfinedTestDispatcher()).backgroundScope, // Don't care about full initialization.
+            userSettingsCached,
+            mockCurrentUser,
+            { 0 },
+            supportsProtocol,
+            createInMemoryServersStore(),
+            profileManager
+        )
+        runBlocking {
+            serverManager.setServers(MockedServers.serverList, "us")
         }
 
         setupStrings(mockContext)
@@ -245,7 +255,9 @@ class TvMainViewModelTests {
         val server1 = MockedServers.server
         val server2 = MockedServers.serverList[2]
         assertNotEquals("Servers in this test need to be in different countries", server1.exitCountry, server2.exitCountry)
-        serverManager.setServers(listOf(server1), null)
+        runBlocking {
+            serverManager.setServers(listOf(server1), null)
+        }
 
         val firstDefaultServer = serverManager.getServerForProfile(serverManager.defaultConnection, vpnUserFlow.value)!!
         val firstConnectionParams = ConnectionParams(serverManager.defaultConnection, firstDefaultServer, null, null)
@@ -258,7 +270,9 @@ class TvMainViewModelTests {
         assertEquals(1, recentsBefore.size)
         assertIs<QuickConnectCard>(recentsBefore[0])
 
-        serverManager.setServers(listOf(server2), null)
+        runBlocking {
+            serverManager.setServers(listOf(server2), null)
+        }
         val secondDefaultServer = serverManager.getServerForProfile(serverManager.defaultConnection, vpnUserFlow.value)!!
         val secondConnectionParams = ConnectionParams(serverManager.defaultConnection, secondDefaultServer, null, null)
 

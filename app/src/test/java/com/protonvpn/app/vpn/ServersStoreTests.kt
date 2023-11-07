@@ -52,12 +52,14 @@ class ServersStoreTests {
     private val countries = listOf(VpnCountry("US", MockedServers.serverList))
     private val servers = MockedServers.serverList
 
-    private fun createServersStore(testFile: File = File("servers")) =
+    private suspend fun createAndLoadServersStore(testFile: File = File("servers")) =
         ServersStore.create(
             testScope,
             TestDispatcherProvider(testDispatcher),
             testFile
-        )
+        ).apply {
+            load()
+        }
 
     @Before
     fun setUp() {
@@ -77,41 +79,41 @@ class ServersStoreTests {
 
     @Test
     fun `basic store, read and clear`() = testScope.runTest {
-        val store = createServersStore(testFile)
+        val store = createAndLoadServersStore(testFile)
         store.allServers = servers
 
         store.save()
         assertTrue(testFile.exists())
 
-        val store2 = createServersStore(testFile)
+        val store2 = createAndLoadServersStore(testFile)
         assertEquals(servers, store2.allServers)
         store.clear()
 
-        val store3 = createServersStore(testFile)
+        val store3 = createAndLoadServersStore(testFile)
         assertEquals(emptyList(), store3.allServers)
         assertFalse(testFile.exists())
     }
 
     @Test
     fun `migration from old store`() = testScope.runTest {
-        val store = createServersStore(testFile)
+        val store = createAndLoadServersStore(testFile)
         store.migrate(emptyList(), countries, emptyList())
 
-        val store2 = createServersStore(testFile)
+        val store2 = createAndLoadServersStore(testFile)
         val countriesServers = countries.map { it.serverList }.flatten()
         assertEquals(countriesServers, store2.allServers)
     }
 
     @Test
     fun `recover from interrupted rename`() = testScope.runTest {
-        val store = createServersStore(testFile)
+        val store = createAndLoadServersStore(testFile)
         store.allServers += servers
         store.save()
 
         // Tmp write was successful but the rename failed
         testFile.renameTo(tmpFile)
 
-        val store2 = createServersStore(testFile)
+        val store2 = createAndLoadServersStore(testFile)
         assertEquals(servers, store2.allServers)
         assertTrue(testFile.exists())
         assertFalse(tmpFile.exists())
@@ -119,14 +121,14 @@ class ServersStoreTests {
 
     @Test
     fun `recover from unfinished write`() = testScope.runTest {
-        val store = createServersStore(testFile)
+        val store = createAndLoadServersStore(testFile)
         store.allServers += servers
         store.save()
 
         // Tmp write was interrupted but test file exists
         tmpFile.writeText("corrupted")
 
-        val store2 = createServersStore(testFile)
+        val store2 = createAndLoadServersStore(testFile)
         assertEquals(servers, store2.allServers)
         assertTrue(testFile.exists())
         assertFalse(tmpFile.exists())
@@ -134,14 +136,14 @@ class ServersStoreTests {
 
     @Test
     fun `recover from unfinished first save`() = testScope.runTest {
-        val store = createServersStore(testFile)
+        val store = createAndLoadServersStore(testFile)
         store.allServers += servers
         store.save()
 
         testFile.delete()
         tmpFile.writeText("corrupted")
 
-        val store2 = createServersStore(testFile)
+        val store2 = createAndLoadServersStore(testFile)
         assertEquals(emptyList(), store2.allServers)
     }
 }

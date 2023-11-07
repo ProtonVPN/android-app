@@ -138,7 +138,7 @@ class ServerListUpdaterTests {
         every { mockServerManager.isDownloadedAtLeastOnce } returns true
         every { mockServerManager.needsUpdate } returns false
         var allServers = emptyList<Server>()
-        every { mockServerManager.setServers(any(), any()) } answers { allServers = firstArg() }
+        coEvery { mockServerManager.setServers(any(), any()) } answers { allServers = firstArg() }
         every { mockServerManager.allServers } answers { allServers }
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
         coEvery { mockApi.getServerList(any(), any(), any(), any(), any()) } answers {
