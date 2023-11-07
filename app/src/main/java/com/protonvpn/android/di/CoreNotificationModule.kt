@@ -28,6 +28,7 @@ import dagger.Reusable
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import me.proton.core.domain.entity.UserId
 import me.proton.core.notification.data.local.NotificationLocalDataSourceImpl
 import me.proton.core.notification.data.remote.NotificationRemoteDataSourceImpl
 import me.proton.core.notification.data.repository.NotificationRepositoryImpl
@@ -48,6 +49,7 @@ import me.proton.core.notification.presentation.deeplink.DeeplinkIntentProviderI
 import me.proton.core.notification.presentation.usecase.CancelNotificationViewImpl
 import me.proton.core.notification.presentation.usecase.ConfigureNotificationChannelImpl
 import me.proton.core.notification.presentation.usecase.GetNotificationChannelIdImpl
+import me.proton.core.notification.presentation.usecase.IsNotificationsEnabledImpl
 import me.proton.core.notification.presentation.usecase.IsNotificationsPermissionRequestEnabledImpl
 import me.proton.core.notification.presentation.usecase.IsNotificationsPermissionShowRationaleImpl
 import me.proton.core.notification.presentation.usecase.ObservePushNotificationsImpl
@@ -57,12 +59,12 @@ import javax.inject.Inject
 
 @Reusable
 class IsVpnNotificationEnabled @Inject constructor(
-    @ApplicationContext private val appContext: Context,
-    private val isTv: IsTvCheck
+    private val isTv: IsTvCheck,
+    private val baseImpl: IsNotificationsEnabledImpl
 ) : IsNotificationsEnabled {
-    override fun invoke(): Boolean =
-        appContext.resources.getBoolean(R.bool.core_feature_notifications_enabled) &&
-            !isTv() // TV doesn't need notifications and doesn't have full session scope to support them.
+    override fun invoke(userId: UserId?): Boolean =
+        // TV doesn't need notifications and doesn't have full session scope to support them.
+        !isTv() && baseImpl(userId)
 }
 
 @Module
