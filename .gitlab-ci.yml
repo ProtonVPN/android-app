@@ -97,7 +97,7 @@ detekt analysis:
   except:
     - schedules
   tags:
-    - shared-medium
+    - shared-large
   script:
     - ./gradlew :app:detekt
   artifacts:
@@ -274,7 +274,7 @@ build release (auto):
 unit tests:
   stage: test
   tags:
-    - shared-large
+    - xlarge-k8s
   except:
     - schedules
   script:
