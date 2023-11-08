@@ -105,7 +105,7 @@ object AndroidUtils {
             ProtonLogger.logCustom(LogCategory.APP, message)
         }
 
-        return if (BuildConfig.FLAVOR == Constants.DISTRIBUTION_AMAZON || Build.MANUFACTURER == "Amazon") {
+        return if (BuildConfig.FLAVOR_distribution == Constants.DISTRIBUTION_AMAZON || Build.MANUFACTURER == "Amazon") {
             // https://developer.amazon.com/docs/fire-tv/identify-amazon-fire-tv-devices.html
             featureFireTv
         } else {
