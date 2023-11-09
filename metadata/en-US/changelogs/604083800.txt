@@ -1,0 +1,2 @@
+What's new
+- Adds support for Chinese (Traditional), Finnish, Greek, Japanese, Slovak and Swedish locales.
