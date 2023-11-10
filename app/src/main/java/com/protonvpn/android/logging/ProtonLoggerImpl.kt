@@ -27,6 +27,8 @@ import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 import java.lang.IllegalArgumentException
 
+private const val MAX_MESSAGE_LENGTH = 50_000
+
 enum class LogLevel {
     TRACE, DEBUG, INFO, WARN, ERROR, FATAL;
 }
@@ -95,7 +97,9 @@ open class ProtonLoggerImpl(
     ) {
         if (!shouldLog(level)) return
 
-        writers.forEach { it.write(getTimestampNow(), level, category, eventName, message, blocking) }
+        val truncatedMessage =
+            if (message.length <= MAX_MESSAGE_LENGTH) message else message.take(MAX_MESSAGE_LENGTH)
+        writers.forEach { it.write(getTimestampNow(), level, category, eventName, truncatedMessage, blocking) }
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
