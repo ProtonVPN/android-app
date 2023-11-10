@@ -297,3 +297,27 @@ suspend fun <T> (suspend () -> T).runCatchingCheckedExceptions(catchBlock: (e: E
         if (e is RuntimeException) throw e
         catchBlock(e)
     }
+
+private const val MAX_STACK_TRACES = 100
+tailrec fun Throwable.stacktraceMessage(
+    builder: StringBuilder = StringBuilder(),
+    maxTraces: Int = MAX_STACK_TRACES
+) : StringBuilder {
+    fun Collection<StackTraceElement>.append() = forEach { builder.append("\n    at $it") }
+
+    builder.append(toString())
+    if (stackTrace.size > maxTraces) {
+        stackTrace.take(maxTraces / 2).append()
+        builder.append("\n    ...")
+        stackTrace.takeLast(maxTraces / 2).append()
+    } else
+        stackTrace.asList().append()
+
+    val valCause = cause
+    if (valCause != null) {
+        builder.append("\n\n")
+        builder.append("Caused by: ")
+        return valCause.stacktraceMessage(builder)
+    }
+    return builder
+}
