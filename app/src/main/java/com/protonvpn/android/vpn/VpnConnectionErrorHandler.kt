@@ -220,7 +220,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             return null
         }
 
-        if (serverListUpdater.needsUpdate) {
+        if (serverListUpdater.needsUpdate()) {
             serverListUpdater.updateServerList()
         }
 

@@ -106,13 +106,23 @@ class ServerManager @Inject constructor(
 
     // isDownloadedAtLeastOnce should be true if there was an updateAt value. Remove after most users update.
     @SerializedName("updatedAt") private var migrateUpdatedAt: DateTime? = null
-    val isDownloadedAtLeastOnce: Boolean
-        get() = (lastUpdateTimestamp > 0L || migrateUpdatedAt != null) && serversStore.allServers.isNotEmpty()
 
-    val needsUpdate: Boolean
-        get() = lastUpdateTimestamp == 0L || serversStore.allServers.isEmpty() ||
+    @Deprecated("Use suspending isDownloadedAtLeastOnce instead. Or even better ServerManager2")
+    // This method will not wait for the server list to be loaded. Use with caution.
+    val haveLoadedServersAlready get() =
+        (lastUpdateTimestamp > 0L || migrateUpdatedAt != null) && serversStore.allServers.isNotEmpty()
+
+    suspend fun isDownloadedAtLeastOnce(): Boolean {
+        ensureLoaded()
+        return haveLoadedServersAlready
+    }
+
+    suspend fun needsUpdate() : Boolean {
+        ensureLoaded()
+        return lastUpdateTimestamp == 0L || serversStore.allServers.isEmpty() ||
             !haveWireGuardSupport() || serverListAppVersionCode < BuildConfig.VERSION_CODE ||
             translationsLang != Locale.getDefault().language
+    }
 
     val allServers get() = serversStore.allServers
 

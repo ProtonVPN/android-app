@@ -118,7 +118,7 @@ class HomeViewModel @Inject constructor(
         startOnboardingJob?.cancel()
         startOnboardingJob = viewModelScope.launch {
             val onboardingId = Storage.getString(OnboardingPreferences.ONBOARDING_USER_ID, null)
-            if (serverManager.isDownloadedAtLeastOnce &&
+            if (serverManager.isDownloadedAtLeastOnce() &&
                 onboardingId != null &&
                 currentUser.user()?.userId?.id == onboardingId
             ) {

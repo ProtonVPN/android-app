@@ -137,7 +137,7 @@ class ServerListUpdater @Inject constructor(
         currentUser.vpnUser()?.isFreeUser == true &&
         wallClock() - prefs.lastFullUpdateTimestamp < FULL_SERVER_LIST_CALL_DELAY
 
-    val needsUpdate: Boolean get() = serverManager.needsUpdate ||
+    suspend fun needsUpdate() = serverManager.needsUpdate() ||
         wallClock() - serverManager.lastUpdateTimestamp >= 4 * remoteConfig.value.foregroundDelayMs
 
     init {
@@ -192,11 +192,9 @@ class ServerListUpdater @Inject constructor(
     }.toTypedArray().takeIf { it.isNotEmpty() }
 
     fun onAppStart() {
-        if (needsUpdate) {
-            scope.launch {
-                if (currentUser.isLoggedIn())
-                    updateServerList()
-            }
+        scope.launch {
+            if (needsUpdate() && currentUser.isLoggedIn())
+                updateServerList()
         }
     }
 

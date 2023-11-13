@@ -166,7 +166,7 @@ public class HomeActivity extends VpnActivity {
         initLayout();
 
         serverManager.getServerListVersionLiveData().observe(this, (ignored) -> {
-            if (serverManager.isDownloadedAtLeastOnce())
+            if (serverManager.getHaveLoadedServersAlready())
                 getLoadingContainer().switchToEmpty();
             else
                 getLoadingContainer().switchToLoading();
@@ -610,7 +610,7 @@ public class HomeActivity extends VpnActivity {
 
     @Override
     public LoaderUI getNetworkFrameLayout() {
-        if (serverManager.isDownloadedAtLeastOnce()) {
+        if (serverManager.getHaveLoadedServersAlready()) {
             return minimizedLoader;
         }
         else {
@@ -656,6 +656,6 @@ public class HomeActivity extends VpnActivity {
     }
 
     private boolean canShowPopups() {
-        return serverManager.isDownloadedAtLeastOnce();
+        return serverManager.getHaveLoadedServersAlready();
     }
 }
