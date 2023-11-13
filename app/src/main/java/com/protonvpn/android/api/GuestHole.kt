@@ -113,7 +113,7 @@ class GuestHole @Inject constructor(
     private suspend fun getGuestHoleServers(): List<Server> {
         serverManager.get().ensureLoaded()
         val builtInHoles = serverManager.get().getGuestHoleServers()
-        val holes = if (serverManager.get().isDownloadedAtLeastOnce) {
+        val holes = if (serverManager.get().isDownloadedAtLeastOnce()) {
             // Mix downloaded and builtin servers
             shuffler(builtInHoles).take(GUEST_HOLE_SERVER_COUNT_MIXED) +
                 serverManager.get().getDownloadedServersForGuestHole(GUEST_HOLE_SERVER_COUNT_MIXED, PROTOCOL)

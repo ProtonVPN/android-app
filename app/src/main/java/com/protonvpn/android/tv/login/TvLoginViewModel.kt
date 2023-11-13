@@ -79,7 +79,7 @@ class TvLoginViewModel @Inject constructor(
 
     suspend fun onEnterScreen(scope: CoroutineScope) {
         if (currentUser.isLoggedIn()) {
-            if (serverManager.isDownloadedAtLeastOnce)
+            if (serverManager.isDownloadedAtLeastOnce())
                 state.value = TvLoginViewState.Success
             else scope.launch {
                 loadInitialConfig(currentUser.sessionId())

@@ -109,7 +109,7 @@ class OnboardingViewModel @Inject constructor(
     }
 
     private suspend fun connectInternal(vpnUiDelegate: VpnUiDelegate, profile: Profile): Error? {
-        if (serverListUpdater.needsUpdate) {
+        if (serverListUpdater.needsUpdate()) {
             val result = serverListUpdater.updateServerList()
             if (result is ApiResult.Error)
                 return Error(result.displayText())
