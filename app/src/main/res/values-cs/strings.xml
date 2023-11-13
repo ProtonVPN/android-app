@@ -332,8 +332,8 @@
     <string name="settingsTelemetryScreenTitle">Statistiky o používání</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Tyto statistiky neobsahují vaši IP adresu a nelze je použít k vaší identifikaci. Nikdy je nebudeme sdílet se třetími stranami. <a href="%1$s">Více informací</a>]]></string>
     <string name="netShieldEnabledWarning">Upozornění: Některé stránky nemusí správně fungovat kvůli blokaci obsahu.</string>
-    <string name="netShieldDescription">Blokovat reklamy, slídiče a malware </string>
-    <string name="netshield_settings_description"><![CDATA[Chraňte se před raklamami, malwarem a sledovacími prvky na webových stránkách a v aplikacích. Pokud se stránky nenačítají, zkuste vypnout NetShield. <a href="%1$s">Více informací</a>.]]></string>
+    <string name="netShieldDescription">Blokovat reklamy, sledovací prvky a malware </string>
+    <string name="netshield_settings_description"><![CDATA[Chraňte se před reklamou, malware a sledovacími prvky na webových stránkách a v aplikacích. Pokud se stránky nenačítají, zkuste vypnout NetShield. <a href="%1$s">Více informací</a>.]]></string>
     <string name="netshield_status_on">Zapnuto</string>
     <string name="netshield_status_off">Vypnuto</string>
     <string name="netshield_free_title">Prohlížejte bez reklam s NetShield</string>
@@ -355,7 +355,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dat\nuloženo</string>
     <string name="netShieldBlockMalwareOnly">Blokovat pouze malware</string>
-    <string name="netShieldFullBlock">Blokovat malware, slídiče, reklamy</string>
+    <string name="netShieldFullBlock">Blokovat malware, sledovací prvky, reklamy</string>
     <string name="dialogDontShowAgain">Příště nezobrazovat</string>
     <string name="guestHoleActivated">Přístup k Proton VPN může být ve vaší oblasti omezený, takže to bude trvat déle než obvykle. Počkejte prosím, než tento problém vyřešíme.</string>
     <string name="guestHoleNotificationContent">Snažíme se obejít problémy se sítí. Toto vám pomůže připojit se k Proton VPN.</string>
@@ -499,8 +499,8 @@
     <string name="upgrade_customization_lan"><![CDATA[Přistupujte k zařízením ve vaší <b>místní síti (LAN)</b>.]]></string>
     <string name="upgrade_customization_feature_profiles"><![CDATA[Uložte často používaná připojení pomocí <b>profilů</b>]]></string>
     <string name="upgrade_customization_feature_quick_connect_profile"><![CDATA[Získejte okamžitý přístup ke svým profilům pomocí funkce <b>Rychlé připojení</b>]]></string>
-    <string name="upgrade_netshield_block_ads">Blokování reklam a sledovačů</string>
-    <string name="upgrade_netshield_block_malware">Ochrana vašeho zařízení před malwarem</string>
+    <string name="upgrade_netshield_block_ads">Blokování reklam a sledovacích prvků</string>
+    <string name="upgrade_netshield_block_malware">Ochrana vašeho zařízení před malware</string>
     <string name="upgrade_netshield_speed">Procházení nejvyšší rychlostí</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.

@@ -703,8 +703,8 @@
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
-        <item quantity="one">%1$d day</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d dia</item>
+        <item quantity="other">%1$d dias</item>
     </plurals>
     <string name="server_change_max_reached">Atingiu o número máximo de mudanças de servidores \'Free\' por agora</string>
     <string name="server_change_upsell">Obtenha mudanças ilimitadas com a VPN Plus</string>
