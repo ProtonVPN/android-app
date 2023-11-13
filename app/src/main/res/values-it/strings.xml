@@ -406,7 +406,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% Carico Server</string>
+    <string name="tv_server_list_load">Server carico al %1$s%%</string>
     <string name="tv_recently_used_servers">Server usati di recente (%1$d)</string>
     <string name="tv_available_servers">Server disponibili (%1$d)</string>
     <string name="tv_locked_servers">Server bloccati (%1$d)</string>
@@ -542,7 +542,7 @@
     <string name="tor_description">Convoglia tutto il traffico internet attraverso la rete Tor. Più lento, ma più privato.</string>
     <string name="info_performance">Prestazioni</string>
     <string name="server_load_title">Carico del Server</string>
-    <string name="server_load_description">I server ad alto carico sono più lenti dei server a basso carico.</string>
+    <string name="server_load_description">I server con un alto carico sono più lenti dei server con un basso carico.</string>
     <string name="streaming_title_with_country">Streaming - %1$s</string>
     <string name="streaming_services_description">Connettiti a un server Plus in questo paese per avviare lo streaming.\n\nSuggerimento: Cancella la cache delle app di streaming per garantire che vengano visualizzati nuovi contenuti.</string>
     <string name="partnership_free_title">Server gratuiti</string>
@@ -667,7 +667,7 @@
     <string name="upgrade_moderate_nat_feature_gaming">Migliora le prestazioni dei giochi online e delle videochiamate</string>
     <string name="upgrade_moderate_nat_feature_optimize">NAT di Tipo 2 (moderato) ottimizza velocità e stabilità abilitando le connessioni dirette tra i dispositivi</string>
     <string name="free_connections_info_message">Proton Free si connette automaticamente al server più veloce disponibile. Solitamente si tratta del server più vicino alla tua posizione.</string>
-    <string name="free_connections_info_server_locations">Posizioni del server gratuito (%1$d)</string>
+    <string name="free_connections_info_server_locations">Località dei server gratuiti (%1$d)</string>
     <string name="free_connections_info_banner_text">Ottieni una copertura globale con VPN Plus</string>
     <string name="free_connection_info_title">Connessioni gratuite</string>
     <string name="search_upsell_banner_title">Trasmissione da qualsiasi luogo</string>
