@@ -145,14 +145,22 @@ class ReportBugActivityViewModel @Inject constructor(
                 .addFormDataPart("ClientVersion", BuildConfig.VERSION_NAME)
                 .addFormDataPart("Username", currentUser.user()?.name ?: "")
                 .addFormDataPart("Email", email)
-                .addFormDataPart("Plan", currentUser.vpnUser()?.userTierName ?: "unknown")
                 .addFormDataPart("OS", "Android")
                 .addFormDataPart("OSVersion", Build.VERSION.RELEASE.toString())
                 .addFormDataPart("ClientType", "2")
-                .addFormDataPart("Country", serverListUpdater.lastKnownCountry ?: "Unknown")
-                .addFormDataPart("ISP", getIspValue())
                 .addFormDataPart("Title", "Report from $client")
                 .addFormDataPart("Description", description)
+                .apply {
+                    getIspValue()?.let {
+                        addFormDataPart("ISP", it)
+                    }
+                    currentUser.vpnUser()?.userTierName?.let {
+                        addFormDataPart("Plan",  it)
+                    }
+                    serverListUpdater.lastKnownCountry?.let {
+                        addFormDataPart("Country", it)
+                    }
+                }
 
             if (attachLog) {
                 val logFiles = try {
@@ -181,13 +189,13 @@ class ReportBugActivityViewModel @Inject constructor(
     private fun isEmailValid(email: CharSequence): Boolean =
         Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
-    private fun getIspValue(): String {
-        val lastKnownIsp = serverListUpdater.lastKnownIsp ?: "Unknown"
+    private fun getIspValue(): String? {
+        val lastKnownIsp = serverListUpdater.lastKnownIsp
         val mobileNetwork = telephony?.networkOperatorName
-        return if (mobileNetwork != null) {
-            "$lastKnownIsp, mobile network: $mobileNetwork"
-        } else {
-            lastKnownIsp
+        return when {
+            lastKnownIsp != null && mobileNetwork != null -> "$lastKnownIsp, mobile network: $mobileNetwork"
+            mobileNetwork != null -> "mobile network: $mobileNetwork"
+            else -> lastKnownIsp
         }
     }
 
