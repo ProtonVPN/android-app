@@ -28,7 +28,6 @@ import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.login.GenericResponse
-import com.protonvpn.android.models.login.LoginBody
 import com.protonvpn.android.models.login.SessionForkBody
 import com.protonvpn.android.models.login.SessionListResponse
 import com.protonvpn.android.models.vpn.CertificateRequestBody
@@ -89,9 +88,6 @@ open class ProtonApiRetroFit(
 
     open suspend fun getStreamingServices() =
         manager { getStreamingServices() }
-
-    suspend fun postLogin(body: LoginBody) =
-        manager { postLogin(body) }
 
     open suspend fun getSessionForkSelector() =
         manager { getSessionForkSelector() }

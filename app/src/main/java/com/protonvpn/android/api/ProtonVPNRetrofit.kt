@@ -27,10 +27,6 @@ import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.login.FeatureResponse
 import com.protonvpn.android.models.login.GenericResponse
-import com.protonvpn.android.models.login.LoginBody
-import com.protonvpn.android.models.login.LoginInfoBody
-import com.protonvpn.android.models.login.LoginInfoResponse
-import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.models.login.SessionForkBody
 import com.protonvpn.android.models.login.SessionForkResponse
 import com.protonvpn.android.models.login.SessionListResponse
@@ -82,12 +78,6 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("vpn/servers/{serverId}")
     suspend fun getServerDomain(@Path(value = "serverId", encoded = true) serverId: String): ConnectingDomainResponse
-
-    @POST("auth/info")
-    suspend fun postLoginInfo(@Body body: LoginInfoBody): LoginInfoResponse
-
-    @POST("auth")
-    suspend fun postLogin(@Body body: LoginBody): LoginResponse
 
     @DELETE("auth")
     suspend fun postLogout(): GenericResponse
