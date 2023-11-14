@@ -69,20 +69,20 @@ class ProfileManager @VisibleForTesting constructor(
     fun addToProfileList(profileToSave: Profile?) {
         if (!savedProfiles.profileList.contains(profileToSave)) {
             savedProfiles.profileList.add(profileToSave)
-            Storage.save(savedProfiles)
+            Storage.save(savedProfiles, SavedProfilesV3::class.java)
             profiles.value = getSavedProfiles().toList()
         }
     }
 
     fun editProfile(oldProfile: Profile, profileToSave: Profile) {
         savedProfiles.profileList[savedProfiles.profileList.indexOf(oldProfile)] = profileToSave
-        Storage.save(savedProfiles)
+        Storage.save(savedProfiles, SavedProfilesV3::class.java)
         profiles.value = getSavedProfiles().toList()
     }
 
     fun deleteProfile(profileToSave: Profile?) {
         savedProfiles.profileList.remove(profileToSave)
-        Storage.save(savedProfiles)
+        Storage.save(savedProfiles, SavedProfilesV3::class.java)
         profiles.value = getSavedProfiles().toList()
         mainScope.launch {
             userSettingsManager.update { settings ->

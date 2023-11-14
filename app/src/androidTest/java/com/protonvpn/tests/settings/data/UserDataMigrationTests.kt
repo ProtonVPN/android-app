@@ -64,7 +64,7 @@ class UserDataMigrationTests {
     @Test
     fun settingFromUserDataIsMigrated() = testScope.runTest {
         val userData = UserData(TEST_MTU_SIZE)
-        Storage.save(userData)
+        Storage.save(userData, UserData::class.java)
 
         val settings = userSettingsManager.rawCurrentUserSettingsFlow.first()
 

@@ -76,7 +76,7 @@ public class SavedProfilesV3 implements Serializable {
         }
         SavedProfilesV3 migratedProfiles = new SavedProfilesV3(migrated);
         if (hasChanged)
-            Storage.save(migratedProfiles);
+            Storage.save(migratedProfiles, SavedProfilesV3.class);
         if (ikeV2Migration)
             appFeaturesPrefs.setShowIKEv2Migration(true);
         return migratedProfiles;

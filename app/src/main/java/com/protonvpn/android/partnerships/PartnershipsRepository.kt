@@ -40,7 +40,7 @@ class PartnershipsRepository @Inject constructor(
     suspend fun refresh() {
         api.getPartnerships().valueOrNull?.let {
             partnersResponse = it
-            Storage.save(it)
+            Storage.save(it, PartnersResponse::class.java)
         }
     }
 
