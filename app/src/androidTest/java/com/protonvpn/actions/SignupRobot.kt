@@ -14,8 +14,8 @@ class SignupRobot : BaseRobot() {
     private val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     fun enterRecoveryEmail(email: String) : SignupRobot {
-        replaceText<SignupRobot>(R.id.emailEditText,email)
-        view.withId(R.id.nextButton).hasSibling(view.withId(R.id.termsConditionsText)).click()
+        replaceText<SignupRobot>(R.id.email, email)
+        view.withId(R.id.next).hasSibling(view.withId(R.id.terms)).click()
         return this
     }
 
@@ -23,7 +23,7 @@ class SignupRobot : BaseRobot() {
         uiDevice.wait(Until.findObject(By.clazz(WebView::class.java)), 30_000L)
         repeat(2) { uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB) }
         uiDevice.pressEnter()
-        uiDevice.wait(Until.findObject(By.text("Get Verificaiton code")), 10_000L)
+        uiDevice.wait(Until.findObject(By.text("Get Verification code")), 10_000L)
         uiDevice.pressEnter()
         uiDevice.wait(Until.findObject(By.text("Verify")), 10_000L)
         repeat(6) {uiDevice.pressKeyCode(KeyEvent.KEYCODE_6)}
