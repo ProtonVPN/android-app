@@ -292,10 +292,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideGson() = Gson()
-
-    @Singleton
-    @Provides
     fun provideConnectivityMonitor() = ConnectivityMonitor(scope, ProtonApplication.getAppContext())
 
     @Singleton
