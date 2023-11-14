@@ -72,7 +72,7 @@ class RecentsManager @Inject constructor(
                     status.connectionParams?.let { params ->
                         addToRecentServers(params.server)
                         addToRecentCountries(params.server)
-                        Storage.save(this@RecentsManager)
+                        Storage.save(this@RecentsManager, RecentsManager::class.java)
                         update.emit(Unit)
                     }
                 }

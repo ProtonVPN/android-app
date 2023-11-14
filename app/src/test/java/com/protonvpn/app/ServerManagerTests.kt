@@ -23,8 +23,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
@@ -93,6 +93,7 @@ class ServerManagerTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        Storage.setPreferences(MockSharedPreference())
         mockkObject(CountryTools)
         currentUser.mockVpnUser { vpnUser }
         every { vpnUser.userTier } returns 2
@@ -105,7 +106,7 @@ class ServerManagerTests {
         val currentUserSettings = EffectiveCurrentUserSettingsCached(currentSettings)
 
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
-        profileManager = ProfileManager(mockk(), currentUserSettings, mockk(), mockk(relaxed = true))
+        profileManager = ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, currentUserSettings, mockk())
         manager = ServerManager(bgScope, currentUserSettings, currentUser, { 0L }, supportsProtocol, createInMemoryServersStore(), profileManager)
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         regularServers = serversFile.readText().deserialize(ListSerializer(Server.serializer()))

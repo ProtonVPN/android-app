@@ -118,14 +118,6 @@ public final class Storage {
         return preferences.getString(key, defValue);
     }
 
-    @Deprecated // Use the variant that takes class argument for type safety.
-    public static void save(@Nullable Object data) {
-        if (data != null) {
-            String key = data.getClass().getName();
-            preferences.edit().putString(key, GSON.toJson(data)).apply();
-        }
-    }
-
     public static <T> void save(@Nullable T data, Class<T> as) {
         if (data != null) {
             preferences.edit().putString(as.getName(), GSON.toJson(data)).apply();
@@ -189,7 +181,7 @@ public final class Storage {
         T value = load(objClass);
         if (value == null) {
             value = defaultValue.invoke();
-            save(value);
+            save(value, objClass);
         }
         return value;
     }

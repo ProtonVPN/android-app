@@ -178,7 +178,7 @@ class ServerManager @Inject constructor(
 
             isLoaded.value = true
             if (oldManager?.migrateVpnCountries?.isEmpty() == false) {
-                Storage.save(this)
+                Storage.save(this@ServerManager, ServerManager::class.java)
             }
         }
     }
@@ -234,7 +234,7 @@ class ServerManager @Inject constructor(
         lastUpdateTimestamp = wallClock()
         serverListAppVersionCode = BuildConfig.VERSION_CODE
         translationsLang = language
-        Storage.save(this)
+        Storage.save(this, ServerManager::class.java)
 
         filtered.invalidate()
         onServersUpdate()
@@ -248,7 +248,7 @@ class ServerManager @Inject constructor(
             }
 
         serversStore.save()
-        Storage.save(this)
+        Storage.save(this, ServerManager::class.java)
         onServersUpdate()
     }
 
@@ -267,7 +267,7 @@ class ServerManager @Inject constructor(
             }
         }
         serversStore.save()
-        Storage.save(this)
+        Storage.save(this, ServerManager::class.java)
         onServersUpdate()
     }
 
@@ -379,7 +379,7 @@ class ServerManager @Inject constructor(
     fun setStreamingServices(value: StreamingServicesResponse) {
         if (streamingServices != value) {
             streamingServices = value
-            Storage.save(this)
+            Storage.save(this, ServerManager::class.java)
         }
     }
 

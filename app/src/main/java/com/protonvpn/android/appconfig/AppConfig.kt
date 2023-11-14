@@ -157,7 +157,7 @@ class AppConfig @Inject constructor(
     private suspend fun updateBugReportInternal(sessionId: SessionId?): ApiResult<DynamicReportModel> {
         val dynamicReportModel = api.getDynamicReportConfig(sessionId)
         dynamicReportModel.valueOrNull?.let {
-            Storage.save(it)
+            Storage.save(it, DynamicReportModel::class.java)
             dynamicReportModelObservable.value = it
         }
         return dynamicReportModel
@@ -177,7 +177,7 @@ class AppConfig @Inject constructor(
         }
 
         result.valueOrNull?.let { config ->
-            Storage.save(config)
+            Storage.save(config, AppConfigResponse::class.java)
             smartProtocolsCached = null
             appConfigUpdateEvent.tryEmit(config)
         }
