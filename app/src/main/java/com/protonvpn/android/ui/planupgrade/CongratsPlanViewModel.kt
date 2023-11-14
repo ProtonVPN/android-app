@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import javax.inject.Inject
 
-private const val FALLBACK_STORAGE_BYTES = 524_288_000L
+private const val FALLBACK_STORAGE_BYTES = 536_870_912_000L
 
 @HiltViewModel
 class CongratsPlanViewModel @Inject constructor(
@@ -53,7 +53,7 @@ class CongratsPlanViewModel @Inject constructor(
 
     suspend fun getStorageGBs() =
         // The user should never be null here.
-        (currentUser.user()?.maxSpace ?: FALLBACK_STORAGE_BYTES) / 1024 / 1024
+        (currentUser.user()?.maxSpace ?: FALLBACK_STORAGE_BYTES) / 1024 / 1024 / 1024
 
     fun refreshPlan() = viewModelScope.launch {
         val refreshResult = userPlanManager.refreshVpnInfo()
