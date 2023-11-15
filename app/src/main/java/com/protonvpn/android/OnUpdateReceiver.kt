@@ -23,6 +23,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.vpn.DefaultAvailableConnection
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -38,7 +40,10 @@ class OnUpdateReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_MY_PACKAGE_REPLACED) {
-            ConnectionParams.readFromStore(ignoreUnsupported = false)?.profile?.let { profile ->
+            val profile = ConnectionParams.readFromStore(ignoreUnsupported = false)?.profile
+            ProtonLogger.logCustom(
+                LogCategory.APP_UPDATE, "ACTION_MY_PACKAGE_REPLACED stored_profile=${profile != null}")
+            if (profile != null) {
                 val restoreProfile = if (profile.isUnsupportedIKEv2()) {
                     appFeaturesPrefs.showIKEv2Migration = true
                     defaultAvailableConnection()
