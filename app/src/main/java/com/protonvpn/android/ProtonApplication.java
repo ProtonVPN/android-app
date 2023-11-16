@@ -31,7 +31,6 @@ import com.evernote.android.state.StateSaver;
 import com.protonvpn.android.api.DohEnabled;
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager;
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout;
-import com.protonvpn.android.components.RestartHandler;
 import com.protonvpn.android.logging.CurrentStateLogger;
 import com.protonvpn.android.logging.CurrentStateLoggerGlobal;
 import com.protonvpn.android.logging.FileLogWriter;
@@ -108,7 +107,6 @@ public class ProtonApplication extends Application {
         OneTimePopupNotificationTrigger getOneTimePopupNotificationTrigger();
         PeriodicUpdateManager getPeriodicUpdateManager();
         PowerStateLogger getPowerStateLogger();
-        RestartHandler getRestartHandler();
         ReviewTracker getReviewTracker();
         SettingChangesLogger getSettingChangesLogger();
         NotificationPermissionManager getNotificationPermissionManager();
@@ -180,7 +178,6 @@ public class ProtonApplication extends Application {
 
         // Start last.
         dependencies.getPeriodicUpdateManager().start();
-        dependencies.getRestartHandler().onAppStarted();
 
         dependencies.getIsTv().logDebugInfo();
         if (!dependencies.getIsTv().invoke()) {
