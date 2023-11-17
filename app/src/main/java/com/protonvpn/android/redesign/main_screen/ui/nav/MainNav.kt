@@ -124,9 +124,11 @@ class MainNav(
                         rootNav.navigate(ConnectionDetailsScreen.route)
                     })
 
-                    MainTarget.Countries -> countryList(onCountryClick = {
-                        bottomSheetNav.navigate(CountryScreen, CountryScreen.Args(it))
-                    })
+                    MainTarget.Countries -> countryList(onNavigateToHome = {
+                         navigate(MainTarget.Home)
+                    },
+                        onNavigateToSearch = {
+                        })
 
                     MainTarget.Settings -> settings(coreNavigation)
                 }

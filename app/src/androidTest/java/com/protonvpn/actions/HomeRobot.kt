@@ -40,11 +40,11 @@ import com.protonvpn.matchers.ProtonMatcher.lastChild
 import com.protonvpn.testsHelper.ServiceTestHelper
 import me.proton.core.test.android.instrumented.ui.espresso.OnView
 import me.proton.core.test.android.robots.auth.AddAccountRobot
+import me.proton.test.fusion.Fusion.node
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.not
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import me.proton.test.fusion.Fusion.node
 
 /**
  * [HomeRobot] Contains all actions and verifications for home screen
@@ -128,7 +128,7 @@ class HomeRobot : BaseRobot() {
                 withClassName(Matchers.endsWith("FloatingActionButton"))
             )
         )
-        clickElementByText<HomeRobot>(profileName)
+        view.withText(profileName).withParent(view.withId(R.id.fabQuickConnect)).click()
         if (!TestSettings.mockedConnectionUsed) {
             allowVpnToBeUsed()
         }

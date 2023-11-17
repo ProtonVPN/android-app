@@ -22,6 +22,7 @@ import android.content.Context;
 
 import com.protonvpn.android.components.LoaderUI;
 
+@Deprecated()
 public interface NetworkLoader {
 
     Context getContext();

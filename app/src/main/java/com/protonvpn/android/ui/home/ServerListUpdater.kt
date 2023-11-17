@@ -119,7 +119,7 @@ class ServerListUpdater @Inject constructor(
         UpdateAction(
             "server_list",
             { input -> PeriodicApiCallResult(updateServers(input)) },
-            { null as NetworkLoader? }
+            { null }
         )
     private val locationUpdate = periodicUpdateManager.registerAction(
         "location",
@@ -198,8 +198,8 @@ class ServerListUpdater @Inject constructor(
         }
     }
 
-    fun getServersList(networkLoader: NetworkLoader?): Job = scope.launch(Dispatchers.Main) {
-        updateServerList(networkLoader)
+    fun getServersList(): Job = scope.launch(Dispatchers.Main) {
+        updateServerList()
     }
 
     private suspend fun updateLoads(): ApiResult<LoadsResponse> {
@@ -252,8 +252,8 @@ class ServerListUpdater @Inject constructor(
         return result
     }
 
-    suspend fun updateServerList(loader: NetworkLoader? = null): ApiResult<ServerList> =
-        periodicUpdateManager.executeNow(serverListUpdate, loader)
+    suspend fun updateServerList(): ApiResult<ServerList> =
+        periodicUpdateManager.executeNow(serverListUpdate)
 
     data class ServerListResult(val apiResult: ApiResult<ServerList>, val freeOnly: Boolean)
     private suspend fun updateServerListInternal(netzone: String?, lang: String): ServerListResult {
@@ -278,7 +278,7 @@ class ServerListUpdater @Inject constructor(
 
         loaderUI?.setRetryListener {
             scope.launch(Dispatchers.Main) {
-                updateServerList(networkLoader)
+                updateServerList()
             }
         }
         loaderUI?.switchToLoading()

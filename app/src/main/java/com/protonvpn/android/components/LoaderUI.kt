@@ -20,6 +20,7 @@ package com.protonvpn.android.components
 
 import me.proton.core.network.domain.ApiResult
 
+@Deprecated("For removal with old ui")
 interface LoaderUI {
 
     fun switchToRetry(error: ApiResult.Error)

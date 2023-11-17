@@ -19,19 +19,23 @@
 package com.protonvpn.android.ui.home.countries
 
 import android.view.View
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
-import com.protonvpn.android.bus.ConnectToServer
-import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.components.featureIcons
 import com.protonvpn.android.databinding.ItemServerListBinding
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.redesign.main_screen.ui.MainActivity
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.vpn.ConnectTrigger
-import com.protonvpn.android.vpn.DisconnectTrigger
+import com.protonvpn.android.utils.getActivity
 import com.protonvpn.android.vpn.VpnStateMonitor
 import java.util.Objects
 
@@ -80,35 +84,30 @@ class ServerGroupServerViewHolder(
                 isConnected = viewModel.isConnectedToServer(server)
             }
 
-            imageCountry.isVisible = secureCoreEnabled
+            composeViewFlag.isVisible = secureCoreEnabled
             if (secureCoreEnabled) {
                 textServer.text = textServer.context.getString(
                     R.string.secureCoreConnectVia,
                     CountryTools.getFullName(server.entryCountry)
                 )
-                textServer.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    0,
-                    0,
-                    R.drawable.ic_proton_chevrons_right_16,
-                    0
-                )
-                imageCountry.setImageResource(
-                    CountryTools.getFlagResource(imageCountry.context, server.entryCountry)
-                )
+                composeViewFlag.setContent {
+                    Flag(
+                        exitCountry = CountryId(server.entryCountry),
+                        isSecureCore = false,
+                        modifier = Modifier.size(24.dp, 16.dp)
+                    )
+                }
             } else {
                 textServer.text = server.serverName
                 textServer.setCompoundDrawablesRelative(null, null, null, null)
             }
 
             viewModel.vpnStatus.observe(parentLifeCycle, vpnStateObserver)
-
             val connectUpgradeClickListener = View.OnClickListener {
-                val event = ConnectToServer(
-                    server.takeUnless { viewModel.isConnectedToServer(server) },
-                    ConnectTrigger.Server("server list power button"),
-                    DisconnectTrigger.Server("server list power button")
-                )
-                EventBus.post(event)
+                viewModel.connectOrDisconnect(
+                    (root.context.getActivity() as MainActivity).vpnActivityDelegate,
+                    determineConnectIntent(),
+                    triggerDescription = "server list power button")
             }
 
             featuresAndButtons.setPowerButtonListener(connectUpgradeClickListener)
@@ -116,6 +115,16 @@ class ServerGroupServerViewHolder(
             // and use a user-friendly content description, e.g. "Connect"/"Disconnect".
             featuresAndButtons.setPowerButtonContentDescription(if (fastest) "fastest" else textServer.text)
             featuresAndButtons.setUpgradeButtonListener(connectUpgradeClickListener)
+        }
+    }
+    private fun determineConnectIntent(): ConnectIntent {
+        return when {
+            server.isSecureCoreServer -> ConnectIntent.SecureCore(
+                CountryId(server.exitCountry),
+                CountryId(server.entryCountry)
+            )
+            fastest && !server.isGatewayServer-> ConnectIntent.FastestInCountry(CountryId(server.exitCountry), emptySet())
+            else -> ConnectIntent.Server(server.serverId, emptySet())
         }
     }
 

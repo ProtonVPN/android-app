@@ -39,13 +39,13 @@ import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
@@ -70,7 +70,6 @@ import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.CapturingSlot
 import io.mockk.MockKAnnotations
-import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -484,7 +483,7 @@ class VpnConnectionErrorHandlerTests {
             initialServers[1].copy()
         )
         coEvery { serverListUpdater.needsUpdate() } returns true
-        coEvery { serverListUpdater.updateServerList(any()) } answers {
+        coEvery { serverListUpdater.updateServerList() } answers {
             prepareServerManager(updatedServers)
             ApiResult.Success(ServerList(updatedServers))
         }
