@@ -58,7 +58,8 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     private val accountViewModel: AccountViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
-    private val vpnActivityDelegate = VpnUiActivityDelegateMobile(this) {
+    // public for now until there is need to bridge old code, as LocalVpnUiDelegate is not available in non-compose
+    val vpnActivityDelegate = VpnUiActivityDelegateMobile(this) {
         retryConnectionAfterPermissions(it)
     }
 

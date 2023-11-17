@@ -20,17 +20,14 @@ package com.protonvpn.tests.connection
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.ConnectionRobot
 import com.protonvpn.actions.CountriesRobot
 import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.MapRobot
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.data.DefaultData
 import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHomeActivityTestRule
@@ -85,17 +82,6 @@ class ConnectionTests {
     }
 
     @Test
-    fun connectAndDisconnectViaCountryList() {
-        testRule.mockStatusOnConnect(VpnState.Connected)
-        val country = MockedServers.serverList[0].displayName
-        countriesRobot.selectCountry(country)
-            .clickConnectButton("fastest")
-            .verify { isConnected() }
-        connectionRobot.disconnectFromVPN()
-            .verify { isDisconnected() }
-    }
-
-    @Test
     fun connectAndDisconnectViaMapView() {
         testRule.mockStatusOnConnect(VpnState.Connected)
         homeRobot.swipeLeftToOpenMap()
@@ -130,21 +116,6 @@ class ConnectionTests {
         homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
         connectionRobot.verify { isNotReachableErrorDisplayed() }
         connectionRobot.clickCancelRetry()
-            .verify { isDisconnected() }
-    }
-
-    @Test
-    @SdkSuppress(minSdkVersion = 28)
-    fun connectAndDisconnectViaQuickConnectCustomProfile() {
-        testRule.mockStatusOnConnect(VpnState.Connected)
-        serviceTestHelper.addProfile(
-            VpnProtocol.Smart,
-            DefaultData.PROFILE_NAME,
-            customProfileServerDomain
-        )
-        homeRobot.connectThroughQuickConnect(DefaultData.PROFILE_NAME)
-            .verify { isConnected() }
-        connectionRobot.disconnectFromVPN()
             .verify { isDisconnected() }
     }
 

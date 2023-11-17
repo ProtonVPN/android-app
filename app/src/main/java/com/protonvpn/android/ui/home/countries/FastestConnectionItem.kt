@@ -20,29 +20,42 @@
 package com.protonvpn.android.ui.home.countries
 
 import android.view.View
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.components.VpnUiDelegateProvider
-import com.protonvpn.android.databinding.ItemRecommendedConnectionBinding
+import com.protonvpn.android.databinding.ItemFastestConnectionBinding
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.getActivity
 import com.protonvpn.android.vpn.VpnStateMonitor
 
-class RecommendedConnectionItem(
+class FastestConnectionItem(
     private val viewModel: CountryListViewModel,
     private val parentLifeCycle: LifecycleOwner,
-    private val item: RecommendedConnectionModel
-): BindableItemEx<ItemRecommendedConnectionBinding>() {
+    private val item: FastestConnectionModel
+): BindableItemEx<ItemFastestConnectionBinding>() {
 
     private val vpnStateObserver = Observer<VpnStateMonitor.Status>{
         binding.buttonConnect.isOn = viewModel.isConnectedTo(item.connectIntent)
     }
 
-    override fun bind(viewBinding: ItemRecommendedConnectionBinding, position: Int) {
+    override fun bind(viewBinding: ItemFastestConnectionBinding, position: Int) {
         super.bind(viewBinding, position)
         with(viewBinding) {
-            imageIcon.setImageResource(item.icon)
+            composeViewFlag.setContent {
+                val secureCore = viewModel.secureCore.collectAsStateWithLifecycle(initialValue = false).value
+                Flag(
+                    exitCountry = CountryId.fastest,
+                    isSecureCore = secureCore,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
             textLabel.setText(item.name)
             val vpnUiDelegate = (root.context.getActivity() as VpnUiDelegateProvider).getVpnUiDelegate()
             buttonConnect.setOnClickListener {
@@ -56,7 +69,7 @@ class RecommendedConnectionItem(
         viewModel.vpnStatus.removeObserver(vpnStateObserver)
     }
 
-    override fun getLayout(): Int = R.layout.item_recommended_connection
+    override fun getLayout(): Int = R.layout.item_fastest_connection
 
-    override fun initializeViewBinding(view: View) = ItemRecommendedConnectionBinding.bind(view)
+    override fun initializeViewBinding(view: View) = ItemFastestConnectionBinding.bind(view)
 }

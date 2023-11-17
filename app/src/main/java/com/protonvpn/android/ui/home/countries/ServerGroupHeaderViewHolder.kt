@@ -19,11 +19,21 @@
 package com.protonvpn.android.ui.home.countries
 
 import android.view.View
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ItemVpnCountryBinding
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.ui.planupgrade.UpgradeCountryHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.utils.AndroidUtils.getFloatRes
@@ -62,8 +72,6 @@ abstract class ServerGroupHeaderViewHolder(
         with(viewBinding) {
             val isAccessibleAndOnline = serverGroupModel.accessible && serverGroupModel.online
             textCountry.text = serverGroupModel.title
-            imageCountry.setImageResource(serverGroupModel.iconResource(context))
-            imageDoubleArrows.isVisible = serverGroupModel.secureCore
             features.featureIcons = serverGroupModel.featureIcons()
             countryItem.setBackgroundResource(
                 if (isAccessibleAndOnline) countryItem.getSelectableItemBackgroundRes() else 0
@@ -76,7 +84,30 @@ abstract class ServerGroupHeaderViewHolder(
             buttonCross.isVisible = isAccessibleAndOnline
             adjustCross(buttonCross, expandableGroup.isExpanded, 0)
             adjustDivider(divider, expandableGroup.isExpanded, 0)
-            imageCountry.alpha =
+            composeViewFlag.setContent {
+                if (serverGroupModel.isGatewayGroup()) {
+                    Image(
+                        painterResource(id = R.drawable.ic_proton_servers),
+                        contentDescription = null,
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Inside,
+                        modifier = Modifier
+                            .size(
+                                30.dp,
+                                30.dp
+                            )
+                    )
+                } else {
+                    serverGroupModel.countryFlag?.let {
+                        Flag(
+                            exitCountry = CountryId(it),
+                            isSecureCore = serverGroupModel.secureCore,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+                }
+            }
+            composeViewFlag.alpha =
                 if (isAccessibleAndOnline) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
             features.color = context.getColor(
                 if (!isAccessibleAndOnline) R.color.icon_weak else R.color.icon_norm

@@ -116,7 +116,7 @@ class VpnLogin @Inject constructor(
         ProtonLogger.log(UserPlanChanged, "logged in: ${vpnUser.toLog()}")
         vpnUserDao.insertOrUpdate(vpnUser)
         if (guestHole.isGuestHoleActive)
-            serverListUpdater.updateServerList(null)
+            serverListUpdater.updateServerList()
         guestHole.releaseNeedGuestHole(GUEST_HOLE_ID)
         whatsNewFreeController.initOnLogin()
     }

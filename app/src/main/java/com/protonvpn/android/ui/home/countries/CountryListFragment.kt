@@ -18,29 +18,32 @@
  */
 package com.protonvpn.android.ui.home.countries
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
-import com.protonvpn.android.api.NetworkLoader
-import com.protonvpn.android.components.LoaderUI
-import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.FragmentCountryListBinding
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.Setting
+import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.home.FreeConnectionsInfoActivity
+import com.protonvpn.android.ui.home.SecureCoreSpeedInfoActivity.Companion.createContract
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
 import com.protonvpn.android.ui.promooffers.PromoOfferButtonActions
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
-import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.openUrl
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.Group
@@ -49,25 +52,32 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
-import me.proton.core.network.domain.ApiResult
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import me.proton.core.presentation.utils.viewBinding
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoader {
+class CountryListFragment : Fragment(R.layout.fragment_country_list) {
 
     private val binding by viewBinding(FragmentCountryListBinding::bind)
-    private val viewModel: CountryListViewModel by viewModels()
+    private val viewModel: CountryListViewModel by activityViewModels()
 
     @Inject
     lateinit var promoOfferButtonActions: PromoOfferButtonActions
     @Inject
     lateinit var upgradeTelemetry: UpgradeTelemetry
 
+    private val secureCoreSpeedInfoDialog = registerForActivityResult(
+        createContract()
+    ) { activateSc: Boolean ->
+        if (activateSc) toggleSecureCore()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
-
+        initSecureCoreSwitch()
         viewModel.scrollToTop.asLiveData().observe(viewLifecycleOwner) {
             binding.list.scrollToPosition(0)
         }
@@ -75,7 +85,38 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
             updateListData(state.sections)
         }
 
-        binding.loadingContainer.setOnRefreshListener { viewModel.refreshServerList(this) }
+        viewModel.dismissLoading.onEach {
+            binding.loadingContainer.switchToEmpty()
+        }.launchIn(lifecycleScope)
+
+        binding.loadingContainer.setOnRefreshListener {
+            viewModel.refreshServerList()
+        }
+    }
+
+    private fun initSecureCoreSwitch() = with(binding) {
+        switchSecureCore.switchClickInterceptor = {
+            if (!isChecked && !viewModel.hasAccessToSecureCore()) {
+                UpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(requireContext())
+            } else if (!isChecked) {
+                secureCoreSpeedInfoDialog.launch(Unit)
+            } else {
+                toggleSecureCore()
+            }
+            true
+        }
+        viewModel.secureCoreLiveData.observe(
+            viewLifecycleOwner
+        ) { isEnabled: Boolean? ->
+            if (isEnabled != null) {
+                switchSecureCore.isChecked = isEnabled
+            }
+        }
+    }
+
+    private fun toggleSecureCore() {
+        ProtonLogger.logUiSettingChange(Setting.SECURE_CORE, "main screen")
+        viewModel.toggleSecureCore(!binding.switchSecureCore.isChecked)
     }
 
     private fun initList() = with(binding.list) {
@@ -110,8 +151,8 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
     }
 
     fun MutableList<Group>.add(item: ServerListItemModel, expandedGroupsIds: Set<Long>) = when (item) {
-        is RecommendedConnectionModel ->
-            add(RecommendedConnectionItem(viewModel, viewLifecycleOwner, item))
+        is FastestConnectionModel ->
+            add(FastestConnectionItem(viewModel, viewLifecycleOwner, item))
         is CollapsibleServerGroupModel ->
             add(getExpandableGroup(item, expandedGroupsIds))
         is FreeUpsellBannerModel -> {
@@ -203,22 +244,5 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
                     // The 0th item is the "parent", in this case CountryViewHolder.
                     (it.getGroup(0) as? Item<*>)?.id
                 }
-        }
-
-    override fun getNetworkFrameLayout(): LoaderUI =
-        try {
-            binding.loadingContainer
-        } catch (e: IllegalStateException) {
-            // FIXME: getNetworkFrameLayout is called from network callbacks that are unaware of
-            //  views lifecycles, this needs to be refactored, for now return fake LoaderUI.
-            Log.exception(e)
-            object : LoaderUI {
-                override val state: NetworkFrameLayout.State = NetworkFrameLayout.State.EMPTY
-
-                override fun switchToLoading() {}
-                override fun setRetryListener(listener: () -> Unit) {}
-                override fun switchToEmpty() {}
-                override fun switchToRetry(error: ApiResult.Error) {}
-            }
         }
 }

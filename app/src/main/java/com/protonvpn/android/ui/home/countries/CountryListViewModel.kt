@@ -19,12 +19,11 @@
 package com.protonvpn.android.ui.home.countries
 
 import android.content.Context
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
@@ -34,10 +33,7 @@ import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.haveAccessWith
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.bus.ConnectToProfile
-import com.protonvpn.android.bus.EventBus
 import com.protonvpn.android.components.featureIcons
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
@@ -47,13 +43,14 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.partnerships.PartnershipsRepository
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
-import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.withPrevious
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -62,15 +59,19 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -90,6 +91,7 @@ data class ServerListSectionModel(
     val infoType: InfoType? = null
 ) {
     enum class InfoType { FreeConnections }
+
     fun getHeader(context: Context) = headerRes?.let { context.getString(it, itemCount) }
 }
 
@@ -108,8 +110,7 @@ data class PromoOfferBannerModel(
     val reference: String?,
 ) : ServerListItemModel()
 
-data class RecommendedConnectionModel(
-    @DrawableRes val icon: Int,
+data class FastestConnectionModel(
     @StringRes val name: Int,
     val connectIntent: ConnectIntent
 ) : ServerListItemModel()
@@ -133,10 +134,8 @@ data class CollapsibleServerGroupModel(
     else
         sections.any { it.servers.any { it.serverId == server.serverId } }
 
-    fun iconResource(context: Context) = when (group) {
-        is VpnCountry -> CountryTools.getFlagResource(context, group.flag)
-        is GatewayGroup -> R.drawable.ic_proton_servers
-    }
+    fun isGatewayGroup() = group is GatewayGroup
+
     fun featureIcons() = group.featureIcons()
     fun hasAccessToServer(server: Server) =
         server.haveAccessWith(userTier)
@@ -160,13 +159,15 @@ data class ServerTierGroupModel(
 
 @HiltViewModel
 class CountryListViewModel @Inject constructor(
+    private val mainScope: CoroutineScope,
     private val serverManager: ServerManager,
     private val partnershipsRepository: PartnershipsRepository,
     private val serverListUpdater: ServerListUpdater,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
     private val vpnConnectionManager: VpnConnectionManager,
-    userSettings: EffectiveCurrentUserSettings,
-    currentUser: CurrentUser,
+    private val userSettings: EffectiveCurrentUserSettings,
+    private val userSettingManager: CurrentUserLocalSettingsManager,
+    private val currentUser: CurrentUser,
     restrictConfig: RestrictionsConfig,
     apiNotificationManager: ApiNotificationManager,
     private val promoOffersPrefs: PromoOffersPrefs,
@@ -178,6 +179,23 @@ class CountryListViewModel @Inject constructor(
     }
 
     val vpnStatus = vpnStatusProviderUI.status.asLiveData()
+
+    private val _navigateToHome = MutableSharedFlow<Unit>()
+    val navigateToHomeEvent: SharedFlow<Unit> get() = _navigateToHome
+
+    private val _dismissLoading = MutableSharedFlow<Unit>()
+    val dismissLoading: SharedFlow<Unit> get() = _dismissLoading
+
+    val secureCore get() = userSettings.secureCore
+    val secureCoreLiveData = userSettings.effectiveSettings.map { it.secureCore }.distinctUntilChanged().asLiveData()
+    fun toggleSecureCore(newIsEnabled: Boolean) {
+        viewModelScope.launch {
+            userSettingManager.updateSecureCore(newIsEnabled)
+        }
+    }
+
+    fun hasAccessToSecureCore() =
+        currentUser.vpnUserCached()?.isUserPlusOrAbove == true
 
     // After a banner is dismissed any other banners (e.g. the default one) are suppressed until the activity is
     // started again.
@@ -214,7 +232,7 @@ class CountryListViewModel @Inject constructor(
             Unit else null
     }
 
-    val state : Flow<ServerListState> = combine(
+    val state: Flow<ServerListState> = combine(
         userSettings.effectiveSettings.map { it.secureCore }.distinctUntilChanged(),
         serverManager.serverListVersion,
         restrictConfig.restrictionFlow,
@@ -257,23 +275,23 @@ class CountryListViewModel @Inject constructor(
         banner: UpsellBanner?
     ): List<ServerListSectionModel> = buildList {
         val upsellBanner = createBannerList(banner)
-        if (restrictions.serverList) {
-            add(ServerListSectionModel(
+        add(
+            ServerListSectionModel(
                 R.string.listFreeCountries,
-                getRestrictedRecommendedConnections(),
-                infoType = ServerListSectionModel.InfoType.FreeConnections)
+                getFastestConnections(secureCore),
+                infoType = ServerListSectionModel.InfoType.FreeConnections
             )
-            val allCountries = getCountriesForList(secureCore)
-            val plusCountries = allCountries.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)
-            val items = upsellBanner + plusCountries
-            add(ServerListSectionModel(R.string.listPremiumCountries_new_plans, items, itemCount = plusCountries.size))
-        } else {
-            val (free, premiumCountries) = getFreeAndPremiumCountries(userTier = VpnUser.FREE_TIER, secureCore)
-            val premiumItems =
-                upsellBanner + premiumCountries.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)
-            add(ServerListSectionModel(R.string.listFreeCountries, free.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)))
-            add(ServerListSectionModel(R.string.listPremiumCountries_new_plans, premiumItems, itemCount = premiumCountries.size))
-        }
+        )
+        val allCountries = getCountriesForList(secureCore)
+        val plusCountries = allCountries.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)
+        val items = upsellBanner + plusCountries
+        add(
+            ServerListSectionModel(
+                R.string.listPremiumCountries_new_plans,
+                items,
+                itemCount = plusCountries.size
+            )
+        )
     }
 
     private fun getItemsForPremiumUser(
@@ -288,13 +306,20 @@ class CountryListViewModel @Inject constructor(
             add(ServerListSectionModel(R.string.listGateways, gateways))
         val promoOfferBanner = createBannerList(banner)
         add(
-            ServerListSectionModel(R.string.listAllCountries.takeIf { gateways.isNotEmpty() },
-            promoOfferBanner + getCountriesForList(secureCore).asListItems(userTier, secureCore, restrictions))
+            ServerListSectionModel(
+                R.string.listAllCountries,
+                promoOfferBanner
+                        + getFastestConnections(secureCore)
+                        + getCountriesForList(secureCore).asListItems(userTier, secureCore, restrictions)
+            )
         )
     }
 
-    fun refreshServerList(networkLoader: NetworkLoader) {
-        serverListUpdater.getServersList(networkLoader)
+    fun refreshServerList() {
+        mainScope.launch {
+            serverListUpdater.updateServerList()
+            _dismissLoading.emit(Unit)
+        }
     }
 
     fun isConnectedToServer(server: Server): Boolean = vpnStatusProviderUI.isConnectedTo(server)
@@ -312,8 +337,15 @@ class CountryListViewModel @Inject constructor(
 
     data class ServerGroupTitle(val titleRes: Int, val infoType: InformationActivity.InfoType?)
 
-    private fun getRestrictedRecommendedConnections(): List<RecommendedConnectionModel> =
-        listOf(RecommendedConnectionModel(R.drawable.ic_proton_bolt, R.string.profileFastest, ConnectIntent.Fastest))
+    private fun getFastestConnections(secureCore: Boolean): List<FastestConnectionModel> =
+        listOf(
+            FastestConnectionModel(R.string.profileFastest,
+                if (secureCore)
+                    ConnectIntent.SecureCore(CountryId.fastest, CountryId.fastest)
+                else
+                    ConnectIntent.Fastest
+            )
+        )
 
     private fun createServerSections(
         userTier: Int?,
@@ -390,11 +422,12 @@ class CountryListViewModel @Inject constructor(
         else
             serverManager.getGateways()
 
-    private fun getFreeAndPremiumCountries(userTier: Int?, secureCore: Boolean): Pair<List<VpnCountry>, List<VpnCountry>> =
-        getCountriesForList(secureCore).partition { it.hasAccessibleServer(userTier) }
-
     fun connectOrDisconnect(vpnUiDelegate: VpnUiDelegate, connectIntent: ConnectIntent, triggerDescription: String) {
         if (!isConnectedTo(connectIntent)) {
+            // Navigate to home screen after connection, compose is bridged through SharedFlow
+            viewModelScope.launch {
+                _navigateToHome.emit(Unit)
+            }
             ProtonLogger.log(UiConnect, triggerDescription)
             // Note: Profile trigger is incorrect and will result in wrong telemetry category.
             vpnConnectionManager.connect(vpnUiDelegate, connectIntent, ConnectTrigger.Profile(triggerDescription))

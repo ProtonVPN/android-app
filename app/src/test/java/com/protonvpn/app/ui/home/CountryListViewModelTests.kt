@@ -36,15 +36,17 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.PartnersResponse
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.partnerships.PartnershipsRepository
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.countries.CollapsibleServerGroupModel
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
+import com.protonvpn.android.ui.home.countries.FastestConnectionModel
 import com.protonvpn.android.ui.home.countries.FreeUpsellBannerModel
 import com.protonvpn.android.ui.home.countries.PromoOfferBannerModel
-import com.protonvpn.android.ui.home.countries.RecommendedConnectionModel
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -53,10 +55,11 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.app.userstorage.createDummyProfilesManager
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePanel
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
-import com.protonvpn.test.shared.createGetSmartProtocols
+import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
@@ -109,7 +112,7 @@ class CountryListViewModelTests {
 
     @RelaxedMockK
     private lateinit var context: Context
-
+    private lateinit var userSettingsManager: CurrentUserLocalSettingsManager
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
@@ -154,39 +157,24 @@ class CountryListViewModelTests {
         promoNotificationsFlow = MutableStateFlow(emptyList())
         every { mockNotificationsManager.activeListFlow } returns promoNotificationsFlow
         promoOfferPrefs = PromoOffersPrefs(MockSharedPreferencesProvider())
+        userSettingsManager = CurrentUserLocalSettingsManager(
+            LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())
+        )
 
         countryListViewModel = CountryListViewModel(
+            scope,
             serverManager,
             PartnershipsRepository(mockApi),
             mockServerListUpdater,
             VpnStatusProviderUI(scope, mockVpnStateMonitor),
             vpnConnectionManager = mockk(),
             EffectiveCurrentUserSettings(scope.backgroundScope, effectiveSettingsFlow),
+            userSettingsManager,
             mockCurrentUser,
             RestrictionsConfig(scope.backgroundScope, restrictionsFlow),
             mockNotificationsManager,
             promoOfferPrefs,
         )
-    }
-
-    @Test
-    fun `free user server list order`() = scope.runTest {
-        vpnUserFlow.value = TestUser.freeUser.vpnUser
-        val state = countryListViewModel.state.first()
-
-        // Fist country from first section (free countries) - PL
-        val plItems =
-            (state.sections.first().items.first() as CollapsibleServerGroupModel).sections
-
-        // We have fastest, free and plus groups for PL
-        assertEquals(
-            listOf(R.string.listFastestServer, R.string.listFreeServers, R.string.listPlusServers),
-            plItems.map { it.groupTitle?.titleRes }
-        )
-        val tiers = plItems.map { it.servers.map { it.tier } }
-        // sections: premium fastest server, 2 plus and 2 free
-        assertEquals(listOf(1, 2, 2), tiers.map { it.size })
-        assertEquals(listOf(0, 0, 2), tiers.map { it.first() })
     }
 
     @Test
@@ -209,45 +197,14 @@ class CountryListViewModelTests {
     }
 
     @Test
-    fun `free user list when not restricted`() = scope.runTest {
-        vpnUserFlow.value = TestUser.freeUser.vpnUser
-
-        val state = countryListViewModel.state.first()
-        assertEquals(
-            listOf(
-                listOf(CollapsibleServerGroupModel::class),
-                listOf(FreeUpsellBannerModel::class, CollapsibleServerGroupModel::class)
-            ),
-            state.sections.map { it.items.map { it::class } }
-        )
-        // 2 country sections: with free PL and plus DE
-        assertEquals(
-            listOf(listOf("PL"), listOf("DE")),
-            state.sections.map { it.items.filterIsInstance<CollapsibleServerGroupModel>().map { it.countryFlag } }
-        )
-
-        // We have fastest, free and plus groups for free country
-        val firstCountryItems =
-            state.sections.first().items.first() as CollapsibleServerGroupModel
-        assertEquals(
-            listOf(R.string.listFastestServer, R.string.listFreeServers, R.string.listPlusServers),
-            firstCountryItems.sections.map { it.groupTitle?.titleRes }
-        )
-        val sectionTiers = firstCountryItems.sections.map { it.servers.map { it.tier } }
-        // sections: free fastest server, 2 free, 2 plus
-        assertEquals(listOf(1, 2, 2), sectionTiers.map { it.size })
-        assertEquals(listOf(0, 0, 2), sectionTiers.map { it.first() })
-    }
-
-    @Test
-    fun `free user list when restricted`() = scope.runTest {
+    fun `free user list order`() = scope.runTest {
         vpnUserFlow.value = TestUser.freeUser.vpnUser
         restrictionsFlow.value = restrictionsFlow.value.copy(serverList = true)
 
         val state = countryListViewModel.state.first()
         assertEquals(
             listOf(
-                listOf(RecommendedConnectionModel::class.java),
+                listOf(FastestConnectionModel::class.java),
                 listOf(
                     FreeUpsellBannerModel::class.java,
                     CollapsibleServerGroupModel::class.java,
@@ -312,7 +269,7 @@ class CountryListViewModelTests {
         val state = countryListViewModel.state.first()
         assertEquals(
             listOf(listOf("DE", "PL")),
-            state.sections.map { it.items.map { (it as CollapsibleServerGroupModel).countryFlag } }
+            state.sections.map { it.items.filterIsInstance<CollapsibleServerGroupModel>().map { it.countryFlag } }
         )
     }
 }

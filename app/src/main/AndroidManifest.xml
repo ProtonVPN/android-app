@@ -88,7 +88,6 @@
         <activity
             android:name=".redesign.main_screen.ui.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/ProtonTheme.Splash.Vpn.Dark"
             android:screenOrientation="portrait" />
 
         <activity android:name=".ui.home.vpn.SwitchDialogActivity" />

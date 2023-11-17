@@ -19,22 +19,101 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.protonvpn.android.redesign.stubs.ButtonList
+import com.protonvpn.android.R
+import com.protonvpn.android.databinding.ComposableCountryListBinding
+import com.protonvpn.android.ui.home.InformationActivity
+import com.protonvpn.android.ui.home.countries.CountryListViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.compose.theme.defaultStrongNorm
+
 
 @Composable
 fun CountryListRoute(
-    onCountryClick: (String) -> Unit,
-    viewModel: CountryListViewModel = hiltViewModel(),
+    onNavigateToHome: () -> Unit,
+    onNavigateToSearch: () -> Unit,
 ) {
-    CountryList(
-        viewModel.countryToCities.keys.toList(),
-        onCountryClick
-    )
+    val context = LocalContext.current as AppCompatActivity
+    val viewModel: CountryListViewModel = hiltViewModel(viewModelStoreOwner = context)
+
+    // Bridge back navigation to home screen upon connection
+    viewModel.navigateToHomeEvent.collectAsEffect(block = {
+        onNavigateToHome()
+    })
+    CountryList(onNavigateToSearch = onNavigateToSearch, onNavigateToInformation = {
+        context.startActivity(
+            InformationActivity.createIntent(
+                context,
+                InformationActivity.InfoType.generic
+            )
+        )
+    })
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CountryList(countries: List<String>, onCountryClick: (String) -> Unit) {
-    ButtonList(countries, onCountryClick)
+fun CountryList(
+    onNavigateToSearch: () -> Unit,
+    onNavigateToInformation: () -> Unit,
+) {
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        TopAppBar(
+            title = {
+                Text(
+                    text = stringResource(id = R.string.tabsCountries),
+                    style = ProtonTheme.typography.defaultStrongNorm,
+                )
+            },
+            actions = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_info_circle),
+                    contentDescription = stringResource(id = R.string.activity_information_title),
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(20))
+                        .clickable(onClick = onNavigateToInformation)
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_search),
+                    contentDescription = stringResource(id = R.string.server_search_menu_title),
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(20))
+                        .clickable(onClick = onNavigateToSearch)
+                )
+            }
+        )
+
+        AndroidViewBinding(ComposableCountryListBinding::inflate)
+    }
+}
+@Composable
+fun <T> Flow<T>.collectAsEffect(block: (T) -> Unit) {
+    LaunchedEffect(this) {
+        onEach(block).launchIn(this)
+    }
 }
