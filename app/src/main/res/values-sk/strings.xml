@@ -590,7 +590,7 @@
          Example:
          Free subscription offers 65 servers in 3 countries
     -->
-    <string name="onboarding_connection_description">Bezplatná tarifa ponúka %1$s vo %2$s</string>
+    <string name="onboarding_connection_description">Bezplatná tarifa ponúka %1$s v %2$s</string>
     <!-- Embedded in "onboarding_connection_description", e.g.:
          Free subscription offers 65 servers in 3 countries
 

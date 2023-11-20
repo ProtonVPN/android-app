@@ -406,7 +406,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% de charge serveur</string>
+    <string name="tv_server_list_load">%1$s %% de charge serveur</string>
     <string name="tv_recently_used_servers">Serveurs récemment utilisés (%1$d)</string>
     <string name="tv_available_servers">Serveurs disponibles (%1$d)</string>
     <string name="tv_locked_servers">Serveurs verrouillés (%1$d)</string>
