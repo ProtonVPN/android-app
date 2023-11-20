@@ -703,7 +703,7 @@
     <string name="welcome_plus_description">Nikmati berbagai fitur privasi tambahan, performa yang jauh lebih cepat, dan opsi kostumisasi VPN lanjutan.</string>
     <string name="welcome_plus_feature_security">Fitur keamanan mutakhir</string>
     <string name="welcome_unlimited_title">Selamat datang di Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Selamat! Anda telah membuka berbagai fitur keamanan dan performa premium pada seluruh layanan Proton, beserta dengan kuota penyimpanan total <b>%1$d&#160;160 GB</b>.<br><br>Nikmati privasi terbaik yang ditawarkan oleh Proton.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Selamat! Anda telah membuka berbagai fitur keamanan dan performa premium pada seluruh layanan Proton, beserta dengan kuota penyimpanan total <b>%1$d&#160; GB</b>.<br><br>Nikmati privasi terbaik yang ditawarkan oleh Proton.]]></string>
     <string name="welcome_generic_title">Selamat</string>
     <string name="welcome_generic_description">Anda telah meningkatkan paket langganan Anda. Nikmati berbagai fitur privasi mutakhir dan performa tingkat lanjut.</string>
     <!-- Example: Up to 10 devices at once

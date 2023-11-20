@@ -215,7 +215,7 @@
     <string name="serverSelection">Sunucu</string>
     <string name="selectServer">Sunucu seçin</string>
     <string name="protocolLabel">İletişim kuralı</string>
-    <string name="selectProtocol">İletişim kuralı seçin</string>
+    <string name="selectProtocol">İletişim kuralını seçin</string>
     <string name="protocol">İletişim kuralı:</string>
     <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -247,7 +247,7 @@
     <string name="bugReportErrorInvalidEmail">E-posta adresi geçersiz</string>
     <string name="bugReportErrorEmptyDescription">Lütfen bize neler olduğunu yazın</string>
     <string name="bugReportLabelVpnLogsTitle">Hata günlükleri katılsın</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">Bu seçenek, sorunu çözmemize yardımcı olması için yerel hata günlüklerini gönderir (etkinlik kaydı tutmuyoruz)</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Açıldığında, sorunu çözmemize yardımcı olması için yerel hata günlükleri gönderilir (etkinlik kaydı tutmuyoruz)</string>
     <string name="profileFastest">En hızlı</string>
     <string name="profileRandom">Rastgele</string>
     <string name="settingsSplitTunnelingDescription">Ayrılmış tünelleme, belirli uygulamaların veya IP adreslerinin VPN trafiğine katılmamasını sağlar.</string>

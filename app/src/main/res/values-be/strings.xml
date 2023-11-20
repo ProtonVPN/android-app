@@ -285,7 +285,7 @@
     <string name="tileConnected">Падключана: %1$s</string>
     <string name="dialogTitleAttention">Увага</string>
     <string name="saveProfileAlreadySaved">Ужо захавана</string>
-    <string name="openUrlError">Немагчыма адкрыць %1$s. На вашай прыладзе не знойдзены браўзер.</string>
+    <string name="openUrlError">Не атрымалася адкрыць %1$s. На вашай прыладзе не знойдзены браўзер.</string>
     <string name="toastLoginAuthVersionError">Немагчыма ўвайсці па прычыне таго, што дадзеная версія аўтэнтыфікацыі не падтрымліваецца. Звярніцеся ў службу падтрымкі.</string>
     <string name="loaderErrorTimeout">Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>
     <string name="troubleshootButton">Выпраўленне непаладак</string>
@@ -692,7 +692,7 @@
     <string name="upgrade_moderate_nat_feature_optimize">NAT Type 2 (умераны) аптымізуе хуткасць і стабільнасць з дапамогай прамога падключэння паміж прыладамі</string>
     <string name="free_connections_info_message">Proton Free аўтаматычна падключае вас да самага хуткага з даступных сервераў. Звычайна гэта самы блізкі сервер адносна вашага месцазнаходжання.</string>
     <string name="free_connections_info_server_locations">Размяшчэнні сервераў Free (%1$d)</string>
-    <string name="free_connections_info_banner_text">VPN Plus забяспечвае пакрыццё ўсяго свету</string>
+    <string name="free_connections_info_banner_text">Тарыфны план VPN Plus забяспечвае пакрыццё ўсяго свету</string>
     <string name="free_connection_info_title">Бясплатныя падключэнні</string>
     <string name="search_upsell_banner_title">Прагляд трансляцый з любога месца ў свеце</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->

@@ -710,7 +710,7 @@
     <string name="server_change_upsell">Ottieni modifiche illimitate con VPN Plus.</string>
     <string name="server_change_button_title">Cambia server</string>
     <string name="not_wanted_country_title">Non è il paese che vuoi?</string>
-    <string name="not_wanted_country_description">Effettua l’upgrade per scegliere qualsiasi server</string>
+    <string name="not_wanted_country_description">Effettua l\'upgrade per scegliere qualsiasi server</string>
     <string name="whats_new_title">Cosa c\'è di nuovo</string>
     <string name="whats_new_added_countries_title">Nuovi Paesi gratuiti</string>
     <string name="whats_new_added_countries_description">Ora sono disponibili server gratuiti in Polonia e Romania.</string>
