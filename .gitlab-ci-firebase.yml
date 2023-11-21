@@ -57,7 +57,7 @@ publish-apk-firebase:
   stage: startReview
   allow_failure: true
   tags:
-    - medium
+    - shared-medium
   needs:
     - job: "build release firebase distribution"
     - job: "build google debug"
