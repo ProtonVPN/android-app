@@ -84,23 +84,31 @@ class QuickTileService : TileService() {
     }
 
     override fun onClick() {
-        unlockAndRun {
-            val isInactive = qsTile.state == Tile.STATE_INACTIVE
-            mainScope.launch {
-                if (isInactive) {
-                    if (currentUser.isLoggedIn()) {
-                        ProtonLogger.log(UiConnect, "quick tile")
-                        vpnConnectionManager.connectInBackground(
-                            defaultAvailableConnection(),
-                            ConnectTrigger.QuickTile
-                        )
-                    } else {
-                        startActivity(NotificationHelper.createMainActivityIntent(applicationContext, isTv()))
-                    }
+        if (isLocked) {
+            unlockAndRun {
+                onClickInternal()
+            }
+        } else {
+            onClickInternal()
+        }
+    }
+
+    private fun onClickInternal() {
+        val isInactive = qsTile.state == Tile.STATE_INACTIVE
+        mainScope.launch {
+            if (isInactive) {
+                if (currentUser.isLoggedIn()) {
+                    ProtonLogger.log(UiConnect, "quick tile")
+                    vpnConnectionManager.connectInBackground(
+                        defaultAvailableConnection(),
+                        ConnectTrigger.QuickTile
+                    )
                 } else {
-                    ProtonLogger.log(UiDisconnect, "quick tile")
-                    vpnConnectionManager.disconnect(DisconnectTrigger.QuickTile)
+                    startActivity(NotificationHelper.createMainActivityIntent(applicationContext, isTv()))
                 }
+            } else {
+                ProtonLogger.log(UiDisconnect, "quick tile")
+                vpnConnectionManager.disconnect(DisconnectTrigger.QuickTile)
             }
         }
     }
