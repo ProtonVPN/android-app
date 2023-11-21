@@ -101,7 +101,7 @@ sealed class TestApiConfig {
                     "/vpn/location",
                     "/vpn/loads",
                     "/core/v4/experiments/NetShield",
-                    "/core/v4/pushes",
+                    "/core/v4/pushes/active",
                     "/core/v4/settings",
                     "/core/v4/users"
                 ).forEach { unimportantPath ->

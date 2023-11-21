@@ -161,4 +161,10 @@ object DatabaseMigrations {
             EventMetadataDatabase.MIGRATION_2.migrate(database)
         }
     }
+
+    val MIGRATION_23_24 = object : Migration(23, 24) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            UserSettingsDatabase.MIGRATION_4.migrate(database)
+        }
+    }
 }

@@ -93,6 +93,7 @@ import me.proton.core.user.domain.repository.PassphraseRepository
 import me.proton.core.user.domain.repository.UserAddressRepository
 import me.proton.core.user.domain.repository.UserRepository
 import me.proton.core.util.android.dagger.CoreAndroidModule
+import me.proton.core.util.android.dagger.Monotonic
 import me.proton.core.util.android.dagger.UtcClock
 import me.proton.core.util.kotlin.CoroutineScopeProvider
 import me.proton.core.util.kotlin.DefaultCoroutineScopeProvider
@@ -103,6 +104,8 @@ import okhttp3.OkHttpClient
 import java.time.Clock
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import kotlin.time.ExperimentalTime
+import kotlin.time.TimeSource
 import me.proton.core.network.data.di.Constants as CoreConstants
 
 @Module
@@ -140,6 +143,11 @@ class MockAppModule {
     @Provides
     @UtcClock
     fun provideClock(): Clock = Clock.systemUTC()
+
+    @OptIn(ExperimentalTime::class)
+    @Provides
+    @Monotonic
+    internal fun provideMonotonicTimeSource(): TimeSource = TimeSource.Monotonic
 
     @Provides
     @Singleton
