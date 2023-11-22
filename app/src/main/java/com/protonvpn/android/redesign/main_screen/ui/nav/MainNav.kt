@@ -43,7 +43,7 @@ import com.protonvpn.android.redesign.base.ui.nav.baseRoute
 import com.protonvpn.android.redesign.base.ui.nav.popToStartNavOptions
 import com.protonvpn.android.redesign.countries.ui.nav.CountryListScreen
 import com.protonvpn.android.redesign.countries.ui.nav.CountryListScreen.countryList
-import com.protonvpn.android.redesign.countries.ui.nav.CountryScreen
+import com.protonvpn.android.redesign.countries.ui.nav.SearchRouteScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.ConnectionDetailsScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen.home
@@ -128,7 +128,9 @@ class MainNav(
                          navigate(MainTarget.Home)
                     },
                         onNavigateToSearch = {
-                        })
+                            rootNav.navigate(SearchRouteScreen.route)
+                        }
+                    )
 
                     MainTarget.Settings -> settings(coreNavigation)
                 }

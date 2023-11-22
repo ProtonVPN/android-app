@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.redesign.countries.ui.nav
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.Screen
 import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
@@ -28,6 +30,8 @@ import com.protonvpn.android.redesign.countries.ui.CountryRoute
 import com.protonvpn.android.redesign.countries.ui.ServersRoute
 import com.protonvpn.android.redesign.main_screen.ui.nav.BottomSheetNav
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
+import com.protonvpn.android.redesign.main_screen.ui.nav.RootNav
+import com.protonvpn.android.search.SearchRoute
 import kotlinx.serialization.Serializable
 
 object CountryListScreen : ScreenNoArg<MainNav>("country_list") {
@@ -63,5 +67,41 @@ object ServersScreen : Screen<ServersScreen.Args, BottomSheetNav>("servers") {
     ) = addToGraph(this) { entry ->
         val (country, city) = getArgs<Args>(entry)
         ServersRoute(country, city, onServerClicked)
+    }
+}
+
+object SearchRouteScreen : ScreenNoArg<RootNav>("searchScreen") {
+
+    private const val TRANSITION_DURATION_MILLIS = 400
+
+    fun SafeNavGraphBuilder<RootNav>.searchScreen(
+        onBackIconClick: () -> Unit
+    ) = addToGraph(
+        this,
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Up,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        },
+        exitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        },
+        popEnterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Up,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        }) {
+        SearchRoute(onBackIconClick)
     }
 }
