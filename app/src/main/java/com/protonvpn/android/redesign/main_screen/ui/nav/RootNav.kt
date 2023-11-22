@@ -23,12 +23,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
+import com.protonvpn.android.redesign.countries.ui.nav.SearchRouteScreen.searchScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.ConnectionDetailsScreen.connectionStatus
 import com.protonvpn.android.redesign.main_screen.ui.CoreNavigation
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen.mainScreen
 
 enum class RootTarget {
-    Main, ConnectionDetails;
+    Main, ConnectionDetails, SearchScreen;
 }
 
 class RootNav(
@@ -52,11 +53,11 @@ class RootNav(
                             selfNav
                         )
                     }
-
+                    RootTarget.SearchScreen -> {
+                        searchScreen(onBackIconClick = ::popBackStack)
+                    }
                     RootTarget.ConnectionDetails -> {
-                        connectionStatus(onBackIconClick = {
-                            popBackStack()
-                        })
+                        connectionStatus(onBackIconClick = ::popBackStack)
                     }
                 }
             }

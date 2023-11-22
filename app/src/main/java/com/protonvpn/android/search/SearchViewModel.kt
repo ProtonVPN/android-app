@@ -52,6 +52,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.text.Collator
@@ -102,7 +103,7 @@ class SearchViewModel @Inject constructor(
         compareBy<Search.Match<*>> { it.index != 0 }
             .thenBy(collator, Search.Match<*>::text)
 
-    private val query = savedStateHandle.getLiveData("search_query", "")
+    val query = savedStateHandle.getLiveData("search_query", "")
     val currentQuery = query.value
 
     private var recentsAddJob: Job? = null
@@ -110,7 +111,7 @@ class SearchViewModel @Inject constructor(
     val queryFromRecents: LiveData<String> = _queryFromRecents
 
     val viewState: Flow<ViewState> =
-        combine(query.asFlow(), currentUser.vpnUserFlow, vpnStatusProviderUI.status) { query, vpnUser, vpnStatus ->
+        combine(query.asFlow().distinctUntilChanged(), currentUser.vpnUserFlow, vpnStatusProviderUI.status) { query, vpnUser, vpnStatus ->
             val isConnectedOrConnecting =
                 vpnStatus.state.isEstablishingConnection || vpnStatus.state == VpnState.Connected
             mapState(query, vpnUser, vpnStatus.server?.takeIf { isConnectedOrConnecting })
@@ -123,6 +124,8 @@ class SearchViewModel @Inject constructor(
 
     fun setQuery(newQuery: String) {
         query.value = newQuery
+        // Without empty value recent cannot be reselected twice in a row
+        _queryFromRecents.value = ""
         recentsAddJob?.cancel()
         recentsAddJob = viewModelScope.launch {
             delay(ADD_TO_RECENTS_DELAY_MS)
