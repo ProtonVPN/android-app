@@ -70,9 +70,9 @@ class TvMapView @JvmOverloads constructor(
         invalidate()
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (canvas == null || width == 0 || height == 0)
+        if (width == 0 || height == 0)
             return
 
         renderedMap?.let { srcMap ->
