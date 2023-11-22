@@ -291,3 +291,6 @@ tailrec fun Throwable.stacktraceMessage(
     }
     return builder
 }
+
+fun ActivityManager.vpnProcessRunning(context: Context) =
+    runningAppProcesses?.any { it.processName == context.packageName }
