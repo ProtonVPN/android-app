@@ -23,6 +23,8 @@ import android.content.Context
 import androidx.datastore.core.DataMigration
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.core.ExperimentalMultiProcessDataStore
+import androidx.datastore.core.MultiProcessDataStoreFactory
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStoreFile
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -37,8 +39,15 @@ interface LocalDataStoreFactory {
         serializer: Serializer<T>,
         migrations: List<DataMigration<T>>
     ): DataStore<T>
+
+    suspend fun <T> getMultiProcessDataStore(
+        fileName: String,
+        serializer: Serializer<T>,
+        migrations: List<DataMigration<T>>
+    ): DataStore<T>
 }
 
+@OptIn(ExperimentalMultiProcessDataStore::class)
 @Singleton
 class DefaultLocalDataStoreFactory @Inject constructor(
     @ApplicationContext private val context: Context
@@ -58,10 +67,26 @@ class DefaultLocalDataStoreFactory @Inject constructor(
                 serializer,
                 migrations = migrations,
                 produceFile = { context.dataStoreFile(fileName) }
-            )
-                .also { newDataStore ->
-                    dataStores[fileName] = newDataStore
-                }
+            ).also { newDataStore ->
+                dataStores[fileName] = newDataStore
+            }
+        } as DataStore<T>
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override suspend fun <T> getMultiProcessDataStore(
+        fileName: String,
+        serializer: Serializer<T>,
+        migrations: List<DataMigration<T>>
+    ): DataStore<T> = mutex.withLock {
+        dataStores.getOrElse(fileName) {
+            MultiProcessDataStoreFactory.create(
+                serializer,
+                migrations = migrations,
+                produceFile = { context.dataStoreFile(fileName) }
+            ).also { newDataStore ->
+                dataStores[fileName] = newDataStore
+            }
         } as DataStore<T>
     }
 }

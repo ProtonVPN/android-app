@@ -24,7 +24,7 @@ buildscript {
     // https://issuetracker.google.com/issues/226078451
     ext.androidx_lifecycle_version = '2.6.2'
     ext.core_version = '18.2.0'
-    ext.datastore_version = '1.0.0'
+    ext.datastore_version = '1.1.0-alpha06'
     ext.detekt_version = '1.23.4'
     ext.hilt_version = '2.48.1'
     ext.kotlin_version = '1.8.10'

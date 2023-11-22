@@ -152,6 +152,7 @@
             android:name=".components.QuickTileService"
             android:icon="@drawable/ic_vpn_status_information"
             android:label="Quick connect"
+            android:process=":quick_tile_service"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:exported="true">
             <intent-filter>
@@ -182,6 +183,11 @@
 
         <receiver
             android:name=".notifications.NotificationActionReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+
+        <receiver
+            android:name=".quicktile.QuickTileActionReceiver"
             android:enabled="true"
             android:exported="false"/>
 
@@ -271,9 +277,6 @@
         <activity android:name=".ui.onboarding.WhatsNewFreeActivity" />
         <activity android:name=".ui.planupgrade.UpgradeDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeOnboardingDialogActivity" />
-        <activity
-            android:name=".ui.planupgrade.EmptyUpgradeDialogActivity"
-            android:theme="@style/ProtonTheme.Transparent"/>
         <activity
             android:name=".tv.TvLoginActivity"
             android:theme="@style/AppTheme.TV.Leanback"/>

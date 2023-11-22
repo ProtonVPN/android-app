@@ -45,6 +45,12 @@ class InMemoryDataStoreFactory @Inject constructor() : LocalDataStoreFactory {
             InMemoryDataStore(serializer.defaultValue).also { newStore -> allStores[fileName] = newStore }
         } as DataStore<T>
     }
+
+    override suspend fun <T> getMultiProcessDataStore(
+        fileName: String,
+        serializer: Serializer<T>,
+        migrations: List<DataMigration<T>>
+    ): DataStore<T> = getDataStore(fileName, serializer, migrations)
 }
 
 class InMemoryDataStore<T>(defaultValue: T) : DataStore<T> {
