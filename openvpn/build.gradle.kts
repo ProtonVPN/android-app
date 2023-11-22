@@ -17,10 +17,10 @@ android {
         aidl = true
     }
     namespace = "de.blinkt.openvpn"
-    compileSdk = 33
+    compileSdk = 34
 
     // Also update runcoverity.sh
-    buildToolsVersion = "31.0.0"
+    buildToolsVersion = "33.0.1"
     ndkVersion = "23.1.7779620"
 
     defaultConfig {

@@ -134,7 +134,7 @@ def helpers = new Helpers(rootDir)
 android {
     namespace "com.protonvpn.android"
     testNamespace 'com.protonvpn'
-    buildToolsVersion "31.0.0"
+    buildToolsVersion "33.0.1"
     ndkVersion rootProject.ext.compileNdkVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
     useLibrary 'org.apache.http.legacy'
