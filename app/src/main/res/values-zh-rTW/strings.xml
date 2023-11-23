@@ -530,12 +530,6 @@
     <string name="onboarding_welcome_description">了解如何在幾秒鐘內充分利用 Proton VPN。</string>
     <string name="onboarding_welcome_action">開始使用</string>
     <string name="onboarding_available_on_plus">適用於 Plus 方案</string>
-    <string name="onboarding_streaming_title">解除封鎖串流</string>
-    <string name="onboarding_streaming_description">安全無虞存取任何內容，哪怕是人在異國旅遊時。現已支援 Android TV。</string>
-    <string name="onboarding_protection_title">所到之處，皆受保護</string>
-    <string name="onboarding_protection_description">Proton VPN 支援所有裝置，包括 Windows、macOS 以及其它系統裝置。</string>
-    <string name="onboarding_netshield_title">封鎖廣告與更多</string>
-    <string name="onboarding_netshield_description">在瀏覽器與所有應用程式中封鎖惡意軟體、廣告與追蹤器。</string>
     <string name="onboarding_telemetry_title">協助我們與審查對抗</string>
     <string name="onboarding_connection_title">建立您的首次連線</string>
     <!-- Parameters:

@@ -538,12 +538,6 @@
     <string name="onboarding_welcome_description">Scopri come ottenere il massimo da Proton VPN in pochi secondi.</string>
     <string name="onboarding_welcome_action">Inizia ora</string>
     <string name="onboarding_available_on_plus">Disponibile con Plus</string>
-    <string name="onboarding_streaming_title">Sblocca streaming</string>
-    <string name="onboarding_streaming_description">Accedi in modo sicuro a qualsiasi contenuto, anche durante un viaggio in altri paesi. Ora anche su Android TV.</string>
-    <string name="onboarding_protection_title">Resta protetto ovunque</string>
-    <string name="onboarding_protection_description">Proton VPN supporta tutti i dispositivi, inclusi Windows, macOS e molti altri.</string>
-    <string name="onboarding_netshield_title">Blocca annunci e molto altro</string>
-    <string name="onboarding_netshield_description">Blocca malware, annunci e tracker nel browser e in tutte le app.</string>
     <string name="onboarding_telemetry_title">Aiutaci a combattere la censura</string>
     <string name="onboarding_connection_title">Esegui la tua prima connessione</string>
     <!-- Parameters:

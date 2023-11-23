@@ -538,12 +538,6 @@
     <string name="onboarding_welcome_description">Lue miten otat Proton VPN:stä kaiken irti vain muutamassa sekunnissa.</string>
     <string name="onboarding_welcome_action">Aloita</string>
     <string name="onboarding_available_on_plus">Käytettävissä Plus-tilauksella</string>
-    <string name="onboarding_streaming_title">Vapauta suoratoisto</string>
-    <string name="onboarding_streaming_description">Käytä kaikkea sisältöä turvallisesti, myös ulkomailla matkustaessasi. Nyt myös Android TV:llä.</string>
-    <string name="onboarding_protection_title">Pysy turvassa kaikkialla</string>
-    <string name="onboarding_protection_description">Proton VPN tukee kaikkia laitteita, Windows- ja macOS-laitteet mukaanlukien.</string>
-    <string name="onboarding_netshield_title">Estä mainoksia ja paljon muuta</string>
-    <string name="onboarding_netshield_description">Estä haittaohjelmat, mainokset ja seuranta selaimissa sekä muissa sovelluksissa.</string>
     <string name="onboarding_telemetry_title">Auta meitä taistelemaan sensuuria vastaan</string>
     <string name="onboarding_connection_title">Muodosta ensimmäinen yhteytesi</string>
     <!-- Parameters:

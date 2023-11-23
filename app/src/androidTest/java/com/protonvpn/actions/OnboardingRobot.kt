@@ -29,7 +29,7 @@ class OnboardingRobot : BaseRobot() {
     fun proceedToOnboardingNextStep(): OnboardingRobot = clickElementById(R.id.next)
 
     fun completeOnboarding(withTelemetryScreen: Boolean): OnboardingRobot {
-        val onboardingSteps = if (withTelemetryScreen) 5 else 4
+        val onboardingSteps = if (withTelemetryScreen) 2 else 1
         repeat(onboardingSteps) {
             proceedToOnboardingNextStep()
         }

@@ -554,12 +554,6 @@
     <string name="onboarding_welcome_description">Даведайцеся за некалькі секунд, як атрымаць максімальную карысць ад Proton VPN.</string>
     <string name="onboarding_welcome_action">Пачаць</string>
     <string name="onboarding_available_on_plus">Даступна з Plus</string>
-    <string name="onboarding_streaming_title">Разблакіруйце трансляцыі</string>
-    <string name="onboarding_streaming_description">Бяспечны доступ да любога змесціва, нават калі вы падарожнічаеце па іншых краінах. Цяпер таксама і на Android TV.</string>
-    <string name="onboarding_protection_title">Будзьце абаронены ў любым месцы</string>
-    <string name="onboarding_protection_description">Proton VPN падтрымлівае ўсе прылады, уключаючы Windows, macOS і іншыя платформы.</string>
-    <string name="onboarding_netshield_title">Блакіроўка рэкламы і шмат чаго іншага</string>
-    <string name="onboarding_netshield_description">Блакіруе шкодныя праграмы, рэкламу, праграмы сачэння ў браўзерах і ў ва ўсіх праграмах.</string>
     <string name="onboarding_telemetry_title">Дапамажыце нам змагацца з цэнзурай</string>
     <string name="onboarding_connection_title">Усталюйце ваша першае падключэнне</string>
     <!-- Parameters:
