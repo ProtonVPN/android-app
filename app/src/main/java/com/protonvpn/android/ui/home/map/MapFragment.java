@@ -111,13 +111,8 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     @Override
     public void onViewCreated() {
         initMap();
-
-        vpnStatusProviderUI.isConnectedOrDisconnectedLiveData().observe(
-                getViewLifecycleOwner(), isConnected -> updateMapState());
-        serverManager.getServerListVersionLiveData().observe(
-                getViewLifecycleOwner(), v -> updateMapState());
-        viewModel.getSecureCore().observe(
-                getViewLifecycleOwner(), isSecureCore -> updateMapState());
+        viewModel.getUpdateMapEvent().observe(
+            getViewLifecycleOwner(), event -> updateMapState());
     }
 
     private void initMap() {
@@ -164,6 +159,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
     private <T extends Markable> void addPins(boolean removeViews, List<T> countries, T selectedCountry) {
         if (removeViews) {
             mapView.getMarkerLayout().removeAllViews();
+            mapView.getCalloutLayout().removeAllViews();
             removePaths();
         }
         List<T> countriesCopy = sortPins(countries);

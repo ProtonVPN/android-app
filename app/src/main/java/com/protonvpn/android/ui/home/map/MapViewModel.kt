@@ -22,12 +22,29 @@ package com.protonvpn.android.ui.home.map
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.UserPlanManager
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.withIndex
 import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
-    private val userSettings: EffectiveCurrentUserSettings
+    userSettings: EffectiveCurrentUserSettings,
+    vpnStatusProviderUI: VpnStatusProviderUI,
+    serverManager: ServerManager,
+    userPlanManager: UserPlanManager
 ) : ViewModel() {
-    val secureCore = userSettings.secureCore.asLiveData()
+    val updateMapEvent = combine(
+        userSettings.secureCore,
+        vpnStatusProviderUI.isConnectedOrDisconnectedFlow,
+        serverManager.serverListVersion,
+        merge(flowOf(Unit), userPlanManager.planChangeFlow) // Need to have initial value in order not to block combine
+    ) { _, _, _, _ ->
+    }.withIndex() // Value need to change each time
+    .asLiveData()
 }
