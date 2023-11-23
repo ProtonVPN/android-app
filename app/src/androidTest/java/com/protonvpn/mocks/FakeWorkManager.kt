@@ -22,6 +22,7 @@ package com.protonvpn.mocks
 import android.app.PendingIntent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.work.Configuration
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
@@ -143,6 +144,14 @@ class FakeWorkManager : WorkManager() {
     }
 
     override fun getWorkInfos(workQuery: WorkQuery): ListenableFuture<MutableList<WorkInfo>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getConfiguration(): Configuration {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateWork(request: WorkRequest): ListenableFuture<UpdateResult> {
         TODO("Not yet implemented")
     }
 }

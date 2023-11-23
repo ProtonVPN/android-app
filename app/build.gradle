@@ -710,8 +710,8 @@ dependencies {
     implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
     implementation 'me.relex:circleindicator:2.1.6@aar'
     implementation 'com.evernote:android-state:1.4.1'
-    implementation 'androidx.work:work-runtime:2.7.1'
-    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation 'androidx.work:work-runtime:2.8.1'
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
     implementation 'com.github.lisawray.groupie:groupie:2.10.0'
@@ -751,7 +751,7 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.15.1'
 
     // Room
-    def room_version = "2.4.3"
+    def room_version = "2.6.0"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
@@ -861,8 +861,8 @@ dependencies {
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
     // Hilt for WorkManager
-    implementation 'androidx.hilt:hilt-work:1.0.0'
-    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+    implementation 'androidx.hilt:hilt-work:1.1.0'
+    kapt 'androidx.hilt:hilt-compiler:1.1.0'
 
     kapt 'com.jakewharton:butterknife-compiler:10.2.3'
     kapt 'com.evernote:android-state-processor:1.4.1'
