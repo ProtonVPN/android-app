@@ -538,12 +538,6 @@
     <string name="onboarding_welcome_description">Proton VPN hizmetinden en iyi şekilde nasıl yararlanabileceğinizi öğrenmek için bir kaç saniyenizi ayırın.</string>
     <string name="onboarding_welcome_action">Başlayalım</string>
     <string name="onboarding_available_on_plus">Plus tarifesiyle kullanılabilir</string>
-    <string name="onboarding_streaming_title">Yayın akışı hizmetlerine erişin</string>
-    <string name="onboarding_streaming_description">Başka ülkelere gittiğinizde bile her içeriğe güvenle erişin. Artık Android TV desteği de var.</string>
-    <string name="onboarding_protection_title">Her yerde korunun</string>
-    <string name="onboarding_protection_description">Proton VPN Windows, macOS ve diğer pek çok aygıtı destekler.</string>
-    <string name="onboarding_netshield_title">Reklamları ve çok daha fazlasını engelleyin</string>
-    <string name="onboarding_netshield_description">Tarayıcıda ve tüm uygulamalarda kötü amaçlı yazılımları, reklamları ve etkinlik izleyicileri engelleyin.</string>
     <string name="onboarding_telemetry_title">Sansür ile savaşmamıza yardımcı olun</string>
     <string name="onboarding_connection_title">İlk bağlantınızı kurun</string>
     <!-- Parameters:

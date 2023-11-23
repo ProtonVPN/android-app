@@ -530,12 +530,6 @@
     <string name="onboarding_welcome_description">Proton VPN を最大限に活用する方法を、わずか数秒でご紹介します。</string>
     <string name="onboarding_welcome_action">利用開始</string>
     <string name="onboarding_available_on_plus">Plus で利用可能</string>
-    <string name="onboarding_streaming_title">ストリーミングサイトのブロックを解除</string>
-    <string name="onboarding_streaming_description">ほかの国に旅しているときでも安全にコンテンツにアクセスできます。現在 Android TV で利用可能です。</string>
-    <string name="onboarding_protection_title">すべてが保護されます</string>
-    <string name="onboarding_protection_description">Proton VPN は WIndows や macOS などを含むすべてのデバイスをサポートしています。</string>
-    <string name="onboarding_netshield_title">広告などをブロック</string>
-    <string name="onboarding_netshield_description">ブラウザーやすべてのアプリからマルウェア、広告、トラッカーをブロック</string>
     <string name="onboarding_telemetry_title">検閲との闘いにご協力ください</string>
     <string name="onboarding_connection_title">初めての接続を確立する</string>
     <!-- Parameters:

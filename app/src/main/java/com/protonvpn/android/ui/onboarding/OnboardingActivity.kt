@@ -24,7 +24,6 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -35,56 +34,15 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityOnboardingBinding
 import com.protonvpn.android.databinding.FragmentOnboardingConnectionBinding
-import com.protonvpn.android.databinding.FragmentOnboardingStepBinding
 import com.protonvpn.android.databinding.FragmentOnboardingTelemetryBinding
-import com.protonvpn.android.databinding.OnboardingStepDotBinding
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
-import com.protonvpn.android.utils.getThemeColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.viewBinding
-
-class OnboardingStep : Fragment(R.layout.fragment_onboarding_step) {
-
-    private val binding by viewBinding(FragmentOnboardingStepBinding::bind)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val index = arguments?.getInt(INDEX)!!
-        val count = arguments?.getInt(COUNT)!!
-        val plus = arguments?.getBoolean(PLUS) ?: false
-        val titleRes = arguments?.getInt(TITLE)!!
-        val descriptionRes = arguments?.getInt(DESC)!!
-        val imageRes = arguments?.getInt(IMAGE)!!
-        with(binding) {
-            val brand = root.getThemeColor(R.attr.proton_icon_accent)
-            repeat(count) { i ->
-                val dot = OnboardingStepDotBinding.inflate(layoutInflater, indicator, true)
-                if (i == index)
-                    dot.dot.setColorFilter(brand)
-            }
-
-            image.setImageResource(imageRes)
-            availableOnPlus.isVisible = plus
-            title.setText(titleRes)
-            description.setText(descriptionRes)
-        }
-    }
-
-    companion object {
-        const val IMAGE = "image"
-        const val TITLE = "title"
-        const val DESC = "desc"
-        const val INDEX = "index"
-        const val COUNT = "count"
-        const val PLUS = "plus"
-    }
-}
 
 class TelemetryConsent : Fragment(R.layout.fragment_onboarding_telemetry) {
 
@@ -149,35 +107,6 @@ class OnboardingActivity : BaseActivityV2() {
     private fun initSteps() {
         steps += Step(actionText = R.string.onboarding_welcome_action) {
             Fragment(R.layout.fragment_onboarding_welcome)
-        }
-        val dottedSteps = listOf(
-            bundleOf(
-                OnboardingStep.IMAGE to R.drawable.onboarding_be_protected_everywhere,
-                OnboardingStep.TITLE to R.string.onboarding_protection_title,
-                OnboardingStep.DESC to R.string.onboarding_protection_description,
-            ),
-            bundleOf(
-                OnboardingStep.IMAGE to R.drawable.onboarding_unblock_streaming,
-                OnboardingStep.TITLE to R.string.onboarding_streaming_title,
-                OnboardingStep.DESC to R.string.onboarding_streaming_description,
-                OnboardingStep.PLUS to true,
-            ),
-            bundleOf(
-                OnboardingStep.IMAGE to R.drawable.upgrade_netshield,
-                OnboardingStep.TITLE to R.string.onboarding_netshield_title,
-                OnboardingStep.DESC to R.string.onboarding_netshield_description,
-                OnboardingStep.PLUS to true,
-            ),
-        )
-        dottedSteps.forEachIndexed { i, args ->
-            steps += Step {
-                OnboardingStep().apply {
-                    arguments = args.apply {
-                        putInt(OnboardingStep.INDEX, i)
-                        putInt(OnboardingStep.COUNT, dottedSteps.size)
-                    }
-                }
-            }
         }
         if (viewModel.showTelemetryPrompt) {
             steps += Step(

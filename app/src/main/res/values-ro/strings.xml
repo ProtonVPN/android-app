@@ -546,12 +546,6 @@
     <string name="onboarding_welcome_description">Învățați cum să profitați de Proton VPN în câteva secunde.</string>
     <string name="onboarding_welcome_action">Să începem</string>
     <string name="onboarding_available_on_plus">Disponibil cu Plus</string>
-    <string name="onboarding_streaming_title">Deblocare transmisii în flux</string>
-    <string name="onboarding_streaming_description">Accesați conținutul în siguranță, chiar și când călătoriți în alte țări. Acum și pe Android TV.</string>
-    <string name="onboarding_protection_title">Protejați-vă pretutindeni</string>
-    <string name="onboarding_protection_description">Proton VPN acceptă toate dispozitivele, inclusiv Windows, macOS și multe altele.</string>
-    <string name="onboarding_netshield_title">Blocare reclame și multe altele</string>
-    <string name="onboarding_netshield_description">Blocare malware, reclame și instrumente de urmărire în navigator și în toate aplicațiile.</string>
     <string name="onboarding_telemetry_title">Ajutați-ne să luptăm cu cenzura</string>
     <string name="onboarding_connection_title">Stabiliți prima conexiune</string>
     <!-- Parameters:

@@ -538,12 +538,6 @@
     <string name="onboarding_welcome_description">Μάθετε πως να εκμεταλευτείτε στο έπακρο το Proton VPN μέσα σε μερικά δευτερόλεπτα.</string>
     <string name="onboarding_welcome_action">Ξεκινήστε</string>
     <string name="onboarding_available_on_plus">Διαθέσιμο με Plus</string>
-    <string name="onboarding_streaming_title">Αφαίρεση φραγής μετάδοσης</string>
-    <string name="onboarding_streaming_description">Αποκτήστε ασφαλή πρόσβαση σε κάθε είδους περιεχόμενο. ακόμα και όταν ταξιδεύετε σε άλλες χώρες. Τώρα επίσης και στο Android TV.</string>
-    <string name="onboarding_protection_title">Εξασφαλίστε προστασία παντού</string>
-    <string name="onboarding_protection_description">Το Proton VPN υποστηρίζει όλες τις συσκευές, συμπεριλαβανομένου Windows, macOS, και πολλές άλλες.</string>
-    <string name="onboarding_netshield_title">Φραγή διαφημίσεων και πολλών άλλων</string>
-    <string name="onboarding_netshield_description">Μπλοκάρει κακόβουλο λογισμικό, διαφημίσεις και τράκερς σε προγράμματα περιήγησης και σε όλες τις εφαρμογές.</string>
     <string name="onboarding_telemetry_title">Βοηθήστε μας να καταπολεμήσουμε τη λογοκρισία</string>
     <string name="onboarding_connection_title">Εγκαθίδρυση της πρώτης σας σύνδεσης</string>
     <!-- Parameters:

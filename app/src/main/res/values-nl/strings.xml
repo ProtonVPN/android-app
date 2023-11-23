@@ -538,12 +538,6 @@
     <string name="onboarding_welcome_description">Ontdek in enkele seconden hoe u het meeste uit Proton VPN haalt.</string>
     <string name="onboarding_welcome_action">Aan de slag</string>
     <string name="onboarding_available_on_plus">Beschikbaar met Plus</string>
-    <string name="onboarding_streaming_title">Deblokkeer streamingdiensten</string>
-    <string name="onboarding_streaming_description">Verkrijg veilige toegang tot elke inhoud, zelfs wanneer u naar andere landen reist. Nu ook op Android TV.</string>
-    <string name="onboarding_protection_title">Wees overal beveiligd</string>
-    <string name="onboarding_protection_description">Proton VPN ondersteunt alle toestellen, inclusief Windows, macOS en vele anderen.</string>
-    <string name="onboarding_netshield_title">Blokkeer advertenties en veel meer</string>
-    <string name="onboarding_netshield_description">Blokkeer malware, advertenties, en trackers in browser en in alle apps.</string>
     <string name="onboarding_telemetry_title">Help ons censuur te bestrijden</string>
     <string name="onboarding_connection_title">Uw eerste verbinding tot stand brengen</string>
     <!-- Parameters:

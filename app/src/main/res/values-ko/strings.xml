@@ -530,12 +530,6 @@
     <string name="onboarding_welcome_description">Proton VPN의 사용법에 대해 빠르게 알아봅시다.</string>
     <string name="onboarding_welcome_action">시작하기</string>
     <string name="onboarding_available_on_plus">Plus에서 사용 가능합니다</string>
-    <string name="onboarding_streaming_title">스트리밍 차단 해제</string>
-    <string name="onboarding_streaming_description">전세계 어디에 있든 무엇에 접근하든 안전한 접근이 가능합니다. 이제는 Andriod TV에서도 사용 가능합니다.</string>
-    <string name="onboarding_protection_title">어디서나 보호받으세요</string>
-    <string name="onboarding_protection_description">Proton VPN은 Windows, macOS를 포함한 다양한 종류의 기기를 지원합니다.</string>
-    <string name="onboarding_netshield_title">광고와 다른 것들을 차단하세요</string>
-    <string name="onboarding_netshield_description">브라우저와 모든 앱에서 멀웨어, 광고, 추적기를 차단하세요</string>
     <string name="onboarding_telemetry_title">검열에 맞서도록 도와주세요</string>
     <string name="onboarding_connection_title">첫 번째 연결을 구성하세요</string>
     <!-- Parameters:

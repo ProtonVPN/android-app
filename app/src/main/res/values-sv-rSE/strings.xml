@@ -538,12 +538,6 @@
     <string name="onboarding_welcome_description">Lär dig hur du får ut det mesta av Proton VPN på bara några sekunder.</string>
     <string name="onboarding_welcome_action">Kom igång</string>
     <string name="onboarding_available_on_plus">Tillgängligt med Plus</string>
-    <string name="onboarding_streaming_title">Avblockera streaming</string>
-    <string name="onboarding_streaming_description">Säker åtkomst till allt innehåll, även när du reser till andra länder. Nu även på Android TV.</string>
-    <string name="onboarding_protection_title">Var skyddad överallt</string>
-    <string name="onboarding_protection_description">Proton VPN stöder alla enheter, inklusive Windows, macOS och många andra.</string>
-    <string name="onboarding_netshield_title">Blockera annonser och mycket mer</string>
-    <string name="onboarding_netshield_description">Blockera skadlig programvara, annonser och spårare i webbläsaren och i alla appar.</string>
     <string name="onboarding_telemetry_title">Hjälp oss att bekämpa censur</string>
     <string name="onboarding_connection_title">Etablera din första anslutning</string>
     <!-- Parameters:

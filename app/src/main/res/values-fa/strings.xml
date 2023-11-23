@@ -538,12 +538,6 @@
     <string name="onboarding_welcome_description">تنها در چند ثانیه با Proton VPN آشنا شوید.</string>
     <string name="onboarding_welcome_action">شروع کنید</string>
     <string name="onboarding_available_on_plus">در دسترس برای Plus</string>
-    <string name="onboarding_streaming_title">باز کردن استریم</string>
-    <string name="onboarding_streaming_description">به هر محتوایی به صورت امن، حتی زمانی که در حال سفر به کشورهای دیگر هستید دسترسی پیدا کنید. هم‌اکنون قابل دسترس در AndroidTV.</string>
-    <string name="onboarding_protection_title">همه‌جا محافظت شوید</string>
-    <string name="onboarding_protection_description">Proton VPN از همهٔ دستگاه‌ها از جمله macOS ،Windows و بسیاری دیگر پشتیبانی می‌کند.</string>
-    <string name="onboarding_netshield_title">مسدود کردن تبلیغات و خیلی بیشتر</string>
-    <string name="onboarding_netshield_description">بدافزارها، تبلیغات و ردیاب ها را در مرورگر و در تمام برنامه ها مسدود کنید.</string>
     <string name="onboarding_telemetry_title">Help us fight censorship</string>
     <string name="onboarding_connection_title">اولین اتصال خود را برقرار کنید</string>
     <!-- Parameters:
