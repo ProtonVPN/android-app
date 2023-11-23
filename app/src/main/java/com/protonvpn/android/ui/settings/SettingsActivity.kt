@@ -79,11 +79,10 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -166,24 +165,24 @@ class SettingsActivity : BaseActivityV2() {
             }
         }
 
-        var isFirstUpdate = true
-        val user = lifecycleScope.async { currentUser.vpnUserFlow.firstOrNull() }
+        var previousTier: Int? = null
         combine(
             userSettingsManager.rawCurrentUserSettingsFlow,
-            restrictionsConfig.restrictionFlow
-        ) { settings, restrictions ->
-            settings to restrictions
+            restrictionsConfig.restrictionFlow,
+            currentUser.vpnUserFlow.map { it?.userTier }
+        ) { settings, restrictions, tier ->
+            Triple(settings, restrictions, tier)
         }.flowWithLifecycle(lifecycle)
-            .onEach { (settings, restrictions) ->
+            .onEach { (settings, restrictions, tier) ->
                 onUserDataUpdated(settings, restrictions)
                 onRestrictionsUpdated(restrictions)
-                if (isFirstUpdate) {
+                if (previousTier != tier) {
                     // Set listeners after initial values have been set, otherwise they will be triggered.
-                    setListeners(user.await(), settings)
+                    setListeners(currentUser.vpnUser(), settings)
                     binding.contentSettings.root.jumpDrawablesToCurrentState()
                     onUiReady()
-                    isFirstUpdate = false
                 }
+                previousTier = tier
                 currentProtocolCached = settings.protocol
             }
             .launchIn(lifecycleScope)
