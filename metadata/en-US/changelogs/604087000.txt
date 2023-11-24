@@ -1,0 +1,2 @@
+What's new
+We fixed a password mismatch issue during signup process
