@@ -61,10 +61,12 @@ class GatewayGroup(
     override fun name(): String = name
 }
 
+// TODO: remove Serializable when migrations are removed
 @kotlinx.serialization.Serializable
 data class VpnCountry(
     val flag: String,
     override val serverList: List<Server>,
+    private val isSecureCoreEntryCountry: Boolean,
 ) : ServerGroup(), Markable, Serializable {
 
     @Transient
@@ -79,15 +81,12 @@ data class VpnCountry(
 
     override fun getCoordinates(): TranslatedCoordinates = translatedCoordinates
 
-    override fun isSecureCoreMarker(): Boolean = isSecureCoreCountry()
+    @Deprecated("Avoid checking if a whole country is SC")
+    override fun isSecureCoreMarker(): Boolean = isSecureCoreEntryCountry
 
     override fun getMarkerEntryCountryCode(): String? = null
 
     override fun getMarkerCountryCode(): String = flag
 
     override fun getConnectableServers(): List<Server> = serverList
-
-    fun isSecureCoreCountry(): Boolean = isSecureCoreCountry(flag)
 }
-
-fun isSecureCoreCountry(flag: String): Boolean = flag == "IS" || flag == "SE" || flag == "CH"
