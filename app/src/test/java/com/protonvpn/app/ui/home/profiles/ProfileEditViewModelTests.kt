@@ -72,7 +72,7 @@ class ProfileViewModelTests {
 
     private lateinit var testScope: TestScope
     private val server = MockedServers.server
-    private val country = VpnCountry(COUNTRY_CODE, listOf(server))
+    private val country = VpnCountry(COUNTRY_CODE, listOf(server), false)
 
     private lateinit var viewModel: ProfileEditViewModel
 

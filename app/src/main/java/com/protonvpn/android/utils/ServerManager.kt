@@ -37,7 +37,6 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
-import com.protonvpn.android.models.vpn.isSecureCoreCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.userstorage.ProfileManager
@@ -421,8 +420,11 @@ class FilteredServers(
             val mapKey = if (uppercase) key.uppercase() else key
             getOrPut(mapKey) { mutableListOf() } += server
         }
-        fun MutableMap<String, MutableList<Server>>.toVpnCountries() =
-            map { (country, servers) -> VpnCountry(country, servers.sortedWith(serverComparator)) }
+        fun MutableMap<String, MutableList<Server>>.toVpnCountries(areSecureCoreEntryCountries: Boolean = false) =
+            // TODO: remove the use of areSecureCoreEntryCountries when the old map code is removed.
+            map { (country, servers) ->
+                VpnCountry(country, servers.sortedWith(serverComparator), areSecureCoreEntryCountries)
+            }
 
         val vpnCountries = mutableMapOf<String, MutableList<Server>>()
         val gateways = mutableMapOf<String, MutableList<Server>>()
@@ -430,8 +432,6 @@ class FilteredServers(
         val secureCoreExitCountries = mutableMapOf<String, MutableList<Server>>()
         val protocol = currentProtocol // Use a local copy in case the setting can change on some other thread.
         for (unfilteredServer in serverStore.allServers) {
-            // TODO: secure core countries shouldn't be hardcoded but calculated from server list
-            DebugUtils.debugAssert { !unfilteredServer.isSecureCoreServer || isSecureCoreCountry(unfilteredServer.entryCountry) }
             val filteredDomains = unfilteredServer.connectingDomains.filter { supportsProtocol(it, currentProtocol) }
             if (filteredDomains.isNotEmpty()) {
                 val server = if (unfilteredServer.connectingDomains.size != filteredDomains.size) {
@@ -440,7 +440,7 @@ class FilteredServers(
                     unfilteredServer
                 }
                 when {
-                    server.isSecureCoreServer && isSecureCoreCountry(server.entryCountry) -> {
+                    server.isSecureCoreServer -> {
                         secureCoreEntryCountries.addServer(server.entryCountry, server)
                         secureCoreExitCountries.addServer(server.exitCountry, server)
                     }
@@ -456,7 +456,7 @@ class FilteredServers(
         }
         filteredForProtocol = protocol
         filteredVpnCountries = vpnCountries.toVpnCountries()
-        filteredSecureCoreEntryCountries = secureCoreEntryCountries.toVpnCountries()
+        filteredSecureCoreEntryCountries = secureCoreEntryCountries.toVpnCountries(true)
         filteredSecureCoreExitCountries = secureCoreExitCountries.toVpnCountries()
         filteredGateways = gateways.map { (name, servers) -> GatewayGroup(name, servers) }
     }

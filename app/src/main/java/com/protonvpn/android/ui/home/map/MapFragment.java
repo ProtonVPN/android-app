@@ -277,7 +277,7 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
         }
         if (view.getTag() instanceof VpnCountry) {
             VpnCountry country = (VpnCountry) view.getTag();
-            if (getSecureCoreEnabled() && country.isSecureCoreCountry()) {
+            if (getSecureCoreEnabled() && country.isSecureCoreMarker()) {
                 removePaths();
                 updateMapState();
                 addPins(false, serverManager.getSecureCoreEntryCountries(), country);
