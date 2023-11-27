@@ -20,13 +20,16 @@
 package com.protonvpn.android.ui.planupgrade
 
 import android.content.Context
-import com.protonvpn.android.appconfig.AppFeaturesPrefs
+import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.utils.UserPlanManager
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,28 +38,32 @@ class ShowUpgradeSuccess @Inject constructor(
     mainScope: CoroutineScope,
     foregroundActivityTracker: ForegroundActivityTracker,
     userPlanManager: UserPlanManager,
-    private val appFeaturesPrefs: AppFeaturesPrefs,
+    private val currentUser: CurrentUser,
     private val upgradeTelemetry: UpgradeTelemetry,
 ) {
     init {
-        combine(
-            userPlanManager.planChangeFlow,
-            foregroundActivityTracker.foregroundActivityFlow
-        ) { planUpgrade, foregroundActivity ->
-            val upgraded = planUpgrade.newUser
-            if (foregroundActivity != null && upgraded.userTierName != appFeaturesPrefs.hasShownUpgradeSuccessForPlan) {
-                if (!upgraded.isFreeUser) {
-                    showPlanUpgradeSuccess(foregroundActivity, upgraded.userTierName, refreshVpnInfo = false)
-                } else {
-                    appFeaturesPrefs.hasShownUpgradeSuccessForPlan = upgraded.userTierName
+        mainScope.launch {
+            userPlanManager.planChangeFlow.collectLatest { planUpgrade ->
+                val activity =
+                    foregroundActivityTracker.foregroundActivityFlow.filterNotNull().first()
+                val upgradedUser = planUpgrade.newUser
+                if (shouldShowUpgradeSuccess(upgradedUser)) {
+                    showPlanUpgradeSuccess(
+                        activity,
+                        upgradedUser.userTierName,
+                        refreshVpnInfo = false
+                    )
                 }
             }
-        }.launchIn(mainScope)
+        }
+    }
+
+    private suspend fun shouldShowUpgradeSuccess(upgraded: VpnUser): Boolean {
+        return currentUser.vpnUser()?.userId == upgraded.userId && !upgraded.isFreeUser
     }
 
     fun showPlanUpgradeSuccess(context: Context, newPlan: String, refreshVpnInfo: Boolean) {
         upgradeTelemetry.onUpgradeSuccess(newPlan)
-        appFeaturesPrefs.hasShownUpgradeSuccessForPlan = newPlan
         context.startActivity(CongratsPlanActivity.createIntent(context, newPlan, refreshVpnInfo = refreshVpnInfo))
     }
 }
