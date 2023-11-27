@@ -28,7 +28,6 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -88,7 +87,7 @@ class WireguardBackend @Inject constructor(
     dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, foregroundActivityTracker, okHttp
 ) {
     private val wireGuardIo = dispatcherProvider.newSingleThreadDispatcherForInifiniteIo()
-    private val backend: GoBackend = GoBackend(WireguardContextWrapper(context))
+    private val backend: GoBackend by lazy { GoBackend(WireguardContextWrapper(context)) }
 
     private var monitoringJob: Job? = null
     private var service: WireguardWrapperService? = null
