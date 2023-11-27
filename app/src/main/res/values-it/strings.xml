@@ -130,7 +130,7 @@
     <string name="errorEmptyServer">Il campo del server non può essere vuoto</string>
     <string name="errorEmptyEntryCountry">Il campo del paese d\'ingresso non può essere vuoto</string>
     <string name="errorEmptyExitCountry">Il campo del paese d\'uscita non può essere vuoto</string>
-    <string name="onboardingSignup">Iscriviti</string>
+    <string name="onboardingSignup">Registrati</string>
     <string name="onboardingSkip">Salta</string>
     <string name="onboardingNext">Avanti</string>
     <string name="offerTooltipShowOffer">Guarda l\'offerta</string>

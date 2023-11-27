@@ -197,7 +197,7 @@
     <string name="try_again">Inténtalo de nuevo</string>
     <string name="manage">Administrar</string>
     <string name="delete">Eliminar</string>
-    <string name="remove">Eliminar</string>
+    <string name="remove">Borrar</string>
     <string name="deleteProfileButton">Eliminar perfil</string>
     <string name="deleteProfile">¿Eliminar perfil?</string>
     <string name="doneButton">Hecho</string>
@@ -277,7 +277,7 @@
     </plurals>
     <string name="settingsCannotChangeWhileConnected">No se puede cambiar esto mientras estás conectado</string>
     <string name="excludeAlreadyExcluded">Ya excluido</string>
-    <string name="removeExcludedIpDialogDescription">¿Eliminar la dirección IP de la lista?</string>
+    <string name="removeExcludedIpDialogDescription">¿Borrar la dirección IP de la lista?</string>
     <string name="loaderFetchingServers">Obteniendo servidores…</string>
     <string name="toastProfileSaved">Guardado</string>
     <string name="tileConnected">Conectado: %1$s</string>
@@ -294,7 +294,7 @@
     <string name="troubleshootIspProblemTitle">Problema del proveedor de servicios de Internet (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Intente conectarse a Proton desde una red diferente (o utilice <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interferencia del antivirus</string>
-    <string name="troubleshootAntivirusProblemDescription">Desactiva o elimina temporalmente tu software antivirus.</string>
+    <string name="troubleshootAntivirusProblemDescription">Desactiva o borra temporalmente tu software antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferencia de proxy/firewall</string>
     <string name="troubleshootProxyFirewallProblemDescription">Desactiva cualquier proxy o cortafuego, o contacta con el administrador de tu red.</string>
     <string name="troubleshootProtonDownTitle">Proton está fuera de servicio.</string>
@@ -716,7 +716,7 @@ Más información&lt;/a&gt;.]]></string>
     <string name="whats_new_added_countries_title">Nuevos países gratuitos</string>
     <string name="whats_new_added_countries_description">Ahora hay servidores gratuitos en Polonia y Rumania.</string>
     <string name="whats_new_server_selection_title">Cambios a la selección de servidor</string>
-    <string name="whats_new_server_selection_description">Para evitar la saturación de servidores y garantizar que todos tengan acceso a una navegación rápida y segura, eliminamos la selección manual de países e hicimos mejoras importantes en la selección automática de servidores.</string>
+    <string name="whats_new_server_selection_description">Para evitar la saturación de servidores y garantizar que todos tengan acceso a una navegación rápida y segura, borramos la selección manual de países e hicimos mejoras importantes en la selección automática de servidores.</string>
     <string name="welcome_plus_title">Te damos la bienvenida a VPN Plus</string>
     <string name="welcome_plus_description">Disfruta de funciones de privacidad adicionales, rendimiento recargado y una personalización VPN de otro nivel.</string>
     <string name="welcome_plus_feature_security">Funciones de seguridad avanzadas</string>

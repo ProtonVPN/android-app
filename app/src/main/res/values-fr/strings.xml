@@ -197,7 +197,7 @@
     <string name="try_again">Réessayer</string>
     <string name="manage">Gérer</string>
     <string name="delete">Supprimer</string>
-    <string name="remove">Supprimer</string>
+    <string name="remove">Retirer</string>
     <string name="deleteProfileButton">Supprimer le profil</string>
     <string name="deleteProfile">Supprimer le profil ?</string>
     <string name="doneButton">Terminé</string>
@@ -277,7 +277,7 @@
     </plurals>
     <string name="settingsCannotChangeWhileConnected">Il n\'est pas possible de modifier ceci en étant connecté.</string>
     <string name="excludeAlreadyExcluded">Déjà exclue</string>
-    <string name="removeExcludedIpDialogDescription">Supprimer l’adresse IP de la liste ?</string>
+    <string name="removeExcludedIpDialogDescription">Retirer l’adresse IP de la liste ?</string>
     <string name="loaderFetchingServers">Récupération des serveurs…</string>
     <string name="toastProfileSaved">Sauvegardé</string>
     <string name="tileConnected">Connecté : %1$s</string>
@@ -294,7 +294,7 @@
     <string name="troubleshootIspProblemTitle">Problème de fournisseur d\'accès internet (FAI)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Essayez de vous connecter à Proton depuis un autre réseau (ou utilisez <a href=\'%1$s\'>Tor</a>).]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interférence avec l’antivirus</string>
-    <string name="troubleshootAntivirusProblemDescription">Désactivez ou supprimez temporairement votre logiciel antivirus.</string>
+    <string name="troubleshootAntivirusProblemDescription">Désactivez ou retirez temporairement votre logiciel antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interférence avec le proxy/pare-feu</string>
     <string name="troubleshootProxyFirewallProblemDescription">Désactivez tout proxy ou pare-feu, ou contactez votre administrateur réseau.</string>
     <string name="troubleshootProtonDownTitle">Proton est en panne.</string>
@@ -715,7 +715,7 @@
     <string name="whats_new_added_countries_title">Nouveaux pays dans l\'abonnement Free</string>
     <string name="whats_new_added_countries_description">Il y a maintenant des serveurs Free en Pologne et en Roumanie.</string>
     <string name="whats_new_server_selection_title">Changements concernant la sélection des serveurs</string>
-    <string name="whats_new_server_selection_description">Pour éviter l\'encombrement des serveurs et garantir à tous l\'accès à une navigation rapide et sécurisée, nous avons supprimé la sélection manuelle des pays et apporté des améliorations importantes à la sélection automatique des serveurs.</string>
+    <string name="whats_new_server_selection_description">Pour éviter l\'encombrement des serveurs et garantir à tous l\'accès à une navigation rapide et sécurisée, nous avons retiré la sélection manuelle des pays et apporté des améliorations importantes à la sélection automatique des serveurs.</string>
     <string name="welcome_plus_title">Bienvenue dans VPN Plus</string>
     <string name="welcome_plus_description">Profitez de fonctionnalités supplémentaires de protection de la vie privée, de meilleures performances et d\'une personnalisation poussée de votre VPN.</string>
     <string name="welcome_plus_feature_security">Fonctionnalités de sécurité avancées</string>

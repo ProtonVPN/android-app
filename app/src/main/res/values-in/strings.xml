@@ -156,7 +156,7 @@
     <string name="state_disconnecting">Memutus sambungan…</string>
     <string name="state_error">Kesalahan</string>
     <string name="error_server_unreachable">Tidak dapat terhubung ke VPN. Mohon periksa koneksi Anda dan coba lagi.</string>
-    <string name="error_auth_failed">Otentikasi pengguna gagal.</string>
+    <string name="error_auth_failed">Autentikasi pengguna gagal.</string>
     <string name="error_assessment_failed">Penilaian keamanan gagal.</string>
     <string name="error_generic">Terdapat kesalahan yang tak terperinci saat menghubungkan.</string>
     <string name="error_generic_with_reason">Proton VPN tidak dapat mengukuhkan sambungan VPN. Silakan coba beberapa saat lagi.<br/><br/>Rincian: %1$s</string>
@@ -252,7 +252,7 @@
     <string name="profileRandom">Acak</string>
     <string name="settingsSplitTunnelingDescription">Split Tunneling memungkinkan aplikasi atau alamat IP tertentu untuk dikecualikan dari lalu lintas VPN.</string>
     <string name="settingsSplitTunnelingTitle">Tunneling Terpisah</string>
-    <string name="loaderAuthenticatingUser">Mengotentikasi pengguna…</string>
+    <string name="loaderAuthenticatingUser">Mengautentikasi pengguna…</string>
     <string name="loaderErrorNoInternet">Tidak ada koneksi internet</string>
     <string name="loaderErrorGeneric">Ada yang salah</string>
     <string name="loaderLoadingServers">Memuat daftar server…</string>
