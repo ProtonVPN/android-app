@@ -197,7 +197,7 @@
     <string name="try_again">Volver a intentar</string>
     <string name="manage">Gestionar</string>
     <string name="delete">Eliminar</string>
-    <string name="remove">Eliminar</string>
+    <string name="remove">Borrar</string>
     <string name="deleteProfileButton">Eliminar perfil</string>
     <string name="deleteProfile">¿Eliminar perfil?</string>
     <string name="doneButton">Hecho</string>
@@ -247,7 +247,7 @@
     <string name="bugReportErrorInvalidEmail">Dirección de correo no válida</string>
     <string name="bugReportErrorEmptyDescription">Escríbanos lo que está sucediendo.</string>
     <string name="bugReportLabelVpnLogsTitle">Incluir registros de errores</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">Esto envía registros de errores locales (no registramos la actividad) para ayudarnos a solucionar su problema</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Esto envía registros de errores locales (no registramos la actividad) para ayudarnos a resolver su problema</string>
     <string name="profileFastest">El más rápido</string>
     <string name="profileRandom">Aleatorio</string>
     <string name="settingsSplitTunnelingDescription">La tunelización dividida permite que ciertas aplicaciones o direcciones IP sean excluidas del tráfico VPN.</string>
@@ -277,7 +277,7 @@
     </plurals>
     <string name="settingsCannotChangeWhileConnected">No se puede cambiar mientras esté conectado</string>
     <string name="excludeAlreadyExcluded">Ya excluido</string>
-    <string name="removeExcludedIpDialogDescription">¿Eliminar la dirección IP de la lista?</string>
+    <string name="removeExcludedIpDialogDescription">¿Borrar la dirección IP de la lista?</string>
     <string name="loaderFetchingServers">Cargando servidores…</string>
     <string name="toastProfileSaved">Guardado</string>
     <string name="tileConnected">Conectado: %1$s</string>
@@ -286,15 +286,15 @@
     <string name="openUrlError">No se pudo abrir %1$s. No se detectó un navegador en su dispositivo.</string>
     <string name="toastLoginAuthVersionError">No se puede iniciar sesión debido a una versión de autenticación incompatible. Contacte con soporte.</string>
     <string name="loaderErrorTimeout">Tiempo de conexión agotado. Inténtelo de nuevo.</string>
-    <string name="troubleshootButton">Solución de problemas</string>
-    <string name="activityTroubleshootTitle">Solución de problemas</string>
+    <string name="troubleshootButton">Resolución de problemas</string>
+    <string name="activityTroubleshootTitle">Resolución de problemas</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Soluciones potenciales</string>
     <string name="troubleshootNoInternetDescription">Asegúrese de que su conexión a Internet está funcionando.</string>
     <string name="troubleshootNoInternetTitle">No hay conexión a internet</string>
     <string name="troubleshootIspProblemTitle">Problema del proveedor de servicios de Internet (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Intente conectarse a Proton desde una red diferente (o utilice <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interferencia del antivirus</string>
-    <string name="troubleshootAntivirusProblemDescription">Desactive temporalmente o elimine su software antivirus.</string>
+    <string name="troubleshootAntivirusProblemDescription">Desactive temporalmente o borre su software antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferencia de Proxy/Firewall</string>
     <string name="troubleshootProxyFirewallProblemDescription">Desactive cualquier proxy o firewall, o contacte con el administrador de su red.</string>
     <string name="troubleshootProtonDownTitle">Proton está caído</string>
@@ -715,7 +715,7 @@
     <string name="whats_new_added_countries_title">Nuevos países gratuitos</string>
     <string name="whats_new_added_countries_description">Ahora hay servidores gratuitos en Polonia y Rumania.</string>
     <string name="whats_new_server_selection_title">Cambios a la selección de servidor</string>
-    <string name="whats_new_server_selection_description">Para evitar la saturación de servidores y garantizar que todos tengan acceso a una navegación rápida y segura, eliminamos la selección manual de países e hicimos mejoras importantes en la selección automática de servidores.</string>
+    <string name="whats_new_server_selection_description">Para evitar la saturación de servidores y garantizar que todos tengan acceso a una navegación rápida y segura, borramos la selección manual de países e hicimos mejoras importantes en la selección automática de servidores.</string>
     <string name="welcome_plus_title">Le damos la bienvenida a VPN Plus</string>
     <string name="welcome_plus_description">Disfrute de funciones de privacidad adicionales, rendimiento recargado y una personalización VPN de otro nivel.</string>
     <string name="welcome_plus_feature_security">Funciones de seguridad avanzadas</string>
