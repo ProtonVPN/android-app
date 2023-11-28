@@ -44,7 +44,7 @@ object SentryIntegration {
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface HiltEntryPoint {
-        fun isTv(): IsTvCheck
+        val isTv: IsTvCheck
     }
 
     @JvmStatic
