@@ -51,8 +51,8 @@ import com.protonvpn.android.utils.ConnectionTools
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.ViewUtils.toDp
 import com.protonvpn.android.vpn.DisconnectTrigger
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.utils.viewBinding
 import java.text.DecimalFormat
 
 private const val CHART_LINE_WIDTH_DP = 3f

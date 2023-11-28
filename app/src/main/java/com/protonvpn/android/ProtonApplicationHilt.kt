@@ -64,8 +64,8 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
         }
     }
 
-    override fun getWorkManagerConfiguration(): Configuration =
-        Configuration.Builder().setWorkerFactory(workerFactory).build()
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder().setWorkerFactory(workerFactory).build()
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)

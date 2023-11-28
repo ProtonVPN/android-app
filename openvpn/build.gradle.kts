@@ -187,14 +187,14 @@ dependencies {
     // https://maven.google.com/web/index.html
     // https://developer.android.com/jetpack/androidx/releases/core
     val preferenceVersion = "1.2.0"
-    val coreVersion = "1.9.0"
+    val coreVersion = "1.12.0"
     val materialVersion = "1.7.0"
     val fragment_version = "1.5.5"
 
 
-    implementation("androidx.annotation:annotation:1.3.0")
+    implementation("androidx.annotation:annotation:1.7.0")
     implementation("androidx.core:core:$coreVersion")
-    implementation("com.github.seancfoley:ipaddress:5.3.4")
+    implementation("com.github.seancfoley:ipaddress:5.4.0")
 
 /*
     // Is there a nicer way to do this?

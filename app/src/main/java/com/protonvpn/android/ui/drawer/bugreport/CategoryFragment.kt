@@ -25,8 +25,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.FragmentCategoryListBinding
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.utils.viewBinding
 
 @AndroidEntryPoint
 class CategoryFragment : Fragment(R.layout.fragment_category_list) {

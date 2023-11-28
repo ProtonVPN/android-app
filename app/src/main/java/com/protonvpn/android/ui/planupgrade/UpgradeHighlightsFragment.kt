@@ -51,8 +51,8 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.getThemeColor
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.utils.viewBinding
 
 abstract class PlanHighlightsFragment : Fragment(R.layout.fragment_plan_highlights) {
 

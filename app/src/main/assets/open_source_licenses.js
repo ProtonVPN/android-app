@@ -2,7 +2,7 @@ dependencies = [
   {
     "project": "account",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -14,12 +14,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account:9.1.2"
+    "dependency": "me.proton.core:account:18.2.0"
   },
   {
     "project": "account-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -31,12 +31,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-dagger:9.1.2"
+    "dependency": "me.proton.core:account-dagger:18.2.0"
   },
   {
     "project": "account-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -48,12 +48,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-data:9.1.2"
+    "dependency": "me.proton.core:account-data:18.2.0"
   },
   {
     "project": "account-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -65,46 +65,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-domain:9.1.2"
-  },
-  {
-    "project": "account-manager",
-    "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
-    "developers": [
-      "Open Source Proton"
-    ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:account-manager:9.1.2"
-  },
-  {
-    "project": "account-manager-dagger",
-    "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
-    "developers": [
-      "Open Source Proton"
-    ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:account-manager-dagger:9.1.2"
+    "dependency": "me.proton.core:account-domain:18.2.0"
   },
   {
     "project": "account-manager-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -116,12 +82,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-manager-data:9.1.2"
+    "dependency": "me.proton.core:account-manager-data:18.2.0"
   },
   {
     "project": "account-manager-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -133,12 +99,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-manager-domain:9.1.2"
+    "dependency": "me.proton.core:account-manager-domain:18.2.0"
   },
   {
     "project": "account-manager-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -150,16 +116,118 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-manager-presentation:9.1.2"
+    "dependency": "me.proton.core:account-manager-presentation:18.2.0"
+  },
+  {
+    "project": "account-recovery",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-recovery:18.2.0"
+  },
+  {
+    "project": "account-recovery-dagger",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-recovery-dagger:18.2.0"
+  },
+  {
+    "project": "account-recovery-data",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-recovery-data:18.2.0"
+  },
+  {
+    "project": "account-recovery-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-recovery-domain:18.2.0"
+  },
+  {
+    "project": "account-recovery-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-recovery-presentation:18.2.0"
+  },
+  {
+    "project": "account-recovery-presentation-compose",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:account-recovery-presentation-compose:18.2.0"
   },
   {
     "project": "Activity",
     "description": "Provides the base Activity subclass and the relevant hooks to build a composable structure on top.",
-    "version": "1.6.0",
+    "version": "1.8.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/activity#1.6.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/activity#1.8.1",
     "year": "2018",
     "licenses": [
       {
@@ -167,16 +235,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.activity:activity:1.6.0"
+    "dependency": "androidx.activity:activity:1.8.1"
+  },
+  {
+    "project": "Activity Compose",
+    "description": "Compose integration with Activity",
+    "version": "1.8.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/activity#1.8.1",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.activity:activity-compose:1.8.1"
   },
   {
     "project": "Activity Kotlin Extensions",
     "description": "Kotlin extensions for \u0027activity\u0027 artifact",
-    "version": "1.6.0",
+    "version": "1.8.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/activity#1.6.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/activity#1.8.1",
     "year": "2018",
     "licenses": [
       {
@@ -184,7 +269,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.activity:activity-ktx:1.6.0"
+    "dependency": "androidx.activity:activity-ktx:1.8.1"
   },
   {
     "project": "AES-Crypto",
@@ -206,11 +291,11 @@ dependencies = [
   {
     "project": "Android App Startup Runtime",
     "description": "Android App Startup Runtime",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/startup#1.1.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/startup#1.1.1",
     "year": "2020",
     "licenses": [
       {
@@ -218,16 +303,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.startup:startup-runtime:1.1.0"
+    "dependency": "androidx.startup:startup-runtime:1.1.1"
   },
   {
     "project": "Android AppCompat Library",
     "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
-    "version": "1.4.1",
+    "version": "1.6.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/appcompat#1.4.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/appcompat#1.6.1",
     "year": "2011",
     "licenses": [
       {
@@ -235,16 +320,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.appcompat:appcompat:1.4.1"
+    "dependency": "androidx.appcompat:appcompat:1.6.1"
   },
   {
     "project": "Android Arch-Common",
     "description": "Android Arch-Common",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/topic/libraries/architecture/index.html",
+    "url": "https://developer.android.com/jetpack/androidx/releases/arch-core#2.2.0",
     "year": "2017",
     "licenses": [
       {
@@ -252,16 +337,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.arch.core:core-common:2.1.0"
+    "dependency": "androidx.arch.core:core-common:2.2.0"
   },
   {
     "project": "Android Arch-Runtime",
     "description": "Android Arch-Runtime",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/topic/libraries/architecture/index.html",
+    "url": "https://developer.android.com/jetpack/androidx/releases/arch-core#2.2.0",
     "year": "2017",
     "licenses": [
       {
@@ -269,7 +354,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.arch.core:core-runtime:2.1.0"
+    "dependency": "androidx.arch.core:core-runtime:2.2.0"
   },
   {
     "project": "Android ConstraintLayout",
@@ -340,57 +425,6 @@ dependencies = [
     "dependency": "androidx.datastore:datastore-core:1.0.0"
   },
   {
-    "project": "Android DB",
-    "description": "Android DB",
-    "version": "2.2.0",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/sqlite#2.2.0",
-    "year": "2017",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.sqlite:sqlite:2.2.0"
-  },
-  {
-    "project": "Android Emoji2 Compat",
-    "description": "Core library to enable emoji compatibility in Kitkat and newer devices to avoid the empty emoji characters.",
-    "version": "1.0.0",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/emoji2#1.0.0",
-    "year": "2017",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.emoji2:emoji2:1.0.0"
-  },
-  {
-    "project": "Android Emoji2 Compat view helpers",
-    "description": "View helpers for Emoji2",
-    "version": "1.0.0",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/emoji2#1.0.0",
-    "year": "2017",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.emoji2:emoji2-views-helper:1.0.0"
-  },
-  {
     "project": "Android Lifecycle Extensions",
     "description": "Android Lifecycle Extensions",
     "version": "2.2.0",
@@ -410,11 +444,11 @@ dependencies = [
   {
     "project": "Android Lifecycle Kotlin Extensions",
     "description": "Kotlin extensions for \u0027lifecycle\u0027 artifact",
-    "version": "2.5.1",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2019",
     "licenses": [
       {
@@ -422,16 +456,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+    "dependency": "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
   },
   {
     "project": "Android Lifecycle LiveData",
     "description": "Android Lifecycle LiveData",
-    "version": "2.5.1",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2017",
     "licenses": [
       {
@@ -439,16 +473,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-livedata:2.5.1"
+    "dependency": "androidx.lifecycle:lifecycle-livedata:2.6.2"
   },
   {
     "project": "Android Lifecycle LiveData Core",
     "description": "Android Lifecycle LiveData Core",
-    "version": "2.5.1",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2017",
     "licenses": [
       {
@@ -456,16 +490,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-livedata-core:2.5.1"
+    "dependency": "androidx.lifecycle:lifecycle-livedata-core:2.6.2"
   },
   {
     "project": "Android Lifecycle Process",
     "description": "Android Lifecycle Process",
-    "version": "2.4.0",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.4.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2018",
     "licenses": [
       {
@@ -473,16 +507,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-process:2.4.0"
+    "dependency": "androidx.lifecycle:lifecycle-process:2.6.2"
   },
   {
     "project": "Android Lifecycle Runtime",
     "description": "Android Lifecycle Runtime",
-    "version": "2.5.1",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2017",
     "licenses": [
       {
@@ -490,16 +524,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-runtime:2.5.1"
+    "dependency": "androidx.lifecycle:lifecycle-runtime:2.6.2"
   },
   {
     "project": "Android Lifecycle Service",
     "description": "Android Lifecycle Service",
-    "version": "2.2.0",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/topic/libraries/architecture/index.html",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2018",
     "licenses": [
       {
@@ -507,16 +541,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-service:2.2.0"
+    "dependency": "androidx.lifecycle:lifecycle-service:2.6.2"
   },
   {
     "project": "Android Lifecycle ViewModel",
     "description": "Android Lifecycle ViewModel",
-    "version": "2.5.1",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2017",
     "licenses": [
       {
@@ -524,16 +558,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel:2.5.1"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel:2.6.2"
   },
   {
     "project": "Android Lifecycle ViewModel Kotlin Extensions",
     "description": "Kotlin extensions for \u0027viewmodel\u0027 artifact",
-    "version": "2.5.1",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2018",
     "licenses": [
       {
@@ -541,16 +575,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
   },
   {
     "project": "Android Lifecycle ViewModel with SavedState",
     "description": "Android Lifecycle ViewModel",
-    "version": "2.5.1",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2018",
     "licenses": [
       {
@@ -558,33 +592,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1"
-  },
-  {
-    "project": "Android Lifecycle WorkManager Hilt Extension",
-    "description": "Android Lifecycle WorkManager Hilt Extension",
-    "version": "1.0.0",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/hilt#1.0.0",
-    "year": "2020",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.hilt:hilt-work:1.0.0"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2"
   },
   {
     "project": "Android Lifecycle-Common",
     "description": "Android Lifecycle-Common",
-    "version": "2.5.1",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2017",
     "licenses": [
       {
@@ -592,16 +609,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-common:2.5.1"
+    "dependency": "androidx.lifecycle:lifecycle-common:2.6.2"
   },
   {
     "project": "Android Lifecycle-Common for Java 8 Language",
     "description": "Android Lifecycle-Common for Java 8 Language",
-    "version": "2.5.1",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2017",
     "licenses": [
       {
@@ -609,7 +626,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-common-java8:2.5.1"
+    "dependency": "androidx.lifecycle:lifecycle-common-java8:2.6.2"
   },
   {
     "project": "Android Multi-Dex Library",
@@ -629,13 +646,30 @@ dependencies = [
     "dependency": "androidx.multidex:multidex:2.0.1"
   },
   {
-    "project": "Android Preferences KTX",
-    "description": "Kotlin extensions for preferences",
-    "version": "1.2.0",
+    "project": "Android Navigation Common",
+    "description": "Android Navigation-Common",
+    "version": "2.5.3",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/preference#1.2.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/navigation#2.5.3",
+    "year": "2017",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.navigation:navigation-common:2.5.3"
+  },
+  {
+    "project": "Android Navigation Common Kotlin Extensions",
+    "description": "Android Navigation-Common-Ktx",
+    "version": "2.4.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/navigation#2.4.0",
     "year": "2018",
     "licenses": [
       {
@@ -643,16 +677,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.preference:preference-ktx:1.2.0"
+    "dependency": "androidx.navigation:navigation-common-ktx:2.4.0"
   },
   {
-    "project": "Android Resource Inspection - Annotations",
-    "description": "Annotation processors for Android resource and layout inspection",
+    "project": "Android Navigation Hilt Extension",
+    "description": "Android Navigation Hilt Extension",
     "version": "1.0.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/resourceinspection#1.0.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/hilt#1.0.0",
     "year": "2021",
     "licenses": [
       {
@@ -660,16 +694,118 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.resourceinspection:resourceinspection-annotation:1.0.0"
+    "dependency": "androidx.hilt:hilt-navigation:1.0.0"
+  },
+  {
+    "project": "Android Navigation Runtime",
+    "description": "Android Navigation-Runtime",
+    "version": "2.4.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/navigation#2.4.0",
+    "year": "2017",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.navigation:navigation-runtime:2.4.0"
+  },
+  {
+    "project": "Android Navigation Runtime Kotlin Extensions",
+    "description": "Android Navigation-Runtime-Ktx",
+    "version": "2.4.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/navigation#2.4.0",
+    "year": "2018",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.navigation:navigation-runtime-ktx:2.4.0"
+  },
+  {
+    "project": "Android Preferences DataStore",
+    "description": "Android Preferences DataStore",
+    "version": "1.0.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/datastore#1.0.0",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.datastore:datastore-preferences:1.0.0"
+  },
+  {
+    "project": "Android Preferences DataStore Core",
+    "description": "Android Preferences DataStore without the Android Dependencies",
+    "version": "1.0.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/datastore#1.0.0",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.datastore:datastore-preferences-core:1.0.0"
+  },
+  {
+    "project": "Android Preferences KTX",
+    "description": "Kotlin extensions for preferences",
+    "version": "1.2.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/preference#1.2.1",
+    "year": "2018",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.preference:preference-ktx:1.2.1"
+  },
+  {
+    "project": "Android Resource Inspection - Annotations",
+    "description": "Annotation processors for Android resource and layout inspection",
+    "version": "1.0.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/resourceinspection#1.0.1",
+    "year": "2021",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.resourceinspection:resourceinspection-annotation:1.0.1"
   },
   {
     "project": "Android Resources Library",
     "description": "The Resources Library is a static library that you can add to your Android application in order to use resource APIs that backport the latest APIs to older versions of the platform. Compatible on devices running API 14 or later.",
-    "version": "1.4.1",
+    "version": "1.6.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/appcompat#1.4.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/appcompat#1.6.1",
     "year": "2019",
     "licenses": [
       {
@@ -677,58 +813,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.appcompat:appcompat-resources:1.4.1"
-  },
-  {
-    "project": "Android Room Kotlin Extensions",
-    "description": "Android Room Kotlin Extensions",
-    "version": "2.4.3",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.4.3",
-    "year": "2019",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.room:room-ktx:2.4.3"
-  },
-  {
-    "project": "Android Room-Common",
-    "description": "Android Room-Common",
-    "version": "2.4.3",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.4.3",
-    "year": "2017",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.room:room-common:2.4.3"
-  },
-  {
-    "project": "Android Room-Runtime",
-    "description": "Android Room-Runtime",
-    "version": "2.4.3",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.4.3",
-    "year": "2017",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.room:room-runtime:2.4.3"
+    "dependency": "androidx.appcompat:appcompat-resources:1.6.1"
   },
   {
     "project": "Android State",
@@ -801,11 +886,11 @@ dependencies = [
   {
     "project": "Android Support ExifInterface",
     "description": "Android Support ExifInterface",
-    "version": "1.2.0",
+    "version": "1.3.6",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx",
+    "url": "https://developer.android.com/jetpack/androidx/releases/exifinterface#1.3.6",
     "year": "2016",
     "licenses": [
       {
@@ -813,16 +898,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.exifinterface:exifinterface:1.2.0"
+    "dependency": "androidx.exifinterface:exifinterface:1.3.6"
   },
   {
     "project": "Android Support Leanback v17",
     "description": "Android Support Leanback v17",
-    "version": "1.1.0-rc01",
+    "version": "1.1.0-rc02",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/leanback#1.1.0-rc01",
+    "url": "https://developer.android.com/jetpack/androidx/releases/leanback#1.1.0-rc02",
     "year": "2014",
     "licenses": [
       {
@@ -830,16 +915,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.leanback:leanback:1.1.0-rc01"
+    "dependency": "androidx.leanback:leanback:1.1.0-rc02"
   },
   {
     "project": "Android Support Library Annotations",
     "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs.",
-    "version": "1.3.0",
+    "version": "1.0.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/annotation#1.3.0",
+    "url": "http://developer.android.com/tools/extras/support-library.html",
     "year": "2013",
     "licenses": [
       {
@@ -847,7 +932,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.annotation:annotation:1.3.0"
+    "dependency": "androidx.annotation:annotation:1.0.0"
   },
   {
     "project": "Android Support Library Async Layout Inflater",
@@ -869,11 +954,11 @@ dependencies = [
   {
     "project": "Android Support Library collections",
     "description": "Standalone efficient collections.",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "http://developer.android.com/tools/extras/support-library.html",
+    "url": "https://developer.android.com/jetpack/androidx/releases/collection#1.2.0",
     "year": "2018",
     "licenses": [
       {
@@ -881,33 +966,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.collection:collection:1.1.0"
-  },
-  {
-    "project": "Android Support Library compat",
-    "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
-    "version": "1.9.0",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/core#1.9.0",
-    "year": "2015",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.core:core:1.9.0"
+    "dependency": "androidx.collection:collection:1.2.0"
   },
   {
     "project": "Android Support Library Coordinator Layout",
     "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx",
+    "url": "https://developer.android.com/jetpack/androidx/releases/coordinatorlayout#1.2.0",
     "year": "2011",
     "licenses": [
       {
@@ -915,7 +983,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+    "dependency": "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
   },
   {
     "project": "Android Support Library core UI",
@@ -1039,11 +1107,11 @@ dependencies = [
   {
     "project": "Android Support Library fragment",
     "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
-    "version": "1.5.3",
+    "version": "1.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/fragment#1.5.3",
+    "url": "https://developer.android.com/jetpack/androidx/releases/fragment#1.6.2",
     "year": "2011",
     "licenses": [
       {
@@ -1051,7 +1119,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.fragment:fragment:1.5.3"
+    "dependency": "androidx.fragment:fragment:1.6.2"
   },
   {
     "project": "Android Support Library Interpolators",
@@ -1192,11 +1260,11 @@ dependencies = [
   {
     "project": "Android Support RecyclerView",
     "description": "Android Support RecyclerView",
-    "version": "1.2.1",
+    "version": "1.3.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/recyclerview#1.2.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/recyclerview#1.3.2",
     "year": "2014",
     "licenses": [
       {
@@ -1204,24 +1272,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.recyclerview:recyclerview:1.2.1"
-  },
-  {
-    "project": "Android Support SQLite - Framework Implementation",
-    "description": "The implementation of Support SQLite library using the framework code.",
-    "version": "2.2.0",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/sqlite#2.2.0",
-    "year": "2017",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.sqlite:sqlite-framework:2.2.0"
+    "dependency": "androidx.recyclerview:recyclerview:1.3.2"
   },
   {
     "project": "Android Support VectorDrawable",
@@ -1277,11 +1328,11 @@ dependencies = [
   {
     "project": "Android WorkManager Kotlin Extensions",
     "description": "Android WorkManager Kotlin Extensions",
-    "version": "2.7.1",
+    "version": "2.8.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/work#2.7.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/work#2.8.1",
     "year": "2018",
     "licenses": [
       {
@@ -1289,16 +1340,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.work:work-runtime-ktx:2.7.1"
+    "dependency": "androidx.work:work-runtime-ktx:2.8.1"
   },
   {
     "project": "Android WorkManager Runtime",
     "description": "Android WorkManager runtime library",
-    "version": "2.7.1",
+    "version": "2.8.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/work#2.7.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/work#2.8.1",
     "year": "2018",
     "licenses": [
       {
@@ -1306,7 +1357,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.work:work-runtime:2.7.1"
+    "dependency": "androidx.work:work-runtime:2.8.1"
   },
   {
     "project": "AndroidEasingFunctions Library",
@@ -1340,12 +1391,29 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.caverock:androidsvg:1.4"
+    "dependency": "com.caverock:androidsvg-aar:1.4"
+  },
+  {
+    "project": "AndroidX Autofill",
+    "description": "AndroidX Autofill",
+    "version": "1.0.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.autofill:autofill:1.0.0"
   },
   {
     "project": "AndroidX Futures",
     "description": "Androidx implementation of Guava\u0027s ListenableFuture",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -1357,24 +1425,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.concurrent:concurrent-futures:1.0.0"
-  },
-  {
-    "project": "AndroidX Hilt Extension Annotations",
-    "description": "AndroidX Hilt Extension Annotations",
-    "version": "1.0.0",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/hilt#1.0.0",
-    "year": "2020",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.hilt:hilt-common:1.0.0"
+    "dependency": "androidx.concurrent:concurrent-futures:1.1.0"
   },
   {
     "project": "AndroidX Leanback Preference",
@@ -1396,11 +1447,11 @@ dependencies = [
   {
     "project": "AndroidX Preference",
     "description": "AndroidX Preference",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/preference#1.2.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/preference#1.2.1",
     "year": "2015",
     "licenses": [
       {
@@ -1408,7 +1459,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.preference:preference:1.2.0"
+    "dependency": "androidx.preference:preference:1.2.1"
   },
   {
     "project": "AndroidX Security",
@@ -1430,7 +1481,7 @@ dependencies = [
   {
     "project": "AndroidX Test Library",
     "description": "The AndroidX Test Library provides an extensive framework for testing Android apps",
-    "version": "3.4.0",
+    "version": "3.5.1",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -1442,29 +1493,63 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.test.espresso:espresso-idling-resource:3.4.0"
+    "dependency": "androidx.test.espresso:espresso-idling-resource:3.5.1"
   },
   {
-    "project": "AndroidX Widget ViewPager2",
-    "description": "AndroidX Widget ViewPager2",
-    "version": "1.1.0-beta01",
+    "project": "androidx.customview:poolingcontainer",
+    "description": "Utilities for listening to the lifecycle of containers that manage their child Views\u0027 lifecycle, such as RecyclerView",
+    "version": "1.0.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/viewpager2#1.1.0-beta01",
-    "year": "2017",
+    "url": "https://developer.android.com/jetpack/androidx/releases/customview#1.0.0",
+    "year": "2021",
     "licenses": [
       {
         "license": "The Apache Software License, Version 2.0",
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.viewpager2:viewpager2:1.1.0-beta01"
+    "dependency": "androidx.customview:customview-poolingcontainer:1.0.0"
+  },
+  {
+    "project": "androidx.profileinstaller:profileinstaller",
+    "description": "Allows libraries to prepopulate ahead of time compilation traces to be read by ART",
+    "version": "1.3.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/profileinstaller#1.3.1",
+    "year": "2021",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.profileinstaller:profileinstaller:1.3.1"
+  },
+  {
+    "project": "Annotation",
+    "description": "Provides source annotations for tooling and readability.",
+    "version": "1.7.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/annotation#1.7.0",
+    "year": "2013",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.annotation:annotation-jvm:1.7.0"
   },
   {
     "project": "Apache Commons Codec",
     "description": "The Apache Commons Codec package contains simple encoder and decoders for\n     various formats such as Base64 and Hexadecimal.  In addition to these\n     widely used encoders and decoders, the codec package also maintains a\n     collection of phonetic encoding utilities.",
-    "version": "1.15",
+    "version": "1.16.0",
     "developers": [
       "Henri Yandell",
       "Tim OBrien",
@@ -1476,22 +1561,40 @@ dependencies = [
       "David Graham",
       "Julius Davies",
       "Thomas Neidhart",
-      "Rob Tompkins"
+      "Rob Tompkins",
+      "Matt Sicker"
     ],
     "url": "https://commons.apache.org/proper/commons-codec/",
     "year": "2002",
     "licenses": [
       {
-        "license": "Apache License, Version 2.0",
+        "license": "Apache-2.0",
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "commons-codec:commons-codec:1.15"
+    "dependency": "commons-codec:commons-codec:1.16.0"
+  },
+  {
+    "project": "atomicfu",
+    "description": "AtomicFU utilities",
+    "version": "0.18.5",
+    "developers": [
+      "JetBrains Team"
+    ],
+    "url": "https://github.com/Kotlin/kotlinx.atomicfu",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.kotlinx:atomicfu-jvm:0.18.5"
   },
   {
     "project": "auth",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1503,12 +1606,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth:9.1.2"
+    "dependency": "me.proton.core:auth:18.2.0"
   },
   {
     "project": "auth-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1520,12 +1623,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-dagger:9.1.2"
+    "dependency": "me.proton.core:auth-dagger:18.2.0"
   },
   {
     "project": "auth-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1537,12 +1640,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-data:9.1.2"
+    "dependency": "me.proton.core:auth-data:18.2.0"
   },
   {
     "project": "auth-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1554,12 +1657,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-domain:9.1.2"
+    "dependency": "me.proton.core:auth-domain:18.2.0"
   },
   {
     "project": "auth-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1571,7 +1674,37 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-presentation:9.1.2"
+    "dependency": "me.proton.core:auth-presentation:18.2.0"
+  },
+  {
+    "project": "billing",
+    "description": null,
+    "version": "5.1.0",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "Android Software Development Kit License",
+        "license_url": "https://developer.android.com/studio/terms.html"
+      }
+    ],
+    "dependency": "com.android.billingclient:billing:5.1.0"
+  },
+  {
+    "project": "billing-ktx",
+    "description": null,
+    "version": "5.1.0",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "Android Software Development Kit License",
+        "license_url": "https://developer.android.com/studio/terms.html"
+      }
+    ],
+    "dependency": "com.android.billingclient:billing-ktx:5.1.0"
   },
   {
     "project": "Butterknife",
@@ -1625,9 +1758,26 @@ dependencies = [
     "dependency": "com.jakewharton:butterknife-runtime:10.2.3"
   },
   {
+    "project": "cache4k",
+    "description": "In-memory Cache for Kotlin Multiplatform",
+    "version": "0.9.0",
+    "developers": [
+      "Reactive Circus"
+    ],
+    "url": "https://github.com/reactivecircus/cache4k",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "io.github.reactivecircus.cache4k:cache4k-jvm:0.9.0"
+  },
+  {
     "project": "challenge",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1639,12 +1789,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:challenge:9.1.2"
+    "dependency": "me.proton.core:challenge:18.2.0"
   },
   {
     "project": "challenge-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1656,12 +1806,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:challenge-dagger:9.1.2"
+    "dependency": "me.proton.core:challenge-dagger:18.2.0"
   },
   {
     "project": "challenge-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1673,12 +1823,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:challenge-data:9.1.2"
+    "dependency": "me.proton.core:challenge-data:18.2.0"
   },
   {
     "project": "challenge-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1690,12 +1840,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:challenge-domain:9.1.2"
+    "dependency": "me.proton.core:challenge-domain:18.2.0"
   },
   {
     "project": "challenge-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1707,7 +1857,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:challenge-presentation:9.1.2"
+    "dependency": "me.proton.core:challenge-presentation:18.2.0"
   },
   {
     "project": "CircleIndicator",
@@ -1725,6 +1875,57 @@ dependencies = [
       }
     ],
     "dependency": "me.relex:circleindicator:2.1.6"
+  },
+  {
+    "project": "coil",
+    "description": "An image loading library for Android backed by Kotlin Coroutines.",
+    "version": "2.4.0",
+    "developers": [
+      "Coil Contributors"
+    ],
+    "url": "https://github.com/coil-kt/coil",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "io.coil-kt:coil:2.4.0"
+  },
+  {
+    "project": "coil-base",
+    "description": "An image loading library for Android backed by Kotlin Coroutines.",
+    "version": "2.4.0",
+    "developers": [
+      "Coil Contributors"
+    ],
+    "url": "https://github.com/coil-kt/coil",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "io.coil-kt:coil-base:2.4.0"
+  },
+  {
+    "project": "coil-svg",
+    "description": "An image loading library for Android backed by Kotlin Coroutines.",
+    "version": "2.4.0",
+    "developers": [
+      "Coil Contributors"
+    ],
+    "url": "https://github.com/coil-kt/coil",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "io.coil-kt:coil-svg:2.4.0"
   },
   {
     "project": "Collections Kotlin Extensions",
@@ -1746,7 +1947,7 @@ dependencies = [
   {
     "project": "com.dropbox.mobile.store",
     "description": "Store4 is built with Kotlin Coroutines",
-    "version": "4.0.4-KT15",
+    "version": "4.0.5",
     "developers": [
       "Dropbox"
     ],
@@ -1758,12 +1959,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
       }
     ],
-    "dependency": "com.dropbox.mobile.store:multicast:4.0.4-KT15"
+    "dependency": "com.dropbox.mobile.store:store4:4.0.5"
   },
   {
     "project": "com.dropbox.mobile.store",
     "description": "Store4 is built with Kotlin Coroutines",
-    "version": "4.0.4-KT15",
+    "version": "4.0.5",
     "developers": [
       "Dropbox"
     ],
@@ -1775,7 +1976,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
       }
     ],
-    "dependency": "com.dropbox.mobile.store:store4:4.0.4-KT15"
+    "dependency": "com.dropbox.mobile.store:multicast:4.0.5"
   },
   {
     "project": "com.nytimes.android",
@@ -1795,13 +1996,47 @@ dependencies = [
     "dependency": "com.nytimes.android:cache3:3.1.1"
   },
   {
-    "project": "Core Kotlin Extensions",
-    "description": "Kotlin extensions for \u0027core\u0027 artifact",
-    "version": "1.9.0",
+    "project": "Compose Animation",
+    "description": "Compose animation library",
+    "version": "1.5.4",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/core#1.9.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.5.4",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.animation:animation-android:1.5.4"
+  },
+  {
+    "project": "Compose Animation Core",
+    "description": "Animation engine and animation primitives that are the building blocks of the Compose animation library",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.5.4",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.animation:animation-core-android:1.5.4"
+  },
+  {
+    "project": "Compose Foundation",
+    "description": "Higher level abstractions of the Compose UI primitives. This library is design system agnostic, providing the high-level building blocks for both application and design-system developers",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.5.4",
     "year": "2018",
     "licenses": [
       {
@@ -1809,12 +2044,348 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.core:core-ktx:1.9.0"
+    "dependency": "androidx.compose.foundation:foundation-android:1.5.4"
+  },
+  {
+    "project": "Compose Geometry",
+    "description": "Compose classes related to dimensions without units",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.5.4",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.ui:ui-geometry-android:1.5.4"
+  },
+  {
+    "project": "Compose Graphics",
+    "description": "Compose graphics",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.5.4",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.ui:ui-graphics-android:1.5.4"
+  },
+  {
+    "project": "Compose Layouts",
+    "description": "Compose layout implementations",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.5.4",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.foundation:foundation-layout-android:1.5.4"
+  },
+  {
+    "project": "Compose LiveData integration",
+    "description": "Compose integration with LiveData",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.5.4",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.runtime:runtime-livedata:1.5.4"
+  },
+  {
+    "project": "Compose Material Components",
+    "description": "Compose Material Design Components library",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.5.4",
+    "year": "2018",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.material:material-android:1.5.4"
+  },
+  {
+    "project": "Compose Material Icons Core",
+    "description": "Compose Material Design core icons. This module contains the most commonly used set of Material icons.",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.5.4",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.material:material-icons-core-android:1.5.4"
+  },
+  {
+    "project": "Compose Material Ripple",
+    "description": "Material ripple used to build interactive components",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.5.4",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.material:material-ripple-android:1.5.4"
+  },
+  {
+    "project": "Compose Material3 Components",
+    "description": "Compose Material You Design Components library",
+    "version": "1.1.2",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material3#1.1.2",
+    "year": "2021",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.material3:material3:1.1.2"
+  },
+  {
+    "project": "Compose Navigation",
+    "description": "Compose integration with Navigation",
+    "version": "2.4.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/navigation#2.4.0",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.navigation:navigation-compose:2.4.0"
+  },
+  {
+    "project": "Compose Runtime",
+    "description": "Tree composition support for code generated by the Compose compiler plugin and corresponding public API",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.5.4",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.runtime:runtime-android:1.5.4"
+  },
+  {
+    "project": "Compose Saveable",
+    "description": "Compose components that allow saving and restoring the local ui state",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.5.4",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.runtime:runtime-saveable-android:1.5.4"
+  },
+  {
+    "project": "Compose UI",
+    "description": "Compose UI primitives. This library contains the primitives that form the Compose UI Toolkit, such as drawing, measurement and layout.",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.5.4",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.ui:ui-android:1.5.4"
+  },
+  {
+    "project": "Compose UI Preview Tooling",
+    "description": "Compose tooling library API. This library provides the API required to declare @Preview composables in user apps.",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.5.4",
+    "year": "2021",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.ui:ui-tooling-preview-android:1.5.4"
+  },
+  {
+    "project": "Compose UI Text",
+    "description": "Compose Text primitives and utilities",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.5.4",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.ui:ui-text-android:1.5.4"
+  },
+  {
+    "project": "Compose Unit",
+    "description": "Compose classes for simple units",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.5.4",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.ui:ui-unit-android:1.5.4"
+  },
+  {
+    "project": "Compose Util",
+    "description": "Internal Compose utilities used by other modules",
+    "version": "1.5.4",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.5.4",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.ui:ui-util-android:1.5.4"
+  },
+  {
+    "project": "Core",
+    "description": "Provides backward-compatible implementations of Android platform APIs and features.",
+    "version": "1.12.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/core#1.12.0",
+    "year": "2015",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.core:core:1.12.0"
+  },
+  {
+    "project": "core",
+    "description": null,
+    "version": "1.10.3",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "Play Core Software Development Kit Terms of Service",
+        "license_url": "https://developer.android.com/guide/playcore/license"
+      }
+    ],
+    "dependency": "com.google.android.play:core:1.10.3"
+  },
+  {
+    "project": "Core Kotlin Extensions",
+    "description": "Kotlin extensions for \u0027core\u0027 artifact",
+    "version": "1.12.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/core#1.12.0",
+    "year": "2018",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.core:core-ktx:1.12.0"
+  },
+  {
+    "project": "core-ktx",
+    "description": null,
+    "version": "1.8.1",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "Android Software Development Kit License",
+        "license_url": "https://developer.android.com/studio/terms.html"
+      }
+    ],
+    "dependency": "com.google.android.play:core-ktx:1.8.1"
   },
   {
     "project": "country",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1826,12 +2397,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:country:9.1.2"
+    "dependency": "me.proton.core:country:18.2.0"
   },
   {
     "project": "country-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1843,12 +2414,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:country-dagger:9.1.2"
+    "dependency": "me.proton.core:country-dagger:18.2.0"
   },
   {
     "project": "country-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1860,12 +2431,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:country-data:9.1.2"
+    "dependency": "me.proton.core:country-data:18.2.0"
   },
   {
     "project": "country-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1877,12 +2448,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:country-domain:9.1.2"
+    "dependency": "me.proton.core:country-domain:18.2.0"
   },
   {
     "project": "country-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1894,12 +2465,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:country-presentation:9.1.2"
+    "dependency": "me.proton.core:country-presentation:18.2.0"
   },
   {
     "project": "crypto",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1911,12 +2482,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto:9.1.2"
+    "dependency": "me.proton.core:crypto:18.2.0"
   },
   {
     "project": "crypto-android",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1928,12 +2499,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-android:9.1.2"
+    "dependency": "me.proton.core:crypto-android:18.2.0"
   },
   {
     "project": "crypto-common",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1945,12 +2516,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-common:9.1.2"
+    "dependency": "me.proton.core:crypto-common:18.2.0"
   },
   {
     "project": "crypto-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1962,12 +2533,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-dagger:9.1.2"
+    "dependency": "me.proton.core:crypto-dagger:18.2.0"
   },
   {
     "project": "crypto-validator",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1979,12 +2550,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-validator:9.1.2"
+    "dependency": "me.proton.core:crypto-validator:18.2.0"
   },
   {
     "project": "crypto-validator-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -1996,12 +2567,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-validator-dagger:9.1.2"
+    "dependency": "me.proton.core:crypto-validator-dagger:18.2.0"
   },
   {
     "project": "crypto-validator-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2013,12 +2584,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-validator-data:9.1.2"
+    "dependency": "me.proton.core:crypto-validator-data:18.2.0"
   },
   {
     "project": "crypto-validator-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2030,12 +2601,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-validator-domain:9.1.2"
+    "dependency": "me.proton.core:crypto-validator-domain:18.2.0"
   },
   {
     "project": "crypto-validator-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2047,12 +2618,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-validator-presentation:9.1.2"
+    "dependency": "me.proton.core:crypto-validator-presentation:18.2.0"
   },
   {
     "project": "Dagger",
     "description": "A fast dependency injector for Android and Java.",
-    "version": "2.44",
+    "version": "2.48.1",
     "developers": [],
     "url": "https://github.com/google/dagger",
     "year": null,
@@ -2062,12 +2633,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.dagger:dagger:2.44"
+    "dependency": "com.google.dagger:dagger:2.48.1"
   },
   {
     "project": "Dagger Lint Rules AAR Distribution",
     "description": "A fast dependency injector for Android and Java.",
-    "version": "2.44",
+    "version": "2.48.1",
     "developers": [],
     "url": "https://github.com/google/dagger",
     "year": null,
@@ -2077,12 +2648,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.dagger:dagger-lint-aar:2.44"
+    "dependency": "com.google.dagger:dagger-lint-aar:2.48.1"
   },
   {
     "project": "data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2094,12 +2665,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:data:9.1.2"
+    "dependency": "me.proton.core:data:18.2.0"
   },
   {
     "project": "data-room",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2111,12 +2682,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:data-room:9.1.2"
+    "dependency": "me.proton.core:data-room:18.2.0"
   },
   {
     "project": "domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2128,12 +2699,112 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:domain:9.1.2"
+    "dependency": "me.proton.core:domain:18.2.0"
+  },
+  {
+    "project": "Emoji2",
+    "description": "Core library to enable emoji compatibility in Kitkat and newer devices to avoid the empty emoji characters.",
+    "version": "1.4.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/emoji2#1.4.0",
+    "year": "2017",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.emoji2:emoji2:1.4.0"
+  },
+  {
+    "project": "Emoji2 Views Helper",
+    "description": "Provide helper classes for Emoji2 views.",
+    "version": "1.4.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/emoji2#1.4.0",
+    "year": "2017",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.emoji2:emoji2-views-helper:1.4.0"
+  },
+  {
+    "project": "error-prone annotations",
+    "description": null,
+    "version": "2.15.0",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.errorprone:error_prone_annotations:2.15.0"
+  },
+  {
+    "project": "event-manager",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:event-manager:18.2.0"
+  },
+  {
+    "project": "event-manager-dagger",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:event-manager-dagger:18.2.0"
+  },
+  {
+    "project": "event-manager-data",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:event-manager-data:18.2.0"
   },
   {
     "project": "event-manager-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2145,7 +2816,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:event-manager-domain:9.1.2"
+    "dependency": "me.proton.core:event-manager-domain:18.2.0"
   },
   {
     "project": "Experimental annotation",
@@ -2167,7 +2838,7 @@ dependencies = [
   {
     "project": "feature-flag",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2179,12 +2850,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:feature-flag:9.1.2"
+    "dependency": "me.proton.core:feature-flag:18.2.0"
   },
   {
     "project": "feature-flag-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2196,12 +2867,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:feature-flag-dagger:9.1.2"
+    "dependency": "me.proton.core:feature-flag-dagger:18.2.0"
   },
   {
     "project": "feature-flag-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2213,12 +2884,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:feature-flag-data:9.1.2"
+    "dependency": "me.proton.core:feature-flag-data:18.2.0"
   },
   {
     "project": "feature-flag-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2230,7 +2901,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:feature-flag-domain:9.1.2"
+    "dependency": "me.proton.core:feature-flag-domain:18.2.0"
   },
   {
     "project": "FindBugs-jsr305",
@@ -2284,11 +2955,11 @@ dependencies = [
   {
     "project": "Fragment Kotlin Extensions",
     "description": "Kotlin extensions for \u0027fragment\u0027 artifact",
-    "version": "1.5.3",
+    "version": "1.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/fragment#1.5.3",
+    "url": "https://developer.android.com/jetpack/androidx/releases/fragment#1.6.2",
     "year": "2018",
     "licenses": [
       {
@@ -2296,7 +2967,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.fragment:fragment-ktx:1.5.3"
+    "dependency": "androidx.fragment:fragment-ktx:1.6.2"
   },
   {
     "project": "fragmentviewbindingdelegate-kt",
@@ -2311,7 +2982,7 @@ dependencies = [
   {
     "project": "Glide",
     "description": "A fast and efficient image loading library for Android focused on smooth scrolling.",
-    "version": "4.12.0",
+    "version": "4.16.0",
     "developers": [
       "Sam Judd"
     ],
@@ -2327,12 +2998,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.github.bumptech.glide:glide:4.12.0"
+    "dependency": "com.github.bumptech.glide:glide:4.16.0"
   },
   {
     "project": "Glide Annotations",
     "description": "A set of annotations for configuring Glide.",
-    "version": "4.12.0",
+    "version": "4.16.0",
     "developers": [
       "Sam Judd"
     ],
@@ -2348,12 +3019,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.github.bumptech.glide:annotations:4.12.0"
+    "dependency": "com.github.bumptech.glide:annotations:4.16.0"
   },
   {
     "project": "Glide Disk LRU Cache Library",
     "description": "A cache that uses a bounded amount of space on a filesystem. Based on Jake Wharton\u0027s tailored for Glide.",
-    "version": "4.12.0",
+    "version": "4.16.0",
     "developers": [
       "Sam Judd"
     ],
@@ -2369,12 +3040,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.github.bumptech.glide:disklrucache:4.12.0"
+    "dependency": "com.github.bumptech.glide:disklrucache:4.16.0"
   },
   {
     "project": "Glide GIF Decoder Library",
     "description": "Implementation of GifDecoder that is more memory efficient to animate for Android devices.",
-    "version": "4.12.0",
+    "version": "4.16.0",
     "developers": [
       "Sam Judd"
     ],
@@ -2390,12 +3061,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.github.bumptech.glide:gifdecoder:4.12.0"
+    "dependency": "com.github.bumptech.glide:gifdecoder:4.16.0"
   },
   {
     "project": "Gson",
     "description": null,
-    "version": "2.8.9",
+    "version": "2.10.1",
     "developers": [],
     "url": null,
     "year": null,
@@ -2405,7 +3076,7 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.code.gson:gson:2.8.9"
+    "dependency": "com.google.code.gson:gson:2.10.1"
   },
   {
     "project": "Guava ListenableFuture only",
@@ -2425,7 +3096,7 @@ dependencies = [
   {
     "project": "Hilt Android",
     "description": "A fast dependency injector for Android and Java.",
-    "version": "2.44",
+    "version": "2.48.1",
     "developers": [],
     "url": "https://github.com/google/dagger",
     "year": null,
@@ -2435,129 +3106,95 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.dagger:hilt-android:2.44"
+    "dependency": "com.google.dagger:hilt-android:2.48.1"
   },
   {
-    "project": "Hilt Core",
-    "description": "A fast dependency injector for Android and Java.",
-    "version": "2.44",
-    "developers": [],
-    "url": "https://github.com/google/dagger",
-    "year": null,
-    "licenses": [
-      {
-        "license": "Apache 2.0",
-        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "com.google.dagger:hilt-core:2.44"
-  },
-  {
-    "project": "human-verification",
-    "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "project": "Hilt Common",
+    "description": "AndroidX Hilt Extension Annotations",
+    "version": "1.1.0",
     "developers": [
-      "Open Source Proton"
+      "The Android Open Source Project"
     ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:human-verification:9.1.2"
-  },
-  {
-    "project": "human-verification-dagger",
-    "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
-    "developers": [
-      "Open Source Proton"
-    ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:human-verification-dagger:9.1.2"
-  },
-  {
-    "project": "human-verification-data",
-    "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
-    "developers": [
-      "Open Source Proton"
-    ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:human-verification-data:9.1.2"
-  },
-  {
-    "project": "human-verification-domain",
-    "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
-    "developers": [
-      "Open Source Proton"
-    ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:human-verification-domain:9.1.2"
-  },
-  {
-    "project": "human-verification-presentation",
-    "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
-    "developers": [
-      "Open Source Proton"
-    ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:human-verification-presentation:9.1.2"
-  },
-  {
-    "project": "IntelliJ IDEA Annotations",
-    "description": "A set of annotations used for code inspection support and code documentation.",
-    "version": "13.0",
-    "developers": [
-      "JetBrains Team"
-    ],
-    "url": "http://www.jetbrains.org",
-    "year": null,
+    "url": "https://developer.android.com/jetpack/androidx/releases/hilt#1.1.0",
+    "year": "2020",
     "licenses": [
       {
         "license": "The Apache Software License, Version 2.0",
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains:annotations:13.0"
+    "dependency": "androidx.hilt:hilt-common:1.1.0"
+  },
+  {
+    "project": "Hilt Core",
+    "description": "A fast dependency injector for Android and Java.",
+    "version": "2.48.1",
+    "developers": [],
+    "url": "https://github.com/google/dagger",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.dagger:hilt-core:2.48.1"
+  },
+  {
+    "project": "human-verification-data",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:human-verification-data:18.2.0"
+  },
+  {
+    "project": "human-verification-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:human-verification-domain:18.2.0"
+  },
+  {
+    "project": "human-verification-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:human-verification-presentation:18.2.0"
   },
   {
     "project": "IPAddress",
     "description": "Library for handling IP addresses, both IPv4 and IPv6",
-    "version": "5.3.4",
+    "version": "5.4.0",
     "developers": [
       "Sean C Foley"
     ],
@@ -2569,7 +3206,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.github.seancfoley:ipaddress:5.3.4"
+    "dependency": "com.github.seancfoley:ipaddress:5.4.0"
   },
   {
     "project": "javax.inject",
@@ -2585,6 +3222,23 @@ dependencies = [
       }
     ],
     "dependency": "javax.inject:javax.inject:1"
+  },
+  {
+    "project": "JetBrains Java Annotations",
+    "description": "A set of annotations used for code inspection support and code documentation.",
+    "version": "23.0.0",
+    "developers": [
+      "JetBrains Team"
+    ],
+    "url": "https://github.com/JetBrains/java-annotations",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains:annotations:23.0.0"
   },
   {
     "project": "Jetpack WindowManager Library",
@@ -2641,7 +3295,7 @@ dependencies = [
   {
     "project": "key",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2653,12 +3307,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:key:9.1.2"
+    "dependency": "me.proton.core:key:18.2.0"
   },
   {
     "project": "key-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2670,12 +3324,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:key-dagger:9.1.2"
+    "dependency": "me.proton.core:key-dagger:18.2.0"
   },
   {
     "project": "key-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2687,12 +3341,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:key-data:9.1.2"
+    "dependency": "me.proton.core:key-data:18.2.0"
   },
   {
     "project": "key-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -2704,7 +3358,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:key-domain:9.1.2"
+    "dependency": "me.proton.core:key-domain:18.2.0"
   },
   {
     "project": "KeyboardVisibilityEvent",
@@ -2726,7 +3380,7 @@ dependencies = [
   {
     "project": "Kotlin Android Extensions Runtime",
     "description": "Kotlin Android Extensions Runtime",
-    "version": "1.6.21",
+    "version": "1.8.10",
     "developers": [
       "Kotlin Team"
     ],
@@ -2738,12 +3392,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.6.21"
+    "dependency": "org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.8.10"
   },
   {
     "project": "Kotlin Stdlib",
-    "description": "Kotlin Standard Library for JVM",
-    "version": "1.7.10",
+    "description": "Kotlin Standard Library",
+    "version": "1.9.20",
     "developers": [
       "Kotlin Team"
     ],
@@ -2755,12 +3409,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib:1.7.10"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib:1.9.20"
   },
   {
     "project": "Kotlin Stdlib Common",
     "description": "Kotlin Common Standard Library",
-    "version": "1.7.10",
+    "version": "1.8.10",
     "developers": [
       "Kotlin Team"
     ],
@@ -2772,12 +3426,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-common:1.7.10"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10"
   },
   {
     "project": "Kotlin Stdlib Jdk7",
     "description": "Kotlin Standard Library JDK 7 extension",
-    "version": "1.6.21",
+    "version": "1.9.20",
     "developers": [
       "Kotlin Team"
     ],
@@ -2789,12 +3443,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20"
   },
   {
     "project": "Kotlin Stdlib Jdk8",
     "description": "Kotlin Standard Library JDK 8 extension",
-    "version": "1.6.21",
+    "version": "1.8.22",
     "developers": [
       "Kotlin Team"
     ],
@@ -2806,12 +3460,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21"
+    "dependency": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22"
   },
   {
     "project": "kotlinx-coroutines-android",
     "description": "Coroutines support libraries for Kotlin",
-    "version": "1.6.4",
+    "version": "1.7.3",
     "developers": [
       "JetBrains Team"
     ],
@@ -2823,12 +3477,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
   },
   {
     "project": "kotlinx-coroutines-core",
     "description": "Coroutines support libraries for Kotlin",
-    "version": "1.6.4",
+    "version": "1.7.3",
     "developers": [
       "JetBrains Team"
     ],
@@ -2840,12 +3494,29 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3"
+  },
+  {
+    "project": "kotlinx-serialization-cbor",
+    "description": "Kotlin multiplatform serialization runtime library",
+    "version": "1.6.1",
+    "developers": [
+      "JetBrains Team"
+    ],
+    "url": "https://github.com/Kotlin/kotlinx.serialization",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-cbor-jvm:1.6.1"
   },
   {
     "project": "kotlinx-serialization-core",
     "description": "Kotlin multiplatform serialization runtime library",
-    "version": "1.3.3",
+    "version": "1.6.1",
     "developers": [
       "JetBrains Team"
     ],
@@ -2857,12 +3528,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.3.3"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.6.1"
   },
   {
     "project": "kotlinx-serialization-json",
     "description": "Kotlin multiplatform serialization runtime library",
-    "version": "1.3.3",
+    "version": "1.6.1",
     "developers": [
       "JetBrains Team"
     ],
@@ -2874,7 +3545,41 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.3.3"
+    "dependency": "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.1"
+  },
+  {
+    "project": "Lifecycle Runtime Compose",
+    "description": "Compose integration with Lifecycle",
+    "version": "2.6.2",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
+    "year": "2021",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.lifecycle:lifecycle-runtime-compose:2.6.2"
+  },
+  {
+    "project": "Lifecycle ViewModel Compose",
+    "description": "Compose integration with Lifecycle ViewModel",
+    "version": "2.6.2",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
+    "year": "2021",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2"
   },
   {
     "project": "lisawray/groupie",
@@ -2913,11 +3618,11 @@ dependencies = [
   {
     "project": "LiveData Core Kotlin Extensions",
     "description": "Kotlin extensions for \u0027livedata-core\u0027 artifact",
-    "version": "2.5.1",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2018",
     "licenses": [
       {
@@ -2925,16 +3630,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-livedata-core-ktx:2.5.1"
+    "dependency": "androidx.lifecycle:lifecycle-livedata-core-ktx:2.6.2"
   },
   {
     "project": "LiveData Kotlin Extensions",
     "description": "Kotlin extensions for \u0027livedata\u0027 artifact",
-    "version": "2.5.1",
+    "version": "2.6.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.6.2",
     "year": "2018",
     "licenses": [
       {
@@ -2942,7 +3647,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+    "dependency": "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
   },
   {
     "project": "logback-android",
@@ -2964,7 +3669,7 @@ dependencies = [
   {
     "project": "Lottie",
     "description": "Lottie is an animation library that renders Adobe After Effects animations natively in realtime.",
-    "version": "4.2.2",
+    "version": "5.2.0",
     "developers": [
       "Airbnb"
     ],
@@ -2972,16 +3677,16 @@ dependencies = [
     "year": "2017",
     "licenses": [
       {
-        "license": "Apache License 2.0",
-        "license_url": "https://github.com/airbnb/lottie-android/blob/master/LICENSE"
+        "license": "Apache-2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0"
       }
     ],
-    "dependency": "com.airbnb.android:lottie:4.2.2"
+    "dependency": "com.airbnb.android:lottie:5.2.0"
   },
   {
     "project": "Material Components for Android",
     "description": "Material Components for Android is a static library that you can add to your Android application in order to use APIs that provide implementations of the Material Design specification. Compatible on devices running API 14 or later.",
-    "version": "1.6.1",
+    "version": "1.10.0",
     "developers": [
       "The Android Open Source Project"
     ],
@@ -2993,7 +3698,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.android.material:material:1.6.1"
+    "dependency": "com.google.android.material:material:1.10.0"
   },
   {
     "project": "Material Dialogs Core",
@@ -3032,7 +3737,7 @@ dependencies = [
   {
     "project": "me.proton.vpn:go-vpn-lib",
     "description": "Go library with shared code for ProtonVPN clients",
-    "version": "0.1.16",
+    "version": "0.1.38",
     "developers": [
       "Open Source Proton"
     ],
@@ -3044,12 +3749,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.vpn:go-vpn-lib:0.1.16"
+    "dependency": "me.proton.vpn:go-vpn-lib:0.1.38"
   },
   {
     "project": "minidns",
     "description": "A DNS library for Java and Android systems",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "developers": [
       "Rene Treffer",
       "Florian Schmaus"
@@ -3062,7 +3767,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.minidns:minidns-core:1.0.0"
+    "dependency": "org.minidns:minidns-core:1.0.4"
   },
   {
     "project": "MPAndroidChart",
@@ -3075,9 +3780,26 @@ dependencies = [
     "dependency": "com.github.PhilJay:MPAndroidChart:v3.1.0"
   },
   {
+    "project": "Navigation Compose Hilt Integration",
+    "description": "Navigation Compose Hilt Integration",
+    "version": "1.0.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/hilt#1.0.0",
+    "year": "2021",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.hilt:hilt-navigation-compose:1.0.0"
+  },
+  {
     "project": "network",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3089,12 +3811,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network:9.1.2"
+    "dependency": "me.proton.core:network:18.2.0"
   },
   {
     "project": "network-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3106,12 +3828,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network-dagger:9.1.2"
+    "dependency": "me.proton.core:network-dagger:18.2.0"
   },
   {
     "project": "network-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3123,12 +3845,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network-data:9.1.2"
+    "dependency": "me.proton.core:network-data:18.2.0"
   },
   {
     "project": "network-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3140,12 +3862,148 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network-domain:9.1.2"
+    "dependency": "me.proton.core:network-domain:18.2.0"
+  },
+  {
+    "project": "network-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:network-presentation:18.2.0"
+  },
+  {
+    "project": "notification-data",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:notification-data:18.2.0"
+  },
+  {
+    "project": "notification-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:notification-domain:18.2.0"
+  },
+  {
+    "project": "notification-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:notification-presentation:18.2.0"
+  },
+  {
+    "project": "observability",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:observability:18.2.0"
+  },
+  {
+    "project": "observability-dagger",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:observability-dagger:18.2.0"
+  },
+  {
+    "project": "observability-data",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:observability-data:18.2.0"
+  },
+  {
+    "project": "observability-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:observability-domain:18.2.0"
   },
   {
     "project": "okhttp",
     "description": "Square’s meticulous HTTP client for Java and Kotlin.",
-    "version": "4.9.1",
+    "version": "4.11.0",
     "developers": [
       "Square, Inc."
     ],
@@ -3157,12 +4015,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.squareup.okhttp3:okhttp:4.9.1"
+    "dependency": "com.squareup.okhttp3:okhttp:4.11.0"
   },
   {
     "project": "okhttp-logging-interceptor",
     "description": "Square’s meticulous HTTP client for Java and Kotlin.",
-    "version": "4.9.1",
+    "version": "4.10.0",
     "developers": [
       "Square, Inc."
     ],
@@ -3174,12 +4032,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.squareup.okhttp3:logging-interceptor:4.9.1"
+    "dependency": "com.squareup.okhttp3:logging-interceptor:4.10.0"
   },
   {
-    "project": "Okio",
+    "project": "okio",
     "description": "A modern I/O API for Java",
-    "version": "2.8.0",
+    "version": "3.3.0",
     "developers": [
       "Square, Inc."
     ],
@@ -3191,7 +4049,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.squareup.okio:okio:2.8.0"
+    "dependency": "com.squareup.okio:okio-jvm:3.3.0"
   },
   {
     "project": "Otto",
@@ -3211,7 +4069,7 @@ dependencies = [
   {
     "project": "Parcelize Runtime",
     "description": "Runtime library for the Parcelize compiler plugin",
-    "version": "1.6.21",
+    "version": "1.8.10",
     "developers": [
       "Kotlin Team"
     ],
@@ -3223,12 +4081,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlin:kotlin-parcelize-runtime:1.6.21"
+    "dependency": "org.jetbrains.kotlin:kotlin-parcelize-runtime:1.8.10"
   },
   {
     "project": "payment",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3240,12 +4098,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment:9.1.2"
+    "dependency": "me.proton.core:payment:18.2.0"
   },
   {
     "project": "payment-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3257,12 +4115,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-dagger:9.1.2"
+    "dependency": "me.proton.core:payment-dagger:18.2.0"
   },
   {
     "project": "payment-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3274,12 +4132,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-data:9.1.2"
+    "dependency": "me.proton.core:payment-data:18.2.0"
   },
   {
     "project": "payment-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3291,12 +4149,97 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-domain:9.1.2"
+    "dependency": "me.proton.core:payment-domain:18.2.0"
+  },
+  {
+    "project": "payment-iap",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:payment-iap:18.2.0"
+  },
+  {
+    "project": "payment-iap-dagger",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:payment-iap-dagger:18.2.0"
+  },
+  {
+    "project": "payment-iap-data",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:payment-iap-data:18.2.0"
+  },
+  {
+    "project": "payment-iap-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:payment-iap-domain:18.2.0"
+  },
+  {
+    "project": "payment-iap-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:payment-iap-presentation:18.2.0"
   },
   {
     "project": "payment-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3308,12 +4251,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-presentation:9.1.2"
+    "dependency": "me.proton.core:payment-presentation:18.2.0"
   },
   {
     "project": "plan",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3325,12 +4268,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:plan:9.1.2"
+    "dependency": "me.proton.core:plan:18.2.0"
   },
   {
     "project": "plan-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3342,12 +4285,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:plan-dagger:9.1.2"
+    "dependency": "me.proton.core:plan-dagger:18.2.0"
   },
   {
     "project": "plan-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3359,12 +4302,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:plan-data:9.1.2"
+    "dependency": "me.proton.core:plan-data:18.2.0"
   },
   {
     "project": "plan-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3376,12 +4319,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:plan-domain:9.1.2"
+    "dependency": "me.proton.core:plan-domain:18.2.0"
   },
   {
     "project": "plan-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3393,12 +4336,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:plan-presentation:9.1.2"
+    "dependency": "me.proton.core:plan-presentation:18.2.0"
   },
   {
     "project": "presentation",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3410,12 +4353,97 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:presentation:9.1.2"
+    "dependency": "me.proton.core:presentation:18.2.0"
+  },
+  {
+    "project": "presentation-compose",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:presentation-compose:18.2.0"
+  },
+  {
+    "project": "push",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:push:18.2.0"
+  },
+  {
+    "project": "push-dagger",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:push-dagger:18.2.0"
+  },
+  {
+    "project": "push-data",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:push-data:18.2.0"
+  },
+  {
+    "project": "push-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:push-domain:18.2.0"
   },
   {
     "project": "ReLinker",
     "description": "A robust native library loader for Android",
-    "version": "1.4.4",
+    "version": "1.4.5",
     "developers": [
       "KeepSafe Software, Inc."
     ],
@@ -3427,7 +4455,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.getkeepsafe.relinker:relinker:1.4.4"
+    "dependency": "com.getkeepsafe.relinker:relinker:1.4.5"
   },
   {
     "project": "Retrofit",
@@ -3464,13 +4492,64 @@ dependencies = [
     "dependency": "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
   },
   {
-    "project": "Saved State",
-    "description": "Android Lifecycle Saved State",
-    "version": "1.2.0",
+    "project": "Room Kotlin Extensions",
+    "description": "Android Room Kotlin Extensions",
+    "version": "2.6.0",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/savedstate#1.2.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.6.0",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.room:room-ktx:2.6.0"
+  },
+  {
+    "project": "Room-Common",
+    "description": "Android Room-Common",
+    "version": "2.6.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.6.0",
+    "year": "2017",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.room:room-common:2.6.0"
+  },
+  {
+    "project": "Room-Runtime",
+    "description": "Android Room-Runtime",
+    "version": "2.6.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/room#2.6.0",
+    "year": "2017",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.room:room-runtime:2.6.0"
+  },
+  {
+    "project": "Saved State",
+    "description": "Android Lifecycle Saved State",
+    "version": "1.2.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/savedstate#1.2.1",
     "year": "2018",
     "licenses": [
       {
@@ -3478,16 +4557,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.savedstate:savedstate:1.2.0"
+    "dependency": "androidx.savedstate:savedstate:1.2.1"
   },
   {
     "project": "SavedState Kotlin Extensions",
     "description": "Kotlin extensions for \u0027savedstate\u0027 artifact",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/savedstate#1.2.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/savedstate#1.2.1",
     "year": "2020",
     "licenses": [
       {
@@ -3495,12 +4574,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.savedstate:savedstate-ktx:1.2.0"
+    "dependency": "androidx.savedstate:savedstate-ktx:1.2.1"
   },
   {
     "project": "Sentry SDK",
     "description": "SDK for sentry.io",
-    "version": "5.5.2",
+    "version": "6.34.0",
     "developers": [
       "Sentry Team and Contributors"
     ],
@@ -3512,12 +4591,12 @@ dependencies = [
         "license_url": "http://www.opensource.org/licenses/mit-license.php"
       }
     ],
-    "dependency": "io.sentry:sentry-android-core:5.5.2"
+    "dependency": "io.sentry:sentry-android:6.34.0"
   },
   {
     "project": "Sentry SDK",
     "description": "SDK for sentry.io",
-    "version": "5.5.2",
+    "version": "6.34.0",
     "developers": [
       "Sentry Team and Contributors"
     ],
@@ -3529,12 +4608,12 @@ dependencies = [
         "license_url": "http://www.opensource.org/licenses/mit-license.php"
       }
     ],
-    "dependency": "io.sentry:sentry:5.5.2"
+    "dependency": "io.sentry:sentry-android-ndk:6.34.0"
   },
   {
     "project": "Sentry SDK",
     "description": "SDK for sentry.io",
-    "version": "5.5.2",
+    "version": "6.34.0",
     "developers": [
       "Sentry Team and Contributors"
     ],
@@ -3546,12 +4625,12 @@ dependencies = [
         "license_url": "http://www.opensource.org/licenses/mit-license.php"
       }
     ],
-    "dependency": "io.sentry:sentry-android-ndk:5.5.2"
+    "dependency": "io.sentry:sentry:6.34.0"
   },
   {
     "project": "Sentry SDK",
     "description": "SDK for sentry.io",
-    "version": "5.5.2",
+    "version": "6.34.0",
     "developers": [
       "Sentry Team and Contributors"
     ],
@@ -3563,7 +4642,7 @@ dependencies = [
         "license_url": "http://www.opensource.org/licenses/mit-license.php"
       }
     ],
-    "dependency": "io.sentry:sentry-android:5.5.2"
+    "dependency": "io.sentry:sentry-android-core:6.34.0"
   },
   {
     "project": "SLF4J API Module",
@@ -3583,11 +4662,11 @@ dependencies = [
   {
     "project": "SplashScreen",
     "description": "This library provides the compatibility APIs for SplashScreen and helper method to enable a splashscreen on devices prior Android 12",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/core#1.0.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/core#1.0.1",
     "year": "2021",
     "licenses": [
       {
@@ -3595,7 +4674,175 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.core:core-splashscreen:1.0.0"
+    "dependency": "androidx.core:core-splashscreen:1.0.1"
+  },
+  {
+    "project": "SQLite",
+    "description": "Android DB",
+    "version": "2.4.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/sqlite#2.4.0",
+    "year": "2017",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.sqlite:sqlite:2.4.0"
+  },
+  {
+    "project": "SQLite Framework Integration",
+    "description": "The implementation of Support SQLite library using the framework code.",
+    "version": "2.4.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/sqlite#2.4.0",
+    "year": "2017",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.sqlite:sqlite-framework:2.4.0"
+  },
+  {
+    "project": "Stately",
+    "description": "Multithreaded Kotlin Multiplatform Utilities",
+    "version": "1.2.2",
+    "developers": [
+      "Kevin Galligan"
+    ],
+    "url": "https://github.com/touchlab/Stately",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "co.touchlab:stately-concurrency-jvm:1.2.2"
+  },
+  {
+    "project": "Stately",
+    "description": "Multithreaded Kotlin Multiplatform Utilities",
+    "version": "1.2.2",
+    "developers": [
+      "Kevin Galligan"
+    ],
+    "url": "https://github.com/touchlab/Stately",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "co.touchlab:stately-isolate-jvm:1.2.2"
+  },
+  {
+    "project": "Stately",
+    "description": "Multithreaded Kotlin Multiplatform Utilities",
+    "version": "1.2.2",
+    "developers": [
+      "Kevin Galligan"
+    ],
+    "url": "https://github.com/touchlab/Stately",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "co.touchlab:stately-common-jvm:1.2.2"
+  },
+  {
+    "project": "Stately",
+    "description": "Multithreaded Kotlin Multiplatform Utilities",
+    "version": "1.2.2",
+    "developers": [
+      "Kevin Galligan"
+    ],
+    "url": "https://github.com/touchlab/Stately",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "co.touchlab:stately-iso-collections-jvm:1.2.2"
+  },
+  {
+    "project": "swagger-annotations",
+    "description": "swagger-annotations",
+    "version": "2.2.7",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache License 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    ],
+    "dependency": "io.swagger.core.v3:swagger-annotations:2.2.7"
+  },
+  {
+    "project": "telemetry-data",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:telemetry-data:18.2.0"
+  },
+  {
+    "project": "telemetry-domain",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:telemetry-domain:18.2.0"
+  },
+  {
+    "project": "telemetry-presentation",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:telemetry-presentation:18.2.0"
   },
   {
     "project": "TileView",
@@ -3606,6 +4853,23 @@ dependencies = [
     "year": null,
     "licenses": [],
     "dependency": "com.github.moagrius:TileView:2.2.7"
+  },
+  {
+    "project": "Timber",
+    "description": "No-nonsense injectable logging.",
+    "version": "5.0.1",
+    "developers": [
+      "Jake Wharton"
+    ],
+    "url": "https://github.com/JakeWharton/timber",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.jakewharton.timber:timber:5.0.1"
   },
   {
     "project": "Tink Cryptography API for Android",
@@ -3625,27 +4889,9 @@ dependencies = [
     "dependency": "com.google.crypto.tink:tink-android:1.5.0"
   },
   {
-    "project": "trustkit",
-    "description": "TrustKit Android is an open source library that makes it easy to deploy SSL public key pinning and reporting in any Android App.",
-    "version": "1.1.5",
-    "developers": [
-      "Alban Diquet",
-      "Jordan Bouellat"
-    ],
-    "url": "https://github.com/datatheorem/TrustKit-Android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "The MIT License (MIT)",
-        "license_url": "https://github.com/datatheorem/TrustKit-Android/blob/master/LICENSE"
-      }
-    ],
-    "dependency": "com.datatheorem.android.trustkit:trustkit:1.1.5"
-  },
-  {
     "project": "user",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3657,12 +4903,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user:9.1.2"
+    "dependency": "me.proton.core:user:18.2.0"
   },
   {
     "project": "user-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3674,12 +4920,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-dagger:9.1.2"
+    "dependency": "me.proton.core:user-dagger:18.2.0"
   },
   {
     "project": "user-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3691,12 +4937,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-data:9.1.2"
+    "dependency": "me.proton.core:user-data:18.2.0"
   },
   {
     "project": "user-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3708,29 +4954,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-domain:9.1.2"
-  },
-  {
-    "project": "user-settings",
-    "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
-    "developers": [
-      "Open Source Proton"
-    ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:user-settings:9.1.2"
+    "dependency": "me.proton.core:user-domain:18.2.0"
   },
   {
     "project": "user-settings-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3742,12 +4971,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-settings-dagger:9.1.2"
+    "dependency": "me.proton.core:user-settings-dagger:18.2.0"
   },
   {
     "project": "user-settings-data",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3759,12 +4988,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-settings-data:9.1.2"
+    "dependency": "me.proton.core:user-settings-data:18.2.0"
   },
   {
     "project": "user-settings-domain",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3776,29 +5005,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-settings-domain:9.1.2"
-  },
-  {
-    "project": "user-settings-presentation",
-    "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
-    "developers": [
-      "Open Source Proton"
-    ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:user-settings-presentation:9.1.2"
+    "dependency": "me.proton.core:user-settings-domain:18.2.0"
   },
   {
     "project": "util-android-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3810,12 +5022,46 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:util-android-dagger:9.1.2"
+    "dependency": "me.proton.core:util-android-dagger:18.2.0"
+  },
+  {
+    "project": "util-android-device",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:util-android-device:18.2.0"
+  },
+  {
+    "project": "util-android-sentry",
+    "description": "Proton Core libraries for Android",
+    "version": "18.2.0",
+    "developers": [
+      "Open Source Proton"
+    ],
+    "url": "https://github.com/ProtonMail/protoncore_android",
+    "year": null,
+    "licenses": [
+      {
+        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
+        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+    ],
+    "dependency": "me.proton.core:util-android-sentry:18.2.0"
   },
   {
     "project": "util-android-shared-preferences",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3827,12 +5073,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:util-android-shared-preferences:9.1.2"
+    "dependency": "me.proton.core:util-android-shared-preferences:18.2.0"
   },
   {
     "project": "util-kotlin",
     "description": "Proton Core libraries for Android",
-    "version": "9.1.2",
+    "version": "18.2.0",
     "developers": [
       "Open Source Proton"
     ],
@@ -3844,7 +5090,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:util-kotlin:9.1.2"
+    "dependency": "me.proton.core:util-kotlin:18.2.0"
   },
   {
     "project": "VersionedParcelable",
@@ -3866,7 +5112,7 @@ dependencies = [
   {
     "project": "viewbinding",
     "description": null,
-    "version": "7.2.2",
+    "version": "8.1.3",
     "developers": [],
     "url": null,
     "year": null,
@@ -3876,12 +5122,29 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.databinding:viewbinding:7.2.2"
+    "dependency": "androidx.databinding:viewbinding:8.1.3"
+  },
+  {
+    "project": "ViewPager2",
+    "description": "AndroidX Widget ViewPager2",
+    "version": "1.1.0-beta02",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/viewpager2#1.1.0-beta02",
+    "year": "2017",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.viewpager2:viewpager2:1.1.0-beta02"
   },
   {
     "project": "WireGuard Tunnel Library",
     "description": "Embeddable tunnel library for WireGuard for Android",
-    "version": "1.0.20211029.6",
+    "version": "1.0.20230512.14",
     "developers": [
       "WireGuard",
       "Open Source Proton"
@@ -3894,6 +5157,23 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "me.proton.vpn:wireguard-android:1.0.20211029.6"
+    "dependency": "me.proton.vpn:wireguard-android:1.0.20230512.14"
+  },
+  {
+    "project": "WorkManager Hilt Extension",
+    "description": "Android Lifecycle WorkManager Hilt Extension",
+    "version": "1.1.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/hilt#1.1.0",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.hilt:hilt-work:1.1.0"
   }
 ]

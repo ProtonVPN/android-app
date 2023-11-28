@@ -32,9 +32,9 @@ import com.protonvpn.android.databinding.FragmentSuggestionsBinding
 import com.protonvpn.android.databinding.ItemReportSuggestionBinding
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.Suggestion
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.openBrowserLink
+import me.proton.core.presentation.utils.viewBinding
 import java.io.Serializable
 
 private const val ARG_CATEGORY = "Category"

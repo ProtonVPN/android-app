@@ -92,7 +92,7 @@ android {
 dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+    kapt 'androidx.hilt:hilt-compiler:1.1.0'
 
     implementation project(':app')
     implementation "me.proton.core:domain:$core_version"

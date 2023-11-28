@@ -48,9 +48,9 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import com.xwray.groupie.Section
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.presentation.utils.viewBinding
 import javax.inject.Inject
 
 @AndroidEntryPoint

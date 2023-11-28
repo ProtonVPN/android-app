@@ -47,6 +47,7 @@
 # This is generated automatically by the Android Gradle plugin.
 # (but copied&pasted manually :) )
 -dontwarn com.google.errorprone.annotations.Immutable
+-dontwarn javax.lang.model.element.Modifier
 -dontwarn javax.mail.Address
 -dontwarn javax.mail.Authenticator
 -dontwarn javax.mail.BodyPart
