@@ -34,13 +34,35 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ShowUpgradeSuccess @Inject constructor(
+class ShowUpgradeSuccess constructor(
     mainScope: CoroutineScope,
     foregroundActivityTracker: ForegroundActivityTracker,
     userPlanManager: UserPlanManager,
     private val currentUser: CurrentUser,
     private val upgradeTelemetry: UpgradeTelemetry,
+    private val startUpgradeActivity: (Context, String, Boolean) -> Unit
 ) {
+    private var doNotShowForPlan: String = ""
+
+    @Inject
+    constructor(
+        mainScope: CoroutineScope,
+        foregroundActivityTracker: ForegroundActivityTracker,
+        userPlanManager: UserPlanManager,
+        currentUser: CurrentUser,
+        upgradeTelemetry: UpgradeTelemetry
+    ) : this(
+        mainScope,
+        foregroundActivityTracker,
+        userPlanManager,
+        currentUser,
+        upgradeTelemetry,
+        { context, newPlan, refreshVpnInfo ->
+            val intent = CongratsPlanActivity.createIntent(context, newPlan, refreshVpnInfo)
+            context.startActivity(intent)
+        }
+    )
+
     init {
         mainScope.launch {
             userPlanManager.planChangeFlow.collectLatest { planUpgrade ->
@@ -53,17 +75,20 @@ class ShowUpgradeSuccess @Inject constructor(
                         upgradedUser.userTierName,
                         refreshVpnInfo = false
                     )
+                } else {
+                    doNotShowForPlan = ""
                 }
             }
         }
     }
 
     private suspend fun shouldShowUpgradeSuccess(upgraded: VpnUser): Boolean {
-        return currentUser.vpnUser()?.userId == upgraded.userId && !upgraded.isFreeUser
+        return currentUser.vpnUser()?.userId == upgraded.userId && !upgraded.isFreeUser && doNotShowForPlan != upgraded.userTierName
     }
 
     fun showPlanUpgradeSuccess(context: Context, newPlan: String, refreshVpnInfo: Boolean) {
+        doNotShowForPlan = newPlan
         upgradeTelemetry.onUpgradeSuccess(newPlan)
-        context.startActivity(CongratsPlanActivity.createIntent(context, newPlan, refreshVpnInfo = refreshVpnInfo))
+        startUpgradeActivity(context, newPlan, refreshVpnInfo)
     }
 }

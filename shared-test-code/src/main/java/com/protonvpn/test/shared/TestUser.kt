@@ -20,14 +20,14 @@ package com.protonvpn.test.shared
 
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
-import com.protonvpn.android.models.login.toVpnUserEntity
-import com.protonvpn.android.models.login.VpnInfoResponse
-import com.protonvpn.android.models.login.VPNInfo
 import com.protonvpn.android.auth.data.VpnUser
-import me.proton.core.domain.entity.UserId
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.login.VPNInfo
+import com.protonvpn.android.models.login.VpnInfoResponse
+import com.protonvpn.android.models.login.toVpnUserEntity
 import io.mockk.coEvery
 import io.mockk.every
+import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.util.kotlin.takeIfNotBlank
 
@@ -56,6 +56,13 @@ class TestUser private constructor(
             get() = TestUser("Testas2", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas2", "vpnbasic", "vpnbasic", 1, 2)
         @JvmStatic val plusUser: TestUser
             get() = getPlusPlanUser()
+
+        val sameIdFreeUser: TestUser
+            get() = TestUser("Testas", "a", "rand", "free", "free", 0, 1)
+        val sameIdPlusUser: TestUser
+            get() = TestUser("Testas", "a", "rand", "vpnplus", "vpnplus", 2, 5)
+        val sameIdUnlimitedUser: TestUser
+            get() = TestUser("Testas", "a", "rand", "vpnunlimited", "vpnunlimited", 2, 5)
         val twofa: TestUser
             get() = TestUser("twofa", "a", "rand", "vpnplus", "vpnplus", 2, 5)
         val twopass: TestUser
