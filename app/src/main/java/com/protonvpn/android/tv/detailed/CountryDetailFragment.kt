@@ -42,10 +42,10 @@ import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
 import com.protonvpn.android.utils.setStartDrawable
 import com.protonvpn.android.vpn.DisconnectTrigger
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import me.proton.core.presentation.utils.viewBinding
 
 @AndroidEntryPoint
 class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {

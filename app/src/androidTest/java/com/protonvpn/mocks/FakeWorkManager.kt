@@ -35,6 +35,7 @@ import androidx.work.WorkQuery
 import androidx.work.WorkRequest
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
+import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
 /**
@@ -119,11 +120,19 @@ class FakeWorkManager : WorkManager() {
         TODO("Not yet implemented")
     }
 
+    override fun getWorkInfoByIdFlow(id: UUID): Flow<WorkInfo> {
+        TODO("Not yet implemented")
+    }
+
     override fun getWorkInfoById(id: UUID): ListenableFuture<WorkInfo> {
         TODO("Not yet implemented")
     }
 
     override fun getWorkInfosByTagLiveData(tag: String): LiveData<MutableList<WorkInfo>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWorkInfosByTagFlow(tag: String): Flow<MutableList<WorkInfo>> {
         TODO("Not yet implemented")
     }
 
@@ -135,11 +144,19 @@ class FakeWorkManager : WorkManager() {
         TODO("Not yet implemented")
     }
 
+    override fun getWorkInfosForUniqueWorkFlow(uniqueWorkName: String): Flow<MutableList<WorkInfo>> {
+        TODO("Not yet implemented")
+    }
+
     override fun getWorkInfosForUniqueWork(uniqueWorkName: String): ListenableFuture<MutableList<WorkInfo>> {
         TODO("Not yet implemented")
     }
 
     override fun getWorkInfosLiveData(workQuery: WorkQuery): LiveData<MutableList<WorkInfo>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWorkInfosFlow(workQuery: WorkQuery): Flow<MutableList<WorkInfo>> {
         TODO("Not yet implemented")
     }
 

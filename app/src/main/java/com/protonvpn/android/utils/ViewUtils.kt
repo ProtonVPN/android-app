@@ -128,7 +128,7 @@ fun <T> RequestBuilder<T>.addListener(
     override fun onLoadFailed(
         e: GlideException?,
         model: Any?,
-        target: Target<T>?,
+        target: Target<T>,
         isFirstResource: Boolean
     ): Boolean {
         onFail?.invoke(e)
@@ -136,10 +136,10 @@ fun <T> RequestBuilder<T>.addListener(
     }
 
     override fun onResourceReady(
-        resource: T?,
-        model: Any?,
+        resource: T & Any,
+        model: Any,
         target: Target<T>?,
-        dataSource: DataSource?,
+        dataSource: DataSource,
         isFirstResource: Boolean
     ): Boolean {
         onSuccess?.invoke()

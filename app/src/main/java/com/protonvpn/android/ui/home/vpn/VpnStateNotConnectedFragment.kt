@@ -28,8 +28,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.FragmentVpnStateNotConnectedBinding
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.utils.viewBinding
 
 @AndroidEntryPoint
 class VpnStateNotConnectedFragment :

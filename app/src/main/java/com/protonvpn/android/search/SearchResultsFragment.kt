@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.search
 
-import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
@@ -53,8 +52,8 @@ import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import kotlinx.coroutines.launch
+import me.proton.core.presentation.utils.viewBinding
 import me.proton.core.util.kotlin.exhaustive
 
 class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {

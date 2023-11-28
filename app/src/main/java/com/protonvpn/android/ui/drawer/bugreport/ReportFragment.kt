@@ -34,10 +34,10 @@ import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.models.config.bugreport.TYPE_DROPDOWN
 import com.protonvpn.android.models.config.bugreport.TYPE_MULTILINE
 import com.protonvpn.android.models.config.bugreport.TYPE_SINGLELINE
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.ui.view.ProtonAutoCompleteInput
 import me.proton.core.presentation.ui.view.ProtonInput
+import me.proton.core.presentation.utils.viewBinding
 import java.io.Serializable
 
 private const val ARG_CATEGORY = "Category"

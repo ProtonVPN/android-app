@@ -26,7 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.databinding.BottomSheetComposeViewBinding
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import me.proton.core.presentation.utils.viewBinding
 
 /**
  * A bottom sheet dialog fragment that embeds compose content.

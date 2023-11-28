@@ -38,12 +38,11 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.SentryIntegration
-import com.protonvpn.android.utils.ViewUtils.viewBinding
-import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import me.proton.core.presentation.utils.viewBinding
 import javax.inject.Inject
 
 @AndroidEntryPoint
