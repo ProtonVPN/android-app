@@ -30,6 +30,7 @@ import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.CurrentVpnServiceProvider
 import com.protonvpn.android.vpn.DefaultAvailableConnection
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnStateMonitor
 import com.wireguard.android.backend.GoBackend
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -43,6 +44,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
     @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
     @Inject lateinit var defaultAvailableConnection: DefaultAvailableConnection
     @Inject lateinit var currentUser: CurrentUser
+    @Inject lateinit var vpnStateMonitor: VpnStateMonitor
 
     override fun onCreate() {
         super.onCreate()
@@ -80,10 +82,13 @@ class WireguardWrapperService : GoBackend.VpnService() {
     }
 
     private fun handleAlwaysOn() {
-        connectionManager.connectInBackground(
-            defaultAvailableConnection(),
-            ConnectTrigger.Auto("always-on")
-        )
+        // It's possible to get the always-on intent twice which causes a reconnection. Let's prevent this.
+        if (vpnStateMonitor.isDisabled) {
+            connectionManager.connectInBackground(
+                defaultAvailableConnection(),
+                ConnectTrigger.Auto("always-on")
+            )
+        }
     }
 
     override fun onDestroy() {
