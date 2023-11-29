@@ -30,6 +30,7 @@ import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHiltInjectRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.test.MinimalSignInExternalTests
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.runner.RunWith
 import javax.inject.Inject
@@ -37,6 +38,7 @@ import javax.inject.Inject
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
+@Ignore("TODO: Update SSO credentials.")
 class SignInTests : MinimalSignInExternalTests {
 
     @get:Rule(order = 0)
