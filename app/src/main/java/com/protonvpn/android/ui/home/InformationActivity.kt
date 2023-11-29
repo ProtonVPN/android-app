@@ -162,7 +162,7 @@ class InformationActivity : BaseActivityV2() {
                 .streamingIconsContainer
 
         val dimStreamingIcons = !viewModel.isPlusUser()
-        viewModel.streamingServices(country).let { services ->
+        viewModel.getStreamingServices(country).let { services ->
             for (service in services) {
                 val icon = StreamingIcon(this)
                 if (dimStreamingIcons)

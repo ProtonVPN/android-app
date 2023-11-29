@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Proton Technologies AG
+ * Copyright (c) 2023. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,22 +17,26 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.utils
+package com.protonvpn.android.servers
 
 import android.net.Uri
-import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.GetFeatureFlags
+import com.protonvpn.android.utils.ServerManager
+import dagger.Reusable
+import javax.inject.Inject
 
-interface StreamingViewModelHelper {
+data class StreamingService(val name: String, val iconUrl: String?)
 
-    val serverManager: ServerManager
-    val appConfig: AppConfig
+@Reusable
+class GetStreamingServices @Inject constructor(
+    private val serverManager: ServerManager,
+    private val featureFlags: GetFeatureFlags,
+) {
+    private val displayStreamingIcons get() = featureFlags.value.streamingServicesLogos
 
-    val displayStreamingIcons get() = appConfig.getFeatureFlags().streamingServicesLogos
-
-    data class StreamingService(val name: String, val iconUrl: String?)
-    fun streamingServices(country: String): List<StreamingService> =
+    operator fun invoke(countryCode: String): List<StreamingService> =
         serverManager.streamingServicesModel?.let { streamingServices ->
-            streamingServices.getForAllTiers(country).map { streamingService ->
+            streamingServices.getForAllTiers(countryCode).map { streamingService ->
                 StreamingService(
                     streamingService.name,
                     if (displayStreamingIcons) {
