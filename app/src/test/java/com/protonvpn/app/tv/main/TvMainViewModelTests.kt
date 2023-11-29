@@ -151,7 +151,6 @@ class TvMainViewModelTests {
 
         // Note: the amount of dependencies is crazy, we should refactor TvMainViewModel.
         viewModel = TvMainViewModel(
-            appConfig = mockk(relaxed = true),
             serverManager = serverManager,
             profileManager = profileManager,
             mainScope = bgScope,
@@ -161,6 +160,8 @@ class TvMainViewModelTests {
             vpnConnectionManager = mockk(relaxed = true),
             recentsManager = RecentsManager(bgScope, vpnStatusProviderUI, mockk(relaxed = true)),
             userSettingsManager = userSettingsManager,
+            featureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags())),
+            streamingServices = mockk(relaxed = true),
             currentUser = mockCurrentUser,
             logoutUseCase = mockk(relaxed = true),
             userPlanManager = mockk(relaxed = true),

@@ -28,8 +28,8 @@ import androidx.lifecycle.viewModelScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
+import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.components.BaseTvActivity
@@ -39,6 +39,7 @@ import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.servers.GetStreamingServices
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.tv.models.Card
@@ -54,7 +55,6 @@ import com.protonvpn.android.utils.AndroidUtils.toInt
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.StreamingViewModelHelper
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -76,16 +76,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TvMainViewModel @Inject constructor(
-    override val appConfig: AppConfig,
-    override val serverManager: ServerManager,
+    private val serverManager: ServerManager,
     private val profileManager: ProfileManager,
     private val mainScope: CoroutineScope,
-    val serverListUpdater: ServerListUpdater,
-    val vpnStatusProviderUI: VpnStatusProviderUI,
-    val vpnStateMonitor: VpnStateMonitor,
-    val vpnConnectionManager: VpnConnectionManager,
+    serverListUpdater: ServerListUpdater,
+    private val vpnStatusProviderUI: VpnStatusProviderUI,
+    vpnStateMonitor: VpnStateMonitor,
+    private val vpnConnectionManager: VpnConnectionManager,
     private val recentsManager: RecentsManager,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
+    private val featureFlags: GetFeatureFlags,
+    val streamingServices: GetStreamingServices,
     currentUser: CurrentUser,
     logoutUseCase: Logout,
     userPlanManager: UserPlanManager,
@@ -96,10 +97,11 @@ class TvMainViewModel @Inject constructor(
     logoutUseCase,
     currentUser,
     purchaseEnabled,
-), StreamingViewModelHelper {
+) {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
 
+    val displayStreamingIcons get() = featureFlags.value.streamingServicesLogos
     val selectedCountryFlag = MutableLiveData<String?>()
     val connectedCountryFlag = MutableLiveData<String>()
     val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()

@@ -38,7 +38,6 @@ import com.protonvpn.android.tv.login.TvLoginViewState.Companion.toLoginError
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.StreamingViewModelHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -65,17 +64,19 @@ annotation class TvLoginPollDelayMs
 class TvLoginViewModel @Inject constructor(
     private val currentUser: CurrentUser,
     private val vpnUserDao: VpnUserDao,
-    override val appConfig: AppConfig,
+    private val appConfig: AppConfig,
     private val api: ProtonApiRetroFit,
     private val serverListUpdater: ServerListUpdater,
-    override val serverManager: ServerManager,
+    private val serverManager: ServerManager,
     private val accountManager: AccountManager,
     private val guestHole: GuestHole,
     @TvLoginPollDelayMs val pollDelayMs: Long = POLL_DELAY_MS,
     @ElapsedRealtimeClock private val monoClockMs: () -> Long
-) : ViewModel(), StreamingViewModelHelper {
+) : ViewModel() {
 
     val state = MutableLiveData<TvLoginViewState>()
+
+    val displayStreamingIcons get() = appConfig.getFeatureFlags().streamingServicesLogos
 
     suspend fun onEnterScreen(scope: CoroutineScope) {
         if (currentUser.isLoggedIn()) {
