@@ -27,6 +27,7 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.protonvpn.android.R
@@ -47,6 +48,7 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import com.xwray.groupie.viewbinding.BindableItem
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 
 @AndroidEntryPoint
@@ -63,13 +65,15 @@ class ServerSelectionActivity : BaseActivityV2() {
 
         val config = requireNotNull(getConfig(intent))
         setTitle(if (config.secureCore) R.string.entryCountry else R.string.serverSelection)
-        val servers = viewModel.getServers(config.countryCode, config.secureCore)
-        if (servers.isNotEmpty()) {
-            initServerList(binding.recyclerServers, config.secureCore, servers)
-        } else {
-            snackbarHelper.errorSnack(R.string.something_went_wrong)
-            ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.APP, "No servers for country '$config.countryCode`")
-            finish()
+        lifecycleScope.launch {
+            val servers = viewModel.getServers(config.countryCode, config.secureCore)
+            if (servers.isNotEmpty()) {
+                initServerList(binding.recyclerServers, config.secureCore, servers)
+            } else {
+                snackbarHelper.errorSnack(R.string.something_went_wrong)
+                ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.APP, "No servers for country '$config.countryCode`")
+                finish()
+            }
         }
     }
 

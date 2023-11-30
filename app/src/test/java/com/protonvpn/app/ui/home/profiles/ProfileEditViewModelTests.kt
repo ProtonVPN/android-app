@@ -26,6 +26,9 @@ import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.profiles.ProfileEditViewModel
@@ -34,12 +37,16 @@ import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.runs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -87,15 +94,27 @@ class ProfileViewModelTests {
         testScope = TestScope(testDispatcher)
         Dispatchers.setMain(testDispatcher) // This shouldn't be needed according to documentation of TestScope...
 
+        coEvery { mockServerManager.ensureLoaded() } just runs
         every { mockServerManager.getVpnExitCountry(any(), any()) } returns null
         every { mockServerManager.getVpnExitCountry(COUNTRY_CODE, false) } returns country
         every { mockServerManager.getServerById(any()) } returns null
         every { mockServerManager.getServerById(server.serverId) } returns server
 
-        val userSettings = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
+        val userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
+        val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, userSettingsFlow)
+        val userSettingsCached = EffectiveCurrentUserSettingsCached(userSettingsFlow)
+
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
+        val serverManager2 = ServerManager2(mockServerManager, userSettings, supportsProtocol)
         val profileManager =
-            ProfileManager(SavedProfilesV3.defaultProfiles(), testScope.backgroundScope, userSettings, mockk())
-        viewModel = ProfileEditViewModel(profileManager, mockServerManager, userSettings, mockCurrentUser)
+            ProfileManager(SavedProfilesV3.defaultProfiles(), testScope.backgroundScope, userSettingsCached, mockk())
+        viewModel = ProfileEditViewModel(
+            profileManager = profileManager,
+            serverManager = serverManager2,
+            oldServerManager = mockServerManager,
+            currentUserSettings = userSettingsCached,
+            currentUser = mockCurrentUser
+        )
     }
 
     @After

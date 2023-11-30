@@ -2,6 +2,7 @@ package com.protonvpn.android.ui.home.profiles
 
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
@@ -13,6 +14,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.SaveableSettingsViewModel
@@ -25,12 +27,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileEditViewModel @Inject constructor(
     private val profileManager: ProfileManager,
-    private val serverManager: ServerManager,
+    private val serverManager: ServerManager2,
+    private val oldServerManager: ServerManager,
     private val currentUserSettings: EffectiveCurrentUserSettingsCached,
     private val currentUser: CurrentUser
 ) : SaveableSettingsViewModel() {
@@ -106,9 +110,11 @@ class ProfileEditViewModel @Inject constructor(
             profileNameInput = profile.getDisplayName(context)
             profileColor.value = requireNotNull(profile.profileColor)
             serverSelection.value = getServerSelection(profile)
-            country.value = serverManager.getVpnExitCountry(profile.country, secureCore.value)
             secureCore.value = profile.isSecureCore ?: userSettings.secureCore
             protocol.value = profile.getProtocol(userSettings)
+            viewModelScope.launch {
+                country.value = serverManager.getVpnExitCountry(profile.country, secureCore.value)
+            }
         }
     }
 
@@ -120,7 +126,7 @@ class ProfileEditViewModel @Inject constructor(
         profileColor.value = color
     }
 
-    fun setSecureCore(enabled: Boolean) {
+    fun setSecureCore(enabled: Boolean) = viewModelScope.launch {
         if (secureCore.value != enabled) {
             secureCore.value = enabled
             val currentCountry = country.value
@@ -130,7 +136,7 @@ class ProfileEditViewModel @Inject constructor(
         }
     }
 
-    fun setCountryCode(newCountryCode: String) {
+    fun setCountryCode(newCountryCode: String) = viewModelScope.launch {
         val newCountry = serverManager.getVpnExitCountry(newCountryCode, secureCore.value)
         if (newCountry == null) {
             ProtonLogger.logCustom(
@@ -172,7 +178,7 @@ class ProfileEditViewModel @Inject constructor(
             val countryValue = country.value
             if (serverValue != null &&
                 countryValue != null &&
-                createServerWrapper(serverValue, countryValue, serverManager) == null
+                createServerWrapper(serverValue, countryValue, oldServerManager) == null
             ) {
                 // There is no server. This should be extremely rare, only when the user picks a specific server that
                 // happens to be removed before the profile is saved.
@@ -200,7 +206,7 @@ class ProfileEditViewModel @Inject constructor(
         val serverWrapper = createServerWrapper(
             requireNotNull(serverSelection.value),
             requireNotNull(country.value),
-            serverManager
+            oldServerManager
         ) ?: return // validate() checks for this too.
         val newProfile =
             Profile(
