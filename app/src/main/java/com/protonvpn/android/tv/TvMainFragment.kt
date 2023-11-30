@@ -195,7 +195,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
     private fun ArrayObjectAdapter.createRows() {
         var index = 1
         updateRecentsRow()
-        val continentMap = viewModel.getCountryCardMap(requireContext())
+        val continentMap = viewModel.getCountryCardMap()
 
         CountryTools.Continent.values().forEach { continent ->
             continentMap[continent]?.let { cards ->

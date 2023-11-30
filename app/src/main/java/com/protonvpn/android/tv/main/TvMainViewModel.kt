@@ -20,37 +20,28 @@ package com.protonvpn.android.tv.main
 
 import android.content.Context
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.components.BaseTvActivity
-import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.logging.UiConnect
-import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
-import com.protonvpn.android.models.vpn.VpnCountry
-import com.protonvpn.android.servers.GetStreamingServices
-import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
-import com.protonvpn.android.tv.TvUpgradeActivity
 import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.DrawableImage
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
+import com.protonvpn.android.tv.usecases.GetCountryCard
+import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
+import com.protonvpn.android.tv.vpn.createProfileForCountry
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.userstorage.ProfileManager
-import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.AndroidUtils.toInt
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
@@ -59,7 +50,6 @@ import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.RecentsManager
-import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -77,16 +67,14 @@ import javax.inject.Inject
 @HiltViewModel
 class TvMainViewModel @Inject constructor(
     private val serverManager: ServerManager,
-    private val profileManager: ProfileManager,
     private val mainScope: CoroutineScope,
     serverListUpdater: ServerListUpdater,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
     vpnStateMonitor: VpnStateMonitor,
-    private val vpnConnectionManager: VpnConnectionManager,
+    private val connectHelper: TvUiConnectDisconnectHelper,
     private val recentsManager: RecentsManager,
-    private val userSettingsManager: CurrentUserLocalSettingsManager,
     private val featureFlags: GetFeatureFlags,
-    val streamingServices: GetStreamingServices,
+    private val getCountryCard: GetCountryCard,
     currentUser: CurrentUser,
     logoutUseCase: Logout,
     userPlanManager: UserPlanManager,
@@ -135,8 +123,7 @@ class TvMainViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             vpnStatusProviderUI.status.collect {
-                connectedCountryFlag.value = if (isConnected())
-                    it.server!!.flag else ""
+                connectedCountryFlag.value = if (isConnected()) it.server!!.flag else ""
             }
         }
     }
@@ -147,50 +134,22 @@ class TvMainViewModel @Inject constructor(
         lifecycle.addObserver(this)
     }
 
-    val haveAccessToStreaming get() = currentUser.vpnUserCached()?.isUserPlusOrAbove == true
-
-    fun showConnectButtons(card: CountryCard) =
-        !isConnectedToThisCountry(card) && card.vpnCountry.hasAccessibleServer(currentUser.vpnUserCached())
-
-    fun showConnectToStreamingButton(card: CountryCard) = showConnectButtons(card) || !isPlusUser()
-
-    fun isConnectedToThisCountry(card: CountryCard) =
-        vpnStatusProviderUI.isConnectingToCountry(card.vpnCountry.flag)
-
-    fun disconnectText(card: CountryCard) =
-        if (!showConnectButtons(card) && vpnStatusProviderUI.state.isEstablishingConnection)
-            R.string.cancel
-        else
-            R.string.disconnect
-
     fun setSelectedCountry(flag: String?) {
         selectedCountryFlag.value = flag
     }
 
-    private fun countryListItemIcon(country: VpnCountry) = when {
-        country.isUnderMaintenance() -> R.drawable.ic_proton_wrench
-        currentUser.vpnUserCached()?.isFreeUser != true -> null
-        country.hasAccessibleServer(currentUser.vpnUserCached()) -> R.drawable.ic_free
-        else -> R.drawable.ic_proton_lock_filled
-    }
-
-    fun getCountryCardMap(context: Context): Map<CountryTools.Continent?, List<CountryCard>> {
+    fun getCountryCardMap(): Map<CountryTools.Continent?, List<CountryCard>> {
         return serverManager.getVpnCountries().groupBy({
             val continent = CountryTools.locationMap[it.flag]?.continent
             DebugUtils.debugAssert { continent != null }
             continent
         }, { country ->
-            getCountryCard(context, country)
+            getCountryCard(country)
         }).mapValues { continent ->
             continent.value.sortedWith(compareBy {
                 !it.vpnCountry.hasAccessibleOnlineServer(currentUser.vpnUserCached())
             })
         }
-    }
-
-    fun getCountryCard(context: Context, vpnCountryFlag: String): CountryCard? {
-        val country = serverManager.getVpnExitCountry(vpnCountryFlag, false) ?: return null
-        return getCountryCard(context, country)
     }
 
     fun getRecentCardList(context: Context): List<Card> {
@@ -239,15 +198,6 @@ class TvMainViewModel @Inject constructor(
         return recentsList
     }
 
-    private fun getCountryCard(context: Context, country: VpnCountry): CountryCard =
-        CountryCard(
-            countryName = country.countryName,
-            hasStreamingService = streamingServices(country.flag).isNotEmpty(),
-            backgroundImage = DrawableImage(CountryTools.getLargeFlagResource(context, country.flag)),
-            bottomTitleResId = countryListItemIcon(country),
-            vpnCountry = country
-        )
-
     @DrawableRes
     private fun profileCardTitleIcon(profile: Profile): Int {
         val defaultConnection = serverManager.defaultConnection
@@ -295,33 +245,9 @@ class TvMainViewModel @Inject constructor(
         )
     }
 
-    fun disconnect(trigger: DisconnectTrigger) {
-        ProtonLogger.log(UiDisconnect, trigger.description)
-        vpnConnectionManager.disconnect(trigger)
-    }
-
     fun isConnected() = vpnStatusProviderUI.isConnected
 
     fun isEstablishingConnection() = vpnStatusProviderUI.isEstablishingConnection
-
-    fun isPlusUser() = currentUser.vpnUserCached()?.isUserPlusOrAbove == true
-
-    fun hasAccessibleServers(country: VpnCountry) = country.hasAccessibleServer(currentUser.vpnUserCached())
-
-    @StringRes
-    fun getCountryDescription(vpnCountry: VpnCountry) = when {
-        isPlusUser() -> R.string.tv_detail_description_plus
-        !hasAccessibleServers(vpnCountry) -> R.string.tv_detail_description_country_not_available
-        streamingServices(vpnCountry.flag).isEmpty() -> R.string.tv_detail_description_no_streaming_country
-        else -> R.string.tv_detail_description_streaming_country
-    }
-
-    fun showConnectToFastest(card: CountryCard) = card.vpnCountry.hasAccessibleServer(currentUser.vpnUserCached()) &&
-        !isPlusUser() && !isConnectedToThisCountry(card)
-
-    fun onUpgradeClicked(context: Context) {
-        context.launchActivity<TvUpgradeActivity>()
-    }
 
     val quickConnectFlag get() = if (isConnected() || isEstablishingConnection())
         vpnStatusProviderUI.connectingToServer?.flag
@@ -335,55 +261,26 @@ class TvMainViewModel @Inject constructor(
         if (vpnStatusProviderUI.isConnected || vpnStatusProviderUI.isEstablishingConnection) {
             disconnect(DisconnectTrigger.QuickConnect("quick connect (TV)"))
         } else {
-            connect(activity, serverManager.defaultConnection, ConnectTrigger.QuickConnect("quick connect (TV)"))
+            connectHelper.connect(
+                activity, serverManager.defaultConnection, ConnectTrigger.QuickConnect("quick connect (TV)")
+            )
         }
     }
 
     fun connect(activity: BaseTvActivity, countryCode: String, trigger: ConnectTrigger) {
-        connect(activity, createProfileForCountry(countryCode), trigger)
+        connectHelper.connect(activity, createProfileForCountry(countryCode), trigger)
     }
 
     fun connect(activity: BaseTvActivity, card: ProfileCard) {
         connect(activity, card.connectCountry, ConnectTrigger.QuickConnect("recents (TV)"))
     }
 
-    private fun connect(activity: BaseTvActivity, profile: Profile?, trigger: ConnectTrigger) {
-        if (profile != null) {
-            ProtonLogger.log(UiConnect, trigger.description)
-            vpnConnectionManager.connect(activity.getVpnUiDelegate(), profile, trigger)
-        } else {
-            showMaintenanceDialog(activity)
-        }
-    }
+    fun disconnect(trigger: DisconnectTrigger) = connectHelper.disconnect(trigger)
+
+    fun showMaintenanceDialog(context: Context) = connectHelper.showMaintenanceDialog(context)
 
     fun resetMap() {
         mapRegion.value = TvMapRenderer.MapRegion(0f, 0f, 1f)
-    }
-
-    private fun TvMapRenderer.MapRegion.isZoomedIn() = x != 0f || y != 0f || w != 1f
-
-    fun isDefaultCountry(vpnCountry: VpnCountry) =
-        profileManager.findDefaultProfile()?.wrapper?.country == vpnCountry.flag
-
-    fun setAsDefaultCountry(checked: Boolean, vpnCountry: VpnCountry) {
-        profileManager.deleteProfile(profileManager.findDefaultProfile())
-        if (checked) {
-            val newDefaultProfile = createProfileForCountry(vpnCountry.flag)
-            profileManager.addToProfileList(newDefaultProfile)
-            mainScope.launch {
-                userSettingsManager.updateDefaultProfile(newDefaultProfile.id)
-            }
-        }
-    }
-
-    fun showMaintenanceDialog(context: Context) {
-        MaterialDialog.Builder(context)
-            .theme(Theme.DARK)
-            .negativeFocus(true)
-            .title(R.string.tv_country_maintenance_dialog_title)
-            .content(R.string.tv_country_maintenance_dialog_description)
-            .negativeText(R.string.ok)
-            .show()
     }
 
     fun onLastRowSelection(selected: Boolean) {
@@ -398,13 +295,4 @@ class TvMainViewModel @Inject constructor(
             ?: serverManager.getServerForProfile(profile, currentUser.vpnUserCached())?.exitCountry
             ?: ""
     }
-
-    private fun createProfileForCountry(countryCode: String): Profile =
-        Profile(
-            CountryTools.getFullName(countryCode),
-            null,
-            ServerWrapper.makeFastestForCountry(countryCode),
-            null,
-            null
-        )
 }

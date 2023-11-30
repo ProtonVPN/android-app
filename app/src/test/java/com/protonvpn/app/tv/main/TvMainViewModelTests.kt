@@ -42,6 +42,7 @@ import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.main.TvMainViewModel
 import com.protonvpn.android.tv.models.ProfileCard
 import com.protonvpn.android.tv.models.QuickConnectCard
+import com.protonvpn.android.tv.usecases.SetFavoriteCountry
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
@@ -99,6 +100,7 @@ class TvMainViewModelTests {
     private lateinit var testScope: TestScope
 
     private lateinit var viewModel: TvMainViewModel
+    private lateinit var setFavoriteCountry: SetFavoriteCountry
 
     @Before
     fun setup() {
@@ -149,19 +151,18 @@ class TvMainViewModelTests {
         every { CountryTools.getLargeFlagResource(any(), any()) } returns 0
         every { CountryTools.getPreferredLocale() } returns Locale.US
 
-        // Note: the amount of dependencies is crazy, we should refactor TvMainViewModel.
+        setFavoriteCountry = SetFavoriteCountry(testScope.backgroundScope, profileManager, userSettingsManager)
+
         viewModel = TvMainViewModel(
             serverManager = serverManager,
-            profileManager = profileManager,
             mainScope = bgScope,
             serverListUpdater = mockk(relaxed = true),
             vpnStatusProviderUI = vpnStatusProviderUI,
             vpnStateMonitor = vpnStateMonitor,
-            vpnConnectionManager = mockk(relaxed = true),
+            connectHelper = mockk(),
             recentsManager = RecentsManager(bgScope, vpnStatusProviderUI, mockk(relaxed = true)),
-            userSettingsManager = userSettingsManager,
             featureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags())),
-            streamingServices = mockk(relaxed = true),
+            getCountryCard = mockk(),
             currentUser = mockCurrentUser,
             logoutUseCase = mockk(relaxed = true),
             userPlanManager = mockk(relaxed = true),
@@ -202,7 +203,7 @@ class TvMainViewModelTests {
     fun `favorite hides recommended profile`() {
         val server = MockedServers.server
 
-        viewModel.setAsDefaultCountry(true, serverManager.getVpnExitCountry(server.exitCountry, false)!!)
+        setFavoriteCountry(server.exitCountry)
 
         val recents = viewModel.getRecentCardList(mockContext)
         assertEquals(1, recents.size)
@@ -221,7 +222,7 @@ class TvMainViewModelTests {
         val recentsBefore = viewModel.getRecentCardList(mockContext)
         assertEquals(2, recentsBefore.size)
 
-        viewModel.setAsDefaultCountry(true, serverManager.getVpnExitCountry(server.exitCountry, false)!!)
+        setFavoriteCountry(server.exitCountry)
 
         val recentsAfter = viewModel.getRecentCardList(mockContext)
         assertEquals(1, recentsAfter.size)
