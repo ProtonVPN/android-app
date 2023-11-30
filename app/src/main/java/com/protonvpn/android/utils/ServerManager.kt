@@ -172,10 +172,12 @@ class ServerManager @Inject constructor(
                 }
             }
 
-            onServersUpdate()
             filtered.invalidate()
 
+            // Notify of loaded state and update after everything has been updated.
             isLoaded.value = true
+            onServersUpdate()
+
             if (oldManager?.migrateVpnCountries?.isEmpty() == false) {
                 Storage.save(this@ServerManager, ServerManager::class.java)
             }
