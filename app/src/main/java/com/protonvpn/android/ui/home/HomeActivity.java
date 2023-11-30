@@ -132,6 +132,7 @@ public class HomeActivity extends VpnActivity {
     @BindView(R.id.imageNotification) ImageView imageNotification;
     @BindView(R.id.switchSecureCore) SwitchEx switchSecureCore;
     @BindView(R.id.fragmentSearchResults) FragmentContainerView fragmentSearchResults;
+    @Nullable
     private MenuItem searchMenuItem;
 
     VpnStateFragment fragment;
@@ -203,7 +204,10 @@ public class HomeActivity extends VpnActivity {
         new PromoOfferNotificationHelper(this, imageNotification,
             new ViewModelProvider(this).get(PromoOfferNotificationViewModel.class));
 
-        searchViewModel.getEventCloseLiveData().observe(this, isOpen -> searchMenuItem.collapseActionView());
+        searchViewModel.getEventCloseLiveData().observe(
+                this,
+                isOpen -> { if (searchMenuItem != null) searchMenuItem.collapseActionView(); }
+        );
     }
 
     @Override
