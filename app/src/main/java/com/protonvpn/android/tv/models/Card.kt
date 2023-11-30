@@ -27,7 +27,7 @@ import com.protonvpn.android.models.vpn.VpnCountry
 sealed class Card(
     var title: Title? = null,
     var bottomTitle: Title? = null,
-    val backgroundImage: DrawableImage?
+    val backgroundImage: DrawableImage
 )
 
 class CountryCard(

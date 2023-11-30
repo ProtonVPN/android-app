@@ -85,6 +85,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
     }
 
     private fun setupUi() = with(binding) {
+        flag.transitionName = transitionNameForCountry(getCountryCode())
         connectFastest.setOnClickListener(::onConnectClicked) // TODO: how is connectFastest different from connectStreaming?
         disconnect.setOnClickListener {
             viewModel.disconnect(DisconnectTrigger.Country("country details (TV)"))
@@ -113,14 +114,12 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
             val card = viewState.countryCard
 
             countryName.text = card.countryName
-            card.backgroundImage?.let {
-                flag.transitionName = transitionNameForCountry(card.vpnCountry.flag)
-                flag.setImageResource(it.resId)
-                if (isPostponedTransition) {
-                    flag.doOnPreDraw {
-                        isPostponedTransition = false
-                        startPostponedEnterTransition()
-                    }
+
+            flag.setImageResource(card.backgroundImage.resId)
+            if (isPostponedTransition) {
+                flag.doOnPreDraw {
+                    isPostponedTransition = false
+                    startPostponedEnterTransition()
                 }
             }
             countryDescription.setText(viewState.countryContentDescription)

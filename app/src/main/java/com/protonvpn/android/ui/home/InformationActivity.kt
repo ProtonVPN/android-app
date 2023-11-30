@@ -29,6 +29,7 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexboxLayout
 import com.protonvpn.android.R
@@ -46,6 +47,7 @@ import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.setTextOrGoneIfNullOrEmpty
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.openBrowserLink
@@ -110,15 +112,18 @@ class InformationActivity : BaseActivityV2() {
     }
 
     private fun setupPartnershipInfo(infoType: InfoType.Partners) {
-        val partners = when(infoType) {
-            is InfoType.Partners.Server -> viewModel.getPartnersForServer(infoType.serverId)
-            is InfoType.Partners.Country -> viewModel.getPartnersForCountry(infoType.countryCode, infoType.secureCore)
-        }
-        if (partners != null) {
-            setupPartnershipInfo(partners)
-        } else {
-            snackbarHelper.errorSnack(R.string.something_went_wrong)
-            finish()
+        lifecycleScope.launch {
+            val partners = when (infoType) {
+                is InfoType.Partners.Server -> viewModel.getPartnersForServer(infoType.serverId)
+                is InfoType.Partners.Country ->
+                    viewModel.getPartnersForCountry(infoType.countryCode, infoType.secureCore)
+            }
+            if (partners != null) {
+                setupPartnershipInfo(partners)
+            } else {
+                snackbarHelper.errorSnack(R.string.something_went_wrong)
+                finish()
+            }
         }
     }
 
@@ -126,7 +131,7 @@ class InformationActivity : BaseActivityV2() {
         title = getString(R.string.activity_information_title)
 
         addItem(R.drawable.ic_proton_servers, R.string.partnership_free_title, R.string.partnership_free_description)
-        viewModel.getPartnerTypes()?.forEach {
+        viewModel.getPartnerTypes().forEach {
             addItem(it.iconUrl, it.type, it.description)
         }
         addHeader(R.string.partnership_partners_title)

@@ -22,14 +22,14 @@ import androidx.lifecycle.ViewModel
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.servers.GetStreamingServices
-import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.servers.ServerManager2
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class InformationViewModel @Inject constructor(
     private val currentUser: CurrentUser,
-    private val serverManager: ServerManager,
+    private val serverManager: ServerManager2,
     private val streamingServices: GetStreamingServices,
     private val partnershipsRepository: PartnershipsRepository
 ) : ViewModel() {
@@ -38,13 +38,13 @@ class InformationViewModel @Inject constructor(
 
     fun getPartnerTypes() = partnershipsRepository.getPartnerTypes()
 
-    fun getPartnersForServer(serverId: String) = serverManager.getServerById(serverId)?.let { server ->
+    suspend fun getPartnersForServer(serverId: String) = serverManager.getServerById(serverId)?.let { server ->
         partnershipsRepository.getServerPartnerships(server)
     }
 
     fun getStreamingServices(countryCode: String) = streamingServices(countryCode)
 
-    fun getPartnersForCountry(countryCode: String, secureCore: Boolean) =
+    suspend fun getPartnersForCountry(countryCode: String, secureCore: Boolean) =
         serverManager.getVpnExitCountry(countryCode, secureCore)?.let {
             partnershipsRepository.getUniquePartnershipsForServers(it.serverList)
         }

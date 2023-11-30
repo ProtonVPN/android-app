@@ -27,6 +27,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.servers.GetStreamingServices
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.SetFavoriteCountry
@@ -63,7 +64,7 @@ data class ViewState(
 
 @HiltViewModel
 class CountryDetailViewModel @Inject constructor(
-    private val serverManager: ServerManager,
+    private val serverManager: ServerManager2,
     private val getCountryCard: GetCountryCard,
     val streamingServices: GetStreamingServices,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
@@ -74,7 +75,6 @@ class CountryDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun getState(countryCode: String): Flow<ViewState> = flow {
-        // TODO: move getVpnExitCountry to ServerManager2
         val country = serverManager.getVpnExitCountry(countryCode, false)
             ?: throw IllegalArgumentException("No country for $countryCode")
         val countryCard = getCountryCard(country)

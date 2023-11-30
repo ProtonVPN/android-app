@@ -25,6 +25,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.utils.ServerManager
@@ -52,9 +53,19 @@ class ServerManager2 @Inject constructor(
         return serverManager.getServerForProfile(profile, vpnUser, currentUserSettings.secureCore.first())
     }
 
+    suspend fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? {
+        serverManager.ensureLoaded()
+        return serverManager.getVpnExitCountry(countryCode, secureCoreCountry)
+    }
+
     suspend fun getServerById(id: String): Server? {
         serverManager.ensureLoaded()
         return serverManager.getServerById(id)
+    }
+
+    suspend fun getGateways(): List<GatewayGroup> {
+        serverManager.ensureLoaded()
+        return serverManager.getGateways()
     }
 
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {

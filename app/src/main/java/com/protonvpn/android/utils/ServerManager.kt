@@ -287,6 +287,7 @@ class ServerManager @Inject constructor(
 
     fun getSecureCoreEntryCountries(): List<VpnCountry> = filtered.secureCoreEntryCountries
 
+    @Deprecated("Use the suspending getVpnExitCountry from ServerManager2")
     fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
         getExitCountries(secureCoreCountry).firstOrNull { it.flag == countryCode }
 

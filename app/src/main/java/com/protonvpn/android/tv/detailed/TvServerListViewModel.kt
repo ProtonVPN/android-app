@@ -33,7 +33,7 @@ import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -50,7 +50,7 @@ import kotlin.math.roundToInt
 @HiltViewModel
 class TvServerListViewModel @Inject constructor(
     private val planManager: UserPlanManager,
-    val serverManager: ServerManager,
+    val serverManager: ServerManager2,
     val vpnStatusProviderUI: VpnStatusProviderUI,
     val vpnConnectionManager: VpnConnectionManager,
     val currentUser: CurrentUser,
@@ -129,7 +129,7 @@ class TvServerListViewModel @Inject constructor(
         private val server: Server
     ) {
         val name get() = server.serverName
-        val locked get() = !serverManager.hasAccessToServer(server)
+        val locked get() = !currentUser.vpnUserCached().hasAccessToServer(server)
         val load get() = server.load
         val online get() = server.online
 

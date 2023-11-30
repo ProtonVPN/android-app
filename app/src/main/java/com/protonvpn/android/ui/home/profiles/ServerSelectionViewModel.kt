@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModel
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.serverComparator
@@ -31,7 +32,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ServerSelectionViewModel @Inject constructor(
-    private val serverManager: ServerManager,
+    private val serverManager: ServerManager2,
     private val currentUser: CurrentUser
 ) : ViewModel() {
 
@@ -44,7 +45,7 @@ class ServerSelectionViewModel @Inject constructor(
     )
 
     // TODO: add filtering by protocol
-    fun getServers(countryCode: String, secureCore: Boolean): List<ServerItem> =
+    suspend fun getServers(countryCode: String, secureCore: Boolean): List<ServerItem> =
         getAllServers(countryCode, secureCore).map {
             ServerItem(
                 it.serverId,
@@ -55,7 +56,7 @@ class ServerSelectionViewModel @Inject constructor(
             )
         }
 
-    private fun getAllServers(countryCode: String, secureCore: Boolean): List<Server> {
+    private suspend fun getAllServers(countryCode: String, secureCore: Boolean): List<Server> {
         val gatewayServers = if (!secureCore) {
             serverManager.getGateways().map { it.serverList }.flatten().filter { it.flag == countryCode }
         } else {
