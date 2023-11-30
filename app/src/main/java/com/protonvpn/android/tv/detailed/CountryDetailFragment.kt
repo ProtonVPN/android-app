@@ -25,7 +25,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.transition.ChangeBounds
 import androidx.transition.ChangeClipBounds
 import androidx.transition.ChangeImageTransform
@@ -37,23 +37,23 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.StreamingIcon
 import com.protonvpn.android.databinding.FragmentTvCountryDetailsBinding
-import com.protonvpn.android.tv.main.TvMainViewModel
-import com.protonvpn.android.tv.models.CountryCard
-import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
+import com.protonvpn.android.tv.TvUpgradeActivity
+import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.ViewUtils.requestAllFocus
 import com.protonvpn.android.utils.setStartDrawable
-import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
 
     private val binding by viewBinding(FragmentTvCountryDetailsBinding::bind)
-    private val viewModel: TvMainViewModel by viewModels()
+    private val viewModel: CountryDetailViewModel by viewModels()
 
-    private lateinit var card: CountryCard
+    private var isPostponedTransition = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,123 +74,112 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        postponeEnterTransition()
+        isPostponedTransition = true
+
         setupUi()
+        viewModel.getState( getCountryCode())
+            .onEach {updateState(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun setupUi() = with(binding) {
-        val extras = arguments
-        if (extras != null && extras.containsKey(EXTRA_COUNTRY_CODE)) {
-            val countryCode = extras.getString(EXTRA_COUNTRY_CODE)
-            card = requireNotNull(
-                viewModel.getCountryCard(requireContext(), requireNotNull(countryCode))
-            )
-        }
-
-        postponeEnterTransition()
-        countryName.text = card.countryName
-
-        card.backgroundImage?.let {
-            flag.transitionName = transitionNameForCountry(card.vpnCountry.flag)
-            flag.setImageResource(it.resId)
-            flag.doOnPreDraw {
-                startPostponedEnterTransition()
-            }
-        }
-
-        defaultConnection.initLolipopButtonFocus()
-        defaultConnection.isChecked = viewModel.isDefaultCountry(card.vpnCountry)
-        defaultConnection.isVisible = viewModel.hasAccessibleServers(card.vpnCountry)
-        defaultConnection.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.setAsDefaultCountry(isChecked, card.vpnCountry)
-        }
-
-        connectStreaming.initLolipopButtonFocus()
-        connectStreaming.setStartDrawable(if (viewModel.isPlusUser()) 0 else R.drawable.ic_proton_lock_filled)
-        connectStreaming.setOnClickListener {
-            if (viewModel.isPlusUser()) {
-                viewModel.connect(
-                    requireActivity() as BaseTvActivity,
-                    card.vpnCountry.flag,
-                    ConnectTrigger.Country("country details (TV)")
-                )
-            } else {
-                viewModel.onUpgradeClicked(requireContext())
-            }
-        }
-        if (viewModel.isPlusUser())
-            connectStreaming.setText(R.string.tv_detail_connect)
-
-        connectFastest.initLolipopButtonFocus()
-        connectFastest.setOnClickListener {
-            viewModel.connect(
-                requireActivity() as BaseTvActivity,
-                card.vpnCountry.flag,
-                ConnectTrigger.Country("country details (TV)")
-            )
-        }
-
-        disconnect.initLolipopButtonFocus()
+        connectFastest.setOnClickListener(::onConnectClicked) // TODO: how is connectFastest different from connectStreaming?
         disconnect.setOnClickListener {
             viewModel.disconnect(DisconnectTrigger.Country("country details (TV)"))
         }
-
-        openServerList.initLolipopButtonFocus()
         openServerList.setOnClickListener {
             navigateToServerList()
         }
+        defaultConnection.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.setAsDefaultCountry(isChecked, getCountryCode())
+        }
 
-        countryDescription.setText(viewModel.getCountryDescription(card.vpnCountry))
-        val dimStreamingIcons = !viewModel.isPlusUser()
-
-        val streamingServices = viewModel.streamingServices(card.vpnCountry.flag)
+        val streamingServices = viewModel.streamingServices(getCountryCode())
         if (streamingServices.isEmpty()) {
             streamingServicesContainer.isVisible = false
         } else {
             for (streamingService in streamingServices) {
                 val streamingIcon = StreamingIcon(requireContext())
-                if (dimStreamingIcons)
-                    streamingIcon.alpha = 0.3f
                 streamingIcon.addStreamingView(streamingService)
                 streamingServicesLayout.addView(streamingIcon)
             }
         }
+    }
 
-        viewModel.vpnStatus.asLiveData().observe(viewLifecycleOwner) {
-            updateButtons()
+    private fun updateState(viewState: ViewState) {
+        with(binding) {
+            val card = viewState.countryCard
+
+            countryName.text = card.countryName
+            card.backgroundImage?.let {
+                flag.transitionName = transitionNameForCountry(card.vpnCountry.flag)
+                flag.setImageResource(it.resId)
+                if (isPostponedTransition) {
+                    flag.doOnPreDraw {
+                        isPostponedTransition = false
+                        startPostponedEnterTransition()
+                    }
+                }
+            }
+            countryDescription.setText(viewState.countryContentDescription)
+
+            defaultConnection.isChecked = viewState.isDefaultCountry
+            defaultConnection.isVisible = viewState.isAccessible
+
+            connectStreaming.setStartDrawable(if (viewState.isPlusUser) 0 else R.drawable.ic_proton_lock_filled)
+            connectStreaming.setText(viewState.connectButtonText)
+            connectStreaming.isVisible = viewState.showConnectToStreaming
+            if (viewState.isPlusUser) {
+                connectStreaming.setOnClickListener(::onConnectClicked)
+            } else {
+                connectStreaming.setOnClickListener(::onUpgradeClicked)
+            }
+
+            connectFastest.isVisible = viewState.showConnectFastest
+            disconnect.isVisible = viewState.isConnectedToThisCountry
+            disconnect.setText(viewState.disconnectButtonText)
+
+            streamingServicesLayout.alpha = if (viewState.hasAccessToStreaming) 1f else 0.3f
+
+            val focusOnButtons = buttons.findFocus() != null
+            val emptyFocus = root.findFocus() == null
+            if (focusOnButtons || emptyFocus) {
+                if (viewState.showConnectButtons) {
+                    if (viewState.hasAccessToStreaming)
+                        binding.connectStreaming.requestAllFocus()
+                    else
+                        binding.connectFastest.requestAllFocus()
+                } else {
+                    binding.disconnect.requestAllFocus()
+                }
+            }
         }
     }
 
+    private fun onConnectClicked(ignored: View) {
+        viewModel.connect(requireActivity() as BaseTvActivity, getCountryCode())
+    }
+
+    private fun onUpgradeClicked(ignored: View) {
+        requireContext().launchActivity<TvUpgradeActivity>()
+    }
+
+    private fun getCountryCode(): String = requireNotNull(
+        requireArguments().getString(EXTRA_COUNTRY_CODE)
+    )
+
     private fun navigateToServerList() {
-        val bundle = Bundle().apply { putSerializable(TvServerListScreenFragment.EXTRA_COUNTRY, card.vpnCountry.flag) }
+        val countryCode = getCountryCode()
+        val bundle = Bundle().apply { putSerializable(TvServerListScreenFragment.EXTRA_COUNTRY, countryCode) }
         activity?.supportFragmentManager?.commit {
             setCustomAnimations(
                 R.anim.slide_in_from_bottom, R.anim.slide_out_to_top,
                 R.anim.slide_in_from_top, R.anim.slide_out_to_bottom)
-            addSharedElement(binding.flag, transitionNameForCountry(card.vpnCountry.flag))
+            addSharedElement(binding.flag, transitionNameForCountry(countryCode))
             replace(R.id.container, TvServerListScreenFragment::class.java, bundle)
             addToBackStack(null)
-        }
-    }
-
-    private fun updateButtons() {
-        val showConnectButtons = viewModel.showConnectButtons(card)
-        val focusOnButtons = binding.buttons.findFocus() != null
-        val emptyFocus = binding.root.findFocus() == null
-
-        binding.connectFastest.isVisible = viewModel.showConnectToFastest(card)
-        binding.connectStreaming.isVisible = viewModel.showConnectToStreamingButton(card)
-        binding.disconnect.isVisible = viewModel.isConnectedToThisCountry(card)
-        binding.disconnect.setText(viewModel.disconnectText(card))
-
-        if (focusOnButtons || emptyFocus) {
-            if (showConnectButtons) {
-                if (viewModel.haveAccessToStreaming)
-                    binding.connectStreaming.requestAllFocus()
-                else
-                    binding.connectFastest.requestAllFocus()
-            } else {
-                binding.disconnect.requestAllFocus()
-            }
         }
     }
 
