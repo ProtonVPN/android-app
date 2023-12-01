@@ -329,7 +329,7 @@ pages:
       - public
 
 owasp check:
-  stage: report
+  stage: prepare
   tags:
     - shared-large
   script:
