@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
@@ -44,7 +45,7 @@ class ForegroundActivityTracker @Inject constructor(
     mainScope: CoroutineScope,
     app: Application,
 ) {
-    private val dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK)
+    private val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
 
     val foregroundActivityFlow = createForegroundActivityFlow(app)
         .stateIn(mainScope, SharingStarted.Eagerly, null)
