@@ -19,15 +19,17 @@
 
 package com.protonvpn.android.api
 
-import android.util.Log
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
-import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.runBlocking
@@ -40,18 +42,12 @@ private val NO_DOH_STATES = listOf(VpnState.Connected, VpnState.Connecting)
 @Suppress("UseDataClass")
 class DohEnabled @Inject constructor() {
 
-    private val isEnabledDeferred: CompletableDeferred<Boolean> = CompletableDeferred()
+    private val isEnabled = MutableStateFlow<Boolean?>(null)
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    operator fun invoke() = if (isEnabledDeferred.isCompleted) {
-        isEnabledDeferred.getCompleted()
-    } else runBlocking {
-        Log.w("DohEnabled", "blocking read")
-        isEnabledDeferred.await()
-    }
+    operator fun invoke(): Boolean = isEnabled.value ?: runBlocking { isEnabled.filterNotNull().first() }
 
     private fun set(isEnabled: Boolean) {
-        isEnabledDeferred.complete(isEnabled)
+        this.isEnabled.value = isEnabled
     }
 
     // DohEnabled is used by VpnApiClient and therefore it cannot depend directly on user settings because this would
@@ -60,13 +56,14 @@ class DohEnabled @Inject constructor() {
     // Use this Provider to break the cycle and push the value to DohEnabled.
     @Singleton
     @Suppress("UseDataClass")
-    class Provider @Inject constructor(
+    class Provider(
         mainScope: CoroutineScope,
         dispatcherProvider: VpnDispatcherProvider,
         private val dohEnabled: DohEnabled,
-        effectiveCurrentUserSettingsFlow: EffectiveCurrentUserSettingsFlow,
+        effectiveCurrentUserSettingsFlow: Flow<LocalUserSettings>,
         vpnStateMonitor: VpnStateMonitor
     ) {
+
         init {
             combine(
                 vpnStateMonitor.status,
@@ -77,5 +74,20 @@ class DohEnabled @Inject constructor() {
                 .flowOn(dispatcherProvider.Io) // Don't block the main thread.
                 .launchIn(mainScope)
         }
+
+        @Inject
+        constructor(
+            mainScope: CoroutineScope,
+            dispatcherProvider: VpnDispatcherProvider,
+            dohEnabled: DohEnabled,
+            effectiveCurrentUserSettingsFlow: EffectiveCurrentUserSettingsFlow,
+            vpnStateMonitor: VpnStateMonitor
+        ) : this(
+            mainScope,
+            dispatcherProvider,
+            dohEnabled,
+            effectiveCurrentUserSettingsFlow as Flow<LocalUserSettings>,
+            vpnStateMonitor
+        )
     }
 }
