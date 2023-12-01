@@ -40,6 +40,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import me.proton.core.network.domain.ApiException
+import me.proton.core.network.domain.ApiResult
 import me.proton.core.payment.domain.entity.GooglePurchaseToken
 import me.proton.core.payment.domain.entity.PaymentType
 import me.proton.core.payment.domain.entity.SubscriptionManagement
@@ -201,7 +203,7 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
         viewModel.selectedCycle.value = cycle
     }
 
-    private fun onError(message: String?, throwable: Throwable?) {
+    private fun onError(message: String?, throwable: Throwable?, allowReportToSentry: Boolean = true) {
         panelViewState?.update {
             // If prices are already known don't change the panel state.
             if (it is ViewState.Initializing || it is ViewState.LoadingPlans) ViewState.Error else it
@@ -210,12 +212,19 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
         fragmentView?.errorSnack(message = message ?: getString(R.string.payments_general_error)) {
             anchorView = fragmentView
         }
-        logToSentry(message, throwable) // Remove this once we know payments are in a good shape.
+        if (allowReportToSentry && shouldReportToSentry(throwable))
+            logToSentry(message, throwable) // Remove this once we know payments are in a good shape.
         viewModel.onErrorInFragment()
     }
 
+    private fun shouldReportToSentry(throwable: Throwable?): Boolean =
+        throwable == null || (throwable as? ApiException)?.error !is ApiResult.Error.Connection
+
+    private fun shouldReportToSentry(@StringRes errorRes: Int) =
+        errorRes != me.proton.core.paymentiap.presentation.R.string.payments_iap_error_billing_client_unavailable
+
     override fun onError(@StringRes errorRes: Int) {
-        onError(getString(errorRes), null)
+        onError(getString(errorRes), null, shouldReportToSentry(errorRes))
     }
 
     override fun onUserCanceled() {
@@ -239,10 +248,7 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
     }
 
     private fun logToSentry(errorMessage: String?, throwable: Throwable?) {
-        Sentry.captureEvent(SentryEvent(OneClickPaymentError(errorMessage, throwable)).apply {
-            // Group events separately for each error message.
-            fingerprints = listOf("{{ default }}", errorMessage)
-        })
+        Sentry.captureEvent(SentryEvent(OneClickPaymentError(errorMessage, throwable)))
     }
 }
 
