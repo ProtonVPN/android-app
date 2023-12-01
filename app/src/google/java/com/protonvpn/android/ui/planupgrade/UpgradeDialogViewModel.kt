@@ -28,6 +28,7 @@ import com.protonvpn.android.ui.planupgrade.usecase.GiapPlanInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadDefaultGooglePlan
 import com.protonvpn.android.ui.planupgrade.usecase.OneClickPaymentsEnabled
 import com.protonvpn.android.utils.formatPrice
+import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -115,7 +116,7 @@ class UpgradeDialogViewModel(
 
     private suspend fun loadGiapPlans() {
         state.value = State.LoadingPlans
-        try {
+        suspend {
             val giapPlan = loadDefaultGiapPlan()
             if (giapPlan != null) {
                 loadedPlan = giapPlan
@@ -124,7 +125,7 @@ class UpgradeDialogViewModel(
             } else {
                 state.value = State.PlansFallback
             }
-        } catch (e: Throwable) {
+        }.runCatchingCheckedExceptions { e ->
             // loadDefaultGiapPlan throws errors.
             state.value = State.LoadError(e)
         }
