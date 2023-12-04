@@ -309,19 +309,6 @@ object AppModule {
         vpnErrorHandler
     )
 
-    @Singleton
-    @Provides
-    fun provideTrafficMonitor(
-        vpnStateMonitor: VpnStateMonitor,
-        connectivityMonitor: ConnectivityMonitor,
-    ) = TrafficMonitor(
-        ProtonApplication.getAppContext(),
-        scope,
-        SystemClock::elapsedRealtime,
-        vpnStateMonitor,
-        connectivityMonitor
-    )
-
     @Provides
     @Singleton
     fun provideDelegatedSnackManager() = DelegatedSnackManager(SystemClock::elapsedRealtime)

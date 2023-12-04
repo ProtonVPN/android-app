@@ -26,26 +26,31 @@ import android.os.PowerManager
 import androidx.core.content.getSystemService
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
-import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.math.roundToLong
 
-class TrafficMonitor constructor(
-    val context: Context,
-    val scope: CoroutineScope,
-    val now: () -> Long,
-    val vpnStateMonitor: VpnStateMonitor,
-    private val connectivityMonitor: ConnectivityMonitor,
+@Singleton
+class TrafficMonitor @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val scope: CoroutineScope,
+    @ElapsedRealtimeClock private val monotonicClock: () -> Long,
+    @WallClock private val wallClock: () -> Long,
+    private val vpnStateMonitor: VpnStateMonitor,
 ) {
     companion object {
         const val TRAFFIC_HISTORY_LENGTH_S = 31L
@@ -60,7 +65,7 @@ class TrafficMonitor constructor(
     private var sessionUploaded = 0L
     private var lastTotalDownload = 0L
     private var lastTotalUpload = 0L
-    private var lastTimestamp = 0L
+    private var lastMonotonicTimestamp = 0L
 
     private var updateJob: Job? = null
 
@@ -88,13 +93,13 @@ class TrafficMonitor constructor(
     }
 
     private fun resetSession() {
-        lastTimestamp = now()
+        lastMonotonicTimestamp = monotonicClock()
         lastTotalDownload = TrafficStats.getTotalRxBytes()
         lastTotalUpload = TrafficStats.getTotalTxBytes()
 
         sessionDownloaded = 0L
         sessionUploaded = 0L
-        sessionStart = lastTimestamp
+        sessionStart = wallClock()
 
         trafficStatus.value = TrafficUpdate(0, sessionStart, 0, 0, 0, 0, 0)
         trafficHistory.value = emptyList()
@@ -115,8 +120,8 @@ class TrafficMonitor constructor(
         if (updateJob == null) {
             updateJob = scope.launch(Dispatchers.Main) {
                 while (true) {
-                    val timestamp = now()
-                    val elapsedMillis = timestamp - lastTimestamp
+                    val monotonicTimestamp = monotonicClock()
+                    val elapsedMillis = monotonicTimestamp - lastMonotonicTimestamp
                     val elapsedSeconds = elapsedMillis / 1000f
 
                     // Speeds need to be divided by two due to TrafficStats calculating both phone and VPN
@@ -132,20 +137,20 @@ class TrafficMonitor constructor(
                     sessionDownloaded += downloaded
                     sessionUploaded += uploaded
 
-                    val sessionTimeSeconds = (timestamp - sessionStart).toInt() / 1000
+                    val sessionTimeSeconds = (wallClock() - sessionStart).toInt() / 1000
                     val update = TrafficUpdate(
-                        timestamp, sessionStart, downloadSpeed, uploadSpeed, sessionDownloaded,
+                        monotonicTimestamp, sessionStart, downloadSpeed, uploadSpeed, sessionDownloaded,
                         sessionUploaded, sessionTimeSeconds
                     )
                     trafficStatus.value = update
                     trafficHistory.value = (trafficHistory.value!! + update)
                         .takeLastWhile {
-                            it.timestampMs > timestamp - TimeUnit.SECONDS.toMillis(TRAFFIC_HISTORY_LENGTH_S)
+                            it.monotonicTimestampMs > monotonicTimestamp - TimeUnit.SECONDS.toMillis(TRAFFIC_HISTORY_LENGTH_S)
                         }
 
                     lastTotalDownload = totalDownload
                     lastTotalUpload = totalUpload
-                    lastTimestamp = timestamp
+                    lastMonotonicTimestamp = monotonicTimestamp
 
                     delay(1000)
                 }
