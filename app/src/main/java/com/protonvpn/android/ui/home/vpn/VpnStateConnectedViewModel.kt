@@ -97,21 +97,21 @@ class VpnStateConnectedViewModel @Inject constructor(
             // https://github.com/PhilJay/MPAndroidChart/issues/2506
             TrafficSpeedChartData(listOf(Entry(0f, 0f)), listOf(Entry(0f, 0f)))
         } else {
-            val lastTimestampMs = updates.last().timestampMs
+            val lastMonotonicTimestampMs = updates.last().monotonicTimestampMs
             TrafficSpeedChartData(
                 uploadKpbsHistory = updates.map { update ->
-                    toEntry(update, lastTimestampMs) { it.uploadSpeed }
+                    toEntry(update, lastMonotonicTimestampMs) { it.uploadSpeed }
                 },
                 downloadKbpsHistory = updates.map { update ->
-                    toEntry(update, lastTimestampMs) { it.downloadSpeed }
+                    toEntry(update, lastMonotonicTimestampMs) { it.downloadSpeed }
                 }
             )
         }
     }
 
-    private inline fun toEntry(update: TrafficUpdate, lastTimestampMs: Long, getter: (TrafficUpdate) -> Long) =
+    private inline fun toEntry(update: TrafficUpdate, lastMonotonicTimestampMs: Long, getter: (TrafficUpdate) -> Long) =
         Entry(
-            (update.timestampMs - lastTimestampMs).toFloat() / MILLIS_IN_SECOND,
+            (update.monotonicTimestampMs - lastMonotonicTimestampMs).toFloat() / MILLIS_IN_SECOND,
             getter(update).toFloat() / BYTES_IN_KBYTE
         )
 }
