@@ -68,7 +68,8 @@ abstract class CommonUpgradeDialogViewModel(
         object PlansFallback : State() // Conditions for short flow were not met, start normal account flow
         data class PurchaseSuccess(
             val newPlanName: String,
-            val newPlanDisplayName: String
+            val newPlanDisplayName: String,
+            val upgradeFlowType: UpgradeFlowType
         ) : State()
     }
     val state = MutableStateFlow<State>(State.Initializing)
@@ -84,7 +85,11 @@ abstract class CommonUpgradeDialogViewModel(
         plansOrchestrator.onUpgradeResult { result ->
             state.update { current ->
                 if (result != null && result.billingResult.subscriptionCreated) {
-                    State.PurchaseSuccess(newPlanName = result.planId, newPlanDisplayName = result.planDisplayName)
+                    State.PurchaseSuccess(
+                        newPlanName = result.planId,
+                        newPlanDisplayName = result.planDisplayName,
+                        upgradeFlowType = UpgradeFlowType.REGULAR
+                    )
                 } else if (current is State.PurchaseReady) {
                     current.copy(inProgress = false)
                 } else {
@@ -94,14 +99,14 @@ abstract class CommonUpgradeDialogViewModel(
         }
     }
 
-    fun onPaymentStarted() {
+    fun onPaymentStarted(upgradeFlowType: UpgradeFlowType) {
         state.update { if (it is State.PurchaseReady) it.copy(inProgress = true) else it }
-        upgradeTelemetry.onUpgradeAttempt()
+        upgradeTelemetry.onUpgradeAttempt(upgradeFlowType)
     }
 
     fun onStartFallbackUpgrade() = viewModelScope.launch {
         userId.first()?.let { userId ->
-            onPaymentStarted()
+            onPaymentStarted(UpgradeFlowType.REGULAR)
             plansOrchestrator.startUpgradeWorkflow(userId)
         }
     }

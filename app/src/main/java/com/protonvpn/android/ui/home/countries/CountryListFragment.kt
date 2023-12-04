@@ -36,6 +36,7 @@ import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.home.FreeConnectionsInfoActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.promooffers.PromoOfferButtonActions
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
@@ -129,7 +130,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list), NetworkLoa
 
             if (url != null) { // It's not null on correctly defined notifications.
                 upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER, model.reference)
-                upgradeTelemetry.onUpgradeAttempt()
+                upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.EXTERNAL)
                 requireActivity().openUrl(url)
             }
         }

@@ -156,10 +156,11 @@ class UpgradeDialogViewModel(
         )
     }
 
-    fun onPurchaseSuccess() {
+    fun onPurchaseSuccess(upgradeFlowType: UpgradeFlowType) {
         state.value = State.PurchaseSuccess(
             newPlanName = loadedPlan.name,
-            newPlanDisplayName = loadedPlan.displayName
+            newPlanDisplayName = loadedPlan.displayName,
+            upgradeFlowType = upgradeFlowType
         )
     }
 

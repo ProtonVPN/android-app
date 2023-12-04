@@ -73,7 +73,8 @@ class ShowUpgradeSuccess constructor(
                     showPlanUpgradeSuccess(
                         activity,
                         upgradedUser.userTierName,
-                        refreshVpnInfo = false
+                        refreshVpnInfo = false,
+                        upgradeFlowType = UpgradeFlowType.EXTERNAL
                     )
                 } else {
                     doNotShowForPlan = ""
@@ -86,9 +87,11 @@ class ShowUpgradeSuccess constructor(
         return currentUser.vpnUser()?.userId == upgraded.userId && !upgraded.isFreeUser && doNotShowForPlan != upgraded.userTierName
     }
 
-    fun showPlanUpgradeSuccess(context: Context, newPlan: String, refreshVpnInfo: Boolean) {
+    fun showPlanUpgradeSuccess(
+        context: Context, newPlan: String, refreshVpnInfo: Boolean, upgradeFlowType: UpgradeFlowType
+    ) {
         doNotShowForPlan = newPlan
-        upgradeTelemetry.onUpgradeSuccess(newPlan)
+        upgradeTelemetry.onUpgradeSuccess(newPlan, upgradeFlowType)
         startUpgradeActivity(context, newPlan, refreshVpnInfo)
     }
 }
