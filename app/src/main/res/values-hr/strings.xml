@@ -43,7 +43,7 @@
     <string name="secureCoreSpeedInfoTitle">A note about speed…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core offers the highest level of security and privacy, but it may reduce your internet speed. If you need more performance, you can disable Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Activate Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Sign out?</string>
+    <string name="logoutConfirmDialogTitle">Odjavite se?</string>
     <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
     <string name="logoutConfirmDialogButton">Sign out</string>
     <string name="showAllProfiles">Prikaži sve profile</string>
@@ -83,7 +83,7 @@
     <string name="drawerAccount">Korisnički račun</string>
     <string name="drawerHelp">Pomoć</string>
     <string name="drawerShowLog">Prikaži zapisnik</string>
-    <string name="drawerReportProblem">Report an issue</string>
+    <string name="drawerReportProblem">Prijavite problem</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">Podaci o korisničkom računu</string>
     <string name="accountSubscription">Pretplata</string>
@@ -178,7 +178,7 @@
     <string name="report_message">Poruka prijave</string>
     <string name="report_bug_email_label">Your email</string>
     <string name="report_bug_email_hint">Enter your email address</string>
-    <string name="report_bug_message_label">Message</string>
+    <string name="report_bug_message_label">Poruka</string>
     <string name="report_bug_message_hint">Please describe the bug and how and where you found it</string>
     <string name="send_report">Pošaljite izvještaj pogreške</string>
     <string name="excludeIpTitle">Izuzmi IP adrese</string>
@@ -197,9 +197,9 @@
     <string name="try_again">Pokušaj ponovno</string>
     <string name="manage">Upravljanje</string>
     <string name="delete">Izbriši</string>
-    <string name="remove">Remove</string>
+    <string name="remove">Ukloni</string>
     <string name="deleteProfileButton">Izbriši profil</string>
-    <string name="deleteProfile">Delete profile?</string>
+    <string name="deleteProfile">Izbriši profil?</string>
     <string name="doneButton">Gotovo</string>
     <string name="saveButton">Spremi</string>
     <string name="recommendedHeader">Preporučeno</string>
@@ -215,7 +215,7 @@
     <string name="serverSelection">Poslužitelj</string>
     <string name="selectServer">Select server</string>
     <string name="protocolLabel">Protokol</string>
-    <string name="selectProtocol">Select protocol</string>
+    <string name="selectProtocol">Odaberite protokol</string>
     <string name="protocol">Protokol:</string>
     <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -256,9 +256,9 @@
     <string name="loaderErrorNoInternet">Nema internetske veze</string>
     <string name="loaderErrorGeneric">Nešto je pošlo po zlu</string>
     <string name="loaderLoadingServers">Učitavanje poslužitelja…</string>
-    <string name="inputIpAddressLabel">IP Address</string>
+    <string name="inputIpAddressLabel">IP adresa</string>
     <string name="inputIpAddressHint">Write IP address</string>
-    <string name="inputIpAddressErrorInvalid">Invalid IP address</string>
+    <string name="inputIpAddressErrorInvalid">Nevažeća IP adresa</string>
     <string name="settingsExcludedIPAddresses">Excluded IP Addresses</string>
     <string name="settingsExcludedIPAddressesListHeader">Excluded IP Addresses (%1$d)</string>
     <string name="settingsExcludedApps">Excluded Apps</string>
@@ -300,7 +300,7 @@
     <string name="troubleshootProxyFirewallProblemDescription">Onemogućite sve proxye ili vatrozide ili se obratite mrežnom administratoru.</string>
     <string name="troubleshootProtonDownTitle">Proton je van mreže</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Provjerite <a href=\"%1$s\">Proton Status</a> za status našeg sustava.]]></string>
-    <string name="troubleshootContactUsSectionTitle">Still need help? Contact us directly</string>
+    <string name="troubleshootContactUsSectionTitle">Još trebate pomoć? Javite nam se izravno</string>
     <string name="troubleshootCustomerSupport">Korisnička podrška</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternativno usmjeravanje</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>.]]></string>
@@ -333,8 +333,8 @@
     <string name="netShieldEnabledWarning">Imajte na umu da neke web stranice možda neće funkcionirati u potpunosti zbog blokiranog sadržaja.</string>
     <string name="netShieldDescription">Blokirajte oglase, pratitelje i neželjene programe </string>
     <string name="netshield_settings_description"><![CDATA[Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. <a href="%1$s">Learn more</a>.]]></string>
-    <string name="netshield_status_on">On</string>
-    <string name="netshield_status_off">Off</string>
+    <string name="netshield_status_on">Oključeno</string>
+    <string name="netshield_status_off">Isključeno</string>
     <string name="netshield_free_title">Browse ad-free with NetShield</string>
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
     <string name="netshield_business_title">Block ads with NetShield</string>
@@ -425,7 +425,7 @@
     <string name="reconnectToEnableNetshield">This will restart your connection.\n\nNote: Some sites may not load with NetShield on.</string>
     <string name="notification_subscription_expired_title">Your Proton VPN subscription plan has expired</string>
     <string name="notification_subscription_expired_content">We had to downgrade your plan, but we’re reconnecting you to the fastest server available on that plan.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">Your subscription has been downgraded.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">Vaša pretplata je snižena na niži plan.</string>
     <string name="notification_delinquent_title">Vaš Proton VPN račun ima neplaćene fakture</string>
     <string name="notification_delinquent_content">Odvojite trenutak da ažurirate podatke o naplati kako biste zadržali pretplatu aktivnom.</string>
     <string name="notification_max_sessions_title">Dostigli ste maksimalno ograničenje broja uređaja</string>
@@ -454,7 +454,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">%1$d server</item>
+        <item quantity="one">%1$d poslužitelj</item>
         <item quantity="few">%1$d servers</item>
         <item quantity="other">%1$d servers</item>
     </plurals>
@@ -464,21 +464,33 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d country</item>
-        <item quantity="few">%1$d countries</item>
-        <item quantity="other">%1$d countries</item>
+        <item quantity="one">%1$d država</item>
+        <item quantity="few">%1$d države</item>
+        <item quantity="other">%1$d država</item>
     </plurals>
     <string name="upsell_upgrade_again">Nadogradite ponovno i uživajte u svim značajkama:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_netshield_title">Enjoy ad-free browsing with NetShield</string>
-    <string name="upgrade_secure_core_title">Double the encryption with Secure Core</string>
+    <string name="upgrade_plus_title">Upgrade your privacy</string>
+    <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
+    <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
+    <string name="upgrade_netshield_message"><![CDATA[Block ads, trackers and malware with <b>NetShield</b>.]]></string>
+    <string name="upgrade_secure_core_title">Double the encryption</string>
+    <string name="upgrade_secure_core_message"><![CDATA[Add another layer of encryption to your VPN connection with <b>Secure Core</b>.]]></string>
     <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
-    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
-    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds (up to 10 Gbps).</string>
+    <string name="upgrade_profiles_text"><![CDATA[Unlock <b>profiles</b> with <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds</string>
+    <!--
+        %1$s - speed in Gbps
+        Example:
+        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
+    -->
+    <string name="upgrade_vpn_accelerator_message">Unlock faster, less crowded servers with speeds of up to %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Get the best of both worlds</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Unlock <b>split tunneling</b> with VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Unlock advanced VPN customization</string>
+    <string name="upgrade_lan_access_message"><![CDATA[Access devices on your <b>local area network (LAN)</b> with VPN Plus.]]></string>
+    <string name="upgrade_all_countries_title">Access all countries</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -505,14 +517,31 @@
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access over 1300 secure servers in 61 countries
+     Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new">Access over %1$s in %2$s</string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[Unlock %1$s in %2$s with <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">When you upgrade to Plus</string>
     <string name="upgrade_safe_mode_title">Allow traffic to non-standard ports</string>
     <string name="upgrade_safe_mode_message">Have advanced or professional computing needs that require non-standard ports? Upgrade to VPN Plus to access this and other premium features.</string>
     <string name="upgrade_not_now_button">Ne sada</string>
     <string name="upgrade_learn_more">Saznajte više</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+
+        Examples:
+        50 PLN /month
+        $100 /year
+    -->
+    <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_per_month">mjesec</string>
+    <string name="payment_price_per_year">year</string>
+    <string name="payment_price_per_2years">2 godine</string>
+    <string name="payment_price_cycle_month_label">1 mjesec</string>
+    <string name="payment_price_cycle_year_label">1 godina</string>
+    <string name="payment_price_cycle_2years_label">2 godine</string>
+    <string name="payment_select_your_plan">Select your plan</string>
+    <string name="payment_button_get_vpn_plus">Get VPN Plus</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informacije</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -562,7 +591,7 @@
          Example:
          65 servers -->
     <plurals name="onboarding_connection_description_servers">
-        <item quantity="one">%1$d server</item>
+        <item quantity="one">%1$d poslužitelj</item>
         <item quantity="few">%1$d servers</item>
         <item quantity="other">%1$d servers</item>
     </plurals>
@@ -572,23 +601,23 @@
          Example:
          3 countries -->
     <plurals name="onboarding_connection_description_countries">
-        <item quantity="one">%1$d country</item>
-        <item quantity="few">%1$d countries</item>
-        <item quantity="other">%1$d countries</item>
+        <item quantity="one">%1$d država</item>
+        <item quantity="few">%1$d države</item>
+        <item quantity="other">%1$d država</item>
     </plurals>
     <string name="onboarding_connection_info">We will connect you to the fastest and most stable server for your location.</string>
     <string name="onboading_connect_now">Connect now</string>
     <string name="onboading_connecting_now">Connecting now</string>
     <string name="onboarding_congrats_description">Your connection is protected and you’re ready to browse the web.\n\nSafely.</string>
-    <string name="onboarding_congrats_title">Congratulations!</string>
+    <string name="onboarding_congrats_title">Čestitamo!</string>
     <string name="upgrade_success_get_started_button">Get started</string>
     <string name="upgrade_use_limited_free_button">Use limited Free plan</string>
     <string name="dynamic_report_suggestion_didnt_work">Didn\'t work?</string>
-    <string name="dynamic_report_contact_us">Contact us</string>
+    <string name="dynamic_report_contact_us">Kontaktirajte nas</string>
     <string name="dynamic_report_tips_description">These tips could help to solve your issue faster.</string>
     <string name="dynamic_report_tips_title">Quick fixes</string>
     <string name="dynamic_report_logs_title">Send error logs</string>
-    <string name="dynamic_report_success_title">Thanks for your feedback</string>
+    <string name="dynamic_report_success_title">Hvala vam na povratnim informacijama</string>
     <string name="dynamic_report_success_description">We’ll get back to you as soon as we can.</string>
     <string name="dynamic_report_field_mandatory">This field is mandatory</string>
     <string name="dynamic_report_logs_description">A log is a type of file that shows us the actions you took that led to an error. We’ll only ever use them to help our engineers fix bugs.</string>
@@ -597,7 +626,7 @@
     <string name="dynamic_report_step2">Step 2 of 3</string>
     <string name="dynamic_report_step3">Step 3 of 3</string>
     <string name="dynamic_report_your_issue_headline">What is your issue</string>
-    <string name="update_screen_title">Update Proton VPN</string>
+    <string name="update_screen_title">Ažuriraj Proton VPN</string>
     <string name="update_screen_description">You’re more likely to have issues on older versions of Proton VPN.</string>
     <string name="server_search_menu_title">Pretraga</string>
     <string name="server_search_hint">Country, city, server</string>
@@ -631,10 +660,10 @@
     <string name="plans_customizable_features">Visit <a href="https://protonvpn.com/pricing">protonvpn.com</a> for more info.</string>
     <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Want to choose a specific country?</string>
-    <string name="upgrade_country_message">Unlock country selection with VPN Plus</string>
+    <string name="upgrade_country_title">Want to connect to a specific country?</string>
+    <string name="upgrade_country_message"><![CDATA[Unlock <b>country selection</b> with VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Level up your gaming experience</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Unlock <b>NAT Type 2</b> with VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Improve online gaming and video call performance with <b>NAT type 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free automatically connects you to the fastest available server. This will normally be the closest server to your location.</string>
     <string name="free_connections_info_server_locations">Free server locations (%1$d)</string>
     <string name="free_connections_info_banner_text">Get worldwide coverage with VPN Plus</string>
@@ -670,15 +699,15 @@
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
-        <item quantity="one">%1$d hour</item>
-        <item quantity="few">%1$d hours</item>
-        <item quantity="other">%1$d hours</item>
+        <item quantity="one">%1$d sat</item>
+        <item quantity="few">%1$d sata</item>
+        <item quantity="other">%1$d sati</item>
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
-        <item quantity="one">%1$d day</item>
-        <item quantity="few">%1$d days</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d dan</item>
+        <item quantity="few">%1$d dana</item>
+        <item quantity="other">%1$d dana</item>
     </plurals>
     <string name="server_change_max_reached">You’ve reached the maximum number of Free server changes for now.</string>
     <string name="server_change_upsell">Get unlimited changes with VPN Plus.</string>
@@ -695,7 +724,7 @@
     <string name="welcome_plus_feature_security">Advanced security features</string>
     <string name="welcome_unlimited_title">Welcome to Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Congratulations! You unlocked premium security and performance features on all Proton services, plus <b>%1$d&#160;GB</b> total storage.<br><br>Enjoy the best of Proton privacy.]]></string>
-    <string name="welcome_generic_title">Congratulations</string>
+    <string name="welcome_generic_title">Čestitamo</string>
     <string name="welcome_generic_description">You\'ve upgraded your subscription. Enjoy advanced privacy features and next-level performance.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
@@ -721,9 +750,9 @@
          55 countries
          -->
     <plurals name="welcome_plus_countries">
-        <item quantity="one">%d country</item>
-        <item quantity="few">%d countries</item>
-        <item quantity="other">%d countries</item>
+        <item quantity="one">%d država</item>
+        <item quantity="few">%d države</item>
+        <item quantity="other">%d država</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"

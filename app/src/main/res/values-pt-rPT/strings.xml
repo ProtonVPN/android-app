@@ -237,7 +237,7 @@
     <string name="noVpnPermissionOpenSettings">Abrir definições de VPN do Android</string>
     <string name="noNotificationPermissionGrantTitle">Don’t get caught out…</string>
     <string name="noNotificationPermissionGrantDescription">Enable notifications to get alerted about changes to your connection status.</string>
-    <string name="noNotificationPermissionGrantNowTitle">Enable notifications</string>
+    <string name="noNotificationPermissionGrantNowTitle">Permitir notificações</string>
     <string name="error_prepare_vpn_description"><![CDATA[Desative a opção Sempre ligada para todas as outras aplicações VPN nas definições do sistema Android, elas impedem o Proton VPN de estabelecer uma ligação VPN. Conceda também permissões, se um diálogo aparecer. As outras aplicações VPN podem também precisar de ser desinstaladas para evitar conflitos. Tente novamente a seguir. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="error_prepare_vpn_settings">Ir para as definições de VPN do Android</string>
     <string name="error_prepare_vpn_title">Erro: problema de permissões VPN</string>
@@ -465,14 +465,26 @@
     <string name="upsell_upgrade_again">Atualize novamente para aproveitar todas as funcionalidades:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_netshield_title">Desfrute de uma navegação sem publicidades com o NetShield</string>
-    <string name="upgrade_secure_core_title">Duplique a encriptação com o Secure Core</string>
+    <string name="upgrade_plus_title">Upgrade your privacy</string>
+    <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
+    <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
+    <string name="upgrade_netshield_message"><![CDATA[Block ads, trackers and malware with <b>NetShield</b>.]]></string>
+    <string name="upgrade_secure_core_title">Double the encryption</string>
+    <string name="upgrade_secure_core_message"><![CDATA[Add another layer of encryption to your VPN connection with <b>Secure Core</b>.]]></string>
     <string name="upgrade_profiles_title">Obtenha acesso rápido às suas ligações frequentes</string>
-    <string name="upgrade_profiles_text">Desbloqueie perfis com a VPN Plus</string>
-    <string name="upgrade_vpn_accelerator_title">Navegue a velocidades ainda mais elevadas (até 10 Gbps).</string>
+    <string name="upgrade_profiles_text"><![CDATA[Unlock <b>profiles</b> with <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds</string>
+    <!--
+        %1$s - speed in Gbps
+        Example:
+        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
+    -->
+    <string name="upgrade_vpn_accelerator_message">Unlock faster, less crowded servers with speeds of up to %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Tenha o melhor dos dois mundos</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Desbloqueie o <b>Split Tunneling</b> com a VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Desbloqueie personalizações avançadas da VPN</string>
+    <string name="upgrade_lan_access_message"><![CDATA[Access devices on your <b>local area network (LAN)</b> with VPN Plus.]]></string>
+    <string name="upgrade_all_countries_title">Access all countries</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -497,14 +509,31 @@
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access over 1300 secure servers in 61 countries
+     Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new">Aceda a mais de %1$s em %2$s.</string>
-    <string name="upgrade_plus_countries_subtitle">When you upgrade to Plus</string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[Unlock %1$s in %2$s with <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_plus_countries_subtitle">Quando fizer \"upgrade\" para o Plus</string>
     <string name="upgrade_safe_mode_title">Permitir tráfego em portas incomuns</string>
     <string name="upgrade_safe_mode_message">Tem necessidades informáticas avançadas ou profissionais que requerem portas não standard? Actualize para o VPN Plus para aceder a esta e outras funcionalidades premium.</string>
     <string name="upgrade_not_now_button">Agora não</string>
     <string name="upgrade_learn_more">Saiba mais</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+
+        Examples:
+        50 PLN /month
+        $100 /year
+    -->
+    <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_per_month">month</string>
+    <string name="payment_price_per_year">year</string>
+    <string name="payment_price_per_2years">2 years</string>
+    <string name="payment_price_cycle_month_label">1 month</string>
+    <string name="payment_price_cycle_year_label">1 year</string>
+    <string name="payment_price_cycle_2years_label">2 years</string>
+    <string name="payment_select_your_plan">Selecione o seu plano</string>
+    <string name="payment_button_get_vpn_plus">Get VPN Plus</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informação</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -619,12 +648,12 @@
     <string name="ikev2_removed_dialog_message">As predefinições e os perfis que anteriormente utilizavam o IKEv2 passam a utilizar o Smart Protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obter mais informações.</string>
-    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
+    <string name="free_upsell_header_title">Obtenha uma cobertura global com a VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Pretende escolher um país específico?</string>
-    <string name="upgrade_country_message">Desbloqueie a seleção do país com a VPN Plus</string>
+    <string name="upgrade_country_title">Want to connect to a specific country?</string>
+    <string name="upgrade_country_message"><![CDATA[Unlock <b>country selection</b> with VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Leve a sua experiência em jogo ao próximo nível</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Desbloqueie o <b>NAT tipo 2</b> com a VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Improve online gaming and video call performance with <b>NAT type 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free liga-o automaticamente ao servidor mais rápido disponível. Este será, geralmente, o servidor mais próximo da sua localização.</string>
     <string name="free_connections_info_server_locations">Localizações dos servidores gratuitas (%1$d)</string>
     <string name="free_connections_info_banner_text">Obtenha uma cobertura global com a VPN Plus</string>
@@ -680,7 +709,7 @@
     <string name="welcome_plus_feature_security">Funcionalidades de segurança avançadas</string>
     <string name="welcome_unlimited_title">Welcome to Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Congratulations! You unlocked premium security and performance features on all Proton services, plus <b>%1$d&#160;GB</b> total storage.<br><br>Enjoy the best of Proton privacy.]]></string>
-    <string name="welcome_generic_title">Congratulations</string>
+    <string name="welcome_generic_title">Parabéns</string>
     <string name="welcome_generic_description">You\'ve upgraded your subscription. Enjoy advanced privacy features and next-level performance.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->

@@ -465,14 +465,26 @@
     <string name="upsell_upgrade_again">Mejore su plan de nuevo para disfrutar de todas las funciones:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_netshield_title">Disfrute la navegación sin anuncios con NetShield</string>
-    <string name="upgrade_secure_core_title">Duplique el cifrado con Secure Core</string>
+    <string name="upgrade_plus_title">Mejore su privacidad</string>
+    <string name="upgrade_plus_message">Obtenga funciones de privacidad avanzadas y velocidades altas con VPN Plus.</string>
+    <string name="upgrade_netshield_title">Disfrute una navegación sin anuncios</string>
+    <string name="upgrade_netshield_message"><![CDATA[Bloquee anuncios, rastreadores y malware con <b>NetShield</b>.]]></string>
+    <string name="upgrade_secure_core_title">Duplique el cifrado</string>
+    <string name="upgrade_secure_core_message"><![CDATA[Añada otra capa de protección a su conexión VPN con <b>Secure Core</b>.]]></string>
     <string name="upgrade_profiles_title">Obtenga acceso rápido a sus conexiones frecuentes</string>
-    <string name="upgrade_profiles_text">Desbloquee perfiles con VPN Plus</string>
-    <string name="upgrade_vpn_accelerator_title">Navegue a velocidades aún mayores (hasta 10 Gbps).</string>
+    <string name="upgrade_profiles_text"><![CDATA[Desbloquee los <b>perfiles</b> con <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_title">Navegue incluso a velocidades máximas</string>
+    <!--
+        %1$s - speed in Gbps
+        Example:
+        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
+    -->
+    <string name="upgrade_vpn_accelerator_message">Desbloquee servidores rápidos y menos concurridos con velocidades de hasta %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Obtenga lo mejor de ambas opciones</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Desbloquee el <b>túnel dividido</b> con VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Divida su tráfico en túneles VPN y de no VPN con <b>túnel dividido</b>.]]></string>
     <string name="upgrade_customization_title">Desbloquee personalizaciones VPN avanzadas</string>
+    <string name="upgrade_lan_access_message"><![CDATA[Acceda a dispositivos en su <b>red local (LAN)</b> con VPN Plus.]]></string>
+    <string name="upgrade_all_countries_title">Acceda a todos los países</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -497,14 +509,31 @@
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access over 1300 secure servers in 61 countries
+     Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new">Acceso a más de %1$s en %2$s</string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[Desbloquee %1$s en %2$s con <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">Cuando mejora a Plus</string>
     <string name="upgrade_safe_mode_title">Permitir el tráfico a puertos no estándar</string>
     <string name="upgrade_safe_mode_message">¿Tiene necesidades informáticas avanzadas o profesionales que requieren puertos no estándar? Actualice a VPN Plus para acceder a esta y otras funciones premium.</string>
     <string name="upgrade_not_now_button">Ahora no</string>
     <string name="upgrade_learn_more">Más información</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+
+        Examples:
+        50 PLN /month
+        $100 /year
+    -->
+    <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_per_month">mes</string>
+    <string name="payment_price_per_year">año</string>
+    <string name="payment_price_per_2years">2 años</string>
+    <string name="payment_price_cycle_month_label">1 mes</string>
+    <string name="payment_price_cycle_year_label">1 año</string>
+    <string name="payment_price_cycle_2years_label">2 años</string>
+    <string name="payment_select_your_plan">Elija su plan</string>
+    <string name="payment_button_get_vpn_plus">Obtener VPN Plus</string>
     <!-- Information activity -->
     <string name="activity_information_title">Información</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -621,10 +650,10 @@
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obtener más información.</string>
     <string name="free_upsell_header_title">Disfrute de una cobertura global con VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">¿Quiere elegir un país específico?</string>
-    <string name="upgrade_country_message">Desbloquee el país seleccionado con VPN Plus</string>
+    <string name="upgrade_country_title">¿Desea conectarse a un país específico?</string>
+    <string name="upgrade_country_message"><![CDATA[Desbloquee la <b>selección de países</b> con VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Suba su nivel de experiencia en juegos</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Desbloquee <b>NAT Tipo 2</b> con VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Mejore el rendimiento de las videollamadas y juegos en línea con <b>NAT tipo 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free le conecta automáticamente al servidor más rápido disponible. Normalmente es el servidor más cercano a su ubicación.</string>
     <string name="free_connections_info_server_locations">Ubicaciones de servidores gratuitos (%1$d)</string>
     <string name="free_connections_info_banner_text">Obtenga cobertura global con VPN Plus</string>
