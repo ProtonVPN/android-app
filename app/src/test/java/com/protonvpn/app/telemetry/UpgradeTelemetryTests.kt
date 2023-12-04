@@ -27,6 +27,7 @@ import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -115,10 +116,26 @@ class UpgradeTelemetryTests {
     }
 
     @Test
+    fun `flow_type dimension`() = testScope.runTest {
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.COUNTRIES, "ref")
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.ONE_CLICK)
+
+        verify {
+            mockTelemetry.event(UPSELL_GROUP, "upsell_display", emptyMap(), any())
+            mockTelemetry.event(
+                UPSELL_GROUP,
+                "upsell_upgrade_attempt",
+                emptyMap(),
+                withArg { assertEquals( "one_click", it["flow_type"]) }
+            )
+        }
+    }
+
+    @Test
     fun `modal_source is carried over to subsequent events`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD)
-        upgradeTelemetry.onUpgradeAttempt()
-        upgradeTelemetry.onUpgradeSuccess("new_plan")
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR)
 
         verify {
             listOf("upsell_display", "upsell_upgrade_attempt", "upsell_success").forEach { event ->
@@ -136,10 +153,10 @@ class UpgradeTelemetryTests {
     fun `when new flow starts it overrides the previous modal_source`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD)
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.MODERATE_NAT)
-        upgradeTelemetry.onUpgradeAttempt()
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROFILES)
-        upgradeTelemetry.onUpgradeAttempt()
-        upgradeTelemetry.onUpgradeSuccess("new_plan")
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR)
 
         verify {
             listOf("upsell_display", "upsell_upgrade_attempt", "upsell_success").forEach { event ->
@@ -156,8 +173,8 @@ class UpgradeTelemetryTests {
     @Test
     fun `on success both old and new plan is reported`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.MODERATE_NAT)
-        upgradeTelemetry.onUpgradeAttempt()
-        upgradeTelemetry.onUpgradeSuccess("new_plan")
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR)
 
         verify {
             mockTelemetry.event(
@@ -199,9 +216,9 @@ class UpgradeTelemetryTests {
     @Test
     fun `upgrade more than 10 minutes after first event is ignored`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.MODERATE_NAT)
-        upgradeTelemetry.onUpgradeAttempt()
+        upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
         fakeTime = 10.minutes.inWholeMilliseconds + 1
-        upgradeTelemetry.onUpgradeSuccess("new_plan")
+        upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR)
 
         verify(exactly = 0) {
             mockTelemetry.event(UPSELL_GROUP, "upsell_success", any(), any())

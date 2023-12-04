@@ -22,6 +22,7 @@ package com.protonvpn.app.ui.planupgrade
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
+import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.GiapPlanInfo
 import com.protonvpn.android.utils.formatPrice
@@ -105,7 +106,7 @@ class UpgradeDialogViewModelTests {
         )
         Assert.assertTrue((viewModel.state.value as? CommonUpgradeDialogViewModel.State.PurchaseReady)?.inProgress == false)
 
-        viewModel.onPaymentStarted()
+        viewModel.onPaymentStarted(UpgradeFlowType.REGULAR)
         Assert.assertTrue((viewModel.state.value as? CommonUpgradeDialogViewModel.State.PurchaseReady)?.inProgress == true)
 
         // Fail before succeeding
@@ -113,10 +114,10 @@ class UpgradeDialogViewModelTests {
         Assert.assertTrue((viewModel.state.value as? CommonUpgradeDialogViewModel.State.PurchaseReady)?.inProgress == false)
 
         // Try again and succeed
-        viewModel.onPaymentStarted()
-        viewModel.onPurchaseSuccess()
+        viewModel.onPaymentStarted(UpgradeFlowType.ONE_CLICK)
+        viewModel.onPurchaseSuccess(UpgradeFlowType.ONE_CLICK)
         Assert.assertEquals(
-            CommonUpgradeDialogViewModel.State.PurchaseSuccess("myplan", "My Plan"),
+            CommonUpgradeDialogViewModel.State.PurchaseSuccess("myplan", "My Plan", UpgradeFlowType.ONE_CLICK),
             viewModel.state.value
         )
     }

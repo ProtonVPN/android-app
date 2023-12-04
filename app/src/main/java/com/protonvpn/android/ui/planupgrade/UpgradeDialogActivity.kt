@@ -74,7 +74,12 @@ open class UpgradeDialogActivity : BaseActivityV2() {
                 is CommonUpgradeDialogViewModel.State.PlanLoaded -> {}
                 CommonUpgradeDialogViewModel.State.PlansFallback -> {}
                 is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
-                    showUpgradeSuccess.showPlanUpgradeSuccess(this, state.newPlanName, refreshVpnInfo = true)
+                    showUpgradeSuccess.showPlanUpgradeSuccess(
+                        this,
+                        state.newPlanName,
+                        refreshVpnInfo = true,
+                        upgradeFlowType = state.upgradeFlowType
+                    )
                     setResult(Activity.RESULT_OK)
                     finish()
                 }

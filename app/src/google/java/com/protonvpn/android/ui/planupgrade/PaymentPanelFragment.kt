@@ -123,7 +123,7 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
                 is BillingCommonViewModel.State.Success.TokenCreated -> {
                 }
                 is BillingCommonViewModel.State.Success.SubscriptionCreated -> {
-                    viewModel.onPurchaseSuccess()
+                    viewModel.onPurchaseSuccess(UpgradeFlowType.ONE_CLICK)
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -179,7 +179,7 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
         viewLifecycleOwner.lifecycleScope.launch {
             val billingInput = viewModel.getBillingInput(resources)
             if (billingInput != null) {
-                viewModel.onPaymentStarted()
+                viewModel.onPaymentStarted(UpgradeFlowType.ONE_CLICK)
                 pay(billingInput)
             } else {
                 onError(null, null)

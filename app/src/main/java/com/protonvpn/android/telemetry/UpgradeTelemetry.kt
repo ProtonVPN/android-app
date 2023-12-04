@@ -23,6 +23,7 @@ import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
+import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
@@ -83,21 +84,21 @@ class UpgradeTelemetry @Inject constructor(
         }
     }
 
-    fun onUpgradeAttempt() {
+    fun onUpgradeAttempt(flowType: UpgradeFlowType) {
         serialExecutor.trySend {
             currentDimensions?.let { currentDimensions ->
-                sendEvent("upsell_upgrade_attempt", currentDimensions)
+                sendEvent("upsell_upgrade_attempt", currentDimensions.withFlowType(flowType))
             }
         }
     }
 
-    fun onUpgradeSuccess(newPlanId: String?) {
+    fun onUpgradeSuccess(newPlanId: String?, flowType: UpgradeFlowType) {
         serialExecutor.trySend {
             currentDimensions?.let { currentDimensions ->
                 val upgradedPlan = newPlanId ?: NO_VALUE
                 val dimensions = currentDimensions + ("upgraded_user_plan" to upgradedPlan)
                 currentUpgradeFlow = null
-                sendEvent("upsell_success", dimensions)
+                sendEvent("upsell_success", dimensions.withFlowType(flowType))
             }
         }
     }
@@ -124,6 +125,9 @@ class UpgradeTelemetry @Inject constructor(
             put("user_plan", vpnUser.planName ?: NO_VALUE)
         }
     }
+
+    private fun Map<String, String>.withFlowType(flowType: UpgradeFlowType) =
+        this + ("flow_type" to flowType.toStatsName())
 
     private fun accountCreationBucket(timeSinceCreation: Duration?): String {
         if (timeSinceCreation == null) return NO_VALUE

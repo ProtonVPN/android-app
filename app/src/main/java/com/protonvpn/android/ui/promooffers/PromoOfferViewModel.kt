@@ -25,6 +25,7 @@ import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
+import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,7 +58,7 @@ class PromoOfferViewModel @Inject constructor(
     fun onOpenOfferClicked() {
         val button = currentPanel.button ?: return
 
-        upgradeTelemetry.onUpgradeAttempt()
+        upgradeTelemetry.onUpgradeAttempt(flowType = UpgradeFlowType.EXTERNAL)
         viewModelScope.launch {
             isLoading.value = true
             val urlToOpen = promoOfferButtonActions.getButtonUrl(button)
