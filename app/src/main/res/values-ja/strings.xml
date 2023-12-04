@@ -459,14 +459,26 @@
     <string name="upsell_upgrade_again">再度すべての機能を利用するにはアップデートしてください:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_netshield_title">NetShield で広告なしのブラウジングを体験</string>
-    <string name="upgrade_secure_core_title">Secure Core で 2 重の暗号化</string>
+    <string name="upgrade_plus_title">プライバシーをアップグレードする</string>
+    <string name="upgrade_plus_message">VPN Plus を使用すると、高度なプライバシー機能と高速性を実現できます。</string>
+    <string name="upgrade_netshield_title">広告なしのブラウジングをお楽しみください</string>
+    <string name="upgrade_netshield_message"><![CDATA[<b>NetShield</b> で広告、トラッカー、マルウェアをブロックします。]]></string>
+    <string name="upgrade_secure_core_title">暗号化を2倍にする</string>
+    <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b> を使用して、VPN 接続に別の暗号化層を追加します。]]></string>
     <string name="upgrade_profiles_title">頻繁に利用するコネクションに素早くアクセス</string>
-    <string name="upgrade_profiles_text">VPN Plus でプロファイルのロックを解除する</string>
-    <string name="upgrade_vpn_accelerator_title">さらに高速なブラウジング (最大10 Gbps)</string>
+    <string name="upgrade_profiles_text"><![CDATA[<b>VPN Plus</b> を使用して<b>プロファイル</b> のロックを解除します。]]></string>
+    <string name="upgrade_vpn_accelerator_title">さらに高速なブラウジング</string>
+    <!--
+        %1$s - speed in Gbps
+        Example:
+        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
+    -->
+    <string name="upgrade_vpn_accelerator_message">最大 %1$d Gbps の速度で、より高速で混雑の少ないサーバーのロックを解除します。</string>
     <string name="upgrade_split_tunneling_title">両方の利点を最大限に活用</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[VPN Plusで<b>スプリットトンネル</b>を解除する]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[<b>スプリットトンネル</b>を使用して、トラフィックを VPN トンネルと非 VPN トンネルに分割します。]]></string>
     <string name="upgrade_customization_title">高度な VPN カスタマイズを解除する</string>
+    <string name="upgrade_lan_access_message"><![CDATA[VPN Plus を使用して<b>ローカル エリア ネットワーク (LAN)</b> 上のデバイスにアクセスします。]]></string>
+    <string name="upgrade_all_countries_title">すべての国にアクセス</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -489,14 +501,31 @@
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access over 1300 secure servers in 61 countries
+     Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new">%2$s にある %1$s にアクセス</string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[<b>VPN Plus</b> を使用して %2$s の %1$s のロックを解除します。]]></string>
     <string name="upgrade_plus_countries_subtitle">Plusへのアップグレード</string>
     <string name="upgrade_safe_mode_title">標準的でないポートのトラフィックを許可</string>
     <string name="upgrade_safe_mode_message">非標準なポートを使用する高度および専門的なコンピューティングを必要としていますか? VPN Plus にアップグレードしてこれを含めたプレミアムな機能を利用することができます。</string>
     <string name="upgrade_not_now_button">後で</string>
     <string name="upgrade_learn_more">詳細</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+
+        Examples:
+        50 PLN /month
+        $100 /year
+    -->
+    <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_per_month">月</string>
+    <string name="payment_price_per_year">年</string>
+    <string name="payment_price_per_2years">2年</string>
+    <string name="payment_price_cycle_month_label">1ヶ月</string>
+    <string name="payment_price_cycle_year_label">1年</string>
+    <string name="payment_price_cycle_2years_label">2年</string>
+    <string name="payment_select_your_plan">プランを選択してください</string>
+    <string name="payment_button_get_vpn_plus">VPN Plusを入手</string>
     <!-- Information activity -->
     <string name="activity_information_title">情報</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -611,10 +640,10 @@
     <string name="plans_customizable_features">詳細は <a href="https://protonvpn.com/pricing">protonvpn.com</a> をご覧ください。</string>
     <string name="free_upsell_header_title">VPN Plusで世界中をカバー</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">特定の国を選びたい？</string>
-    <string name="upgrade_country_message">VPN Plusで国選択のロックを解除</string>
+    <string name="upgrade_country_title">特定の国に接続したいですか?</string>
+    <string name="upgrade_country_message"><![CDATA[VPN Plus で<b>国の選択</b>を解除します。]]></string>
     <string name="upgrade_moderate_nat_title2">ゲーム体験のレベルアップ</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[VPN Plusで<b>NAT Type 2</b>を解除する]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[<b>NAT タイプ 2</b> により、オンライン ゲームとビデオ通話のパフォーマンスが向上します。]]></string>
     <string name="free_connections_info_message">Proton Freeでは、利用可能な最速のサーバーに自動的に接続されます。これは通常、あなたの所在地に最も近いサーバーとなります。</string>
     <string name="free_connections_info_server_locations">フリーサーバロケーション (%1$d)</string>
     <string name="free_connections_info_banner_text">VPN Plusで世界中をカバー</string>

@@ -471,14 +471,26 @@
     <string name="upsell_upgrade_again">Remodernizați planul pentru a accesa toate funcțiile:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_netshield_title">Bucurați-vă de navigarea fără reclame cu NetShield</string>
-    <string name="upgrade_secure_core_title">Dublați criptarea cu Secure Core</string>
+    <string name="upgrade_plus_title">Îmbunătățiți-vă confidențialitatea</string>
+    <string name="upgrade_plus_message">Obțineți funcții avansate de confidențialitate și viteze maxime cu VPN Plus.</string>
+    <string name="upgrade_netshield_title">Bucurați-vă de navigare pe internet fără reclame</string>
+    <string name="upgrade_netshield_message"><![CDATA[Blocați reclamele, utilitarele de urmărire și programele malware cu <b>NetShield</b>.]]></string>
+    <string name="upgrade_secure_core_title">Dublați criptarea</string>
+    <string name="upgrade_secure_core_message"><![CDATA[Adăugați încă un nivel de criptare cu conexiunea VPN prin <b>Secure Core</b>.]]></string>
     <string name="upgrade_profiles_title">Obțineți acces rapid la conexiunile frecvent utilizate</string>
-    <string name="upgrade_profiles_text">Deblocați profilurile cu VPN Plus</string>
-    <string name="upgrade_vpn_accelerator_title">Navigați pe web la viteze și mai mari (până la 10 Gbps).</string>
+    <string name="upgrade_profiles_text"><![CDATA[Deblocați <b>profilurile</b> cu <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_title">Navigați cu viteze și mai mari</string>
+    <!--
+        %1$s - speed in Gbps
+        Example:
+        Unlock faster, less crowded servers with speeds of up to 10 Gbps.
+    -->
+    <string name="upgrade_vpn_accelerator_message">Deblocați servere mai rapide și mai puțin aglomerate, cu viteze de până la %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Obțineți maximum din ambele părți</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Deblocați <b>divizarea tunelurilor</b> cu VPN Plus]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Divizați-vă traficul în tuneluri VPN și non-VPN cu funcția de <b>divizare trafic</b>.]]></string>
     <string name="upgrade_customization_title">Deblocați personalizarea avansată pentru VPN</string>
+    <string name="upgrade_lan_access_message"><![CDATA[Accesați dispozitivele din <b>rețeaua locală (LAN)</b> cu VPN Plus.]]></string>
+    <string name="upgrade_all_countries_title">Accesați toate țările</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -505,14 +517,31 @@
      %2$s - replaced with "upgrade_plus_countries"
 
      Example:
-     Access over 1300 secure servers in 61 countries
+     Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new">Accesați peste %1$s în %2$s</string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[Deblocați %1$s în %2$s cu <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">Când treceți la Plus</string>
     <string name="upgrade_safe_mode_title">Permitere trafic la porturile nonstandard</string>
     <string name="upgrade_safe_mode_message">Aveți nevoi avansate sau profesionale de calcul care necesită porturi non-standard? Treceți la VPN Plus pentru a activa aceasta și alte funcții premium.</string>
     <string name="upgrade_not_now_button">Nu acum</string>
     <string name="upgrade_learn_more">Detalii</string>
+    <!-- Format for price per period of time.
+        %1$s - replaced with price and currency (e.g. "$100")
+        %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
+
+        Examples:
+        50 PLN /month
+        $100 /year
+    -->
+    <string name="payment_price_with_period">%1$s/%2$s</string>
+    <string name="payment_price_per_month">lună</string>
+    <string name="payment_price_per_year">an</string>
+    <string name="payment_price_per_2years">2 ani</string>
+    <string name="payment_price_cycle_month_label">o lună</string>
+    <string name="payment_price_cycle_year_label">un an</string>
+    <string name="payment_price_cycle_2years_label">2 ani</string>
+    <string name="payment_select_your_plan">Selectați planul</string>
+    <string name="payment_button_get_vpn_plus">Obțineți VPN Plus</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informații</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -631,10 +660,10 @@
     <string name="plans_customizable_features">Vizitați <a href="https://protonvpn.com/pricing">protonvpn.com</a> pentru mai multe informații.</string>
     <string name="free_upsell_header_title">Obțineți acoperire la nivel mondial cu VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Doriți să alegeți o anumită țară?</string>
-    <string name="upgrade_country_message">Deblocați selectarea țării cu VPN Plus</string>
+    <string name="upgrade_country_title">Doriți să vă conectați la o anumită țară?</string>
+    <string name="upgrade_country_message"><![CDATA[Deblocați <b>selectarea țărilor</b> cu VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Îmbunătățiți-vă experiența din jocuri</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Deblocați <b>NAT de tip 2</b> cu VPN Plus]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Îmbunătățiți performanța jocurilor online și a apelurilor video cu <b>NAT de tip 2</b>.]]></string>
     <string name="free_connections_info_message">Proton gratuit vă conectează automat la cel mai rapid server disponibil. Acesta va fi în mod normal cel mai apropiat server de locul de unde vă conectați.</string>
     <string name="free_connections_info_server_locations">Locuri servere gratuite (%1$d)</string>
     <string name="free_connections_info_banner_text">Obțineți acoperire la nivel mondial cu VPN Plus</string>
