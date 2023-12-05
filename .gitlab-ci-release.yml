@@ -135,7 +135,7 @@ publish downloads:
   interruptible: false
   variables:
     ORIGIN_OAUTH_URL: "${OAUTH_DOWNLOADS_REPO_URL}"
-    ARTIFACT_PATH: "app/build/outputs/apk/direct/release/${ARCHIVES_BASE_NAME}-direct-release.apk"
+    ARTIFACT_PATH: "app/build/outputs/apk/productionVanillaDirect/release/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk"
     ARTIFACT_OUTPUT_NAME: "ProtonVPN.apk"
     SLACK_HOOK: "${SLACK_HOOK_DEPLOY_CHANNEL}"
     SLACK_MESSAGE: '{"text":"Updated ProtonVPN.apk. Can someone deploy downloads? Thanks :)"}'
