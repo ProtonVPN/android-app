@@ -202,6 +202,8 @@ android {
         }
         black {
             dimension "environment"
+            versionNameSuffix '-dev'
+
             def blackToken = System.getenv("BLACK_TOKEN")
             // Use either:
             //  - TEST_ENV_DOMAIN for regular test environments,
