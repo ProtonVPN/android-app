@@ -49,11 +49,11 @@ class LoginTestsTv {
 
     // Login tests start with mock API in logged out state.
     private val mockApiConfig = TestApiConfig.Mocked(TestUser.plusUser) {
-        rule(get, path eq "/auth/sessions/forks") {
+        rule(get, path eq "/auth/v4/sessions/forks") {
             respond(SessionForkSelectorResponse(FORK_SELECTOR, FORK_USER_CODE))
         }
 
-        rule(get, path eq "/auth/sessions/forks/$FORK_SELECTOR") {
+        rule(get, path eq "/auth/v4/sessions/forks/$FORK_SELECTOR") {
             respond(TvLoginViewModel.HTTP_CODE_KEEP_POLLING)
         }
     }
@@ -81,7 +81,7 @@ class LoginTestsTv {
         loginRobot
             .signIn()
         hiltRule.mockDispatcher.prependRules {
-            rule(get, path eq "/auth/sessions/forks/$FORK_SELECTOR") {
+            rule(get, path eq "/auth/v4/sessions/forks/$FORK_SELECTOR") {
                 respond(TestUser.forkedSessionResponse)
             }
         }

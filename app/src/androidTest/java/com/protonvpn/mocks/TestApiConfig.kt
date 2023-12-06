@@ -53,7 +53,7 @@ sealed class TestApiConfig {
 
         private fun addBasicRules(dispatcher: MockRequestDispatcher) {
             dispatcher.addRules {
-                rule(get, path eq "/vpn/featureconfig/dynamic-bug-reports") {
+                rule(get, path eq "/vpn/v1/featureconfig/dynamic-bug-reports") {
                     respond(DynamicReportModel(emptyList()))
                 }
 
@@ -65,7 +65,7 @@ sealed class TestApiConfig {
                     respond("""{"Code":1000,"Card":0,"Paypal":0,"Bitcoin":0,"InApp":0}""")
                 }
 
-                rule(get, path eq "/vpn/logicals") { request ->
+                rule(get, path eq "/vpn/v1/logicals") { request ->
                     val tier = request.requestUrl?.queryParameter("Tier")?.toInt()
                     respond(ServerList(
                         if (tier != null)
@@ -86,7 +86,7 @@ sealed class TestApiConfig {
                 // Endpoints that require a simple 1000 response code
                 listOf(
                     "/tests/ping",
-                    "/domains/available",
+                    "/core/v4/domains/available",
                     "/data/v1/stats",
                     "/feature/v2/frontend"
                 ).forEach { code1000Path ->
@@ -96,10 +96,10 @@ sealed class TestApiConfig {
                 // Endpoints that are called by the app during tests but can be ignored by returning 422 code.
                 listOf(
                     "/vpn/v2/clientconfig",
-                    "/vpn/streamingservices",
+                    "/vpn/v1/streamingservices",
                     "/vpn/v1/partners",
-                    "/vpn/location",
-                    "/vpn/loads",
+                    "/vpn/v1/location",
+                    "/vpn/v1/loads",
                     "/core/v4/experiments/NetShield",
                     "/core/v4/pushes/active",
                     "/core/v4/settings",

@@ -57,7 +57,7 @@ import retrofit2.http.Tag
 @Suppress("ComplexInterface", "TooManyFunctions")
 interface ProtonVPNRetrofit : BaseRetrofitApi {
 
-    @GET("vpn/logicals")
+    @GET("vpn/v1/logicals")
     suspend fun getServers(
         @Tag timeoutOverride: TimeoutOverride,
         @HeaderMap headers: Map<String, String>,
@@ -67,40 +67,40 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @Query("Tier") userTier: Int?
     ): ServerList
 
-    @GET("vpn/loads")
+    @GET("vpn/v1/loads")
     suspend fun getLoads(
         @HeaderMap headers: Map<String, String>,
         @Query("Tier") userTier: Int?
     ): LoadsResponse
 
-    @GET("vpn/streamingservices")
+    @GET("vpn/v1/streamingservices")
     suspend fun getStreamingServices(): StreamingServicesResponse
 
-    @GET("vpn/servers/{serverId}")
+    @GET("vpn/v1/servers/{serverId}")
     suspend fun getServerDomain(@Path(value = "serverId", encoded = true) serverId: String): ConnectingDomainResponse
 
-    @DELETE("auth")
+    @DELETE("auth/v4")
     suspend fun postLogout(): GenericResponse
 
-    @GET("auth/sessions/forks")
+    @GET("auth/v4/sessions/forks")
     suspend fun getSessionForkSelector(): SessionForkSelectorResponse
 
-    @GET("auth/sessions/forks/{selector}")
+    @GET("auth/v4/sessions/forks/{selector}")
     suspend fun getForkedSession(@Path(value = "selector", encoded = true) selector: String): ForkedSessionResponse
 
-    @POST("auth/sessions/forks")
+    @POST("auth/v4/sessions/forks")
     suspend fun postSessionFork(@Body body: SessionForkBody): SessionForkResponse
 
     @GET("vpn/v2")
     suspend fun getVPNInfo(): VpnInfoResponse
 
-    @GET("vpn/sessions")
+    @GET("vpn/v1/sessions")
     suspend fun getSession(): SessionListResponse
 
-    @GET("vpn/location")
+    @GET("vpn/v1/location")
     suspend fun getLocation(): UserLocation
 
-    @POST("reports/bug")
+    @POST("core/v4/reports/bug")
     suspend fun postBugReport(@Tag timeoutOverride: TimeoutOverride, @Body params: RequestBody): GenericResponse
 
     @GET("vpn/v2/clientconfig")
@@ -113,13 +113,13 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @Query("FullScreenImageHeight") fullScreenImageHeightPx: Int
     ): ApiNotificationsResponse
 
-    @GET("domains/available")
+    @GET("core/v4/domains/available")
     suspend fun getAvailableDomains(@Query("Type") type: String = "login"): GenericResponse
 
     @POST("vpn/v1/certificate")
     suspend fun getCertificate(@Body params: CertificateRequestBody): CertificateResponse
 
-    @GET("vpn/featureconfig/dynamic-bug-reports")
+    @GET("vpn/v1/featureconfig/dynamic-bug-reports")
     suspend fun getDynamicReportConfig(): DynamicReportModel
 
     @GET("internal/tests/humanverification")

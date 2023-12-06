@@ -59,7 +59,7 @@ class PartnershipTests {
         rule(get, path eq "/vpn/v1/partners") {
             respond(PartnersResponse(listOf(newsPartnerType)))
         }
-        rule(get, path eq "/vpn/logicals") {
+        rule(get, path eq "/vpn/v1/logicals") {
             respond(ServerList(listOf(partnerServerNews)))
         }
     }
@@ -99,7 +99,7 @@ class PartnershipTests {
     @Test
     fun onePartnerIsShownForMultiplePartnerServers() {
         hiltRule.mockDispatcher.prependRules {
-            rule(get, path eq "/vpn/logicals") {
+            rule(get, path eq "/vpn/v1/logicals") {
                 respond(ServerList(multiplePartnerServers))
             }
         }
@@ -121,7 +121,7 @@ class PartnershipTests {
             rule(get, path eq "/vpn/v1/partners") {
                 respond(PartnersResponse(listOf(newsPartnerType, newsPartnerType2)))
             }
-            rule(get, path eq "/vpn/logicals") {
+            rule(get, path eq "/vpn/v1/logicals") {
                 respond(ServerList(listOf(partnerServerNews2)))
             }
         }
@@ -144,7 +144,7 @@ class PartnershipTests {
             rule(get, path eq "/vpn/v1/partners") {
                 respond(PartnersResponse(listOf(newsPartnerType, newsPartnerType2)))
             }
-            rule(get, path eq "/vpn/logicals") {
+            rule(get, path eq "/vpn/v1/logicals") {
                 respond(ServerList(multiplePartnerServers))
             }
         }
@@ -166,7 +166,7 @@ class PartnershipTests {
             rule(get, path eq "/vpn/v1/partners") {
                 fail("Partners endpoint shouldn't be called when there are no partnerships")
             }
-            rule(get, path eq "/vpn/logicals") {
+            rule(get, path eq "/vpn/v1/logicals") {
                 respond(MockedServers.serverList)
             }
         }
