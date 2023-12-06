@@ -45,7 +45,7 @@ class MockedBugReportTests {
         listOf(Category(inputFieldList, "VPN Not working", "Send", emptyList()))
 
     private val mockApiConfig = TestApiConfig.Mocked(TestUser.plusUser) {
-        rule(get, path eq "/vpn/featureconfig/dynamic-bug-reports") {
+        rule(get, path eq "/vpn/v1/featureconfig/dynamic-bug-reports") {
             respond(DynamicReportModel(dynamicReportModel))
         }
     }
