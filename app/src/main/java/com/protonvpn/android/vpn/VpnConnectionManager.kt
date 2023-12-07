@@ -427,7 +427,7 @@ class VpnConnectionManager @Inject constructor(
             )
         }
 
-        Storage.save(connectionParams, ConnectionParams::class.java)
+        ConnectionParams.store(connectionParams)
         activateBackend(newBackend)
         activeBackend?.connect(preparedConnection.connectionParams)
     }
@@ -526,7 +526,7 @@ class VpnConnectionManager @Inject constructor(
     private suspend fun disconnectBlocking(trigger: DisconnectTrigger) {
         ProtonLogger.log(ConnDisconnectTrigger, "reason: ${trigger.description}")
         vpnConnectionTelemetry.onDisconnectionTrigger(trigger, connectionParams)
-        Storage.delete(ConnectionParams::class.java)
+        ConnectionParams.deleteFromStore("disconnect")
         setSelfState(VpnState.Disabled)
         activeBackend?.disconnect()
         activeBackendObservable.value = null
@@ -546,7 +546,7 @@ class VpnConnectionManager @Inject constructor(
         // GuestHole connections should not emit disconnect events to not trigger self canceling for guest hole
         if (!isGuestHoleConnection)
             vpnStateMonitor.onDisconnectedByReconnection.emit(Unit)
-        Storage.delete(ConnectionParams::class.java)
+        ConnectionParams.deleteFromStore("disconnect for new connection")
         // The UI relies on going through this state to properly show that a new connection is
         // being established (as opposed to reconnecting to the same server).
         setSelfState(VpnState.Disconnecting)
@@ -600,7 +600,7 @@ class VpnConnectionManager @Inject constructor(
             ProtonLogger.logCustom(
                 LogCategory.CONN_DISCONNECT, "onDestroy called for current VpnService, deleting ConnectionParams"
             )
-            Storage.delete(ConnectionParams::class.java)
+            ConnectionParams.deleteFromStore("service destroyed")
         }
     }
 
