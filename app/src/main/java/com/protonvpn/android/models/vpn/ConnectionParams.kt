@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.models.vpn
 
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.profiles.Profile
@@ -51,11 +53,22 @@ open class ConnectionParams(
             other.port == port
 
     companion object {
+
+        fun store(params: ConnectionParams?) {
+            ProtonLogger.logCustom(LogCategory.CONN, "storing connection params (${params?.connectingDomain?.entryDomain})")
+            Storage.save(params, ConnectionParams::class.java)
+        }
+
+        fun deleteFromStore(msg: String) {
+            ProtonLogger.logCustom(LogCategory.CONN, "removing connection params ($msg)")
+            Storage.delete(ConnectionParams::class.java)
+        }
+
         fun readFromStore(ignoreUnsupported: Boolean = true): ConnectionParams? {
             val value = Storage.load(ConnectionParams::class.java) ?: return null
             // Ignore stored connection params for unsupported protocol
             if (ignoreUnsupported && value.profile.isUnsupportedIKEv2()) {
-                Storage.delete(ConnectionParams::class.java)
+                deleteFromStore("unsupported protocol")
                 return null
             }
             return value
