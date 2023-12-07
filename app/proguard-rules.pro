@@ -24,13 +24,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--dontoptimize
 -dontobfuscate
 -verbose
 -keepattributes SourceFile,LineNumberTable,Exceptions,InnerClasses,Signature,Deprecated,*Annotation*,EnclosingMethod
-
-# explicitly define classes that get optimized, keep everything by default
--keep class !com.android.support.**,!com.google.android.**,** { *; }
 
 # disable logcat logs in release builds
 -assumenosideeffects class android.util.Log {
@@ -42,6 +38,44 @@
     wtf(...);
     println(...);
 }
+
+# Keep event bus
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @com.squareup.otto.Subscribe public *;
+    @com.squareup.otto.Produce public *;
+}
+
+# Keep kotlinx serializable classes.
+-keep @kotlinx.serialization.Serializable public class * {
+    *;
+}
+# Keep GSON serializable classes
+# https://r8.googlesource.com/r8/+/refs/heads/main/compatibility-faq.md#troubleshooting-gson
+-keepclassmembers,allowobfuscation class * {
+ @com.google.gson.annotations.SerializedName <fields>;
+}
+-keepattributes Signature
+-keep class com.google.gson.reflect.TypeToken { *; }
+-keep class * extends com.google.gson.reflect.TypeToken
+# serializable classes
+-keep class com.protonvpn.** implements java.io.Serializable {
+    *;
+}
+
+# WireGuard
+-keep class com.wireguard.android.backend.** { *; }
+
+# Retrofit
+# https://r8.googlesource.com/r8/+/refs/heads/main/compatibility-faq.md#kotlin-suspend-functions-and-generic-signatures
+-keep class kotlin.coroutines.Continuation
+# https://github.com/square/retrofit/pull/3886
+-if interface * { @retrofit2.http.* public *** *(...); }
+-keep,allowoptimization,allowshrinking,allowobfuscation class <3>
+
+# Logback
+# (we only use a small part, the rules can be further optimized)
+-keep class ch.qos.logback.** { *; }
 
 # Missing classes from dependencies.
 # This is generated automatically by the Android Gradle plugin.

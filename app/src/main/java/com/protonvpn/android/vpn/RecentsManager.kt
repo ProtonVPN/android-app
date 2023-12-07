@@ -38,7 +38,7 @@ class RecentsManager @Inject constructor(
     @Transient private val scope: CoroutineScope,
     @Transient private val vpnStatusProviderUI: VpnStatusProviderUI,
     @Transient private val onSessionClosed: OnSessionClosed,
-) {
+) : java.io.Serializable {
 
     @SerializedName("recentConnections")
     private val migrateRecentConnections = LinkedList<Profile>()
