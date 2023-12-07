@@ -710,7 +710,7 @@
     <string name="welcome_unlimited_title">Benvenuto in Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Congratulazioni! Hai sbloccato funzionalità premium di sicurezza e prestazioni su tutti i servizi Proton, oltre a <b>%1$d&#160;GB</b> di spazio di archiviazione totale.<br><br>Goditi il ​​meglio della privacy di Proton.]]></string>
     <string name="welcome_generic_title">Congratulazioni</string>
-    <string name="welcome_generic_description">Hai aggiornato il tuo abbonamento. Goditi funzionalità di privacy avanzate e prestazioni di livello superiore.</string>
+    <string name="welcome_generic_description">Hai aggiornato il tuo abbonamento. Approfitta di funzionalità per la privacy avanzate e prestazioni di livello superiore.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">

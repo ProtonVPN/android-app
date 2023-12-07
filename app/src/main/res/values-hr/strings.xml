@@ -52,7 +52,7 @@
     <string name="ok">U redu</string>
     <string name="dialogContinue">Nastavi</string>
     <string name="dialogLearnMore">Saznajte više</string>
-    <string name="dialog_read_more">Read more</string>
+    <string name="dialog_read_more">Više informacija</string>
     <string name="dialog_apply">Primijeni</string>
     <string name="dialog_applying">Applying</string>
     <string name="secureCoreConnectVia">putem %1$s</string>
@@ -455,8 +455,8 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
         <item quantity="one">%1$d poslužitelj</item>
-        <item quantity="few">%1$d servers</item>
-        <item quantity="other">%1$d servers</item>
+        <item quantity="few">%1$d poslužitelja</item>
+        <item quantity="other">%1$d poslužitelja</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -535,7 +535,7 @@
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">mjesec</string>
-    <string name="payment_price_per_year">year</string>
+    <string name="payment_price_per_year">godina</string>
     <string name="payment_price_per_2years">2 godine</string>
     <string name="payment_price_cycle_month_label">1 mjesec</string>
     <string name="payment_price_cycle_year_label">1 godina</string>
@@ -571,7 +571,7 @@
     <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s data and services through dedicated servers.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Welcome to Proton VPN</string>
+    <string name="onboarding_welcome_title">Dobrodošli u Proton VPN</string>
     <string name="onboarding_welcome_description">Learn how to get the most out of Proton VPN in just a few seconds.</string>
     <string name="onboarding_welcome_action">Započnite</string>
     <string name="onboarding_available_on_plus">Available with Plus</string>
@@ -592,8 +592,8 @@
          65 servers -->
     <plurals name="onboarding_connection_description_servers">
         <item quantity="one">%1$d poslužitelj</item>
-        <item quantity="few">%1$d servers</item>
-        <item quantity="other">%1$d servers</item>
+        <item quantity="few">%1$d poslužitelja</item>
+        <item quantity="other">%1$d poslužitelja</item>
     </plurals>
     <!-- Embedded in "onboarding_connection_description", e.g.:
          Free subscription offers 65 servers in 3 countries
@@ -693,9 +693,9 @@
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
-        <item quantity="one">%1$d minute</item>
-        <item quantity="few">%1$d minutes</item>
-        <item quantity="other">%1$d minutes</item>
+        <item quantity="one">%1$d minuta</item>
+        <item quantity="few">%1$d minute</item>
+        <item quantity="other">%1$d minuta</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
@@ -714,12 +714,12 @@
     <string name="server_change_button_title">Change server</string>
     <string name="not_wanted_country_title">Not the country you wanted?</string>
     <string name="not_wanted_country_description">Upgrade to choose any server</string>
-    <string name="whats_new_title">What’s new</string>
+    <string name="whats_new_title">Što je novo</string>
     <string name="whats_new_added_countries_title">New Free countries</string>
     <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania.</string>
     <string name="whats_new_server_selection_title">Changes to server selection</string>
     <string name="whats_new_server_selection_description">To prevent server crowding and ensure that everyone has access to fast and secure browsing, we removed manual country selection and made major improvements to automatic server selection.</string>
-    <string name="welcome_plus_title">Welcome to VPN Plus</string>
+    <string name="welcome_plus_title">Dobrodošli u VPN Plus</string>
     <string name="welcome_plus_description">Enjoy extra privacy features, supercharged performance, and next-level VPN customization.</string>
     <string name="welcome_plus_feature_security">Advanced security features</string>
     <string name="welcome_unlimited_title">Welcome to Proton Unlimited</string>

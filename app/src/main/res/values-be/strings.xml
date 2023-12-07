@@ -479,7 +479,7 @@
          upgrade screen -->
     <string name="upgrade_plus_title">Палепшыце сваю прыватнасць</string>
     <string name="upgrade_plus_message">Атрымайце дадатковыя функцыі прыватнасці і найвышэйшую хуткасць з VPN Plus.</string>
-    <string name="upgrade_netshield_title">Атрымайце асалоду ад прагляду старонак у інтэрнэце без рекламы</string>
+    <string name="upgrade_netshield_title">Атрымайце асалоду ад прагляду старонак у інтэрнэце без рэкламы</string>
     <string name="upgrade_netshield_message"><![CDATA[Блакіруйце рэкламу, праграмы сачэння і шкодныя праграмы з дапамогай <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Двайное шыфраванне</string>
     <string name="upgrade_secure_core_message"><![CDATA[Дадайце яшчэ адзін слой шыфравання ў сваё злучэнне VPN з дапамогай <b>Secure Core</b>.]]></string>

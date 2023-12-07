@@ -543,11 +543,11 @@
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">month</string>
-    <string name="payment_price_per_year">year</string>
-    <string name="payment_price_per_2years">2 years</string>
-    <string name="payment_price_cycle_month_label">1 month</string>
-    <string name="payment_price_cycle_year_label">1 year</string>
-    <string name="payment_price_cycle_2years_label">2 years</string>
+    <string name="payment_price_per_year">год</string>
+    <string name="payment_price_per_2years">2 года</string>
+    <string name="payment_price_cycle_month_label">1 месяц</string>
+    <string name="payment_price_cycle_year_label">1 год</string>
+    <string name="payment_price_cycle_2years_label">2 года</string>
     <string name="payment_select_your_plan">Выберете себе план</string>
     <string name="payment_button_get_vpn_plus">Get VPN Plus</string>
     <!-- Information activity -->
@@ -678,7 +678,7 @@
     <string name="free_connections_info_server_locations">Free server locations (%1$d)</string>
     <string name="free_connections_info_banner_text">Get worldwide coverage with VPN Plus</string>
     <string name="free_connection_info_title">Бесплатные подключения</string>
-    <string name="search_upsell_banner_title">Stream from anywhere</string>
+    <string name="search_upsell_banner_title">Смотрите видео из любой точки мира</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Unlock geoblocked content from %1$d country with VPN Plus</item>
