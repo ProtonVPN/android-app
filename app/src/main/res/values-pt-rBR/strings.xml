@@ -284,7 +284,7 @@
     <string name="dialogTitleAttention">Atenção</string>
     <string name="saveProfileAlreadySaved">Já usado</string>
     <string name="openUrlError">Não foi possível abrir %1$s. O navegador de internet não foi detectado no seu dispositivo.</string>
-    <string name="toastLoginAuthVersionError">Não foi possível Iniciar sessão devido à versão de autenticação não suportada. Entre em contato com o suporte.</string>
+    <string name="toastLoginAuthVersionError">Não foi possível iniciar sessão devido à versão de autenticação não suportada. Entre em contato com o suporte.</string>
     <string name="loaderErrorTimeout">A conexão expirou. Tente novamente.</string>
     <string name="troubleshootButton">Resolução de problemas</string>
     <string name="activityTroubleshootTitle">Solução de problemas</string>
@@ -302,7 +302,7 @@
     <string name="troubleshootContactUsSectionTitle">Ainda precisa de ajuda? Contate-nos diretamente</string>
     <string name="troubleshootCustomerSupport">Suporte ao cliente</string>
     <string name="settingsAllowAlternativeRoutingTitle">Roteamento alternativo</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permite que o aplicativo tente caminhos alternativos para acessar os servidores Proton. <a href="%1$s">Saiba mais</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permita que o aplicativo tente caminhos alternativos para acessar os servidores Proton. <a href="%1$s">Saiba mais</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueio governamental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Seu país pode estar bloqueando o acesso ao Proton. Tente usar o <a href=\'%1$s\'>Tor</a> para acessar o Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN sempre ativa e kill switch</string>
@@ -333,7 +333,7 @@
     <string name="netShieldDescription">Bloquear anúncios, rastreadores e malware </string>
     <string name="netshield_settings_description"><![CDATA[Proteja-se contra anúncios, malware e rastreadores em sites e aplicativos. Se os sites não carregarem, tente desativar o NetShield. <a href="%1$s">Saiba mais</a>.]]></string>
     <string name="netshield_status_on">Ativado</string>
-    <string name="netshield_status_off">Desligado</string>
+    <string name="netshield_status_off">Desativado</string>
     <string name="netshield_free_title">Navegue sem anúncios com o NetShield</string>
     <string name="netshield_free_description">Bloqueia anúncios, rastreadores e malware em sites e aplicativos</string>
     <string name="netshield_business_title">Bloqueie anúncios com NetShield</string>
@@ -661,8 +661,8 @@
     <string name="search_upsell_banner_title">Transmita de qualquer lugar</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="one">Desbloqueie conteúdo geo localizado do país %1$d com o VPN Plus</item>
-        <item quantity="other">Desbloqueie conteúdo geo localizado dos países %1$d com o VPN Plus</item>
+        <item quantity="one">Desbloqueie conteúdo bloqueado geograficamente de %1$d país com VPN Plus</item>
+        <item quantity="other">Desbloqueie conteúdo bloqueado geograficamente de %1$d países com VPN Plus</item>
     </plurals>
     <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
          %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
@@ -694,7 +694,7 @@
         <item quantity="one">%1$d dia</item>
         <item quantity="other">%1$d dias</item>
     </plurals>
-    <string name="server_change_max_reached">Por enquanto, você alcançou o número máximo de mudanças de servidor grátis.</string>
+    <string name="server_change_max_reached">Você atingiu o número máximo de alterações gratuitas no servidor por enquanto.</string>
     <string name="server_change_upsell">Obtenha alterações ilimitadas com VPN Plus.</string>
     <string name="server_change_button_title">Alterar servidor</string>
     <string name="not_wanted_country_title">Não é o país que você queria?</string>
@@ -704,7 +704,7 @@
     <string name="whats_new_added_countries_description">Agora há servidores grátis na Polônia e Romênia.</string>
     <string name="whats_new_server_selection_title">Mudanças na seleção de servidor</string>
     <string name="whats_new_server_selection_description">Para prevenir a lotação de servidores e garantir que todos tenham acesso a uma navegação rápida e segura, nós removemos a seleção manual de países e fizemos grandes melhorias na seleção automática de servidores.</string>
-    <string name="welcome_plus_title">Bem-vindo ao VPN Plus</string>
+    <string name="welcome_plus_title">Boas-vindas ao VPN Plus</string>
     <string name="welcome_plus_description">Aproveite recursos extras de privacidade, desempenho aprimorado e customização de VPN de próximo nível.</string>
     <string name="welcome_plus_feature_security">Recursos avançados de segurança</string>
     <string name="welcome_unlimited_title">Bem-vindo a Proton Unlimited</string>
