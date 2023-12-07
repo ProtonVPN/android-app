@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">Innreiseland-feltet kan ikke være tomt</string>
     <string name="errorEmptyExitCountry">Utreiseland-feltet kan ikke være tomt</string>
     <string name="onboardingSignup">Registrer deg</string>
-    <string name="onboardingSkip">Hopp over</string>
-    <string name="onboardingNext">Neste</string>
     <string name="offerTooltipShowOffer">Se tilbudet</string>
     <string name="listItemMaintenance">Under vedlikehold</string>
     <string name="listAllCountries">Alle plasseringer (%1$d)</string>
@@ -463,8 +461,6 @@
         <item quantity="other">%1$d land</item>
     </plurals>
     <string name="upsell_upgrade_again">Oppgrader igjen for å nyte alle funksjonene:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">Oppgrader personvernet</string>
     <string name="upgrade_plus_message">Få avanserte personvernfunksjoner og høyere hastighet med VPN Plus.</string>
     <string name="upgrade_netshield_title">Kos deg med reklamefri surfing</string>
@@ -564,42 +560,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Velkommen til Proton VPN</string>
-    <string name="onboarding_welcome_description">Lær hvordan du får mest mulig ut av Proton VPN på bare noen få sekunder.</string>
     <string name="onboarding_welcome_action">Kom i gang</string>
     <string name="onboarding_available_on_plus">Tilgjengelig med Plus</string>
-    <string name="onboarding_telemetry_title">Hjelp oss å bekjempe sensur</string>
-    <string name="onboarding_connection_title">Opprett din første forbindelse</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">Gratis abonnement tilbyr %1$s i %2$s</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="one">%1$d tjener</item>
-        <item quantity="other">%1$d tjenere</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="one">%1$d land</item>
-        <item quantity="other">%1$d land</item>
-    </plurals>
-    <string name="onboarding_connection_info">Vi vil koble deg til den raskeste og mest stabile tjeneren etter hvor du er plassert.</string>
-    <string name="onboading_connect_now">Koble til nå</string>
-    <string name="onboading_connecting_now">Kobler til nå</string>
-    <string name="onboarding_congrats_description">Tilkoblingen din er beskyttet, og du er klar til å surfe på weben.\n\nTrygt.</string>
-    <string name="onboarding_congrats_title">Gratulerer!</string>
     <string name="upgrade_success_get_started_button">Kom i gang</string>
     <string name="upgrade_use_limited_free_button">Bruk begrenset Free-plan</string>
     <string name="dynamic_report_suggestion_didnt_work">Fungerte det ikke?</string>

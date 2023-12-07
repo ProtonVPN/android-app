@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">Το πεδίο χώρας εισόδου δεν γίνεται να είναι κενό</string>
     <string name="errorEmptyExitCountry">Το πεδίο χώρας εξόδου δεν γίνεται να είναι κενό</string>
     <string name="onboardingSignup">Εγγραφείτε</string>
-    <string name="onboardingSkip">Παράλειψη</string>
-    <string name="onboardingNext">Επόμενο</string>
     <string name="offerTooltipShowOffer">Δείτε την προσφορά</string>
     <string name="listItemMaintenance">Υπό συντήρηση</string>
     <string name="listAllCountries">Όλες οι τοποθεσίες (%1$d)</string>
@@ -463,8 +461,6 @@
         <item quantity="other">%1$dΧώρες</item>
     </plurals>
     <string name="upsell_upgrade_again">Αναβάθμιση ξανά, προς απόλαυση όλων των χαρακτηριστικών:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">Αναβαθμίστε το απόρρητό σας</string>
     <string name="upgrade_plus_message">Αποκτήστε προηγμένες λειτουργίες απορρήτου και υψηλότερη ταχύτητα με το VPN Plus.</string>
     <string name="upgrade_netshield_title">Απολαύστε περιήγηση χωρίς διαφημίσεις</string>
@@ -564,42 +560,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Καλώς ήρθατε στο Proton VPN</string>
-    <string name="onboarding_welcome_description">Μάθετε πως να εκμεταλευτείτε στο έπακρο το Proton VPN μέσα σε μερικά δευτερόλεπτα.</string>
     <string name="onboarding_welcome_action">Ξεκινήστε</string>
     <string name="onboarding_available_on_plus">Διαθέσιμο με Plus</string>
-    <string name="onboarding_telemetry_title">Βοηθήστε μας να καταπολεμήσουμε τη λογοκρισία</string>
-    <string name="onboarding_connection_title">Εγκαθίδρυση της πρώτης σας σύνδεσης</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">Η δωρεάν συνδρομή προσφέρει %1$s διακομιστές σε %2$s χώρες</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="one">%1$d διακομιστής</item>
-        <item quantity="other">%1$d διακομιστές</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="one">%1$d Χώρα</item>
-        <item quantity="other">%1$d Χώρες</item>
-    </plurals>
-    <string name="onboarding_connection_info">Θα σας συνδέσουμε στον ταχύτερο και πιο ευσταθή διακομιστή για την τοποθεσία σας.</string>
-    <string name="onboading_connect_now">Σύνδεση τώρα</string>
-    <string name="onboading_connecting_now">Γίνεται σύνδεση</string>
-    <string name="onboarding_congrats_description">Η σύνδεσή σας είναι προστατευμένη και εσείς έτοιμος/η για περιήγηση του ιστού.\n\nΜε ασφάλεια.</string>
-    <string name="onboarding_congrats_title">Συγχαρητήρια!</string>
     <string name="upgrade_success_get_started_button">Ας ξεκινήσουμε</string>
     <string name="upgrade_use_limited_free_button">Χρησιμοποιήστε το περιορισμένο Δωρεάν πρόγραμμα</string>
     <string name="dynamic_report_suggestion_didnt_work">Δε δούλεψε;</string>

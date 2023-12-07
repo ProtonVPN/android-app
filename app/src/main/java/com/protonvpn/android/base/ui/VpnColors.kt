@@ -25,3 +25,9 @@ import me.proton.core.compose.theme.ProtonColors
 @Suppress("MagicNumber")
 val ProtonColors.vpnGreen: Color
     get() = if (isDark) Color(0xFF27DDB1) else Color(0xFF1C9C7C)
+
+val ProtonColors.upsellGradientStart: Color
+    get() = Color(0x6611D8CC)
+
+val ProtonColors.upsellGradientEnd: Color
+    get() = Color(0x006E4BFF)

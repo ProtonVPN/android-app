@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">Sisäänmenomaa vaaditaan</string>
     <string name="errorEmptyExitCountry">Kohdemaa vaaditaan</string>
     <string name="onboardingSignup">Rekisteröidy</string>
-    <string name="onboardingSkip">Ohita</string>
-    <string name="onboardingNext">Seuraava</string>
     <string name="offerTooltipShowOffer">Näytä tarjous</string>
     <string name="listItemMaintenance">Huollossa</string>
     <string name="listAllCountries">Kaikki sijainnit (%1$d)</string>
@@ -463,8 +461,6 @@
         <item quantity="other">%1$d maassa</item>
     </plurals>
     <string name="upsell_upgrade_again">Päivitä tilauksesi uudelleen nauttiaksesi kaikista ominaisuuksista:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">Paranna yksityisyyttäsi</string>
     <string name="upgrade_plus_message">Saat edistyneitä yksityisyysominaisuuksia ja korkeamman nopeuden VPN Plus -tilauksella.</string>
     <string name="upgrade_netshield_title">Nauti mainosvapaasta selaamisesta</string>
@@ -564,42 +560,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Tervetuloa Proton VPN:ään</string>
-    <string name="onboarding_welcome_description">Lue miten otat Proton VPN:stä kaiken irti vain muutamassa sekunnissa.</string>
     <string name="onboarding_welcome_action">Aloita</string>
     <string name="onboarding_available_on_plus">Käytettävissä Plus-tilauksella</string>
-    <string name="onboarding_telemetry_title">Auta meitä taistelemaan sensuuria vastaan</string>
-    <string name="onboarding_connection_title">Muodosta ensimmäinen yhteytesi</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">Ilmaistilaus sisältää %1$s palvelinta %2$s maassa</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="one">%1$d palvelimen</item>
-        <item quantity="other">%1$d palvelinta</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="one">%1$d maassa</item>
-        <item quantity="other">%1$d maassa</item>
-    </plurals>
-    <string name="onboarding_connection_info">Yhteys muodostetaan sijainnillesi nopeimpaan ja vakaimpaan palvelimeen.</string>
-    <string name="onboading_connect_now">Yhdistä nyt</string>
-    <string name="onboading_connecting_now">Yhteyttä muodostetaan</string>
-    <string name="onboarding_congrats_description">Yhteytesi on suojattu ja olet valmis selaamaan verkkoa.\n\nTurvallisesti.</string>
-    <string name="onboarding_congrats_title">Onnittelut!</string>
     <string name="upgrade_success_get_started_button">Aloita</string>
     <string name="upgrade_use_limited_free_button">Käytä rajoitettua ilmaistilausta</string>
     <string name="dynamic_report_suggestion_didnt_work">Eikö ratkaisua löytynyt?</string>

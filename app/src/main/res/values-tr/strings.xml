@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">Giriş ülkesi alanı boş olamaz</string>
     <string name="errorEmptyExitCountry">Çıkış ülkesi alanı boş olamaz</string>
     <string name="onboardingSignup">Hesap açın</string>
-    <string name="onboardingSkip">Atla</string>
-    <string name="onboardingNext">Sonraki</string>
     <string name="offerTooltipShowOffer">Teklifi göster</string>
     <string name="listItemMaintenance">Bakım yapılıyor</string>
     <string name="listAllCountries">Tüm konumlar (%1$d)</string>
@@ -463,8 +461,6 @@
         <item quantity="other">%1$d ülkede</item>
     </plurals>
     <string name="upsell_upgrade_again">Tüm özelliklerin tadını çıkarmak için yeniden yükseltin:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">Gizlilik düzeyinizi yükseltin</string>
     <string name="upgrade_plus_message">VPN Plus tarifesi ile gelişmiş gizlilik özelliklerine ve daha yüksek hızlara erişin.</string>
     <string name="upgrade_netshield_title">Reklamsız gezinmenin tadını çıkarın</string>
@@ -564,42 +560,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN hizmetine hoş geldiniz</string>
-    <string name="onboarding_welcome_description">Proton VPN hizmetinden en iyi şekilde nasıl yararlanabileceğinizi öğrenmek için bir kaç saniyenizi ayırın.</string>
     <string name="onboarding_welcome_action">Başlayalım</string>
     <string name="onboarding_available_on_plus">Plus tarifesiyle kullanılabilir</string>
-    <string name="onboarding_telemetry_title">Sansür ile savaşmamıza yardımcı olun</string>
-    <string name="onboarding_connection_title">İlk bağlantınızı kurun</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">Free aboneliği ile %2$s bulunan %1$s kullanılabilir</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="one">%1$d sunucu</item>
-        <item quantity="other">%1$d sunucu</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="one">%1$d ülkede</item>
-        <item quantity="other">%1$d ülkede</item>
-    </plurals>
-    <string name="onboarding_connection_info">Sizi konumunuz için en hızlı ve en kararlı sunucuya bağlayacağız.</string>
-    <string name="onboading_connect_now">Bağlan</string>
-    <string name="onboading_connecting_now">Bağlanıyor</string>
-    <string name="onboarding_congrats_description">Bağlantınız korunmaya başladı ve İnternet üzerinde gezinebilirsiniz.\n\nGüvenle.</string>
-    <string name="onboarding_congrats_title">Tebrikler!</string>
     <string name="upgrade_success_get_started_button">Başlayalım</string>
     <string name="upgrade_use_limited_free_button">Sınırlı Free tarifesini kullanın</string>
     <string name="dynamic_report_suggestion_didnt_work">İşe yaramadı mı?</string>

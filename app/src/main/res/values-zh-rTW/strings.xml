@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">進入國家欄位不能為空</string>
     <string name="errorEmptyExitCountry">離開國家欄位不能為空</string>
     <string name="onboardingSignup">註冊</string>
-    <string name="onboardingSkip">略過</string>
-    <string name="onboardingNext">下一步</string>
     <string name="offerTooltipShowOffer">檢視折扣</string>
     <string name="listItemMaintenance">維護中</string>
     <string name="listAllCountries">全部位置 (%1$d)</string>
@@ -457,8 +455,6 @@
         <item quantity="other">%1$d 個國家</item>
     </plurals>
     <string name="upsell_upgrade_again">再次升級以享受下列種種功能：</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">Upgrade your privacy</string>
     <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
     <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
@@ -556,40 +552,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">歡迎使用 Proton VPN</string>
-    <string name="onboarding_welcome_description">了解如何在幾秒鐘內充分利用 Proton VPN。</string>
     <string name="onboarding_welcome_action">開始使用</string>
     <string name="onboarding_available_on_plus">適用於 Plus 方案</string>
-    <string name="onboarding_telemetry_title">協助我們與審查對抗</string>
-    <string name="onboarding_connection_title">創建您的首次連線</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">免費訂購授權提供 %1$s 於 %2$s</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="other">%1$d 台伺服器</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="other">%1$d 個國家</item>
-    </plurals>
-    <string name="onboarding_connection_info">我們將讓您連線到對您的地點最快且最穩定的伺服器。</string>
-    <string name="onboading_connect_now">立即連線</string>
-    <string name="onboading_connecting_now">目前連線中</string>
-    <string name="onboarding_congrats_description">您的連線已受保護，準備就緒讓您瀏覽網頁。\n\n安全無憂。</string>
-    <string name="onboarding_congrats_title">恭喜！</string>
     <string name="upgrade_success_get_started_button">開始</string>
     <string name="upgrade_use_limited_free_button">使用有限的免費方案</string>
     <string name="dynamic_report_suggestion_didnt_work">無法運作？</string>

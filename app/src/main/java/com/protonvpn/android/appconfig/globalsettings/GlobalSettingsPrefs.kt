@@ -37,7 +37,7 @@ class GlobalSettingsPrefs @Inject constructor(
     override val preferences: SharedPreferences
         get() = prefsProvider.getPrefs(PREFS_NAME)
 
-    var telemetryEnabled: Boolean by boolean(false, key = KEY_TELEMETRY)
+    var telemetryEnabled: Boolean by boolean(true, key = KEY_TELEMETRY)
     val telemetryEnabledFlow: Flow<Boolean> = preferences.observe<Boolean>(KEY_TELEMETRY).map { it ?: false }
 
     companion object {

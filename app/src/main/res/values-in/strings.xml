@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">Kolom negara tujuan awal tidak boleh kosong</string>
     <string name="errorEmptyExitCountry">Kolom negara tujuan akhir tidak boleh kosong</string>
     <string name="onboardingSignup">Daftar</string>
-    <string name="onboardingSkip">Lewati</string>
-    <string name="onboardingNext">Selanjutnya</string>
     <string name="offerTooltipShowOffer">Lihat penawaran ini</string>
     <string name="listItemMaintenance">Dalam pemeliharaan</string>
     <string name="listAllCountries">Seluruh lokasi (%1$d)</string>
@@ -457,8 +455,6 @@
         <item quantity="other">%1$d negara</item>
     </plurals>
     <string name="upsell_upgrade_again">Tingkatkan kembali untuk menikmati semua fitur:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">Tingkatkan privasi Anda</string>
     <string name="upgrade_plus_message">Dapatkan berbagai fitur privasi mutakhir dan kecepatan yang lebih tinggi dengan VPN Plus.</string>
     <string name="upgrade_netshield_title">Nikmati penjelajahan tanpa iklan</string>
@@ -556,40 +552,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Selamat datang di Proton VPN</string>
-    <string name="onboarding_welcome_description">Pelajari cara untuk memaksimalkan Proton VPN hanya dalam beberapa detik.</string>
     <string name="onboarding_welcome_action">Mulai</string>
     <string name="onboarding_available_on_plus">Tersedia dengan Plus</string>
-    <string name="onboarding_telemetry_title">Bantu kami melawan sensor</string>
-    <string name="onboarding_connection_title">Hubungkan diri Anda untuk pertama kalinya</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">Akun Free menawarkan %1$s di %2$s</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="other">%1$d server</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="other">%1$d negara</item>
-    </plurals>
-    <string name="onboarding_connection_info">Kami akan menghubungkan Anda ke server yang tercepat dan terstabil untuk lokasi Anda.</string>
-    <string name="onboading_connect_now">Hubungkan sekarang</string>
-    <string name="onboading_connecting_now">Sedang menghubungkan</string>
-    <string name="onboarding_congrats_description">Koneksi Anda telah terlindung dan Anda kini dapat menjelajah internet secara bebas dan aman.\n\nTanpa harus khawatir.</string>
-    <string name="onboarding_congrats_title">Selamat!</string>
     <string name="upgrade_success_get_started_button">Mulai</string>
     <string name="upgrade_use_limited_free_button">Gunakan paket Free dengan fitur terbatas</string>
     <string name="dynamic_report_suggestion_didnt_work">Apakah solusi di atas tidak membantu?</string>

@@ -50,7 +50,7 @@ data class LocalUserSettings(
     val safeMode: Boolean? = true,
     val secureCore: Boolean = false,
     val splitTunneling: SplitTunnelingSettings = SplitTunnelingSettings(),
-    val telemetry: Boolean = false,
+    val telemetry: Boolean = true,
     val vpnAccelerator: Boolean = true,
     // Whenever adding a new setting add it also in toLogList below.
 ) {

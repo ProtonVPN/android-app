@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">입구 국가 항목은 비워 둘 수 없습니다</string>
     <string name="errorEmptyExitCountry">출구 국가 항목은 비워 둘 수 없습니다</string>
     <string name="onboardingSignup">가입하기</string>
-    <string name="onboardingSkip">건너뛰기</string>
-    <string name="onboardingNext">다음</string>
     <string name="offerTooltipShowOffer">구매항목 보기</string>
     <string name="listItemMaintenance">점검 중</string>
     <string name="listAllCountries">모든 지역 (%1$d)</string>
@@ -457,8 +455,6 @@
         <item quantity="other">%1$d 국가</item>
     </plurals>
     <string name="upsell_upgrade_again">다시 업그레이드하고 모든 기능들을 즐기세요:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">프라이버시를 강화하세요.</string>
     <string name="upgrade_plus_message">VPN Plus로 향상된 프라이버시 보호 기능과 빠른 성능을 누려보세요.</string>
     <string name="upgrade_netshield_title">광고 없는 브라우징을 즐기세요.</string>
@@ -556,40 +552,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN에 오신 것을 환영합니다</string>
-    <string name="onboarding_welcome_description">Proton VPN의 사용법에 대해 빠르게 알아봅시다.</string>
     <string name="onboarding_welcome_action">시작하기</string>
     <string name="onboarding_available_on_plus">Plus에서 사용 가능합니다</string>
-    <string name="onboarding_telemetry_title">검열에 맞서도록 도와주세요</string>
-    <string name="onboarding_connection_title">첫 번째 연결을 구성하세요</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">무료 요금제는 %2$s의 %1$s를 제공합니다</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="other">%1$d 서버</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="other">%1$d 국가</item>
-    </plurals>
-    <string name="onboarding_connection_info">당신의 지역에 따라 가장 빠르고 안정적인 서버에 연결할 것입니다.</string>
-    <string name="onboading_connect_now">지금 연결</string>
-    <string name="onboading_connecting_now">지금 연결 중</string>
-    <string name="onboarding_congrats_description">당신의 연결이 보호되었고 이제 웹을 브라우징할 준비가 되었습니다.\n\n안전하게요.</string>
-    <string name="onboarding_congrats_title">축하합니다!</string>
     <string name="upgrade_success_get_started_button">시작하기</string>
     <string name="upgrade_use_limited_free_button">제한된 무료 요금제 사용</string>
     <string name="dynamic_report_suggestion_didnt_work">작동하지 않습니까?</string>

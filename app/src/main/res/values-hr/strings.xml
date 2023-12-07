@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">Polje države ulaska ne može biti prazno</string>
     <string name="errorEmptyExitCountry">Polje države izlaska ne može biti prazno</string>
     <string name="onboardingSignup">Registriraj se</string>
-    <string name="onboardingSkip">Preskoči</string>
-    <string name="onboardingNext">Sljedeće</string>
     <string name="offerTooltipShowOffer">See the offer</string>
     <string name="listItemMaintenance">Održavanje u tijeku</string>
     <string name="listAllCountries">All locations (%1$d)</string>
@@ -469,8 +467,6 @@
         <item quantity="other">%1$d država</item>
     </plurals>
     <string name="upsell_upgrade_again">Nadogradite ponovno i uživajte u svim značajkama:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">Upgrade your privacy</string>
     <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
     <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
@@ -572,44 +568,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Dobrodošli u Proton VPN</string>
-    <string name="onboarding_welcome_description">Learn how to get the most out of Proton VPN in just a few seconds.</string>
     <string name="onboarding_welcome_action">Započnite</string>
     <string name="onboarding_available_on_plus">Available with Plus</string>
-    <string name="onboarding_telemetry_title">Help us fight censorship</string>
-    <string name="onboarding_connection_title">Establish your first connection</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">Free subscription offers %1$s in %2$s</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="one">%1$d poslužitelj</item>
-        <item quantity="few">%1$d poslužitelja</item>
-        <item quantity="other">%1$d poslužitelja</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="one">%1$d država</item>
-        <item quantity="few">%1$d države</item>
-        <item quantity="other">%1$d država</item>
-    </plurals>
-    <string name="onboarding_connection_info">We will connect you to the fastest and most stable server for your location.</string>
-    <string name="onboading_connect_now">Povezati sad</string>
-    <string name="onboading_connecting_now">Connecting now</string>
-    <string name="onboarding_congrats_description">Your connection is protected and you’re ready to browse the web.\n\nSafely.</string>
-    <string name="onboarding_congrats_title">Čestitamo!</string>
     <string name="upgrade_success_get_started_button">Započnite</string>
     <string name="upgrade_use_limited_free_button">Use limited Free plan</string>
     <string name="dynamic_report_suggestion_didnt_work">Didn\'t work?</string>
