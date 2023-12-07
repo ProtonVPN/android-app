@@ -117,6 +117,7 @@ class GlobalSettingsManagerTests {
 
     @Test
     fun `enabling telemetry updates global telemetry setting`() = testScope.runTest {
+        globalSettingsPrefs.telemetryEnabled = false
         userSettingsManager.updateTelemetry(true)
         assertTrue(globalSettingsPrefs.telemetryEnabled)
         coVerify { mockGlobalSettingUpdateScheduler.updateRemoteTelemetry(true) }
@@ -134,6 +135,7 @@ class GlobalSettingsManagerTests {
 
     @Test
     fun `enabling global telemetry setting doesn't change the local one`() = testScope.runTest {
+        globalSettingsPrefs.telemetryEnabled = false
         val response = GlobalSettingsResponse(GlobalUserSettings(telemetryEnabled = true))
         coEvery { mockApi.getGlobalSettings(any()) } returns ApiResult.Success(response)
         globalSettingsManager.refresh(user1.sessionId)
@@ -160,6 +162,7 @@ class GlobalSettingsManagerTests {
         val response = GlobalSettingsResponse(GlobalUserSettings(telemetryEnabled = false))
         coEvery { mockApi.putTelemetryGlobalSetting(true) } returns ApiResult.Success(response)
 
+        globalSettingsPrefs.telemetryEnabled = false
         userSettingsManager.updateTelemetry(true)
         assertTrue(globalSettingsPrefs.telemetryEnabled)
         coVerify { mockGlobalSettingUpdateScheduler.updateRemoteTelemetry(true) }

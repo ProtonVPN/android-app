@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">Câmpul cu țara de intrare nu poate fi gol</string>
     <string name="errorEmptyExitCountry">Câmpul țara de ieșire nu poate fi gol</string>
     <string name="onboardingSignup">Înregistrare</string>
-    <string name="onboardingSkip">Omitere</string>
-    <string name="onboardingNext">Înainte</string>
     <string name="offerTooltipShowOffer">Vedeți oferta</string>
     <string name="listItemMaintenance">În întreținere</string>
     <string name="listAllCountries">Toate locurile (%1$d)</string>
@@ -469,8 +467,6 @@
         <item quantity="other">%1$d de țări</item>
     </plurals>
     <string name="upsell_upgrade_again">Remodernizați planul pentru a accesa toate funcțiile:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">Îmbunătățiți-vă confidențialitatea</string>
     <string name="upgrade_plus_message">Obțineți funcții avansate de confidențialitate și viteze maxime cu VPN Plus.</string>
     <string name="upgrade_netshield_title">Bucurați-vă de navigare pe internet fără reclame</string>
@@ -572,44 +568,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Bine ați venit la Proton VPN</string>
-    <string name="onboarding_welcome_description">Învățați cum să profitați de Proton VPN în câteva secunde.</string>
     <string name="onboarding_welcome_action">Să începem</string>
     <string name="onboarding_available_on_plus">Disponibil cu Plus</string>
-    <string name="onboarding_telemetry_title">Ajutați-ne să luptăm cu cenzura</string>
-    <string name="onboarding_connection_title">Stabiliți prima conexiune</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">Abonamentele gratuite oferă %1$s în %2$s</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="one">un server</item>
-        <item quantity="few">%1$d servere</item>
-        <item quantity="other">%1$d de servere</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="one">o țară</item>
-        <item quantity="few">%1$d țări</item>
-        <item quantity="other">%1$d de țări</item>
-    </plurals>
-    <string name="onboarding_connection_info">Se va conecta la cel mai rapid și stabil server posibil.</string>
-    <string name="onboading_connect_now">Conectare</string>
-    <string name="onboading_connecting_now">Acum se conectează</string>
-    <string name="onboarding_congrats_description">Conexiunea este protejată și acum puteți naviga în siguranță.</string>
-    <string name="onboarding_congrats_title">Felicitări!</string>
     <string name="upgrade_success_get_started_button">Să începem</string>
     <string name="upgrade_use_limited_free_button">Folosire plan gratuit limitat</string>
     <string name="dynamic_report_suggestion_didnt_work">Nu a funcționat?</string>

@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">Необхідно заповнити поле країни входу</string>
     <string name="errorEmptyExitCountry">Необхідно заповнити поле країни виходу</string>
     <string name="onboardingSignup">Зареєструватися</string>
-    <string name="onboardingSkip">Пропустити</string>
-    <string name="onboardingNext">Далі</string>
     <string name="offerTooltipShowOffer">Переглянути пропозицію</string>
     <string name="listItemMaintenance">Обслуговується</string>
     <string name="listAllCountries">Усі розташування (%1$d)</string>
@@ -475,8 +473,6 @@
         <item quantity="other">%1$d країн</item>
     </plurals>
     <string name="upsell_upgrade_again">Передплатіть тарифний план знову, щоб користуватись усіма можливостями:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">Вдоскональте свою приватність</string>
     <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
     <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
@@ -580,46 +576,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Ласкаво просимо у Proton VPN</string>
-    <string name="onboarding_welcome_description">Довідайтеся, як одержати максимум від Proton VPN всього за кілька секунд.</string>
     <string name="onboarding_welcome_action">Розпочнімо</string>
     <string name="onboarding_available_on_plus">Доступно з Plus</string>
-    <string name="onboarding_telemetry_title">Допоможіть нам протистояти цензурі</string>
-    <string name="onboarding_connection_title">Встановіть ваше перше з\'єднання</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">Безплатна підписка пропонує %1$s в %2$s</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="one">%1$d сервер</item>
-        <item quantity="few">%1$d сервери</item>
-        <item quantity="many">%1$d серверів</item>
-        <item quantity="other">%1$d сервери</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="one">%1$d країні</item>
-        <item quantity="few">%1$d країнах</item>
-        <item quantity="many">%1$d країнах</item>
-        <item quantity="other">%1$d країнах</item>
-    </plurals>
-    <string name="onboarding_connection_info">Ми під\'єднаємо вас до найшвидшого і найстабільнішого сервера для вашого розташування.</string>
-    <string name="onboading_connect_now">З\'єднатися зараз</string>
-    <string name="onboading_connecting_now">Триває з\'єднання</string>
-    <string name="onboarding_congrats_description">Ваше з\'єднання захищене, і ви готові до роботи в інтернеті.\n\nБезпечно.</string>
-    <string name="onboarding_congrats_title">Вітаємо!</string>
     <string name="upgrade_success_get_started_button">Розпочати</string>
     <string name="upgrade_use_limited_free_button">Використовувати обмежений тарифний план Free</string>
     <string name="dynamic_report_suggestion_didnt_work">Не працює?</string>

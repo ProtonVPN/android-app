@@ -120,9 +120,6 @@
             android:name=".ui.onboarding.OnboardingActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.onboarding.CongratsActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".ui.planupgrade.CongratsPlanActivity"
             android:screenOrientation="portrait"/>
         <activity

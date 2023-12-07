@@ -19,7 +19,7 @@
 
 package com.protonvpn.tests.signup
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
@@ -40,6 +40,7 @@ import me.proton.core.auth.test.robot.signup.SignUpRobot
 import me.proton.core.auth.test.rule.AcceptExternalRule
 import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.util.kotlin.random
+import me.proton.test.fusion.FusionConfig
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -62,7 +63,9 @@ class SignUpTests : MinimalSignUpExternalTests {
     val acceptExternalRule = AcceptExternalRule { extraHeaderProvider }
 
     @get:Rule(order = 3)
-    val activityRule = ActivityScenarioRule(MobileMainActivity::class.java)
+    val composeRule = createAndroidComposeRule<MobileMainActivity>().apply {
+        FusionConfig.Compose.testRule.set(this)
+    }
 
     @Inject
     lateinit var appConfig: AppConfig
@@ -107,8 +110,9 @@ class SignUpTests : MinimalSignUpExternalTests {
     override fun verifyAfter() {
         OnboardingRobot()
             .apply { verify { welcomeScreenIsDisplayed() } }
-            .completeOnboarding(appConfig.getFeatureFlags().telemetry)
-            .skipOnboarding() // We have no way to connect in tests at the moment.
+            .closeWelcomeDialog()
+            .apply { verify { onboardingPaymentIdDisplayed() } }
+            .skipOnboardingPayment()
             .verify { isInMainScreen() }
     }
 }

@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">შესვლის ქვეყნის ველი ცარიელი ვერ იქნება</string>
     <string name="errorEmptyExitCountry">გასასვლელი ქვეყნის ველი ცარიელი ვერ იქნება</string>
     <string name="onboardingSignup">რეგისტრაცია</string>
-    <string name="onboardingSkip">გამოტოვება</string>
-    <string name="onboardingNext">შემდეგი</string>
     <string name="offerTooltipShowOffer">შეთავაზების ნახვა</string>
     <string name="listItemMaintenance">შესაკეთებლადაა</string>
     <string name="listAllCountries">ყველა მდებარეობა (%1$d)</string>
@@ -463,8 +461,6 @@
         <item quantity="other">%1$d ქვეყანა</item>
     </plurals>
     <string name="upsell_upgrade_again">ყველა ფუნქციის მისაღებად გთხოვთ განახლდეთ კიდევ ერთხელ:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">გააუმჯობესეთ თქვენი კონფიდენციალობა</string>
     <string name="upgrade_plus_message">მიიღეთ კონფიდენციალობის ფუნქციები და კიდევ უფრო სწრაფი სიჩქარე VPN Plus-თან ერთად.</string>
     <string name="upgrade_netshield_title">ისიამოვნეთ ურელამო ინტერნეტით</string>
@@ -564,42 +560,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">მოგესალმებით Proton VPN-ში</string>
-    <string name="onboarding_welcome_description">რამდენიმე წამში გაიგეთ, როგორ მიიღოთ Proton VPN-ისგან მაქსიმალურად ბევრი.</string>
     <string name="onboarding_welcome_action">დაიწყეთ</string>
     <string name="onboarding_available_on_plus">ხელმსაწვდომია Plus-სთან ერთად</string>
-    <string name="onboarding_telemetry_title">დაგვეხმარეთ, ვებრძოლოთ ცენზურას</string>
-    <string name="onboarding_connection_title">დაამყარეთ თქვენი პირველი კავშირი</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">უფასო გამოწერა გთავაზობთ %1$s-ს %2$s-ში</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="one">%1$d სერვერი</item>
-        <item quantity="other">%1$d სერვერი</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="one">%1$d ქვეყანა</item>
-        <item quantity="other">%1$d ქვეყანა</item>
-    </plurals>
-    <string name="onboarding_connection_info">დაგაკავშირებთ უსწრაფეს და ყველაზე სტაბილურ სერვერთან თქვენს მდებარეობისთვის.</string>
-    <string name="onboading_connect_now">დაკავშირება</string>
-    <string name="onboading_connecting_now">მიმდინარეობს დაკავშირება</string>
-    <string name="onboarding_congrats_description">თქვენი შეერთება დაცულია და ვებგვერდების \n\n უსაფრთხოდ დასათვალიერებლად მზად ხართ.</string>
-    <string name="onboarding_congrats_title">გილოცავთ!</string>
     <string name="upgrade_success_get_started_button">დაიწყეთ</string>
     <string name="upgrade_use_limited_free_button">შეზღუდული უფასო ტარიფის გამოყენება</string>
     <string name="dynamic_report_suggestion_didnt_work">არ იმუშავა?</string>

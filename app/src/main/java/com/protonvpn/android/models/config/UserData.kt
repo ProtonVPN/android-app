@@ -43,7 +43,7 @@ class UserData private constructor() : Serializable {
     val safeModeEnabled: Boolean = true
     val randomizedNatEnabled: Boolean = true
     val protocol: ProtocolSelection = ProtocolSelection(VpnProtocol.Smart)
-    val telemetryEnabled: Boolean = false
+    val telemetryEnabled: Boolean = true
     val netShieldProtocol: NetShieldProtocol? = null
 
     @VisibleForTesting

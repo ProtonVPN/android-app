@@ -23,26 +23,28 @@ import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.data.Timeouts
+import me.proton.test.fusion.Fusion.node
 
 class OnboardingRobot : BaseRobot() {
 
-    fun proceedToOnboardingNextStep(): OnboardingRobot = clickElementById(R.id.next)
-
-    fun completeOnboarding(withTelemetryScreen: Boolean): OnboardingRobot {
-        val onboardingSteps = if (withTelemetryScreen) 2 else 1
-        repeat(onboardingSteps) {
-            proceedToOnboardingNextStep()
-        }
+    fun closeWelcomeDialog(): OnboardingRobot {
+        node.withText(R.string.onboarding_welcome_action).click()
         return this
     }
 
-    fun skipOnboarding(): HomeRobot = clickElementById(R.id.skip)
+    fun skipOnboardingPayment(): HomeRobot {
+        view.withId(R.id.buttonNotNow).click()
+        return HomeRobot()
+    }
 
     class Verify : BaseVerify() {
         fun welcomeScreenIsDisplayed() {
-            view.withText(R.string.onboarding_welcome_title).withTimeout(Timeouts.LONG_MS)
+            node.withText(R.string.onboarding_welcome_title).assertIsDisplayed()
+        }
+
+        fun onboardingPaymentIdDisplayed() {
+            view.withText(R.string.upgrade_plus_title).withTimeout(Timeouts.LONG_MS)
                 .checkDisplayed()
-            checkIfElementIsDisplayedByStringId(R.string.onboarding_welcome_description)
         }
     }
 

@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">Pole názvu vstupní země nesmí být prázdné</string>
     <string name="errorEmptyExitCountry">Pole názvu výstupní země nesmí být prázdné</string>
     <string name="onboardingSignup">Registrace</string>
-    <string name="onboardingSkip">Přeskočit</string>
-    <string name="onboardingNext">Další</string>
     <string name="offerTooltipShowOffer">Zobrazit nabídku</string>
     <string name="listItemMaintenance">Probíhá údržba</string>
     <string name="listAllCountries">Všechna umístění (%1$d)</string>
@@ -475,8 +473,6 @@
         <item quantity="other">%1$d zemí</item>
     </plurals>
     <string name="upsell_upgrade_again">Znovu navyšte tarif pro využití všech funkcí:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">Upgrade your privacy</string>
     <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
     <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
@@ -580,46 +576,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Vítejte v Proton VPN</string>
-    <string name="onboarding_welcome_description">Zjistěte během chvíle, jak získat co nejvíce z Proton VPN.</string>
     <string name="onboarding_welcome_action">Začínáme</string>
     <string name="onboarding_available_on_plus">Přístupné s Plus</string>
-    <string name="onboarding_telemetry_title">Pomozte nám v boji proti cenzuře</string>
-    <string name="onboarding_connection_title">Navažte své první připojení</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">Bezplatný tarif nabízí %1$s v %2$s</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="one">%1$d server</item>
-        <item quantity="few">%1$d servery</item>
-        <item quantity="many">%1$d serverů</item>
-        <item quantity="other">%1$d serverů</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="one">%1$d země</item>
-        <item quantity="few">%1$d země</item>
-        <item quantity="many">%1$d zemí</item>
-        <item quantity="other">%1$d zemí</item>
-    </plurals>
-    <string name="onboarding_connection_info">Připojíme vás k nejrychlejšímu a nejstabilnějšímu serveru ve vašem okolí.</string>
-    <string name="onboading_connect_now">Připojit ihned</string>
-    <string name="onboading_connecting_now">Připojování</string>
-    <string name="onboarding_congrats_description">Vaše připojení je chráněno a jste připraveni k prohlížení webu.\n\nBezpečně.</string>
-    <string name="onboarding_congrats_title">Blahopřejeme!</string>
     <string name="upgrade_success_get_started_button">Začít</string>
     <string name="upgrade_use_limited_free_button">Použít omezený bezplatný tarif</string>
     <string name="dynamic_report_suggestion_didnt_work">Nefungovalo to?</string>

@@ -131,8 +131,6 @@
     <string name="errorEmptyEntryCountry">O campo do país de entrada não pode estar vazio</string>
     <string name="errorEmptyExitCountry">O campo do país de saída não pode estar vazio</string>
     <string name="onboardingSignup">Registre-se</string>
-    <string name="onboardingSkip">Pular</string>
-    <string name="onboardingNext">Próximo</string>
     <string name="offerTooltipShowOffer">Veja a oferta</string>
     <string name="listItemMaintenance">Em manutenção</string>
     <string name="listAllCountries">Todas as localizações (%1$d)</string>
@@ -463,8 +461,6 @@
         <item quantity="other">%1$d países</item>
     </plurals>
     <string name="upsell_upgrade_again">Faça o upgrade novamente para aproveitar todos os recursos:</string>
-    <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
-         upgrade screen -->
     <string name="upgrade_plus_title">Atualize sua privacidade</string>
     <string name="upgrade_plus_message">Obtenha recursos avançados de privacidade e maior velocidade com VPN Plus.</string>
     <string name="upgrade_netshield_title">Aproveite a navegação sem anúncios</string>
@@ -564,42 +560,8 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Boas-vindas ao Proton VPN</string>
-    <string name="onboarding_welcome_description">Saiba como aproveitar ao máximo o Proton VPN em apenas alguns segundos.</string>
     <string name="onboarding_welcome_action">Comece</string>
     <string name="onboarding_available_on_plus">Disponível com Plus</string>
-    <string name="onboarding_telemetry_title">Ajude-nos a combater a censura</string>
-    <string name="onboarding_connection_title">Estabeleça sua primeira conexão</string>
-    <!-- Parameters:
-         %1$s - replaced with "onboarding_connection_description_servers"
-         %2$s - replaced with "onboarding_connection_description_countries"
-
-         Example:
-         Free subscription offers 65 servers in 3 countries
-    -->
-    <string name="onboarding_connection_description">A assinatura gratuita oferece %1$s em %2$s</string>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         65 servers -->
-    <plurals name="onboarding_connection_description_servers">
-        <item quantity="one">%1$d servidor</item>
-        <item quantity="other">%1$d servidores</item>
-    </plurals>
-    <!-- Embedded in "onboarding_connection_description", e.g.:
-         Free subscription offers 65 servers in 3 countries
-
-         Example:
-         3 countries -->
-    <plurals name="onboarding_connection_description_countries">
-        <item quantity="one">%1$d país</item>
-        <item quantity="other">%1$d países</item>
-    </plurals>
-    <string name="onboarding_connection_info">Vamos conectá-lo ao servidor mais rápido e estável para a sua localização.</string>
-    <string name="onboading_connect_now">Conectar agora</string>
-    <string name="onboading_connecting_now">Conectando agora</string>
-    <string name="onboarding_congrats_description">Sua conexão está protegida e você está pronto para navegar na Web.\n\nCom segurança.</string>
-    <string name="onboarding_congrats_title">Parabéns!</string>
     <string name="upgrade_success_get_started_button">Começar</string>
     <string name="upgrade_use_limited_free_button">Use o plano Gratuito limitado</string>
     <string name="dynamic_report_suggestion_didnt_work">Não funcionou?</string>
