@@ -6,9 +6,9 @@ default:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
     - mkdir -p app
-    - base64 -d - < "$PROTON_KEY_FILE2" > app/protonkey.jks
+    - base64 -d - < "$PROTON_KEY_FILE2" > protonkey.jks
     - base64 -d -  < "$SERVICE_ACCOUNT_FILE" > app/service_account.json
-    - md5sum app/protonkey.jks
+    - md5sum protonkey.jks
     - md5sum app/service_account.json
     - echo "" >> gradle.properties # ensure a new line
     - base64 -d - < "$GRADLE_PROPERTIES_FILE2" >> gradle.properties
@@ -218,7 +218,7 @@ build google play release:
   script:
     - ./gradlew openvpn:assembleRelease
     - ./gradlew assembleProductionGooglePlayStoreRelease
-  when: manual
+    - ./gradlew :release_tests:assembleRelease
   except:
     - schedules
   interruptible: false
@@ -226,6 +226,7 @@ build google play release:
     expire_in: 1 week
     paths:
     - app/build/outputs/apk
+    - release_tests/build/outputs/apk
 
 .build amazon release:
   stage: build

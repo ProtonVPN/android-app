@@ -5,7 +5,7 @@
   - echo "$SERVICE_ACCOUNT" > /tmp/service-account.json
   - gcloud auth activate-service-account --key-file /tmp/service-account.json
   - APP="$APP_LOCATION"${ARCHIVES_BASE_NAME}-${APP_TYPE}
-  - TEST_APP="$TEST_APP_LOCATION"${ARCHIVES_BASE_NAME}-${TEST_APP_TYPE}
+  - TEST_APP="$TEST_APP_LOCATION"${TEST_APP_BASE_NAME}-${TEST_APP_TYPE}
   - echo $APP
   - echo $TEST_APP
   - echo $PWD
@@ -19,6 +19,7 @@
   variables:
     CHECKOUT_CORE_SUBMODULE: "true"
     NUM_SHARDS: 1
+    TEST_APP_BASE_NAME: ${ARCHIVES_BASE_NAME}
   script:
     - *firebase_authenticate_script
     - date
@@ -94,7 +95,7 @@ real connection mobile tests:
   extends: .tests_preparation_script
   allow_failure: true
   variables:
-    TESTS_TYPE: realConnectionTest
+    TESTS_TYPE: smokeTest
     APP_LOCATION: "app/build/outputs/apk/productionGooglePlayStore/debug/"
     APP_TYPE: "production-google-playStore-debug.apk"
     TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/productionGooglePlayStore/debug/"
@@ -102,6 +103,18 @@ real connection mobile tests:
     TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
     TIMEOUT: $TIMEOUT_GENERAL_TESTS
 #    COVERAGE_FOLDER: "real_connection"
+
+release tests:
+  extends: .tests_preparation_script
+  variables:
+    TESTS_TYPE: smokeTest
+    APP_LOCATION: "app/build/outputs/apk/productionGooglePlayStore/release/"
+    APP_TYPE: "production-google-playStore-release.apk"
+    TEST_APP_LOCATION: "release_tests/build/outputs/apk/release/"
+    TEST_APP_BASE_NAME: "release_tests"
+    TEST_APP_TYPE: "release.apk"
+    TEST_SUITE: "com.protonvpn.android.release_tests.suites.AllTests"
+    TIMEOUT: $TIMEOUT_GENERAL_TESTS
 
 robo tests:
   stage: test

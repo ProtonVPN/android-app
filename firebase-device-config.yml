@@ -5,7 +5,7 @@ mobileTest:
     version: 28
   - model: Nexus5X
     version: 23
-realConnectionTest:
+smokeTest:
   timeout: 30m
   device:
   - model: a10

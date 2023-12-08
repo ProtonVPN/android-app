@@ -118,7 +118,6 @@ licenseReport {
 
 def productionServer = "\"vpn-api.proton.me\""
 def productionHv3Server = "\"verify.proton.me\""
-def storeFilePath = project.hasProperty('keyStoreFilePath') ? keyStoreFilePath : "protonkey.jks"
 def storeKeyAlias = project.hasProperty('keyStoreKeyAlias') ? keyStoreKeyAlias : 'proton'
 def storePass = project.hasProperty('keyStorePassword') ? keyStorePassword : "\"Store password\""
 def storeKeyPass = project.hasProperty('keyStoreKeyPassword') ? keyStoreKeyPassword : "\"Store key password\""
@@ -141,7 +140,7 @@ android {
     useLibrary 'org.apache.http.legacy'
     signingConfigs {
         release {
-            storeFile file(storeFilePath)
+            storeFile file(rootProject.ext.keyStoreFilePath)
             storePassword storePass
             keyAlias storeKeyAlias
             keyPassword storeKeyPass
