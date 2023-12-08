@@ -35,6 +35,7 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
+    // Same flavors as in the app module.
     flavorDimensions = ["environment", "functionality", "distribution"]
     productFlavors {
         production {

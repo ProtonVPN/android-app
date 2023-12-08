@@ -32,3 +32,4 @@ buildCache {
         removeUnusedEntriesAfterDays = 3
     }
 }
+include(":release_tests")
