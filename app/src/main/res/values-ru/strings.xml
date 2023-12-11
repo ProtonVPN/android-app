@@ -235,9 +235,9 @@
     <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
     <string name="noVpnPermissionOpenSettings">Открыть настройки Android VPN</string>
-    <string name="noNotificationPermissionGrantTitle">Don’t get caught out…</string>
-    <string name="noNotificationPermissionGrantDescription">Enable notifications to get alerted about changes to your connection status.</string>
-    <string name="noNotificationPermissionGrantNowTitle">Enable notifications</string>
+    <string name="noNotificationPermissionGrantTitle">Не пропустите ничего</string>
+    <string name="noNotificationPermissionGrantDescription">Включите уведомления, чтобы получать информацию об изменениях состояния подключения.</string>
+    <string name="noNotificationPermissionGrantNowTitle">Включить уведомления</string>
     <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянно включенное включение VPN во всех других приложениях VPN в настройках системы Android, так как это мешает Proton VPN устанавливать подключение к VPN. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
     <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
     <string name="error_prepare_vpn_title">Ошибка: проблема VPN разрешений</string>
@@ -620,7 +620,7 @@
     <string name="onboading_connecting_now">Подключается сейчас</string>
     <string name="onboarding_congrats_description">Ваше подключение защищено, и вы готовы к работе в Интернете.\n\nБезопасно.</string>
     <string name="onboarding_congrats_title">Поздравляем!</string>
-    <string name="upgrade_success_get_started_button">Get started</string>
+    <string name="upgrade_success_get_started_button">Начать</string>
     <string name="upgrade_use_limited_free_button">Используйте ограниченный план Free</string>
     <string name="dynamic_report_suggestion_didnt_work">Не сработало?</string>
     <string name="dynamic_report_contact_us">Свяжитесь с нами</string>
@@ -737,10 +737,10 @@
     <string name="welcome_plus_title">Добро пожаловать в VPN Plus</string>
     <string name="welcome_plus_description">Используйте расширенные функции конфиденциальности, максимальную производительность и настройку VPN нового уровня.</string>
     <string name="welcome_plus_feature_security">Расширенные функции безопасности</string>
-    <string name="welcome_unlimited_title">Welcome to Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Congratulations! You unlocked premium security and performance features on all Proton services, plus <b>%1$d&#160;GB</b> total storage.<br><br>Enjoy the best of Proton privacy.]]></string>
+    <string name="welcome_unlimited_title">Добро пожаловать в Proton Unlimited</string>
+    <string name="welcome_unlimited_description"><![CDATA[Поздравляем! Вы разблокировали премиальные функции безопасности и производительности на всех службах Proton, а также <b>%1$d&#160;GB</b> все хранилище <br><br> Используйте все возможности Proton Privacy.]]></string>
     <string name="welcome_generic_title">Поздравляем</string>
-    <string name="welcome_generic_description">You\'ve upgraded your subscription. Enjoy advanced privacy features and next-level performance.</string>
+    <string name="welcome_generic_description">Вы обновили свою подписку. Воспользуйтесь расширенными функциями конфиденциальности и производительностью нового уровня.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">

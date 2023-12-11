@@ -60,7 +60,7 @@
     <string name="buttonConnect">Poveži</string>
     <string name="loaderInitializing">Initializing connection…</string>
     <string name="loaderConnectingTo">Povezivanje s %1$s</string>
-    <string name="loaderConnectingToLabel">Connecting to…</string>
+    <string name="loaderConnectingToLabel">Povezivanje s…</string>
     <string name="loaderNotConnected">Nije povezan (Nezaštićen)</string>
     <string name="loaderNotConnectedSuggestion">Tap the quick connect button</string>
     <string name="loaderConnectedTo">Povezan s %1$s</string>
@@ -118,7 +118,7 @@
     <string name="settingsModerateNatTitle">Moderate NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
     <string name="use_coupon_title">Use coupon</string>
-    <string name="use_coupon_code_label">Coupon code</string>
+    <string name="use_coupon_code_label">Kôd kupona</string>
     <string name="use_coupon_success">Coupon has been applied successfully</string>
     <string name="use_coupon_success_no_upgrade_yet">Coupon has been applied successfully. Your subscription will be upgraded within a few minutes.</string>
     <string name="restrictedMaintenanceTitle">Održavanje u tijeku</string>
@@ -140,7 +140,7 @@
     <string name="listFreeCountries">Free locations (%1$d)</string>
     <string name="listPremiumCountries">Basic &amp; Plus locations (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus locations (%1$d)</string>
-    <string name="listFastestServer">Fastest server</string>
+    <string name="listFastestServer">Najbrži poslužitelj</string>
     <string name="listFreeServers">Free servers (%1$d)</string>
     <string name="listBasicServers">Basic servers (%1$d)</string>
     <string name="listPlusServers">Plus servers (%1$d)</string>
@@ -151,7 +151,7 @@
     <string name="tabsProfiles">Profili</string>
     <string name="log_title">Zapisnik</string>
     <string name="disconnect">Odspoji</string>
-    <string name="state_connecting">Connecting…</string>
+    <string name="state_connecting">Povezivanje…</string>
     <string name="state_connected">Povezano</string>
     <string name="state_disconnecting">Disconnecting…</string>
     <string name="state_error">Pogreška</string>
@@ -166,8 +166,8 @@
     <string name="connect">Poveži</string>
     <string name="upgrade">Nadogradnja</string>
     <string name="retry">Pokušaj ponovno</string>
-    <string name="connection_failed">Povezivanje nije uspjelo</string>
-    <string name="create_new_profile">New profile</string>
+    <string name="connection_failed">Neuspjela veza</string>
+    <string name="create_new_profile">Novi profil</string>
     <string name="excludeAppsTitle">Izuzmi aplikacije</string>
     <string name="excludeAppsDescription">Dodajte aplikacije koje želite izuzeti iz VPN prometa.</string>
     <string name="profile_name">Naziv profila</string>
@@ -211,7 +211,7 @@
     <string name="exitCountry">Država izlaska</string>
     <string name="entryCountry">Država ulaska</string>
     <string name="country">Država</string>
-    <string name="selectCountry">Select country</string>
+    <string name="selectCountry">Odaberi državu</string>
     <string name="serverSelection">Poslužitelj</string>
     <string name="selectServer">Select server</string>
     <string name="protocolLabel">Protokol</string>
@@ -561,7 +561,7 @@
     <string name="server_load_description">Poslužitelji s visokim opterećenjem sporiji su od poslužitelja s niskim opterećenjem.</string>
     <string name="streaming_title_with_country">Streamanje - %1$s</string>
     <string name="streaming_services_description">Connect to a Plus server in this country to start streaming.\n\nHint: Clear the cache of the streaming apps to ensure new content appears.</string>
-    <string name="partnership_free_title">Free servers</string>
+    <string name="partnership_free_title">Besplatni poslužitelji</string>
     <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
     <string name="partnership_partners_title">Our partners</string>
     <string name="activity_information_learn_more">Saznaj više</string>
@@ -606,11 +606,11 @@
         <item quantity="other">%1$d država</item>
     </plurals>
     <string name="onboarding_connection_info">We will connect you to the fastest and most stable server for your location.</string>
-    <string name="onboading_connect_now">Connect now</string>
+    <string name="onboading_connect_now">Povezati sad</string>
     <string name="onboading_connecting_now">Connecting now</string>
     <string name="onboarding_congrats_description">Your connection is protected and you’re ready to browse the web.\n\nSafely.</string>
     <string name="onboarding_congrats_title">Čestitamo!</string>
-    <string name="upgrade_success_get_started_button">Get started</string>
+    <string name="upgrade_success_get_started_button">Započnite</string>
     <string name="upgrade_use_limited_free_button">Use limited Free plan</string>
     <string name="dynamic_report_suggestion_didnt_work">Didn\'t work?</string>
     <string name="dynamic_report_contact_us">Kontaktirajte nas</string>
@@ -622,9 +622,9 @@
     <string name="dynamic_report_field_mandatory">This field is mandatory</string>
     <string name="dynamic_report_logs_description">A log is a type of file that shows us the actions you took that led to an error. We’ll only ever use them to help our engineers fix bugs.</string>
     <string name="dynamic_report_logs_missing">Error logs help us to get to the bottom of your issue. If you don’t include them, we might not be able to investigate fully.</string>
-    <string name="dynamic_report_step1">Step 1 of 3</string>
-    <string name="dynamic_report_step2">Step 2 of 3</string>
-    <string name="dynamic_report_step3">Step 3 of 3</string>
+    <string name="dynamic_report_step1">Korak 1 od 3</string>
+    <string name="dynamic_report_step2">Korak 2 od 3</string>
+    <string name="dynamic_report_step3">Korak 3 od 3</string>
     <string name="dynamic_report_your_issue_headline">What is your issue</string>
     <string name="update_screen_title">Ažuriraj Proton VPN</string>
     <string name="update_screen_description">You’re more likely to have issues on older versions of Proton VPN.</string>
@@ -687,9 +687,9 @@
     <string name="offer_time_left">%1$s %2$s left</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
-        <item quantity="one">%1$d second</item>
-        <item quantity="few">%1$d seconds</item>
-        <item quantity="other">%1$d seconds</item>
+        <item quantity="one">%1$d sekunda</item>
+        <item quantity="few">%1$d sekunde</item>
+        <item quantity="other">%1$d sekundi</item>
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">

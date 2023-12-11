@@ -21,9 +21,9 @@
     <!-- Strings related to login -->
     <string name="hintUsername">Brukernavn</string>
     <string name="hintPassword">Passord</string>
-    <string name="splitTunnellingSwitch">Delt tunnelering-bryter</string>
-    <string name="login">Logg inn</string>
-    <string name="hamburgerMenu">Hamburger Meny</string>
+    <string name="splitTunnellingSwitch">Delt tunnelering bryter</string>
+    <string name="login">Logg på</string>
+    <string name="hamburgerMenu">Hamburgermeny</string>
     <string name="error_field_required">Dette feltet er obligatorisk</string>
     <string name="menuActionSignOut">Logg av</string>
     <string name="loginSlogan">Sikkert internett hvor som helst</string>
@@ -203,7 +203,7 @@
     <string name="doneButton">Ferdig</string>
     <string name="saveButton">Lagre</string>
     <string name="recommendedHeader">Anbefalt</string>
-    <string name="countryServersHeader">Landets tjenere</string>
+    <string name="countryServersHeader">Landtjenere</string>
     <string name="secureCoreCountriesHeader">Secure Core-land</string>
     <string name="recommendedProfilesHeader">Anbefalte profiler</string>
     <string name="free_connection_header">Gratis forbindelse</string>
@@ -294,8 +294,8 @@
     <string name="troubleshootIspProblemTitle">Internett-leverandør (ISP) problem</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Prøv å koble til Proton fra et annet nettverk (eller bruk <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Antivirus innblanding</string>
-    <string name="troubleshootAntivirusProblemDescription">Midlertidig deaktiver eller fjern din Antivirus-programvarepakke.</string>
-    <string name="troubleshootProxyFirewallProblemTitle">Proxy/Brannmur innblanding</string>
+    <string name="troubleshootAntivirusProblemDescription">Deaktiver eller fjern antivirusprogramvaren midlertidig.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Proxy-/brannmurforstyrrelser</string>
     <string name="troubleshootProxyFirewallProblemDescription">Deaktiver alle proxyer eller brannmurer, eller kontakt din nettverksadministrator.</string>
     <string name="troubleshootProtonDownTitle">Proton er nede</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Undersøk <a href=\"%1$s\">Proton Status</a> for vår systemstatus.]]></string>
@@ -319,7 +319,7 @@
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Klikk på bryteren ved siden av <b>Blokker forbindelser uten VPN</b> for å aktivere nødstopp]]></string>
+    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Klikk på bryteren ved siden av <b>Blokkér forbindelser uten VPN</b> for å aktivere nødstopp]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Åpne Android-innstillinger</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Aktivering av nødstopp vil deaktivere delt tunnelering, da nødstopp blokkerer alle tilkoblinger utenfor VPN-tunnelen.</string>
     <string name="settingsSmartProtocolDescription">Bruk automatisk protokollen og porten som gir best tilkobling.</string>
@@ -348,8 +348,8 @@
         <item quantity="other">Sporere\nstoppet</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nspart</string>
-    <string name="netShieldBlockMalwareOnly">Blokker kun skadevare</string>
-    <string name="netShieldFullBlock">Blokker skadelig programvare, sporing, annonser</string>
+    <string name="netShieldBlockMalwareOnly">Blokkér kun skadevare</string>
+    <string name="netShieldFullBlock">Blokkér skadelig programvare, sporing, annonser</string>
     <string name="dialogDontShowAgain">Ikke vis igjen</string>
     <string name="guestHoleActivated">Tilgangen til Proton VPN kan være begrenset i ditt område, så dette vil ta lengre tid enn vanlig. Vennligst vent mens vi omgår dette problemet.</string>
     <string name="guestHoleNotificationContent">Prøver å omgå nettverksproblemer. Dette vil hjelpe deg med å få tilgang til Proton VPN.</string>
@@ -432,7 +432,7 @@
         <item quantity="other">Vennligst koble fra en annen enhet for å koble til denne, eller oppgrader til Plus for å få opptil %1$d-enheter tilkoblet samtidig.</item>
     </plurals>
     <string name="notification_max_sessions_content">Vennligst koble fra en annen enhet for å koble til denne.</string>
-    <string name="notification_cancel_to_free">Du er på gratisplanen. Gratis tjenere og funksjoner er tilgjengelige.</string>
+    <string name="notification_cancel_to_free">Du er på Free-planen. Gratis tjenere og funksjoner er tilgjengelige.</string>
     <string name="notification_cancel_to_basic">Du er på Basic-planen. Basic &amp; gratis tjenere og funksjoner er tilgjengelige.</string>
     <string name="notification_cancel_to_delinquent">Du vil kunne få tilgang til premiumfunksjoner igjen etter at ventende fakturaer er betalt.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
@@ -468,7 +468,7 @@
     <string name="upgrade_plus_title">Oppgrader personvernet</string>
     <string name="upgrade_plus_message">Få avanserte personvernfunksjoner og høyere hastighet med VPN Plus.</string>
     <string name="upgrade_netshield_title">Kos deg med reklamefri surfing</string>
-    <string name="upgrade_netshield_message"><![CDATA[Blokker annonser, sporere og skadelig programvare med <b>NetShield</b>.]]></string>
+    <string name="upgrade_netshield_message"><![CDATA[Blokkér annonser, sporere og skadelig programvare med <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Doble krypteringen</string>
     <string name="upgrade_secure_core_message"><![CDATA[Legg til et ekstra krypteringslag til VPN-tilkoblingen din med <b>Secure Core</b>.]]></string>
     <string name="upgrade_profiles_title">Få rask tilgang til dine hyppige tilkoblinger</string>
@@ -601,7 +601,7 @@
     <string name="onboarding_congrats_description">Tilkoblingen din er beskyttet, og du er klar til å surfe på weben.\n\nTrygt.</string>
     <string name="onboarding_congrats_title">Gratulerer!</string>
     <string name="upgrade_success_get_started_button">Kom i gang</string>
-    <string name="upgrade_use_limited_free_button">Bruk begrenset gratis-plan</string>
+    <string name="upgrade_use_limited_free_button">Bruk begrenset Free-plan</string>
     <string name="dynamic_report_suggestion_didnt_work">Fungerte det ikke?</string>
     <string name="dynamic_report_contact_us">Kontakt oss</string>
     <string name="dynamic_report_tips_description">Disse tipsene kan bidra til å løse problemet raskere.</string>
@@ -705,7 +705,7 @@
     <string name="whats_new_server_selection_title">Endringer til valg av tjener</string>
     <string name="whats_new_server_selection_description">For å forhindre trengsel på tjenerne og sikre at alle har tilgang til rask og sikker surfing, fjernet vi manuelt valg av land og gjorde store forbedringer i automatisk tjenervalg.</string>
     <string name="welcome_plus_title">Velkommen til VPN Plus</string>
-    <string name="welcome_plus_description">Sett pris på ekstra personvernfunksjoner, kompressormatet ytelse, og neste-nivå VPN tilpassing.</string>
+    <string name="welcome_plus_description">Nyt ekstra personvernfunksjoner, forbedret ytelse og VPN-tilpasning på neste nivå.</string>
     <string name="welcome_plus_feature_security">Avanserte sikkerhetsfunksjoner</string>
     <string name="welcome_unlimited_title">Velkommen til Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Gratulerer! Du låste opp premium sikkerhet og ytelsefunksjoner på alle Protontjenester, pluss <b>%1$d&#160;GB</b> total lagring.<br><br>Nyt det beste av Proton personvern.]]></string>
