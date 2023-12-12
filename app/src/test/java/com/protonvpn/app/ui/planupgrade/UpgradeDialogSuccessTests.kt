@@ -75,7 +75,7 @@ class UpgradeDialogSuccessTests {
         testScope = TestScope(UnconfinedTestDispatcher())
         testUserProvider = TestCurrentUserProvider(TestUser.sameIdFreeUser.vpnUser)
         userPlanManager = UserPlanManager(
-            mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true), mockk(), mockk()
+            mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true), { 0L }, mockk(), mockk()
         )
         currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
         every { foregroundActivityTracker.foregroundActivityFlow } returns foregroundActivityFlow

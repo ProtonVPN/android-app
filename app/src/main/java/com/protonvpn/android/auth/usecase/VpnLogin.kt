@@ -27,6 +27,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.logging.toLog
@@ -53,7 +54,8 @@ class VpnLogin @Inject constructor(
     private val appConfig: AppConfig,
     private val serverListUpdater: ServerListUpdater,
     private val guestHole: GuestHole,
-    private val whatsNewFreeController: WhatsNewFreeController
+    private val whatsNewFreeController: WhatsNewFreeController,
+    @WallClock private val wallClock: () -> Long
 ) {
     sealed class Result {
         class Success(val vpnUser: VpnUser) : Result()
@@ -91,7 +93,7 @@ class VpnLogin @Inject constructor(
                         val appConfigResult = appConfigDeferred.await()
                         val certificateFetched = certificateDeferred.await()
                         if (certificateFetched && appConfigResult.isSuccess) {
-                            val vpnUser = vpnResult.value.toVpnUserEntity(user.userId, sessionId)
+                            val vpnUser = vpnResult.value.toVpnUserEntity(user.userId, sessionId, wallClock())
                             finalizeLogin(vpnUser)
                             Result.Success(vpnUser)
                         } else {

@@ -71,8 +71,15 @@ class UserPlanManagerTests {
         coEvery { vpnUserDao.insertOrUpdate(capture(userSlot)) } answers {
             vpnUser = userSlot.captured
         }
-        manager =
-            UserPlanManager(apiRetroFit, currentUser, vpnUserDao, mockk(relaxed = true), flowOf(true), flowOf(true))
+        manager = UserPlanManager(
+            apiRetroFit,
+            currentUser,
+            vpnUserDao,
+            mockk(relaxed = true),
+            wallClock = { 0 },
+            flowOf(true),
+            flowOf(true)
+        )
     }
 
     @Test

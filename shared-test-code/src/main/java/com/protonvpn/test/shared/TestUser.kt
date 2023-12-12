@@ -47,7 +47,7 @@ class TestUser private constructor(
             return VpnInfoResponse(1000, info, 4, 4, 0, 0, false)
         }
     val vpnUser: VpnUser
-        get() = vpnInfoResponse.toVpnUserEntity(UserId(email), SessionId("sessionId"))
+        get() = vpnInfoResponse.toVpnUserEntity(UserId(email), SessionId("sessionId"), 0)
 
     companion object {
         @JvmStatic val freeUser: TestUser

@@ -24,7 +24,6 @@ import kotlinx.serialization.Serializable
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.data.protonApi.IntToBoolSerializer
 import me.proton.core.network.domain.session.SessionId
-import org.joda.time.DateTime
 
 @Serializable
 data class VpnInfoResponse(
@@ -38,7 +37,7 @@ data class VpnInfoResponse(
     @SerialName(value = "HasPaymentMethod") val hasPaymentMethod: Boolean?
 ) : java.io.Serializable
 
-fun VpnInfoResponse.toVpnUserEntity(userId: UserId, sessionId: SessionId) =
+fun VpnInfoResponse.toVpnUserEntity(userId: UserId, sessionId: SessionId, timestamp: Long) =
     VpnUser(
         userId = userId,
         subscribed = subscribed,
@@ -55,6 +54,6 @@ fun VpnInfoResponse.toVpnUserEntity(userId: UserId, sessionId: SessionId) =
         name = vpnInfo.name,
         groupId = vpnInfo.groupId.orEmpty(),
         password = vpnInfo.password,
-        updateTime = DateTime().millis,
+        updateTime = timestamp,
         sessionId = sessionId
     )
