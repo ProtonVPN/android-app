@@ -116,7 +116,7 @@ class TvLoginViewModelTests {
     @Test
     fun successfulLogin() = runTest {
         val viewModel = TvLoginViewModel(currentUser, vpnUserDao, appConfig, api, serverListUpdater, serverManager,
-            accountManager, monoClockMs = { currentTime }, guestHole = guestHole)
+            accountManager, monoClockMs = { currentTime }, wallClock = { currentTime }, guestHole = guestHole)
         val insertedVpnUser = slot<VpnUser>()
         coEvery { vpnUserDao.insertOrUpdate(capture(insertedVpnUser)) } returns Unit
 
@@ -139,7 +139,7 @@ class TvLoginViewModelTests {
     @Test
     fun vpnConnectionAllocationNeeded() = runTest {
         val viewModel = TvLoginViewModel(currentUser, vpnUserDao, appConfig, api,
-            serverListUpdater, serverManager, accountManager, monoClockMs = { currentTime },
+            serverListUpdater, serverManager, accountManager, monoClockMs = { currentTime }, wallClock= { currentTime },
             guestHole = guestHole)
         coEvery { api.getVPNInfo(any()) } returns ApiResult.Success(noConnectionsVpnInfoResponse)
         viewModel.startLogin(this)

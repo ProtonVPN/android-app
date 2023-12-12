@@ -28,6 +28,7 @@ import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.logging.toLog
@@ -48,8 +49,9 @@ class UserPlanManager @Inject constructor(
     private val currentUser: CurrentUser,
     private val vpnUserDao: VpnUserDao,
     private val periodicUpdateManager: PeriodicUpdateManager,
+    @WallClock private val wallClock: () -> Long,
     @IsLoggedIn loggedIn: Flow<Boolean>,
-    @IsInForeground inForeground: Flow<Boolean>
+    @IsInForeground inForeground: Flow<Boolean>,
 ) {
     sealed class InfoChange {
         data class PlanChange(val oldUser: VpnUser, val newUser: VpnUser) : InfoChange() {
@@ -85,7 +87,8 @@ class UserPlanManager @Inject constructor(
         val result = api.getVPNInfo()
         val changes = result.valueOrNull?.let { vpnInfoResponse ->
             currentUser.vpnUser()?.let { currentUserInfo ->
-                val newUserInfo = vpnInfoResponse.toVpnUserEntity(currentUserInfo.userId, currentUserInfo.sessionId)
+                val newUserInfo =
+                    with(currentUserInfo) { vpnInfoResponse.toVpnUserEntity(userId, sessionId, wallClock()) }
                 vpnUserDao.insertOrUpdate(newUserInfo)
                 computeUserInfoChanges(currentUserInfo, newUserInfo)
             }
