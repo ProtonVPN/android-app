@@ -37,8 +37,8 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.domain.entity.UserId
-import me.proton.core.paymentiap.presentation.viewmodel.GoogleProductDetails
-import me.proton.core.paymentiap.presentation.viewmodel.GoogleProductId
+import me.proton.core.payment.domain.entity.ProductId
+import me.proton.core.paymentiap.domain.entity.GoogleProductPrice
 import me.proton.core.plan.presentation.entity.PlanCycle
 import org.junit.Assert
 import org.junit.Before
@@ -100,8 +100,8 @@ class UpgradeDialogViewModelTests {
 
         viewModel.onPricesAvailable(
             mapOf(
-                GoogleProductId("m") to priceDetails(10),
-                GoogleProductId("y") to priceDetails(100)
+                ProductId("m") to productPrice(10),
+                ProductId("y") to productPrice(100)
             )
         )
         Assert.assertTrue((viewModel.state.value as? CommonUpgradeDialogViewModel.State.PurchaseReady)?.inProgress == false)
@@ -151,8 +151,8 @@ class UpgradeDialogViewModelTests {
                 CycleInfo(PlanCycle.YEARLY, "y")
             ),
             mapOf(
-                GoogleProductId("m") to priceDetails(10),
-                GoogleProductId("y") to priceDetails(100)
+                ProductId("m") to productPrice(10),
+                ProductId("y") to productPrice(100)
             )
         )
         Assert.assertEquals(
@@ -172,7 +172,7 @@ class UpgradeDialogViewModelTests {
     }
 }
 
-private fun priceDetails(price: Int) = GoogleProductDetails(
+private fun productPrice(price: Int) = GoogleProductPrice(
     priceAmountMicros = price * 1000000L,
     currency = "USD",
     formattedPriceAndCurrency = formatPrice(price.toDouble(), "USD")

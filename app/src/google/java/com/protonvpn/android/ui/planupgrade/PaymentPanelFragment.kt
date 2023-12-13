@@ -44,14 +44,14 @@ import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.payment.domain.entity.GooglePurchaseToken
 import me.proton.core.payment.domain.entity.PaymentType
-import me.proton.core.payment.domain.entity.SubscriptionManagement
+import me.proton.core.payment.domain.entity.ProductId
 import me.proton.core.payment.presentation.entity.BillingInput
 import me.proton.core.payment.presentation.viewmodel.BillingCommonViewModel
 import me.proton.core.payment.presentation.viewmodel.BillingCommonViewModel.Companion.buildPlansList
 import me.proton.core.payment.presentation.viewmodel.BillingViewModel
+import me.proton.core.paymentiap.domain.entity.GoogleProductPrice
 import me.proton.core.paymentiap.presentation.ui.BaseBillingIAPFragment
-import me.proton.core.paymentiap.presentation.viewmodel.GoogleProductDetails
-import me.proton.core.paymentiap.presentation.viewmodel.GoogleProductId
+import me.proton.core.plan.domain.entity.SubscriptionManagement
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.presentation.utils.errorSnack
 import me.proton.core.presentation.utils.getUserMessage
@@ -87,7 +87,7 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
                         )
                 }
                 is CommonUpgradeDialogViewModel.State.PlanLoaded -> {
-                    queryGooglePlans(state.plan.cycles.map { GoogleProductId(it.productId) })
+                    queryGooglePlans(state.plan.cycles.map { ProductId(it.productId) })
                 }
                 is CommonUpgradeDialogViewModel.State.LoadError ->
                     onError(state.error.getUserMessage(resources), state.error)
@@ -146,7 +146,7 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
         }
     }
 
-    override fun onPricesAvailable(details: Map<GoogleProductId, GoogleProductDetails>) {
+    override fun onPricesAvailable(details: Map<ProductId, GoogleProductPrice>) {
         viewModel.onPricesAvailable(details)
     }
 

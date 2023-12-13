@@ -38,10 +38,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.domain.entity.UserId
+import me.proton.core.payment.domain.entity.ProductId
 import me.proton.core.payment.presentation.entity.BillingInput
 import me.proton.core.payment.presentation.entity.PlanShortDetails
-import me.proton.core.paymentiap.presentation.viewmodel.GoogleProductDetails
-import me.proton.core.paymentiap.presentation.viewmodel.GoogleProductId
+import me.proton.core.paymentiap.domain.entity.GoogleProductPrice
 import me.proton.core.plan.presentation.PlansOrchestrator
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.plan.presentation.viewmodel.filterByCycle
@@ -176,7 +176,7 @@ class UpgradeDialogViewModel(
         state.update { if (it is State.PurchaseReady) it.copy(inProgress = false) else it }
     }
 
-    fun onPricesAvailable(idToPrice: Map<GoogleProductId, GoogleProductDetails>) {
+    fun onPricesAvailable(idToPrice: Map<ProductId, GoogleProductPrice>) {
         val prices = calculatePriceInfos(loadedPlan.cycles, idToPrice)
         require(prices.isNotEmpty())
         state.value = State.PurchaseReady(GiapPlanModel(loadedPlan), prices)
@@ -194,10 +194,10 @@ class UpgradeDialogViewModel(
         @VisibleForTesting
         fun calculatePriceInfos(
             cycles: List<CycleInfo>,
-            priceDetails: Map<GoogleProductId, GoogleProductDetails>
+            priceDetails: Map<ProductId, GoogleProductPrice>
         ): Map<PlanCycle, PriceInfo> {
             val perMonthPrices = cycles.associate { cycleInfo ->
-                val id = GoogleProductId(cycleInfo.productId)
+                val id = ProductId(cycleInfo.productId)
                 val months = cycleInfo.cycle.cycleDurationMonths
                 val amount = priceDetails[id]?.priceAmount
                 val perMonthPrice = if (months > 0 && amount != null && amount > 0.0)
@@ -208,7 +208,7 @@ class UpgradeDialogViewModel(
             val maxPerMonthPrice = perMonthPrices.values.maxOrNull()
 
             return cycles.associate { cycleInfo ->
-                val info = priceDetails[GoogleProductId(cycleInfo.productId)]?.let { details ->
+                val info = priceDetails[ProductId(cycleInfo.productId)]?.let { details ->
                     val perMonthPrice = perMonthPrices[cycleInfo.cycle]
                     PriceInfo(
                         formattedPrice = formatPrice(details.priceAmount, details.currency),
