@@ -161,9 +161,9 @@ class UpgradeHighlightsCarouselFragment :
                 doOnNextLayout {
                     visibility = View.VISIBLE
                 }
-                if (maxMeasuredChildHeight != height) {
-                    val verticalPaddings = paddingTop + paddingBottom
-                    updateLayoutParams<LayoutParams> { this.height = maxMeasuredChildHeight + verticalPaddings }
+                val newHeight = maxMeasuredChildHeight + paddingTop + paddingBottom
+                if (newHeight != height) {
+                    updateLayoutParams<LayoutParams> { this.height = newHeight }
                 }
             }
         }
