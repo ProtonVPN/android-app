@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.redesign.base.ui.GatewayIndicator
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultNorm
@@ -70,10 +71,25 @@ class FlagsSample : SampleScreen("Flags", "flags") {
             }
             VerticalSpacer(height = 16.dp)
 
+            SamplesSectionLabel(label = "Gateways")
+            GatewaysRow(flagRowModifier)
+            Surface(
+                color = ProtonTheme.colors.backgroundSecondary,
+                shape = ProtonTheme.shapes.medium
+            ) {
+                GatewaysRow(flagRowModifier)
+            }
+
             SamplesSectionLabel(label = "With text (body-1-regular, top-aligned)")
             FlagWithText("Switzerland", flagRowModifier) { Flag(CountryId("ch")) }
             FlagWithText("Lithuania via Switzerland", flagRowModifier) {
                 Flag(CountryId("lt"), CountryId("ch"))
+            }
+            FlagWithText("Company VPN", flagRowModifier) {
+                GatewayIndicator(country = null)
+            }
+            FlagWithText("Company VPN", flagRowModifier) {
+                GatewayIndicator(country = CountryId.switzerland)
             }
         }
     }
@@ -114,8 +130,20 @@ class FlagsSample : SampleScreen("Flags", "flags") {
                 CountryId("jp") to CountryId("ch"),
                 CountryId("ch") to CountryId("ch"),
             ).forEach {
-                Flag(it.first, entryCountry = it.second, isSecureCore = true, modifier = flagModifier)
+                Flag(it.first, entryCountry = it.second, modifier = flagModifier)
             }
+        }
+    }
+
+    @Composable
+    private fun GatewaysRow(modifier: Modifier = Modifier) {
+        Row(
+            modifier,
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            GatewayIndicator(null, modifier = flagModifier)
+            GatewayIndicator(CountryId.sweden, modifier = flagModifier)
         }
     }
 

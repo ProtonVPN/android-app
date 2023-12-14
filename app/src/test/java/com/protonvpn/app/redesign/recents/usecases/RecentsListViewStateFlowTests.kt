@@ -35,6 +35,7 @@ import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
@@ -115,7 +116,6 @@ class RecentsListViewStateFlowTests {
         val testCoroutineScheduler = TestCoroutineScheduler()
         val testDispatcher = UnconfinedTestDispatcher(testCoroutineScheduler)
         testScope = TestScope(testDispatcher)
-        val testDispatcherProvider = TestDispatcherProvider(testDispatcher)
         Dispatchers.setMain(testDispatcher) // Remove this when ServerManager no longer uses asLiveData().
         val currentUser = CurrentUser(testScope.backgroundScope, currentUserProvider)
         val clock = { testCoroutineScheduler.currentTime }
@@ -164,7 +164,7 @@ class RecentsListViewStateFlowTests {
     fun defaultConnectionIsShownWhenThereAreNoRecents() = testScope.runTest {
         val viewState = viewStateFlow.first()
         val expectedConnectionCard =
-            ConnectIntentViewState(CountryId.fastest, null, false, null, emptySet())
+            ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.fastest, null), null, emptySet())
         assertEquals(expectedConnectionCard, viewState.connectionCard.connectIntentViewState)
         assertEquals(emptyList(), viewState.recents)
     }
@@ -328,9 +328,10 @@ class RecentsListViewStateFlowTests {
 
         // ConnectIntentViewStates for the constants above:
         val ConnectIntentViewSecureCore = ConnectIntentViewState(
-            ConnectIntentSecureCore.exitCountry,
-            ConnectIntentSecureCore.entryCountry,
-            true,
+            ConnectIntentPrimaryLabel.Country(
+                ConnectIntentSecureCore.exitCountry,
+                ConnectIntentSecureCore.entryCountry,
+            ),
             ConnectIntentSecondaryLabel.SecureCore(null, ConnectIntentSecureCore.entryCountry),
             emptySet()
         )
@@ -347,6 +348,6 @@ class RecentsListViewStateFlowTests {
         val DefaultRecents = listOf(RecentSecureCore, RecentFastest, RecentSweden, RecentIceland)
 
         private fun createViewStateForFastestInCountry(intent: ConnectIntent.FastestInCountry) =
-            ConnectIntentViewState(intent.country, null, false, null, intent.features)
+            ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(intent.country, null), null, intent.features)
     }
 }

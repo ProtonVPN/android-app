@@ -51,14 +51,13 @@ fun createServer(
     translations: Map<String, String?>? = null,
     isSecureCore: Boolean = false, // For convenience, adds SERVER_FEATURE_SECURE_CORE
     connectingDomains: List<ConnectingDomain> = listOf(dummyConnectingDomain)
-) =
-    Server(
+) = Server(
         serverId = serverId,
         entryCountry = entryCountry.uppercase(),
         exitCountry = exitCountry.uppercase(),
         serverName = serverName,
         rawGatewayName = gatewayName,
-        connectingDomains = listOf(dummyConnectingDomain),
+        connectingDomains = connectingDomains,
         hostCountry = null,
         domain = "dummy.protonvpn.net",
         load = 50f,

@@ -25,6 +25,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.ui.home.ServerListUpdater
@@ -88,8 +89,15 @@ class ConnectionDetailsViewModel @Inject constructor(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
         initialValue = ConnectionDetailsViewState(
-            "", "", CountryId.fastest, CountryId.fastest, null,
-            ConnectIntentViewState(CountryId.fastest, null, false, null, emptySet()), "", "", 0F
+            "",
+            "",
+            CountryId.fastest,
+            CountryId.fastest,
+            null,
+            ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.fastest, null), null, emptySet()),
+            "",
+            "",
+            0F
         )
     )
 }

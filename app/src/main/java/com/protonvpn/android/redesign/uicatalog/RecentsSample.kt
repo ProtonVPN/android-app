@@ -39,6 +39,7 @@ import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentRow
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import kotlinx.coroutines.delay
@@ -97,9 +98,10 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
         private val item1 = RecentItemViewState(
             id = 0,
             ConnectIntentViewState(
-                exitCountry = CountryId("ch"),
-                entryCountry = CountryId.sweden,
-                isSecureCore = true,
+                primaryLabel = ConnectIntentPrimaryLabel.Country(
+                    exitCountry = CountryId("ch"),
+                    entryCountry = CountryId.sweden,
+                ),
                 secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(null, CountryId.sweden),
                 serverFeatures = emptySet()
             ),
@@ -111,9 +113,10 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
         private val item2 = RecentItemViewState(
             id = 1,
             ConnectIntentViewState(
-                exitCountry = CountryId("pl"),
-                entryCountry = null,
-                isSecureCore = false,
+                primaryLabel = ConnectIntentPrimaryLabel.Country(
+                    exitCountry = CountryId("pl"),
+                    entryCountry = null,
+                ),
                 secondaryLabel = null,
                 serverFeatures = emptySet()
             ),
@@ -125,9 +128,10 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
         private val item3 = RecentItemViewState(
             id = 2,
             ConnectIntentViewState(
-                exitCountry = CountryId("lt"),
-                entryCountry = null,
-                isSecureCore = false,
+                primaryLabel = ConnectIntentPrimaryLabel.Country(
+                    exitCountry = CountryId("lt"),
+                    entryCountry = null,
+                ),
                 secondaryLabel = null,
                 serverFeatures = emptySet()
             ),
@@ -139,9 +143,10 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
         private val item4 = RecentItemViewState(
             id = 3,
             ConnectIntentViewState(
-                exitCountry = CountryId("ch"),
-                entryCountry = null,
-                isSecureCore = false,
+                primaryLabel = ConnectIntentPrimaryLabel.Country(
+                    exitCountry = CountryId("ch"),
+                    entryCountry = null,
+                ),
                 secondaryLabel = null,
                 serverFeatures = emptySet()
             ),
@@ -153,9 +158,10 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
         private val item5 = RecentItemViewState(
             id = 4,
             ConnectIntentViewState(
-                exitCountry = CountryId("ch"),
-                entryCountry = null,
-                isSecureCore = false,
+                primaryLabel = ConnectIntentPrimaryLabel.Country(
+                    exitCountry = CountryId("ch"),
+                    entryCountry = null,
+                ),
                 secondaryLabel = ConnectIntentSecondaryLabel.RawText("Zurich"),
                 serverFeatures = emptySet()
             ),
@@ -167,9 +173,10 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
         private val item6 = RecentItemViewState(
             id = 5,
             ConnectIntentViewState(
-                exitCountry = CountryId("us"),
-                entryCountry = null,
-                isSecureCore = false,
+                primaryLabel = ConnectIntentPrimaryLabel.Country(
+                    exitCountry = CountryId("us"),
+                    entryCountry = null,
+                ),
                 secondaryLabel = null,
                 serverFeatures = emptySet()
             ),

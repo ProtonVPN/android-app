@@ -79,6 +79,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnOutlinedButton
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -152,14 +153,12 @@ fun ConnectionDetails(
                     .semantics(mergeDescendants = true) {},
             ) {
                 val connectIntent = viewState.connectIntentViewState
-                Flag(
-                    connectIntent.exitCountry,
-                    connectIntent.entryCountry,
-                    connectIntent.isSecureCore,
+                FlagOrGatewayIndicator(
+                    connectIntent.primaryLabel,
                     modifier = Modifier.padding(top = 4.dp)
                 )
                 ConnectIntentLabels(
-                    exitCountry = connectIntent.exitCountry,
+                    primaryLabel = connectIntent.primaryLabel,
                     secondaryLabel = connectIntent.secondaryLabel,
                     serverFeatures = connectIntent.serverFeatures,
                     labelStyle = ProtonTheme.typography.headlineNorm,

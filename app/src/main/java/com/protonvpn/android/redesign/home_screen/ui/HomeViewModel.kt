@@ -33,6 +33,7 @@ import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
@@ -65,9 +66,7 @@ class HomeViewModel @Inject constructor(
         VpnConnectionCardViewState(
             R.string.connection_card_label_recommended,
             ConnectIntentViewState(
-                CountryId.fastest,
-                null,
-                false,
+                ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
                 null,
                 emptySet()
             ),
@@ -87,7 +86,7 @@ class HomeViewModel @Inject constructor(
     )
 
     enum class DialogState {
-        CountryInMaintenance, CityInMaintenance, ServerInMaintenance, ServerNotAvailable
+        CountryInMaintenance, CityInMaintenance, ServerInMaintenance, GatewayInMaintenance, ServerNotAvailable
     }
 
     private var dialogState by savedStateHandle.state<DialogState?>(null, DialogStateKey)
@@ -150,5 +149,8 @@ class HomeViewModel @Inject constructor(
             is ConnectIntent.FastestInCity -> DialogState.CityInMaintenance
             is ConnectIntent.SecureCore,
             is ConnectIntent.Server -> DialogState.ServerInMaintenance
+            is ConnectIntent.Gateway ->
+                if (connectIntent.serverId != null) DialogState.ServerInMaintenance
+                else DialogState.GatewayInMaintenance
         }
 }

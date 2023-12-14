@@ -22,6 +22,7 @@ package com.protonvpn.tests.redesign.vpn.ui
 import androidx.compose.foundation.layout.Row
 import androidx.test.filters.SdkSuppress
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
@@ -73,6 +74,15 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         createServer("serverPlViaCh", serverName = "CH-PL#1", exitCountry = "PL", entryCountry = "CH", tier = 2)
     private val serverLtViaSe =
         createServer("serverLtViaSe", serverName = "SE-LT#1", exitCountry = "LT", entryCountry = "SE", tier = 2)
+    private val serverGateway =
+        createServer(
+            "serverGateway",
+            serverName = "VPN#1",
+            exitCountry = "US",
+            gatewayName = "Gateway Name",
+            tier = 2,
+            features = SERVER_FEATURE_RESTRICTED
+        )
 
     private val switzerland = CountryId("ch")
     private val poland = CountryId("pl")
@@ -81,7 +91,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        val allServers = listOf(serverCh, serverChFree, serverPl, serverPlNoFeatures, serverLtViaSe, serverPlViaCh)
+        val allServers = listOf(serverCh, serverChFree, serverPl, serverPlNoFeatures, serverLtViaSe, serverPlViaCh, serverGateway)
         every { serverManager.getServerById(any()) } answers {
             allServers.find { it.serverId == firstArg() }
         }
@@ -321,12 +331,39 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         node.withTag("secondaryLabel").hasChild(node.withText("P2P")).assertDoesNotExist()
     }
 
+    @Test
+    fun gateway() {
+        val connectIntent = ConnectIntent.Gateway("Gateway Name", null)
+        setConnectIntentRowComposable(connectIntent, null)
+
+        node.withTag("primaryLabel").assertContainsText("Gateway Name")
+        node.withTag("secondaryLabel").assertDoesNotExist()
+    }
+
+    @Test
+    fun gatewayConnected() {
+        val connectIntent = ConnectIntent.Gateway("Gateway Name", null)
+        setConnectIntentRowComposable(connectIntent, serverGateway)
+
+        node.withTag("primaryLabel").assertContainsText("Gateway Name")
+        node.withTag("secondaryLabel").assertDoesNotExist()
+    }
+
+    @Test
+    fun gatewaySpecificServer() {
+        val connectIntent = ConnectIntent.Gateway("Gateway Name", serverGateway.serverId)
+        setConnectIntentRowComposable(connectIntent, null)
+
+        node.withTag("primaryLabel").assertContainsText("Gateway Name")
+        node.withTag("secondaryLabel").hasChild(node.withText("United States #1")).assertIsDisplayed()
+    }
+
     private fun setConnectIntentRowComposable(connectIntent: ConnectIntent, connectedServer: Server? = null) {
         composeRule.setContent {
             Row {
                 val state = getConnectIntentViewState(connectIntent, connectedServer)
                 ConnectIntentLabels(
-                    exitCountry = state.exitCountry,
+                    primaryLabel = state.primaryLabel,
                     secondaryLabel = state.secondaryLabel,
                     serverFeatures = state.serverFeatures,
                     isConnected = false

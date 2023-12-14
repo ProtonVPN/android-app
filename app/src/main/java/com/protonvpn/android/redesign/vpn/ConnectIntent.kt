@@ -56,6 +56,15 @@ sealed interface ConnectIntent : AnyConnectIntent {
         override val features: Set<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java)
     }
 
+    data class Gateway(
+        val gatewayName: String,
+        val serverId: String?,
+    ) : ConnectIntent {
+        val fastest = serverId == null
+
+        override val features: Set<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java)
+    }
+
     // Note: it's possible that we'll need more information about the server to be able to handle fallbacks if the
     // server is removed.
     data class Server(

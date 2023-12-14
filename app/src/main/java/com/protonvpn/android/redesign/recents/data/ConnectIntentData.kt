@@ -30,6 +30,7 @@ enum class ConnectIntentType {
     FASTEST,
     FASTEST_IN_CITY,
     SECURE_CORE,
+    GATEWAY,
     SPECIFIC_SERVER,
     GUEST_HOLE
 }
@@ -39,6 +40,7 @@ data class ConnectIntentData(
     val exitCountry: String?,
     val entryCountry: String?,
     val city: String?,
+    val gatewayName: String?,
     val serverId: String?,
     val features: Set<ServerFeature>
 ) : java.io.Serializable
@@ -64,6 +66,12 @@ fun ConnectIntentData.toConnectIntent(): ConnectIntent =
                 entryCountry = entryCountry.toCountryId(),
             )
 
+        ConnectIntentType.GATEWAY ->
+            ConnectIntent.Gateway(
+                gatewayName = gatewayName!!,
+                serverId = serverId
+            )
+
         ConnectIntentType.SPECIFIC_SERVER ->
             ConnectIntent.Server(
                 serverId = requireNotNull(serverId),
@@ -85,6 +93,7 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 exitCountry = country.toDataString(),
                 entryCountry = null,
                 city = null,
+                gatewayName = null,
                 serverId = null,
                 features = features
             )
@@ -94,6 +103,7 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 exitCountry = country.toDataString(),
                 entryCountry = null,
                 city = cityEn,
+                gatewayName = null,
                 serverId = null,
                 features = features
             )
@@ -103,7 +113,18 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 exitCountry = exitCountry.toDataString(),
                 entryCountry = entryCountry.toDataString(),
                 city = null,
+                gatewayName = null,
                 serverId = null,
+                features = features
+            )
+        is ConnectIntent.Gateway ->
+            ConnectIntentData(
+                connectIntentType = ConnectIntentType.GATEWAY,
+                exitCountry = null,
+                entryCountry = null,
+                city = null,
+                gatewayName = gatewayName,
+                serverId = serverId,
                 features = features
             )
         is ConnectIntent.Server ->
@@ -112,6 +133,7 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 exitCountry = null,
                 entryCountry = null,
                 city = null,
+                gatewayName = null,
                 serverId = serverId,
                 features = features
             )
@@ -124,6 +146,7 @@ fun AnyConnectIntent.toData() = when (this) {
         entryCountry = null,
         city = null,
         serverId = serverId,
+        gatewayName = null,
         features = emptySet()
     )
     is ConnectIntent -> this.toData()

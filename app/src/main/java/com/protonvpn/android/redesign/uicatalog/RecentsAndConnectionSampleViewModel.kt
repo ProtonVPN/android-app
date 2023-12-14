@@ -31,6 +31,7 @@ import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -57,9 +58,7 @@ class RecentsAndConnectionSampleViewModel @Inject constructor(
         VpnConnectionCardViewState(
             R.string.connection_card_label_recommended,
             ConnectIntentViewState(
-                CountryId.fastest,
-                null,
-                false,
+                ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
                 null,
                 emptySet()
             ),

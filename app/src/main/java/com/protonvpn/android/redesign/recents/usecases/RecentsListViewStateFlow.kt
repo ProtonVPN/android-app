@@ -25,7 +25,6 @@ import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
@@ -163,7 +162,7 @@ class RecentsListViewStateFlow @Inject constructor(
                 if (!isSecureCore || vpnUser?.isFreeUser != true) RecentAvailability.ONLINE
                 else RecentAvailability.UNAVAILABLE_PLAN
             },
-            onFastestInCountry = { country, _ -> country.serverList.getAvailability(vpnUser, protocol) },
+            onFastestInGroup = { serverGroup, _ -> serverGroup.serverList.getAvailability(vpnUser, protocol) },
             onFastestInCity = { _, servers -> servers.getAvailability(vpnUser, protocol) },
             onServer = { server -> listOf(server).getAvailability(vpnUser, protocol) },
             fallbackResult = RecentAvailability.UNAVAILABLE_PLAN

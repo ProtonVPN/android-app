@@ -178,7 +178,7 @@ class VpnConnectionErrorHandler @Inject constructor(
     }
 
     enum class CompatibilityAspect {
-        Features, Tier, City, Country, SecureCore
+        Features, Tier, Gateway, City, Country, SecureCore
     }
 
     private val smartReconnectEnabled get() = appConfig.getFeatureFlags().vpnAccelerator
@@ -258,7 +258,9 @@ class VpnConnectionErrorHandler @Inject constructor(
         }
 
         val expectedProtocolConnection = pingResult.getExpectedProtocolConnection(settings.protocol)
-        val orgDirectServer = (orgIntent as? ConnectIntent.Server)?.serverId?.let { serverManager.getServerById(it) }
+        val orgDirectServerId =
+            (orgIntent as? ConnectIntent.Server)?.serverId ?: (orgIntent as? ConnectIntent.Gateway)?.serverId
+        val orgDirectServer = orgDirectServerId?.let { serverManager.getServerById(it) }
         val score = getServerScore(pingResult.physicalServer.server, orgIntent, orgDirectServer, vpnUser)
         val switchedSecureCore = orgIntent.isSecureCore() && !hasCompatibility(score, CompatibilityAspect.SecureCore)
         val isCompatible = isCompatibleServer(score, pingResult.physicalServer, orgPhysicalServer) &&
@@ -284,6 +286,7 @@ class VpnConnectionErrorHandler @Inject constructor(
         score and (1 shl aspect.ordinal) != 0
 
     private fun isCompatibleServer(score: Int, physicalServer: PhysicalServer, orgPhysicalServer: PhysicalServer?) =
+        hasCompatibility(score, CompatibilityAspect.Gateway) ||
         hasCompatibility(score, CompatibilityAspect.Country) &&
         hasCompatibility(score, CompatibilityAspect.Features) &&
         hasCompatibility(score, CompatibilityAspect.SecureCore) &&
@@ -312,9 +315,8 @@ class VpnConnectionErrorHandler @Inject constructor(
         if (orgPhysicalServer != null && includeOrgServer)
             candidateList += orgPhysicalServer
 
-        val orgIntentServer = (orgIntent as? ConnectIntent.Server)?.let { serverManager.getServerById(it.serverId) }
         val secureCoreExpected = orgIntent.isSecureCore()
-        val gatewayName = (orgPhysicalServer?.server ?: orgIntentServer)?.gatewayName
+        val gatewayName = (orgIntent as? ConnectIntent.Gateway)?.gatewayName
         val onlineServers =
             serverManager.getOnlineAccessibleServers(secureCoreExpected, gatewayName, vpnUser, protocol)
         val orgIsTor = orgPhysicalServer?.server?.isTor == true
@@ -386,6 +388,11 @@ class VpnConnectionErrorHandler @Inject constructor(
             !server.city.isNullOrEmpty() && cityEn == server.city
         }
 
+    fun getGatewayScore(gatewayName: String, server: Server): Int =
+        scoreForCondition(1 shl CompatibilityAspect.Gateway.ordinal) {
+            server.gatewayName == gatewayName
+        }
+
     private fun getServerScore(
         server: Server,
         orgIntent: AnyConnectIntent,
@@ -403,6 +410,14 @@ class VpnConnectionErrorHandler @Inject constructor(
             }
             is ConnectIntent.SecureCore -> {
                 score += getCountryScore(orgIntent.exitCountry, server)
+            }
+            is ConnectIntent.Gateway -> {
+                // getOnlineAccessibleServers always chooses servers from the same gateway so it's always a match.
+                score += getGatewayScore(orgIntent.gatewayName, server)
+                if (orgDirectServer != null) {
+                    score += getCountryScore(CountryId(orgDirectServer.exitCountry), server)
+                    score += getCityScore(orgDirectServer.city, server)
+                }
             }
             is ConnectIntent.Server -> {
                 if (orgDirectServer != null) {

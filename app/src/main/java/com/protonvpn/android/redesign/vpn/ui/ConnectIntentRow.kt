@@ -54,15 +54,21 @@ import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.presentation.utils.currentLocale
 import java.util.EnumSet
 
+sealed interface ConnectIntentPrimaryLabel {
+    data class Country(val exitCountry: CountryId, val entryCountry: CountryId?) : ConnectIntentPrimaryLabel
+
+    data class Gateway(val gatewayName: String, val exitCountry: CountryId?) : ConnectIntentPrimaryLabel
+}
+
 sealed interface ConnectIntentSecondaryLabel {
-    data class Country(val country: CountryId) : ConnectIntentSecondaryLabel
+    data class Country(val country: CountryId, val serverNumberLabel: String? = null) : ConnectIntentSecondaryLabel
     data class SecureCore(val exit: CountryId?, val entry: CountryId) : ConnectIntentSecondaryLabel
     data class RawText(val text: String) : ConnectIntentSecondaryLabel
 }
 
 @Composable
 fun ConnectIntentLabels(
-    exitCountry: CountryId,
+    primaryLabel: ConnectIntentPrimaryLabel,
     secondaryLabel: ConnectIntentSecondaryLabel?,
     serverFeatures: Set<ServerFeature>,
     isConnected: Boolean,
@@ -75,7 +81,7 @@ fun ConnectIntentLabels(
     ) {
         Row {
             Text(
-                exitCountry.label(),
+                primaryLabel.label(),
                 style = labelStyle,
                 modifier = Modifier.testTag("primaryLabel")
             )
@@ -133,9 +139,18 @@ private fun ServerDetailsRow(
 }
 
 @Composable
+private fun ConnectIntentPrimaryLabel.label(): String = when (this) {
+    is ConnectIntentPrimaryLabel.Country -> exitCountry.label()
+    is ConnectIntentPrimaryLabel.Gateway -> gatewayName
+}
+
+@Composable
 private fun ConnectIntentSecondaryLabel.label() = when (this) {
     is ConnectIntentSecondaryLabel.RawText -> text
-    is ConnectIntentSecondaryLabel.Country -> country.label()
+    is ConnectIntentSecondaryLabel.Country -> {
+        val suffix = serverNumberLabel?.let { " $it" } ?: ""
+        country.label() + suffix
+    }
     is ConnectIntentSecondaryLabel.SecureCore -> {
         if (exit != null) {
             viaCountry(exit, entry)
@@ -186,13 +201,29 @@ private fun SeparatorBullet(
 
 @Preview
 @Composable
-private fun ConnectIntentRowPreview() {
+private fun ConnectIntentRowPreviewCountry() {
     VpnTheme {
         Row {
             ConnectIntentLabels(
-                exitCountry = CountryId.fastest,
+                primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
                 secondaryLabel = ConnectIntentSecondaryLabel.RawText("Lithuania"),
-                serverFeatures = EnumSet.of(ServerFeature.Tor), isConnected = true
+                serverFeatures = EnumSet.of(ServerFeature.Tor),
+                isConnected = true
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun ConnectIntentRowPreviewGateway() {
+    VpnTheme {
+        Row {
+            ConnectIntentLabels(
+                primaryLabel = ConnectIntentPrimaryLabel.Gateway(gatewayName = "Dev VPN", null),
+                secondaryLabel = null,
+                serverFeatures = EnumSet.of(ServerFeature.Tor),
+                isConnected = true
             )
         }
     }

@@ -58,6 +58,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import me.proton.core.compose.theme.ProtonTheme
@@ -126,9 +127,9 @@ fun VpnConnectionCard(
                             .semantics(mergeDescendants = true) {},
                     ) {
                         with(targetState) {
-                            Flag(exitCountry, entryCountry, isSecureCore)
+                            FlagOrGatewayIndicator(primaryLabel)
                             ConnectIntentLabels(
-                                exitCountry,
+                                primaryLabel,
                                 secondaryLabel,
                                 serverFeatures,
                                 isConnected = false,

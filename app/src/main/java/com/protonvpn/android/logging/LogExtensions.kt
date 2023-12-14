@@ -64,6 +64,8 @@ fun AnyConnectIntent.toLog(): String {
         is ConnectIntent.FastestInCountry -> "Fastest in country: ${country.toLog()}"
         is ConnectIntent.FastestInCity -> "Fastest in city: ${cityEn} (${country.toLog()})"
         is ConnectIntent.SecureCore -> "Secure Core: ${exitCountry.countryCode} via ${entryCountry.countryCode}"
+        is ConnectIntent.Gateway ->
+            "Gateway: $gatewayName, " + if (serverId == null) "fastest server" else "server $serverId"
         is ConnectIntent.Server -> "Direct server: $serverId"
         is AnyConnectIntent.GuestHole -> "Guest hole: $serverId"
     }
