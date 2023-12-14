@@ -93,7 +93,7 @@ class ServerGroupServerViewHolder(
                 composeViewFlag.setContent {
                     Flag(
                         exitCountry = CountryId(server.entryCountry),
-                        isSecureCore = false,
+                        entryCountry = CountryId.fastest,
                         modifier = Modifier.size(24.dp, 16.dp)
                     )
                 }
@@ -123,7 +123,9 @@ class ServerGroupServerViewHolder(
                 CountryId(server.exitCountry),
                 CountryId(server.entryCountry)
             )
-            fastest && !server.isGatewayServer-> ConnectIntent.FastestInCountry(CountryId(server.exitCountry), emptySet())
+            fastest && server.isGatewayServer -> ConnectIntent.Gateway(server.gatewayName!!, serverId = null)
+            fastest -> ConnectIntent.FastestInCountry(CountryId(server.exitCountry), emptySet())
+            server.isGatewayServer -> ConnectIntent.Gateway(server.gatewayName!!, server.serverId)
             else -> ConnectIntent.Server(server.serverId, emptySet())
         }
     }

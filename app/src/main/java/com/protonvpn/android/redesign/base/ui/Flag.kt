@@ -52,10 +52,11 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
@@ -63,13 +64,21 @@ import me.proton.core.compose.theme.ProtonTheme
 private object FlagShapes {
     val regular = RoundedCornerShape(size = 4.dp)
     val small = RoundedCornerShape(size = 2.5.dp)
+    val sharp = RoundedCornerShape(0)
+}
+
+private object FlagDefaults {
+    val twoFlagSize = DpSize(30.dp, 30.dp)
+    val twoFlagTop = 3.dp
+    val twoFlagMainSize = DpSize(24.dp, 16.dp)
+    val companionFlagSize = DpSize(18.dp, 12.dp)
+    val companionFlagTop = 15.dp
 }
 
 @Composable
 fun Flag(
     exitCountry: CountryId,
     entryCountry: CountryId? = null,
-    isSecureCore: Boolean = entryCountry != null,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -79,11 +88,20 @@ fun Flag(
     Flag(
         exitCountry.flagResource(context),
         entryCountryFlag,
-        isSecureCore,
+        isSecureCore = entryCountry != null,
         isFastest = exitCountry.isFastest,
         modifier = modifier
     )
 }
+
+@Composable
+fun GatewayIndicator(
+    country: CountryId?,
+    modifier: Modifier = Modifier
+) {
+    GatewayIndicator(countryFlag = country?.flagResource(LocalContext.current), modifier)
+}
+
 
 @Composable
 private fun Flag(
@@ -94,7 +112,7 @@ private fun Flag(
     modifier: Modifier = Modifier
 ) {
     if (isSecureCore && entryCountryFlag != null) {
-        Box(modifier = modifier.size(30.dp, 30.dp)) {
+        Box(modifier = modifier.size(FlagDefaults.twoFlagSize)) {
             Image(
                 painterResource(id = entryCountryFlag),
                 contentDescription = null,
@@ -105,7 +123,7 @@ private fun Flag(
                     .size(18.dp, 12.dp)
                     .clip(FlagShapes.small)
                     .drawWithCache {
-                        val shadowPath = createScFlagShadow(Offset(4.dp.toPx(), -6.dp.toPx(),), 6.dp.toPx())
+                        val shadowPath = createScFlagShadow(Offset(4.dp.toPx(), -6.dp.toPx()), bottomRadius = 6.dp.toPx())
                         onDrawWithContent {
                             drawContent()
                             drawScFlagShadow(shadowPath, Color(0x66000000))
@@ -118,8 +136,8 @@ private fun Flag(
                 alignment = Alignment.Center,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .padding(top = 3.dp, start = 6.dp)
-                    .size(24.dp, 16.dp)
+                    .padding(top = FlagDefaults.twoFlagTop, start = 6.dp)
+                    .size(FlagDefaults.twoFlagMainSize)
                     .clip(FlagShapes.regular)
             )
         }
@@ -152,12 +170,59 @@ private fun Flag(
     }
 }
 
-private fun CacheDrawScope.createScFlagShadow(offsetTopLeft: Offset, radius: Float) =
+@Composable
+private fun GatewayIndicator(
+    countryFlag: Int?,
+    modifier: Modifier = Modifier
+) {
+    if (countryFlag == null) {
+        Image(
+            painterResource(id = R.drawable.ic_gateway_flag),
+            contentDescription = null,
+            modifier = modifier
+        )
+    } else {
+        Box(modifier = modifier.size(FlagDefaults.twoFlagSize)) {
+            Image(
+                painterResource(id = R.drawable.ic_gateway_flag),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(top = FlagDefaults.twoFlagTop)
+                    .size(FlagDefaults.twoFlagMainSize)
+                    .clip(FlagShapes.sharp) // Clipping needed only for the shadow.
+                    .drawWithCache {
+                        val shadowPath = createScFlagShadow(Offset(10.dp.toPx(), 10.dp.toPx(),), topRadius = 6.dp.toPx())
+                        onDrawWithContent {
+                            drawContent()
+                            drawScFlagShadow(shadowPath, Color(0x66000000))
+                        }
+                    }
+            )
+            Image(
+                painterResource(id = countryFlag),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .padding(top = FlagDefaults.companionFlagTop, start = 12.dp)
+                    .size(FlagDefaults.companionFlagSize)
+                    .clip(FlagShapes.small)
+            )
+        }
+    }
+}
+
+private fun CacheDrawScope.createScFlagShadow(
+    offsetTopLeft: Offset,
+    topRadius: Float = 0f,
+    bottomRadius: Float = 0f
+) =
     Path().apply {
         addRoundRect(
             RoundRect(
                 rect = Rect(offsetTopLeft, size),
-                bottomLeft = CornerRadius(radius)
+                topLeft = if (topRadius > 0f) CornerRadius(topRadius) else CornerRadius.Zero,
+                bottomLeft = if (bottomRadius > 0f) CornerRadius(bottomRadius) else CornerRadius.Zero
             )
         )
     }
@@ -196,7 +261,7 @@ private fun DrawScope.drawScUnderlineArc(offset: Offset, path: Path, color: Colo
 
 @Composable
 @DrawableRes
-private fun CountryId.flagResource(context: Context): Int =
+fun CountryId.flagResource(context: Context): Int =
     if (isFastest || LocalInspectionMode.current) {
         R.drawable.flag_fastest
     } else {
@@ -205,19 +270,19 @@ private fun CountryId.flagResource(context: Context): Int =
 
 @Preview
 @Composable
-private fun FlagPreviewRtlLight() {
-    VpnTheme {
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            FlagsPreviewHelper()
-        }
+private fun FlagPreviewDark() {
+    VpnTheme(isDark = true) {
+        FlagsPreviewHelper()
     }
 }
 
 @Preview
 @Composable
-private fun FlagPreviewDark() {
-    VpnTheme(isDark = true) {
-        FlagsPreviewHelper()
+private fun FlagPreviewRtlLight() {
+    VpnTheme {
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+            FlagsPreviewHelper()
+        }
     }
 }
 
@@ -248,6 +313,8 @@ private fun FlagsPreviewHelper() {
                     isFastest = false,
                     modifier = modifier
                 )
+                GatewayIndicator(countryFlag = null, modifier = modifier)
+                GatewayIndicator(countryFlag = R.drawable.flag_us, modifier = modifier)
             }
         }
     }

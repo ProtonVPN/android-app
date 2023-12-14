@@ -69,8 +69,10 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -78,7 +80,7 @@ import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.overlineStrongUnspecified
 
-enum class RecentAvailability() {
+enum class RecentAvailability {
     // Order is significant, see RecentsListViewStateFlow.getAvailability.
     UNAVAILABLE_PLAN, UNAVAILABLE_PROTOCOL, AVAILABLE_OFFLINE, ONLINE
 }
@@ -163,12 +165,10 @@ private fun RecentRowContent(
                         .padding(end = 8.dp)
                         .size(16.dp)
                 )
-                with(item.connectIntent) {
-                    Flag(exitCountry, entryCountry, isSecureCore)
-                }
+                FlagOrGatewayIndicator(item.connectIntent.primaryLabel)
             }
             ConnectIntentLabels(
-                item.connectIntent.exitCountry,
+                item.connectIntent.primaryLabel,
                 item.connectIntent.secondaryLabel,
                 item.connectIntent.serverFeatures,
                 item.isConnected,
@@ -356,9 +356,7 @@ private fun PreviewRecent() {
             item = RecentItemViewState(
                 id = 0,
                 ConnectIntentViewState(
-                    exitCountry = CountryId("ch"),
-                    entryCountry = CountryId.sweden,
-                    isSecureCore = true,
+                    primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.switzerland, CountryId.sweden),
                     secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(null, CountryId.sweden),
                     serverFeatures = emptySet()
                 ),

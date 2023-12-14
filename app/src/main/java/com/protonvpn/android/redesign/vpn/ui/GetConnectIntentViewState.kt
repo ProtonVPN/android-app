@@ -31,7 +31,7 @@ import javax.inject.Inject
 @Reusable
 class GetConnectIntentViewState @Inject constructor(
     private val serverManager: ServerManager,
-    private val translator: Translator
+    private val translator: Translator,
 ) {
 
     operator fun invoke(connectIntent: ConnectIntent, connectedServer: Server? = null): ConnectIntentViewState =
@@ -39,26 +39,29 @@ class GetConnectIntentViewState @Inject constructor(
             is ConnectIntent.FastestInCountry -> fastestInCountry(connectIntent, connectedServer)
             is ConnectIntent.FastestInCity -> fastestInCity(connectIntent, connectedServer)
             is ConnectIntent.SecureCore -> secureCore(connectIntent, connectedServer)
+            is ConnectIntent.Gateway -> gateway(connectIntent, connectedServer)
             is ConnectIntent.Server -> specificServer(connectIntent, connectedServer)
         }
 
     private fun fastestInCountry(connectIntent: ConnectIntent.FastestInCountry, connectedServer: Server? = null) =
         ConnectIntentViewState(
-            exitCountry = fastestOrConnectedOrIntent(connectIntent.country, connectedServer, Server::exitCountry),
-            entryCountry = null,
-            isSecureCore = false,
+            primaryLabel = ConnectIntentPrimaryLabel.Country(
+                exitCountry = fastestOrConnectedOrIntent(connectIntent.country, connectedServer, Server::exitCountry),
+                entryCountry = null,
+            ),
             secondaryLabel =
                 connectedCountryIfFastest(connectIntent.country, connectedServer, Server::entryCountry)?.let {
-                    ConnectIntentSecondaryLabel.Country(it)
+                    ConnectIntentSecondaryLabel.Country(it, null)
                 },
             serverFeatures = effectiveServerFeatures(connectIntent, connectedServer)
         )
 
     private fun fastestInCity(connectIntent: ConnectIntent.FastestInCity, connectedServer: Server? = null) =
         ConnectIntentViewState(
-            exitCountry = connectedServer?.entryCountry?.let { CountryId(it) } ?: connectIntent.country,
-            entryCountry = null,
-            isSecureCore = false,
+            primaryLabel = ConnectIntentPrimaryLabel.Country(
+                exitCountry = connectedServer?.entryCountry?.let { CountryId(it) } ?: connectIntent.country,
+                entryCountry = null,
+            ),
             secondaryLabel = ConnectIntentSecondaryLabel.RawText(
                 connectedServer?.displayCity ?: translator.getCity(connectIntent.cityEn)
             ),
@@ -80,15 +83,31 @@ class GetConnectIntentViewState @Inject constructor(
             null
         }
         return ConnectIntentViewState(
-            exitCountry = fastestOrConnectedOrIntent(connectIntent.exitCountry, connectedServer, Server::exitCountry),
-            entryCountry = fastestOrConnectedOrIntent(
-                connectIntent.entryCountry,
-                connectedServer,
-                Server::entryCountry
+            primaryLabel = ConnectIntentPrimaryLabel.Country(
+                exitCountry =
+                    fastestOrConnectedOrIntent(connectIntent.exitCountry, connectedServer, Server::exitCountry),
+                entryCountry = fastestOrConnectedOrIntent(
+                    connectIntent.entryCountry,
+                    connectedServer,
+                    Server::entryCountry
+                ),
             ),
-            isSecureCore = true,
             secondaryLabel = secondaryLabel,
             serverFeatures = effectiveServerFeatures(connectIntent, connectedServer)
+        )
+    }
+
+    private fun gateway(connectIntent: ConnectIntent.Gateway, connectedServer: Server?): ConnectIntentViewState {
+        val specificServer = connectIntent.serverId?.let { connectedServer ?: serverManager.getServerById(it) }
+        val secondaryLabel = specificServer?.let { gatewayServerSecondaryLabel(it) }
+        val exitCountry = specificServer?.let { CountryId(it.exitCountry) }
+        return ConnectIntentViewState(
+            primaryLabel = ConnectIntentPrimaryLabel.Gateway(
+                connectIntent.gatewayName,
+                exitCountry
+            ),
+            secondaryLabel = secondaryLabel,
+            serverFeatures = emptySet()
         )
     }
 
@@ -99,9 +118,10 @@ class GetConnectIntentViewState @Inject constructor(
         val server = connectedServer ?: serverManager.getServerById(connectIntent.serverId)
         return if (server != null) {
             ConnectIntentViewState(
-                exitCountry = CountryId(server.exitCountry),
-                entryCountry = CountryId(server.entryCountry).takeIf { server.isSecureCoreServer },
-                isSecureCore = server.isSecureCoreServer,
+                primaryLabel = ConnectIntentPrimaryLabel.Country(
+                    exitCountry = CountryId(server.exitCountry),
+                    entryCountry = CountryId(server.entryCountry).takeIf { server.isSecureCoreServer },
+                ),
                 secondaryLabel = ConnectIntentSecondaryLabel.RawText(
                     serverSecondaryLabel(server)
                 ),
@@ -109,7 +129,7 @@ class GetConnectIntentViewState @Inject constructor(
             )
         } else {
             // TODO: how do we handle this case?
-            ConnectIntentViewState(CountryId.fastest, null, false, null, emptySet())
+            ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.fastest, null), null, emptySet())
         }
     }
 
@@ -159,4 +179,7 @@ class GetConnectIntentViewState @Inject constructor(
             ).joinToString(" ")
         }
     }
+
+    private fun gatewayServerSecondaryLabel(server: Server): ConnectIntentSecondaryLabel =
+        ConnectIntentSecondaryLabel.Country(CountryId(server.exitCountry), server.serverName.dropWhile { it != '#' })
 }

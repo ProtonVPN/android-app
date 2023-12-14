@@ -31,7 +31,7 @@
     <dimen name="screen_padding_horizontal">16dp</dimen>
     <dimen name="server_load_dot_size">8dp</dimen>
     <dimen name="server_list_flag_size">24dp</dimen>
-    <dimen name="server_list_flag_margin">8dp</dimen>
+    <dimen name="server_list_flag_margin">12dp</dimen>
     <item name="inactive_view_alpha" format="float" type="dimen">0.4</item>
     <item name="inactive_flag_alpha" format="float" type="dimen">0.5</item>
 

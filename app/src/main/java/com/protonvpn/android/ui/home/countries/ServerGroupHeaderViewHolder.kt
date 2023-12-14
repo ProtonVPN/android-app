@@ -87,22 +87,14 @@ abstract class ServerGroupHeaderViewHolder(
             composeViewFlag.setContent {
                 if (serverGroupModel.isGatewayGroup()) {
                     Image(
-                        painterResource(id = R.drawable.ic_proton_servers),
+                        painterResource(id = R.drawable.ic_gateway_flag),
                         contentDescription = null,
-                        alignment = Alignment.Center,
-                        contentScale = ContentScale.Inside,
-                        modifier = Modifier
-                            .size(
-                                30.dp,
-                                30.dp
-                            )
                     )
                 } else {
                     serverGroupModel.countryFlag?.let {
                         Flag(
                             exitCountry = CountryId(it),
-                            isSecureCore = serverGroupModel.secureCore,
-                            modifier = Modifier.padding(8.dp)
+                            entryCountry = CountryId.fastest.takeIf { serverGroupModel.secureCore },
                         )
                     }
                 }

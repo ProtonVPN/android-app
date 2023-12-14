@@ -952,6 +952,8 @@
     <string name="message_server_in_maintenance">Server under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Server not available</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
+    <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
 
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Sign out</string>
@@ -1136,5 +1138,3 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sec</string>
 </resources>
-
-

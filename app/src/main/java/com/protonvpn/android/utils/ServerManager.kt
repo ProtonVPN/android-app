@@ -34,6 +34,7 @@ import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.LoadUpdate
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
@@ -379,7 +380,7 @@ class ServerManager @Inject constructor(
         forConnectIntent(
             connectIntent,
             onFastest = { isSecureCore -> getBestScoreServer(isSecureCore, vpnUser) },
-            onFastestInCountry = { vpnCountry, isSecureCore -> getBestScoreServer(vpnCountry.serverList, vpnUser) },
+            onFastestInGroup = { serverGroup, isSecureCore -> getBestScoreServer(serverGroup.serverList, vpnUser) },
             onFastestInCity = { vpnCountry, servers -> getBestScoreServer(servers, vpnUser) },
             onServer = { server -> server },
             fallbackResult = null
@@ -396,7 +397,7 @@ class ServerManager @Inject constructor(
     fun <T> forConnectIntent(
         connectIntent: AnyConnectIntent,
         onFastest: (isSecureCore: Boolean) -> T,
-        onFastestInCountry: (VpnCountry, isSecureCore: Boolean) -> T,
+        onFastestInGroup: (ServerGroup, isSecureCore: Boolean) -> T,
         onFastestInCity: (VpnCountry, List<Server>) -> T,
         onServer: (Server) -> T,
         fallbackResult: T
@@ -408,7 +409,7 @@ class ServerManager @Inject constructor(
                 getVpnExitCountry(
                     connectIntent.country.countryCode,
                     false
-                )?.let { onFastestInCountry(it, false) } ?: fallbackResult
+                )?.let { onFastestInGroup(it, false) } ?: fallbackResult
             }
         is ConnectIntent.FastestInCity -> {
             getVpnExitCountry(connectIntent.country.countryCode, false)?.let { country ->
@@ -421,12 +422,21 @@ class ServerManager @Inject constructor(
             } else {
                 val exitCountry = getVpnExitCountry(connectIntent.exitCountry.countryCode, true)
                 if (connectIntent.entryCountry.isFastest) {
-                    exitCountry?.let { onFastestInCountry(it, true) } ?: fallbackResult
+                    exitCountry?.let { onFastestInGroup(it, true) } ?: fallbackResult
                 } else {
                     exitCountry?.serverList?.find {
                         it.entryCountry == connectIntent.entryCountry.countryCode
                     }?.let { onServer(it) } ?: fallbackResult
                 }
+            }
+        is ConnectIntent.Gateway ->
+            if (connectIntent.serverId != null) {
+                getServerById(connectIntent.serverId)?.let { onServer(it) } ?: fallbackResult
+            } else {
+                getGateways()
+                    .find { it.name() == connectIntent.gatewayName }
+                    ?.let { onFastestInGroup(it, false) }
+                    ?: fallbackResult
             }
         is ConnectIntent.Server -> getServerById(connectIntent.serverId)?.let { onServer(it) } ?: fallbackResult
         is AnyConnectIntent.GuestHole -> getServerById(connectIntent.serverId)?.let { onServer(it) } ?: fallbackResult

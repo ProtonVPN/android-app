@@ -27,6 +27,7 @@ import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
@@ -75,8 +76,8 @@ class RecentsListUiTests : FusionComposeTest() {
 
     companion object {
         val ConnectIntentViewFastest =
-            ConnectIntentViewState(CountryId.fastest, null, false, null, emptySet())
+            ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.fastest, null), null, emptySet())
         val ConnectIntentViewSwitzerland =
-            ConnectIntentViewState(CountryId.switzerland, null, false, null, emptySet())
+            ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.switzerland, null), null, emptySet())
     }
 }

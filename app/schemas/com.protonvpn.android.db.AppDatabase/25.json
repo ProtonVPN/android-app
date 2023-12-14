@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 25,
-    "identityHash": "3e6deee507bd1c5c7a4ff538a861d1bc",
+    "identityHash": "8d1b2c32414695810cfdc0381b60e7de",
     "entities": [
       {
         "tableName": "AccountEntity",
@@ -1931,7 +1931,7 @@
       },
       {
         "tableName": "recents",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` TEXT NOT NULL, `isPinned` INTEGER NOT NULL, `lastConnectionAttemptTimestamp` INTEGER NOT NULL, `lastPinnedTimestamp` INTEGER NOT NULL, `connectIntentType` TEXT NOT NULL, `exitCountry` TEXT, `entryCountry` TEXT, `city` TEXT, `serverId` TEXT, `features` TEXT NOT NULL, FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` TEXT NOT NULL, `isPinned` INTEGER NOT NULL, `lastConnectionAttemptTimestamp` INTEGER NOT NULL, `lastPinnedTimestamp` INTEGER NOT NULL, `connectIntentType` TEXT NOT NULL, `exitCountry` TEXT, `entryCountry` TEXT, `city` TEXT, `gatewayName` TEXT, `serverId` TEXT, `features` TEXT NOT NULL, FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -1984,6 +1984,12 @@
           {
             "fieldPath": "connectIntentData.city",
             "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "connectIntentData.gatewayName",
+            "columnName": "gatewayName",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -2202,7 +2208,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3e6deee507bd1c5c7a4ff538a861d1bc')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8d1b2c32414695810cfdc0381b60e7de')"
     ]
   }
 }

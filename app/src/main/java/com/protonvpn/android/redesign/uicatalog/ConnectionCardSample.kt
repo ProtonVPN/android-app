@@ -37,6 +37,7 @@ import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import kotlinx.coroutines.launch
 import me.proton.core.compose.component.VerticalSpacer
 import java.util.EnumSet
@@ -65,9 +66,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                 VpnConnectionCardViewState(
                     cardLabelRes = R.string.connection_card_label_last_connected,
                     ConnectIntentViewState(
-                        exitCountry = CountryId.fastest,
-                        entryCountry = null,
-                        isSecureCore = false,
+                        primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
                         secondaryLabel = null,
                         serverFeatures = emptySet()
                     ),
@@ -84,9 +83,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                 VpnConnectionCardViewState(
                     cardLabelRes = R.string.connection_card_label_connected,
                     ConnectIntentViewState(
-                        exitCountry = CountryId.fastest,
-                        entryCountry = null,
-                        isSecureCore = false,
+                        primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
                         secondaryLabel = ConnectIntentSecondaryLabel.Country(CountryId("pl")),
                         serverFeatures = emptySet()
                     ),
@@ -103,9 +100,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                 VpnConnectionCardViewState(
                     cardLabelRes = R.string.connection_card_label_connected,
                     ConnectIntentViewState(
-                        exitCountry = CountryId.fastest,
-                        entryCountry = null,
-                        isSecureCore = true,
+                        primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
                         secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(
                             exit = CountryId("pl"),
                             entry = CountryId("se")
@@ -125,9 +120,10 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                 VpnConnectionCardViewState(
                     cardLabelRes = R.string.connection_card_label_connected,
                     ConnectIntentViewState(
-                        exitCountry = CountryId("lt"),
-                        entryCountry = CountryId("ch"),
-                        isSecureCore = true,
+                        primaryLabel = ConnectIntentPrimaryLabel.Country(
+                            exitCountry = CountryId("lt"),
+                            entryCountry = CountryId("ch"),
+                        ),
                         secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(exit = null, entry = CountryId("ch")),
                         serverFeatures = EnumSet.of(ServerFeature.P2P)
                     ),

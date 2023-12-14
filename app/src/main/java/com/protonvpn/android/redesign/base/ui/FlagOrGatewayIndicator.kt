@@ -17,12 +17,21 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.vpn.ui
+package com.protonvpn.android.redesign.base.ui
 
-import com.protonvpn.android.redesign.vpn.ServerFeature
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 
-data class ConnectIntentViewState(
-    val primaryLabel: ConnectIntentPrimaryLabel,
-    val secondaryLabel: ConnectIntentSecondaryLabel?,
-    val serverFeatures: Set<ServerFeature>,
-)
+@Composable
+fun FlagOrGatewayIndicator(
+    label: ConnectIntentPrimaryLabel,
+    modifier: Modifier = Modifier
+) {
+    when(label) {
+        is ConnectIntentPrimaryLabel.Country ->
+            Flag(label.exitCountry, label.entryCountry, modifier = modifier)
+        is ConnectIntentPrimaryLabel.Gateway ->
+            GatewayIndicator(label.exitCountry, modifier = modifier)
+    }
+}

@@ -582,12 +582,16 @@ class VpnConnectionErrorHandlerTests {
 
     @Test
     fun testSwitchingFromGatewayServerDoesntFallBackToRegularServer() = testScope.runTest {
-        val gatewayServer =
-            createServer("gateway", serverName = "Gateway#1", features = SERVER_FEATURE_RESTRICTED)
+        val gatewayServer = createServer(
+            "gateway",
+            serverName = "Gateway#1",
+            gatewayName = "GatewayName",
+            features = SERVER_FEATURE_RESTRICTED
+        )
         val servers = listOf(MockedServers.serverList.first(), gatewayServer)
         prepareServerManager(servers)
         preparePings(failServerName = gatewayServer.serverName)
-        val connectIntent = ConnectIntent.Server(gatewayServer.serverId, emptySet())
+        val connectIntent = ConnectIntent.Gateway("GatewayName", null)
         val connectionParams = ConnectionParams(
             connectIntent,
             gatewayServer,

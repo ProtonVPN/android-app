@@ -210,6 +210,7 @@ private fun HomeDialog(dialog: DialogState?, onDismiss: () -> Unit) {
             DialogState.CountryInMaintenance -> R.string.message_country_servers_in_maintenance
             DialogState.CityInMaintenance -> R.string.message_city_servers_in_maintenance
             DialogState.ServerInMaintenance -> R.string.message_server_in_maintenance
+            DialogState.GatewayInMaintenance -> R.string.message_gateway_in_maintenance
             DialogState.ServerNotAvailable -> R.string.message_server_not_available
         }
         ProtonAlert(

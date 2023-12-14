@@ -23,6 +23,7 @@ import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.home_screen.ui.ConnectionDetails
 import com.protonvpn.android.redesign.home_screen.ui.ConnectionDetailsViewModel
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.proton.test.fusion.Fusion.node
@@ -46,9 +47,10 @@ class ConnectionDetailsTests : FusionComposeTest() {
             sessionTimeSeconds = 5000
         ),
         connectIntentViewState = ConnectIntentViewState(
-            exitCountry = CountryId.sweden,
-            entryCountry = CountryId.iceland,
-            isSecureCore = true,
+            primaryLabel = ConnectIntentPrimaryLabel.Country(
+                exitCountry = CountryId.sweden,
+                entryCountry = CountryId.iceland,
+            ),
             secondaryLabel = null,
             serverFeatures = emptySet()
         ),

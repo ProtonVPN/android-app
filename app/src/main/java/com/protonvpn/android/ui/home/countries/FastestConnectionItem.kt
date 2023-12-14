@@ -52,8 +52,7 @@ class FastestConnectionItem(
                 val secureCore = viewModel.secureCore.collectAsStateWithLifecycle(initialValue = false).value
                 Flag(
                     exitCountry = CountryId.fastest,
-                    isSecureCore = secureCore,
-                    modifier = Modifier.padding(8.dp)
+                    entryCountry = CountryId.fastest.takeIf { secureCore },
                 )
             }
             textLabel.setText(item.name)
