@@ -140,7 +140,8 @@ class Telemetry(
             uploader.uploadEvents(toUpload)
         } else {
             // Remove once VPNAND-1221 is fixed.
-            Sentry.captureException(TelemetryError("No events to upload"))
+            // Disabled, see the Jira issue.
+            //Sentry.captureException(TelemetryError("No events to upload"))
             UploadResult.Success(pendingEvents.isNotEmpty())
         }
         return if (result is UploadResult.Success) {
