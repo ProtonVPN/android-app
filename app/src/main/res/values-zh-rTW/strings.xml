@@ -86,7 +86,7 @@
     <string name="drawerReportProblem">回報問題</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="accountDetails">帳號詳細資料</string>
-    <string name="accountSubscription">訂閲計劃</string>
+    <string name="accountSubscription">訂購授權</string>
     <string name="accountUser">使用者：</string>
     <string name="accountType">帳號類型 :</string>
     <string name="accountTier">現有訂購授權 :</string>
@@ -120,7 +120,7 @@
     <string name="use_coupon_title">使用優惠券</string>
     <string name="use_coupon_code_label">優惠券代碼</string>
     <string name="use_coupon_success">已成功使用優惠券</string>
-    <string name="use_coupon_success_no_upgrade_yet">已成功使用優惠券。您的訂閱將於數分鐘後升級。</string>
+    <string name="use_coupon_success_no_upgrade_yet">已成功使用優惠券。您的訂購授權將於數分鐘後升級。</string>
     <string name="restrictedMaintenanceTitle">維修中</string>
     <string name="restrictedMaintenanceDescription">你現在試著去連線的伺服器正在維修中。請試試其他伺服器。</string>
     <string name="errorUserDelinquent"><![CDATA[您的帳號目前有繳款單逾期未付。請到&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> 結清所有未付繳款單]]></string>
@@ -145,7 +145,7 @@
     <string name="listBasicServers">Basic 伺服器 (%1$d)</string>
     <string name="listPlusServers">Plus 伺服器 (%1$d)</string>
     <string name="insufficientPermissionsTitle">需要使用者動作</string>
-    <string name="insufficientPermissionsDetails">無法自動建立 VPN 連線。請先手動連線一次以授予權限。</string>
+    <string name="insufficientPermissionsDetails">無法自動創建 VPN 連線。請先手動連線一次以授予權限。</string>
     <string name="tabsCountries">國家</string>
     <string name="tabsMap">地圖</string>
     <string name="tabsProfiles">配置</string>
@@ -159,7 +159,7 @@
     <string name="error_auth_failed">使用者認證失敗。</string>
     <string name="error_assessment_failed">安全性評估失敗。</string>
     <string name="error_generic">連線時發生不明錯誤。</string>
-    <string name="error_generic_with_reason">Proton VPN 無法建立虛擬專屬網路。請過數秒後，再試一次。<br/><br/>詳細資訊： %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN 無法創建虛擬專屬網路。請過數秒後，再試一次。<br/><br/>詳細資訊： %1$s</string>
     <string name="reconnect">重新連線</string>
     <string name="reconnect_now">立即重新連線</string>
     <string name="try_reconnecting">嘗試重新連線</string>
@@ -229,7 +229,7 @@
     <string name="noVpnPermissionMainTitle">連線到 VPN 所需動作</string>
     <string name="noVpnPermissionMainMessage">若要連線到 Proton VPN，請採取以下步驟：</string>
     <string name="noVpnPermissionGrantPermissionTitle">授予 VPN 權限</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Android 需要您的權限以連線到 Proton VPN。當 Android 顯示「連線請求」視窗時，請輕觸「確定」以授予權限。</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android 需要您的權限以連線到 Proton VPN。當 Android 顯示「連線需求」視窗時，請輕觸「確定」以授予權限。</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">停用其他 VPN 程式的永久連線功能</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android 並不支援多重 VPN 應用程式。請停用 Proton VPN 以外任何 VPN 應用程式的「永久連線」設定。</string>
     <string name="noVpnPermissionProtonAppLabel">ProtonVpn 應用程式</string>
@@ -238,7 +238,7 @@
     <string name="noNotificationPermissionGrantTitle">不要漏掉</string>
     <string name="noNotificationPermissionGrantDescription">在連線狀態有變化時通知您</string>
     <string name="noNotificationPermissionGrantNowTitle">啟用通知</string>
-    <string name="error_prepare_vpn_description"><![CDATA[請停用 Android VPN 系統設定中其他 VPN 應用程式的「永久連線的 VPN」設定，以免干擾 Proton VPN 建立 VPN 連線。若出現要求 VPN 權限的對話方塊，請允許。其他 VPN 應用程式可能也需要移除以免衝突。之後，請再試一遍。<a href="%1$s">瞭解更多</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[請停用 Android VPN 系統設定中其他 VPN 應用程式的「永久連線的 VPN」設定，以免干擾 Proton VPN 創建 VPN 連線。若出現要求 VPN 權限的對話方塊，請允許。其他 VPN 應用程式可能也需要移除以免衝突。之後，請再試一遍。<a href="%1$s">瞭解更多</a>]]></string>
     <string name="error_prepare_vpn_settings">前往 Android VPN 設定</string>
     <string name="error_prepare_vpn_title">錯誤：VPN 權限出現問題</string>
     <string name="error_server_not_set">伺服器不再可用</string>
@@ -327,7 +327,7 @@
     <string name="settingsSendCrashReportsTitle">分享匿名故障報告</string>
     <string name="settingsSendCrashReportsDescription">故障報告協助我們修復臭蟲、偵測防火牆與避免 VPN 封鎖。</string>
     <string name="settingsTelemetryScreenTitle">使用統計資料</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[這些統計資料不包含您的 IP 地址，且其無法用於識別您的身份。我們永遠不會將它們與第三方分享。<a href="%1$s">取得更多資訊</a>]]></string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[這些統計資料不包含您的 IP 位址，且其無法用於識別您的身份。我們永遠不會將它們與第三方分享。<a href="%1$s">取得更多資訊</a>]]></string>
     <string name="netShieldEnabledWarning">請注意：攔截內容後，某些網站或會未能完全運作。</string>
     <string name="netShieldDescription">攔截廣告、追蹤和惡意軟體</string>
     <string name="netshield_settings_description"><![CDATA[保護您免受網站與應用程式中的廣告、惡意程式與追蹤器騷擾。若網站無法載入，請嘗試停用 NetShield。<a href="%1$s">取得更多資訊</a>。]]></string>
@@ -417,9 +417,9 @@
     <string name="settingsReconnectToApplySettingsDialogContent">新的設定將於下次連線時套用。</string>
     <string name="settingsReconnectToChangeDialogContent">這樣將會重啟您的連線。</string>
     <string name="reconnectToEnableNetshield">這樣將會重啟您的連線。\n\n請注意：當 NetShield 開啟時，或會導致某些網站未能載入。</string>
-    <string name="notification_subscription_expired_title">您的 Proton VPN 訂閱已逾期</string>
+    <string name="notification_subscription_expired_title">您的 Proton VPN 訂購授權已逾期</string>
     <string name="notification_subscription_expired_content">我們已將您的方案降級，但我們已將您重新連線至目前方案中可用的最快伺服器。</string>
-    <string name="notification_subscription_expired_no_reconnection_content">您的訂閱已降級。</string>
+    <string name="notification_subscription_expired_no_reconnection_content">您的訂購授權已降級。</string>
     <string name="notification_delinquent_title">您的 Proton VPN 帳號有未付繳款單</string>
     <string name="notification_delinquent_content">請花一點時間移駕更新您的繳款單資訊，以維持您的訂購授權有效狀態。</string>
     <string name="notification_max_sessions_title">您已到達您的裝置數目上限</string>
@@ -560,7 +560,7 @@
     <string name="onboarding_welcome_action">開始使用</string>
     <string name="onboarding_available_on_plus">適用於 Plus 方案</string>
     <string name="onboarding_telemetry_title">協助我們與審查對抗</string>
-    <string name="onboarding_connection_title">建立您的首次連線</string>
+    <string name="onboarding_connection_title">創建您的首次連線</string>
     <!-- Parameters:
          %1$s - replaced with "onboarding_connection_description_servers"
          %2$s - replaced with "onboarding_connection_description_countries"
@@ -568,7 +568,7 @@
          Example:
          Free subscription offers 65 servers in 3 countries
     -->
-    <string name="onboarding_connection_description">免費訂閱提供 %1$s 於 %2$s</string>
+    <string name="onboarding_connection_description">免費訂購授權提供 %1$s 於 %2$s</string>
     <!-- Embedded in "onboarding_connection_description", e.g.:
          Free subscription offers 65 servers in 3 countries
 
@@ -695,7 +695,7 @@
     <string name="welcome_unlimited_title">歡迎至Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[恭喜!您解鎖於Proton服務的高級安全及表現功能，加<b>%1$d&#160;GB</b>總處存空間<br><br>。享受最佳的Proton隱私。]]></string>
     <string name="welcome_generic_title">恭喜</string>
-    <string name="welcome_generic_description">您已升級您的訂閱。享受進階隱私功能與絕佳性能。</string>
+    <string name="welcome_generic_description">您已升級您的訂購授權。享受進階隱私功能與絕佳性能。</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">

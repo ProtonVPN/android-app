@@ -206,7 +206,7 @@
     <string name="countryServersHeader">Серверы страны</string>
     <string name="secureCoreCountriesHeader">Страны Secure Core</string>
     <string name="recommendedProfilesHeader">Рекомендованные профили</string>
-    <string name="free_connection_header">Free connection</string>
+    <string name="free_connection_header">Бесплатное подключение</string>
     <string name="yourProfilesHeader">Ваши профили</string>
     <string name="exitCountry">Страна выхода</string>
     <string name="entryCountry">Страна входа</string>
@@ -339,7 +339,7 @@
     <string name="netshield_free_title">Просматривайте веб-сайты без рекламы с помощью NetShield</string>
     <string name="netshield_free_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
     <string name="netshield_business_title">Блокировать рекламу c NetShield</string>
-    <string name="netshield_business_description">When you upgrade to VPN Business</string>
+    <string name="netshield_business_description">Когда вы улучшите до VPN Business</string>
     <string name="accessibility_netshield_status_on_click">Введите настройки NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Реклама\nзаблокирована</item>
@@ -477,15 +477,15 @@
     <string name="upsell_upgrade_again">Улучшите снова, чтобы воспользоваться всеми функциями:</string>
     <!-- Displayed as subtitle below title (e.g. "Enjoy ad-free browsing with NetShield") on
          upgrade screen -->
-    <string name="upgrade_plus_title">Upgrade your privacy</string>
-    <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
-    <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
-    <string name="upgrade_netshield_message"><![CDATA[Block ads, trackers and malware with <b>NetShield</b>.]]></string>
+    <string name="upgrade_plus_title">Улучшите свою конфиденциальность</string>
+    <string name="upgrade_plus_message">Получите расширенные функции приватности и высокую скорость с VPN Plus.</string>
+    <string name="upgrade_netshield_title">Пользуйтесь просмотром веб-страниц без рекламы</string>
+    <string name="upgrade_netshield_message"><![CDATA[Блокируйте рекламу, трекеры и вредоносные программы с помощью <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Double the encryption</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Add another layer of encryption to your VPN connection with <b>Secure Core</b>.]]></string>
-    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
-    <string name="upgrade_profiles_text"><![CDATA[Unlock <b>profiles</b> with <b>VPN Plus</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds</string>
+    <string name="upgrade_secure_core_message"><![CDATA[Добавьте еще один уровень шифрования к вашему VPN-подключению с помощью <b>Secure Core</b>.]]></string>
+    <string name="upgrade_profiles_title">Получите быстрый доступ к своим частым подключениям</string>
+    <string name="upgrade_profiles_text"><![CDATA[Разблокировать <b>профили</b> с <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_vpn_accelerator_title">Просматривайте веб-страницы на еще более высоких скоростях</string>
     <!--
         %1$s - speed in Gbps
         Example:
@@ -493,10 +493,10 @@
     -->
     <string name="upgrade_vpn_accelerator_message">Unlock faster, less crowded servers with speeds of up to %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Получите лучшее из обоих миров</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
-    <string name="upgrade_customization_title">Unlock advanced VPN customization</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Разделите трафик на VPN- и не-VPN-туннели с помощью <b>раздельного туннелирования</b>.]]></string>
+    <string name="upgrade_customization_title">Разблокируйте расширенные настройки VPN</string>
     <string name="upgrade_lan_access_message"><![CDATA[Access devices on your <b>local area network (LAN)</b> with VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Access all countries</string>
+    <string name="upgrade_all_countries_title">Получите доступ ко всем странам</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -527,7 +527,7 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Unlock %1$s in %2$s with <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[Разблокируйте %1$s в %2$s с помощью <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">Когда вы улучшите до Plus</string>
     <string name="upgrade_safe_mode_title">Разрешить трафик на нестандартные порты</string>
     <string name="upgrade_safe_mode_message">У вас есть расширенные или профессиональные потребности использовать нестандартные порты? Перейдите на VPN Plus, чтобы получить доступ к этой и другим премиальным функциям.</string>
@@ -542,14 +542,14 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_month">month</string>
+    <string name="payment_price_per_month">месяц</string>
     <string name="payment_price_per_year">год</string>
     <string name="payment_price_per_2years">2 года</string>
     <string name="payment_price_cycle_month_label">1 месяц</string>
     <string name="payment_price_cycle_year_label">1 год</string>
     <string name="payment_price_cycle_2years_label">2 года</string>
     <string name="payment_select_your_plan">Выберете себе план</string>
-    <string name="payment_button_get_vpn_plus">Get VPN Plus</string>
+    <string name="payment_button_get_vpn_plus">Получить VPN Plus</string>
     <!-- Information activity -->
     <string name="activity_information_title">Информация</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -668,23 +668,23 @@
     <string name="ikev2_removed_dialog_message">Значения по умолчанию и профили, которые ранее использовали IKEv2, теперь будут использовать протокол Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Посетите <a href="https://protonvpn.com/pricing">protonvpn.com</a> для получения дополнительной информации.</string>
-    <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>
+    <string name="free_upsell_header_title">Получите всемирное покрытие с помощью VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Want to connect to a specific country?</string>
-    <string name="upgrade_country_message"><![CDATA[Unlock <b>country selection</b> with VPN Plus.]]></string>
+    <string name="upgrade_country_title">Хотите подключиться к определенной стране?</string>
+    <string name="upgrade_country_message"><![CDATA[Разблокируйте <b>выбор страны</b> с помощью VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Level up your gaming experience</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Improve online gaming and video call performance with <b>NAT type 2</b>.]]></string>
-    <string name="free_connections_info_message">Proton Free automatically connects you to the fastest available server. This will normally be the closest server to your location.</string>
-    <string name="free_connections_info_server_locations">Free server locations (%1$d)</string>
-    <string name="free_connections_info_banner_text">Get worldwide coverage with VPN Plus</string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Повысьте производительность онлайн-игр и видеозвонков благодаря <b>NAT типа 2</b>.]]></string>
+    <string name="free_connections_info_message">Proton Free автоматически подключает вас к самому быстрому из доступных серверов. Обычно это ближайший к вашему местоположению сервер.</string>
+    <string name="free_connections_info_server_locations">Месторасположение серверов Free (%1$d)</string>
+    <string name="free_connections_info_banner_text">Получите всемирное покрытие с помощью VPN Plus</string>
     <string name="free_connection_info_title">Бесплатные подключения</string>
     <string name="search_upsell_banner_title">Смотрите видео из любой точки мира</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="one">Unlock geoblocked content from %1$d country with VPN Plus</item>
-        <item quantity="few">Unlock geoblocked content from %1$d countries with VPN Plus</item>
-        <item quantity="many">Unlock geoblocked content from %1$d countries with VPN Plus</item>
-        <item quantity="other">Unlock geoblocked content from %1$d countries with VPN Plus</item>
+        <item quantity="one">Разблокируйте содержимое, заблокированное по географическому признаку из %1$d страны с помощью VPN Plus</item>
+        <item quantity="few">Разблокируйте содержимое, заблокированное по географическому признаку из %1$d стран с помощью VPN Plus</item>
+        <item quantity="many">Разблокируйте содержимое, заблокированное по географическому признаку из %1$d стран с помощью VPN Plus</item>
+        <item quantity="other">Разблокируйте содержимое, заблокированное по географическому признаку из %1$d стран с помощью VPN Plus</item>
     </plurals>
     <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
          %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
@@ -695,7 +695,7 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">%1$s %2$s left</string>
+    <string name="offer_time_left">Осталось %1$s %2$s</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
         <item quantity="one">%1$d секунда</item>
@@ -726,7 +726,7 @@
     </plurals>
     <string name="server_change_max_reached">На данный момент вы достигли максимального количества изменений на сервере Free.</string>
     <string name="server_change_upsell">Получите неограниченное количество изменений с VPN Plus.</string>
-    <string name="server_change_button_title">Change server</string>
+    <string name="server_change_button_title">Сменить сервер</string>
     <string name="not_wanted_country_title">Не та страна, которую вы хотели?</string>
     <string name="not_wanted_country_description">Улучшите для выбора любого сервера</string>
     <string name="whats_new_title">Что нового</string>
@@ -786,5 +786,5 @@
          a button with "Learn more" label and this suffix will be read by a screen reader as:
          "Learn more, external link button"
      -->
-    <string name="accessibility_external_link_suffix">external link</string>
+    <string name="accessibility_external_link_suffix">внешняя ссылка</string>
 </resources>
