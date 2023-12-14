@@ -54,11 +54,13 @@ class TelemetryError(message: String, cause: Throwable? = null) : Throwable(mess
 
 interface TelemetryUploadScheduler {
     fun scheduleTelemetryUpload()
+    fun scheduleImmediateTelemetryUpload()
 }
 
 @Reusable
 class NoopTelemetryUploadScheduler @Inject constructor() : TelemetryUploadScheduler {
     override fun scheduleTelemetryUpload() = Unit
+    override fun scheduleImmediateTelemetryUpload() = Unit
 }
 
 @Singleton
@@ -105,19 +107,20 @@ class Telemetry(
         measurementGroup: String,
         event: String,
         values: Map<String, Long>,
-        dimensions: Map<String, String>
+        dimensions: Map<String, String>,
+        sendImmediately: Boolean = false
     ) {
         mainScope.launch {
             if (isEnabled()) {
                 logd("$measurementGroup $event: $values $dimensions")
-                addEvent(TelemetryEvent(wallClock(), measurementGroup, event, values, dimensions))
+                addEvent(TelemetryEvent(wallClock(), measurementGroup, event, values, dimensions), sendImmediately)
             }
         }
     }
 
     suspend fun uploadPendingEvents(): UploadResult {
         cacheLoaded.await()
-        if (!(isEnabled() && currentUser.isLoggedIn())) {
+        if (!isEnabled()) {
             clearData()
             return UploadResult.Success(false)
         }
@@ -153,17 +156,19 @@ class Telemetry(
         }
     }
 
-    private suspend fun addEvent(event: TelemetryEvent) {
+    private suspend fun addEvent(event: TelemetryEvent, sendImmediately: Boolean) {
         cacheLoaded.await()
-        if (pendingEvents.isEmpty()) {
-            uploadScheduler.scheduleTelemetryUpload()
-        }
+        val isFirstEvent = pendingEvents.isEmpty()
         pendingEvents.add(event)
         if (pendingEvents.size > eventCountLimit) {
             pendingEvents.removeFirst()
         }
         logi("event added, total: ${pendingEvents.size}")
         cache.save(pendingEvents)
+        when {
+            sendImmediately -> uploadScheduler.scheduleImmediateTelemetryUpload()
+            isFirstEvent -> uploadScheduler.scheduleTelemetryUpload()
+        }
     }
 
     private suspend fun isEnabled() = userSettings.telemetry.first()
