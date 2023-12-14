@@ -54,6 +54,10 @@ class TelemetryUploadWorkerScheduler @Inject constructor(
         scheduleUpload(appContext, ExistingWorkPolicy.REPLACE, "new events")
     }
 
+    override fun scheduleImmediateTelemetryUpload() {
+        scheduleUpload(appContext, ExistingWorkPolicy.REPLACE, "new events, immediate", initialDelayMs = 0)
+    }
+
     companion object {
         fun scheduleUpload(
             appContext: Context,

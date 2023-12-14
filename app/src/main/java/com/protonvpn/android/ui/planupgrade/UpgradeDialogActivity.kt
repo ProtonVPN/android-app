@@ -25,6 +25,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.viewModels
+import androidx.annotation.CallSuper
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -36,6 +37,7 @@ import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
+import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.edgeToEdge
@@ -74,17 +76,22 @@ open class UpgradeDialogActivity : BaseActivityV2() {
                 is CommonUpgradeDialogViewModel.State.PlanLoaded -> {}
                 CommonUpgradeDialogViewModel.State.PlansFallback -> {}
                 is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
-                    showUpgradeSuccess.showPlanUpgradeSuccess(
-                        this,
-                        state.newPlanName,
-                        refreshVpnInfo = true,
-                        upgradeFlowType = state.upgradeFlowType
-                    )
-                    setResult(Activity.RESULT_OK)
-                    finish()
+                    onPaymentSuccess(state.newPlanName, state.upgradeFlowType)
                 }
             }
         }
+    }
+
+    @CallSuper
+    protected open fun onPaymentSuccess(newPlanName: String, upgradeFlowType: UpgradeFlowType) {
+        showUpgradeSuccess.showPlanUpgradeSuccess(
+            this,
+            newPlanName,
+            refreshVpnInfo = true,
+            upgradeFlowType = upgradeFlowType
+        )
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 
     private fun initHighlightsFragment() {
@@ -153,10 +160,17 @@ open class UpgradeDialogActivity : BaseActivityV2() {
 @AndroidEntryPoint
 class UpgradeOnboardingDialogActivity : UpgradeDialogActivity() {
 
+    @Inject lateinit var onboardingTelemetry: OnboardingTelemetry
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.buttonClose.isVisible = false
         binding.buttonNotNow.isVisible = true
+    }
+
+    override fun onPaymentSuccess(newPlanName: String, upgradeFlowType: UpgradeFlowType) {
+        super.onPaymentSuccess(newPlanName, upgradeFlowType)
+        onboardingTelemetry.onOnboardingPaymentSuccess(newPlanName)
     }
 
     companion object {

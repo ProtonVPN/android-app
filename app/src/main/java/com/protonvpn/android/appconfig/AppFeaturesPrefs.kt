@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
 import me.proton.core.util.android.sharedpreferences.boolean
+import me.proton.core.util.android.sharedpreferences.list
 import me.proton.core.util.android.sharedpreferences.long
 import me.proton.core.util.android.sharedpreferences.observe
 import me.proton.core.util.android.sharedpreferences.string
@@ -51,8 +52,11 @@ class AppFeaturesPrefs @Inject constructor(
 
     var wasLaunchedForTv by boolean(default = false)
 
+    var reportedOnboardingEvents by list<String>(key = KEY_REPORTED_ONBOARDING_EVENTS, default = emptyList())
+
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
         private const val KEY_SHOW_WHATS_NEW = "showWhatsNew"
+        private const val KEY_REPORTED_ONBOARDING_EVENTS = "reportedOnboardingEvents"
     }
 }

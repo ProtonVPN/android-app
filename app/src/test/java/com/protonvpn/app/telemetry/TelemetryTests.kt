@@ -117,14 +117,13 @@ class TelemetryTests {
     }
 
     @Test
-    fun `when user is logged out events are not uploaded`() = testScope.runTest {
+    fun `when no user is logged in events are uploaded`() = testScope.runTest {
         val telemetry = createNewTelemetryObject()
         telemetry.event(MEASUREMENT_GROUP, "event", VALUES, DIMENSIONS)
         coEvery { mockCurrentUser.isLoggedIn() } returns false
 
         telemetry.uploadPendingEvents()
-        coVerify(exactly = 0) { mockUploader.uploadEvents(any()) }
-        verify { mockCache.save(emptyList()) }
+        coVerify(exactly = 1) { mockUploader.uploadEvents(any()) }
     }
 
     @Test
@@ -206,6 +205,17 @@ class TelemetryTests {
             telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
             verify(exactly = 1) { mockScheduler.scheduleTelemetryUpload() }
         }
+
+    @Test
+    fun `when event is to be sent immediately then upload is rescheduled`() = testScope.runTest {
+        val telemetry = createNewTelemetryObject()
+        telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS)
+
+        verify(exactly = 1) { mockScheduler.scheduleTelemetryUpload() }
+
+        telemetry.event(MEASUREMENT_GROUP, EVENT_NAME, VALUES, DIMENSIONS, sendImmediately = true)
+        verify(exactly = 1) { mockScheduler.scheduleImmediateTelemetryUpload() }
+    }
 
     @Test
     fun `when event exceeds the limit then the oldest event is dropped`() = testScope.runTest {
