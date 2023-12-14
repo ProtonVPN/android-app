@@ -293,7 +293,7 @@
     <string name="troubleshootNoInternetTitle">Ingen internettforbindelse</string>
     <string name="troubleshootIspProblemTitle">Internett-leverandør (ISP) problem</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Prøv å koble til Proton fra et annet nettverk (eller bruk <a href=\'%1$s\'>Tor</a>)]]></string>
-    <string name="troubleshootAntivirusProblemTitle">Antivirus innblanding</string>
+    <string name="troubleshootAntivirusProblemTitle">Antivirus-forstyrrelser</string>
     <string name="troubleshootAntivirusProblemDescription">Deaktiver eller fjern antivirusprogramvaren midlertidig.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Proxy-/brannmurforstyrrelser</string>
     <string name="troubleshootProxyFirewallProblemDescription">Deaktiver alle proxyer eller brannmurer, eller kontakt din nettverksadministrator.</string>

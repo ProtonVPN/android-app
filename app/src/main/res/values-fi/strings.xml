@@ -511,7 +511,7 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Unlock %1$s in %2$s with <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[Avaa %1$s %2$s <b>VPN Plus</b>-tilauksella.]]></string>
     <string name="upgrade_plus_countries_subtitle">Kun päivität Plus-tilaukseen</string>
     <string name="upgrade_safe_mode_title">Salli tietoliikenne epätyypillisiin portteihin</string>
     <string name="upgrade_safe_mode_message">Onko sinulla vaativia tai ammatillisia tietoteknisiä tarpeita, jotka tarvitsevat epätyypillisiä portteja? Päivitä VPN Plus -tilaukseen käyttääksesi tätä ja muita premium-ominaisuuksia.</string>
