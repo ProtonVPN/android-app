@@ -52,6 +52,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.yield
 import me.proton.core.domain.entity.UserId
 import me.proton.core.user.domain.entity.User
 import org.junit.After
@@ -182,12 +183,15 @@ class RecentsListValidatorTests {
         assertEquals(reversedIntents, user2Recents.map { it.connectIntent })
     }
 
-    private suspend fun IdlingResource.waitUntilIdle() = suspendCancellableCoroutine { cont ->
-        registerIdleTransitionCallback {
-            cont.resume(Unit)
-            registerIdleTransitionCallback(null)
+    private suspend fun IdlingResource.waitUntilIdle() {
+        yield()
+        suspendCancellableCoroutine { cont ->
+            registerIdleTransitionCallback {
+                cont.resume(Unit)
+                registerIdleTransitionCallback(null)
+            }
+            cont.invokeOnCancellation { registerIdleTransitionCallback(null) }
         }
-        cont.invokeOnCancellation { registerIdleTransitionCallback(null) }
     }
 
     private fun createUser(userId: UserId) =
