@@ -560,6 +560,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN hizmetine hoş geldiniz</string>
+    <string name="onboarding_welcome_description">Gizliliğinizi koruyarak gezinin, engellenen içeriğe erişin ve dijital özgürlüğün tadını çıkarın.</string>
     <string name="onboarding_welcome_action">Başlayalım</string>
     <string name="onboarding_available_on_plus">Plus tarifesiyle kullanılabilir</string>
     <string name="upgrade_success_get_started_button">Başlayalım</string>
@@ -713,4 +714,6 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">dış bağlantı</string>
+    <string name="no_logs_banner_title">Kayıt tutmadığı belgelenmiş VPN</string>
+    <string name="no_logs_banner_description">VPN etkinliğiniz İsviçre gizlilik yasalarıyla korunur. Sizi asla çevrim içi olarak izlemeyeceğiz veya bilgilerinizi üçüncü taraflarla paylaşmayacağız.</string>
 </resources>

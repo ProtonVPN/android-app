@@ -576,6 +576,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Добро пожаловать в Proton VPN</string>
+    <string name="onboarding_welcome_description">Просматривайте сайты в приватно, получайте доступ к заблокированному содержимому и пользуйтесь цифровой свободой.</string>
     <string name="onboarding_welcome_action">Приступить к работе</string>
     <string name="onboarding_available_on_plus">Доступно с Plus</string>
     <string name="upgrade_success_get_started_button">Начать</string>
@@ -745,4 +746,6 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">внешняя ссылка</string>
+    <string name="no_logs_banner_title">Сертифицированная VPN без журналов</string>
+    <string name="no_logs_banner_description">Работа вашей VPN защищена швейцарскими законами о частной жизни. Мы никогда не будем отслеживать вас в сети или передавать вашу информацию третьим лицам.</string>
 </resources>

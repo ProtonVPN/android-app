@@ -552,6 +552,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN에 오신 것을 환영합니다</string>
+    <string name="onboarding_welcome_description">은밀하게 브라우징하고 차단된 컨텐츠에 접근하는 완전한 디지털 자유를 누려보세요.</string>
     <string name="onboarding_welcome_action">시작하기</string>
     <string name="onboarding_available_on_plus">Plus에서 사용 가능합니다</string>
     <string name="upgrade_success_get_started_button">시작하기</string>
@@ -697,4 +698,6 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">외부 링크</string>
+    <string name="no_logs_banner_title">인증된 무로그 VPN</string>
+    <string name="no_logs_banner_description">사용자의 VPN 활동은 스위스 개인정보 보호법에 의거해 보호되고 있습니다. Proton은 절대 제3자 간의 온라인 추적 및 정보를 공유하지 않습니다.</string>
 </resources>
