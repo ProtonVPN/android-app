@@ -560,6 +560,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Tervetuloa Proton VPN:ään</string>
+    <string name="onboarding_welcome_description">Selaa yksityisesti, pääse estettyyn sisältöön ja nauti digitaalisesta vapaudesta.</string>
     <string name="onboarding_welcome_action">Aloita</string>
     <string name="onboarding_available_on_plus">Käytettävissä Plus-tilauksella</string>
     <string name="upgrade_success_get_started_button">Aloita</string>
@@ -713,4 +714,6 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">ulkoinen linkki</string>
+    <string name="no_logs_banner_title">Sertifioitu ei-lokeja VPN</string>
+    <string name="no_logs_banner_description">VPN-toimintasi on suojattu Sveitsin tietosuojalaeilla. Emme koskaan seuraa sinua verkossa tai jaa tietojasi kolmansille osapuolille.</string>
 </resources>

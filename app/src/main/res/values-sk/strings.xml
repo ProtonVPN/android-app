@@ -576,6 +576,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Víta vás Proton VPN</string>
+    <string name="onboarding_welcome_description">Surfujte v súkromí, získajte prístup k blokovanému obsahu a užívajte si digitálnu slobodu.</string>
     <string name="onboarding_welcome_action">Začíname</string>
     <string name="onboarding_available_on_plus">Dostupné s Plus</string>
     <string name="upgrade_success_get_started_button">Začíname</string>
@@ -745,4 +746,6 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">externý odkaz</string>
+    <string name="no_logs_banner_title">Certifikovaná sieť VPN bez logov</string>
+    <string name="no_logs_banner_description">Vaše aktivity v sieti VPN sú chránené švajčiarskymi zákonmi o ochrane osobných údajov. Nikdy vás nebudeme sledovať online ani zdieľať vaše informácie s tretími stranami.</string>
 </resources>
