@@ -54,9 +54,13 @@ class AppFeaturesPrefs @Inject constructor(
 
     var reportedOnboardingEvents by list<String>(key = KEY_REPORTED_ONBOARDING_EVENTS, default = emptyList())
 
+    var showOnboardingUserId by string(key = KEY_SHOW_ONBOARDING_USER_ID)
+    val showOnboardingUserIdFlow = preferences.observe<String>(key = KEY_SHOW_ONBOARDING_USER_ID)
+
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
         private const val KEY_SHOW_WHATS_NEW = "showWhatsNew"
         private const val KEY_REPORTED_ONBOARDING_EVENTS = "reportedOnboardingEvents"
+        private const val KEY_SHOW_ONBOARDING_USER_ID = "showOnboardingUserId"
     }
 }

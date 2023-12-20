@@ -27,6 +27,7 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.VpnUserCheck
 import com.protonvpn.android.auth.usecase.HumanVerificationGuestHoleCheck
 import com.protonvpn.android.auth.usecase.Logout
@@ -34,13 +35,16 @@ import com.protonvpn.android.auth.usecase.VpnLogin.Companion.GUEST_HOLE_ID
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.redesign.settings.data.SharedSettingsPrefs
-import com.protonvpn.android.ui.onboarding.OnboardingPreferences
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -79,6 +83,7 @@ class AccountViewModel @Inject constructor(
     private val logoutUseCase: Logout,
     private val sharedSettingsPrefs: SharedSettingsPrefs,
     private val vpnStatus: VpnStatusProviderUI,
+    private val appFeaturesPrefs: AppFeaturesPrefs
 ) : ViewModel() {
 
     sealed class State {
@@ -88,6 +93,13 @@ class AccountViewModel @Inject constructor(
         object Ready : State()
         object Processing : State()
     }
+
+    val showOnboarding = combine(
+        appFeaturesPrefs.showOnboardingUserIdFlow.filterNotNull().distinctUntilChanged(),
+        accountManager.getPrimaryUserId().filterNotNull().distinctUntilChanged()
+    ) { onboardingUserId, primaryUserId ->
+        primaryUserId.id == onboardingUserId
+    }.filter { it }.map { Unit }
 
     val eventForceUpdate get() = vpnApiClient.eventForceUpdate
     var onAddAccountClosed: (() -> Unit)? = null
@@ -127,8 +139,9 @@ class AccountViewModel @Inject constructor(
                         guestHole.get().releaseNeedGuestHole(GUEST_HOLE_ID)
                         onAddAccountClosed?.invoke()
                     }
-                } else if (result.workflow == AddAccountWorkflow.SignUp)
-                    Storage.saveString(OnboardingPreferences.ONBOARDING_USER_ID, result.userId)
+                } else if (result.workflow == AddAccountWorkflow.SignUp) {
+                    appFeaturesPrefs.showOnboardingUserId = result.userId
+                }
             }
             accountManager.observe(activity.lifecycle, minActiveState = Lifecycle.State.CREATED)
                 .onSessionSecondFactorNeeded { startSecondFactorWorkflow(it) }
@@ -168,6 +181,10 @@ class AccountViewModel @Inject constructor(
             sharedSettingsPrefs.dialogSignOutNotAskAgain = true
         }
         logoutUseCase()
+    }
+
+    fun onOnboardingShown() {
+        appFeaturesPrefs.showOnboardingUserId = null
     }
 
     companion object {
