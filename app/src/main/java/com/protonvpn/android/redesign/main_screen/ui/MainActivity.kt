@@ -42,12 +42,14 @@ import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
+import com.protonvpn.android.redesign.countries.ui.collectAsEffect
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel
 import com.protonvpn.android.redesign.main_screen.ui.nav.VpnApp
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
+import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,6 +86,10 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
         helper.onCreate(accountViewModel)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
+            accountViewModel.showOnboarding.collectAsEffect {
+                accountViewModel.onOnboardingShown()
+                startActivity(Intent(this, OnboardingActivity::class.java))
+            }
             VpnTheme {
                 val state by accountViewModel.state.collectAsStateWithLifecycle()
                 splashScreen.setKeepOnScreenCondition {
