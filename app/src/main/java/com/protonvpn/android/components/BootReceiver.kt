@@ -23,7 +23,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.vpn.ConnectTrigger.Auto
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -40,6 +40,7 @@ class BootReceiver : BroadcastReceiver() {
     @Inject lateinit var userSettings: EffectiveCurrentUserSettings
     @Inject lateinit var currentVpnUser: CurrentUser
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
+    @Inject lateinit var quickConnectIntent: GetQuickConnectIntent
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != "android.intent.action.BOOT_COMPLETED") return
@@ -50,7 +51,7 @@ class BootReceiver : BroadcastReceiver() {
                 val settings = userSettings.effectiveSettings.first()
                 val isLoggedIn = currentVpnUser.isLoggedIn()
                 if (isLoggedIn && settings.connectOnBoot) {
-                    vpnConnectionManager.connectInBackground(ConnectIntent.QuickConnect, Auto("legacy always-on"))
+                    vpnConnectionManager.connectInBackground(quickConnectIntent(), Auto("legacy always-on"))
                 }
             } finally {
                 pendingResult.finish()

@@ -75,8 +75,5 @@ sealed interface ConnectIntent : AnyConnectIntent {
     companion object {
         val Fastest = FastestInCountry(CountryId.fastest, EnumSet.noneOf(ServerFeature::class.java))
         val Default = Fastest
-        // TODO: all uses of QuickConnect should be replaced with the logic for getting the proper intent.
-        //  See VPNAND-1321
-        val QuickConnect = Default
     }
 }
