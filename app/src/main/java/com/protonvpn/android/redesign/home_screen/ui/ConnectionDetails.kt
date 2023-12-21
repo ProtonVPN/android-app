@@ -77,8 +77,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnOutlinedButton
+import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
@@ -96,6 +97,7 @@ import me.proton.core.compose.theme.overlineWeak
 import me.proton.core.compose.theme.subheadlineNorm
 import org.joda.time.Duration
 import org.joda.time.Period
+import kotlin.math.roundToInt
 
 @Composable
 fun ConnectionDetailsRoute(
@@ -425,9 +427,9 @@ private fun ConnectionStats(
                     ServerLoadBottomSheet()
                 },
                 contentComposable = {
-                    ColoredSmallProgressBar(progress = serverLoad / 100)
+                    ServerLoadBar(progress = serverLoad / 100)
                     Text(
-                        text = stringResource(id = R.string.serverLoad, serverLoad),
+                        text = stringResource(id = R.string.serverLoad, serverLoad.roundToInt()),
                         style = ProtonTheme.typography.defaultSmallNorm,
                         textAlign = TextAlign.End,
                         modifier = Modifier.padding(horizontal = 4.dp)
@@ -494,7 +496,7 @@ private fun ServerLoadBottomSheet() {
                     .padding(bottom = 16.dp)
             )
             ServerLoadLegendItem(
-                progress = 0.6F,
+                progress = 0.76F,
                 title = stringResource(id = R.string.connection_details_server_load_medium_title),
                 details = stringResource(id = R.string.connection_details_server_load_medium_description),
                 Modifier
@@ -502,7 +504,7 @@ private fun ServerLoadBottomSheet() {
                     .padding(bottom = 16.dp)
             )
             ServerLoadLegendItem(
-                progress = 0.9F,
+                progress = 0.95F,
                 title = stringResource(id = R.string.connection_details_server_load_high_title),
                 details = stringResource(id = R.string.connection_details_server_load_high_description),
                 Modifier
@@ -516,10 +518,10 @@ private fun ServerLoadBottomSheet() {
 }
 
 @Composable
-fun ColoredSmallProgressBar(progress: Float) {
+fun ServerLoadBar(progress: Float) {
     val color = when {
-        progress <= 0.3F -> ProtonTheme.colors.notificationSuccess
-        progress <= 0.8F -> ProtonTheme.colors.notificationWarning
+        progress <= 0.75F -> ProtonTheme.colors.notificationSuccess
+        progress <= 0.9F -> ProtonTheme.colors.notificationWarning
         else -> ProtonTheme.colors.notificationError
     }
     LinearProgressIndicator(
@@ -542,7 +544,7 @@ private fun ServerLoadLegendItem(
     Row(
         verticalAlignment = Alignment.CenterVertically, modifier = modifier
     ) {
-        ColoredSmallProgressBar(progress)
+        ServerLoadBar(progress)
         Column(
             Modifier
                 .weight(1f)
@@ -639,7 +641,7 @@ fun IpView(
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp)
         ) {
             Box(
                 contentAlignment = Alignment.Center,
@@ -741,31 +743,41 @@ fun IpView(
 @Preview
 @Composable
 fun ConnectionStatsPreview() {
-    ConnectionStats(
-        sessionTime = getSessionTime(sessionTimeInSeconds = 2500),
-        exitCountry = CountryId.sweden,
-        entryCountry = CountryId.iceland,
-        city = "Stockholm",
-        serverName = "SE#1",
-        serverLoad = 15F,
-        protocol = "WireGuard"
-    )
+    VpnTheme {
+        ConnectionStats(
+            sessionTime = getSessionTime(sessionTimeInSeconds = 2500),
+            exitCountry = CountryId.sweden,
+            entryCountry = CountryId.iceland,
+            city = "Stockholm",
+            serverName = "SE#1",
+            serverLoad = 32F,
+            protocol = "WireGuard"
+        )
+    }
 }
 
 @Preview
 @Composable
 fun VpnSpeedPreview() {
-    ConnectionSpeedRow("10 ", "123.1233")
+    VpnTheme {
+        ConnectionSpeedRow("10 ", "123.1233")
+    }
 }
 
 @Preview
 @Composable
 fun IpViewPreview() {
-    IpView("192.120.0.1", "123.1233")
+    VpnTheme {
+        IpView("192.120.0.1", "123.1233")
+    }
 }
 
 @Preview
 @Composable
 fun BottomSheetLoadDescriptionPreview() {
-    ServerLoadBottomSheet()
+    LightAndDarkPreview {
+        Surface {
+            ServerLoadBottomSheet()
+        }
+    }
 }
