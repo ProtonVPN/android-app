@@ -23,10 +23,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.base.ui.theme.VpnTheme
 
 class PaymentPanelFragment : Fragment() {
@@ -38,8 +40,10 @@ class PaymentPanelFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 VpnTheme {
+                    val state by viewModel.state.collectAsStateWithLifecycle()
                     PaymentPanel(
-                        ViewState.FallbackFlowReady,
+                        if (state == CommonUpgradeDialogViewModel.State.PlansFallback)
+                            ViewState.FallbackFlowReady else ViewState.UpgradeDisabled,
                         null,
                         onStartFallback = viewModel::onStartFallbackUpgrade,
                         onPayClicked = { throw IllegalStateException("Not supported") },
