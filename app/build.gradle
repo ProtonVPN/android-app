@@ -782,10 +782,9 @@ dependencies {
     implementation 'androidx.compose.ui:ui'
     implementation "androidx.compose.ui:ui-viewbinding"
     implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.2"
-    implementation "androidx.navigation:navigation-compose:2.7.0-beta01"
+    implementation "androidx.navigation:navigation-compose:2.7.6"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.30.1"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.31.3-beta"
-    implementation "com.google.accompanist:accompanist-navigation-animation:0.31.3-beta"
 
     implementation 'androidx.constraintlayout:constraintlayout-compose-android:1.1.0-alpha10'
 
@@ -794,7 +793,7 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
     androidTestImplementation "androidx.compose.ui:ui-test-junit4"
-    androidTestImplementation "androidx.navigation:navigation-testing:2.7.0-beta01"
+    androidTestImplementation "androidx.navigation:navigation-testing:2.7.6"
 
     // Play core
     googleImplementation("com.google.android.play:core:1.10.3")

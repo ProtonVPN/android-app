@@ -24,12 +24,11 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
-import com.google.accompanist.navigation.animation.composable
+import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import me.proton.core.util.kotlin.deserialize
@@ -96,7 +95,6 @@ abstract class Graph<N : BaseNav<N>>(route: String) : ScreenNoArg<N>(route)
 
 // Add screen into the navigation graph.
 // As extension method to workaround internal compiler errors.
-@OptIn(ExperimentalAnimationApi::class)
 fun <N : BaseNav<N>> Screen<*, N>.addToGraph(
     builder: SafeNavGraphBuilder<N>,
     enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = null,

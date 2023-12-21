@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.main_screen.ui.nav
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,7 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
@@ -66,12 +65,11 @@ enum class MainTarget {
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun rememberMainNav(
     coreNavigation: CoreNavigation,
     rootController: NavHostController,
-    selfController: NavHostController = rememberAnimatedNavController(),
+    selfController: NavHostController = rememberNavController(),
 ) = remember(selfController) {
     MainNav(
         selfNav = selfController,
