@@ -25,7 +25,7 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.notifications.NotificationHelper
-import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.CurrentVpnServiceProvider
@@ -33,6 +33,8 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.wireguard.android.backend.GoBackend
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -44,6 +46,8 @@ class WireguardWrapperService : GoBackend.VpnService() {
     @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
     @Inject lateinit var currentUser: CurrentUser
     @Inject lateinit var vpnStateMonitor: VpnStateMonitor
+    @Inject lateinit var quickConnectIntent: GetQuickConnectIntent
+    @Inject lateinit var mainScope: CoroutineScope
 
     override fun onCreate() {
         super.onCreate()
@@ -86,10 +90,12 @@ class WireguardWrapperService : GoBackend.VpnService() {
     private fun handleAlwaysOn(): Boolean {
         // It's possible to get the always-on intent twice which causes a reconnection. Let's prevent this.
         return if (vpnStateMonitor.isDisabled) {
-            connectionManager.connectInBackground(
-                ConnectIntent.QuickConnect,
-                ConnectTrigger.Auto("always-on")
-            )
+            mainScope.launch {
+                connectionManager.connectInBackground(
+                    quickConnectIntent(),
+                    ConnectTrigger.Auto("always-on")
+                )
+            }
             true
         } else {
             false

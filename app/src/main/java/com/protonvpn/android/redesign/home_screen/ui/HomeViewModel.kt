@@ -28,6 +28,7 @@ import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
+import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
@@ -60,6 +61,7 @@ class HomeViewModel @Inject constructor(
     vpnStatusViewStateFlow: VpnStatusViewStateFlow,
     private val recentsManager: RecentsManager,
     private val vpnConnectionManager: VpnConnectionManager,
+    private val quickConnectIntent: GetQuickConnectIntent
 ) : ViewModel() {
 
     private val initialCardViewState =
@@ -103,8 +105,7 @@ class HomeViewModel @Inject constructor(
     }
 
     suspend fun connect(vpnUiDelegate: VpnUiDelegate) {
-        val connectIntent = recentsManager.getMostRecentConnection().first()?.connectIntent ?: ConnectIntent.Default
-        connect(vpnUiDelegate, connectIntent)
+        connect(vpnUiDelegate, quickConnectIntent())
     }
 
     suspend fun onRecentClicked(item: RecentItemViewState, vpnUiDelegate: VpnUiDelegate) {

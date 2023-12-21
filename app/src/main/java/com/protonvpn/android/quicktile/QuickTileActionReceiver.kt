@@ -26,10 +26,9 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.notifications.NotificationHelper
-import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.vpn.ConnectTrigger
-import com.protonvpn.android.vpn.DefaultAvailableConnection
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,6 +47,8 @@ class QuickTileActionReceiver : BroadcastReceiver() {
     lateinit var currentUser: CurrentUser
     @Inject
     lateinit var mainScope: CoroutineScope
+    @Inject
+    lateinit var quickConnectIntent: GetQuickConnectIntent
 
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
@@ -59,7 +60,7 @@ class QuickTileActionReceiver : BroadcastReceiver() {
                         context.startActivity(NotificationHelper.createMainActivityIntent(context, isTv()))
                     } else {
                         vpnConnectionManager.connectInBackground(
-                            ConnectIntent.QuickConnect,
+                            quickConnectIntent(),
                             ConnectTrigger.QuickTile
                         )
                     }
