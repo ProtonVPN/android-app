@@ -41,7 +41,7 @@
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Upozornenie</string>
     <string name="secureCoreSpeedInfoTitle">Poznámka k rýchlosti…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core ponúka najvyššiu úroveň zabezpečenia a súkromia ale môže znížiť rýchlosť internetového pripojenia. Ak požadujete lepší výkon, môžete Secure Core vypnúť.</string>
+    <string name="secureCoreSpeedInfoMessage">Secure Core ponúka najvyššiu úroveň zabezpečenia a súkromia, ale môže znížiť rýchlosť internetového pripojenia. Ak požadujete lepší výkon, môžete Secure Core vypnúť.</string>
     <string name="secureCoreActivateDialogButton">Aktivovať Secure Core</string>
     <string name="logoutConfirmDialogTitle">Odhlásiť?</string>
     <string name="logoutConfirmDialogMessage">Odhlásením sa vaše zariadenie odpojí od siete VPN.</string>
@@ -62,7 +62,7 @@
     <string name="loaderConnectingTo">Pripája sa ku %1$s</string>
     <string name="loaderConnectingToLabel">Pripája sa ku…</string>
     <string name="loaderNotConnected">Nepripojené (Nechránené)</string>
-    <string name="loaderNotConnectedSuggestion">Kliknite na tlačítko rýchleho pripojenia</string>
+    <string name="loaderNotConnectedSuggestion">Kliknite na tlačidlo rýchleho pripojenia</string>
     <string name="loaderConnectedTo">Pripojené ku %1$s</string>
     <string name="loaderConnectedToLabel">Pripojené ku:</string>
     <string name="loaderDisconnecting">Odpája sa</string>
@@ -122,7 +122,7 @@
     <string name="use_coupon_success">Kupón bol úspešne uplatnený</string>
     <string name="use_coupon_success_no_upgrade_yet">Kupón bol úspešne uplatnený. Vaše predplatné bude inovované v priebehu niekoľkých minút.</string>
     <string name="restrictedMaintenanceTitle">Prebieha údržba</string>
-    <string name="restrictedMaintenanceDescription">Na serveri, ku ktorému sa práve pokúšate pripojiť, prebieha údržba. Skúste iný server.</string>
+    <string name="restrictedMaintenanceDescription">Na serveri, ku ktorému sa práve pokúšate pripojiť, prebieha údržba. Skúste iný server, prosím.</string>
     <string name="errorUserDelinquent"><![CDATA[Váš účet má momentálne faktúru po splatnosti. Všetky nezaplatené faktúry zaplaťte na&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Dosiahli ste maximálny počet súbežných pripojení povolených pre váš účet. Ak chcete zvýšiť počet pripojení, prejdite na vyšší Proton VPN plán.</string>
     <string name="errorEmptyName">Pole názvu profilu nemôže byť prázdne</string>
@@ -143,7 +143,7 @@
     <string name="listBasicServers">Základné servery (%1$d)</string>
     <string name="listPlusServers">Plus servery (%1$d)</string>
     <string name="insufficientPermissionsTitle">Je vyžadovaná akcia používateľa</string>
-    <string name="insufficientPermissionsDetails">Nepodarilo sa automaticky vytvoriť VPN pripojenie. Pripojte sa prosím teraz manuálne a udeľte povolenia.</string>
+    <string name="insufficientPermissionsDetails">Nepodarilo sa automaticky vytvoriť VPN pripojenie. Pripojte sa teraz manuálne a udeľte povolenia, prosím.</string>
     <string name="tabsCountries">Krajiny</string>
     <string name="tabsMap">Mapa</string>
     <string name="tabsProfiles">Profily</string>
@@ -153,7 +153,7 @@
     <string name="state_connected">Pripojené</string>
     <string name="state_disconnecting">Odpája sa…</string>
     <string name="state_error">Chyba</string>
-    <string name="error_server_unreachable">Nemôžem sa pripojiť na VPN. Prosím skontrolujte vaše pripojenie a skúste to znova.</string>
+    <string name="error_server_unreachable">Nemôžem sa pripojiť na VPN. Skontrolujte vaše pripojenie a skúste to znova, prosím.</string>
     <string name="error_auth_failed">Overovanie používateľa zlyhalo.</string>
     <string name="error_assessment_failed">Hodnotenie zabezpečenia zlyhalo.</string>
     <string name="error_generic">Nešpecifikovaná chyba počas pripájania.</string>
@@ -177,7 +177,7 @@
     <string name="report_bug_email_label">Váš email</string>
     <string name="report_bug_email_hint">Zadajte vašu emailovú adresu</string>
     <string name="report_bug_message_label">Správa</string>
-    <string name="report_bug_message_hint">Popíšte prosím chybu a ako a kde ste ju našli</string>
+    <string name="report_bug_message_hint">Popíšte, prosím, chybu a ako a kde ste ju našli</string>
     <string name="send_report">Odoslať hlásenie</string>
     <string name="excludeIpTitle">Vylúčené IP adresy</string>
     <string name="discardChanges">Zmazať neuložené zmeny?</string>
