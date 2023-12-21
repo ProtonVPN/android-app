@@ -19,19 +19,17 @@
 
 package com.protonvpn.android.redesign.main_screen.ui.nav
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.redesign.main_screen.ui.CoreNavigation
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun VpnApp(
     modifier: Modifier = Modifier,
     coreNavigation: CoreNavigation,
 ) {
-    val rootController = rememberAnimatedNavController()
+    val rootController = rememberNavController()
 
     RootNav(rootController).NavHost(
         modifier = modifier,

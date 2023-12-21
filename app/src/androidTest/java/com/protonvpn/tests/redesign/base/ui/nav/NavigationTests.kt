@@ -28,9 +28,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
+import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
-import com.google.accompanist.navigation.animation.AnimatedComposeNavigator
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.base.ui.nav.Graph
@@ -74,8 +74,8 @@ class NavigationTests : FusionComposeTest() {
         withContent {
             navA = NavA(TestNavHostController(LocalContext.current))
             navB = NavB(TestNavHostController(LocalContext.current))
-            navA.controller.navigatorProvider.addNavigator(AnimatedComposeNavigator())
-            navB.controller.navigatorProvider.addNavigator(AnimatedComposeNavigator())
+            navA.controller.navigatorProvider.addNavigator(ComposeNavigator())
+            navB.controller.navigatorProvider.addNavigator(ComposeNavigator())
             VpnTheme {
                 Column(Modifier.fillMaxSize()) {
                     navA.SafeNavHost(
@@ -159,6 +159,9 @@ class NavigationTests : FusionComposeTest() {
     fun testBackButtonOnBothGraphs() {
         navA.navigate(ScreenA3, ScreenA3.Args("s", 5))
         navB.navigate(ScreenB2, ScreenB3)
+        // Verify that navigation succeeded. It also ensures that navigation is finished before next steps of the test.
+        verifyOn(navA, "A3:s+5", listOf("A1", "A3"))
+        verifyOn(navB, "B3", listOf("B1", "B2", "B3"))
 
         // NavB navigation have preference so we NavA should be unchanged
         OnDevice().pressBack()
