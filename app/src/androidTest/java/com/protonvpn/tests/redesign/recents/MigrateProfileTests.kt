@@ -85,7 +85,8 @@ class MigrateProfileTests {
     private val servers = listOf(
         createServer("server1"),
         createServer("server2", features = SERVER_FEATURE_P2P),
-        secureCoreServer
+        secureCoreServer,
+        createServer("gateway1", gatewayName = "gateway")
     )
 
     private val userId = AccountTestHelper.TestAccount1.userId
@@ -228,6 +229,19 @@ class MigrateProfileTests {
             ConnectIntent.SecureCore(CountryId.fastest, CountryId.fastest), // Default profile is unpinned, so last.
         )
         testMigration(userProfiles, expectedIntents)
+    }
+
+    @Test
+    fun serverGatewayProfilesAreConvertedToGatewayIntents() = testScope.runTest {
+        testMigration(
+            userProfiles = listOf(
+                createProfile(ServerWrapper.makeWithServer(servers[3]), false),
+            ),
+            expectedIntents = listOf(
+                ConnectIntent.Gateway("gateway", servers[3].serverId),
+                ConnectIntent.FastestInCountry(CountryId.fastest, emptySet()), // Default
+            )
+        )
     }
 
     private suspend fun testMigration(userProfiles: List<Profile>, expectedIntents: List<ConnectIntent>) {
