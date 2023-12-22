@@ -30,11 +30,13 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
-import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.test.runTest
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.Before
@@ -46,7 +48,7 @@ import java.util.EnumSet
 class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @MockK
-    private lateinit var serverManager: ServerManager
+    private lateinit var mockServerManager: ServerManager2
 
     @MockK
     private lateinit var mockTranslator: Translator
@@ -92,16 +94,16 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         MockKAnnotations.init(this)
 
         val allServers = listOf(serverCh, serverChFree, serverPl, serverPlNoFeatures, serverLtViaSe, serverPlViaCh, serverGateway)
-        every { serverManager.getServerById(any()) } answers {
+        coEvery { mockServerManager.getServerById(any()) } answers {
             allServers.find { it.serverId == firstArg() }
         }
         every { mockTranslator.getCity(any()) } answers { firstArg() }
 
-        getConnectIntentViewState = GetConnectIntentViewState(serverManager, mockTranslator)
+        getConnectIntentViewState = GetConnectIntentViewState(mockServerManager, mockTranslator)
     }
 
     @Test
-    fun fastest() {
+    fun fastest() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, noServerFeatures)
         setConnectIntentRowComposable(connectIntent)
 
@@ -110,7 +112,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun fastestConnected() {
+    fun fastestConnected() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, noServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverCh)
 
@@ -119,7 +121,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun fastestWithFeature() {
+    fun fastestWithFeature() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent)
 
@@ -128,7 +130,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun fastestWithFeatureConnected() {
+    fun fastestWithFeatureConnected() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPl)
 
@@ -138,7 +140,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun country() {
+    fun country() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(switzerland, noServerFeatures)
         setConnectIntentRowComposable(connectIntent)
 
@@ -147,7 +149,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun countryConnected() {
+    fun countryConnected() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(switzerland, noServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverCh)
 
@@ -156,7 +158,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun countryConnectedToDifferentCountry() {
+    fun countryConnectedToDifferentCountry() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(switzerland, noServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPl)
 
@@ -165,7 +167,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun city() {
+    fun city() = runTest {
         val connectIntent = ConnectIntent.FastestInCity(switzerland, "Zurich", noServerFeatures)
         setConnectIntentRowComposable(connectIntent)
 
@@ -174,7 +176,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun cityConnected() {
+    fun cityConnected() = runTest {
         val connectIntent = ConnectIntent.FastestInCity(switzerland, "Zurich", noServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverCh)
 
@@ -183,7 +185,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun cityConnectedToDifferentCountryAndCity() {
+    fun cityConnectedToDifferentCountryAndCity() = runTest {
         val connectIntent = ConnectIntent.FastestInCity(switzerland, "Zurich", noServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPl)
 
@@ -192,7 +194,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun cityWithTranslation() {
+    fun cityWithTranslation() = runTest {
         every { mockTranslator.getCity("Zurich") } returns "Zurych"
         val connectIntent = ConnectIntent.FastestInCity(switzerland, "Zurich", noServerFeatures)
         setConnectIntentRowComposable(connectIntent)
@@ -202,7 +204,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun secureCoreFastest() {
+    fun secureCoreFastest() = runTest {
         val connectIntent = ConnectIntent.SecureCore(CountryId.fastest, CountryId.fastest)
         setConnectIntentRowComposable(connectIntent)
 
@@ -211,7 +213,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun secureCoreFastestConnected() {
+    fun secureCoreFastestConnected() = runTest {
         val connectIntent = ConnectIntent.SecureCore(CountryId.fastest, CountryId.fastest)
         setConnectIntentRowComposable(connectIntent, serverPlViaCh)
 
@@ -220,7 +222,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun secureCoreFastestWithExitCountry() {
+    fun secureCoreFastestWithExitCountry() = runTest {
         val connectIntent = ConnectIntent.SecureCore(poland, CountryId.fastest)
         setConnectIntentRowComposable(connectIntent)
 
@@ -229,7 +231,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun secureCoreFastestWithExitCountryConnected() {
+    fun secureCoreFastestWithExitCountryConnected() = runTest {
         val connectIntent = ConnectIntent.SecureCore(poland, CountryId.fastest)
         setConnectIntentRowComposable(connectIntent, serverPlViaCh)
 
@@ -238,7 +240,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun secureCoreWithEntryAndExitCountry() {
+    fun secureCoreWithEntryAndExitCountry() = runTest {
         val connectIntent = ConnectIntent.SecureCore(poland, switzerland)
         setConnectIntentRowComposable(connectIntent)
 
@@ -247,7 +249,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun secureCoreWithEntryAndExitCountryConnected() {
+    fun secureCoreWithEntryAndExitCountryConnected() = runTest {
         val connectIntent = ConnectIntent.SecureCore(poland, switzerland)
         setConnectIntentRowComposable(connectIntent, serverPlViaCh)
 
@@ -256,7 +258,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun secureCoreWithEntryAndExitCountryConnectedToDifferentCountries() {
+    fun secureCoreWithEntryAndExitCountryConnectedToDifferentCountries() = runTest {
         val connectIntent = ConnectIntent.SecureCore(poland, switzerland)
         setConnectIntentRowComposable(connectIntent, serverLtViaSe)
 
@@ -265,7 +267,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun server() {
+    fun server() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, noServerFeatures)
         setConnectIntentRowComposable(connectIntent)
 
@@ -274,7 +276,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun serverConnected() {
+    fun serverConnected() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, noServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPl)
 
@@ -283,7 +285,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun serverWithFeatures() {
+    fun serverWithFeatures() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent)
 
@@ -293,7 +295,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun serverWithFeaturesConnected() {
+    fun serverWithFeaturesConnected() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPl)
 
@@ -303,7 +305,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun serverWithFeaturesConnectedToServerWithNoFeatures() {
+    fun serverWithFeaturesConnectedToServerWithNoFeatures() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPlNoFeatures)
 
@@ -313,7 +315,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun freeServer() {
+    fun freeServer() = runTest {
         val connectIntent = ConnectIntent.Server(serverChFree.serverId, noServerFeatures)
         setConnectIntentRowComposable(connectIntent)
 
@@ -322,7 +324,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun serverConnectedToDifferentServer() {
+    fun serverConnectedToDifferentServer() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverCh)
 
@@ -332,7 +334,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun gateway() {
+    fun gateway() = runTest {
         val connectIntent = ConnectIntent.Gateway("Gateway Name", null)
         setConnectIntentRowComposable(connectIntent, null)
 
@@ -341,7 +343,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun gatewayConnected() {
+    fun gatewayConnected() = runTest {
         val connectIntent = ConnectIntent.Gateway("Gateway Name", null)
         setConnectIntentRowComposable(connectIntent, serverGateway)
 
@@ -350,7 +352,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun gatewaySpecificServer() {
+    fun gatewaySpecificServer() = runTest {
         val connectIntent = ConnectIntent.Gateway("Gateway Name", serverGateway.serverId)
         setConnectIntentRowComposable(connectIntent, null)
 
@@ -358,10 +360,10 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         node.withTag("secondaryLabel").hasChild(node.withText("United States #1")).assertIsDisplayed()
     }
 
-    private fun setConnectIntentRowComposable(connectIntent: ConnectIntent, connectedServer: Server? = null) {
+    private suspend fun setConnectIntentRowComposable(connectIntent: ConnectIntent, connectedServer: Server? = null) {
+        val state = getConnectIntentViewState(connectIntent, connectedServer)
         composeRule.setContent {
             Row {
-                val state = getConnectIntentViewState(connectIntent, connectedServer)
                 ConnectIntentLabels(
                     primaryLabel = state.primaryLabel,
                     secondaryLabel = state.secondaryLabel,

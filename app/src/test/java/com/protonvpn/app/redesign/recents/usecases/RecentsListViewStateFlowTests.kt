@@ -39,6 +39,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -50,7 +51,6 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
-import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
@@ -140,14 +140,15 @@ class RecentsListViewStateFlowTests {
             createInMemoryServersStore(),
             mockk(),
         )
+        val serverManager2 = ServerManager2(serverManager, effectiveUserSettings, supportsProtocol)
         runBlocking {
             serverManager.setServers(listOf(serverCh, serverIs, serverSe, serverSecureCore), null)
         }
         val translator = Translator(testScope.backgroundScope, serverManager)
         viewStateFlow = RecentsListViewStateFlow(
             mockRecentsManager,
-            GetConnectIntentViewState(serverManager, translator),
-            serverManager,
+            GetConnectIntentViewState(serverManager2, translator),
+            serverManager2,
             supportsProtocol,
             effectiveUserSettings,
             vpnStatusProviderUI,

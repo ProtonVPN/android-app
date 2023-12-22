@@ -386,7 +386,6 @@ class ServerManager @Inject constructor(
             fallbackResult = null
         )
 
-
     /*
      * Perform operations related to ConnectIntent.
      *

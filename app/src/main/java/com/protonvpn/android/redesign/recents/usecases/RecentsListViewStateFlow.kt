@@ -32,8 +32,8 @@ import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.flatMapLatestNotNull
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
@@ -54,7 +54,7 @@ data class RecentsListViewState(
 class RecentsListViewStateFlow @Inject constructor(
     recentsManager: RecentsManager,
     private val getConnectIntentViewState: GetConnectIntentViewState,
-    private val serverManager: ServerManager,
+    private val serverManager: ServerManager2,
     private val supportsProtocol: SupportsProtocol,
     private val userSettings: EffectiveCurrentUserSettings,
     vpnStatusProvider: VpnStatusProviderUI,
@@ -94,13 +94,17 @@ class RecentsListViewStateFlow @Inject constructor(
     override suspend fun collect(collector: FlowCollector<RecentsListViewState>) =
         viewState.collect(collector)
 
-    private fun createRecentsViewState(
+    private suspend fun createRecentsViewState(
         recents: List<RecentConnection>,
         connectedIntent: ConnectIntent?,
         connectionCardIntent: ConnectIntent,
         vpnUser: VpnUser?,
         protocol: ProtocolSelection
     ): List<RecentItemViewState> =
+        // Note: the loop below calls suspending functions in each iteration making it potentially slow.
+        // With the legacy ServerManager this shouldn't be an issue but once we move to a different server storage this
+        // code needs to be revised and all the necessary information should be fetched once in a batch instead of
+        // querying one by one for each intent.
         recents.mapNotNull { recentConnection ->
             if (recentConnection.connectIntent != connectionCardIntent || recentConnection.isPinned) {
                 mapToRecentItemViewState(recentConnection, connectedIntent, vpnUser, protocol)
@@ -109,7 +113,7 @@ class RecentsListViewStateFlow @Inject constructor(
             }
         }
 
-    private fun mapToRecentItemViewState(
+    private suspend fun mapToRecentItemViewState(
         recentConnection: RecentConnection,
         connectedIntent: ConnectIntent?,
         vpnUser: VpnUser?,
@@ -125,7 +129,7 @@ class RecentsListViewStateFlow @Inject constructor(
             )
         }
 
-    private fun createCardState(
+    private suspend fun createCardState(
         vpnState: VpnState,
         connectIntent: ConnectIntent,
         connectedServer: Server?
@@ -151,7 +155,9 @@ class RecentsListViewStateFlow @Inject constructor(
         )
     }
 
-    private fun getAvailability(
+    // Note: this is a suspending function being called in a loop which makes it potentially slow.
+    // See RecentListViewStateFlow.createRecentsViewState
+    private suspend fun getAvailability(
         connectIntent: ConnectIntent,
         vpnUser: VpnUser?,
         protocol: ProtocolSelection

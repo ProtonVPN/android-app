@@ -24,17 +24,19 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
-import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.servers.ServerManager2
 import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
 class GetConnectIntentViewState @Inject constructor(
-    private val serverManager: ServerManager,
+    private val serverManager: ServerManager2,
     private val translator: Translator,
 ) {
 
-    operator fun invoke(connectIntent: ConnectIntent, connectedServer: Server? = null): ConnectIntentViewState =
+    // Note: this is a suspending function being called in a loop which makes it potentially slow.
+    // See RecentListViewStateFlow.createRecentsViewState
+    suspend operator fun invoke(connectIntent: ConnectIntent, connectedServer: Server? = null): ConnectIntentViewState =
         when (connectIntent) {
             is ConnectIntent.FastestInCountry -> fastestInCountry(connectIntent, connectedServer)
             is ConnectIntent.FastestInCity -> fastestInCity(connectIntent, connectedServer)
@@ -97,7 +99,7 @@ class GetConnectIntentViewState @Inject constructor(
         )
     }
 
-    private fun gateway(connectIntent: ConnectIntent.Gateway, connectedServer: Server?): ConnectIntentViewState {
+    private suspend fun gateway(connectIntent: ConnectIntent.Gateway, connectedServer: Server?): ConnectIntentViewState {
         val specificServer = connectIntent.serverId?.let { connectedServer ?: serverManager.getServerById(it) }
         val secondaryLabel = specificServer?.let { gatewayServerSecondaryLabel(it) }
         val exitCountry = specificServer?.let { CountryId(it.exitCountry) }
@@ -111,7 +113,7 @@ class GetConnectIntentViewState @Inject constructor(
         )
     }
 
-    private fun specificServer(
+    private suspend fun specificServer(
         connectIntent: ConnectIntent.Server,
         connectedServer: Server? = null
     ): ConnectIntentViewState {

@@ -22,7 +22,7 @@ package com.protonvpn.android.redesign.recents.usecases
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.flatMapLatestNotNull
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
@@ -37,7 +37,7 @@ private const val MAX_UNPINNED_RECENTS = 6
 class RecentsListValidator @Inject constructor(
     mainScope: CoroutineScope,
     recentsDao: RecentsDao,
-    serverManager: ServerManager,
+    serverManager: ServerManager2,
     currentUser: CurrentUser
 ) {
 
@@ -51,9 +51,7 @@ class RecentsListValidator @Inject constructor(
         }
     }.onEach { intentsWithNoServer ->
         if (intentsWithNoServer.isNotEmpty()) {
-            println("Deleting ${intentsWithNoServer.size}")
             recentsDao.delete(intentsWithNoServer.map { it.id })
-            println("Deleted ${intentsWithNoServer.size}")
         }
     }
 

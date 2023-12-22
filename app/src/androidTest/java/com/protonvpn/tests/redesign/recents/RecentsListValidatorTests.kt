@@ -32,6 +32,8 @@ import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.ServerManager
@@ -71,6 +73,7 @@ class RecentsListValidatorTests {
     private lateinit var currentUser: CurrentUser
     private lateinit var recentsDao: RecentsDao
     private lateinit var serverManager: ServerManager
+    private lateinit var serverManager2: ServerManager2
     private lateinit var testScope: TestScope
 
     private lateinit var idlingResource: CountingIdlingResource
@@ -107,15 +110,22 @@ class RecentsListValidatorTests {
             accountManager.addAccount(AccountTestHelper.TestAccount2, AccountTestHelper.TestSession2)
         }
 
+        val settingsFlow = MutableStateFlow(LocalUserSettings.Default)
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         recentsDao = db.recentsDao()
         serverManager = ServerManager(
             testScope.backgroundScope,
-            EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default)),
+            EffectiveCurrentUserSettingsCached(settingsFlow),
             currentUser = mockk(relaxed = true),
             wallClock = { 0 },
-            supportsProtocol = SupportsProtocol(createGetSmartProtocols()),
+            supportsProtocol = supportsProtocol,
             serversStore = createInMemoryServersStore(),
             profileManager = mockk(),
+        )
+        serverManager2 = ServerManager2(
+            serverManager,
+            EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow),
+            supportsProtocol
         )
     }
 
@@ -126,7 +136,7 @@ class RecentsListValidatorTests {
 
     @Test
     fun whenServersAreRemovedThenRecentsPointingToTheseSpecificServersAreRemoved() = testScope.runTest {
-        RecentsListValidator(backgroundScope, recentsDao, serverManager, currentUser)
+        RecentsListValidator(backgroundScope, recentsDao, serverManager2, currentUser)
 
         val servers = (1..4).map { number -> createServer("server$number") }
         serverManager.setServers(servers, null)
@@ -154,7 +164,7 @@ class RecentsListValidatorTests {
 
     @Test
     fun whenRecentsOverLimitAreRemovedOnlyCurrentUserIsAffected() = testScope.runTest {
-        RecentsListValidator(backgroundScope, recentsDao, serverManager, currentUser)
+        RecentsListValidator(backgroundScope, recentsDao, serverManager2, currentUser)
 
         currentUserProvider.user = createUser(userId1)
 
