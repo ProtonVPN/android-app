@@ -140,8 +140,12 @@ fun Profile.toConnectIntent(
             ConnectIntent.FastestInCountry(CountryId(wrapper.country), noFeatures)
         !directServerId.isNullOrBlank() -> {
             val server = serverManager.getServerById(directServerId!!)
-            server?.let {
-                ConnectIntent.Server(server.serverId, ServerFeature.fromServer(server))
+            when {
+                server == null -> null
+                server.gatewayName != null ->
+                    ConnectIntent.Gateway(server.gatewayName!!, serverId = server.serverId)
+                else ->
+                    ConnectIntent.Server(server.serverId, ServerFeature.fromServer(server))
             }
         }
         else ->  null
