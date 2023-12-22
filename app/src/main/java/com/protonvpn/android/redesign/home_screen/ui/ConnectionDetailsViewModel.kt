@@ -56,6 +56,7 @@ class ConnectionDetailsViewModel @Inject constructor(
         val connectIntentViewState: ConnectIntentViewState,
         val serverDisplayName: String,
         val serverCity: String?,
+        val serverGatewayName: String?,
         val serverLoad: Float,
         @StringRes val protocolDisplay: Int? = null
     )
@@ -82,6 +83,7 @@ class ConnectionDetailsViewModel @Inject constructor(
             ),
             serverDisplayName = server.serverName,
             serverCity = server.displayCity,
+            serverGatewayName = server.gatewayName,
             serverLoad = server.load,
             protocolDisplay = protocol
         )
@@ -97,6 +99,7 @@ class ConnectionDetailsViewModel @Inject constructor(
             ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.fastest, null), null, emptySet()),
             "",
             "",
+            null,
             0F
         )
     )

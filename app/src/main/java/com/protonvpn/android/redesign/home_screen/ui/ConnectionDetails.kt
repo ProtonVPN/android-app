@@ -190,13 +190,16 @@ fun ConnectionDetails(
                 style = ProtonTheme.typography.captionWeak,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
-            ConnectionStats(sessionTime = getSessionTime(sessionTimeInSeconds = viewState.trafficUpdate?.sessionTimeSeconds),
+            ConnectionStats(
+                sessionTime = getSessionTime(sessionTimeInSeconds = viewState.trafficUpdate?.sessionTimeSeconds),
                 exitCountry = viewState.exitCountryId,
                 entryCountry = viewState.entryCountryId,
+                gatewayName = viewState.serverGatewayName,
                 city = viewState.serverCity,
                 serverName = viewState.serverDisplayName,
                 serverLoad = viewState.serverLoad,
-                protocol = viewState.protocolDisplay?.let { stringResource(it) })
+                protocol = viewState.protocolDisplay?.let { stringResource(it) }
+            )
         }
     }
 }
@@ -375,6 +378,7 @@ private fun ConnectionStats(
     sessionTime: String,
     exitCountry: CountryId,
     entryCountry: CountryId?,
+    gatewayName: String?,
     city: String?,
     serverName: String,
     serverLoad: Float,
@@ -391,8 +395,15 @@ private fun ConnectionStats(
                 labelTitle = stringResource(id = R.string.connection_details_connected_for),
                 contentValue = sessionTime
             )
+            if (gatewayName != null) {
+                VpnDivider()
+                ConnectionDetailRowWithText(
+                    labelTitle = stringResource(id = R.string.connection_details_gateway),
+                    contentValue = gatewayName
+                )
+            }
             VpnDivider()
-            ConnectionDetailRowWithComposable(stringResource(id = R.string.country),
+            ConnectionDetailRowWithComposable(stringResource(id = R.string.connection_details_country),
                 contentComposable = {
                     Column {
                         Text(
@@ -748,6 +759,7 @@ fun ConnectionStatsPreview() {
             sessionTime = getSessionTime(sessionTimeInSeconds = 2500),
             exitCountry = CountryId.sweden,
             entryCountry = CountryId.iceland,
+            gatewayName = null,
             city = "Stockholm",
             serverName = "SE#1",
             serverLoad = 32F,

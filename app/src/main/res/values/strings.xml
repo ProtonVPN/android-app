@@ -1059,6 +1059,8 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">Server</string>
     <!-- tag(Redesign_2023) -->
+    <string name="connection_details_gateway">Gateway</string>
+    <!-- tag(Redesign_2023) -->
     <string name="connection_details_country">Country</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">City</string>
