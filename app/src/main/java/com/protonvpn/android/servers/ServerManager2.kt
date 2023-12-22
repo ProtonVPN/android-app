@@ -25,13 +25,16 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ProtocolSelection
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -49,6 +52,12 @@ class ServerManager2 @Inject constructor(
     private val supportsProtocol: SupportsProtocol,
 ) {
 
+    // Same as ServerManager.serverListVersion but emits states only after servers are loaded.
+    val serverListVersion = flow {
+        serverManager.ensureLoaded()
+        emitAll(serverManager.serverListVersion)
+    }
+
     suspend fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
         serverManager.ensureLoaded()
         return serverManager.getServerForProfile(profile, vpnUser, currentUserSettings.secureCore.first())
@@ -62,6 +71,25 @@ class ServerManager2 @Inject constructor(
     suspend fun getServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?): Server? {
         serverManager.ensureLoaded()
         return serverManager.getServerForConnectIntent(connectIntent, vpnUser)
+    }
+
+    /*
+     * Perform operations related to ConnectIntent.
+     *
+     * ConnectIntent can specify either a fastest server overall, fastest in country, a specific server and so on.
+     * Use this function to implement operations for a ConnectIntent like checking if its country/city/server is
+     * available.
+     */
+    suspend fun <T> forConnectIntent(
+        connectIntent: AnyConnectIntent,
+        onFastest: (isSecureCore: Boolean) -> T,
+        onFastestInGroup: (ServerGroup, isSecureCore: Boolean) -> T,
+        onFastestInCity: (VpnCountry, List<Server>) -> T,
+        onServer: (Server) -> T,
+        fallbackResult: T
+    ): T {
+        serverManager.ensureLoaded()
+        return serverManager.forConnectIntent(connectIntent, onFastest, onFastestInGroup, onFastestInCity, onServer, fallbackResult)
     }
 
     suspend fun getServerById(id: String): Server? {
