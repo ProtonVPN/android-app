@@ -56,6 +56,7 @@ class ConnectionDetailsTests : FusionComposeTest() {
         ),
         serverDisplayName = "CH#1",
         serverCity = "Stockholm",
+        serverGatewayName = null,
         serverLoad = 50f
     )
 
