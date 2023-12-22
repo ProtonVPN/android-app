@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.protonvpn.android.redesign.recents.ui.RecentsExpandState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 
 class RecentsAndConnectionSample : SampleScreen("Connection+Recents", "connection_with_recents", false) {
@@ -47,6 +48,7 @@ class RecentsAndConnectionSample : SampleScreen("Connection+Recents", "connectio
                 onRecentClicked = viewModel::connectRecent,
                 onRecentPinToggle = viewModel::togglePinned,
                 onRecentRemove = viewModel::removeRecent,
+                expandState = null
             )
         }
     }

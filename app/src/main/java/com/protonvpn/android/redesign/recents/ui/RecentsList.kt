@@ -24,10 +24,6 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.Transition
-import androidx.compose.animation.core.VisibilityThreshold
-import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.snap
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
@@ -37,22 +33,24 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.MaxContentWidth
@@ -60,11 +58,74 @@ import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
+import kotlin.math.roundToInt
 
 data class ItemIds(
     val connectionCard: Long?,
     val recents: List<Long>
 )
+
+@Stable
+class RecentsExpandState(
+    initialListOffsetPx: Int = Int.MAX_VALUE,
+) {
+    private val maxHeightState = mutableIntStateOf(0)
+    private val listOffsetState = mutableIntStateOf(initialListOffsetPx)
+    private val listHeightState = mutableIntStateOf(0)
+    private val peekHeightState = mutableIntStateOf(0)
+
+    private val maxHeightPx: Int get() = maxHeightState.intValue
+
+    private val minOffset: Int get() = maxHeightPx - listHeightState.intValue
+    private val maxOffset: Int get() = maxHeightPx - peekHeightState.intValue
+
+    val listOffsetPx by listOffsetState
+
+    val nestedScrollConnection = object : NestedScrollConnection {
+        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset =
+            if (available.y < 0) handleAvailableScroll(available) else Offset.Zero
+
+        override fun onPostScroll(
+            consumed: Offset, available: Offset, source: NestedScrollSource
+        ): Offset = if (available.y > 0) handleAvailableScroll(available) else Offset.Zero
+
+        private fun handleAvailableScroll(available: Offset): Offset {
+            val newOffset = (listOffsetPx + available.y).coerceIn(minOffset.toFloat(), maxOffset.toFloat())
+            val deltaToConsume = newOffset - listOffsetPx
+            listOffsetState.intValue = newOffset.roundToInt()
+            return Offset(0f, deltaToConsume)
+        }
+    }
+
+    fun setPeekHeight(newPeekHeight: Int) {
+        peekHeightState.intValue = newPeekHeight
+        if (listOffsetPx > maxOffset) {
+            listOffsetState.intValue = maxOffset
+        }
+    }
+
+    fun setListHeight(newListHeight: Int) {
+        listHeightState.intValue = newListHeight
+        when {
+            listOffsetPx > maxOffset -> listOffsetState.intValue = maxOffset
+            listOffsetPx < minOffset -> listOffsetState.intValue = minOffset
+        }
+    }
+
+    fun setMaxHeight(newMaxHeight: Int) {
+        maxHeightState.intValue = newMaxHeight
+    }
+
+    companion object {
+        val Saver: Saver<RecentsExpandState, *> = Saver(
+            save = { it.listOffsetPx },
+            restore = { RecentsExpandState(initialListOffsetPx = it) }
+        )
+    }
+}
+
+@Composable
+fun rememberRecentsExpandState() = rememberSaveable(saver = RecentsExpandState.Saver) { RecentsExpandState() }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -78,39 +139,29 @@ fun RecentsList(
     onRecentPinToggle: (item: RecentItemViewState) -> Unit,
     onRecentRemove: (item: RecentItemViewState) -> Unit,
     modifier: Modifier = Modifier,
-    lazyListState: LazyListState = rememberLazyListState(),
-    horizontalContentPadding: Dp = 0.dp,
-    maxHeight: Dp = 0.dp,
+    contentPadding: PaddingValues = PaddingValues(),
+    expandState: RecentsExpandState?
 ) {
     val itemIds = viewState.toItemIds()
     val itemIdsTransition = updateTransition(targetState = itemIds, label = "item IDs")
 
-    var peekHeightPx by remember { mutableIntStateOf(0) }
-    val peekHeightPxTransition = updateTransition(targetState = peekHeightPx, label = "peek height")
-    val peekHeightDp by peekHeightPxTransition.animateDp(
-        label = "peek height dp",
-        transitionSpec = {
-            when (initialState) {
-                0 -> snap()
-                else -> spring(visibilityThreshold = Dp.VisibilityThreshold)
-            }
-        },
-        targetValueByState = @Composable { px -> LocalDensity.current.run { px.toDp() } }
-    )
+    val listModifier = if (expandState != null) {
+        modifier
+            .nestedScroll(expandState.nestedScrollConnection)
+            .onGloballyPositioned { expandState.setListHeight(it.size.height) }
+    } else {
+        modifier
+    }
     LazyColumn(
-        state = lazyListState,
-        modifier = modifier,
-        contentPadding = PaddingValues(
-            top = (maxHeight - peekHeightDp).coerceAtLeast(0.dp),
-            start = horizontalContentPadding, end = horizontalContentPadding
-        ),
+        modifier = listModifier,
+        contentPadding = contentPadding,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
             Column(
                 modifier = Modifier
                     .widthIn(max = ProtonTheme.MaxContentWidth)
-                    .onGloballyPositioned { peekHeightPx = it.size.height }
+                    .onGloballyPositioned { expandState?.setPeekHeight(it.boundsInParent().bottom.roundToInt()) }
                     .animateItemPlacement()
                     .animateContentSize()
             ) {

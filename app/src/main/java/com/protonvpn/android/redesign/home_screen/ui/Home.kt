@@ -19,20 +19,19 @@
 
 package com.protonvpn.android.redesign.home_screen.ui
 
-import android.content.Intent
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -56,6 +55,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -67,6 +67,7 @@ import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
+import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
@@ -75,6 +76,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
+import kotlin.math.roundToInt
 
 @Composable
 fun HomeRoute(onConnectionCardClick: () -> Unit) {
@@ -141,8 +143,7 @@ fun HomeView(onConnectionCardClick: () -> Unit) {
         }
         val listBgColor = ProtonTheme.colors.backgroundNorm
         val listBgGradientColors = listOf(Color.Transparent, listBgColor)
-        val listState = rememberLazyListState()
-        val bgOffset = remember { derivedStateOf { calculateBgOffset(listState) } }
+        val recentsExpandState = rememberRecentsExpandState()
         BoxWithConstraints {
             val viewportSize = DpSize(maxWidth, maxHeight)
             val widthSizeClass = remember(viewportSize) {
@@ -151,12 +152,17 @@ fun HomeView(onConnectionCardClick: () -> Unit) {
                 // size class here to take that into account.
                 WindowSizeClass.calculateFromSize(viewportSize).widthSizeClass
             }
+            val maxHeightPx = LocalDensity.current.run { maxHeight.toPx() }
+            recentsExpandState.setMaxHeight(maxHeightPx.roundToInt())
             val horizontalPadding = ProtonTheme.getPaddingForWindowWidthClass(widthSizeClass)
+
             val listBgGradientHeight = if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientHeightBasic else ListBgGradientHeightExpanded
             val listBgGradientOffset = if (widthSizeClass == WindowWidthSizeClass.Compact) 0.dp else ListBgGradientHeightExpanded / 2
+            val listContentPadding =
+                PaddingValues(top = listBgGradientOffset, start = horizontalPadding, end = horizontalPadding)
             RecentsList(
                 viewState = recentsViewState,
-                lazyListState = listState,
+                expandState = recentsExpandState,
                 onConnectClicked = connectAction,
                 onDisconnectClicked = viewModel::disconnect,
                 onOpenPanelClicked = onConnectionCardClick,
@@ -164,16 +170,14 @@ fun HomeView(onConnectionCardClick: () -> Unit) {
                 onRecentClicked = recentClickedAction,
                 onRecentPinToggle = viewModel::togglePinned,
                 onRecentRemove = viewModel::removeRecent,
-                maxHeight = maxHeight,
-                horizontalContentPadding = horizontalPadding,
+                contentPadding = listContentPadding,
                 modifier = Modifier
-                    .fillMaxSize()
+                    .offset { IntOffset(0, recentsExpandState.listOffsetPx) }
                     .drawBehind {
-                        val gradientTop = bgOffset.value.toFloat() - listBgGradientHeight.toPx()
-                        val gradientBottom = bgOffset.value.toFloat() + listBgGradientOffset.toPx()
+                        val gradientBottom = listBgGradientHeight.toPx()
                         drawRect(
                             brush = Brush.linearGradient(
-                                listBgGradientColors, start = Offset(0f, gradientTop), end = Offset(0f, gradientBottom)
+                                listBgGradientColors, start = Offset(0f, 0f), end = Offset(0f, gradientBottom)
                             )
                         )
                         drawRect(listBgColor, topLeft = Offset(0f, gradientBottom))
@@ -186,7 +190,7 @@ fun HomeView(onConnectionCardClick: () -> Unit) {
             (ListBgGradientHeightBasic - vpnStatusTopMinHeight).toPx()
         }
         val coverAlpha = remember(fullCoverThresholdPx) {
-            derivedStateOf { calculateOverlayAlpha(listState, fullCoverThresholdPx) }
+            derivedStateOf { calculateOverlayAlpha(recentsExpandState.listOffsetPx, fullCoverThresholdPx) }
         }
         VpnStatusTop(
             vpnState,
@@ -241,28 +245,9 @@ private fun Modifier.recentsScrollOverlayBackground(
     }
 }
 
-private fun calculateBgOffset(lazyListState: LazyListState): Int {
-    val firstVisibleItem = lazyListState.layoutInfo.visibleItemsInfo.getOrNull(0)
+private fun calculateOverlayAlpha(offset: Int, fullCoverPx: Float): Float {
     return when {
-        firstVisibleItem == null -> lazyListState.layoutInfo.beforeContentPadding
-        firstVisibleItem.index == 0 ->
-            (lazyListState.layoutInfo.beforeContentPadding + firstVisibleItem.offset).coerceAtLeast(0)
-        else -> 0
-    }
-}
-
-private fun calculateOverlayAlpha(lazyListState: LazyListState, fullCoverPx: Float): Float {
-    val firstVisibleItem = lazyListState.layoutInfo.visibleItemsInfo.getOrNull(0)
-    return when {
-        firstVisibleItem == null -> 0f
-        firstVisibleItem.index == 0 &&
-            lazyListState.layoutInfo.beforeContentPadding + firstVisibleItem.offset > 0 ->
-            0f
-        firstVisibleItem.index == 0 -> {
-            val onScreenSize =
-                fullCoverPx + lazyListState.layoutInfo.beforeContentPadding + firstVisibleItem.offset
-            (1f - onScreenSize / fullCoverPx).coerceIn(0f, 1f)
-        }
-        else -> 1f
+        offset >= 0 && offset < fullCoverPx -> 1f - offset.toFloat() / fullCoverPx
+        else -> 0f
     }
 }
