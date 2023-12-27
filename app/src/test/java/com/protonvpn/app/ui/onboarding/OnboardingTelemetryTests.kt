@@ -32,6 +32,7 @@ import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -42,6 +43,8 @@ import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
@@ -64,6 +67,7 @@ class OnboardingTelemetryTests {
     private lateinit var foregroundActivityFlow: MutableStateFlow<Activity?>
     private lateinit var serverListPrefs: ServerListUpdaterPrefs
     private lateinit var testUserProvider: TestCurrentUserProvider
+    private lateinit var testDispatcher: TestDispatcher
     private lateinit var testScope: TestScope
     private lateinit var vpnStateMonitor: VpnStateMonitor
 
@@ -71,7 +75,8 @@ class OnboardingTelemetryTests {
     fun setup() {
         MockKAnnotations.init(this)
 
-        testScope = TestScope()
+        testDispatcher = StandardTestDispatcher()
+        testScope = TestScope(testDispatcher)
 
         foregroundActivityFlow = MutableStateFlow(null)
         every { mockForegroundActivityTracker.foregroundActivityFlow } returns foregroundActivityFlow
@@ -161,6 +166,7 @@ class OnboardingTelemetryTests {
 
     private fun createTelemetry() = OnboardingTelemetry(
         testScope.backgroundScope,
+        TestDispatcherProvider(testDispatcher),
         mockTelemetry,
         mockForegroundActivityTracker,
         vpnStateMonitor,
