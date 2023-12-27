@@ -24,10 +24,13 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.Transition
+import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.MutatePriority
+import androidx.compose.foundation.MutatorMutex
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -40,6 +43,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -59,6 +63,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.MaxContentWidth
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 import kotlin.math.roundToInt
@@ -68,10 +74,20 @@ data class ItemIds(
     val recents: List<Long>
 )
 
+/**
+ * The recents list is initially positioned to only show the connection card and it can be expanded to its full height
+ * by dragging it up, a bit similar to a standard bottom sheet.
+ * This class manages the state of the expansion:
+ *  - the list offset controls the list's offset from the regular laid out position,
+ *  - createNestedScrollConnection() creates a nested scroll connection to use with the list's nestedScroll, the
+ *    connection manages the list offset via nested scroll events,
+ *  - setPeekHeight, setListHeight and setMaxHeight need to be called after layout/measure to set the list offset range.
+ */
 @Stable
 class RecentsExpandState(
     initialListOffsetPx: Int = Int.MAX_VALUE,
 ) {
+    private val mutatorMutex = MutatorMutex()
     private val maxHeightState = mutableIntStateOf(0)
     private val listOffsetState = mutableIntStateOf(initialListOffsetPx)
     private val listHeightState = mutableIntStateOf(0)
@@ -86,28 +102,33 @@ class RecentsExpandState(
 
     val listOffsetPx by listOffsetState
 
-    val nestedScrollConnection = object : NestedScrollConnection {
-        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset =
-            if (available.y < 0) handleAvailableScroll(available) else Offset.Zero
+    fun createNestedScrollConnection(coroutineScope: CoroutineScope) =
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset =
+                if (available.y < 0) handleAvailableScroll(available) else Offset.Zero
 
-        override fun onPostScroll(
-            consumed: Offset, available: Offset, source: NestedScrollSource
-        ): Offset = if (available.y > 0) handleAvailableScroll(available) else Offset.Zero
+            override fun onPostScroll(
+                consumed: Offset, available: Offset, source: NestedScrollSource
+            ): Offset = if (available.y > 0) handleAvailableScroll(available) else Offset.Zero
 
-        private fun handleAvailableScroll(available: Offset): Offset {
-            val newOffset = (listOffsetPx + available.y).coerceIn(minOffset.toFloat(), maxOffset.toFloat())
-            val deltaToConsume = newOffset - listOffsetPx
-            listOffsetState.intValue = newOffset.roundToInt()
-            return Offset(0f, deltaToConsume)
+            private fun handleAvailableScroll(available: Offset): Offset {
+                val newOffset = (listOffsetPx + available.y).coerceIn(minOffset.toFloat(), maxOffset.toFloat())
+                val deltaToConsume = newOffset - listOffsetPx
+                coroutineScope.launch {
+                    mutatorMutex.mutate(MutatePriority.UserInput) {
+                        listOffsetState.intValue = newOffset.roundToInt()
+                    }
+                }
+                return Offset(0f, deltaToConsume)
+            }
         }
+
+    suspend fun expand() {
+        animateOffsetTo(minOffset)
     }
 
-    fun expand() {
-        listOffsetState.intValue = minOffset
-    }
-
-    fun collapse() {
-        listOffsetState.intValue = maxOffset
+    suspend fun collapse() {
+        animateOffsetTo(maxOffset)
     }
 
     fun setPeekHeight(newPeekHeight: Int) {
@@ -117,16 +138,30 @@ class RecentsExpandState(
         }
     }
 
-    fun setListHeight(newListHeight: Int) {
-        listHeightState.intValue = newListHeight
-        when {
-            listOffsetPx > maxOffset -> listOffsetState.intValue = maxOffset
-            listOffsetPx < minOffset -> listOffsetState.intValue = minOffset
+    suspend fun setListHeight(newListHeight: Int) {
+        if (listHeightState.intValue != newListHeight) {
+            listHeightState.intValue = newListHeight
+            when {
+                listOffsetPx > maxOffset -> animateOffsetTo(maxOffset)
+                listOffsetPx < minOffset -> animateOffsetTo(minOffset)
+            }
         }
     }
 
     fun setMaxHeight(newMaxHeight: Int) {
         maxHeightState.intValue = newMaxHeight
+    }
+
+    private suspend fun animateOffsetTo(newOffset: Int) {
+        mutatorMutex.mutate(MutatePriority.Default) {
+            try {
+                animate(listOffsetState.intValue.toFloat(), newOffset.toFloat()) { value, _ ->
+                    listOffsetState.intValue = value.roundToInt()
+                }
+            } finally {
+                listOffsetState.intValue = newOffset
+            }
+        }
     }
 
     companion object {
@@ -158,10 +193,13 @@ fun RecentsList(
     val itemIds = viewState.toItemIds()
     val itemIdsTransition = updateTransition(targetState = itemIds, label = "item IDs")
 
+    val scope = rememberCoroutineScope()
     val listModifier = if (expandState != null) {
         modifier
-            .nestedScroll(expandState.nestedScrollConnection)
-            .onGloballyPositioned { expandState.setListHeight(it.size.height) }
+            .nestedScroll(expandState.createNestedScrollConnection(scope))
+            .onGloballyPositioned {
+                scope.launch { expandState.setListHeight(it.size.height) }
+            }
     } else {
         modifier
     }
@@ -234,6 +272,7 @@ private fun RecentsTitle(
     // via nested scroll and the default scroll accessibility.
     // Unfortunately it doesn't work this way: https://issuetracker.google.com/issues/240449680
     // Instead put an expand/collapse action on the "Recents" header.
+    val scope = rememberCoroutineScope()
     val modifierWithSemantics = if (expandState != null) {
         val stringExpanded = stringResource(R.string.accessibility_expandable_state_expanded)
         val stringCollapsed = stringResource(R.string.accessibility_expandable_state_collapsed)
@@ -246,12 +285,12 @@ private fun RecentsTitle(
             stateDescription = if (expandState.isExpanded) stringExpanded else stringCollapsed
             if (expandState.isExpanded) {
                 onClick(stringActionCollapse) {
-                    expandState.collapse()
+                    scope.launch { expandState.collapse() }
                     true
                 }
             } else {
                 onClick(stringActionExpand) {
-                    expandState.expand()
+                    scope.launch { expandState.expand() }
                     true
                 }
             }
