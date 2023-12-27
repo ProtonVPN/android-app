@@ -51,6 +51,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.MaxContentWidth
@@ -79,6 +82,8 @@ class RecentsExpandState(
     private val minOffset: Int get() = maxHeightPx - listHeightState.intValue
     private val maxOffset: Int get() = maxHeightPx - peekHeightState.intValue
 
+    val isExpanded: Boolean get() = listOffsetPx == minOffset
+
     val listOffsetPx by listOffsetState
 
     val nestedScrollConnection = object : NestedScrollConnection {
@@ -95,6 +100,14 @@ class RecentsExpandState(
             listOffsetState.intValue = newOffset.roundToInt()
             return Offset(0f, deltaToConsume)
         }
+    }
+
+    fun expand() {
+        listOffsetState.intValue = minOffset
+    }
+
+    fun collapse() {
+        listOffsetState.intValue = maxOffset
     }
 
     fun setPeekHeight(newPeekHeight: Int) {
@@ -175,11 +188,9 @@ fun RecentsList(
                     itemIdsTransition = itemIdsTransition
                 )
                 if (viewState.recents.isNotEmpty()) {
-                    Text(
-                        stringResource(R.string.recents_headline),
-                        style = ProtonTheme.typography.captionWeak,
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    RecentsTitle(
+                        expandState = expandState,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                     )
                 }
             }
@@ -205,12 +216,55 @@ fun RecentsList(
                 )
             }
             if (index < viewState.recents.lastIndex) {
-                VpnDivider(Modifier
-                    .widthIn(max = ProtonTheme.MaxContentWidth)
-                    .animateItemPlacement())
+                VpnDivider(
+                    Modifier
+                        .widthIn(max = ProtonTheme.MaxContentWidth)
+                        .animateItemPlacement())
             }
         }
     }
+}
+
+@Composable
+private fun RecentsTitle(
+    expandState: RecentsExpandState?,
+    modifier: Modifier = Modifier
+) {
+    // Note: in theory accessibility on the list with connection card and recents should be handled automatically
+    // via nested scroll and the default scroll accessibility.
+    // Unfortunately it doesn't work this way: https://issuetracker.google.com/issues/240449680
+    // Instead put an expand/collapse action on the "Recents" header.
+    val modifierWithSemantics = if (expandState != null) {
+        val stringExpanded = stringResource(R.string.accessibility_expandable_state_expanded)
+        val stringCollapsed = stringResource(R.string.accessibility_expandable_state_collapsed)
+        val stringActionExpand = stringResource(R.string.accessibility_expandable_action_expand)
+        val stringActionCollapse = stringResource(R.string.accessibility_expandable_action_collapse)
+        modifier.semantics {
+            // Not using SemanticProperties.expand nor collapse because they are put in the actions menu. It's better
+            // to have this action available with minimal number of steps. The disadvantage is that we need to provide
+            // our own labels.
+            stateDescription = if (expandState.isExpanded) stringExpanded else stringCollapsed
+            if (expandState.isExpanded) {
+                onClick(stringActionCollapse) {
+                    expandState.collapse()
+                    true
+                }
+            } else {
+                onClick(stringActionExpand) {
+                    expandState.expand()
+                    true
+                }
+            }
+        }
+    } else {
+        modifier
+    }
+
+    Text(
+        stringResource(R.string.recents_headline),
+        style = ProtonTheme.typography.captionWeak,
+        modifier = modifierWithSemantics
+    )
 }
 
 private fun RecentsListViewState.toItemIds() =
