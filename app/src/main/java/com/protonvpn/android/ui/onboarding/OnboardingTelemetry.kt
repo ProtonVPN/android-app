@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.onboarding
 
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.ui.ForegroundActivityTracker
@@ -30,6 +31,9 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import me.proton.core.auth.presentation.ui.signup.SignupActivity
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -37,6 +41,7 @@ import javax.inject.Singleton
 @Singleton
 class OnboardingTelemetry @Inject constructor(
     private val mainScope: CoroutineScope,
+    private val dispatcherProvider: VpnDispatcherProvider,
     private val telemetry: Telemetry,
     foregroundActivityTracker: ForegroundActivityTracker,
     vpnStateMonitor: VpnStateMonitor,
@@ -44,6 +49,8 @@ class OnboardingTelemetry @Inject constructor(
     private val commonDimensions: CommonDimensions,
     private val appFeaturesPrefs: AppFeaturesPrefs,
 ) {
+
+    private val prefsMutex = Mutex()
 
     init {
         foregroundActivityTracker.foregroundActivityFlow
@@ -74,21 +81,24 @@ class OnboardingTelemetry @Inject constructor(
     private fun onConnectionAttempt() = sendEvent("first_connection")
 
     private fun sendEvent(eventName: String, dimensions: suspend () -> Map<String, String> = { getDimensions() }) {
-        if (hasReportedEvent(eventName)) return
-
-        storeEventReported(eventName)
         mainScope.launch {
+            if (hasReportedEvent(eventName)) return@launch
+
+            storeEventReported(eventName)
             telemetry.event(MEASUREMENT_GROUP, eventName, emptyMap(), dimensions(), sendImmediately = true)
         }
     }
 
-    private fun hasReportedEvent(eventName: String) =
+    private suspend fun hasReportedEvent(eventName: String) = withContext(dispatcherProvider.Io) {
         appFeaturesPrefs.reportedOnboardingEvents.contains(eventName)
+    }
 
-    private fun storeEventReported(eventName: String) {
-        val events = appFeaturesPrefs.reportedOnboardingEvents
-        if (!events.contains(eventName))
-            appFeaturesPrefs.reportedOnboardingEvents = events + eventName
+    private suspend fun storeEventReported(eventName: String) = withContext(dispatcherProvider.Io) {
+        prefsMutex.withLock {
+            val events = appFeaturesPrefs.reportedOnboardingEvents
+            if (!events.contains(eventName))
+                appFeaturesPrefs.reportedOnboardingEvents = events + eventName
+        }
     }
 
     private suspend fun getDimensions(planNameOverride: String? = null): Map<String, String> = buildMap {
