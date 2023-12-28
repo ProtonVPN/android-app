@@ -18,10 +18,7 @@
  */
 package com.protonvpn.android.tv.main
 
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.utils.UserPlanManager
@@ -36,16 +33,9 @@ open class MainViewModel @Inject constructor(
     userPlanManager: UserPlanManager,
     private val logoutUseCase: Logout,
     protected val currentUser: CurrentUser,
-    val purchaseEnabled: CachedPurchaseEnabled,
-) : ViewModel(), DefaultLifecycleObserver {
+) : ViewModel() {
 
     val userPlanChangeEvent = userPlanManager.planChangeFlow
-
-    override fun onResume(owner: LifecycleOwner) {
-        mainScope.launch {
-            purchaseEnabled.refresh()
-        }
-    }
 
     fun hasAccessToSecureCore() =
         currentUser.vpnUserCached()?.isUserPlusOrAbove == true

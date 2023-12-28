@@ -23,7 +23,6 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
-import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
@@ -60,7 +59,6 @@ class HomeViewModel @Inject constructor(
     currentUser: CurrentUser,
     logoutUseCase: Logout,
     onSessionClosed: OnSessionClosed,
-    purchaseEnabled: CachedPurchaseEnabled,
     private val appFeaturesPrefs: AppFeaturesPrefs,
     private val restrictionsConfig: RestrictionsConfig,
     private val whatsNewFreeController: WhatsNewFreeController,
@@ -69,7 +67,6 @@ class HomeViewModel @Inject constructor(
     userPlanManager,
     logoutUseCase,
     currentUser,
-    purchaseEnabled,
 ) {
 
     private var startOnboardingJob: Job? = null

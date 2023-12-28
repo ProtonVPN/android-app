@@ -161,7 +161,6 @@ public class HomeActivity extends VpnActivity {
         super.onCreate(savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        getLifecycle().addObserver(viewModel);
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
         setSupportActionBar(toolbar);
