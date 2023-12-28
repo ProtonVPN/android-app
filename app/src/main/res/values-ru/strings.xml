@@ -487,7 +487,7 @@
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Unlock faster, less crowded servers with speeds of up to %1$d Gbps.</string>
+    <string name="upgrade_vpn_accelerator_message">Разблокируйте более быстрые и менее загруженные серверы со скоростью до %1$d Гбит/с.</string>
     <string name="upgrade_split_tunneling_title">Получите лучшее из обоих миров</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Разделите трафик на VPN- и не-VPN-туннели с помощью <b>раздельного туннелирования</b>.]]></string>
     <string name="upgrade_customization_title">Разблокируйте расширенные настройки VPN</string>

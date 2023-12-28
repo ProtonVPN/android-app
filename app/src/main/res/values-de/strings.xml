@@ -477,7 +477,7 @@
     -->
     <string name="upgrade_vpn_accelerator_message">Schalte schnellere, weniger überlastete Server mit Geschwindigkeiten von bis zu%1$d Gbps frei.</string>
     <string name="upgrade_split_tunneling_title">Erhalte das Beste aus beiden Welten</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Teile deinen Datenverkehr in VPN- und Nicht-VPN-Tunnel mit <b>split tunneling</b>.]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Teile deinen Datenverkehr in VPN- und Nicht-VPN-Tunnel mit <b>Split-Tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Erweiterte VPN-Anpassung freischalten</string>
     <string name="upgrade_lan_access_message"><![CDATA[Greife auf Geräte in deinem <b>lokalen Netzwerk (LAN)</b> mit VPN Plus zu.]]></string>
     <string name="upgrade_all_countries_title">Zugriff auf alle Länder</string>
@@ -715,5 +715,5 @@
      -->
     <string name="accessibility_external_link_suffix">Externer Link</string>
     <string name="no_logs_banner_title">Zertifiziertes VPN ohne Protokollierung</string>
-    <string name="no_logs_banner_description">Deine VPN-Aktivitäten sind durch die Schweizer Datenschutzgesetze geschützt. Wir werden dich niemals online verfolgen oder deine Informationen an Dritte weitergeben.</string>
+    <string name="no_logs_banner_description">Deine VPN-Aktivitäten sind durch die Schweizer Datenschutzgesetze geschützt. Wir werden dich niemals online nachverfolgen oder deine Informationen an Dritte weitergeben.</string>
 </resources>
