@@ -52,7 +52,7 @@ import me.proton.core.compose.theme.defaultStrongNorm
 
 @Composable
 fun CountryListRoute(
-    onNavigateToHome: () -> Unit,
+    onNavigateToHomeOnConnect: () -> Unit,
     onNavigateToSearch: () -> Unit,
 ) {
     val context = LocalContext.current as AppCompatActivity
@@ -60,7 +60,7 @@ fun CountryListRoute(
 
     // Bridge back navigation to home screen upon connection
     viewModel.navigateToHomeEvent.collectAsEffect(block = {
-        onNavigateToHome()
+        onNavigateToHomeOnConnect()
     })
     CountryList(onNavigateToSearch = onNavigateToSearch, onNavigateToInformation = {
         context.startActivity(
@@ -112,7 +112,7 @@ fun CountryList(
     }
 }
 @Composable
-fun <T> Flow<T>.collectAsEffect(block: (T) -> Unit) {
+fun <T> Flow<T>.collectAsEffect(block: suspend (T) -> Unit) {
     LaunchedEffect(this) {
         onEach(block).launchIn(this)
     }

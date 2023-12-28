@@ -31,6 +31,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -48,6 +49,7 @@ import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen.home
 import com.protonvpn.android.redesign.main_screen.ui.BottomBarView
 import com.protonvpn.android.redesign.main_screen.ui.CoreNavigation
+import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen.settings
 import me.proton.core.compose.theme.ProtonTheme
@@ -112,19 +114,23 @@ class MainNav(
         modifier: Modifier,
         bottomSheetNav: BottomSheetNav
     ) {
+        val mainScreenViewModel = hiltViewModel<MainScreenViewModel>()
         SafeNavHost(
             modifier = modifier,
             startScreen = HomeScreen,
         ) {
             MainTarget.values().forEach { target ->
                 when (target) {
-                    MainTarget.Home -> home(onConnectionCardClick = {
-                        rootNav.navigate(ConnectionDetailsScreen.route)
-                    })
+                    MainTarget.Home -> home(
+                        mainScreenViewModel = mainScreenViewModel,
+                        onConnectionCardClick = { rootNav.navigate(ConnectionDetailsScreen.route) }
+                    )
 
-                    MainTarget.Countries -> countryList(onNavigateToHome = {
-                         navigate(MainTarget.Home)
-                    },
+                    MainTarget.Countries -> countryList(
+                        onNavigateToHomeOnConnect = {
+                            mainScreenViewModel.requestCollapseRecents()
+                            navigate(MainTarget.Home)
+                        },
                         onNavigateToSearch = {
                             rootNav.navigate(SearchRouteScreen.route)
                         }

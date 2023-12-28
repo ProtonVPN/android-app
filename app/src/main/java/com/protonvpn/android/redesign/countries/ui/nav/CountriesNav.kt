@@ -37,10 +37,10 @@ import kotlinx.serialization.Serializable
 object CountryListScreen : ScreenNoArg<MainNav>("country_list") {
 
     fun SafeNavGraphBuilder<MainNav>.countryList(
-        onNavigateToHome: () -> Unit,
+        onNavigateToHomeOnConnect: () -> Unit,
         onNavigateToSearch: () -> Unit,
     ) = addToGraph(this) {
-        CountryListRoute(onNavigateToHome, onNavigateToSearch)
+        CountryListRoute(onNavigateToHomeOnConnect, onNavigateToSearch)
     }
 }
 
