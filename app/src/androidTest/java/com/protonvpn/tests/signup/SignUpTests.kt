@@ -99,5 +99,6 @@ class SignupTests : MinimalSignUpExternalTests {
             .closeWelcomeDialog()
             .apply { verify { onboardingPaymentIdDisplayed() } }
             .skipOnboardingPayment()
+            .apply { verify { isHomeDisplayed() } }
     }
 }

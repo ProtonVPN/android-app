@@ -32,9 +32,9 @@ class OnboardingRobot : BaseRobot() {
         return this
     }
 
-    fun skipOnboardingPayment(): HomeRobot {
+    fun skipOnboardingPayment(): OnboardingRobot {
         view.withId(R.id.buttonNotNow).click()
-        return HomeRobot()
+        return this
     }
 
     class Verify : BaseVerify() {
@@ -45,6 +45,10 @@ class OnboardingRobot : BaseRobot() {
         fun onboardingPaymentIdDisplayed() {
             view.withText(R.string.upgrade_plus_title).withTimeout(Timeouts.LONG_MS)
                 .checkDisplayed()
+        }
+
+        fun isHomeDisplayed() {
+            node.withText(R.string.vpn_status_disabled).assertIsDisplayed()
         }
     }
 

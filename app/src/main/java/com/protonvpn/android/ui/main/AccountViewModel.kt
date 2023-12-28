@@ -95,10 +95,10 @@ class AccountViewModel @Inject constructor(
     }
 
     val showOnboarding = combine(
-        appFeaturesPrefs.showOnboardingUserIdFlow.filterNotNull().distinctUntilChanged(),
-        accountManager.getPrimaryUserId().filterNotNull().distinctUntilChanged()
+        appFeaturesPrefs.showOnboardingUserIdFlow.distinctUntilChanged(),
+        accountManager.getPrimaryUserId().distinctUntilChanged()
     ) { onboardingUserId, primaryUserId ->
-        primaryUserId.id == onboardingUserId
+        primaryUserId != null && primaryUserId.id == onboardingUserId
     }.filter { it }.map { Unit }
 
     val eventForceUpdate get() = vpnApiClient.eventForceUpdate
