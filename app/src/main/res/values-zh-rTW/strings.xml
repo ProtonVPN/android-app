@@ -457,13 +457,13 @@
     <string name="upsell_upgrade_again">再次升級以享受下列種種功能：</string>
     <string name="upgrade_plus_title">Upgrade your privacy</string>
     <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
-    <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
+    <string name="upgrade_netshield_title">享受吳廣告的瀏覽體驗</string>
     <string name="upgrade_netshield_message"><![CDATA[Block ads, trackers and malware with <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Double the encryption</string>
+    <string name="upgrade_secure_core_title">雙重加密</string>
     <string name="upgrade_secure_core_message"><![CDATA[Add another layer of encryption to your VPN connection with <b>Secure Core</b>.]]></string>
     <string name="upgrade_profiles_title">快速存取您的常用連線</string>
     <string name="upgrade_profiles_text"><![CDATA[Unlock <b>profiles</b> with <b>VPN Plus</b>.]]></string>
-    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds</string>
+    <string name="upgrade_vpn_accelerator_title">使用更快的速度瀏覽</string>
     <!--
         %1$s - speed in Gbps
         Example:
@@ -474,7 +474,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">解鎖進階 VPN 客製化</string>
     <string name="upgrade_lan_access_message"><![CDATA[Access devices on your <b>local area network (LAN)</b> with VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Access all countries</string>
+    <string name="upgrade_all_countries_title">存取所有國家</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -516,8 +516,8 @@
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">月</string>
     <string name="payment_price_per_year">年</string>
-    <string name="payment_price_per_2years">2 years</string>
-    <string name="payment_price_cycle_month_label">1 month</string>
+    <string name="payment_price_per_2years">2 年</string>
+    <string name="payment_price_cycle_month_label">1 個月</string>
     <string name="payment_price_cycle_year_label">1年</string>
     <string name="payment_price_cycle_2years_label">2年</string>
     <string name="payment_select_your_plan">選擇你的方案</string>
