@@ -26,12 +26,16 @@ import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
 import com.protonvpn.android.redesign.home_screen.ui.ConnectionDetailsRoute
 import com.protonvpn.android.redesign.home_screen.ui.HomeRoute
+import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
 import com.protonvpn.android.redesign.main_screen.ui.nav.RootNav
 
 object HomeScreen : ScreenNoArg<MainNav>("home") {
-    fun SafeNavGraphBuilder<MainNav>.home(onConnectionCardClick: () -> Unit) = addToGraph(this) {
-        HomeRoute(onConnectionCardClick)
+    fun SafeNavGraphBuilder<MainNav>.home(
+        mainScreenViewModel: MainScreenViewModel,
+        onConnectionCardClick: () -> Unit
+    ) = addToGraph(this) {
+        HomeRoute(mainScreenViewModel, onConnectionCardClick)
     }
 }
 

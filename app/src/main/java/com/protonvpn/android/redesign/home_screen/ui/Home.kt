@@ -64,7 +64,9 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
+import com.protonvpn.android.redesign.countries.ui.collectAsEffect
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
+import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
@@ -74,13 +76,21 @@ import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 import kotlin.math.roundToInt
 
 @Composable
-fun HomeRoute(onConnectionCardClick: () -> Unit) {
-    HomeView(onConnectionCardClick)
+fun HomeRoute(
+    mainScreenViewModel: MainScreenViewModel,
+    onConnectionCardClick: () -> Unit
+) {
+    HomeView(
+        mainScreenViewModel.eventCollapseRecents,
+        { mainScreenViewModel.consumeEventCollapseRecents() },
+        onConnectionCardClick
+    )
 }
 
 private val ListBgGradientHeightBasic = 100.dp
@@ -88,7 +98,11 @@ private val ListBgGradientHeightExpanded = 200.dp
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun HomeView(onConnectionCardClick: () -> Unit) {
+fun HomeView(
+    eventCollapseRecents: SharedFlow<Unit>,
+    onEventCollapseRecentsConsumed: () -> Unit,
+    onConnectionCardClick: () -> Unit
+) {
     val viewModel: HomeViewModel = hiltViewModel()
     val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle().value
     val vpnState = viewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
@@ -144,6 +158,10 @@ fun HomeView(onConnectionCardClick: () -> Unit) {
         val listBgColor = ProtonTheme.colors.backgroundNorm
         val listBgGradientColors = listOf(Color.Transparent, listBgColor)
         val recentsExpandState = rememberRecentsExpandState()
+        eventCollapseRecents.collectAsEffect {
+            onEventCollapseRecentsConsumed()
+            recentsExpandState.collapse()
+        }
         BoxWithConstraints {
             val viewportSize = DpSize(maxWidth, maxHeight)
             val widthSizeClass = remember(viewportSize) {

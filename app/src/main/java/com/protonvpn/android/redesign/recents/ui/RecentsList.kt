@@ -36,7 +36,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -45,6 +47,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -86,6 +89,7 @@ data class ItemIds(
 @Stable
 class RecentsExpandState(
     initialListOffsetPx: Int = Int.MAX_VALUE,
+    val lazyListState: LazyListState = LazyListState()
 ) {
     private val mutatorMutex = MutatorMutex()
     private val maxHeightState = mutableIntStateOf(0)
@@ -128,6 +132,9 @@ class RecentsExpandState(
     }
 
     suspend fun collapse() {
+        // This runs two separate animations and it might look less than ideal (two "motions"), but it's simple and
+        // maybe won't be too noticeable. If needed it should be possible to run a single animation to scroll both.
+        lazyListState.animateScrollToItem(0)
         animateOffsetTo(maxOffset)
     }
 
@@ -165,9 +172,15 @@ class RecentsExpandState(
     }
 
     companion object {
-        val Saver: Saver<RecentsExpandState, *> = Saver(
-            save = { it.listOffsetPx },
-            restore = { RecentsExpandState(initialListOffsetPx = it) }
+        val Saver: Saver<RecentsExpandState, *> = listSaver(
+            save = {
+                listOf(
+                    it.listOffsetPx,
+                    it.lazyListState.firstVisibleItemIndex,
+                    it.lazyListState.firstVisibleItemScrollOffset
+                )
+           },
+            restore = { RecentsExpandState(initialListOffsetPx = it[0], lazyListState = LazyListState(it[1], it[2]) ) }
         )
     }
 }
@@ -204,6 +217,7 @@ fun RecentsList(
         modifier
     }
     LazyColumn(
+        state = expandState?.lazyListState ?: rememberLazyListState(),
         modifier = listModifier,
         contentPadding = contentPadding,
         horizontalAlignment = Alignment.CenterHorizontally
