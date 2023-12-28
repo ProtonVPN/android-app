@@ -20,7 +20,6 @@ package com.protonvpn.android.tv.main
 
 import android.content.Context
 import androidx.annotation.DrawableRes
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -32,7 +31,6 @@ import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
-import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.tv.models.Card
@@ -43,7 +41,6 @@ import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.Title
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
-import com.protonvpn.android.tv.vpn.createProfileForCountry
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.AndroidUtils.toInt
 import com.protonvpn.android.utils.CountryTools
@@ -70,7 +67,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TvMainViewModel @Inject constructor(
     private val serverManager: ServerManager,
-    private val mainScope: CoroutineScope,
+    mainScope: CoroutineScope,
     serverListUpdater: ServerListUpdater,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
     vpnStateMonitor: VpnStateMonitor,
@@ -81,13 +78,12 @@ class TvMainViewModel @Inject constructor(
     currentUser: CurrentUser,
     logoutUseCase: Logout,
     userPlanManager: UserPlanManager,
-    purchaseEnabled: CachedPurchaseEnabled,
+    val purchaseEnabled: CachedPurchaseEnabled,
 ) : MainViewModel(
     mainScope,
     userPlanManager,
     logoutUseCase,
     currentUser,
-    purchaseEnabled,
 ) {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
@@ -132,10 +128,6 @@ class TvMainViewModel @Inject constructor(
     }
 
     val listVersion = serverManager.serverListVersion
-
-    fun onViewInit(lifecycle: Lifecycle) {
-        lifecycle.addObserver(this)
-    }
 
     fun setSelectedCountry(flag: String?) {
         selectedCountryFlag.value = flag

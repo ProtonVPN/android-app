@@ -91,8 +91,6 @@ class TvMainActivity : BaseTvActivity() {
                 animate().alpha(if (show) 1f else 0f)
             })
         }
-
-        viewModel.onViewInit(lifecycle)
     }
 
     private fun updateMapSelection(binding: ActivityTvMainBinding) {

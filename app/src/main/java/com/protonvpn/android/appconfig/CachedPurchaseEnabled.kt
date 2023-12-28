@@ -38,12 +38,15 @@ class CachedPurchaseEnabled @Inject constructor(
 
     operator fun invoke() = prefs.purchaseEnabled
 
-    suspend fun refresh() {
-        if (wallClock() - lastUpdateAttempt > MIN_REFRESH_INTERVAL) {
-            lastUpdateAttempt = wallClock()
-            mainScope.launch {
-                prefs.purchaseEnabled = paymentManager.isUpgradeAvailable(refresh=true)
-            }
+    fun refreshIfNeeded() {
+        if (wallClock() - lastUpdateAttempt > MIN_REFRESH_INTERVAL)
+            forceRefresh()
+    }
+
+    fun forceRefresh() {
+        lastUpdateAttempt = wallClock()
+        mainScope.launch {
+            prefs.purchaseEnabled = paymentManager.isUpgradeAvailable(refresh=true)
         }
     }
 

@@ -64,7 +64,7 @@ class VpnLogin @Inject constructor(
     }
 
     suspend operator fun invoke(user: User, context: Context): Result = coroutineScope {
-        purchaseEnabled.refresh()
+        purchaseEnabled.forceRefresh()
         val sessionId = sessionProvider.getSessionId(user.userId)
         requireNotNull(sessionId)
         // Note: all API calls need explicit sessionId!

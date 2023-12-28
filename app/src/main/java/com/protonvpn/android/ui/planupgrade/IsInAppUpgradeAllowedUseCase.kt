@@ -29,9 +29,9 @@ import javax.inject.Inject
 class IsInAppUpgradeAllowedUseCase @Inject constructor(
     private val currentUser: CurrentUser,
     private val purchaseEnabled: CachedPurchaseEnabled,
-    private val isTvCheck: IsTvCheck
+    private val isTv: IsTvCheck
 ) {
-    operator fun invoke() = !isTvCheck() && purchaseEnabled() && currentUser.vpnUserCached()?.let { user ->
+    operator fun invoke() = !isTv() && purchaseEnabled() && currentUser.vpnUserCached()?.let { user ->
         user.subscribed == 0 && user.credit == 0
     } ?: false
 }
