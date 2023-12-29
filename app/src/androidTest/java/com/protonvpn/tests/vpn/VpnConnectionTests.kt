@@ -235,8 +235,9 @@ class VpnConnectionTests {
 
         networkManager = MockNetworkManager()
 
-        mockOpenVpn = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.OpenVPN))
-        mockWireguard = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.WireGuard))
+        val serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
+        mockOpenVpn = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.OpenVPN, serverListUpdaterPrefs))
+        mockWireguard = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.WireGuard, serverListUpdaterPrefs))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
@@ -255,7 +256,7 @@ class VpnConnectionTests {
             scope.backgroundScope,
             clock,
             mockTelemetry,
-            CommonDimensions(monitor, ServerListUpdaterPrefs(MockSharedPreferencesProvider())),
+            CommonDimensions(monitor, serverListUpdaterPrefs),
             monitor,
             mockConnectivityMonitor,
             currentUser
@@ -914,7 +915,8 @@ class VpnConnectionTests {
     private fun createMockVpnBackend(
         currentUser: CurrentUser,
         userSettings: EffectiveCurrentUserSettings,
-        protocol: VpnProtocol
+        protocol: VpnProtocol,
+        serverListUpdaterPrefs: ServerListUpdaterPrefs
     ): MockVpnBackend =
         MockVpnBackend(
             scope.backgroundScope,
@@ -928,7 +930,8 @@ class VpnConnectionTests {
             currentUser,
             getNetZone,
             foregroundActivityTracker,
-            GetConnectingDomain(supportsProtocol)
+            GetConnectingDomain(supportsProtocol),
+            serverListUpdaterPrefs
         )
 
     private fun createServerSwitch(

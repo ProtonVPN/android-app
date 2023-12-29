@@ -38,15 +38,21 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
+import com.protonvpn.android.tv.main.CountryHighlight
+import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
@@ -61,8 +67,26 @@ class HomeViewModel @Inject constructor(
     vpnStatusViewStateFlow: VpnStatusViewStateFlow,
     private val recentsManager: RecentsManager,
     private val vpnConnectionManager: VpnConnectionManager,
-    private val quickConnectIntent: GetQuickConnectIntent
+    private val quickConnectIntent: GetQuickConnectIntent,
+    vpnStatusProviderUI: VpnStatusProviderUI,
+    serverListUpdaterPrefs: ServerListUpdaterPrefs
 ) : ViewModel() {
+
+    private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
+        val highlight = it.state.toMapHighlightState()
+        val exit = it.server?.exitCountry
+        if (highlight != null && exit != null)
+            exit to highlight
+        else
+            null
+    }.distinctUntilChanged()
+
+    val mapHighlightState = combine(
+        connectionMapHighlightsFlow,
+        serverListUpdaterPrefs.lastKnownCountryFlow.distinctUntilChanged()
+    ) { connectionHighlight, realCountry ->
+        connectionHighlight ?: (realCountry to CountryHighlight.SELECTED)
+    }
 
     private val initialCardViewState =
         VpnConnectionCardViewState(
@@ -154,4 +178,10 @@ class HomeViewModel @Inject constructor(
                 if (connectIntent.serverId != null) DialogState.ServerInMaintenance
                 else DialogState.GatewayInMaintenance
         }
+}
+
+private fun VpnState.toMapHighlightState() = when {
+    this == VpnState.Connected -> CountryHighlight.CONNECTED
+    isEstablishingConnection -> CountryHighlight.CONNECTING
+    else -> null
 }

@@ -28,6 +28,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.core.animation.addListener
+import androidx.core.graphics.and
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.components.ContentLayout
@@ -47,27 +48,31 @@ class TvMapView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private var renderedMap: RenderedMap? = null
-    private var region = TvMapRenderer.MapRegion(0f, 0f, 1f)
-    private var targetRegion = TvMapRenderer.MapRegion(0f, 0f, 1f)
+    private var region = TvMapRenderer.FULL_REGION
+    private var targetRegion = TvMapRenderer.FULL_REGION
     private var viewRect = RectF(0f, 0f, 1f, 1f)
 
     private var currentZoomAnimation: Job? = null
     private var currentAnimator: ValueAnimator? = null
 
-    init {
-        alpha = 0f
-    }
+    private lateinit var mapRenderer: TvMapRenderer
 
-    private val mapRenderer = TvMapRenderer(context, (context as ComponentActivity).lifecycleScope) {
-        if (renderedMap == null) {
-            animate()
-                .alpha(1f)
-                .translationY(0f)
-                .setStartDelay(MAP_SHOW_DELAY)
-                .duration = MAP_FADE_IN_DURATION
+    fun init(
+        config: MapRendererConfig,
+        showDelayMs: Long = 0
+    ) {
+        alpha = 0f
+        mapRenderer = TvMapRenderer(context, (context as ComponentActivity).lifecycleScope, config) {
+            if (renderedMap == null) {
+                animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .setStartDelay(showDelayMs)
+                    .duration = MAP_FADE_IN_DURATION
+            }
+            renderedMap = it
+            invalidate()
         }
-        renderedMap = it
-        invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -79,12 +84,15 @@ class TvMapView @JvmOverloads constructor(
             if (region.w == 0f || srcMap.region.isEmpty)
                 return
 
-            val regionRect = region.toRectF(height / width.toFloat())
+            val regionRect = region.toRectF()
             val src = regionRect
-                    .inCoordsOf(srcMap.region)
-                    .scale(srcMap.bitmap.width.toFloat(), srcMap.bitmap.height.toFloat())
+                .and(srcMap.region)
+                .inCoordsOf(srcMap.region)
+                .scale(srcMap.bitmap.width.toFloat(), srcMap.bitmap.height.toFloat())
 
-            viewRect.set(0f, 0f, width.toFloat(), height.toFloat())
+            val dstHeight = width.toFloat() * src.height() / src.width()
+            val dstTop = (height - dstHeight) / 2
+            viewRect.set(0f, dstTop, width.toFloat(), dstTop + dstHeight)
             canvas.drawBitmap(srcMap.bitmap, Rect().apply { src.round(this) }, viewRect, null)
         }
     }
@@ -94,35 +102,77 @@ class TvMapView @JvmOverloads constructor(
         mapRenderer.updateSize(r - l, b - t)
     }
 
-    fun setMapRegion(mainScope: CoroutineScope, newRegion: TvMapRenderer.MapRegion) = mainScope.launch {
-        val shiftedRegion = newRegion.shiftedToBoundaries(height / width.toFloat())
-        targetRegion = shiftedRegion
+    private suspend fun cancelAnimation() {
         currentAnimator?.cancel()
+        currentZoomAnimation?.cancel()
         currentZoomAnimation?.join()
+        currentAnimator = null
+        currentZoomAnimation = null
+    }
+
+    // Crops to show given region without animation putts it in the center of the viewport
+    // (with given bias). Will not keep resulting region in map bounds (will add padding to keep
+    // focused region in the center).
+    fun focusRegionInCenter(
+        mainScope: CoroutineScope,
+        focusRegion: MapRegion,
+        newHighlights: List<CountryHighlightInfo>?,
+        bias: Float,
+    ) = mainScope.launch {
+        cancelAnimation()
+        val viewportNormalH = height / width.toFloat()
+        val newRegion = focusRegion.expandToAspectRatio(viewportNormalH, bias)
+        targetRegion = newRegion
+        region = targetRegion
+        mapRenderer.update(
+            newMapRegion = targetRegion,
+            newHighlights = newHighlights
+        )
+    }
+
+    // Zooms in and out to focus given region with animation. Keeps resulting region in map bounds.
+    fun focusRegionInMapBoundsAnimated(
+        mainScope: CoroutineScope,
+        focusRegion: MapRegion,
+        minWidth: Float // min width of final region to limit max zoom level
+    ) = mainScope.launch {
+        cancelAnimation()
+        val viewportNormalH = height / width.toFloat()
+        val newRegion = focusRegion
+            .expandToAspectRatio(viewportNormalH, 0f)
+            .minWidth(minWidth)
+            .shiftToMapBounds(TvMapRenderer.NORMAL_H)
+        targetRegion = newRegion
         currentZoomAnimation = launch {
             val mapRegion = renderedMap?.region
             if (mapRegion != null) {
-                val start = region.copy()
-                val target = targetRegion.copy()
+                val start = region
+                val target = targetRegion
 
-                val zoomingOut = shiftedRegion.w > mapRegion.width()
+                val zoomingOut = newRegion.w > mapRegion.width()
                 if (zoomingOut)
-                    mapRenderer.updateMapRegion(target.copy())
+                    mapRenderer.update(newMapRegion = target)
 
-                suspendCoroutine<Unit> { cont ->
+                suspendCoroutine { cont ->
                     val floatEvaluator = FloatEvaluator()
                     currentAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
                         duration = ZOOM_DURATION_MS
                         addUpdateListener {
                             val f = it.animatedValue as Float
-                            region.x = floatEvaluator.evaluate(f, start.x, target.x)
-                            region.y = floatEvaluator.evaluate(f, start.y, target.y)
-                            region.w = floatEvaluator.evaluate(f, start.w, target.w)
+                            region = MapRegion(
+                                floatEvaluator.evaluate(f, start.x, target.x),
+                                floatEvaluator.evaluate(f, start.y, target.y),
+                                floatEvaluator.evaluate(f, start.w, target.w),
+                                floatEvaluator.evaluate(f, start.h, target.h),
+                            )
                             invalidate()
                         }
                         addListener(onEnd = {
                             mainScope.launch {
-                                onAnimationFinished(targetRegion == target)
+                                if (targetRegion == target)
+                                    mapRenderer.update(newMapRegion = targetRegion)
+                                currentZoomAnimation = null
+                                currentAnimator = null
                                 cont.resume(Unit)
                             }
                         })
@@ -133,20 +183,15 @@ class TvMapView @JvmOverloads constructor(
         }
     }
 
-    private suspend fun onAnimationFinished(shouldRenderTarget: Boolean) {
-        if (shouldRenderTarget)
-            mapRenderer.updateMapRegion(targetRegion.copy())
-        currentZoomAnimation = null
-        currentAnimator = null
-    }
-
-    fun setSelection(selected: String?, connected: String?) {
-        mapRenderer.updateSelection(selected, connected)
+    fun setSelection(highlights: List<CountryHighlightInfo>) {
+        mapRenderer.update(
+            newMapRegion = region,
+            newHighlights = highlights
+        )
     }
 
     companion object {
         const val ZOOM_DURATION_MS = 300L
-        const val MAP_SHOW_DELAY = 500L
         const val MAP_FADE_IN_DURATION = 400L
     }
 }

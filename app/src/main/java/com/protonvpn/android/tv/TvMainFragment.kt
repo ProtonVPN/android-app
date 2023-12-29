@@ -46,12 +46,12 @@ import com.protonvpn.android.components.BaseTvBrowseFragment
 import com.protonvpn.android.databinding.TvCardRowBinding
 import com.protonvpn.android.tv.detailed.CountryDetailFragment
 import com.protonvpn.android.tv.main.TvMainViewModel
-import com.protonvpn.android.tv.main.TvMapRenderer
+import com.protonvpn.android.tv.main.translateMapCoordinatesToRegion
 import com.protonvpn.android.tv.models.CardListRow
 import com.protonvpn.android.tv.models.CardRow
+import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.LogoutCard
-import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.ReportBugCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
@@ -60,6 +60,7 @@ import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
+import com.protonvpn.android.utils.relativePadding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -120,11 +121,12 @@ class TvMainFragment : BaseTvBrowseFragment() {
                     }
                     val imageView = (viewHolder.view as TvItemCardView).binding.imageBackground
 
-                    CountryTools.locationMap[item.vpnCountry.flag]?.let {
-                        val x = it.x * CountryTools.LOCATION_TO_TV_MAP_COORDINATES_RATIO / TvMapRenderer.WIDTH
-                        val y = it.y * CountryTools.LOCATION_TO_TV_MAP_COORDINATES_RATIO / TvMapRenderer.WIDTH
-                        viewModel.mapRegion.value = TvMapRenderer.MapRegion(
-                                x.toFloat() - 0.25f, y.toFloat() - 0.13f, 0.5f)
+                    val countryName = CountryTools.codeToMapCountryName[item.vpnCountry.flag]
+                    val bounds = CountryTools.tvMapNameToBounds[countryName]
+                    if (bounds != null && countryName != null) {
+                        viewModel.mapRegion.value = bounds
+                            .relativePadding(.1f) // Padding relative to country size
+                            .translateMapCoordinatesToRegion()
                     }
 
                     activity?.supportFragmentManager?.commit {

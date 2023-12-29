@@ -22,17 +22,15 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.RectF
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
+import androidx.annotation.ColorInt
 import com.caverock.androidsvg.PreserveAspectRatio
 import com.caverock.androidsvg.RenderOptions
 import com.caverock.androidsvg.SVG
-import com.protonvpn.android.R
+import com.protonvpn.android.utils.scale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.isActive
@@ -43,9 +41,28 @@ import okhttp3.internal.toHexString
 
 data class RenderedMap(val bitmap: Bitmap, val region: RectF)
 
+enum class CountryHighlight {
+    SELECTED,
+    CONNECTING,
+    CONNECTED
+}
+data class CountryHighlightInfo(val country: String, val highlight: CountryHighlight)
+
+data class MapRendererConfig(
+    @ColorInt val background: Int,
+    @ColorInt val country: Int,
+    @ColorInt val border: Int,
+    @ColorInt val selected: Int,
+    @ColorInt val connecting: Int,
+    @ColorInt val connected: Int,
+    val borderWidth: Float,
+    val zoomIndependentBorderWidth: Boolean,
+)
+
 class TvMapRenderer(
     context: Context,
     val scope: CoroutineScope,
+    val config: MapRendererConfig,
     val bitmapCallback: (RenderedMap) -> Unit
 ) {
     class RenderTarget(w: Int, h: Int) {
@@ -57,32 +74,6 @@ class TvMapRenderer(
         fun isSize(w: Int, h: Int) = map.width == w && map.height == h
     }
 
-    // Map region defined in coordinates where width is fixed as 1 (height will be calculated based
-    // on aspect ratio of a target view port e.g. h=1 for square viewport)
-    data class MapRegion(var x: Float, var y: Float, var w: Float) {
-        fun toRectF(height: Float) =
-                RectF(x, y, x + w, y + height * w)
-
-        // Shifts current region so it fits in [0,0,1,height] rect, if possible (not too big).
-        fun shiftedToBoundaries(height: Float) = copy().apply {
-            if (y + w * height > height)
-                y = height * (1 - w)
-            if (x + w > 1f)
-                x = 1f - w
-            if (x < 0f)
-                x = 0f
-            if (y < 0f)
-                y = 0f
-            return this
-        }
-    }
-
-    private val countryColor = context.getHexColor(R.color.tvMapCountry)
-    private val selectedColor = context.getHexColor(R.color.tvMapSelected)
-    private val connectedColor = context.getHexColor(R.color.tvMapConnected)
-    private val borderColor = context.getHexColor(R.color.tvMapBorder)
-
-    @OptIn(ObsoleteCoroutinesApi::class)
     private val renderContext = newSingleThreadContext("tv.map_renderer")
 
     private val mapSvg: Deferred<SVG> = scope.async(renderContext) {
@@ -91,18 +82,10 @@ class TvMapRenderer(
 
     private var renderTarget: RenderTarget? = null
 
-    private var selectedId: String? = null
-    private var connectedId: String? = null
-    private var mapRegion = MapRegion(0f, 0f, 1f)
+    private var highlights = listOf<CountryHighlightInfo>()
+    private var mapRegion : MapRegion? = null
 
     private var renderJob: Job? = null
-
-    suspend fun updateMapRegion(newMapRegion: MapRegion) {
-        if (newMapRegion != mapRegion) {
-            mapRegion = newMapRegion
-            renderTarget?.render()
-        }
-    }
 
     fun updateSize(w: Int, h: Int) {
         if (renderTarget?.isSize(w, h) != true) {
@@ -113,25 +96,34 @@ class TvMapRenderer(
         }
     }
 
+    private val CountryHighlight.cssColor get() = when(this) {
+        CountryHighlight.SELECTED -> toCssColor(config.selected)
+        CountryHighlight.CONNECTING -> toCssColor(config.connecting)
+        CountryHighlight.CONNECTED -> toCssColor(config.connected)
+    }
+
     private suspend fun RenderTarget.render() {
+        val regionToRender = mapRegion ?: return
+
         renderJob?.cancelAndJoin()
         renderJob = scope.launch(renderContext) {
-            val selected = selectedId
-            val connected = connectedId
-
-            val selectedCountryCss = if (selected != null && selected != connected)
-                "#$selected { fill: $selectedColor; }" else ""
-            val connectedCountryCss = if (connected != null)
-                "#$connected { fill: $connectedColor; }" else ""
-            val css = "$selectedCountryCss $connectedCountryCss " +
-                "path { fill: $countryColor; stroke: $borderColor; stroke-width: 0.1; }"
+            val highlightsCss = highlights.joinToString { (country, highlight) ->
+                "#$country { fill: ${highlight.cssColor}; } "
+            }
+            val borderWidth = if (config.zoomIndependentBorderWidth) {
+                config.borderWidth * regionToRender.w // Borders will be the same regardless of zoom level
+            } else {
+                config.borderWidth
+            }
+            val css = "$highlightsCss path { fill: ${toCssColor(config.country)}; stroke: ${toCssColor(config.border)}; stroke-width: $borderWidth; }"
             val width = map.width.toFloat()
             val height = map.height.toFloat()
 
             val svg = mapSvg.await()
             val documentWidth = svg.documentWidth
             val documentHeight = svg.documentHeight
-            val region = mapRegion.shiftedToBoundaries(height / width)
+            val viewportNormalH = height / width
+            val region = regionToRender.expandToAspectRatio(viewportNormalH)
             val viewBoxScale = documentWidth / width
             val regionScale = region.w
             val renderOptions = RenderOptions()
@@ -142,6 +134,7 @@ class TvMapRenderer(
                             documentWidth * viewBoxScale * regionScale,
                             documentHeight * viewBoxScale * regionScale)
 
+            canvas.drawColor(config.background)
             svg.renderToCanvas(canvas, renderOptions)
 
             // If current render job was canceled don't produce and pass output bitmap to client,
@@ -157,10 +150,16 @@ class TvMapRenderer(
         renderJob?.join()
     }
 
-    fun updateSelection(selected: String?, connected: String?) {
-        if (selected != selectedId || connected != connectedId) {
-            selectedId = selected
-            connectedId = connected
+    fun update(
+        newHighlights: List<CountryHighlightInfo>? = null,
+        newMapRegion: MapRegion? = null
+    ) {
+        if ((newMapRegion != null && newMapRegion != mapRegion)
+                || (newHighlights != null && newHighlights != highlights)) {
+            if (newMapRegion != null)
+                mapRegion = newMapRegion
+            if (newHighlights != null)
+                highlights = newHighlights
             scope.launch {
                 renderTarget?.render()
             }
@@ -173,11 +172,20 @@ class TvMapRenderer(
         private const val ASSET_NAME = "world.svg"
 
         const val WIDTH = 1538.434f
+        const val HEIGHT = 700f
+        const val NORMAL_H = HEIGHT / WIDTH
 
-        private fun Context.getHexColor(@ColorRes res: Int): String {
-            val argb = ContextCompat.getColor(this, res)
+        val FULL_REGION = MapRegion(0f, 0f, 1f, NORMAL_H)
+        val DEFAULT_PORTRAIT_REGION = MapRegion(.15f, 0f, .60f, NORMAL_H)
+
+        private fun toCssColor(@ColorInt argb: Int): String {
             val rgba = 0xFF000000.toInt() and argb ushr 24 or (argb shl 8)
             return "#${rgba.toHexString().padStart(8, '0')}"
         }
     }
 }
+
+fun RectF.translateMapCoordinatesToRegion() =
+    scale(1f / TvMapRenderer.WIDTH, 1f / TvMapRenderer.WIDTH).run {
+        MapRegion(left, top, width(), height())
+    }

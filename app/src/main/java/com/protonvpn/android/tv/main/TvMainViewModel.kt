@@ -91,7 +91,7 @@ class TvMainViewModel @Inject constructor(
     val displayStreamingIcons get() = featureFlags.value.streamingServicesLogos
     val selectedCountryFlag = MutableLiveData<String?>()
     val connectedCountryFlag = MutableLiveData<String>()
-    val mapRegion = MutableLiveData<TvMapRenderer.MapRegion>()
+    val mapRegion = MutableLiveData<MapRegion>()
 
     val vpnViewState: Flow<VpnViewState> = combine(
         vpnStatusProviderUI.status,
@@ -277,7 +277,7 @@ class TvMainViewModel @Inject constructor(
     fun showMaintenanceDialog(context: Context) = connectHelper.showMaintenanceDialog(context)
 
     fun resetMap() {
-        mapRegion.value = TvMapRenderer.MapRegion(0f, 0f, 1f)
+        mapRegion.value = TvMapRenderer.FULL_REGION
     }
 
     fun onLastRowSelection(selected: Boolean) {

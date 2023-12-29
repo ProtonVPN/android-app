@@ -45,6 +45,7 @@ import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
+import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.SharedPreferencesProvider
@@ -189,7 +190,8 @@ class MockAppModule {
         getNetZone: GetNetZone,
         supportsProtocol: SupportsProtocol,
         getConnectingDomain: GetConnectingDomain,
-        foregroundActivityTracker: ForegroundActivityTracker
+        foregroundActivityTracker: ForegroundActivityTracker,
+        serverListUpdaterPrefs: ServerListUpdaterPrefs,
     ): VpnBackendProvider =
         if (TestSettings.mockedConnectionUsed) {
             ProtonVpnBackendProvider(
@@ -205,7 +207,8 @@ class MockAppModule {
                     currentUser,
                     getNetZone,
                     foregroundActivityTracker,
-                    getConnectingDomain
+                    getConnectingDomain,
+                    serverListUpdaterPrefs
                 ),
                 wireGuard = MockVpnBackend(
                     scope,
@@ -219,7 +222,8 @@ class MockAppModule {
                     currentUser,
                     getNetZone,
                     foregroundActivityTracker,
-                    getConnectingDomain
+                    getConnectingDomain,
+                    serverListUpdaterPrefs
                 ),
                 config = appConfig,
                 supportsProtocol = supportsProtocol
