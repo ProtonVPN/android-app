@@ -32,6 +32,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -63,7 +66,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
+import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.countries.ui.collectAsEffect
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
@@ -74,8 +79,10 @@ import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
+import com.protonvpn.android.ui.home.vpn.VpnStateViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.utils.openUrl
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
@@ -104,6 +111,7 @@ fun HomeView(
     onConnectionCardClick: () -> Unit
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
+    val stateViewModel: VpnStateViewModel = hiltViewModel()
     val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle().value
     val vpnState = viewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
     val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
@@ -116,7 +124,20 @@ fun HomeView(
             UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
         }
     }
+    val snackbarHostState = remember { SnackbarHostState() }
+    stateViewModel.snackbarErrorFlow.collectAsEffect(block = {
+        val snackbarResult = snackbarHostState.showSnackbar(
+            message = context.getString(it.errorRes, it.additionalDetails),
+            actionLabel = it.helpUrl?.actionTitleRes?.let { actionRes -> context.getString(actionRes) },
+            type = ProtonSnackbarType.ERROR,
+            duration = if (it.helpUrl == null) SnackbarDuration.Long else SnackbarDuration.Indefinite
+        )
 
+        if (it.helpUrl != null && snackbarResult == SnackbarResult.ActionPerformed) {
+            context.openUrl(it.helpUrl.actionUrl)
+        }
+        stateViewModel.consumeErrorMessage()
+    })
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -189,6 +210,7 @@ fun HomeView(
                 onRecentPinToggle = viewModel::togglePinned,
                 onRecentRemove = viewModel::removeRecent,
                 contentPadding = listContentPadding,
+                errorSnackBar = snackbarHostState,
                 modifier = Modifier
                     .offset { IntOffset(0, recentsExpandState.listOffsetPx) }
                     .drawBehind {

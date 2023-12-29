@@ -36,6 +36,7 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -55,6 +56,7 @@ class VpnStateViewModel @Inject constructor(
     trafficMonitor: TrafficMonitor,
     private val effectiveUserSettings: EffectiveCurrentUserSettings,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
+    private val vpnErrorUIManager: VpnErrorUIManager,
     currentUser: CurrentUser
 ) : ViewModel() {
 
@@ -62,6 +64,8 @@ class VpnStateViewModel @Inject constructor(
     val eventCollapseBottomSheetLV = eventCollapseBottomSheet.asLiveData()
 
     val trafficStatus = trafficMonitor.trafficStatus
+    val snackbarErrorFlow = vpnErrorUIManager.snackErrorFlow
+
     val netShieldViewState: StateFlow<NetShieldViewState> =
         combine(
             effectiveUserSettings.netShield,
@@ -78,6 +82,8 @@ class VpnStateViewModel @Inject constructor(
 
     val netShieldExpandStatus = MutableStateFlow(false)
     val bottomSheetFullyExpanded = MutableLiveData(false)
+
+    fun consumeErrorMessage() = vpnErrorUIManager.consumeErrorMessage()
 
     fun getCurrentNetShield() = effectiveUserSettings.netShield
 

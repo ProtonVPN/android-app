@@ -45,13 +45,16 @@ class VpnStatusViewStateFlow @Inject constructor(
         vpnConnectionManager.netShieldStats,
         currentUser.vpnUserFlow
     ) { status, ipAddress, country, netShieldStats, user ->
-        when (val state = status.state) {
+        when (status.state) {
             VpnState.Connected -> {
                 val connectionParams = status.connectionParams
                 VpnStatusViewState.Connected(connectionParams!!.server.isSecureCoreServer, user!!.isFreeUser, netShieldStats)
             }
-            VpnState.WaitingForNetwork, VpnState.ScanningPorts, VpnState.CheckingAvailability, VpnState.Connecting, VpnState.Reconnecting -> {
+            VpnState.ScanningPorts, VpnState.CheckingAvailability, VpnState.Connecting, VpnState.Reconnecting -> {
                 VpnStatusViewState.Connecting(getLocationText(country, ipAddress))
+            }
+            VpnState.WaitingForNetwork -> {
+                VpnStatusViewState.WaitingForNetwork(getLocationText(country, ipAddress))
             }
             VpnState.Disconnecting, VpnState.Disabled -> {
                 VpnStatusViewState.Disabled(getLocationText(country, ipAddress))

@@ -39,6 +39,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -64,6 +66,7 @@ import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.MaxContentWidth
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import kotlinx.coroutines.CoroutineScope
@@ -199,6 +202,7 @@ fun RecentsList(
     onRecentClicked: (item: RecentItemViewState) -> Unit,
     onRecentPinToggle: (item: RecentItemViewState) -> Unit,
     onRecentRemove: (item: RecentItemViewState) -> Unit,
+    errorSnackBar: SnackbarHostState?,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(),
     expandState: RecentsExpandState?
@@ -239,6 +243,15 @@ fun RecentsList(
                     modifier = Modifier.padding(16.dp),
                     itemIdsTransition = itemIdsTransition
                 )
+                errorSnackBar?.let {
+                    SnackbarHost(hostState = it) { data ->
+                        ProtonSnackbar(
+                            actionColor = ProtonTheme.colors.backgroundDeep,
+                            actionOnNewLine = true,
+                            snackbarData = data
+                        )
+                    }
+                }
                 if (viewState.recents.isNotEmpty()) {
                     RecentsTitle(
                         expandState = expandState,
