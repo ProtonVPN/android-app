@@ -24,9 +24,9 @@ import com.protonvpn.android.redesign.vpn.ui.LocationText
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
-import org.junit.Test
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
+import org.junit.Test
 
 class VpnStatusViewTests : FusionComposeTest() {
 
@@ -37,7 +37,7 @@ class VpnStatusViewTests : FusionComposeTest() {
         )
         setContentForState(state)
 
-        node.withText("You are not protected")
+        node.withText("You are unprotected")
             .assertIsDisplayed()
         node.useUnmergedTree()
             .withText("Country - 192.168.0.1")
@@ -51,7 +51,7 @@ class VpnStatusViewTests : FusionComposeTest() {
         )
         setContentForState(state)
 
-        node.withText("Protecting your identity")
+        node.withText("Protecting your digital identity")
             .assertIsDisplayed()
         node.useUnmergedTree()
             .withText("Country - 192.168.0.1")

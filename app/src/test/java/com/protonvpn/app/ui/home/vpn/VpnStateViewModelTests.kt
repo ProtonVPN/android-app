@@ -10,6 +10,7 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.vpn.VpnStateViewModel
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
@@ -36,7 +37,8 @@ class VpnStateViewModelTests {
 
     @RelaxedMockK
     private lateinit var mockTrafficMonitor: TrafficMonitor
-
+    @RelaxedMockK
+    private lateinit var mockVpnErrorUIManager: VpnErrorUIManager
     @RelaxedMockK
     private lateinit var mockUserSettingsManager: CurrentUserLocalSettingsManager
 
@@ -71,6 +73,7 @@ class VpnStateViewModelTests {
             mockTrafficMonitor,
             userSettings,
             mockUserSettingsManager,
+            mockVpnErrorUIManager,
             currentUser
         )
     }

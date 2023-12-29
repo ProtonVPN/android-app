@@ -47,7 +47,7 @@ class RecentsListUiTests : FusionComposeTest() {
             null
         )
         composeRule.setContent {
-            RecentsList(viewState, {}, {}, {}, {}, {}, {}, {}, expandState = null)
+            RecentsList(viewState, {}, {}, {}, {}, {}, {}, {}, expandState = null, errorSnackBar = null)
         }
         node.withText(R.string.fastest_country).assertIsDisplayed()
         node.withText(R.string.recents_headline).assertDoesNotExist()
@@ -67,7 +67,7 @@ class RecentsListUiTests : FusionComposeTest() {
             null
         )
         composeRule.setContent {
-            RecentsList(viewState, {}, {}, {}, {}, {}, {}, {}, expandState = null)
+            RecentsList(viewState, {}, {}, {}, {}, {}, {}, {}, expandState = null, errorSnackBar = null)
         }
         node.withText(R.string.fastest_country).assertIsDisplayed()
         node.withText("Switzerland").assertIsDisplayed()

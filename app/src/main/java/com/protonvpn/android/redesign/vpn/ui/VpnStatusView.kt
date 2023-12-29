@@ -73,6 +73,10 @@ sealed class VpnStatusViewState {
         val netShieldStats: NetShieldStats
     ) : VpnStatusViewState()
 
+    data class WaitingForNetwork(
+        val locationText: LocationText? = null
+    ) : VpnStatusViewState()
+
     data class Connecting(
         val locationText: LocationText? = null
     ) : VpnStatusViewState()
@@ -92,12 +96,12 @@ fun Modifier.vpnStatusOverlayBackground(
 ): Modifier = composed {
     val targetColor = when (state) {
         is VpnStatusViewState.Connected -> ProtonTheme.colors.vpnGreen
-        is VpnStatusViewState.Connecting -> ProtonTheme.colors.shade100
+        is VpnStatusViewState.Connecting, is VpnStatusViewState.WaitingForNetwork -> ProtonTheme.colors.shade100
         is VpnStatusViewState.Disabled -> ProtonTheme.colors.notificationError
     }
     val gradientColor = animateColorAsState(
         targetValue = targetColor,
-        animationSpec = tween(durationMillis = 500)
+        animationSpec = tween(durationMillis = 500), label = "Gradient Animation"
     )
 
     background(
@@ -148,7 +152,7 @@ fun VpnStatusTop(
             is VpnStatusViewState.Connected ->
                 VpnConnectedViewTop(state.isSecureCoreServer, transitionValue, contentModifier)
 
-            is VpnStatusViewState.Connecting ->
+            is VpnStatusViewState.Connecting, is VpnStatusViewState.WaitingForNetwork ->
                 CircularProgressIndicator(
                     color = ProtonTheme.colors.iconNorm,
                     strokeWidth = 2.dp,
@@ -157,7 +161,7 @@ fun VpnStatusTop(
 
             is VpnStatusViewState.Disabled -> {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_proton_lock_open_filled),
+                    painter = painterResource(id = R.drawable.ic_proton_lock_open_filled_2),
                     contentDescription = null,
                     tint = ProtonTheme.colors.notificationError,
                     modifier = contentModifier
@@ -186,6 +190,10 @@ fun VpnStatusBottom(
 
                 is VpnStatusViewState.Disabled -> {
                     VpnDisabledView(state)
+                }
+
+                is VpnStatusViewState.WaitingForNetwork -> {
+                    VpnWaitingForNetwork()
                 }
             }
         }
@@ -250,6 +258,20 @@ private fun VpnConnectingView(state: VpnStatusViewState.Connecting) {
     )
 
     state.locationText?.let {
+        LocationTextAnimated(locationText = it)
+    }
+}
+@Composable
+private fun VpnWaitingForNetwork() {
+    Text(
+        text = stringResource(R.string.error_vpn_waiting_for_network),
+        style = ProtonTheme.typography.defaultStrongNorm,
+        modifier = Modifier.padding(8.dp)
+    )
+}
+
+@Composable
+private fun LocationTextAnimated(locationText: LocationText) {
         Surface(
             color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4f),
             shape = ProtonTheme.shapes.medium,
@@ -257,14 +279,13 @@ private fun VpnConnectingView(state: VpnStatusViewState.Connecting) {
             AnimateText(
                 targetText = stringResource(
                     R.string.vpn_status_disabled_location,
-                    BidiFormatter.getInstance().unicodeWrap(it.country),
-                    it.ip
+                    BidiFormatter.getInstance().unicodeWrap(locationText.country),
+                    locationText.ip
                 ),
                 targetCharacter = '*',
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
         }
-    }
 }
 
 @Composable

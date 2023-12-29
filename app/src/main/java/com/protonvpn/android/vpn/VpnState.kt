@@ -19,6 +19,7 @@
 package com.protonvpn.android.vpn
 
 import android.content.Context
+import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.R
 import java.util.Locale
@@ -68,13 +69,15 @@ enum class ErrorType {
     MULTI_USER_PERMISSION,
     LOCAL_AGENT_ERROR,
     SERVER_ERROR,
+    // Delinquent types should no longer exist, so should be safe to remove in future
     POLICY_VIOLATION_DELINQUENT,
     POLICY_VIOLATION_LOW_PLAN,
     POLICY_VIOLATION_BAD_BEHAVIOUR,
     TORRENT_NOT_ALLOWED,
     KEY_USED_MULTIPLE_TIMES;
 
-    fun mapToErrorMessage(context: Context, additionalDetails: String? = null): String {
+    @StringRes
+    fun mapToErrorRes(additionalDetails: String? = null): Int {
         val stringResId = when (this) {
             PEER_AUTH_FAILED -> R.string.error_peer_auth_failed
             AUTH_FAILED -> R.string.error_auth_failed
@@ -88,6 +91,10 @@ enum class ErrorType {
                 else
                     R.string.error_generic_with_reason
         }
-        return context.getString(stringResId, additionalDetails)
+        return stringResId
+    }
+
+    fun mapToErrorMessage(context: Context, additionalDetails: String? = null): String {
+        return context.getString(mapToErrorRes(additionalDetails), additionalDetails)
     }
 }

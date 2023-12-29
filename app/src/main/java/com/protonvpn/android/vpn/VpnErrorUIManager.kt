@@ -2,7 +2,7 @@ package com.protonvpn.android.vpn
 
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
+import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.notifications.NotificationActionReceiver
@@ -11,7 +11,6 @@ import com.protonvpn.android.notifications.NotificationHelper.ActionItem
 import com.protonvpn.android.notifications.NotificationHelper.FullScreenDialog
 import com.protonvpn.android.notifications.NotificationHelper.InformationNotification
 import com.protonvpn.android.redesign.recents.data.toData
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity
@@ -22,6 +21,13 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,15 +36,29 @@ import javax.inject.Singleton
 class VpnErrorUIManager @Inject constructor(
     scope: CoroutineScope,
     @ApplicationContext private val appContext: Context,
-    private val userSettings: EffectiveCurrentUserSettings,
     private val currentUser: CurrentUser,
     private val userPlanManager: UserPlanManager,
     private val stateMonitor: VpnStateMonitor,
     private val notificationHelper: NotificationHelper,
-    private val foregroundActivityTracker: ForegroundActivityTracker
+    private val foregroundActivityTracker: ForegroundActivityTracker,
+    vpnStatusProviderUI: VpnStatusProviderUI
 ) {
+    private val _errorMessages = MutableSharedFlow<SnackError>(replay = 1)
+    val snackErrorFlow: SharedFlow<SnackError> = _errorMessages.asSharedFlow()
+
+    data class SnackError(val helpUrl: SnackAction? = null, @StringRes val errorRes: Int, val additionalDetails: String?)
+    data class SnackAction(@StringRes val actionTitleRes: Int, val actionUrl: String)
 
     init {
+        vpnStatusProviderUI.status
+            .mapNotNull { status ->
+                translateStatusToSnackBarError(status)
+            }
+            .onEach { errorMessage ->
+                _errorMessages.emit(errorMessage)
+            }
+            .launchIn(scope)
+
         scope.launch {
             userPlanManager.planChangeFlow.collect {
                 if (it.isDowngrade && !stateMonitor.isEstablishingOrConnected) {
@@ -84,6 +104,40 @@ class VpnErrorUIManager @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun translateStatusToSnackBarError(vpnStatus: VpnStateMonitor.Status): SnackError? {
+        val state = vpnStatus.state
+        return if (state is VpnState.Error) {
+            when (state.type) {
+                // MAX_SESSIONS are handled by full screen dialog
+                ErrorType.MAX_SESSIONS -> null
+                else -> {
+                    val errorMessage =
+                        state.type.mapToErrorRes(state.description)
+                    val helpUrl = when {
+                        state.type == ErrorType.GENERIC_ERROR && state.description == null -> Constants.URL_SUPPORT
+                        state.type == ErrorType.AUTH_FAILED -> Constants.URL_SUPPORT
+                        else -> null
+                    }
+
+                    val snackError = helpUrl?.let {
+                        SnackAction(
+                            actionTitleRes = R.string.dynamic_report_contact_us,
+                            actionUrl = it
+                        )
+                    }
+                    SnackError(snackError, errorMessage, state.description)
+                }
+            }
+        } else {
+            null
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun consumeErrorMessage() {
+        _errorMessages.resetReplayCache()
     }
 
     private fun displayInformation(informationNotification: InformationNotification) {
