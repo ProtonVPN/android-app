@@ -20,6 +20,7 @@
 package com.protonvpn.android.utils
 
 import android.graphics.RectF
+import kotlin.math.max
 
 fun RectF.scale(sx: Float, sy: Float) =
         RectF(left * sx, top * sy, right * sx, bottom * sy)
@@ -31,6 +32,12 @@ fun RectF.inCoordsOf(o: RectF) = RectF(
     top - o.top,
     right - o.left,
     bottom - o.top).scale(1f / o.width(), 1f / o.height())
+
+// Applies padding defined as a fraction of max(w, h)
+fun RectF.relativePadding(paddingSizeRelative: Float) : RectF {
+    val padding = max(width(), height()) * paddingSizeRelative
+    return RectF(left - padding, top - padding, right + padding, bottom + padding)
+}
 
 fun Int.hasFlag(flag: Int) = this and flag == flag
 

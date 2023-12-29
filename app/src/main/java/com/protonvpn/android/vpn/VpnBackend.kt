@@ -46,6 +46,7 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
+import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.SyncStateFlow
@@ -111,6 +112,7 @@ abstract class VpnBackend(
     val currentUser: CurrentUser,
     val getNetZone: GetNetZone,
     val foregroundActivityTracker: ForegroundActivityTracker,
+    val serverListUpdaterPrefs: ServerListUpdaterPrefs,
     @SharedOkHttpClient val okHttp: OkHttpClient? = null
 ) : VpnStateSource {
 
@@ -186,6 +188,7 @@ abstract class VpnBackend(
                     !newConnectionDetails.deviceIp.isNullOrBlank()
                 ) {
                     getNetZone.updateIp(newConnectionDetails.deviceIp)
+                    serverListUpdaterPrefs.lastKnownCountry = newConnectionDetails.deviceCountry
                 }
             }
             ProtonLogger.log(LocalAgentStatus, status.toString())

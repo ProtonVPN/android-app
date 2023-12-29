@@ -37,6 +37,8 @@ import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.utils.CountryTools
 import dagger.hilt.android.AndroidEntryPoint
 
+const val MAP_SHOW_DELAY = 500L
+
 @AndroidEntryPoint
 class TvMainActivity : BaseTvActivity() {
 
@@ -73,6 +75,19 @@ class TvMainActivity : BaseTvActivity() {
         setContentView(binding.root)
         helper.onCreate(accountViewModel)
 
+        binding.mapView.init(
+            MapRendererConfig(
+                background = getColor(R.color.tvBackground),
+                country = getColor(R.color.tvMapCountry),
+                border = getColor(R.color.tvMapBorder),
+                selected = getColor(R.color.tvMapSelected),
+                connecting = getColor(R.color.tvMapSelected),
+                connected = getColor(R.color.tvMapConnected),
+                borderWidth = .2f,
+                zoomIndependentBorderWidth = false
+            ),
+            showDelayMs = MAP_SHOW_DELAY
+        )
         viewModel.selectedCountryFlag.observe(this, Observer {
             updateMapSelection(binding)
         })
@@ -80,7 +95,7 @@ class TvMainActivity : BaseTvActivity() {
             updateMapSelection(binding)
         })
         viewModel.mapRegion.observe(this, Observer {
-            binding.mapView.setMapRegion(lifecycleScope, it)
+            binding.mapView.focusRegionInMapBoundsAnimated(lifecycleScope, it, minWidth = 0.5f)
         })
 
         with(binding.versionLabel) {
@@ -94,9 +109,13 @@ class TvMainActivity : BaseTvActivity() {
     }
 
     private fun updateMapSelection(binding: ActivityTvMainBinding) {
+        val selected = CountryTools.codeToMapCountryName[viewModel.selectedCountryFlag.value]
+        val connected = CountryTools.codeToMapCountryName[viewModel.connectedCountryFlag.value]
         binding.mapView.setSelection(
-                CountryTools.codeToMapCountryName[viewModel.selectedCountryFlag.value],
-                CountryTools.codeToMapCountryName[viewModel.connectedCountryFlag.value]
+            buildList {
+                if (connected != null) add(CountryHighlightInfo(connected, CountryHighlight.CONNECTED))
+                if (selected != null && selected != connected) add(CountryHighlightInfo(selected, CountryHighlight.SELECTED))
+            }
         )
     }
 

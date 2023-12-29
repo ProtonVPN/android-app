@@ -47,15 +47,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
@@ -116,6 +113,7 @@ fun HomeView(
     val stateViewModel: VpnStateViewModel = hiltViewModel()
     val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle().value
     val vpnState = viewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
+    val mapState = viewModel.mapHighlightState.collectAsStateWithLifecycle(initialValue = null).value
     val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
     val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
     val coroutineScope = rememberCoroutineScope()
@@ -141,17 +139,17 @@ fun HomeView(
         stateViewModel.consumeErrorMessage()
     })
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            // Put something in the background to pretend there's a map. TODO: remove when map is added.
-            .paint(
-                painter = painterResource(R.drawable.ic_proton_earth_filled),
-                alpha = 0.2f,
-                contentScale = ContentScale.Crop
-            )
+        modifier = Modifier.fillMaxSize()
     ) {
-        val (vpnStatusTop, vpnStatusBottom) = createRefs()
-
+        val (vpnStatusTop, vpnStatusBottom, map) = createRefs()
+        HomeMap(
+            modifier = Modifier.constrainAs(map) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+            },
+            coroutineScope,
+            mapState
+        )
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
