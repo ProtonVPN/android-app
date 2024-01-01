@@ -455,7 +455,7 @@
         <item quantity="other">%1$d 個國家</item>
     </plurals>
     <string name="upsell_upgrade_again">再次升級以享受下列種種功能：</string>
-    <string name="upgrade_plus_title">Upgrade your privacy</string>
+    <string name="upgrade_plus_title">升級您的隱私</string>
     <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
     <string name="upgrade_netshield_title">享受吳廣告的瀏覽體驗</string>
     <string name="upgrade_netshield_message"><![CDATA[Block ads, trackers and malware with <b>NetShield</b>.]]></string>
@@ -698,6 +698,6 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">外部連結</string>
-    <string name="no_logs_banner_title">Certified no-logs VPN</string>
+    <string name="no_logs_banner_title">驗證無紀錄的VPN</string>
     <string name="no_logs_banner_description">Your VPN activity is protected by Swiss privacy laws. We’ll never track you online or share your information with third parties.</string>
 </resources>
