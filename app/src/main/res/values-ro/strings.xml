@@ -551,7 +551,7 @@
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Aceste servere oferă cea mai bună performanță pentru BitTorrent și partajarea de fișiere.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Direcționează traficul de internet prin rețeaua Tor. Mai lent, dar mai privat.</string>
+    <string name="tor_description">Direcționați traficul de internet prin rețeaua Tor. Mai lent, dar mai privat.</string>
     <string name="info_performance">Performanță</string>
     <string name="server_load_title">Încărcare server</string>
     <string name="server_load_description">Serverele mai încărcate sunt mai lente decât serverele mai puțin încărcate.</string>
