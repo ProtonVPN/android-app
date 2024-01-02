@@ -23,6 +23,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.redesign.CountryId
@@ -46,11 +47,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConnectionDetailsViewModel @Inject constructor(
-    private val vpnStatusProviderUI: VpnStatusProviderUI,
+    vpnStatusProviderUI: VpnStatusProviderUI,
     private val vpnStateMonitor: VpnStateMonitor,
     private val serverListUpdaterPrefs: ServerListUpdater,
+    private val currentUser: CurrentUser,
     private val getConnectIntentViewState: GetConnectIntentViewState,
-    private val trafficMonitor: TrafficMonitor
+    private val trafficMonitor: TrafficMonitor,
 ) : ViewModel() {
 
     sealed interface ConnectionDetailsViewState {
@@ -97,10 +99,11 @@ class ConnectionDetailsViewModel @Inject constructor(
 
     private fun createConnectedViewState(connectionParams: ConnectionParams) =
         combine(
+            currentUser.vpnUserFlow,
             vpnStateMonitor.exitIp,
             serverListUpdaterPrefs.ipAddress,
             trafficMonitor.trafficStatus.asFlow()
-        ) { exitIp, userIp, trafficUpdate ->
+        ) { vpnUser, exitIp, userIp, trafficUpdate ->
             val connectIntent = connectionParams.connectIntent as ConnectIntent
             val server = connectionParams.server
             val vpnIp = exitIp ?: ""
@@ -111,7 +114,7 @@ class ConnectionDetailsViewModel @Inject constructor(
                 entryCountryId = if (server.isSecureCoreServer) CountryId(server.entryCountry) else null,
                 exitCountryId = CountryId(server.exitCountry),
                 trafficUpdate = trafficUpdate,
-                connectIntentViewState = getConnectIntentViewState(connectIntent, server),
+                connectIntentViewState = getConnectIntentViewState(connectIntent, vpnUser?.isFreeUser == true, server),
                 serverDisplayName = server.serverName,
                 serverCity = server.displayCity,
                 serverGatewayName = server.gatewayName,
