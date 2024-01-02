@@ -44,7 +44,7 @@ object ConnectionDetailsScreen : ScreenNoArg<RootNav>("connectionStatus") {
     private const val TRANSITION_DURATION_MILLIS = 400
 
     fun SafeNavGraphBuilder<RootNav>.connectionStatus(
-        onBackIconClick: () -> Unit
+        onClosePanel: () -> Unit
     ) = addToGraph(
         this,
         enterTransition = {
@@ -71,6 +71,6 @@ object ConnectionDetailsScreen : ScreenNoArg<RootNav>("connectionStatus") {
                 animationSpec = tween(TRANSITION_DURATION_MILLIS)
             )
         }) {
-        ConnectionDetailsRoute(onBackClicked = onBackIconClick)
+        ConnectionDetailsRoute(onClosePanel = onClosePanel)
     }
 }

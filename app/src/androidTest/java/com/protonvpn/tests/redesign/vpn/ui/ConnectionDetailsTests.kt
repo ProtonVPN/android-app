@@ -18,6 +18,8 @@
  */
 package com.protonvpn.tests.redesign.vpn.ui
 
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.redesign.CountryId
@@ -32,7 +34,7 @@ import org.junit.Test
 
 class ConnectionDetailsTests : FusionComposeTest() {
 
-    private val sampleViewState = ConnectionDetailsViewModel.ConnectionDetailsViewState(
+    private val sampleViewState = ConnectionDetailsViewModel.ConnectionDetailsViewState.Connected(
         entryIp = "192.168.1.1",
         vpnIp = "10.0.0.1",
         entryCountryId = CountryId.sweden,
@@ -63,7 +65,7 @@ class ConnectionDetailsTests : FusionComposeTest() {
     @Test
     fun checkConnectionDetailsRendering() {
         composeRule.setContent {
-            ConnectionDetails(MutableStateFlow(sampleViewState), onBackClicked = {})
+            ConnectionDetails(sampleViewState, onClosePanel = {})
         }
 
         node.withText("1 hr 23 min").assertExists()
@@ -77,7 +79,7 @@ class ConnectionDetailsTests : FusionComposeTest() {
     @Test
     fun checkIPVisibilityToggle() {
         composeRule.setContent {
-            ConnectionDetails(MutableStateFlow(sampleViewState), onBackClicked = {})
+            ConnectionDetails(sampleViewState, onClosePanel = {})
         }
 
         node.withText("***.***.*.*").assertExists()
@@ -88,7 +90,7 @@ class ConnectionDetailsTests : FusionComposeTest() {
     @Test
     fun checkServerLoadRowClickOpensBottomSheet() {
         composeRule.setContent {
-            ConnectionDetails(MutableStateFlow(sampleViewState), onBackClicked = {})
+            ConnectionDetails(sampleViewState, onClosePanel = {})
         }
 
         node.withText(R.string.connection_details_server_load).click()
@@ -103,7 +105,8 @@ class ConnectionDetailsTests : FusionComposeTest() {
         )
 
         composeRule.setContent {
-            ConnectionDetails(viewStateFlow, onBackClicked = {})
+            val viewState by viewStateFlow.collectAsState()
+            ConnectionDetails(viewState, onClosePanel = {})
         }
 
         node.withText("1 hr 40 min").assertExists()

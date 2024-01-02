@@ -57,7 +57,7 @@ class RootNav(
                         searchScreen(onBackIconClick = ::popBackStack)
                     }
                     RootTarget.ConnectionDetails -> {
-                        connectionStatus(onBackIconClick = ::popBackStack)
+                        connectionStatus(onClosePanel = ::popBackStack)
                     }
                 }
             }
