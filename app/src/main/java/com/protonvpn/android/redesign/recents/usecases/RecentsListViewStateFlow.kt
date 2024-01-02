@@ -102,7 +102,8 @@ class RecentsListViewStateFlow @Inject constructor(
                     createCardState(
                         status.state,
                         connectionCardIntent,
-                        if (status.state == VpnState.Connected) status.connectionParams?.server else null
+                        if (status.state == VpnState.Connected) status.connectionParams?.server else null,
+                        vpnUser,
                     ),
                     createRecentsViewState(recents, connectedIntent, connectionCardIntent, vpnUser, protocol),
                     recents.find { it.connectIntent == connectionCardIntent }?.id
@@ -144,14 +145,15 @@ class RecentsListViewStateFlow @Inject constructor(
                 isPinned = isPinned,
                 isConnected = connectedIntent == connectIntent,
                 availability = getAvailability(connectIntent, vpnUser, protocol),
-                connectIntent = getConnectIntentViewState(connectIntent)
+                connectIntent = getConnectIntentViewState(connectIntent, vpnUser?.isFreeUser == true)
             )
         }
 
     private suspend fun createCardState(
         vpnState: VpnState,
         connectIntent: ConnectIntent,
-        connectedServer: Server?
+        connectedServer: Server?,
+        vpnUser: VpnUser?,
     ): VpnConnectionCardViewState {
         val vpnConnectionState = when {
             vpnState.isEstablishingConnection -> VpnConnectionState.Connecting
@@ -168,7 +170,7 @@ class RecentsListViewStateFlow @Inject constructor(
             VpnConnectionState.Connected -> R.string.connection_card_label_connected
         }
         return VpnConnectionCardViewState(
-            connectIntentViewState = getConnectIntentViewState(connectIntent, connectedServer),
+            connectIntentViewState = getConnectIntentViewState(connectIntent, vpnUser?.isFreeUser == true, connectedServer),
             cardLabelRes = cardLabelRes,
             connectionState = vpnConnectionState
         )

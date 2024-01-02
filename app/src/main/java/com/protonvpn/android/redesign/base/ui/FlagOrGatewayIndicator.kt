@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.base.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 
 @Composable
@@ -29,6 +30,8 @@ fun FlagOrGatewayIndicator(
     modifier: Modifier = Modifier
 ) {
     when(label) {
+        is ConnectIntentPrimaryLabel.FastestFreeServer ->
+            Flag(CountryId.fastest, modifier = modifier)
         is ConnectIntentPrimaryLabel.Country ->
             Flag(label.exitCountry, label.entryCountry, modifier = modifier)
         is ConnectIntentPrimaryLabel.Gateway ->

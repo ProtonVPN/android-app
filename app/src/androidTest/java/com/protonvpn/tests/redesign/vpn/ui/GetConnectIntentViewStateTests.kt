@@ -24,6 +24,7 @@ import androidx.test.filters.SdkSuppress
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -97,6 +98,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         coEvery { mockServerManager.getServerById(any()) } answers {
             allServers.find { it.serverId == firstArg() }
         }
+        coEvery { mockServerManager.getFreeCountries() } returns listOf(VpnCountry("ch", listOf(serverCh, serverChFree), false))
         every { mockTranslator.getCity(any()) } answers { firstArg() }
 
         getConnectIntentViewState = GetConnectIntentViewState(mockServerManager, mockTranslator)
@@ -105,7 +107,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun fastest() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, noServerFeatures)
-        setConnectIntentRowComposable(connectIntent)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Fastest country")
         node.withTag("secondaryLabel").assertDoesNotExist()
@@ -114,7 +116,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun fastestConnected() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, noServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverCh)
+        setConnectIntentRowComposable(connectIntent, serverCh, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Fastest country")
         node.withTag("secondaryLabel").hasChild(node.withText("Switzerland")).assertIsDisplayed()
@@ -123,7 +125,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun fastestWithFeature() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, p2pServerFeatures)
-        setConnectIntentRowComposable(connectIntent)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Fastest country")
         node.withTag("secondaryLabel").hasChild(node.withText("P2P")).assertIsDisplayed()
@@ -132,7 +134,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun fastestWithFeatureConnected() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, p2pServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverPl)
+        setConnectIntentRowComposable(connectIntent, serverPl, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Fastest country")
         node.withTag("secondaryLabel").hasChild(node.withText("Poland")).assertIsDisplayed()
@@ -140,9 +142,31 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
+    fun fastestFreeUser() = runTest {
+        val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, noServerFeatures)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = true)
+
+        node.withTag("primaryLabel").assertContainsText("Fastest free server")
+        node.withTag("secondaryLabel")
+            // The displayed text includes an embedded image, use content description for easier matching.
+            .withContentDescription("Auto-selected from 1 country")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun fastestFreeUserConnected() = runTest {
+        val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, noServerFeatures)
+        setConnectIntentRowComposable(connectIntent, serverChFree, isFreeUser = true)
+
+        node.withTag("primaryLabel").assertContainsText("Fastest free server")
+        node.withTag("secondaryLabel")
+            .hasChild(node.withText("Switzerland #${serverChFree.serverNumber}")).assertIsDisplayed()
+    }
+
+    @Test
     fun country() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(switzerland, noServerFeatures)
-        setConnectIntentRowComposable(connectIntent)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
         node.withTag("secondaryLabel").assertDoesNotExist()
@@ -151,7 +175,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun countryConnected() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(switzerland, noServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverCh)
+        setConnectIntentRowComposable(connectIntent, serverCh, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
         node.withTag("secondaryLabel").assertDoesNotExist()
@@ -160,7 +184,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun countryConnectedToDifferentCountry() = runTest {
         val connectIntent = ConnectIntent.FastestInCountry(switzerland, noServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverPl)
+        setConnectIntentRowComposable(connectIntent, serverPl, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").assertDoesNotExist()
@@ -169,7 +193,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun city() = runTest {
         val connectIntent = ConnectIntent.FastestInCity(switzerland, "Zurich", noServerFeatures)
-        setConnectIntentRowComposable(connectIntent)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
         node.withTag("secondaryLabel").hasChild(node.withText("Zurich")).assertIsDisplayed()
@@ -178,7 +202,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun cityConnected() = runTest {
         val connectIntent = ConnectIntent.FastestInCity(switzerland, "Zurich", noServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverCh)
+        setConnectIntentRowComposable(connectIntent, serverCh, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
         node.withTag("secondaryLabel").hasChild(node.withText("Zurich")).assertIsDisplayed()
@@ -187,7 +211,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun cityConnectedToDifferentCountryAndCity() = runTest {
         val connectIntent = ConnectIntent.FastestInCity(switzerland, "Zurich", noServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverPl)
+        setConnectIntentRowComposable(connectIntent, serverPl, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").hasChild(node.withText("Warsaw")).assertIsDisplayed()
@@ -197,7 +221,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     fun cityWithTranslation() = runTest {
         every { mockTranslator.getCity("Zurich") } returns "Zurych"
         val connectIntent = ConnectIntent.FastestInCity(switzerland, "Zurich", noServerFeatures)
-        setConnectIntentRowComposable(connectIntent)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
         node.withTag("secondaryLabel").hasChild(node.withText("Zurych")).assertIsDisplayed()
@@ -206,7 +230,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun secureCoreFastest() = runTest {
         val connectIntent = ConnectIntent.SecureCore(CountryId.fastest, CountryId.fastest)
-        setConnectIntentRowComposable(connectIntent)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Fastest country")
         node.withTag("secondaryLabel").assertDoesNotExist()
@@ -215,7 +239,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun secureCoreFastestConnected() = runTest {
         val connectIntent = ConnectIntent.SecureCore(CountryId.fastest, CountryId.fastest)
-        setConnectIntentRowComposable(connectIntent, serverPlViaCh)
+        setConnectIntentRowComposable(connectIntent, serverPlViaCh, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Fastest country")
         node.withTag("secondaryLabel").hasChild(node.withText("Poland via Switzerland")).assertIsDisplayed()
@@ -224,7 +248,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun secureCoreFastestWithExitCountry() = runTest {
         val connectIntent = ConnectIntent.SecureCore(poland, CountryId.fastest)
-        setConnectIntentRowComposable(connectIntent)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").assertDoesNotExist()
@@ -233,7 +257,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun secureCoreFastestWithExitCountryConnected() = runTest {
         val connectIntent = ConnectIntent.SecureCore(poland, CountryId.fastest)
-        setConnectIntentRowComposable(connectIntent, serverPlViaCh)
+        setConnectIntentRowComposable(connectIntent, serverPlViaCh, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").assertDoesNotExist()
@@ -242,7 +266,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun secureCoreWithEntryAndExitCountry() = runTest {
         val connectIntent = ConnectIntent.SecureCore(poland, switzerland)
-        setConnectIntentRowComposable(connectIntent)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").hasChild(node.withText("via Switzerland")).assertIsDisplayed()
@@ -251,7 +275,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun secureCoreWithEntryAndExitCountryConnected() = runTest {
         val connectIntent = ConnectIntent.SecureCore(poland, switzerland)
-        setConnectIntentRowComposable(connectIntent, serverPlViaCh)
+        setConnectIntentRowComposable(connectIntent, serverPlViaCh, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").hasChild(node.withText("via Switzerland")).assertIsDisplayed()
@@ -260,7 +284,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun secureCoreWithEntryAndExitCountryConnectedToDifferentCountries() = runTest {
         val connectIntent = ConnectIntent.SecureCore(poland, switzerland)
-        setConnectIntentRowComposable(connectIntent, serverLtViaSe)
+        setConnectIntentRowComposable(connectIntent, serverLtViaSe, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Lithuania")
         node.withTag("secondaryLabel").hasChild(node.withText("via Sweden")).assertIsDisplayed()
@@ -269,7 +293,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun server() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, noServerFeatures)
-        setConnectIntentRowComposable(connectIntent)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").hasChild(node.withText("Warsaw #1")).assertIsDisplayed()
@@ -278,7 +302,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun serverConnected() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, noServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverPl)
+        setConnectIntentRowComposable(connectIntent, serverPl, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").hasChild(node.withText("Warsaw #1")).assertIsDisplayed()
@@ -287,7 +311,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun serverWithFeatures() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
-        setConnectIntentRowComposable(connectIntent)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").hasChild(node.withText("Warsaw #1")).assertIsDisplayed()
@@ -297,7 +321,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun serverWithFeaturesConnected() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverPl)
+        setConnectIntentRowComposable(connectIntent, serverPl, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").hasChild(node.withText("Warsaw #1")).assertIsDisplayed()
@@ -307,7 +331,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun serverWithFeaturesConnectedToServerWithNoFeatures() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverPlNoFeatures)
+        setConnectIntentRowComposable(connectIntent, serverPlNoFeatures, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
         node.withTag("secondaryLabel").hasChild(node.withText("Warsaw #2")).assertIsDisplayed()
@@ -317,7 +341,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun freeServer() = runTest {
         val connectIntent = ConnectIntent.Server(serverChFree.serverId, noServerFeatures)
-        setConnectIntentRowComposable(connectIntent)
+        setConnectIntentRowComposable(connectIntent, isFreeUser = true)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
         node.withTag("secondaryLabel").hasChild(node.withText("FREE#1")).assertIsDisplayed()
@@ -326,7 +350,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun serverConnectedToDifferentServer() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverCh)
+        setConnectIntentRowComposable(connectIntent, serverCh, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
         node.withTag("secondaryLabel").hasChild(node.withText("Zurich #1")).assertIsDisplayed()
@@ -336,7 +360,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun gateway() = runTest {
         val connectIntent = ConnectIntent.Gateway("Gateway Name", null)
-        setConnectIntentRowComposable(connectIntent, null)
+        setConnectIntentRowComposable(connectIntent, null, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Gateway Name")
         node.withTag("secondaryLabel").assertDoesNotExist()
@@ -345,7 +369,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun gatewayConnected() = runTest {
         val connectIntent = ConnectIntent.Gateway("Gateway Name", null)
-        setConnectIntentRowComposable(connectIntent, serverGateway)
+        setConnectIntentRowComposable(connectIntent, serverGateway, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Gateway Name")
         node.withTag("secondaryLabel").assertDoesNotExist()
@@ -354,14 +378,18 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     @Test
     fun gatewaySpecificServer() = runTest {
         val connectIntent = ConnectIntent.Gateway("Gateway Name", serverGateway.serverId)
-        setConnectIntentRowComposable(connectIntent, null)
+        setConnectIntentRowComposable(connectIntent, null, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Gateway Name")
         node.withTag("secondaryLabel").hasChild(node.withText("United States #1")).assertIsDisplayed()
     }
 
-    private suspend fun setConnectIntentRowComposable(connectIntent: ConnectIntent, connectedServer: Server? = null) {
-        val state = getConnectIntentViewState(connectIntent, connectedServer)
+    private suspend fun setConnectIntentRowComposable(
+        connectIntent: ConnectIntent,
+        connectedServer: Server? = null,
+        isFreeUser: Boolean,
+    ) {
+        val state = getConnectIntentViewState(connectIntent, isFreeUser, connectedServer)
         composeRule.setContent {
             Row {
                 ConnectIntentLabels(

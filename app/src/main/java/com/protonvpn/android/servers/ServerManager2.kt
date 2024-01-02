@@ -68,6 +68,11 @@ class ServerManager2 @Inject constructor(
         return serverManager.getVpnExitCountry(countryCode, secureCoreCountry)
     }
 
+    suspend fun getFreeCountries(): List<VpnCountry> {
+        serverManager.ensureLoaded()
+        return serverManager.freeCountries
+    }
+
     suspend fun getServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?): Server? {
         serverManager.ensureLoaded()
         return serverManager.getServerForConnectIntent(connectIntent, vpnUser)
