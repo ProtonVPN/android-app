@@ -54,6 +54,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -85,7 +86,6 @@ import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
-import kotlinx.coroutines.flow.StateFlow
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionWeak
@@ -101,106 +101,119 @@ import kotlin.math.roundToInt
 
 @Composable
 fun ConnectionDetailsRoute(
-    onBackClicked: () -> Unit
+    onClosePanel: () -> Unit,
 ) {
     val viewModel: ConnectionDetailsViewModel = hiltViewModel()
-    ConnectionDetails(viewModel.connectionDetailsViewState, onBackClicked)
+    val viewState by viewModel.connectionDetailsViewState.collectAsStateWithLifecycle()
+    ConnectionDetails(viewState, onClosePanel)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConnectionDetails(
-    connectionFlow: StateFlow<ConnectionDetailsViewModel.ConnectionDetailsViewState>,
-    onBackClicked: () -> Unit
+    viewState: ConnectionDetailsViewModel.ConnectionDetailsViewState,
+    onClosePanel: () -> Unit
 ) {
-    val connectionViewState = connectionFlow.collectAsStateWithLifecycle()
-    val viewState = connectionViewState.value
-
-    val scrollState = rememberScrollState()
-    val isScrolled = remember { derivedStateOf { scrollState.value > 0 } }
-    val topAppBarColor = animateColorAsState(
-        targetValue = if (isScrolled.value) ProtonTheme.colors.backgroundSecondary else ProtonTheme.colors.backgroundDeep
-    )
     Column(
         modifier = Modifier
             .background(ProtonTheme.colors.backgroundDeep)
             .fillMaxSize()
             .navigationBarsPadding()
     ) {
-        TopAppBar(
-            title = { },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = topAppBarColor.value
-            ),
-            navigationIcon = {
-                IconButton(onClick = { onBackClicked() }) {
-                    Icon(
-                        Icons.Filled.ArrowBack,
-                        contentDescription = stringResource(id = R.string.accessibility_back)
-                    )
+        when (viewState) {
+            is ConnectionDetailsViewModel.ConnectionDetailsViewState.Connected ->
+                ConnectionDetailsConnected(viewState, onClosePanel)
+            is ConnectionDetailsViewModel.ConnectionDetailsViewState.Close ->
+                LaunchedEffect(Unit) {
+                    onClosePanel()
                 }
-            },
-        )
+        }
+    }
+}
 
-        Column(
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ColumnScope.ConnectionDetailsConnected(
+    viewState: ConnectionDetailsViewModel.ConnectionDetailsViewState.Connected,
+    onClosePanel: () -> Unit
+) {
+    val scrollState = rememberScrollState()
+    val isScrolled = remember { derivedStateOf { scrollState.value > 0 } }
+    val topAppBarColor = animateColorAsState(
+        targetValue = if (isScrolled.value) ProtonTheme.colors.backgroundSecondary else ProtonTheme.colors.backgroundDeep
+    )
+    TopAppBar(
+        title = { },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = topAppBarColor.value
+        ),
+        navigationIcon = {
+            IconButton(onClick = { onClosePanel() }) {
+                Icon(
+                    Icons.Filled.ArrowBack,
+                    contentDescription = stringResource(id = R.string.accessibility_back)
+                )
+            }
+        },
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+            .padding(16.dp)
+    ) {
+        Row(
             modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .padding(16.dp)
+                .padding(bottom = 16.dp)
+                .heightIn(min = 42.dp)
+                .semantics(mergeDescendants = true) {},
         ) {
-            Row(
+            val connectIntent = viewState.connectIntentViewState
+            FlagOrGatewayIndicator(
+                connectIntent.primaryLabel,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+            ConnectIntentLabels(
+                primaryLabel = connectIntent.primaryLabel,
+                secondaryLabel = connectIntent.secondaryLabel,
+                serverFeatures = connectIntent.serverFeatures,
+                labelStyle = ProtonTheme.typography.headlineNorm,
+                detailsStyle = ProtonTheme.typography.defaultSmallWeak,
+                isConnected = false,
                 modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .heightIn(min = 42.dp)
-                    .semantics(mergeDescendants = true) {},
-            ) {
-                val connectIntent = viewState.connectIntentViewState
-                FlagOrGatewayIndicator(
-                    connectIntent.primaryLabel,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-                ConnectIntentLabels(
-                    primaryLabel = connectIntent.primaryLabel,
-                    secondaryLabel = connectIntent.secondaryLabel,
-                    serverFeatures = connectIntent.serverFeatures,
-                    labelStyle = ProtonTheme.typography.headlineNorm,
-                    detailsStyle = ProtonTheme.typography.defaultSmallWeak,
-                    isConnected = false,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 16.dp)
-                )
-            }
-
-            IpView(
-                viewState.entryIp, viewState.vpnIp, Modifier.padding(vertical = 16.dp)
-            )
-
-            viewState.trafficUpdate?.let { trafficUpdate ->
-                Spacer(Modifier.height(16.dp))
-                ConnectionSpeedRow(
-                    trafficUpdate.speedToString(sizeInBytes = trafficUpdate.downloadSpeed),
-                    trafficUpdate.speedToString(sizeInBytes = trafficUpdate.uploadSpeed)
-                )
-            }
-
-            Spacer(Modifier.height(16.dp))
-            Text(
-                text = stringResource(id = R.string.connection_details_subtitle),
-                style = ProtonTheme.typography.captionWeak,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            ConnectionStats(
-                sessionTime = getSessionTime(sessionTimeInSeconds = viewState.trafficUpdate?.sessionTimeSeconds),
-                exitCountry = viewState.exitCountryId,
-                entryCountry = viewState.entryCountryId,
-                gatewayName = viewState.serverGatewayName,
-                city = viewState.serverCity,
-                serverName = viewState.serverDisplayName,
-                serverLoad = viewState.serverLoad,
-                protocol = viewState.protocolDisplay?.let { stringResource(it) }
+                    .weight(1f)
+                    .padding(start = 16.dp)
             )
         }
+
+        IpView(
+            viewState.entryIp, viewState.vpnIp, Modifier.padding(vertical = 16.dp)
+        )
+
+        viewState.trafficUpdate?.let { trafficUpdate ->
+            Spacer(Modifier.height(16.dp))
+            ConnectionSpeedRow(
+                trafficUpdate.speedToString(sizeInBytes = trafficUpdate.downloadSpeed),
+                trafficUpdate.speedToString(sizeInBytes = trafficUpdate.uploadSpeed)
+            )
+        }
+
+        Spacer(Modifier.height(16.dp))
+        Text(
+            text = stringResource(id = R.string.connection_details_subtitle),
+            style = ProtonTheme.typography.captionWeak,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        ConnectionStats(
+            sessionTime = getSessionTime(sessionTimeInSeconds = viewState.trafficUpdate?.sessionTimeSeconds),
+            exitCountry = viewState.exitCountryId,
+            entryCountry = viewState.entryCountryId,
+            gatewayName = viewState.serverGatewayName,
+            city = viewState.serverCity,
+            serverName = viewState.serverDisplayName,
+            serverLoad = viewState.serverLoad,
+            protocol = viewState.protocolDisplay?.let { stringResource(it) }
+        )
     }
 }
 
