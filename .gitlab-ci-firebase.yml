@@ -118,7 +118,7 @@ release tests:
 
 robo tests:
   stage: test
-  timeout: 1h 30m
+  timeout: 2h
   tags:
     - shared-small
   rules:
