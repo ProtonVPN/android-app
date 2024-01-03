@@ -20,22 +20,19 @@ package com.protonvpn.android.netshield
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -46,25 +43,28 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.utils.ConnectionTools
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.default
+import me.proton.core.compose.theme.defaultSmallStrongNorm
+import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.defaultWeak
+import me.proton.core.compose.theme.overlineWeak
 
 @Composable
 fun NetShieldComposable(
-    netShieldViewState: StateFlow<NetShieldViewState>,
-    navigateToNetShield: () -> Unit,
-    navigateToUpgrade: () -> Unit
+    netShieldViewState: NetShieldViewState,
+    navigateToUpgrade: () -> Unit,
+    onNavigateToSubsetting: () -> Unit
 ) {
-    val netShieldState = netShieldViewState.collectAsStateWithLifecycle()
-    when (val state = netShieldState.value) {
-        is NetShieldViewState.NetShieldState -> NetShieldView(state = state, navigateToNetShield)
+    when (netShieldViewState) {
+        is NetShieldViewState.NetShieldState -> NetShieldView(
+            state = netShieldViewState,
+            onNavigateToSubsetting = onNavigateToSubsetting
+        )
         NetShieldViewState.UpgradePlusBanner -> UpgradeNetShieldFree(navigateToUpgrade)
         NetShieldViewState.UpgradeBusinessBanner -> UpgradeNetShieldBusiness()
     }
@@ -148,60 +148,50 @@ fun UpgradePromo(
 }
 
 @Composable
-private fun NetShieldView(state: NetShieldViewState.NetShieldState, navigateToNetShieldSubSetting: () -> Unit) {
-    Column {
+private fun NetShieldView(state: NetShieldViewState.NetShieldState, onNavigateToSubsetting: () -> Unit) {
+    Column(
+        modifier = Modifier.clickable(onClick = onNavigateToSubsetting)
+    ) {
         Row(
             modifier = Modifier
-                .clickable(
-                    onClickLabel = stringResource(R.string.accessibility_netshield_status_on_click),
-                    onClick = { navigateToNetShieldSubSetting() }
-                )
                 .semantics(mergeDescendants = true, properties = {})
                 .padding(16.dp),
-            verticalAlignment = Alignment.Top,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(
+            Image(
                 painter = painterResource(id = state.iconRes),
                 contentDescription = null,
-                tint = if (state.isDisabled) ProtonTheme.colors.iconHint else ProtonTheme.colors.brandNorm,
                 modifier = Modifier
-                    .wrapContentSize()
+                    .size(24.dp)
                     .padding(end = 4.dp)
             )
-            Column(
+            Text(
+                text = stringResource(R.string.netshield_feature_name),
+                style = ProtonTheme.typography.captionNorm,
                 modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = stringResource(R.string.netshield_feature_name),
-                    style = ProtonTheme.typography.default,
                 )
-                Text(
-                    text = stringResource(state.titleRes),
-                    style = ProtonTheme.typography.defaultWeak,
-                )
-            }
+            Text(
+                text = stringResource(state.titleRes),
+                style = ProtonTheme.typography.captionWeak,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
 
             Icon(
                 painter = painterResource(id = R.drawable.ic_proton_chevron_right),
                 contentDescription = null,
                 tint = ProtonTheme.colors.iconHint,
-                modifier = Modifier.wrapContentSize()
+                modifier = Modifier.size(24.dp)
             )
         }
-        BandwidthStatsRow(
-            stats = state.netShieldStats,
-            isGreyedOut = state.isGreyedOut
-        )
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(ProtonTheme.colors.separatorNorm)
-        )
+        AnimatedVisibility(state.bandwidthShown) {
+            BandwidthStatsRow(
+                stats = state.netShieldStats,
+                isGreyedOut = state.isGreyedOut
+            )
+        }
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
     Row(
@@ -214,7 +204,7 @@ fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
         val dataSaved = stats.savedBytes
         val modifier = Modifier
             .weight(1f)
-            .padding(8.dp)
+            .padding(2.dp)
         BandwidthColumn(
             isDisabledStyle = isGreyedOut || adsCount == 0L,
             title = pluralStringResource(id = R.plurals.netshield_ads_blocked, count = adsCount.toInt()),
@@ -250,13 +240,13 @@ private fun BandwidthColumn(
     ) {
         Text(
             text = content,
-            style = if (isDisabledStyle) ProtonTheme.typography.defaultWeak else ProtonTheme.typography.default,
+            style = if (isDisabledStyle) ProtonTheme.typography.defaultSmallWeak else ProtonTheme.typography.defaultSmallStrongNorm,
             textAlign = TextAlign.Center,
             modifier = Modifier.testTag("value")
         )
         Text(
             text = title,
-            style = ProtonTheme.typography.captionWeak,
+            style = ProtonTheme.typography.overlineWeak,
             textAlign = TextAlign.Center,
         )
     }
@@ -266,7 +256,7 @@ private fun BandwidthColumn(
 @Composable
 private fun NetShieldOnPreview() {
     NetShieldComposable(
-        netShieldViewState = MutableStateFlow(
+        netShieldViewState =
             NetShieldViewState.NetShieldState(
                 protocol = NetShieldProtocol.ENABLED_EXTENDED,
                 netShieldStats = NetShieldStats(
@@ -274,10 +264,9 @@ private fun NetShieldOnPreview() {
                     trackersBlocked = 0,
                     savedBytes = 2000
                 )
-            )
-        ),
-        navigateToNetShield = {},
-        navigateToUpgrade = {}
+            ),
+        navigateToUpgrade = {},
+        onNavigateToSubsetting = {}
     )
 }
 
@@ -285,16 +274,15 @@ private fun NetShieldOnPreview() {
 @Composable
 private fun NetShieldOffPreview() {
     NetShieldComposable(
-        netShieldViewState = MutableStateFlow(
+        netShieldViewState =
             NetShieldViewState.NetShieldState(
                 protocol = NetShieldProtocol.DISABLED,
                 netShieldStats = NetShieldStats(
                     adsBlocked = 3,
                     trackersBlocked = 5,
                 )
-            )
-        ),
-        navigateToNetShield = {},
-        navigateToUpgrade = {}
+            ),
+        navigateToUpgrade = {},
+        onNavigateToSubsetting = {}
     )
 }

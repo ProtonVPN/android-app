@@ -40,12 +40,14 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.components.RadioButtonEx
 import com.protonvpn.android.databinding.ItemNetshieldBinding
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
-import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
+import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.android.vpn.VpnStatusProvider
+import com.protonvpn.android.vpn.VpnUiDelegate
 
+
+@Deprecated ("Should be removed after non-composable settings is no longer relevant")
 class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     class ReconnectDialogDelegate(
@@ -76,7 +78,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 if (extendedProtocol) {
                     NetShieldProtocol.ENABLED_EXTENDED
                 } else {
-                    NetShieldProtocol.ENABLED
+                    NetShieldProtocol.ENABLED_EXTENDED
                 }
             } else {
                 NetShieldProtocol.DISABLED

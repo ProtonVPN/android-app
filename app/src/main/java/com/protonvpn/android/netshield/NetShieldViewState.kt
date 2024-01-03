@@ -27,12 +27,11 @@ sealed class NetShieldViewState {
         val protocol: NetShieldProtocol,
         val netShieldStats: NetShieldStats
     ) : NetShieldViewState() {
-        val isDisabled = protocol == NetShieldProtocol.DISABLED
+        val bandwidthShown = protocol != NetShieldProtocol.DISABLED
         val isGreyedOut = protocol != NetShieldProtocol.ENABLED_EXTENDED
         val iconRes = when (protocol) {
-            NetShieldProtocol.DISABLED -> R.drawable.ic_proton_shield
-            NetShieldProtocol.ENABLED -> R.drawable.ic_proton_shield_half_filled
-            NetShieldProtocol.ENABLED_EXTENDED -> R.drawable.ic_proton_shield_filled
+            NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
+            NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.drawable.ic_netshield_on
         }
         val titleRes = when (protocol) {
             NetShieldProtocol.DISABLED -> R.string.netshield_status_off

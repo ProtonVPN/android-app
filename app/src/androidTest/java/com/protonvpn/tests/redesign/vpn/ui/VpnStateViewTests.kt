@@ -19,7 +19,9 @@
 package com.protonvpn.tests.redesign.vpn.ui
 
 import androidx.compose.foundation.layout.Column
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.redesign.vpn.ui.LocationText
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
@@ -62,8 +64,14 @@ class VpnStatusViewTests : FusionComposeTest() {
     fun connectedStateDisplay() {
         val state = VpnStatusViewState.Connected(
             isSecureCoreServer = true,
-            netShieldStatsGreyedOut = false,
-            netShieldStats = NetShieldStats(5)
+            netShieldViewState = NetShieldViewState.NetShieldState(
+                protocol = NetShieldProtocol.ENABLED_EXTENDED,
+                netShieldStats = NetShieldStats(
+                    adsBlocked = 5,
+                    trackersBlocked = 0,
+                    savedBytes = 2000
+                )
+            )
         )
 
         setContentForState(state)
@@ -80,7 +88,7 @@ class VpnStatusViewTests : FusionComposeTest() {
         composeRule.setContent {
             Column {
                 VpnStatusTop(state = state, transitionValue = { 1f })
-                VpnStatusBottom(state = state, transitionValue = { 1f })
+                VpnStatusBottom(state = state, transitionValue = { 1f }, {} , {}, {})
             }
         }
     }

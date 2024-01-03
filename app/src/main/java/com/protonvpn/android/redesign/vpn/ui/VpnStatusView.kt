@@ -29,20 +29,27 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -58,8 +65,11 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.netshield.BandwidthStatsRow
+import com.protonvpn.android.netshield.NetShieldBottomComposable
+import com.protonvpn.android.netshield.NetShieldComposable
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.redesign.base.ui.vpnGreen
 import kotlinx.coroutines.delay
 import me.proton.core.compose.theme.ProtonTheme
@@ -69,8 +79,7 @@ import me.proton.core.compose.theme.defaultWeak
 sealed class VpnStatusViewState {
     data class Connected(
         val isSecureCoreServer: Boolean,
-        val netShieldStatsGreyedOut: Boolean,
-        val netShieldStats: NetShieldStats
+        val netShieldViewState: NetShieldViewState,
     ) : VpnStatusViewState()
 
     data class WaitingForNetwork(
@@ -175,13 +184,16 @@ fun VpnStatusTop(
 fun VpnStatusBottom(
     state: VpnStatusViewState,
     transitionValue: () -> Float,
+    onNetShieldValueChanged: (protocol: NetShieldProtocol) -> Unit,
+    onNetShieldLearnMore: () -> Unit,
+    onUpgradeNetShield: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             when (state) {
                 is VpnStatusViewState.Connected -> {
-                    VpnConnectedView(state, transitionValue)
+                    VpnConnectedView(state, onNetShieldValueChanged, onUpgradeNetShield, onNetShieldLearnMore, transitionValue)
                 }
 
                 is VpnStatusViewState.Connecting -> {
@@ -230,14 +242,21 @@ private fun VpnConnectedViewTop(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun VpnConnectedView(
     state: VpnStatusViewState.Connected,
+    onNetShieldValueChanged: (protocol: NetShieldProtocol) -> Unit,
+    onUpgradeNetShield: () -> Unit,
+    onNetShieldLearnMore: () -> Unit,
     transitionValue: () -> Float
 ) {
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    var isModalVisible by remember { mutableStateOf(false) }
+
     Surface(
-        color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4F),
-        shape = ProtonTheme.shapes.medium,
+        color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.9F),
+        shape = ProtonTheme.shapes.large,
         modifier = Modifier
             .offset { IntOffset(x = 0, y = (transitionValue() * 16.dp.toPx()).toInt()) }
             .graphicsLayer {
@@ -245,7 +264,26 @@ private fun VpnConnectedView(
             }
             .padding(top = 8.dp)
     ) {
-        BandwidthStatsRow(false, state.netShieldStats)
+        NetShieldComposable(
+            netShieldViewState = state.netShieldViewState,
+            navigateToUpgrade = onUpgradeNetShield,
+            onNavigateToSubsetting = { isModalVisible = !isModalVisible }
+        )
+    }
+    if (isModalVisible && state.netShieldViewState is NetShieldViewState.NetShieldState) {
+        ModalBottomSheet(
+            sheetState = bottomSheetState,
+            content = {
+                NetShieldBottomComposable(
+                    currentNetShield = state.netShieldViewState.protocol,
+                    onNetShieldLearnMore = onNetShieldLearnMore,
+                    onValueChanged = onNetShieldValueChanged
+                )
+            },
+            windowInsets = WindowInsets.navigationBars,
+            onDismissRequest = {
+                isModalVisible = !isModalVisible
+            })
     }
 }
 
@@ -419,11 +457,14 @@ private fun PreviewVpnDisabledStateWithRTLSymbols() {
 @Composable
 private fun PreviewVpnConnectedState() {
     PreviewHelper(
-        state = VpnStatusViewState.Connected(
-            isSecureCoreServer = false,
-            netShieldStatsGreyedOut = false,
-            NetShieldStats(1, 0, 5234)
-        ),
+        state = VpnStatusViewState.Connected(false, NetShieldViewState.NetShieldState(
+            protocol = NetShieldProtocol.ENABLED_EXTENDED,
+            netShieldStats = NetShieldStats(
+                adsBlocked = 3,
+                trackersBlocked = 0,
+                savedBytes = 2000
+            )
+        )),
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
@@ -434,21 +475,24 @@ private fun PreviewVpnConnectedState() {
 @Composable
 private fun PreviewVpnConnectedSecureCoreState() {
     PreviewHelper(
-        state = VpnStatusViewState.Connected(
-            isSecureCoreServer = true,
-            netShieldStatsGreyedOut = false,
-            netShieldStats = NetShieldStats(1, 0, 5234)
-        ),
+        state = VpnStatusViewState.Connected(true, NetShieldViewState.NetShieldState(
+            protocol = NetShieldProtocol.ENABLED_EXTENDED,
+            netShieldStats = NetShieldStats(
+                adsBlocked = 3,
+                trackersBlocked = 0,
+                savedBytes = 2000
+            )
+        )),
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     )
 }
 
-@Composable
+ @Composable
 private fun PreviewHelper(state: VpnStatusViewState, modifier: Modifier = Modifier) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         VpnStatusTop(state = state, transitionValue = { 1f })
-        VpnStatusBottom(state = state, transitionValue = { 1f })
+        VpnStatusBottom(state = state, transitionValue = { 1f }, {}, {}, {})
     }
 }

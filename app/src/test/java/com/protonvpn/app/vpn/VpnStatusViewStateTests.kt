@@ -23,9 +23,12 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
@@ -39,12 +42,15 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
 
@@ -60,6 +66,8 @@ class VpnStatusViewStateFlowTest {
     @RelaxedMockK
     private lateinit var mockCurrentUser: CurrentUser
 
+    private lateinit var testScope: TestScope
+    private lateinit var settingsFlow: MutableStateFlow<LocalUserSettings>
     private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
     private lateinit var vpnStatusViewStateFlow: VpnStatusViewStateFlow
     private val server: Server = createServer()
@@ -71,6 +79,10 @@ class VpnStatusViewStateFlowTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        val testCoroutineScheduler = TestCoroutineScheduler()
+        val testDispatcher = UnconfinedTestDispatcher(testCoroutineScheduler)
+        testScope = TestScope(testDispatcher)
+        Dispatchers.setMain(testDispatcher)
 
         serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         serverListUpdaterPrefs.ipAddress = "1.1.1.1"
@@ -84,11 +96,14 @@ class VpnStatusViewStateFlowTest {
         vpnUserFlow = MutableStateFlow(TestUser.plusUser.vpnUser)
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
         mockCurrentUser.mockVpnUser { vpnUserFlow.value }
+        settingsFlow = MutableStateFlow(LocalUserSettings.Default)
+        val effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
 
         vpnStatusViewStateFlow = VpnStatusViewStateFlow(
             vpnStatusProviderUi,
             serverListUpdaterPrefs,
             vpnConnectionManager,
+            effectiveUserSettings,
             mockCurrentUser
         )
     }
@@ -109,24 +124,9 @@ class VpnStatusViewStateFlowTest {
         assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
         netShieldStatsFlow.emit(NetShieldStats(3, 3, 3000))
         val netShieldStats =
-            (vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).netShieldStats
+            ((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).netShieldViewState as NetShieldViewState.NetShieldState).netShieldStats
         assert(netShieldStats.adsBlocked == 3L)
         assert(netShieldStats.trackersBlocked == 3L)
         assert(netShieldStats.savedBytes == 3000L)
-    }
-
-    @Test
-    fun `free user produces correct state with greyed out netshield stats`() = runTest {
-        statusFlow.emit(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
-        assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
-        assertEquals(
-            (vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).netShieldStatsGreyedOut,
-            false
-        )
-        vpnUserFlow.value = TestUser.freeUser.vpnUser
-        assertEquals(
-            (vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).netShieldStatsGreyedOut,
-            true
-        )
     }
 }

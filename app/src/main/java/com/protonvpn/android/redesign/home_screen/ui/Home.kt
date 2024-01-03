@@ -81,7 +81,9 @@ import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
 import com.protonvpn.android.ui.home.vpn.VpnStateViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -159,6 +161,9 @@ fun HomeView(
         VpnStatusBottom(
             vpnState,
             transitionValue = { vpnStateTransitionProgress.value },
+            onNetShieldValueChanged = { stateViewModel.setNetShieldProtocol(it) },
+            onUpgradeNetShield = { UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context) },
+            onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
             modifier = Modifier
                 .widthIn(max = 480.dp)
                 .fillMaxWidth()

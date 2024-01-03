@@ -23,6 +23,8 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.logging.AppUpdateUpdated
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
 import com.protonvpn.android.utils.Constants
@@ -30,12 +32,14 @@ import com.protonvpn.android.utils.Storage
 import dagger.Lazy
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @Reusable
 class UpdateMigration @Inject constructor(
     private val mainScope: CoroutineScope,
+    private val localUserSettings: Lazy<CurrentUserLocalSettingsManager>,
     private val isTv: Lazy<IsTvCheck>,
     private val logout: Lazy<Logout>,
     private val onboardingTelemetry: Lazy<OnboardingTelemetry>,
@@ -52,6 +56,17 @@ class UpdateMigration @Inject constructor(
             updateAmazonUi(strippedOldVersionCode)
             updateOnboardingTelemetry(strippedOldVersionCode)
             enableWhatsNew(strippedOldVersionCode)
+            updateNetShieldValue(strippedOldVersionCode)
+        }
+    }
+
+    private fun updateNetShieldValue(oldVersionCode: Int) {
+        if (oldVersionCode <= 5_00_00_00) {
+            mainScope.launch {
+                if (localUserSettings.get().rawCurrentUserSettingsFlow.first().netShield == NetShieldProtocol.ENABLED) {
+                    localUserSettings.get().updateNetShield(NetShieldProtocol.ENABLED_EXTENDED)
+                }
+            }
         }
     }
 
