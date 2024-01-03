@@ -347,6 +347,8 @@
     <string name="netShieldEnabledWarning">Beware some websites might not fully work because of blocked contents.</string>
     <string name="netShieldDescription">Block advertisements, trackers and malware </string>
     <string name="netshield_settings_description"><![CDATA[Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. <a href="%1$s">Learn more</a>.]]></string>
+    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
+    <string name="learn_more">Learn more</string>
     <string name="netshield_feature_name" translatable="false">NetShield</string>
     <string name="netshield_status_on">On</string>
     <string name="netshield_status_off">Off</string>
@@ -354,17 +356,23 @@
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
     <string name="netshield_business_title">Block ads with NetShield</string>
     <string name="netshield_business_description">When you upgrade to VPN Business</string>
-
+    <string name="netshield_what_data_means">What NetShield data means</string>
+    <string name="netshield_ads_title">Ads</string>
+    <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
+    <string name="netshield_trackers_title">Trackers</string>
+    <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
+    <string name="netshield_data_title">Data</string>
+    <string name="netshield_data_details">The amount of unwanted data from ads, trackers, and malware blocked by NetShield</string>
     <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad\nblocked</item>
-        <item quantity="other">Ads\nblocked</item>
+        <item quantity="one">Ad blocked</item>
+        <item quantity="other">Ads blocked</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker\nstopped</item>
-        <item quantity="other">Trackers\nstopped</item>
+        <item quantity="one">Tracker stopped</item>
+        <item quantity="other">Trackers stopped</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data\nsaved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
     <string name="netShieldBlockMalwareOnly">Block malware only</string>
     <string name="netShieldFullBlock">Block malware, tracking, ads</string>
     <string name="dialogDontShowAgain">Don\'t show again</string>

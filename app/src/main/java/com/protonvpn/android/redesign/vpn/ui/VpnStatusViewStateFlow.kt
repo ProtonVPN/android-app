@@ -20,6 +20,10 @@
 package com.protonvpn.android.redesign.vpn.ui
 
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.netshield.NetShieldAvailability
+import com.protonvpn.android.netshield.NetShieldViewState
+import com.protonvpn.android.netshield.getNetShieldAvailability
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -35,20 +39,36 @@ class VpnStatusViewStateFlow @Inject constructor(
     vpnStatusProvider: VpnStatusProviderUI,
     serverListUpdaterPrefs: ServerListUpdaterPrefs,
     vpnConnectionManager: VpnConnectionManager,
+    effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     currentUser: CurrentUser
 ) : Flow<VpnStatusViewState> {
+
+
+    private val netShieldViewState: Flow<NetShieldViewState> =
+        combine(
+            effectiveCurrentUserSettings.netShield,
+            vpnConnectionManager.netShieldStats,
+            currentUser.vpnUserFlow
+        ) { state, stats, user ->
+            when(user.getNetShieldAvailability()) {
+                NetShieldAvailability.AVAILABLE -> NetShieldViewState.NetShieldState(state, stats)
+                NetShieldAvailability.UPGRADE_VPN_BUSINESS -> NetShieldViewState.UpgradeBusinessBanner
+                NetShieldAvailability.UPGRADE_VPN_PLUS -> NetShieldViewState.UpgradePlusBanner
+            }
+        }
+
 
     private val vpnFlow = combine(
         vpnStatusProvider.status,
         serverListUpdaterPrefs.ipAddressFlow,
         serverListUpdaterPrefs.lastKnownCountryFlow,
-        vpnConnectionManager.netShieldStats,
-        currentUser.vpnUserFlow
+        netShieldViewState,
+        currentUser.vpnUserFlow,
     ) { status, ipAddress, country, netShieldStats, user ->
         when (status.state) {
             VpnState.Connected -> {
                 val connectionParams = status.connectionParams
-                VpnStatusViewState.Connected(connectionParams!!.server.isSecureCoreServer, user!!.isFreeUser, netShieldStats)
+                VpnStatusViewState.Connected(connectionParams!!.server.isSecureCoreServer, netShieldStats)
             }
             VpnState.ScanningPorts, VpnState.CheckingAvailability, VpnState.Connecting, VpnState.Reconnecting -> {
                 VpnStatusViewState.Connecting(getLocationText(country, ipAddress))

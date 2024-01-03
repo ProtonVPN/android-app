@@ -30,7 +30,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.netshield.BottomSheetNetShield
 import com.protonvpn.android.netshield.NetShieldComposable
 import com.protonvpn.android.netshield.UpgradePromo
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
@@ -41,6 +40,7 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import me.proton.core.compose.theme.ProtonTheme3
 import javax.inject.Inject
 
+@Deprecated("To be removed with old UI")
 abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(layout) {
 
     protected val parentViewModel: VpnStateViewModel by viewModels(ownerProducer = { requireParentFragment() })
@@ -65,13 +65,12 @@ abstract class VpnStateFragmentWithNetShield(@LayoutRes layout: Int) : Fragment(
                         UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(requireContext())
                     }
                 } else {
-                    NetShieldComposable(parentViewModel.netShieldViewState,
-                        navigateToNetShield = {
-                            BottomSheetNetShield().show(parentFragmentManager, tag)
-                        },
+                    NetShieldComposable(
+                        netShieldViewState = parentViewModel.netShieldViewState.collectAsStateWithLifecycle().value,
                         navigateToUpgrade = {
                             UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(requireContext())
-                        })
+                        },
+                        onNavigateToSubsetting = {})
                 }
             }
         }

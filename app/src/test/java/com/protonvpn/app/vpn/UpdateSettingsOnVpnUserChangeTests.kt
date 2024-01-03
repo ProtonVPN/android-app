@@ -120,7 +120,7 @@ class UpdateSettingsOnVpnUserChangeTests {
     fun `upgrade changes netshield value to default`() = testScope.runTest {
         vpnUserFlow.value = plusUser
         assertEquals(
-            NetShieldProtocol.ENABLED,
+            NetShieldProtocol.ENABLED_EXTENDED,
             userSettingsManager.rawCurrentUserSettingsFlow.first().netShield
         )
         planFlow.emit(UserPlanManager.InfoChange.PlanChange(TestUser.freeUser.vpnUser, plusUser))
@@ -148,7 +148,7 @@ class UpdateSettingsOnVpnUserChangeTests {
         assertFalse(updatedSettings.secureCore)
         assertEquals(true, updatedSettings.safeMode)
         assertTrue(updatedSettings.randomizedNat)
-        assertEquals(NetShieldProtocol.ENABLED, updatedSettings.netShield)
+        assertEquals(NetShieldProtocol.ENABLED_EXTENDED, updatedSettings.netShield)
     }
 
     @Test

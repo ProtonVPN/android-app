@@ -44,7 +44,7 @@ data class LocalUserSettings(
     val defaultProfileId: UUID? = null,
     val lanConnections: Boolean = false,
     val mtuSize: Int = 1375,
-    val netShield: NetShieldProtocol = NetShieldProtocol.ENABLED,
+    val netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
     val protocol: ProtocolSelection = ProtocolSelection.SMART,
     val randomizedNat: Boolean = true,
     val safeMode: Boolean? = true,
