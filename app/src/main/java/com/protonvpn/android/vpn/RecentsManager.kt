@@ -18,6 +18,12 @@
  */
 package com.protonvpn.android.vpn
 
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.auth.usecase.OnSessionClosed
 import com.protonvpn.android.models.profiles.Profile
@@ -29,6 +35,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.removeFirst
+import java.lang.reflect.Type
 import java.util.LinkedList
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -44,6 +51,11 @@ class RecentsManager @Inject constructor(
     private val migrateRecentConnections = LinkedList<Profile>()
     private val recentCountries = ArrayList<String>()
 
+    // Workaround for R8:
+    // with R8 there is not enough info to deserialize the ArrayDeque items as Server objects and I can't figure out
+    // rules to make it work.
+    // As a workaround use an explicit deserializer. In the longer term we should move to storing recents in a DB.
+    @JsonAdapter(RecentServersJsonAdapter::class)
     // Country code -> Servers
     private val recentServers = LinkedHashMap<String, ArrayDeque<Server>>()
 
@@ -113,6 +125,34 @@ class RecentsManager @Inject constructor(
     }
 
     fun getRecentServers(country: String): List<Server>? = recentServers[country]
+
+    class RecentServersJsonAdapter : JsonDeserializer<LinkedHashMap<String, ArrayDeque<Server>>>,
+                                     JsonSerializer<LinkedHashMap<String, ArrayDeque<Server>>>
+    {
+        override fun deserialize(
+            json: JsonElement,
+            typeOfT: Type,
+            context: JsonDeserializationContext
+        ): LinkedHashMap<String, ArrayDeque<Server>> {
+            if (json.isJsonObject) {
+                val result = LinkedHashMap<String, ArrayDeque<Server>>()
+                val jsonMap = json.asJsonObject
+                jsonMap.keySet().associateWithTo(result) { country ->
+                    jsonMap.get(country).asJsonArray.asList().mapTo(ArrayDeque()) { jsonServer ->
+                        context.deserialize(jsonServer, Server::class.java)
+                    }
+                }
+                return result
+            }
+            return LinkedHashMap()
+        }
+
+        override fun serialize(
+            src: LinkedHashMap<String, ArrayDeque<Server>>,
+            typeOfSrc: Type,
+            context: JsonSerializationContext
+        ): JsonElement = context.serialize(src)
+    }
 
     companion object {
         const val RECENT_MAX_SIZE = 3
