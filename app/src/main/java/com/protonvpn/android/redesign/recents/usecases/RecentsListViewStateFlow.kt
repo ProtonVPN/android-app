@@ -31,6 +31,9 @@ import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
+import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewStateFlow
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -38,6 +41,7 @@ import com.protonvpn.android.utils.flatMapLatestNotNull
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.isConnectedOrConnecting
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -91,19 +95,21 @@ class RecentsListViewStateFlow @Inject constructor(
                 serverManager.serverListVersion, // Update whenever servers change.
                 userSettings.protocol,
             ) { status, _, protocol ->
-                val connectedIntent = status.connectIntent?.takeIf {
-                    status.state == VpnState.Connected || status.state.isEstablishingConnection
-                }
+            val connectedIntent = status.connectIntent?.takeIf { status.state.isConnectedOrConnecting() }
                 val mostRecentAvailableIntent =  mostRecent?.connectIntent?.takeIf {
                     getAvailability(it, vpnUser, protocol) == RecentAvailability.ONLINE
                 }
                 val connectionCardIntent = connectedIntent ?: mostRecentAvailableIntent ?: defaultConnectIntent
+                val connectIntentViewState = getConnectIntentViewState(
+                    connectionCardIntent,
+                    vpnUser.isFreeUser,
+                    connectedServer = if (status.state == VpnState.Connected) status.connectionParams?.server else null
+                )
                 RecentsListViewState(
                     createCardState(
                         status.state,
-                        connectionCardIntent,
-                        if (status.state == VpnState.Connected) status.connectionParams?.server else null,
-                        vpnUser,
+                        connectedIntent === defaultConnectIntent,
+                        connectIntentViewState,
                     ),
                     createRecentsViewState(recents, connectedIntent, connectionCardIntent, vpnUser, protocol),
                     recents.find { it.connectIntent == connectionCardIntent }?.id
@@ -149,11 +155,10 @@ class RecentsListViewStateFlow @Inject constructor(
             )
         }
 
-    private suspend fun createCardState(
+    private fun createCardState(
         vpnState: VpnState,
-        connectIntent: ConnectIntent,
-        connectedServer: Server?,
-        vpnUser: VpnUser?,
+        isDefaultConnection: Boolean,
+        connectionCardIntentViewState: ConnectIntentViewState,
     ): VpnConnectionCardViewState {
         val vpnConnectionState = when {
             vpnState.isEstablishingConnection -> VpnConnectionState.Connecting
@@ -161,7 +166,7 @@ class RecentsListViewStateFlow @Inject constructor(
             else -> VpnConnectionState.Disconnected
         }
         val cardLabelRes = when (vpnConnectionState) {
-            VpnConnectionState.Disconnected -> if (connectIntent === defaultConnectIntent) {
+            VpnConnectionState.Disconnected -> if (isDefaultConnection) {
                 R.string.connection_card_label_recommended
             } else {
                 R.string.connection_card_label_last_connected
@@ -170,9 +175,9 @@ class RecentsListViewStateFlow @Inject constructor(
             VpnConnectionState.Connected -> R.string.connection_card_label_connected
         }
         return VpnConnectionCardViewState(
-            connectIntentViewState = getConnectIntentViewState(connectIntent, vpnUser?.isFreeUser == true, connectedServer),
+            connectIntentViewState = connectionCardIntentViewState,
             cardLabelRes = cardLabelRes,
-            connectionState = vpnConnectionState
+            connectionState = vpnConnectionState,
         )
     }
 

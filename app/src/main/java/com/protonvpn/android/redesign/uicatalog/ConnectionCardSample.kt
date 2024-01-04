@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.uicatalog
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
@@ -37,7 +38,9 @@ import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
+import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
+import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 import kotlinx.coroutines.launch
 import me.proton.core.compose.component.VerticalSpacer
 import java.util.EnumSet
@@ -70,7 +73,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         secondaryLabel = null,
                         serverFeatures = emptySet()
                     ),
-                    VpnConnectionState.Disconnected
+                    VpnConnectionState.Disconnected,
                 ),
                 onConnect = {},
                 onDisconnect = {},
@@ -86,7 +89,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         secondaryLabel = ConnectIntentSecondaryLabel.Country(CountryId("pl")),
                         serverFeatures = emptySet()
                     ),
-                    VpnConnectionState.Connected
+                    VpnConnectionState.Connected,
                 ),
                 onConnect = {},
                 onDisconnect = {},
@@ -105,7 +108,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         ),
                         serverFeatures = EnumSet.of(ServerFeature.P2P),
                     ),
-                    VpnConnectionState.Connected
+                    VpnConnectionState.Connected,
                 ),
                 onConnect = {},
                 onDisconnect = {},
@@ -124,8 +127,34 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(exit = null, entry = CountryId("ch")),
                         serverFeatures = EnumSet.of(ServerFeature.P2P)
                     ),
-                    VpnConnectionState.Connected
+                    VpnConnectionState.Connected,
                 ),
+                onConnect = {},
+                onDisconnect = {},
+                onOpenPanelClick = openAction,
+                modifier = connectionCardModifier
+            )
+
+            val changeServerButton: @Composable ColumnScope.() -> Unit = @Composable {
+                ChangeServerButton(
+                    ChangeServerViewState.Locked(60, 120, false),
+                    {}, {}
+                )
+            }
+            VpnConnectionCard(
+                VpnConnectionCardViewState(
+                    cardLabelRes = R.string.connection_card_label_connected,
+                    ConnectIntentViewState(
+                        primaryLabel = ConnectIntentPrimaryLabel.Country(
+                            exitCountry = CountryId("lt"),
+                            entryCountry = CountryId("ch"),
+                        ),
+                        secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(exit = null, entry = CountryId("ch")),
+                        serverFeatures = EnumSet.of(ServerFeature.P2P)
+                    ),
+                    VpnConnectionState.Connected,
+                ),
+                changeServerButton = changeServerButton,
                 onConnect = {},
                 onDisconnect = {},
                 onOpenPanelClick = openAction,

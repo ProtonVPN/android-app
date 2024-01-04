@@ -23,6 +23,7 @@ import com.protonvpn.android.utils.SharedPreferencesProvider
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
 import me.proton.core.util.android.sharedpreferences.int
 import me.proton.core.util.android.sharedpreferences.long
@@ -37,10 +38,10 @@ class ChangeServerPrefs @Inject constructor(
     override val preferences: SharedPreferences
         get() = prefsProvider.getPrefs(PREFS_NAME)
 
-    val lastChangeTimestampFlow: Flow<Long> = preferences.observe<Long>(KEY_LAST_CHANGE_TIMESTAMP).filterNotNull()
+    val lastChangeTimestampFlow: Flow<Long> = preferences.observe<Long>(KEY_LAST_CHANGE_TIMESTAMP).map { it ?: 0 }
     var lastChangeTimestamp: Long by long(0, key = KEY_LAST_CHANGE_TIMESTAMP)
     var changeCounter: Int by int(0, key = KEY_CHANGE_COUNTER)
-    var changeCounterFlow: Flow<Int> = preferences.observe<Int>(KEY_CHANGE_COUNTER).filterNotNull()
+    var changeCounterFlow: Flow<Int> = preferences.observe<Int>(KEY_CHANGE_COUNTER).map { it ?: 0 }
     companion object {
         private const val PREFS_NAME = "ChangeServerPrefs"
         private const val KEY_CHANGE_COUNTER = "changeCounter"

@@ -33,11 +33,16 @@ import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
+import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewStateFlow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
+import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.tv.main.CountryHighlight
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -68,8 +73,11 @@ class HomeViewModel @Inject constructor(
     private val recentsManager: RecentsManager,
     private val vpnConnectionManager: VpnConnectionManager,
     private val quickConnectIntent: GetQuickConnectIntent,
+    changeServerViewStateFlow: ChangeServerViewStateFlow,
+    private val changeServerManager: ChangeServerManager,
+    private val upgradeTelemetry: UpgradeTelemetry,
     vpnStatusProviderUI: VpnStatusProviderUI,
-    serverListUpdaterPrefs: ServerListUpdaterPrefs
+    serverListUpdaterPrefs: ServerListUpdaterPrefs,
 ) : ViewModel() {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
@@ -96,7 +104,7 @@ class HomeViewModel @Inject constructor(
                 null,
                 emptySet()
             ),
-            VpnConnectionState.Disconnected
+            VpnConnectionState.Disconnected,
         )
     val recentsViewState = recentsListViewStateFlow
         .stateIn(
@@ -110,6 +118,9 @@ class HomeViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(),
         initialValue = VpnStatusViewState.Disabled()
     )
+
+    val changeServerViewState: StateFlow<ChangeServerViewState?> = changeServerViewStateFlow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     enum class DialogState {
         CountryInMaintenance, CityInMaintenance, ServerInMaintenance, GatewayInMaintenance, ServerNotAvailable
@@ -130,6 +141,12 @@ class HomeViewModel @Inject constructor(
 
     suspend fun connect(vpnUiDelegate: VpnUiDelegate) {
         connect(vpnUiDelegate, quickConnectIntent())
+    }
+
+    fun changeServer(vpnUiDelegate: VpnUiDelegate) = changeServerManager.changeServer(vpnUiDelegate)
+
+    fun onChangeServerUpgradeModalOpened() {
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.CHANGE_SERVER)
     }
 
     suspend fun onRecentClicked(item: RecentItemViewState, vpnUiDelegate: VpnUiDelegate) {
