@@ -56,8 +56,25 @@
  @com.google.gson.annotations.SerializedName <fields>;
 }
 -keepattributes Signature
+-keepattributes RuntimeVisibleAnnotations,AnnotationDefault
 -keep class com.google.gson.reflect.TypeToken { *; }
 -keep class * extends com.google.gson.reflect.TypeToken
+
+# Keep no-args constructor of classes which can be used with @JsonAdapter
+# By default their no-args constructor is invoked to create an adapter instance
+-keepclassmembers class * extends com.google.gson.TypeAdapter {
+  <init>();
+}
+-keepclassmembers class * implements com.google.gson.TypeAdapterFactory {
+  <init>();
+}
+-keepclassmembers class * implements com.google.gson.JsonSerializer {
+  <init>();
+}
+-keepclassmembers class * implements com.google.gson.JsonDeserializer {
+  <init>();
+}
+
 # serializable classes
 -keep class com.protonvpn.** implements java.io.Serializable {
     *;
