@@ -35,7 +35,10 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -53,14 +56,20 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
-import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
+import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
+import com.protonvpn.android.ui.home.vpn.ChangeServerButton
+import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionStrongUnspecified
@@ -85,7 +94,8 @@ fun VpnConnectionCard(
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
     onOpenPanelClick: () -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
+    changeServerButton: (@Composable ColumnScope.() -> Unit)? = null,
     itemIdsTransition: Transition<ItemIds>? = null
 ) {
     Column(
@@ -149,6 +159,10 @@ fun VpnConnectionCard(
                     VpnConnectionState.Connected ->
                         VpnWeakSolidButton(text = stringResource(R.string.disconnect), onClick = onDisconnect)
                 }
+                if (changeServerButton != null) {
+                    Spacer(Modifier.height(8.dp))
+                    changeServerButton()
+                }
             }
         }
     }
@@ -208,6 +222,30 @@ private fun ContainerLabelRow(
             stringResource(labelRes),
             style = ProtonTheme.typography.captionNorm,
             modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun VpnConnectionCardFreeUserPreview() {
+    LightAndDarkPreview {
+        val connectIntentState = ConnectIntentViewState(
+            ConnectIntentPrimaryLabel.FastestFreeServer,
+            ConnectIntentSecondaryLabel.FastestFreeServer(4),
+            emptySet(),
+        )
+        val state = VpnConnectionCardViewState(
+            R.string.connection_card_label_last_connected,
+            connectIntentState,
+            VpnConnectionState.Disconnected,
+        )
+        VpnConnectionCard(
+            viewState = state,
+            onConnect = {},
+            onDisconnect = {},
+            onOpenPanelClick = {},
+            modifier = Modifier
         )
     }
 }

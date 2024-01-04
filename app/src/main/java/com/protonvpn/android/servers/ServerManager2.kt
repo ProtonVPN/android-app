@@ -78,6 +78,11 @@ class ServerManager2 @Inject constructor(
         return serverManager.getServerForConnectIntent(connectIntent, vpnUser)
     }
 
+    suspend fun getRandomServer(vpnUser: VpnUser?): Server? {
+        serverManager.ensureLoaded()
+        return serverManager.getRandomServer(vpnUser)
+    }
+
     /*
      * Perform operations related to ConnectIntent.
      *

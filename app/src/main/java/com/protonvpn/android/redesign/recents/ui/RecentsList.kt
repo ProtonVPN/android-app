@@ -32,6 +32,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MutatePriority
 import androidx.compose.foundation.MutatorMutex
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -198,12 +199,12 @@ fun RecentsList(
     onConnectClicked: () -> Unit,
     onDisconnectClicked: () -> Unit,
     onOpenPanelClicked: () -> Unit,
-    onHelpClicked: () -> Unit,
     onRecentClicked: (item: RecentItemViewState) -> Unit,
     onRecentPinToggle: (item: RecentItemViewState) -> Unit,
     onRecentRemove: (item: RecentItemViewState) -> Unit,
     errorSnackBar: SnackbarHostState?,
     modifier: Modifier = Modifier,
+    changeServerButton: (@Composable ColumnScope.() -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(),
     expandState: RecentsExpandState?
 ) {
@@ -236,6 +237,7 @@ fun RecentsList(
             ) {
                 VpnConnectionCard(
                     viewState = viewState.connectionCard,
+                    changeServerButton = changeServerButton,
                     onConnect = onConnectClicked,
                     onDisconnect = onDisconnectClicked,
                     onOpenPanelClick = onOpenPanelClicked,

@@ -57,6 +57,8 @@ sealed class VpnState(val isEstablishingConnection: Boolean) {
     override fun toString() = name
 }
 
+fun VpnState.isConnectedOrConnecting() = this is VpnState.Connected || isEstablishingConnection
+
 enum class ErrorType {
     AUTH_FAILED_INTERNAL,
     AUTH_FAILED,

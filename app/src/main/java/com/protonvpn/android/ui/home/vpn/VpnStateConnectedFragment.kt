@@ -26,11 +26,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.ColorInt
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -97,18 +102,22 @@ class VpnStateConnectedFragment :
 
             composeChangeServer.setContent {
                 VpnTheme {
-                    ChangeServerComposable(
-                        state = changeServerViewModel.state,
-                        onChangeServerClick = {
-                            changeServerViewModel.changeServer(
-                                (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate()
-                            )
-                        },
-                        onLockedChangeServerClick = {
-                            ChangeServerBottomSheet().show(childFragmentManager, null)
-                            changeServerViewModel::onUpgradeModalOpened
-                        },
-                    )
+                    val state = changeServerViewModel.state.collectAsStateWithLifecycle().value
+                    if (state != null) {
+                        ChangeServerButton(
+                            state = state,
+                            onChangeServerClick = {
+                                changeServerViewModel.changeServer(
+                                    (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate()
+                                )
+                            },
+                            onLockedChangeServerClick = {
+                                ChangeServerBottomSheet().show(childFragmentManager, null)
+                                changeServerViewModel::onUpgradeModalOpened
+                            },
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                        )
+                    }
                 }
             }
             buttonDisconnect.setOnClickListener {

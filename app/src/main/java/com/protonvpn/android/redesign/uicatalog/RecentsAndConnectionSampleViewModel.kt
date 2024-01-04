@@ -31,6 +31,7 @@ import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -62,7 +63,7 @@ class RecentsAndConnectionSampleViewModel @Inject constructor(
                 null,
                 emptySet()
             ),
-            VpnConnectionState.Disconnected
+            VpnConnectionState.Disconnected,
         )
     val viewState = recentsListViewStateFlow
         .stateIn(

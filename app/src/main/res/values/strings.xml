@@ -695,6 +695,24 @@
     <string name="server_change_max_reached">You’ve reached the maximum number of Free server changes for now.</string>
     <string name="server_change_upsell">Get unlimited changes with VPN Plus.</string>
     <string name="server_change_button_title">Change server</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services.
+
+        %1$s - replaced with "time_left_minutes"
+        %2$s - replaced with "time_left_seconds"
+        Example:
+        Available in 1 minute 23 seconds.
+      -->
+    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services and only if time left is less than 1 minute.
+
+        %1$s - replaced with "time_left_seconds"
+        Example:
+        Available in 23 seconds.
+      -->
+    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
+    <string name="server_change_progress_finished_contend_description">Available now</string>
     <string name="not_wanted_country_title">Not the country you wanted?</string>
     <string name="not_wanted_country_description">Upgrade to choose any server</string>
     <string name="whats_new_title">What’s new</string>

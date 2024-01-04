@@ -335,7 +335,7 @@ class ServerManager @Inject constructor(
     fun getBestScoreServer(serverList: List<Server>): Server? =
         getBestScoreServer(serverList, currentUser.vpnUserCached())
 
-    private fun getRandomServer(vpnUser: VpnUser?): Server? {
+    fun getRandomServer(vpnUser: VpnUser?): Server? {
         val allCountries = getExitCountries(secureCoreCached)
         val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
         return accessibleCountries.ifEmpty { allCountries }.randomNullable()?.let { getRandomServer(it, vpnUser) }

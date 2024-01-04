@@ -33,8 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ChangeServerBottomSheet : ComposeBottomSheetDialogFragment() {
 
-    // Use the parent's ViewModel to get its state immediately and avoid defaults from being shown for a split second.
-    private val viewModel: ChangeServerViewModel by viewModels({ requireParentFragment() })
+    private val viewModel: ChangeServerViewModel by viewModels()
 
     @Composable
     override fun Content() {

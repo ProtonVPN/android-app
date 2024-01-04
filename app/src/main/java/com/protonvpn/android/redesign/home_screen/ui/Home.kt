@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.home_screen.ui
 
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -58,6 +59,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
@@ -72,10 +74,13 @@ import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
+import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
+import com.protonvpn.android.ui.home.vpn.ChangeServerBottomSheet
+import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 import com.protonvpn.android.ui.home.vpn.VpnStateViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
@@ -115,6 +120,7 @@ fun HomeView(
     val vpnState = viewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
     val mapState = viewModel.mapHighlightState.collectAsStateWithLifecycle(initialValue = null).value
     val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
+    val changeServerState: ChangeServerViewState? = viewModel.changeServerViewState.collectAsStateWithLifecycle().value
     val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
     val coroutineScope = rememberCoroutineScope()
 
@@ -138,6 +144,23 @@ fun HomeView(
         }
         stateViewModel.consumeErrorMessage()
     })
+
+    val uiDelegate = LocalVpnUiDelegate.current
+    val changeServerButton: (@Composable ColumnScope.() -> Unit)? = changeServerState?.let { state ->
+        @Composable {
+            // TODO: use a better approach for the bottom sheet
+            val fragmentManager = (LocalContext.current as FragmentActivity).supportFragmentManager
+            ChangeServerButton(
+                state,
+                onChangeServerClick = { viewModel.changeServer(uiDelegate) },
+                onLockedChangeServerClick = {
+                    ChangeServerBottomSheet().show(fragmentManager, null)
+                    viewModel.onChangeServerUpgradeModalOpened()
+                },
+            )
+        }
+    }
+
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -207,10 +230,10 @@ fun HomeView(
             RecentsList(
                 viewState = recentsViewState,
                 expandState = recentsExpandState,
+                changeServerButton = changeServerButton,
                 onConnectClicked = connectAction,
                 onDisconnectClicked = viewModel::disconnect,
                 onOpenPanelClicked = onConnectionCardClick,
-                onHelpClicked = {},
                 onRecentClicked = recentClickedAction,
                 onRecentPinToggle = viewModel::togglePinned,
                 onRecentRemove = viewModel::removeRecent,
