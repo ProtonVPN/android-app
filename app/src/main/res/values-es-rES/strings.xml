@@ -143,7 +143,7 @@
     <string name="listBasicServers">Servidores Basic (%1$d)</string>
     <string name="listPlusServers">Servidores Plus (%1$d)</string>
     <string name="insufficientPermissionsTitle">Es necesaria la acción del usuario</string>
-    <string name="insufficientPermissionsDetails">No se pudo establecer la conexión VPN automáticamente. Conéctese manualmente una vez para otorgar permisos.</string>
+    <string name="insufficientPermissionsDetails">No se pudo establecer la conexión VPN automáticamente. Conéctese mcada año una vez para otorgar permisos.</string>
     <string name="tabsCountries">Países</string>
     <string name="tabsMap">Mapa</string>
     <string name="tabsProfiles">Perfiles</string>
