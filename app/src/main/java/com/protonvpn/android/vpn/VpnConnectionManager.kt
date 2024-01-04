@@ -189,8 +189,10 @@ class VpnConnectionManager @Inject constructor(
 
         vpnErrorHandler.switchConnectionFlow
             .onEach { fallback ->
-                if (vpnStateMonitor.isEstablishingOrConnected)
+                if (vpnStateMonitor.isEstablishingOrConnected) {
+                    disconnectSync(DisconnectTrigger.Fallback)
                     fallbackConnect(fallback)
+                }
             }.launchIn(scope)
         lastKnownExitIp
             .onEach { vpnStateMonitor.updateLastKnownExitIp(it) }
