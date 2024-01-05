@@ -24,6 +24,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.startup.AppInitializer
 import androidx.work.Configuration
 import com.protonvpn.android.logging.MemoryMonitor
+import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
 import com.protonvpn.android.ui.promooffers.TestNotificationLoader
 import com.protonvpn.android.utils.SentryIntegration
 import com.protonvpn.android.utils.isMainProcess
@@ -38,6 +39,7 @@ import javax.inject.Inject
 class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
 
     @Inject lateinit var workerFactory: HiltWorkerFactory
+    @Inject lateinit var onboardingTelemetry: dagger.Lazy<OnboardingTelemetry>
     @Inject lateinit var testNotificationLoader: dagger.Lazy<TestNotificationLoader>
     @Inject lateinit var updateMigration: UpdateMigration
     @Inject lateinit var memoryMonitor: dagger.Lazy<MemoryMonitor>
@@ -60,6 +62,7 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
             }
 
             updateMigration.handleUpdate()
+            onboardingTelemetry.get().onAppStart()
             memoryMonitor.get().start()
         }
     }

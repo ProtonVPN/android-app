@@ -27,6 +27,7 @@ import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -52,6 +53,12 @@ class OnboardingTelemetry @Inject constructor(
 
     private val prefsMutex = Mutex()
 
+    private enum class EventName {
+        FIRST_LAUNCH, SIGNUP_START, ONBOARDING_START, PAYMENT_DONE, FIRST_CONNECTION;
+
+        val statsName: String get() = name.lowercase()
+    }
+
     init {
         foregroundActivityTracker.foregroundActivityFlow
             .filterNotNull()
@@ -65,27 +72,39 @@ class OnboardingTelemetry @Inject constructor(
         vpnStateMonitor.newSessionEvent
             .onEach { onConnectionAttempt() }
             .launchIn(mainScope)
-        onAppStart()
     }
 
-    private fun onAppStart() = sendEvent("first_launch")
+    fun onAppUpdate() {
+        mainScope.launch(start = CoroutineStart.UNDISPATCHED) {
+            // This method is called just before onAppStart(), set the lock before dispatching to Io pool, otherwise
+            // the coroutine from onAppStart() could grab it first.
+            prefsMutex.withLock {
+                mainScope.launch(dispatcherProvider.Io) {
+                    val allEvents = EventName.values().map { it.statsName }
+                    appFeaturesPrefs.reportedOnboardingEvents = allEvents
+                }
+            }
+        }
+    }
 
-    private fun onSignupStart() = sendEvent("signup_start")
+    fun onAppStart() = sendEvent(EventName.FIRST_LAUNCH)
 
-    private fun onOnboardingStart() = sendEvent("onboarding_start")
+    private fun onSignupStart() = sendEvent(EventName.SIGNUP_START)
 
-    fun onOnboardingPaymentSuccess(newPlanName: String) = sendEvent("payment_done") {
+    private fun onOnboardingStart() = sendEvent(EventName.ONBOARDING_START)
+
+    fun onOnboardingPaymentSuccess(newPlanName: String) = sendEvent(EventName.PAYMENT_DONE) {
         getDimensions(newPlanName)
     }
 
-    private fun onConnectionAttempt() = sendEvent("first_connection")
+    private fun onConnectionAttempt() = sendEvent(EventName.FIRST_CONNECTION)
 
-    private fun sendEvent(eventName: String, dimensions: suspend () -> Map<String, String> = { getDimensions() }) {
+    private fun sendEvent(event: EventName, dimensions: suspend () -> Map<String, String> = { getDimensions() }) {
         mainScope.launch {
-            if (hasReportedEvent(eventName)) return@launch
+            if (hasReportedEvent(event.statsName)) return@launch
 
-            storeEventReported(eventName)
-            telemetry.event(MEASUREMENT_GROUP, eventName, emptyMap(), dimensions(), sendImmediately = true)
+            storeEventReported(event.statsName)
+            telemetry.event(MEASUREMENT_GROUP, event.statsName, emptyMap(), dimensions(), sendImmediately = true)
         }
     }
 
