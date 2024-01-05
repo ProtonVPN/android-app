@@ -77,12 +77,7 @@
         <activity
             android:name=".ui.main.MobileMainActivity"
             android:label="Old UI"
-            android:theme="@style/ProtonTheme.Vpn"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:theme="@style/ProtonTheme.Vpn">
         </activity>
 
         <activity
