@@ -107,7 +107,6 @@ public class ProtonApplication extends Application {
         LogcatLogCapture getLogcatLogCapture();
         MaintenanceTracker getMaintenanceTracker();
         OneTimePopupNotificationTrigger getOneTimePopupNotificationTrigger();
-        OnboardingTelemetry getOnboardingTelemetry();
         PeriodicUpdateManager getPeriodicUpdateManager();
         PowerStateLogger getPowerStateLogger();
         QuickTileDataStoreUpdater getQuickTileDataStoreUpdater();
@@ -172,7 +171,6 @@ public class ProtonApplication extends Application {
         dependencies.getHumanVerificationStateHandler().observe();
         dependencies.getMaintenanceTracker();
         dependencies.getNotificationPermissionManager();
-        dependencies.getOnboardingTelemetry();
         dependencies.getQuickTileDataStoreUpdater().start();
         dependencies.getReviewTracker();
         dependencies.getUpdateSecureCoreToMatchConnectedServer();

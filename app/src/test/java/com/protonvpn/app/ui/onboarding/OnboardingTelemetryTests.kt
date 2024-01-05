@@ -34,6 +34,7 @@ import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -90,9 +91,11 @@ class OnboardingTelemetryTests {
     }
 
     @Test
-    fun `first_launch reported when OnboardingTelemetry created for the first time`() = testScope.runTest {
+    fun `first_launch reported when OnboardingTelemetry started for the first time`() = testScope.runTest {
         val telemetry1 = createTelemetry()
         val telemetry2 = createTelemetry()
+        telemetry1.onAppStart()
+        telemetry2.onAppStart()
         runCurrent()
 
         verify(exactly = 1) { mockTelemetry.event(GROUP, "first_launch", any(), any(), true) }
@@ -149,6 +152,7 @@ class OnboardingTelemetryTests {
     fun `dimensions are set`() = testScope.runTest {
         serverListPrefs.lastKnownCountry = "UK"
         val telemetry = createTelemetry()
+        telemetry.onAppStart()
         runCurrent()
 
         testUserProvider.vpnUser = TestUser.freeUser.vpnUser
@@ -162,6 +166,17 @@ class OnboardingTelemetryTests {
             val dimensions =  mapOf("user_country" to "UK", "user_plan" to "vpnPlus")
             mockTelemetry.event(GROUP, "payment_done", emptyMap(), dimensions, true)
         }
+    }
+
+    @Test
+    fun `app update disables onboarding telemetry`() = testScope.runTest {
+        val telemetry = createTelemetry()
+        telemetry.onAppUpdate()
+        runCurrent()
+        telemetry.onAppStart()
+        runCurrent()
+
+        verify { mockTelemetry wasNot Called }
     }
 
     private fun createTelemetry() = OnboardingTelemetry(

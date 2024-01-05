@@ -23,6 +23,7 @@ import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.logging.AppUpdateUpdated
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import dagger.Lazy
@@ -35,7 +36,8 @@ import javax.inject.Inject
 class UpdateMigration @Inject constructor(
     private val mainScope: CoroutineScope,
     private val isTv: Lazy<IsTvCheck>,
-    private val logout: Lazy<Logout>
+    private val logout: Lazy<Logout>,
+    private val onboardingTelemetry: Lazy<OnboardingTelemetry>
 ) {
 
     fun handleUpdate() {
@@ -46,6 +48,7 @@ class UpdateMigration @Inject constructor(
             ProtonLogger.log(AppUpdateUpdated, "new version: " + newVersionCode)
             val strippedOldVersionCode = stripArchitecture(oldVersionCode)
             updateAmazonUi(strippedOldVersionCode)
+            updateOnboardingTelemetry(strippedOldVersionCode)
         }
     }
 
@@ -55,6 +58,12 @@ class UpdateMigration @Inject constructor(
             mainScope.launch {
                 logout.get().invoke()
             }
+        }
+    }
+
+    private fun updateOnboardingTelemetry(oldVersionCode: Int) {
+        if (oldVersionCode <= 4_09_38_00) {
+            onboardingTelemetry.get().onAppUpdate()
         }
     }
 
