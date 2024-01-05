@@ -239,7 +239,6 @@ fun RecentsList(
                     onConnect = onConnectClicked,
                     onDisconnect = onDisconnectClicked,
                     onOpenPanelClick = onOpenPanelClicked,
-                    onHelpClick = onHelpClicked,
                     modifier = Modifier.padding(16.dp),
                     itemIdsTransition = itemIdsTransition
                 )

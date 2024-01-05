@@ -85,7 +85,6 @@ fun VpnConnectionCard(
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
     onOpenPanelClick: () -> Unit,
-    onHelpClick: () -> Unit,
     modifier: Modifier,
     itemIdsTransition: Transition<ItemIds>? = null
 ) {
@@ -95,7 +94,6 @@ fun VpnConnectionCard(
     ) {
         ContainerLabelRow(
             viewState.cardLabelRes,
-            onHelpClick,
             Modifier.padding(vertical = 12.dp) // There's 4.dp padding on the help button.
         )
         val surfaceShape = ProtonTheme.shapes.large
@@ -200,7 +198,6 @@ private fun AnimatedContentTransitionScope<ConnectIntentViewState>.getTransition
 @Composable
 private fun ContainerLabelRow(
     @StringRes labelRes: Int,
-    onHelpClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -212,29 +209,5 @@ private fun ContainerLabelRow(
             style = ProtonTheme.typography.captionNorm,
             modifier = Modifier.weight(1f)
         )
-        Row(
-            Modifier
-                .clip(ProtonTheme.shapes.small)
-                .clickable(
-                    onClick = onHelpClicked,
-                    role = Role.Button,
-                )
-                .padding(4.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                stringResource(R.string.connection_card_help),
-                style = ProtonTheme.typography.captionStrongUnspecified,
-                color = ProtonTheme.colors.textWeak
-            )
-            Icon(
-                painterResource(R.drawable.ic_proton_question_circle),
-                tint = ProtonTheme.colors.textWeak,
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(start = 4.dp)
-                    .size(16.dp)
-            )
-        }
     }
 }
