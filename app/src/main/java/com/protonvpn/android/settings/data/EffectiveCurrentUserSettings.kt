@@ -102,7 +102,11 @@ class EffectiveCurrentUserSettingsFlow constructor(
             connectOnBoot = Build.VERSION.SDK_INT < 26 && settings.connectOnBoot,
             defaultProfileId = if (!restrictions.quickConnect || isTv()) settings.defaultProfileId else null,
             lanConnections = isTv() || (!restrictions.lan && settings.lanConnections),
-            netShield = if (netShieldAvailable && features.netShieldEnabled) settings.netShield else NetShieldProtocol.DISABLED,
+            netShield = if (netShieldAvailable && features.netShieldEnabled) {
+                if (isTv()) NetShieldProtocol.ENABLED else settings.netShield
+            } else {
+                NetShieldProtocol.DISABLED
+            },
             safeMode = effectiveSafeMode,
             telemetry = features.telemetry && settings.telemetry,
             vpnAccelerator = effectiveVpnAccelerator,
