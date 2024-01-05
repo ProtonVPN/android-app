@@ -34,28 +34,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 style="@style/Proton.Text.Default.Bold"
-                android:text="@string/whats_new_added_countries_title"/>
+                android:text="@string/whats_new_new_look_title"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 style="@style/Proton.Text.DefaultSmall.Weak"
-                android:text="@string/whats_new_added_countries_description"/>
+                android:text="@string/whats_new_new_look_description"/>
 
             <TextView
+                android:id="@+id/text_second_section_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                style="@style/Proton.Text.Default.Bold"
-                android:text="@string/whats_new_server_selection_title"/>
+                style="@style/Proton.Text.Default.Bold" />
 
             <TextView
+                android:id="@+id/text_second_section_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                style="@style/Proton.Text.DefaultSmall.Weak"
-                android:text="@string/whats_new_server_selection_description"/>
+                style="@style/Proton.Text.DefaultSmall.Weak" />
         </LinearLayout>
     </ScrollView>
 
@@ -65,6 +65,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:layout_marginHorizontal="16dp"
-        android:text="@string/got_it"/>
+        android:text="@string/whats_new_dismiss_button"/>
 
 </LinearLayout>

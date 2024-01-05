@@ -663,10 +663,6 @@
     <string name="not_wanted_country_title">Niet het land dat u wenste?</string>
     <string name="not_wanted_country_description">Upgrade om elke server te kiezen</string>
     <string name="whats_new_title">Nieuw</string>
-    <string name="whats_new_added_countries_title">Nieuwe gratis landen</string>
-    <string name="whats_new_added_countries_description">Er zijn vanaf nu Gratis servers in Polen en Roemenië</string>
-    <string name="whats_new_server_selection_title">Veranderingen aan server selectie</string>
-    <string name="whats_new_server_selection_description">Om drukke servers te voorkomen en ervoor te zorgen dat iedereen toegang heeft tot snel en veilig browsen, hebben we de handmatige landselectie verwijderd en grote verbeteringen aangebracht aan de automatische serverselectie.</string>
     <string name="welcome_plus_title">Welkom bij VPN Plus</string>
     <string name="welcome_plus_description">Geniet van extra privacy functies, supercharged prestaties en next-level VPN aanpassingen.</string>
     <string name="welcome_plus_feature_security">Geavanceerde beveiligingsfuncties</string>

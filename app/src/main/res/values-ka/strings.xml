@@ -663,10 +663,6 @@
     <string name="not_wanted_country_title">ის ქვეყანა არაა, რომელიც გნებავდათ?</string>
     <string name="not_wanted_country_description">ასწიეთ ტრაფიკი ნებისმიერი სერვერის ასარჩევად</string>
     <string name="whats_new_title">სიახლეები</string>
-    <string name="whats_new_added_countries_title">ახალი უფასო ქვეყნები</string>
-    <string name="whats_new_added_countries_description">ახლა უფასო სერვერები პოლონეთში და რუმინეთშიც გვაქვს.</string>
-    <string name="whats_new_server_selection_title">სერვერის არჩევანის ცვლილება</string>
-    <string name="whats_new_server_selection_description">იმისათვის, რომ თავიდან ავიცილოთ სერვერის გადატვირთვა და დავრწმუნდეთ, რომ სწრაფ და უსაფრთხო ქსელთან ყველას აქვს წვდომა, ჩვენ მოვაცილეთ ქვეყნის ხელით არჩევის პარამეტი და დიდი ნაბიჯი გადავდგით ავტომატური სერვერის არჩევის ალგორითმში.</string>
     <string name="welcome_plus_title">მოგესალმებათ VPN Plus</string>
     <string name="welcome_plus_description">ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით, ჩქაროსნული წარმადობით და შემდეგ დონეზე აყვანილი VPN-ის მორგებით.</string>
     <string name="welcome_plus_feature_security">დამატებითი უსაფრთხოების ფუნქციები</string>

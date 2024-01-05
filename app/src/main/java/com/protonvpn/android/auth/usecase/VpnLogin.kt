@@ -33,7 +33,6 @@ import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.ui.onboarding.WhatsNewFreeController
 import com.protonvpn.android.vpn.CertificateRepository
 import dagger.Reusable
 import kotlinx.coroutines.async
@@ -54,7 +53,6 @@ class VpnLogin @Inject constructor(
     private val appConfig: AppConfig,
     private val serverListUpdater: ServerListUpdater,
     private val guestHole: GuestHole,
-    private val whatsNewFreeController: WhatsNewFreeController,
     @WallClock private val wallClock: () -> Long
 ) {
     sealed class Result {
@@ -118,7 +116,6 @@ class VpnLogin @Inject constructor(
         if (guestHole.isGuestHoleActive)
             serverListUpdater.updateServerList()
         guestHole.releaseNeedGuestHole(GUEST_HOLE_ID)
-        whatsNewFreeController.initOnLogin()
     }
 
     companion object {

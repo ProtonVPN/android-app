@@ -689,10 +689,6 @@
     <string name="not_wanted_country_title">Není to země, kterou jste si přáli?</string>
     <string name="not_wanted_country_description">Navyšte tarif pro výběr libovolného serveru</string>
     <string name="whats_new_title">Co je nového</string>
-    <string name="whats_new_added_countries_title">Nové Free země</string>
-    <string name="whats_new_added_countries_description">Free servery jsou nyní i v Polsku a Rumunsku.</string>
-    <string name="whats_new_server_selection_title">Změny ve výběru serverů</string>
-    <string name="whats_new_server_selection_description">Pro předcházení zahlcování serverů a zajištění přístupu k rychlému a bezpečnému prohlížení pro všechny jsme odstranili manuální výběr zemí a provedli zásadní zlepšení automatického výběru serverů.</string>
     <string name="welcome_plus_title">Vítejte ve VPN Plus</string>
     <string name="welcome_plus_description">Užívejte si další funkce pro ochranu soukromí, vyšší výkon a další úroveň přizpůsobení VPN.</string>
     <string name="welcome_plus_feature_security">Pokročilé funkce zabezpečení</string>

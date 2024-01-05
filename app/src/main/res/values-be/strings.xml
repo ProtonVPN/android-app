@@ -689,10 +689,6 @@
     <string name="not_wanted_country_title">Не тая краіна, якую хацелі?</string>
     <string name="not_wanted_country_description">Палепшыць, каб выбіраць любы сервер</string>
     <string name="whats_new_title">Што новага</string>
-    <string name="whats_new_added_countries_title">Новыя краіны з серверамі Free</string>
-    <string name="whats_new_added_countries_description">Серверы з тарыфным планам Free цяпер даступны ў Польшчы і Румыніі.</string>
-    <string name="whats_new_server_selection_title">Змяненні ў выбары сервера</string>
-    <string name="whats_new_server_selection_description">Для таго, каб пазбегнуць перагрузкі сервера і забяспечыць кожнаму доступ да хуткага і бяспечнага прагляду старонак у інтэрнэце, мы выдалілі магчымасць выбару краіны ўручную і значна палепшылі аўтаматычны выбар сервера.</string>
     <string name="welcome_plus_title">Вітаем у VPN Plus</string>
     <string name="welcome_plus_description">Атрымлівайце асалоду ад дадатковых функцый прыватнасці, палепшанай прадукцыйнасці і больш гнуткага наладжвання вашага падключэння да VPN.</string>
     <string name="welcome_plus_feature_security">Пашыраныя функцыі бяспекі</string>

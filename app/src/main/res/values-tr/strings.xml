@@ -663,10 +663,6 @@
     <string name="not_wanted_country_title">İstediğiniz ülke değil mi?</string>
     <string name="not_wanted_country_description">İstediğiniz sunucuyu seçebilmek için tarifenizi yükseltin</string>
     <string name="whats_new_title">Yenilikler</string>
-    <string name="whats_new_added_countries_title">Yeni Free ülkeleri</string>
-    <string name="whats_new_added_countries_description">Artık Polonya ve Romanya\'da Free sunucuları var.</string>
-    <string name="whats_new_server_selection_title">Sunucu seçimindeki değişiklikler</string>
-    <string name="whats_new_server_selection_description">Sunucu kalabalığını önlemek ve herkesin hızlı ve güvenli gezinmeye erişmesini sağlamak için el ile ülke seçimini kaldırdık ve otomatik sunucu seçiminde önemli iyileştirmeler yaptık.</string>
     <string name="welcome_plus_title">VPN Plus tarifesine hoş geldiniz</string>
     <string name="welcome_plus_description">Ek gizlilik özelliklerinin, güçlendirilmiş başarımın ve üst düzey VPN özelleştirmenin tadını çıkarın.</string>
     <string name="welcome_plus_feature_security">Gelişmiş güvenlik özellikleri</string>

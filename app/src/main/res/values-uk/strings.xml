@@ -689,10 +689,6 @@
     <string name="not_wanted_country_title">Не та країна яку хотіли?</string>
     <string name="not_wanted_country_description">Покращте, щоб обирати будь-який сервер</string>
     <string name="whats_new_title">Що нового</string>
-    <string name="whats_new_added_countries_title">Нові безплатні країни</string>
-    <string name="whats_new_added_countries_description">Тепер є нові безплатні сервери в Польщі та Румунії.</string>
-    <string name="whats_new_server_selection_title">Зміни у виборі сервера</string>
-    <string name="whats_new_server_selection_description">Щоб запобігти перевантаженню серверів та гарантувати всім швидкий і безпечний доступ до інтернету, ми вилучили можливість ручного вибору країни та зробили суттєві покращення автоматичного вибору сервера.</string>
     <string name="welcome_plus_title">Вітаємо у VPN Plus</string>
     <string name="welcome_plus_description">Насолоджуйтесь додатковими функціями приватності, поліпшеній продуктивності та більш гнучкому налаштуванню VPN.</string>
     <string name="welcome_plus_feature_security">Розширені функції безпеки</string>

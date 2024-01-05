@@ -676,10 +676,6 @@
     <string name="not_wanted_country_title">Nu este țara pe care o doriți?</string>
     <string name="not_wanted_country_description">Schimbați planul abonamentului pentru alege orice server</string>
     <string name="whats_new_title">Ce este nou</string>
-    <string name="whats_new_added_countries_title">Țări noi gratuite</string>
-    <string name="whats_new_added_countries_description">Acum există servere gratuite în Polonia și România.</string>
-    <string name="whats_new_server_selection_title">Modificări la selectarea serverului</string>
-    <string name="whats_new_server_selection_description">Pentru a preveni aglomerarea serverelor și pentru a ne asigura că toată lumea are acces la navigarea rapidă și sigură, am eliminat selecția manuală a țării și am adus îmbunătățiri majore selecției automate a serverului.</string>
     <string name="welcome_plus_title">Bun venit la VPN Plus</string>
     <string name="welcome_plus_description">Bucurați-vă de funcții suplimentare de confidențialitate, performanță îmbunătățită și personalizare VPN la nivelul următor.</string>
     <string name="welcome_plus_feature_security">Funcții avansate de securitate</string>

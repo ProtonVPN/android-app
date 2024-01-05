@@ -650,10 +650,6 @@
     <string name="not_wanted_country_title">Bukan negara yang Anda inginkan?</string>
     <string name="not_wanted_country_description">Tingkatkan untuk memilih server mana pun</string>
     <string name="whats_new_title">Apa yang baru</string>
-    <string name="whats_new_added_countries_title">Negara Free baru</string>
-    <string name="whats_new_added_countries_description">Server Free kini tersedia di Polandia dan Romania.</string>
-    <string name="whats_new_server_selection_title">Perubahan terhadap mekanisme pemilihan server</string>
-    <string name="whats_new_server_selection_description">Untuk mencegah server yang terlalu berkerumun dan memastikan bahwa semua orang memiliki akses ke internet yang cepat dan aman, kami telah menghapus opsi pemilihan negara secara manual dan melakukan peningkatan terhadap mekanisme pemilihan server otomatis kami.</string>
     <string name="welcome_plus_title">Selamat datang di VPN Plus</string>
     <string name="welcome_plus_description">Nikmati berbagai fitur privasi tambahan, performa yang jauh lebih cepat, dan opsi kostumisasi VPN lanjutan.</string>
     <string name="welcome_plus_feature_security">Fitur keamanan mutakhir</string>

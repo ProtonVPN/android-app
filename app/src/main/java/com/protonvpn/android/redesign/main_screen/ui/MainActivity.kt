@@ -36,6 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
@@ -50,16 +52,26 @@ import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
+import com.protonvpn.android.ui.onboarding.WhatsNewActivity
+import com.protonvpn.android.ui.onboarding.WhatsNewDialogController
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import me.proton.core.compose.component.ProtonCenteredProgress
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     private val accountViewModel: AccountViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
+
+    @Inject
+    lateinit var whatsNewDialogController: WhatsNewDialogController
+
     // public for now until there is need to bridge old code, as LocalVpnUiDelegate is not available in non-compose
     val vpnActivityDelegate = VpnUiActivityDelegateMobile(this) {
         retryConnectionAfterPermissions(it)
@@ -129,6 +141,14 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                 }
             }
         }
+        whatsNewDialogController.shouldShowDialog()
+            .flowWithLifecycle(lifecycle)
+            .filterNotNull()
+            .onEach { dialogType ->
+                WhatsNewActivity.launch(this, dialogType)
+                whatsNewDialogController.onDialogShown()
+            }
+            .launchIn(lifecycleScope)
     }
 
     override fun onNewIntent(intent: Intent?) {

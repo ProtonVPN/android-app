@@ -663,10 +663,6 @@
     <string name="not_wanted_country_title">Eikö tämä ole haluamasi maa?</string>
     <string name="not_wanted_country_description">Valitse mikä tahansa palvelin päivittämällä tilauksesi</string>
     <string name="whats_new_title">Mitä uutta</string>
-    <string name="whats_new_added_countries_title">Uusia ilmaismaita</string>
-    <string name="whats_new_added_countries_description">Puolassa ja Romaniassa on nyt ilmaispalvelimia.</string>
-    <string name="whats_new_server_selection_title">Palvelinvalinnan muutoksia</string>
-    <string name="whats_new_server_selection_description">Poistimme manuaalisen maavalinnan ja teimme automaattiseen palvelinvalintaan merkittäviä parannuksia palvelimien ruuhkautumisen estämiseksi ja nopean ja turvallisen selauksen varmistamiseksi kaikille.</string>
     <string name="welcome_plus_title">Tervetluoa VPN Plus -tilaukseen</string>
     <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja seuraavan tason VPN-mukautuksesta.</string>
     <string name="welcome_plus_feature_security">Edistyneet suojausominaisuudet</string>

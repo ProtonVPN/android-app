@@ -47,8 +47,8 @@ class AppFeaturesPrefs @Inject constructor(
 
     var lastAppInUseTimestamp: Long by long(Long.MAX_VALUE)
 
-    var showWhatsNew: Boolean by boolean(default = true, key = KEY_SHOW_WHATS_NEW)
-    val showWhatsNewFlow: Flow<Boolean> = preferences.observe<Boolean>(KEY_SHOW_WHATS_NEW).map { it ?: true }
+    var showWhatsNew: Boolean by boolean(default = false, key = KEY_SHOW_WHATS_NEW)
+    val showWhatsNewFlow: Flow<Boolean> = preferences.observe<Boolean>(KEY_SHOW_WHATS_NEW).map { it ?: false }
 
     var wasLaunchedForTv by boolean(default = false)
 

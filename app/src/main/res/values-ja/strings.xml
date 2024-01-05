@@ -650,10 +650,6 @@
     <string name="not_wanted_country_title">望んだ国ではなかった？</string>
     <string name="not_wanted_country_description">アップグレードで好きなサーバーを選べる</string>
     <string name="whats_new_title">最新情報</string>
-    <string name="whats_new_added_countries_title">新しい自由の国</string>
-    <string name="whats_new_added_countries_description">現在、ポーランドとルーマニアに無料サーバーがある。</string>
-    <string name="whats_new_server_selection_title">サーバー選択の変更</string>
-    <string name="whats_new_server_selection_description">サーバーの混雑を防ぎ、誰もが高速で安全なブラウジングにアクセスできるようにするため、手動による国選択を廃止し、自動サーバー選択を大幅に改善しました。</string>
     <string name="welcome_plus_title">VPN Plusへようこそ</string>
     <string name="welcome_plus_description">特別なプライバシー機能、超高速パフォーマンス、そしてハイレベルなVPNカスタマイズをお楽しみください。</string>
     <string name="welcome_plus_feature_security">高度なセキュリティ機能</string>

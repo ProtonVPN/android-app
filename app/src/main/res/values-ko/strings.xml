@@ -650,10 +650,6 @@
     <string name="not_wanted_country_title">원하신 국가가 아닌가요?</string>
     <string name="not_wanted_country_description">모든 서버에 접근하기 위해 업그레이드</string>
     <string name="whats_new_title">새로운 소식</string>
-    <string name="whats_new_added_countries_title">새로운 무료 서버 국가</string>
-    <string name="whats_new_added_countries_description">이제 폴란드와 루마니아의 무료 서버가 개설되었습니다.</string>
-    <string name="whats_new_server_selection_title">서버 선택 변경 사항</string>
-    <string name="whats_new_server_selection_description">서버 혼잡을 방지하고 모든 사용자가 빠르고 안전한 인터넷에 접근할 수 있도록, 수동 국가 선택을 제거하고 자동 서버 선택을 크게 개선했습니다.</string>
     <string name="welcome_plus_title">VPN Plus에 오신 것을 환영합니다</string>
     <string name="welcome_plus_description">더 많은 개인정보 보호 기능과 강력한 성능, 그리고 한 차원 높은 VPN 사용자화를 사용해 보세요.</string>
     <string name="welcome_plus_feature_security">고급 제어 기능</string>
