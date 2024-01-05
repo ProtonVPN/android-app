@@ -39,6 +39,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 @ContentLayout(R.layout.activity_tv_main)
 class TvMapView @JvmOverloads constructor(
@@ -99,7 +101,18 @@ class TvMapView @JvmOverloads constructor(
 
     override fun layout(l: Int, t: Int, r: Int, b: Int) {
         super.layout(l, t, r, b)
-        mapRenderer.updateSize(r - l, b - t)
+        var w = r - l
+        var h = b - t
+
+        if (w > 0 && h > 0) {
+            // Limit bitmap size to avoid OOM on devices with very high res
+            if (w * h > BITMAP_MAX_PIXELS) {
+                val normalH = h.toFloat() / w
+                w = sqrt(BITMAP_MAX_PIXELS / normalH).roundToInt()
+                h = (w * normalH).roundToInt()
+            }
+            mapRenderer.updateSize(w, h)
+        }
     }
 
     private suspend fun cancelAnimation() {
@@ -193,5 +206,6 @@ class TvMapView @JvmOverloads constructor(
     companion object {
         const val ZOOM_DURATION_MS = 300L
         const val MAP_FADE_IN_DURATION = 400L
+        const val BITMAP_MAX_PIXELS = 5_000_000 // ~2.7k
     }
 }
