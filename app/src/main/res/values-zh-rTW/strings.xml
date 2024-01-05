@@ -650,10 +650,6 @@
     <string name="not_wanted_country_title">不是您想要的國家？</string>
     <string name="not_wanted_country_description">升級以選擇任何伺服器。</string>
     <string name="whats_new_title">最新消息！</string>
-    <string name="whats_new_added_countries_title">新增的免費國家</string>
-    <string name="whats_new_added_countries_description">現在有免費伺服器在波蘭和羅馬利亞。</string>
-    <string name="whats_new_server_selection_title">伺服器選擇的變更</string>
-    <string name="whats_new_server_selection_description">為了避免伺服器擁擠和確保所有人都能使用快速且安全的瀏覽體驗，我們移除了手動國家選擇以及對自動選擇伺服器系統作重大改善。</string>
     <string name="welcome_plus_title">歡迎加入 VPN Plus</string>
     <string name="welcome_plus_description">享受額外的隱私功能，最好的性能以及前瞻性的虛擬私有網路自定義。</string>
     <string name="welcome_plus_feature_security">進階安全功能</string>

@@ -663,10 +663,6 @@
     <string name="not_wanted_country_title">Δεν είναι η χώρα που θέλατε;</string>
     <string name="not_wanted_country_description">Αναβάθμιση για να επιλέξετε οποιονδήποτε διακομιστή</string>
     <string name="whats_new_title">Τι νέο υπάρχει</string>
-    <string name="whats_new_added_countries_title">Νέες Δωρεάν χώρες</string>
-    <string name="whats_new_added_countries_description">Υπάρχουν τώρα Δωρεάν διακομιστές στην Πολωνία και τη Ρουμανία.</string>
-    <string name="whats_new_server_selection_title">Αλλαγές στην επιλογή διακομιστή</string>
-    <string name="whats_new_server_selection_description">Για να αποτρέψουμε τον συνωστισμό διακομιστών και να διασφαλίσουμε ότι όλοι έχουν πρόσβαση σε γρήγορη και ασφαλή περιήγηση, καταργήσαμε τη μην αυτόματη επιλογή χώρας και κάναμε σημαντικές βελτιώσεις στην αυτόματη επιλογή διακομιστή.</string>
     <string name="welcome_plus_title">Καλώς ήλθατε στο VPN Plus</string>
     <string name="welcome_plus_description">Απολαύστε επιπλέον λειτουργίες απορρήτου, υπερφορτισμένη απόδοση και επόμενου επιπέδου προσαρμογές VPN.</string>
     <string name="welcome_plus_feature_security">Προηγμένες λειτουργίες ασφαλείας</string>

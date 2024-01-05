@@ -32,7 +32,6 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.tv.main.MainViewModel
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences
-import com.protonvpn.android.ui.onboarding.WhatsNewFreeController
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
@@ -61,7 +60,6 @@ class HomeViewModel @Inject constructor(
     onSessionClosed: OnSessionClosed,
     private val appFeaturesPrefs: AppFeaturesPrefs,
     private val restrictionsConfig: RestrictionsConfig,
-    private val whatsNewFreeController: WhatsNewFreeController,
 ) : MainViewModel(
     mainScope,
     userPlanManager,
@@ -122,9 +120,6 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
-
-    fun shouldShowWhatsNew() = whatsNewFreeController.shouldShowDialog().asLiveData()
-    fun onWhatsNewShown() = whatsNewFreeController.onDialogShown()
 
     val isQuickConnectRestricted get() = restrictionsConfig.restrictQuickConnectSync()
 }

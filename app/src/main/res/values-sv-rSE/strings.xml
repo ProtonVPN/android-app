@@ -663,10 +663,6 @@
     <string name="not_wanted_country_title">Inte det land du ville ha?</string>
     <string name="not_wanted_country_description">Uppgradera för att välja vilken server som helst</string>
     <string name="whats_new_title">Vad som är nytt</string>
-    <string name="whats_new_added_countries_title">Nya gratisländer</string>
-    <string name="whats_new_added_countries_description">Det finns nu gratisservrar i Polen och Rumänien.</string>
-    <string name="whats_new_server_selection_title">Ändringar av serverval</string>
-    <string name="whats_new_server_selection_description">För att förhindra serverbelastning och säkerställa att alla har åtkomst till snabb och säker surfning tog vi bort manuellt landsval och gjorde stora förbättringar av automatiskt serverval.</string>
     <string name="welcome_plus_title">Välkommen till VPN Plus</string>
     <string name="welcome_plus_description">Njut av extra integritetsfunktioner, kraftfullare prestanda och nästa nivå av VPN-anpassning.</string>
     <string name="welcome_plus_feature_security">Avancerade säkerhetsfunktioner</string>

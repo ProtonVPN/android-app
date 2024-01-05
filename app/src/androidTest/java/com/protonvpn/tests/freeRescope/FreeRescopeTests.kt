@@ -83,7 +83,6 @@ class FreeRescopeTests {
         mapRobot = MapRobot()
         upsellModalRobot = UpsellModalRobot()
         profilesRobot = ProfilesRobot()
-        homeRobot.pressGotIt()
     }
 
     @Test

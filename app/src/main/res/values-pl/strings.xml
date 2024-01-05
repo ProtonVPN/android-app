@@ -689,10 +689,6 @@
     <string name="not_wanted_country_title">Chcesz wybrać inny kraj?</string>
     <string name="not_wanted_country_description">Ulepsz konto, aby wybrać inny serwer</string>
     <string name="whats_new_title">Co nowego</string>
-    <string name="whats_new_added_countries_title">Nowe kraje planu Free</string>
-    <string name="whats_new_added_countries_description">Serwery planu Free są dostępne w Polsce i Rumunii.</string>
-    <string name="whats_new_server_selection_title">Zmiany w wyborze serwerów</string>
-    <string name="whats_new_server_selection_description">Usunęliśmy ręczny wybór kraju, aby uniknąć obciążonych serwerów i zapewnić dostęp do szybkiego oraz bezpiecznego przeglądania Internetu. Ponadto ulepszyliśmy automatyczny wybór serwerów.</string>
     <string name="welcome_plus_title">Witaj w planie VPN Plus</string>
     <string name="welcome_plus_description">Ciesz się dodatkowymi funkcjami prywatności, zwiększoną wydajnością i dostosowaniem VPN na wyższym poziomie.</string>
     <string name="welcome_plus_feature_security">Zaawansowane funkcje bezpieczeństwa</string>

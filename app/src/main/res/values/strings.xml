@@ -690,10 +690,13 @@
     <string name="not_wanted_country_title">Not the country you wanted?</string>
     <string name="not_wanted_country_description">Upgrade to choose any server</string>
     <string name="whats_new_title">What’s new</string>
+    <string name="whats_new_new_look_title">New look, same protection</string>
+    <string name="whats_new_new_look_description">We updated our designs and moved some things around to make the app easier to use.</string>
+    <string name="whats_new_recents_title">Introducing Recents</string>
+    <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
+    <string name="whats_new_dismiss_button">Take a look</string>
     <string name="whats_new_added_countries_title">New Free countries</string>
-    <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania.</string>
-    <string name="whats_new_server_selection_title">Changes to server selection</string>
-    <string name="whats_new_server_selection_description">To prevent server crowding and ensure that everyone has access to fast and secure browsing, we removed manual country selection and made major improvements to automatic server selection.</string>
+    <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
     <string name="welcome_plus_title">Welcome to VPN Plus</string>
     <string name="welcome_plus_description">Enjoy extra privacy features, supercharged performance, and next-level VPN customization.</string>
     <string name="welcome_plus_feature_security">Advanced security features</string>

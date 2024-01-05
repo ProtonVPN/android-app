@@ -90,9 +90,8 @@ import com.protonvpn.android.ui.home.vpn.VpnActivity;
 import com.protonvpn.android.ui.home.vpn.VpnStateFragment;
 import com.protonvpn.android.ui.onboarding.OnboardingActivity;
 import com.protonvpn.android.ui.onboarding.OnboardingPreferences;
-import com.protonvpn.android.ui.onboarding.WhatsNewFreeActivity;
+import com.protonvpn.android.ui.onboarding.WhatsNewActivity;
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity;
-import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationHelper;
 import com.protonvpn.android.ui.promooffers.PromoOfferNotificationViewModel;
 import com.protonvpn.android.ui.settings.SettingsActivity;
@@ -197,13 +196,6 @@ public class HomeActivity extends VpnActivity {
             ConnectTrigger trigger = input.getSecond();
             ProtonLogger.INSTANCE.log(UiReconnect, trigger.getDescription());
             onConnect(connectIntent, trigger);
-        });
-
-        viewModel.shouldShowWhatsNew().observe(this, (showDialog) -> {
-            if (showDialog) {
-                startActivity(new Intent(this, WhatsNewFreeActivity.class));
-                viewModel.onWhatsNewShown();
-            }
         });
 
         new PromoOfferNotificationHelper(this, imageNotification,

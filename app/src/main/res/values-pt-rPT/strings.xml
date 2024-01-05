@@ -663,10 +663,6 @@
     <string name="not_wanted_country_title">Não é o país que pretendia?</string>
     <string name="not_wanted_country_description">Faça \'upgrade\' para escolher qualquer servidor</string>
     <string name="whats_new_title">O que há de novo</string>
-    <string name="whats_new_added_countries_title">Novos países gratuitos</string>
-    <string name="whats_new_added_countries_description">Agora há servidores gratuitos na Polónia e Roménia.</string>
-    <string name="whats_new_server_selection_title">Mudanças na seleção do servidor</string>
-    <string name="whats_new_server_selection_description">Para prevenir a lotação do servidor e garantir que todas as pessoas têm acesso rápido e seguro enquanto navegam, removemos a seleção manual do país e fizemos grandes melhorias à seleção automática do servidor.</string>
     <string name="welcome_plus_title">Bem-vindo à VPN Plus</string>
     <string name="welcome_plus_description">Aproveite funcionalidades de privacidade extra, desempenho de alta qualidade, e uma personalização da VPN de outro nível.</string>
     <string name="welcome_plus_feature_security">Funcionalidades de segurança avançadas</string>
