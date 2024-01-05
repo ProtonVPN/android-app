@@ -45,7 +45,6 @@ import org.junit.Test
 @HiltAndroidTest
 class FreeRescopeTests {
 
-    private val featureFlags = FeatureFlags(showNewFreePlan = true)
     private val ratingConfig = RatingConfig(emptyList(), 0, 0, 0, 0)
     private val smartProtocolConfig =
         SmartProtocolConfig(openVPNEnabled = true, wireguardEnabled = true)
@@ -55,7 +54,7 @@ class FreeRescopeTests {
         )
     )
     private val clientConfig = AppConfigResponse(
-        defaultPortsConfig = defaultPortsConfig, featureFlags = featureFlags,
+        defaultPortsConfig = defaultPortsConfig, featureFlags = FeatureFlags(),
         ratingConfig = ratingConfig, smartProtocolConfig = smartProtocolConfig
     )
 

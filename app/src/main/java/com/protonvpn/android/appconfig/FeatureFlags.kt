@@ -47,5 +47,8 @@ data class FeatureFlags(
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "Telemetry") val telemetry: Boolean = true,
     @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "ShowNewFreePlan") val showNewFreePlan: Boolean = false,
-) : java.io.Serializable
+    @SerialName(value = "ShowNewFreePlan") val deprecatedShowNewFreePlan: Boolean = false,
+) : java.io.Serializable {
+    @Deprecated("Remove")
+    val showNewFreePlan = true
+}

@@ -98,7 +98,6 @@ class UpgradeTelemetryTests {
 
     @Test
     fun `upsell_display event dimensions`() = testScope.runTest {
-        featureFlagsFlow.update { it.copy(showNewFreePlan = true) }
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.COUNTRIES, "ref")
 
         val expectedDimensions = mapOf(
