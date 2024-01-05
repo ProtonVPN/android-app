@@ -75,7 +75,6 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                 onConnect = {},
                 onDisconnect = {},
                 onOpenPanelClick = openAction,
-                onHelpClick = {},
                 modifier = connectionCardModifier
             )
 
@@ -92,7 +91,6 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                 onConnect = {},
                 onDisconnect = {},
                 onOpenPanelClick = openAction,
-                onHelpClick = {},
                 modifier = connectionCardModifier
             )
 
@@ -112,7 +110,6 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                 onConnect = {},
                 onDisconnect = {},
                 onOpenPanelClick = openAction,
-                onHelpClick = {},
                 modifier = connectionCardModifier
             )
 
@@ -132,7 +129,6 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                 onConnect = {},
                 onDisconnect = {},
                 onOpenPanelClick = openAction,
-                onHelpClick = {},
                 modifier = connectionCardModifier
             )
         }
