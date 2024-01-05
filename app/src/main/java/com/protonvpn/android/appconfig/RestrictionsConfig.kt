@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Deprecated("Free plan UI is no longer configurable, remove this code.")
 @Singleton
 class RestrictionsConfig(
     scope: CoroutineScope,
