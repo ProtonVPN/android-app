@@ -135,6 +135,15 @@ class EffectiveCurrentUserSettingsFlowTests {
         featureFlagsFlow.update { it.copy(netShieldEnabled = true) }
         assertEquals(NetShieldProtocol.ENABLED, effectiveSettings().netShield)
     }
+    @Test
+    fun `NetShield on TV returns F1`() = testScope.runTest {
+        featureFlagsFlow.update { it.copy(netShieldEnabled = true) }
+        rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
+        assertEquals(effectiveSettings().netShield, NetShieldProtocol.ENABLED_EXTENDED)
+
+        every { mockIsTv.invoke() } returns true
+        assertEquals(effectiveSettings().netShield, NetShieldProtocol.ENABLED)
+    }
 
     @Test
     fun `SafeMode is defined only when feature flag enabled`() = testScope.runTest {

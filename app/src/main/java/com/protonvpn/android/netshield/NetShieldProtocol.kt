@@ -20,7 +20,7 @@ package com.protonvpn.android.netshield
 
 enum class NetShieldProtocol(val protocolString: String) {
     DISABLED(""),
-    @Deprecated("f1 is deprecated, only off or on values for netshield")
+    @Deprecated("f1 is deprecated, only off or on values for netshield, except for TV")
     ENABLED("+f1"),
     ENABLED_EXTENDED("+f2")
 }
