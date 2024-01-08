@@ -59,7 +59,7 @@ class VpnStatusViewStateFlow @Inject constructor(
 
 
     private val vpnFlow = combine(
-        vpnStatusProvider.status,
+        vpnStatusProvider.uiStatus,
         serverListUpdaterPrefs.ipAddressFlow,
         serverListUpdaterPrefs.lastKnownCountryFlow,
         netShieldViewState,

@@ -72,7 +72,7 @@ class VpnStatusViewStateFlowTest {
     private lateinit var vpnStatusViewStateFlow: VpnStatusViewStateFlow
     private val server: Server = createServer()
     private val connectionParams = ConnectionParams(ConnectIntent.Default, server, null, null)
-    private lateinit var statusFlow: MutableStateFlow<VpnStateMonitor.Status>
+    private lateinit var statusFlow: MutableStateFlow<VpnStatusProviderUI.Status>
     private lateinit var netShieldStatsFlow: MutableStateFlow<NetShieldStats>
     private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
 
@@ -88,8 +88,8 @@ class VpnStatusViewStateFlowTest {
         serverListUpdaterPrefs.ipAddress = "1.1.1.1"
         serverListUpdaterPrefs.lastKnownCountry = "US"
 
-        statusFlow = MutableStateFlow(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
-        every { vpnStatusProviderUi.status } returns statusFlow
+        statusFlow = MutableStateFlow(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
+        every { vpnStatusProviderUi.uiStatus } returns statusFlow
         netShieldStatsFlow = MutableStateFlow(NetShieldStats())
         every { vpnConnectionManager.netShieldStats } returns netShieldStatsFlow
 
@@ -110,17 +110,17 @@ class VpnStatusViewStateFlowTest {
 
     @Test
     fun `change in vpnStatus changes StatusViewState flow`() = runTest {
-        statusFlow.emit(VpnStateMonitor.Status(VpnState.Disabled, null))
+        statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Disabled, null))
         assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Disabled)
-        statusFlow.emit(VpnStateMonitor.Status(VpnState.Connecting, connectionParams))
+        statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connecting, connectionParams))
         assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connecting)
-        statusFlow.emit(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
+        statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
         assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
     }
 
     @Test
     fun `change in netShield stats are reflected in StatusViewState flow`() = runTest {
-        statusFlow.emit(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
+        statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
         assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
         netShieldStatsFlow.emit(NetShieldStats(3, 3, 3000))
         val netShieldStats =
