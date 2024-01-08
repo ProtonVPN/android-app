@@ -576,7 +576,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Ласкаво просимо у Proton VPN</string>
-    <string name="onboarding_welcome_description">Browse privately, access blocked content, and enjoy digital freedom.</string>
+    <string name="onboarding_welcome_description">Приватний перегляд, доступ до заблокованого вмісту і задоволення від цифрової свободи.</string>
     <string name="onboarding_welcome_action">Розпочнімо</string>
     <string name="onboarding_available_on_plus">Доступно з Plus</string>
     <string name="upgrade_success_get_started_button">Розпочати</string>
