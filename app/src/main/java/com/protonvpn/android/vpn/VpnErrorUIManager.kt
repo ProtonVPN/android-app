@@ -108,7 +108,7 @@ class VpnErrorUIManager @Inject constructor(
 
     private fun translateStatusToSnackBarError(vpnStatus: VpnStateMonitor.Status): SnackError? {
         val state = vpnStatus.state
-        return if (state is VpnState.Error) {
+        return if (state is VpnState.Error && state.isFinal) {
             when (state.type) {
                 // MAX_SESSIONS are handled by full screen dialog
                 ErrorType.MAX_SESSIONS -> null
