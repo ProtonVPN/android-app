@@ -66,6 +66,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -86,6 +87,8 @@ import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
+import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionWeak
@@ -139,8 +142,11 @@ private fun ColumnScope.ConnectionDetailsConnected(
     val scrollState = rememberScrollState()
     val isScrolled = remember { derivedStateOf { scrollState.value > 0 } }
     val topAppBarColor = animateColorAsState(
-        targetValue = if (isScrolled.value) ProtonTheme.colors.backgroundSecondary else ProtonTheme.colors.backgroundDeep
+        targetValue = if (isScrolled.value) ProtonTheme.colors.backgroundSecondary else ProtonTheme.colors.backgroundDeep,
+        label = "topAppBarColor"
     )
+    val context = LocalContext.current
+    val onOpenUrl: (String) -> Unit = { url -> context.openUrl(url) }
     TopAppBar(
         title = { },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -194,7 +200,8 @@ private fun ColumnScope.ConnectionDetailsConnected(
             Spacer(Modifier.height(16.dp))
             ConnectionSpeedRow(
                 trafficUpdate.speedToString(sizeInBytes = trafficUpdate.downloadSpeed),
-                trafficUpdate.speedToString(sizeInBytes = trafficUpdate.uploadSpeed)
+                trafficUpdate.speedToString(sizeInBytes = trafficUpdate.uploadSpeed),
+                onOpenUrl = onOpenUrl
             )
         }
 
@@ -212,7 +219,8 @@ private fun ColumnScope.ConnectionDetailsConnected(
             city = viewState.serverCity,
             serverName = viewState.serverDisplayName,
             serverLoad = viewState.serverLoad,
-            protocol = viewState.protocolDisplay?.let { stringResource(it) }
+            protocol = viewState.protocolDisplay?.let { stringResource(it) },
+            onOpenUrl = onOpenUrl
         )
     }
 }
@@ -286,7 +294,8 @@ private fun getSessionTime(sessionTimeInSeconds: Int?): String {
 @Composable
 private fun ConnectionSpeedRow(
     downloadSpeed: String,
-    uploadSpeed: String
+    uploadSpeed: String,
+    onOpenUrl: (url: String) -> Unit,
 ) {
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var isModalVisible by remember { mutableStateOf(false) }
@@ -339,7 +348,7 @@ private fun ConnectionSpeedRow(
                     title = stringResource(id = R.string.connection_details_vpn_speed_question),
                     details = stringResource(id = R.string.connection_details_vpn_speed_description),
                     onLearnMoreClick = {
-                        // TODO open url on VPN speed
+                        onOpenUrl(Constants.URL_SPEED_LEARN_MORE)
                     })
             },
             windowInsets = WindowInsets.navigationBars,
@@ -395,8 +404,9 @@ private fun ConnectionStats(
     city: String?,
     serverName: String,
     serverLoad: Float,
+    protocol: String? = "",
+    onOpenUrl: (url: String) -> Unit,
     modifier: Modifier = Modifier,
-    protocol: String? = ""
 ) {
     Surface(
         color = ProtonTheme.colors.backgroundNorm,
@@ -448,7 +458,7 @@ private fun ConnectionStats(
             VpnDivider()
             ConnectionDetailRowWithComposable(labelTitle = stringResource(id = R.string.connection_details_server_load),
                 onInfoComposable = {
-                    ServerLoadBottomSheet()
+                    ServerLoadBottomSheet(onOpenUrl)
                 },
                 contentComposable = {
                     ServerLoadBar(progress = serverLoad / 100)
@@ -467,7 +477,7 @@ private fun ConnectionStats(
                     GenericLearnMore(title = stringResource(id = R.string.connection_details_protocol),
                         details = stringResource(id = R.string.connection_details_protocol_description),
                         onLearnMoreClick = {
-                            // TODO open url about protocol
+                            onOpenUrl(Constants.URL_PROTOCOL_LEARN_MORE)
                         })
                 },
                 contentValue = protocol
@@ -507,7 +517,7 @@ fun GenericLearnMore(
 }
 
 @Composable
-private fun ServerLoadBottomSheet() {
+private fun ServerLoadBottomSheet(onOpenUrl: (url: String) -> Unit) {
     GenericLearnMore(title = stringResource(id = R.string.connection_details_server_load_question),
         details = stringResource(id = R.string.connection_details_server_load_description),
         subDetailsComposable = {
@@ -537,7 +547,7 @@ private fun ServerLoadBottomSheet() {
             )
         },
         onLearnMoreClick = {
-            // TODO open link to article on server load
+            onOpenUrl(Constants.URL_LOAD_LEARN_MORE)
         })
 }
 
@@ -776,7 +786,8 @@ fun ConnectionStatsPreview() {
             city = "Stockholm",
             serverName = "SE#1",
             serverLoad = 32F,
-            protocol = "WireGuard"
+            protocol = "WireGuard",
+            onOpenUrl = {}
         )
     }
 }
@@ -785,7 +796,7 @@ fun ConnectionStatsPreview() {
 @Composable
 fun VpnSpeedPreview() {
     VpnTheme {
-        ConnectionSpeedRow("10 ", "123.1233")
+        ConnectionSpeedRow("10 ", "123.1233", {})
     }
 }
 
@@ -802,7 +813,7 @@ fun IpViewPreview() {
 fun BottomSheetLoadDescriptionPreview() {
     LightAndDarkPreview {
         Surface {
-            ServerLoadBottomSheet()
+            ServerLoadBottomSheet {}
         }
     }
 }
