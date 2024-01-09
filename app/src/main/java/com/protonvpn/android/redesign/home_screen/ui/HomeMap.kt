@@ -38,7 +38,7 @@ import me.proton.core.compose.theme.ProtonTheme
 fun HomeMap(
     modifier: Modifier,
     scope: CoroutineScope,
-    mapState: Pair<String, CountryHighlight>?
+    mapState: Pair<String, CountryHighlight>
 ) {
     val mapConfig = MapRendererConfig(
         background = ProtonTheme.colors.backgroundNorm.toArgb(),
