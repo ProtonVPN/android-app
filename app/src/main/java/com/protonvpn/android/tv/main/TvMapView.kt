@@ -61,7 +61,8 @@ class TvMapView @JvmOverloads constructor(
 
     fun init(
         config: MapRendererConfig,
-        showDelayMs: Long = 0
+        showDelayMs: Long = 0,
+        fadeInDurationMs: Long = 0,
     ) {
         alpha = 0f
         mapRenderer = TvMapRenderer(context, (context as ComponentActivity).lifecycleScope, config) {
@@ -70,7 +71,7 @@ class TvMapView @JvmOverloads constructor(
                     .alpha(1f)
                     .translationY(0f)
                     .setStartDelay(showDelayMs)
-                    .duration = MAP_FADE_IN_DURATION
+                    .duration = fadeInDurationMs
             }
             renderedMap = it
             invalidate()
@@ -205,7 +206,6 @@ class TvMapView @JvmOverloads constructor(
 
     companion object {
         const val ZOOM_DURATION_MS = 300L
-        const val MAP_FADE_IN_DURATION = 400L
         const val BITMAP_MAX_PIXELS = 5_000_000 // ~2.7k
     }
 }

@@ -38,6 +38,7 @@ import com.protonvpn.android.utils.CountryTools
 import dagger.hilt.android.AndroidEntryPoint
 
 const val MAP_SHOW_DELAY = 500L
+const val MAP_FADE_IN_DURATION = 400L
 
 @AndroidEntryPoint
 class TvMainActivity : BaseTvActivity() {
@@ -86,7 +87,8 @@ class TvMainActivity : BaseTvActivity() {
                 borderWidth = .2f,
                 zoomIndependentBorderWidth = false
             ),
-            showDelayMs = MAP_SHOW_DELAY
+            showDelayMs = MAP_SHOW_DELAY,
+            fadeInDurationMs = MAP_FADE_IN_DURATION,
         )
         viewModel.selectedCountryFlag.observe(this, Observer {
             updateMapSelection(binding)
