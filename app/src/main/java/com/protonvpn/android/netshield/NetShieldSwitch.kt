@@ -105,7 +105,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
         with(binding) {
             val netShieldEnabled = newProtocol != NetShieldProtocol.DISABLED && !netshieldFreeMode
             switchNetshield.isChecked = netShieldEnabled
-            radioGroupSettings.isVisible = netShieldEnabled
+            radioGroupSettings.isVisible = false
             if (netShieldEnabled) {
                 val buttonId =
                     if (newProtocol == NetShieldProtocol.ENABLED) R.id.radioSimpleBlocking else R.id.radioFullBlocking
@@ -116,7 +116,7 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 showExpandToggle(netShieldEnabled && !netshieldFreeMode)
                 textNetShieldTitle.isChecked = radiosExpanded
                 textNetDescription.isVisible = netShieldEnabled && !radiosExpanded
-                radioGroupSettings.isVisible = (netShieldEnabled || netshieldFreeMode) && radiosExpanded
+                radioGroupSettings.isVisible = false
                 val descriptionText =
                     if (currentState == NetShieldProtocol.ENABLED) R.string.netShieldBlockMalwareOnly
                     else R.string.netShieldFullBlock
