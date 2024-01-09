@@ -255,7 +255,7 @@ private fun VpnConnectedView(
     var isModalVisible by remember { mutableStateOf(false) }
 
     Surface(
-        color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.9F),
+        color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.7F),
         shape = ProtonTheme.shapes.large,
         modifier = Modifier
             .offset { IntOffset(x = 0, y = (transitionValue() * 16.dp.toPx()).toInt()) }
