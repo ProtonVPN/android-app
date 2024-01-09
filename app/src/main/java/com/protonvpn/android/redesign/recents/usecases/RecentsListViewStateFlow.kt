@@ -42,6 +42,7 @@ import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 data class RecentsListViewState(
@@ -63,15 +64,33 @@ class RecentsListViewStateFlow @Inject constructor(
     // Used on clean installations.
     private val defaultConnectIntent = ConnectIntent.Default
 
-    private val viewState: Flow<RecentsListViewState> = currentUser.vpnUserFlow
-        .flatMapLatestNotNull { vpnUser ->
+    private data class RecentsData(
+        val user: VpnUser, val recents: List<RecentConnection>, val mostRecentConnection: RecentConnection?
+    )
+
+    private val dataFlow =
+        currentUser.vpnUserFlow.flatMapLatestNotNull { vpnUser ->
+            if (vpnUser.isFreeUser) {
+                // Don't fetch recents data for free users.
+                flowOf(RecentsData(vpnUser, emptyList(), null))
+            } else {
+                combine(
+                    recentsManager.getRecentsList(),
+                    recentsManager.getMostRecentConnection(),
+                ) { recents, mostRecentConnection ->
+                    RecentsData(vpnUser, recents, mostRecentConnection)
+                }
+            }
+        }
+
+    private val viewState: Flow<RecentsListViewState> =
+        dataFlow.flatMapLatestNotNull { data ->
+            val (vpnUser, recents, mostRecent) = data
             combine(
-                recentsManager.getRecentsList(),
-                recentsManager.getMostRecentConnection(),
                 vpnStatusProvider.uiStatus,
                 serverManager.serverListVersion, // Update whenever servers change.
                 userSettings.protocol,
-            ) { recents, mostRecent, status, _, protocol ->
+            ) { status, _, protocol ->
                 val connectedIntent = status.connectIntent?.takeIf {
                     status.state == VpnState.Connected || status.state.isEstablishingConnection
                 }

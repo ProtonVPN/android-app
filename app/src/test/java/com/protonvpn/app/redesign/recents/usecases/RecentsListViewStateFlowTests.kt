@@ -234,7 +234,7 @@ class RecentsListViewStateFlowTests {
     }
 
     @Test
-    fun paidServersUnavailableToFreeUser() = testScope.runTest {
+    fun noRecentsShownToFreeUsers() = testScope.runTest {
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
         currentUserProvider.vpnUser = TestUser.freeUser.vpnUser
         val servers = listOf(
@@ -245,13 +245,7 @@ class RecentsListViewStateFlowTests {
         )
         serverManager.setServers(servers, null)
         val viewState = viewStateFlow.first()
-        val expected = listOf(
-            RecentAvailability.UNAVAILABLE_PLAN,
-            RecentAvailability.ONLINE,
-            RecentAvailability.ONLINE,
-            RecentAvailability.ONLINE,
-        )
-        assertEquals(expected, viewState.recents.map { it.availability })
+        assertEquals(emptyList(), viewState.recents.map { it.availability })
     }
 
     @Test

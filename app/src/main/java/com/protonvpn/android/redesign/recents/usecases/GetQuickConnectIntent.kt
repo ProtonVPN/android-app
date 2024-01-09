@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.redesign.recents.usecases
 
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
@@ -25,8 +26,13 @@ import javax.inject.Inject
 
 @Reusable
 class GetQuickConnectIntent @Inject constructor(
+    private val currentUser: CurrentUser,
     private val recentsManager: RecentsManager
 ) {
-    suspend operator fun invoke() =
-        recentsManager.getMostRecentConnection().first()?.connectIntent ?: ConnectIntent.Default
+    suspend operator fun invoke(): ConnectIntent {
+        val isPaidUser = currentUser.vpnUser()?.isFreeUser == false
+        return recentsManager.getMostRecentConnection().first()?.connectIntent
+            ?.takeIf { isPaidUser }
+            ?: ConnectIntent.Default
+    }
 }
