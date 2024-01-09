@@ -208,7 +208,6 @@ class MockAppModule {
                     getNetZone,
                     foregroundActivityTracker,
                     getConnectingDomain,
-                    serverListUpdaterPrefs
                 ),
                 wireGuard = MockVpnBackend(
                     scope,
@@ -223,7 +222,6 @@ class MockAppModule {
                     getNetZone,
                     foregroundActivityTracker,
                     getConnectingDomain,
-                    serverListUpdaterPrefs
                 ),
                 config = appConfig,
                 supportsProtocol = supportsProtocol

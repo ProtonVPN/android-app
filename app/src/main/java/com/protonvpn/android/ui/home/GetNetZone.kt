@@ -41,4 +41,8 @@ class GetNetZone @Inject constructor(
     fun updateIp(ip: String) {
         prefs.ipAddress = ip
     }
+
+    fun updateCountry(country: String?) {
+        prefs.lastKnownCountry = country
+    }
 }
