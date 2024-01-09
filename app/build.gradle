@@ -610,6 +610,12 @@ class Helpers {
 
     String getReleaseNotes(int trimAt) {
         def lastSha = System.getenv("CI_COMMIT_BEFORE_SHA")
+        // CI_COMMIT_BEFORE_SHA is always 0000000000000000000000000000000000000000 for merge request
+        // pipelines, the first commit in pipelines for branches or tags, or when manually running a
+        // pipeline. Let's not fail the job if we ever need to run a pipeline manually to fix
+        // publishing.
+        if (lastSha == null || lastSha == "0000000000000000000000000000000000000000")
+            return "(failed fetching release notes for manual pipeline)"
         def notes = exec(["git", "log", "${lastSha}..HEAD", "--pretty=format:- %s"])
         if (notes.length() > trimAt)
             return notes.take(trimAt) + "\n..."
