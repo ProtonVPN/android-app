@@ -142,14 +142,16 @@ fun HomeView(
         modifier = Modifier.fillMaxSize()
     ) {
         val (vpnStatusTop, vpnStatusBottom, map) = createRefs()
-        HomeMap(
-            modifier = Modifier.constrainAs(map) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-            },
-            coroutineScope,
-            mapState
-        )
+        if (mapState != null) {
+            HomeMap(
+                modifier = Modifier.constrainAs(map) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                },
+                coroutineScope,
+                mapState
+            )
+        }
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
