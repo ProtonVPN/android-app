@@ -36,7 +36,6 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
-import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
@@ -71,7 +70,6 @@ class OpenVpnBackend @Inject constructor(
     getNetZone: GetNetZone,
     private val prepareForConnection: PrepareForConnection,
     foregroundActivityTracker: ForegroundActivityTracker,
-    serverListUpdaterPrefs: ServerListUpdaterPrefs,
     @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
     appConfig,
@@ -85,7 +83,6 @@ class OpenVpnBackend @Inject constructor(
     currentUser,
     getNetZone,
     foregroundActivityTracker,
-    serverListUpdaterPrefs,
     okHttp,
 ), VpnStatus.StateListener {
 

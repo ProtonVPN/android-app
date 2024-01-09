@@ -235,9 +235,8 @@ class VpnConnectionTests {
 
         networkManager = MockNetworkManager()
 
-        val serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
-        mockOpenVpn = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.OpenVPN, serverListUpdaterPrefs))
-        mockWireguard = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.WireGuard, serverListUpdaterPrefs))
+        mockOpenVpn = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.OpenVPN))
+        mockWireguard = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.WireGuard))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
@@ -250,6 +249,7 @@ class VpnConnectionTests {
 
         monitor = VpnStateMonitor()
 
+        val serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         val mockConnectivityMonitor = mockk<ConnectivityMonitor>()
         every { mockConnectivityMonitor.defaultNetworkTransports } returns setOf(ConnectivityMonitor.Transport.WIFI)
         val vpnConnectionTelemetry = VpnConnectionTelemetry(
@@ -916,7 +916,6 @@ class VpnConnectionTests {
         currentUser: CurrentUser,
         userSettings: EffectiveCurrentUserSettings,
         protocol: VpnProtocol,
-        serverListUpdaterPrefs: ServerListUpdaterPrefs
     ): MockVpnBackend =
         MockVpnBackend(
             scope.backgroundScope,
@@ -931,7 +930,6 @@ class VpnConnectionTests {
             getNetZone,
             foregroundActivityTracker,
             GetConnectingDomain(supportsProtocol),
-            serverListUpdaterPrefs
         )
 
     private fun createServerSwitch(
