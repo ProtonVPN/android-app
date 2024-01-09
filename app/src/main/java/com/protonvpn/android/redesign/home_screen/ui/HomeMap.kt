@@ -34,6 +34,8 @@ import com.protonvpn.android.utils.relativePadding
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.compose.theme.ProtonTheme
 
+private const val MAP_FADE_IN_DURATION = 250L
+
 @Composable
 fun HomeMap(
     modifier: Modifier,
@@ -54,7 +56,7 @@ fun HomeMap(
         modifier = modifier,
         factory = { context ->
             TvMapView(context).apply {
-                init(mapConfig)
+                init(mapConfig, fadeInDurationMs = MAP_FADE_IN_DURATION)
                 update(scope, mapState)
             }
         },
