@@ -43,6 +43,7 @@ import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -57,8 +58,10 @@ import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -76,12 +79,15 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.util.Locale
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RecentsListViewStateFlowTests {
@@ -131,6 +137,8 @@ class RecentsListViewStateFlowTests {
         val effectiveUserSettingsCached = EffectiveCurrentUserSettingsCached(settingsFlow)
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
 
+        mockkObject(CountryTools)
+        every { CountryTools.getPreferredLocale() } returns Locale.US
         serverManager = ServerManager(
             testScope.backgroundScope,
             effectiveUserSettingsCached,
@@ -270,7 +278,7 @@ class RecentsListViewStateFlowTests {
     }
 
     @Test
-    fun serverStatusChangeIsReflectedInRecents() = testScope.runTest(dispatchTimeoutMs = 5_000) {
+    fun serverStatusChangeIsReflectedInRecents() = testScope.runTest(timeout = 5_000.milliseconds) {
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
         val viewStates = viewStateFlow
             .onEach {
@@ -289,7 +297,7 @@ class RecentsListViewStateFlowTests {
     }
 
     @Test
-    fun protocolSettingChangeIsReflectedInRecents() = testScope.runTest(dispatchTimeoutMs = 5_000) {
+    fun protocolSettingChangeIsReflectedInRecents() = testScope.runTest(timeout = 5_000.milliseconds) {
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
         val wgEntryProtocols = mapOf(
             ProtocolSelection(VpnProtocol.WireGuard).apiName to ServerEntryInfo("1.2.3.5", listOf(22, 443))
@@ -312,6 +320,14 @@ class RecentsListViewStateFlowTests {
         assertNotNull(itemAfter)
         assertEquals(RecentAvailability.ONLINE, itemBefore.availability)
         assertEquals(RecentAvailability.UNAVAILABLE_PROTOCOL, itemAfter.availability)
+    }
+
+    @Test
+    fun freeCountriesInfoShownOnlyFoFreeUsers() = testScope.runTest {
+        assertFalse(viewStateFlow.first().connectionCard.canOpenFreeCountriesPanel)
+
+        currentUserProvider.vpnUser = TestUser.freeUser.vpnUser
+        assertTrue(viewStateFlow.first().connectionCard.canOpenFreeCountriesPanel)
     }
 
     companion object {

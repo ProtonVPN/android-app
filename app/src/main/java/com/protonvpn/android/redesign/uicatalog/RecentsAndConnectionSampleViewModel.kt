@@ -64,6 +64,7 @@ class RecentsAndConnectionSampleViewModel @Inject constructor(
                 emptySet()
             ),
             VpnConnectionState.Disconnected,
+            false,
         )
     val viewState = recentsListViewStateFlow
         .stateIn(
