@@ -20,48 +20,36 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" />
-
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:orientation="vertical">
+        style="@style/Proton.Text.DefaultSmall"
+        android:text="@string/free_connections_info_message"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Proton.Text.DefaultSmall"
-            android:text="@string/free_connections_info_message"/>
+    <TextView
+        android:id="@+id/locations_header"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
+        style="@style/Proton.Text.Default.Bold"
+        android:text="@string/free_connections_info_server_locations"/>
 
-        <TextView
-            android:id="@+id/locations_header"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="24dp"
-            style="@style/Proton.Text.Default.Bold"
-            android:text="@string/free_connections_info_server_locations"/>
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/free_countries_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:alignItems="center"
+        app:flexWrap="wrap"
+        app:flexDirection="row"
+        app:justifyContent="flex_start"/>
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/free_countries_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:alignItems="center"
-            app:flexWrap="wrap"
-            app:flexDirection="row"
-            app:justifyContent="flex_start"/>
-
-        <include layout="@layout/item_free_upsell"
-            android:id="@+id/upsell_banner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
-    </LinearLayout>
+    <include layout="@layout/item_free_upsell"
+        android:id="@+id/upsell_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
 </LinearLayout>

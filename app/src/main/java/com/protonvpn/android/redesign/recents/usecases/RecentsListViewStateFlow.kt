@@ -31,8 +31,6 @@ import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
-import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewStateFlow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.servers.ServerManager2
@@ -110,6 +108,7 @@ class RecentsListViewStateFlow @Inject constructor(
                         status.state,
                         connectedIntent === defaultConnectIntent,
                         connectIntentViewState,
+                        vpnUser.isFreeUser && status.state == VpnState.Disabled
                     ),
                     createRecentsViewState(recents, connectedIntent, connectionCardIntent, vpnUser, protocol),
                     recents.find { it.connectIntent == connectionCardIntent }?.id
@@ -159,6 +158,7 @@ class RecentsListViewStateFlow @Inject constructor(
         vpnState: VpnState,
         isDefaultConnection: Boolean,
         connectionCardIntentViewState: ConnectIntentViewState,
+        showFreeCountriesInformationPanel: Boolean,
     ): VpnConnectionCardViewState {
         val vpnConnectionState = when {
             vpnState.isEstablishingConnection -> VpnConnectionState.Connecting
@@ -178,6 +178,7 @@ class RecentsListViewStateFlow @Inject constructor(
             connectIntentViewState = connectionCardIntentViewState,
             cardLabelRes = cardLabelRes,
             connectionState = vpnConnectionState,
+            canOpenFreeCountriesPanel = showFreeCountriesInformationPanel,
         )
     }
 

@@ -35,7 +35,6 @@ import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.HeaderViewHolder
-import com.protonvpn.android.ui.home.FreeConnectionsInfoActivity
 import com.protonvpn.android.ui.home.SecureCoreSpeedInfoActivity.Companion.createContract
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
@@ -189,7 +188,7 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list) {
     private fun ServerListSectionModel.InfoType.toAction() : (() -> Unit) = when(this) {
         ServerListSectionModel.InfoType.FreeConnections -> {
             // Returns lambda
-            { activity?.launchActivity<FreeConnectionsInfoActivity>() }
+            { /* Not implemented */ }
         }
     }
 

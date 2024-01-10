@@ -41,7 +41,8 @@ class RecentsListUiTests : FusionComposeTest() {
             VpnConnectionCardViewState(
                 R.string.connection_card_label_last_connected,
                 ConnectIntentViewFastest,
-                VpnConnectionState.Disconnected
+                VpnConnectionState.Disconnected,
+                false,
             ),
             emptyList(),
             null
@@ -59,7 +60,8 @@ class RecentsListUiTests : FusionComposeTest() {
             VpnConnectionCardViewState(
                 R.string.connection_card_label_last_connected,
                 ConnectIntentViewFastest,
-                VpnConnectionState.Disconnected
+                VpnConnectionState.Disconnected,
+                false,
             ),
             listOf(
                 RecentItemViewState(0, ConnectIntentViewSwitzerland, false, false, RecentAvailability.ONLINE)

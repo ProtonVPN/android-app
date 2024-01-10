@@ -1016,7 +1016,17 @@
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_details">connection details</string>
+    <string name="connection_card_accessbility_label_connection_details">connection details</string>
+
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with information about connections in free plan.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "more information about free connections, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_free_connections">more information about free connections</string>
 
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.

@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.redesign.recents.ui
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -41,15 +42,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -63,16 +66,13 @@ import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
-import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
-import com.protonvpn.android.ui.home.vpn.ChangeServerButton
-import me.proton.core.compose.component.VerticalSpacer
+import com.protonvpn.android.ui.home.FreeConnectionsInfoBottomSheet
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
-import me.proton.core.compose.theme.captionStrongUnspecified
 
 enum class VpnConnectionState {
     Disconnected,
@@ -85,6 +85,7 @@ data class VpnConnectionCardViewState(
     @StringRes val cardLabelRes: Int,
     val connectIntentViewState: ConnectIntentViewState,
     val connectionState: VpnConnectionState,
+    val canOpenFreeCountriesPanel: Boolean
 )
 
 @Suppress("LongParameterList")
@@ -93,11 +94,13 @@ fun VpnConnectionCard(
     viewState: VpnConnectionCardViewState,
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
-    onOpenPanelClick: () -> Unit,
+    onOpenConnectionPanel: () -> Unit,
     modifier: Modifier = Modifier,
     changeServerButton: (@Composable ColumnScope.() -> Unit)? = null,
     itemIdsTransition: Transition<ItemIds>? = null
 ) {
+    var showsInfoDialog by rememberSaveable { mutableStateOf(false) }
+    val openFreeCountriesInfoPanel = { showsInfoDialog = true }
     Column(
         modifier = modifier
             .animateContentSize()
@@ -114,9 +117,10 @@ fun VpnConnectionCard(
         ) {
             // The whole card can be clicked to open the panel but for accessibility this action is placed on the
             // chevron icon.
-            val canOpenPanel = viewState.connectionState == VpnConnectionState.Connected
-            val panelModifier = if (canOpenPanel) {
-                Modifier.clickable(onClick = onOpenPanelClick)
+            val canOpenConnectionPanel = viewState.connectionState == VpnConnectionState.Connected
+            val panelModifier = if (canOpenConnectionPanel || viewState.canOpenFreeCountriesPanel) {
+                val action = if (canOpenConnectionPanel) onOpenConnectionPanel else openFreeCountriesInfoPanel
+                Modifier.clickable(onClick = action)
             } else {
                 Modifier
             }
@@ -146,8 +150,20 @@ fun VpnConnectionCard(
                                     .padding(start = 16.dp)
                             )
                         }
-                        if (canOpenPanel) {
-                            OpenPanelButton(onOpenPanelClick, Modifier.align(Alignment.Top))
+                        if (canOpenConnectionPanel || viewState.canOpenFreeCountriesPanel) {
+                             val iconRes =
+                                 if (canOpenConnectionPanel) R.drawable.ic_proton_chevron_up
+                                 else R.drawable.ic_proton_info_circle
+                            val contentDescriptionRes =
+                                if (canOpenConnectionPanel) R.string.connection_card_accessbility_label_connection_details
+                                else R.string.connection_card_accessbility_label_free_connections
+                            OpenPanelButton(
+                                iconRes = iconRes,
+                                onOpenPanel = if (canOpenConnectionPanel) onOpenConnectionPanel else openFreeCountriesInfoPanel,
+                                clickLabel = stringResource(R.string.accessibility_action_open),
+                                contentDescription = stringResource(contentDescriptionRes),
+                                Modifier.align(Alignment.Top)
+                            )
                         }
                     }
                 }
@@ -166,23 +182,30 @@ fun VpnConnectionCard(
             }
         }
     }
+
+    if (showsInfoDialog) {
+        FreeConnectionsInfoBottomSheet(
+            onDismissRequest = { showsInfoDialog = false }
+        )
+    }
 }
 
 @Composable
 private fun OpenPanelButton(
-    onOpenPanelClick: () -> Unit,
-    modifier: Modifier
+    @DrawableRes iconRes: Int,
+    onOpenPanel: () -> Unit,
+    clickLabel: String,
+    contentDescription: String,
+    modifier: Modifier = Modifier,
 ) {
-    val clickLabel = stringResource(R.string.accessibility_action_open)
     Icon(
-        painterResource(id = R.drawable.ic_proton_chevron_up),
+        painterResource(id = iconRes),
         tint = ProtonTheme.colors.iconWeak,
-        contentDescription =
-        stringResource(R.string.connection_card_accessbility_label_details),
+        contentDescription = contentDescription,
         modifier = modifier.semantics {
             role = Role.Button
             onClick(label = clickLabel) {
-                onOpenPanelClick()
+                onOpenPanel()
                 true
             }
         }
@@ -239,12 +262,13 @@ private fun VpnConnectionCardFreeUserPreview() {
             R.string.connection_card_label_last_connected,
             connectIntentState,
             VpnConnectionState.Disconnected,
+            false,
         )
         VpnConnectionCard(
             viewState = state,
             onConnect = {},
             onDisconnect = {},
-            onOpenPanelClick = {},
+            onOpenConnectionPanel = {},
             modifier = Modifier
         )
     }

@@ -74,10 +74,11 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         serverFeatures = emptySet()
                     ),
                     VpnConnectionState.Disconnected,
+                    false,
                 ),
                 onConnect = {},
                 onDisconnect = {},
-                onOpenPanelClick = openAction,
+                onOpenConnectionPanel = openAction,
                 modifier = connectionCardModifier
             )
 
@@ -90,10 +91,11 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         serverFeatures = emptySet()
                     ),
                     VpnConnectionState.Connected,
+                    false,
                 ),
                 onConnect = {},
                 onDisconnect = {},
-                onOpenPanelClick = openAction,
+                onOpenConnectionPanel = openAction,
                 modifier = connectionCardModifier
             )
 
@@ -109,10 +111,11 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         serverFeatures = EnumSet.of(ServerFeature.P2P),
                     ),
                     VpnConnectionState.Connected,
+                    false,
                 ),
                 onConnect = {},
                 onDisconnect = {},
-                onOpenPanelClick = openAction,
+                onOpenConnectionPanel = openAction,
                 modifier = connectionCardModifier
             )
 
@@ -128,10 +131,11 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         serverFeatures = EnumSet.of(ServerFeature.P2P)
                     ),
                     VpnConnectionState.Connected,
+                    false,
                 ),
                 onConnect = {},
                 onDisconnect = {},
-                onOpenPanelClick = openAction,
+                onOpenConnectionPanel = openAction,
                 modifier = connectionCardModifier
             )
 
@@ -153,11 +157,12 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         serverFeatures = EnumSet.of(ServerFeature.P2P)
                     ),
                     VpnConnectionState.Connected,
+                    false,
                 ),
                 changeServerButton = changeServerButton,
                 onConnect = {},
                 onDisconnect = {},
-                onOpenPanelClick = openAction,
+                onOpenConnectionPanel = openAction,
                 modifier = connectionCardModifier
             )
         }

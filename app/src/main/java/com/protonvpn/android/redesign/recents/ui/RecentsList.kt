@@ -198,7 +198,7 @@ fun RecentsList(
     viewState: RecentsListViewState,
     onConnectClicked: () -> Unit,
     onDisconnectClicked: () -> Unit,
-    onOpenPanelClicked: () -> Unit,
+    onOpenConnectionPanelClicked: () -> Unit,
     onRecentClicked: (item: RecentItemViewState) -> Unit,
     onRecentPinToggle: (item: RecentItemViewState) -> Unit,
     onRecentRemove: (item: RecentItemViewState) -> Unit,
@@ -240,7 +240,7 @@ fun RecentsList(
                     changeServerButton = changeServerButton,
                     onConnect = onConnectClicked,
                     onDisconnect = onDisconnectClicked,
-                    onOpenPanelClick = onOpenPanelClicked,
+                    onOpenConnectionPanel = onOpenConnectionPanelClicked,
                     modifier = Modifier.padding(16.dp),
                     itemIdsTransition = itemIdsTransition
                 )

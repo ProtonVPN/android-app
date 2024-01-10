@@ -226,7 +226,7 @@ fun HomeView(
                 changeServerButton = changeServerButton,
                 onConnectClicked = connectAction,
                 onDisconnectClicked = viewModel::disconnect,
-                onOpenPanelClicked = onConnectionCardClick,
+                onOpenConnectionPanelClicked = onConnectionCardClick,
                 onRecentClicked = recentClickedAction,
                 onRecentPinToggle = viewModel::togglePinned,
                 onRecentRemove = viewModel::removeRecent,

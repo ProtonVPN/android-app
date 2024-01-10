@@ -13,7 +13,7 @@ object HomeRobot : Robot {
     private val cancelButton get() = node.withText(R.string.dialog_action_cancel)
     private val confirmButton get() = node.withTag("confirmButton")
     private val dismissButton get() = node.withTag("dismissButton")
-    private val connectionDetailsButton get() = node.withContentDescription(R.string.connection_card_accessbility_label_details)
+    private val connectionDetailsButton get() = node.withContentDescription(R.string.connection_card_accessbility_label_connection_details)
     private val signOutTitle get() = node.withText(R.string.dialog_sign_out_title)
     private val homeButton get() = node.withText(R.string.bottom_nav_home)
 
