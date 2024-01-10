@@ -111,9 +111,8 @@ class VpnStateConnectedFragment :
                                     (requireActivity() as VpnUiDelegateProvider).getVpnUiDelegate()
                                 )
                             },
-                            onLockedChangeServerClick = {
-                                ChangeServerBottomSheet().show(childFragmentManager, null)
-                                changeServerViewModel::onUpgradeModalOpened
+                            onUpgradeButtonShown = {
+                                changeServerViewModel.onUpgradeModalOpened()
                             },
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                         )

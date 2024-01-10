@@ -59,7 +59,6 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
@@ -79,7 +78,6 @@ import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
-import com.protonvpn.android.ui.home.vpn.ChangeServerBottomSheet
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 import com.protonvpn.android.ui.home.vpn.VpnStateViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
@@ -145,18 +143,13 @@ fun HomeView(
         stateViewModel.consumeErrorMessage()
     })
 
-    val uiDelegate = LocalVpnUiDelegate.current
     val changeServerButton: (@Composable ColumnScope.() -> Unit)? = changeServerState?.let { state ->
         @Composable {
-            // TODO: use a better approach for the bottom sheet
-            val fragmentManager = (LocalContext.current as FragmentActivity).supportFragmentManager
+            val uiDelegate = LocalVpnUiDelegate.current
             ChangeServerButton(
                 state,
                 onChangeServerClick = { viewModel.changeServer(uiDelegate) },
-                onLockedChangeServerClick = {
-                    ChangeServerBottomSheet().show(fragmentManager, null)
-                    viewModel.onChangeServerUpgradeModalOpened()
-                },
+                onUpgradeButtonShown = viewModel::onChangeServerUpgradeButtonShown,
             )
         }
     }
