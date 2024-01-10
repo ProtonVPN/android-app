@@ -71,6 +71,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="protonvpn" />
+                <!-- See DeepLinkHandler -->
+                <data android:host="refresh-account"/>
             </intent-filter>
         </activity>
 
