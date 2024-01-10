@@ -145,7 +145,7 @@ class HomeViewModel @Inject constructor(
 
     fun changeServer(vpnUiDelegate: VpnUiDelegate) = changeServerManager.changeServer(vpnUiDelegate)
 
-    fun onChangeServerUpgradeModalOpened() {
+    fun onChangeServerUpgradeButtonShown() {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.CHANGE_SERVER)
     }
 

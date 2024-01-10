@@ -26,21 +26,30 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -59,6 +68,8 @@ import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.protonOutlinedNeutralButtonColors
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultUnspecified
@@ -68,14 +79,18 @@ import me.proton.core.compose.theme.defaultWeak
 fun ChangeServerButton(
     state: ChangeServerViewState,
     onChangeServerClick: () -> Unit,
-    onLockedChangeServerClick: () -> Unit,
+    onUpgradeButtonShown: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var dialogShown by rememberSaveable { mutableStateOf(false) }
     ProtonOutlinedNeutralButton(
         onClick = {
             when (state) {
                 is ChangeServerViewState.Unlocked -> onChangeServerClick()
-                is ChangeServerViewState.Locked -> onLockedChangeServerClick()
+                is ChangeServerViewState.Locked -> {
+                    dialogShown = true
+                    onUpgradeButtonShown()
+                }
             }
         },
         contained = false,
@@ -129,16 +144,47 @@ fun ChangeServerButton(
             }
         }
     }
+
+    if (dialogShown) {
+        ChangeServerBottomSheetComposable(
+            state = state,
+            onDismissRequest = { dialogShown = false },
+            onChangeServerClick = onChangeServerClick,
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ChangeServerBottomSheetComposable(
+    state: ChangeServerViewState?,
+    onDismissRequest: () -> Unit,
+    onChangeServerClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+    ModalBottomSheet(
+        modifier = modifier,
+        onDismissRequest = onDismissRequest,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        windowInsets = WindowInsets.navigationBars,
+    ) {
+        UpgradeModalContent(
+            state = state,
+            onChangeServerClick = onChangeServerClick,
+            onUpgradeClick = {
+                UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+            }
+        )
+    }
 }
 
 @Composable
-fun UpgradeModalContent(
+private fun UpgradeModalContent(
     state: ChangeServerViewState?,
     onChangeServerClick: () -> Unit,
     onUpgradeClick: () -> Unit,
 ) {
-    // TODO: hide the content when state is null to avoid showing the green progress for a split second while opening
-    //  the bottom sheet.
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -250,7 +296,7 @@ fun UnlockedButtonPreview() {
         ChangeServerButton(
             state = ChangeServerViewState.Unlocked,
             onChangeServerClick = { },
-            onLockedChangeServerClick = {},
+            onUpgradeButtonShown = {},
         )
     }
 }
@@ -262,7 +308,7 @@ fun LockedButtonPreview() {
         ChangeServerButton(
             state = ChangeServerViewState.Locked( 12, 20, true),
             onChangeServerClick = { },
-            onLockedChangeServerClick = {},
+            onUpgradeButtonShown = {},
         )
     }
 }
