@@ -39,6 +39,9 @@ fun RectF.relativePadding(paddingSizeRelative: Float) : RectF {
     return RectF(left - padding, top - padding, right + padding, bottom + padding)
 }
 
+fun RectF.withPadding(size: Float) =
+    RectF(left - size, top - size, left + size, top + size)
+
 fun Int.hasFlag(flag: Int) = this and flag == flag
 
 fun ByteArray.toHexString() = joinToString("") { "%02x".format(it) }

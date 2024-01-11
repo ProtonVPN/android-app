@@ -63,7 +63,7 @@ class TvMapRenderer(
     context: Context,
     val scope: CoroutineScope,
     val config: MapRendererConfig,
-    val bitmapCallback: (RenderedMap) -> Unit
+    val bitmapCallback: (RenderedMap, Long) -> Unit
 ) {
     class RenderTarget(w: Int, h: Int) {
         val map: Bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
@@ -87,11 +87,11 @@ class TvMapRenderer(
 
     private var renderJob: Job? = null
 
-    fun updateSize(w: Int, h: Int) {
+    fun updateSize(w: Int, h: Int, id: Long = 0) {
         if (renderTarget?.isSize(w, h) != true) {
             renderTarget = RenderTarget(w, h)
             scope.launch {
-                renderTarget?.render()
+                renderTarget?.render(id)
             }
         }
     }
@@ -102,7 +102,7 @@ class TvMapRenderer(
         CountryHighlight.CONNECTED -> toCssColor(config.connected)
     }
 
-    private suspend fun RenderTarget.render() {
+    private suspend fun RenderTarget.render(id: Long) {
         val regionToRender = mapRegion ?: return
 
         renderJob?.cancelAndJoin()
@@ -144,7 +144,7 @@ class TvMapRenderer(
                 outCanvas.drawBitmap(map, 0f, 0f, null)
                 val regionHeight = height / width * region.w
                 val regionRect = RectF(region.x, region.y, region.x + region.w, region.y + regionHeight)
-                bitmapCallback(RenderedMap(outMap, regionRect))
+                bitmapCallback(RenderedMap(outMap, regionRect), id)
             }
         }
         renderJob?.join()
@@ -152,7 +152,8 @@ class TvMapRenderer(
 
     fun update(
         newHighlights: List<CountryHighlightInfo>? = null,
-        newMapRegion: MapRegion? = null
+        newMapRegion: MapRegion? = null,
+        id: Long = 0L,
     ) {
         if ((newMapRegion != null && newMapRegion != mapRegion)
                 || (newHighlights != null && newHighlights != highlights)) {
@@ -161,7 +162,7 @@ class TvMapRenderer(
             if (newHighlights != null)
                 highlights = newHighlights
             scope.launch {
-                renderTarget?.render()
+                renderTarget?.render(id)
             }
         }
     }
