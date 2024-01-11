@@ -22,6 +22,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
+import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
@@ -78,6 +79,7 @@ class HomeViewModel @Inject constructor(
     private val upgradeTelemetry: UpgradeTelemetry,
     vpnStatusProviderUI: VpnStatusProviderUI,
     serverListUpdaterPrefs: ServerListUpdaterPrefs,
+    @ElapsedRealtimeClock val elapsedRealtimeClock: () -> Long,
 ) : ViewModel() {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {

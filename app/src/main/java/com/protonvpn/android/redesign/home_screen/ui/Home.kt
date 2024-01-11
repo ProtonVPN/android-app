@@ -157,7 +157,8 @@ fun HomeView(
                     bottom.linkTo(parent.bottom)
                 },
                 coroutineScope,
-                mapState
+                mapState,
+                viewModel.elapsedRealtimeClock,
             )
         }
         Spacer(
