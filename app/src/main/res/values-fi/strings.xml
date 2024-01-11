@@ -49,6 +49,7 @@
     <string name="showAllProfiles">Näytä kaikki profiilit</string>
     <string name="yes">Kyllä</string>
     <string name="no">Ei</string>
+    <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogContinue">Jatka</string>
     <string name="dialogLearnMore">Lue lisää</string>
@@ -101,6 +102,8 @@
     <string name="settingsSectionQuickConnect">Pikayhteys</string>
     <string name="settingsSectionConnection">Yhteys</string>
     <string name="settingsSectionSecurity">Tietoturva</string>
+    <!-- tag(Redesign_2023) Support section title in settings screen -->
+    <string name="settingsSectionSupport">Tuki</string>
     <string name="settingsSectionAdvanced">Lisäasetukset</string>
     <string name="settingsAutoStartTitle">Suorita Androidin käynnistyessä</string>
     <string name="settingsAutoStartDescription">Proton VPN käynnistyy automaattisesti aina kun laite käynnistyy</string>
@@ -330,22 +333,31 @@
     <string name="netShieldEnabledWarning">Huomioi, että jotkin verkkosivustot eivät välttämättä toimi sisällön eston seurauksena oikein.</string>
     <string name="netShieldDescription">Estä mainoksia, seurantoja ja haittaohjelmia</string>
     <string name="netshield_settings_description"><![CDATA[Suojaudu mainoksilta, haittaohjelmilta ja seurannoilta, verkkosivustoilla ja sovelluksissa. Jos sivustot eivät lataudu, kokeile poistaa NetShield käytöstä. <a href="%1$s">Lue lisää</a>]]></string>
+    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
+    <string name="learn_more">Lue lisää</string>
     <string name="netshield_status_on">Käytössä</string>
     <string name="netshield_status_off">Ei käytössä</string>
     <string name="netshield_free_title">Selaa mainosvapaasti NetShieldillä</string>
     <string name="netshield_free_description">Estä mainoksia, seurantoja ja haittaohjelmia verkkosivustoilla ja sovelluksissa</string>
     <string name="netshield_business_title">Estä mainoksia NetShieldillä</string>
     <string name="netshield_business_description">Päivittämällä VPN Business -tilaukseen</string>
+    <string name="netshield_what_data_means">Mitä NetShieldin tiedonsiirto tarkoittaa</string>
+    <string name="netshield_ads_title">Mainokset</string>
+    <string name="netshield_ads_details">Mainokset ja näkymättömät mainosseuraajat</string>
+    <string name="netshield_trackers_title">Seuraajat</string>
+    <string name="netshield_trackers_details">Evästeet ja muut seuraajat, jotka tallentavat ja jakavat tietoja internetin käytöstäsi</string>
+    <string name="netshield_data_title">Tiedonsiirto</string>
+    <string name="netshield_data_details">NetShieldin estämien ei-toivottujen mainosten, jäljittäjien ja haittaohjelmien tiedonsiirron määrä</string>
     <string name="accessibility_netshield_status_on_click">Avaa NetShieldin asetukset</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Mainos\nestetty</item>
-        <item quantity="other">Mainosta\nestetty</item>
+        <item quantity="one">Mainos estetty</item>
+        <item quantity="other">Mainosta estetty</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Seuranta\nestetty</item>
-        <item quantity="other">Seurantaa\nestetty</item>
+        <item quantity="one">Seuranta estetty</item>
+        <item quantity="other">Seurantaa estetty</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Tiedonsiirtoa\nsäästetty</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Tiedonsiirtoa säästetty</string>
     <string name="netShieldBlockMalwareOnly">Estä vain haittaohjelmia</string>
     <string name="netShieldFullBlock">Estä haittaohjelmia, seurantoja ja mainoksia</string>
     <string name="dialogDontShowAgain">Älä näytä uudelleen</string>
@@ -663,6 +675,13 @@
     <string name="not_wanted_country_title">Eikö tämä ole haluamasi maa?</string>
     <string name="not_wanted_country_description">Valitse mikä tahansa palvelin päivittämällä tilauksesi</string>
     <string name="whats_new_title">Mitä uutta</string>
+    <string name="whats_new_new_look_title">Uusi ilme, sama suojaus</string>
+    <string name="whats_new_new_look_description">We updated our designs and moved some things around to make the app easier to use.</string>
+    <string name="whats_new_recents_title">Introducing Recents</string>
+    <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
+    <string name="whats_new_dismiss_button">Take a look</string>
+    <string name="whats_new_added_countries_title">Uusia ilmaismaita</string>
+    <string name="whats_new_added_countries_description">Puolassa ja Romaniassa on nyt ilmaisia palvelimia. Palvelimien ruuhkautumisen estämiseksi poistimme manuaalisen maavalinnan käytöstä, ja teimme merkittäviä parannuksia automaattiseen palvelinvalintaan.</string>
     <string name="welcome_plus_title">Tervetluoa VPN Plus -tilaukseen</string>
     <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja seuraavan tason VPN-mukautuksesta.</string>
     <string name="welcome_plus_feature_security">Edistyneet suojausominaisuudet</string>
@@ -710,6 +729,409 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">ulkoinen linkki</string>
+    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when expanded.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" with this state description will be read by a screen reader as:
+         "Expanded. Recents"
+     -->
+    <string name="accessibility_expandable_state_expanded">laajennettu</string>
+    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" with this state description will be read by a screen reader as:
+         "Collapsed. Recents"
+     -->
+    <string name="accessibility_expandable_state_collapsed">pienennetty</string>
+    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" on an expanded element with state "expanded" this action label will be
+         read by a screen reader as:
+         "Expanded. Recents. Double tap to collapse"
+     -->
+    <string name="accessibility_expandable_action_collapse">piennennä</string>
+    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" on an expanded element with state "collapsed" and this action label will
+         be read by a screen reader as:
+         "Collapsed. Recents. Double tap to expand"
+     -->
+    <string name="accessibility_expandable_action_expand">laajenna</string>
     <string name="no_logs_banner_title">Sertifioitu ei-lokeja VPN</string>
     <string name="no_logs_banner_description">VPN-toimintasi on suojattu Sveitsin tietosuojalaeilla. Emme koskaan seuraa sinua verkossa tai jaa tietojasi kolmansille osapuolille.</string>
+    <!-- tag(Redesign_2023) Bottom bar label for home screen -->
+    <string name="bottom_nav_home">Koti</string>
+    <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
+    <string name="bottom_nav_countries">Maat</string>
+    <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
+    <string name="botton_nav_settings">Asetukset</string>
+    <!-- tag(Redesign_2023)
+         Text added to button labels that open a UI element (e.g. a panel).
+         Only used by accessibility services.
+         Example:
+         a button with label "connection details" and this action label will be read by a screen
+         reader as:
+         "Connection details, button. Double tap to open"
+    -->
+    <string name="accessibility_action_open">avaa</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that initiate a VPN connection.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland will be read by a screen reader as:
+         "Switzerland. Double tap to connect"
+        -->
+    <string name="accessibility_action_connect">yhdistä</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that redirect the user to upgrade their subscription plan.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland that requires upgrading subscription to become
+         available will be read by a screen reader as:
+         "Unavailable, Switzerland. Double tap to upgrade"
+        -->
+    <string name="accessibility_action_upgrade">päivitä</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable because servers
+         are in maintenance.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are in maintenance will be read by a
+         screen reader as:
+         "in maintenance, Switzerland"
+     -->
+    <string name="accessibility_item_in_maintenance">huollossa</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are unavailable will be read by a screen
+         reader as:
+         "unavailable, Switzerland"
+     -->
+    <string name="accessibility_item_unavailable">ei saatavilla</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when there is active connection to it.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland when there is a VPN connection to a server in this country
+         will be read by a screen reader as:
+         "Switzerland, connected"
+     -->
+    <string name="accessibility_item_connected">yhdistetty</string>
+    <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
+    <string name="server_feature_label_p2p">P2P</string>
+    <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
+    <string name="server_feature_label_tor">Tor</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
+    <string name="fastest_country">Nopein maa</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Iceland
+     -->
+    <string name="connection_info_secure_core_full_iceland">%1$s Islannin kautta</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Sweden
+     -->
+    <string name="connection_info_secure_core_full_sweden">%1$s Ruotsin kautta</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_switzerland">%1$s Sveitsin kautta</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - exit country name in nominative case
+         %2$s - entry country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_iceland">Islannin kautta</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_sweden">Ruotsin kautta</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_switzerland">Sveitsin kautta</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - entry country name in nominative case
+         Example: via Switzerland
+    -->
+    <string name="connection_info_secure_core_entry_other">via %1$s</string>
+    <!-- tag(Redesign_2023)
+         Help button above the connection card.
+     -->
+    <string name="connection_card_help">Apua</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         the recommended one.
+
+         Example:
+         Recommended
+         Switzerland, Zurich
+         or
+         Recommended
+         Fastest country
+     -->
+    <string name="connection_card_label_recommended">Suositus</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         are that of the previous connection.
+
+         Example:
+         Last connected to
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         -->
+    <string name="connection_card_label_last_connected">Edellinen yhteys</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is being established.
+     -->
+    <string name="connection_card_label_connecting">Yhdistetään palvelimeen…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is established and the user
+         is safely browsing as if they were in the location indicated in the connection card.
+
+         Example:
+         Browsing safely from
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         Germany
+     -->
+    <string name="connection_card_label_connected">Browsing safely from</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with details of the current VPN connection.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "connection details, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_details">yhteyden tiedot</string>
+    <!-- tag(Redesign_2023)
+         Displayed above the list of recently made connections.
+     -->
+    <string name="recents_headline">Viimeisimmät</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_pin">Kiinnitä</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_unpin">Irrota</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_remove">Poista</string>
+    <!-- tag(Redesign_2023)
+         State description of a pinned recent item.
+         Only used by accessibility service.
+    -->
+    <string name="recent_action_accessibility_state_pinned">Kiinnitetty</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_country_servers_in_maintenance">Kaikki palvelimet tässä maassa ovat huollossa</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_city_servers_in_maintenance">Kaikki palvelimet tässä kaupungissa ovat huollossa</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_in_maintenance">Palvelin on huollossa</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_not_available">Palvelin ei ole käytettävissä</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
+    <string name="message_gateway_in_maintenance">Yhdyskäytävä on huollossa</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out">Kirjaudu ulos</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_title">Asetukset</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_features">Ominaisuudet</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_netshield_title">NetShield</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_split_tunneling_title">Jaettu tunnelointi</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_kill_switch_title">Tappokytkin</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_connection_category">Yhteys</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_protocol_title">Protokolla</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_advanced_settings_title">Edistyneet asetukset</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_general">Yleiset</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_account">Tili</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_notifications_title">Ilmoitukset</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_theme_title">Teema</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_beta_access_title">Beta Access</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_widget_title">Widget</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_support">Tuki</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_help_center_title">Tukikeskus</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_report_issue_title">Ilmoita ongelmasta</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_debug_logs_title">Virheenselvityslokit</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_improve_proton">Paranna Protonia</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_fight_censorship_title">Auta meitä taistelemaan sensuuria vastaan</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_rate_us_title">Arvostele Proton VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_restore_defaults_title">Palauta oletusasetukset</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out_title">Kirjaudu ulos</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_app_version">Sovelluksen versio: %1$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_third_party_licenses">Kolmansien osapuolten lisenssit</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_title">Kirjaudutaanko ulos?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_message">VPN-yhteytesi katkaistaan.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_dont_ask_again">Älä kysy uudelleen</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_action">Kirjaudu ulos</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_action_cancel">Peruuta</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is connected and network is protected
+    -->
+    <string name="vpn_status_connected">Suojattu</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is not connected and network is not protected
+    -->
+    <string name="vpn_status_disabled">Sinua ei ole suojattu</string>
+    <!-- tag(Redesign_2023)
+         Text is shown while connection is being established
+    -->
+    <string name="vpn_status_connecting">Digitaalisen identiteettisi suojaaminen</string>
+    <!-- tag(Redesign_2023)
+         Displays Country name and IP of user if he is not connected.
+         First parameter is country, second is IP.
+         Ex: Poland - 192.1.1.1.1
+    -->
+    <string name="vpn_status_disabled_location">%1$s - %2$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_subtitle">Yhteyden tiedot</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_show_ip">Näytä IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_back">Takaisin</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_my_ip">Minun IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_ip">VPN:n IP-osoite</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+    -->
+    <string name="connection_details_connected_for">Connected for</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server">Pavelin</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_gateway">Yhdyskäytävä</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_country">Maa</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_city">Kaupunki</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
+    -->
+    <string name="connection_details_server_load">Palvelimen kuormitus</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_question">Mitä on palvelimen kuormitus?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_description">Palvelimen kuormitus osoittaa, kuinka lähellä palvelin on sen enimmäiskapasiteettia. \n\nPalvelimen korkea kuormitus voi hidastaa yhteyttäsi.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_title">Matala (1-75 %)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_description">Salamannopea</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_title">Keskitasoinen (76-90 %)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_description">Ei todennäköisesti vaikuta VPN:n nopeuteen</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_title">Korkea (91-100 %)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_description">VPN voi olla normaalia hitaampi </string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol">Protokolla</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol_description">Protokolla on joukko ohjeita, joita laitteesi noudattaa palvelimeen yhdistämisessä ja sen kanssa kommunikoidessa.</string>
+    <!-- tag(Redesign_2023)
+         Label in front of upload speed in connection details. It is followed by upload speed number and unit.
+    -->
+    <string name="connection_details_upload">Lähetys</string>
+    <!-- tag(Redesign_2023)
+         Label in front of download speed in connection details. It is followed by download speed number and unit.
+    -->
+    <string name="connection_details_download">Lataus</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_section_vpn_speed">VPN:n nopeus</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_question">Mikä on VPN:n nopeus?</string>
+    <!-- tag(Redesign_2023)
+         Used for button title to learn more about different contexts
+    -->
+    <string name="connection_details_learn_more">Lue lisää</string>
+    <!-- tag(Redesign_2023)
+        Used to describe IP which is not known
+    -->
+    <string name="connection_details_unknown_ip">Tuntematon</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_description">Tämä kaavio näyttää nykyisen lähetys- ja lataustoimintasi nopeuden. VPN-yhteytesi ei todennäköisesti hidasta normaalia verkkotoimintaa.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_bits_per_second">%1$s t/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_kb_per_second">%1$s kt/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_mb_per_second">%1$s Mt/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_gb_per_second">%1$s Gt/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_tb_per_second">%1$s Tt/s</string>
+    <!-- tag(Redesign_2023)
+         Shown at the top status view if app detects that there is no usable network to connect to VPN
+    -->
+    <string name="error_vpn_waiting_for_network">Odotetaan verkkoa</string>
+    <!-- tag(Redesign_2023) -->
+    <plurals name="connection_details_days">
+        <item quantity="one">%1$d päivä</item>
+        <item quantity="other">%1$d päivää</item>
+    </plurals>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_hours_shortened">%1$d t</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_seconds_shortened">%1$d s</string>
 </resources>

@@ -49,6 +49,7 @@
     <string name="showAllProfiles">Afișare toate profilele</string>
     <string name="yes">Da</string>
     <string name="no">Nu</string>
+    <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogContinue">Continuare</string>
     <string name="dialogLearnMore">Detalii</string>
@@ -101,6 +102,8 @@
     <string name="settingsSectionQuickConnect">Conectare rapidă</string>
     <string name="settingsSectionConnection">Conexiune</string>
     <string name="settingsSectionSecurity">Securitate</string>
+    <!-- tag(Redesign_2023) Support section title in settings screen -->
+    <string name="settingsSectionSupport">Asistență</string>
     <string name="settingsSectionAdvanced">Avansat</string>
     <string name="settingsAutoStartTitle">Pornire cu Android</string>
     <string name="settingsAutoStartDescription">Proton VPN va porni automat cu fiecare pornire a sistemului</string>
@@ -331,24 +334,33 @@
     <string name="netShieldEnabledWarning">Rețineți că unele site-uri nu funcționeză complet datorită conținutului blocat.</string>
     <string name="netShieldDescription">Blochează reclame, urmăritori și malware </string>
     <string name="netshield_settings_description"><![CDATA[Protejați-vă de reclame, programe malițioase și urmărirea de pe paginile web și din aplicații. Dacă paginile web nu se încarcă, încercați cu NetShield dezactivat. <a href="%1$s">Detalii</a>.]]></string>
+    <string name="netshield_settings_description_not_html">Protejați-vă de reclame, programe malițioase și urmărirea de pe paginile web și din aplicații. Dacă paginile web nu se încarcă, încercați cu NetShield dezactivat. %1$s.</string>
+    <string name="learn_more">Detalii</string>
     <string name="netshield_status_on">Pornit</string>
     <string name="netshield_status_off">Oprit</string>
     <string name="netshield_free_title">Navigați fără reclame cu NetShield</string>
     <string name="netshield_free_description">Blocați reclame, urmăritori și malware pe pagini web și aplicații</string>
     <string name="netshield_business_title">Blocare reclame cu NetShield</string>
     <string name="netshield_business_description">Dacă treceți la VPN Business</string>
+    <string name="netshield_what_data_means">Ce înseamnă datele NetShield</string>
+    <string name="netshield_ads_title">Reclame</string>
+    <string name="netshield_ads_details">Reclame și instrumente invizibile de urmărire</string>
+    <string name="netshield_trackers_title">Instrumente de urmărire</string>
+    <string name="netshield_trackers_details">Cookie-uri și alte instrumente de urmărire care stochează și partajează informații despre activitatea dvs. pe internet.</string>
+    <string name="netshield_data_title">Date</string>
+    <string name="netshield_data_details">Cantitatea de date nedorite din reclame, instrumente de urmărire și programe malware blocate de NetShield.</string>
     <string name="accessibility_netshield_status_on_click">Introduceți setările NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">reclamă\nblocată</item>
-        <item quantity="few">reclame\nblocate</item>
-        <item quantity="other">reclame\nblocate</item>
+        <item quantity="one">Reclamă blocată</item>
+        <item quantity="few">Reclame blocate</item>
+        <item quantity="other">Reclame blocate</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">urmăritor\noprit</item>
-        <item quantity="few">urmăritori\nopriți</item>
-        <item quantity="other">urmăritori\nopriți</item>
+        <item quantity="one">Urmăritor oprit</item>
+        <item quantity="few">Urmăritori opriți</item>
+        <item quantity="other">Urmăritori opriți</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Date\nsalvate</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Date salvate</string>
     <string name="netShieldBlockMalwareOnly">Blocare doar malware</string>
     <string name="netShieldFullBlock">Blocare malware, reclame și instrumente de urmărire</string>
     <string name="dialogDontShowAgain">Nu mai arăta</string>
@@ -676,6 +688,13 @@
     <string name="not_wanted_country_title">Nu este țara pe care o doriți?</string>
     <string name="not_wanted_country_description">Schimbați planul abonamentului pentru alege orice server</string>
     <string name="whats_new_title">Ce este nou</string>
+    <string name="whats_new_new_look_title">Un aspect nou, aceeași protecție.</string>
+    <string name="whats_new_new_look_description">Am modificat interfața și am mutat unele elemente pentru a face aplicația mai ușor de utilizat.</string>
+    <string name="whats_new_recents_title">Vă prezentăm funcția „Recente”</string>
+    <string name="whats_new_recents_description">Acum este și mai ușor să vă reconectați la serverele preferate. Vizualizați cele mai recente conexiuni pe ecranul de pornire sau fixați-le pentru accesare rapidă. Funcția „Recente” înlocuiește „Profiluri”.</string>
+    <string name="whats_new_dismiss_button">Aruncați o privire</string>
+    <string name="whats_new_added_countries_title">Țări noi gratuite</string>
+    <string name="whats_new_added_countries_description">Acum există servere gratuite în Polonia și România. Pentru a preveni aglomerarea serverelor, am eliminat selecția manuală a țării și am adus îmbunătățiri majore selecției automate a serverului.</string>
     <string name="welcome_plus_title">Bun venit la VPN Plus</string>
     <string name="welcome_plus_description">Bucurați-vă de funcții suplimentare de confidențialitate, performanță îmbunătățită și personalizare VPN la nivelul următor.</string>
     <string name="welcome_plus_feature_security">Funcții avansate de securitate</string>
@@ -726,6 +745,410 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">legătură externă</string>
+    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when expanded.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" with this state description will be read by a screen reader as:
+         "Expanded. Recents"
+     -->
+    <string name="accessibility_expandable_state_expanded">extins</string>
+    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" with this state description will be read by a screen reader as:
+         "Collapsed. Recents"
+     -->
+    <string name="accessibility_expandable_state_collapsed">restrâns</string>
+    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" on an expanded element with state "expanded" this action label will be
+         read by a screen reader as:
+         "Expanded. Recents. Double tap to collapse"
+     -->
+    <string name="accessibility_expandable_action_collapse">restrângere</string>
+    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" on an expanded element with state "collapsed" and this action label will
+         be read by a screen reader as:
+         "Collapsed. Recents. Double tap to expand"
+     -->
+    <string name="accessibility_expandable_action_expand">extindere</string>
     <string name="no_logs_banner_title">VPN certificat fără jurnalizare</string>
     <string name="no_logs_banner_description">Activitatea prin VPN vă este protejată de legile elvețiene privind confidențialitatea. Nu vă vom urmări niciodată online și nu vă vom partaja informațiile cu terțe părți.</string>
+    <!-- tag(Redesign_2023) Bottom bar label for home screen -->
+    <string name="bottom_nav_home">Început</string>
+    <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
+    <string name="bottom_nav_countries">Țări</string>
+    <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
+    <string name="botton_nav_settings">Setări</string>
+    <!-- tag(Redesign_2023)
+         Text added to button labels that open a UI element (e.g. a panel).
+         Only used by accessibility services.
+         Example:
+         a button with label "connection details" and this action label will be read by a screen
+         reader as:
+         "Connection details, button. Double tap to open"
+    -->
+    <string name="accessibility_action_open">deschidere</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that initiate a VPN connection.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland will be read by a screen reader as:
+         "Switzerland. Double tap to connect"
+        -->
+    <string name="accessibility_action_connect">conectare</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that redirect the user to upgrade their subscription plan.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland that requires upgrading subscription to become
+         available will be read by a screen reader as:
+         "Unavailable, Switzerland. Double tap to upgrade"
+        -->
+    <string name="accessibility_action_upgrade">modificare</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable because servers
+         are in maintenance.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are in maintenance will be read by a
+         screen reader as:
+         "in maintenance, Switzerland"
+     -->
+    <string name="accessibility_item_in_maintenance">în mentenanță</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are unavailable will be read by a screen
+         reader as:
+         "unavailable, Switzerland"
+     -->
+    <string name="accessibility_item_unavailable">indisponibil</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when there is active connection to it.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland when there is a VPN connection to a server in this country
+         will be read by a screen reader as:
+         "Switzerland, connected"
+     -->
+    <string name="accessibility_item_connected">conectat</string>
+    <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
+    <string name="server_feature_label_p2p">P2P</string>
+    <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
+    <string name="server_feature_label_tor">Tor</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
+    <string name="fastest_country">Cea mai rapidă țară</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Iceland
+     -->
+    <string name="connection_info_secure_core_full_iceland">%1$s via Islanda</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Sweden
+     -->
+    <string name="connection_info_secure_core_full_sweden">%1$s via Suedia</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_switzerland">%1$s via Elveția</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - exit country name in nominative case
+         %2$s - entry country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_iceland">via Islanda</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_sweden">via Suedia</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_switzerland">prin Elveția</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - entry country name in nominative case
+         Example: via Switzerland
+    -->
+    <string name="connection_info_secure_core_entry_other">via %1$s</string>
+    <!-- tag(Redesign_2023)
+         Help button above the connection card.
+     -->
+    <string name="connection_card_help">Ajutor</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         the recommended one.
+
+         Example:
+         Recommended
+         Switzerland, Zurich
+         or
+         Recommended
+         Fastest country
+     -->
+    <string name="connection_card_label_recommended">Recomandat</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         are that of the previous connection.
+
+         Example:
+         Last connected to
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         -->
+    <string name="connection_card_label_last_connected">Ultima conexiune la</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is being established.
+     -->
+    <string name="connection_card_label_connecting">Se conectează la…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is established and the user
+         is safely browsing as if they were in the location indicated in the connection card.
+
+         Example:
+         Browsing safely from
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         Germany
+     -->
+    <string name="connection_card_label_connected">Navigare sigură prin</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with details of the current VPN connection.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "connection details, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_details">detalii conexiune</string>
+    <!-- tag(Redesign_2023)
+         Displayed above the list of recently made connections.
+     -->
+    <string name="recents_headline">Recente</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_pin">Fixare</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_unpin">Anulare fixare</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_remove">Eliminare</string>
+    <!-- tag(Redesign_2023)
+         State description of a pinned recent item.
+         Only used by accessibility service.
+    -->
+    <string name="recent_action_accessibility_state_pinned">Fixat</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_country_servers_in_maintenance">Toate serverele din această țară sunt în mentenanță.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_city_servers_in_maintenance">Toate serverele din acest oraș sunt în mentenanță.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_in_maintenance">Servere în întreținere</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_not_available">Serverul nu este disponibil</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
+    <string name="message_gateway_in_maintenance">Poartă de acces în mentenanță</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out">Deconectare</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_title">Setări</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_features">Funcții</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_netshield_title">NetShield</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_split_tunneling_title">Divizare trafic</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_kill_switch_title">Blocare conexiune</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_connection_category">Conexiune</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_protocol_title">Protocol</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_advanced_settings_title">Setări Avansate</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_general">Generale</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_account">Cont</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_notifications_title">Notificări</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_theme_title">Tema</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_beta_access_title">Acces la Beta</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_widget_title">Widget</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_support">Asistență</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_help_center_title">Centru de ajutor</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_report_issue_title">Raportare o problemă</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_debug_logs_title">Jurnal depanare</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_improve_proton">Îmbunătățire Proton</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_fight_censorship_title">Ajutați-ne să luptăm cu cenzura</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_rate_us_title">Evaluați Proton VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_restore_defaults_title">Restaurare setări implicite</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out_title">Deconectare</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_app_version">Versiune aplicație: %1$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_third_party_licenses">Licențe terțe</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_title">Deconectare?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_message">Se va întrerupe conexiunea prin VPN.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_dont_ask_again">Nu mă mai întreba</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_action">Deconectare</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_action_cancel">Anulare</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is connected and network is protected
+    -->
+    <string name="vpn_status_connected">Protejat</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is not connected and network is not protected
+    -->
+    <string name="vpn_status_disabled">Nu există protecție</string>
+    <!-- tag(Redesign_2023)
+         Text is shown while connection is being established
+    -->
+    <string name="vpn_status_connecting">Protejare identitate digitală</string>
+    <!-- tag(Redesign_2023)
+         Displays Country name and IP of user if he is not connected.
+         First parameter is country, second is IP.
+         Ex: Poland - 192.1.1.1.1
+    -->
+    <string name="vpn_status_disabled_location">%1$s - %2$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_subtitle">Detalii conexiune</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_show_ip">Afișare IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_back">Înapoi</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_my_ip">IP personal</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_ip">IP VPN</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+    -->
+    <string name="connection_details_connected_for">Conectat timp de</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server">Server</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_gateway">Poartă de acces</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_country">Țara</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_city">Oraș</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
+    -->
+    <string name="connection_details_server_load">Solicitare server</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_question">Care este solicitarea serverului?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_description">Încărcarea serverului arată cât de aproape este un server de capacitatea sa maximă. \n\nO sarcină mare a serverului vă poate încetini conexiunea.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_title">Mică (1-75%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_description">Viteză foarte mare</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_title">Medie (76-90%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_description">Improbabil să afecteze viteza prin VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_title">Mare (91-100%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_description">Viteza prin VPN e mai redusă decât normal</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol">Protocol</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol_description">Un protocol este un set de instrucțiuni pe care dispozitivul personal urmează să se conecteze și să comunice cu un server.</string>
+    <!-- tag(Redesign_2023)
+         Label in front of upload speed in connection details. It is followed by upload speed number and unit.
+    -->
+    <string name="connection_details_upload">Încărcare</string>
+    <!-- tag(Redesign_2023)
+         Label in front of download speed in connection details. It is followed by download speed number and unit.
+    -->
+    <string name="connection_details_download">Descărcare</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_section_vpn_speed">Viteză VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_question">Care este viteza prin VPN?</string>
+    <!-- tag(Redesign_2023)
+         Used for button title to learn more about different contexts
+    -->
+    <string name="connection_details_learn_more">Detalii</string>
+    <!-- tag(Redesign_2023)
+        Used to describe IP which is not known
+    -->
+    <string name="connection_details_unknown_ip">Necunoscut</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_description">Acest grafic arată viteza activității curente de încărcare și descărcare. Conexiunea prin VPN nu ar trebui să vă încetinească activitatea normală online.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_bits_per_second">%1$s b/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_kb_per_second">%1$s Kb/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_mb_per_second">%1$s Mb/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_gb_per_second">%1$s Gb/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_tb_per_second">%1$s Tb/s</string>
+    <!-- tag(Redesign_2023)
+         Shown at the top status view if app detects that there is no usable network to connect to VPN
+    -->
+    <string name="error_vpn_waiting_for_network">Se așteaptă rețeaua</string>
+    <!-- tag(Redesign_2023) -->
+    <plurals name="connection_details_days">
+        <item quantity="one">%1$d zi</item>
+        <item quantity="few">%1$d zile</item>
+        <item quantity="other">%1$d de zile</item>
+    </plurals>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_hours_shortened">%1$d h</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_seconds_shortened">%1$d sec</string>
 </resources>

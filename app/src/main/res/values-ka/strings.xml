@@ -49,6 +49,7 @@
     <string name="showAllProfiles">ყველა პროფილის ჩვენება</string>
     <string name="yes">დიახ</string>
     <string name="no">არა</string>
+    <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">დიახ</string>
     <string name="dialogContinue">გაგრძელება</string>
     <string name="dialogLearnMore">გაიგეთ მეტი</string>
@@ -101,6 +102,8 @@
     <string name="settingsSectionQuickConnect">სწრაფი მიერთება</string>
     <string name="settingsSectionConnection">კავშირი</string>
     <string name="settingsSectionSecurity">უსაფრთხოება</string>
+    <!-- tag(Redesign_2023) Support section title in settings screen -->
+    <string name="settingsSectionSupport">მხარდაჭერა</string>
     <string name="settingsSectionAdvanced">დამატებით</string>
     <string name="settingsAutoStartTitle">Android-თან ერთად გაშვება</string>
     <string name="settingsAutoStartDescription">Proton VPN სისტემასთან ერთად გაეშვება ხოლმე</string>
@@ -330,22 +333,31 @@
     <string name="netShieldEnabledWarning">დაბლოკილი შემცველობის გამო ზოგიერთმა საიტმა შეიძლება, არ იმუშაოს.</string>
     <string name="netShieldDescription">დაბლოკეთ რეკლამები, ტრეკერები და არასასურველი პროგრამები </string>
     <string name="netshield_settings_description"><![CDATA[დაიცავით თავი რეკლამებისგან, ბოროტი პროგრამებისგან და ტრეკერებისგან, რომლებიც ვებგვერდებზე და აპებშია ჩაშენებული. თუ ვვებგვერდი არ იტვირთება, სცადეთ, NetSheld-ი გამორთოთ. <a href="%1$s">გაიგეთ მეტი</a>.]]></string>
+    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
+    <string name="learn_more">გაიგეთ მეტი</string>
     <string name="netshield_status_on">ჩართ</string>
     <string name="netshield_status_off">გამორთ</string>
     <string name="netshield_free_title">იმუშავეთ ინტერნეტში რეკლამების გარეშე NetShield-თან ერთად</string>
     <string name="netshield_free_description">დაბლოკეთ რეკლამები, ტრეკერები და საზიანო პროგრამები ვებგვერდებზე და აპებში</string>
     <string name="netshield_business_title">დაბლოკეთ რეკლამები NetShield-ით</string>
     <string name="netshield_business_description">როცა ტარიფს VPN Business-ზე აწევთ</string>
+    <string name="netshield_what_data_means">What NetShield data means</string>
+    <string name="netshield_ads_title">რეკლამა</string>
+    <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
+    <string name="netshield_trackers_title">ტრეკერები</string>
+    <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
+    <string name="netshield_data_title">მონაცემები</string>
+    <string name="netshield_data_details">The amount of unwanted data from ads, trackers, and malware blocked by NetShield</string>
     <string name="accessibility_netshield_status_on_click">NetShield-ის პარამეტრებზე გადასვლა</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">რეკლამა\nდაიბლოკა</item>
-        <item quantity="other">რეკლამა\nდაიბლოკა</item>
+        <item quantity="one">რეკლამა ბლოკირებულია</item>
+        <item quantity="other">რეკლამა ბლოკირებულია</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">ტრეკერი\nშეჩერებულია</item>
-        <item quantity="other">ტრეკერი\nშეჩერებულია</item>
+        <item quantity="one">შეჩერებული ტრეკერი</item>
+        <item quantity="other">შეჩერებული ტრეკერი</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">მინაცემები\nშენახულია</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">მინაცემები შენახულია</string>
     <string name="netShieldBlockMalwareOnly">მხოლოდ malware-ის დაბლოკვა</string>
     <string name="netShieldFullBlock">დაბლოკეთ მავნე პროგრამები, ტრეკერები და რეკლამა</string>
     <string name="dialogDontShowAgain">აღარ მაჩვენო</string>
@@ -663,6 +675,13 @@
     <string name="not_wanted_country_title">ის ქვეყანა არაა, რომელიც გნებავდათ?</string>
     <string name="not_wanted_country_description">ასწიეთ ტრაფიკი ნებისმიერი სერვერის ასარჩევად</string>
     <string name="whats_new_title">სიახლეები</string>
+    <string name="whats_new_new_look_title">ახალი გარეგნობა, იგივე დაცვა</string>
+    <string name="whats_new_new_look_description">We updated our designs and moved some things around to make the app easier to use.</string>
+    <string name="whats_new_recents_title">Introducing Recents</string>
+    <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
+    <string name="whats_new_dismiss_button">შეხედვა</string>
+    <string name="whats_new_added_countries_title">ახალი უფასო ქვეყნები</string>
+    <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
     <string name="welcome_plus_title">მოგესალმებათ VPN Plus</string>
     <string name="welcome_plus_description">ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით, ჩქაროსნული წარმადობით და შემდეგ დონეზე აყვანილი VPN-ის მორგებით.</string>
     <string name="welcome_plus_feature_security">დამატებითი უსაფრთხოების ფუნქციები</string>
@@ -710,6 +729,409 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">გარე ბმული</string>
+    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when expanded.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" with this state description will be read by a screen reader as:
+         "Expanded. Recents"
+     -->
+    <string name="accessibility_expandable_state_expanded">გაშლილი</string>
+    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" with this state description will be read by a screen reader as:
+         "Collapsed. Recents"
+     -->
+    <string name="accessibility_expandable_state_collapsed">ჩაკეცილია</string>
+    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" on an expanded element with state "expanded" this action label will be
+         read by a screen reader as:
+         "Expanded. Recents. Double tap to collapse"
+     -->
+    <string name="accessibility_expandable_action_collapse">ჩაკეცვა</string>
+    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" on an expanded element with state "collapsed" and this action label will
+         be read by a screen reader as:
+         "Collapsed. Recents. Double tap to expand"
+     -->
+    <string name="accessibility_expandable_action_expand">ამოკეცვა</string>
     <string name="no_logs_banner_title">სერტიფიცირებული VPN ჟურნალის გარეშე</string>
     <string name="no_logs_banner_description">თქვენი VPN აქტივობა დაცულია შვეიცარიის კონფიდენციალობის კანონებით. ჩვენ არასდროს გტრეკავთ ინტერნეტში ან ვუზიარებთ თქვენს ინფორმაციას მესამე პირებს.</string>
+    <!-- tag(Redesign_2023) Bottom bar label for home screen -->
+    <string name="bottom_nav_home">მთავარი</string>
+    <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
+    <string name="bottom_nav_countries">ქვეყნები</string>
+    <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
+    <string name="botton_nav_settings">მორგება</string>
+    <!-- tag(Redesign_2023)
+         Text added to button labels that open a UI element (e.g. a panel).
+         Only used by accessibility services.
+         Example:
+         a button with label "connection details" and this action label will be read by a screen
+         reader as:
+         "Connection details, button. Double tap to open"
+    -->
+    <string name="accessibility_action_open">გახსნა</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that initiate a VPN connection.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland will be read by a screen reader as:
+         "Switzerland. Double tap to connect"
+        -->
+    <string name="accessibility_action_connect">დაკავშირება</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that redirect the user to upgrade their subscription plan.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland that requires upgrading subscription to become
+         available will be read by a screen reader as:
+         "Unavailable, Switzerland. Double tap to upgrade"
+        -->
+    <string name="accessibility_action_upgrade">ტარიფის აწევა</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable because servers
+         are in maintenance.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are in maintenance will be read by a
+         screen reader as:
+         "in maintenance, Switzerland"
+     -->
+    <string name="accessibility_item_in_maintenance">შესაკეთებლადაა</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are unavailable will be read by a screen
+         reader as:
+         "unavailable, Switzerland"
+     -->
+    <string name="accessibility_item_unavailable">ხელმიუწვდომელია</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when there is active connection to it.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland when there is a VPN connection to a server in this country
+         will be read by a screen reader as:
+         "Switzerland, connected"
+     -->
+    <string name="accessibility_item_connected">დაკავშირებულია</string>
+    <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
+    <string name="server_feature_label_p2p">P2P</string>
+    <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
+    <string name="server_feature_label_tor">Tor</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
+    <string name="fastest_country">უსწრაფესი ქვეყანა</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Iceland
+     -->
+    <string name="connection_info_secure_core_full_iceland">%1$s ისლანდიის გავლით</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Sweden
+     -->
+    <string name="connection_info_secure_core_full_sweden">%1$s შვეიცარიის გავლით</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_switzerland">%1$s შვეიცარიის გავლით</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - exit country name in nominative case
+         %2$s - entry country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_other">%1$s %2$s-ის გავლით</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_iceland">ისლანდიის გავლით</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_sweden">შვეიცარიის გავლით</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_switzerland">შვეიცარიის გავლით</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - entry country name in nominative case
+         Example: via Switzerland
+    -->
+    <string name="connection_info_secure_core_entry_other">%1$s-ის გავლით</string>
+    <!-- tag(Redesign_2023)
+         Help button above the connection card.
+     -->
+    <string name="connection_card_help">დახმარება</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         the recommended one.
+
+         Example:
+         Recommended
+         Switzerland, Zurich
+         or
+         Recommended
+         Fastest country
+     -->
+    <string name="connection_card_label_recommended">რეკომენდებულია</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         are that of the previous connection.
+
+         Example:
+         Last connected to
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         -->
+    <string name="connection_card_label_last_connected">ბოლოს მიუერთდით</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is being established.
+     -->
+    <string name="connection_card_label_connecting">დაკავშირება…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is established and the user
+         is safely browsing as if they were in the location indicated in the connection card.
+
+         Example:
+         Browsing safely from
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         Germany
+     -->
+    <string name="connection_card_label_connected">მუშაობთ ინტერნეტში უსაფრთხოდ ქვეყნიდან</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with details of the current VPN connection.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "connection details, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_details">მიერთების დეტალები</string>
+    <!-- tag(Redesign_2023)
+         Displayed above the list of recently made connections.
+     -->
+    <string name="recents_headline">ახლახან გამოყენებულები</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_pin">მიმაგრება</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_unpin">მოხსნა</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_remove">წაშლა</string>
+    <!-- tag(Redesign_2023)
+         State description of a pinned recent item.
+         Only used by accessibility service.
+    -->
+    <string name="recent_action_accessibility_state_pinned">მიმაგრებული</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_country_servers_in_maintenance">ამ ქვეყანაში ყველა სერვერი ტექმომსახურებაზეა</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_city_servers_in_maintenance">ამ ქალაქში ყველა სერვერი ტექმომსახურებაზეა</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_in_maintenance">სერვერი ტექმომსახურებაშია</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_not_available">სერვერი მიუწვდომელია</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
+    <string name="message_gateway_in_maintenance">რაუტერი ტექმომსახურებაშია</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out">გასვლა</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_title">მორგება</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_features">ფუნქციები</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_netshield_title">NetShield</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_split_tunneling_title">Split Tunneling</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_kill_switch_title">Kill switch</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_connection_category">კავშირი</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_protocol_title">პროტოკოლი</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_advanced_settings_title">დამატებიტი პარამეტრები</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_general">ზოგადი</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_account">ანგარიში</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_notifications_title">გაფრთხილებები</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_theme_title">თემა</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_beta_access_title">წვდომა ბეტა ვერსიებზე</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_widget_title">ვიჯეტი</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_support">მხარდაჭერა</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_help_center_title">დახმარების ცენტრი</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_report_issue_title">პრობლემის ანგარიშის გადაგზავნა</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_debug_logs_title">გამართვის ჟურნალი</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_improve_proton">გააუმჯობესეთ Proton</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_fight_censorship_title">დაგვეხმარეთ, ვებრძოლოთ ცენზურას</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_rate_us_title">შეაფასეთ Proton VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_restore_defaults_title">ნაგულისხმევი პარამეტრების აღდგენა</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out_title">გასვლა</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_app_version">აპის ვერსია: %1$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_third_party_licenses">მესამე პირების ლიცენზიები</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_title">გახვალთ?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_message">VPN გაითიშება.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_dont_ask_again">აღარ მკითხო</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_action">გასვლა</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_action_cancel">გაუქმება</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is connected and network is protected
+    -->
+    <string name="vpn_status_connected">დაცულია</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is not connected and network is not protected
+    -->
+    <string name="vpn_status_disabled">დაცული არ ბრძანდებით</string>
+    <!-- tag(Redesign_2023)
+         Text is shown while connection is being established
+    -->
+    <string name="vpn_status_connecting">ვიცავთ თქვენს ციფრულ მონაცემებს</string>
+    <!-- tag(Redesign_2023)
+         Displays Country name and IP of user if he is not connected.
+         First parameter is country, second is IP.
+         Ex: Poland - 192.1.1.1.1
+    -->
+    <string name="vpn_status_disabled_location">%1$s - %2$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_subtitle">მიერთების დეტალები</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_show_ip">IP-ის ჩვენება</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_back">უკან</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_my_ip">ჩემი IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_ip">VPN IP</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+    -->
+    <string name="connection_details_connected_for">დაკავშირებულია</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server">სერვერი</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_gateway">რაუტერი</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_country">ქვეყანა</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_city">ქალაქი</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
+    -->
+    <string name="connection_details_server_load">სერვერის დატვირთვა</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_question">რა არის სერვერის დატვირთვა?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_description">Server load shows how close a server is to its maximum capacity. \n\nA high server load can slow down your connection.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_title">დაბალი (1–75%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_description">სინათლის სიჩქარე</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_title">საშუალო (76–90%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_description">VPN-ის სიჩქარეზე გავლენა, ალბათ, არ ექნება</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_title">მაღალი (91–100%)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_description">VPN-მა, შეიძლება, ნორმალურზე ნელა იმუშაოს </string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol">პროტოკოლი</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol_description">A protocol is a set of instructions your device follows to connect and communicate with a server.</string>
+    <!-- tag(Redesign_2023)
+         Label in front of upload speed in connection details. It is followed by upload speed number and unit.
+    -->
+    <string name="connection_details_upload">ატვირთვა</string>
+    <!-- tag(Redesign_2023)
+         Label in front of download speed in connection details. It is followed by download speed number and unit.
+    -->
+    <string name="connection_details_download">გადმოწერა</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_section_vpn_speed">VPN-ის სიჩქარე</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_question">რა სიჩქარითაა VPN?</string>
+    <!-- tag(Redesign_2023)
+         Used for button title to learn more about different contexts
+    -->
+    <string name="connection_details_learn_more">გაიგეთ მეტი</string>
+    <!-- tag(Redesign_2023)
+        Used to describe IP which is not known
+    -->
+    <string name="connection_details_unknown_ip">უცნობი</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_bits_per_second">%1$s ბ/წმ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_kb_per_second">%1$s კბ/წმ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_mb_per_second">%1$s მბ/წმ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_gb_per_second">%1$s გბ/წმ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_tb_per_second">%1$s ტბ/წმ</string>
+    <!-- tag(Redesign_2023)
+         Shown at the top status view if app detects that there is no usable network to connect to VPN
+    -->
+    <string name="error_vpn_waiting_for_network">ქსელის მოლოდინი</string>
+    <!-- tag(Redesign_2023) -->
+    <plurals name="connection_details_days">
+        <item quantity="one">%1$d დღე</item>
+        <item quantity="other">%1$d დღე</item>
+    </plurals>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_hours_shortened">%1$d სთ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_minutes_shortened">%1$d წთ</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_seconds_shortened">%1$d წმ</string>
 </resources>
