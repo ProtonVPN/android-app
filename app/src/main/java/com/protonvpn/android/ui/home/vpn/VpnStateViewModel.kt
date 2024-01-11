@@ -83,7 +83,7 @@ class VpnStateViewModel @Inject constructor(
     val netShieldExpandStatus = MutableStateFlow(false)
     val bottomSheetFullyExpanded = MutableLiveData(false)
 
-    fun consumeErrorMessage() = vpnErrorUIManager.consumeErrorMessage()
+    suspend fun consumeErrorMessage() = vpnErrorUIManager.consumeErrorMessage()
 
     fun getCurrentNetShield() = effectiveUserSettings.netShield
 

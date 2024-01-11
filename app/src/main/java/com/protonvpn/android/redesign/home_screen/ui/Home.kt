@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.redesign.home_screen.ui
 
+import android.content.Context
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -61,8 +62,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
-import com.protonvpn.android.redesign.countries.ui.collectAsEffect
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
@@ -80,6 +81,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
+import com.protonvpn.android.vpn.VpnErrorUIManager
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
@@ -125,18 +127,13 @@ fun HomeView(
     }
     // Not using material3 snackbar because of inability to show multiline correctly
     val snackbarHostState = remember { androidx.compose.material.SnackbarHostState() }
-    stateViewModel.snackbarErrorFlow.collectAsEffect(block = {
-        val snackbarResult = snackbarHostState.showSnackbar(
-            message = context.getString(it.errorRes, it.additionalDetails),
-            actionLabel = it.helpUrl?.actionTitleRes?.let { actionRes -> context.getString(actionRes) },
-            duration = if (it.helpUrl == null) androidx.compose.material.SnackbarDuration.Long else androidx.compose.material.SnackbarDuration.Short
-        )
-
-        if (it.helpUrl != null && snackbarResult == androidx.compose.material.SnackbarResult.ActionPerformed) {
-            context.openUrl(it.helpUrl.actionUrl)
+    val snackError = stateViewModel.snackbarErrorFlow.collectAsStateWithLifecycle().value
+    if (snackError != null) {
+        LaunchedEffect(snackError) {
+            handleSnackbarError(context, snackbarHostState, snackError)
+            stateViewModel.consumeErrorMessage()
         }
-        stateViewModel.consumeErrorMessage()
-    })
+    }
 
     val changeServerButton: (@Composable ColumnScope.() -> Unit)? = changeServerState?.let { state ->
         @Composable {
@@ -261,6 +258,26 @@ fun HomeView(
     }
 
     HomeDialog(dialogState, onDismiss = viewModel::dismissDialog)
+}
+
+private suspend fun handleSnackbarError(
+    context: Context,
+    snackbarHostState: androidx.compose.material.SnackbarHostState,
+    snackError: VpnErrorUIManager.SnackError,
+) {
+    val snackbarResult = snackbarHostState.showSnackbar(
+        message = context.getString(snackError.errorRes, snackError.additionalDetails),
+        actionLabel = snackError.helpUrl?.actionTitleRes?.let { actionRes ->
+            context.getString(
+                actionRes
+            )
+        },
+        duration = if (snackError.helpUrl == null) androidx.compose.material.SnackbarDuration.Long else androidx.compose.material.SnackbarDuration.Short
+    )
+
+    if (snackError.helpUrl != null && snackbarResult == androidx.compose.material.SnackbarResult.ActionPerformed) {
+        context.openUrl(snackError.helpUrl.actionUrl)
+    }
 }
 
 @Composable

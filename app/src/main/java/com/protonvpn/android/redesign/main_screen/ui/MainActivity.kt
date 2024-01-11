@@ -44,7 +44,7 @@ import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
-import com.protonvpn.android.redesign.countries.ui.collectAsEffect
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel
 import com.protonvpn.android.redesign.main_screen.ui.nav.VpnApp
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
