@@ -21,13 +21,12 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -43,16 +42,23 @@ class VpnErrorUIManager @Inject constructor(
     private val foregroundActivityTracker: ForegroundActivityTracker,
     vpnStatusProviderUI: VpnStatusProviderUI
 ) {
-    private val _errorMessages = MutableSharedFlow<SnackError>(replay = 1)
-    val snackErrorFlow: SharedFlow<SnackError> = _errorMessages.asSharedFlow()
+    private val _errorMessages = MutableStateFlow<SnackError?>(null)
+    val snackErrorFlow: StateFlow<SnackError?> = _errorMessages.asStateFlow()
 
     data class SnackError(val helpUrl: SnackAction? = null, @StringRes val errorRes: Int, val additionalDetails: String?)
     data class SnackAction(@StringRes val actionTitleRes: Int, val actionUrl: String)
 
     init {
-        vpnStatusProviderUI.status
-            .mapNotNull { status ->
-                translateStatusToSnackBarError(status)
+        vpnStatusProviderUI.uiStatus
+            .transform { status ->
+                if (status.state == VpnState.Connected) {
+                    emit(null)
+                } else {
+                    val errorMessage = translateStatusToSnackBarError(status)
+                    if (errorMessage != null) {
+                        emit(errorMessage)
+                    }
+                }
             }
             .onEach { errorMessage ->
                 _errorMessages.emit(errorMessage)
@@ -106,7 +112,7 @@ class VpnErrorUIManager @Inject constructor(
         }
     }
 
-    private fun translateStatusToSnackBarError(vpnStatus: VpnStateMonitor.Status): SnackError? {
+    private fun translateStatusToSnackBarError(vpnStatus: VpnStatusProviderUI.Status): SnackError? {
         val state = vpnStatus.state
         return if (state is VpnState.Error && state.isFinal) {
             when (state.type) {
@@ -135,9 +141,8 @@ class VpnErrorUIManager @Inject constructor(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun consumeErrorMessage() {
-        _errorMessages.resetReplayCache()
+    suspend fun consumeErrorMessage() {
+        _errorMessages.emit(null)
     }
 
     private fun displayInformation(informationNotification: InformationNotification) {

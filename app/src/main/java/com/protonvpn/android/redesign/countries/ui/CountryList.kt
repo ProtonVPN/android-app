@@ -31,6 +31,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -41,11 +44,9 @@ import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ComposableCountryListBinding
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 
@@ -109,11 +110,5 @@ fun CountryList(
         )
 
         AndroidViewBinding(ComposableCountryListBinding::inflate)
-    }
-}
-@Composable
-fun <T> Flow<T>.collectAsEffect(block: suspend (T) -> Unit) {
-    LaunchedEffect(this) {
-        onEach(block).launchIn(this)
     }
 }
