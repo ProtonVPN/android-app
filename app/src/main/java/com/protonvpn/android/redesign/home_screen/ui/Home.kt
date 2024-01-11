@@ -33,9 +33,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -64,9 +61,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
-import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
-import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.countries.ui.collectAsEffect
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
@@ -128,16 +123,16 @@ fun HomeView(
             UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
         }
     }
-    val snackbarHostState = remember { SnackbarHostState() }
+    // Not using material3 snackbar because of inability to show multiline correctly
+    val snackbarHostState = remember { androidx.compose.material.SnackbarHostState() }
     stateViewModel.snackbarErrorFlow.collectAsEffect(block = {
         val snackbarResult = snackbarHostState.showSnackbar(
             message = context.getString(it.errorRes, it.additionalDetails),
             actionLabel = it.helpUrl?.actionTitleRes?.let { actionRes -> context.getString(actionRes) },
-            type = ProtonSnackbarType.ERROR,
-            duration = if (it.helpUrl == null) SnackbarDuration.Long else SnackbarDuration.Indefinite
+            duration = if (it.helpUrl == null) androidx.compose.material.SnackbarDuration.Long else androidx.compose.material.SnackbarDuration.Short
         )
 
-        if (it.helpUrl != null && snackbarResult == SnackbarResult.ActionPerformed) {
+        if (it.helpUrl != null && snackbarResult == androidx.compose.material.SnackbarResult.ActionPerformed) {
             context.openUrl(it.helpUrl.actionUrl)
         }
         stateViewModel.consumeErrorMessage()
