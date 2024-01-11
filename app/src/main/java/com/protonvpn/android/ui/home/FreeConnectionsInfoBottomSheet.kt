@@ -24,13 +24,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewOutlineProvider
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -40,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.databinding.FreeConnectionsInfoBinding
 import com.protonvpn.android.databinding.InfoFreeCountryItemBinding
 import com.protonvpn.android.telemetry.UpgradeSource
@@ -64,16 +60,13 @@ fun FreeConnectionsInfoBottomSheet(
     }
     FreeConnectionsInfoBottomSheet(onDismissRequest, viewModel.freeCountriesCodes)
 }
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FreeConnectionsInfoBottomSheet(
     onDismissRequest: () -> Unit,
     freeCountries: List<String>,
 ) {
-    ModalBottomSheet(
+    SimpleModalBottomSheet(
         onDismissRequest = onDismissRequest,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        windowInsets = WindowInsets.navigationBars,
     ) {
         Column(
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
