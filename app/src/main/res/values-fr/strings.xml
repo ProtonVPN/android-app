@@ -49,6 +49,7 @@
     <string name="showAllProfiles">Afficher tous les profils</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
+    <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogContinue">Continuer</string>
     <string name="dialogLearnMore">En savoir plus</string>
@@ -101,6 +102,8 @@
     <string name="settingsSectionQuickConnect">Connexion rapide</string>
     <string name="settingsSectionConnection">Connexion</string>
     <string name="settingsSectionSecurity">Sécurité</string>
+    <!-- tag(Redesign_2023) Support section title in settings screen -->
+    <string name="settingsSectionSupport">Support</string>
     <string name="settingsSectionAdvanced">Avancé</string>
     <string name="settingsAutoStartTitle">Démarrer avec Android</string>
     <string name="settingsAutoStartDescription">Proton VPN se lancera automatiquement à chaque démarrage du système.</string>
@@ -330,22 +333,31 @@
     <string name="netShieldEnabledWarning">Attention, certains sites internet pourraient ne pas fonctionner correctement à cause du contenu bloqué.</string>
     <string name="netShieldDescription">Bloquer les publicités, traqueurs et logiciels malveillants </string>
     <string name="netshield_settings_description"><![CDATA[Protégez-vous des publicités, des logiciels malveillants et des traqueurs sur les sites internet et applications. Si les sites ne se chargent pas, essayez de désactiver NetShield. <a href="%1$s">En savoir plus</a>]]></string>
+    <string name="netshield_settings_description_not_html">Protégez-vous des publicités, des logiciels malveillants et des traqueurs sur les sites internet et les applications. Si les sites internet ne se chargent pas, essayez de désactiver NetShield. %1$s</string>
+    <string name="learn_more">En savoir plus</string>
     <string name="netshield_status_on">Activé</string>
     <string name="netshield_status_off">Désactivé</string>
     <string name="netshield_free_title">Naviguez sans publicité avec NetShield</string>
     <string name="netshield_free_description">Bloquez les publicités, les traqueurs et les logiciels malveillants sur les sites internet et les applications.</string>
     <string name="netshield_business_title">Bloquer les publicités avec NetShield</string>
     <string name="netshield_business_description">En passant à l\'abonnement VPN Business</string>
+    <string name="netshield_what_data_means">Voici ce que signifient les données de NetShield</string>
+    <string name="netshield_ads_title">Publicités</string>
+    <string name="netshield_ads_details">Publicités et traqueurs de publicité invisibles</string>
+    <string name="netshield_trackers_title">Traqueurs</string>
+    <string name="netshield_trackers_details">Cookies et autres traqueurs qui stockent et partagent des informations sur votre activité internet</string>
+    <string name="netshield_data_title">Données</string>
+    <string name="netshield_data_details">Il s\'agit du nombre de données indésirables provenant de publicités, traqueurs ou logiciels malveillant bloquées par NetShield.</string>
     <string name="accessibility_netshield_status_on_click">Entrer les paramètres NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Publicité\nbloquée</item>
-        <item quantity="other">Publicités\nbloquées</item>
+        <item quantity="one">Publicité bloquée</item>
+        <item quantity="other">Publicités bloquées</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Traqueur\nbloqué</item>
-        <item quantity="other">Traqueurs\nbloqués</item>
+        <item quantity="one">Traqueur bloqué</item>
+        <item quantity="other">Traqueurs bloqués</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Données\nbloquées</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Données bloquées</string>
     <string name="netShieldBlockMalwareOnly">Bloquer uniquement les logiciels malveillants</string>
     <string name="netShieldFullBlock">Bloquer les logiciels malveillants, traqueurs et publicités</string>
     <string name="dialogDontShowAgain">Ne plus afficher</string>
@@ -663,6 +675,13 @@
     <string name="not_wanted_country_title">Ce n\'est pas le pays que vous vouliez ?</string>
     <string name="not_wanted_country_description">Changez d\'abonnement pour choisir n\'importe quel serveur.</string>
     <string name="whats_new_title">Nouveautés</string>
+    <string name="whats_new_new_look_title">Nouveau look, même protection</string>
+    <string name="whats_new_new_look_description">Nous avons mis à jour notre design et nous avons déplacé certains éléments pour que l\'application soit plus facile à utiliser.</string>
+    <string name="whats_new_recents_title">Introducing Recents</string>
+    <string name="whats_new_recents_description">Vous pouvez désormais vous reconnecter plus facilement à vos serveurs préférés. Affichez vos connexions les plus récentes depuis l\'écran d\'accueil ou épinglez-les pour y accéder rapidement. La fonction Récents remplace Profils.</string>
+    <string name="whats_new_dismiss_button">Jetez un coup d\'œil</string>
+    <string name="whats_new_added_countries_title">Nouveaux pays dans l\'abonnement Free</string>
+    <string name="whats_new_added_countries_description">De nouveaux serveurs sont disponibles en Pologne et en Roumaine. Pour éviter l\'encombrement des serveurs, nous avons retiré la sélection manuelle des pays et apporté des améliorations importantes à la sélection automatique des serveurs.</string>
     <string name="welcome_plus_title">Bienvenue dans VPN Plus</string>
     <string name="welcome_plus_description">Profitez de fonctionnalités supplémentaires de protection de la vie privée, de meilleures performances et d\'une personnalisation poussée de votre VPN.</string>
     <string name="welcome_plus_feature_security">Fonctionnalités de sécurité avancées</string>
@@ -710,6 +729,409 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">lien externe</string>
+    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when expanded.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" with this state description will be read by a screen reader as:
+         "Expanded. Recents"
+     -->
+    <string name="accessibility_expandable_state_expanded">développé</string>
+    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" with this state description will be read by a screen reader as:
+         "Collapsed. Recents"
+     -->
+    <string name="accessibility_expandable_state_collapsed">réduit</string>
+    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" on an expanded element with state "expanded" this action label will be
+         read by a screen reader as:
+         "Expanded. Recents. Double tap to collapse"
+     -->
+    <string name="accessibility_expandable_action_collapse">réduire</string>
+    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
+         Used only by accessibility services.
+         Example:
+         a label "Recents" on an expanded element with state "collapsed" and this action label will
+         be read by a screen reader as:
+         "Collapsed. Recents. Double tap to expand"
+     -->
+    <string name="accessibility_expandable_action_expand">développer</string>
     <string name="no_logs_banner_title">Le VPN qui n\'enregistre pas vos activités.</string>
     <string name="no_logs_banner_description">Quand vous utilisez le VPN, vos activités en ligne sont protégées par les lois suisses sur la protection de la vie privée. Nous ne suivrons jamais vos activités et nous ne partagerons jamais vos informations avec des tiers.</string>
+    <!-- tag(Redesign_2023) Bottom bar label for home screen -->
+    <string name="bottom_nav_home">Accueil</string>
+    <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
+    <string name="bottom_nav_countries">Pays</string>
+    <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
+    <string name="botton_nav_settings">Paramètres</string>
+    <!-- tag(Redesign_2023)
+         Text added to button labels that open a UI element (e.g. a panel).
+         Only used by accessibility services.
+         Example:
+         a button with label "connection details" and this action label will be read by a screen
+         reader as:
+         "Connection details, button. Double tap to open"
+    -->
+    <string name="accessibility_action_open">ouvrir</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that initiate a VPN connection.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland will be read by a screen reader as:
+         "Switzerland. Double tap to connect"
+        -->
+    <string name="accessibility_action_connect">vous connecter</string>
+    <!-- tag(Redesign_2023)
+         Text added to clickable elements that redirect the user to upgrade their subscription plan.
+         Only used by accessibility services.
+         Example:
+         a list item for country Switzerland that requires upgrading subscription to become
+         available will be read by a screen reader as:
+         "Unavailable, Switzerland. Double tap to upgrade"
+        -->
+    <string name="accessibility_action_upgrade">changer d\'offre</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable because servers
+         are in maintenance.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are in maintenance will be read by a
+         screen reader as:
+         "in maintenance, Switzerland"
+     -->
+    <string name="accessibility_item_in_maintenance">en maintenance</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when it is unavailable.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland where all servers are unavailable will be read by a screen
+         reader as:
+         "unavailable, Switzerland"
+     -->
+    <string name="accessibility_item_unavailable">indisponible</string>
+    <!-- tag(Redesign_2023)
+         Text added on an item in a list (server or country) when there is active connection to it.
+         Only used by accessibility services.
+         Example:
+         a row for country Switzerland when there is a VPN connection to a server in this country
+         will be read by a screen reader as:
+         "Switzerland, connected"
+     -->
+    <string name="accessibility_item_connected">connecté</string>
+    <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
+    <string name="server_feature_label_p2p">P2P</string>
+    <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
+    <string name="server_feature_label_tor">Tor</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
+    <string name="fastest_country">Pays le plus rapide</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Iceland
+     -->
+    <string name="connection_info_secure_core_full_iceland">%1$s via l\'Islande</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Sweden
+     -->
+    <string name="connection_info_secure_core_full_sweden">%1$s via la Suède</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection via Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+         %1$s - exit country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_switzerland">%1$s via la Suisse</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - exit country name in nominative case
+         %2$s - entry country name in nominative case
+         Example: United States via Switzerland
+     -->
+    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Iceland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_iceland">via l\'Islande</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Sweden.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_sweden">via la Suède</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country being Switzerland.
+         Translate entry country name in correct declension, including the preposition and article, if needed.
+     -->
+    <string name="connection_info_secure_core_entry_switzerland">via la Suisse</string>
+    <!-- tag(Redesign_2023)
+         Label describing a Secure Core connection entry country.
+         This text will only be used if a new entry country is added and the application is not
+         yet updated with a specific text for it. Few users will ever see it.
+         %1$s - entry country name in nominative case
+         Example: via Switzerland
+    -->
+    <string name="connection_info_secure_core_entry_other">via %1$s</string>
+    <!-- tag(Redesign_2023)
+         Help button above the connection card.
+     -->
+    <string name="connection_card_help">Aide</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         the recommended one.
+
+         Example:
+         Recommended
+         Switzerland, Zurich
+         or
+         Recommended
+         Fastest country
+     -->
+    <string name="connection_card_label_recommended">Recommandé</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that the connection details in the card are
+         are that of the previous connection.
+
+         Example:
+         Last connected to
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         -->
+    <string name="connection_card_label_last_connected">Dernière connexion :</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is being established.
+     -->
+    <string name="connection_card_label_connecting">Connexion à…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection is established and the user
+         is safely browsing as if they were in the location indicated in the connection card.
+
+         Example:
+         Browsing safely from
+         Switzerland, Zurich
+         or
+         Last connected to
+         Fastest country
+         Germany
+     -->
+    <string name="connection_card_label_connected">Navigation en toute sécurité depuis :</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with details of the current VPN connection.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "connection details, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_details">détails de la connexion</string>
+    <!-- tag(Redesign_2023)
+         Displayed above the list of recently made connections.
+     -->
+    <string name="recents_headline">Récentes</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_pin">Épingler</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_unpin">Désépingler</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="recent_action_remove">Retirer</string>
+    <!-- tag(Redesign_2023)
+         State description of a pinned recent item.
+         Only used by accessibility service.
+    -->
+    <string name="recent_action_accessibility_state_pinned">Épinglé</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_country_servers_in_maintenance">Tous les serveurs de ce pays sont en maintenance.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_city_servers_in_maintenance">Tous les serveurs de cette ville sont en maintenance.</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_in_maintenance">Serveur en maintenance</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog -->
+    <string name="message_server_not_available">Serveur indisponible</string>
+    <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
+    <string name="message_gateway_in_maintenance">La passerelle est en maintenance.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out">Se déconnecter</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_title">Paramètres</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_features">Fonctionnalités</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_netshield_title">NetShield</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_kill_switch_title">Arrêt d\'urgence (kill switch)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_connection_category">Connexion</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_protocol_title">Protocole</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_advanced_settings_title">Paramètres avancés</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_general">Général</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_account">Compte</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_notifications_title">Notifications</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_theme_title">Thème</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_beta_access_title">Accès à la version bêta</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_widget_title">Widget</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_support">Support</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_help_center_title">Espace Aide &amp; Support</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_report_issue_title">Signaler un bug</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_debug_logs_title">Journaux de débogage</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_category_improve_proton">Améliorer Proton</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_fight_censorship_title">Aidez-nous à combattre la censure.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_rate_us_title">Noter Proton VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_restore_defaults_title">Restaurer les paramètres par défaut</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_sign_out_title">Se déconnecter</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_app_version">Version de l\'application : %1$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="settings_third_party_licenses">Licences tierces</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_title">Se déconnecter ?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_message">Vous allez être déconnecté du VPN.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_dont_ask_again">Ne plus me demander</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_sign_out_action">Se déconnecter</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="dialog_action_cancel">Annuler</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is connected and network is protected
+    -->
+    <string name="vpn_status_connected">Protégé</string>
+    <!-- tag(Redesign_2023)
+         Indicates that VPN is not connected and network is not protected
+    -->
+    <string name="vpn_status_disabled">Vous n\'êtes pas protégé.</string>
+    <!-- tag(Redesign_2023)
+         Text is shown while connection is being established
+    -->
+    <string name="vpn_status_connecting">Protection de votre identité numérique</string>
+    <!-- tag(Redesign_2023)
+         Displays Country name and IP of user if he is not connected.
+         First parameter is country, second is IP.
+         Ex: Poland - 192.1.1.1.1
+    -->
+    <string name="vpn_status_disabled_location">%1$s - %2$s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_subtitle">Détails de la connexion</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_show_ip">Afficher l\'IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="accessibility_back">Précédent</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_my_ip">Mon IP</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_ip">IP du VPN</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+    -->
+    <string name="connection_details_connected_for">Connecté depuis</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server">Serveur</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_gateway">Passerelle  </string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_country">Pays</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_city">Ville</string>
+    <!-- tag(Redesign_2023)
+         Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
+    -->
+    <string name="connection_details_server_load">Charge du serveur</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_question">Qu\'est-ce que la charge d\'un serveur ?</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_description">La charge d\'un serveur affiche avec précision la capacité maximale de ce dernier. \n\nUne charge de serveur élevée peut ralentir votre connexion.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_title">Basse (1–75 %)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_low_description">Vitesses extrêmement élevées</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_title">Moyenne (76–90 %)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_medium_description">Peu probable que cela affecte la vitesse du VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_title">Haute (91–100 %)</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_server_load_high_description">Le VPN peut fonctionner plus lentement que d\'habitude</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol">Protocole</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_protocol_description">Un protocole est un ensemble d\'instructions que votre appareil suit pour se connecter à votre serveur et communiquer avec ce dernier.</string>
+    <!-- tag(Redesign_2023)
+         Label in front of upload speed in connection details. It is followed by upload speed number and unit.
+    -->
+    <string name="connection_details_upload">Importer</string>
+    <!-- tag(Redesign_2023)
+         Label in front of download speed in connection details. It is followed by download speed number and unit.
+    -->
+    <string name="connection_details_download">Télécharger</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_section_vpn_speed">Vitesse du VPN</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_question">Qu\'est-ce que la vitesse du VPN ?</string>
+    <!-- tag(Redesign_2023)
+         Used for button title to learn more about different contexts
+    -->
+    <string name="connection_details_learn_more">En savoir plus</string>
+    <!-- tag(Redesign_2023)
+        Used to describe IP which is not known
+    -->
+    <string name="connection_details_unknown_ip">Inconnu</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_vpn_speed_description">Ce graphique représente la vitesse de vos téléchargements. Il est peu probable que votre connexion VPN ralentisse vos activités en ligne habituelles.</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_bits_per_second">%1$s o/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_kb_per_second">%1$s Ko/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_mb_per_second">%1$s Mo/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_gb_per_second">%1$s Go/s</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="speed_tb_per_second">%1$s To/s</string>
+    <!-- tag(Redesign_2023)
+         Shown at the top status view if app detects that there is no usable network to connect to VPN
+    -->
+    <string name="error_vpn_waiting_for_network">En attente d\'un réseau</string>
+    <!-- tag(Redesign_2023) -->
+    <plurals name="connection_details_days">
+        <item quantity="one">%1$d jour</item>
+        <item quantity="other">%1$d jours</item>
+    </plurals>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_hours_shortened">%1$d h</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="connection_details_seconds_shortened">%1$d sec</string>
 </resources>
