@@ -449,7 +449,7 @@ object CountryTools {
         "CaymanIslands" to RectF(338.4260f, 294.2630f, 346.0450f, 296.7580f),
         "CentralAfricanRep" to RectF(759.5640f, 338.5732f, 817.4299f, 382.6802f),
         "Chad" to RectF(755.1300f, 275.5981f, 801.6561f, 356.3170f),
-        "Chile" to RectF(223.5960f, 482.6690f, 455.9510f, 674.3409f),
+        "Chile" to RectF(350.5960f, 482.6690f, 455.9510f, 674.3409f),
         "China" to RectF(1002.7844f, 125.1471f, 1232.6929f, 302.0810f),
         "CocosandChristmasIsland" to RectF(1125.0820f, 446.8990f, 1165.2280f, 455.8369f),
         "Colombia" to RectF(342.2650f, 331.3247f, 396.4891f, 415.5551f),
@@ -650,6 +650,4 @@ object CountryTools {
     )
 
     private const val MAX_LOCALIZED_LENGTH = 60
-
-    const val LOCATION_TO_TV_MAP_COORDINATES_RATIO = 0.294f
 }

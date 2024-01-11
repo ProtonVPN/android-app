@@ -21,6 +21,7 @@ package com.protonvpn.android.tv.main
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.PointF
 import android.graphics.RectF
 import androidx.annotation.ColorInt
 import com.caverock.androidsvg.PreserveAspectRatio
@@ -190,3 +191,10 @@ fun RectF.translateMapCoordinatesToRegion() =
     scale(1f / TvMapRenderer.WIDTH, 1f / TvMapRenderer.WIDTH).run {
         MapRegion(left, top, width(), height())
     }
+
+// Translates point on the old map to a new one with linear regression (seems to work well enough)
+fun PointF.translateOldToNewMapCoordinates() : RectF {
+    val newX = 0.28127f * x + 60.36402f
+    val newY = 0.28258f * y - 2.25f
+    return RectF(newX, newY, newX, newY)
+}

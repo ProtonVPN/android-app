@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.redesign.home_screen.ui
 
+import android.graphics.PointF
 import android.graphics.RectF
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,6 +30,7 @@ import com.protonvpn.android.tv.main.CountryHighlightInfo
 import com.protonvpn.android.tv.main.MapRendererConfig
 import com.protonvpn.android.tv.main.TvMapRenderer
 import com.protonvpn.android.tv.main.translateMapCoordinatesToRegion
+import com.protonvpn.android.tv.main.translateOldToNewMapCoordinates
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.relativePadding
 import kotlinx.coroutines.CoroutineScope
@@ -89,9 +91,17 @@ private fun MapView.update(
                 .withPadding(0.015f) // Absolute padding (proportional to distance),
             // makes smaller countries have more padding than big ones
             highlights = listOf(CountryHighlightInfo(countryName, highlight))
-            val centerPointRegion = RectF(bounds.centerX(), bounds.centerY(), 0f, 0f)
-                .translateMapCoordinatesToRegion()
-            pins = listOf(PinInfo(centerPointRegion, highlight))
+            // Translate location from old map
+            val translatedPinPosition = CountryTools.locationMap[countryCode]?.let {
+                PointF(it.x.toFloat(), it.y.toFloat()).translateOldToNewMapCoordinates()
+            }
+            // Use translated location if is in bounds (might not be the case for very small
+            // countries like Malta), otherwise fallback to center of country bounds
+            val pinPosition = if (translatedPinPosition != null && bounds.contains(translatedPinPosition))
+                translatedPinPosition
+            else
+                RectF(bounds.centerX(), bounds.centerY(), 0f, 0f)
+            pins = listOf(PinInfo(pinPosition.translateMapCoordinatesToRegion(), highlight))
         }
     }
     focusRegionInCenter(scope, region, highlights, pins, bias = 0.4f, highlightStage = mapHighlight?.second)
