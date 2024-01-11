@@ -22,6 +22,7 @@ package com.protonvpn.android.redesign.recents.usecases
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.RecentConnectionEntity
@@ -30,11 +31,12 @@ import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import dagger.Reusable
 import io.sentry.Sentry
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -53,7 +55,7 @@ class MigrateProfilesOnStart @Inject constructor(
     init {
         if (profileManager.getSavedProfiles().any { !it.isPreBakedProfile }) {
             mainScope.launch {
-                migrateProfiles(userSettings.secureCore.first())
+                migrateProfiles(userSettings.effectiveSettings.first())
             }
         }
     }
@@ -66,20 +68,30 @@ class MigrateProfiles @Inject constructor(
     private val recentsDao: RecentsDao,
     private val currentUser: CurrentUser,
 ) {
-    suspend operator fun invoke(isGlobalSecureCoreEnabled: Boolean) {
+    suspend operator fun invoke(settings: LocalUserSettings) {
         // Wait for the first logged in user.
         val vpnUser = currentUser.vpnUserFlow.filterNotNull().first()
         serverManager.ensureLoaded()
+        val isGlobalSecureCoreEnabled = settings.secureCore
 
         val userId = vpnUser.userId
         // Only custom profiles are migrated to pinned recents. The default profile is handled below.
         val customProfiles = profileManager.getSavedProfiles().filterNot { it.isPreBakedProfile }
+        customProfiles.forEach {
+            ProtonLogger.logCustom(LogCategory.APP_UPDATE, "Profile to migrate: ${it.toLog(settings)}")
+        }
 
-        try {
+        suspend {
             val defaultProfileConnectIntent =
                 serverManager.defaultConnection.toConnectIntent(serverManager, isGlobalSecureCoreEnabled)
             val connectIntents = customProfiles.mapNotNullTo(LinkedHashSet()) { profile ->
-                profile.toConnectIntent(serverManager, isGlobalSecureCoreEnabled)
+                val migrated = profile.toConnectIntent(serverManager, isGlobalSecureCoreEnabled)
+                if (migrated != null) {
+                    ProtonLogger.logCustom(LogCategory.APP_UPDATE, "Profile migrated to: ${migrated.toLog()}")
+                } else {
+                    ProtonLogger.logCustom(LogCategory.APP_UPDATE, "Can't migrate ${profile.toLog(settings)}")
+                }
+                migrated
             }
             val count = connectIntents.size
             val recentEntities = connectIntents.mapIndexed { index, connectIntent ->
@@ -95,18 +107,20 @@ class MigrateProfiles @Inject constructor(
                 )
             }
 
+            ProtonLogger.logCustom(LogCategory.APP_UPDATE, "Migration generated ${recentEntities.size}")
             recentsDao.insert(recentEntities)
 
             // Put the default profile in recent card (it could be the default fastest profile).
             val connectionCardIntent = defaultProfileConnectIntent ?: ConnectIntent.Default
             val mostRecentFakeTimestamp = recentEntities.size.toLong()
             recentsDao.insertOrUpdateForConnection(userId, connectionCardIntent, mostRecentFakeTimestamp)
-        } catch (e: Throwable) {
-            if (e is CancellationException) throw e
-            else {
-                ProtonLogger.logCustom(LogCategory.APP, "Profile migration failed: $e")
-                Sentry.captureException(e)
-            }
+            ProtonLogger.logCustom(
+                LogCategory.APP_UPDATE,
+                "Successfully migrated ${customProfiles.size} profiles to ${recentEntities.size} recents"
+            )
+        }.runCatchingCheckedExceptions { e ->
+            ProtonLogger.logCustom(LogCategory.APP, "Profile migration failed: $e")
+            Sentry.captureException(e)
         }
 
         profileManager.deleteSavedProfiles()

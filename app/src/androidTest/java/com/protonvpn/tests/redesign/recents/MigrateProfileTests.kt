@@ -247,7 +247,7 @@ class MigrateProfileTests {
     private suspend fun testMigration(userProfiles: List<Profile>, expectedIntents: List<ConnectIntent>) {
         userProfiles.forEach { profileManager.addToProfileList(it) }
 
-        migrateProfiles(false)
+        migrateProfiles(LocalUserSettings.Default)
 
         val migratedConnectIntents = recentsDao.getRecentsList(userId).first().map { it.connectIntent }
         assertEquals(expectedIntents, migratedConnectIntents)
