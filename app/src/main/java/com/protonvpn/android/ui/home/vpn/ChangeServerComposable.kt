@@ -26,19 +26,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -63,6 +59,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonOutlinedNeutralButton
+import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.base.ui.VpnOutlinedNeutralButton
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.protonOutlinedNeutralButtonColors
@@ -156,18 +153,16 @@ fun ChangeServerButton(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChangeServerBottomSheetComposable(
+private fun ChangeServerBottomSheetComposable(
     state: ChangeServerViewState?,
     onDismissRequest: () -> Unit,
     onChangeServerClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    ModalBottomSheet(
-        modifier = modifier,
+    SimpleModalBottomSheet(
         onDismissRequest = onDismissRequest,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        windowInsets = WindowInsets.navigationBars,
+        modifier = modifier,
     ) {
         UpgradeModalContent(
             state = state,
