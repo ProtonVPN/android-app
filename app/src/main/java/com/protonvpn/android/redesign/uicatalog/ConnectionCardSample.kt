@@ -68,13 +68,15 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
             VpnConnectionCard(
                 VpnConnectionCardViewState(
                     cardLabelRes = R.string.connection_card_label_last_connected,
-                    ConnectIntentViewState(
+                    mainButtonLabelRes = R.string.buttonConnect,
+                    isConnectedOrConnecting = false,
+                    connectIntentViewState = ConnectIntentViewState(
                         primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
                         secondaryLabel = null,
                         serverFeatures = emptySet()
                     ),
-                    VpnConnectionState.Disconnected,
-                    false,
+                    canOpenConnectionPanel = false,
+                    canOpenFreeCountriesPanel = false,
                 ),
                 onConnect = {},
                 onDisconnect = {},
@@ -85,13 +87,15 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
             VpnConnectionCard(
                 VpnConnectionCardViewState(
                     cardLabelRes = R.string.connection_card_label_connected,
-                    ConnectIntentViewState(
+                    mainButtonLabelRes = R.string.disconnect,
+                    isConnectedOrConnecting = true,
+                    connectIntentViewState = ConnectIntentViewState(
                         primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
                         secondaryLabel = ConnectIntentSecondaryLabel.Country(CountryId("pl")),
                         serverFeatures = emptySet()
                     ),
-                    VpnConnectionState.Connected,
-                    false,
+                    canOpenConnectionPanel = true,
+                    canOpenFreeCountriesPanel = false,
                 ),
                 onConnect = {},
                 onDisconnect = {},
@@ -102,7 +106,9 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
             VpnConnectionCard(
                 VpnConnectionCardViewState(
                     cardLabelRes = R.string.connection_card_label_connected,
-                    ConnectIntentViewState(
+                    mainButtonLabelRes = R.string.disconnect,
+                    isConnectedOrConnecting = true,
+                    connectIntentViewState = ConnectIntentViewState(
                         primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
                         secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(
                             exit = CountryId("pl"),
@@ -110,8 +116,8 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         ),
                         serverFeatures = EnumSet.of(ServerFeature.P2P),
                     ),
-                    VpnConnectionState.Connected,
-                    false,
+                    canOpenConnectionPanel = true,
+                    canOpenFreeCountriesPanel = false,
                 ),
                 onConnect = {},
                 onDisconnect = {},
@@ -122,7 +128,9 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
             VpnConnectionCard(
                 VpnConnectionCardViewState(
                     cardLabelRes = R.string.connection_card_label_connected,
-                    ConnectIntentViewState(
+                    mainButtonLabelRes = R.string.disconnect,
+                    isConnectedOrConnecting = true,
+                    connectIntentViewState = ConnectIntentViewState(
                         primaryLabel = ConnectIntentPrimaryLabel.Country(
                             exitCountry = CountryId("lt"),
                             entryCountry = CountryId("ch"),
@@ -130,8 +138,8 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(exit = null, entry = CountryId("ch")),
                         serverFeatures = EnumSet.of(ServerFeature.P2P)
                     ),
-                    VpnConnectionState.Connected,
-                    false,
+                    canOpenConnectionPanel = true,
+                    canOpenFreeCountriesPanel = false,
                 ),
                 onConnect = {},
                 onDisconnect = {},
@@ -148,7 +156,9 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
             VpnConnectionCard(
                 VpnConnectionCardViewState(
                     cardLabelRes = R.string.connection_card_label_connected,
-                    ConnectIntentViewState(
+                    mainButtonLabelRes = R.string.disconnect,
+                    isConnectedOrConnecting = true,
+                    connectIntentViewState = ConnectIntentViewState(
                         primaryLabel = ConnectIntentPrimaryLabel.Country(
                             exitCountry = CountryId("lt"),
                             entryCountry = CountryId("ch"),
@@ -156,8 +166,8 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                         secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(exit = null, entry = CountryId("ch")),
                         serverFeatures = EnumSet.of(ServerFeature.P2P)
                     ),
-                    VpnConnectionState.Connected,
-                    false,
+                    canOpenConnectionPanel = true,
+                    canOpenFreeCountriesPanel = false,
                 ),
                 changeServerButton = changeServerButton,
                 onConnect = {},
