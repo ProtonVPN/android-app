@@ -37,12 +37,15 @@ import me.proton.core.auth.test.robot.signup.SignUpRobot
 import me.proton.core.auth.test.rule.AcceptExternalRule
 import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.util.kotlin.random
+import me.proton.test.fusion.Fusion
 import me.proton.test.fusion.FusionConfig
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
+import me.proton.core.auth.presentation.R
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
@@ -68,6 +71,7 @@ class SignupTests : MinimalSignUpExternalTests {
     override val isCongratsDisplayed = false
 
     @Test
+    // TODO Migrate this test to core
     override fun signupSwitchToInternalAccountHappyPath() {
         val testUsername = "test-${String.random()}"
 
