@@ -31,8 +31,10 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
+import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
@@ -97,6 +99,8 @@ class RecentsListViewStateFlowTests {
 
     @MockK
     private lateinit var mockRecentsManager: RecentsManager
+    @MockK
+    private lateinit var mockChangeServerManager: ChangeServerManager
 
     private lateinit var vpnStateMonitor: VpnStateMonitor
 
@@ -132,6 +136,8 @@ class RecentsListViewStateFlowTests {
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(emptyList())
         coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(null)
 
+        every { mockChangeServerManager.isChangingServer } returns MutableStateFlow(false)
+
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
         val effectiveUserSettingsCached = EffectiveCurrentUserSettingsCached(settingsFlow)
@@ -160,6 +166,7 @@ class RecentsListViewStateFlowTests {
             supportsProtocol,
             effectiveUserSettings,
             vpnStatusProviderUI,
+            mockChangeServerManager,
             currentUser
         )
     }

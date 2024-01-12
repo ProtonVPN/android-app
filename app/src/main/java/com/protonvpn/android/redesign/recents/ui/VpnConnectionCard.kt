@@ -83,10 +83,14 @@ enum class VpnConnectionState {
 @Immutable
 data class VpnConnectionCardViewState(
     @StringRes val cardLabelRes: Int,
+    @StringRes val mainButtonLabelRes: Int,
+    val isConnectedOrConnecting: Boolean,
     val connectIntentViewState: ConnectIntentViewState,
-    val connectionState: VpnConnectionState,
-    val canOpenFreeCountriesPanel: Boolean
-)
+    val canOpenConnectionPanel: Boolean,
+    val canOpenFreeCountriesPanel: Boolean,
+) {
+    val canOpenPanel: Boolean = canOpenConnectionPanel || canOpenFreeCountriesPanel
+}
 
 @Suppress("LongParameterList")
 @Composable
@@ -117,9 +121,8 @@ fun VpnConnectionCard(
         ) {
             // The whole card can be clicked to open the panel but for accessibility this action is placed on the
             // chevron icon.
-            val canOpenConnectionPanel = viewState.connectionState == VpnConnectionState.Connected
-            val panelModifier = if (canOpenConnectionPanel || viewState.canOpenFreeCountriesPanel) {
-                val action = if (canOpenConnectionPanel) onOpenConnectionPanel else openFreeCountriesInfoPanel
+            val panelModifier = if (viewState.canOpenPanel) {
+                val action = if (viewState.canOpenConnectionPanel) onOpenConnectionPanel else openFreeCountriesInfoPanel
                 Modifier.clickable(onClick = action)
             } else {
                 Modifier
@@ -150,16 +153,16 @@ fun VpnConnectionCard(
                                     .padding(start = 16.dp)
                             )
                         }
-                        if (canOpenConnectionPanel || viewState.canOpenFreeCountriesPanel) {
+                        if (viewState.canOpenPanel) {
                              val iconRes =
-                                 if (canOpenConnectionPanel) R.drawable.ic_proton_chevron_up
+                                 if (viewState.canOpenConnectionPanel) R.drawable.ic_proton_chevron_up
                                  else R.drawable.ic_proton_info_circle
                             val contentDescriptionRes =
-                                if (canOpenConnectionPanel) R.string.connection_card_accessbility_label_connection_details
+                                if (viewState.canOpenConnectionPanel) R.string.connection_card_accessbility_label_connection_details
                                 else R.string.connection_card_accessbility_label_free_connections
                             OpenPanelButton(
                                 iconRes = iconRes,
-                                onOpenPanel = if (canOpenConnectionPanel) onOpenConnectionPanel else openFreeCountriesInfoPanel,
+                                onOpenPanel = if (viewState.canOpenConnectionPanel) onOpenConnectionPanel else openFreeCountriesInfoPanel,
                                 clickLabel = stringResource(R.string.accessibility_action_open),
                                 contentDescription = stringResource(contentDescriptionRes),
                                 Modifier.align(Alignment.Top)
@@ -167,13 +170,10 @@ fun VpnConnectionCard(
                         }
                     }
                 }
-                when (viewState.connectionState) {
-                    VpnConnectionState.Disconnected ->
-                        VpnSolidButton(text = stringResource(R.string.buttonConnect), onClick = onConnect)
-                    VpnConnectionState.Connecting ->
-                        VpnWeakSolidButton(text = stringResource(R.string.cancel), onClick = onDisconnect)
-                    VpnConnectionState.Connected ->
-                        VpnWeakSolidButton(text = stringResource(R.string.disconnect), onClick = onDisconnect)
+                if (viewState.isConnectedOrConnecting) {
+                    VpnWeakSolidButton(text = stringResource(viewState.mainButtonLabelRes), onClick = onDisconnect)
+                } else {
+                    VpnSolidButton(text = stringResource(viewState.mainButtonLabelRes), onClick = onConnect)
                 }
                 if (changeServerButton != null) {
                     Spacer(Modifier.height(8.dp))
@@ -260,9 +260,11 @@ private fun VpnConnectionCardFreeUserPreview() {
         )
         val state = VpnConnectionCardViewState(
             R.string.connection_card_label_last_connected,
-            connectIntentState,
-            VpnConnectionState.Disconnected,
-            false,
+            mainButtonLabelRes = R.string.buttonConnect,
+            isConnectedOrConnecting = false,
+            connectIntentViewState = connectIntentState,
+            canOpenConnectionPanel = false,
+            canOpenFreeCountriesPanel = false,
         )
         VpnConnectionCard(
             viewState = state,

@@ -39,10 +39,12 @@ class RecentsListUiTests : FusionComposeTest() {
     fun whenNoRecentsThenRecentsHeaderIsHidden() {
         val viewState = RecentsListViewState(
             VpnConnectionCardViewState(
-                R.string.connection_card_label_last_connected,
-                ConnectIntentViewFastest,
-                VpnConnectionState.Disconnected,
-                false,
+                cardLabelRes = R.string.connection_card_label_last_connected,
+                mainButtonLabelRes = R.string.buttonConnect,
+                isConnectedOrConnecting = false,
+                connectIntentViewState = ConnectIntentViewFastest,
+                canOpenConnectionPanel = false,
+                canOpenFreeCountriesPanel = false,
             ),
             emptyList(),
             null
@@ -58,10 +60,12 @@ class RecentsListUiTests : FusionComposeTest() {
     fun whenRecentsPresentThenRecentsHeaderIsShown() {
         val viewState = RecentsListViewState(
             VpnConnectionCardViewState(
-                R.string.connection_card_label_last_connected,
-                ConnectIntentViewFastest,
-                VpnConnectionState.Disconnected,
-                false,
+                cardLabelRes = R.string.connection_card_label_last_connected,
+                mainButtonLabelRes = R.string.buttonConnect,
+                isConnectedOrConnecting = false,
+                connectIntentViewState = ConnectIntentViewFastest,
+                canOpenConnectionPanel = false,
+                canOpenFreeCountriesPanel = false,
             ),
             listOf(
                 RecentItemViewState(0, ConnectIntentViewSwitzerland, false, false, RecentAvailability.ONLINE)

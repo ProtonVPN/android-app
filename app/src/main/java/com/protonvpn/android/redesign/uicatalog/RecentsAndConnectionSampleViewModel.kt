@@ -57,14 +57,16 @@ class RecentsAndConnectionSampleViewModel @Inject constructor(
 
     private val initialCardViewState =
         VpnConnectionCardViewState(
-            R.string.connection_card_label_recommended,
-            ConnectIntentViewState(
+            cardLabelRes = R.string.connection_card_label_recommended,
+            mainButtonLabelRes = R.string.buttonConnect,
+            isConnectedOrConnecting = false,
+            connectIntentViewState = ConnectIntentViewState(
                 ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
                 null,
                 emptySet()
             ),
-            VpnConnectionState.Disconnected,
-            false,
+            canOpenConnectionPanel = false,
+            canOpenFreeCountriesPanel = false,
         )
     val viewState = recentsListViewStateFlow
         .stateIn(
