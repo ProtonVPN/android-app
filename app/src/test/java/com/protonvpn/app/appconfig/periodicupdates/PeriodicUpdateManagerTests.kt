@@ -56,6 +56,8 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 private class FakePeriodicUpdatesDao : PeriodicUpdatesDao {
 
@@ -272,18 +274,35 @@ class PeriodicUpdateManagerTests {
 
     @Test
     fun `when api call action response has retry-after it is respected`() = testScope.runTest {
-        fun actionFunc(): ApiResult<Unit> = ApiResult.Error.Http(429, "", retryAfter = (2 * DELAY_MS).milliseconds)
+        val retryAfter = 20.minutes
+        fun actionFunc(): ApiResult<Unit> = ApiResult.Error.Http(429, "", retryAfter = retryAfter)
         val action =
             periodicUpdateManager.registerApiCall("action", ::actionFunc, PeriodicUpdateSpec(DELAY_MS, emptySet()))
 
         advanceTimeBy(100) // Start at time > 0 to test that it is included in results.
         periodicUpdateManager.start()
 
-        coVerify { mockScheduler.scheduleAt(currentTime + 2 * DELAY_MS) }
-        assertEquals(
-            PeriodicCallInfo(action.id, currentTime, false, 0f, currentTime + 2 * DELAY_MS, null),
-            periodicUpdatesDao.getAll().first()
-        )
+        coVerify { mockScheduler.scheduleAt(currentTime + retryAfter.inWholeMilliseconds) }
+        val expectedResult =
+            PeriodicCallInfo(action.id, currentTime, false, 0f, currentTime + retryAfter.inWholeMilliseconds, null)
+        assertEquals(expectedResult, periodicUpdatesDao.getAll().first())
+    }
+
+    @Test
+    fun `when api call action response has small retry-after a minimal value is enforced`() = testScope.runTest {
+        val retryAfter = 30.seconds
+        val minimalRetryDelay = 15.minutes
+        fun actionFunc(): ApiResult<Unit> = ApiResult.Error.Http(429, "", retryAfter = retryAfter)
+        val action =
+            periodicUpdateManager.registerApiCall("action", ::actionFunc, PeriodicUpdateSpec(DELAY_MS, emptySet()))
+
+        advanceTimeBy(100) // Start at time > 0 to test that it is included in results.
+        periodicUpdateManager.start()
+
+        coVerify { mockScheduler.scheduleAt(currentTime + minimalRetryDelay.inWholeMilliseconds) }
+        val expectedResult =
+            PeriodicCallInfo(action.id, currentTime, false, 0f, currentTime + minimalRetryDelay.inWholeMilliseconds, null)
+        assertEquals(expectedResult, periodicUpdatesDao.getAll().first())
     }
 
     @Test
@@ -358,15 +377,15 @@ class PeriodicUpdateManagerTests {
     fun `random jitter is applied to delay override`() = testScope.runTest {
         every { mockRandom.nextFloat() } returns 1f // This translates to max jitter which is 20% of the delay.
 
-        val delayOverride = 2 * DELAY_MS
-        fun actionFunc(): ApiResult<Unit> = ApiResult.Error.Http(429, "", retryAfter = delayOverride.milliseconds)
+        val delayOverride = 15.minutes
+        fun actionFunc(): ApiResult<Unit> = ApiResult.Error.Http(429, "", retryAfter = delayOverride)
         val action =
             periodicUpdateManager.registerApiCall("action", ::actionFunc, PeriodicUpdateSpec(DELAY_MS, emptySet()))
 
         advanceTimeBy(100) // Start at time > 0 to test that it is included in results.
         periodicUpdateManager.start()
 
-        val expectedTimestamp = currentTime + (1.2f * delayOverride).toLong()
+        val expectedTimestamp = currentTime + (delayOverride * 1.2).inWholeMilliseconds
         coVerify { mockScheduler.scheduleAt(expectedTimestamp) }
         assertEquals(
             listOf(PeriodicCallInfo(action.id, currentTime, false, 0.2f, expectedTimestamp, null)),
