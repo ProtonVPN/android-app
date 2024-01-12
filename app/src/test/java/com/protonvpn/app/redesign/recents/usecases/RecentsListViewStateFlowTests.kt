@@ -235,6 +235,23 @@ class RecentsListViewStateFlowTests {
     }
 
     @Test
+    fun pinnedItemWithIncompatibleFallbackConnectionIsNotDisplayedAsConnected() = testScope.runTest {
+        val swedenPinned = RecentSweden.copy(isPinned = true)
+        coEvery { mockRecentsManager.getRecentsList() } returns flowOf(listOf(swedenPinned))
+        vpnStateMonitor.updateStatus(
+            VpnStateMonitor.Status(
+                VpnState.Connected,
+                // Assume all servers in Sweden are offline and fallback connection was made to Switzerland.
+                ConnectionParams(ConnectIntentSweden, serverCh, null, null)
+            )
+        )
+        val viewState = viewStateFlow.first()
+        val expectedRecents = listOf(ConnectIntentViewSweden)
+        assertEquals(expectedRecents, viewState.recents.map { it.connectIntent })
+        assertFalse(viewState.recents.first().isConnected)
+    }
+
+    @Test
     fun whenMostRecentIsUnavailableTheDefaultIsShownInConnectionCard() = testScope.runTest {
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
         coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(DefaultRecents.first())
