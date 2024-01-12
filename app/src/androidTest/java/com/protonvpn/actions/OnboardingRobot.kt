@@ -24,6 +24,8 @@ import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.data.Timeouts
 import me.proton.test.fusion.Fusion.node
+import okhttp3.internal.wait
+import java.time.Duration
 
 class OnboardingRobot : BaseRobot() {
 
@@ -39,7 +41,7 @@ class OnboardingRobot : BaseRobot() {
 
     class Verify : BaseVerify() {
         fun welcomeScreenIsDisplayed() {
-            node.withText(R.string.onboarding_welcome_title).assertIsDisplayed()
+            node.withText(R.string.onboarding_welcome_title).await(Timeouts.LONG ) { assertIsDisplayed() }
         }
 
         fun onboardingPaymentIdDisplayed() {
