@@ -60,9 +60,8 @@ class ConnectionParamsOpenVpn(
         }
         mCaFilename = Constants.VPN_ROOT_CERTS
         mTLSAuthFilename = TLS_AUTH_KEY
-        mTLSAuthDirection = "1"
-        mAuth = "SHA512"
-        mCipher = "AES-256-CBC"
+        mTLSAuthDirection = "tls-crypt"
+        mCipher = "AES-256-GCM"
         mUseTLSAuth = true
         mTunMtu = 1500
         mMssFix = userSettings.mtuSize - 40
