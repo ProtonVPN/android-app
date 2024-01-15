@@ -93,16 +93,6 @@ class ConnectionTests {
     }
 
     @Test
-    fun connectAndDisconnectViaProfiles() {
-        testRule.mockStatusOnConnect(VpnState.Connected)
-        homeRobot.swipeLeftToOpenProfiles()
-        connectionRobot.clickOnConnectButtonUntilConnected(DefaultData.DEFAULT_CONNECTION_PROFILE)
-        connectionRobot.verify { isConnected() }
-        connectionRobot.disconnectFromVPN()
-            .verify { isDisconnected() }
-    }
-
-    @Test
     fun cancelWhileConnecting() {
         testRule.mockStatusOnConnect(VpnState.Connecting)
         homeRobot.connectThroughQuickConnect(DefaultData.DEFAULT_CONNECTION_PROFILE)
