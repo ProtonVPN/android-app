@@ -659,6 +659,24 @@
     <string name="server_change_max_reached">無料サーバーの変更回数が上限に達しました。</string>
     <string name="server_change_upsell">VPN Plusで無制限に変更できます。</string>
     <string name="server_change_button_title">サーバーを変更する</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services.
+
+        %1$s - replaced with "time_left_minutes"
+        %2$s - replaced with "time_left_seconds"
+        Example:
+        Available in 1 minute 23 seconds.
+      -->
+    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services and only if time left is less than 1 minute.
+
+        %1$s - replaced with "time_left_seconds"
+        Example:
+        Available in 23 seconds.
+      -->
+    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
+    <string name="server_change_progress_finished_contend_description">Available now</string>
     <string name="not_wanted_country_title">望んだ国ではなかった？</string>
     <string name="not_wanted_country_description">アップグレードで好きなサーバーを選べる</string>
     <string name="whats_new_title">最新情報</string>
@@ -811,6 +829,8 @@
     <string name="server_feature_label_tor">Tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Fastest country</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
+    <string name="fastest_free_server">Fastest free server</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -865,6 +885,33 @@
     -->
     <string name="connection_info_secure_core_entry_other">via %1$s</string>
     <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         three countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+
+     -->
+    <string name="connection_info_auto_selected_free_countries">Auto-selected from [flags]</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         several countries. Used instead of connection_info_auto_selected_free_countries when there
+         are more than 3 countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+         $1%d - replaced with number of additional countries (beyond the 3 flags).
+
+         Example, if there are 5 countries to select from the text will be:
+         Auto selected from [flags]+2
+         -->
+    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
+    <!-- tag(Redesign_2023)
+         Accessibility label describing a connection to a free server that is automatically selected
+         from one in several countries. Placed directly below fastest_free_server.
+         This text replaces connection_info_auto_selected_free_servers for screen readers.
+         $1%d - replaced with number of countries.
+         -->
+    <plurals name="connection_info_accessibility_auto_selected_free_countries">
+        <item quantity="other">Auto-selected from %1$d countries</item>
+    </plurals>
+    <!-- tag(Redesign_2023)
          Help button above the connection card.
      -->
     <string name="connection_card_help">Help</string>
@@ -917,7 +964,16 @@
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_details">connection details</string>
+    <string name="connection_card_accessbility_label_connection_details">connection details</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with information about connections in free plan.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "more information about free connections, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_free_connections">more information about free connections</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->

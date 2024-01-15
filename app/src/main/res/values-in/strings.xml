@@ -342,11 +342,11 @@
     <string name="netshield_business_description">Ketika Anda meningkatkan ke VPN Business</string>
     <string name="netshield_what_data_means">Makna dari data NetShield</string>
     <string name="netshield_ads_title">Iklan</string>
-    <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
-    <string name="netshield_trackers_title">Trackers</string>
-    <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
+    <string name="netshield_ads_details">Iklan dan pelacak iklan tersembunyi</string>
+    <string name="netshield_trackers_title">Pelacak</string>
+    <string name="netshield_trackers_details">Kuku dan pelacak lainnya yang menyimpan dan membagikan informasi tentang aktivitas internet Anda</string>
     <string name="netshield_data_title">Data</string>
-    <string name="netshield_data_details">The amount of unwanted data from ads, trackers, and malware blocked by NetShield</string>
+    <string name="netshield_data_details">Jumlah data tidak diinginkan dari iklan, pelacak, dan perangkat lunak jahat yang diblokir oleh NetShield</string>
     <string name="accessibility_netshield_status_on_click">Masukkan pengaturan NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="other">Iklan yang diblokir</item>
@@ -354,7 +354,7 @@
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
         <item quantity="other">Pelacak yang dihentikan</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data disimpan</string>
     <string name="netShieldBlockMalwareOnly">Blokir malware saja</string>
     <string name="netShieldFullBlock">Blokir malware, pelacak, iklan</string>
     <string name="dialogDontShowAgain">Jangan tampilkan lagi</string>
@@ -659,16 +659,34 @@
     <string name="server_change_max_reached">Anda telah mencapai batas jumlah perubahan server Free yang diperkenankan untuk saat ini.</string>
     <string name="server_change_upsell">Ubah server tanpa batas dengan VPN Plus.</string>
     <string name="server_change_button_title">Ubah server</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services.
+
+        %1$s - replaced with "time_left_minutes"
+        %2$s - replaced with "time_left_seconds"
+        Example:
+        Available in 1 minute 23 seconds.
+      -->
+    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services and only if time left is less than 1 minute.
+
+        %1$s - replaced with "time_left_seconds"
+        Example:
+        Available in 23 seconds.
+      -->
+    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
+    <string name="server_change_progress_finished_contend_description">Available now</string>
     <string name="not_wanted_country_title">Bukan negara yang Anda inginkan?</string>
     <string name="not_wanted_country_description">Tingkatkan untuk memilih server mana pun</string>
     <string name="whats_new_title">Apa yang baru</string>
     <string name="whats_new_new_look_title">Tampilan baru, perlindungan yang sama</string>
-    <string name="whats_new_new_look_description">We updated our designs and moved some things around to make the app easier to use.</string>
-    <string name="whats_new_recents_title">Introducing Recents</string>
-    <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
-    <string name="whats_new_dismiss_button">Take a look</string>
+    <string name="whats_new_new_look_description">Kami memperbarui desain kami dan memindahkan beberapa hal untuk membuat aplikasinya lebih mudah untuk digunakan.</string>
+    <string name="whats_new_recents_title">Perkenalkan Terkini</string>
+    <string name="whats_new_recents_description">Sekarang lebih mudah untuk menghubungkan ke server favorit Anda. Lihat koneksi terkini Anda di layar beranda, atau sematkan untuk akses cepat. Terkini menggantikan Profil.</string>
+    <string name="whats_new_dismiss_button">Coba lihat</string>
     <string name="whats_new_added_countries_title">Negara Free baru</string>
-    <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
+    <string name="whats_new_added_countries_description">Sekarang ada server Gratis di Polandia dan Rumania. Untuk mengatasi keramaian server, kami menghilangkan pemilihan negara manual dan meningkatkan pemilihan server otomatis.</string>
     <string name="welcome_plus_title">Selamat datang di VPN Plus</string>
     <string name="welcome_plus_description">Nikmati berbagai fitur privasi tambahan, performa yang jauh lebih cepat, dan opsi kostumisasi VPN lanjutan.</string>
     <string name="welcome_plus_feature_security">Fitur keamanan mutakhir</string>
@@ -719,14 +737,14 @@
          a label "Recents" with this state description will be read by a screen reader as:
          "Expanded. Recents"
      -->
-    <string name="accessibility_expandable_state_expanded">expanded</string>
+    <string name="accessibility_expandable_state_expanded">dibuka</string>
     <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
          Used only by accessibility services.
          Example:
          a label "Recents" with this state description will be read by a screen reader as:
          "Collapsed. Recents"
      -->
-    <string name="accessibility_expandable_state_collapsed">collapsed</string>
+    <string name="accessibility_expandable_state_collapsed">ditutup</string>
     <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
          Used only by accessibility services.
          Example:
@@ -734,7 +752,7 @@
          read by a screen reader as:
          "Expanded. Recents. Double tap to collapse"
      -->
-    <string name="accessibility_expandable_action_collapse">collapse</string>
+    <string name="accessibility_expandable_action_collapse">tutup</string>
     <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
          Used only by accessibility services.
          Example:
@@ -742,15 +760,15 @@
          be read by a screen reader as:
          "Collapsed. Recents. Double tap to expand"
      -->
-    <string name="accessibility_expandable_action_expand">expand</string>
+    <string name="accessibility_expandable_action_expand">lebarkan</string>
     <string name="no_logs_banner_title">VPN yang tersertifikasi tanpa log</string>
     <string name="no_logs_banner_description">Aktivitas VPN Anda dilindungi oleh undang-undang privasi Swiss. Kami tidak akan pernah melacak Anda secara online atau membagikan informasi pribadi Anda dengan pihak ketiga.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
-    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_home">Beranda</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
-    <string name="bottom_nav_countries">Countries</string>
+    <string name="bottom_nav_countries">Negara</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
-    <string name="botton_nav_settings">Settings</string>
+    <string name="botton_nav_settings">Pengaturan</string>
     <!-- tag(Redesign_2023)
          Text added to button labels that open a UI element (e.g. a panel).
          Only used by accessibility services.
@@ -759,7 +777,7 @@
          reader as:
          "Connection details, button. Double tap to open"
     -->
-    <string name="accessibility_action_open">open</string>
+    <string name="accessibility_action_open">buka</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that initiate a VPN connection.
          Only used by accessibility services.
@@ -767,7 +785,7 @@
          a list item for country Switzerland will be read by a screen reader as:
          "Switzerland. Double tap to connect"
         -->
-    <string name="accessibility_action_connect">connect</string>
+    <string name="accessibility_action_connect">hubungkan</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that redirect the user to upgrade their subscription plan.
          Only used by accessibility services.
@@ -776,7 +794,7 @@
          available will be read by a screen reader as:
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
-    <string name="accessibility_action_upgrade">upgrade</string>
+    <string name="accessibility_action_upgrade">tingkatkan</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -811,6 +829,8 @@
     <string name="server_feature_label_tor">Tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Negara tercepat</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
+    <string name="fastest_free_server">Fastest free server</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -865,6 +885,33 @@
     -->
     <string name="connection_info_secure_core_entry_other">via %1$s</string>
     <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         three countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+
+     -->
+    <string name="connection_info_auto_selected_free_countries">Auto-selected from [flags]</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         several countries. Used instead of connection_info_auto_selected_free_countries when there
+         are more than 3 countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+         $1%d - replaced with number of additional countries (beyond the 3 flags).
+
+         Example, if there are 5 countries to select from the text will be:
+         Auto selected from [flags]+2
+         -->
+    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
+    <!-- tag(Redesign_2023)
+         Accessibility label describing a connection to a free server that is automatically selected
+         from one in several countries. Placed directly below fastest_free_server.
+         This text replaces connection_info_auto_selected_free_servers for screen readers.
+         $1%d - replaced with number of countries.
+         -->
+    <plurals name="connection_info_accessibility_auto_selected_free_countries">
+        <item quantity="other">Auto-selected from %1$d countries</item>
+    </plurals>
+    <!-- tag(Redesign_2023)
          Help button above the connection card.
      -->
     <string name="connection_card_help">Bantuan</string>
@@ -917,7 +964,16 @@
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_details">rincian koneksi</string>
+    <string name="connection_card_accessbility_label_connection_details">connection details</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with information about connections in free plan.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "more information about free connections, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_free_connections">more information about free connections</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -956,61 +1012,61 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_connection_category">Connection</string>
+    <string name="settings_connection_category">Koneksi</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_protocol_title">Protocol</string>
+    <string name="settings_protocol_title">Protokol</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced Settings</string>
+    <string name="settings_advanced_settings_title">Pengaturan Lanjutan</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_general">General</string>
+    <string name="settings_category_general">Umum</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_account">Account</string>
+    <string name="settings_category_account">Akun</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_notifications_title">Notifikasi</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_theme_title">Tema</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_beta_access_title">Beta Access</string>
+    <string name="settings_beta_access_title">Akses Beta</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_widget_title">Widget</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_support">Support</string>
+    <string name="settings_category_support">Dukungan</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Help Center</string>
+    <string name="settings_help_center_title">Pusat Bantuan</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Laporkan Masalah</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug Logs</string>
+    <string name="settings_debug_logs_title">Catatan Awakutu</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_improve_proton">Improve Proton</string>
+    <string name="settings_category_improve_proton">Tingkatkan Proton</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_fight_censorship_title">Bantu kami melawan sensor</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_rate_us_title">Rate Proton VPN</string>
+    <string name="settings_rate_us_title">Beri Ulasan pada Proton VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_restore_defaults_title">Restore default settings</string>
+    <string name="settings_restore_defaults_title">Pulihkan pengaturan semula</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Sign Out</string>
+    <string name="settings_sign_out_title">Keluar</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">Versi aplikasi: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Lisensi pihak ketiga</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Sign out?</string>
+    <string name="dialog_sign_out_title">Keluar dari akun?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_message">You\'ll be disconnected from VPN.</string>
+    <string name="dialog_sign_out_message">Anda akan diputuskan dari VPN.</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">Jangan tanyakan lagi</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_action">Sign out</string>
+    <string name="dialog_sign_out_action">Keluar dari akun</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_action_cancel">Cancel</string>
+    <string name="dialog_action_cancel">Batalkan</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
-    <string name="vpn_status_connected">Protected</string>
+    <string name="vpn_status_connected">Terlindungi</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->
@@ -1018,7 +1074,7 @@
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
-    <string name="vpn_status_connecting">Protecting your digital identity</string>
+    <string name="vpn_status_connecting">Melindungi identitas digital Anda</string>
     <!-- tag(Redesign_2023)
          Displays Country name and IP of user if he is not connected.
          First parameter is country, second is IP.
@@ -1026,43 +1082,43 @@
     -->
     <string name="vpn_status_disabled_location">%1$s - %2$s</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_subtitle">Connection details</string>
+    <string name="connection_details_subtitle">Rincian koneksi</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_show_ip">Show IP</string>
+    <string name="accessibility_show_ip">Tampilkan IP</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_back">Back</string>
+    <string name="accessibility_back">Kembali</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_my_ip">My IP</string>
+    <string name="connection_details_my_ip">IP Saya</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip">IP VPN</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
     -->
-    <string name="connection_details_connected_for">Connected for</string>
+    <string name="connection_details_connected_for">Terhubung selama</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">Server</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_gateway">Gateway</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_country">Country</string>
+    <string name="connection_details_country">Negara</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_city">City</string>
+    <string name="connection_details_city">Kota</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
-    <string name="connection_details_server_load">Server load</string>
+    <string name="connection_details_server_load">Beban server</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_question">What is server load?</string>
+    <string name="connection_details_server_load_question">Apa itu beban server?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">Server load shows how close a server is to its maximum capacity. \n\nA high server load can slow down your connection.</string>
+    <string name="connection_details_server_load_description">Beban server menunjukkan seberapa dekat server dengan kapasitas maksimumnya. \n\nBeban server yang tinggi dapat memperlambat koneksi Anda.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_title">Low (1–75%)</string>
+    <string name="connection_details_server_load_low_title">Rendah (1–75%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_description">Lightning fast speeds</string>
+    <string name="connection_details_server_load_low_description">Kecepatan kilat</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_title">Medium (76–90%)</string>
+    <string name="connection_details_server_load_medium_title">Sedang (76–90%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_description">Unlikely to affect VPN speed</string>
+    <string name="connection_details_server_load_medium_description">Tidak mungkin mempengaruhi kecepatan VPN</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Tinggi (91–100%)</string>
     <!-- tag(Redesign_2023) -->
@@ -1074,25 +1130,25 @@
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
-    <string name="connection_details_upload">Upload</string>
+    <string name="connection_details_upload">Unggah</string>
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
-    <string name="connection_details_download">Download</string>
+    <string name="connection_details_download">Unduh</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_section_vpn_speed">VPN speed</string>
+    <string name="connection_details_section_vpn_speed">Kecepatan VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_question">What is VPN speed?</string>
+    <string name="connection_details_vpn_speed_question">Apa itu kecepatan VPN?</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
-    <string name="connection_details_learn_more">Learn more</string>
+    <string name="connection_details_learn_more">Pelajari lebih lanjut</string>
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
-    <string name="connection_details_unknown_ip">Unknown</string>
+    <string name="connection_details_unknown_ip">Tidak diketahui</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
+    <string name="connection_details_vpn_speed_description">Grafik ini menampilkan kecepatan aktivitas unggah dan unduh Anda. Koneksi VPN Anda sebagian besar tidak akan memperlambat aktivitas daring biasa.</string>
     <!-- tag(Redesign_2023) -->
     <string name="speed_bits_per_second">%1$s b/s</string>
     <!-- tag(Redesign_2023) -->
@@ -1112,9 +1168,9 @@
         <item quantity="other">%1$d hari</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d hr</string>
+    <string name="connection_details_hours_shortened">%1$d jam</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <string name="connection_details_minutes_shortened">%1$d mnt</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d sec</string>
+    <string name="connection_details_seconds_shortened">%1$d dtk</string>
 </resources>

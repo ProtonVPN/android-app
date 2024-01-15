@@ -345,8 +345,8 @@
     <string name="netshield_ads_details">광고와 보이지 않는 광고 트래커</string>
     <string name="netshield_trackers_title">트래커</string>
     <string name="netshield_trackers_details">인터넷 활동의 정보 저장 및 공유 활동하는 쿠키 및 타 트래커</string>
-    <string name="netshield_data_title">Data</string>
-    <string name="netshield_data_details">The amount of unwanted data from ads, trackers, and malware blocked by NetShield</string>
+    <string name="netshield_data_title">데이터</string>
+    <string name="netshield_data_details">NetShield로 차단된 광고, 트래커, 멀웨어의 개수</string>
     <string name="accessibility_netshield_status_on_click">NetShield 설정에 로그인</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="other">광고가 차단됨</item>
@@ -354,7 +354,7 @@
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
         <item quantity="other">트래커가 멈춤</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">데이터 저장됨</string>
     <string name="netShieldBlockMalwareOnly">멀웨어만 차단</string>
     <string name="netShieldFullBlock">멀웨어, 트래커, 광고 차단</string>
     <string name="dialogDontShowAgain">다음부터 표시하지 않음</string>
@@ -438,8 +438,8 @@
         <item quantity="other">이 기기에서 연결하려면 다른 기기에서 연결 해제하거나 Plus로 업그레이드하여 최대 %1$d개의 기기에서 동시에 연결하세요.</item>
     </plurals>
     <string name="notification_max_sessions_content">이 기기에서 연결하려면 다른 기기의 연결을 끊어주세요.</string>
-    <string name="notification_cancel_to_free">당신은 Free 플랜에 있습니다. Free 서버 및 기능을 사용할 수 있습니다.</string>
-    <string name="notification_cancel_to_basic">당신은 Basic 플랜에 있습니다. Basic &amp; Free 서버 및 기능을 사용할 수 있습니다.</string>
+    <string name="notification_cancel_to_free">Free 요금제를 사용하고 있습니다. Free 서버와 기능을 이용할 수 있습니다.</string>
+    <string name="notification_cancel_to_basic">Basic 요금제를 사용하고 있습니다. Basic &amp; Free 서버 및 기능을 이용할 수 있습니다.</string>
     <string name="notification_cancel_to_delinquent">미지불된 금액이 결제된 후에 다시 프리미엄 기능에 접근할 수 있습니다.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">서버에서: </string>
@@ -447,7 +447,7 @@
     <string name="no_thanks">괜찮습니다</string>
     <string name="enable">활성화</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol은 현재 비활성화 되었습니다</string>
-    <string name="notification_smart_protocol_disabled_content">Proton VPN이 현재 네트워크에서 VPN에 연결할 수 없음을 감지했습니다. Smart Protocol을 사용하도록 설정하면 이러한 제한을 무시할 수 있습니다.</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN이 현재 네트워크에서는 VPN에 연결할 수 없음을 감지했습니다. Smart Protocol을 활성화하면 이러한 제한을 우회할 수도 있습니다.</string>
     <string name="upsell_advanced_features">고급 기능: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">전 세계 어디에서나 스트리밍 서비스(Netflix, Disney+ 등) 에 액세스</string>
     <!-- Number of servers available in the service.
@@ -541,13 +541,13 @@
     <string name="activity_information_gateways_title">게이트웨이가 무엇인가요?</string>
     <string name="info_features">기능</string>
     <string name="smart_routing_title">Smart Routing</string>
-    <string name="smart_routing_description">이 기술을 통해 Proton VPN은 서비스를 제공하기 어려운 국가에서 더 빠른 속도와 보안을 제공할 수 있습니다.</string>
+    <string name="smart_routing_description">이 기술로 Proton VPN은 이용이 어려운 국가에서도 더 높은 속도와 보안을 제공하고 있습니다.</string>
     <string name="streaming_title">스트리밍 서비스</string>
-    <string name="streaming_description">플러스 서버는 전 세계 어디서나 스트리밍 서비스 (넷플릭스, 디즈니+, 등) 을 지원합니다.</string>
+    <string name="streaming_description">Plus 서버는 전 세계 어디의 스트리밍 서비스 (넷플릭스, 디즈니+ 등) 라도 지원할 수 있습니다.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">이 서버들은 BitTorrent 및 파일 공유에 최고의 성능을 제공합니다.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Tor 네트워크로 트래픽을 경유하세요. 느리지만 더 안전합니다.</string>
+    <string name="tor_description">인터넷 트래픽이 Tor 네트워크를 경유하게 됩니다. 느리지만 더욱 은밀해집니다.</string>
     <string name="info_performance">속도</string>
     <string name="server_load_title">서버 부하율</string>
     <string name="server_load_description">부하가 높은 서버는 부하가 낮은 서버보다 느립니다.</string>
@@ -577,8 +577,8 @@
     <string name="dynamic_report_success_title">피드백 주셔서 감사합니다</string>
     <string name="dynamic_report_success_description">가능한 빨리 다시 뵙겠습니다.</string>
     <string name="dynamic_report_field_mandatory">필수 항목</string>
-    <string name="dynamic_report_logs_description">로그는 오류를 초래한 작업을 보여주는 파일 유형입니다. 엔지니어들이 버그를 수정할 수 있도록 수정에만 해당 로그를 사용합니다.</string>
-    <string name="dynamic_report_logs_missing">오류 로그는 문제의 원인을 알아가는데 도움이 됩니다. 로그가 포함되지 못한다면, 문제에 대한 조사에 어려움을 겪을 수도 있습니다.</string>
+    <string name="dynamic_report_logs_description">로그는 어떤 작업에서부터 오류가 발생하게 되었는지 보여주는 파일입니다. 엔지니어들이 버그를 고치는 것을 도울 때가 아니면 절대 사용되지 않습니다.</string>
+    <string name="dynamic_report_logs_missing">오류 로그는 저희가 문제의 근원으로 다가서는 데 도움을 줍니다. 이것을 포함하지 않는다면 저희는 제대로 조사하지 못할 수도 있습니다.</string>
     <string name="dynamic_report_step1">1/3 단계</string>
     <string name="dynamic_report_step2">2/3 단계</string>
     <string name="dynamic_report_step3">3/3 단계</string>
@@ -659,21 +659,39 @@
     <string name="server_change_max_reached">현재 무료 서버 최대 변경 횟수에 도달했습니다.</string>
     <string name="server_change_upsell">VPN Plus로 무제한 변경 기능 사용</string>
     <string name="server_change_button_title">서버 번경</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services.
+
+        %1$s - replaced with "time_left_minutes"
+        %2$s - replaced with "time_left_seconds"
+        Example:
+        Available in 1 minute 23 seconds.
+      -->
+    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
+    <!-- Added to "Change server" button when it displays countdown until the button becomes active.
+         Used only for accessibility services and only if time left is less than 1 minute.
+
+        %1$s - replaced with "time_left_seconds"
+        Example:
+        Available in 23 seconds.
+      -->
+    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
+    <string name="server_change_progress_finished_contend_description">Available now</string>
     <string name="not_wanted_country_title">원하신 국가가 아닌가요?</string>
     <string name="not_wanted_country_description">모든 서버에 접근하기 위해 업그레이드</string>
     <string name="whats_new_title">새로운 소식</string>
     <string name="whats_new_new_look_title">새로운 비주얼, 동일한 보안</string>
-    <string name="whats_new_new_look_description">We updated our designs and moved some things around to make the app easier to use.</string>
-    <string name="whats_new_recents_title">Introducing Recents</string>
-    <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
-    <string name="whats_new_dismiss_button">Take a look</string>
+    <string name="whats_new_new_look_description">디자인을 업데이트하고 앱을 더 쉽게 사용할 수 있도록 몇 가지를 옮겼습니다.</string>
+    <string name="whats_new_recents_title">최근 항목 보기를 소개합니다.</string>
+    <string name="whats_new_recents_description">선호하는 서버에 다시 연결하는 것이 더 쉬워졌습니다. 홈 화면에서 최근 연결을 보거나 빠른 연결을 위해 고정하세요. 최근 항목이 프로파일에 재병렬됩니다.</string>
+    <string name="whats_new_dismiss_button">자세히 살펴보기</string>
     <string name="whats_new_added_countries_title">새로운 무료 서버 국가</string>
-    <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
+    <string name="whats_new_added_countries_description">폴란드와 루마니아에 무료 서버가 신설되었습니다. 서버 밀집 해소를 위해, 수동 국가 선택을 제거하고 자동 서버 선택을 크게 개선했습니다.</string>
     <string name="welcome_plus_title">VPN Plus에 오신 것을 환영합니다</string>
     <string name="welcome_plus_description">더 많은 개인정보 보호 기능과 강력한 성능, 그리고 한 차원 높은 VPN 사용자화를 사용해 보세요.</string>
     <string name="welcome_plus_feature_security">고급 제어 기능</string>
     <string name="welcome_unlimited_title">Proton Unlimited에 오신 것을 환영합니다</string>
-    <string name="welcome_unlimited_description"><![CDATA[축하합니다! <b>%1$d&#160;GB</b> 총 저장 공간을 포함한 프리미엄 보안과 성능 기능을 모든 Proton 서비스에서 사용하실 수 있습니다.<br><br> 강력한 Proton 개인정보 보호 기능을 누려보세요.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[축하합니다! Proton의 모든 서비스에서 프리미엄용 보안과 성능 기능을, 총 저장공간은 <b>%1$d&#160;GB </b> 더 사용할 수 있게 되었습니다.<br><br>Proton 프라이버시의 최고를 누리십시오.]]></string>
     <string name="welcome_generic_title">축하합니다</string>
     <string name="welcome_generic_description">구독을 업그레이드 했습니다. 한 차원 높은 개인정보 보호 기능과 성능을 즐겨보세요.</string>
     <!-- Example: Up to 10 devices at once
@@ -719,14 +737,14 @@
          a label "Recents" with this state description will be read by a screen reader as:
          "Expanded. Recents"
      -->
-    <string name="accessibility_expandable_state_expanded">expanded</string>
+    <string name="accessibility_expandable_state_expanded">펼침</string>
     <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
          Used only by accessibility services.
          Example:
          a label "Recents" with this state description will be read by a screen reader as:
          "Collapsed. Recents"
      -->
-    <string name="accessibility_expandable_state_collapsed">collapsed</string>
+    <string name="accessibility_expandable_state_collapsed">축소됨</string>
     <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
          Used only by accessibility services.
          Example:
@@ -734,7 +752,7 @@
          read by a screen reader as:
          "Expanded. Recents. Double tap to collapse"
      -->
-    <string name="accessibility_expandable_action_collapse">collapse</string>
+    <string name="accessibility_expandable_action_collapse">축소</string>
     <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
          Used only by accessibility services.
          Example:
@@ -742,15 +760,15 @@
          be read by a screen reader as:
          "Collapsed. Recents. Double tap to expand"
      -->
-    <string name="accessibility_expandable_action_expand">expand</string>
+    <string name="accessibility_expandable_action_expand">펼치기</string>
     <string name="no_logs_banner_title">노-로그 인증을 받은 VPN</string>
     <string name="no_logs_banner_description">사용자의 VPN 활동은 스위스의 개인정보 보호법대로 보호됩니다. 저희는 당신을 온라인 상에서 추적하거나 정보를 제 3자와 공유하지 않습니다.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
-    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_home">홈</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
-    <string name="bottom_nav_countries">Countries</string>
+    <string name="bottom_nav_countries">국가</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
-    <string name="botton_nav_settings">Settings</string>
+    <string name="botton_nav_settings">설정</string>
     <!-- tag(Redesign_2023)
          Text added to button labels that open a UI element (e.g. a panel).
          Only used by accessibility services.
@@ -759,7 +777,7 @@
          reader as:
          "Connection details, button. Double tap to open"
     -->
-    <string name="accessibility_action_open">open</string>
+    <string name="accessibility_action_open">열기</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that initiate a VPN connection.
          Only used by accessibility services.
@@ -767,7 +785,7 @@
          a list item for country Switzerland will be read by a screen reader as:
          "Switzerland. Double tap to connect"
         -->
-    <string name="accessibility_action_connect">connect</string>
+    <string name="accessibility_action_connect">연결</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that redirect the user to upgrade their subscription plan.
          Only used by accessibility services.
@@ -776,7 +794,7 @@
          available will be read by a screen reader as:
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
-    <string name="accessibility_action_upgrade">upgrade</string>
+    <string name="accessibility_action_upgrade">업그레이드</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -786,7 +804,7 @@
          screen reader as:
          "in maintenance, Switzerland"
      -->
-    <string name="accessibility_item_in_maintenance">in maintenance</string>
+    <string name="accessibility_item_in_maintenance">유지 보수 중</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable.
          Only used by accessibility services.
@@ -795,7 +813,7 @@
          reader as:
          "unavailable, Switzerland"
      -->
-    <string name="accessibility_item_unavailable">unavailable</string>
+    <string name="accessibility_item_unavailable">사용할 수 없음</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when there is active connection to it.
          Only used by accessibility services.
@@ -804,34 +822,36 @@
          will be read by a screen reader as:
          "Switzerland, connected"
      -->
-    <string name="accessibility_item_connected">connected</string>
+    <string name="accessibility_item_connected">연결됨</string>
     <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
-    <string name="fastest_country">Fastest country</string>
+    <string name="fastest_country">가장 빠른 국가</string>
+    <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
+    <string name="fastest_free_server">Fastest free server</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Iceland
      -->
-    <string name="connection_info_secure_core_full_iceland">%1$s via Iceland</string>
+    <string name="connection_info_secure_core_full_iceland">아이슬란드를 통한 %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Sweden
      -->
-    <string name="connection_info_secure_core_full_sweden">%1$s via Sweden</string>
+    <string name="connection_info_secure_core_full_sweden">스웨덴을 통한 %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_switzerland">%1$s via Switzerland</string>
+    <string name="connection_info_secure_core_full_switzerland">스위스를 통한 %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection.
          This text will only be used if a new entry country is added and the application is not
@@ -840,17 +860,17 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <string name="connection_info_secure_core_full_other">%2$s을(를) 통한 %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
-    <string name="connection_info_secure_core_entry_iceland">via Iceland</string>
+    <string name="connection_info_secure_core_entry_iceland">아이슬란드를 통한 </string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
-    <string name="connection_info_secure_core_entry_sweden">via Sweden</string>
+    <string name="connection_info_secure_core_entry_sweden">스웨덴을 통한 </string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -863,11 +883,38 @@
          %1$s - entry country name in nominative case
          Example: via Switzerland
     -->
-    <string name="connection_info_secure_core_entry_other">via %1$s</string>
+    <string name="connection_info_secure_core_entry_other">%1$s 경유</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         three countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+
+     -->
+    <string name="connection_info_auto_selected_free_countries">Auto-selected from [flags]</string>
+    <!-- tag(Redesign_2023)
+         Label describing a connection to a free server automatically selected from one in
+         several countries. Used instead of connection_info_auto_selected_free_countries when there
+         are more than 3 countries. Displayed directly below fastest_free_server.
+         [flags] - replaced with an image of 3 flags.
+         $1%d - replaced with number of additional countries (beyond the 3 flags).
+
+         Example, if there are 5 countries to select from the text will be:
+         Auto selected from [flags]+2
+         -->
+    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
+    <!-- tag(Redesign_2023)
+         Accessibility label describing a connection to a free server that is automatically selected
+         from one in several countries. Placed directly below fastest_free_server.
+         This text replaces connection_info_auto_selected_free_servers for screen readers.
+         $1%d - replaced with number of countries.
+         -->
+    <plurals name="connection_info_accessibility_auto_selected_free_countries">
+        <item quantity="other">Auto-selected from %1$d countries</item>
+    </plurals>
     <!-- tag(Redesign_2023)
          Help button above the connection card.
      -->
-    <string name="connection_card_help">Help</string>
+    <string name="connection_card_help">지원</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          the recommended one.
@@ -879,7 +926,7 @@
          Recommended
          Fastest country
      -->
-    <string name="connection_card_label_recommended">Recommended</string>
+    <string name="connection_card_label_recommended">권장</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -891,11 +938,11 @@
          Last connected to
          Fastest country
          -->
-    <string name="connection_card_label_last_connected">Last connected to</string>
+    <string name="connection_card_label_last_connected">마지막 연결:</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
-    <string name="connection_card_label_connecting">Connecting to…</string>
+    <string name="connection_card_label_connecting">다음에 연결 중…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
@@ -908,7 +955,7 @@
          Fastest country
          Germany
      -->
-    <string name="connection_card_label_connected">Browsing safely from</string>
+    <string name="connection_card_label_connected">안전하게 브라우즈하고 있는 위치는</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with details of the current VPN connection.
          Only used by accessibility services.
@@ -917,108 +964,117 @@
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_details">connection details</string>
+    <string name="connection_card_accessbility_label_connection_details">connection details</string>
+    <!-- tag(Redesign_2023)
+         Description of a button for opening panel with information about connections in free plan.
+         Only used by accessibility services.
+
+         Example:
+         a button with this description will be read by a screen reader as:
+         "more information about free connections, button. Double tap to activate"
+    -->
+    <string name="connection_card_accessbility_label_free_connections">more information about free connections</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
-    <string name="recents_headline">Recents</string>
+    <string name="recents_headline">최근</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_pin">Pin</string>
+    <string name="recent_action_pin">고정</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_unpin">Unpin</string>
+    <string name="recent_action_unpin">고정 해제</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_remove">Remove</string>
+    <string name="recent_action_remove">제거</string>
     <!-- tag(Redesign_2023)
          State description of a pinned recent item.
          Only used by accessibility service.
     -->
-    <string name="recent_action_accessibility_state_pinned">Pinned</string>
+    <string name="recent_action_accessibility_state_pinned">고정됨</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
+    <string name="message_country_servers_in_maintenance">이 국가 내의 모든 서버는 유지 보수 상태입니다.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">All servers in this city are under maintenance</string>
+    <string name="message_city_servers_in_maintenance">이 도시 내의 모든 서버는 유지 보수 상태입니다.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">서버가 점검 중입니다</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_not_available">Server not available</string>
+    <string name="message_server_not_available">서버를 이용할 수 없습니다.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
-    <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
+    <string name="message_gateway_in_maintenance">게이트웨이가 점검 중입니다.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out">Sign out</string>
+    <string name="settings_sign_out">로그아웃</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_title">Settings</string>
+    <string name="settings_title">설정</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_features">Features</string>
+    <string name="settings_category_features">특징</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">분할 터널링</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill Switch</string>
+    <string name="settings_kill_switch_title">킬 스위치</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_connection_category">Connection</string>
+    <string name="settings_connection_category">연결</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_protocol_title">Protocol</string>
+    <string name="settings_protocol_title">프로토콜</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced Settings</string>
+    <string name="settings_advanced_settings_title">고급 설정</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_general">General</string>
+    <string name="settings_category_general">일반</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_account">Account</string>
+    <string name="settings_category_account">계정</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_notifications_title">알림</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_theme_title">테마</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_beta_access_title">Beta Access</string>
+    <string name="settings_beta_access_title">베타 참여</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_title">위젯</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_support">Support</string>
+    <string name="settings_category_support">지원</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Help Center</string>
+    <string name="settings_help_center_title">도움말 센터</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">문제 제보하기</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug Logs</string>
+    <string name="settings_debug_logs_title">디버그 로그</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_improve_proton">Improve Proton</string>
+    <string name="settings_category_improve_proton">Proton 개선하기</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_fight_censorship_title">검열에 맞서도록 도와주세요</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_rate_us_title">Rate Proton VPN</string>
+    <string name="settings_rate_us_title">Proton VPN 평가</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_restore_defaults_title">Restore default settings</string>
+    <string name="settings_restore_defaults_title">기본 설정값 복원</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Sign Out</string>
+    <string name="settings_sign_out_title">로그아웃</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">앱 버전: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">제3자 라이센스</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Sign out?</string>
+    <string name="dialog_sign_out_title">로그아웃하시겠습니까?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_message">You\'ll be disconnected from VPN.</string>
+    <string name="dialog_sign_out_message">VPN 연결이 끊어질 것입니다.</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">다시 묻지 않기</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_action">Sign out</string>
+    <string name="dialog_sign_out_action">로그아웃</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_action_cancel">Cancel</string>
+    <string name="dialog_action_cancel">취소</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
-    <string name="vpn_status_connected">Protected</string>
+    <string name="vpn_status_connected">보호됨</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->
-    <string name="vpn_status_disabled">You are unprotected</string>
+    <string name="vpn_status_disabled">노출됨</string>
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
-    <string name="vpn_status_connecting">Protecting your digital identity</string>
+    <string name="vpn_status_connecting">당신의 디지털 신원을 보호하고 있습니다</string>
     <!-- tag(Redesign_2023)
          Displays Country name and IP of user if he is not connected.
          First parameter is country, second is IP.
@@ -1026,95 +1082,95 @@
     -->
     <string name="vpn_status_disabled_location">%1$s - %2$s</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_subtitle">Connection details</string>
+    <string name="connection_details_subtitle">연결 세부사항</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_show_ip">Show IP</string>
+    <string name="accessibility_show_ip">IP 보기</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_back">Back</string>
+    <string name="accessibility_back">이전</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_my_ip">My IP</string>
+    <string name="connection_details_my_ip">내 IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
     -->
-    <string name="connection_details_connected_for">Connected for</string>
+    <string name="connection_details_connected_for">다음으로 연결됨:</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server">Server</string>
+    <string name="connection_details_server">서버</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_gateway">Gateway</string>
+    <string name="connection_details_gateway">게이트웨이</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_country">Country</string>
+    <string name="connection_details_country">국가</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_city">City</string>
+    <string name="connection_details_city">시/군/구</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
-    <string name="connection_details_server_load">Server load</string>
+    <string name="connection_details_server_load">서버 부하</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_question">What is server load?</string>
+    <string name="connection_details_server_load_question">서버 부하가 무엇인가요?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">Server load shows how close a server is to its maximum capacity. \n\nA high server load can slow down your connection.</string>
+    <string name="connection_details_server_load_description">서버 부하는 서버가 최대 수용량에 얼마나 근접했는지 보여줍니다.\n\n높은 서버 부하는 연결 속도를 늦출 수 있습니다.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_title">Low (1–75%)</string>
+    <string name="connection_details_server_load_low_title">낮음 (1-75%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_description">Lightning fast speeds</string>
+    <string name="connection_details_server_load_low_description">번개처럼 빠르게</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_title">Medium (76–90%)</string>
+    <string name="connection_details_server_load_medium_title">보통 (76-90%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_description">Unlikely to affect VPN speed</string>
+    <string name="connection_details_server_load_medium_description">웬만해서는 VPN 속도에 문제 없음</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_title">High (91–100%)</string>
+    <string name="connection_details_server_load_high_title">높음 (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
+    <string name="connection_details_server_load_high_description">VPN이 평소보다 느릴 수 있습니다 </string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol">Protocol</string>
+    <string name="connection_details_protocol">프로토콜</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol_description">A protocol is a set of instructions your device follows to connect and communicate with a server.</string>
+    <string name="connection_details_protocol_description">프로토콜은 여러분의 기기가 서버에 접속하고 통신하기 위해 따를 일련의 지침을 말합니다.</string>
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
-    <string name="connection_details_upload">Upload</string>
+    <string name="connection_details_upload">업로드</string>
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
-    <string name="connection_details_download">Download</string>
+    <string name="connection_details_download">다운로드</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_section_vpn_speed">VPN speed</string>
+    <string name="connection_details_section_vpn_speed">VPN 속도</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_question">What is VPN speed?</string>
+    <string name="connection_details_vpn_speed_question">VPN 속도가 무엇인가요?</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
-    <string name="connection_details_learn_more">Learn more</string>
+    <string name="connection_details_learn_more">더 알아보기</string>
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
-    <string name="connection_details_unknown_ip">Unknown</string>
+    <string name="connection_details_unknown_ip">알 수 없음</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
+    <string name="connection_details_vpn_speed_description">이 그래프는 현재 다운로드와 업로드의 속도를 보여줍니다. 사용자의 VPN이 일반적인 온라인 활동의 저하를 일으키는 것으로 보이지 않습니다.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_bits_per_second">%1$s b/s</string>
+    <string name="speed_bits_per_second">%1$s b/초</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_kb_per_second">%1$s kb/s</string>
+    <string name="speed_kb_per_second">%1$s kB/초</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_mb_per_second">%1$s Mb/s</string>
+    <string name="speed_mb_per_second">%1$s Mb/초</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_gb_per_second">%1$s Gb/s</string>
+    <string name="speed_gb_per_second">%1$s Gb/초</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_tb_per_second">%1$s Tb/s</string>
+    <string name="speed_tb_per_second">%1$s Tb/초</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
-    <string name="error_vpn_waiting_for_network">Waiting for network</string>
+    <string name="error_vpn_waiting_for_network">네트워크 대기 중</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
         <item quantity="other">%1$d일</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d hr</string>
+    <string name="connection_details_hours_shortened">%1$d 시간</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <string name="connection_details_minutes_shortened">%1$d 분</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d sec</string>
+    <string name="connection_details_seconds_shortened">%1$d 초</string>
 </resources>
