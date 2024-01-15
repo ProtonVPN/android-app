@@ -98,9 +98,12 @@ import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.headlineNorm
 import me.proton.core.compose.theme.overlineWeak
 import me.proton.core.compose.theme.subheadlineNorm
-import org.joda.time.Duration
-import org.joda.time.Period
 import kotlin.math.roundToInt
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun ConnectionDetailsRoute(
@@ -227,62 +230,39 @@ private fun ColumnScope.ConnectionDetailsConnected(
 
 @Composable
 private fun getSessionTime(sessionTimeInSeconds: Int?): String {
-    val period = sessionTimeInSeconds?.let {
-        Duration.standardSeconds(it.toLong()).toPeriod().normalizedStandard()
-    } ?: Period.ZERO
+    val duration = sessionTimeInSeconds?.seconds ?: Duration.ZERO
 
     val sb = StringBuilder()
 
-    when {
-        period.days != 0 -> {
-            sb.append(
-                pluralStringResource(
-                    id = R.plurals.connection_details_days, period.days, period.days
-                )
-            ).append(" ")
-            if (period.hours != 0) {
-                sb.append(
-                    stringResource(
-                        id = R.string.connection_details_hours_shortened,
-                        period.hours
-                    )
-                )
+    duration.toComponents { days, hours, minutes, seconds, _ ->
+        when {
+            days != 0L -> {
+                sb
+                    .append(pluralStringResource(id = R.plurals.connection_details_days, days.toInt(), days.toInt()))
+                    .append(" ")
+                if (hours != 0) {
+                    sb.append(stringResource(id = R.string.connection_details_hours_shortened, hours))
+                }
             }
-        }
 
-        period.hours != 0 -> {
-            sb.append(
-                stringResource(
-                    id = R.string.connection_details_hours_shortened,
-                    period.hours
-                )
-            ).append(" ")
-            if (period.minutes != 0) {
-                sb.append(
-                    stringResource(
-                        id = R.string.connection_details_minutes_shortened,
-                        period.minutes
-                    )
-                )
+            hours != 0 -> {
+                sb
+                    .append(stringResource(id = R.string.connection_details_hours_shortened, hours))
+                    .append(" ")
+                if (minutes != 0) {
+                    sb.append(stringResource(id = R.string.connection_details_minutes_shortened, minutes))
+                }
             }
-        }
 
-        else -> {
-            if (period.minutes != 0) {
-                sb.append(
-                    stringResource(
-                        id = R.string.connection_details_minutes_shortened,
-                        period.minutes
-                    )
-                ).append(" ")
-            }
-            if (period.seconds != 0) {
-                sb.append(
-                    stringResource(
-                        id = R.string.connection_details_seconds_shortened,
-                        period.seconds
-                    )
-                )
+            else -> {
+                if (minutes != 0) {
+                    sb
+                        .append(stringResource(id = R.string.connection_details_minutes_shortened, minutes))
+                        .append(" ")
+                }
+                if (seconds != 0) {
+                    sb.append(stringResource(id = R.string.connection_details_seconds_shortened, seconds))
+                }
             }
         }
     }

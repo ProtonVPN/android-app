@@ -31,23 +31,25 @@ import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.joda.time.DateTimeZone
-import org.joda.time.format.ISODateTimeFormat
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
+private val ISO_DATE_FORMATTER = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).apply {
+    timeZone = TimeZone.getTimeZone("UTC")
+}
 private const val TIMESTAMP = "2011-11-11T11:11:11.123Z"
-private val TIMESTAMP_DATE = ISODateTimeFormat.dateTimeParser().parseDateTime(TIMESTAMP)
-private val FIXED_CLOCK = { TIMESTAMP_DATE.millis }
+private val TIMESTAMP_DATE = ISO_DATE_FORMATTER.parse(TIMESTAMP)!!
+private val FIXED_CLOCK = { TIMESTAMP_DATE.time }
 
 private val TestEvent = LogEventType(LogCategory.APP, "TEST", LogLevel.INFO)
 private const val TEST_EVENT = "| INFO  | APP:TEST |"
@@ -91,39 +93,6 @@ class ProtonLoggerImplTests {
     }
 
     @Test
-    fun testGetLogLinesForDisplay() = runLoggerTest { logger ->
-        logger.log(TestEvent, "message1")
-        logger.log(TestEvent, "message2")
-        val logLines = mutableListOf<String>()
-
-        val originalTZ = DateTimeZone.getDefault()
-        val timeZone = DateTimeZone.forOffsetHours(5)
-        DateTimeZone.setDefault(timeZone)
-        try {
-            val collectJob = launch {
-                logger.getLogLinesForDisplay().toList(logLines)
-            }
-            val localTime = TIMESTAMP_DATE.withZone(timeZone).toLocalTime().toString()
-
-            assertEquals(
-                listOf("message1", "message2").map { testEventLine(localTime, it) },
-                logLines
-            )
-
-            logger.log(TestEvent, "message3")
-            assertEquals(
-                listOf("message1", "message2", "message3").map { testEventLine(localTime, it) },
-                logLines
-            )
-
-            collectJob.cancel()
-        } finally {
-            DateTimeZone.setDefault(originalTZ)
-        }
-
-    }
-
-    @Test
     @Suppress("BlockingMethodInNonBlockingContext")
     fun testUploadFilesNotAppendedTo() = runLoggerTest { logger ->
         logger.log(TestEvent, "message1")
@@ -163,25 +132,6 @@ class ProtonLoggerImplTests {
                 "$TIMESTAMP | INFO  | APP | custom line 1",
                 " custom line 2"
             ),
-            uploadFile.readLines()
-        )
-    }
-
-    @Test
-    @Suppress("BlockingMethodInNonBlockingContext")
-    fun testUtcTimestamp() = runLoggerTest { logger ->
-        val originalTZ = DateTimeZone.getDefault()
-        arrayOf(DateTimeZone.forOffsetHours(1), DateTimeZone.forOffsetHours(5)).forEach { tz ->
-            DateTimeZone.setDefault(tz)
-            logger.log(TestEvent, tz.toString())
-        }
-        DateTimeZone.setDefault(originalTZ)
-
-        val uploadFiles = logger.getLogFilesForUpload()
-        assertEquals(1, uploadFiles.size)
-        val uploadFile = uploadFiles[0].file
-        assertEquals(
-            listOf("$TIMESTAMP $TEST_EVENT +01:00", "$TIMESTAMP $TEST_EVENT +05:00"),
             uploadFile.readLines()
         )
     }

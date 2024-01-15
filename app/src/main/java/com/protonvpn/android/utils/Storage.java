@@ -27,13 +27,7 @@ import androidx.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -47,10 +41,6 @@ public final class Storage {
     private final static Gson GSON =
         new GsonBuilder()
             .enableComplexMapKeySerialization()
-            .registerTypeAdapter(DateTime.class, (JsonSerializer<DateTime>) (json, typeOfSrc, context) ->
-                new JsonPrimitive(ISODateTimeFormat.dateTime().print(json)))
-            .registerTypeAdapter(DateTime.class, (JsonDeserializer<DateTime>) (json, typeOfT, context) ->
-                ISODateTimeFormat.dateTime().parseDateTime(json.getAsString()))
             .registerTypeAdapter(ClientId.class, new ClientIdGsonSerializer())
             .create();
     private final static Type STRING_LIST_TYPE = new TypeToken<List<String>>() {}.getType();

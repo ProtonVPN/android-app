@@ -21,11 +21,11 @@ package com.protonvpn.android.logging
 import com.protonvpn.android.BuildConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.format.DateTimeFormatter
-import org.joda.time.format.ISODateTimeFormat
 import java.lang.IllegalArgumentException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 private const val MAX_MESSAGE_LENGTH = 50_000
 
@@ -65,7 +65,10 @@ open class ProtonLoggerImpl(
     otherWriters: List<LogWriter> = emptyList()
 ) : ProtonLoggerInterface {
     private val writers = otherWriters + fileLogWriter
-    private val timestampFormatter: DateTimeFormatter = ISODateTimeFormat.dateTime()
+    private val timestampFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }
+    private val logsTimeFormatter = SimpleDateFormat("HH:mm:ss.SSS", Locale.US)
 
     override fun log(event: LogEventType, message: String) {
         logEvent(event.level, event.category, event.name, message, false)
@@ -84,7 +87,7 @@ open class ProtonLoggerImpl(
     }
 
     override fun formatTime(timeMs: Long): String =
-        timestampFormatter.print(DateTime(timeMs, DateTimeZone.UTC))
+        timestampFormatter.format(Date(timeMs))
 
     private fun getTimestampNow(): String = formatTime(wallClock())
 
@@ -117,8 +120,8 @@ open class ProtonLoggerImpl(
         val firstSeparatorIndex = logLine.indexOf(' ')
         return if (firstSeparatorIndex > 0) {
             try {
-                val date = timestampFormatter.parseDateTime(logLine.substring(0, firstSeparatorIndex))
-                val localDateString = date.toLocalTime().toString()
+                val date = timestampFormatter.parse(logLine.substring(0, firstSeparatorIndex))
+                val localDateString = logsTimeFormatter.format(date)
                 logLine.replaceRange(0, firstSeparatorIndex, localDateString)
             } catch (e: IllegalArgumentException) {
                 logLine

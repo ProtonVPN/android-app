@@ -43,11 +43,12 @@ import com.protonvpn.android.utils.ViewUtils.initLolipopButtonFocus
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import me.proton.core.presentation.utils.currentLocale
 import me.proton.core.presentation.utils.openBrowserLink
 import me.proton.core.util.kotlin.exhaustive
-import org.joda.time.Period
-import org.joda.time.format.PeriodFormatterBuilder
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
@@ -56,15 +57,7 @@ class TvLoginActivity : BaseTvActivity() {
     private val binding by viewBinding(ActivityTvLoginBinding::inflate)
     val viewModel by viewModels<TvLoginViewModel>()
 
-    private val timeLeftFormatter = PeriodFormatterBuilder()
-        .minimumPrintedDigits(1)
-        .printZeroIfSupported()
-        .appendMinutes()
-        .appendSeparator(":")
-        .minimumPrintedDigits(2)
-        .printZeroIfSupported()
-        .appendSeconds()
-        .toFormatter()
+    private val timeLeftFormatter by lazy { SimpleDateFormat("m:ss", resources.configuration.currentLocale()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,7 +127,7 @@ class TvLoginActivity : BaseTvActivity() {
         when (state) {
             TvLoginViewState.Welcome, TvLoginViewState.FetchingCode -> {}
             is TvLoginViewState.PollingSession -> {
-                timer.text = timeLeftFormatter.print(Period(TimeUnit.SECONDS.toMillis(state.secondsLeft)))
+                timer.text = timeLeftFormatter.format(Date(TimeUnit.SECONDS.toMillis(state.secondsLeft)))
                 updateCode(state.code)
             }
             is TvLoginViewState.Error -> {

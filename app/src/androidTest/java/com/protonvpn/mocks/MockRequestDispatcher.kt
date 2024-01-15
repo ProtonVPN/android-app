@@ -29,8 +29,6 @@ import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
-import org.joda.time.LocalDateTime
-import org.joda.time.format.DateTimeFormatterBuilder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.concurrent.CopyOnWriteArrayList
@@ -86,7 +84,7 @@ class RequestMatcher(val getter: RequestValueGetter, val matcher: Matcher<String
 
 class MockRuleBuilder(private val rulesSink: MutableList<MockRequestDispatcher.Rule>) {
 
-    private val dateFormat = DateTimeFormatterBuilder().appendPattern("EEE, dd MMM yyyy HH:mm:ss 'GMT'").toFormatter()
+    private val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'")
 
     object Path
 
@@ -115,7 +113,7 @@ class MockRuleBuilder(private val rulesSink: MutableList<MockRequestDispatcher.R
 
     private fun responseWithHeaders(mockResponse: MockResponse): MockResponse =
         if (mockResponse.headers.none { it.first.equalsNoCase("Date") })
-            mockResponse.addHeader("Date", dateFormat.print(LocalDateTime()))
+            mockResponse.addHeader("Date", dateFormat.format(Date()))
         else
             mockResponse
 

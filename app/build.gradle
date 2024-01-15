@@ -752,7 +752,6 @@ dependencies {
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.github.clans:fab:1.6.4'
-    implementation 'net.danlew:android.joda:2.10.12.2'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.getkeepsafe.relinker:relinker:1.4.5'
