@@ -243,12 +243,6 @@
             android:name=".ui.login.AssignVpnConnectionActivity"
             android:label="@string/activityTroubleshootTitle" />
         <activity
-            android:name=".ui.settings.SettingsActivity"
-            android:label="@string/activitySettingsTitle" />
-        <activity
-            android:name=".ui.settings.SettingsDefaultProfileActivity"
-            android:label="@string/settingsDefaultConnectionTitle" />
-        <activity
             android:name=".ui.settings.SettingsExcludeAppsActivity"
             android:label="@string/settingsExcludedApps" />
         <activity
