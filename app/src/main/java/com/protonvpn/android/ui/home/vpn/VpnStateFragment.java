@@ -49,11 +49,6 @@ import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnState;
 import com.protonvpn.android.vpn.VpnStatusProviderUI;
 
-import org.joda.time.Duration;
-import org.joda.time.Period;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -88,8 +83,6 @@ public class VpnStateFragment extends BaseFragment {
     @Inject TrafficMonitor trafficMonitor;
     private BottomSheetBehavior<View> bottomSheetBehavior;
 
-    @NonNull
-    private final PeriodFormatter sessionTimeFormatter = createSessionTimeFormatter();
     @NonNull
     private final Observer<TrafficUpdate> sessionTimeObserver = this::updateSessionTime;
 
@@ -346,10 +339,7 @@ public class VpnStateFragment extends BaseFragment {
     }
 
     private void updateSessionTime(@Nullable TrafficUpdate trafficUpdate) {
-        final Period period = (trafficUpdate != null)
-            ? Duration.standardSeconds(trafficUpdate.getSessionTimeSeconds()).toPeriod()
-            : Period.ZERO;
-        textSessionTime.setText(sessionTimeFormatter.print(period));
+        /* ignored */
     }
 
     private void changeStateFragment(@NonNull Class<? extends Fragment> fragmentClass) {
@@ -374,18 +364,5 @@ public class VpnStateFragment extends BaseFragment {
                     bottomSheetBehavior.setPeekHeight(height, false);
                 }
             });
-    }
-
-    @NonNull
-    private PeriodFormatter createSessionTimeFormatter() {
-        return (new PeriodFormatterBuilder())
-            .printZeroAlways()
-            .minimumPrintedDigits(2)
-            .appendHours()
-            .appendLiteral(":")
-            .appendMinutes()
-            .appendLiteral(":")
-            .appendSeconds()
-            .toFormatter();
     }
 }

@@ -54,7 +54,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.builtins.ListSerializer
 import org.jetbrains.annotations.TestOnly
-import org.joda.time.DateTime
 import java.io.Serializable
 import java.util.Locale
 import javax.inject.Inject
@@ -107,13 +106,10 @@ class ServerManager @Inject constructor(
     // TODO: remove the LiveDatas once there is no more Java code using them.
     @Transient val serverListVersionLiveData = serverListVersion.asLiveData()
 
-    // isDownloadedAtLeastOnce should be true if there was an updateAt value. Remove after most users update.
-    @SerializedName("updatedAt") private var migrateUpdatedAt: DateTime? = null
-
     @Deprecated("Use suspending isDownloadedAtLeastOnce instead. Or even better ServerManager2")
     // This method will not wait for the server list to be loaded. Use with caution.
     val haveLoadedServersAlready get() =
-        (lastUpdateTimestamp > 0L || migrateUpdatedAt != null) && serversStore.allServers.isNotEmpty()
+        lastUpdateTimestamp > 0L && serversStore.allServers.isNotEmpty()
 
     suspend fun isDownloadedAtLeastOnce(): Boolean {
         ensureLoaded()
@@ -145,7 +141,6 @@ class ServerManager @Inject constructor(
             Storage.load(ServerManager::class.java)
         if (oldManager != null) {
             streamingServices = oldManager.streamingServices
-            migrateUpdatedAt = oldManager.migrateUpdatedAt
             lastUpdateTimestamp = oldManager.lastUpdateTimestamp
             serverListAppVersionCode = oldManager.serverListAppVersionCode
             translationsLang = oldManager.translationsLang

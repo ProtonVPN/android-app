@@ -68,8 +68,6 @@ import com.protonvpn.android.vpn.UpdateSecureCoreToMatchConnectedServer;
 import com.protonvpn.android.vpn.UpdateSettingsOnFeatureFlagChange;
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
 
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -137,7 +135,6 @@ public class ProtonApplication extends Application {
 
         initPreferences();
         SentryIntegration.initSentry(this);
-        JodaTimeAndroid.init(this);
 
         if (AndroidUtilsKt.isMainProcess(this)) {
             initLogger();
