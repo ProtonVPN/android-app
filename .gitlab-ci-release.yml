@@ -49,6 +49,8 @@ sign-bundle:
       when: never
     - if: $CI_COMMIT_BRANCH == "development"
       when: always
+    - if: $CI_COMMIT_BRANCH =~ /^hotfix/
+      when: always
     - if: $CI_COMMIT_BRANCH =~ /^release/
       when: always
   needs: ["build google play bundle", "build google debug"]
