@@ -28,7 +28,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.protonvpn.android.ui.home.HomeActivity
+import com.protonvpn.android.redesign.main_screen.ui.MainActivity
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -68,7 +68,7 @@ class MobileMainActivity : AppCompatActivity() {
     }
 
     private fun createHomeContract() = object : ActivityResultContract<Unit, ActivityResult>() {
-        override fun createIntent(context: Context, input: Unit) = Intent(context, HomeActivity::class.java)
+        override fun createIntent(context: Context, input: Unit) = Intent(context, MainActivity::class.java)
         override fun parseResult(resultCode: Int, intent: Intent?) = ActivityResult(resultCode, null)
     }
 }

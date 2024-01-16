@@ -60,9 +60,6 @@ class VpnStateViewModel @Inject constructor(
     currentUser: CurrentUser
 ) : ViewModel() {
 
-    val eventCollapseBottomSheet = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
-    val eventCollapseBottomSheetLV = eventCollapseBottomSheet.asLiveData()
-
     val trafficStatus = trafficMonitor.trafficStatus
     val snackbarErrorFlow = vpnErrorUIManager.snackErrorFlow
 
@@ -79,9 +76,6 @@ class VpnStateViewModel @Inject constructor(
                 NetShieldAvailability.UPGRADE_VPN_PLUS -> NetShieldViewState.UpgradePlusBanner
             }
         }.stateIn(viewModelScope, SharingStarted.Eagerly, NetShieldViewState.UpgradePlusBanner)
-
-    val netShieldExpandStatus = MutableStateFlow(false)
-    val bottomSheetFullyExpanded = MutableLiveData(false)
 
     suspend fun consumeErrorMessage() = vpnErrorUIManager.consumeErrorMessage()
 
@@ -104,14 +98,5 @@ class VpnStateViewModel @Inject constructor(
 
     fun disconnectAndClose(trigger: DisconnectTrigger) {
         disconnect(trigger)
-        eventCollapseBottomSheet.tryEmit(Unit)
-    }
-
-    fun onNetShieldExpandClicked() {
-        netShieldExpandStatus.value = !netShieldExpandStatus.value
-    }
-
-    fun onBottomStateChanges(newState: Int) {
-        bottomSheetFullyExpanded.value = newState == BottomSheetBehavior.STATE_EXPANDED
     }
 }

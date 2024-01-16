@@ -113,12 +113,6 @@
             android:required="false" />
 
         <activity
-            android:name=".ui.home.HomeActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_home"
-            android:launchMode="singleTop"
-            android:resizeableActivity="true"/>
-        <activity
             android:name=".ui.drawer.LogActivity"
             android:label="@string/log_title" />
         <activity

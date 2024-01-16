@@ -33,8 +33,6 @@ import com.protonvpn.android.appconfig.RestrictionsConfig;
 import com.protonvpn.android.auth.usecase.CurrentUser;
 import com.protonvpn.android.auth.data.VpnUser;
 import com.protonvpn.android.auth.data.VpnUserKt;
-import com.protonvpn.android.bus.ConnectToServer;
-import com.protonvpn.android.bus.EventBus;
 import com.protonvpn.android.components.BaseFragment;
 import com.protonvpn.android.components.ContentLayout;
 import com.protonvpn.android.components.Markable;
@@ -48,7 +46,6 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached;
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity;
 import com.protonvpn.android.utils.CountryTools;
 import com.protonvpn.android.utils.ServerManager;
-import com.protonvpn.android.vpn.ConnectTrigger;
 import com.protonvpn.android.vpn.DisconnectTrigger;
 import com.protonvpn.android.vpn.VpnConnectionManager;
 import com.protonvpn.android.vpn.VpnStatusProviderUI;
@@ -306,12 +303,6 @@ public class MapFragment extends BaseFragment implements MarkerLayout.MarkerTapL
 
         if (hasAccess) {
             binding.buttonConnect.setOnClickListener(v -> {
-                EventBus.post(
-                        new ConnectToServer(
-                                serverManager.getBestScoreServer(country.getConnectableServers()),
-                                ConnectTrigger.Map.INSTANCE,
-                                DisconnectTrigger.Map.INSTANCE
-                        ));
                 updateMapState();
                 mapView.getCalloutLayout().removeAllViews();
             });
