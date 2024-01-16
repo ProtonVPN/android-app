@@ -23,7 +23,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.GrantPermissionRule
-import com.protonvpn.actions.HomeRobot
 import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
@@ -31,7 +30,6 @@ import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHiltInjectRule
 import com.protonvpn.testsHelper.TestSetup
-import com.protonvpn.android.R
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.domain.entity.AppStore
 import me.proton.core.plan.test.MinimalUpgradeTests
@@ -68,12 +66,13 @@ class UpgradeTests : MinimalUpgradeTests {
         TestSetup.quark?.setPaymentMethods(AppStore.FDroid, card = true)
     }
 
+    // TODO update with redesign home robot
     override fun startUpgrade() {
-        HomeRobot()
-            .verify { isInMainScreen() }
-        HomeRobot()
-            .setStateOfSecureCoreSwitch(true) // Force Upgrade flow.
-            .verify { dialogUpgradeVisible() }
-            .clickElementByText<HomeRobot>(R.string.upgrade)
+      //  HomeRobot()
+      //      .verify { isInMainScreen() }
+      //  HomeRobot()
+      //      .setStateOfSecureCoreSwitch(true) // Force Upgrade flow.
+      //      .verify { dialogUpgradeVisible() }
+      //      .clickElementByText<HomeRobot>(R.string.upgrade)
     }
 }

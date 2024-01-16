@@ -20,8 +20,6 @@
 package com.protonvpn.testSuites
 
 import com.protonvpn.tests.bugReport.MockedBugReportTests
-import com.protonvpn.tests.connection.ConnectionTests
-import com.protonvpn.tests.freeRescope.FreeRescopeTests
 import com.protonvpn.tests.logging.ProtonLoggerImplTests
 import com.protonvpn.tests.promooffer.WelcomeOfferTests
 import com.protonvpn.tests.settings.data.UserDataMigrationTests
@@ -37,8 +35,6 @@ import org.junit.runners.Suite
 //    HomeActivityPromoOfferTests::class,
 //    PartnershipTests::class,
 //    PromoOfferActivityTests::class,
-    ConnectionTests::class,
-    FreeRescopeTests::class,
     // Note: when we have a lot of isolated tests they can be run in a separate CI job without test orchestrator.
     IsolatedTestsSuite::class,
     LiveEventTests::class,

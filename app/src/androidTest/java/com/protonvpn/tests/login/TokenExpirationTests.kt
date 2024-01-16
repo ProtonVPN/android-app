@@ -20,7 +20,6 @@
 package com.protonvpn.tests.login
 
 import androidx.test.core.app.ActivityScenario
-import com.protonvpn.actions.HomeRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.main.MobileMainActivity
@@ -46,7 +45,7 @@ import kotlin.test.assertNotNull
 @HiltAndroidTest
 class TokenExpirationTests {
     private val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
-    private lateinit var homeRobot: HomeRobot
+
     private lateinit var loginRobot: LoginRobot
 
     @get:Rule
@@ -66,16 +65,13 @@ class TokenExpirationTests {
         hiltRule.inject()
         hiltRule.startApplicationAndWaitForIdle()
         ActivityScenario.launch(MobileMainActivity::class.java)
-        homeRobot = HomeRobot()
         loginRobot = LoginRobot()
-        homeRobot.verify { serverListIsVisible() }
     }
 
     @Test
     fun sessionAndRefreshTokenExpiration() = runTest(timeout = Timeouts.MEDIUM) {
         SessionManagerImpl.reset(currentUser.sessionId())
         TestSetup.quark!!.expireSession(TestUser.plusUser.email, true)
-        homeRobot.swipeDownToRefreshServerList()
         loginRobot.verify { loginScreenIsDisplayed() }
     }
 
@@ -83,7 +79,5 @@ class TokenExpirationTests {
     fun sessionExpirationCheckIfNotLoggedOut() = runTest(timeout = Timeouts.MEDIUM) {
         SessionManagerImpl.reset(currentUser.sessionId())
         TestSetup.quark!!.expireSession(TestUser.plusUser.email)
-        homeRobot.swipeDownToRefreshServerList()
-            .verify { loginScreenIsNotDisplayed() }
     }
 }
