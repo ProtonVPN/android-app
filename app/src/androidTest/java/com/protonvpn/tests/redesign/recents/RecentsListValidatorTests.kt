@@ -100,7 +100,7 @@ class RecentsListValidatorTests {
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val db = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
-            .setQueryExecutor(Executors.newSingleThreadExecutor())
+            .setQueryExecutor(transactionExecutor)
             .setTransactionExecutor(transactionExecutor)
             .buildDatabase()
 
