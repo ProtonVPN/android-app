@@ -1,13 +1,11 @@
 package com.protonvpn.tests.accountrecovery
 
-import android.Manifest
-import android.os.Build
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.rule.GrantPermissionRule
-import com.protonvpn.actions.HomeRobot
+import com.protonvpn.actions.compose.HomeRobot
+import com.protonvpn.actions.compose.interfaces.verify
 import com.protonvpn.android.ui.onboarding.SplashActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.testRules.ProtonHiltAndroidRule
@@ -73,6 +71,6 @@ class AccountRecoveryNotificationTest : MinimalAccountRecoveryNotificationTest {
     }
 
     override fun verifyAfterLogin() {
-        HomeRobot().verify { isInMainScreen() }
+        HomeRobot.verify { isLoggedIn() }
     }
 }

@@ -21,7 +21,6 @@ package com.protonvpn.tests.bugReport
 
 import androidx.test.core.app.ActivityScenario
 import com.protonvpn.actions.BugReportRobot
-import com.protonvpn.actions.HomeRobot
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.config.bugreport.InputField
@@ -53,7 +52,6 @@ class MockedBugReportTests {
     private val hiltRule = ProtonHiltAndroidRule(this, mockApiConfig)
     private lateinit var bugCategory: Category
     private lateinit var reportBugRobot: BugReportRobot
-    private lateinit var homeRobot: HomeRobot
 
     @get:Rule
     var rules = RuleChain
@@ -63,7 +61,6 @@ class MockedBugReportTests {
     @Before
     fun setUp() {
         reportBugRobot = BugReportRobot()
-        homeRobot = HomeRobot()
         bugCategory = dynamicReportModel.first()
         hiltRule.inject()
         ActivityScenario.launch(DynamicReportActivity::class.java)

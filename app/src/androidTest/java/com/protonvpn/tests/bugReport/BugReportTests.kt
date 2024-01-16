@@ -20,15 +20,15 @@
 package com.protonvpn.tests.bugReport
 
 import com.protonvpn.actions.BugReportRobot
-import com.protonvpn.actions.HomeRobot
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.bugreport.Category
+import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.LoggedInActivityTestRule
 import com.protonvpn.testRules.LoginTestRule
 import com.protonvpn.testRules.ProtonHiltAndroidRule
-import com.protonvpn.testRules.ProtonHomeActivityTestRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -38,13 +38,13 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import javax.inject.Inject
 
+
 @HiltAndroidTest
 class BugReportTests {
 
     private val email = "testing@mail.com"
     private val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
-    private val testRule = ProtonHomeActivityTestRule()
-    private lateinit var homeRobot: HomeRobot
+    private val testRule = LoggedInActivityTestRule(DynamicReportActivity::class.java)
     private lateinit var reportBugRobot: BugReportRobot
     private lateinit var category: Category
     private lateinit var categories: List<Category>
@@ -64,7 +64,6 @@ class BugReportTests {
     fun setUp() {
         TestSetup.setCompletedOnboarding()
         hiltRule.inject()
-        homeRobot = HomeRobot()
         reportBugRobot = BugReportRobot()
         categories = runBlocking { api.getDynamicReportConfig(currentUser.sessionId()).valueOrThrow.categories }
         category = categories[0]
@@ -72,8 +71,6 @@ class BugReportTests {
 
     @Test
     fun bugReportHappyPath() {
-        homeRobot.clickOnDrawerMenuReportBugOption()
-            .verify { bugTypesAreShown(categories) }
         reportBugRobot.selectCategory(category.label)
             .verify { suggestionsAreShown(category) }
         reportBugRobot.contactUs()

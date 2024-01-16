@@ -115,19 +115,6 @@ tv tests:
     TIMEOUT: $TIMEOUT_GENERAL_TESTS
 #    COVERAGE_FOLDER: "tv"
 
-real connection mobile tests:
-  extends: .tests_preparation_script
-  allow_failure: true
-  variables:
-    TESTS_TYPE: smokeTest
-    APP_LOCATION: "app/build/outputs/apk/productionGooglePlayStore/debug/"
-    APP_TYPE: "production-google-playStore-debug.apk"
-    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/productionGooglePlayStore/debug/"
-    TEST_APP_TYPE: "production-google-playStore-debug-androidTest.apk"
-    TEST_SUITE: "com.protonvpn.testSuites.RealConnectionSuite"
-    TIMEOUT: $TIMEOUT_GENERAL_TESTS
-#    COVERAGE_FOLDER: "real_connection"
-
 release tests:
   extends: .tests_preparation_script
   dependencies:
