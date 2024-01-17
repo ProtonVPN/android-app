@@ -21,7 +21,6 @@ package com.protonvpn.android.models.vpn
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.data.haveAccessWith
-import com.protonvpn.android.components.Markable
 import com.protonvpn.android.utils.CountryTools
 import kotlinx.serialization.Transient
 import java.io.Serializable
@@ -67,7 +66,7 @@ data class VpnCountry(
     val flag: String,
     override val serverList: List<Server>,
     private val isSecureCoreEntryCountry: Boolean,
-) : ServerGroup(), Markable, Serializable {
+) : ServerGroup(), Serializable {
 
     @Transient
     val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(flag)
@@ -79,14 +78,4 @@ data class VpnCountry(
 
     override fun name(): String = countryName
 
-    override fun getCoordinates(): TranslatedCoordinates = translatedCoordinates
-
-    @Deprecated("Avoid checking if a whole country is SC")
-    override fun isSecureCoreMarker(): Boolean = isSecureCoreEntryCountry
-
-    override fun getMarkerEntryCountryCode(): String? = null
-
-    override fun getMarkerCountryCode(): String = flag
-
-    override fun getConnectableServers(): List<Server> = serverList
 }

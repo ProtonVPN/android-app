@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.models.vpn
 
-import com.protonvpn.android.components.Markable
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.VpnIntToBoolSerializer
@@ -59,7 +58,7 @@ data class Server(
     @Serializable(with = VpnIntToBoolSerializer::class)
     @SerialName(value = "Status")
     private var isOnline: Boolean
-) : Markable, java.io.Serializable {
+) : java.io.Serializable {
 
     val online: Boolean get() = isOnline && connectingDomains.any { it.isOnline }
 
@@ -125,16 +124,6 @@ data class Server(
 
     val gatewayName: String? get() =
         rawGatewayName ?: if (isGatewayServer) serverName.substringBefore("#") else null
-
-    override fun getCoordinates(): TranslatedCoordinates = translatedCoordinates
-
-    override fun isSecureCoreMarker() = false
-
-    override fun getMarkerEntryCountryCode(): String? = if (isSecureCoreServer) entryCountry else null
-
-    override fun getMarkerCountryCode(): String = flag
-
-    override fun getConnectableServers(): List<Server> = listOf(this)
 
     override fun toString() = "$domain $entryCountry"
 
