@@ -115,13 +115,17 @@ class MockVpnBackend(
         certInfo: CertificateRepository.CertificateResult.Success,
         hostname: String?,
         nativeClient: VpnAgentClient
-    ) = agentProvider?.invoke(certInfo, hostname, nativeClient) ?: MockAgentConnection(scope, nativeClient)
+    ) = agentProvider?.invoke(certInfo, hostname, nativeClient) ?: MockAgentConnection(scope, nativeClient, certInfo)
 
     var stateOnConnect: VpnState = VpnState.Connected
     var failScanning = false
 }
 
-class MockAgentConnection(scope: CoroutineScope, val client: VpnBackend.VpnAgentClient) : AgentConnectionInterface {
+class MockAgentConnection(
+    scope: CoroutineScope,
+    val client: VpnBackend.VpnAgentClient,
+    override val certInfo: CertificateRepository.CertificateResult.Success
+) : AgentConnectionInterface {
     private val constants = LocalAgent.constants()
 
     init {
