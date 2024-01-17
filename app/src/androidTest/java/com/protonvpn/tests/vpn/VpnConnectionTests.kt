@@ -309,13 +309,14 @@ class VpnConnectionTests {
             }
         }
 
-        val mockAgentProvider: MockAgentProvider = { _, _, client ->
+        val mockAgentProvider: MockAgentProvider = { certInfo, _, client ->
             val wrappedClient = NativeClientWrapper(client)
             scope.launch {
                 yield() // Don't set state immediately, yield for mockAgent to be returned first.
                 action(client)
             }
             every { mockAgent.state } answers { wrappedClient.lastState }
+            every { mockAgent.certInfo } answers { certInfo }
             mockAgent
         }
 
@@ -714,7 +715,7 @@ class VpnConnectionTests {
                 VpnState.Connected
             )
         )
-        coVerify(exactly = 2) { certificateRepository.getCertificate(any(), any()) }
+        coVerify(exactly = 1) { certificateRepository.updateCertificate(any(), any()) }
     }
 
     @Test
@@ -730,7 +731,29 @@ class VpnConnectionTests {
                 VpnState.Connected
             )
         )
-        coVerify(exactly = 2) { certificateRepository.getCertificate(any(), any()) }
+        coVerify(exactly = 1) { certificateRepository.updateCertificate(any(), any()) }
+    }
+
+    @Test
+    fun whenLocalAgentJailedWithExpiredCertDontRefreshIfNewCertAlreadyAvailable() = scope.runTest {
+        currentCert = CertificateRepository.CertificateResult.Success("bad_cert", "good_key")
+        mockLocalAgentErrorAndAssertStates(
+            agentErrorState = { client ->
+                // Simulate that certificate was updated in the meantime.
+                currentCert = validCert
+
+                client.onState(agentConsts.stateHardJailed)
+                client.onError(agentConsts.errorCodeCertificateExpired, "")
+            },
+            expectedVpnStates = listOf(
+                VpnState.Disabled,
+                VpnState.Connecting,
+                VpnState.Connected
+            ),
+        )
+
+        // Should not update certificate as new certificate was provided in the meantime.
+        coVerify(exactly = 0) { certificateRepository.updateCertificate(any(), any()) }
     }
 
     @Test

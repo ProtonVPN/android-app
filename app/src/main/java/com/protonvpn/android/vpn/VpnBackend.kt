@@ -93,6 +93,7 @@ interface VpnBackendProvider {
 interface AgentConnectionInterface {
     val state: String
     val status: StatusMessage?
+    val certInfo: CertificateRepository.CertificateResult.Success
     fun setFeatures(features: Features)
     fun sendGetStatus(withStatistics: Boolean)
     fun setConnectivity(connectivity: Boolean)
@@ -138,7 +139,7 @@ abstract class VpnBackend(
                     revokeCertificateAndReconnect("local agent error: $description ($code)")
 
                 agentConstants.errorCodeCertificateExpired ->
-                    reconnectLocalAgent(updateCertificate = false, reason = "local agent: certificate expired")
+                    reconnectLocalAgent(needNewCertificate = true, reason = "local agent: certificate expired")
 
                 agentConstants.errorCodeKeyUsedMultipleTimes ->
                     setError(ErrorType.KEY_USED_MULTIPLE_TIMES)
@@ -279,6 +280,7 @@ abstract class VpnBackend(
 
         override val state: String get() = agent.state
         override val status: StatusMessage? get() = agent.status
+        override val certInfo = certInfo
 
         override fun setFeatures(features: Features) {
             agent.setFeatures(features)
@@ -418,11 +420,11 @@ abstract class VpnBackend(
                 }
             }
             agentConstants.stateClientCertificateExpiredError -> {
-                reconnectLocalAgent("local agent: certificate expired", updateCertificate = false)
+                reconnectLocalAgent("local agent: certificate expired", needNewCertificate = true)
                 VpnState.Connecting
             }
             agentConstants.stateClientCertificateUnknownCA -> {
-                reconnectLocalAgent("local agent: unknown CA", updateCertificate = true)
+                reconnectLocalAgent("local agent: unknown CA", needNewCertificate = true)
                 VpnState.Connecting
             }
             agentConstants.stateServerCertificateError ->
@@ -438,14 +440,21 @@ abstract class VpnBackend(
         }
     }
 
-    private fun reconnectLocalAgent(reason: String, updateCertificate: Boolean) {
+    private fun reconnectLocalAgent(reason: String, needNewCertificate: Boolean) {
         ProtonLogger.log(UserCertRefresh, "reason: $reason")
         selfStateObservable.postValue(VpnState.Connecting)
+        // Remember current cert before it's cleared by closing connection.
+        val connectionCert = agent?.certInfo
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
             currentUser.sessionId()?.let { sessionId ->
-                if (updateCertificate)
-                    certificateRepository.updateCertificate(sessionId, false)
+                if (needNewCertificate) {
+                    val certInfo = certificateRepository.getCertificate(sessionId)
+                    val haveNewCert = certInfo is CertificateRepository.CertificateResult.Success &&
+                        certInfo != connectionCert
+                    if (!haveNewCert)
+                        certificateRepository.updateCertificate(sessionId, false)
+                }
                 connectToLocalAgent()
             }
         }
@@ -479,7 +488,6 @@ abstract class VpnBackend(
             agentConnectionJob = mainScope.launch {
                 val certInfo = certificateRepository.getCertificate(currentUser.sessionId()!!)
                 if (certInfo is CertificateRepository.CertificateResult.Success) {
-
                     prepareFeaturesForAgentConnection()
                     agent = createAgentConnection(certInfo, hostname, createNativeClient())
                 } else {
