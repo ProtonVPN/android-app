@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">Korisničko ime</string>
-    <string name="hintPassword">Lozinka</string>
-    <string name="splitTunnellingSwitch">Sklopka za podijeljeno tuneliranje</string>
     <string name="login">Prijavite se</string>
-    <string name="hamburgerMenu">Hamburger meni</string>
-    <string name="error_field_required">Ovo polje je obavezno</string>
     <string name="menuActionSignOut">Odjava</string>
-    <string name="loginSlogan">Siguran internet bilo gdje</string>
-    <string name="loginStartWithDevice">Pokreni s uređajem</string>
-    <string name="loginCreateAccount">Stvori novi račun</string>
-    <string name="loginNeedHelp">Trebate pomoć?</string>
     <string name="connectionAllocationHelpTitle">Thanks for upgrading to\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">To start your journey in Proton VPN please assign VPN connections to your account or any other sub-account.</string>
     <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Enable VPN connections</string>
     <string name="connectionAllocationHelpLoginAgainButton">Prijavite se ponovno</string>
-    <string name="mapCalloutConnect">Poveži</string>
-    <string name="mapCalloutDisconnect">Odspoji</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Upozorenje</string>
     <string name="secureCoreSpeedInfoTitle">A note about speed…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">Odjavite se?</string>
     <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
     <string name="logoutConfirmDialogButton">Sign out</string>
-    <string name="showAllProfiles">Prikaži sve profile</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">U redu</string>
     <string name="dialogContinue">Nastavi</string>
     <string name="dialogLearnMore">Saznajte više</string>
-    <string name="dialog_read_more">Više informacija</string>
     <string name="dialog_apply">Primijeni</string>
     <string name="dialog_applying">Applying</string>
     <string name="secureCoreConnectVia">putem %1$s</string>
     <string name="connected">Povezano</string>
     <string name="buttonConnect">Poveži</string>
-    <string name="loaderInitializing">Initializing connection…</string>
     <string name="loaderConnectingTo">Povezivanje s %1$s</string>
-    <string name="loaderConnectingToLabel">Povezivanje s…</string>
     <string name="loaderNotConnected">Nije povezan (Nezaštićen)</string>
-    <string name="loaderNotConnectedSuggestion">Tap the quick connect button</string>
     <string name="loaderConnectedTo">Povezan s %1$s</string>
-    <string name="loaderConnectedToLabel">Connected to:</string>
     <string name="loaderDisconnecting">Odspajanje</string>
     <string name="loaderReconnecting">Ponovno povezivanje</string>
     <string name="loaderReconnectNoNetwork">Čeka se iskoristiva mreža</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Please check your network</string>
     <string name="loaderCheckingAvailability">Provjera dostupnosti poslužitelja</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Please wait a few seconds</string>
-    <string name="loaderCancel">Otkaži povezivanje</string>
     <string name="quickConnect">Brzo povezivanje</string>
-    <string name="notConnectedCurrentIp">Trenutni IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Poništi</string>
     <string name="close">Zatvori</string>
-    <string name="drawerSettings">Postavke</string>
-    <string name="drawerAccount">Korisnički račun</string>
     <string name="drawerHelp">Pomoć</string>
     <string name="drawerShowLog">Prikaži zapisnik</string>
     <string name="drawerReportProblem">Prijavite problem</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">Podaci o korisničkom računu</string>
     <string name="accountSubscription">Pretplata</string>
     <string name="accountUser">Korisnik:</string>
-    <string name="accountType">Vrsta računa:</string>
     <string name="accountTier">Aktivna pretplata:</string>
     <string name="accountVersion">Verzija:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Da biste upravljali pretplatom, morate posjetiti <font color="%1$s">protonvpn.com</font> web stranicu.]]></string>
     <string name="accountButtonManage">Upravljanje korisničkim računom</string>
     <string name="accountButtonUseCoupon">Use coupon</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Korisnički račun</string>
-    <string name="activitySettingsTitle">Postavke</string>
-    <string name="settingsSectionQuickConnect">Brzo povezivanje</string>
     <string name="settingsSectionConnection">Veza</string>
     <string name="settingsSectionSecurity">Sigurnost</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">MTU veličina</string>
     <string name="settingsMtuDescription">U slučaju da zadana vrijednost nije prikladna za određenu mrežu, unesite vrijednost unutar raspona 1280–1500. Promijenite ga samo ako znate što radite.</string>
     <string name="settingsMtuRangeInvalid">MTU vrijednost mora između 1280 i 1500</string>
-    <string name="settingsDefaultConnectionTitle">Brzo povezivanje</string>
-    <string name="settingsDefaultConnectionDescription">Dugme za brzo povezivanje povezuje vas s odabranim profilom</string>
     <string name="settingsAllowNonStandardPortsTitle">Non-standard ports</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use Proton VPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">Poslužitelj na koji se trenutno pokušavate povezati je u procesu održavanja. Pokušajte s drugim poslužiteljem.</string>
     <string name="errorUserDelinquent"><![CDATA[Tvoj račun trenutno ima neplaćenu fakturu. Molimo platite sve neplaćene fakture na &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Dosegnuli ste maksimalni broj istodobnih veza dopuštenih za vaš račun. Nadogradite svoj plan Proton VPN da biste dobili više veza.</string>
-    <string name="errorEmptyName">Polje naziva profila ne može biti prazno</string>
-    <string name="errorEmptyCountry">Polje države ne može biti prazno</string>
-    <string name="errorEmptyServer">Polje poslužitelja ne može biti prazno</string>
-    <string name="errorEmptyEntryCountry">Polje države ulaska ne može biti prazno</string>
-    <string name="errorEmptyExitCountry">Polje države izlaska ne može biti prazno</string>
     <string name="onboardingSignup">Registriraj se</string>
     <string name="offerTooltipShowOffer">See the offer</string>
     <string name="listItemMaintenance">Održavanje u tijeku</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">Potrebna je radnja od strane korisnika</string>
     <string name="insufficientPermissionsDetails">Nije moguće uspostaviti automatsku VPN vezu. Ručno povežite barem jednom za dodjelu dozvola.</string>
     <string name="tabsCountries">Države</string>
-    <string name="tabsMap">Karta</string>
-    <string name="tabsProfiles">Profili</string>
     <string name="log_title">Zapisnik</string>
     <string name="disconnect">Odspoji</string>
     <string name="state_connecting">Povezivanje…</string>
@@ -158,7 +122,6 @@
     <string name="state_error">Pogreška</string>
     <string name="error_server_unreachable">Couldn\'t connect to the VPN. Please check your connection and try again.</string>
     <string name="error_auth_failed">Provjera autentičnosti nije uspjela.</string>
-    <string name="error_assessment_failed">Procjena sigurnosti nije uspjela.</string>
     <string name="error_generic">Neodređeni kvar tijekom povezivanja.</string>
     <string name="error_generic_with_reason">Proton VPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
     <string name="reconnect">Ponovno povezivanje</string>
@@ -167,13 +130,6 @@
     <string name="connect">Poveži</string>
     <string name="upgrade">Nadogradnja</string>
     <string name="retry">Pokušaj ponovno</string>
-    <string name="connection_failed">Neuspjela veza</string>
-    <string name="create_new_profile">Novi profil</string>
-    <string name="excludeAppsTitle">Izuzmi aplikacije</string>
-    <string name="excludeAppsDescription">Dodajte aplikacije koje želite izuzeti iz VPN prometa.</string>
-    <string name="profile_name">Naziv profila</string>
-    <string name="profile_name_hint">Write profile name</string>
-    <string name="profile_color">Boja profila</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Privitci</string>
     <string name="report_message">Poruka prijave</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">Izuzmi IP adrese</string>
     <string name="discardChanges">Discard unsaved changes?</string>
     <string name="discard">Odbaci</string>
-    <string name="selectedProfileColor">Odaberite boju vašeg profila</string>
-    <string name="excludeIpDescription">Dodajte IP adrese koje želite izuzeti iz VPN prometa.</string>
     <string name="done">ZAVRŠI</string>
     <string name="add">DODAJ</string>
     <string name="copy_to_clipboard">Kopiraj</string>
-    <string name="the_list_is_empty">Popis je prazan</string>
     <string name="got_it">Shvaćam</string>
-    <string name="onboardingWelcome">Dobro došli</string>
-    <string name="proton_log">Proton zapisnik</string>
     <string name="something_went_wrong">Nešto je pošlo po zlu</string>
     <string name="try_again">Pokušaj ponovno</string>
-    <string name="manage">Upravljanje</string>
     <string name="delete">Izbriši</string>
     <string name="remove">Ukloni</string>
-    <string name="deleteProfileButton">Izbriši profil</string>
-    <string name="deleteProfile">Izbriši profil?</string>
     <string name="doneButton">Gotovo</string>
     <string name="saveButton">Spremi</string>
-    <string name="recommendedHeader">Preporučeno</string>
-    <string name="countryServersHeader">Country servers</string>
-    <string name="secureCoreCountriesHeader">Secure Core countries</string>
-    <string name="recommendedProfilesHeader">Recommended profiles</string>
-    <string name="free_connection_header">Free connection</string>
-    <string name="yourProfilesHeader">Your profiles</string>
-    <string name="exitCountry">Država izlaska</string>
-    <string name="entryCountry">Država ulaska</string>
-    <string name="country">Država</string>
-    <string name="selectCountry">Odaberi državu</string>
-    <string name="serverSelection">Poslužitelj</string>
-    <string name="selectServer">Select server</string>
     <string name="protocolLabel">Protokol</string>
-    <string name="selectProtocol">Odaberite protokol</string>
     <string name="protocol">Protokol:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">Poslužitelj:</string>
-    <string name="session_time">Session duration:</string>
-    <string name="download_volume">Količina:</string>
-    <string name="download_speed">Brzina:</string>
-    <string name="notConnected">Niste povezani \n s poslužiteljem</string>
     <string name="activityLicensesTitle">Licence trećih strana</string>
     <string name="stateFragmentUnknownIp">Nepoznato</string>
     <string name="noVpnPermissionMainTitle">Action needed to connect to VPN</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">Nasumično</string>
     <string name="settingsSplitTunnelingDescription">Podijeljeno tuneliranje omogućuje isključivanje određenih aplikacija ili IP adresa iz VPN prometa.</string>
     <string name="settingsSplitTunnelingTitle">Podijeljeno tuneliranje</string>
-    <string name="loaderAuthenticatingUser">Autentikacija korisnika…</string>
     <string name="loaderErrorNoInternet">Nema internetske veze</string>
     <string name="loaderErrorGeneric">Nešto je pošlo po zlu</string>
     <string name="loaderLoadingServers">Učitavanje poslužitelja…</string>
@@ -277,16 +205,10 @@
         <item quantity="few">%1$s and %2$d more</item>
         <item quantity="other">%1$s and %2$d more</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Ne može se promijeniti dok ste povezani</string>
     <string name="excludeAlreadyExcluded">Već izuzeto</string>
     <string name="removeExcludedIpDialogDescription">Remove IP address from the list?</string>
-    <string name="loaderFetchingServers">Dohvaćanje poslužitelja…</string>
-    <string name="toastProfileSaved">Spremljeno</string>
     <string name="tileConnected">Povezan: %1$s</string>
-    <string name="dialogTitleAttention">Pažnja</string>
-    <string name="saveProfileAlreadySaved">Već spremljeno</string>
     <string name="openUrlError">%1$s se ne može otvoriti. Web preglednik nije otkriven na vašem uređaju.</string>
-    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">Veza je istekla. Molimo pokušajte ponovno.</string>
     <string name="troubleshootButton">Rješavanje problema</string>
     <string name="activityTroubleshootTitle">Otklanjanje pogreške</string>
@@ -333,7 +255,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
     <string name="netShieldEnabledWarning">Imajte na umu da neke web stranice možda neće funkcionirati u potpunosti zbog blokiranog sadržaja.</string>
     <string name="netShieldDescription">Blokirajte oglase, pratitelje i neželjene programe </string>
-    <string name="netshield_settings_description"><![CDATA[Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. <a href="%1$s">Learn more</a>.]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="learn_more">Learn more</string>
     <string name="netshield_status_on">Oključeno</string>
@@ -627,8 +548,6 @@
     <string name="search_recents_header_title">Recently viewed (%1$d)</string>
     <string name="search_clear_history">Clear history</string>
     <string name="search_clear_history_dialog">Your search history will be lost. Continue?</string>
-    <string name="ikev2_removed_dialog_title">The IKEv2 VPN protocol is no longer available</string>
-    <string name="ikev2_removed_dialog_message">Defaults and profiles that previously used IKEv2 will now use the Smart protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visit <a href="https://protonvpn.com/pricing">protonvpn.com</a> for more info.</string>
     <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>

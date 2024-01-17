@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">Імя карыстальніка</string>
-    <string name="hintPassword">Пароль</string>
-    <string name="splitTunnellingSwitch">Пераключальнік Split Tunneling</string>
     <string name="login">Увайсці</string>
-    <string name="hamburgerMenu">Меню \"Гамбургер\"</string>
-    <string name="error_field_required">Гэта абавязковае поле</string>
     <string name="menuActionSignOut">Выйсці</string>
-    <string name="loginSlogan">Бяспечны інтэрнэт у любым месцы</string>
-    <string name="loginStartWithDevice">Запускаць разам з прыладай</string>
-    <string name="loginCreateAccount">Стварыць новы ўліковы запіс</string>
-    <string name="loginNeedHelp">Неабходна дапамога?</string>
     <string name="connectionAllocationHelpTitle">Дзякуй, што палепшылі да\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Пачынаючы знаёмства з Proton VPN, прызначце падключэнні па VPN вашаму ўліковаму запісу або любым іншым падпарадкаваным уліковым запісам.</string>
     <string name="connectionAllocationHelpDescription2">Гэты этап зойме ўсяго некалькі хвілін. Пасля гэтага ў вас будзе магчымасць уваходзіць і абараняць усе вашы прылады.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">У дадзены момант не выяўлена ўключаных падключэнняў па VPN для гэтага ўліковага запісу. Звяжыцеся са сваім адміністратарам, каб пачаць знаёмства з Proton VPN. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Уключыць падключэнні па VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Увайсці яшчэ раз</string>
-    <string name="mapCalloutConnect">Падключыцца</string>
-    <string name="mapCalloutDisconnect">Адключыцца</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Папярэджанне</string>
     <string name="secureCoreSpeedInfoTitle">Нататка пра хуткасць…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">Выйсці?</string>
     <string name="logoutConfirmDialogMessage">Выхад адключыць вашу прыладу ад VPN.</string>
     <string name="logoutConfirmDialogButton">Выйсці</string>
-    <string name="showAllProfiles">Паказаць усе профілі</string>
     <string name="yes">Так</string>
     <string name="no">Не</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">Добра</string>
     <string name="dialogContinue">Працягнуць</string>
     <string name="dialogLearnMore">Даведацца больш</string>
-    <string name="dialog_read_more">Даведацца больш</string>
     <string name="dialog_apply">Ужыць</string>
     <string name="dialog_applying">Ужыванне</string>
     <string name="secureCoreConnectVia">праз %1$s</string>
     <string name="connected">Падключана</string>
     <string name="buttonConnect">Падключыцца</string>
-    <string name="loaderInitializing">Ініцыялізацыя падключэння…</string>
     <string name="loaderConnectingTo">Падключэнне да %1$s</string>
-    <string name="loaderConnectingToLabel">Падключэнне да…</string>
     <string name="loaderNotConnected">Не падключана (не абаронена)</string>
-    <string name="loaderNotConnectedSuggestion">Націсніце на кнопку хуткага падключэння</string>
     <string name="loaderConnectedTo">Падключана да %1$s</string>
-    <string name="loaderConnectedToLabel">Падключана да:</string>
     <string name="loaderDisconnecting">Адключэнне</string>
     <string name="loaderReconnecting">Перападключэнне</string>
     <string name="loaderReconnectNoNetwork">Чаканне даступнай сеткі</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Праверце сваё падключэнне да сеткі</string>
     <string name="loaderCheckingAvailability">Праверка даступнасці сервера</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Пачакайце некалькі секунд</string>
-    <string name="loaderCancel">Скасаваць падключэнне</string>
     <string name="quickConnect">Хуткае падключэнне</string>
-    <string name="notConnectedCurrentIp">Бягучы IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Скасаваць</string>
     <string name="close">Закрыць</string>
-    <string name="drawerSettings">Налады</string>
-    <string name="drawerAccount">Уліковы запіс</string>
     <string name="drawerHelp">Даведка</string>
     <string name="drawerShowLog">Паказаць журнал</string>
     <string name="drawerReportProblem">Паведаміць пра праблему</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">Падрабязнасці ўліковага запісу</string>
     <string name="accountSubscription">Падпіска</string>
     <string name="accountUser">Карыстальнік:</string>
-    <string name="accountType">Тып уліковага запісу:</string>
     <string name="accountTier">Актыўная падпіска:</string>
     <string name="accountVersion">Версія:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Каб кіраваць падпіскай, перайдзіце на вэб-панэль <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Кіраванне ўліковым запісам</string>
     <string name="accountButtonUseCoupon">Выкарыстаць купон</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">Профіль</string>
     <string name="activityAccountTitle">Уліковы запіс</string>
-    <string name="activitySettingsTitle">Налады</string>
-    <string name="settingsSectionQuickConnect">Хуткае падключэнне</string>
     <string name="settingsSectionConnection">Падключэнне</string>
     <string name="settingsSectionSecurity">Бяспека</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">Памер MTU</string>
     <string name="settingsMtuDescription">У выпадку, калі значэнне не пасуе для канкрэтнай сеткі, вы можаце ўвесці яго ў дыяпазоне 1280–1500. Змяняйце яго толькі калі ўпэўнены ў сваіх дзеяннях.</string>
     <string name="settingsMtuRangeInvalid">Значэнне MTU павінна быць у дыяпазоне 1280-1500</string>
-    <string name="settingsDefaultConnectionTitle">Хуткае падключэнне</string>
-    <string name="settingsDefaultConnectionDescription">Кнопка \"Хуткае падключэнне\" падключыць вас да выбранага профілю</string>
     <string name="settingsAllowNonStandardPortsTitle">Нестандартныя парты</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Выкарыстоўвайце Proton VPN для любых адмысловых патрабаванняў, дазваляючы трафік да нестандартных партоў праз сетку VPN. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="settingsModerateNatTitle">Умераны NAT</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">Сервер, да якога вы спрабуеце падключыцца ў дадзены момант, знаходзіцца на тэхнічным абслугоўванні. Выберыце іншы сервер.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш уліковы запіс мае пратэрмінаваны рахунак. Аплаціце ўсе неаплачаныя рахункі на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Вы дасягнулі максімальнай колькасці адначасовых падключэнняў, якія дазволены на вашым уліковым запісе. Палепшыце свой тарыфны план Proton VPN для атрымання большай колькасці адначасовых падключэнняў.</string>
-    <string name="errorEmptyName">Поле назвы профілю не можа быць пустым</string>
-    <string name="errorEmptyCountry">Поле назвы краіны не можа быць пустым</string>
-    <string name="errorEmptyServer">Поле сервера не можа быць пустым</string>
-    <string name="errorEmptyEntryCountry">Поле краіны ўваходу не можа быць пустым</string>
-    <string name="errorEmptyExitCountry">Поле краіны выхаду не можа быць пустым</string>
     <string name="onboardingSignup">Зарэгістравацца</string>
     <string name="offerTooltipShowOffer">Паглядзіце прапанову</string>
     <string name="listItemMaintenance">На тэхнічным абслугоўванні</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">Неабходна дзеянне карыстальніка</string>
     <string name="insufficientPermissionsDetails">Немагчыма аўтаматычна ўсталяваць падключэнне па VPN. Першы раз падключыцеся ўручную, каб праграма змагла атрымаць неабходныя правы.</string>
     <string name="tabsCountries">Краіны</string>
-    <string name="tabsMap">Карта</string>
-    <string name="tabsProfiles">Профілі</string>
     <string name="log_title">Журнал</string>
     <string name="disconnect">Адключыцца</string>
     <string name="state_connecting">Падключэнне…</string>
@@ -158,7 +122,6 @@
     <string name="state_error">Памылка</string>
     <string name="error_server_unreachable">Немагчыма падключыцца па VPN. Праверце сваё падключэнне да сеткі і паспрабуйце яшчэ раз.</string>
     <string name="error_auth_failed">Збой аўтэнтыфікацыі карыстальніка.</string>
-    <string name="error_assessment_failed">Не ўдалося ацаніць бяспеку.</string>
     <string name="error_generic">Падчас падключэння адбылася невядомая памылка.</string>
     <string name="error_generic_with_reason">Proton VPN не можа ўсталяваць падключэнне па VPN. Паспрабуйце яшчэ раз праз некалькі секунд.<br/><br/> Падрабязнасці: %1$s</string>
     <string name="reconnect">Перападключыцца</string>
@@ -167,13 +130,6 @@
     <string name="connect">Падключыцца</string>
     <string name="upgrade">Палепшыць</string>
     <string name="retry">Паўтарыць</string>
-    <string name="connection_failed">Збой падключэння</string>
-    <string name="create_new_profile">Новы профіль</string>
-    <string name="excludeAppsTitle">Выключаныя праграмы</string>
-    <string name="excludeAppsDescription">Дадайце праграмы, якія будуць падключацца без VPN.</string>
-    <string name="profile_name">Назва профілю</string>
-    <string name="profile_name_hint">Напішыце назву профілю</string>
-    <string name="profile_color">Колер профілю</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Далучэнні</string>
     <string name="report_message">Паведамленне справаздачы</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">Выключаныя IP-адрасы</string>
     <string name="discardChanges">Адхіліць незахаваныя змены?</string>
     <string name="discard">Адхіліць</string>
-    <string name="selectedProfileColor">Выберыце колер для вашага профілю</string>
-    <string name="excludeIpDescription">Дадайце IP-адрасы, якія будуць падключацца без VPN.</string>
     <string name="done">ГАТОВА</string>
     <string name="add">ДАДАЦЬ</string>
     <string name="copy_to_clipboard">Капіяваць</string>
-    <string name="the_list_is_empty">Пусты спіс</string>
     <string name="got_it">Зразумела</string>
-    <string name="onboardingWelcome">Сардэчна запрашаем</string>
-    <string name="proton_log">Журнал Proton</string>
     <string name="something_went_wrong">Нешта пайшло не так</string>
     <string name="try_again">Паспрабаваць яшчэ раз</string>
-    <string name="manage">Кіраваць</string>
     <string name="delete">Выдаліць</string>
     <string name="remove">Выдаліць</string>
-    <string name="deleteProfileButton">Выдаліць профіль</string>
-    <string name="deleteProfile">Выдаліць профіль?</string>
     <string name="doneButton">Гатова</string>
     <string name="saveButton">Захаваць</string>
-    <string name="recommendedHeader">Рэкамендавана</string>
-    <string name="countryServersHeader">Серверы краіны</string>
-    <string name="secureCoreCountriesHeader">Краіны з Secure Core</string>
-    <string name="recommendedProfilesHeader">Рэкамендаваныя профілі</string>
-    <string name="free_connection_header">Бясплатнае падключэнне</string>
-    <string name="yourProfilesHeader">Ваш профіль</string>
-    <string name="exitCountry">Краіна выхаду</string>
-    <string name="entryCountry">Краіна ўваходу</string>
-    <string name="country">Краіна</string>
-    <string name="selectCountry">Выберыце краіну</string>
-    <string name="serverSelection">Сервер</string>
-    <string name="selectServer">Выберыце сервер</string>
     <string name="protocolLabel">Пратакол</string>
-    <string name="selectProtocol">Выберыце пратакол</string>
     <string name="protocol">Пратакол:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">Сервер:</string>
-    <string name="session_time">Працягласць сеанса:</string>
-    <string name="download_volume">Аб\'ём:</string>
-    <string name="download_speed">Хуткасць:</string>
-    <string name="notConnected">Вы не падключаны \n да сервера</string>
     <string name="activityLicensesTitle">Ліцэнзіі старонніх бакоў</string>
     <string name="stateFragmentUnknownIp">Невядома</string>
     <string name="noVpnPermissionMainTitle">Дзеянне, якія неабходны для падключэння да VPN</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">Выпадковы</string>
     <string name="settingsSplitTunnelingDescription">Split Tunneling дазваляе пускаць трафік для пэўных праграм або IP-адрасоў у абыход падключэння па VPN.</string>
     <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
-    <string name="loaderAuthenticatingUser">Аўтэнтыфікацыя карыстальніка…</string>
     <string name="loaderErrorNoInternet">Няма падключэння да інтэрнэту</string>
     <string name="loaderErrorGeneric">Нешта пайшло не так</string>
     <string name="loaderLoadingServers">Загрузка сервераў…</string>
@@ -278,16 +206,10 @@
         <item quantity="many">%1$s і яшчэ %2$d</item>
         <item quantity="other">%1$s і яшчэ %2$d</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Немагчыма змяніць гэта пры актыўным падключэнні</string>
     <string name="excludeAlreadyExcluded">Ужо выключана</string>
     <string name="removeExcludedIpDialogDescription">Выдаліць IP-адрас са спіса?</string>
-    <string name="loaderFetchingServers">Атрыманне спіса сервераў…</string>
-    <string name="toastProfileSaved">Захавана</string>
     <string name="tileConnected">Падключана: %1$s</string>
-    <string name="dialogTitleAttention">Увага</string>
-    <string name="saveProfileAlreadySaved">Ужо захавана</string>
     <string name="openUrlError">Не атрымалася адкрыць %1$s. На вашай прыладзе не знойдзены браўзер.</string>
-    <string name="toastLoginAuthVersionError">Немагчыма ўвайсці па прычыне таго, што дадзеная версія аўтэнтыфікацыі не падтрымліваецца. Звярніцеся ў службу падтрымкі.</string>
     <string name="loaderErrorTimeout">Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>
     <string name="troubleshootButton">Выпраўленне непаладак</string>
     <string name="activityTroubleshootTitle">Выпраўленне непаладак</string>
@@ -334,7 +256,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="netShieldEnabledWarning">Будзьце ўважлівы, бо некаторыя сайты могуць працаваць не належным чынам па прычыне заблакіраванага змесціва.</string>
     <string name="netShieldDescription">Блакіраваць рэкламу, праграмы сачэння і шкодныя праграмы </string>
-    <string name="netshield_settings_description"><![CDATA[Абараніце сябе ад рэкламы, шкодных праграм і праграм сачэння на вэб-сайтах і ў праграмах. Калі вэб-сайты не грузяцца, паспрабуйце адключыць NetShield. <a href="%1$s">Даведацца больш</a>.]]></string>
     <string name="netshield_settings_description_not_html">Абараніце сябе ад рэкламы, шкодных праграм і праграм сачэння на вэб-сайтах і ў праграмах. Калі вэб-сайты не грузяцца, паспрабуйце адключыць NetShield. %1$s</string>
     <string name="learn_more">Даведацца больш</string>
     <string name="netshield_status_on">Уключана</string>
@@ -635,8 +556,6 @@
     <string name="search_recents_header_title">Нядаўна прагледжаныя (%1$d)</string>
     <string name="search_clear_history">Ачысціць гісторыю</string>
     <string name="search_clear_history_dialog">Ваша гісторыя пошуку будзе страчана. Працягнуць?</string>
-    <string name="ikev2_removed_dialog_title">Пратакол IKEv2 VPN больш недаступны</string>
-    <string name="ikev2_removed_dialog_message">Прадвызначаныя канфігурацыі і профілі, у якіх IKEv2 выкарыстоўваўся раней, будуць пераведзены на Smart Protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Наведайце <a href="https://protonvpn.com/pricing">protonvpn.com</a>, каб даведацца больш.</string>
     <string name="free_upsell_header_title">Тарыфны план VPN Plus забяспечвае пакрыццё ўсяго свету</string>

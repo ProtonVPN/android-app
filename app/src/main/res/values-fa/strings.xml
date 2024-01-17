@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">نام کاربری</string>
-    <string name="hintPassword">رمز عبور</string>
-    <string name="splitTunnellingSwitch">کلید Split tunneling</string>
     <string name="login">ورود به حساب</string>
-    <string name="hamburgerMenu">منو</string>
-    <string name="error_field_required">این قسمت الزامی است</string>
     <string name="menuActionSignOut">خروج</string>
-    <string name="loginSlogan">اینترنت امن در همه جا</string>
-    <string name="loginStartWithDevice">فعال‌سازی هنگام روشن شدن دستگاه</string>
-    <string name="loginCreateAccount">ایجاد حساب کاربری جدید</string>
-    <string name="loginNeedHelp">به کمک نیاز دارید؟</string>
     <string name="connectionAllocationHelpTitle">تشکر برای ارتقا حساب به \nسازمانی\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">برای آغاز سفر خود در Proton VPN لطفاً اتصال‌های VPN خود را به حساب کاربری خود یا هر حساب فرعی دیگری اختصاص دهید.</string>
     <string name="connectionAllocationHelpDescription2">این مرحله فقط چند دقیقه طول می‌کشد. پس از آن شما قادر خواهید بود تا وارد شوید و از همهٔ دستگاه‌های خود حفاظت کنید.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">در حال حاضر هیچ اتصال VPNای برای این حساب کاربری وجود ندارد. برای شروع سفر خود با Proton VPN، لطفاً مدیر خود تماس بگیرید. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">اتصال‌های VPN را فعال کنید</string>
     <string name="connectionAllocationHelpLoginAgainButton">ورود دوباره</string>
-    <string name="mapCalloutConnect">اتصال</string>
-    <string name="mapCalloutDisconnect">قطع اتصال</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">هشدار</string>
     <string name="secureCoreSpeedInfoTitle">نکته‌ای دربارهٔ سرعت...</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">خارج می‌شوید؟</string>
     <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
     <string name="logoutConfirmDialogButton">Sign out</string>
-    <string name="showAllProfiles">نمایش همهٔ پروفایل‌ها</string>
     <string name="yes">بلی</string>
     <string name="no">خیر</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">تأیید</string>
     <string name="dialogContinue">ادامه</string>
     <string name="dialogLearnMore">بیشتر بدانید</string>
-    <string name="dialog_read_more">بیشتر بخوانید</string>
     <string name="dialog_apply">اعمال</string>
     <string name="dialog_applying">در حال اعمال</string>
     <string name="secureCoreConnectVia">از طریق %1$s</string>
     <string name="connected">متصل</string>
     <string name="buttonConnect">اتصال</string>
-    <string name="loaderInitializing">در حال راه‌اندازی اتصال…</string>
     <string name="loaderConnectingTo">در حال اتصال به %1$s</string>
-    <string name="loaderConnectingToLabel">درحال اتصال به…</string>
     <string name="loaderNotConnected">متصل نیست (ناامن)</string>
-    <string name="loaderNotConnectedSuggestion">روی دکمهٔ اتصال سریع ضربه بزنید</string>
     <string name="loaderConnectedTo">متصل به %1$s</string>
-    <string name="loaderConnectedToLabel">متصل به:</string>
     <string name="loaderDisconnecting">در حال قطع اتصال</string>
     <string name="loaderReconnecting">در حال اتصال مجدد</string>
     <string name="loaderReconnectNoNetwork">در انتظار شبکهٔ قابل استفاده</string>
-    <string name="loaderReconnectNoNetworkSuggestion">لطفاً شبکهٔ خود را بررسی کنید</string>
     <string name="loaderCheckingAvailability">در حال بررسی دسترسی به سرور</string>
-    <string name="loaderCheckingAvailabilitySuggestion">لطفاً چند ثانیه صبر کنید</string>
-    <string name="loaderCancel">لغو اتصال</string>
     <string name="quickConnect">اتصال سریع</string>
-    <string name="notConnectedCurrentIp">آدرس IP کنونی: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">لغو</string>
     <string name="close">بستن</string>
-    <string name="drawerSettings">تنظیمات</string>
-    <string name="drawerAccount">حساب کاربری</string>
     <string name="drawerHelp">راهنمایی</string>
     <string name="drawerShowLog">نمایش گزارش</string>
     <string name="drawerReportProblem">گزارش یک اشکال</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">جزئیات حساب کاربری</string>
     <string name="accountSubscription">اشتراک</string>
     <string name="accountUser">کاربر:</string>
-    <string name="accountType">نوع حساب کاربری:</string>
     <string name="accountTier">اشتراک فعال:</string>
     <string name="accountVersion">نسخه:</string>
     <string name="accountSubscriptionDetails"><![CDATA[برای مدیریت اشتراک خود، شما باید بروید به <font color="%1$s">protonvpn.com</font>webpanel.]]></string>
     <string name="accountButtonManage">مدیریت حساب کاربری</string>
     <string name="accountButtonUseCoupon">استفاده از کد تخفیف</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">پروفایل</string>
     <string name="activityAccountTitle">حساب کاربری</string>
-    <string name="activitySettingsTitle">تنظیمات</string>
-    <string name="settingsSectionQuickConnect">اتصال سریع</string>
     <string name="settingsSectionConnection">اتصال</string>
     <string name="settingsSectionSecurity">امنیت</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">اندازهٔ MTU</string>
     <string name="settingsMtuDescription">در صورتی‌ که مقدار پیش‌فرض برای یک شبکهٔ خاص مناسب نیست، یک مقدار در محدودهٔ ۱۲۸۰ تا ۱۵۰۰ وارد کنید. تنها در صورتی آن را تغییر دهید که می‌دانید در حال انجام چه کاری هستید.</string>
     <string name="settingsMtuRangeInvalid">مقدار MTU باید در محدودهٔ ۱۲۸۰ تا ۱۵۰۰ باشد</string>
-    <string name="settingsDefaultConnectionTitle">اتصال سریع</string>
-    <string name="settingsDefaultConnectionDescription">دکمهٔ اتصال سریع، شما را به پروفایل انتخابی وصل می‌کند</string>
     <string name="settingsAllowNonStandardPortsTitle">درگاه‌های غیر-استاندارد</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[از Proton VPN برای هرگونه نیاز خاص با اجازهٔ عبور ترافیک از درگاه‌های غیر-استاندارد در شبکهٔ VPN استفاده کنید. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
     <string name="settingsModerateNatTitle">NAT میانه‌رو</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">سروری که می‌خواهید به آن متصل شوید، در دست تعمیر است لطفاً سرور دیگری را انتخاب کنید.</string>
     <string name="errorUserDelinquent"><![CDATA[حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.]]></string>
     <string name="errorMaxSessions">شما به حداکثر تعداد اتصالات همزمان مجاز برای حساب کاربری خود رسیده‌اید. لطفاً برای افزایش تعداد اتصالات، طرح Proton VPN خود را ارتقا دهید.</string>
-    <string name="errorEmptyName">وارد کردن نام پروفایل الزامی است</string>
-    <string name="errorEmptyCountry">وارد کردن نام کشور الزامی است</string>
-    <string name="errorEmptyServer">وارد کردن سرور الزامی است</string>
-    <string name="errorEmptyEntryCountry">وارد کردن کشور ورودی الزامی است</string>
-    <string name="errorEmptyExitCountry">وارد کردن کشور خروجی الزامی است</string>
     <string name="onboardingSignup">ثبت نام</string>
     <string name="offerTooltipShowOffer">دیدن پیشنهاد</string>
     <string name="listItemMaintenance">تحت عملیات نگهداری</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">اقدام کاربر لازم است</string>
     <string name="insufficientPermissionsDetails">اتصال VPN نتوانست بطور خودکار برقرار شود. لطفاً یکبار به صورت دستی اقدام به اتصال نمایید تا اجازه اعطا شود.</string>
     <string name="tabsCountries">کشورها</string>
-    <string name="tabsMap">نقشه</string>
-    <string name="tabsProfiles">پروفایل‌ها</string>
     <string name="log_title">گزارش</string>
     <string name="disconnect">قطع ارتباط</string>
     <string name="state_connecting">در حال اتصال…</string>
@@ -158,7 +122,6 @@
     <string name="state_error">خطا</string>
     <string name="error_server_unreachable">اتصال به VPN ممکن نبود. لطفاً اتصال خود را بررسی و دوباره امتحان کنید.</string>
     <string name="error_auth_failed">احراز هویت موفق نبود.</string>
-    <string name="error_assessment_failed">ارزیابی امنیتی ناموفق بود.</string>
     <string name="error_generic">خطای نامعلوم در حال اتصال رخ داد.</string>
     <string name="error_generic_with_reason">Proton VPN نتوانست یک اتصال VPN برقرار کند. لطفاً، پس از چند ثانیه دوباره تلاش کنید. <br/><br/> جزئیات: %1$s</string>
     <string name="reconnect">اتصال مجدد</string>
@@ -167,13 +130,6 @@
     <string name="connect">اتصال</string>
     <string name="upgrade">ارتقا</string>
     <string name="retry">تلاش مجدد</string>
-    <string name="connection_failed">ﺍﺗﺼﺎﻝ ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
-    <string name="create_new_profile">پروفایل جدید</string>
-    <string name="excludeAppsTitle">جدا کردن برنامه‌ها</string>
-    <string name="excludeAppsDescription">برنامه‌هایی که می‌خواهید از ترافیک VPN جدا شوند را اضافه کنید.</string>
-    <string name="profile_name">نام پروفایل</string>
-    <string name="profile_name_hint">نام پروفایل را بنویسید</string>
-    <string name="profile_color">رنگ پروفایل</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">پیوست‎ها</string>
     <string name="report_message">پیام گزارش</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">جدا کردن نشانی‌های IP</string>
     <string name="discardChanges">تغییرات ذخیره نشده را نادیده می‌گیرید؟</string>
     <string name="discard">لغو</string>
-    <string name="selectedProfileColor">لطفاً رنگ پروفایل را انتخاب کنید</string>
-    <string name="excludeIpDescription">نشانی‌های IP را که می‌خواهید از ترافیک VPN جدا شوند اضافه کنید.</string>
     <string name="done">انجام شد</string>
     <string name="add">اضافه کردن</string>
     <string name="copy_to_clipboard">کپی</string>
-    <string name="the_list_is_empty">لیست خالی است</string>
     <string name="got_it">فهمیدم</string>
-    <string name="onboardingWelcome">خوش آمدید</string>
-    <string name="proton_log">گزارش Proton</string>
     <string name="something_went_wrong">مشکلی پیش آمد</string>
     <string name="try_again">تلاش دوباره</string>
-    <string name="manage">مدیریت</string>
     <string name="delete">حذف</string>
     <string name="remove">حذف</string>
-    <string name="deleteProfileButton">حذف پروفایل</string>
-    <string name="deleteProfile">حذف پروفایل؟</string>
     <string name="doneButton">انجام شد</string>
     <string name="saveButton">ذخیره</string>
-    <string name="recommendedHeader">توصیه شده</string>
-    <string name="countryServersHeader">سرورهای کشور</string>
-    <string name="secureCoreCountriesHeader">کشورهای Secure Core</string>
-    <string name="recommendedProfilesHeader">پروفایل‌های توصیه شده</string>
-    <string name="free_connection_header">Free connection</string>
-    <string name="yourProfilesHeader">پروفایل‌های شما</string>
-    <string name="exitCountry">کشور خروجی</string>
-    <string name="entryCountry">کشور ورودی</string>
-    <string name="country">کشور</string>
-    <string name="selectCountry">انتخاب کشور</string>
-    <string name="serverSelection">سرور</string>
-    <string name="selectServer">انتخاب سرور</string>
     <string name="protocolLabel">پروتکل</string>
-    <string name="selectProtocol">انتخاب پروتکل</string>
     <string name="protocol">پروتکل:</string>
-    <string name="ip">آدرس IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">سرور:</string>
-    <string name="session_time">مدت نشست:</string>
-    <string name="download_volume">میزان دانلود:</string>
-    <string name="download_speed">سرعت:</string>
-    <string name="notConnected">شما به سروری \n متصل نیستید</string>
     <string name="activityLicensesTitle">گواهینامه‌های شخص ثالث</string>
     <string name="stateFragmentUnknownIp">ناشناخته</string>
     <string name="noVpnPermissionMainTitle">اقدامی برای اتصال به VPN لازم است</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">تصادفی</string>
     <string name="settingsSplitTunnelingDescription">قابلیت split tunneling اجازه می‌دهد تا نشانی‌های IP یا برنامه‌های مشخص از ترافیک VPN جدا شوند.</string>
     <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
-    <string name="loaderAuthenticatingUser">تأیید هویت کاربر…</string>
     <string name="loaderErrorNoInternet">اتصال اینترنت برقرار نیست</string>
     <string name="loaderErrorGeneric">مشکلی پیش آمد</string>
     <string name="loaderLoadingServers">بارگیری سرورها…</string>
@@ -276,16 +204,10 @@
         <item quantity="one">%1$s و %2$d مورد دیگر</item>
         <item quantity="other">%1$s و %2$d مورد دیگر</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">هنگام اتصال نمی توانید این تغییر را انجام دهید</string>
     <string name="excludeAlreadyExcluded">قبلاً جدا شده است</string>
     <string name="removeExcludedIpDialogDescription">حذف نشانی IP از لیست؟</string>
-    <string name="loaderFetchingServers">بارگیری سرورها…</string>
-    <string name="toastProfileSaved">ذخیره شد</string>
     <string name="tileConnected">متصل: %1$s</string>
-    <string name="dialogTitleAttention">توجه</string>
-    <string name="saveProfileAlreadySaved">قبلاً ذخیره شده</string>
     <string name="openUrlError">%1$s باز نمی‌شود. مرورگر وب روی دستگاه شما شناسایی نشد.</string>
-    <string name="toastLoginAuthVersionError">Unable to sign in due to unsupported auth version. Please contact support.</string>
     <string name="loaderErrorTimeout">زمان اتصال گذشت. لطفاً دوباره سعی کنید.</string>
     <string name="troubleshootButton">عیب‌یابی</string>
     <string name="activityTroubleshootTitle">اشکال‌زدایی</string>
@@ -332,7 +254,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
     <string name="netShieldEnabledWarning">در نظر داشته باشید که برخی وبسایت‌ها به دلیل محتوای مسدود شده، ممکن است بطور کامل کار نکنند.</string>
     <string name="netShieldDescription">مسدود کردن آگهی‌ها، ردیاب‌ها و بدافزارها</string>
-    <string name="netshield_settings_description"><![CDATA[Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. <a href="%1$s">Learn more</a>.]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="learn_more">Learn more</string>
     <string name="netshield_status_on">روشن</string>
@@ -619,8 +540,6 @@
     <string name="search_recents_header_title">اخیرا مشاهده شده (%1$d)</string>
     <string name="search_clear_history">پاک کردن تاریخچه</string>
     <string name="search_clear_history_dialog">تاریخچه جستجو از دست خواهد رفت. ادامه می‌دهید؟</string>
-    <string name="ikev2_removed_dialog_title">پروتکل IKEv2 VPN دیگر موجود نیست</string>
-    <string name="ikev2_removed_dialog_message">پیش‌فرض‌ها و پروفایل‌هایی که قبلا از IKEv2 استفاده کردند اکنون از پروتکل هوشمند بهره می‌گیرند.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">از <a href="https://protonvpn.com/pricing">protonvpn.com</a> برای اطلاعات بیشتر بازدید کنید.</string>
     <string name="free_upsell_header_title">Get worldwide coverage with VPN Plus</string>

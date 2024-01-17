@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">Používateľské meno</string>
-    <string name="hintPassword">Heslo</string>
-    <string name="splitTunnellingSwitch">Prepínač rozdeleného tunelovania</string>
     <string name="login">Prihlásiť sa</string>
-    <string name="hamburgerMenu">Menu</string>
-    <string name="error_field_required">Toto pole je povinné</string>
     <string name="menuActionSignOut">Odhlásiť sa</string>
-    <string name="loginSlogan">Bezpečný internet kdekoľvek</string>
-    <string name="loginStartWithDevice">Spustiť so zariadením</string>
-    <string name="loginCreateAccount">Vytvoriť nový účet</string>
-    <string name="loginNeedHelp">Potrebujete pomôcť?</string>
     <string name="connectionAllocationHelpTitle">Ďakujeme, že ste inovovali na \nBusiness\u00a0/\u00a0 Visionary</string>
     <string name="connectionAllocationHelpDescription1">Ak chcete používať Proton VPN, priraďte VPN pripojenia k svojmu účtu alebo akémukoľvek inému podúčtu.</string>
     <string name="connectionAllocationHelpDescription2">Tento krok zaberie iba niekoľko minút. Potom sa budete môcť prihlásiť a chrániť všetky svoje zariadenia.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Pre tento účet momentálne nie je povolené žiadne pripojenie VPN. Ak chcete začať používať Proton VPN, kontaktujte svojho správcu. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Povoliť VPN pripojenia</string>
     <string name="connectionAllocationHelpLoginAgainButton">Prihláste sa znovu</string>
-    <string name="mapCalloutConnect">Pripojiť</string>
-    <string name="mapCalloutDisconnect">Odpojiť</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Upozornenie</string>
     <string name="secureCoreSpeedInfoTitle">Poznámka k rýchlosti…</string>
@@ -46,7 +35,6 @@
     <string name="logoutConfirmDialogTitle">Odhlásiť?</string>
     <string name="logoutConfirmDialogMessage">Odhlásením sa vaše zariadenie odpojí od siete VPN.</string>
     <string name="logoutConfirmDialogButton">Odhlásiť sa</string>
-    <string name="showAllProfiles">Zobraziť všetky profily</string>
     <string name="yes">Áno</string>
     <string name="no">Nie</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
@@ -59,29 +47,19 @@
     <string name="secureCoreConnectVia">cez %1$s</string>
     <string name="connected">Pripojené</string>
     <string name="buttonConnect">Pripojiť</string>
-    <string name="loaderInitializing">Inicializuje sa pripojenie…</string>
     <string name="loaderConnectingTo">Pripája sa ku %1$s</string>
-    <string name="loaderConnectingToLabel">Pripája sa ku…</string>
     <string name="loaderNotConnected">Nepripojené (Nechránené)</string>
-    <string name="loaderNotConnectedSuggestion">Kliknite na tlačidlo rýchleho pripojenia</string>
     <string name="loaderConnectedTo">Pripojené ku %1$s</string>
-    <string name="loaderConnectedToLabel">Pripojené ku:</string>
     <string name="loaderDisconnecting">Odpája sa</string>
     <string name="loaderReconnecting">Obnovuje sa pripojenie</string>
     <string name="loaderReconnectNoNetwork">Čaká sa použiteľnú sieť</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Skontrolujte prosím vaše internetové pripojenie</string>
     <string name="loaderCheckingAvailability">Kontroluje sa dostupnosť servera</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Prosím počkajte pár sekúnd</string>
-    <string name="loaderCancel">Zrušiť pripojenie</string>
     <string name="quickConnect">Rýchlo pripojiť</string>
-    <string name="notConnectedCurrentIp">Momentálna IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Zrušiť</string>
     <string name="close">Zavrieť</string>
-    <string name="drawerSettings">Nastavenia</string>
-    <string name="drawerAccount">Účet</string>
     <string name="drawerHelp">Pomoc</string>
     <string name="drawerShowLog">Zobraziť záznam</string>
     <string name="drawerReportProblem">Nahlásiť problém</string>
@@ -89,17 +67,13 @@
     <string name="accountDetails">Detaily účtu</string>
     <string name="accountSubscription">Predplatné</string>
     <string name="accountUser">Užívateľ:</string>
-    <string name="accountType">Typ účtu:</string>
     <string name="accountTier">Aktívne predplatné:</string>
     <string name="accountVersion">Verzia:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Ak chcete spravovať svoje predplatné, musíte prejsť do webového panela <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Spravovať účet</string>
     <string name="accountButtonUseCoupon">Použiť kupón</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Účet</string>
-    <string name="activitySettingsTitle">Nastavenia</string>
-    <string name="settingsSectionQuickConnect">Rýchle pripojenie</string>
     <string name="settingsSectionConnection">Pripojenie</string>
     <string name="settingsSectionSecurity">Zabezpečenie</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +88,6 @@
     <string name="settingsMtuSizeTitle">Veľkosť MTU</string>
     <string name="settingsMtuDescription">V prípade, že predvolená hodnota nie je vhodná pre konkrétnu sieť, zadajte hodnotu v rozsahu 1280–1500. Zmeňte to len vtedy, ak viete, čo robíte.</string>
     <string name="settingsMtuRangeInvalid">Hodnota MTU musí byť v rozsahu 1280–1500</string>
-    <string name="settingsDefaultConnectionTitle">Rýchle pripojenie</string>
-    <string name="settingsDefaultConnectionDescription">Tlačidlo rýchleho pripojenia vás pripojí k vybranému profilu</string>
     <string name="settingsAllowNonStandardPortsTitle">Neštandardné porty</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Použite Proton VPN pre akúkoľvek špeciálnu potrebu povolením prevádzky na neštandardné porty cez sieť VPN. <a href="%1$s">Zistiť viac</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
@@ -128,11 +100,6 @@
     <string name="restrictedMaintenanceDescription">Na serveri, ku ktorému sa práve pokúšate pripojiť, prebieha údržba. Skúste iný server, prosím.</string>
     <string name="errorUserDelinquent"><![CDATA[Váš účet má momentálne faktúru po splatnosti. Všetky nezaplatené faktúry zaplaťte na&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Dosiahli ste maximálny počet súbežných pripojení povolených pre váš účet. Ak chcete zvýšiť počet pripojení, prejdite na vyšší Proton VPN plán.</string>
-    <string name="errorEmptyName">Pole názvu profilu nemôže byť prázdne</string>
-    <string name="errorEmptyCountry">Pole krajiny nemôže byť prázdne</string>
-    <string name="errorEmptyServer">Pole Server nemôže byť prázdne</string>
-    <string name="errorEmptyEntryCountry">Pole názvu vstupnej krajiny nemôže byť prázdne</string>
-    <string name="errorEmptyExitCountry">Pole názvu výstupnej krajiny nemôže byť prázdne</string>
     <string name="onboardingSignup">Registrácia</string>
     <string name="offerTooltipShowOffer">Zobraziť ponuku</string>
     <string name="listItemMaintenance">Prebieha údržba</string>
@@ -148,8 +115,6 @@
     <string name="insufficientPermissionsTitle">Je vyžadovaná akcia používateľa</string>
     <string name="insufficientPermissionsDetails">Nepodarilo sa automaticky vytvoriť VPN pripojenie. Pripojte sa teraz manuálne a udeľte povolenia, prosím.</string>
     <string name="tabsCountries">Krajiny</string>
-    <string name="tabsMap">Mapa</string>
-    <string name="tabsProfiles">Profily</string>
     <string name="log_title">Záznam</string>
     <string name="disconnect">Odpojiť</string>
     <string name="state_connecting">Pripájanie…</string>
@@ -158,7 +123,6 @@
     <string name="state_error">Chyba</string>
     <string name="error_server_unreachable">Nemôžem sa pripojiť na VPN. Skontrolujte vaše pripojenie a skúste to znova, prosím.</string>
     <string name="error_auth_failed">Overovanie používateľa zlyhalo.</string>
-    <string name="error_assessment_failed">Hodnotenie zabezpečenia zlyhalo.</string>
     <string name="error_generic">Nešpecifikovaná chyba počas pripájania.</string>
     <string name="error_generic_with_reason">Proton VPN nedokázal vytvoriť VPN pripojenie. Skúste to znova o niekoľko sekúnd.<br/><br/> Podrobnosti: %1$s</string>
     <string name="reconnect">Znovu pripojiť</string>
@@ -167,13 +131,6 @@
     <string name="connect">Pripojiť</string>
     <string name="upgrade">Upgradovať</string>
     <string name="retry">Skúsiť znova</string>
-    <string name="connection_failed">Pripojenie zlyhalo</string>
-    <string name="create_new_profile">Nový profil</string>
-    <string name="excludeAppsTitle">Vylúčené aplikácie</string>
-    <string name="excludeAppsDescription">Pridajte aplikácie, ktoré chcete vylúčiť z prevádzky VPN.</string>
-    <string name="profile_name">Názov profilu</string>
-    <string name="profile_name_hint">Napíšte meno profilu</string>
-    <string name="profile_color">Farba profilu</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Prílohy</string>
     <string name="report_message">Nahlásiť správu</string>
@@ -185,22 +142,14 @@
     <string name="excludeIpTitle">Vylúčené IP adresy</string>
     <string name="discardChanges">Zmazať neuložené zmeny?</string>
     <string name="discard">Zahodiť</string>
-    <string name="selectedProfileColor">Vyberte si farbu svojho profilu</string>
-    <string name="excludeIpDescription">Pridajte IP adresy, ktoré chcete vylúčiť z prevádzky VPN.</string>
     <string name="done">HOTOVO</string>
     <string name="add">PRIDAŤ</string>
     <string name="copy_to_clipboard">Kopírovať</string>
-    <string name="the_list_is_empty">Zoznam je prázdny</string>
     <string name="got_it">Rozumiem</string>
-    <string name="onboardingWelcome">Vitajte na palube</string>
-    <string name="proton_log">Proton log</string>
     <string name="something_went_wrong">Niečo sa pokazilo</string>
     <string name="try_again">Skús znova</string>
-    <string name="manage">Spravovať</string>
     <string name="delete">Vymazať</string>
     <string name="remove">Odstrániť</string>
-    <string name="deleteProfileButton">Vymazať profil</string>
-    <string name="deleteProfile">Vymazať profil?</string>
     <string name="doneButton">Hotovo</string>
     <string name="saveButton">Uložiť</string>
     <string name="recommendedHeader">Odporúčané</string>
@@ -216,15 +165,8 @@
     <string name="serverSelection">Server</string>
     <string name="selectServer">Vyberte server</string>
     <string name="protocolLabel">Protokol</string>
-    <string name="selectProtocol">Vyberte protokol</string>
     <string name="protocol">Protokol:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">Server:</string>
-    <string name="session_time">Trvanie relácie:</string>
-    <string name="download_volume">Objem:</string>
-    <string name="download_speed">Rýchlosť:</string>
-    <string name="notConnected">Nie ste pripojení \n k serveru</string>
     <string name="activityLicensesTitle">Licencie tretích strán</string>
     <string name="stateFragmentUnknownIp">Neznáme</string>
     <string name="noVpnPermissionMainTitle">Na pripojenie k sieti VPN je potrebná akcia</string>
@@ -253,7 +195,6 @@
     <string name="profileRandom">Náhodný</string>
     <string name="settingsSplitTunnelingDescription">Rozdelené tunelovanie umožňuje vylúčiť určité aplikácie alebo IP adresy z prevádzky VPN.</string>
     <string name="settingsSplitTunnelingTitle">Rozdelené tunelovanie</string>
-    <string name="loaderAuthenticatingUser">Overovanie používateľa…</string>
     <string name="loaderErrorNoInternet">Žiadne internetové pripojenie</string>
     <string name="loaderErrorGeneric">Niečo sa pokazilo</string>
     <string name="loaderLoadingServers">Načítanie serverov…</string>
@@ -281,13 +222,10 @@
     <string name="settingsCannotChangeWhileConnected">Počas pripojenia to nie je možné zmeniť</string>
     <string name="excludeAlreadyExcluded">Už je vylúčené</string>
     <string name="removeExcludedIpDialogDescription">Odstrániť IP adresu zo zoznamu?</string>
-    <string name="loaderFetchingServers">Načítanie serverov…</string>
-    <string name="toastProfileSaved">Uložené</string>
     <string name="tileConnected">Pripojené: %1$s</string>
     <string name="dialogTitleAttention">Upozornenie</string>
     <string name="saveProfileAlreadySaved">Už je uložené</string>
     <string name="openUrlError">%1$s sa nepodarilo otvoriť. Vo vašom zariadení sa nezistil webový prehliadač.</string>
-    <string name="toastLoginAuthVersionError">Nedá sa prihlásiť z dôvodu nepodporovanej verzie overenia. Kontaktujte podporu.</string>
     <string name="loaderErrorTimeout">Časový limit pripojenia vypršal, skúste to prosím znovu</string>
     <string name="troubleshootButton">Riešenie problémov</string>
     <string name="activityTroubleshootTitle">Riešenie problémov</string>
@@ -334,7 +272,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Tieto štatistiky neobsahujú vašu IP adresu a nemôžu byť použité na vašu identifikáciu. Nikdy ich nebudeme zdieľať s tretími stranami. <a href="%1$s">Zistiť viac</a>]]></string>
     <string name="netShieldEnabledWarning">Dajte si pozor na to, že niektoré webové stránky nemusia plne fungovať kvôli blokovanému obsahu.</string>
     <string name="netShieldDescription">Blokovanie reklám, sledovačov a škodlivého softvéru </string>
-    <string name="netshield_settings_description"><![CDATA[Chráňte sa pred reklamami, malvérom a sledovacími nástrojmi na webových stránkach a v aplikáciách. Ak sa webové stránky nenačítajú, skúste vypnúť NetShield. <a href="%1$s">Zistiť viac</a>.]]></string>
     <string name="netshield_settings_description_not_html">Chráňte sa pred reklamou, malware a sledovacími prvkami na webových stránkach a v aplikáciách. Ak sa stránky nenačítajú, skúste vypnúť NetShield. %1$s</string>
     <string name="learn_more">Zistiť viac</string>
     <string name="netshield_status_on">Zapnuté</string>
@@ -635,8 +572,6 @@
     <string name="search_recents_header_title">Nedávno zobrazené (%1$d)</string>
     <string name="search_clear_history">Vymazať históriu</string>
     <string name="search_clear_history_dialog">Vaša história vyhľadávania bude stratená. Pokračovať?</string>
-    <string name="ikev2_removed_dialog_title">Protokol IKEv2 VPN už nie je k dispozícii</string>
-    <string name="ikev2_removed_dialog_message">Predvolené nastavenia a profily, ktoré predtým používali IKEv2, budú teraz používať protokol Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Navštívte <a href="https://protonvpn.com/pricing">protonvpn.com</a> pre viac informácií.</string>
     <string name="free_upsell_header_title">Získajte celosvetové pokrytie s VPN Plus</string>

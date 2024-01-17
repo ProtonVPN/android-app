@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">사용자 이름</string>
-    <string name="hintPassword">비밀번호</string>
-    <string name="splitTunnellingSwitch">분할 터널링 스위치</string>
     <string name="login">로그인</string>
-    <string name="hamburgerMenu">햄버거 메뉴</string>
-    <string name="error_field_required">필수 항목</string>
     <string name="menuActionSignOut">로그아웃</string>
-    <string name="loginSlogan">어디에서나 안전하게 연결</string>
-    <string name="loginStartWithDevice">기기로 시작하기</string>
-    <string name="loginCreateAccount">새 계정 만들기</string>
-    <string name="loginNeedHelp">도움이 필요하신가요?</string>
     <string name="connectionAllocationHelpTitle">\nBusiness\u00a0/\u00a0Visionary로 업그레이드해 주셔서 감사합니다</string>
     <string name="connectionAllocationHelpDescription1">Proton VPN에서의 여정을 시작하려면 계정이나 다른 하위 계정에 VPN 연결을 할당하십시오.</string>
     <string name="connectionAllocationHelpDescription2">이 작업은 몇 분 정도 소요됩니다. 이후 로그인하여 모든 장치들을 보호할 수 있습니다.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">현재 이 계정에 대해서 활성화된 VPN 연결이 없습니다. Proton VPN와 함께 여정을 시작하려면 관리자에게 문의해주세요. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">VPN 연결 활성화</string>
     <string name="connectionAllocationHelpLoginAgainButton">다시 로그인</string>
-    <string name="mapCalloutConnect">연결</string>
-    <string name="mapCalloutDisconnect">연결 해제</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">경고</string>
     <string name="secureCoreSpeedInfoTitle">속도에 대한 참고 사항…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">로그아웃 하시겠습니까?</string>
     <string name="logoutConfirmDialogMessage">로그아웃하면 현재 기기에서 VPN 연결이 해제됩니다.</string>
     <string name="logoutConfirmDialogButton">로그아웃</string>
-    <string name="showAllProfiles">모든 프로필 보기</string>
     <string name="yes">예</string>
     <string name="no">아니요</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">확인</string>
     <string name="dialogContinue">계속</string>
     <string name="dialogLearnMore">자세히 알아보기</string>
-    <string name="dialog_read_more">자세히 알아보기</string>
     <string name="dialog_apply">적용</string>
     <string name="dialog_applying">적용 중</string>
     <string name="secureCoreConnectVia">%1$s 경유</string>
     <string name="connected">연결됨</string>
     <string name="buttonConnect">연결</string>
-    <string name="loaderInitializing">연결을 구성하는 중…</string>
     <string name="loaderConnectingTo">%1$s에 연결 중</string>
-    <string name="loaderConnectingToLabel">연결 중...</string>
     <string name="loaderNotConnected">연결되지 않음 (보호되지 않음)</string>
-    <string name="loaderNotConnectedSuggestion">빠른 연결 버튼을 누르세요.</string>
     <string name="loaderConnectedTo">%1$s에 연결됨</string>
-    <string name="loaderConnectedToLabel">연결됨:</string>
     <string name="loaderDisconnecting">연결을 끊는 중</string>
     <string name="loaderReconnecting">다시 연결 중</string>
     <string name="loaderReconnectNoNetwork">사용 가능한 네트워크 대기 중</string>
-    <string name="loaderReconnectNoNetworkSuggestion">네트워크를 확인하세요</string>
     <string name="loaderCheckingAvailability">서버 가용성을 확인하는 중</string>
-    <string name="loaderCheckingAvailabilitySuggestion">잠시 기다려 주세요</string>
-    <string name="loaderCancel">연결 취소</string>
     <string name="quickConnect">빠른 연결</string>
-    <string name="notConnectedCurrentIp">현재 IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">취소</string>
     <string name="close">닫기</string>
-    <string name="drawerSettings">설정</string>
-    <string name="drawerAccount">계정</string>
     <string name="drawerHelp">도움말</string>
     <string name="drawerShowLog">로그 보기</string>
     <string name="drawerReportProblem">문제 제보하기</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">계정 정보</string>
     <string name="accountSubscription">구독</string>
     <string name="accountUser">사용자:</string>
-    <string name="accountType">계정 유형:</string>
     <string name="accountTier">요금제:</string>
     <string name="accountVersion">버전:</string>
     <string name="accountSubscriptionDetails"><![CDATA[구독을 관리하기 위해, <font color="%1$s">protonvpn.com</font> 웹패널로 이동해야 합니다]]></string>
     <string name="accountButtonManage">계정 관리</string>
     <string name="accountButtonUseCoupon">쿠폰 사용</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">프로필</string>
     <string name="activityAccountTitle">계정</string>
-    <string name="activitySettingsTitle">설정</string>
-    <string name="settingsSectionQuickConnect">빠른 연결</string>
     <string name="settingsSectionConnection">연결</string>
     <string name="settingsSectionSecurity">보안</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">MTU 크기</string>
     <string name="settingsMtuDescription">기본값이 특정 네트워크에 적합하지 않은 경우 1280~1500 범위의 값을 입력합니다. 이 기능이 무엇인지 알고 있는 경우에만 변경하세요.</string>
     <string name="settingsMtuRangeInvalid">MTU 값은 1280~1500 범위여야 합니다.</string>
-    <string name="settingsDefaultConnectionTitle">빠른 연결</string>
-    <string name="settingsDefaultConnectionDescription">빠른 연결 버튼을 누르면 선택한 프로필에 연결됩니다</string>
     <string name="settingsAllowNonStandardPortsTitle">비표준 포트</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN 네트워크를 통해 비표준 포트로의 트래픽을 허용하여 특별한 필요에 따라 Proton VPN을 사용하세요. <a href="%1$s">자세히 알아보기</a>]]></string>
     <string name="settingsModerateNatTitle">일반형 NAT</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">현재 연결하려는 서버가 점검 중입니다. 다른 서버를 시도하십시오.</string>
     <string name="errorUserDelinquent"><![CDATA[귀하의 계정에 현재 연체된 금액이 있습니다. &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>에서 연체된 금액을 지불해주세요.]]></string>
     <string name="errorMaxSessions">계정에 허용된 최대 동시 연결 수에 도달했습니다. 더 많은 연결을 얻으려면 Proton VPN 요금제를 업그레이드하세요.</string>
-    <string name="errorEmptyName">프로필 이름 항목을 비워 둘 수 없습니다</string>
-    <string name="errorEmptyCountry">국가 항목은 비워 둘 수 없습니다</string>
-    <string name="errorEmptyServer">서버 항목은 비워 둘 수 없습니다</string>
-    <string name="errorEmptyEntryCountry">입구 국가 항목은 비워 둘 수 없습니다</string>
-    <string name="errorEmptyExitCountry">출구 국가 항목은 비워 둘 수 없습니다</string>
     <string name="onboardingSignup">가입하기</string>
     <string name="offerTooltipShowOffer">구매항목 보기</string>
     <string name="listItemMaintenance">점검 중</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">사용자 조치 필요</string>
     <string name="insufficientPermissionsDetails">자동으로 VPN 연결을 구성할 수 없습니다. 권한을 부여하기 위해 수동으로 한 번 연결해주세요.</string>
     <string name="tabsCountries">국가</string>
-    <string name="tabsMap">지도</string>
-    <string name="tabsProfiles">프로필</string>
     <string name="log_title">로그</string>
     <string name="disconnect">연결 해제</string>
     <string name="state_connecting">연결 중...</string>
@@ -158,7 +122,6 @@
     <string name="state_error">오류</string>
     <string name="error_server_unreachable">VPN에 연결할 수 없습니다. 연결 상태를 확인하신 후, 다시 시도해주세요.</string>
     <string name="error_auth_failed">인증에 실패하였습니다.</string>
-    <string name="error_assessment_failed">보안 평가를 실패하였습니다.</string>
     <string name="error_generic">연결 도중에 알 수 없는 실패가 발생했습니다.</string>
     <string name="error_generic_with_reason">Proton VPN이 VPN 연결을 구성할 수 없습니다. 몇 초 후에 다시 시도해 주세요.<br/><br/> 세부사항: %1$s</string>
     <string name="reconnect">다시 연결</string>
@@ -167,13 +130,6 @@
     <string name="connect">연결</string>
     <string name="upgrade">업그레이드</string>
     <string name="retry">재시도</string>
-    <string name="connection_failed">연결 실패</string>
-    <string name="create_new_profile">새 프로필</string>
-    <string name="excludeAppsTitle">앱 제외</string>
-    <string name="excludeAppsDescription">VPN 트래픽에서 제외하고 싶은 앱을 추가하세요.</string>
-    <string name="profile_name">프로필 이름</string>
-    <string name="profile_name_hint">프로필 이름 쓰기</string>
-    <string name="profile_color">프로필 색상</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">첨부 파일</string>
     <string name="report_message">메시지 신고</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">제외할 IP 주소</string>
     <string name="discardChanges">저장하지 않은 변경 사항을 취소할까요?</string>
     <string name="discard">저장 안함</string>
-    <string name="selectedProfileColor">프로필 색상을 선택하세요</string>
-    <string name="excludeIpDescription">VPN 트래픽에서 제외하고 싶은 IP 주소를 추가하세요.</string>
     <string name="done">완료</string>
     <string name="add">추가</string>
     <string name="copy_to_clipboard">복사</string>
-    <string name="the_list_is_empty">목록이 비어있음</string>
     <string name="got_it">알겠습니다</string>
-    <string name="onboardingWelcome">환영합니다</string>
-    <string name="proton_log">Proton 로그</string>
     <string name="something_went_wrong">문제가 발생했습니다</string>
     <string name="try_again">다시 시도</string>
-    <string name="manage">관리</string>
     <string name="delete">삭제</string>
     <string name="remove">제거</string>
-    <string name="deleteProfileButton">프로필 삭제</string>
-    <string name="deleteProfile">프로필을 삭제하겠습니까?</string>
     <string name="doneButton">완료</string>
     <string name="saveButton">저장</string>
-    <string name="recommendedHeader">추천</string>
-    <string name="countryServersHeader">국가 서버</string>
-    <string name="secureCoreCountriesHeader">Secure Core 도시</string>
-    <string name="recommendedProfilesHeader">추천 프로필</string>
-    <string name="free_connection_header">무료 연결</string>
-    <string name="yourProfilesHeader">프로필</string>
-    <string name="exitCountry">출구 국가</string>
-    <string name="entryCountry">입구 국가</string>
-    <string name="country">국가</string>
-    <string name="selectCountry">국가 선택</string>
-    <string name="serverSelection">서버</string>
-    <string name="selectServer">서버 선택</string>
     <string name="protocolLabel">프로토콜</string>
-    <string name="selectProtocol">프로토콜 선택</string>
     <string name="protocol">프로토콜:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">아이피: %1$s</string>
-    <string name="server">서버:</string>
-    <string name="session_time">세션 시간:</string>
-    <string name="download_volume">이용량:</string>
-    <string name="download_speed">속도:</string>
-    <string name="notConnected">VPN 서버에\n연결되지 않음</string>
     <string name="activityLicensesTitle">제3자 라이센스</string>
     <string name="stateFragmentUnknownIp">알 수 없음</string>
     <string name="noVpnPermissionMainTitle">VPN 연결 동작이 필요합니다</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">무작위</string>
     <string name="settingsSplitTunnelingDescription">분할 터널링은 VPN 트래픽에서 제외하고 싶은 특정 앱이나 IP 주소를 설정할 수 있도록 합니다.</string>
     <string name="settingsSplitTunnelingTitle">분할 터널링</string>
-    <string name="loaderAuthenticatingUser">사용자 인증 중…</string>
     <string name="loaderErrorNoInternet">인터넷에 연결되지 않음</string>
     <string name="loaderErrorGeneric">문제가 발생했습니다</string>
     <string name="loaderLoadingServers">서버 로딩 중…</string>
@@ -275,16 +203,10 @@
     <plurals name="listFewItemsAndMore">
         <item quantity="other">%1$s 그리고 %2$d개 더</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">연결된 상태에서는 이 설정을 변경할 수 없습니다</string>
     <string name="excludeAlreadyExcluded">이미 제외됨</string>
     <string name="removeExcludedIpDialogDescription">IP 주소를 목록에서 삭제하시겠습니까?</string>
-    <string name="loaderFetchingServers">서버를 가져오는 중…</string>
-    <string name="toastProfileSaved">저장됨</string>
     <string name="tileConnected">연결됨: %1$s</string>
-    <string name="dialogTitleAttention">주의</string>
-    <string name="saveProfileAlreadySaved">이미 저장됨</string>
     <string name="openUrlError">%1$s 를 열 수 없습니다. 기기에서 웹 브라우저가 탐지되지 않았습니다.</string>
-    <string name="toastLoginAuthVersionError">지원되지 않는 버전으로 인해 로그인할 수 없습니다. 지원팀에 문의하세요.</string>
     <string name="loaderErrorTimeout">연결 시간 초과. 다시 시도하십시오.</string>
     <string name="troubleshootButton">문제 해결</string>
     <string name="activityTroubleshootTitle">문제 해결</string>
@@ -331,7 +253,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[이러한 통계에는 IP 주소가 포함되어 있지 않으며 귀하를 식별하는 데 사용할 수 없습니다. 이 정보를 다른 사람에게 공유하지 않습니다. <a href="%1$s">자세히 알아보기</a>]]></string>
     <string name="netShieldEnabledWarning">차단된 컨텐츠 때문에 몇몇 웹사이트가 제대로 작동하지 않을 수 있다는 점을 알아두세요.</string>
     <string name="netShieldDescription">광고, 트래커, 그리고 멀웨어를 차단하세요</string>
-    <string name="netshield_settings_description"><![CDATA[자신을 웹사이트 및 앱에서 광고, 멀웨어, 그리고 트래커로부터 보호하세요. 만약 웹사이트를 불러올 수 없다면, NetShield 해제를 시도해 보세요. <a href="%1$s">자세히 알아보기</a>.]]></string>
     <string name="netshield_settings_description_not_html">자신을 광고, 멀웨어, 그리고 트래커와 웹사이트 및 앱으로 부터 보호하세요. 웹사이트를 불러올 수 없다면, NetShield 해제를 시도해 보세요. %1$s</string>
     <string name="learn_more">더 알아보기</string>
     <string name="netshield_status_on">켜기</string>
@@ -611,8 +532,6 @@
     <string name="search_recents_header_title">최근에 봄 (%1$d)</string>
     <string name="search_clear_history">기록 삭제</string>
     <string name="search_clear_history_dialog">검색 기록이 지워집니다. 계속하시겠어요?</string>
-    <string name="ikev2_removed_dialog_title">IKEv2 VPN는 더 이상 사용할 수 없습니다</string>
-    <string name="ikev2_removed_dialog_message">이전에 IKEv2를 사용했던 기본값과 프로필이 이제는 Smart Protocol을 사용합니다.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">자세한 내용은 <a href="https://protonvpn.com/pricing">protonvpn.com</a>을 참조하세요.</string>
     <string name="free_upsell_header_title">전세계 커버리지를 VPN Plus로 누리세요</string>

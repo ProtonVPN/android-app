@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">Όνομα Χρήστη</string>
-    <string name="hintPassword">Κωδικός</string>
-    <string name="splitTunnellingSwitch">Εναλλαγή Split tunneling</string>
     <string name="login">Είσοδος</string>
-    <string name="hamburgerMenu">Μενού Hamburger</string>
-    <string name="error_field_required">Αυτό το πεδίο είναι υποχρεωτικό</string>
     <string name="menuActionSignOut">Αποσύνδεση</string>
-    <string name="loginSlogan">Ασφαλές Διαδίκτυο Οπουδήποτε</string>
-    <string name="loginStartWithDevice">Εκκίνηση με την συσκευή</string>
-    <string name="loginCreateAccount">Δημιουργία νέου λογαριασμού</string>
-    <string name="loginNeedHelp">Χρειάζεστε βοήθεια;</string>
     <string name="connectionAllocationHelpTitle">Ευχαριστούμε για την αναβάθμιση σε\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Για να ξεκινήσετε το ταξίδι σας με το Proton VPN παρακαλούμε αναθέστε τις συνδέσεις VPN στον λογαριασμός σας ή σε δεύτερους συνδεδεμένους λογαριασμούς.</string>
     <string name="connectionAllocationHelpDescription2">Αυτό το βήμα θα πάρει μόνο λίγα λεπτά. Μετά θα μπορείτε να συνδέεστε, προστατεύοντας όλες τις συσκευές σας.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Αυτήν τη στιγμή δεν υπάρχει ενεργοποιημένη σύνδεση VPN για αυτόν τον λογαριασμό. Για να ξεκινήσετε το ταξίδι σας με το Proton VPN, επικοινωνήστε με τον διαχειριστή σας. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Ενεργοποίηση συνδέσεων VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Προσπαθήστε ξανά</string>
-    <string name="mapCalloutConnect">Σύνδεση</string>
-    <string name="mapCalloutDisconnect">Αποσύνδεση</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Προειδοποίηση</string>
     <string name="secureCoreSpeedInfoTitle">Σημείωση για την ταχύτητα…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">Αποσύνδεση;</string>
     <string name="logoutConfirmDialogMessage">Κάνοντας αποσύνδεση από τον λογαριασμό σας, θα αποσυνδεθεί και η συσκευή σας από το διακομιστή VPN.</string>
     <string name="logoutConfirmDialogButton">Αποσύνδεση</string>
-    <string name="showAllProfiles">Εμφάνιση όλων των προφίλ</string>
     <string name="yes">Ναι</string>
     <string name="no">Όχι</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">ΟΚ</string>
     <string name="dialogContinue">Συνέχεια</string>
     <string name="dialogLearnMore">Μάθετε περισσότερα</string>
-    <string name="dialog_read_more">Διαβάστε περισσότερα</string>
     <string name="dialog_apply">Εφαρμογή</string>
     <string name="dialog_applying">Εφαρμογή</string>
     <string name="secureCoreConnectVia">μέσω %1$s</string>
     <string name="connected">Συνδεδεμένο</string>
     <string name="buttonConnect">Σύνδεση</string>
-    <string name="loaderInitializing">Εκκίνηση Σύνδεσης…</string>
     <string name="loaderConnectingTo">Σύνδεση σε %1$s</string>
-    <string name="loaderConnectingToLabel">Σύνδεση σε…</string>
     <string name="loaderNotConnected">Μη συνδεδεμένο (χωρίς προστασία)</string>
-    <string name="loaderNotConnectedSuggestion">Πατήστε το κουμπί \"Γρήγορη σύνδεση\"</string>
     <string name="loaderConnectedTo">Συνδέθηκε στο %1$s</string>
-    <string name="loaderConnectedToLabel">Συνδέθηκε σε:</string>
     <string name="loaderDisconnecting">Γίνεται Αποσύνδεση</string>
     <string name="loaderReconnecting">Επανασύνδεση</string>
     <string name="loaderReconnectNoNetwork">Αναμονή για χρησιμοποιήσιμο δίκτυο</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Παρακαλούμε ελέγξτε το δίκτυό σας</string>
     <string name="loaderCheckingAvailability">Έλεγχος διαθεσιμότητας διακομιστή</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Παρακαλούμε περιμένετε μερικά δευτερόλεπτα</string>
-    <string name="loaderCancel">Ακύρωση σύνδεσης</string>
     <string name="quickConnect">Γρήγορη σύνδεση</string>
-    <string name="notConnectedCurrentIp">Τρέχουσα διεύθυνση IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Ακύρωση</string>
     <string name="close">Κλείσιμο</string>
-    <string name="drawerSettings">Ρυθμίσεις</string>
-    <string name="drawerAccount">Λογαριασμός</string>
     <string name="drawerHelp">Βοήθεια</string>
     <string name="drawerShowLog">Αρχείο Log</string>
     <string name="drawerReportProblem">Αναφορά προβλήματος</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">Πληροφορίες λογαριασμού</string>
     <string name="accountSubscription">Συνδρομή</string>
     <string name="accountUser">Χρήστης:</string>
-    <string name="accountType">Τύπος λογαριασμού:</string>
     <string name="accountTier">Ενεργή συνδρομή:</string>
     <string name="accountVersion">Έκδοση:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Για να διαχειριστείτε τη συνδρομή σας, πρέπει να μεταβείτε στο <font color="%1$s">protonvpn.com</font> webpanel.]]></string>
     <string name="accountButtonManage">Διαχείριση λογαριασμού</string>
     <string name="accountButtonUseCoupon">Χρήση κουπονιού</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">Προφίλ</string>
     <string name="activityAccountTitle">Λογαριασμός</string>
-    <string name="activitySettingsTitle">Ρυθμίσεις</string>
-    <string name="settingsSectionQuickConnect">Γρήγορη Σύνδεση</string>
     <string name="settingsSectionConnection">Σύνδεση</string>
     <string name="settingsSectionSecurity">Ασφάλεια</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">Μέγεθος MTU</string>
     <string name="settingsMtuDescription">Σε περίπτωση που η προεπιλεγμένη τιμή δεν είναι κατάλληλη για ένα συγκεκριμένο δίκτυο, εισαγάγετε μια τιμή εντός του εύρους 1280-1500. Αλλάξτε το μόνο εάν γνωρίζετε τι κάνετε.</string>
     <string name="settingsMtuRangeInvalid">Η τιμή MTU πρέπει να είναι στο εύρος 1280 -- 1500</string>
-    <string name="settingsDefaultConnectionTitle">Γρήγορη Σύνδεση</string>
-    <string name="settingsDefaultConnectionDescription">Το κουμπί γρήγορης σύνδεσης, σας συνδέει στο επιλεγμένο προφίλ</string>
     <string name="settingsAllowNonStandardPortsTitle">Μη τυποποιημένες θύρες</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Χρησιμοποιήστε το Proton VPN για κάθε ειδική περιπτωση επιτρέποντας την ροή των δεδομένων από μη τυποποιημένες θύρες μέσω του δικτύου VPN. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
     <string name="settingsModerateNatTitle">Παραμετροποιήστε το NAT</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">Ο διακομιστής που προσπαθείτε αυτήν τη στιγμή να συνδεθείτε βρίσκεται υπό συντήρηση. Δοκιμάστε κάποιον άλλο διακομιστή.</string>
     <string name="errorUserDelinquent"><![CDATA[Ο λογαριασμός σας έχει εκπρόθεσμο λογαριασμό. Καταβάλλετε όλο το μη καταβληθέν ποσό στο&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Έχετε φτάσει τον μέγιστο αριθμό ταυτόχρονων συνδέσεων που επιτρέπονται για το λογαριασμό σας. Κάντε αναβάθμιση του πακέτου Proton VPN σας για περισσότερες συνδέσεις.</string>
-    <string name="errorEmptyName">Το όνομα προφίλ δεν μπορεί να είναι κενό</string>
-    <string name="errorEmptyCountry">Το πεδίο χώρας δεν μπορεί να είναι κενό</string>
-    <string name="errorEmptyServer">Το πεδίο διακομιστή δεν μπορεί να είναι κενό</string>
-    <string name="errorEmptyEntryCountry">Το πεδίο χώρας εισόδου δεν γίνεται να είναι κενό</string>
-    <string name="errorEmptyExitCountry">Το πεδίο χώρας εξόδου δεν γίνεται να είναι κενό</string>
     <string name="onboardingSignup">Εγγραφείτε</string>
     <string name="offerTooltipShowOffer">Δείτε την προσφορά</string>
     <string name="listItemMaintenance">Υπό συντήρηση</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">Απαιτείται ενέργεια από τον χρήστη</string>
     <string name="insufficientPermissionsDetails">Δεν ήταν δυνατή η αυτόματη σύνδεση VPN. Συνδεθείτε χειροκίνητα μία φορά για να χορηγηθούν τα δικαιώματα.</string>
     <string name="tabsCountries">Χώρες</string>
-    <string name="tabsMap">Χάρτης</string>
-    <string name="tabsProfiles">Προφίλ</string>
     <string name="log_title">Αρχείο καταγραφής</string>
     <string name="disconnect">Αποσύνδεση</string>
     <string name="state_connecting">Συνδέεται…</string>
@@ -158,7 +122,6 @@
     <string name="state_error">Σφάλμα</string>
     <string name="error_server_unreachable">Αδυναμία σύνδεσης στο VPN. Παρακαλούμε ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.</string>
     <string name="error_auth_failed">Η επαλήθευση χρήστη απέτυχε.</string>
-    <string name="error_assessment_failed">Η αξιολόγηση ασφάλειας απέτυχε.</string>
     <string name="error_generic">Απροσδιόριστη αποτυχία κατά τη σύνδεση.</string>
     <string name="error_generic_with_reason">Το Proton VPN δεν μπόρεσε να εγκαθιδρύσει μια σύνδεση VPN. Παρακαλούμε δοκιμάστε ξανά σε λίγο.<br/><br/>Λεπτομέρειες: %1$s</string>
     <string name="reconnect">Επανασύνδεση</string>
@@ -167,13 +130,6 @@
     <string name="connect">Σύνδεση</string>
     <string name="upgrade">Αναβάθμιση</string>
     <string name="retry">Δοκιμάστε ξανά</string>
-    <string name="connection_failed">Αποτυχία σύνδεσης</string>
-    <string name="create_new_profile">Νέο προφίλ</string>
-    <string name="excludeAppsTitle">Εξαίρεση Εφαρμογών</string>
-    <string name="excludeAppsDescription">Προσθέστε τις εφαρμογές που θέλετε να εξαιρέσετε από την κίνηση δικτύου VPN.</string>
-    <string name="profile_name">Όνομα προφίλ</string>
-    <string name="profile_name_hint">Καταχωρήστε το όνομα του προφίλ</string>
-    <string name="profile_color">Χρώμα προφίλ</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Συνημμένα</string>
     <string name="report_message">Αναφορά μηνύματος</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">Εξαίρεση Διευθύνσεων IP</string>
     <string name="discardChanges">Απόρριψη μη αποθηκευμένων αλλαγών;</string>
     <string name="discard">Απόρριψη</string>
-    <string name="selectedProfileColor">Παρακαλώ επιλέξτε χρώμα για το προφίλ σας</string>
-    <string name="excludeIpDescription">Προσθέστε διευθύνσεις IP που θέλετε να εξαιρούνται απο την κίνηση δικτύου VPN.</string>
     <string name="done">ΟΛΟΚΛΗΡΩΣΗ</string>
     <string name="add">ΠΡΟΣΘΗΚΗ</string>
     <string name="copy_to_clipboard">Αντιγραφή</string>
-    <string name="the_list_is_empty">Η λίστα είναι κενή</string>
     <string name="got_it">Το κατάλαβα</string>
-    <string name="onboardingWelcome">Καλώς ήρθατε</string>
-    <string name="proton_log">Αρχεία καταγραφής Proton</string>
     <string name="something_went_wrong">Κάτι πήγε στραβά</string>
     <string name="try_again">Προσπαθήστε ξανά</string>
-    <string name="manage">Διαχείριση</string>
     <string name="delete">Διαγραφή</string>
     <string name="remove">Αφαίρεση</string>
-    <string name="deleteProfileButton">Διαγραφή προφίλ</string>
-    <string name="deleteProfile">Διαγραφή προφίλ;</string>
     <string name="doneButton">Έτοιμο</string>
     <string name="saveButton">Αποθήκευση</string>
-    <string name="recommendedHeader">Προτεινόμενο</string>
-    <string name="countryServersHeader">Χώρα διακομιστών</string>
-    <string name="secureCoreCountriesHeader">Χώρες Secure Core</string>
-    <string name="recommendedProfilesHeader">Προτεινόμενα προφίλ</string>
-    <string name="free_connection_header">Δωρεάν σύνδεση</string>
-    <string name="yourProfilesHeader">Τα προφίλ μου</string>
-    <string name="exitCountry">Έξοδος χώρας</string>
-    <string name="entryCountry">Είσοδος χώρας</string>
-    <string name="country">Χώρα</string>
-    <string name="selectCountry">Επιλογή Χώρας</string>
-    <string name="serverSelection">Διακομιστής</string>
-    <string name="selectServer">Επιλογή Διακομιστή</string>
     <string name="protocolLabel">Πρωτόκολλο</string>
-    <string name="selectProtocol">Επιλογή πρωτοκόλλου</string>
     <string name="protocol">Πρωτόκολλο:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">Διακομιστής:</string>
-    <string name="session_time">Διάρκεια συνεδρίας:</string>
-    <string name="download_volume">Όγκος:</string>
-    <string name="download_speed">Ταχύτητα:</string>
-    <string name="notConnected">Δεν είστε συνδεδεμένοι \n σε κάποιο διακομιστή</string>
     <string name="activityLicensesTitle">Άδειες τρίτων</string>
     <string name="stateFragmentUnknownIp">Άγνωστο</string>
     <string name="noVpnPermissionMainTitle">Απαιτείται ενέργεια για σύνδεση στο VPN</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">Τυχαίο</string>
     <string name="settingsSplitTunnelingDescription">Το \"Split Tunneling\" επιτρέπει συγκεκριμένες εφαρμογές ή IP διευθύνσεις, να εξαιρούνται απο την ροή δεδομένων του VPN.</string>
     <string name="settingsSplitTunnelingTitle">Διαίρεση σήραγγας</string>
-    <string name="loaderAuthenticatingUser">Επαλήθευση χρήστη…</string>
     <string name="loaderErrorNoInternet">Δεν υπάρχει σύνδεση στο Διαδίκτυο</string>
     <string name="loaderErrorGeneric">Κάτι πήγε στραβά</string>
     <string name="loaderLoadingServers">Φόρτωση διακομιστών…</string>
@@ -276,16 +204,10 @@
         <item quantity="one">%1$s και %2$d ακόμα</item>
         <item quantity="other">%1$s και %2$d ακόμα</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Δεν είναι δυνατή αυτή η αλλαγή οσό είστε συνδεδεμένοι</string>
     <string name="excludeAlreadyExcluded">Έχει ήδη αποκλειστεί</string>
     <string name="removeExcludedIpDialogDescription">Κατάργηση IP Διευθύνσης από τη λίστα;</string>
-    <string name="loaderFetchingServers">Φόρτωση διακομιστών…</string>
-    <string name="toastProfileSaved">Αποθηκεύτηκε</string>
     <string name="tileConnected">Συνδέθηκε: %1$s</string>
-    <string name="dialogTitleAttention">Προσοχή</string>
-    <string name="saveProfileAlreadySaved">Ήδη αποθηκευμένο</string>
     <string name="openUrlError">%1$s δεν μπόρεσε να ανοίξει. Δεν εντοπίστηκε πρόγραμμα περιήγησης στη συσκευή σας.</string>
-    <string name="toastLoginAuthVersionError">Δεν είναι δυνατή η σύνδεση, λόγω μη υποστηριζόμενης έκδοσης auth. Επικοινωνήστε με την υποστήριξη.</string>
     <string name="loaderErrorTimeout">Λήξη χρονικού ορίου σύνδεσης. Παρακαλώ προσπαθήστε ξανά.</string>
     <string name="troubleshootButton">Επίλυση προβλημάτων</string>
     <string name="activityTroubleshootTitle">Επίλυση προβλημάτων</string>
@@ -332,7 +254,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Αυτά τα στατιστικά στοιχεία δεν περιέχουν τη διεύθυνση IP σας και δεν μπορούν να χρησιμοποιηθούν για την αναγνώρισή σας. Δε θα τα μοιραστούμε ποτέ με τρίτους. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
     <string name="netShieldEnabledWarning">Προσοχή, ορισμένοι ιστότοποι ενδέχεται να μην λειτουργούν πλήρως, λόγω αποκλεισμένου περιεχομένου.</string>
     <string name="netShieldDescription">Αποκλεισμός διαφημίσεων, ιχνηλατών και κακόβουλου λογισμικού </string>
-    <string name="netshield_settings_description"><![CDATA[Προστατέψτε τον εαυτό σας από διαφημίσεις, κακόβουλο λογισμικό και ιχνηλάτες στις ιστοσελίδες και στις εφαρμογές. Εάν οι ιστοσελίδες δε φορτώνουν, προσπαθήστε ξανά απενεργοποιώντας το NetShield. <a href="%1$s">Μάθετε περισσότερα</a>.]]></string>
     <string name="netshield_settings_description_not_html">Προστατέψτε τον εαυτό σας από διαφημίσεις, κακόβουλο λογισμικό και ιχνηλάτες στις ιστοσελίδες και στις εφαρμογές. Εάν οι ιστοσελίδες δε φορτώνουν, προσπαθήστε ξανά απενεργοποιώντας το NetShield. %1$s</string>
     <string name="learn_more">Μάθετε περισσότερα</string>
     <string name="netshield_status_on">Ενεργό</string>
@@ -619,8 +540,6 @@
     <string name="search_recents_header_title">Πρόσφατη προβολή (%1$d)</string>
     <string name="search_clear_history">Εκκαθάριση ιστορικού</string>
     <string name="search_clear_history_dialog">Το ιστορικό σας αναζητήσεων θα χαθεί. Συνέχιση;</string>
-    <string name="ikev2_removed_dialog_title">Το IKEv2 VPN protocol δεν είναι πλέον διαθέσιμο</string>
-    <string name="ikev2_removed_dialog_message">Οι προεπιλογές και τα προφίλ που χρησιμοποιούσαν το IKEv2 πλέον χρησιμοποιούν Smart protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Επισκεφθείτε το <a href="https://protonvpn.com/pricing">protonvpn.com</a>για περισσότερες πληροφορίες.</string>
     <string name="free_upsell_header_title">Αποκτήστε παγκόσμια κάλυψη με το VPN Plus</string>

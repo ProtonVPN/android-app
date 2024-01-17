@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">使用者名稱</string>
-    <string name="hintPassword">密碼</string>
-    <string name="splitTunnellingSwitch">分隔通道開關</string>
     <string name="login">登入</string>
-    <string name="hamburgerMenu">摺疊選單</string>
-    <string name="error_field_required">此欄位必填</string>
     <string name="menuActionSignOut">登出</string>
-    <string name="loginSlogan">隨處都能保護您的網上安全</string>
-    <string name="loginStartWithDevice">與裝置同時啟動</string>
-    <string name="loginCreateAccount">創建新帳號</string>
-    <string name="loginNeedHelp">需要協助嗎？</string>
     <string name="connectionAllocationHelpTitle">感謝您升級至 \nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">請為您的帳號或任何別的子帳號指派 VPN 連線，以開展您的 Proton VPN 之旅。</string>
     <string name="connectionAllocationHelpDescription2">此步驟只需數分鐘。之後您便能登入並保護您所有的裝置。</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">此帳號目前並未啟用 VPN 連線。如要開始使用 Proton VPN，請聯絡您的管理員。 </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">啟用 VPN 連線</string>
     <string name="connectionAllocationHelpLoginAgainButton">再次登入</string>
-    <string name="mapCalloutConnect">連線</string>
-    <string name="mapCalloutDisconnect">中斷連線</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">特別注意</string>
     <string name="secureCoreSpeedInfoTitle">關於速度的說明…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">要登出嗎？</string>
     <string name="logoutConfirmDialogMessage">登出將中斷裝置的 VPN 連線。</string>
     <string name="logoutConfirmDialogButton">登出</string>
-    <string name="showAllProfiles">顯示所有設定檔</string>
     <string name="yes">是</string>
     <string name="no">否</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">確定</string>
     <string name="dialogContinue">繼續</string>
     <string name="dialogLearnMore">瞭解更多</string>
-    <string name="dialog_read_more">閱讀更多</string>
     <string name="dialog_apply">套用</string>
     <string name="dialog_applying">正在套用</string>
     <string name="secureCoreConnectVia">中轉 %1$s</string>
     <string name="connected">已連線</string>
     <string name="buttonConnect">連線</string>
-    <string name="loaderInitializing">正在初始化連線中…</string>
     <string name="loaderConnectingTo">正在連線到 %1$s</string>
-    <string name="loaderConnectingToLabel">正在連線至…</string>
     <string name="loaderNotConnected">未連線 (未受保護)</string>
-    <string name="loaderNotConnectedSuggestion">點擊快速連線按鈕</string>
     <string name="loaderConnectedTo">已連線到 %1$s</string>
-    <string name="loaderConnectedToLabel">已連線至：</string>
     <string name="loaderDisconnecting">正在中斷連線</string>
     <string name="loaderReconnecting">重新連線</string>
     <string name="loaderReconnectNoNetwork">等待可用的網路</string>
-    <string name="loaderReconnectNoNetworkSuggestion">請檢查您的網路</string>
     <string name="loaderCheckingAvailability">檢查伺服器可用性</string>
-    <string name="loaderCheckingAvailabilitySuggestion">請稍等片刻</string>
-    <string name="loaderCancel">取消連線</string>
     <string name="quickConnect">快速連線</string>
-    <string name="notConnectedCurrentIp">現在 IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">取消</string>
     <string name="close">關閉</string>
-    <string name="drawerSettings">設定</string>
-    <string name="drawerAccount">帳號</string>
     <string name="drawerHelp">幫助</string>
     <string name="drawerShowLog">顯示記錄</string>
     <string name="drawerReportProblem">回報問題</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">帳號詳細資料</string>
     <string name="accountSubscription">訂購授權</string>
     <string name="accountUser">使用者：</string>
-    <string name="accountType">帳號類型 :</string>
     <string name="accountTier">現有訂購授權 :</string>
     <string name="accountVersion">版本 :</string>
     <string name="accountSubscriptionDetails"><![CDATA[請前往 <font color="%1$s">protonvpn.com</font> 網頁面板管理您的訂閱。]]></string>
     <string name="accountButtonManage">管理帳號</string>
     <string name="accountButtonUseCoupon">使用優惠券</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">設定檔</string>
     <string name="activityAccountTitle">帳號</string>
-    <string name="activitySettingsTitle">設定</string>
-    <string name="settingsSectionQuickConnect">快速連線</string>
     <string name="settingsSectionConnection">連接</string>
     <string name="settingsSectionSecurity">安全性</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">MTU 大小</string>
     <string name="settingsMtuDescription">如果預設值未契合特定網路，請輸入介乎 1280–1500 之間的數值。只有在您清楚明白，才該作出變動。</string>
     <string name="settingsMtuRangeInvalid">MTU 值必須在 1280–1500 範圍內</string>
-    <string name="settingsDefaultConnectionTitle">快速連線</string>
-    <string name="settingsDefaultConnectionDescription">快速連線按鈕將您連接到所選擇的配置檔</string>
     <string name="settingsAllowNonStandardPortsTitle">非標準的連接埠</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[使用 Proton VPN 可依任一特殊需求，在虛擬專屬網路允許流量使用非標準連接埠。 <a href="%1$s">了解更多</a>]]></string>
     <string name="settingsModerateNatTitle">中等 NAT</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">你現在試著去連線的伺服器正在維修中。請試試其他伺服器。</string>
     <string name="errorUserDelinquent"><![CDATA[您的帳號目前有繳款單逾期未付。請到&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> 結清所有未付繳款單]]></string>
     <string name="errorMaxSessions">您已到達帳號允許的同時連線數目上限。請升級您的 Proton VPN 方案以增加連線數目。</string>
-    <string name="errorEmptyName">設定檔名稱不能留空</string>
-    <string name="errorEmptyCountry">國家欄位不能為空</string>
-    <string name="errorEmptyServer">伺服器欄位不能為空</string>
-    <string name="errorEmptyEntryCountry">進入國家欄位不能為空</string>
-    <string name="errorEmptyExitCountry">離開國家欄位不能為空</string>
     <string name="onboardingSignup">註冊</string>
     <string name="offerTooltipShowOffer">檢視折扣</string>
     <string name="listItemMaintenance">維護中</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">需要使用者動作</string>
     <string name="insufficientPermissionsDetails">無法自動創建 VPN 連線。請先手動連線一次以授予權限。</string>
     <string name="tabsCountries">國家</string>
-    <string name="tabsMap">地圖</string>
-    <string name="tabsProfiles">配置</string>
     <string name="log_title">日誌</string>
     <string name="disconnect">中斷連線</string>
     <string name="state_connecting">正在連線…</string>
@@ -158,7 +122,6 @@
     <string name="state_error">錯誤</string>
     <string name="error_server_unreachable">無法連線至 VPN。請檢查您的連線並再試一次。</string>
     <string name="error_auth_failed">使用者認證失敗。</string>
-    <string name="error_assessment_failed">安全性評估失敗。</string>
     <string name="error_generic">連線時發生不明錯誤。</string>
     <string name="error_generic_with_reason">Proton VPN 無法創建虛擬專屬網路。請過數秒後，再試一次。<br/><br/>詳細資訊： %1$s</string>
     <string name="reconnect">重新連線</string>
@@ -167,13 +130,6 @@
     <string name="connect">連線</string>
     <string name="upgrade">升級</string>
     <string name="retry">重試</string>
-    <string name="connection_failed">連線失敗</string>
-    <string name="create_new_profile">新設定檔</string>
-    <string name="excludeAppsTitle">排除的APP</string>
-    <string name="excludeAppsDescription">在此加入您不想流經 VPN 的應用程式。</string>
-    <string name="profile_name">配置名稱</string>
-    <string name="profile_name_hint">編寫設定檔名稱</string>
-    <string name="profile_color">配置顏色</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">附件</string>
     <string name="report_message">回報訊息</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">排除的IP位址</string>
     <string name="discardChanges">要捨棄未儲存的變更嗎？</string>
     <string name="discard">捨棄</string>
-    <string name="selectedProfileColor">請選擇設定檔的色彩</string>
-    <string name="excludeIpDescription">在此加入您不想流經 VPN 的 IP 位址。</string>
     <string name="done">完成</string>
     <string name="add">加入</string>
     <string name="copy_to_clipboard">複製</string>
-    <string name="the_list_is_empty">此清單是空的</string>
     <string name="got_it">了解</string>
-    <string name="onboardingWelcome">歡迎使用</string>
-    <string name="proton_log">Proton日誌</string>
     <string name="something_went_wrong">發生錯誤</string>
     <string name="try_again">再試一次</string>
-    <string name="manage">管理</string>
     <string name="delete">刪除</string>
     <string name="remove">移除</string>
-    <string name="deleteProfileButton">刪除設定檔</string>
-    <string name="deleteProfile">要刪除設定檔嗎？</string>
     <string name="doneButton">完成</string>
     <string name="saveButton">儲存</string>
-    <string name="recommendedHeader">建議</string>
-    <string name="countryServersHeader">國家伺服器</string>
-    <string name="secureCoreCountriesHeader">Secure Core 國家</string>
-    <string name="recommendedProfilesHeader">建議的設定檔</string>
-    <string name="free_connection_header">免費連線</string>
-    <string name="yourProfilesHeader">您的設定檔</string>
-    <string name="exitCountry">跳脫國家</string>
-    <string name="entryCountry">進入國家</string>
-    <string name="country">國家</string>
-    <string name="selectCountry">選擇國家</string>
-    <string name="serverSelection">伺服器</string>
-    <string name="selectServer">選擇伺服器</string>
     <string name="protocolLabel">協定</string>
-    <string name="selectProtocol">選擇通訊協定</string>
     <string name="protocol">協定：</string>
-    <string name="ip">IP：</string>
     <string name="ipWithPlaceholder">IP：%1$s</string>
-    <string name="server">伺服器：</string>
-    <string name="session_time">工作階段持續時間：</string>
-    <string name="download_volume">容量：</string>
-    <string name="download_speed">速度：</string>
-    <string name="notConnected">您尚未連線到 \n 伺服器</string>
     <string name="activityLicensesTitle">第三方授權</string>
     <string name="stateFragmentUnknownIp">未知</string>
     <string name="noVpnPermissionMainTitle">連線到 VPN 所需動作</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">隨機</string>
     <string name="settingsSplitTunnelingDescription">分割穿隧允許特定的應用程式或 IP 從 VPN 的流量排除。</string>
     <string name="settingsSplitTunnelingTitle">拆分隧道</string>
-    <string name="loaderAuthenticatingUser">正在認證使用者…</string>
     <string name="loaderErrorNoInternet">沒有網際網路連線</string>
     <string name="loaderErrorGeneric">發生錯誤</string>
     <string name="loaderLoadingServers">載入伺服器中…</string>
@@ -275,16 +203,10 @@
     <plurals name="listFewItemsAndMore">
         <item quantity="other">%1$s 及另 %2$d 個</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">當在連線中無法修改</string>
     <string name="excludeAlreadyExcluded">已經被排除</string>
     <string name="removeExcludedIpDialogDescription">要從清單中移除 IP 位址嗎？</string>
-    <string name="loaderFetchingServers">提取伺服器中…</string>
-    <string name="toastProfileSaved">已儲存</string>
     <string name="tileConnected">已連線 %1$s</string>
-    <string name="dialogTitleAttention">注意</string>
-    <string name="saveProfileAlreadySaved">已經儲存過了</string>
     <string name="openUrlError">無法開啟 %1$s。裝置上未偵測到網頁瀏覽器。</string>
-    <string name="toastLoginAuthVersionError">無法登入，認證版本不支援。請聯絡支援。</string>
     <string name="loaderErrorTimeout">連線逾時，請重試。</string>
     <string name="troubleshootButton">疑難排解</string>
     <string name="activityTroubleshootTitle">疑難排解</string>
@@ -331,7 +253,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[這些統計資料不包含您的 IP 位址，且其無法用於識別您的身份。我們永遠不會將它們與第三方分享。<a href="%1$s">取得更多資訊</a>]]></string>
     <string name="netShieldEnabledWarning">請注意：攔截內容後，某些網站或會未能完全運作。</string>
     <string name="netShieldDescription">攔截廣告、追蹤和惡意軟體</string>
-    <string name="netshield_settings_description"><![CDATA[保護您免受網站與應用程式中的廣告、惡意程式與追蹤器騷擾。若網站無法載入，請嘗試停用 NetShield。<a href="%1$s">取得更多資訊</a>。]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="learn_more">Learn more</string>
     <string name="netshield_status_on">開啟</string>
@@ -611,8 +532,6 @@
     <string name="search_recents_header_title">最近檢視 (%1$d)</string>
     <string name="search_clear_history">清除歷程紀錄</string>
     <string name="search_clear_history_dialog">您的搜尋歷程紀錄將會消失。要繼續嗎？</string>
-    <string name="ikev2_removed_dialog_title">IKEv2 VPN 通訊協定已不適用</string>
-    <string name="ikev2_removed_dialog_message">之前使用 IKEv2 的預設值與設定檔，即刻起改用 Smart protocol。</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">造訪 <a href="https://protonvpn.com/pricing">protonvpn.com</a> 查閱更多資訊。</string>
     <string name="free_upsell_header_title">使用 VPN Plus 來獲得全球的覆蓋</string>

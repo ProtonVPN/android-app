@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">ユーザー名</string>
-    <string name="hintPassword">パスワード</string>
-    <string name="splitTunnellingSwitch">スプリットトンネルの切り替え</string>
     <string name="login">サインイン</string>
-    <string name="hamburgerMenu">メニュー</string>
-    <string name="error_field_required">この項目の入力は必須です</string>
     <string name="menuActionSignOut">サインアウト</string>
-    <string name="loginSlogan">どこでも安全なインターネットを</string>
-    <string name="loginStartWithDevice">デバイス起動時に自動起動</string>
-    <string name="loginCreateAccount">新しいアカウントを作成</string>
-    <string name="loginNeedHelp">お困りですか？</string>
     <string name="connectionAllocationHelpTitle">Business\u00a0/\u00a0Visionary\nにアップグレードしていただきありがとうございます</string>
     <string name="connectionAllocationHelpDescription1">Proton VPN を始めるには、お客様のアカウントまたはその他のサブアカウントに VPN 接続を割り当ててください。</string>
     <string name="connectionAllocationHelpDescription2">この手順は数分かかります。その後、ログインしてすべてのデバイスを保護することができます。</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">現在、このアカウントでは VPN 接続が有効になっていません。Proton VPN を使い始めるには、管理者にご連絡ください。</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">VPN 接続を有効にする</string>
     <string name="connectionAllocationHelpLoginAgainButton">再度ログイン</string>
-    <string name="mapCalloutConnect">接続</string>
-    <string name="mapCalloutDisconnect">接続解除</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">警告</string>
     <string name="secureCoreSpeedInfoTitle">速度について…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">ログアウトしますか?</string>
     <string name="logoutConfirmDialogMessage">ログアウトすると VPN との接続が切断されます。</string>
     <string name="logoutConfirmDialogButton">ログアウト</string>
-    <string name="showAllProfiles">すべてのプロファイルを表示</string>
     <string name="yes">はい</string>
     <string name="no">いいえ</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogContinue">続行</string>
     <string name="dialogLearnMore">詳細</string>
-    <string name="dialog_read_more">詳細</string>
     <string name="dialog_apply">適用</string>
     <string name="dialog_applying">適用中</string>
     <string name="secureCoreConnectVia">%1$s 経由</string>
     <string name="connected">接続完了</string>
     <string name="buttonConnect">接続</string>
-    <string name="loaderInitializing">接続を初期化中…</string>
     <string name="loaderConnectingTo">%1$s に接続中</string>
-    <string name="loaderConnectingToLabel">接続中…</string>
     <string name="loaderNotConnected">接続されていません (非保護)</string>
-    <string name="loaderNotConnectedSuggestion">クイック接続ボタンをタップ</string>
     <string name="loaderConnectedTo">%1$s に接続完了</string>
-    <string name="loaderConnectedToLabel">接続先:</string>
     <string name="loaderDisconnecting">切断中</string>
     <string name="loaderReconnecting">再接続中</string>
     <string name="loaderReconnectNoNetwork">利用可能なネットワークを待機中</string>
-    <string name="loaderReconnectNoNetworkSuggestion">ネットワークを確認してください</string>
     <string name="loaderCheckingAvailability">サーバーを確認しています</string>
-    <string name="loaderCheckingAvailabilitySuggestion">数秒お待ちください</string>
-    <string name="loaderCancel">接続をキャンセル</string>
     <string name="quickConnect">クイック接続</string>
-    <string name="notConnectedCurrentIp">現在の IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">キャンセル</string>
     <string name="close">閉じる</string>
-    <string name="drawerSettings">設定</string>
-    <string name="drawerAccount">アカウント</string>
     <string name="drawerHelp">ヘルプ</string>
     <string name="drawerShowLog">ログを表示</string>
     <string name="drawerReportProblem">問題を報告</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">アカウントの詳細</string>
     <string name="accountSubscription">サブスクリプション</string>
     <string name="accountUser">ユーザー:</string>
-    <string name="accountType">アカウントの種類:</string>
     <string name="accountTier">現在のサブスクリプション:</string>
     <string name="accountVersion">バージョン:</string>
     <string name="accountSubscriptionDetails"><![CDATA[サブスクリプションの管理は、<font color="%1$s">protonvpn.com</font> から行えます。]]></string>
     <string name="accountButtonManage">アカウントの管理</string>
     <string name="accountButtonUseCoupon">クーポンを使用</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">プロファイル</string>
     <string name="activityAccountTitle">アカウント</string>
-    <string name="activitySettingsTitle">設定</string>
-    <string name="settingsSectionQuickConnect">クイック接続</string>
     <string name="settingsSectionConnection">接続</string>
     <string name="settingsSectionSecurity">セキュリティ</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">MTU サイズ</string>
     <string name="settingsMtuDescription">既定値が特定のネットワークに適合しない場合は、1280〜1500の範囲で値を指定できます。この設定は十分な知識のある場合にのみ変更してください。</string>
     <string name="settingsMtuRangeInvalid">MTU 値は1280から1500の範囲である必要があります</string>
-    <string name="settingsDefaultConnectionTitle">クイック接続</string>
-    <string name="settingsDefaultConnectionDescription">クイック接続ボタン利用時、ここで選択したプロファイルに接続します。</string>
     <string name="settingsAllowNonStandardPortsTitle">標準的ではないポート</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[標準以外のポートへの VPN ネットワーク経由のトラフィックを許可して、特殊な用途に Proton VPN を使用します。<a href="%1$s">詳細</a>]]></string>
     <string name="settingsModerateNatTitle">モデレート NAT</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">接続しようとしているサーバーは、現在メンテナンス中です。他のサーバーをご利用ください。</string>
     <string name="errorUserDelinquent"><![CDATA[アカウントに未払いの請求があります。 &#160;<a href="https://account.protonvpn.com"> account.protonvpn.com</a> にアクセスして全額ご精算ください。]]></string>
     <string name="errorMaxSessions">現在のあなたのアカウントにおける最大同時接続数に達しました。接続数を増やすには Proton VPN プランをアップグレードしてください。</string>
-    <string name="errorEmptyName">プロファイル名を入力してください</string>
-    <string name="errorEmptyCountry">国を指定してください</string>
-    <string name="errorEmptyServer">サーバーを指定してください</string>
-    <string name="errorEmptyEntryCountry">経由国を指定してください</string>
-    <string name="errorEmptyExitCountry">出口の国を指定してください</string>
     <string name="onboardingSignup">新規登録</string>
     <string name="offerTooltipShowOffer">オファーを見る</string>
     <string name="listItemMaintenance">メンテナンス中</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">ユーザーによる設定が必要な項目</string>
     <string name="insufficientPermissionsDetails">VPN 接続を自動で確立できませんでした。一度手動で接続の上、必要な権限を許可してください。</string>
     <string name="tabsCountries">国別リスト</string>
-    <string name="tabsMap">マップ</string>
-    <string name="tabsProfiles">プロファイル</string>
     <string name="log_title">ログ</string>
     <string name="disconnect">接続解除</string>
     <string name="state_connecting">接続中…</string>
@@ -158,7 +122,6 @@
     <string name="state_error">エラー</string>
     <string name="error_server_unreachable">VPN に接続できません。接続を確認して再度お試しください。</string>
     <string name="error_auth_failed">ユーザー認証に失敗しました。</string>
-    <string name="error_assessment_failed">セキュリティアセスメントに失敗しました。</string>
     <string name="error_generic">接続中に未知の問題が発生しました。</string>
     <string name="error_generic_with_reason">Proton VPN は VPN 接続を確立できませんでした。数秒後に再度お試しください。<br/><br/>詳細: %1$s</string>
     <string name="reconnect">再接続</string>
@@ -167,13 +130,6 @@
     <string name="connect">接続</string>
     <string name="upgrade">アップグレード</string>
     <string name="retry">再試行</string>
-    <string name="connection_failed">接続に失敗</string>
-    <string name="create_new_profile">新規プロフィール</string>
-    <string name="excludeAppsTitle">除外するアプリ</string>
-    <string name="excludeAppsDescription">VPN トラフィックから除外するアプリを追加できます。</string>
-    <string name="profile_name">プロファイル名</string>
-    <string name="profile_name_hint">プロフィール名を記入</string>
-    <string name="profile_color">プロファイルの色</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">添付ファイル</string>
     <string name="report_message">問題の報告</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">除外する IP アドレス</string>
     <string name="discardChanges">保存されていない変更を削除しますか?</string>
     <string name="discard">破棄</string>
-    <string name="selectedProfileColor">プロファイルの色を選択してください。</string>
-    <string name="excludeIpDescription">VPN トラフィックから除外する IP アドレスを追加できます。</string>
     <string name="done">完了</string>
     <string name="add">追加</string>
     <string name="copy_to_clipboard">コピー</string>
-    <string name="the_list_is_empty">リストは空です</string>
     <string name="got_it">了承</string>
-    <string name="onboardingWelcome">ProtonVPN へようこそ</string>
-    <string name="proton_log">Proton ログ</string>
     <string name="something_went_wrong">不具合が発生しました。</string>
     <string name="try_again">再試行</string>
-    <string name="manage">管理</string>
     <string name="delete">削除</string>
     <string name="remove">削除</string>
-    <string name="deleteProfileButton">プロファイルを削除</string>
-    <string name="deleteProfile">プロフィールを削除しますか?</string>
     <string name="doneButton">完了</string>
     <string name="saveButton">保存</string>
-    <string name="recommendedHeader">推奨</string>
-    <string name="countryServersHeader">サーバーの国</string>
-    <string name="secureCoreCountriesHeader">Secure Core の国</string>
-    <string name="recommendedProfilesHeader">推奨されるプロフィール</string>
-    <string name="free_connection_header">無料接続</string>
-    <string name="yourProfilesHeader">プロフィール</string>
-    <string name="exitCountry">出口の国</string>
-    <string name="entryCountry">経由国</string>
-    <string name="country">国</string>
-    <string name="selectCountry">国を選択</string>
-    <string name="serverSelection">サーバー</string>
-    <string name="selectServer">サーバーを選択</string>
     <string name="protocolLabel">プロトコル</string>
-    <string name="selectProtocol">プロトコルを選択</string>
     <string name="protocol">プロトコル:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP アドレス: %1$s</string>
-    <string name="server">サーバー:</string>
-    <string name="session_time">接続時間：</string>
-    <string name="download_volume">通信量:</string>
-    <string name="download_speed">速度:</string>
-    <string name="notConnected">サーバーに接続していません</string>
     <string name="activityLicensesTitle">サードパーティライセンス</string>
     <string name="stateFragmentUnknownIp">不明</string>
     <string name="noVpnPermissionMainTitle">VPN 接続に必要なアクション</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">ランダム</string>
     <string name="settingsSplitTunnelingDescription">スプリット トンネルによって VPN トラフィックから特定のアプリや IP を除外できます。</string>
     <string name="settingsSplitTunnelingTitle">スプリットトンネリング</string>
-    <string name="loaderAuthenticatingUser">ユーザー認証中…</string>
     <string name="loaderErrorNoInternet">インターネットに接続されていません</string>
     <string name="loaderErrorGeneric">不具合が発生しました</string>
     <string name="loaderLoadingServers">サーバーを読み込み中…</string>
@@ -275,16 +203,10 @@
     <plurals name="listFewItemsAndMore">
         <item quantity="other">%1$s、さらに %2$d</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">接続中は変更できません</string>
     <string name="excludeAlreadyExcluded">既に除外されています</string>
     <string name="removeExcludedIpDialogDescription">リストから IP アドレスを削除しますか?</string>
-    <string name="loaderFetchingServers">サーバーを取得中…</string>
-    <string name="toastProfileSaved">保存しました</string>
     <string name="tileConnected">接続済み: %1$s</string>
-    <string name="dialogTitleAttention">注意</string>
-    <string name="saveProfileAlreadySaved">既に保存済みです</string>
     <string name="openUrlError">%1$s が開けません。このデバイス内にウェブブラウザが見つかりません。</string>
-    <string name="toastLoginAuthVersionError">未対応の認証バージョンのためログインできません。サポートにお問い合わせください。</string>
     <string name="loaderErrorTimeout">接続が時間切れになりました。もう一度やり直してください。</string>
     <string name="troubleshootButton">トラブルシューティング</string>
     <string name="activityTroubleshootTitle">トラブルシューティング</string>
@@ -331,7 +253,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[この統計にあなたの IP アドレスは含まれず、あなたを特定することはできません。この統計は第三者に共有しません。<a href="%1$s">詳細</a>]]></string>
     <string name="netShieldEnabledWarning">コンテンツのブロックにより一部のサイトが正常に動作しない恐れがあります。</string>
     <string name="netShieldDescription">広告、トラッカー、マルウェアをブロック </string>
-    <string name="netshield_settings_description"><![CDATA[ウェブサイトやアプリ上の広告/マルウェア/トラッカーから保護します。ウェブサイトが読み込まれない場合は、NetShield を無効にしてみてください。<a href="%1$s">詳しい情報</a>]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="learn_more">Learn more</string>
     <string name="netshield_status_on">有効</string>
@@ -611,8 +532,6 @@
     <string name="search_recents_header_title">最近の表示 (%1$d)</string>
     <string name="search_clear_history">履歴を消去</string>
     <string name="search_clear_history_dialog">検索履歴は失われます。続行しますか?</string>
-    <string name="ikev2_removed_dialog_title">IKEv2 VPN プロトコルはすでに利用できません</string>
-    <string name="ikev2_removed_dialog_message">IKEv2 を使っていたプロフィールはスマートプロトコルに置き換わりました。</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">詳細は <a href="https://protonvpn.com/pricing">protonvpn.com</a> をご覧ください。</string>
     <string name="free_upsell_header_title">VPN Plusで世界中をカバー</string>
