@@ -76,12 +76,6 @@ class CountryWithFlagsView : LinearLayout {
         }
     }
 
-    fun setCountry(markable: Markable) {
-        with(markable) {
-            update(markerCountryCode, markerEntryCountryCode)
-        }
-    }
-
     fun setCountry(server: Server, text: CharSequence? = null) {
         with(server) {
             update(flag, entryCountry.takeIf { isSecureCoreServer }, text)
