@@ -38,8 +38,8 @@ import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -47,6 +47,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -54,6 +55,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.text.Collator
 import java.util.Locale
@@ -62,6 +64,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    private val mainScope: CoroutineScope,
     private val userSettings: EffectiveCurrentUserSettings,
     private val vpnConnectionManager: VpnConnectionManager,
     vpnStatusProviderUI: VpnStatusProviderUI,
@@ -69,6 +72,7 @@ class SearchViewModel @Inject constructor(
     private val parntershipsRepository: PartnershipsRepository,
     private val search: Search,
     private val restrictions: RestrictionsConfig,
+    private val uiStateStorage: UiStateStorage,
     currentUser: CurrentUser
 ) : ViewModel() {
 
@@ -111,10 +115,15 @@ class SearchViewModel @Inject constructor(
     val queryFromRecents: LiveData<String> = _queryFromRecents
 
     val viewState: Flow<ViewState> =
-        combine(query.asFlow().distinctUntilChanged(), currentUser.vpnUserFlow, vpnStatusProviderUI.status) { query, vpnUser, vpnStatus ->
+        combine(
+            query.asFlow().distinctUntilChanged(),
+            uiStateStorage.state.map { it.searchHistory },
+            currentUser.vpnUserFlow,
+            vpnStatusProviderUI.status
+        ) { query, searchHistory, vpnUser, vpnStatus ->
             val isConnectedOrConnecting =
                 vpnStatus.state.isEstablishingConnection || vpnStatus.state == VpnState.Connected
-            mapState(query, vpnUser, vpnStatus.server?.takeIf { isConnectedOrConnecting })
+            mapState(query, searchHistory, vpnUser, vpnStatus.server?.takeIf { isConnectedOrConnecting })
         }
     private val eventCloseFlow = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val eventCloseLiveData = eventCloseFlow.asLiveData() // Expose flow once HomeActivity is converted to kotlin.
@@ -139,18 +148,19 @@ class SearchViewModel @Inject constructor(
     }
 
     fun clearRecentHistory() {
-        // Save empty set and set whitespace query to trigger state refresh
-        Storage.saveStringList(PREF_SEARCH_RECENT_LIST, listOf())
-        setQuery("")
+        mainScope.launch {
+            uiStateStorage.update { it.copy(searchHistory = emptyList()) }
+        }
     }
-
-    private fun getSearchRecents() = Storage.getStringList(PREF_SEARCH_RECENT_LIST)
 
     private fun saveSearchQuery(query: String) {
         if (query.isBlank()) return
-        val searchHistory = getSearchRecents()
-        val updatedHistory = (listOf(query) + (searchHistory - query)).take(RECENTS_MAX_ENTRIES)
-        Storage.saveStringList(PREF_SEARCH_RECENT_LIST, updatedHistory)
+        mainScope.launch {
+            uiStateStorage.update { current ->
+                val updatedHistory = (listOf(query) + (current.searchHistory - query)).take(RECENTS_MAX_ENTRIES)
+                current.copy(searchHistory = updatedHistory)
+            }
+        }
     }
 
     fun disconnect() {
@@ -175,12 +185,16 @@ class SearchViewModel @Inject constructor(
         eventCloseFlow.tryEmit(Unit)
     }
 
-    private suspend fun mapState(query: String, vpnUser: VpnUser?, connectedServer: Server?): ViewState {
+    private suspend fun mapState(
+        query: String,
+        searchHistory: List<String>,
+        vpnUser: VpnUser?,
+        connectedServer: Server?
+    ): ViewState {
         val secureCore = getSecureCore()
         val result = search(query, secureCore)
         return when {
             query.isBlank() -> {
-                val searchHistory = getSearchRecents()
                 if (searchHistory.isEmpty())
                     ViewState.Empty
                 else
@@ -282,7 +296,6 @@ class SearchViewModel @Inject constructor(
 
     companion object {
         private const val ADD_TO_RECENTS_DELAY_MS = 3000L
-        private const val PREF_SEARCH_RECENT_LIST = "PREF_SEARCH_RECENT_LIST"
         private const val RECENTS_MAX_ENTRIES = 5
     }
 }
