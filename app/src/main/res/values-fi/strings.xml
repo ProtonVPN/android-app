@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">Käyttäjätunnus</string>
-    <string name="hintPassword">Salasana</string>
-    <string name="splitTunnellingSwitch">Jaetun tunneloinnin kytkin</string>
     <string name="login">Kirjaudu sisään</string>
-    <string name="hamburgerMenu">Hampurilaisvalikko</string>
-    <string name="error_field_required">Tämä kenttä vaaditaan</string>
     <string name="menuActionSignOut">Kirjaudu ulos</string>
-    <string name="loginSlogan">Turvallinen Internet kaikkialla</string>
-    <string name="loginStartWithDevice">Käynnistä automaattisesti</string>
-    <string name="loginCreateAccount">Luo uusi tili</string>
-    <string name="loginNeedHelp">Tarvitsetko apua?</string>
     <string name="connectionAllocationHelpTitle">Kiitos \nBusiness-\u00a0/\u00a0Visionary-päivityksestä</string>
     <string name="connectionAllocationHelpDescription1">Aloittaaksesi Proton VPN -matkasi, määritä VPN-yhteydet tilillesi sekä mahdollisille alitileille.</string>
     <string name="connectionAllocationHelpDescription2">Tämä vaihe kestää vain muutaman minuutin. Sen jälkeen voit kirjautua sisään ja suojata kaikki laitteesi.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Tilille ei ole tällä hetkellä määritetty VPN-yhteyttä. Aloita Proton VPN -matkasi olemalla yhteydessä ylläpitoosi.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Määritä VPN-yhteydet</string>
     <string name="connectionAllocationHelpLoginAgainButton">Kirjaudu sisään uudelleen</string>
-    <string name="mapCalloutConnect">Yhdistä</string>
-    <string name="mapCalloutDisconnect">Katkaise yhteys</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Varoitus</string>
     <string name="secureCoreSpeedInfoTitle">Huomautus nopeudesta…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">Kirjaudutaanko ulos?</string>
     <string name="logoutConfirmDialogMessage">Uloskirjautuminen katkaisee laitteesi VPN-yhteyden.</string>
     <string name="logoutConfirmDialogButton">Kirjaudu ulos</string>
-    <string name="showAllProfiles">Näytä kaikki profiilit</string>
     <string name="yes">Kyllä</string>
     <string name="no">Ei</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogContinue">Jatka</string>
     <string name="dialogLearnMore">Lue lisää</string>
-    <string name="dialog_read_more">Lue lisää</string>
     <string name="dialog_apply">Käytä</string>
     <string name="dialog_applying">Käytetään</string>
     <string name="secureCoreConnectVia">Ohjaus: %1$s</string>
     <string name="connected">Yhdistetty</string>
     <string name="buttonConnect">Yhdistä</string>
-    <string name="loaderInitializing">Valmistellaan yhteyttä…</string>
     <string name="loaderConnectingTo">Yhdistetään palvelimeen %1$s</string>
-    <string name="loaderConnectingToLabel">Yhdistetään palvelimeen…</string>
     <string name="loaderNotConnected">Ei yhdistetty (suojaamaton)</string>
-    <string name="loaderNotConnectedSuggestion">Napauta pikayhteyspainiketta</string>
     <string name="loaderConnectedTo">Yhdistetty sijaintiin %1$s</string>
-    <string name="loaderConnectedToLabel">Yhdistetty palvelimeen:</string>
     <string name="loaderDisconnecting">Katkaistaan yhteyttä</string>
     <string name="loaderReconnecting">Yhdistetään uudelleen</string>
     <string name="loaderReconnectNoNetwork">Odotetaan käyttökelpoista verkkoa</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Tarkista verkkoyhteytesi</string>
     <string name="loaderCheckingAvailability">Tarkistetaan palvelinten tavoitettavuutta</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Odota muutama sekunti</string>
-    <string name="loaderCancel">Peru yhteys</string>
     <string name="quickConnect">Pikayhteys</string>
-    <string name="notConnectedCurrentIp">Nykyinen IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Peruuta</string>
     <string name="close">Sulje</string>
-    <string name="drawerSettings">Asetukset</string>
-    <string name="drawerAccount">Tili</string>
     <string name="drawerHelp">Tuki</string>
     <string name="drawerShowLog">Näytä loki</string>
     <string name="drawerReportProblem">Ilmoita ongelmasta</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">Tilin tiedot</string>
     <string name="accountSubscription">Tilaus</string>
     <string name="accountUser">Käyttäjä:</string>
-    <string name="accountType">Tilin tyyppi:</string>
     <string name="accountTier">Aktiivinen tilaus:</string>
     <string name="accountVersion">Versio:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Hallitaksesi tilaustasi, avaa <font color="%1$s">protonvpn.com</font>-sivuston hallinta.]]></string>
     <string name="accountButtonManage">Hallitse tiliä</string>
     <string name="accountButtonUseCoupon">Käytä etukoodi</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">Profiili</string>
     <string name="activityAccountTitle">Tili</string>
-    <string name="activitySettingsTitle">Asetukset</string>
-    <string name="settingsSectionQuickConnect">Pikayhteys</string>
     <string name="settingsSectionConnection">Yhteys</string>
     <string name="settingsSectionSecurity">Tietoturva</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">MTU-koko</string>
     <string name="settingsMtuDescription">Jos oletusarvo ei jostakin syystä sovellu jollekin verkolle, syötä eri arvo väliltä 1280–1500. Muuta tätä vain, jos tiedät mitä teet.</string>
     <string name="settingsMtuRangeInvalid">MTU-arvon on oltava väliltä 1280–1500</string>
-    <string name="settingsDefaultConnectionTitle">Pikayhteys</string>
-    <string name="settingsDefaultConnectionDescription">Pikayhteyspainike yhdistää valittuun profiiliin</string>
     <string name="settingsAllowNonStandardPortsTitle">Epätyypilliset portit</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Käytä Proton VPN:ää erityistapauksissa sallimalla VPN-verkon tietoliikenteen kulkea epätyypillisten porttien kautta. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="settingsModerateNatTitle">Keskitason NAT</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">Palvelin johon yrität yhdistää on huollossa. Kokeile eri palvelinta.</string>
     <string name="errorUserDelinquent"><![CDATA[Tililläsi on erääntynyt lasku. Maksa kaikki maksamattomat laskut osoitteessa&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Olet saavuttanut tilillesi sallittujen samanaikaisten yhteyksien enimmäismäärän. Päivitä Proton VPN -tilauksesi saadaksesi lisää yhteyksiä.</string>
-    <string name="errorEmptyName">Profiilin nimi ei voi olla tyhjä</string>
-    <string name="errorEmptyCountry">Maa ei voi olla tyhjä</string>
-    <string name="errorEmptyServer">Palvelin ei voi olla tyhjä</string>
-    <string name="errorEmptyEntryCountry">Sisäänmenomaa vaaditaan</string>
-    <string name="errorEmptyExitCountry">Kohdemaa vaaditaan</string>
     <string name="onboardingSignup">Rekisteröidy</string>
     <string name="offerTooltipShowOffer">Näytä tarjous</string>
     <string name="listItemMaintenance">Huollossa</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">Käyttäjän toimia vaaditaan</string>
     <string name="insufficientPermissionsDetails">VPN-yhteyden automaattinen muodostus ei onnistunut. Muodosta yhteys kerran manuaalisesti käyttöoikeuksien myöntämiseksi.</string>
     <string name="tabsCountries">Maat</string>
-    <string name="tabsMap">Kartta</string>
-    <string name="tabsProfiles">Profiilit</string>
     <string name="log_title">Loki</string>
     <string name="disconnect">Katkaise yhteys</string>
     <string name="state_connecting">Yhdistetään…</string>
@@ -158,7 +122,6 @@
     <string name="state_error">Virhe</string>
     <string name="error_server_unreachable">VPN-yhteyden muodostus ei onnistunut. Tarkista Internet-yhteytesi ja yritä uudelleen.</string>
     <string name="error_auth_failed">Käyttäjän todennus epäonnistui.</string>
-    <string name="error_assessment_failed">Turvallisuusarviointi epäonnistui.</string>
     <string name="error_generic">Määrittelemätön virhe yhdistettäessä.</string>
     <string name="error_generic_with_reason">Proton VPN ei voinut muodostaa VPN-yhteyttä. Yritä hetken kuluttua uudelleen.<br/><br/> Tietoja: %1$s</string>
     <string name="reconnect">Yhdistä uudelleen</string>
@@ -167,13 +130,6 @@
     <string name="connect">Yhdistä</string>
     <string name="upgrade">Päivitä</string>
     <string name="retry">Yritä uudelleen</string>
-    <string name="connection_failed">Yhteys epäonnistui</string>
-    <string name="create_new_profile">Uusi profiili</string>
-    <string name="excludeAppsTitle">Rajoita sovelluksia</string>
-    <string name="excludeAppsDescription">Lisää sovelluksia, jotka haluat rajoittaa VPN-tietoliikenteen ulkopuolelle.</string>
-    <string name="profile_name">Profiilin nimi</string>
-    <string name="profile_name_hint">Syötä profiilin nimi</string>
-    <string name="profile_color">Profiilin väri</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Liitteet</string>
     <string name="report_message">Raportin viesti</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">Rajoita IP-osoitteita</string>
     <string name="discardChanges">Hylätäänkö tallentamattomat muutokset?</string>
     <string name="discard">Hylkää</string>
-    <string name="selectedProfileColor">Valitse profiilillesi väri</string>
-    <string name="excludeIpDescription">Lisää IP-osoitteita, jotka haluat rajoittaa VPN-tietoliikenteen ulkopuolelle.</string>
     <string name="done">VALMIS</string>
     <string name="add">LISÄÄ</string>
     <string name="copy_to_clipboard">Kopioi</string>
-    <string name="the_list_is_empty">Lista on tyhjä</string>
     <string name="got_it">Selvä</string>
-    <string name="onboardingWelcome">Tervetuloa mukaan</string>
-    <string name="proton_log">Proton-loki</string>
     <string name="something_went_wrong">Jotain meni pieleen</string>
     <string name="try_again">Yritä uudelleen</string>
-    <string name="manage">Hallitse</string>
     <string name="delete">Poista</string>
     <string name="remove">Poista</string>
-    <string name="deleteProfileButton">Poista profiili</string>
-    <string name="deleteProfile">Poistetaanko profiili?</string>
     <string name="doneButton">Valmis</string>
     <string name="saveButton">Tallenna</string>
-    <string name="recommendedHeader">Suositukset</string>
-    <string name="countryServersHeader">Maan palvelimet</string>
-    <string name="secureCoreCountriesHeader">Secure Core -maat</string>
-    <string name="recommendedProfilesHeader">Suositellut profiilit</string>
-    <string name="free_connection_header">Ilmaisyhteys</string>
-    <string name="yourProfilesHeader">Omat profiilit</string>
-    <string name="exitCountry">Kohdemaa</string>
-    <string name="entryCountry">Sisäänmenomaa</string>
-    <string name="country">Maa</string>
-    <string name="selectCountry">Valitse maa</string>
-    <string name="serverSelection">Palvelin</string>
-    <string name="selectServer">Valitse palvelin</string>
     <string name="protocolLabel">Protokolla</string>
-    <string name="selectProtocol">Valitse protokolla</string>
     <string name="protocol">Protokolla:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">Palvelin:</string>
-    <string name="session_time">Istunnon kesto:</string>
-    <string name="download_volume">Määrä:</string>
-    <string name="download_speed">Nopeus:</string>
-    <string name="notConnected">Et ole yhteydessä \n palvelimeen</string>
     <string name="activityLicensesTitle">Kolmansien osapuolten lisenssit</string>
     <string name="stateFragmentUnknownIp">Tuntematon</string>
     <string name="noVpnPermissionMainTitle">VPN-yhteyden muodostus vaatii toimenpiteitä</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">Satunnainen</string>
     <string name="settingsSplitTunnelingDescription">Jaettu tunnelointi mahdollistaa valittujen sovellusten tai IP-osoitteiden rajoittamisen VPN-tietoliikenteen ulkopuolelle.</string>
     <string name="settingsSplitTunnelingTitle">Jaettu tunnelointi</string>
-    <string name="loaderAuthenticatingUser">Todennetaan käyttäjää…</string>
     <string name="loaderErrorNoInternet">Ei Internet-yhteyttä</string>
     <string name="loaderErrorGeneric">Jokin meni pieleen</string>
     <string name="loaderLoadingServers">Ladataan palvelimia…</string>
@@ -276,16 +204,10 @@
         <item quantity="one">%1$s ja %2$d lisää</item>
         <item quantity="other">%1$s ja %2$d lisää</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Tätä ei ole mahdollista muuttaa yhteyden ollessa kytkettynä</string>
     <string name="excludeAlreadyExcluded">On jo rajoitettu</string>
     <string name="removeExcludedIpDialogDescription">Poistetaanko IP-osoite listalta?</string>
-    <string name="loaderFetchingServers">Noudetaan palvelimia…</string>
-    <string name="toastProfileSaved">Tallennettu</string>
     <string name="tileConnected">Yhdistetty: %1$s</string>
-    <string name="dialogTitleAttention">Huomio</string>
-    <string name="saveProfileAlreadySaved">On jo tallennettu</string>
     <string name="openUrlError">Osoitetta %1$s ei voitu avata, koska laitteella ei havaittu verkkoselainta.</string>
-    <string name="toastLoginAuthVersionError">Kirjautuminen ei onnistu, koska todennusversiota ei tueta. Ota yhteyttä asiakaspalveluun.</string>
     <string name="loaderErrorTimeout">Yhteys aikakatkaistiin. Yritä uudelleen.</string>
     <string name="troubleshootButton">Vianetsintä</string>
     <string name="activityTroubleshootTitle">Vianetsintä</string>
@@ -332,7 +254,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Nämä tilastot eivät sisällä IP-osoitettasi, eikä sinua ole mahdollista tunnistaa niiden perusteella. Emme koskaa jaa niitä ulkopuolisille tahoille. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="netShieldEnabledWarning">Huomioi, että jotkin verkkosivustot eivät välttämättä toimi sisällön eston seurauksena oikein.</string>
     <string name="netShieldDescription">Estä mainoksia, seurantoja ja haittaohjelmia</string>
-    <string name="netshield_settings_description"><![CDATA[Suojaudu mainoksilta, haittaohjelmilta ja seurannoilta, verkkosivustoilla ja sovelluksissa. Jos sivustot eivät lataudu, kokeile poistaa NetShield käytöstä. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="netshield_settings_description_not_html">Suojaa itsesi mainoksilta, haittaohjelmilta ja seuraajilta verkkosivuilla ja sovelluksissa. Jos verkkosivut eivät lataudu, kokeile kytkeä NetShield pois päältä.%1$s</string>
     <string name="learn_more">Lue lisää</string>
     <string name="netshield_status_on">Käytössä</string>
@@ -619,8 +540,6 @@
     <string name="search_recents_header_title">Edelliset haut (%1$d)</string>
     <string name="search_clear_history">Tyhjennä historia</string>
     <string name="search_clear_history_dialog">Hakuhistoriasi katoaa. Jatketaanko?</string>
-    <string name="ikev2_removed_dialog_title">IKEv2 VPN-protokolla ei ole enää käytettävissä</string>
-    <string name="ikev2_removed_dialog_message">IKEv2-protokollaa aiemmin käyttäneet oletukset ja profiilit käyttävät nyt Smart Protocol -toimintoa.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Lisätietoja saat osoitteesta <a href="https://protonvpn.com/pricing">protonvpn.com</a>.</string>
     <string name="free_upsell_header_title">Hanki maailmanlaajuinen kattavuus VPN Plus -tilauksella</string>

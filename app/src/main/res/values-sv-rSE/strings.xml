@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">Användarnamn</string>
-    <string name="hintPassword">Lösenord</string>
-    <string name="splitTunnellingSwitch">Stäng av/på Split tunneling</string>
     <string name="login">Logga in</string>
-    <string name="hamburgerMenu">Hamburgermeny</string>
-    <string name="error_field_required">Detta fält är obligatoriskt</string>
     <string name="menuActionSignOut">Logga ut</string>
-    <string name="loginSlogan">Säker Internet var som helst</string>
-    <string name="loginStartWithDevice">Starta med enhet</string>
-    <string name="loginCreateAccount">Skapa nytt konto</string>
-    <string name="loginNeedHelp">Behöver du hjälp?</string>
     <string name="connectionAllocationHelpTitle">Tack för att du uppgraderar till\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">För att starta din resa i Proton VPN, tilldela VPN-anslutningar till ditt konto eller något annat underkonto.</string>
     <string name="connectionAllocationHelpDescription2">Detta steg tar bara några minuter. Efter det kommer du att kunna logga in och skydda alla dina enheter.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Det finns för närvarande ingen VPN-anslutning aktiverad för detta konto. För att starta din resa med Proton VPN, kontakta din administratör. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Aktivera VPN-anslutningar</string>
     <string name="connectionAllocationHelpLoginAgainButton">Logga in igen</string>
-    <string name="mapCalloutConnect">Anslut</string>
-    <string name="mapCalloutDisconnect">Koppla från</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Varning</string>
     <string name="secureCoreSpeedInfoTitle">En notis om hastighet…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">Logga ut?</string>
     <string name="logoutConfirmDialogMessage">Om du loggar ut kopplar du från din enhet från VPN.</string>
     <string name="logoutConfirmDialogButton">Logga ut</string>
-    <string name="showAllProfiles">Visa alla profiler</string>
     <string name="yes">Ja</string>
     <string name="no">Nej</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogContinue">Fortsätt</string>
     <string name="dialogLearnMore">Lär dig mer</string>
-    <string name="dialog_read_more">Läs mer</string>
     <string name="dialog_apply">Tillämpa</string>
     <string name="dialog_applying">Tillämpar</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Ansluten</string>
     <string name="buttonConnect">Anslut</string>
-    <string name="loaderInitializing">Initierar anslutning…</string>
     <string name="loaderConnectingTo">Ansluter till %1$s</string>
-    <string name="loaderConnectingToLabel">Ansluter till…</string>
     <string name="loaderNotConnected">Inte ansluten (oskyddad)</string>
-    <string name="loaderNotConnectedSuggestion">Tryck på snabbanslutningsknappen</string>
     <string name="loaderConnectedTo">Ansluten till %1$s</string>
-    <string name="loaderConnectedToLabel">Ansluten till:</string>
     <string name="loaderDisconnecting">Kopplar från</string>
     <string name="loaderReconnecting">Ansluter igen</string>
     <string name="loaderReconnectNoNetwork">Väntar på användbart nätverk</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Kontrollera ditt nätverk</string>
     <string name="loaderCheckingAvailability">Kontrollerar servertillgänglighet</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Vänta några sekunder</string>
-    <string name="loaderCancel">Avbryt anslutning</string>
     <string name="quickConnect">Snabbanslut</string>
-    <string name="notConnectedCurrentIp">Nuvarande IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Stäng</string>
-    <string name="drawerSettings">Inställningar</string>
-    <string name="drawerAccount">Konto</string>
     <string name="drawerHelp">Hjälp</string>
     <string name="drawerShowLog">Visa logg</string>
     <string name="drawerReportProblem">Rapportera ett problem</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">Kontodetaljer</string>
     <string name="accountSubscription">Prenumeration</string>
     <string name="accountUser">Användare:</string>
-    <string name="accountType">Kontotyp:</string>
     <string name="accountTier">Aktiv prenumeration:</string>
     <string name="accountVersion">Version:</string>
     <string name="accountSubscriptionDetails"><![CDATA[För att hantera din prenumeration måste du gå till webbpanelen <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Hantera konto</string>
     <string name="accountButtonUseCoupon">Använd kupong</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Konto</string>
-    <string name="activitySettingsTitle">Inställningar</string>
-    <string name="settingsSectionQuickConnect">Snabbanslut</string>
     <string name="settingsSectionConnection">Anslutning</string>
     <string name="settingsSectionSecurity">Säkerhet</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">MTU-storlek</string>
     <string name="settingsMtuDescription">Om standardvärdet är olämpligt för ett visst nätverk, ange ett värde inom intervallet 1280–1500. Ändra det bara om du vet vad du gör.</string>
     <string name="settingsMtuRangeInvalid">MTU-värdet måste ligga inom intervallet 1280–1500</string>
-    <string name="settingsDefaultConnectionTitle">Snabbanslut</string>
-    <string name="settingsDefaultConnectionDescription">Snabbanslutningsknapp ansluter dig till den valda profilen</string>
     <string name="settingsAllowNonStandardPortsTitle">Icke-standardiserade portar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Använd Proton VPN för alla speciella behov genom att tillåta trafik till icke-standardiserade portar via VPN-nätverket. <a href="%1$s">Lär dig mer</a>]]></string>
     <string name="settingsModerateNatTitle">Måttlig NAT</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">Servern som du för närvarande försöker ansluta är under underhåll. Försök med en annan server.</string>
     <string name="errorUserDelinquent"><![CDATA[Ditt konto har för närvarande en förfallen faktura. Vänligen betala alla obetalda fakturor på&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du har nått det maximala antalet samtidiga anslutningar som tillåts för ditt konto. Uppgradera ditt Proton VPN-paket för att få fler anslutningar.</string>
-    <string name="errorEmptyName">Profilnamnfältet kan inte vara tom</string>
-    <string name="errorEmptyCountry">Landsfält kan inte vara tomt</string>
-    <string name="errorEmptyServer">Serverfält kan inte vara tomt</string>
-    <string name="errorEmptyEntryCountry">Fältet för ingångsland kan inte vara tomt</string>
-    <string name="errorEmptyExitCountry">Fältet för utgångsland kan inte vara tomt</string>
     <string name="onboardingSignup">Registrera dig</string>
     <string name="offerTooltipShowOffer">Se erbjudandet</string>
     <string name="listItemMaintenance">Under underhåll</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">Användaråtgärd krävs</string>
     <string name="insufficientPermissionsDetails">Det gick inte att upprätta en VPN-anslutning automatiskt. Anslut manuellt en gång för att bevilja behörigheter.</string>
     <string name="tabsCountries">Länder</string>
-    <string name="tabsMap">Karta</string>
-    <string name="tabsProfiles">Profiler</string>
     <string name="log_title">Logg</string>
     <string name="disconnect">Koppla från</string>
     <string name="state_connecting">Ansluter…</string>
@@ -158,7 +122,6 @@
     <string name="state_error">Fel</string>
     <string name="error_server_unreachable">Kunde inte ansluta till VPN. Kontrollera din anslutning och försök igen.</string>
     <string name="error_auth_failed">Användarautentisering misslyckades.</string>
-    <string name="error_assessment_failed">Säkerhetsbedömning misslyckades.</string>
     <string name="error_generic">Ospecificerat fel vid anslutning.</string>
     <string name="error_generic_with_reason">Proton VPN kunde inte upprätta en VPN-anslutning. Försök igen om några sekunder.<br/><br/> Detaljer: %1$s</string>
     <string name="reconnect">Anslut igen</string>
@@ -167,13 +130,6 @@
     <string name="connect">Anslut</string>
     <string name="upgrade">Uppgradera</string>
     <string name="retry">Försök igen</string>
-    <string name="connection_failed">Anslutning misslyckades</string>
-    <string name="create_new_profile">Ny profil</string>
-    <string name="excludeAppsTitle">Exkludera appar</string>
-    <string name="excludeAppsDescription">Lägg till appar som du vill exkludera från din VPN-trafik.</string>
-    <string name="profile_name">Profilnamn</string>
-    <string name="profile_name_hint">Skriv profilnamn</string>
-    <string name="profile_color">Profilfärg</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Bilagor</string>
     <string name="report_message">Rapportera meddelande</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">Exkludera IP-adresser</string>
     <string name="discardChanges">Kasta osparade ändringar?</string>
     <string name="discard">Kasta</string>
-    <string name="selectedProfileColor">Välj färg för din profil</string>
-    <string name="excludeIpDescription">Lägg till IP-adresser som du vill exkludera från VPN-trafiken.</string>
     <string name="done">KLAR</string>
     <string name="add">LÄGG TILL</string>
     <string name="copy_to_clipboard">Kopiera</string>
-    <string name="the_list_is_empty">Listan är tom</string>
     <string name="got_it">Förstått</string>
-    <string name="onboardingWelcome">Välkommen ombord</string>
-    <string name="proton_log">Proton-logg</string>
     <string name="something_went_wrong">Något gick fel</string>
     <string name="try_again">Försök igen</string>
-    <string name="manage">Hantera</string>
     <string name="delete">Ta bort</string>
     <string name="remove">Ta bort</string>
-    <string name="deleteProfileButton">Ta bort profil</string>
-    <string name="deleteProfile">Ta bort profil?</string>
     <string name="doneButton">Klar</string>
     <string name="saveButton">Spara</string>
-    <string name="recommendedHeader">Rekommenderad</string>
-    <string name="countryServersHeader">Landsservrar</string>
-    <string name="secureCoreCountriesHeader">Secure Core-länder</string>
-    <string name="recommendedProfilesHeader">Rekommenderade profiler</string>
-    <string name="free_connection_header">Gratis anslutning</string>
-    <string name="yourProfilesHeader">Dina profiler</string>
-    <string name="exitCountry">Utgångsland</string>
-    <string name="entryCountry">Ingångsland</string>
-    <string name="country">Land</string>
-    <string name="selectCountry">Välj land</string>
-    <string name="serverSelection">Server</string>
-    <string name="selectServer">Välj server</string>
     <string name="protocolLabel">Protokoll</string>
-    <string name="selectProtocol">Välj protokoll</string>
     <string name="protocol">Protokoll:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">Server:</string>
-    <string name="session_time">Sessionstid:</string>
-    <string name="download_volume">Volym:</string>
-    <string name="download_speed">Hastighet:</string>
-    <string name="notConnected">Du är inte ansluten \n till en server</string>
     <string name="activityLicensesTitle">Tredjepartslicenser</string>
     <string name="stateFragmentUnknownIp">Okänd</string>
     <string name="noVpnPermissionMainTitle">Åtgärd behövs för att ansluta till VPN</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">Slumpmässig</string>
     <string name="settingsSplitTunnelingDescription">Split Tunneling tillåter att vissa appar eller IP:n exkluderas från VPN-trafiken.</string>
     <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
-    <string name="loaderAuthenticatingUser">Autentiserar användare…</string>
     <string name="loaderErrorNoInternet">Ingen Internetanslutning</string>
     <string name="loaderErrorGeneric">Något gick fel</string>
     <string name="loaderLoadingServers">Laddar servrar…</string>
@@ -276,16 +204,10 @@
         <item quantity="one">%1$s och %2$d till</item>
         <item quantity="other">%1$s och %2$d till</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Kan inte ändra detta när du är ansluten</string>
     <string name="excludeAlreadyExcluded">Redan exkluderad</string>
     <string name="removeExcludedIpDialogDescription">Ta bort IP-adress från listan?</string>
-    <string name="loaderFetchingServers">Hämtar servrar…</string>
-    <string name="toastProfileSaved">Sparad</string>
     <string name="tileConnected">Ansluten: %1$s</string>
-    <string name="dialogTitleAttention">Observera</string>
-    <string name="saveProfileAlreadySaved">Redan sparad</string>
     <string name="openUrlError">%1$s kunde inte öppnas. Webbläsaren upptäcktes inte på din enhet.</string>
-    <string name="toastLoginAuthVersionError">Kan inte logga in på grund av att autentiseringsversionen inte stöds. Kontakta support.</string>
     <string name="loaderErrorTimeout">Anslutning gjorde timeout. Försök igen.</string>
     <string name="troubleshootButton">Felsök</string>
     <string name="activityTroubleshootTitle">Felsökning</string>
@@ -332,7 +254,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Denna statistik innehåller inte din IP-adress och den kan inte användas för att identifiera dig. Vi kommer aldrig att dela den med tredje part. <a href="%1$s">Lär dig mer</a>]]></string>
     <string name="netShieldEnabledWarning">Se upp med att vissa webbplatser kanske inte fungerar fullt ut på grund av blockerat innehåll.</string>
     <string name="netShieldDescription">Blockera annonser, spårare och skadlig kod </string>
-    <string name="netshield_settings_description"><![CDATA[Skydda dig själv mot annonser, skadlig kod och spårare på webbplatser och appar. Om webbplatser inte laddas, försök att inaktivera NetShield. <a href="%1$s">Lär dig mer</a>.]]></string>
     <string name="netshield_settings_description_not_html">Skydda dig mot annonser, skadlig kod och spårare på webbplatser och appar. Om webbplatser inte laddas, prova inaktivera NetShield. %1$s</string>
     <string name="learn_more">Lär dig mer</string>
     <string name="netshield_status_on">På</string>
@@ -619,8 +540,6 @@
     <string name="search_recents_header_title">Nyligen visade (%1$d)</string>
     <string name="search_clear_history">Rensa historik</string>
     <string name="search_clear_history_dialog">Din sökhistorik kommer att gå förlorad. Fortsätta?</string>
-    <string name="ikev2_removed_dialog_title">IKEv2 VPN-protokollet är inte längre tillgängligt</string>
-    <string name="ikev2_removed_dialog_message">Standarder och profiler som tidigare använde IKEv2 kommer nu att använda Smart Protocol.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Besök <a href="https://protonvpn.com/pricing">protonvpn.com</a> för mer info.</string>
     <string name="free_upsell_header_title">Få världsomspännande täckning med VPN Plus</string>

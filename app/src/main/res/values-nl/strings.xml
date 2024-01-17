@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">Gebruikersnaam</string>
-    <string name="hintPassword">Wachtwoord</string>
-    <string name="splitTunnellingSwitch">Split-tunnel-schakelaar</string>
     <string name="login">Log in</string>
-    <string name="hamburgerMenu">Hamburgermenu</string>
-    <string name="error_field_required">Dit invullen is verplicht</string>
     <string name="menuActionSignOut">Uitloggen</string>
-    <string name="loginSlogan">Overal veilig internet</string>
-    <string name="loginStartWithDevice">Starten tijdens opstarten</string>
-    <string name="loginCreateAccount">Nieuw account aanmaken</string>
-    <string name="loginNeedHelp">Heeft u hulp nodig?</string>
     <string name="connectionAllocationHelpTitle">Bedankt voor de upgrade naar\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Om uw reis met Proton VPN te beginnen wijst u VPN-verbindingen toe aan uw account of een ander sub-account.</string>
     <string name="connectionAllocationHelpDescription2">Deze stap duurt slechts een paar minuten. Daarna kunt u zich inloggen en al uw apparaten beveiligen.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Er is momenteel geen VPN-verbinding ingeschakeld voor deze account. Om uw reis met Proton VPN te starten, contacteer uw beheerder. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Schakel VPN-verbindingen in</string>
     <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
-    <string name="mapCalloutConnect">Verbinden</string>
-    <string name="mapCalloutDisconnect">Verbreken</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Waarschuwing</string>
     <string name="secureCoreSpeedInfoTitle">Een opmerking over snelheid…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">Uitloggen?</string>
     <string name="logoutConfirmDialogMessage">Uitloggen zal de verbinding van uw apparaat met de VPN verbreken.</string>
     <string name="logoutConfirmDialogButton">Uitloggen</string>
-    <string name="showAllProfiles">Alle profielen weergeven</string>
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogContinue">Doorgaan</string>
     <string name="dialogLearnMore">Meer informatie</string>
-    <string name="dialog_read_more">Lees meer</string>
     <string name="dialog_apply">Pas toe</string>
     <string name="dialog_applying">Aan het toepassen</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Verbonden</string>
     <string name="buttonConnect">Verbinden</string>
-    <string name="loaderInitializing">Verbinding opzetten…</string>
     <string name="loaderConnectingTo">Verbinden met %1$s</string>
-    <string name="loaderConnectingToLabel">Verbinding maken met…</string>
     <string name="loaderNotConnected">Niet verbonden (Onbeschermd)</string>
-    <string name="loaderNotConnectedSuggestion">Tik op de snel verbinden knop</string>
     <string name="loaderConnectedTo">Verbonden met %1$s</string>
-    <string name="loaderConnectedToLabel">Verbonden met:</string>
     <string name="loaderDisconnecting">Verbinding verbreken</string>
     <string name="loaderReconnecting">Opnieuw verbinden</string>
     <string name="loaderReconnectNoNetwork">Wachten op een bruikbaar netwerk</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Controleer uw netwerk</string>
     <string name="loaderCheckingAvailability">Beschikbaarheid van servers controleren</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Wacht een paar seconden</string>
-    <string name="loaderCancel">Verbinden afbreken</string>
     <string name="quickConnect">Snel verbinden</string>
-    <string name="notConnectedCurrentIp">Huidige IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Annuleren</string>
     <string name="close">Sluiten</string>
-    <string name="drawerSettings">Instellingen</string>
-    <string name="drawerAccount">Account</string>
     <string name="drawerHelp">Hulp</string>
     <string name="drawerShowLog">Log weergeven</string>
     <string name="drawerReportProblem">Een probleem melden</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">Accountinformatie</string>
     <string name="accountSubscription">Abonnement</string>
     <string name="accountUser">Gebruiker:</string>
-    <string name="accountType">Accounttype:</string>
     <string name="accountTier">Actief abonnement:</string>
     <string name="accountVersion">Versie:</string>
     <string name="accountSubscriptionDetails"><![CDATA[U kunt uw abonnement beheren via het <font color="%1$s">protonvpn.com</font> dashboard.]]></string>
     <string name="accountButtonManage">Account beheren</string>
     <string name="accountButtonUseCoupon">Gebruik kortingscode</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">Profiel</string>
     <string name="activityAccountTitle">Account</string>
-    <string name="activitySettingsTitle">Instellingen</string>
-    <string name="settingsSectionQuickConnect">Snel verbinden</string>
     <string name="settingsSectionConnection">Verbinding</string>
     <string name="settingsSectionSecurity">Beveiliging</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">MTU-grootte</string>
     <string name="settingsMtuDescription">In het geval dat de standaardwaarde niet geschikt is voor een specifiek netwerk, voer een waarde tussen 1280-1500 in. Verander dit alleen als u weet wat u doet.</string>
     <string name="settingsMtuRangeInvalid">MTU-waarde moet tussen 1280-1500 liggen</string>
-    <string name="settingsDefaultConnectionTitle">Snel verbinden</string>
-    <string name="settingsDefaultConnectionDescription">De knop \'Snel Verbinden\' verbindt u met het geselecteerde profiel</string>
     <string name="settingsAllowNonStandardPortsTitle">Niet-standaard poorten</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Gebruik Proton voor elke speciale nood door verkeer naar niet-standaard poorten toe te laten via het VPN-netwerk. <a href="%1$s">Meer leren</a>]]></string>
     <string name="settingsModerateNatTitle">Gemiddelde NAT</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">De server waarmee u wil verbinden is momenteel in onderhoud. Kies een andere server.</string>
     <string name="errorUserDelinquent"><![CDATA[Uw account heeft momenteel een achterstallige factuur. Gelieve alle onbetaalde facturen te betalen op&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">U heeft het maximum aantal gelijktijdige verbindingen bereikt dat is toegestaan voor uw account. Upgrade uw Proton VPN-abonnement om meer verbindingen te krijgen.</string>
-    <string name="errorEmptyName">Het profielnaam veld kan niet leeg zijn</string>
-    <string name="errorEmptyCountry">Het land veld mag niet leeg zijn</string>
-    <string name="errorEmptyServer">Het server veld mag niet leeg zijn</string>
-    <string name="errorEmptyEntryCountry">Het land veld mag niet leeg zijn</string>
-    <string name="errorEmptyExitCountry">Het uitgaande land veld mag niet leeg zijn</string>
     <string name="onboardingSignup">Registreren</string>
     <string name="offerTooltipShowOffer">Bekijk de aanbieding</string>
     <string name="listItemMaintenance">In onderhoud</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">Gebruikersactie vereist</string>
     <string name="insufficientPermissionsDetails">Kan geen automatische VPN-verbinding tot stand brengen. Maak één keer handmatig verbinding om machtigingen te verlenen.</string>
     <string name="tabsCountries">Landen</string>
-    <string name="tabsMap">Kaart</string>
-    <string name="tabsProfiles">Profielen</string>
     <string name="log_title">Logboek</string>
     <string name="disconnect">Verbinding verbreken</string>
     <string name="state_connecting">Verbinden…</string>
@@ -158,7 +122,6 @@
     <string name="state_error">Fout</string>
     <string name="error_server_unreachable">Kon geen verbinding maken met de VPN. Controleer uw verbinding en probeer het opnieuw.</string>
     <string name="error_auth_failed">Gebruikersauthenticatie mislukt.</string>
-    <string name="error_assessment_failed">Beveiligingsbeoordeling mislukt.</string>
     <string name="error_generic">Niet-gespecifieerde fout tijdens het verbinden.</string>
     <string name="error_generic_with_reason">Proton VPN kon geen VPN-verbinding tot stand brengen. Probeer het over een paar seconden opnieuw.<br/><br/> Details: %1$s</string>
     <string name="reconnect">Opnieuw verbinden</string>
@@ -167,13 +130,6 @@
     <string name="connect">Verbind</string>
     <string name="upgrade">Upgraden</string>
     <string name="retry">Opnieuw proberen</string>
-    <string name="connection_failed">Verbinding mislukt</string>
-    <string name="create_new_profile">Nieuw profiel</string>
-    <string name="excludeAppsTitle">Apps uitsluiten</string>
-    <string name="excludeAppsDescription">Voeg apps toe die u wilt uitsluiten van uw VPN-verkeer.</string>
-    <string name="profile_name">Profielnaam</string>
-    <string name="profile_name_hint">Geef een profielnaam</string>
-    <string name="profile_color">Profielkleur</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Bijlagen</string>
     <string name="report_message">Rapporteer bericht</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">IP-adressen uitsluiten</string>
     <string name="discardChanges">Niet opgeslagen wijzigingen verwijderen?</string>
     <string name="discard">Weggooien</string>
-    <string name="selectedProfileColor">Selecteer kleur voor uw profiel</string>
-    <string name="excludeIpDescription">Voeg IP-adressen toe die u wilt uitsluiten van het VPN-verkeer.</string>
     <string name="done">KLAAR</string>
     <string name="add">TOEVOEGEN</string>
     <string name="copy_to_clipboard">Kopieer</string>
-    <string name="the_list_is_empty">De lijst is leeg</string>
     <string name="got_it">Begrepen</string>
-    <string name="onboardingWelcome">Welkom aan boord</string>
-    <string name="proton_log">Proton logboek</string>
     <string name="something_went_wrong">Er is iets fout gegaan</string>
     <string name="try_again">Probeer opnieuw</string>
-    <string name="manage">Beheren</string>
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijder</string>
-    <string name="deleteProfileButton">Profiel verwijderen</string>
-    <string name="deleteProfile">Profiel verwijderen?</string>
     <string name="doneButton">Klaar</string>
     <string name="saveButton">Opslaan</string>
-    <string name="recommendedHeader">Aanbevolen</string>
-    <string name="countryServersHeader">Landenservers</string>
-    <string name="secureCoreCountriesHeader">Secure Core-landen</string>
-    <string name="recommendedProfilesHeader">Aanbevolen profielen</string>
-    <string name="free_connection_header">Gratis verbinding</string>
-    <string name="yourProfilesHeader">Uw profielen</string>
-    <string name="exitCountry">Uitgaande Land</string>
-    <string name="entryCountry">Ingaand land</string>
-    <string name="country">Land</string>
-    <string name="selectCountry">Selecteer land</string>
-    <string name="serverSelection">Server</string>
-    <string name="selectServer">Selecteer server</string>
     <string name="protocolLabel">Protocol</string>
-    <string name="selectProtocol">Selecteer protocol</string>
     <string name="protocol">Protocol:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">Server:</string>
-    <string name="session_time">Sessieduur:</string>
-    <string name="download_volume">Volume:</string>
-    <string name="download_speed">Snelheid:</string>
-    <string name="notConnected">U bent niet verbonden \n met een server</string>
     <string name="activityLicensesTitle">Licenties van derden</string>
     <string name="stateFragmentUnknownIp">Onbekend</string>
     <string name="noVpnPermissionMainTitle">Actie nodig om verbinding te maken met VPN</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">Willekeurig</string>
     <string name="settingsSplitTunnelingDescription">Split Tunneling laat toe dat bepaalde apps of IP-adressen worden uitgesloten van het VPN-verkeer.</string>
     <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
-    <string name="loaderAuthenticatingUser">Gebruiker verifiëren…</string>
     <string name="loaderErrorNoInternet">Geen internetverbinding</string>
     <string name="loaderErrorGeneric">Er is iets fout gegaan</string>
     <string name="loaderLoadingServers">Servers laden…</string>
@@ -276,16 +204,10 @@
         <item quantity="one">%1$s en nog %2$d meer</item>
         <item quantity="other">%1$s en nog %2$d meer</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Kan dit niet wijzigen terwijl u verbonden bent</string>
     <string name="excludeAlreadyExcluded">Al uitgesloten</string>
     <string name="removeExcludedIpDialogDescription">IP-adres uit de lijst verwijderen?</string>
-    <string name="loaderFetchingServers">Servers ophalen…</string>
-    <string name="toastProfileSaved">Opgeslagen</string>
     <string name="tileConnected">Verbonden: %1$s</string>
-    <string name="dialogTitleAttention">Attentie</string>
-    <string name="saveProfileAlreadySaved">Reeds opgeslagen</string>
     <string name="openUrlError">%1$s kon niet worden geopend. Webbrowser is niet gedetecteerd op uw apparaat.</string>
-    <string name="toastLoginAuthVersionError">Niet mogelijk om in te loggen vanwege de niet-ondersteunde auth-versie. Neem contact op met ondersteuning.</string>
     <string name="loaderErrorTimeout">Time-out verbinding. Probeer het opnieuw.</string>
     <string name="troubleshootButton">Probleemoplossing</string>
     <string name="activityTroubleshootTitle">Probleemoplossing</string>
@@ -332,7 +254,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Deze statistieken bevatten uw IP-adres niet, en kunnen niet gebruikt worden om u te identificeren. We zullen deze nooit delen met derden. <a href="%1$s">Meer informatie</a>]]></string>
     <string name="netShieldEnabledWarning">Let op: sommige websites werken mogelijk niet volledig vanwege geblokkeerde inhoud.</string>
     <string name="netShieldDescription">Blokkeer advertenties, trackers en malware </string>
-    <string name="netshield_settings_description"><![CDATA[Bescherm uzelf tegen advertenties, malware en trackers op websites en apps. Probeer NetShield uit te schakelen als websites niet laden. <a href="%1$s">Meer informatie</a>.]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="learn_more">Learn more</string>
     <string name="netshield_status_on">Aan</string>
@@ -619,8 +540,6 @@
     <string name="search_recents_header_title">Recent bekeken (%1$d)</string>
     <string name="search_clear_history">Geschiedenis wissen</string>
     <string name="search_clear_history_dialog">Uw zoekgeschiedenis zal verloren gaan. Doorgaan?</string>
-    <string name="ikev2_removed_dialog_title">Het IKEv2-VPN-protocol is niet meer beschikbaar</string>
-    <string name="ikev2_removed_dialog_message">Standaarden en profielen die eerder IKEv2 gebruikten, zullen nu het Smart-protocol gebruiken.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Bezoek <a href="https://protonvpn.com/pricing">protonvpn.com</a> voor meer informatie.</string>
     <string name="free_upsell_header_title">Krijg wereldwijde dekking met VPN Plus</string>

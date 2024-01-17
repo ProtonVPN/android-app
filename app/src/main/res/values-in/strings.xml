@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">Nama Pengguna</string>
-    <string name="hintPassword">Kata sandi</string>
-    <string name="splitTunnellingSwitch">Saklar split tunneling</string>
     <string name="login">Masuk</string>
-    <string name="hamburgerMenu">Susunan Menu</string>
-    <string name="error_field_required">Kolom ini wajib diisi</string>
     <string name="menuActionSignOut">Keluar</string>
-    <string name="loginSlogan">Internet aman di mana saja</string>
-    <string name="loginStartWithDevice">Mulai dengan perangkat</string>
-    <string name="loginCreateAccount">Buat akun baru</string>
-    <string name="loginNeedHelp">Butuh bantuan?</string>
     <string name="connectionAllocationHelpTitle">Terima kasih karena telah meningkatkan ke\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Untuk mulai menggunakan Proton VPN, silakan tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
     <string name="connectionAllocationHelpDescription2">Langkah ini akan memakan waktu beberapa menit. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Akun ini sedang tidak memiliki koneksi VPN yang aktif. Untuk mulai menggunakan Proton VPN, silakan hubungi administrator Anda. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Aktifkan koneksi VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Masuk kembali</string>
-    <string name="mapCalloutConnect">Hubungkan</string>
-    <string name="mapCalloutDisconnect">Putuskan</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Peringatan</string>
     <string name="secureCoreSpeedInfoTitle">Secarik catatan mengenai kecepatan…</string>
@@ -46,42 +35,31 @@
     <string name="logoutConfirmDialogTitle">Keluar?</string>
     <string name="logoutConfirmDialogMessage">Dengan keluar, Anda akan memutus sambungan VPN dari perangkat Anda.</string>
     <string name="logoutConfirmDialogButton">Keluar</string>
-    <string name="showAllProfiles">Tampilkan semua profil</string>
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogContinue">Lanjut</string>
     <string name="dialogLearnMore">Pelajari lebih lanjut</string>
-    <string name="dialog_read_more">Baca lebih lanjut</string>
     <string name="dialog_apply">Terapkan</string>
     <string name="dialog_applying">Menerapkan</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Terhubung</string>
     <string name="buttonConnect">Hubungkan</string>
-    <string name="loaderInitializing">Memulai hubungan…</string>
     <string name="loaderConnectingTo">Menghubungkan ke %1$s</string>
-    <string name="loaderConnectingToLabel">Menghubungkan ke…</string>
     <string name="loaderNotConnected">Tidak terhubung (Tanpa perlindungan)</string>
     <string name="loaderNotConnectedSuggestion">Ketuk tombol Quick Connect</string>
     <string name="loaderConnectedTo">Terhubung ke %1$s</string>
-    <string name="loaderConnectedToLabel">Terhubung ke:</string>
     <string name="loaderDisconnecting">Memutuskan</string>
     <string name="loaderReconnecting">Menyambungkan ulang</string>
     <string name="loaderReconnectNoNetwork">Menunggu jaringan yang dapat digunakan</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Mohon periksa koneksi internet Anda</string>
     <string name="loaderCheckingAvailability">Memeriksa ketersediaan server</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Mohon tunggu beberapa saat</string>
-    <string name="loaderCancel">Batalkan sambungan</string>
     <string name="quickConnect">Quick connect</string>
-    <string name="notConnectedCurrentIp">IP saat ini: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Batal</string>
     <string name="close">Tutup</string>
-    <string name="drawerSettings">Pengaturan</string>
-    <string name="drawerAccount">Akun</string>
     <string name="drawerHelp">Bantuan</string>
     <string name="drawerShowLog">Tampilkan log</string>
     <string name="drawerReportProblem">Laporkan masalah</string>
@@ -89,17 +67,13 @@
     <string name="accountDetails">Rincian akun</string>
     <string name="accountSubscription">Langganan</string>
     <string name="accountUser">Pengguna:</string>
-    <string name="accountType">Tipe akun:</string>
     <string name="accountTier">Paket berlangganan yang aktif:</string>
     <string name="accountVersion">Versi:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Untuk mengelola langganan Anda, Anda harus menuju ke panel web <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Kelola akun</string>
     <string name="accountButtonUseCoupon">Gunakan kupon</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Akun</string>
-    <string name="activitySettingsTitle">Pengaturan</string>
-    <string name="settingsSectionQuickConnect">Quick Connect</string>
     <string name="settingsSectionConnection">Koneksi</string>
     <string name="settingsSectionSecurity">Keamanan</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +88,6 @@
     <string name="settingsMtuSizeTitle">Ukuran MTU</string>
     <string name="settingsMtuDescription">Apabila nilai default yang tertera tidak sesuai untuk jaringan tertentu, masukan nilai dalam rentang 1280–1500. Mohon ubah nilai ini hanya apabila Anda paham akan resikonya.</string>
     <string name="settingsMtuRangeInvalid">Nilai MTU harus dalam kisaran 1280–1500</string>
-    <string name="settingsDefaultConnectionTitle">Quick Connect</string>
-    <string name="settingsDefaultConnectionDescription">Tombol Quick Connect akan menghubungkan Anda ke profil yang dipilih</string>
     <string name="settingsAllowNonStandardPortsTitle">Port non-standar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Alihkan lalu lintas data yang tertuju pada port non-standar melalui jaringan VPN. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="settingsModerateNatTitle">NAT Moderat</string>
@@ -128,11 +100,6 @@
     <string name="restrictedMaintenanceDescription">Server yang Anda coba sambungkan sedang dalam pemeliharaan. Mohon coba server lainnya.</string>
     <string name="errorUserDelinquent"><![CDATA[Saat ini akun Anda memiliki tagihan tertunda. Mohon membayar semua tagihan yang belum dibayar pada&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Anda telah mencapai jumlah sambungan serentak yang diizinkan bagi akun Anda. Silakan tingkatkan jenis akun Proton VPN Anda untuk memperoleh lebih banyak sambungan.</string>
-    <string name="errorEmptyName">Kolom nama profil tidak boleh kosong</string>
-    <string name="errorEmptyCountry">Kolom negara tidak boleh kosong</string>
-    <string name="errorEmptyServer">Kolom server tidak boleh kosong</string>
-    <string name="errorEmptyEntryCountry">Kolom negara tujuan awal tidak boleh kosong</string>
-    <string name="errorEmptyExitCountry">Kolom negara tujuan akhir tidak boleh kosong</string>
     <string name="onboardingSignup">Daftar</string>
     <string name="offerTooltipShowOffer">Lihat penawaran ini</string>
     <string name="listItemMaintenance">Dalam pemeliharaan</string>
@@ -148,8 +115,6 @@
     <string name="insufficientPermissionsTitle">Tindakan pengguna dibutuhkan</string>
     <string name="insufficientPermissionsDetails">Tidak dapat menciptakan sambungan VPN secara otomatis. Mohon sambungkan secara manual satu kali untuk memberikan izin.</string>
     <string name="tabsCountries">Negara</string>
-    <string name="tabsMap">Peta</string>
-    <string name="tabsProfiles">Profil</string>
     <string name="log_title">Log</string>
     <string name="disconnect">Putuskan</string>
     <string name="state_connecting">Menghubungkan…</string>
@@ -158,7 +123,6 @@
     <string name="state_error">Kesalahan</string>
     <string name="error_server_unreachable">Tidak dapat terhubung ke VPN. Mohon periksa koneksi Anda dan coba lagi.</string>
     <string name="error_auth_failed">Autentikasi pengguna gagal.</string>
-    <string name="error_assessment_failed">Penilaian keamanan gagal.</string>
     <string name="error_generic">Terdapat kesalahan yang tak terperinci saat menghubungkan.</string>
     <string name="error_generic_with_reason">Proton VPN tidak dapat mengukuhkan sambungan VPN. Silakan coba beberapa saat lagi.<br/><br/>Rincian: %1$s</string>
     <string name="reconnect">Hubungkan Ulang</string>
@@ -167,13 +131,6 @@
     <string name="connect">Hubungkan</string>
     <string name="upgrade">Tingkatkan</string>
     <string name="retry">Coba lagi</string>
-    <string name="connection_failed">Sambungan gagal</string>
-    <string name="create_new_profile">Profil baru</string>
-    <string name="excludeAppsTitle">Kecualikan Aplikasi</string>
-    <string name="excludeAppsDescription">Tambahkan aplikasi yang ingin Anda kecualikan dari lalu lintas VPN.</string>
-    <string name="profile_name">Nama profil</string>
-    <string name="profile_name_hint">Tulis nama profil</string>
-    <string name="profile_color">Warna profil</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Lampiran</string>
     <string name="report_message">Laporkan pesan</string>
@@ -185,46 +142,19 @@
     <string name="excludeIpTitle">Kecualikan Alamat IP</string>
     <string name="discardChanges">Urungkan perubahan yang belum disimpan?</string>
     <string name="discard">Buang</string>
-    <string name="selectedProfileColor">Mohon pilih warna profil Anda</string>
-    <string name="excludeIpDescription">Tambahkan alamat IP yang ingin Anda kecualikan dari lalu lintas VPN.</string>
     <string name="done">SELESAI</string>
     <string name="add">TAMBAH</string>
     <string name="copy_to_clipboard">Salin</string>
-    <string name="the_list_is_empty">Daftar ini kosong</string>
     <string name="got_it">Mengerti</string>
-    <string name="onboardingWelcome">Selamat bergabung</string>
-    <string name="proton_log">Log Proton</string>
     <string name="something_went_wrong">Terjadi kesalahan</string>
     <string name="try_again">Coba lagi</string>
-    <string name="manage">Kelola</string>
     <string name="delete">Hapus</string>
     <string name="remove">Hapus</string>
-    <string name="deleteProfileButton">Hapus profil</string>
-    <string name="deleteProfile">Hapus profil?</string>
     <string name="doneButton">Selesai</string>
     <string name="saveButton">Simpan</string>
-    <string name="recommendedHeader">Disarankan</string>
-    <string name="countryServersHeader">Server negara</string>
-    <string name="secureCoreCountriesHeader">Negara dengan server Secure Core</string>
-    <string name="recommendedProfilesHeader">Profil yang disarankan</string>
-    <string name="free_connection_header">Koneksi gratis</string>
-    <string name="yourProfilesHeader">Profil Anda</string>
-    <string name="exitCountry">Negara tujuan akhir</string>
-    <string name="entryCountry">Negara tujuan awal</string>
-    <string name="country">Negara</string>
-    <string name="selectCountry">Pilih negara</string>
-    <string name="serverSelection">Server</string>
-    <string name="selectServer">Pilih server</string>
     <string name="protocolLabel">Protokol</string>
-    <string name="selectProtocol">Pilih protokol</string>
     <string name="protocol">Protokol:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">Server:</string>
-    <string name="session_time">Waktu sesi:</string>
-    <string name="download_volume">Volume:</string>
-    <string name="download_speed">Kecepatan:</string>
-    <string name="notConnected">Anda tidak sedang terhubung \nke server manapun</string>
     <string name="activityLicensesTitle">Lisensi pihak ketiga</string>
     <string name="stateFragmentUnknownIp">Tidak diketahui</string>
     <string name="noVpnPermissionMainTitle">Tindakan diperlukan untuk dapat terhubung ke VPN</string>
@@ -253,7 +183,6 @@
     <string name="profileRandom">Acak</string>
     <string name="settingsSplitTunnelingDescription">Split Tunneling memungkinkan aplikasi atau alamat IP tertentu untuk dikecualikan dari lalu lintas VPN.</string>
     <string name="settingsSplitTunnelingTitle">Tunneling Terpisah</string>
-    <string name="loaderAuthenticatingUser">Mengautentikasi pengguna…</string>
     <string name="loaderErrorNoInternet">Tidak ada koneksi internet</string>
     <string name="loaderErrorGeneric">Ada yang salah</string>
     <string name="loaderLoadingServers">Memuat daftar server…</string>
@@ -275,16 +204,10 @@
     <plurals name="listFewItemsAndMore">
         <item quantity="other">%1$s dan %2$d lainnya</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Pengaturan ini tidak dapat diubah pada saat VPN sedang tersambung</string>
     <string name="excludeAlreadyExcluded">Sudah dikecualikan</string>
     <string name="removeExcludedIpDialogDescription">Hapus alamat IP dari daftar?</string>
-    <string name="loaderFetchingServers">Memuat daftar server…</string>
-    <string name="toastProfileSaved">Disimpan</string>
     <string name="tileConnected">Terhubung: %1$s</string>
-    <string name="dialogTitleAttention">Perhatian</string>
-    <string name="saveProfileAlreadySaved">Sudah disimpan</string>
     <string name="openUrlError">%1$s tidak dapat dibuka. Aplikasi browser tidak terdeteksi pada perangkat Anda.</string>
-    <string name="toastLoginAuthVersionError">Tidak dapat masuk karena versi autentikasi tidak didukung. Silakan hubungi layanan dukungan.</string>
     <string name="loaderErrorTimeout">Waktu sambungan habis. Mohon coba lagi.</string>
     <string name="troubleshootButton">Penyelesaian Masalah</string>
     <string name="activityTroubleshootTitle">Penyelesaian Masalah</string>
@@ -331,7 +254,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga manapun. <a href="%1$s">Pelajari lebih lanjute</a>]]></string>
     <string name="netShieldEnabledWarning">Harap dicamkan bahwa beberapa situs web mungkin tidak akan sepenuhnya berfungsi karena konten yang diblokir.</string>
     <string name="netShieldDescription">Memblokir iklan, pelacak, dan malware </string>
-    <string name="netshield_settings_description"><![CDATA[Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. Apabila situs web yang ingin Anda kunjungi tidak termuat, cobalah untuk menonaktifkan NetShield. <a href="%1$s">Pelajari lebih lanjut</a>.]]></string>
     <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. Apabila situs web yang ingin Anda kunjungi tidak termuat, cobalah untuk menonaktifkan NetShield. %1$s</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
     <string name="netshield_status_on">Aktif</string>
@@ -611,8 +533,6 @@
     <string name="search_recents_header_title">Baru dilihat (%1$d)</string>
     <string name="search_clear_history">Hapus riwayat</string>
     <string name="search_clear_history_dialog">Riwayat pencarian Anda akan hilang. Lanjutkan?</string>
-    <string name="ikev2_removed_dialog_title">Protokol VPN IKEv2 sudah tidak lagi tersedia</string>
-    <string name="ikev2_removed_dialog_message">Pengaturan default dan profil yang sebelumnya menggunakan IKEv2 akan beralih menggunakan protokol Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Kunjungi <a href="https://protonvpn.com/pricing">protonvpn.com</a> untuk info lebih lanjut.</string>
     <string name="free_upsell_header_title">Dapatkan cakupan server di seluruh dunia dengan VPN Plus</string>

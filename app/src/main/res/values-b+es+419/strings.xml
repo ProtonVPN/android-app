@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">Nombre de usuario</string>
-    <string name="hintPassword">Contraseña</string>
-    <string name="splitTunnellingSwitch">Interruptor de túnel dividido</string>
     <string name="login">Iniciar sesión</string>
-    <string name="hamburgerMenu">Botón de menú</string>
-    <string name="error_field_required">Este campo es obligatorio</string>
     <string name="menuActionSignOut">Cerrar sesión</string>
-    <string name="loginSlogan">Internet seguro en cualquier lugar</string>
-    <string name="loginStartWithDevice">Iniciar con el dispositivo</string>
-    <string name="loginCreateAccount">Crear una cuenta</string>
-    <string name="loginNeedHelp">¿Necesita ayuda?</string>
     <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Para empezar su viaje en Proton VPN, asigne conexiones VPN a su cuenta o cualquier otra subcuenta.</string>
     <string name="connectionAllocationHelpDescription2">Este paso tomará solo unos minutos. Después será capaz de iniciar sesión y proteger todos sus dispositivos.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN activada para esta cuenta. Para comenzar su viaje en Proton VPN contacte con su administrador. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activar conexiones VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión de nuevo</string>
-    <string name="mapCalloutConnect">Conectar</string>
-    <string name="mapCalloutDisconnect">Desconectar</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Advertencia</string>
     <string name="secureCoreSpeedInfoTitle">Una nota acerca de la velocidad…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">¿Cerrar sesión?</string>
     <string name="logoutConfirmDialogMessage">Al cerrar la sesión desconectará su dispositivo de la VPN.</string>
     <string name="logoutConfirmDialogButton">Cerrar sesión</string>
-    <string name="showAllProfiles">Mostrar perfiles</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogContinue">Continuar</string>
     <string name="dialogLearnMore">Más información</string>
-    <string name="dialog_read_more">Leer más</string>
     <string name="dialog_apply">Aplicar</string>
     <string name="dialog_applying">Aplicando</string>
     <string name="secureCoreConnectVia">vía %1$s</string>
     <string name="connected">Conectado</string>
     <string name="buttonConnect">Conectar</string>
-    <string name="loaderInitializing">Inicializando la conexión…</string>
     <string name="loaderConnectingTo">Conectando a %1$s</string>
-    <string name="loaderConnectingToLabel">Conectando a…</string>
     <string name="loaderNotConnected">No conectado (no protegido)</string>
-    <string name="loaderNotConnectedSuggestion">Pulse el botón de Conexión Rápida</string>
     <string name="loaderConnectedTo">Conectado a %1$s</string>
-    <string name="loaderConnectedToLabel">Conectado a:</string>
     <string name="loaderDisconnecting">Desconectando</string>
     <string name="loaderReconnecting">Reconectando</string>
     <string name="loaderReconnectNoNetwork">Esperando disponibilidad de red</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Compruebe su red.</string>
     <string name="loaderCheckingAvailability">Comprobando disponibilidad del servidor</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Espere unos segundos</string>
-    <string name="loaderCancel">Cancelar conexión</string>
     <string name="quickConnect">Conexión rápida</string>
-    <string name="notConnectedCurrentIp">IP actual: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
-    <string name="drawerSettings">Ajustes</string>
-    <string name="drawerAccount">Cuenta</string>
     <string name="drawerHelp">Ayuda</string>
     <string name="drawerShowLog">Mostrar registro</string>
     <string name="drawerReportProblem">Reportar un problema</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">Detalles de la cuenta</string>
     <string name="accountSubscription">Suscripción</string>
     <string name="accountUser">Usuario:</string>
-    <string name="accountType">Tipo de cuenta:</string>
     <string name="accountTier">Suscripción activa:</string>
     <string name="accountVersion">Versión:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Para gestionar su suscripción, vaya al panel de control en <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Gestionar cuenta</string>
     <string name="accountButtonUseCoupon">Usar cupón</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">Perfil</string>
     <string name="activityAccountTitle">Cuenta</string>
-    <string name="activitySettingsTitle">Ajustes</string>
-    <string name="settingsSectionQuickConnect">Conexión rápida</string>
     <string name="settingsSectionConnection">Conexión</string>
     <string name="settingsSectionSecurity">Seguridad</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">Tamaño MTU</string>
     <string name="settingsMtuDescription">En caso de que el valor por defecto no sea adecuado para una red en particular, ingrese un valor dentro del rango 1280-1500. Cámbielo sólo si sabe lo que está haciendo.</string>
     <string name="settingsMtuRangeInvalid">El valor MTU debe estar en el rango 1280-1500</string>
-    <string name="settingsDefaultConnectionTitle">Conexión rápida</string>
-    <string name="settingsDefaultConnectionDescription">El botón de conexión rápida le conecta con el perfil seleccionado</string>
     <string name="settingsAllowNonStandardPortsTitle">Puertos no estándar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use Proton VPN para cualquier necesidad permitiendo el tráfico a puertos no estándar mediante la red VPN. <a href="%1$s">Más información</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderada</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">El servidor al que intenta conectar está en mantenimiento. Intente con otro servidor.</string>
     <string name="errorUserDelinquent"><![CDATA[Su cuenta tiene una factura vencida. Pague todas las facturas pendientes en&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Ha alcanzado el número máximo de conexiones simultáneas permitidas para su cuenta. Mejore su plan de Proton VPN para obtener más conexiones.</string>
-    <string name="errorEmptyName">El campo del nombre del perfil no puede estar vacío</string>
-    <string name="errorEmptyCountry">El campo de país no puede estar vacío</string>
-    <string name="errorEmptyServer">El campo de servidor no puede estar vacío</string>
-    <string name="errorEmptyEntryCountry">El campo de país de entrada no puede estar vacío</string>
-    <string name="errorEmptyExitCountry">El campo de país de salida no puede estar vacío</string>
     <string name="onboardingSignup">Registrarse</string>
     <string name="offerTooltipShowOffer">Ver la oferta</string>
     <string name="listItemMaintenance">En mantenimiento</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">Se requiere acción del usuario</string>
     <string name="insufficientPermissionsDetails">No se pudo establecer automáticamente la conexión VPN. Conéctese manualmente una vez para conceder permisos.</string>
     <string name="tabsCountries">Países</string>
-    <string name="tabsMap">Mapa</string>
-    <string name="tabsProfiles">Perfiles</string>
     <string name="log_title">Registro</string>
     <string name="disconnect">Desconectar</string>
     <string name="state_connecting">Conectando…</string>
@@ -158,7 +122,6 @@
     <string name="state_error">Error</string>
     <string name="error_server_unreachable">No se pudo conectar a la VPN. Verifique la conexión y vuelva a intentarlo.</string>
     <string name="error_auth_failed">Error en la autenticación de usuario.</string>
-    <string name="error_assessment_failed">No se pudo evaluar la seguridad.</string>
     <string name="error_generic">Error no especificado al conectar.</string>
     <string name="error_generic_with_reason">Proton VPN no pudo establecer una conexión VPN. Intente otra vez en unos segundos.<br/><br/> Detalles: %1$s</string>
     <string name="reconnect">Reconectar</string>
@@ -167,13 +130,6 @@
     <string name="connect">Conectar</string>
     <string name="upgrade">Mejorar</string>
     <string name="retry">Reintentar</string>
-    <string name="connection_failed">Error de conexión</string>
-    <string name="create_new_profile">Perfil nuevo</string>
-    <string name="excludeAppsTitle">Excluir apps</string>
-    <string name="excludeAppsDescription">Añada apps que quiere excluir del tráfico VPN.</string>
-    <string name="profile_name">Nombre del perfil</string>
-    <string name="profile_name_hint">Escriba el nombre del perfil</string>
-    <string name="profile_color">Color del perfil</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Adjuntos</string>
     <string name="report_message">Mensaje del reporte</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">Excluir direcciones IP</string>
     <string name="discardChanges">¿Descartar los cambios sin guardar?</string>
     <string name="discard">Descartar</string>
-    <string name="selectedProfileColor">Seleccione un color para su perfil</string>
-    <string name="excludeIpDescription">Añada direcciones IP que quiere excluir del tráfico VPN.</string>
     <string name="done">HECHO</string>
     <string name="add">AÑADIR</string>
     <string name="copy_to_clipboard">Copiar</string>
-    <string name="the_list_is_empty">La lista está vacía</string>
     <string name="got_it">Entendido</string>
-    <string name="onboardingWelcome">Bienvenido/a a bordo</string>
-    <string name="proton_log">Registro Proton</string>
     <string name="something_went_wrong">Hubo un problema</string>
     <string name="try_again">Volver a intentar</string>
-    <string name="manage">Gestionar</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Borrar</string>
-    <string name="deleteProfileButton">Eliminar perfil</string>
-    <string name="deleteProfile">¿Eliminar perfil?</string>
     <string name="doneButton">Hecho</string>
     <string name="saveButton">Guardar</string>
-    <string name="recommendedHeader">Recomendado</string>
-    <string name="countryServersHeader">Servidores del país</string>
-    <string name="secureCoreCountriesHeader">Países con Secure Core</string>
-    <string name="recommendedProfilesHeader">Perfiles recomendados</string>
-    <string name="free_connection_header">Conexión gratuita</string>
-    <string name="yourProfilesHeader">Sus perfiles</string>
-    <string name="exitCountry">País de salida</string>
-    <string name="entryCountry">País de entrada</string>
-    <string name="country">País</string>
-    <string name="selectCountry">Seleccionar país</string>
-    <string name="serverSelection">Servidor</string>
-    <string name="selectServer">Seleccionar servidor</string>
     <string name="protocolLabel">Protocolo</string>
-    <string name="selectProtocol">Seleccionar protocolo</string>
     <string name="protocol">Protocolo:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">Servidor:</string>
-    <string name="session_time">Tiempo de sesión:</string>
-    <string name="download_volume">Volumen:</string>
-    <string name="download_speed">Velocidad:</string>
-    <string name="notConnected">No está conectado \n a ningún servidor</string>
     <string name="activityLicensesTitle">Licencias de terceros</string>
     <string name="stateFragmentUnknownIp">Desconocido</string>
     <string name="noVpnPermissionMainTitle">Acción necesaria para conectarse a la VPN</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">Aleatorio</string>
     <string name="settingsSplitTunnelingDescription">La tunelización dividida permite que ciertas aplicaciones o direcciones IP sean excluidas del tráfico VPN.</string>
     <string name="settingsSplitTunnelingTitle">Tunelización dividida</string>
-    <string name="loaderAuthenticatingUser">Autenticando usuario…</string>
     <string name="loaderErrorNoInternet">No hay conexión a internet</string>
     <string name="loaderErrorGeneric">Hubo un problema</string>
     <string name="loaderLoadingServers">Cargando servidores…</string>
@@ -276,16 +204,10 @@
         <item quantity="one">%1$s y %2$d más</item>
         <item quantity="other">%1$s y %2$d más</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">No se puede cambiar mientras esté conectado</string>
     <string name="excludeAlreadyExcluded">Ya excluido</string>
     <string name="removeExcludedIpDialogDescription">¿Borrar la dirección IP de la lista?</string>
-    <string name="loaderFetchingServers">Cargando servidores…</string>
-    <string name="toastProfileSaved">Guardado</string>
     <string name="tileConnected">Conectado: %1$s</string>
-    <string name="dialogTitleAttention">Atención</string>
-    <string name="saveProfileAlreadySaved">Ya guardado</string>
     <string name="openUrlError">No se pudo abrir %1$s. No se detectó un navegador en su dispositivo.</string>
-    <string name="toastLoginAuthVersionError">No se puede iniciar sesión debido a una versión de autenticación incompatible. Contacte con soporte.</string>
     <string name="loaderErrorTimeout">Tiempo de conexión agotado. Inténtelo de nuevo.</string>
     <string name="troubleshootButton">Resolución de problemas</string>
     <string name="activityTroubleshootTitle">Resolución de problemas</string>
@@ -332,7 +254,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen su dirección IP y no pueden ser usadas para identificarle. Nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
     <string name="netShieldEnabledWarning">Tenga en cuenta que algunos sitios web no podrían funcionar por completo debido a contenidos bloqueados.</string>
     <string name="netShieldDescription">Bloquea anuncios, rastreadores y malware </string>
-    <string name="netshield_settings_description"><![CDATA[Protéjase de anuncios, malware y rastreadores en sitios web y apps. Si los sitios web no cargan, intente desactivar NetShield. <a href="%1$s">Más información</a>.]]></string>
     <string name="netshield_settings_description_not_html">Protéjase de anuncios, malware y rastreadores en sitios web y apps. Si los sitios web no cargan, intente desactivar NetShield. %1$s</string>
     <string name="learn_more">Más información</string>
     <string name="netshield_status_on">Activado</string>
@@ -619,8 +540,6 @@
     <string name="search_recents_header_title">Visto reciente (%1$d)</string>
     <string name="search_clear_history">Borrar historial</string>
     <string name="search_clear_history_dialog">Se perderá su historial de búsqueda. ¿Continuar?</string>
-    <string name="ikev2_removed_dialog_title">El protocolo IKEv2 VPN ya no está disponible</string>
-    <string name="ikev2_removed_dialog_message">Las configuraciones por defecto y los perfiles que antes usaban IKEv2 ahora usarán el protocolo Smart.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obtener más información.</string>
     <string name="free_upsell_header_title">Disfrute de una cobertura global con VPN Plus</string>

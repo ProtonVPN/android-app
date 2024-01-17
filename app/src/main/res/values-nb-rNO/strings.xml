@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">Brukernavn</string>
-    <string name="hintPassword">Passord</string>
-    <string name="splitTunnellingSwitch">Delt tunnelering bryter</string>
     <string name="login">Logg på</string>
-    <string name="hamburgerMenu">Hamburgermeny</string>
-    <string name="error_field_required">Dette feltet er obligatorisk</string>
     <string name="menuActionSignOut">Logg av</string>
-    <string name="loginSlogan">Sikkert internett hvor som helst</string>
-    <string name="loginStartWithDevice">Start med enhet</string>
-    <string name="loginCreateAccount">Opprett ny konto</string>
-    <string name="loginNeedHelp">Trenger du hjelp?</string>
     <string name="connectionAllocationHelpTitle">Takk for oppgradering til\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">For å starte reisen din i Proton VPN, vennligst tildel VPN-tilkoblinger til kontoen din eller en hvilken som helst annen underkonto.</string>
     <string name="connectionAllocationHelpDescription2">Dette trinnet tar bare noen få minutter. Etter det vil du kunne logge på og beskytte alle enhetene dine.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Det er for øyeblikket ingen VPN-tilkobling aktivert for denne kontoen. For å starte reisen din med Proton VPN, vennligst kontakt administratoren din. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Aktiver VPN-forbindelser</string>
     <string name="connectionAllocationHelpLoginAgainButton">Logg på igjen</string>
-    <string name="mapCalloutConnect">Koble til</string>
-    <string name="mapCalloutDisconnect">Koble fra</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Advarsel</string>
     <string name="secureCoreSpeedInfoTitle">Et notat om hastighet…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">Logg av?</string>
     <string name="logoutConfirmDialogMessage">Hvis du logger av, kobles enheten din fra VPN-et.</string>
     <string name="logoutConfirmDialogButton">Logg av</string>
-    <string name="showAllProfiles">Vis alle profiler</string>
     <string name="yes">Ja</string>
     <string name="no">Nei</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogContinue">Fortsett</string>
     <string name="dialogLearnMore">Lær mer</string>
-    <string name="dialog_read_more">Les mer</string>
     <string name="dialog_apply">Anvend</string>
     <string name="dialog_applying">Anvender</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Tilkoblet</string>
     <string name="buttonConnect">Koble til</string>
-    <string name="loaderInitializing">Initialiserer tilkobling...</string>
     <string name="loaderConnectingTo">Kobler til %1$s</string>
-    <string name="loaderConnectingToLabel">Kobler til...</string>
     <string name="loaderNotConnected">Ikke tilkoblet (ubeskyttet)</string>
-    <string name="loaderNotConnectedSuggestion">Trykk hurtigtilkoblingsknappen</string>
     <string name="loaderConnectedTo">Koblet til %1$s</string>
-    <string name="loaderConnectedToLabel">Koblet til:</string>
     <string name="loaderDisconnecting">Kobler fra</string>
     <string name="loaderReconnecting">Kobler til på nytt</string>
     <string name="loaderReconnectNoNetwork">Venter på brukbart nettverk</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Vennligst sjekk nettverket ditt</string>
     <string name="loaderCheckingAvailability">Kontrollerer tjenertilgjengelighet</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Vennligst vent noen sekunder</string>
-    <string name="loaderCancel">Avbryt forbindelse</string>
     <string name="quickConnect">Hurtigtilkobling</string>
-    <string name="notConnectedCurrentIp">Nåværende IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Lukk</string>
-    <string name="drawerSettings">Innstillinger</string>
-    <string name="drawerAccount">Konto</string>
     <string name="drawerHelp">Hjelp</string>
     <string name="drawerShowLog">Vis logg</string>
     <string name="drawerReportProblem">Rapporter en feil</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">Kontodetaljer</string>
     <string name="accountSubscription">Abonnement</string>
     <string name="accountUser">Bruker:</string>
-    <string name="accountType">Kontotype:</string>
     <string name="accountTier">Aktivt abonnement:</string>
     <string name="accountVersion">Versjon:</string>
     <string name="accountSubscriptionDetails"><![CDATA[For å administrere abonnementet ditt, må du gå til nettpanelet til <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Administrer konto</string>
     <string name="accountButtonUseCoupon">Bruk kupong</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Konto</string>
-    <string name="activitySettingsTitle">Innstillinger</string>
-    <string name="settingsSectionQuickConnect">Hurtigtilkobling</string>
     <string name="settingsSectionConnection">Tilkobling</string>
     <string name="settingsSectionSecurity">Sikkerhet</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">MTU-størrelse</string>
     <string name="settingsMtuDescription">Hvis standardverdien er uegnet for et bestemt nettverk, angir du en verdi innenfor området 1280–1500. Endre det bare hvis du vet hva du gjør.</string>
     <string name="settingsMtuRangeInvalid">MTU-verdi må være innenfor området 1280 - 1500.</string>
-    <string name="settingsDefaultConnectionTitle">Hurtigtilkobling</string>
-    <string name="settingsDefaultConnectionDescription">Hurtigtilkoblingsknappen kobler deg til valgt profil</string>
     <string name="settingsAllowNonStandardPortsTitle">Ikke-standard porter</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Bruk Proton VPN for ethvert spesielt behov ved å la trafikk til ikke-standardporter gå gjennom VPN-nettverket. <a href="%1$s">Lær mer</a>]]></string>
     <string name="settingsModerateNatTitle">Moderat NAT</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">Tjeneren du prøver å koble til, er under vedlikehold. Vennligst prøv en annen tjener.</string>
     <string name="errorUserDelinquent"><![CDATA[Kontoen din har for øyeblikket en forfalt faktura. Vennligst betal alle ubetalte fakturaer på &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du har truffet maksimalt antall samtidige tilkoblinger som er tillatt for kontoen din. Oppgrader Proton VPN-planen din for å få flere tilkoblinger.</string>
-    <string name="errorEmptyName">Profilnavnfeltet kan ikke være tomt</string>
-    <string name="errorEmptyCountry">Land-feltet kan ikke være tomt</string>
-    <string name="errorEmptyServer">Tjener-feltet kan ikke være tomt</string>
-    <string name="errorEmptyEntryCountry">Innreiseland-feltet kan ikke være tomt</string>
-    <string name="errorEmptyExitCountry">Utreiseland-feltet kan ikke være tomt</string>
     <string name="onboardingSignup">Registrer deg</string>
     <string name="offerTooltipShowOffer">Se tilbudet</string>
     <string name="listItemMaintenance">Under vedlikehold</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">Brukerhandling kreves</string>
     <string name="insufficientPermissionsDetails">Kunne ikke opprette VPN-tilkobling automatisk. Koble til manuelt én gang for å gi tillatelser.</string>
     <string name="tabsCountries">Land</string>
-    <string name="tabsMap">Kart</string>
-    <string name="tabsProfiles">Profiler</string>
     <string name="log_title">Logg</string>
     <string name="disconnect">Koble fra</string>
     <string name="state_connecting">Kobler til...</string>
@@ -158,7 +122,6 @@
     <string name="state_error">Feil</string>
     <string name="error_server_unreachable">Kunne ikke koble til VPN-et. Vennligst kontroller tilkoblingen, og prøv på nytt.</string>
     <string name="error_auth_failed">Brukergodkjenning mislyktes.</string>
-    <string name="error_assessment_failed">Sikkerhetsvurderingen mislyktes.</string>
     <string name="error_generic">Uspesifisert feil under tilkobling.</string>
     <string name="error_generic_with_reason">Proton VPN kunne ikke opprette en VPN-tilkobling. Vennligst prøv igjen om noen sekunder.<br/><br/>Detaljer: %1$s</string>
     <string name="reconnect">Koble til på nytt</string>
@@ -167,13 +130,6 @@
     <string name="connect">Koble til</string>
     <string name="upgrade">Oppgrader</string>
     <string name="retry">Prøv på nytt</string>
-    <string name="connection_failed">Tilkobling mislyktes</string>
-    <string name="create_new_profile">Ny profil</string>
-    <string name="excludeAppsTitle">Ekskluder apper</string>
-    <string name="excludeAppsDescription">Legg til apper som skal ekskluderes fra VPN-trafikken din.</string>
-    <string name="profile_name">Profilnavn</string>
-    <string name="profile_name_hint">Skriv profilnavn</string>
-    <string name="profile_color">Profilfarge</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Vedlegg</string>
     <string name="report_message">Rapporter melding</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">Ekskluder IP-Adresser</string>
     <string name="discardChanges">Vil du forkaste endringer som ikke er lagret?</string>
     <string name="discard">Forkast</string>
-    <string name="selectedProfileColor">Vennligst velg farge for profilen din</string>
-    <string name="excludeIpDescription">Legg til IP-adresser som skal ekskluderes fra VPN-trafikken.</string>
     <string name="done">FERDIG</string>
     <string name="add">LEGG TIL</string>
     <string name="copy_to_clipboard">Kopier</string>
-    <string name="the_list_is_empty">Listen er tom</string>
     <string name="got_it">Forstått</string>
-    <string name="onboardingWelcome">Velkommen om bord</string>
-    <string name="proton_log">Proton-logg</string>
     <string name="something_went_wrong">Noe gikk galt</string>
     <string name="try_again">Prøv igjen</string>
-    <string name="manage">Administrer</string>
     <string name="delete">Slett</string>
     <string name="remove">Fjern</string>
-    <string name="deleteProfileButton">Slett profil</string>
-    <string name="deleteProfile">Slett profil?</string>
     <string name="doneButton">Ferdig</string>
     <string name="saveButton">Lagre</string>
-    <string name="recommendedHeader">Anbefalt</string>
-    <string name="countryServersHeader">Landtjenere</string>
-    <string name="secureCoreCountriesHeader">Secure Core-land</string>
-    <string name="recommendedProfilesHeader">Anbefalte profiler</string>
-    <string name="free_connection_header">Gratis forbindelse</string>
-    <string name="yourProfilesHeader">Dine profiler</string>
-    <string name="exitCountry">Utreiseland</string>
-    <string name="entryCountry">Innreiseland</string>
-    <string name="country">Land</string>
-    <string name="selectCountry">Velg land</string>
-    <string name="serverSelection">Tjener</string>
-    <string name="selectServer">Velg tjener</string>
     <string name="protocolLabel">Protokoll</string>
-    <string name="selectProtocol">Velg protokoll</string>
     <string name="protocol">Protokoll:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">Tjener:</string>
-    <string name="session_time">Øktens varighet:</string>
-    <string name="download_volume">Volum:</string>
-    <string name="download_speed">Hastighet:</string>
-    <string name="notConnected">Du er ikke tilkoblet \n en tjener</string>
     <string name="activityLicensesTitle">Tredjepartslisenser</string>
     <string name="stateFragmentUnknownIp">Ukjent</string>
     <string name="noVpnPermissionMainTitle">Handling trengs for å koble til VPN</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">Tilfeldig</string>
     <string name="settingsSplitTunnelingDescription">Delt tunnelering gjør at visse apper eller IP-adresser kan ekskluderes fra VPN-trafikken.</string>
     <string name="settingsSplitTunnelingTitle">Delt Tunnelering</string>
-    <string name="loaderAuthenticatingUser">Autentisering av bruker...</string>
     <string name="loaderErrorNoInternet">Ingen internettforbindelse</string>
     <string name="loaderErrorGeneric">Noe gikk galt</string>
     <string name="loaderLoadingServers">Laster inn tjenere...</string>
@@ -276,16 +204,10 @@
         <item quantity="one">%1$s og %2$d mer</item>
         <item quantity="other">%1$s og %2$d flere</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Kan ikke endre dette mens du er tilkoblet</string>
     <string name="excludeAlreadyExcluded">Allerede ekskludert</string>
     <string name="removeExcludedIpDialogDescription">Fjerne IP-adressen fra listen?</string>
-    <string name="loaderFetchingServers">Henter tjenere...</string>
-    <string name="toastProfileSaved">Lagret</string>
     <string name="tileConnected">Tilkoblet: %1$s</string>
-    <string name="dialogTitleAttention">Oppmerksomhet</string>
-    <string name="saveProfileAlreadySaved">Allerede lagret</string>
     <string name="openUrlError">%1$s kunne ikke åpnes. Nettleser ble ikke oppdaget på enheten din.</string>
-    <string name="toastLoginAuthVersionError">Kan ikke logge på på grunn av godkjenningsversjon som ikke støttes. Vennligst ta kontakt med brukerstøtte.</string>
     <string name="loaderErrorTimeout">Tilkoblingen ble tidsavbrutt. Vennligst prøv på nytt.</string>
     <string name="troubleshootButton">Feilsøk</string>
     <string name="activityTroubleshootTitle">Feilsøking</string>
@@ -332,7 +254,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Disse statistikkene inneholder ikke IP-adressen din, og de kan ikke brukes til å identifisere deg. Vi deler dem aldri med tredjeparter. <a href="%1$s">Lær mer</a>]]></string>
     <string name="netShieldEnabledWarning">Vær oppmerksom på at noen nettsteder kanskje ikke fungerer fullt ut på grunn av blokkert innhold.</string>
     <string name="netShieldDescription">Blokkér reklamer, sporere og skadelig programvare </string>
-    <string name="netshield_settings_description"><![CDATA[Beskytt deg mot annonser, skadelig programvare og sporere på nettsteder og apper. Hvis nettsteder ikke lastes inn, kan du prøve å deaktivere NetShield. <a href="%1$s">Lær mer</a>.]]></string>
     <string name="netshield_settings_description_not_html">Beskytt deg mot annonser, skadelig programvare og sporere på nettsteder og apper. Hvis nettsteder ikke lastes inn, kan du prøve å deaktivere NetShield. %1$s</string>
     <string name="learn_more">Lær mer</string>
     <string name="netshield_status_on">På</string>
@@ -619,8 +540,6 @@
     <string name="search_recents_header_title">Nylig vist (%1$d)</string>
     <string name="search_clear_history">Tøm historikk</string>
     <string name="search_clear_history_dialog">Søkehistorikken din vil gå tapt. Fortsette?</string>
-    <string name="ikev2_removed_dialog_title">IKEv2 VPN-protokollen er ikke lenger tilgjengelig</string>
-    <string name="ikev2_removed_dialog_message">Standarder og profiler som tidligere brukte IKEv2 vil nå bruke Smart-protokollen.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Besøk <a href="https://protonvpn.com/pricing">protonvpn.com</a> for mer info.</string>
     <string name="free_upsell_header_title">Få verdensomspennende dekning med VPN Plus</string>

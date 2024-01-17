@@ -19,25 +19,14 @@
 -->
 <resources>
     <!-- Strings related to login -->
-    <string name="hintUsername">Kullanıcı adı</string>
-    <string name="hintPassword">Parola</string>
-    <string name="splitTunnellingSwitch">Ayrılmış tünelleme anahtarı</string>
     <string name="login">Oturum aç</string>
-    <string name="hamburgerMenu">Hamburger menüsü</string>
-    <string name="error_field_required">Bu alan zorunludur</string>
     <string name="menuActionSignOut">Oturumu kapat</string>
-    <string name="loginSlogan">Her yerde güvenli İnternet</string>
-    <string name="loginStartWithDevice">Aygıtla başla</string>
-    <string name="loginCreateAccount">Yeni hesap aç</string>
-    <string name="loginNeedHelp">Yardım gerekiyor mu?</string>
     <string name="connectionAllocationHelpTitle">Business\u00a0/\u00a0Visionary tarifesine\nyükselttiğiniz için teşekkürler</string>
     <string name="connectionAllocationHelpDescription1">Proton VPN yolculuğunuza başlamak için lütfen hesabınıza ya da başka bir alt hesaba VPN bağlantıları atayın.</string>
     <string name="connectionAllocationHelpDescription2">Bu adım birkaç dakika sürecek. Bundan sonra oturum açabilir ve tüm aygıtlarınızı koruyabilirsiniz.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Şu anda bu hesap için herhangi bir VPN bağlantısı açılmamış. Proton VPN yolcuğunuza başlamak için yöneticinizle görüşün. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">VPN bağlantılarını aç</string>
     <string name="connectionAllocationHelpLoginAgainButton">Yeniden oturum aç</string>
-    <string name="mapCalloutConnect">Bağlan</string>
-    <string name="mapCalloutDisconnect">Bağlantıyı kes</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Uyarı</string>
     <string name="secureCoreSpeedInfoTitle">Hız hakkında bir not…</string>
@@ -46,42 +35,30 @@
     <string name="logoutConfirmDialogTitle">Oturumu kapat?</string>
     <string name="logoutConfirmDialogMessage">Oturumu kapatmak, aygıtınızın VPN bağlantısını keser.</string>
     <string name="logoutConfirmDialogButton">Oturumu kapat</string>
-    <string name="showAllProfiles">Tüm profilleri görüntüle</string>
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">Tamam</string>
     <string name="dialogContinue">İlerle</string>
     <string name="dialogLearnMore">Ayrıntılı bilgi alın</string>
-    <string name="dialog_read_more">Devamını oku</string>
     <string name="dialog_apply">Uygula</string>
     <string name="dialog_applying">Uygulanıyor</string>
     <string name="secureCoreConnectVia">%1$s üzerinden</string>
     <string name="connected">Bağlandı</string>
     <string name="buttonConnect">Bağlan</string>
-    <string name="loaderInitializing">Bağlantı başlatılıyor…</string>
     <string name="loaderConnectingTo">%1$s sunucusuna bağlanılıyor</string>
-    <string name="loaderConnectingToLabel">Sunucuya bağlanılıyor…</string>
     <string name="loaderNotConnected">Bağlı değil (korunmuyor)</string>
-    <string name="loaderNotConnectedSuggestion">Hızlı bağlan düğmesine dokunun</string>
     <string name="loaderConnectedTo">%1$s ile bağlantı kuruldu</string>
-    <string name="loaderConnectedToLabel">Şuraya bağlı:</string>
     <string name="loaderDisconnecting">Bağlantı kesiliyor</string>
     <string name="loaderReconnecting">Yeniden bağlanılıyor</string>
     <string name="loaderReconnectNoNetwork">Kullanılabilecek ağ bekleniyor</string>
-    <string name="loaderReconnectNoNetworkSuggestion">Lütfen ağınızı denetleyin</string>
     <string name="loaderCheckingAvailability">Sunucunun uygunluğu denetleniyor</string>
-    <string name="loaderCheckingAvailabilitySuggestion">Lütfen bir kaç saniye bekleyin</string>
-    <string name="loaderCancel">Bağlantıyı iptal et</string>
     <string name="quickConnect">Hızlı bağlan</string>
-    <string name="notConnectedCurrentIp">Geçerli IP: %1$s</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
     <string name="serverLoad">%%%1$s</string>
     <string name="cancel">İptal</string>
     <string name="close">Kapat</string>
-    <string name="drawerSettings">Ayarlar</string>
-    <string name="drawerAccount">Hesap</string>
     <string name="drawerHelp">Yardım</string>
     <string name="drawerShowLog">Günlüğü görüntüle</string>
     <string name="drawerReportProblem">Bir sorun bildirin</string>
@@ -89,17 +66,13 @@
     <string name="accountDetails">Hesap bilgileri</string>
     <string name="accountSubscription">Abonelik</string>
     <string name="accountUser">Kullanıcı:</string>
-    <string name="accountType">Hesap türü:</string>
     <string name="accountTier">Etkin abonelik:</string>
     <string name="accountVersion">Sürüm:</string>
     <string name="accountSubscriptionDetails"><![CDATA[Aboneliğinizi yönetmek için <font color="%1$s">protonvpn.com</font> İnternet panosuna gitmelisiniz.]]></string>
     <string name="accountButtonManage">Hesap yönetimi</string>
     <string name="accountButtonUseCoupon">Kupon kullan</string>
     <string name="accountFree">Proton VPN Free</string>
-    <string name="activityProfileTitle">Profil</string>
     <string name="activityAccountTitle">Hesap</string>
-    <string name="activitySettingsTitle">Ayarlar</string>
-    <string name="settingsSectionQuickConnect">Hızlı bağlan</string>
     <string name="settingsSectionConnection">Bağlantı</string>
     <string name="settingsSectionSecurity">Güvenlik</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -114,8 +87,6 @@
     <string name="settingsMtuSizeTitle">MTU boyutu</string>
     <string name="settingsMtuDescription">Varsayılan değer belirli bir ağ için uygun değilse, 1280 ile 1500 aralığında bir değer yazın. Yalnızca ne yaptığınızı biliyorsanız değiştirin.</string>
     <string name="settingsMtuRangeInvalid">MTU değeri 1280 ile 1500 aralığında olmalıdır</string>
-    <string name="settingsDefaultConnectionTitle">Hızlı bağlan</string>
-    <string name="settingsDefaultConnectionDescription">Hızlı Bağlan düğmesinin seçtiğiniz profile göre bağlantı kurmasını sağlar</string>
     <string name="settingsAllowNonStandardPortsTitle">Standart olmayan bağlantı noktaları</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN ağı üzerinde standart olmayan bağlantı noktalarından trafik akışına izin vererek herhangi bir özel gereksinim için Proton VPN kullanabilirsiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="settingsModerateNatTitle">Ilımlı NAT</string>
@@ -128,11 +99,6 @@
     <string name="restrictedMaintenanceDescription">Şu anda bağlanmaya çalıştığınız sunucuda bakım yapılıyor. Lütfen başka bir sunucu deneyin.</string>
     <string name="errorUserDelinquent"><![CDATA[Hesabınızda şu anda ödenmemiş bir fatura var. Lütfen&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> adresinden tüm süresi geçmiş faturaları ödeyin]]></string>
     <string name="errorMaxSessions">Hesabınız için izin verilen en fazla eşzamanlı bağlantı sayısına ulaştınız. Daha fazla bağlantı kullanmak için Proton VPN tarifenizi yükseltin.</string>
-    <string name="errorEmptyName">Profil adı alanı boş olamaz</string>
-    <string name="errorEmptyCountry">Ülke alanı boş olamaz</string>
-    <string name="errorEmptyServer">Sunucu alanı boş olamaz</string>
-    <string name="errorEmptyEntryCountry">Giriş ülkesi alanı boş olamaz</string>
-    <string name="errorEmptyExitCountry">Çıkış ülkesi alanı boş olamaz</string>
     <string name="onboardingSignup">Hesap açın</string>
     <string name="offerTooltipShowOffer">Teklifi görüntüle</string>
     <string name="listItemMaintenance">Bakım yapılıyor</string>
@@ -148,8 +114,6 @@
     <string name="insufficientPermissionsTitle">Kullanıcının işlem yapması gerekli</string>
     <string name="insufficientPermissionsDetails">VPN bağlantısı otomatik olarak kurulamadı. Lütfen izinleri vermek için bir kere el ile bağlanın.</string>
     <string name="tabsCountries">Ülkeler</string>
-    <string name="tabsMap">Harita</string>
-    <string name="tabsProfiles">Profiller</string>
     <string name="log_title">Günlük</string>
     <string name="disconnect">Bağlantıyı kes</string>
     <string name="state_connecting">Bağlantı kuruluyor…</string>
@@ -158,7 +122,6 @@
     <string name="state_error">Hata</string>
     <string name="error_server_unreachable">VPN bağlantısı kurulamadı. Lütfen bağlantınızı denetleyip yeniden deneyin.</string>
     <string name="error_auth_failed">Kullanıcı kimliği doğrulanamadı.</string>
-    <string name="error_assessment_failed">Güvenlik değerlendirmesi yapılamadı.</string>
     <string name="error_generic">Bağlantı kurulurken belirlenemeyen bir sorun çıktı.</string>
     <string name="error_generic_with_reason">Proton VPN bir VPN bağlantısı kuramadı. Lütfen birkaç saniye sonra yeniden deneyin.<br/><br/> Ayrıntılar: %1$s</string>
     <string name="reconnect">Yeniden bağlan</string>
@@ -167,13 +130,6 @@
     <string name="connect">Bağlan</string>
     <string name="upgrade">Yükselt</string>
     <string name="retry">Yeniden dene</string>
-    <string name="connection_failed">Bağlantı kurulamadı</string>
-    <string name="create_new_profile">Yeni profil</string>
-    <string name="excludeAppsTitle">Katılmayacak uygulamalar</string>
-    <string name="excludeAppsDescription">VPN trafiğine katılmayacak uygulamaları ekleyin.</string>
-    <string name="profile_name">Profil adı</string>
-    <string name="profile_name_hint">Profil adını yazın</string>
-    <string name="profile_color">Profil rengi</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Ek dosyalar</string>
     <string name="report_message">Hata bildirimi iletisi</string>
@@ -185,46 +141,19 @@
     <string name="excludeIpTitle">Katılmayacak IP adresleri</string>
     <string name="discardChanges">Kaydedilmemiş değişiklikler yok sayılsın mı?</string>
     <string name="discard">Yok say</string>
-    <string name="selectedProfileColor">Lütfen profiliniz için renk seçin</string>
-    <string name="excludeIpDescription">VPN trafiğine katılmayacak IP adreslerini ekleyin.</string>
     <string name="done">TAMAM</string>
     <string name="add">EKLE</string>
     <string name="copy_to_clipboard">Kopyala</string>
-    <string name="the_list_is_empty">Liste boş</string>
     <string name="got_it">Anladım</string>
-    <string name="onboardingWelcome">Hoş geldiniz</string>
-    <string name="proton_log">Proton günlüğü</string>
     <string name="something_went_wrong">Bir şeyler ters gitti</string>
     <string name="try_again">Yeniden dene</string>
-    <string name="manage">Yönet</string>
     <string name="delete">Sil</string>
     <string name="remove">Kaldır</string>
-    <string name="deleteProfileButton">Profili sil</string>
-    <string name="deleteProfile">Profil silinsin mi?</string>
     <string name="doneButton">Tamam</string>
     <string name="saveButton">Kaydet</string>
-    <string name="recommendedHeader">Önerilen</string>
-    <string name="countryServersHeader">Ülke sunucuları</string>
-    <string name="secureCoreCountriesHeader">Secure Core ülkeleri</string>
-    <string name="recommendedProfilesHeader">Önerilen profiller</string>
-    <string name="free_connection_header">Ücretsiz bağlantı</string>
-    <string name="yourProfilesHeader">Profilleriniz</string>
-    <string name="exitCountry">Çıkış ülkesi</string>
-    <string name="entryCountry">Giriş ülkesi</string>
-    <string name="country">Ülke</string>
-    <string name="selectCountry">Ülke seçin</string>
-    <string name="serverSelection">Sunucu</string>
-    <string name="selectServer">Sunucu seçin</string>
     <string name="protocolLabel">İletişim kuralı</string>
-    <string name="selectProtocol">İletişim kuralını seçin</string>
     <string name="protocol">İletişim kuralı:</string>
-    <string name="ip">IP:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
-    <string name="server">Sunucu:</string>
-    <string name="session_time">Oturum süresi:</string>
-    <string name="download_volume">Veri miktarı:</string>
-    <string name="download_speed">Hız:</string>
-    <string name="notConnected">Bir sunucuya \n bağlı değilsiniz</string>
     <string name="activityLicensesTitle">Üçüncü taraf lisansları</string>
     <string name="stateFragmentUnknownIp">Bilinmiyor</string>
     <string name="noVpnPermissionMainTitle">VPN bağlantısı kurmak için işlem gerekli</string>
@@ -253,7 +182,6 @@
     <string name="profileRandom">Rastgele</string>
     <string name="settingsSplitTunnelingDescription">Ayrılmış tünelleme, belirli uygulamaların veya IP adreslerinin VPN trafiğine katılmamasını sağlar.</string>
     <string name="settingsSplitTunnelingTitle">Ayrılmış tünelleme</string>
-    <string name="loaderAuthenticatingUser">Kullanıcının kimliği doğrulanıyor…</string>
     <string name="loaderErrorNoInternet">İnternet bağlantısı yok</string>
     <string name="loaderErrorGeneric">Bir şeyler ters gitti</string>
     <string name="loaderLoadingServers">Sunucular yükleniyor…</string>
@@ -276,16 +204,10 @@
         <item quantity="one">%1$s ve %2$d diğer</item>
         <item quantity="other">%1$s ve %2$d diğer</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Bağlıyken bunu değiştiremezsiniz</string>
     <string name="excludeAlreadyExcluded">Zaten katılmamış</string>
     <string name="removeExcludedIpDialogDescription">IP adresi listeden kaldırılsın mı?</string>
-    <string name="loaderFetchingServers">Sunucular alınıyor…</string>
-    <string name="toastProfileSaved">Kaydedildi</string>
     <string name="tileConnected">Bağlandı: %1$s</string>
-    <string name="dialogTitleAttention">Uyarı</string>
-    <string name="saveProfileAlreadySaved">Zaten kaydedilmiş</string>
     <string name="openUrlError">%1$s açılamadı. Aygıtınızda bir tarayıcı uygulaması bulunamadı.</string>
-    <string name="toastLoginAuthVersionError">Desteklenmeyen kimlik doğrulama sürümü nedeniyle oturum açılamadı. Lütfen destek ekibiyle görüşün.</string>
     <string name="loaderErrorTimeout">Bağlantı zaman aşımına uğradı. Lütfen yeniden deneyin.</string>
     <string name="troubleshootButton">Sorun gider</string>
     <string name="activityTroubleshootTitle">Sorun giderme</string>
@@ -332,7 +254,6 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Bu istatistikler IP adresinizi içermez ve kim olduğunuzu belirlemek için kullanılamaz. Bu verileri asla üçüncü taraflar ile paylaşmayız. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="netShieldEnabledWarning">Engellenen içerikler nedeniyle bazı sitelerin tam olarak çalışmayacağını unutmayın.</string>
     <string name="netShieldDescription">Reklam, etkinlik izleyiciler ve kötü amaçlı yazılımların engellenmesini sağlar </string>
-    <string name="netshield_settings_description"><![CDATA[Kendinizi siteler ile uygulamalarda bulunabilecek reklam, kötü amaçlı yazılım ve izleyicilerden koruyun. Siteler yüklenmiyorsa NetShield özelliğini kapatmayı deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>.]]></string>
     <string name="netshield_settings_description_not_html">Kendinizi siteler ile uygulamalarda bulunabilecek reklam, kötü amaçlı yazılım ve izleyicilerden koruyun. Siteler yüklenmezse NetShield özelliğini kapatmayı deneyin. %1$s</string>
     <string name="learn_more">Ayrıntılı bilgi alın</string>
     <string name="netshield_status_on">Açık</string>
@@ -619,8 +540,6 @@
     <string name="search_recents_header_title">Son bakılanlar (%1$d)</string>
     <string name="search_clear_history">Geçmişi temizle</string>
     <string name="search_clear_history_dialog">Arama geçmişiniz kaybolacak. İlerlensin mi?</string>
-    <string name="ikev2_removed_dialog_title">IKEv2 VPN iletişim kuralı artık kullanılmıyor</string>
-    <string name="ikev2_removed_dialog_message">Daha önce IKEv2 kullanan varsayılan ayarlar ve profiller artık Smart Protocol kullanacak.</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Ayrıntılı bilgi almak için <a href="https://protonvpn.com/pricing">protonvpn.com</a> sayfasına bakın.</string>
     <string name="free_upsell_header_title">VPN Plus tarifesi ile tüm Dünya\'ya erişin</string>
