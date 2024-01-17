@@ -24,7 +24,7 @@ class MaintenanceTracker(
         scope.launch {
             vpnStateMonitor.status.collect { status ->
                 if (status.state == VpnState.Connected) {
-                    task.scheduleIn(jitterMs(getScheduleDelay()))
+                    task.scheduleIn(getScheduleDelay())
                 } else if (status.state == VpnState.Disabled) {
                     task.cancelSchedule()
                 }
@@ -32,7 +32,7 @@ class MaintenanceTracker(
         }
     }
 
-    private fun getScheduleDelay(): Long = TimeUnit.MINUTES.toMillis(appConfig.getMaintenanceTrackerDelay())
+    private fun getScheduleDelay(): Long = jitterMs(TimeUnit.MINUTES.toMillis(appConfig.getMaintenanceTrackerDelay()))
 
     private fun now() = SystemClock.elapsedRealtime()
 
