@@ -84,6 +84,7 @@
 
         <activity
             android:name=".redesign.main_screen.ui.MainActivity"
+            android:theme="@style/ProtonTheme.Splash.Vpn.Dark"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
