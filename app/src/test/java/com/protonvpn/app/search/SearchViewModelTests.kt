@@ -36,6 +36,8 @@ import com.protonvpn.android.search.SearchViewModel
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.ui.storage.UiStateStoreProvider
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -44,11 +46,13 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.app.userstorage.createDummyProfilesManager
+import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
+import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -64,6 +68,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.test.kotlin.CoroutinesTest
@@ -95,6 +100,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     private lateinit var mockApi: ProtonApiRetroFit
 
     private lateinit var testScope: TestScope
+    private lateinit var uiStateStorage: UiStateStorage
     private lateinit var vpnStateFlow: MutableStateFlow<VpnStateMonitor.Status>
     private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
     private lateinit var partnershipsRepository: PartnershipsRepository
@@ -131,9 +137,11 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
         }
         val search = Search(serverManager)
         partnershipsRepository = PartnershipsRepository(mockApi)
+        uiStateStorage = UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), mockCurrentUser)
 
         searchViewModel = SearchViewModel(
             SavedStateHandle(),
+            testScope,
             userSettings,
             mockConnectionManager,
             mockVpnStatusProviderUI,
@@ -141,12 +149,13 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
             partnershipsRepository,
             search,
             mockk(relaxed = true),
+            uiStateStorage,
             mockCurrentUser
         )
     }
 
     @Test
-    fun `when query is 'ca' matching results are returned`() = runTest {
+    fun `when query is 'ca' matching results are returned`() = testScope.runTest {
         searchViewModel.setQuery("ca")
         val state = searchViewModel.viewState.first()
 
@@ -159,7 +168,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `offline servers included in search results`() = runTest {
+    fun `offline servers included in search results`() = testScope.runTest {
         searchViewModel.setQuery("se")
         val state = searchViewModel.viewState.first()
 
@@ -174,7 +183,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `when connected to CA#1 Toronto result is shown connected`() = runTest {
+    fun `when connected to CA#1 Toronto result is shown connected`() = testScope.runTest {
         val server = MockedServers.serverList.first { it.serverName == "CA#1" }
         val connectIntent = ConnectIntent.Server(server.serverId, emptySet())
         vpnStateFlow.value =
@@ -189,7 +198,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `when connected to CA#1 Canada result is shown connected`() = runTest {
+    fun `when connected to CA#1 Canada result is shown connected`() = testScope.runTest {
         val server = MockedServers.serverList.first { it.serverName == "CA#1" }
         val connectIntent = ConnectIntent.Server(server.serverId, emptySet())
         vpnStateFlow.value =
@@ -204,7 +213,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `when city match is in second word it is shown after matches on first word`() = runTest {
+    fun `when city match is in second word it is shown after matches on first word`() = testScope.runTest {
         searchViewModel.setQuery("k")
         val state = searchViewModel.viewState.first()
 
@@ -213,7 +222,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `when country match is in second word it is shown after matches on first word`() = runTest {
+    fun `when country match is in second word it is shown after matches on first word`() = testScope.runTest {
         searchViewModel.setQuery("s")
         val state = searchViewModel.viewState.first()
 
@@ -224,7 +233,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `servers sorted by number`() = runTest {
+    fun `servers sorted by number`() = testScope.runTest {
         searchViewModel.setQuery("UA")
         val state = searchViewModel.viewState.first()
 
@@ -233,7 +242,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `accessible servers listed first`() = runTest {
+    fun `accessible servers listed first`() = testScope.runTest {
         // UA#9 is tier 1, UA#10 is tier 0.
         vpnUserFlow.value = TestUser.freeUser.vpnUser
         searchViewModel.setQuery("UA")
@@ -244,7 +253,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `when query is typed fast only the end result is added to recents`() = runTest {
+    fun `when query is typed fast only the end result is added to recents`() = testScope.runTest {
         searchViewModel.setQuery("s")
         searchViewModel.setQuery("sw")
         searchViewModel.setQuery("swi")
@@ -258,17 +267,22 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `when recents are cleared state is empty`() = runTest {
+    fun `when recents are cleared state is empty`() = testScope.runTest {
         searchViewModel.setQuery("swiss")
         delay(3100)
         searchViewModel.setQuery("")
-        assertIs<SearchViewModel.ViewState.SearchHistory>(searchViewModel.viewState.first())
-        searchViewModel.clearRecentHistory()
-        assertIs<SearchViewModel.ViewState.Empty>(searchViewModel.viewState.first())
+        val viewStates = runWhileCollecting(searchViewModel.viewState) {
+            runCurrent()
+            searchViewModel.clearRecentHistory()
+            runCurrent()
+        }
+        assertEquals(2, viewStates.size)
+        assertIs<SearchViewModel.ViewState.SearchHistory>(viewStates.first())
+        assertIs<SearchViewModel.ViewState.Empty>(viewStates.last())
     }
 
     @Test
-    fun `recents show most recent first`() = runTest {
+    fun `recents show most recent first`() = testScope.runTest {
         searchViewModel.setQuery("aaa")
         delay(3100)
         searchViewModel.setQuery("bbb")
@@ -281,7 +295,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `when the same query is saved in recents it moves to top`() = runTest {
+    fun `when the same query is saved in recents it moves to top`() = testScope.runTest {
         searchViewModel.setQuery("aaa")
         delay(3100)
         searchViewModel.setQuery("bbb")
@@ -296,7 +310,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `when a query from recents is selected it moves to top of recents`() = runTest {
+    fun `when a query from recents is selected it moves to top of recents`() = testScope.runTest {
         searchViewModel.setQuery("aaa")
         delay(3100)
         searchViewModel.setQuery("bbb")
@@ -311,7 +325,7 @@ class SearchViewModelTests : CoroutinesTest by CoroutinesTest() {
     }
 
     @Test
-    fun `when a server has partnership info then the partner is included with results`() = runTest {
+    fun `when a server has partnership info then the partner is included with results`() = testScope.runTest {
         val partnerServerId = "TlhSsVFg4dZ3_axHBlM_KWl7H4XLReby3-lr56MfzJOSrzt1VWmDBHy7-37zaxNQrE-l54lk8K0Lpd3EgLxOPw=="
         val partner = Partner("Name","Description", logicalIDs = listOf(partnerServerId))
         coEvery { mockApi.getPartnerships() } returns ApiResult.Success(PartnersResponse(
