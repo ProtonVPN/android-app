@@ -944,6 +944,11 @@
      -->
     <string name="connection_card_label_connecting">Connecting to…</string>
     <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It's shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Changing server…</string>
+    <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
 
@@ -964,7 +969,7 @@
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_connection_details">connection details</string>
+    <string name="connection_card_accessbility_label_connection_details">接続の詳細</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with information about connections in free plan.
          Only used by accessibility services.

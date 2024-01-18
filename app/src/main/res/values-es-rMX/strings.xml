@@ -906,7 +906,7 @@
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">Selección automática de [flags]</string>
+    <string name="connection_info_auto_selected_free_countries">Selección automática desde [flags]</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there
@@ -961,6 +961,11 @@
      -->
     <string name="connection_card_label_connecting">Conectando a…</string>
     <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It's shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Cambiando el servidor…</string>
+    <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
 
@@ -996,16 +1001,16 @@
      -->
     <string name="recents_headline">Recientes</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_pin">Fijar</string>
+    <string name="recent_action_pin">Anclar</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_unpin">Desfijar</string>
+    <string name="recent_action_unpin">Desanclar</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_remove">Eliminar</string>
     <!-- tag(Redesign_2023)
          State description of a pinned recent item.
          Only used by accessibility service.
     -->
-    <string name="recent_action_accessibility_state_pinned">Fijado</string>
+    <string name="recent_action_accessibility_state_pinned">Anclado</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_country_servers_in_maintenance">Todos los servidores de este país están en mantenimiento.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->

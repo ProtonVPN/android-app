@@ -53,7 +53,7 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Pokračovať</string>
     <string name="dialogLearnMore">Zistiť viac</string>
-    <string name="dialog_read_more">Zistiť viac</string>
+    <string name="dialog_read_more">Čítať viac</string>
     <string name="dialog_apply">Použiť</string>
     <string name="dialog_applying">Aplikuje sa</string>
     <string name="secureCoreConnectVia">cez %1$s</string>
@@ -92,7 +92,7 @@
     <string name="accountType">Typ účtu:</string>
     <string name="accountTier">Aktívne predplatné:</string>
     <string name="accountVersion">Verzia:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Pre spravovanie vášho účtu prejdite na <font color="%1$s">protonvpn.com</font>.]]></string>
+    <string name="accountSubscriptionDetails"><![CDATA[Ak chcete spravovať svoje predplatné, musíte prejsť do webového panela <font color="%1$s">protonvpn.com</font>.]]></string>
     <string name="accountButtonManage">Spravovať účet</string>
     <string name="accountButtonUseCoupon">Použiť kupón</string>
     <string name="accountFree">Proton VPN Free</string>
@@ -208,7 +208,7 @@
     <string name="secureCoreCountriesHeader">Secure Core krajiny</string>
     <string name="recommendedProfilesHeader">Odporúčané profily</string>
     <string name="free_connection_header">Bezplatné pripojenie</string>
-    <string name="yourProfilesHeader">Váš profil</string>
+    <string name="yourProfilesHeader">Vaše profily</string>
     <string name="exitCountry">Krajina výstupu</string>
     <string name="entryCountry">Vstupná krajina</string>
     <string name="country">Krajina</string>
@@ -230,7 +230,7 @@
     <string name="noVpnPermissionMainTitle">Na pripojenie k sieti VPN je potrebná akcia</string>
     <string name="noVpnPermissionMainMessage">Ak sa chcete pripojiť k Proton VPN, postupujte nasledovne:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Udeliť VPN oprávnenia</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Android potrebuje vaše povolenie na pripojenie k Proton VPN. Udeľte to klepnutím na „OK“, keď sa zobrazí okno „Žiadosť o pripojenie“.</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Android potrebuje vaše povolenie na pripojenie k Proton VPN. Udeľte ho klepnutím na „OK“, keď sa zobrazí okno „Žiadosť o pripojenie“.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Vypnite \"Trvalú sieť VPN\" pre ostatné VPN aplikácie</string>
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android nepodporuje viacero VPN aplikácií. Vypnite \"Trvalú sieť VPN\" pre ostatné VPN aplikácie okrem Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Proton VPN aplikácia</string>
@@ -250,7 +250,7 @@
     <string name="bugReportLabelVpnLogsTitle">Zahrnúť denníky chýb</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Odošle lokálne protokoly o chybách (aktivitu nezaznamenávame), ktoré nám pomôžu vyriešiť váš problém.</string>
     <string name="profileFastest">Najrýchlejší</string>
-    <string name="profileRandom">Náhodne</string>
+    <string name="profileRandom">Náhodný</string>
     <string name="settingsSplitTunnelingDescription">Rozdelené tunelovanie umožňuje vylúčiť určité aplikácie alebo IP adresy z prevádzky VPN.</string>
     <string name="settingsSplitTunnelingTitle">Rozdelené tunelovanie</string>
     <string name="loaderAuthenticatingUser">Overovanie používateľa…</string>
@@ -279,13 +279,13 @@
         <item quantity="other">%1$s a %2$d ďalších</item>
     </plurals>
     <string name="settingsCannotChangeWhileConnected">Počas pripojenia to nie je možné zmeniť</string>
-    <string name="excludeAlreadyExcluded">Už vylúčené</string>
+    <string name="excludeAlreadyExcluded">Už je vylúčené</string>
     <string name="removeExcludedIpDialogDescription">Odstrániť IP adresu zo zoznamu?</string>
     <string name="loaderFetchingServers">Načítanie serverov…</string>
     <string name="toastProfileSaved">Uložené</string>
     <string name="tileConnected">Pripojené: %1$s</string>
     <string name="dialogTitleAttention">Upozornenie</string>
-    <string name="saveProfileAlreadySaved">Už uložené</string>
+    <string name="saveProfileAlreadySaved">Už je uložené</string>
     <string name="openUrlError">%1$s sa nepodarilo otvoriť. Vo vašom zariadení sa nezistil webový prehliadač.</string>
     <string name="toastLoginAuthVersionError">Nedá sa prihlásiť z dôvodu nepodporovanej verzie overenia. Kontaktujte podporu.</string>
     <string name="loaderErrorTimeout">Časový limit pripojenia vypršal, skúste to prosím znovu</string>
@@ -305,10 +305,10 @@
     <string name="troubleshootContactUsSectionTitle">Stále potrebujete pomoc? Kontaktujte nás ihneď.</string>
     <string name="troubleshootCustomerSupport">Zákaznícka podpora</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternatívne smerovanie</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[V prípade, že je Proton zablokovaný, povoľte aplikácii vyskúšať alternatívne cesty na dosiahnutie Proton serverov. <a href="%1$s">Zistiť viac</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[V prípade, že je Proton blokovaný, povoľte aplikácii vyskúšať alternatívne cesty na dosiahnutie Proton serverov. <a href="%1$s">Zistiť viac</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Vládne blokovanie</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaša krajina môže blokovať prístup k Protonu. Skúste na prístup k Protonu použiť <a href=\'%1$s\'>Tor</a>.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Trvalá sieť VPN &amp; Kill Switch</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Trvalá sieť VPN &amp; Kill switch</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Nastavte správanie Proton VPN pri prerušení pripojenia</string>
     <string name="settingsAlwaysOnWindowHeader">Ako zapnúť Trvalú sieť VPN a Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Otvorte <b>Nastavenia</b> vašeho zariadenia klepnutím na tlačidlo nižšie]]></string>
@@ -995,6 +995,11 @@
      -->
     <string name="connection_card_label_connecting">Pripájanie…</string>
     <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It's shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Changing server…</string>
+    <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
 
@@ -1015,7 +1020,7 @@
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_connection_details">connection details</string>
+    <string name="connection_card_accessbility_label_connection_details">podrobnosti pripojenia</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with information about connections in free plan.
          Only used by accessibility services.

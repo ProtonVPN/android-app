@@ -961,6 +961,11 @@
      -->
     <string name="connection_card_label_connecting">Connessione a...</string>
     <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It's shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Cambio server in corso</string>
+    <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
 

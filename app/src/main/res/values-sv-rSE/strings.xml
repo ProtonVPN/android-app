@@ -695,11 +695,11 @@
     <string name="whats_new_title">Vad som är nytt</string>
     <string name="whats_new_new_look_title">Nytt utseende, samma skydd</string>
     <string name="whats_new_new_look_description">Vi uppdaterade vår design och flyttade runt några saker för att göra appen enklare att använda.</string>
-    <string name="whats_new_recents_title">Introducing Recents</string>
-    <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
+    <string name="whats_new_recents_title">Introducerar senaste</string>
+    <string name="whats_new_recents_description">Det är nu ännu enklare att ansluta till dina favoritservrar igen. Visa dina senaste anslutningar på startskärmen eller fäst dem för snabb åtkomst. Senaste ersätter profiler.</string>
     <string name="whats_new_dismiss_button">Ta en titt</string>
     <string name="whats_new_added_countries_title">Nya gratisländer</string>
-    <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
+    <string name="whats_new_added_countries_description">Det finns nu gratisservrar i Polen och Rumänien. För att förhindra serverbelastning tog vi bort manuellt val av land och gjorde stora förbättringar av automatiskt serverval.</string>
     <string name="welcome_plus_title">Välkommen till VPN Plus</string>
     <string name="welcome_plus_description">Njut av extra integritetsfunktioner, kraftfullare prestanda och nästa nivå av VPN-anpassning.</string>
     <string name="welcome_plus_feature_security">Avancerade säkerhetsfunktioner</string>
@@ -846,7 +846,7 @@
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Snabbaste land</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
-    <string name="fastest_free_server">Fastest free server</string>
+    <string name="fastest_free_server">Snabbaste gratisserver</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -906,7 +906,7 @@
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">Auto-selected from [flags]</string>
+    <string name="connection_info_auto_selected_free_countries">Automatiskt valt från [flags]</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there
@@ -917,7 +917,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">Automatiskt valt från [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -960,6 +960,11 @@
          Label above the connection card indicating that a connection is being established.
      -->
     <string name="connection_card_label_connecting">Ansluter till…</string>
+    <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It's shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Ändrar server…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
