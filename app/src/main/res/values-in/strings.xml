@@ -31,7 +31,7 @@
     <string name="loginCreateAccount">Buat akun baru</string>
     <string name="loginNeedHelp">Butuh bantuan?</string>
     <string name="connectionAllocationHelpTitle">Terima kasih karena telah meningkatkan ke\nBusiness\u00a0/\u00a0Visionary</string>
-    <string name="connectionAllocationHelpDescription1">Untuk dapat mulai menggunakan Proton VPN, harap tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
+    <string name="connectionAllocationHelpDescription1">Untuk mulai menggunakan Proton VPN, silakan tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
     <string name="connectionAllocationHelpDescription2">Langkah ini akan memakan waktu beberapa menit. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Akun ini sedang tidak memiliki koneksi VPN yang aktif. Untuk mulai menggunakan Proton VPN, silakan hubungi administrator Anda. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Aktifkan koneksi VPN</string>
@@ -63,7 +63,7 @@
     <string name="loaderConnectingTo">Menghubungkan ke %1$s</string>
     <string name="loaderConnectingToLabel">Menghubungkan ke…</string>
     <string name="loaderNotConnected">Tidak terhubung (Tanpa perlindungan)</string>
-    <string name="loaderNotConnectedSuggestion">Ketuk tombol quick connect</string>
+    <string name="loaderNotConnectedSuggestion">Ketuk tombol Quick Connect</string>
     <string name="loaderConnectedTo">Terhubung ke %1$s</string>
     <string name="loaderConnectedToLabel">Terhubung ke:</string>
     <string name="loaderDisconnecting">Memutuskan</string>
@@ -344,7 +344,7 @@
     <string name="netshield_ads_title">Iklan</string>
     <string name="netshield_ads_details">Iklan dan pelacak iklan tersembunyi</string>
     <string name="netshield_trackers_title">Pelacak</string>
-    <string name="netshield_trackers_details">Kuku dan pelacak lainnya yang menyimpan dan membagikan informasi tentang aktivitas internet Anda</string>
+    <string name="netshield_trackers_details">Cookie dan pelacak lainnya yang menyimpan dan membagikan informasi seputar aktivitas internet Anda</string>
     <string name="netshield_data_title">Data</string>
     <string name="netshield_data_details">Jumlah data tidak diinginkan dari iklan, pelacak, dan perangkat lunak jahat yang diblokir oleh NetShield</string>
     <string name="accessibility_netshield_status_on_click">Masukkan pengaturan NetShield</string>
@@ -438,8 +438,8 @@
         <item quantity="other">Mohon putuskan sambungan yang telah ada agar perangkat ini dapat tersambung atau tingkatkan akun Anda ke Plus untuk dapat menyambungkan hingga %1$d perangkat dalam satu waktu.</item>
     </plurals>
     <string name="notification_max_sessions_content">Mohon putuskan perangkat lain agar perangkat ini dapat terhubung.</string>
-    <string name="notification_cancel_to_free">Anda sedang menggunakan layanan Free. Anda akan dapat menikmati berbagai fitur dan server Free yang tersedia.</string>
-    <string name="notification_cancel_to_basic">Anda sedang menggunakan layanan Basic. Anda akan dapat menikmati berbagai fitur dan server Basic &amp; Gratis yang tersedia.</string>
+    <string name="notification_cancel_to_free">Anda sedang berada dalam paket Free. Anda akan dapat menikmati berbagai server dan fitur Free yang tersedia.</string>
+    <string name="notification_cancel_to_basic">Anda sedang berada dalam paket Basic. Anda akan dapat menikmati berbagai server dan fitur Basic &amp; Free yang tersedia.</string>
     <string name="notification_cancel_to_delinquent">Anda akan kembali dapat mengakses berbagai fitur premium setelah seluruh tagihan yang tertunda dilunasi.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Dari server: </string>
@@ -537,20 +537,20 @@
     <!-- Information activity -->
     <string name="activity_information_title">Informasi</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Server plus</string>
+    <string name="activity_information_plus_title">%1$s - Server Plus</string>
     <string name="activity_information_gateways_title">Apa itu gateway?</string>
     <string name="info_features">Fitur</string>
     <string name="smart_routing_title">Smart Routing</string>
-    <string name="smart_routing_description">Teknologi ini memungkinkan Proton VPN untuk menyediakan kecepatan dan keamanan layanan yang lebih tinggi di negara yang masih berkembang.</string>
-    <string name="streaming_title">Tontonan</string>
-    <string name="streaming_description">Server Plus memungkinkan Anda untuk dapat mengakses berbagai layanan streaming (Netflix, Disney+, dll) di manapun Anda berada.</string>
+    <string name="smart_routing_description">Teknologi ini memungkinkan Proton VPN untuk menyediakan layanan yang lebih cepat dan lebih aman pada berbagai negara dengan pembatasan internet yang ketat.</string>
+    <string name="streaming_title">Streaming</string>
+    <string name="streaming_description">Server Plus memungkinkan Anda untuk mengakses berbagai layanan streaming (Netflix, Disney+, dll) di mana pun Anda berada.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Server berikut memberikan performa terbaik dalam hal BitTorrent dan file-sharing.</string>
     <string name="tor_title">Tor</string>
     <string name="tor_description">Alihkan lalu lintas internet Anda melalui jaringan Tor. Lebih lambat, namun lebih privat.</string>
     <string name="info_performance">Performa</string>
     <string name="server_load_title">Beban Server</string>
-    <string name="server_load_description">Server dengan beban yang tinggi akan memberikan koneksi yang lebih lambat dibanding server dengan beban yang rendah.</string>
+    <string name="server_load_description">Server dengan muatan yang tinggi akan lebih lambat dibanding server dengan muatan yang rendah.</string>
     <string name="streaming_title_with_country">Streaming - %1$s</string>
     <string name="streaming_services_description">Hubungkan VPN Anda ke server Plus yang terletak di negara ini untuk memulai streaming.\n\Tips: Bersihkan cache aplikasi streaming yang Anda gunakan untuk memuat konten baru.</string>
     <string name="partnership_free_title">Server Free</string>
@@ -606,7 +606,7 @@
     <string name="search_empty_hint_cities"><![CDATA[Kota: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
     <string name="search_empty_hint_usa_regions"><![CDATA[Negara bagian AS: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
     <string name="search_empty_hint_servers"><![CDATA[Server: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
-    <string name="search_empty_result_subtitle">Mohon coba kata kunci pencarian yang berbeda</string>
+    <string name="search_empty_result_subtitle">Silakan coba kata kunci pencarian lainnya</string>
     <string name="search_empty_result_title">Tidak ada hasil yang ditemukan</string>
     <string name="search_recents_header_title">Baru dilihat (%1$d)</string>
     <string name="search_clear_history">Hapus riwayat</string>
@@ -667,7 +667,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
+    <string name="server_change_button_time_left_content_description">Tersedia dalam %1$s %2$s</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -675,8 +675,8 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
-    <string name="server_change_progress_finished_contend_description">Available now</string>
+    <string name="server_change_button_time_left_seconds_content_description">Tersedia dalam %1$s</string>
+    <string name="server_change_progress_finished_contend_description">Saat ini tersedia</string>
     <string name="not_wanted_country_title">Bukan negara yang Anda inginkan?</string>
     <string name="not_wanted_country_description">Tingkatkan untuk memilih server mana pun</string>
     <string name="whats_new_title">Apa yang baru</string>
@@ -830,7 +830,7 @@
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Negara tercepat</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
-    <string name="fastest_free_server">Fastest free server</string>
+    <string name="fastest_free_server">Server Free tercepat</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -890,7 +890,7 @@
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">Auto-selected from [flags]</string>
+    <string name="connection_info_auto_selected_free_countries">Terpilih secara otomatis dari [flags]</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there
@@ -901,7 +901,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">Terpilih secara otomatis dari [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -909,7 +909,7 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="other">Auto-selected from %1$d countries</item>
+        <item quantity="other">Terpilih secara otomatis dari %1$d negara</item>
     </plurals>
     <!-- tag(Redesign_2023)
          Help button above the connection card.
@@ -944,6 +944,11 @@
      -->
     <string name="connection_card_label_connecting">Menghubungkan ke…</string>
     <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It's shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Mengubah server…</string>
+    <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
 
@@ -964,7 +969,7 @@
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_connection_details">connection details</string>
+    <string name="connection_card_accessbility_label_connection_details">rincian koneksi</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with information about connections in free plan.
          Only used by accessibility services.
@@ -973,7 +978,7 @@
          a button with this description will be read by a screen reader as:
          "more information about free connections, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_free_connections">more information about free connections</string>
+    <string name="connection_card_accessbility_label_free_connections">informasi lebih lanjut mengenai koneksi Free</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -1106,11 +1111,11 @@
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
-    <string name="connection_details_server_load">Beban server</string>
+    <string name="connection_details_server_load">Muatan server</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_question">Apa itu beban server?</string>
+    <string name="connection_details_server_load_question">Apa itu muatan server?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">Beban server menunjukkan seberapa dekat server dengan kapasitas maksimumnya. \n\nBeban server yang tinggi dapat memperlambat koneksi Anda.</string>
+    <string name="connection_details_server_load_description">Muatan server menunjukkan seberapa sibuk suatu server relatif terhadap kapasitas maksimumnya. \n\nMuatan server yang tinggi dapat memperlambat koneksi Anda.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_title">Rendah (1–75%)</string>
     <!-- tag(Redesign_2023) -->
@@ -1118,7 +1123,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_medium_title">Sedang (76–90%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_description">Tidak mungkin mempengaruhi kecepatan VPN</string>
+    <string name="connection_details_server_load_medium_description">Tidak berpengaruh pada kecepatan VPN secara garis besar</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Tinggi (91–100%)</string>
     <!-- tag(Redesign_2023) -->
@@ -1148,7 +1153,7 @@
     -->
     <string name="connection_details_unknown_ip">Tidak diketahui</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_description">Grafik ini menampilkan kecepatan aktivitas unggah dan unduh Anda. Koneksi VPN Anda sebagian besar tidak akan memperlambat aktivitas daring biasa.</string>
+    <string name="connection_details_vpn_speed_description">Grafik ini menampilkan kecepatan aktivitas unggahan dan unduhan Anda saat ini. Pada umumnya, koneksi VPN tidak akan memperlambat aktivitas online normal Anda.</string>
     <!-- tag(Redesign_2023) -->
     <string name="speed_bits_per_second">%1$s b/s</string>
     <!-- tag(Redesign_2023) -->

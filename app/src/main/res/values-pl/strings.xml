@@ -706,7 +706,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">Dostępny za %1$s %2$s</string>
+    <string name="server_change_button_time_left_content_description">Dostępny za: %1$s %2$s</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -714,7 +714,7 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">Dostępny za %1$s</string>
+    <string name="server_change_button_time_left_seconds_content_description">Dostępny za: %1$s</string>
     <string name="server_change_progress_finished_contend_description">Dostępny</string>
     <string name="not_wanted_country_title">Chcesz wybrać inny kraj?</string>
     <string name="not_wanted_country_description">Ulepsz konto, aby wybrać inny serwer</string>
@@ -995,6 +995,11 @@
      -->
     <string name="connection_card_label_connecting">Łączenie z…</string>
     <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It's shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Zmienianie serwera…</string>
+    <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
 
@@ -1006,7 +1011,7 @@
          Fastest country
          Germany
      -->
-    <string name="connection_card_label_connected">Bezpieczne przeglądanie stron z</string>
+    <string name="connection_card_label_connected">Przeglądasz Internet z</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with details of the current VPN connection.
          Only used by accessibility services.

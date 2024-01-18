@@ -995,6 +995,11 @@
      -->
     <string name="connection_card_label_connecting">Падключэнне да…</string>
     <!-- tag(Redesign_2023)
+         Label above the connection card indicating that a connection to a different server is
+         being established. It's shown only in response to user clicking the "Change server" button.
+     -->
+    <string name="connection_card_label_changing_server">Змяненне сервера...</string>
+    <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
 
@@ -1041,7 +1046,7 @@
     -->
     <string name="recent_action_accessibility_state_pinned">Замацавана</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">Усе серверы ў гэтай краіны на тэхнічным абслугоўванні</string>
+    <string name="message_country_servers_in_maintenance">Усе серверы ў гэтай краіне на тэхнічным абслугоўванні</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Усе серверы ў гэтым горадзе на тэхнічным абслугоўванні</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1069,7 +1074,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Пашырыныя налады</string>
+    <string name="settings_advanced_settings_title">Пашыраныя налады</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">Агульныя</string>
     <!-- tag(Redesign_2023) -->
@@ -1099,7 +1104,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_restore_defaults_title">Аднавіць прадвызначаныя налады</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Выйсці з уліковага запісу</string>
+    <string name="settings_sign_out_title">Выйсці</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">Версія праграмы: %1$s</string>
     <!-- tag(Redesign_2023) -->
@@ -1111,7 +1116,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">Больш не пытаць</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_action">Выйсці з уліковага запісу</string>
+    <string name="dialog_sign_out_action">Выйсці</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Скасаваць</string>
     <!-- tag(Redesign_2023)
@@ -1222,7 +1227,7 @@
         <item quantity="other">%1$d дзён</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d г</string>
+    <string name="connection_details_hours_shortened">%1$d гадз</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_minutes_shortened">%1$d хв</string>
     <!-- tag(Redesign_2023) -->
