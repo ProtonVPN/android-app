@@ -43,9 +43,6 @@ class ProfileManager @VisibleForTesting constructor(
 ) {
 
     val profiles = MutableStateFlow(savedProfiles.profileList.toList())
-    // TODO: remove the LiveDatas once there is no more Java code using them.
-    val profilesLiveData = profiles.asLiveData()
-    val fallbackProfile get() = getSavedProfiles().first()
 
     @Inject
     constructor(

@@ -18,8 +18,6 @@
  */
 package com.protonvpn.android.vpn
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
@@ -27,12 +25,10 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.vpn.VpnState.Connected
 import com.protonvpn.android.vpn.VpnState.Disabled
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -41,12 +37,6 @@ import javax.inject.Singleton
 abstract class VpnStatusProvider {
 
     abstract val status: StateFlow<VpnStateMonitor.Status>
-
-    val isConnectedOrDisconnectedFlow: Flow<Boolean> get() = status
-        .filter { it.state == Connected || it.state == Disabled }
-        .map { it.state == Connected }
-    val isConnectedOrDisconnectedLiveData: LiveData<Boolean> get() =
-        isConnectedOrDisconnectedFlow.asLiveData()
 
     val state get() = status.value.state
     val connectionParams get() = status.value.connectionParams
@@ -64,9 +54,6 @@ abstract class VpnStatusProvider {
     val connectionIntent
         get() = connectionParams?.connectIntent
 
-    val isConnectingToSecureCore
-        get() = connectingToServer?.isSecureCoreServer == true
-
     val connectionProtocol
         get() = connectionParams?.protocolSelection
 
@@ -78,11 +65,6 @@ abstract class VpnStatusProvider {
 
     fun isConnectingToCountry(country: String) =
         connectingToServer?.exitCountry == country
-
-    fun isConnectedToAny(servers: List<Server>) =
-        isConnected && connectionParams?.server?.domain?.let { connectingToDomain ->
-            connectingToDomain in servers.asSequence().map { it.domain }
-        } == true
 }
 
 @Singleton
@@ -141,7 +123,4 @@ class VpnStatusProviderUI @Inject constructor(
                 Status(Disabled, null)
         }
         .stateIn(scope, SharingStarted.Eagerly, Status(Disabled, null))
-
-    // Temporary for poor java classes
-    val uiStatusLiveData get() = uiStatus.asLiveData()
 }
