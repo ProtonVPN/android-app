@@ -19,6 +19,8 @@
 
 package com.protonvpn.app.appconfig.periodicupdates
 
+import com.protonvpn.android.appconfig.periodicupdates.MAX_JITTER_DELAY_MS
+import com.protonvpn.android.appconfig.periodicupdates.MAX_JITTER_RATIO
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicActionResult
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicCallInfo
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
@@ -55,6 +57,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import kotlin.random.Random
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -374,10 +377,24 @@ class PeriodicUpdateManagerTests {
     }
 
     @Test
-    fun `random jitter is applied to delay override`() = testScope.runTest {
-        every { mockRandom.nextFloat() } returns 1f // This translates to max jitter which is 20% of the delay.
+    fun `random jitter is applied to delay override`() =
+        jitterTest(1f, 15.minutes, (15 * 0.2).minutes)
 
-        val delayOverride = 15.minutes
+    @Test
+    fun `random jitter is applied to delay override with fraction`() =
+        jitterTest(0.5f, 15.minutes, (15 * 0.1).minutes)
+
+    @Test
+    fun `random jitter doesn't exceed maximum`() =
+        jitterTest(1f, (100 * MAX_JITTER_DELAY_MS).milliseconds, MAX_JITTER_DELAY_MS.milliseconds)
+
+    @Test
+    fun `random jitter doesn't exceed maximum with fraction`() =
+        jitterTest(0.5f, (100 * MAX_JITTER_DELAY_MS).milliseconds, (MAX_JITTER_DELAY_MS * 0.5).milliseconds)
+
+    private fun jitterTest(diceResult: Float, delayOverride: Duration, expectedJitter: Duration) = testScope.runTest {
+        every { mockRandom.nextFloat() } returns diceResult // This translates to [0,1] fraction of max jitter
+
         fun actionFunc(): ApiResult<Unit> = ApiResult.Error.Http(429, "", retryAfter = delayOverride)
         val action =
             periodicUpdateManager.registerApiCall("action", ::actionFunc, PeriodicUpdateSpec(DELAY_MS, emptySet()))
@@ -385,10 +402,10 @@ class PeriodicUpdateManagerTests {
         advanceTimeBy(100) // Start at time > 0 to test that it is included in results.
         periodicUpdateManager.start()
 
-        val expectedTimestamp = currentTime + (delayOverride * 1.2).inWholeMilliseconds
+        val expectedTimestamp = currentTime + (delayOverride + expectedJitter).inWholeMilliseconds
         coVerify { mockScheduler.scheduleAt(expectedTimestamp) }
         assertEquals(
-            listOf(PeriodicCallInfo(action.id, currentTime, false, 0.2f, expectedTimestamp, null)),
+            listOf(PeriodicCallInfo(action.id, currentTime, false, diceResult * MAX_JITTER_RATIO, expectedTimestamp, null)),
             periodicUpdatesDao.getAll()
         )
     }

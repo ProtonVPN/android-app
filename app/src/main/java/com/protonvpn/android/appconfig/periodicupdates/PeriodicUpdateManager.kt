@@ -47,8 +47,8 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.HttpResponseCodes
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
-import me.proton.core.network.domain.retryAfter
 import me.proton.core.util.kotlin.DispatcherProvider
+import org.jetbrains.annotations.VisibleForTesting
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -56,8 +56,8 @@ import kotlin.random.Random
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
-private const val MAX_JITTER_RATIO = .2f
-private val MAX_JITTER_DELAY_MS = TimeUnit.HOURS.toMillis(1)
+@VisibleForTesting const val MAX_JITTER_RATIO = .2f
+@VisibleForTesting val MAX_JITTER_DELAY_MS = TimeUnit.HOURS.toMillis(1)
 private val APP_NOT_IN_USE_DELAY_MS = TimeUnit.DAYS.toMillis(2)
 private val RUNAWAY_DETECT_INTERVAL_MS = TimeUnit.MINUTES.toMillis(10)
 private const val RUNAWAY_EXECUTION_THRESHOLD = 5
@@ -414,8 +414,10 @@ class PeriodicUpdateManager @Inject constructor(
             }
         }
 
-    private fun Long.withJitter(ratio: Float) =
-        this + (this * ratio).toLong().coerceAtMost(MAX_JITTER_DELAY_MS)
+    private fun Long.withJitter(ratio: Float) : Long {
+        val scaledMaxDelayMs = (MAX_JITTER_DELAY_MS / MAX_JITTER_RATIO).toLong()
+        return this + (this.coerceAtMost(scaledMaxDelayMs) * ratio).toLong()
+    }
 
     private fun randomJitterRatio() = random.nextFloat() * MAX_JITTER_RATIO
 
