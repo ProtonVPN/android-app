@@ -740,7 +740,6 @@ dependencies {
     implementation 'androidx.activity:activity-ktx:1.8.1'
     implementation 'androidx.fragment:fragment-ktx:1.6.2'
     implementation 'io.sentry:sentry-android:6.34.0'
-    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

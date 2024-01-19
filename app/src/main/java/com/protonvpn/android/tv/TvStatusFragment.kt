@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.tv
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,8 +28,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.TvStatusViewBinding
 import com.protonvpn.android.tv.main.TvMainViewModel
@@ -122,11 +121,11 @@ class TvStatusFragment : Fragment() {
 
     private fun showErrorDialog(content: CharSequence) {
         viewModel.disconnect(DisconnectTrigger.Error("status (TV)"))
-        MaterialDialog.Builder(requireContext()).theme(Theme.DARK)
-            .title(R.string.tv_vpn_error_dialog_title)
-            .content(content)
-            .cancelable(false)
-            .negativeText(R.string.close)
-            .show()
+        showTvDialog(requireContext(), focusedButton = DialogInterface.BUTTON_NEGATIVE) {
+            setTitle(R.string.tv_vpn_error_dialog_title)
+            setMessage(content)
+            setCancelable(false)
+            setNegativeButton(R.string.close, null)
+        }
     }
 }

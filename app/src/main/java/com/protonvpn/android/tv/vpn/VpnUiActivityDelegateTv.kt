@@ -20,16 +20,15 @@
 package com.protonvpn.android.tv.vpn
 
 import android.annotation.TargetApi
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import androidx.activity.ComponentActivity
-import com.afollestad.materialdialogs.DialogAction
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.tv.TvUpgradeActivity
+import com.protonvpn.android.tv.showTvDialog
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
@@ -55,19 +54,18 @@ class VpnUiActivityDelegateTv(
     }
 
     override fun showMaintenanceDialog() {
-        MaterialDialog.Builder(activity).theme(Theme.DARK)
-            .title(R.string.restrictedMaintenanceTitle)
-            .content(R.string.restrictedMaintenanceDescription)
-            .negativeFocus(true)
-            .negativeText(R.string.got_it)
-            .show()
+        showTvDialog(activity, focusedButton = DialogInterface.BUTTON_NEUTRAL) {
+            setTitle(R.string.restrictedMaintenanceTitle)
+            setMessage(R.string.restrictedMaintenanceDescription)
+            setNeutralButton(R.string.got_it, null)
+        }
     }
 
     override fun onProtocolNotSupported() {
-        MaterialDialog.Builder(activity).theme(Theme.DARK)
-            .content(R.string.profileProtocolNotAvailable)
-            .positiveText(R.string.close)
-            .show()
+        showTvDialog(activity, focusedButton = DialogInterface.BUTTON_NEUTRAL) {
+            setMessage(R.string.profileProtocolNotAvailable)
+            setNeutralButton(R.string.close, null)
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.N)
@@ -77,10 +75,12 @@ class VpnUiActivityDelegateTv(
                 R.string.error_prepare_vpn_description, Constants.URL_SUPPORT_PERMISSIONS
             )
         )
-        MaterialDialog.Builder(activity).theme(Theme.DARK).title(R.string.error_prepare_vpn_title)
-            .content(content).positiveText(R.string.error_prepare_vpn_settings)
-            .onPositive { _: MaterialDialog?, _: DialogAction? ->
+        showTvDialog(activity, focusedButton = DialogInterface.BUTTON_POSITIVE) {
+            setTitle(R.string.error_prepare_vpn_title)
+            setMessage(content)
+            setPositiveButton(R.string.error_prepare_vpn_settings) { _, _ ->
                 activity.startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
-            }.show()
+            }
+        }
     }
 }

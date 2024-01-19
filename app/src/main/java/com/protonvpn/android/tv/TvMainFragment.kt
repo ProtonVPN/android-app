@@ -18,12 +18,14 @@
  */
 package com.protonvpn.android.tv
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Outline
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
@@ -38,8 +40,6 @@ import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.BaseTvBrowseFragment
@@ -172,16 +172,13 @@ class TvMainFragment : BaseTvBrowseFragment() {
     }
 
     private fun logout() {
-        MaterialDialog.Builder(requireContext()).theme(Theme.DARK)
-            .title(R.string.tv_signout_dialog_title)
-            .apply {
-                if (viewModel.isConnected())
-                    content(R.string.tv_signout_dialog_description_connected)
-            }
-            .positiveText(R.string.tv_signout_dialog_ok)
-            .onPositive { _, _ -> viewModel.logout() }
-            .negativeText(R.string.cancel)
-            .show()
+        showTvDialog(requireContext(), focusedButton = DialogInterface.BUTTON_NEGATIVE) {
+            setTitle(R.string.tv_signout_dialog_title)
+            setPositiveButton(R.string.tv_signout_dialog_ok) { _, _ -> viewModel.logout() }
+            setNegativeButton(R.string.cancel, null)
+            if (viewModel.isConnected())
+                setMessage(R.string.tv_signout_dialog_description_connected)
+        }
     }
 
     private fun ArrayObjectAdapter.updateRecentsRow() {

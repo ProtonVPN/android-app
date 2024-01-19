@@ -20,15 +20,14 @@
 package com.protonvpn.android.tv.usecases
 
 import android.content.Context
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
+import android.content.DialogInterface
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.tv.showTvDialog
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -54,12 +53,10 @@ class TvUiConnectDisconnectHelper @Inject constructor(
     }
 
     fun showMaintenanceDialog(context: Context) {
-        MaterialDialog.Builder(context)
-            .theme(Theme.DARK)
-            .negativeFocus(true)
-            .title(R.string.tv_country_maintenance_dialog_title)
-            .content(R.string.tv_country_maintenance_dialog_description)
-            .negativeText(R.string.ok)
-            .show()
+        showTvDialog(context, DialogInterface.BUTTON_NEUTRAL) {
+            setTitle(R.string.tv_country_maintenance_dialog_title)
+            setMessage(R.string.tv_country_maintenance_dialog_description)
+            setNeutralButton(R.string.ok, null)
+        }
     }
 }

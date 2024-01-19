@@ -27,8 +27,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.protonvpn.base.BaseRobot
 import com.protonvpn.android.R
+import com.protonvpn.base.BaseRobot
 import com.protonvpn.testsTv.verification.ConnectionVerify
 
 /**
@@ -40,8 +40,8 @@ class TvCountryListRobot : BaseRobot() {
 
     fun connectToRecommendedCountry() : TvCountryListRobot = clickElementByText(R.string.tv_quick_connect_recommened)
     fun disconnectFromCountry() : TvCountryListRobot = clickElementByText(R.string.disconnect)
-    fun confirmSignOut() : TvLoginRobot = clickElementById(R.id.md_buttonDefaultPositive)
-    fun cancelSignOut() : TvCountryListRobot = clickElementById(R.id.md_buttonDefaultNegative)
+    fun confirmSignOut() : TvLoginRobot = clickDialogElementByText(R.string.dialog_sign_out_action)
+    fun cancelSignOut() : TvCountryListRobot = clickDialogElementByText(R.string.cancel)
     fun getConnectionStatus() : String = getText(onView(withId(R.id.textStatus)))
 
     fun connectToFavouriteCountry() : TvCountryListRobot {
@@ -74,7 +74,7 @@ class TvCountryListRobot : BaseRobot() {
         fun userIsLoggedIn() = checkIfElementIsDisplayedById(R.id.textStatus)
 
         fun signOutWhileConnectedWarningMessageIsDisplayed() =
-                checkIfElementByIdContainsText(R.id.md_content,R.string.tv_signout_dialog_description_connected)
+            checkIfDialogContainsText(R.string.tv_signout_dialog_description_connected)
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
