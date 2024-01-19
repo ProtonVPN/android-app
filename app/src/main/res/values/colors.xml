@@ -45,5 +45,6 @@
     <color name="tvGuidedActionsBackgroundDark">#BD6566</color>
     <color name="tvDisconnectButtonTint">#AA2e2e34</color>
     <color name="tvGridItemOverlay">#774b4b56</color>
+    <color name="tvDialogBackground">#292733</color>
 
 </resources>

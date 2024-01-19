@@ -25,6 +25,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.google.common.truth.Truth.assertThat
 import com.protonvpn.matchers.ProtonMatcher
+import me.proton.core.test.android.instrumented.ui.espresso.OnView
 
 /**
  * [BaseVerify] Contains common view independent verification methods
@@ -67,13 +68,11 @@ open class BaseVerify : BaseRobot() {
     fun checkIfElementIsDisplayedByText(text: String, clazz: Class<*>) =
         view.instanceOf(clazz).withText(text).checkDisplayed()
 
-    fun checkIfElementByIdContainsText(@IdRes id: Int, @StringRes resId: Int) =
-        view.withId(id)
-            .checkContains(
-                InstrumentationRegistry.getInstrumentation().targetContext.getString(
-                    resId
-                )
-            )
+    fun checkIfDialogContainsText(@StringRes textRes: Int): OnView =
+        view.withText(textRes)
+            .inRoot(rootView.isDialog())
+            .checkDisplayed()
+
 
     fun checkIfElementIsChecked(@IdRes id: Int) = view.withId(id).checkIsChecked()
 

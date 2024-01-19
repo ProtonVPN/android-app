@@ -25,6 +25,7 @@ import androidx.annotation.StringRes
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers
 import me.proton.core.test.android.robots.CoreRobot
 import org.hamcrest.Matcher
@@ -47,6 +48,14 @@ open class BaseRobot : CoreRobot() {
             view
                 .withVisibility(ViewMatchers.Visibility.VISIBLE)
                 .withId(id)
+                .click()
+        }
+
+    inline fun <reified T> clickDialogElementByText(@StringRes textRes: Int): T =
+        executeAndReturnRobot {
+            view.withText(textRes)
+                .inRoot(rootView.isDialog())
+                .checkDisplayed()
                 .click()
         }
 
