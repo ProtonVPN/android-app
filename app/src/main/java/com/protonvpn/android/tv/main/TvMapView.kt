@@ -30,8 +30,6 @@ import androidx.activity.ComponentActivity
 import androidx.core.animation.addListener
 import androidx.core.graphics.and
 import androidx.lifecycle.lifecycleScope
-import com.protonvpn.android.R
-import com.protonvpn.android.components.ContentLayout
 import com.protonvpn.android.utils.inCoordsOf
 import com.protonvpn.android.utils.scale
 import kotlinx.coroutines.CoroutineScope
@@ -42,7 +40,6 @@ import kotlin.coroutines.suspendCoroutine
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
-@ContentLayout(R.layout.activity_tv_main)
 class TvMapView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
