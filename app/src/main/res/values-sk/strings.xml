@@ -41,7 +41,6 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Pokračovať</string>
     <string name="dialogLearnMore">Zistiť viac</string>
-    <string name="dialog_read_more">Čítať viac</string>
     <string name="dialog_apply">Použiť</string>
     <string name="dialog_applying">Aplikuje sa</string>
     <string name="secureCoreConnectVia">cez %1$s</string>
@@ -152,18 +151,6 @@
     <string name="remove">Odstrániť</string>
     <string name="doneButton">Hotovo</string>
     <string name="saveButton">Uložiť</string>
-    <string name="recommendedHeader">Odporúčané</string>
-    <string name="countryServersHeader">Servery krajiny</string>
-    <string name="secureCoreCountriesHeader">Secure Core krajiny</string>
-    <string name="recommendedProfilesHeader">Odporúčané profily</string>
-    <string name="free_connection_header">Bezplatné pripojenie</string>
-    <string name="yourProfilesHeader">Vaše profily</string>
-    <string name="exitCountry">Krajina výstupu</string>
-    <string name="entryCountry">Vstupná krajina</string>
-    <string name="country">Krajina</string>
-    <string name="selectCountry">Vyberte krajinu</string>
-    <string name="serverSelection">Server</string>
-    <string name="selectServer">Vyberte server</string>
     <string name="protocolLabel">Protokol</string>
     <string name="protocol">Protokol:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
@@ -219,12 +206,9 @@
         <item quantity="many">%1$s a %2$d ďalších</item>
         <item quantity="other">%1$s a %2$d ďalších</item>
     </plurals>
-    <string name="settingsCannotChangeWhileConnected">Počas pripojenia to nie je možné zmeniť</string>
     <string name="excludeAlreadyExcluded">Už je vylúčené</string>
     <string name="removeExcludedIpDialogDescription">Odstrániť IP adresu zo zoznamu?</string>
     <string name="tileConnected">Pripojené: %1$s</string>
-    <string name="dialogTitleAttention">Upozornenie</string>
-    <string name="saveProfileAlreadySaved">Už je uložené</string>
     <string name="openUrlError">%1$s sa nepodarilo otvoriť. Vo vašom zariadení sa nezistil webový prehliadač.</string>
     <string name="loaderErrorTimeout">Časový limit pripojenia vypršal, skúste to prosím znovu</string>
     <string name="troubleshootButton">Riešenie problémov</string>
