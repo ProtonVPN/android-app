@@ -27,7 +27,9 @@ import com.protonvpn.android.utils.flatMapLatestNotNull
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,9 +43,13 @@ class RecentsManager @Inject constructor(
     private val mainScope: CoroutineScope,
     private val recentsDao: RecentsDao,
     currentUser: CurrentUser,
-    @WallClock private val clock: () -> Long
+    @WallClock private val clock: () -> Long,
+    private val migrateProfiles: MigrateProfiles,
 ) {
-    private val currentVpnUser = currentUser.vpnUserFlow.shareIn(mainScope, SharingStarted.Eagerly, 1)
+    private val currentVpnUser = flow {
+        migrateProfiles()
+        emitAll(currentUser.vpnUserFlow)
+    }.shareIn(mainScope, SharingStarted.Eagerly, 1)
 
     fun getRecentsList(): Flow<List<RecentConnection>> = currentVpnUser.flatMapLatestNotNull { user ->
         recentsDao.getRecentsList(user.userId)

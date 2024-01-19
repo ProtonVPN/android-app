@@ -37,6 +37,7 @@ import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.usecases.MigrateProfiles
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.userstorage.ProfileManager
@@ -114,6 +115,7 @@ class MigrateProfileTests {
 
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val userSettingsCached = EffectiveCurrentUserSettingsCached(settingsFlow)
+        val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
 
         profileManager = ProfileManager(
             SavedProfilesV3.defaultProfiles(),
@@ -138,7 +140,7 @@ class MigrateProfileTests {
         }
         serverManager.setBuiltInGuestHoleServersForTesting(emptyList())
 
-        migrateProfiles = MigrateProfiles(profileManager, serverManager, recentsDao, currentUser)
+        migrateProfiles = MigrateProfiles(profileManager, serverManager, recentsDao, currentUser, userSettings)
     }
 
     @Test
@@ -247,7 +249,7 @@ class MigrateProfileTests {
     private suspend fun testMigration(userProfiles: List<Profile>, expectedIntents: List<ConnectIntent>) {
         userProfiles.forEach { profileManager.addToProfileList(it) }
 
-        migrateProfiles(LocalUserSettings.Default)
+        migrateProfiles()
 
         val migratedConnectIntents = recentsDao.getRecentsList(userId).first().map { it.connectIntent }
         assertEquals(expectedIntents, migratedConnectIntents)

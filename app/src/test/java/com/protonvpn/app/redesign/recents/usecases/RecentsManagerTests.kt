@@ -24,6 +24,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.data.RecentsDao
+import com.protonvpn.android.redesign.recents.usecases.MigrateProfiles
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -47,6 +48,8 @@ class RecentsManagerTests {
 
     @RelaxedMockK
     private lateinit var mockRecentsDao: RecentsDao
+    @RelaxedMockK
+    private lateinit var mockMigrateProfiles: MigrateProfiles
 
     private lateinit var currentUserProvider: TestCurrentUserProvider
     private lateinit var testScope: TestScope
@@ -62,7 +65,7 @@ class RecentsManagerTests {
         val currentUser =
             CurrentUser(testScope.backgroundScope, currentUserProvider)
         recentsManager =
-            RecentsManager(testScope.backgroundScope, mockRecentsDao, currentUser, { testScope.currentTime })
+            RecentsManager(testScope.backgroundScope, mockRecentsDao, currentUser, { testScope.currentTime }, mockMigrateProfiles)
     }
 
     @Test
