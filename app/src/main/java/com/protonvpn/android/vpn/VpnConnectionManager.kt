@@ -75,7 +75,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.coroutineContext
 
-private val UNREACHABLE_MIN_INTERVAL_MS = TimeUnit.MINUTES.toMillis(1)
+private val UNREACHABLE_MIN_INTERVAL_MS = StuckConnectionHandler.STUCK_DURATION_MS + TimeUnit.SECONDS.toMillis(10)
 
 enum class ReasonRestricted { SecureCoreUpgradeNeeded, PlusUpgradeNeeded, Maintenance }
 

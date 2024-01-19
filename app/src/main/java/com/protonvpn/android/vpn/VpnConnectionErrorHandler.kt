@@ -23,6 +23,7 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.logging.ConnServerSwitchFailed
 import com.protonvpn.android.logging.ConnServerSwitchServerSelected
 import com.protonvpn.android.logging.ConnServerSwitchTrigger
@@ -47,11 +48,13 @@ import com.protonvpn.android.utils.UserPlanManager.InfoChange.VpnCredentials
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.HttpResponseCodes
 import me.proton.core.network.domain.NetworkManager
 import java.io.Serializable
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -109,6 +112,32 @@ sealed class VpnFallbackResult : Serializable {
 
 data class PhysicalServer(val server: Server, val connectingDomain: ConnectingDomain)
 
+class StuckConnectionHandler(val elapsedMs: () -> Long) {
+
+    private var stuckStarted : Long = 0
+    private var stuckConnection : ConnectionParams? = null
+
+    fun onSwitchIgnoredOnCurrentConnection(current: ConnectionParams) {
+        if (stuckConnection != current) {
+            stuckStarted = elapsedMs()
+            stuckConnection = current
+        }
+    }
+
+    fun isStuckOn(connection: ConnectionParams?) =
+        connection != null && connection == stuckConnection
+            && elapsedMs() - stuckStarted >= STUCK_DURATION_MS
+
+    fun reset() {
+        stuckStarted = 0
+        stuckConnection = null
+    }
+
+    companion object {
+        val STUCK_DURATION_MS = TimeUnit.MINUTES.toMillis(1)
+    }
+}
+
 @Singleton
 class VpnConnectionErrorHandler @Inject constructor(
     scope: CoroutineScope,
@@ -124,26 +153,32 @@ class VpnConnectionErrorHandler @Inject constructor(
     private val vpnBackendProvider: VpnBackendProvider,
     private val currentUser: CurrentUser,
     private val getConnectingDomain: GetConnectingDomain,
+    @ElapsedRealtimeClock private val elapsedMs: () -> Long,
     @Suppress("unused") errorUIManager: VpnErrorUIManager // Forces creation of a VpnErrorUiManager instance.
 ) {
     private var handlingAuthError = false
+    private val stuckHandler = StuckConnectionHandler(elapsedMs)
 
     val switchConnectionFlow = MutableSharedFlow<VpnFallbackResult.Switch>()
 
     init {
-        scope.launch {
-            userPlanManager.infoChangeFlow.collect { changes ->
-                if (!handlingAuthError && stateMonitor.isEstablishingOrConnected) {
-                    getCommonFallbackForInfoChanges(
-                        stateMonitor.connectionParams!!.server,
-                        changes,
-                        currentUser.vpnUser()
-                    )?.let {
-                        switchConnectionFlow.emit(it)
-                    }
+        userPlanManager.infoChangeFlow.onEach { changes ->
+            if (!handlingAuthError && stateMonitor.isEstablishingOrConnected) {
+                getCommonFallbackForInfoChanges(
+                    stateMonitor.connectionParams!!.server,
+                    changes,
+                    currentUser.vpnUser()
+                )?.let {
+                    switchConnectionFlow.emit(it)
                 }
             }
-        }
+        }.launchIn(scope)
+
+        stateMonitor.status.onEach {
+            // We're no longer stuck if we connected, disconnected or waiting for network.
+            if (it.state == VpnState.Connected || it.state == VpnState.Disabled || it.state == VpnState.WaitingForNetwork)
+                stuckHandler.reset()
+        }.launchIn(scope)
     }
 
     @SuppressWarnings("ReturnCount")
@@ -228,7 +263,15 @@ class VpnConnectionErrorHandler @Inject constructor(
         val vpnUser = currentUser.vpnUser()
         val orgPhysicalServer =
             orgParams?.connectingDomain?.let { PhysicalServer(orgParams.server, it) }?.takeIf { it.exists() }
-        val candidates = getCandidateServers(orgProfile, orgPhysicalServer, vpnUser, includeOriginalServer, settings)
+        val isStuckOnCurrentServer = stuckHandler.isStuckOn(orgParams)
+        if (includeOriginalServer && isStuckOnCurrentServer) {
+            ProtonLogger.logCustom(
+                LogCategory.CONN_SERVER_SWITCH,
+                "Stuck on ${orgParams?.server?.serverName}, looking for alternative..."
+            )
+        }
+        val considerOriginalServer = includeOriginalServer && !isStuckOnCurrentServer
+        val candidates = getCandidateServers(orgProfile, orgPhysicalServer, vpnUser, considerOriginalServer, settings)
 
         candidates.forEach {
             ProtonLogger.logCustom(
@@ -248,6 +291,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             pingResult.physicalServer == orgPhysicalServer &&
             pingResult.responses.any { it.connectionParams.hasSameProtocolParams(orgParams) }
         ) {
+            stuckHandler.onSwitchIgnoredOnCurrentConnection(orgParams)
             ProtonLogger.log(
                 ConnServerSwitchServerSelected,
                 "Got response for current connection - don't switch VPN server"

@@ -52,11 +52,13 @@ import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.PhysicalServer
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.vpn.StuckConnectionHandler
 import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnFallbackResult
+import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -66,7 +68,6 @@ import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.CapturingSlot
 import io.mockk.MockKAnnotations
-import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -85,6 +86,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.HttpResponseCodes
@@ -95,6 +98,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertIs
+import kotlin.test.assertNotEquals
 
 @ExperimentalCoroutinesApi
 class VpnConnectionErrorHandlerTests {
@@ -107,10 +112,10 @@ class VpnConnectionErrorHandlerTests {
     private val defaultFallbackServer = MockedServers.serverList[1] // Use a different server than MockedServers.server
     private lateinit var infoChangeFlow: MutableSharedFlow<List<UserPlanManager.InfoChange>>
     private lateinit var userSettingsFlow: MutableStateFlow<LocalUserSettings>
+    private lateinit var vpnStateMonitor: VpnStateMonitor
 
     @MockK private lateinit var api: ProtonApiRetroFit
     @RelaxedMockK private lateinit var userPlanManager: UserPlanManager
-    @MockK private lateinit var vpnStateMonitor: VpnStateMonitor
     @MockK private lateinit var appConfig: AppConfig
     @MockK private lateinit var serverManager2: ServerManager2
     @MockK private lateinit var profileManager: ProfileManager
@@ -157,7 +162,6 @@ class VpnConnectionErrorHandlerTests {
         every { appConfig.getFeatureFlags().vpnAccelerator } returns true
         every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
         every { networkManager.isConnectedToNetwork() } returns true
-        every { vpnStateMonitor.isEstablishingOrConnected } returns false
         coEvery { api.getSession() } returns ApiResult.Success(SessionListResponse(1000, listOf()))
         prepareServerManager(MockedServers.serverList)
 
@@ -172,13 +176,19 @@ class VpnConnectionErrorHandlerTests {
         directConnectionParams = ConnectionParamsWireguard(directProfile, server, 443,
             connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!)
 
+        vpnStateMonitor = VpnStateMonitor()
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(
+            VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false),
+            directConnectionParams
+        ))
+
         testScope = TestScope(UnconfinedTestDispatcher())
 
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, userSettingsFlow)
         handler = VpnConnectionErrorHandler(testScope.backgroundScope, api, appConfig,
             userSettings, userPlanManager, serverManager2, profileManager, vpnStateMonitor, serverListUpdater,
-            networkManager, vpnBackendProvider, currentUser, getConnectingDomain, errorUIManager)
+            networkManager, vpnBackendProvider, currentUser, getConnectingDomain, testScope::currentTime, errorUIManager)
     }
 
     @Test
@@ -402,6 +412,47 @@ class VpnConnectionErrorHandlerTests {
     }
 
     @Test
+    fun testUnreachableOrgServerStuck() = testScope.runTest {
+        preparePings(failSecureCore = true) // All servers respond
+
+        handler.onUnreachableError(directConnectionParams)
+        advanceTimeBy(StuckConnectionHandler.STUCK_DURATION_MS)
+        val fallback = handler.onUnreachableError(directConnectionParams)
+
+        // After we're stuck in current server, we should switch to a different one
+        fallback.let {
+            assertIs<VpnFallbackResult.Switch.SwitchServer>(it)
+            assertNotEquals(directConnectionParams.server.serverId, it.toServer.serverName)
+        }
+    }
+
+    @Test
+    fun testUnreachableOrgServerStuckResetsOnConnection() = testScope.runTest {
+        preparePings(failSecureCore = true) // All servers respond
+
+        handler.onUnreachableError(directConnectionParams)
+        advanceTimeBy(StuckConnectionHandler.STUCK_DURATION_MS * 3 / 4)
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, directConnectionParams))
+        advanceTimeBy(StuckConnectionHandler.STUCK_DURATION_MS * 3 / 4)
+        val fallback = handler.onUnreachableError(directConnectionParams)
+
+        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), fallback)
+    }
+
+    @Test
+    fun testUnreachableOrgServerStuckResetsOnNoNetwork() = testScope.runTest {
+        preparePings(failSecureCore = true) // All servers respond
+
+        handler.onUnreachableError(directConnectionParams)
+        advanceTimeBy(StuckConnectionHandler.STUCK_DURATION_MS * 3 / 4)
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.WaitingForNetwork, directConnectionParams))
+        advanceTimeBy(StuckConnectionHandler.STUCK_DURATION_MS * 3 / 4)
+        val fallback = handler.onUnreachableError(directConnectionParams)
+
+        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), fallback)
+    }
+
+    @Test
     fun testUnreachableOrgServerRespondsWithDifferentProtocol() = testScope.runTest {
         userSettingsFlow.value =
             userSettingsFlow.value.copy(protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP))
@@ -569,8 +620,6 @@ class VpnConnectionErrorHandlerTests {
 
     @Test
     fun testTrackingVpnInfoChanges() = testScope.runTest {
-        every { vpnStateMonitor.isEstablishingOrConnected } returns true
-        every { vpnStateMonitor.connectionParams } returns directConnectionParams
         val mockedServer: Server = mockk()
 
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 0) }

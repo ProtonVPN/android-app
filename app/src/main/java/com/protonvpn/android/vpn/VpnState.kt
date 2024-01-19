@@ -41,7 +41,7 @@ sealed class VpnState(val isEstablishingConnection: Boolean) {
     object WaitingForNetwork : VpnState(true)
     object Connecting : VpnState(true)
     object Reconnecting : VpnState(true)
-    data class Error constructor(
+    data class Error(
         val type: ErrorType,
         val description: String? = null,
         val isFinal: Boolean
