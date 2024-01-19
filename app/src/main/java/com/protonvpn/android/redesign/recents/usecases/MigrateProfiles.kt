@@ -37,29 +37,10 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import dagger.Reusable
 import io.sentry.Sentry
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import java.util.EnumSet
 import javax.inject.Inject
-import javax.inject.Singleton
-
-@Singleton
-class MigrateProfilesOnStart @Inject constructor(
-    mainScope: CoroutineScope,
-    migrateProfiles: MigrateProfiles,
-    profileManager: ProfileManager,
-    userSettings: EffectiveCurrentUserSettings
-) {
-    init {
-        if (profileManager.getSavedProfiles().any { !it.isPreBakedProfile }) {
-            mainScope.launch {
-                migrateProfiles(userSettings.effectiveSettings.first())
-            }
-        }
-    }
-}
 
 @Reusable
 class MigrateProfiles @Inject constructor(
@@ -67,8 +48,15 @@ class MigrateProfiles @Inject constructor(
     private val serverManager: ServerManager,
     private val recentsDao: RecentsDao,
     private val currentUser: CurrentUser,
+    private val userSettings: EffectiveCurrentUserSettings
 ) {
-    suspend operator fun invoke(settings: LocalUserSettings) {
+    suspend operator fun invoke() {
+        if (profileManager.getSavedProfiles().any { !it.isPreBakedProfile }) {
+            doMigrate(userSettings.effectiveSettings.first())
+        }
+    }
+
+    private suspend fun doMigrate(settings: LocalUserSettings) {
         // Wait for the first logged in user.
         val vpnUser = currentUser.vpnUserFlow.filterNotNull().first()
         serverManager.ensureLoaded()
