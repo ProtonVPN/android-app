@@ -358,7 +358,7 @@ private fun PreviewRecent() {
                 id = 0,
                 ConnectIntentViewState(
                     primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.switzerland, CountryId.sweden),
-                    secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(null, CountryId.sweden),
+                    secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(CountryId.sweden),
                     serverFeatures = emptySet()
                 ),
                 isPinned = isPinned,

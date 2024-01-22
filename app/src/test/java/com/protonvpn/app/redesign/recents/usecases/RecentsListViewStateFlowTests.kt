@@ -367,7 +367,7 @@ class RecentsListViewStateFlowTests {
                 ConnectIntentSecureCore.exitCountry,
                 ConnectIntentSecureCore.entryCountry,
             ),
-            ConnectIntentSecondaryLabel.SecureCore(null, ConnectIntentSecureCore.entryCountry),
+            ConnectIntentSecondaryLabel.SecureCore(ConnectIntentSecureCore.entryCountry),
             emptySet()
         )
         val ConnectIntentViewFastest = createViewStateForFastestInCountry(ConnectIntentFastest)
