@@ -26,6 +26,7 @@ import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.utils.getThemeColor
 import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.xwray.groupie.viewbinding.BindableItem
+import me.proton.core.presentation.R as CoreR
 
 class HeaderItem(
     private val titleString: String,
@@ -51,7 +52,7 @@ class HeaderItem(
         with(viewBinding.root) {
             setBackgroundColor(
                 getThemeColor(
-                    if (isServer) R.attr.proton_background_secondary else R.attr.proton_background_norm
+                    if (isServer) CoreR.attr.proton_background_secondary else CoreR.attr.proton_background_norm
                 )
             )
         }

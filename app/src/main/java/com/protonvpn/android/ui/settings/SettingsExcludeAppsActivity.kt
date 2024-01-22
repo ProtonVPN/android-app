@@ -39,6 +39,7 @@ import com.xwray.groupie.OnAsyncUpdateListener
 import com.xwray.groupie.Section
 import com.xwray.groupie.viewbinding.BindableItem
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
 class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeAppsViewModel>() {
@@ -110,10 +111,10 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
         val selectedViewHolders = if (selectedItems.isEmpty()) {
             listOf(EmptyStateItem())
         } else {
-            selectedItems.map { LabeledItemActionViewHolder(it, R.drawable.ic_proton_cross, actionRemove) }
+            selectedItems.map { LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_cross, actionRemove) }
         }
         val availableRegularViewHolders = availableRegularItems.map {
-            LabeledItemActionViewHolder(it, R.drawable.ic_proton_plus, actionAdd)
+            LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_plus, actionAdd)
         }
         val availableSystemViewHolders = when (availableSystemItems) {
             is SettingsExcludeAppsViewModel.SystemAppsState.NotLoaded ->
@@ -122,7 +123,7 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
                 listOf(LoadSystemAppsSpinnerItem())
             is SettingsExcludeAppsViewModel.SystemAppsState.Content -> {
                 availableSystemItems.apps.map {
-                    LabeledItemActionViewHolder(it, R.drawable.ic_proton_plus, actionAdd)
+                    LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_plus, actionAdd)
                 }
             }
         }

@@ -71,6 +71,7 @@ import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultUnspecified
 import me.proton.core.compose.theme.defaultWeak
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun ChangeServerButton(
@@ -123,7 +124,7 @@ fun ChangeServerButton(
                         modifier = Modifier.testTag("remainingTimeRow")
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_proton_hourglass),
+                            painter = painterResource(id = CoreR.drawable.ic_proton_hourglass),
                             contentDescription = null,
                             tint = ProtonTheme.colors.iconNorm
                         )
@@ -228,7 +229,7 @@ private fun UpgradeModalContent(
                 )
             } else {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_proton_checkmark),
+                    painter = painterResource(id = CoreR.drawable.ic_proton_checkmark),
                     contentDescription = null,
                     tint = ProtonTheme.colors.iconNorm
                 )

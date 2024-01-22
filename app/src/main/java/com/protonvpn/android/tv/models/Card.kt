@@ -23,6 +23,7 @@ import androidx.annotation.DrawableRes
 import com.protonvpn.android.R
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import me.proton.core.presentation.R as CoreR
 
 sealed class Card(
     var title: Title? = null,
@@ -44,7 +45,7 @@ class CountryCard(
 
 class ConnectIntentCard(
     title: String = "",
-    @DrawableRes titleDrawable: Int = R.drawable.ic_proton_bolt,
+    @DrawableRes titleDrawable: Int = CoreR.drawable.ic_proton_bolt,
     @DrawableRes backgroundImage: Int,
     val connectIntent: ConnectIntent,
     val connectCountry: String
@@ -62,8 +63,8 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
     title = Title(title), backgroundImage = DrawableImage(image)
 )
 
-class LogoutCard(title: String) : IconCard(title, R.drawable.ic_proton_arrow_out_from_rectangle)
-class ReportBugCard(title: String) : IconCard(title, R.drawable.ic_proton_bug)
+class LogoutCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_arrow_out_from_rectangle)
+class ReportBugCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_bug)
 
 class Title(
     val text: String,

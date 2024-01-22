@@ -53,6 +53,7 @@ import me.proton.core.compose.theme.defaultSmallStrongNorm
 import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.compose.theme.overlineWeak
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun NetShieldComposable(
@@ -138,7 +139,7 @@ fun UpgradePromo(
         }
         if (navigateToUpgrade != null) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_proton_chevron_right),
+                painter = painterResource(id = CoreR.drawable.ic_proton_chevron_right),
                 tint = ProtonTheme.colors.iconHint,
                 contentDescription = null,
                 modifier = Modifier.wrapContentSize()
@@ -177,7 +178,7 @@ private fun NetShieldView(state: NetShieldViewState.NetShieldState, onNavigateTo
             )
 
             Icon(
-                painter = painterResource(id = R.drawable.ic_proton_chevron_right),
+                painter = painterResource(id = CoreR.drawable.ic_proton_chevron_right),
                 contentDescription = null,
                 tint = ProtonTheme.colors.iconHint,
                 modifier = Modifier.size(24.dp)

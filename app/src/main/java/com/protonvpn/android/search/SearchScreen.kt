@@ -134,7 +134,10 @@ fun SearchableTopAppBar(
                 trailingIcon = {
                     if (searchQuery.isNotEmpty()) {
                         IconButton(onClick = { textFieldValue = TextFieldValue("") }) {
-                            Icon(Icons.Filled.Clear, contentDescription = stringResource(id = R.string.clear))
+                            Icon(
+                                Icons.Filled.Clear,
+                                contentDescription = stringResource(id = R.string.search_clear_query_content_description)
+                            )
                         }
                     }
                 }

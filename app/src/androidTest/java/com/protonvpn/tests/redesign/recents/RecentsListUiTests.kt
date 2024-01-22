@@ -25,7 +25,6 @@ import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
-import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState

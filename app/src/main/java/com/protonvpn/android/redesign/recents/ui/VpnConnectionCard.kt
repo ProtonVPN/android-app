@@ -73,12 +73,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.ui.home.FreeConnectionsInfoBottomSheet
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
-
-enum class VpnConnectionState {
-    Disconnected,
-    Connecting,
-    Connected
-}
+import me.proton.core.presentation.R as CoreR
 
 @Immutable
 data class VpnConnectionCardViewState(
@@ -155,8 +150,8 @@ fun VpnConnectionCard(
                         }
                         if (viewState.canOpenPanel) {
                              val iconRes =
-                                 if (viewState.canOpenConnectionPanel) R.drawable.ic_proton_chevron_up
-                                 else R.drawable.ic_proton_info_circle
+                                 if (viewState.canOpenConnectionPanel) CoreR.drawable.ic_proton_chevron_up
+                                 else CoreR.drawable.ic_proton_info_circle
                             val contentDescriptionRes =
                                 if (viewState.canOpenConnectionPanel) R.string.connection_card_accessbility_label_connection_details
                                 else R.string.connection_card_accessbility_label_free_connections

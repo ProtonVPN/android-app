@@ -125,7 +125,7 @@ class QuickTileService : TileService() {
                 qsTile.state = Tile.STATE_ACTIVE
             }
             QuickTileDataStore.TileState.WaitingForNetwork -> {
-                qsTile.label = getString(R.string.state_nonetwork)
+                qsTile.label = getString(R.string.loaderReconnectNoNetwork)
                 qsTile.state = Tile.STATE_ACTIVE
             }
             QuickTileDataStore.TileState.Error -> {

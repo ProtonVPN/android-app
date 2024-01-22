@@ -55,6 +55,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.doOnApplyWindowInsets
 import me.proton.core.presentation.utils.viewBinding
+import me.proton.core.presentation.R as CoreR
 
 private const val INCENTIVE_PRICE_PLACEHOLDER = "%IncentivePrice%"
 private const val FULL_SCREEN_IMAGE_AUTOSCROLL_DELAY_MS = 750L
@@ -134,7 +135,7 @@ class PromoOfferActivity : BaseActivityV2() {
             val featureFooterViews =
                 ItemPromoFeatureBinding.inflate(LayoutInflater.from(this), layout, true)
             featureFooterViews.text.text = footer
-            featureFooterViews.text.setTextAppearance(R.style.Proton_Text_Caption_Weak)
+            featureFooterViews.text.setTextAppearance(CoreR.style.Proton_Text_Caption_Weak)
             layout.visibility = View.VISIBLE
         }
     }
@@ -144,8 +145,8 @@ class PromoOfferActivity : BaseActivityV2() {
         views.text.text = feature.text
         Glide.with(this)
             .load(feature.iconUrl)
-            .placeholder(R.drawable.ic_proton_checkmark)
-            .error(R.drawable.ic_proton_checkmark)
+            .placeholder(CoreR.drawable.ic_proton_checkmark)
+            .error(CoreR.drawable.ic_proton_checkmark)
             .into(views.imageIcon)
     }
 
@@ -159,7 +160,7 @@ class PromoOfferActivity : BaseActivityV2() {
         val placeholderIndex = nonBreakingTemplate.indexOf(INCENTIVE_PRICE_PLACEHOLDER)
         return if (placeholderIndex != -1 && nonBreakingPrice != null) {
             val richText = SpannableString(nonBreakingTemplate.replace(INCENTIVE_PRICE_PLACEHOLDER, nonBreakingPrice))
-            val priceSpan = TextAppearanceSpan(this, R.style.Proton_Text_Hero)
+            val priceSpan = TextAppearanceSpan(this, CoreR.style.Proton_Text_Hero)
             richText.setSpan(priceSpan, placeholderIndex, placeholderIndex + nonBreakingPrice.length, 0)
             richText
         } else {

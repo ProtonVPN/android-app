@@ -30,6 +30,7 @@ import com.protonvpn.android.utils.CountryTools
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import me.proton.core.presentation.R as CoreR
 
 @Reusable
 class GetCountryCard @Inject constructor(
@@ -46,9 +47,9 @@ class GetCountryCard @Inject constructor(
     )
 
     private fun countryListItemIcon(country: VpnCountry) = when {
-        country.isUnderMaintenance() -> R.drawable.ic_proton_wrench
+        country.isUnderMaintenance() -> CoreR.drawable.ic_proton_wrench
         currentUser.vpnUserCached()?.isFreeUser != true -> null
         country.hasAccessibleServer(currentUser.vpnUserCached()) -> R.drawable.ic_free
-        else -> R.drawable.ic_proton_lock_filled
+        else -> CoreR.drawable.ic_proton_lock_filled
     }
 }

@@ -76,6 +76,7 @@ import me.proton.core.compose.theme.defaultSmallStrongUnspecified
 import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.compose.theme.defaultWeak
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun SettingsRoute(signOut: () -> Unit) {
@@ -183,7 +184,7 @@ private fun SettingsView(
                     onClick = onAccountClick,
                 )
                 SettingRowWithIcon(
-                    icon = R.drawable.ic_proton_arrow_in_to_rectangle,
+                    icon = CoreR.drawable.ic_proton_arrow_in_to_rectangle,
                     title = stringResource(id = R.string.settings_sign_out),
                     onClick = signOut
                 )
@@ -352,17 +353,17 @@ fun CategoryPreview() {
             )
 
             SettingRowWithIcon(
-                icon = R.drawable.ic_icon_system,
+                icon = CoreR.drawable.ic_proton_earth,
                 title = stringResource(id = R.string.settings_netshield_title),
                 subtitle = "On"
             )
             SettingRowWithIcon(
-                icon = R.drawable.ic_icon_system,
+                icon = CoreR.drawable.ic_proton_earth,
                 title = stringResource(id = R.string.settings_split_tunneling_title),
                 subtitle = "On"
             )
             SettingRowWithIcon(
-                icon = R.drawable.ic_icon_system,
+                icon = CoreR.drawable.ic_proton_earth,
                 title = stringResource(id = R.string.settings_kill_switch_title)
             )
         }

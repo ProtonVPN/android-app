@@ -36,6 +36,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ServerFeaturesViewBinding
 import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.utils.ViewUtils.toPx
+import me.proton.core.presentation.R as CoreR
 
 private object PartnerIconTag
 
@@ -44,7 +45,7 @@ class ServerFeaturesView(context: Context, attrs: AttributeSet?) : LinearLayout(
     private val binding = ServerFeaturesViewBinding.inflate(LayoutInflater.from(context), this)
 
     @ColorInt
-    var color: Int = MaterialColors.getColor(this, R.attr.proton_icon_norm)
+    var color: Int = MaterialColors.getColor(this, CoreR.attr.proton_icon_norm)
         set(value) {
             field = value
             update()

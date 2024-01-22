@@ -20,22 +20,18 @@
 package com.protonvpn.android.redesign.recents.usecases
 
 import androidx.annotation.StringRes
-import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
-import com.protonvpn.android.redesign.recents.ui.VpnConnectionState
 import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.isCompatibleWith
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState

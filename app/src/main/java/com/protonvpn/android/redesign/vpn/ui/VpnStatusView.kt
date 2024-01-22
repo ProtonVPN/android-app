@@ -75,6 +75,7 @@ import kotlinx.coroutines.delay
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.compose.theme.defaultWeak
+import me.proton.core.presentation.R as CoreR
 
 sealed class VpnStatusViewState {
     data class Connected(
@@ -170,7 +171,7 @@ fun VpnStatusTop(
 
             is VpnStatusViewState.Disabled -> {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_proton_lock_open_filled_2),
+                    painter = painterResource(id = CoreR.drawable.ic_proton_lock_open_filled_2),
                     contentDescription = null,
                     tint = ProtonTheme.colors.notificationError,
                     modifier = contentModifier
@@ -226,8 +227,8 @@ private fun VpnConnectedViewTop(
         Icon(
             painter = painterResource(
                 id = when {
-                    isSecureCoreServer -> R.drawable.ic_proton_locks_filled
-                    else -> R.drawable.ic_proton_lock_filled
+                    isSecureCoreServer -> CoreR.drawable.ic_proton_locks_filled
+                    else -> CoreR.drawable.ic_proton_lock_filled
                 }
             ),
             tint = ProtonTheme.colors.vpnGreen,

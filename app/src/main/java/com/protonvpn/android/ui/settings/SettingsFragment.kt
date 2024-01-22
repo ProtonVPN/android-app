@@ -78,6 +78,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.viewBinding
+import me.proton.core.presentation.R as CoreR
 
 private const val PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DLG =
     "PREF_SHOW_VPN_ACCELERATOR_RECONNECT_DIALOG"
@@ -310,13 +311,13 @@ class SettingsFragment : Fragment(R.layout.content_settings) {
             trackTintList = android.content.res.ColorStateList.valueOf(
                 alwaysOnSwitchColor(
                     this,
-                    R.attr.brand_lighten_40
+                    CoreR.attr.brand_lighten_40
                 )
             )
             thumbTintList = android.content.res.ColorStateList.valueOf(
                 alwaysOnSwitchColor(
                     this,
-                    R.attr.brand_darken_20
+                    CoreR.attr.brand_darken_20
                 )
             )
         }
@@ -331,7 +332,7 @@ class SettingsFragment : Fragment(R.layout.content_settings) {
     @Suppress("MagicNumber")
     @ColorInt
     private fun alwaysOnSwitchColor(view: View, @AttrRes colorAttr: Int): Int {
-        val bg = MaterialColors.getColor(view, R.attr.proton_background_norm)
+        val bg = MaterialColors.getColor(view, CoreR.attr.proton_background_norm)
         val color = MaterialColors.getColor(view, colorAttr)
         val alpha = 0x80
         return ColorUtils.combineArgb(

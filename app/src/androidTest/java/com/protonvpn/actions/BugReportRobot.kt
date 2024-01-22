@@ -24,6 +24,7 @@ import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.matchers.ProtonMatcher.inputFieldByLabel
+import me.proton.core.presentation.R as CoreR
 
 class BugReportRobot : BaseRobot() {
     fun selectCategory(categoryName: String): BugReportRobot = clickElementByText(categoryName)
@@ -39,7 +40,7 @@ class BugReportRobot : BaseRobot() {
         replaceText<BugReportRobot>(R.id.editEmail, email)
         category.inputFields.forEach {
             view.withCustomMatcher(inputFieldByLabel(it.label))
-                .withId(R.id.input)
+                .withId(CoreR.id.input)
                 .replaceText("Ignore This Report")
         }
         return this

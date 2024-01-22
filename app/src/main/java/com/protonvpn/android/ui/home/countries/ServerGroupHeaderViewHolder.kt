@@ -20,13 +20,7 @@ package com.protonvpn.android.ui.home.countries
 
 import android.view.View
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -45,6 +39,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.ExpandableItem
 import java.util.Objects
+import me.proton.core.presentation.R as CoreR
 
 private const val EXPAND_DURATION_MS = 300L
 
@@ -78,7 +73,7 @@ abstract class ServerGroupHeaderViewHolder(
             )
             textCountry.setTextColor(
                 textCountry.getThemeColor(
-                    if (isAccessibleAndOnline) R.attr.proton_text_norm else R.attr.proton_text_hint
+                    if (isAccessibleAndOnline) CoreR.attr.proton_text_norm else CoreR.attr.proton_text_hint
                 )
             )
             buttonCross.isVisible = isAccessibleAndOnline
@@ -102,7 +97,7 @@ abstract class ServerGroupHeaderViewHolder(
             composeViewFlag.alpha =
                 if (isAccessibleAndOnline) 1f else root.resources.getFloatRes(R.dimen.inactive_flag_alpha)
             features.color = context.getColor(
-                if (!isAccessibleAndOnline) R.color.icon_weak else R.color.icon_norm
+                if (!isAccessibleAndOnline) CoreR.color.icon_weak else CoreR.color.icon_norm
             )
 
             root.setOnClickListener {

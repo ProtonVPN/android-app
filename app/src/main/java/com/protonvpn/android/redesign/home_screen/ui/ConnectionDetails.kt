@@ -98,11 +98,9 @@ import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.headlineNorm
 import me.proton.core.compose.theme.overlineWeak
 import me.proton.core.compose.theme.subheadlineNorm
+import me.proton.core.presentation.R as CoreR
 import kotlin.math.roundToInt
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -293,7 +291,7 @@ private fun ConnectionSpeedRow(
             style = ProtonTheme.typography.captionWeak,
         )
         Icon(
-            painter = painterResource(id = R.drawable.ic_info_circle),
+            painter = painterResource(id = CoreR.drawable.ic_info_circle),
             tint = ProtonTheme.colors.iconHint,
             contentDescription = null,
             modifier = Modifier
@@ -308,14 +306,14 @@ private fun ConnectionSpeedRow(
         SpeedInfoColumn(
             title = stringResource(id = R.string.connection_details_download),
             value = downloadSpeed,
-            icon = painterResource(id = R.drawable.ic_proton_arrow_down_line),
+            icon = painterResource(id = CoreR.drawable.ic_proton_arrow_down_line),
             tint = ProtonTheme.colors.notificationSuccess,
             modifier = Modifier.weight(1f)
         )
         SpeedInfoColumn(
             title = stringResource(id = R.string.connection_details_upload),
             value = uploadSpeed,
-            icon = painterResource(id = R.drawable.ic_proton_arrow_up_line),
+            icon = painterResource(id = CoreR.drawable.ic_proton_arrow_up_line),
             tint = ProtonTheme.colors.notificationError,
             modifier = Modifier.weight(1f)
         )
@@ -603,7 +601,7 @@ fun ConnectionDetailRowWithComposable(
             )
             if (onInfoComposable != null) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_info_circle),
+                    painter = painterResource(id = CoreR.drawable.ic_info_circle),
                     tint = ProtonTheme.colors.iconHint,
                     contentDescription = null,
                     modifier = Modifier
@@ -700,7 +698,7 @@ fun IpView(
                         if (!isCurrentIpEmpty) {
                             Icon(
                                 painter = painterResource(
-                                    id = if (isIpVisible) R.drawable.ic_proton_eye_slash else R.drawable.ic_proton_eye,
+                                    id = if (isIpVisible) CoreR.drawable.ic_proton_eye_slash else CoreR.drawable.ic_proton_eye,
                                 ),
                                 tint = ProtonTheme.colors.iconHint,
                                 contentDescription = null,

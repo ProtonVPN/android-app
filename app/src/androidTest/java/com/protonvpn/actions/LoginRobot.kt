@@ -20,12 +20,12 @@
 package com.protonvpn.actions
 
 import com.google.android.material.textfield.TextInputEditText
-import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
 import com.protonvpn.base.BaseVerify
 import com.protonvpn.test.shared.TestUser
 import me.proton.core.test.quark.data.User
 import java.net.URLDecoder
+import me.proton.core.auth.presentation.R as AuthR
 
 /**
  * [LoginRobot] Contains all actions and verifications for login screen
@@ -34,30 +34,30 @@ class LoginRobot : BaseRobot() {
 
     fun signIn(testUser: TestUser) {
         enterCredentials(testUser)
-        clickElementById<LoginRobot>(R.id.signInButton)
+        clickElementById<LoginRobot>(AuthR.id.signInButton)
     }
 
     fun signIn(testUser: User) {
-        replaceText<LoginRobot>(R.id.usernameInput, testUser.name)
-        replaceText<LoginRobot>(R.id.passwordInput, URLDecoder.decode(testUser.password, "utf-8"))
-        clickElementById<LoginRobot>(R.id.signInButton)
+        replaceText<LoginRobot>(AuthR.id.usernameInput, testUser.name)
+        replaceText<LoginRobot>(AuthR.id.passwordInput, URLDecoder.decode(testUser.password, "utf-8"))
+        clickElementById<LoginRobot>(AuthR.id.signInButton)
     }
 
     fun signInWithIncorrectCredentials(): LoginRobot {
         enterCredentials(TestUser.badUser)
-        return clickElementById(R.id.signInButton)
+        return clickElementById(AuthR.id.signInButton)
     }
 
     fun enterCredentials(testUser: TestUser): LoginRobot {
-        replaceText<LoginRobot>(R.id.usernameInput, testUser.email)
-        return replaceText(R.id.passwordInput, testUser.password)
+        replaceText<LoginRobot>(AuthR.id.usernameInput, testUser.email)
+        return replaceText(AuthR.id.passwordInput, testUser.password)
     }
 
     fun viewPassword(): LoginRobot = clickElement(
-        view.isDescendantOf(view.withId(R.id.passwordInput)).withId(R.id.text_input_end_icon)
+        view.isDescendantOf(view.withId(AuthR.id.passwordInput)).withId(AuthR.id.text_input_end_icon)
     )
 
-    fun selectNeedHelp(): LoginRobot = clickElementById(R.id.login_menu_help)
+    fun selectNeedHelp(): LoginRobot = clickElementById(AuthR.id.login_menu_help)
 
     class Verify : BaseVerify() {
 
@@ -68,22 +68,22 @@ class LoginRobot : BaseRobot() {
         fun userNameIsVisible(testUser: TestUser) = checkIfElementIsDisplayedByText(testUser.email)
 
         fun needHelpOptionsAreDisplayed() {
-            checkIfElementIsDisplayedById(R.id.helpOptionForgotUsername)
-            checkIfElementIsDisplayedById(R.id.helpOptionForgotPassword)
-            checkIfElementIsDisplayedById(R.id.helpOptionOtherIssues)
-            checkIfElementIsDisplayedById(R.id.helpOptionOtherIssues)
+            checkIfElementIsDisplayedById(AuthR.id.helpOptionForgotUsername)
+            checkIfElementIsDisplayedById(AuthR.id.helpOptionForgotPassword)
+            checkIfElementIsDisplayedById(AuthR.id.helpOptionOtherIssues)
+            checkIfElementIsDisplayedById(AuthR.id.helpOptionOtherIssues)
         }
 
         fun incorrectLoginCredentialsIsShown() {
             checkIfElementByIdContainsText(
-                R.id.snackbar_text,
+                AuthR.id.snackbar_text,
                 "Incorrect login credentials. Please try again"
             )
         }
 
         fun loginScreenIsDisplayed() {
-            checkIfElementIsDisplayedById(R.id.sign_in)
-            checkIfElementIsDisplayedById(R.id.sign_up)
+            checkIfElementIsDisplayedById(AuthR.id.sign_in)
+            checkIfElementIsDisplayedById(AuthR.id.sign_up)
         }
     }
 

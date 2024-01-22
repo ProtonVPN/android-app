@@ -41,6 +41,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
 class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsViewModel>() {
@@ -85,7 +86,7 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
                     getString(R.string.settingsExcludedIPAddressesListHeader, excludedIps.size)
 
                 val section = Section(HeaderViewHolder(text = headerText), excludedIps.map {
-                    LabeledItemActionViewHolder(it, R.drawable.ic_proton_cross, removeAction)
+                    LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_cross, removeAction)
                 })
                 listOf(section)
             } else {

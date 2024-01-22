@@ -45,7 +45,7 @@ import com.protonvpn.android.ui.showGenericReconnectDialog
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProvider
 import com.protonvpn.android.vpn.VpnUiDelegate
-
+import me.proton.core.presentation.R as CoreR
 
 @Deprecated ("Should be removed after non-composable settings is no longer relevant")
 class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -239,12 +239,12 @@ class NetShieldSwitch(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun disableCheckBox(view: RadioButtonEx) {
-        view.setTextColor(ContextCompat.getColor(context, R.color.white))
+        view.setTextColor(ContextCompat.getColor(context, CoreR.color.white))
         val colorStateList = ColorStateList(
             arrayOf(
                 intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)
             ), intArrayOf(
-                ContextCompat.getColor(context, R.color.white), ContextCompat.getColor(context, R.color.white)
+                ContextCompat.getColor(context, CoreR.color.white), ContextCompat.getColor(context, CoreR.color.white)
             )
         )
         view.switchClickInterceptor = {

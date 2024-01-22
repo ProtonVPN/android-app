@@ -55,6 +55,7 @@ import com.xwray.groupie.Section
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.viewBinding
 import me.proton.core.util.kotlin.exhaustive
+import me.proton.core.presentation.R as CoreR
 
 class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
 
@@ -91,12 +92,12 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
 
     private fun LinearLayout.addEmptyHint(@StringRes textRes: Int) {
         val textView = SearchEmptyHintBinding.inflate(layoutInflater).root
-        val icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_proton_magnifier, null)!!.mutate().apply {
+        val icon = ResourcesCompat.getDrawable(resources, CoreR.drawable.ic_proton_magnifier, null)!!.mutate().apply {
             bounds = Rect(0, 0, HINT_SEARCH_ICON_DP.toPx(), HINT_SEARCH_ICON_DP.toPx())
         }
         textView.setCompoundDrawablesRelative(icon, null, null, null)
         textView.text = HtmlTools.fromHtml(
-            getString(textRes, MaterialColors.getColor(textView, R.attr.proton_text_hint).toStringHtmlColorNoAlpha())
+            getString(textRes, MaterialColors.getColor(textView, CoreR.attr.proton_text_hint).toStringHtmlColorNoAlpha())
         )
         addView(textView)
     }

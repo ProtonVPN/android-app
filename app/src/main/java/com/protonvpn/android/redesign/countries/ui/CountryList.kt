@@ -30,10 +30,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -49,7 +45,7 @@ import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
-
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun CountryListRoute(
@@ -91,20 +87,20 @@ fun CountryList(
             },
             actions = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_info_circle),
+                    painter = painterResource(id = CoreR.drawable.ic_info_circle),
                     contentDescription = stringResource(id = R.string.activity_information_title),
                     modifier = Modifier
-                        .padding(8.dp)
                         .clip(RoundedCornerShape(20))
                         .clickable(onClick = onNavigateToInformation)
+                        .padding(8.dp)
                 )
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_search),
+                    painter = painterResource(id = CoreR.drawable.ic_proton_magnifier),
                     contentDescription = stringResource(id = R.string.server_search_menu_title),
                     modifier = Modifier
-                        .padding(8.dp)
                         .clip(RoundedCornerShape(20))
                         .clickable(onClick = onNavigateToSearch)
+                        .padding(8.dp)
                 )
             }
         )

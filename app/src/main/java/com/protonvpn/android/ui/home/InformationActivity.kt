@@ -51,6 +51,7 @@ import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.openBrowserLink
+import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
 class InformationActivity : BaseActivityV2() {
@@ -97,17 +98,17 @@ class InformationActivity : BaseActivityV2() {
 
     private fun setupGenericInfo() {
         addHeader(R.string.info_features)
-        addItem(R.drawable.ic_proton_globe, R.string.smart_routing_title, R.string.smart_routing_description,
+        addItem(CoreR.drawable.ic_proton_globe, R.string.smart_routing_title, R.string.smart_routing_description,
             Constants.SMART_ROUTING_INFO_URL)
-        addItem(R.drawable.ic_proton_play, R.string.streaming_title, R.string.streaming_description,
+        addItem(CoreR.drawable.ic_proton_play, R.string.streaming_title, R.string.streaming_description,
             Constants.STREAMING_INFO_URL)
-        addItem(R.drawable.ic_proton_arrows_switch, R.string.p2p_title, R.string.p2p_description,
+        addItem(CoreR.drawable.ic_proton_arrows_switch, R.string.p2p_title, R.string.p2p_description,
             Constants.P2P_INFO_URL)
-        addItem(R.drawable.ic_proton_brand_tor, R.string.tor_title, R.string.tor_description,
+        addItem(CoreR.drawable.ic_proton_brand_tor, R.string.tor_title, R.string.tor_description,
             Constants.TOR_INFO_URL)
 
         addHeader(R.string.info_performance)
-        addItem(R.drawable.ic_proton_servers, R.string.server_load_title, R.string.server_load_description,
+        addItem(CoreR.drawable.ic_proton_servers, R.string.server_load_title, R.string.server_load_description,
             Constants.SERVER_LOAD_INFO_URL, customViewProvider = this::createServerLoadCustomView)
     }
 
@@ -130,7 +131,7 @@ class InformationActivity : BaseActivityV2() {
     private fun setupPartnershipInfo(partners: List<Partner>) {
         title = getString(R.string.activity_information_title)
 
-        addItem(R.drawable.ic_proton_servers, R.string.partnership_free_title, R.string.partnership_free_description)
+        addItem(CoreR.drawable.ic_proton_servers, R.string.partnership_free_title, R.string.partnership_free_description)
         viewModel.getPartnerTypes().forEach {
             addItem(it.iconUrl, it.type, it.description)
         }
@@ -143,7 +144,7 @@ class InformationActivity : BaseActivityV2() {
         title = getString(R.string.activity_information_plus_title, countryName)
 
         addHeader(R.string.info_features)
-        addItem(R.drawable.ic_proton_play, 0, R.string.streaming_services_description,
+        addItem(CoreR.drawable.ic_proton_play, 0, R.string.streaming_services_description,
             Constants.STREAMING_INFO_URL,
             titleString = getString(R.string.streaming_title_with_country, countryName),
             customViewProvider = { parent -> createStreamingServicesCustomView(country, parent) })
@@ -151,7 +152,7 @@ class InformationActivity : BaseActivityV2() {
 
     private fun setupGatewaysInfo() {
         addItem(
-            iconRes = R.drawable.ic_proton_servers,
+            iconRes = CoreR.drawable.ic_proton_servers,
             titleRes = R.string.activity_information_gateways_title,
             descriptionRes = R.string.info_gateways_description,
             url = Constants.DEDICATED_IPS_INFO_URL
