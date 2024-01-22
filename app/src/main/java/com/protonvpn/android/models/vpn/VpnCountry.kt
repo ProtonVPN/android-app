@@ -68,9 +68,6 @@ data class VpnCountry(
     private val isSecureCoreEntryCountry: Boolean,
 ) : ServerGroup(), Serializable {
 
-    @Transient
-    val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(flag)
-
     val countryName: String
         get() = CountryTools.getFullName(flag)
 

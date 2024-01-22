@@ -62,14 +62,7 @@ data class Server(
 
     val online: Boolean get() = isOnline && connectingDomains.any { it.isOnline }
 
-    @Transient
-    private val translatedCoordinates: TranslatedCoordinates = TranslatedCoordinates(exitCountry)
-
     val isTor get() = features.hasFlag(SERVER_FEATURE_TOR)
-
-    @Transient
-    val entryCountryCoordinates: TranslatedCoordinates? =
-        TranslatedCoordinates(this.entryCountry)
 
     init {
         debugAssert {
