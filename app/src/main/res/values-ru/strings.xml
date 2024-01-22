@@ -76,7 +76,7 @@
     <string name="settingsSectionConnection">Подключение</string>
     <string name="settingsSectionSecurity">Безопасность</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
-    <string name="settingsSectionSupport">Support</string>
+    <string name="settingsSectionSupport">Поддержка</string>
     <string name="settingsSectionAdvanced">Продвинутые</string>
     <string name="settingsAutoStartTitle">Запускать вместе с Android</string>
     <string name="settingsAutoStartDescription">Proton VPN будет автоматически запускаться при каждом запуске системы</string>
@@ -256,21 +256,21 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Эта статистика не содержит ваш IP-адрес и не может быть использована для вашей идентификации. Мы никогда не передаем её третьим лицам. <a href="%1$s">Подробнее</a>]]></string>
     <string name="netShieldEnabledWarning">Будьте осторожны, некоторые вебсайты могут не работать из-за заблокированного контента.</string>
     <string name="netShieldDescription">Блокировать рекламные объявления, трекеры и вредоносные программы </string>
-    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
-    <string name="learn_more">Learn more</string>
+    <string name="netshield_settings_description_not_html">Защитите себя от рекламы, вредоносных программ, отслеживания на веб-сайтах и в приложениях. Если сайты не загружаются, попробуйте отключить функцию NetShield. %1$s</string>
+    <string name="learn_more">Подробнее</string>
     <string name="netshield_status_on">Вкл</string>
     <string name="netshield_status_off">Выкл</string>
     <string name="netshield_free_title">Просматривайте веб-сайты без рекламы с помощью NetShield</string>
     <string name="netshield_free_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
     <string name="netshield_business_title">Блокировать рекламу c NetShield</string>
     <string name="netshield_business_description">Когда вы улучшите до VPN Business</string>
-    <string name="netshield_what_data_means">What NetShield data means</string>
-    <string name="netshield_ads_title">Ads</string>
-    <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
-    <string name="netshield_trackers_title">Trackers</string>
-    <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
-    <string name="netshield_data_title">Data</string>
-    <string name="netshield_data_details">The amount of unwanted data from ads, trackers, and malware blocked by NetShield</string>
+    <string name="netshield_what_data_means">Что означают данные NetShield</string>
+    <string name="netshield_ads_title">Реклама</string>
+    <string name="netshield_ads_details">Реклама и невидимые рекламные трекеры</string>
+    <string name="netshield_trackers_title">Трекеры</string>
+    <string name="netshield_trackers_details">Файлы cookie и другие трекеры, которые хранят и передают информацию о вашей активности в Интернете</string>
+    <string name="netshield_data_title">Данные</string>
+    <string name="netshield_data_details">Количество нежелательных данных от рекламы, трекеров и вредоносных программ, блокируемых NetShield</string>
     <string name="accessibility_netshield_status_on_click">Введите настройки NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Реклама заблокирована</item>
@@ -284,7 +284,7 @@
         <item quantity="many">Трекеров заблокировано</item>
         <item quantity="other">Трекеров заблокировано</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Экономия трафика</string>
     <string name="netShieldBlockMalwareOnly">Блокировать только вредоносные программы</string>
     <string name="netShieldFullBlock">Блокировать вредоносные программы, трекеры, рекламу</string>
     <string name="dialogDontShowAgain">Больше не показывать</string>
@@ -597,22 +597,22 @@
     <plurals name="time_left_minutes">
         <item quantity="one">%1$d минута</item>
         <item quantity="few">%1$d минуты</item>
-        <item quantity="many">%1$d минуты</item>
-        <item quantity="other">%1$d минуты</item>
+        <item quantity="many">%1$d минут</item>
+        <item quantity="other">%1$d минут</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
         <item quantity="one">%1$d час</item>
-        <item quantity="few">%1$d часов</item>
-        <item quantity="many">%1$d часа</item>
-        <item quantity="other">%1$d часа</item>
+        <item quantity="few">%1$d часа</item>
+        <item quantity="many">%1$d часов</item>
+        <item quantity="other">%1$d часов</item>
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
         <item quantity="one">%1$d день</item>
-        <item quantity="few">%1$d дней</item>
-        <item quantity="many">%1$d дня</item>
-        <item quantity="other">%1$d дня</item>
+        <item quantity="few">%1$d дня</item>
+        <item quantity="many">%1$d дней</item>
+        <item quantity="other">%1$d дней</item>
     </plurals>
     <string name="server_change_max_reached">На данный момент вы достигли максимального количества изменений на сервере Free.</string>
     <string name="server_change_upsell">Получите неограниченное количество изменений с VPN Plus.</string>
@@ -625,7 +625,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
+    <string name="server_change_button_time_left_content_description">Осталось %1$s %2$s</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -633,18 +633,18 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
-    <string name="server_change_progress_finished_contend_description">Available now</string>
+    <string name="server_change_button_time_left_seconds_content_description">Осталось %1$s</string>
+    <string name="server_change_progress_finished_contend_description">Доступен</string>
     <string name="not_wanted_country_title">Не та страна, которую вы хотели?</string>
     <string name="not_wanted_country_description">Улучшите для выбора любого сервера</string>
     <string name="whats_new_title">Что нового</string>
     <string name="whats_new_new_look_title">Новый внешний вид, та же защита</string>
-    <string name="whats_new_new_look_description">We updated our designs and moved some things around to make the app easier to use.</string>
-    <string name="whats_new_recents_title">Introducing Recents</string>
-    <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
-    <string name="whats_new_dismiss_button">Take a look</string>
+    <string name="whats_new_new_look_description">Мы обновили дизайн и переместили некоторые элементы, чтобы сделать приложение более удобным в использовании.</string>
+    <string name="whats_new_recents_title">Представляем Недавние</string>
+    <string name="whats_new_recents_description">Теперь переподключаться к любимым серверам стало еще проще. Просматривайте последние подключения на главном экране или закрепите их для быстрого доступа. Недавние заменяет Профили.</string>
+    <string name="whats_new_dismiss_button">Посмотреть</string>
     <string name="whats_new_added_countries_title">Новые страны с бесплатными серверами</string>
-    <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
+    <string name="whats_new_added_countries_description">Теперь есть бесплатные серверы в Польше и Румынии. Чтобы предотвратить переполнение серверов, мы убрали ручной выбор страны и внесли значительные улучшения в автоматический выбор серверов.</string>
     <string name="welcome_plus_title">Добро пожаловать в VPN Plus</string>
     <string name="welcome_plus_description">Используйте расширенные функции конфиденциальности, максимальную производительность и настройку VPN нового уровня.</string>
     <string name="welcome_plus_feature_security">Расширенные функции безопасности</string>
@@ -658,7 +658,7 @@
         <item quantity="one">До %1$d устройства одновременно</item>
         <item quantity="few">До %1$d устройств одновременно</item>
         <item quantity="many">До %1$d устройств одновременно</item>
-        <item quantity="other">Подключайте до %1$d устройств одновременно</item>
+        <item quantity="other">До %1$d устройств одновременно</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -681,7 +681,7 @@
         <item quantity="one">%d страна</item>
         <item quantity="few">%d страны</item>
         <item quantity="many">%d стран</item>
-        <item quantity="other">%d страны</item>
+        <item quantity="other">%d стран</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
@@ -704,14 +704,14 @@
          a label "Recents" with this state description will be read by a screen reader as:
          "Expanded. Recents"
      -->
-    <string name="accessibility_expandable_state_expanded">expanded</string>
+    <string name="accessibility_expandable_state_expanded">развернутый</string>
     <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
          Used only by accessibility services.
          Example:
          a label "Recents" with this state description will be read by a screen reader as:
          "Collapsed. Recents"
      -->
-    <string name="accessibility_expandable_state_collapsed">collapsed</string>
+    <string name="accessibility_expandable_state_collapsed">свернутый</string>
     <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
          Used only by accessibility services.
          Example:
@@ -719,7 +719,7 @@
          read by a screen reader as:
          "Expanded. Recents. Double tap to collapse"
      -->
-    <string name="accessibility_expandable_action_collapse">collapse</string>
+    <string name="accessibility_expandable_action_collapse">свернуть</string>
     <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
          Used only by accessibility services.
          Example:
@@ -727,15 +727,15 @@
          be read by a screen reader as:
          "Collapsed. Recents. Double tap to expand"
      -->
-    <string name="accessibility_expandable_action_expand">expand</string>
+    <string name="accessibility_expandable_action_expand">развернуть</string>
     <string name="no_logs_banner_title">Сертифицированная VPN без журналов</string>
     <string name="no_logs_banner_description">Работа вашей VPN защищена швейцарскими законами о частной жизни. Мы никогда не будем отслеживать вас в сети или передавать вашу информацию третьим лицам.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
-    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_home">Главная</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
-    <string name="bottom_nav_countries">Countries</string>
+    <string name="bottom_nav_countries">Страны</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
-    <string name="botton_nav_settings">Settings</string>
+    <string name="botton_nav_settings">Настройки</string>
     <!-- tag(Redesign_2023)
          Text added to button labels that open a UI element (e.g. a panel).
          Only used by accessibility services.
@@ -744,7 +744,7 @@
          reader as:
          "Connection details, button. Double tap to open"
     -->
-    <string name="accessibility_action_open">open</string>
+    <string name="accessibility_action_open">открыть</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that initiate a VPN connection.
          Only used by accessibility services.
@@ -752,7 +752,7 @@
          a list item for country Switzerland will be read by a screen reader as:
          "Switzerland. Double tap to connect"
         -->
-    <string name="accessibility_action_connect">connect</string>
+    <string name="accessibility_action_connect">подключить</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that redirect the user to upgrade their subscription plan.
          Only used by accessibility services.
@@ -761,7 +761,7 @@
          available will be read by a screen reader as:
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
-    <string name="accessibility_action_upgrade">upgrade</string>
+    <string name="accessibility_action_upgrade">улучшить</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -771,7 +771,7 @@
          screen reader as:
          "in maintenance, Switzerland"
      -->
-    <string name="accessibility_item_in_maintenance">in maintenance</string>
+    <string name="accessibility_item_in_maintenance">на техобслуживании</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable.
          Only used by accessibility services.
@@ -780,7 +780,7 @@
          reader as:
          "unavailable, Switzerland"
      -->
-    <string name="accessibility_item_unavailable">unavailable</string>
+    <string name="accessibility_item_unavailable">недоступно</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when there is active connection to it.
          Only used by accessibility services.
@@ -789,36 +789,36 @@
          will be read by a screen reader as:
          "Switzerland, connected"
      -->
-    <string name="accessibility_item_connected">connected</string>
+    <string name="accessibility_item_connected">подключено</string>
     <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
-    <string name="fastest_country">Fastest country</string>
+    <string name="fastest_country">Самая быстрая страна</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
-    <string name="fastest_free_server">Fastest free server</string>
+    <string name="fastest_free_server">Самый быстрый бесплатный сервер</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Iceland
      -->
-    <string name="connection_info_secure_core_full_iceland">%1$s via Iceland</string>
+    <string name="connection_info_secure_core_full_iceland">%1$s через Исландию</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Sweden
      -->
-    <string name="connection_info_secure_core_full_sweden">%1$s via Sweden</string>
+    <string name="connection_info_secure_core_full_sweden">%1$s через Швецию</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_switzerland">%1$s via Switzerland</string>
+    <string name="connection_info_secure_core_full_switzerland">%1$s через Швейцарию</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection.
          This text will only be used if a new entry country is added and the application is not
@@ -827,17 +827,17 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <string name="connection_info_secure_core_full_other">%1$s через %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
-    <string name="connection_info_secure_core_entry_iceland">via Iceland</string>
+    <string name="connection_info_secure_core_entry_iceland">через Исландию</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
-    <string name="connection_info_secure_core_entry_sweden">via Sweden</string>
+    <string name="connection_info_secure_core_entry_sweden">через Швецию</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -850,14 +850,14 @@
          %1$s - entry country name in nominative case
          Example: via Switzerland
     -->
-    <string name="connection_info_secure_core_entry_other">via %1$s</string>
+    <string name="connection_info_secure_core_entry_other">через %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          three countries. Displayed directly below fastest_free_server.
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">Auto-selected from [flags]</string>
+    <string name="connection_info_auto_selected_free_countries">Автовыбор из [flags]</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there
@@ -868,7 +868,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">Автовыбор из [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -876,10 +876,10 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="one">Auto-selected from %1$d country</item>
-        <item quantity="few">Auto-selected from %1$d countries</item>
-        <item quantity="many">Auto-selected from %1$d countries</item>
-        <item quantity="other">Auto-selected from %1$d countries</item>
+        <item quantity="one">Автоматически выбран из %1$d страны</item>
+        <item quantity="few">Автоматически выбран из %1$d стран</item>
+        <item quantity="many">Автоматически выбран из %1$d стран</item>
+        <item quantity="other">Автоматически выбран из %1$d стран</item>
     </plurals>
     <!-- tag(Redesign_2023)
          Help button above the connection card.
@@ -896,7 +896,7 @@
          Recommended
          Fastest country
      -->
-    <string name="connection_card_label_recommended">Recommended</string>
+    <string name="connection_card_label_recommended">Рекомендуется</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -908,16 +908,16 @@
          Last connected to
          Fastest country
          -->
-    <string name="connection_card_label_last_connected">Last connected to</string>
+    <string name="connection_card_label_last_connected">Последнее подключение к</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
-    <string name="connection_card_label_connecting">Connecting to…</string>
+    <string name="connection_card_label_connecting">Подключение к…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
          being established. It's shown only in response to user clicking the "Change server" button.
      -->
-    <string name="connection_card_label_changing_server">Changing server…</string>
+    <string name="connection_card_label_changing_server">Сменяется сервер...</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
@@ -930,7 +930,7 @@
          Fastest country
          Germany
      -->
-    <string name="connection_card_label_connected">Browsing safely from</string>
+    <string name="connection_card_label_connected">Безопасный сёрфинг из</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with details of the current VPN connection.
          Only used by accessibility services.
@@ -952,9 +952,9 @@
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
-    <string name="recents_headline">Recents</string>
+    <string name="recents_headline">Недавние</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_pin">Pin</string>
+    <string name="recent_action_pin">Закрепить</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_unpin">Открепить</string>
     <!-- tag(Redesign_2023) -->
@@ -963,23 +963,23 @@
          State description of a pinned recent item.
          Only used by accessibility service.
     -->
-    <string name="recent_action_accessibility_state_pinned">Pinned</string>
+    <string name="recent_action_accessibility_state_pinned">Закреплено</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
+    <string name="message_country_servers_in_maintenance">Все серверы в этой стране на техобслуживании</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">All servers in this city are under maintenance</string>
+    <string name="message_city_servers_in_maintenance">Все серверы в этом городе на техобслуживании</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Сервер на обслуживании</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_not_available">Server not available</string>
+    <string name="message_server_not_available">Сервер недоступен</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
-    <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
+    <string name="message_gateway_in_maintenance">Шлюз на техобслуживании</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out">Sign out</string>
+    <string name="settings_sign_out">Bыйти</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_title">Settings</string>
+    <string name="settings_title">Настройки</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_features">Features</string>
+    <string name="settings_category_features">Функции</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
@@ -987,41 +987,41 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_connection_category">Connection</string>
+    <string name="settings_connection_category">Подключение</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_protocol_title">Протокол</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced Settings</string>
+    <string name="settings_advanced_settings_title">Дополнительные настройки</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_general">General</string>
+    <string name="settings_category_general">Общие</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_account">Account</string>
+    <string name="settings_category_account">Аккаунт</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_notifications_title">Уведомления</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_theme_title">Тема</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_beta_access_title">Beta Access</string>
+    <string name="settings_beta_access_title">Доступ к бета-версии</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_title">Виджет</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_support">Support</string>
+    <string name="settings_category_support">Поддержка</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Help Center</string>
+    <string name="settings_help_center_title">Справочный центр</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Сообщить о проблеме</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug Logs</string>
+    <string name="settings_debug_logs_title">Журналы отладки</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_improve_proton">Improve Proton</string>
+    <string name="settings_category_improve_proton">Улучшить Proton</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_fight_censorship_title">Помогите нам бороться с цензурой</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_rate_us_title">Rate Proton VPN</string>
+    <string name="settings_rate_us_title">Оцените Proton VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_restore_defaults_title">Restore default settings</string>
+    <string name="settings_restore_defaults_title">Восстановить настройки по умолчанию</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out_title">Выйти</string>
     <!-- tag(Redesign_2023) -->
@@ -1029,23 +1029,23 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Лицензии третьих сторон</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Sign out?</string>
+    <string name="dialog_sign_out_title">Bыйти?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_message">You\'ll be disconnected from VPN.</string>
+    <string name="dialog_sign_out_message">Вы будете отключены от VPN.</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">Больше не спрашивать</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_action">Выйти</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_action_cancel">Cancel</string>
+    <string name="dialog_action_cancel">Отменить</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
-    <string name="vpn_status_connected">Protected</string>
+    <string name="vpn_status_connected">Защищена</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->
-    <string name="vpn_status_disabled">Вы не защищены</string>
+    <string name="vpn_status_disabled">Вы незащищены</string>
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
@@ -1055,25 +1055,25 @@
          First parameter is country, second is IP.
          Ex: Poland - 192.1.1.1.1
     -->
-    <string name="vpn_status_disabled_location">%1$s - %2$s</string>
+    <string name="vpn_status_disabled_location">%1$s–%2$s</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_subtitle">Connection details</string>
+    <string name="connection_details_subtitle">Информация о подключении</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_show_ip">Show IP</string>
+    <string name="accessibility_show_ip">Показать IP</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_back">Back</string>
+    <string name="accessibility_back">Назад</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Мой IP</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip">IP VPN</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
     -->
-    <string name="connection_details_connected_for">Connected for</string>
+    <string name="connection_details_connected_for">Подключено в течение</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">Сервер</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_gateway">Gateway</string>
+    <string name="connection_details_gateway">Шлюз</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_country">Страна</string>
     <!-- tag(Redesign_2023) -->
@@ -1081,27 +1081,27 @@
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
-    <string name="connection_details_server_load">Server load</string>
+    <string name="connection_details_server_load">Нагрузка сервера</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_question">What is server load?</string>
+    <string name="connection_details_server_load_question">Что такое нагрузка сервера?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">Server load shows how close a server is to its maximum capacity. \n\nA high server load can slow down your connection.</string>
+    <string name="connection_details_server_load_description">Загруженность сервера показывает, насколько сервер близок к своей максимальной производительности. \n\nВысокая загруженность сервера может замедлить ваше подключение.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_title">Low (1–75%)</string>
+    <string name="connection_details_server_load_low_title">Низкая (1–75%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_description">Lightning fast speeds</string>
+    <string name="connection_details_server_load_low_description">Молниеносная скорость</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_title">Medium (76–90%)</string>
+    <string name="connection_details_server_load_medium_title">Средняя (76–90%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_description">Unlikely to affect VPN speed</string>
+    <string name="connection_details_server_load_medium_description">Вряд ли повлияет на скорость VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_title">High (91–100%)</string>
+    <string name="connection_details_server_load_high_title">Высокая (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
+    <string name="connection_details_server_load_high_description">VPN может работать медленнее обычного </string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol">Protocol</string>
+    <string name="connection_details_protocol">Протокол</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol_description">A protocol is a set of instructions your device follows to connect and communicate with a server.</string>
+    <string name="connection_details_protocol_description">Протокол — это набор инструкций, которым следует ваше устройство для подключения и взаимодействия с сервером.</string>
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
@@ -1109,46 +1109,46 @@
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
-    <string name="connection_details_download">Download</string>
+    <string name="connection_details_download">Скачать</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_section_vpn_speed">VPN speed</string>
+    <string name="connection_details_section_vpn_speed">Скорость VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_question">What is VPN speed?</string>
+    <string name="connection_details_vpn_speed_question">Что такое скорость VPN?</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
-    <string name="connection_details_learn_more">Learn more</string>
+    <string name="connection_details_learn_more">Подробнее</string>
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
-    <string name="connection_details_unknown_ip">Unknown</string>
+    <string name="connection_details_unknown_ip">Неизвестный</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
+    <string name="connection_details_vpn_speed_description">Этот график показывает скорость загрузки и скачивания в настоящий момент. Ваше подключение к VPN вряд ли замедлит нормальную работу в Интернете.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_bits_per_second">%1$s b/s</string>
+    <string name="speed_bits_per_second">%1$s Б/с</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_kb_per_second">%1$s kb/s</string>
+    <string name="speed_kb_per_second">%1$s КБ/с</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_mb_per_second">%1$s Mb/s</string>
+    <string name="speed_mb_per_second">%1$s МБ/с</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_gb_per_second">%1$s Gb/s</string>
+    <string name="speed_gb_per_second">%1$s ГБ/с</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_tb_per_second">%1$s Tb/s</string>
+    <string name="speed_tb_per_second">%1$s ТБ/с</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
-    <string name="error_vpn_waiting_for_network">Waiting for network</string>
+    <string name="error_vpn_waiting_for_network">Ожидание сети</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
         <item quantity="one">%1$d день</item>
-        <item quantity="few">%1$d дней</item>
-        <item quantity="many">%1$d дня</item>
-        <item quantity="other">%1$d дня</item>
+        <item quantity="few">%1$d дня</item>
+        <item quantity="many">%1$d дней</item>
+        <item quantity="other">%1$d дней</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d hr</string>
+    <string name="connection_details_hours_shortened">%1$d ч</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <string name="connection_details_minutes_shortened">%1$d мин</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d sec</string>
+    <string name="connection_details_seconds_shortened">%1$d с</string>
 </resources>

@@ -752,7 +752,7 @@
          a list item for country Switzerland will be read by a screen reader as:
          "Switzerland. Double tap to connect"
         -->
-    <string name="accessibility_action_connect">połącz</string>
+    <string name="accessibility_action_connect">się połączyć</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that redirect the user to upgrade their subscription plan.
          Only used by accessibility services.
@@ -896,7 +896,7 @@
          Recommended
          Fastest country
      -->
-    <string name="connection_card_label_recommended">Zalecane</string>
+    <string name="connection_card_label_recommended">Zalecany</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.

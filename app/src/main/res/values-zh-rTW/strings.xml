@@ -76,7 +76,7 @@
     <string name="settingsSectionConnection">連接</string>
     <string name="settingsSectionSecurity">安全性</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
-    <string name="settingsSectionSupport">Support</string>
+    <string name="settingsSectionSupport">支援</string>
     <string name="settingsSectionAdvanced">進階</string>
     <string name="settingsAutoStartTitle">開機時啟動</string>
     <string name="settingsAutoStartDescription">Proton VPN 將在每次系統啟動時自動開始</string>
@@ -253,8 +253,8 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[這些統計資料不包含您的 IP 位址，且其無法用於識別您的身份。我們永遠不會將它們與第三方分享。<a href="%1$s">取得更多資訊</a>]]></string>
     <string name="netShieldEnabledWarning">請注意：攔截內容後，某些網站或會未能完全運作。</string>
     <string name="netShieldDescription">攔截廣告、追蹤和惡意軟體</string>
-    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
-    <string name="learn_more">Learn more</string>
+    <string name="netshield_settings_description_not_html">保護您免受網站與應用程式中的廣告、惡意程式與追蹤器騷擾。若網站無法載入，請嘗試停用 NetShield。%1$s</string>
+    <string name="learn_more">了解更多</string>
     <string name="netshield_status_on">開啟</string>
     <string name="netshield_status_off">關閉</string>
     <string name="netshield_free_title">使用 NetShield 瀏覽無廣告的世界</string>
@@ -262,11 +262,11 @@
     <string name="netshield_business_title">使用NetShield阻擋廣告</string>
     <string name="netshield_business_description">當您升級至企業版VPN時</string>
     <string name="netshield_what_data_means">What NetShield data means</string>
-    <string name="netshield_ads_title">Ads</string>
+    <string name="netshield_ads_title">廣告</string>
     <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
-    <string name="netshield_trackers_title">Trackers</string>
+    <string name="netshield_trackers_title">追蹤器</string>
     <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
-    <string name="netshield_data_title">Data</string>
+    <string name="netshield_data_title">資料</string>
     <string name="netshield_data_details">The amount of unwanted data from ads, trackers, and malware blocked by NetShield</string>
     <string name="accessibility_netshield_status_on_click">輸入 NetShield 設定</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
@@ -275,7 +275,7 @@
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
         <item quantity="other">追蹤器已停止</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">資料已儲存</string>
     <string name="netShieldBlockMalwareOnly">僅攔截惡意軟體</string>
     <string name="netShieldFullBlock">攔截惡意軟體、追蹤、廣告</string>
     <string name="dialogDontShowAgain">不要再顯示</string>
@@ -446,7 +446,7 @@
         50 PLN /month
         $100 /year
     -->
-    <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_with_period">%1$s / %2$s</string>
     <string name="payment_price_per_month">月</string>
     <string name="payment_price_per_year">年</string>
     <string name="payment_price_per_2years">2 年</string>
@@ -586,7 +586,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
+    <string name="server_change_button_time_left_content_description">於%1$s %2$s可用</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -594,8 +594,8 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
-    <string name="server_change_progress_finished_contend_description">Available now</string>
+    <string name="server_change_button_time_left_seconds_content_description">於%1$s 可用</string>
+    <string name="server_change_progress_finished_contend_description">現在可用</string>
     <string name="not_wanted_country_title">不是您想要的國家？</string>
     <string name="not_wanted_country_description">升級以選擇任何伺服器。</string>
     <string name="whats_new_title">最新消息！</string>
@@ -603,7 +603,7 @@
     <string name="whats_new_new_look_description">We updated our designs and moved some things around to make the app easier to use.</string>
     <string name="whats_new_recents_title">Introducing Recents</string>
     <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
-    <string name="whats_new_dismiss_button">Take a look</string>
+    <string name="whats_new_dismiss_button">立即查看</string>
     <string name="whats_new_added_countries_title">新增的免費國家</string>
     <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
     <string name="welcome_plus_title">歡迎加入 VPN Plus</string>
@@ -656,14 +656,14 @@
          a label "Recents" with this state description will be read by a screen reader as:
          "Expanded. Recents"
      -->
-    <string name="accessibility_expandable_state_expanded">expanded</string>
+    <string name="accessibility_expandable_state_expanded">展開</string>
     <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
          Used only by accessibility services.
          Example:
          a label "Recents" with this state description will be read by a screen reader as:
          "Collapsed. Recents"
      -->
-    <string name="accessibility_expandable_state_collapsed">collapsed</string>
+    <string name="accessibility_expandable_state_collapsed">收合</string>
     <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
          Used only by accessibility services.
          Example:
@@ -671,7 +671,7 @@
          read by a screen reader as:
          "Expanded. Recents. Double tap to collapse"
      -->
-    <string name="accessibility_expandable_action_collapse">collapse</string>
+    <string name="accessibility_expandable_action_collapse">收合</string>
     <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
          Used only by accessibility services.
          Example:
@@ -679,15 +679,15 @@
          be read by a screen reader as:
          "Collapsed. Recents. Double tap to expand"
      -->
-    <string name="accessibility_expandable_action_expand">expand</string>
+    <string name="accessibility_expandable_action_expand">展開</string>
     <string name="no_logs_banner_title">驗證無紀錄的VPN</string>
     <string name="no_logs_banner_description">Your VPN activity is protected by Swiss privacy laws. We’ll never track you online or share your information with third parties.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
-    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_home">住家</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
-    <string name="bottom_nav_countries">Countries</string>
+    <string name="bottom_nav_countries">國家</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
-    <string name="botton_nav_settings">Settings</string>
+    <string name="botton_nav_settings">設定</string>
     <!-- tag(Redesign_2023)
          Text added to button labels that open a UI element (e.g. a panel).
          Only used by accessibility services.
@@ -696,7 +696,7 @@
          reader as:
          "Connection details, button. Double tap to open"
     -->
-    <string name="accessibility_action_open">open</string>
+    <string name="accessibility_action_open">開啟</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that initiate a VPN connection.
          Only used by accessibility services.
@@ -704,7 +704,7 @@
          a list item for country Switzerland will be read by a screen reader as:
          "Switzerland. Double tap to connect"
         -->
-    <string name="accessibility_action_connect">connect</string>
+    <string name="accessibility_action_connect">連線</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that redirect the user to upgrade their subscription plan.
          Only used by accessibility services.
@@ -713,7 +713,7 @@
          available will be read by a screen reader as:
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
-    <string name="accessibility_action_upgrade">upgrade</string>
+    <string name="accessibility_action_upgrade">升級</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -723,7 +723,7 @@
          screen reader as:
          "in maintenance, Switzerland"
      -->
-    <string name="accessibility_item_in_maintenance">in maintenance</string>
+    <string name="accessibility_item_in_maintenance">維護中</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable.
          Only used by accessibility services.
@@ -732,7 +732,7 @@
          reader as:
          "unavailable, Switzerland"
      -->
-    <string name="accessibility_item_unavailable">unavailable</string>
+    <string name="accessibility_item_unavailable">不可用</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when there is active connection to it.
          Only used by accessibility services.
@@ -741,36 +741,36 @@
          will be read by a screen reader as:
          "Switzerland, connected"
      -->
-    <string name="accessibility_item_connected">connected</string>
+    <string name="accessibility_item_connected">已連線</string>
     <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
-    <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_label_tor">洋蔥路由器</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
-    <string name="fastest_country">Fastest country</string>
+    <string name="fastest_country">最快的國家</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
-    <string name="fastest_free_server">Fastest free server</string>
+    <string name="fastest_free_server">最快速的伺免費服器</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Iceland
      -->
-    <string name="connection_info_secure_core_full_iceland">%1$s via Iceland</string>
+    <string name="connection_info_secure_core_full_iceland">%1$s經冰島</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Sweden
      -->
-    <string name="connection_info_secure_core_full_sweden">%1$s via Sweden</string>
+    <string name="connection_info_secure_core_full_sweden">%1$s經瑞士</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_switzerland">%1$s via Switzerland</string>
+    <string name="connection_info_secure_core_full_switzerland">%1$s經瑞士</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection.
          This text will only be used if a new entry country is added and the application is not
@@ -779,17 +779,17 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <string name="connection_info_secure_core_full_other">%1$s 經 %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
-    <string name="connection_info_secure_core_entry_iceland">via Iceland</string>
+    <string name="connection_info_secure_core_entry_iceland">經冰島</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
-    <string name="connection_info_secure_core_entry_sweden">via Sweden</string>
+    <string name="connection_info_secure_core_entry_sweden">經瑞士</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -802,14 +802,14 @@
          %1$s - entry country name in nominative case
          Example: via Switzerland
     -->
-    <string name="connection_info_secure_core_entry_other">via %1$s</string>
+    <string name="connection_info_secure_core_entry_other">經 %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          three countries. Displayed directly below fastest_free_server.
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">Auto-selected from [flags]</string>
+    <string name="connection_info_auto_selected_free_countries">從 [標籤] 自動選擇</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there
@@ -820,7 +820,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">從 [標籤]+%1$d 自動選擇</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -828,12 +828,12 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="other">Auto-selected from %1$d countries</item>
+        <item quantity="other">從 %1$d 國家自動選擇</item>
     </plurals>
     <!-- tag(Redesign_2023)
          Help button above the connection card.
      -->
-    <string name="connection_card_help">Help</string>
+    <string name="connection_card_help">幫助</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          the recommended one.
@@ -845,7 +845,7 @@
          Recommended
          Fastest country
      -->
-    <string name="connection_card_label_recommended">Recommended</string>
+    <string name="connection_card_label_recommended">推薦使用</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -857,16 +857,16 @@
          Last connected to
          Fastest country
          -->
-    <string name="connection_card_label_last_connected">Last connected to</string>
+    <string name="connection_card_label_last_connected">上次連線至</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
-    <string name="connection_card_label_connecting">Connecting to…</string>
+    <string name="connection_card_label_connecting">正在連線至…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
          being established. It's shown only in response to user clicking the "Change server" button.
      -->
-    <string name="connection_card_label_changing_server">Changing server…</string>
+    <string name="connection_card_label_changing_server">切換伺服器…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
@@ -879,7 +879,7 @@
          Fastest country
          Germany
      -->
-    <string name="connection_card_label_connected">Browsing safely from</string>
+    <string name="connection_card_label_connected">安全瀏覽從</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with details of the current VPN connection.
          Only used by accessibility services.
@@ -888,7 +888,7 @@
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_connection_details">connection details</string>
+    <string name="connection_card_accessbility_label_connection_details">連結詳細資訊</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with information about connections in free plan.
          Only used by accessibility services.
@@ -897,22 +897,22 @@
          a button with this description will be read by a screen reader as:
          "more information about free connections, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_free_connections">more information about free connections</string>
+    <string name="connection_card_accessbility_label_free_connections">更多免費連線資訊</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
-    <string name="recents_headline">Recents</string>
+    <string name="recents_headline">最近</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_pin">Pin</string>
+    <string name="recent_action_pin">釘選</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_unpin">Unpin</string>
+    <string name="recent_action_unpin">取消釘選</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_remove">Remove</string>
+    <string name="recent_action_remove">移除</string>
     <!-- tag(Redesign_2023)
          State description of a pinned recent item.
          Only used by accessibility service.
     -->
-    <string name="recent_action_accessibility_state_pinned">Pinned</string>
+    <string name="recent_action_accessibility_state_pinned">已釘選</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -920,39 +920,39 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">伺服器維護中</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_not_available">Server not available</string>
+    <string name="message_server_not_available">服務器不可用</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out">Sign out</string>
+    <string name="settings_sign_out">登出</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_title">Settings</string>
+    <string name="settings_title">設定</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_features">Features</string>
+    <string name="settings_category_features">功能</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">拆分隧道</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill Switch</string>
+    <string name="settings_kill_switch_title">緊急開關</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_connection_category">Connection</string>
+    <string name="settings_connection_category">連接</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_protocol_title">Protocol</string>
+    <string name="settings_protocol_title">協議</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <string name="settings_vpn_accelerator_title">VPN 加速器</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced Settings</string>
+    <string name="settings_advanced_settings_title">進階設定</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_general">General</string>
+    <string name="settings_category_general">一般</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_account">Account</string>
+    <string name="settings_category_account">帳號</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_notifications_title">通知</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_theme_title">佈景主題</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_beta_access_title">Beta Access</string>
+    <string name="settings_beta_access_title">測試版體驗</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_widget_title">Widget</string>
     <!-- tag(Redesign_2023) -->
@@ -1062,19 +1062,19 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN speed</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_question">What is VPN speed?</string>
+    <string name="connection_details_vpn_speed_question">甚麼是 VPN 速度?</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
-    <string name="connection_details_learn_more">Learn more</string>
+    <string name="connection_details_learn_more">了解更多</string>
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
-    <string name="connection_details_unknown_ip">Unknown</string>
+    <string name="connection_details_unknown_ip">未知</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_bits_per_second">%1$s b/s</string>
+    <string name="speed_bits_per_second">%1$s位元組每秒</string>
     <!-- tag(Redesign_2023) -->
     <string name="speed_kb_per_second">%1$s kb/s</string>
     <!-- tag(Redesign_2023) -->
@@ -1086,15 +1086,15 @@
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
-    <string name="error_vpn_waiting_for_network">Waiting for network</string>
+    <string name="error_vpn_waiting_for_network">等待網路</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
         <item quantity="other">%1$d 天</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d hr</string>
+    <string name="connection_details_hours_shortened">%1$d 小時</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <string name="connection_details_minutes_shortened">%1$d 分鐘</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d sec</string>
+    <string name="connection_details_seconds_shortened">%1$d 秒鐘</string>
 </resources>
