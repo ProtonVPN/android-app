@@ -109,10 +109,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                     isConnectedOrConnecting = true,
                     connectIntentViewState = ConnectIntentViewState(
                         primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
-                        secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(
-                            exit = CountryId("pl"),
-                            entry = CountryId("se")
-                        ),
+                        secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(entry = CountryId("se")),
                         serverFeatures = EnumSet.of(ServerFeature.P2P),
                     ),
                     canOpenConnectionPanel = true,
@@ -134,7 +131,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                             exitCountry = CountryId("lt"),
                             entryCountry = CountryId("ch"),
                         ),
-                        secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(exit = null, entry = CountryId("ch")),
+                        secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(entry = CountryId("ch")),
                         serverFeatures = EnumSet.of(ServerFeature.P2P)
                     ),
                     canOpenConnectionPanel = true,
@@ -162,7 +159,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
                             exitCountry = CountryId("lt"),
                             entryCountry = CountryId("ch"),
                         ),
-                        secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(exit = null, entry = CountryId("ch")),
+                        secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(entry = CountryId("ch")),
                         serverFeatures = EnumSet.of(ServerFeature.P2P)
                     ),
                     canOpenConnectionPanel = true,

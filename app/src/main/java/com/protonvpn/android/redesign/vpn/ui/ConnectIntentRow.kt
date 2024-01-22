@@ -78,7 +78,7 @@ sealed interface ConnectIntentPrimaryLabel {
 sealed interface ConnectIntentSecondaryLabel {
     data class FastestFreeServer(val freeServerCountries: Int) : ConnectIntentSecondaryLabel
     data class Country(val country: CountryId, val serverNumberLabel: String? = null) : ConnectIntentSecondaryLabel
-    data class SecureCore(val exit: CountryId?, val entry: CountryId) : ConnectIntentSecondaryLabel
+    data class SecureCore(val entry: CountryId) : ConnectIntentSecondaryLabel
     data class RawText(val text: String) : ConnectIntentSecondaryLabel
 }
 
@@ -186,13 +186,7 @@ private fun ConnectIntentSecondaryLabel.label(): AnnotatedString = when (this) {
         val suffix = serverNumberLabel?.let { " $it" } ?: ""
         AnnotatedString(country.label() + suffix)
     }
-    is ConnectIntentSecondaryLabel.SecureCore -> {
-        if (exit != null) {
-            AnnotatedString(viaCountry(exit, entry))
-        } else {
-            AnnotatedString(viaCountry(entry))
-        }
-    }
+    is ConnectIntentSecondaryLabel.SecureCore -> AnnotatedString(viaCountry(entry))
     is ConnectIntentSecondaryLabel.FastestFreeServer -> {
         val text = if (freeServerCountries > 3)
             stringResource(R.string.connection_info_auto_selected_free_countries_more, freeServerCountries - 3)
@@ -228,17 +222,6 @@ fun viaCountry(entryCountry: CountryId): String =
         CountryId.sweden -> stringResource(R.string.connection_info_secure_core_entry_sweden)
         CountryId.switzerland -> stringResource(R.string.connection_info_secure_core_entry_switzerland)
         else -> stringResource(R.string.connection_info_secure_core_entry_other, entryCountry.label())
-    }
-
-@Composable
-private fun viaCountry(exitCountry: CountryId, entryCountry: CountryId): String =
-    when (entryCountry) {
-        CountryId.iceland -> stringResource(R.string.connection_info_secure_core_full_iceland, exitCountry.label())
-        CountryId.sweden -> stringResource(R.string.connection_info_secure_core_full_sweden, exitCountry.label())
-        CountryId.switzerland ->
-            stringResource(R.string.connection_info_secure_core_full_switzerland, exitCountry.label())
-        else ->
-            stringResource(R.string.connection_info_secure_core_full_other, exitCountry.label(), entryCountry.label())
     }
 
 @Composable

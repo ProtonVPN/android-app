@@ -102,7 +102,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
                     exitCountry = CountryId("ch"),
                     entryCountry = CountryId.sweden,
                 ),
-                secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(null, CountryId.sweden),
+                secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(CountryId.sweden),
                 serverFeatures = emptySet()
             ),
             isPinned = false,

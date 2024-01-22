@@ -766,36 +766,7 @@
     <string name="fastest_country">País más rápido</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Servidor gratuito más rápido</string>
-    <!-- tag(Redesign_2023)
-         Label describing a Secure Core connection via Iceland.
-         Translate entry country name in correct declension, including the preposition and article, if needed.
-         %1$s - exit country name in nominative case
-         Example: United States via Iceland
-     -->
-    <string name="connection_info_secure_core_full_iceland">%1$s vía Islandia</string>
-    <!-- tag(Redesign_2023)
-         Label describing a Secure Core connection via Sweden.
-         Translate entry country name in correct declension, including the preposition and article, if needed.
-         %1$s - exit country name in nominative case
-         Example: United States via Sweden
-     -->
-    <string name="connection_info_secure_core_full_sweden">%1$s vía Suecia</string>
-    <!-- tag(Redesign_2023)
-         Label describing a Secure Core connection via Switzerland.
-         Translate entry country name in correct declension, including the preposition and article, if needed.
-         %1$s - exit country name in nominative case
-         Example: United States via Switzerland
-     -->
-    <string name="connection_info_secure_core_full_switzerland">%1$s vía Suiza</string>
-    <!-- tag(Redesign_2023)
-         Label describing a Secure Core connection.
-         This text will only be used if a new entry country is added and the application is not
-         yet updated with a specific text for it. Few users will ever see it.
-         %1$s - exit country name in nominative case
-         %2$s - entry country name in nominative case
-         Example: United States via Switzerland
-     -->
-    <string name="connection_info_secure_core_full_other">%1$s vía %2$s</string>
+
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
