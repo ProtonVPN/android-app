@@ -104,7 +104,8 @@ object CountryTools {
     private fun flagCode(flag: String) =
         if (flag.lowercase(Locale.ROOT) == "uk") "gb" else flag.lowercase(Locale.ROOT)
 
-    val locationMap = mapOf(
+    // TODO: old map is now gone, we'll need to translate those to new map coordinates
+    val oldMapLocations = mapOf(
         "AE" to CountryData(3103.0, 976.0, Continent.AfricaAndMiddleEast),
         "AL" to CountryData(2560.0, 665.0, Continent.Europe),
         "AR" to CountryData(1300.0, 2000.0, Continent.America),

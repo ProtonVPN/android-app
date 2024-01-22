@@ -92,7 +92,7 @@ private fun MapView.update(
             // makes smaller countries have more padding than big ones
             highlights = listOf(CountryHighlightInfo(countryName, highlight))
             // Translate location from old map
-            val translatedPinPosition = CountryTools.locationMap[countryCode]?.let {
+            val translatedPinPosition = CountryTools.oldMapLocations[countryCode]?.let {
                 PointF(it.x.toFloat(), it.y.toFloat()).translateOldToNewMapCoordinates()
             }
             // Use translated location if is in bounds (might not be the case for very small
