@@ -136,7 +136,7 @@ class TvMainViewModel @Inject constructor(
 
     fun getCountryCardMap(): Map<CountryTools.Continent?, List<CountryCard>> {
         return serverManager.getVpnCountries().groupBy({
-            val continent = CountryTools.locationMap[it.flag]?.continent
+            val continent = CountryTools.oldMapLocations[it.flag]?.continent
             DebugUtils.debugAssert("Unknown location for ${it.flag}") { continent != null || it.flag == "XX" }
             continent
         }, { country ->
