@@ -21,11 +21,7 @@ package com.protonvpn.android.models.profiles
 import android.content.Context
 import androidx.annotation.DrawableRes
 import com.protonvpn.android.R
-import com.protonvpn.android.appconfig.AppConfig
-import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -33,6 +29,7 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import java.io.Serializable
 import java.util.Locale
 import java.util.UUID
+import me.proton.core.presentation.R as CoreR
 
 data class Profile @JvmOverloads constructor(
     val name: String,
@@ -84,8 +81,8 @@ data class Profile @JvmOverloads constructor(
         name
 
     @get:DrawableRes val profileSpecialIcon: Int? get() = when {
-        wrapper.isPreBakedFastest -> R.drawable.ic_proton_bolt
-        wrapper.isPreBakedRandom -> R.drawable.ic_proton_arrows_swap_right
+        wrapper.isPreBakedFastest -> CoreR.drawable.ic_proton_bolt
+        wrapper.isPreBakedRandom -> CoreR.drawable.ic_proton_arrows_swap_right
         else -> null
     }
 

@@ -60,6 +60,7 @@ import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.country.presentation.R as CountryR
 
 private object FlagShapes {
     val regular = RoundedCornerShape(size = 4.dp)
@@ -300,21 +301,21 @@ private fun FlagsPreviewHelper() {
                     modifier = modifier
                 )
                 Flag(
-                    exitCountryFlag = R.drawable.flag_au,
-                    entryCountryFlag = R.drawable.flag_ch,
+                    exitCountryFlag = CountryR.drawable.flag_au,
+                    entryCountryFlag = CountryR.drawable.flag_ch,
                     isSecureCore = true,
                     isFastest = false,
                     modifier = modifier
                 )
                 Flag(
-                    exitCountryFlag = R.drawable.flag_us,
+                    exitCountryFlag = CountryR.drawable.flag_us,
                     entryCountryFlag = null,
                     isSecureCore = false,
                     isFastest = false,
                     modifier = modifier
                 )
                 GatewayIndicator(countryFlag = null, modifier = modifier)
-                GatewayIndicator(countryFlag = R.drawable.flag_us, modifier = modifier)
+                GatewayIndicator(countryFlag = CountryR.drawable.flag_us, modifier = modifier)
             }
         }
     }

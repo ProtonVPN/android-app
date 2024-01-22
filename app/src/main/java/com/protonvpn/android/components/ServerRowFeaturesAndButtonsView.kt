@@ -36,6 +36,7 @@ import com.protonvpn.android.utils.setColorTint
 import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import kotlin.math.ceil
 import kotlin.properties.Delegates
+import me.proton.core.presentation.R as CoreR
 
 /**
  * Implements the common part of server and country item row, the one with features, server load and buttons.
@@ -92,7 +93,7 @@ class ServerRowFeaturesAndButtonsView : LinearLayout {
 
         serverFeatures.isVisible = featuresEnabled && userHasAccess
         val featuresColorAttr =
-            if (isOnline && userHasAccess) R.attr.proton_icon_norm else R.attr.proton_icon_disabled
+            if (isOnline && userHasAccess) CoreR.attr.proton_icon_norm else CoreR.attr.proton_icon_disabled
         serverFeatures.color = MaterialColors.getColor(serverFeatures, featuresColorAttr)
         serverFeatures.featureIcons = featureIcons
 

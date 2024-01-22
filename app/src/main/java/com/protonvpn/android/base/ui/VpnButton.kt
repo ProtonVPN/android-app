@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun VpnSolidButton(
@@ -165,7 +166,7 @@ private fun VpnButtonContent(
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(text, modifier = Modifier.align(Alignment.Center))
             Icon(
-                painterResource(id = R.drawable.ic_proton_arrow_out_square),
+                painterResource(id = CoreR.drawable.ic_proton_arrow_out_square),
                 contentDescription = stringResource(R.string.accessibility_external_link_suffix),
                 tint = ProtonTheme.colors.iconAccent,
                 modifier = Modifier.align(Alignment.CenterEnd)

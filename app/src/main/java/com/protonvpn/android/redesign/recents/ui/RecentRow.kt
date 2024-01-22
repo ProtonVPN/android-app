@@ -68,7 +68,6 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
@@ -79,6 +78,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.overlineStrongUnspecified
+import me.proton.core.presentation.R as CoreR
 
 enum class RecentAvailability {
     // Order is significant, see RecentsListViewStateFlow.getAvailability.
@@ -152,7 +152,8 @@ private fun RecentRowContent(
             horizontalArrangement = Arrangement.Start
         ) {
             val isDisabled = item.availability != RecentAvailability.ONLINE
-            val iconRes = if (item.isPinned) R.drawable.ic_proton_pin_filled else R.drawable.ic_proton_clock_rotate_left
+            val iconRes =
+                if (item.isPinned) CoreR.drawable.ic_proton_pin_filled else CoreR.drawable.ic_proton_clock_rotate_left
             Row(
                 modifier = Modifier.unavailableServerAlpha(isDisabled),
                 verticalAlignment = Alignment.CenterVertically
@@ -179,7 +180,7 @@ private fun RecentRowContent(
             )
             if (item.availability == RecentAvailability.AVAILABLE_OFFLINE) {
                 Icon(
-                    painterResource(id = R.drawable.ic_proton_wrench),
+                    painterResource(id = CoreR.drawable.ic_proton_wrench),
                     tint = ProtonTheme.colors.iconWeak,
                     contentDescription = null, // Description is added on the whole row.
                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -196,7 +197,7 @@ private fun PinActionBackground(
 ) {
     SwipeActionBackground(
         labelRes = if (pinned) R.string.recent_action_unpin else R.string.recent_action_pin,
-        iconRes = if (pinned) R.drawable.ic_proton_pin_slash_filled else R.drawable.ic_proton_pin_filled,
+        iconRes = if (pinned) CoreR.drawable.ic_proton_pin_slash_filled else CoreR.drawable.ic_proton_pin_filled,
         color = ProtonTheme.colors.notificationWarning,
         shape = RecentRow.pinActionShape,
         alignment = Alignment.CenterStart,
@@ -210,7 +211,7 @@ private fun RemoveActionBackground(
 ) {
     SwipeActionBackground(
         labelRes = R.string.recent_action_remove,
-        iconRes = R.drawable.ic_proton_trash,
+        iconRes = CoreR.drawable.ic_proton_trash,
         color = ProtonTheme.colors.notificationError,
         shape = RecentRow.removeActionShape,
         alignment = Alignment.CenterEnd,

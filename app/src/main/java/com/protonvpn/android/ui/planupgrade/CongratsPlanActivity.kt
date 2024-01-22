@@ -42,6 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
 class CongratsPlanActivity : BaseActivityV2() {
@@ -138,11 +139,11 @@ class CongratsPlusHighlightsFragment : PlanHighlightsFragment() {
                 R.plurals.welcome_plus_servers, roundedServerCount, roundedServerCount)
             val countriesCountText = resources.getQuantityString(
                 R.plurals.welcome_plus_countries, countriesCount, countriesCount)
-            addFeature(getString(R.string.welcome_plus_feature_servers_count, serverCountText, countriesCountText), R.drawable.ic_proton_globe)
-            addFeature(R.string.welcome_plus_feature_security, R.drawable.ic_proton_sliders)
+            addFeature(getString(R.string.welcome_plus_feature_servers_count, serverCountText, countriesCountText), CoreR.drawable.ic_proton_globe)
+            addFeature(R.string.welcome_plus_feature_security, CoreR.drawable.ic_proton_sliders)
             addFeature(
                 resources.getQuantityString(R.plurals.welcome_plus_feature_devices, 10, 10),
-                R.drawable.ic_proton_locks
+                CoreR.drawable.ic_proton_locks
             )
         }
     }

@@ -61,6 +61,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import me.proton.core.presentation.R as CoreR
 import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
 
@@ -198,11 +199,11 @@ class TvMainViewModel @Inject constructor(
         val defaultConnection = serverManager.defaultConnection
         val server = serverManager.getServerForConnectIntent(connectIntent, currentUser.vpnUserCached())
         return when {
-            server == null -> R.drawable.ic_proton_lock_filled
-            server.online && connectIntent == ConnectIntent.Default -> R.drawable.ic_proton_bolt
-            server.online && connectIntent == createIntentForDefaultProfile(defaultConnection) -> R.drawable.ic_proton_star
-            server.online -> R.drawable.ic_proton_clock_rotate_left
-            else -> R.drawable.ic_proton_wrench
+            server == null -> CoreR.drawable.ic_proton_lock_filled
+            server.online && connectIntent == ConnectIntent.Default -> CoreR.drawable.ic_proton_bolt
+            server.online && connectIntent == createIntentForDefaultProfile(defaultConnection) -> CoreR.drawable.ic_proton_star
+            server.online -> CoreR.drawable.ic_proton_clock_rotate_left
+            else -> CoreR.drawable.ic_proton_wrench
         }
     }
 
@@ -213,8 +214,8 @@ class TvMainViewModel @Inject constructor(
         return when {
             isConnected() || isEstablishingConnection() -> 0
             server?.online == true ->
-                if (defaultConnection.isPreBakedProfile) R.drawable.ic_proton_bolt else R.drawable.ic_proton_star
-            else -> R.drawable.ic_proton_wrench
+                if (defaultConnection.isPreBakedProfile) CoreR.drawable.ic_proton_bolt else CoreR.drawable.ic_proton_star
+            else -> CoreR.drawable.ic_proton_wrench
         }
     }
 
@@ -235,7 +236,7 @@ class TvMainViewModel @Inject constructor(
             backgroundImage = DrawableImage(
                 resId = quickConnectBackground(context),
                 tint = if (isConnected() || isEstablishingConnection())
-                    R.color.tvDisconnectButtonTint else R.color.transparent
+                    R.color.tvDisconnectButtonTint else CoreR.color.transparent
             )
         )
     }

@@ -46,6 +46,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import me.proton.core.presentation.utils.viewBinding
+import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
 class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
@@ -127,7 +128,7 @@ class CountryDetailFragment : Fragment(R.layout.fragment_tv_country_details) {
             defaultConnection.isChecked = viewState.isDefaultCountry
             defaultConnection.isVisible = viewState.isAccessible
 
-            connectStreaming.setStartDrawable(if (viewState.isPlusUser) 0 else R.drawable.ic_proton_lock_filled)
+            connectStreaming.setStartDrawable(if (viewState.isPlusUser) 0 else CoreR.drawable.ic_proton_lock_filled)
             connectStreaming.setText(viewState.connectButtonText)
             connectStreaming.isVisible = viewState.showConnectToStreaming
             if (viewState.isPlusUser) {

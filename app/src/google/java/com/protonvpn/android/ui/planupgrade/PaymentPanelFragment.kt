@@ -55,6 +55,7 @@ import me.proton.core.plan.domain.entity.SubscriptionManagement
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.presentation.utils.errorSnack
 import me.proton.core.presentation.utils.getUserMessage
+import me.proton.core.payment.presentation.R as PaymentR
 
 @AndroidEntryPoint
 class PaymentPanelFragment : BaseBillingIAPFragment(0) {
@@ -113,7 +114,7 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
                     onError(state.error.getUserMessage(resources), state.error)
                 }
                 BillingCommonViewModel.State.Error.SignUpWithPaymentMethodUnsupported -> {
-                    onError(getString(R.string.payments_error_signup_paymentmethod), null)
+                    onError(getString(PaymentR.string.payments_error_signup_paymentmethod), null)
                 }
                 BillingCommonViewModel.State.Idle,
                 BillingCommonViewModel.State.Processing,
@@ -209,7 +210,7 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
             if (it is ViewState.Initializing || it is ViewState.LoadingPlans) ViewState.Error else it
         }
         val fragmentView = view
-        fragmentView?.errorSnack(message = message ?: getString(R.string.payments_general_error)) {
+        fragmentView?.errorSnack(message = message ?: getString(PaymentR.string.payments_general_error)) {
             anchorView = fragmentView
         }
         if (allowReportToSentry && shouldReportToSentry(throwable))

@@ -43,6 +43,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
+import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
 @RequiresApi(24)
@@ -58,8 +59,8 @@ class SettingsAlwaysOnActivity : BaseActivityV2() {
 
         with(binding.content) {
             indicator.tintIndicator(
-                getThemeColor(R.attr.proton_icon_accent),
-                getThemeColor(R.attr.proton_interaction_weak)
+                getThemeColor(CoreR.attr.proton_icon_accent),
+                getThemeColor(CoreR.attr.proton_interaction_weak)
             )
 
             buttonOpenVpnSettings.setOnClickListener { openVpnSettings() }
@@ -127,7 +128,7 @@ class SettingsAlwaysOnActivity : BaseActivityV2() {
 
             val iconSize = binding.textStep2.textSize * ICON_SIZE_RATIO
             val step2Text = SpannableString(getCaption(R.string.settingsAlwaysOnWindowStep2))
-            step2Text.insertDrawable("%1\$s", R.drawable.ic_proton_cog_wheel, iconSize)
+            step2Text.insertDrawable("%1\$s", CoreR.drawable.ic_proton_cog_wheel, iconSize)
             binding.textStep2.text = step2Text
 
             binding.textStep3.text = getCaption(R.string.settingsAlwaysOnWindowStep3)

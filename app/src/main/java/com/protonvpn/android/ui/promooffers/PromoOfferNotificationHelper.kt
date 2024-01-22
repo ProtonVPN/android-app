@@ -27,8 +27,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.DrawableImageViewTarget
-import com.protonvpn.android.R
 import com.protonvpn.android.utils.openUrl
+import me.proton.core.presentation.R as CoreR
 
 class PromoOfferNotificationHelper(
     private val activity: ComponentActivity,
@@ -57,7 +57,7 @@ class PromoOfferNotificationHelper(
             Glide.with(activity)
                 .asDrawable()
                 .load(notification.iconUrl)
-                .error(R.drawable.ic_proton_gift)
+                .error(CoreR.drawable.ic_proton_gift)
                 .into(object : DrawableImageViewTarget(imageNotification) {
                     override fun setDrawable(drawable: Drawable?) {
                         // setDrawable is called to set the error drawable.

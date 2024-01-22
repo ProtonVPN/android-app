@@ -62,6 +62,7 @@ import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 import javax.inject.Singleton
+import me.proton.core.presentation.R as CoreR
 
 @Singleton
 class NotificationHelper @Inject constructor(
@@ -130,7 +131,7 @@ class NotificationHelper @Inject constructor(
         val notificationBuilder =
             NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_vpn_status_information)
-                .setColor(appContext.getThemeColor(R.attr.colorAccent))
+                .setColor(appContext.getThemeColor(CoreR.attr.colorAccent))
 
         // Build complex notification with custom UI for reconnection information
         if (notificationInfo.reconnectionInformation != null) {
@@ -238,7 +239,7 @@ class NotificationHelper @Inject constructor(
         when (vpnStatus.state) {
             Connecting, Connected -> {
                 val disconnectAction = NotificationCompat.Action(
-                    R.drawable.ic_proton_cross,
+                    CoreR.drawable.ic_proton_cross,
                     context.getString(R.string.disconnect),
                     disconnectPendingIntent
                 )
@@ -327,7 +328,7 @@ class NotificationHelper @Inject constructor(
             val builder = NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(icon)
                 .setContentText(appContext.getString(content))
-                .setColor(appContext.getThemeColor(R.attr.colorAccent))
+                .setColor(appContext.getThemeColor(CoreR.attr.colorAccent))
                 .setStyle(NotificationCompat.BigTextStyle())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)

@@ -38,6 +38,7 @@ import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainTarget
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionStrongUnspecified
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun BottomBarView(
@@ -93,11 +94,11 @@ private fun MainTarget.labelRes(): Int = when (this) {
 @DrawableRes
 private fun MainTarget.getIcon(selected: Boolean): Int = when (this) {
     MainTarget.Home ->
-        if (selected) R.drawable.ic_proton_house_filled else R.drawable.ic_proton_house
+        if (selected) CoreR.drawable.ic_proton_house_filled else CoreR.drawable.ic_proton_house
     MainTarget.Countries ->
-        if (selected) R.drawable.ic_proton_earth_filled else R.drawable.ic_proton_earth
+        if (selected) CoreR.drawable.ic_proton_earth_filled else CoreR.drawable.ic_proton_earth
     MainTarget.Settings ->
-        if (selected) R.drawable.ic_proton_cog_wheel_filled else R.drawable.ic_proton_cog_wheel
+        if (selected) CoreR.drawable.ic_proton_cog_wheel_filled else CoreR.drawable.ic_proton_cog_wheel
 }
 
 @Preview()

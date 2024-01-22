@@ -37,6 +37,7 @@ import com.protonvpn.android.utils.openProtonUrl
 import com.protonvpn.android.utils.toStringHtmlColorNoAlpha
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
 class AccountActivity : BaseActivityV2() {
@@ -55,7 +56,7 @@ class AccountActivity : BaseActivityV2() {
                 textVersion.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
                 val subscriptionDetailsHtml = getString(
                     R.string.accountSubscriptionDetails,
-                    subscriptionDetails.getThemeColor(R.attr.proton_text_accent).toStringHtmlColorNoAlpha()
+                    subscriptionDetails.getThemeColor(CoreR.attr.proton_text_accent).toStringHtmlColorNoAlpha()
                 )
                 subscriptionDetails.text = HtmlTools.fromHtml(subscriptionDetailsHtml)
 

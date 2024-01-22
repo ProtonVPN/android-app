@@ -53,6 +53,7 @@ import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.getThemeColor
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.viewBinding
+import me.proton.core.presentation.R as CoreR
 
 abstract class PlanHighlightsFragment : Fragment(R.layout.fragment_plan_highlights) {
 
@@ -136,8 +137,8 @@ class UpgradeHighlightsCarouselFragment :
 
         with(binding.indicator) {
             tintIndicator(
-                getThemeColor(R.attr.proton_icon_accent),
-                getThemeColor(R.attr.proton_interaction_weak)
+                getThemeColor(CoreR.attr.proton_icon_accent),
+                getThemeColor(CoreR.attr.proton_interaction_weak)
             )
         }
 

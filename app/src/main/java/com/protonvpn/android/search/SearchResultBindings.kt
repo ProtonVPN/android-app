@@ -39,6 +39,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.CountryTools
 import com.xwray.groupie.viewbinding.BindableItem
+import me.proton.core.presentation.R as CoreR
 
 abstract class SearchResultBinding<Value, Binding : ViewBinding>(
     @LayoutRes private val layoutId: Int,
@@ -84,7 +85,7 @@ abstract class SearchResultBinding<Value, Binding : ViewBinding>(
 
     protected fun getMatchTextWithHighlight(context: Context) = with(item.match) {
         SpannableStringBuilder(text).apply {
-            setSpan(TextAppearanceSpan(context, R.style.Proton_Text_Default), index, index + matchLength, 0)
+            setSpan(TextAppearanceSpan(context, CoreR.style.Proton_Text_Default), index, index + matchLength, 0)
         }
     }
 

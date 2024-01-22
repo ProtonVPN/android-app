@@ -18,9 +18,7 @@
 
 package com.protonvpn.testsTv.actions
 
-import android.view.KeyEvent
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -60,7 +58,7 @@ class TvCountryListRobot : BaseRobot() {
 
     fun signOut() : TvCountryListRobot {
         view.waitForCondition(watchTimeout = 20_000) {
-            onView(withId(R.id.container_list)).perform(ViewActions.pressKey(KeyEvent.KEYCODE_DPAD_DOWN))
+            uiDevice.pressDPadDown()
             onView(withText(R.string.tv_signout_label)).check(matches(isDisplayed()))
         }
         uiDevice.pressDPadDown()

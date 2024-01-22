@@ -38,6 +38,7 @@ import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionUnspecified
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun FeatureTag(
@@ -62,8 +63,8 @@ fun FeatureTag(
 }
 
 private fun ServerFeature.iconRes() = when (this) {
-    ServerFeature.Tor -> R.drawable.ic_proton_brand_tor
-    ServerFeature.P2P -> R.drawable.ic_proton_arrow_right_arrow_left
+    ServerFeature.Tor -> CoreR.drawable.ic_proton_brand_tor
+    ServerFeature.P2P -> CoreR.drawable.ic_proton_arrow_right_arrow_left
 }
 
 private fun ServerFeature.labelRes() = when (this) {

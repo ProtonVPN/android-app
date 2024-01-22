@@ -6,16 +6,16 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
-import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
+import me.proton.core.auth.presentation.R as AuthR
 
 class SignupRobot : BaseRobot() {
 
     private val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     fun enterRecoveryEmail(email: String) : SignupRobot {
-        replaceText<SignupRobot>(R.id.email, email)
-        view.withId(R.id.next).hasSibling(view.withId(R.id.terms)).click()
+        replaceText<SignupRobot>(AuthR.id.email, email)
+        view.withId(AuthR.id.next).hasSibling(view.withId(AuthR.id.terms)).click()
         return this
     }
 

@@ -20,7 +20,6 @@
 package com.protonvpn.android.auth.usecase
 
 import android.content.Context
-import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
@@ -42,6 +41,7 @@ import me.proton.core.network.domain.session.SessionId
 import me.proton.core.network.domain.session.SessionProvider
 import me.proton.core.user.domain.entity.User
 import javax.inject.Inject
+import me.proton.core.auth.presentation.R as AuthR
 
 @Reusable
 class VpnLogin @Inject constructor(
@@ -75,16 +75,16 @@ class VpnLogin @Inject constructor(
                 if (vpnResult.proton?.code == ERROR_CODE_NO_CONNECTIONS_ASSIGNED) {
                     Result.AssignConnections
                 } else {
-                    Result.Error(vpnResult.proton?.error ?: context.getString(R.string.auth_login_general_error))
+                    Result.Error(vpnResult.proton?.error ?: context.getString(AuthR.string.auth_login_general_error))
                 }
             }
             is ApiResult.Error ->
-                Result.Error(context.getString(R.string.auth_login_general_error))
+                Result.Error(context.getString(AuthR.string.auth_login_general_error))
             is ApiResult.Success -> {
                 val vpnInfo = vpnResult.value.vpnInfo
                 when {
                     vpnInfo.userTierUnknown ->
-                        Result.Error(context.getString(R.string.auth_login_general_error))
+                        Result.Error(context.getString(AuthR.string.auth_login_general_error))
                     vpnInfo.hasNoConnectionsAssigned ->
                         Result.AssignConnections
                     else -> {
@@ -96,7 +96,7 @@ class VpnLogin @Inject constructor(
                             Result.Success(vpnUser)
                         } else {
                             val appConfigError = (appConfigResult as? ApiResult.Error.Http)?.proton?.error
-                            Result.Error(appConfigError ?: context.getString(R.string.auth_login_general_error))
+                            Result.Error(appConfigError ?: context.getString(AuthR.string.auth_login_general_error))
                         }
                     }
                 }

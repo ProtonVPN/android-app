@@ -54,6 +54,7 @@ import me.proton.core.compose.theme.ProtonTypography
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultSmallNorm
 import me.proton.core.compose.theme.defaultWeak
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun OnboardingScreen(
@@ -138,7 +139,7 @@ private fun UpsellBanner(modifier: Modifier) {
                     modifier = Modifier
                         .padding(start = 4.dp)
                         .size(16.dp),
-                    painter = painterResource(id = R.drawable.ic_proton_arrow_out_square),
+                    painter = painterResource(id = CoreR.drawable.ic_proton_arrow_out_square),
                     colorFilter = ColorFilter.tint(ProtonTheme.colors.iconWeak),
                     contentDescription = null
                 )

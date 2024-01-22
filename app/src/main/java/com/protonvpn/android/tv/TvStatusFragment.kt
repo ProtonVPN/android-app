@@ -38,6 +38,7 @@ import com.protonvpn.android.vpn.VpnState
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.util.kotlin.exhaustive
 import me.proton.core.util.kotlin.takeIfNotBlank
+import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
 class TvStatusFragment : Fragment() {
@@ -62,7 +63,7 @@ class TvStatusFragment : Fragment() {
         val statusColor = when (vpnState) {
             VpnState.Connected -> R.color.tvAccentLighten
             is VpnState.Error -> R.color.tvAlert
-            else -> R.color.white
+            else -> CoreR.color.white
         }
         textStatus.setTextColor(ContextCompat.getColor(requireContext(), statusColor))
 
@@ -79,7 +80,7 @@ class TvStatusFragment : Fragment() {
                 textStatus.text = getString(R.string.stateNotConnected)
             }
             VpnState.Reconnecting -> {
-                textStatus.text = getString(R.string.state_reconnecting)
+                textStatus.text = getString(R.string.loaderReconnecting)
             }
             VpnState.ScanningPorts, VpnState.CheckingAvailability -> {
                 textStatus.text = getString(R.string.loaderCheckingAvailability)
