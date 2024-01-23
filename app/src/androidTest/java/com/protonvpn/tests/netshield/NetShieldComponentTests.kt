@@ -20,9 +20,9 @@
 package com.protonvpn.tests.netshield
 
 import androidx.compose.runtime.collectAsState
-import com.protonvpn.android.netshield.NetShieldComposable
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.netshield.NetShieldView
 import com.protonvpn.android.netshield.NetShieldViewState
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.proton.test.fusion.Fusion.node
@@ -43,9 +43,8 @@ class NetShieldComponentTests : FusionComposeTest() {
             )
         )
         withContent {
-            NetShieldComposable(
-                netShieldStateFlow.collectAsState().value,
-                navigateToUpgrade = {},
+            NetShieldView(
+                netShieldStateFlow.collectAsState().value as NetShieldViewState.NetShieldState,
                 onNavigateToSubsetting = {}
             )
         }

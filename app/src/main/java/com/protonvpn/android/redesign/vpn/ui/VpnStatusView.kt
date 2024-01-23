@@ -65,11 +65,15 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.netshield.NetShieldBottomComposable
-import com.protonvpn.android.netshield.NetShieldComposable
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.netshield.NetShieldView
 import com.protonvpn.android.netshield.NetShieldViewState
+import com.protonvpn.android.netshield.UpgradeNetShieldBusiness
+import com.protonvpn.android.netshield.UpgradeNetShieldFree
+import com.protonvpn.android.netshield.UpgradePromo
 import com.protonvpn.android.redesign.base.ui.vpnGreen
 import kotlinx.coroutines.delay
 import me.proton.core.compose.theme.ProtonTheme
@@ -80,7 +84,7 @@ import me.proton.core.presentation.R as CoreR
 sealed class VpnStatusViewState {
     data class Connected(
         val isSecureCoreServer: Boolean,
-        val netShieldViewState: NetShieldViewState,
+        val banner: StatusBanner,
     ) : VpnStatusViewState()
 
     data class WaitingForNetwork(
@@ -94,6 +98,15 @@ sealed class VpnStatusViewState {
     data class Disabled(
         val locationText: LocationText? = null
     ) : VpnStatusViewState()
+}
+
+sealed class StatusBanner {
+    data class NetShieldBanner(
+        val netShieldState: NetShieldViewState.NetShieldState,
+    ) : StatusBanner()
+    object UpgradePlus : StatusBanner()
+    object UpgradeBusiness : StatusBanner()
+    object UnwantedCountry : StatusBanner()
 }
 
 data class LocationText(
@@ -185,16 +198,14 @@ fun VpnStatusTop(
 fun VpnStatusBottom(
     state: VpnStatusViewState,
     transitionValue: () -> Float,
-    onNetShieldValueChanged: (protocol: NetShieldProtocol) -> Unit,
-    onNetShieldLearnMore: () -> Unit,
-    onUpgradeNetShield: () -> Unit,
+    netShieldActions: NetShieldActions,
     modifier: Modifier = Modifier
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             when (state) {
                 is VpnStatusViewState.Connected -> {
-                    VpnConnectedView(state, onNetShieldValueChanged, onUpgradeNetShield, onNetShieldLearnMore, transitionValue)
+                    VpnConnectedView(state, netShieldActions, transitionValue)
                 }
 
                 is VpnStatusViewState.Connecting -> {
@@ -246,15 +257,12 @@ private fun VpnConnectedViewTop(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun VpnConnectedView(
-    state: VpnStatusViewState.Connected,
-    onNetShieldValueChanged: (protocol: NetShieldProtocol) -> Unit,
-    onUpgradeNetShield: () -> Unit,
-    onNetShieldLearnMore: () -> Unit,
+    connectedState: VpnStatusViewState.Connected,
+    netShieldActions: NetShieldActions,
     transitionValue: () -> Float
 ) {
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var isModalVisible by remember { mutableStateOf(false) }
-
     Surface(
         color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.7F),
         shape = ProtonTheme.shapes.large,
@@ -265,20 +273,32 @@ private fun VpnConnectedView(
             }
             .padding(top = 8.dp)
     ) {
-        NetShieldComposable(
-            netShieldViewState = state.netShieldViewState,
-            navigateToUpgrade = onUpgradeNetShield,
-            onNavigateToSubsetting = { isModalVisible = !isModalVisible }
-        )
+        when (connectedState.banner) {
+            is StatusBanner.NetShieldBanner -> {
+                NetShieldView(
+                    state = connectedState.banner.netShieldState,
+                    onNavigateToSubsetting = { isModalVisible = !isModalVisible }
+                )
+            }
+            StatusBanner.UnwantedCountry -> {
+                UpgradePromo(
+                    titleRes = R.string.not_wanted_country_title,
+                    descriptionRes = R.string.not_wanted_country_description,
+                    iconRes = R.drawable.upsell_worldwide_cover_exclamation,
+                    navigateToUpgrade = netShieldActions.onChangeServerPromoUpgrade)
+            }
+            StatusBanner.UpgradeBusiness -> UpgradeNetShieldBusiness()
+            StatusBanner.UpgradePlus -> UpgradeNetShieldFree(netShieldActions.onUpgradeNetShield)
+        }
     }
-    if (isModalVisible && state.netShieldViewState is NetShieldViewState.NetShieldState) {
+    if (isModalVisible && connectedState.banner is StatusBanner.NetShieldBanner) {
         ModalBottomSheet(
             sheetState = bottomSheetState,
             content = {
                 NetShieldBottomComposable(
-                    currentNetShield = state.netShieldViewState.protocol,
-                    onNetShieldLearnMore = onNetShieldLearnMore,
-                    onValueChanged = onNetShieldValueChanged
+                    currentNetShield = connectedState.banner.netShieldState.protocol,
+                    onNetShieldLearnMore = netShieldActions.onNetShieldLearnMore,
+                    onValueChanged = netShieldActions.onNetShieldValueChanged
                 )
             },
             windowInsets = WindowInsets.navigationBars,
@@ -458,14 +478,14 @@ private fun PreviewVpnDisabledStateWithRTLSymbols() {
 @Composable
 private fun PreviewVpnConnectedState() {
     PreviewHelper(
-        state = VpnStatusViewState.Connected(false, NetShieldViewState.NetShieldState(
+        state = VpnStatusViewState.Connected(true, banner = StatusBanner.NetShieldBanner(NetShieldViewState.NetShieldState(
             protocol = NetShieldProtocol.ENABLED_EXTENDED,
             netShieldStats = NetShieldStats(
                 adsBlocked = 3,
                 trackersBlocked = 0,
                 savedBytes = 2000
             )
-        )),
+        ))),
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
@@ -476,14 +496,14 @@ private fun PreviewVpnConnectedState() {
 @Composable
 private fun PreviewVpnConnectedSecureCoreState() {
     PreviewHelper(
-        state = VpnStatusViewState.Connected(true, NetShieldViewState.NetShieldState(
+        state = VpnStatusViewState.Connected(true, banner = StatusBanner.NetShieldBanner(NetShieldViewState.NetShieldState(
             protocol = NetShieldProtocol.ENABLED_EXTENDED,
             netShieldStats = NetShieldStats(
                 adsBlocked = 3,
                 trackersBlocked = 0,
                 savedBytes = 2000
             )
-        )),
+        ))),
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
@@ -494,6 +514,6 @@ private fun PreviewVpnConnectedSecureCoreState() {
 private fun PreviewHelper(state: VpnStatusViewState, modifier: Modifier = Modifier) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         VpnStatusTop(state = state, transitionValue = { 1f })
-        VpnStatusBottom(state = state, transitionValue = { 1f }, {}, {}, {})
+        VpnStatusBottom(state = state, transitionValue = { 1f }, NetShieldActions({}, {}, {}, {}))
     }
 }

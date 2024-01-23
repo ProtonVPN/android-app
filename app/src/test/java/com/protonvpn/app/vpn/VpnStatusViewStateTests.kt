@@ -23,8 +23,8 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldStats
-import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ui.StatusBanner
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -32,7 +32,6 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
-import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestUser
@@ -46,6 +45,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -98,13 +98,13 @@ class VpnStatusViewStateFlowTest {
         mockCurrentUser.mockVpnUser { vpnUserFlow.value }
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
-
         vpnStatusViewStateFlow = VpnStatusViewStateFlow(
             vpnStatusProviderUi,
             serverListUpdaterPrefs,
             vpnConnectionManager,
             effectiveUserSettings,
-            mockCurrentUser
+            mockCurrentUser,
+            flowOf(null)
         )
     }
 
@@ -124,7 +124,7 @@ class VpnStatusViewStateFlowTest {
         assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
         netShieldStatsFlow.emit(NetShieldStats(3, 3, 3000))
         val netShieldStats =
-            ((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).netShieldViewState as NetShieldViewState.NetShieldState).netShieldStats
+            ((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).banner as StatusBanner.NetShieldBanner).netShieldState.netShieldStats
         assert(netShieldStats.adsBlocked == 3L)
         assert(netShieldStats.trackersBlocked == 3L)
         assert(netShieldStats.savedBytes == 3000L)

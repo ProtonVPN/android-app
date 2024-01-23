@@ -48,32 +48,16 @@ import com.protonvpn.android.utils.ConnectionTools
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionWeak
-import me.proton.core.compose.theme.default
 import me.proton.core.compose.theme.defaultSmallStrongNorm
 import me.proton.core.compose.theme.defaultSmallWeak
+import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.compose.theme.overlineWeak
 import me.proton.core.presentation.R as CoreR
 
-@Composable
-fun NetShieldComposable(
-    netShieldViewState: NetShieldViewState,
-    navigateToUpgrade: () -> Unit,
-    onNavigateToSubsetting: () -> Unit
-) {
-    when (netShieldViewState) {
-        is NetShieldViewState.NetShieldState -> NetShieldView(
-            state = netShieldViewState,
-            onNavigateToSubsetting = onNavigateToSubsetting
-        )
-        NetShieldViewState.UpgradePlusBanner -> UpgradeNetShieldFree(navigateToUpgrade)
-        NetShieldViewState.UpgradeBusinessBanner -> UpgradeNetShieldBusiness()
-    }
-}
-
 @Preview
 @Composable
-private fun UpgradeNetShieldFree(
+fun UpgradeNetShieldFree(
     navigateToUpgrade: () -> Unit = {}
 ) = UpgradePromo(
     R.string.netshield_free_title,
@@ -83,7 +67,7 @@ private fun UpgradeNetShieldFree(
 
 @Preview
 @Composable
-private fun UpgradeNetShieldBusiness() =
+fun UpgradeNetShieldBusiness() =
     UpgradePromo(
         titleRes = R.string.netshield_business_title,
         descriptionRes = R.string.netshield_business_description,
@@ -95,7 +79,7 @@ private fun UpgradeNetShieldBusiness() =
 fun UpgradePromo(
     @StringRes titleRes: Int,
     @StringRes descriptionRes: Int,
-    @DrawableRes iconRes: Int = R.drawable.ic_netshield_free,
+    @DrawableRes iconRes: Int = R.drawable.ic_netshield_promo,
     @DrawableRes badgeIconRes: Int = ResourcesCompat.ID_NULL,
     navigateToUpgrade: (() -> Unit)?
 ) {
@@ -116,14 +100,16 @@ fun UpgradePromo(
             contentDescription = null,
             modifier = Modifier
                 .wrapContentSize()
-                .padding(end = 4.dp)
         )
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 16.dp)
         ) {
             Text(
                 text = stringResource(titleRes),
-                style = ProtonTheme.typography.default,
+                style = ProtonTheme.typography.defaultStrongNorm,
+                modifier = Modifier.padding(bottom = 4.dp)
             )
             Text(
                 text = stringResource(descriptionRes),
@@ -149,7 +135,7 @@ fun UpgradePromo(
 }
 
 @Composable
-private fun NetShieldView(state: NetShieldViewState.NetShieldState, onNavigateToSubsetting: () -> Unit) {
+fun NetShieldView(state: NetShieldViewState.NetShieldState, onNavigateToSubsetting: () -> Unit) {
     Column(
         modifier = Modifier.clickable(onClick = onNavigateToSubsetting)
     ) {
@@ -256,8 +242,8 @@ private fun BandwidthColumn(
 @Preview
 @Composable
 private fun NetShieldOnPreview() {
-    NetShieldComposable(
-        netShieldViewState =
+    NetShieldView(
+        state =
             NetShieldViewState.NetShieldState(
                 protocol = NetShieldProtocol.ENABLED_EXTENDED,
                 netShieldStats = NetShieldStats(
@@ -266,7 +252,6 @@ private fun NetShieldOnPreview() {
                     savedBytes = 2000
                 )
             ),
-        navigateToUpgrade = {},
         onNavigateToSubsetting = {}
     )
 }
@@ -274,8 +259,8 @@ private fun NetShieldOnPreview() {
 @Preview
 @Composable
 private fun NetShieldOffPreview() {
-    NetShieldComposable(
-        netShieldViewState =
+    NetShieldView(
+        state =
             NetShieldViewState.NetShieldState(
                 protocol = NetShieldProtocol.DISABLED,
                 netShieldStats = NetShieldStats(
@@ -283,7 +268,6 @@ private fun NetShieldOffPreview() {
                     trackersBlocked = 5,
                 )
             ),
-        navigateToUpgrade = {},
         onNavigateToSubsetting = {}
     )
 }
