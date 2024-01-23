@@ -50,6 +50,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -91,7 +92,7 @@ class ChangeServerTests {
     fun setup() {
         MockKAnnotations.init(this)
 
-        testScope = TestScope(UnconfinedTestDispatcher())
+        testScope = TestScope()
         changeServerPrefs = ChangeServerPrefs(MockSharedPreferencesProvider())
         testUserProvider = TestCurrentUserProvider(vpnUser = freeUser)
         currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
@@ -129,7 +130,9 @@ class ChangeServerTests {
     @Test
     fun `change server shown after first connection`() = testScope.runTest {
         val states = runWhileCollecting(changeServerViewStateFlow) {
+            runCurrent()
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
+            runCurrent()
         }
         assertEquals(listOf(null, ChangeServerViewState.Unlocked), states)
     }
@@ -137,9 +140,13 @@ class ChangeServerTests {
     @Test
     fun `change server shown while reconnecting due to server change`() = testScope.runTest {
         val states = runWhileCollecting(changeServerViewStateFlow) {
+            runCurrent()
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
+            runCurrent()
             changeServerManager.changeServer(mockVpnUiDelegate)
+            runCurrent()
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connecting, connectionParams))
+            runCurrent()
         }
         val expected = listOf(
             null,
@@ -152,8 +159,10 @@ class ChangeServerTests {
     @Test
     fun `change server is locked after first attempt`() = testScope.runTest {
         val states = runWhileCollecting(changeServerViewStateFlow) {
+            runCurrent()
             changeServerManager.changeServer(mockVpnUiDelegate)
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connecting, connectionParams))
+            runCurrent()
         }
         assertEquals(listOf(null, ChangeServerViewState.Locked(SMALL_DELAY_S, SMALL_DELAY_S, false)), states)
     }
@@ -162,9 +171,12 @@ class ChangeServerTests {
     fun `several changes lock for longer period of time`() = testScope.runTest {
         val states = runWhileCollecting(changeServerViewStateFlow) {
             repeat(MAX_ATTEMPTS) {
+                runCurrent()
                 changeServerManager.changeServer(mockVpnUiDelegate)
             }
+            runCurrent()
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connecting, connectionParams))
+            runCurrent()
         }
         assertEquals(listOf(null, ChangeServerViewState.Locked(LARGE_DELAY_S, LARGE_DELAY_S, true)), states)
     }
@@ -172,9 +184,12 @@ class ChangeServerTests {
     @Test
     fun `updating to plus removes change server`() = testScope.runTest {
         val states = runWhileCollecting(changeServerViewStateFlow) {
+            runCurrent()
             changeServerManager.changeServer(mockVpnUiDelegate)
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connecting, connectionParams))
+            runCurrent()
             testUserProvider.vpnUser = plusUser
+            runCurrent()
         }
         val expected = listOf(
             null,
