@@ -159,7 +159,7 @@ fun Profile.toConnectIntent(
                 server.gatewayName != null ->
                     ConnectIntent.Gateway(server.gatewayName!!, serverId = server.serverId)
                 else ->
-                    ConnectIntent.Server(server.serverId, ServerFeature.fromServer(server))
+                    ConnectIntent.Server(server.serverId, noFeatures)
             }
         }
         else ->  null
