@@ -155,7 +155,7 @@ class MigrateProfileTests {
         )
         val expectedConnectIntents = listOf(
             ConnectIntent.SecureCore(CountryId(secureCoreServer.exitCountry), CountryId(secureCoreServer.entryCountry)),
-            ConnectIntent.Server(servers[1].serverId, setOf(ServerFeature.P2P)),
+            ConnectIntent.Server(servers[1].serverId, emptySet()),
             ConnectIntent.Server(servers[0].serverId, emptySet()),
             ConnectIntent.FastestInCountry(CountryId("DE"), emptySet()),
             ConnectIntent.FastestInCountry(CountryId("LT"), emptySet()),
