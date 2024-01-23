@@ -54,6 +54,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -98,6 +99,8 @@ sealed class VpnStatusViewState {
     data class Disabled(
         val locationText: LocationText? = null
     ) : VpnStatusViewState()
+
+    object Loading : VpnStatusViewState()
 }
 
 sealed class StatusBanner {
@@ -121,6 +124,7 @@ fun Modifier.vpnStatusOverlayBackground(
         is VpnStatusViewState.Connected -> ProtonTheme.colors.vpnGreen
         is VpnStatusViewState.Connecting, is VpnStatusViewState.WaitingForNetwork -> ProtonTheme.colors.shade100
         is VpnStatusViewState.Disabled -> ProtonTheme.colors.notificationError
+        is VpnStatusViewState.Loading -> Color.Transparent
     }
     val gradientColor = animateColorAsState(
         targetValue = targetColor,
@@ -144,7 +148,9 @@ fun rememberVpnStateAnimationProgress(
     val transition = updateTransition(targetState = state, label = "connecting -> connected")
     return transition.animateFloat(
         transitionSpec = {
-            if (initialState is VpnStatusViewState.Connecting && targetState is VpnStatusViewState.Connected) {
+            if (initialState == VpnStatusViewState.Loading ||
+                initialState is VpnStatusViewState.Connecting && targetState is VpnStatusViewState.Connected
+            ) {
                 tween(durationMillis = 500)
             } else {
                 snap()
@@ -190,6 +196,7 @@ fun VpnStatusTop(
                     modifier = contentModifier
                 )
             }
+            is VpnStatusViewState.Loading -> {}
         }
     }
 }
@@ -219,6 +226,8 @@ fun VpnStatusBottom(
                 is VpnStatusViewState.WaitingForNetwork -> {
                     VpnWaitingForNetwork()
                 }
+
+                VpnStatusViewState.Loading -> {}
             }
         }
     }
