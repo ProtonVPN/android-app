@@ -60,6 +60,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
@@ -167,12 +168,19 @@ fun HomeView(
                 .height(200.dp)
                 .vpnStatusOverlayBackground(vpnState)
         )
+        val netShieldActions = remember {
+            NetShieldActions(
+                onChangeServerPromoUpgrade = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) },
+                onNetShieldValueChanged = { stateViewModel.setNetShieldProtocol(it) },
+                onUpgradeNetShield = { UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context) },
+                onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
+            )
+        }
+
         VpnStatusBottom(
-            vpnState,
+            state = vpnState,
             transitionValue = { vpnStateTransitionProgress.value },
-            onNetShieldValueChanged = { stateViewModel.setNetShieldProtocol(it) },
-            onUpgradeNetShield = { UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context) },
-            onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
+            netShieldActions = netShieldActions,
             modifier = Modifier
                 .widthIn(max = 480.dp)
                 .fillMaxWidth()
@@ -231,7 +239,9 @@ fun HomeView(
                         val gradientBottom = listBgGradientHeight.toPx()
                         drawRect(
                             brush = Brush.linearGradient(
-                                listBgGradientColors, start = Offset(0f, 0f), end = Offset(0f, gradientBottom)
+                                listBgGradientColors,
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, gradientBottom)
                             )
                         )
                         drawRect(listBgColor, topLeft = Offset(0f, gradientBottom))

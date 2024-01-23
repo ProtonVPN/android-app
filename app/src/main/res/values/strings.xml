@@ -271,7 +271,7 @@
     <string name="netshield_feature_name" translatable="false">NetShield</string>
     <string name="netshield_status_on">On</string>
     <string name="netshield_status_off">Off</string>
-    <string name="netshield_free_title">Browse ad-free with NetShield</string>
+    <string name="netshield_free_title" translatable="false">NetShield</string>
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
     <string name="netshield_business_title">Block ads with NetShield</string>
     <string name="netshield_business_description">When you upgrade to VPN Business</string>

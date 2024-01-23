@@ -35,14 +35,31 @@ import kotlinx.coroutines.flow.combine
 import java.util.Locale
 import javax.inject.Inject
 
-class VpnStatusViewStateFlow @Inject constructor(
+class VpnStatusViewStateFlow(
     vpnStatusProvider: VpnStatusProviderUI,
     serverListUpdaterPrefs: ServerListUpdaterPrefs,
     vpnConnectionManager: VpnConnectionManager,
     effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
-    currentUser: CurrentUser
+    currentUser: CurrentUser,
+    changeServerViewStateFlow: Flow<ChangeServerViewState?>,
 ) : Flow<VpnStatusViewState> {
 
+    @Inject
+    constructor(
+        vpnStatusProvider: VpnStatusProviderUI,
+        serverListUpdaterPrefs: ServerListUpdaterPrefs,
+        vpnConnectionManager: VpnConnectionManager,
+        effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
+        currentUser: CurrentUser,
+        changeServerViewStateFlow: ChangeServerViewStateFlow,
+    ) : this(
+        vpnStatusProvider,
+        serverListUpdaterPrefs,
+        vpnConnectionManager,
+        effectiveCurrentUserSettings,
+        currentUser,
+        changeServerViewStateFlow as Flow<ChangeServerViewState>
+    )
 
     private val netShieldViewState: Flow<NetShieldViewState> =
         combine(
@@ -57,27 +74,44 @@ class VpnStatusViewStateFlow @Inject constructor(
             }
         }
 
+    private val locationTextFlow = combine(
+        serverListUpdaterPrefs.ipAddressFlow,
+        serverListUpdaterPrefs.lastKnownCountryFlow
+    ) { ipAddress, country ->
+        getLocationText(country, ipAddress)
+    }
+
+    private val bannerFlow: Flow<StatusBanner> =
+        combine(netShieldViewState, changeServerViewStateFlow) { netshield, changeServer ->
+            if (changeServer is ChangeServerViewState.Locked) {
+                StatusBanner.UnwantedCountry
+            } else {
+                when (netshield) {
+                    is NetShieldViewState.NetShieldState -> StatusBanner.NetShieldBanner(netshield)
+                    NetShieldViewState.UpgradeBusinessBanner -> StatusBanner.UpgradeBusiness
+                    NetShieldViewState.UpgradePlusBanner -> StatusBanner.UpgradePlus
+                }
+            }
+        }
 
     private val vpnFlow = combine(
         vpnStatusProvider.uiStatus,
-        serverListUpdaterPrefs.ipAddressFlow,
-        serverListUpdaterPrefs.lastKnownCountryFlow,
-        netShieldViewState,
-        currentUser.vpnUserFlow,
-    ) { status, ipAddress, country, netShieldStats, user ->
+        locationTextFlow,
+        bannerFlow,
+    ) { status, locationText, statusBanner ->
         when (status.state) {
             VpnState.Connected -> {
                 val connectionParams = status.connectionParams
-                VpnStatusViewState.Connected(connectionParams!!.server.isSecureCoreServer, netShieldStats)
+                VpnStatusViewState.Connected(connectionParams!!.server.isSecureCoreServer, statusBanner)
             }
             VpnState.ScanningPorts, VpnState.CheckingAvailability, VpnState.Connecting, VpnState.Reconnecting -> {
-                VpnStatusViewState.Connecting(getLocationText(country, ipAddress))
+                VpnStatusViewState.Connecting(locationText)
             }
             VpnState.WaitingForNetwork -> {
-                VpnStatusViewState.WaitingForNetwork(getLocationText(country, ipAddress))
+                VpnStatusViewState.WaitingForNetwork(locationText)
             }
             VpnState.Disconnecting, VpnState.Disabled -> {
-                VpnStatusViewState.Disabled(getLocationText(country, ipAddress))
+                VpnStatusViewState.Disabled(locationText)
             }
             is VpnState.Error -> {
                 VpnStatusViewState.Disabled()

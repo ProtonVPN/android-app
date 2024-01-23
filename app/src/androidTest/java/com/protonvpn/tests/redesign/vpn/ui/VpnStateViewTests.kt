@@ -19,10 +19,12 @@
 package com.protonvpn.tests.redesign.vpn.ui
 
 import androidx.compose.foundation.layout.Column
+import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.redesign.vpn.ui.LocationText
+import com.protonvpn.android.redesign.vpn.ui.StatusBanner
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
@@ -64,14 +66,16 @@ class VpnStatusViewTests : FusionComposeTest() {
     fun connectedStateDisplay() {
         val state = VpnStatusViewState.Connected(
             isSecureCoreServer = true,
-            netShieldViewState = NetShieldViewState.NetShieldState(
-                protocol = NetShieldProtocol.ENABLED_EXTENDED,
-                netShieldStats = NetShieldStats(
-                    adsBlocked = 5,
-                    trackersBlocked = 0,
-                    savedBytes = 2000
+            banner = StatusBanner.NetShieldBanner(
+                NetShieldViewState.NetShieldState(
+                    protocol = NetShieldProtocol.ENABLED_EXTENDED,
+                    netShieldStats = NetShieldStats(
+                        adsBlocked = 5,
+                        trackersBlocked = 0,
+                        savedBytes = 2000
+                    )
                 )
-            )
+            ),
         )
 
         setContentForState(state)
@@ -84,11 +88,40 @@ class VpnStatusViewTests : FusionComposeTest() {
             .assertContainsText("5")
     }
 
+    @Test
+    fun lockedChangeServerDisplayNotTheCountryWantedBanner() {
+        val state = VpnStatusViewState.Connected(
+            isSecureCoreServer = true,
+            banner = StatusBanner.UnwantedCountry
+        )
+
+        setContentForState(state)
+        node.useUnmergedTree()
+            .withText("Not the country you wanted?")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun upsellBannerDisplayed() {
+        val state = VpnStatusViewState.Connected(
+            isSecureCoreServer = true,
+            banner = StatusBanner.UpgradePlus
+        )
+        setContentForState(state)
+        node.useUnmergedTree()
+            .withText("Block ads, trackers, and malware on websites and apps")
+            .assertIsDisplayed()
+    }
+
     private fun setContentForState(state: VpnStatusViewState) {
         composeRule.setContent {
             Column {
                 VpnStatusTop(state = state, transitionValue = { 1f })
-                VpnStatusBottom(state = state, transitionValue = { 1f }, {} , {}, {})
+                VpnStatusBottom(
+                    state = state,
+                    transitionValue = { 1f },
+                    NetShieldActions({}, {}, {}, {})
+                )
             }
         }
     }
