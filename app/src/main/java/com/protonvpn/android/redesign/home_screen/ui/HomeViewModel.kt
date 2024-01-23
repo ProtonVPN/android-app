@@ -21,15 +21,11 @@ package com.protonvpn.android.redesign.home_screen.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.R
 import com.protonvpn.android.di.ElapsedRealtimeClock
-import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
-import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
-import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
@@ -37,8 +33,6 @@ import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewStateFlow
-import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
-import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
 import com.protonvpn.android.telemetry.UpgradeSource
@@ -53,12 +47,12 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.shareIn
 import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
 
@@ -97,34 +91,14 @@ class HomeViewModel @Inject constructor(
         connectionHighlight ?: (realCountry to CountryHighlight.SELECTED)
     }
 
-    private val initialCardViewState =
-        VpnConnectionCardViewState(
-            cardLabelRes = R.string.connection_card_label_recommended,
-            mainButtonLabelRes = R.string.buttonConnect,
-            isConnectedOrConnecting = false,
-            connectIntentViewState = ConnectIntentViewState(
-                ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
-                null,
-                emptySet()
-            ),
-            canOpenConnectionPanel = false,
-            canOpenFreeCountriesPanel = false,
-        )
     val recentsViewState = recentsListViewStateFlow
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(),
-            RecentsListViewState(initialCardViewState, emptyList(), null)
-        )
+        .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
 
-    val vpnStateViewFlow: StateFlow<VpnStatusViewState> = vpnStatusViewStateFlow.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        initialValue = VpnStatusViewState.Disabled()
-    )
+    val vpnStateViewFlow: SharedFlow<VpnStatusViewState> = vpnStatusViewStateFlow
+        .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
 
-    val changeServerViewState: StateFlow<ChangeServerViewState?> = changeServerViewStateFlow
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+    val changeServerViewState: SharedFlow<ChangeServerViewState?> = changeServerViewStateFlow
+        .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
 
     enum class DialogState {
         CountryInMaintenance, CityInMaintenance, ServerInMaintenance, GatewayInMaintenance, ServerNotAvailable

@@ -73,6 +73,7 @@ import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
+import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
@@ -112,11 +113,11 @@ fun HomeView(
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val stateViewModel: VpnStateViewModel = hiltViewModel()
-    val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle().value
-    val vpnState = viewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
+    val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle(null).value
+    val vpnState = viewModel.vpnStateViewFlow.collectAsStateWithLifecycle(VpnStatusViewState.Loading).value
     val mapState = viewModel.mapHighlightState.collectAsStateWithLifecycle(initialValue = null).value
     val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
-    val changeServerState: ChangeServerViewState? = viewModel.changeServerViewState.collectAsStateWithLifecycle().value
+    val changeServerState = viewModel.changeServerViewState.collectAsStateWithLifecycle(null).value
     val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
     val coroutineScope = rememberCoroutineScope()
 
@@ -213,40 +214,44 @@ fun HomeView(
                 // size class here to take that into account.
                 WindowSizeClass.calculateFromSize(viewportSize).widthSizeClass
             }
-            val maxHeightPx = LocalDensity.current.run { maxHeight.toPx() }
-            recentsExpandState.setMaxHeight(maxHeightPx.roundToInt())
-            val horizontalPadding = ProtonTheme.getPaddingForWindowWidthClass(widthSizeClass)
+            if (recentsViewState != null) {
+                val maxHeightPx = LocalDensity.current.run { maxHeight.toPx() }
+                recentsExpandState.setMaxHeight(maxHeightPx.roundToInt())
+                val horizontalPadding = ProtonTheme.getPaddingForWindowWidthClass(widthSizeClass)
 
-            val listBgGradientHeight = if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientHeightBasic else ListBgGradientHeightExpanded
-            val listBgGradientOffset = if (widthSizeClass == WindowWidthSizeClass.Compact) 0.dp else ListBgGradientHeightExpanded / 2
-            val listContentPadding =
-                PaddingValues(top = listBgGradientOffset, start = horizontalPadding, end = horizontalPadding)
-            RecentsList(
-                viewState = recentsViewState,
-                expandState = recentsExpandState,
-                changeServerButton = changeServerButton,
-                onConnectClicked = connectAction,
-                onDisconnectClicked = viewModel::disconnect,
-                onOpenConnectionPanelClicked = onConnectionCardClick,
-                onRecentClicked = recentClickedAction,
-                onRecentPinToggle = viewModel::togglePinned,
-                onRecentRemove = viewModel::removeRecent,
-                contentPadding = listContentPadding,
-                errorSnackBar = snackbarHostState,
-                modifier = Modifier
-                    .offset { IntOffset(0, recentsExpandState.listOffsetPx) }
-                    .drawBehind {
-                        val gradientBottom = listBgGradientHeight.toPx()
-                        drawRect(
-                            brush = Brush.linearGradient(
-                                listBgGradientColors,
-                                start = Offset(0f, 0f),
-                                end = Offset(0f, gradientBottom)
+                val listBgGradientHeight =
+                    if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientHeightBasic else ListBgGradientHeightExpanded
+                val listBgGradientOffset =
+                    if (widthSizeClass == WindowWidthSizeClass.Compact) 0.dp else ListBgGradientHeightExpanded / 2
+                val listContentPadding =
+                    PaddingValues(top = listBgGradientOffset, start = horizontalPadding, end = horizontalPadding)
+                RecentsList(
+                    viewState = recentsViewState,
+                    expandState = recentsExpandState,
+                    changeServerButton = changeServerButton,
+                    onConnectClicked = connectAction,
+                    onDisconnectClicked = viewModel::disconnect,
+                    onOpenConnectionPanelClicked = onConnectionCardClick,
+                    onRecentClicked = recentClickedAction,
+                    onRecentPinToggle = viewModel::togglePinned,
+                    onRecentRemove = viewModel::removeRecent,
+                    contentPadding = listContentPadding,
+                    errorSnackBar = snackbarHostState,
+                    modifier = Modifier
+                        .offset { IntOffset(0, recentsExpandState.listOffsetPx) }
+                        .drawBehind {
+                            val gradientBottom = listBgGradientHeight.toPx()
+                            drawRect(
+                                brush = Brush.linearGradient(
+                                    listBgGradientColors,
+                                    start = Offset(0f, 0f),
+                                    end = Offset(0f, gradientBottom)
+                                )
                             )
-                        )
-                        drawRect(listBgColor, topLeft = Offset(0f, gradientBottom))
-                    }
-            )
+                            drawRect(listBgColor, topLeft = Offset(0f, gradientBottom))
+                        }
+                )
+            }
         }
 
         val vpnStatusTopMinHeight = 48.dp
