@@ -109,7 +109,10 @@ class VpnStatusViewStateFlow(
                 VpnStatusViewState.Disabled(locationText)
             }
             is VpnState.Error -> {
-                VpnStatusViewState.Disabled()
+                if (status.state.isFinal)
+                    VpnStatusViewState.Disabled()
+                else
+                    VpnStatusViewState.Connecting()
             }
         }
     }
