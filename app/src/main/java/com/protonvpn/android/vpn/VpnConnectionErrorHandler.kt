@@ -373,14 +373,19 @@ class VpnConnectionErrorHandler @Inject constructor(
             ipCondition && torCondition
         }
 
-        scoredServers.take(FALLBACK_SERVERS_COUNT - candidateList.size).map { server ->
-            getConnectingDomain.online(server, orgProtocol).filter {
-                // Ignore connecting domains with the same IP as current connection.
-                it.getEntryIp(orgProtocol) != orgPhysicalServer?.connectingDomain?.getEntryIp(orgProtocol)
-            }.randomOrNull()?.let { connectingDomain ->
-                candidateList += PhysicalServer(server, connectingDomain)
+        candidateList += scoredServers
+            .asSequence()
+            .mapNotNull { server ->
+                getConnectingDomain.online(server, orgProtocol).filter {
+                    // Ignore connecting domains with the same IP as current connection.
+                    it.getEntryIp(orgProtocol) != orgPhysicalServer?.connectingDomain?.getEntryIp(orgProtocol)
+                }.randomOrNull()?.let { connectingDomain ->
+                    PhysicalServer(server, connectingDomain)
+                }
             }
-        }
+            .distinctBy { it.connectingDomain.entryDomain }
+            .take(FALLBACK_SERVERS_COUNT - candidateList.size)
+            .toList()
 
         val fallbacks = mutableListOf<Server>()
         val exitCountries = candidateList.map { it.server.exitCountry }.toSet()
