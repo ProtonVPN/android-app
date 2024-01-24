@@ -233,7 +233,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Fastest country")
-        node.withTag("secondaryLabel").assertDoesNotExist()
+        node.withTag("secondaryLabel").hasChild(node.withText("via Secure Core")).assertIsDisplayed()
     }
 
     @Test
@@ -251,7 +251,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
-        node.withTag("secondaryLabel").assertDoesNotExist()
+        node.withTag("secondaryLabel").hasChild(node.withText("via Secure Core")).assertIsDisplayed()
     }
 
     @Test
@@ -260,7 +260,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         setConnectIntentRowComposable(connectIntent, serverPlViaCh, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
-        node.withTag("secondaryLabel").assertDoesNotExist()
+        node.withTag("secondaryLabel").hasChild(node.withText("via Switzerland")).assertIsDisplayed()
     }
 
     @Test

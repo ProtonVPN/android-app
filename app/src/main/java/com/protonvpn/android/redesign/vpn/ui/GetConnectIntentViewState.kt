@@ -88,16 +88,10 @@ class GetConnectIntentViewState @Inject constructor(
         connectIntent: ConnectIntent.SecureCore,
         connectedServer: Server? = null
     ): ConnectIntentViewState {
-        val bothFastest = connectIntent.exitCountry.isFastest && connectIntent.entryCountry.isFastest
-        val bothSpecified = !connectIntent.exitCountry.isFastest && !connectIntent.entryCountry.isFastest
-        val secondaryLabel = if (bothSpecified || connectedServer != null && bothFastest) {
-            ConnectIntentSecondaryLabel.SecureCore(
-                exit = connectedCountryIfFastest(connectIntent.exitCountry, connectedServer, Server::exitCountry),
-                entry = connectedServer?.entryCountry?.let { CountryId(it) } ?: connectIntent.entryCountry
-            )
-        } else {
-            null
-        }
+        val secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(
+            exit = connectedCountryIfFastest(connectIntent.exitCountry, connectedServer, Server::exitCountry),
+            entry = connectedServer?.entryCountry?.let { CountryId(it) } ?: connectIntent.entryCountry
+        )
         return ConnectIntentViewState(
             primaryLabel = ConnectIntentPrimaryLabel.Country(
                 exitCountry =
