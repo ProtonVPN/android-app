@@ -61,19 +61,6 @@ class VpnStatusViewStateFlow(
         changeServerViewStateFlow as Flow<ChangeServerViewState>
     )
 
-    private val netShieldViewState: Flow<NetShieldViewState> =
-        combine(
-            effectiveCurrentUserSettings.netShield,
-            vpnConnectionManager.netShieldStats,
-            currentUser.vpnUserFlow
-        ) { state, stats, user ->
-            when(user.getNetShieldAvailability()) {
-                NetShieldAvailability.AVAILABLE -> NetShieldViewState.NetShieldState(state, stats)
-                NetShieldAvailability.UPGRADE_VPN_BUSINESS -> NetShieldViewState.UpgradeBusinessBanner
-                NetShieldAvailability.UPGRADE_VPN_PLUS -> NetShieldViewState.UpgradePlusBanner
-            }
-        }
-
     private val locationTextFlow = combine(
         serverListUpdaterPrefs.ipAddressFlow,
         serverListUpdaterPrefs.lastKnownCountryFlow
@@ -82,14 +69,22 @@ class VpnStatusViewStateFlow(
     }
 
     private val bannerFlow: Flow<StatusBanner> =
-        combine(netShieldViewState, changeServerViewStateFlow) { netshield, changeServer ->
+        combine(
+            effectiveCurrentUserSettings.netShield,
+            vpnConnectionManager.netShieldStats,
+            currentUser.vpnUserFlow,
+            changeServerViewStateFlow
+        ) { state, stats, user, changeServer ->
             if (changeServer is ChangeServerViewState.Locked) {
                 StatusBanner.UnwantedCountry
             } else {
-                when (netshield) {
-                    is NetShieldViewState.NetShieldState -> StatusBanner.NetShieldBanner(netshield)
-                    NetShieldViewState.UpgradeBusinessBanner -> StatusBanner.UpgradeBusiness
-                    NetShieldViewState.UpgradePlusBanner -> StatusBanner.UpgradePlus
+                when (user.getNetShieldAvailability()) {
+                    NetShieldAvailability.AVAILABLE -> StatusBanner.NetShieldBanner(
+                        NetShieldViewState(state, stats)
+                    )
+
+                    NetShieldAvailability.UPGRADE_VPN_BUSINESS -> StatusBanner.UpgradeBusiness
+                    NetShieldAvailability.UPGRADE_VPN_PLUS -> StatusBanner.UpgradePlus
                 }
             }
         }

@@ -105,8 +105,9 @@ sealed class VpnStatusViewState {
 
 sealed class StatusBanner {
     data class NetShieldBanner(
-        val netShieldState: NetShieldViewState.NetShieldState,
+        val netShieldState: NetShieldViewState,
     ) : StatusBanner()
+
     object UpgradePlus : StatusBanner()
     object UpgradeBusiness : StatusBanner()
     object UnwantedCountry : StatusBanner()
@@ -289,13 +290,16 @@ private fun VpnConnectedView(
                     onNavigateToSubsetting = { isModalVisible = !isModalVisible }
                 )
             }
+
             StatusBanner.UnwantedCountry -> {
                 UpgradePromo(
                     titleRes = R.string.not_wanted_country_title,
                     descriptionRes = R.string.not_wanted_country_description,
                     iconRes = R.drawable.upsell_worldwide_cover_exclamation,
-                    navigateToUpgrade = netShieldActions.onChangeServerPromoUpgrade)
+                    navigateToUpgrade = netShieldActions.onChangeServerPromoUpgrade
+                )
             }
+
             StatusBanner.UpgradeBusiness -> UpgradeNetShieldBusiness()
             StatusBanner.UpgradePlus -> UpgradeNetShieldFree(netShieldActions.onUpgradeNetShield)
         }
@@ -329,6 +333,7 @@ private fun VpnConnectingView(state: VpnStatusViewState.Connecting) {
         LocationTextAnimated(locationText = it)
     }
 }
+
 @Composable
 private fun VpnWaitingForNetwork() {
     Text(
@@ -340,20 +345,20 @@ private fun VpnWaitingForNetwork() {
 
 @Composable
 private fun LocationTextAnimated(locationText: LocationText) {
-        Surface(
-            color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4f),
-            shape = ProtonTheme.shapes.medium,
-        ) {
-            AnimateText(
-                targetText = stringResource(
-                    R.string.vpn_status_disabled_location,
-                    BidiFormatter.getInstance().unicodeWrap(locationText.country),
-                    locationText.ip
-                ),
-                targetCharacter = '*',
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-            )
-        }
+    Surface(
+        color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4f),
+        shape = ProtonTheme.shapes.medium,
+    ) {
+        AnimateText(
+            targetText = stringResource(
+                R.string.vpn_status_disabled_location,
+                BidiFormatter.getInstance().unicodeWrap(locationText.country),
+                locationText.ip
+            ),
+            targetCharacter = '*',
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+        )
+    }
 }
 
 @Composable
@@ -487,14 +492,18 @@ private fun PreviewVpnDisabledStateWithRTLSymbols() {
 @Composable
 private fun PreviewVpnConnectedState() {
     PreviewHelper(
-        state = VpnStatusViewState.Connected(true, banner = StatusBanner.NetShieldBanner(NetShieldViewState.NetShieldState(
-            protocol = NetShieldProtocol.ENABLED_EXTENDED,
-            netShieldStats = NetShieldStats(
-                adsBlocked = 3,
-                trackersBlocked = 0,
-                savedBytes = 2000
+        state = VpnStatusViewState.Connected(
+            true, banner = StatusBanner.NetShieldBanner(
+                NetShieldViewState(
+                    protocol = NetShieldProtocol.ENABLED_EXTENDED,
+                    netShieldStats = NetShieldStats(
+                        adsBlocked = 3,
+                        trackersBlocked = 0,
+                        savedBytes = 2000
+                    )
+                )
             )
-        ))),
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
@@ -505,21 +514,25 @@ private fun PreviewVpnConnectedState() {
 @Composable
 private fun PreviewVpnConnectedSecureCoreState() {
     PreviewHelper(
-        state = VpnStatusViewState.Connected(true, banner = StatusBanner.NetShieldBanner(NetShieldViewState.NetShieldState(
-            protocol = NetShieldProtocol.ENABLED_EXTENDED,
-            netShieldStats = NetShieldStats(
-                adsBlocked = 3,
-                trackersBlocked = 0,
-                savedBytes = 2000
+        state = VpnStatusViewState.Connected(
+            true, banner = StatusBanner.NetShieldBanner(
+                NetShieldViewState(
+                    protocol = NetShieldProtocol.ENABLED_EXTENDED,
+                    netShieldStats = NetShieldStats(
+                        adsBlocked = 3,
+                        trackersBlocked = 0,
+                        savedBytes = 2000
+                    )
+                )
             )
-        ))),
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     )
 }
 
- @Composable
+@Composable
 private fun PreviewHelper(state: VpnStatusViewState, modifier: Modifier = Modifier) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         VpnStatusTop(state = state, transitionValue = { 1f })

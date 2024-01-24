@@ -24,6 +24,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.StatusBanner
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
@@ -45,7 +46,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -75,6 +75,7 @@ class VpnStatusViewStateFlowTest {
     private lateinit var statusFlow: MutableStateFlow<VpnStatusProviderUI.Status>
     private lateinit var netShieldStatsFlow: MutableStateFlow<NetShieldStats>
     private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
+    private lateinit var changeServerFlow: MutableStateFlow<ChangeServerViewState?>
 
     @Before
     fun setup() {
@@ -88,7 +89,8 @@ class VpnStatusViewStateFlowTest {
         serverListUpdaterPrefs.ipAddress = "1.1.1.1"
         serverListUpdaterPrefs.lastKnownCountry = "US"
 
-        statusFlow = MutableStateFlow(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
+        statusFlow =
+            MutableStateFlow(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
         every { vpnStatusProviderUi.uiStatus } returns statusFlow
         netShieldStatsFlow = MutableStateFlow(NetShieldStats())
         every { vpnConnectionManager.netShieldStats } returns netShieldStatsFlow
@@ -97,14 +99,16 @@ class VpnStatusViewStateFlowTest {
         every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
         mockCurrentUser.mockVpnUser { vpnUserFlow.value }
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        val effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
+        changeServerFlow = MutableStateFlow(null)
+        val effectiveUserSettings =
+            EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
         vpnStatusViewStateFlow = VpnStatusViewStateFlow(
             vpnStatusProviderUi,
             serverListUpdaterPrefs,
             vpnConnectionManager,
             effectiveUserSettings,
             mockCurrentUser,
-            flowOf(null)
+            changeServerFlow
         )
     }
 
@@ -116,6 +120,40 @@ class VpnStatusViewStateFlowTest {
         assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connecting)
         statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
         assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
+    }
+
+    @Test
+    fun `upon upgrade user will see netshield instead of upsell banner`() = runTest {
+        statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
+        vpnUserFlow.emit(TestUser.freeUser.vpnUser)
+        assert((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).banner is StatusBanner.UpgradePlus)
+        vpnUserFlow.emit(TestUser.plusUser.vpnUser)
+        assert((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).banner is StatusBanner.NetShieldBanner)
+    }
+
+    @Test
+    fun `change server locked state changes upsell to not country wanted banner`() = runTest {
+        statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
+        vpnUserFlow.emit(TestUser.freeUser.vpnUser)
+        assert((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).banner is StatusBanner.UpgradePlus)
+        changeServerFlow.emit(ChangeServerViewState.Locked(1, 1, true))
+        assert((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).banner is StatusBanner.UnwantedCountry)
+    }
+
+    @Test
+    fun `user downgrade shows upsell banner`() = runTest {
+        statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
+        assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
+        vpnUserFlow.emit(TestUser.freeUser.vpnUser)
+        assert((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).banner is StatusBanner.UpgradePlus)
+    }
+
+    @Test
+    fun `vpn-essential plan shows business upgrade banner`() = runTest {
+        statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
+        assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
+        vpnUserFlow.emit(TestUser.businessEssential.vpnUser)
+        assert((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).banner is StatusBanner.UpgradeBusiness)
     }
 
     @Test

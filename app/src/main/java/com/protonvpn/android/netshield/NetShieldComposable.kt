@@ -21,19 +21,28 @@ package com.protonvpn.android.netshield
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
@@ -44,10 +53,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.utils.ConnectionTools
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
+import me.proton.core.compose.theme.captionStrongNorm
 import me.proton.core.compose.theme.captionWeak
+import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultSmallStrongNorm
 import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.defaultStrongNorm
@@ -135,7 +147,7 @@ fun UpgradePromo(
 }
 
 @Composable
-fun NetShieldView(state: NetShieldViewState.NetShieldState, onNavigateToSubsetting: () -> Unit) {
+fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit) {
     Column(
         modifier = Modifier.clickable(onClick = onNavigateToSubsetting)
     ) {
@@ -238,13 +250,123 @@ private fun BandwidthColumn(
         )
     }
 }
+@Composable
+fun NetShieldBottomComposable(
+    currentNetShield: NetShieldProtocol,
+    onValueChanged: (protocol: NetShieldProtocol) -> Unit,
+    onNetShieldLearnMore: () -> Unit
+) {
+    val switchState = remember {
+        mutableStateOf(currentNetShield != NetShieldProtocol.DISABLED)
+    }
 
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            androidx.compose.material.Text(
+                text = stringResource(id = R.string.settings_netshield_title),
+                style = ProtonTheme.typography.defaultNorm,
+                modifier = Modifier.weight(1f)
+            )
+            Switch(checked = switchState.value, onCheckedChange = {
+                switchState.value = it
+                onValueChanged(if (it) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED)
+            })
+
+        }
+        AnnotatedClickableText(
+            fullText = stringResource(id = R.string.netshield_settings_description_not_html, stringResource(
+                id = R.string.learn_more
+            )),
+            annotatedPart = stringResource(id = R.string.learn_more),
+            onAnnotatedClick = onNetShieldLearnMore,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+
+        Surface(
+            shape = RoundedCornerShape(size = 8.dp),
+            color = Color.Transparent,
+            border = BorderStroke(1.dp, ProtonTheme.colors.textDisabled),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                androidx.compose.material.Text(
+                    text = stringResource(id = R.string.netshield_what_data_means),
+                    style = ProtonTheme.typography.defaultNorm,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                StatsDescriptionRows(modifier = Modifier.fillMaxWidth())
+            }
+        }
+    }
+}
+
+@Composable
+private fun StatsDescriptionRows(modifier: Modifier) {
+    Column(modifier = modifier) {
+        StatsDescriptionRow(
+            titleId = R.string.netshield_ads_title,
+            detailsId = R.string.netshield_ads_details
+        )
+        StatsDescriptionRow(
+            titleId = R.string.netshield_trackers_title,
+            detailsId = R.string.netshield_trackers_details
+        )
+        StatsDescriptionRow(
+            titleId = R.string.netshield_data_title,
+            detailsId = R.string.netshield_data_details
+        )
+    }
+}
+
+@Composable
+private fun StatsDescriptionRow(titleId: Int, detailsId: Int) {
+    Row(modifier = Modifier.padding(8.dp)) {
+        Box(modifier = Modifier.weight(0.7f, fill = true)) {
+            androidx.compose.material.Text(
+                text = stringResource(id = titleId),
+                style = ProtonTheme.typography.captionStrongNorm
+            )
+        }
+        androidx.compose.material.Text(
+            text = stringResource(id = detailsId),
+            style = ProtonTheme.typography.captionWeak,
+            modifier = Modifier.weight(2f)
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun NetShieldBottomPreview() {
+    NetShieldBottomComposable(
+        currentNetShield = NetShieldProtocol.DISABLED,
+        onValueChanged = {},
+        onNetShieldLearnMore = {}
+    )
+}
+
+@Preview
+@Composable
+private fun NetShieldBottomSheetPreview() {
+    NetShieldBottomComposable(
+        currentNetShield = NetShieldProtocol.DISABLED,
+        onValueChanged = {},
+        onNetShieldLearnMore = {}
+    )
+}
 @Preview
 @Composable
 private fun NetShieldOnPreview() {
     NetShieldView(
         state =
-            NetShieldViewState.NetShieldState(
+            NetShieldViewState(
                 protocol = NetShieldProtocol.ENABLED_EXTENDED,
                 netShieldStats = NetShieldStats(
                     adsBlocked = 3,
@@ -261,7 +383,7 @@ private fun NetShieldOnPreview() {
 private fun NetShieldOffPreview() {
     NetShieldView(
         state =
-            NetShieldViewState.NetShieldState(
+            NetShieldViewState(
                 protocol = NetShieldProtocol.DISABLED,
                 netShieldStats = NetShieldStats(
                     adsBlocked = 3,
