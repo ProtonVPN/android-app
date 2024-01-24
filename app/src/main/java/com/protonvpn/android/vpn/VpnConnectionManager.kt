@@ -649,12 +649,12 @@ class VpnConnectionManager @Inject constructor(
         VpnState.Disabled -> "Disconnected"
         VpnState.ScanningPorts,
         VpnState.CheckingAvailability,
+        VpnState.Reconnecting,
+        VpnState.WaitingForNetwork,
         VpnState.Connecting -> "Connecting"
         VpnState.Connected -> "Connected"
         VpnState.Disconnecting -> "Disconnecting"
-        is VpnState.Error -> "Disconnecting"
-        VpnState.Reconnecting -> "Connecting"
-        VpnState.WaitingForNetwork -> "Disconnected"
+        is VpnState.Error -> if (vpnState.isFinal) "Disconnected" else "Connecting"
     }
 
     companion object {
