@@ -245,7 +245,7 @@ class VpnConnectionManager @Inject constructor(
                     ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
                     disconnect(DisconnectTrigger.Error("max sessions reached"))
                 } else {
-                    activeBackend?.setSelfState(VpnState.Error(result.type, isFinal = true))
+                    activeBackend?.setSelfState(VpnState.Error(result.type, isFinal = false))
                 }
             }
         }
@@ -413,7 +413,7 @@ class VpnConnectionManager @Inject constructor(
                 )
             } else {
                 // Report LOCAL_AGENT_ERROR, same as other places where CertificateResult.Error is handled.
-                setSelfState(VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Failed to obtain certificate", isFinal = false))
+                setSelfState(VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Failed to obtain certificate", isFinal = true))
                 return
             }
         } else {
