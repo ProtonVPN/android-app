@@ -260,7 +260,7 @@ class GuestHole @Inject constructor(
     private suspend fun closeGuestHole() {
         if (isGuestHoleActive) {
             logMessage("Disconnecting")
-            vpnConnectionManager.get().disconnectSync(DisconnectTrigger.GuestHole)
+            vpnConnectionManager.get().disconnectAndWait(DisconnectTrigger.GuestHole)
         }
     }
 

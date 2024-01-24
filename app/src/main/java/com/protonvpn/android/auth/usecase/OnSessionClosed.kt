@@ -42,7 +42,7 @@ class OnSessionClosed @Inject constructor(
 
     suspend operator fun invoke(account: Account) {
         Storage.saveString(LAST_USER, account.username)
-        vpnConnectionManager.disconnectSync(DisconnectTrigger.Logout)
+        vpnConnectionManager.disconnectAndWait(DisconnectTrigger.Logout)
         accountManager.disableAccount(account.userId)
         account.sessionId?.let { certificateRepository.clear(it) }
         serverManager.clearCache()
