@@ -70,7 +70,7 @@ class VpnStateSample : SampleScreen("Vpn state sample", "vpn_state") {
                 "Connected", onClick = {
                     state = VpnStatusViewState.Connected(
                         true, StatusBanner.NetShieldBanner(
-                            NetShieldViewState.NetShieldState(
+                            NetShieldViewState(
                                 protocol = NetShieldProtocol.ENABLED_EXTENDED,
                                 netShieldStats = NetShieldStats(
                                     adsBlocked = 3,

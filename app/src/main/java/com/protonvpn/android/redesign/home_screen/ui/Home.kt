@@ -70,14 +70,12 @@ import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
-import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
-import com.protonvpn.android.ui.home.vpn.VpnStateViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
@@ -112,7 +110,6 @@ fun HomeView(
     onConnectionCardClick: () -> Unit
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
-    val stateViewModel: VpnStateViewModel = hiltViewModel()
     val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle(null).value
     val vpnState = viewModel.vpnStateViewFlow.collectAsStateWithLifecycle(VpnStatusViewState.Loading).value
     val mapState = viewModel.mapHighlightState.collectAsStateWithLifecycle(initialValue = null).value
@@ -129,11 +126,11 @@ fun HomeView(
     }
     // Not using material3 snackbar because of inability to show multiline correctly
     val snackbarHostState = remember { androidx.compose.material.SnackbarHostState() }
-    val snackError = stateViewModel.snackbarErrorFlow.collectAsStateWithLifecycle().value
+    val snackError = viewModel.snackbarErrorFlow.collectAsStateWithLifecycle().value
     if (snackError != null) {
         LaunchedEffect(snackError) {
             handleSnackbarError(context, snackbarHostState, snackError)
-            stateViewModel.consumeErrorMessage()
+            viewModel.consumeErrorMessage()
         }
     }
 
@@ -172,7 +169,7 @@ fun HomeView(
         val netShieldActions = remember {
             NetShieldActions(
                 onChangeServerPromoUpgrade = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) },
-                onNetShieldValueChanged = { stateViewModel.setNetShieldProtocol(it) },
+                onNetShieldValueChanged = { viewModel.setNetShieldProtocol(it) },
                 onUpgradeNetShield = { UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context) },
                 onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
             )

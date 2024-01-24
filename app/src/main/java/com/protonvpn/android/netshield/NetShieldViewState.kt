@@ -20,22 +20,18 @@ package com.protonvpn.android.netshield
 
 import com.protonvpn.android.R
 
-sealed class NetShieldViewState {
-    object UpgradePlusBanner : NetShieldViewState()
-    object UpgradeBusinessBanner : NetShieldViewState()
-    data class NetShieldState(
-        val protocol: NetShieldProtocol,
-        val netShieldStats: NetShieldStats
-    ) : NetShieldViewState() {
-        val bandwidthShown = protocol != NetShieldProtocol.DISABLED
-        val isGreyedOut = protocol != NetShieldProtocol.ENABLED_EXTENDED
-        val iconRes = when (protocol) {
-            NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
-            NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.drawable.ic_netshield_on
-        }
-        val titleRes = when (protocol) {
-            NetShieldProtocol.DISABLED -> R.string.netshield_status_off
-            NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.string.netshield_status_on
-        }
+data class NetShieldViewState(
+    val protocol: NetShieldProtocol,
+    val netShieldStats: NetShieldStats
+) {
+    val bandwidthShown = protocol != NetShieldProtocol.DISABLED
+    val isGreyedOut = protocol != NetShieldProtocol.ENABLED_EXTENDED
+    val iconRes = when (protocol) {
+        NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
+        NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.drawable.ic_netshield_on
+    }
+    val titleRes = when (protocol) {
+        NetShieldProtocol.DISABLED -> R.string.netshield_status_off
+        NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.string.netshield_status_on
     }
 }

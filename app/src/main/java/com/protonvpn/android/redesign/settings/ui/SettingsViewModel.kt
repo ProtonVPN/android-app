@@ -25,10 +25,7 @@ import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.components.InstalledAppsProvider
-import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
-import com.protonvpn.android.netshield.NetShieldViewState
-import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.settings.BuildConfigInfo
@@ -38,7 +35,6 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.stateIn
@@ -93,19 +89,6 @@ class SettingsViewModel @Inject constructor(
                 )
             )
         )
-
-    val netShieldViewState: StateFlow<NetShieldViewState> =
-        combine(
-            userSettings.netShield,
-            vpnConnectionManager.netShieldStats,
-            currentUser.vpnUserFlow
-        ) { state, stats, user ->
-            when(user.getNetShieldAvailability()) {
-                NetShieldAvailability.AVAILABLE -> NetShieldViewState.NetShieldState(state, stats)
-                NetShieldAvailability.UPGRADE_VPN_BUSINESS -> NetShieldViewState.UpgradeBusinessBanner
-                NetShieldAvailability.UPGRADE_VPN_PLUS -> NetShieldViewState.UpgradePlusBanner
-            }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, NetShieldViewState.UpgradePlusBanner)
 
     private fun getInitials(name: String?): String? {
         return name?.split(" ")

@@ -22,6 +22,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
@@ -35,6 +36,7 @@ import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewStateFlow
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
+import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.tv.main.CountryHighlight
@@ -42,6 +44,7 @@ import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -53,6 +56,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.launch
 import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
 
@@ -72,6 +76,8 @@ class HomeViewModel @Inject constructor(
     private val upgradeTelemetry: UpgradeTelemetry,
     vpnStatusProviderUI: VpnStatusProviderUI,
     serverListUpdaterPrefs: ServerListUpdaterPrefs,
+    private val userSettingsManager: CurrentUserLocalSettingsManager,
+    private val vpnErrorUIManager: VpnErrorUIManager,
     @ElapsedRealtimeClock val elapsedRealtimeClock: () -> Long,
 ) : ViewModel() {
 
@@ -116,6 +122,15 @@ class HomeViewModel @Inject constructor(
             ConnectTrigger.QuickConnect(TriggerDescription)
         )
     }
+
+    val snackbarErrorFlow = vpnErrorUIManager.snackErrorFlow
+
+    suspend fun consumeErrorMessage() = vpnErrorUIManager.consumeErrorMessage()
+
+    fun setNetShieldProtocol(netShieldProtocol: NetShieldProtocol) =
+        viewModelScope.launch {
+            userSettingsManager.updateNetShield(netShieldProtocol)
+        }
 
     suspend fun connect(vpnUiDelegate: VpnUiDelegate) {
         connect(vpnUiDelegate, quickConnectIntent())
