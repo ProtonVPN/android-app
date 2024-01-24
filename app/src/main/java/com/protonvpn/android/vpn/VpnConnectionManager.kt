@@ -191,7 +191,6 @@ class VpnConnectionManager @Inject constructor(
         vpnErrorHandler.switchConnectionFlow
             .onEach { fallback ->
                 if (vpnStateMonitor.isEstablishingOrConnected) {
-                    disconnectSync(DisconnectTrigger.Fallback)
                     fallbackConnect(fallback)
                 }
             }.launchIn(scope)
@@ -244,7 +243,8 @@ class VpnConnectionManager @Inject constructor(
                 ProtonLogger.logCustom(LogCategory.CONN, "Failed to recover, entering $result")
                 if (result.type == ErrorType.MAX_SESSIONS) {
                     ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
-                    disconnect(DisconnectTrigger.Error("max sessions reached"))
+                    clearOngoingConnection(clearFallback = false)
+                    disconnectBlocking(DisconnectTrigger.Error("max sessions reached"))
                 } else {
                     activeBackend?.setSelfState(VpnState.Error(result.type, isFinal = false))
                 }
@@ -256,7 +256,8 @@ class VpnConnectionManager @Inject constructor(
         if (errorType == ErrorType.MAX_SESSIONS) {
             vpnStateMonitor.vpnConnectionNotificationFlow.emit(VpnFallbackResult.Error(ErrorType.MAX_SESSIONS))
             ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
-            disconnect(DisconnectTrigger.Error("max sessions reached"))
+            clearOngoingConnection(clearFallback = false)
+            disconnectBlocking(DisconnectTrigger.Error("max sessions reached"))
         } else {
             ProtonLogger.logCustom(LogCategory.CONN_DISCONNECT, "disconnecting unrecoverably: $errorType.name")
         }
@@ -273,7 +274,8 @@ class VpnConnectionManager @Inject constructor(
                     vpnBackgroundUiDelegate,
                     fallback.toConnectIntent,
                     preferredServer = fallback.toServer,
-                    triggerAction = ConnectTrigger.Fallback(fallback.log)
+                    triggerAction = ConnectTrigger.Fallback(fallback.log),
+                    clearFallback = false,
                 )
             is VpnFallbackResult.Switch.SwitchServer -> {
                 // Do not reconnect if user becomes delinquent
@@ -313,10 +315,11 @@ class VpnConnectionManager @Inject constructor(
     }
 
     private fun switchServerConnect(switch: VpnFallbackResult.Switch.SwitchServer) {
-        clearOngoingConnection()
+        clearOngoingConnection(clearFallback = false)
         ProtonLogger.log(ConnConnectTrigger, switch.log)
         vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Fallback(switch.log))
         launchConnect {
+            disconnectForNewConnection(isFallback = true, oldConnectionParams = connectionParams)
             preparedConnect(switch.preparedConnection)
         }
     }
@@ -444,8 +447,9 @@ class VpnConnectionManager @Inject constructor(
         ongoingFallback = null
     }
 
-    private fun clearOngoingConnection() {
-        clearOngoingFallback()
+    private fun clearOngoingConnection(clearFallback: Boolean) {
+        if (clearFallback)
+            clearOngoingFallback()
         ongoingConnect?.cancel()
         ongoingConnect = null
     }
@@ -467,10 +471,10 @@ class VpnConnectionManager @Inject constructor(
         scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
             uiDelegate.askForPermissions(intent, connectIntent) {
-                connectWithPermission(uiDelegate, connectIntent, triggerAction)
+                connectWithPermission(uiDelegate, connectIntent, triggerAction, clearFallback = true)
             }
         } else {
-            connectWithPermission(uiDelegate, connectIntent, triggerAction)
+            connectWithPermission(uiDelegate, connectIntent, triggerAction, clearFallback = true)
         }
     }
 
@@ -481,9 +485,10 @@ class VpnConnectionManager @Inject constructor(
         delegate: VpnUiDelegate,
         connectIntent: AnyConnectIntent,
         triggerAction: ConnectTrigger,
-        preferredServer: Server? = null
+        clearFallback: Boolean,
+        preferredServer: Server? = null,
     ) {
-        clearOngoingConnection()
+        clearOngoingConnection(clearFallback)
         launchConnect {
             connectWithPermissionSync(delegate, connectIntent, triggerAction, preferredServer)
         }
@@ -566,26 +571,21 @@ class VpnConnectionManager @Inject constructor(
     }
 
     fun disconnect(trigger: DisconnectTrigger) {
-        disconnectWithCallback(trigger)
-    }
-
-    suspend fun disconnectSync(trigger: DisconnectTrigger) {
-        clearOngoingConnection()
-        disconnectBlocking(trigger)
-    }
-
-    private fun disconnectWithCallback(trigger: DisconnectTrigger, afterDisconnect: (() -> Unit)? = null) {
-        clearOngoingConnection()
+        clearOngoingConnection(clearFallback = true)
         scope.launch {
             disconnectBlocking(trigger)
             vpnStateMonitor.onDisconnectedByUser.emit(Unit)
-            afterDisconnect?.invoke()
         }
+    }
+
+    suspend fun disconnectAndWait(trigger: DisconnectTrigger) {
+        clearOngoingConnection(clearFallback = true)
+        disconnectBlocking(trigger)
     }
 
     // Will reconnect to current connection params, skipping pinging procedures
     fun reconnectWithCurrentParams(uiDelegate: VpnUiDelegate) = scope.launch {
-        clearOngoingConnection()
+        clearOngoingConnection(clearFallback = true)
         if (activeBackend != null) {
             vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.Reconnect("reconnect"), connectionParams)
             vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Reconnect)

@@ -21,7 +21,6 @@ package com.protonvpn.app.vpn
 import androidx.activity.ComponentActivity
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
-import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
@@ -97,7 +96,7 @@ class GuestHoleTests {
             val params = ConnectionParams(connectIntent, server, null, null)
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(state, params))
         }
-        coEvery { vpnConnectionManager.disconnectSync(any()) } answers {
+        coEvery { vpnConnectionManager.disconnectAndWait(any()) } answers {
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
         }
 
