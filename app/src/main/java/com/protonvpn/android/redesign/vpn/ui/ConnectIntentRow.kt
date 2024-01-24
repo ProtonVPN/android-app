@@ -186,12 +186,10 @@ private fun ConnectIntentSecondaryLabel.label(): AnnotatedString = when (this) {
         val suffix = serverNumberLabel?.let { " $it" } ?: ""
         AnnotatedString(country.label() + suffix)
     }
-    is ConnectIntentSecondaryLabel.SecureCore -> {
-        if (exit != null) {
-            AnnotatedString(viaCountry(exit, entry))
-        } else {
-            AnnotatedString(viaCountry(entry))
-        }
+    is ConnectIntentSecondaryLabel.SecureCore -> when {
+        entry.isFastest -> AnnotatedString(stringResource(R.string.connection_info_secure_core_entry_fastest))
+        exit != null -> AnnotatedString(viaCountry(exit, entry))
+        else -> AnnotatedString(viaCountry(entry))
     }
     is ConnectIntentSecondaryLabel.FastestFreeServer -> {
         val text = if (freeServerCountries > 3)
