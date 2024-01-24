@@ -96,7 +96,7 @@ class GuestHoleTests {
             val params = ConnectionParams(profile, server, null, null)
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(state, params))
         }
-        coEvery { vpnConnectionManager.disconnectSync(any()) } answers {
+        coEvery { vpnConnectionManager.disconnectAndWait(any()) } answers {
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
         }
 
