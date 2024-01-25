@@ -257,7 +257,6 @@
     <string name="learn_more">Pelajari lebih lanjut</string>
     <string name="netshield_status_on">Aktif</string>
     <string name="netshield_status_off">Nonaktif</string>
-    <string name="netshield_free_title">Jelajahi internet tanpa iklan dengan NetShield</string>
     <string name="netshield_free_description">Blokir iklan, pelacak, dan malware pada berbagai situs web dan aplikasi</string>
     <string name="netshield_business_title">Blokir iklan dengan NetShield</string>
     <string name="netshield_business_description">Ketika Anda meningkatkan ke VPN Business</string>
@@ -532,6 +531,8 @@
     <string name="search_recents_header_title">Baru dilihat (%1$d)</string>
     <string name="search_clear_history">Hapus riwayat</string>
     <string name="search_clear_history_dialog">Riwayat pencarian Anda akan hilang. Lanjutkan?</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Hapus</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Kunjungi <a href="https://protonvpn.com/pricing">protonvpn.com</a> untuk info lebih lanjut.</string>
     <string name="free_upsell_header_title">Dapatkan cakupan server di seluruh dunia dengan VPN Plus</string>
@@ -795,6 +796,13 @@
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
     <string name="connection_info_secure_core_entry_switzerland">via Swiss</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not

@@ -257,7 +257,6 @@
     <string name="learn_more">더 알아보기</string>
     <string name="netshield_status_on">켜기</string>
     <string name="netshield_status_off">끄기</string>
-    <string name="netshield_free_title">NetShield로 광고 없이 브라우징</string>
     <string name="netshield_free_description">웹사이트 및 앱에서 광고, 트래커와 멀웨어를 차단하세요</string>
     <string name="netshield_business_title">NetShield로 광고를 차단하세요</string>
     <string name="netshield_business_description">VPN Business 요금제로 업그레이드하면</string>
@@ -532,6 +531,8 @@
     <string name="search_recents_header_title">최근에 봄 (%1$d)</string>
     <string name="search_clear_history">기록 삭제</string>
     <string name="search_clear_history_dialog">검색 기록이 지워집니다. 계속하시겠어요?</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">삭제</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">자세한 내용은 <a href="https://protonvpn.com/pricing">protonvpn.com</a>을 참조하세요.</string>
     <string name="free_upsell_header_title">전세계 커버리지를 VPN Plus로 누리세요</string>
@@ -795,6 +796,13 @@
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
     <string name="connection_info_secure_core_entry_switzerland">스위스를 통해</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not

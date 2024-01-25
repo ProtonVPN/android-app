@@ -257,7 +257,6 @@
     <string name="learn_more">了解更多</string>
     <string name="netshield_status_on">開啟</string>
     <string name="netshield_status_off">關閉</string>
-    <string name="netshield_free_title">使用 NetShield 瀏覽無廣告的世界</string>
     <string name="netshield_free_description">封鎖網站與應用程式中的廣告、追蹤器與惡意程式</string>
     <string name="netshield_business_title">使用NetShield阻擋廣告</string>
     <string name="netshield_business_description">當您升級至企業版VPN時</string>
@@ -532,6 +531,8 @@
     <string name="search_recents_header_title">最近檢視 (%1$d)</string>
     <string name="search_clear_history">清除歷程紀錄</string>
     <string name="search_clear_history_dialog">您的搜尋歷程紀錄將會消失。要繼續嗎？</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Clear</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">造訪 <a href="https://protonvpn.com/pricing">protonvpn.com</a> 查閱更多資訊。</string>
     <string name="free_upsell_header_title">使用 VPN Plus 來獲得全球的覆蓋</string>
@@ -779,7 +780,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s 經 %2$s</string>
+    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -795,6 +796,13 @@
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
     <string name="connection_info_secure_core_entry_switzerland">透過瑞士</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not
@@ -984,13 +992,13 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">不要再詢問我</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_action">Sign out</string>
+    <string name="dialog_sign_out_action">登出</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_action_cancel">Cancel</string>
+    <string name="dialog_action_cancel">取消</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
-    <string name="vpn_status_connected">Protected</string>
+    <string name="vpn_status_connected">已受保護</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->
@@ -1008,11 +1016,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Connection details</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_show_ip">Show IP</string>
+    <string name="accessibility_show_ip">顯示 IP</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_back">Back</string>
+    <string name="accessibility_back">返回</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_my_ip">My IP</string>
+    <string name="connection_details_my_ip">我的 IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
@@ -1020,13 +1028,13 @@
     -->
     <string name="connection_details_connected_for">Connected for</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server">Server</string>
+    <string name="connection_details_server">伺服器</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_gateway">Gateway</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_country">Country</string>
+    <string name="connection_details_country">國家</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_city">City</string>
+    <string name="connection_details_city">城市</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->

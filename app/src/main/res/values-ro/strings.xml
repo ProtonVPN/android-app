@@ -259,7 +259,6 @@
     <string name="learn_more">Detalii</string>
     <string name="netshield_status_on">Pornit</string>
     <string name="netshield_status_off">Oprit</string>
-    <string name="netshield_free_title">Navigați fără reclame cu NetShield</string>
     <string name="netshield_free_description">Blocați reclame, urmăritori și malware pe pagini web și aplicații</string>
     <string name="netshield_business_title">Blocare reclame cu NetShield</string>
     <string name="netshield_business_description">Dacă treceți la VPN Business</string>
@@ -548,6 +547,8 @@
     <string name="search_recents_header_title">Recent văzute (%1$d)</string>
     <string name="search_clear_history">Golire istoric</string>
     <string name="search_clear_history_dialog">Istoricul de căutări va fi pierdut. Continuați?</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Golire</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Vizitați <a href="https://protonvpn.com/pricing">protonvpn.com</a> pentru mai multe informații.</string>
     <string name="free_upsell_header_title">Obțineți acoperire la nivel mondial cu VPN Plus</string>
@@ -827,6 +828,13 @@
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
     <string name="connection_info_secure_core_entry_switzerland">prin Elveția</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not

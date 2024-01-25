@@ -258,7 +258,6 @@
     <string name="learn_more">Lär dig mer</string>
     <string name="netshield_status_on">På</string>
     <string name="netshield_status_off">Av</string>
-    <string name="netshield_free_title">Surfa annonsfritt med NetShield</string>
     <string name="netshield_free_description">Blockera annonser, spårare och skadlig kod på webbplatser och appar</string>
     <string name="netshield_business_title">Blockera annonser med NetShield</string>
     <string name="netshield_business_description">När du uppgraderar till VPN Business</string>
@@ -540,6 +539,8 @@
     <string name="search_recents_header_title">Nyligen visade (%1$d)</string>
     <string name="search_clear_history">Rensa historik</string>
     <string name="search_clear_history_dialog">Din sökhistorik kommer att gå förlorad. Fortsätta?</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Rensa</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Besök <a href="https://protonvpn.com/pricing">protonvpn.com</a> för mer info.</string>
     <string name="free_upsell_header_title">Få världsomspännande täckning med VPN Plus</string>
@@ -811,6 +812,13 @@
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
     <string name="connection_info_secure_core_entry_switzerland">via Schweiz</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not

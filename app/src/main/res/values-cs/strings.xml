@@ -260,7 +260,6 @@
     <string name="learn_more">Více informací</string>
     <string name="netshield_status_on">Zapnuto</string>
     <string name="netshield_status_off">Vypnuto</string>
-    <string name="netshield_free_title">Prohlížejte bez reklam s NetShield</string>
     <string name="netshield_free_description">Blokujte reklamy, sledovací prvky a malware na webových stránkách a v aplikacích</string>
     <string name="netshield_business_title">Blokovat reklamy pomoci NetShield</string>
     <string name="netshield_business_description">Dostupné po navýšení na tarif VPN Business</string>
@@ -556,6 +555,8 @@
     <string name="search_recents_header_title">Nedávno viděno (%1$d)</string>
     <string name="search_clear_history">Vyčistit historii</string>
     <string name="search_clear_history_dialog">Vaše historie hledání bude ztracena. Pokračovat?</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Clear</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Pro více informací navštivte <a href="https://protonvpn.com/pricing">protonvpn.com</a>.</string>
     <string name="free_upsell_header_title">Získejte celosvětové pokrytí díky VPN Plus</string>
@@ -731,7 +732,7 @@
     <string name="no_logs_banner_title">Certifikovaná síť VPN bez logů</string>
     <string name="no_logs_banner_description">Vaše aktivity v síti VPN jsou chráněny švýcarskými zákony o ochraně osobních údajů. Nikdy vás nebudeme sledovat online ani sdílet vaše informace s třetími stranami.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
-    <string name="bottom_nav_home">Domov</string>
+    <string name="bottom_nav_home">Domů</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Země</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -827,7 +828,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s přes %2$s</string>
+    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -843,6 +844,13 @@
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
     <string name="connection_info_secure_core_entry_switzerland">přes Švýcarsko</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not
