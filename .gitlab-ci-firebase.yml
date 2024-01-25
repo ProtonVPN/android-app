@@ -145,7 +145,7 @@ robo tests:
       --type robo
       --app "$APP"
       --device model=Pixel2,version=30,locale=en,orientation=portrait
-      --device model=Nexus5X,version=23,locale=en,orientation=portrait
+      --device model=Nexus6,version=24,locale=en,orientation=portrait
       --timeout $TIMEOUT
       --robo-script=gs://protonvpn-testing-scripts/ProtonVPN_Login_Robo_Script.json
       --robo-directives ignore:R.id.drawerButtonLogout=
