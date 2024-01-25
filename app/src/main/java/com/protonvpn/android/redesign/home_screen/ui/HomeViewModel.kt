@@ -60,7 +60,6 @@ import kotlinx.coroutines.launch
 import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
 
-private const val TriggerDescription = "Home screen"
 private const val DialogStateKey = "dialog"
 
 @HiltViewModel
@@ -115,14 +114,6 @@ class HomeViewModel @Inject constructor(
 
     val eventNavigateToUpgrade = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
 
-    fun connect(vpnUiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent) {
-        vpnConnectionManager.connect(
-            vpnUiDelegate,
-            connectIntent,
-            ConnectTrigger.QuickConnect(TriggerDescription)
-        )
-    }
-
     val snackbarErrorFlow = vpnErrorUIManager.snackErrorFlow
 
     suspend fun consumeErrorMessage() = vpnErrorUIManager.consumeErrorMessage()
@@ -132,8 +123,11 @@ class HomeViewModel @Inject constructor(
             userSettingsManager.updateNetShield(netShieldProtocol)
         }
 
-    suspend fun connect(vpnUiDelegate: VpnUiDelegate) {
-        connect(vpnUiDelegate, quickConnectIntent())
+    fun connect(vpnUiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent, trigger: ConnectTrigger) {
+        vpnConnectionManager.connect(vpnUiDelegate, connectIntent, trigger)
+    }
+    suspend fun connect(vpnUiDelegate: VpnUiDelegate, trigger: ConnectTrigger) {
+        vpnConnectionManager.connect(vpnUiDelegate, quickConnectIntent(), trigger)
     }
 
     fun changeServer(vpnUiDelegate: VpnUiDelegate) = changeServerManager.changeServer(vpnUiDelegate)
@@ -158,9 +152,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun disconnect() {
-        vpnConnectionManager.disconnect(DisconnectTrigger.QuickConnect(TriggerDescription))
-    }
+    fun disconnect(trigger: DisconnectTrigger) = vpnConnectionManager.disconnect(trigger)
 
     fun dismissDialog() {
         dialogState = null

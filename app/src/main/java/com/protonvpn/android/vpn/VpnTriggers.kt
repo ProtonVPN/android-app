@@ -21,30 +21,28 @@ package com.protonvpn.android.vpn
 
 // This set of values is provided by the data team.
 private enum class ConnectStatsKeyword {
-    QUICK, COUNTRY, SERVER, PROFILE, MAP, TRAY, AUTO, RECENT, PIN
+    CONNECTION_CARD, CHANGE_SERVER, QUICK, COUNTRY, SERVER, PROFILE, MAP, TRAY, AUTO, RECENT, PIN
 }
 
 private enum class DisconnectStatsKeyword {
-    QUICK, COUNTRY, SERVER, PROFILE, MAP, TRAY, AUTO, NEW_CONNECTION
+    CONNECTION_CARD, QUICK, COUNTRY, SERVER, PROFILE, MAP, TRAY, AUTO, NEW_CONNECTION
 }
 
 sealed class ConnectTrigger(statsKeyword: ConnectStatsKeyword, val description: String) {
+    object ConnectionCard : ConnectTrigger(ConnectStatsKeyword.CONNECTION_CARD, "connection card")
+    object ChangeServer : ConnectTrigger(ConnectStatsKeyword.CHANGE_SERVER, "change server")
     class QuickConnect(description: String) : ConnectTrigger(ConnectStatsKeyword.QUICK, description)
     object RecentRegular : ConnectTrigger(ConnectStatsKeyword.RECENT, "recent")
     object RecentPinned : ConnectTrigger(ConnectStatsKeyword.PIN, "pinned recent")
-    class ConnectionPanel(description: String) : ConnectTrigger(ConnectStatsKeyword.QUICK, description)
     class Onboarding(description: String) : ConnectTrigger(ConnectStatsKeyword.QUICK, description)
     class Country(description: String) : ConnectTrigger(ConnectStatsKeyword.COUNTRY, description)
     class Server(description: String) : ConnectTrigger(ConnectStatsKeyword.SERVER, description)
     class Search(description: String) : ConnectTrigger(ConnectStatsKeyword.SERVER, description)
-    class Profile(description: String) : ConnectTrigger(ConnectStatsKeyword.PROFILE, description)
-    object Map : ConnectTrigger(ConnectStatsKeyword.MAP, "map marker")
     object QuickTile : ConnectTrigger(ConnectStatsKeyword.TRAY, "quick tile")
     class Notification(description: String) : ConnectTrigger(ConnectStatsKeyword.TRAY, description)
     class Auto(description: String) : ConnectTrigger(ConnectStatsKeyword.AUTO, description)
     object GuestHole : ConnectTrigger(ConnectStatsKeyword.AUTO, "guest hole")
     object Reconnect : ConnectTrigger(ConnectStatsKeyword.AUTO, "reconnection")
-    object SecureCore : ConnectTrigger(ConnectStatsKeyword.AUTO, "Secure Core switch")
     // Fallback doesn't send an abort event for connection being established, instead it preserves the original trigger.
     class Fallback(description: String) : ConnectTrigger(ConnectStatsKeyword.AUTO, description)
 
@@ -56,13 +54,11 @@ sealed class DisconnectTrigger(
     val description: String,
     val isSuccess: Boolean = true
 ) {
+    object ConnectionCard : DisconnectTrigger(DisconnectStatsKeyword.CONNECTION_CARD, "connection card")
     class QuickConnect(description: String) : DisconnectTrigger(DisconnectStatsKeyword.QUICK, description)
-    class ConnectionPanel(description: String) : DisconnectTrigger(DisconnectStatsKeyword.QUICK, description)
     class Country(description: String) : DisconnectTrigger(DisconnectStatsKeyword.COUNTRY, description)
     class Server(description: String) : DisconnectTrigger(DisconnectStatsKeyword.SERVER, description)
     class Search(description: String) : DisconnectTrigger(DisconnectStatsKeyword.SERVER, description)
-    class Profile(description: String) : DisconnectTrigger(DisconnectStatsKeyword.PROFILE, description)
-    object Map : DisconnectTrigger(DisconnectStatsKeyword.MAP, "map marker")
     object QuickTile : DisconnectTrigger(DisconnectStatsKeyword.TRAY, "quick tile")
     class Notification(description: String) : DisconnectTrigger(DisconnectStatsKeyword.TRAY, description)
     object Logout : DisconnectTrigger(DisconnectStatsKeyword.AUTO, "log out")

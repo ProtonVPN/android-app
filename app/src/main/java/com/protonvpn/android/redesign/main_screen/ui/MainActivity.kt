@@ -56,6 +56,7 @@ import com.protonvpn.android.ui.onboarding.WhatsNewActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewDialogController
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
+import com.protonvpn.android.vpn.ConnectTrigger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -157,7 +158,8 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     }
 
     private fun retryConnectionAfterPermissions(connectIntent: AnyConnectIntent) {
-        homeViewModel.connect(vpnActivityDelegate, connectIntent)
+        // ConnectionCard is the most likely trigger, although not always correct.
+        homeViewModel.connect(vpnActivityDelegate, connectIntent, ConnectTrigger.ConnectionCard)
     }
 
     override fun getVpnUiDelegate(): VpnUiActivityDelegate = vpnActivityDelegate
