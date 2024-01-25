@@ -67,6 +67,7 @@
     <string name="drawerReportProblem">Report an issue</string>
     <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">Account details</string>
     <string name="accountSubscription">Subscription</string>
     <string name="accountUser">User:</string>

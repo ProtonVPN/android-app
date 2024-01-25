@@ -21,6 +21,7 @@ package com.protonvpn.android.logging
 import com.protonvpn.android.BuildConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.io.File
 import java.lang.IllegalArgumentException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -57,6 +58,7 @@ interface ProtonLoggerInterface {
     suspend fun getLogFilesForUpload(): List<FileLogWriter.LogFile>
     fun getLogLinesForDisplay(): Flow<String>
     fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>)
+    suspend fun getLogFileForSharing(): File?
 }
 
 open class ProtonLoggerImpl(
@@ -113,6 +115,7 @@ open class ProtonLoggerImpl(
     }
 
     override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) = fileLogWriter.clearUploadTempFiles(files)
+    override suspend fun getLogFileForSharing(): File? = fileLogWriter.getLogFileForSharing()
 
     private fun shouldLog(level: LogLevel): Boolean = BuildConfig.DEBUG || level > LogLevel.DEBUG
 

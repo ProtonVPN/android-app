@@ -47,6 +47,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.runInterruptible
 import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -141,7 +142,23 @@ class FileLogWriter(
             }
         }
 
-        @OptIn(ExperimentalCoroutinesApi::class)
+        suspend fun getFileForSharing(): File? =
+            runInterruptible(loggerDispatcher) {
+                val dir = getShareFilesDir()
+                dir.mkdirs()
+                try {
+                    val shareFile = File.createTempFile("protonvpn_", ".log", dir)
+                    shareFile.bufferedWriter().use { writer ->
+                        getLogFiles().forEach { file ->
+                            file.bufferedReader().use { reader -> reader.copyTo(writer) }
+                        }
+                    }
+                    shareFile
+                } catch (e: IOException) {
+                    null
+                }
+            }
+
         fun getLogLines(): Flow<String> = callbackFlow {
             getLogFiles().forEach { file ->
                 file.bufferedReader().use { reader ->
@@ -229,6 +246,7 @@ class FileLogWriter(
         }
 
         private fun getUploadTempFilesDir(): File = File(appContext.cacheDir, "log_upload")
+        private fun getShareFilesDir(): File = File(appContext.cacheDir, "share")
 
         private fun createAndStartEncoder(
             loggerContext: LoggerContext,
@@ -287,6 +305,8 @@ class FileLogWriter(
             backgroundLogger.clearUploadTempFiles(files)
         }
     }
+
+    suspend fun getLogFileForSharing(): File? = backgroundLogger.getFileForSharing()
 
     private fun multiLine(message: String) = message.replace("\n", "\n ")
 

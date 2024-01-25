@@ -20,28 +20,39 @@ package com.protonvpn.android.ui.drawer
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.core.view.MenuProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
 import com.protonvpn.android.databinding.LogItemBinding
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
 class LogActivity : BaseActivityV2() {
 
     private val binding by viewBinding(ActivityRecyclerWithToolbarBinding::inflate)
+    private val viewModel by viewModels<LogActivityViewModel>()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
+        with(binding.contentAppbar.toolbar) {
+            initToolbarWithUpEnabled(this)
+        }
+        addMenuProvider(LogMenuProvider(this::shareLogFile), this)
+
         setupLogDisplay(binding.recyclerItems)
     }
 
@@ -64,6 +75,28 @@ class LogActivity : BaseActivityV2() {
                 adapter.addLogItem(it)
                 if (isScrolledToBottom) recyclerView.scrollToPosition(adapter.itemCount - 1)
             }
+        }
+    }
+
+    private fun shareLogFile() {
+        lifecycleScope.launch {
+            val intent = viewModel.shareLogFile()
+            if (intent != null) {
+                startActivity(intent)
+            }
+        }
+    }
+
+    private class LogMenuProvider(private val onItemSelected: () -> Unit) : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menu.add(R.string.action_share)
+                .setIcon(CoreR.drawable.ic_proton_arrow_up_from_square)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            onItemSelected()
+            return true
         }
     }
 
