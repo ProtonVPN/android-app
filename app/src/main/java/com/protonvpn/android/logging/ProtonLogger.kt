@@ -20,6 +20,7 @@ package com.protonvpn.android.logging
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import java.io.File
 
 /**
  * A static facade for a logger.
@@ -56,6 +57,8 @@ object ProtonLogger : ProtonLoggerInterface {
     override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) =
         logger.clearUploadTempFiles(files)
 
+    override suspend fun getLogFileForSharing(): File? = logger.getLogFileForSharing()
+
     @JvmStatic
     fun setLogger(newLogger: ProtonLoggerInterface) {
         logger = newLogger
@@ -71,4 +74,5 @@ private class NoopProtonLogger : ProtonLoggerInterface {
     override suspend fun getLogFilesForUpload(): List<FileLogWriter.LogFile> = emptyList()
     override fun getLogLinesForDisplay(): Flow<String> = emptyFlow()
     override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) {}
+    override suspend fun getLogFileForSharing(): File? = null
 }
