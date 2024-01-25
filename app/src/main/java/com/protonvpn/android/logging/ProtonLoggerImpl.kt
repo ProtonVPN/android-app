@@ -22,7 +22,7 @@ import com.protonvpn.android.BuildConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.File
-import java.lang.IllegalArgumentException
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -126,7 +126,7 @@ open class ProtonLoggerImpl(
                 val date = timestampFormatter.parse(logLine.substring(0, firstSeparatorIndex))
                 val localDateString = logsTimeFormatter.format(date)
                 logLine.replaceRange(0, firstSeparatorIndex, localDateString)
-            } catch (e: IllegalArgumentException) {
+            } catch (e: ParseException) {
                 logLine
             }
         } else {
