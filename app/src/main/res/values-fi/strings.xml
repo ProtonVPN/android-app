@@ -258,7 +258,6 @@
     <string name="learn_more">Lue lisää</string>
     <string name="netshield_status_on">Käytössä</string>
     <string name="netshield_status_off">Ei käytössä</string>
-    <string name="netshield_free_title">Selaa mainosvapaasti NetShieldillä</string>
     <string name="netshield_free_description">Estä mainoksia, seurantoja ja haittaohjelmia verkkosivustoilla ja sovelluksissa</string>
     <string name="netshield_business_title">Estä mainoksia NetShieldillä</string>
     <string name="netshield_business_description">Päivittämällä VPN Business -tilaukseen</string>
@@ -540,6 +539,8 @@
     <string name="search_recents_header_title">Edelliset haut (%1$d)</string>
     <string name="search_clear_history">Tyhjennä historia</string>
     <string name="search_clear_history_dialog">Hakuhistoriasi katoaa. Jatketaanko?</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Tyhjennä</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Lisätietoja saat osoitteesta <a href="https://protonvpn.com/pricing">protonvpn.com</a>.</string>
     <string name="free_upsell_header_title">Hanki maailmanlaajuinen kattavuus VPN Plus -tilauksella</string>
@@ -795,7 +796,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s %2$s kautta</string>
+    <string name="connection_info_secure_core_full_other">%1$s maan %2$s kautta</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -811,6 +812,13 @@
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
     <string name="connection_info_secure_core_entry_switzerland">Sveitsin kautta</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not

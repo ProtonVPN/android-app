@@ -258,7 +258,6 @@
     <string name="learn_more">En savoir plus</string>
     <string name="netshield_status_on">Activé</string>
     <string name="netshield_status_off">Désactivé</string>
-    <string name="netshield_free_title">Naviguez sans publicité avec NetShield</string>
     <string name="netshield_free_description">Bloquez les publicités, les traqueurs et les logiciels malveillants sur les sites internet et les applications.</string>
     <string name="netshield_business_title">Bloquer les publicités avec NetShield</string>
     <string name="netshield_business_description">En passant à l\'abonnement VPN Business</string>
@@ -540,6 +539,8 @@
     <string name="search_recents_header_title">Vu récemment (%1$d)</string>
     <string name="search_clear_history">Effacer l\'historique</string>
     <string name="search_clear_history_dialog">Votre historique de recherche sera perdu. Voulez-vous continuer ?</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Effacer</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Rendez-vous sur <a href="https://protonvpn.com/fr/pricing">protonvpn.com</a> pour plus d\'informations.</string>
     <string name="free_upsell_header_title">Profitez de serveurs dans le monde entier en passant à VPN Plus.</string>
@@ -765,7 +766,7 @@
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Pays le plus rapide</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
-    <string name="fastest_free_server">Serveur le plus rapide</string>
+    <string name="fastest_free_server">Serveur gratuit le plus rapide</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -795,7 +796,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <string name="connection_info_secure_core_full_other">%1$s en passant par %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -811,6 +812,13 @@
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
     <string name="connection_info_secure_core_entry_switzerland">via la Suisse</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not
@@ -914,7 +922,7 @@
          a button with this description will be read by a screen reader as:
          "more information about free connections, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_free_connections">plus d\'informations sur les connections gratuites</string>
+    <string name="connection_card_accessbility_label_free_connections">plus d\'informations sur les connexions gratuites</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -1089,7 +1097,7 @@
     -->
     <string name="connection_details_unknown_ip">Inconnu</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_description">Ce graphique représente la vitesse de vos téléchargements. Il est peu probable que votre connexion VPN ralentisse vos activités en ligne habituelles.</string>
+    <string name="connection_details_vpn_speed_description">Ce graphique représente la vitesse de vos téléchargements actuels. Il est peu probable que votre connexion VPN ralentisse vos activités en ligne habituelles.</string>
     <!-- tag(Redesign_2023) -->
     <string name="speed_bits_per_second">%1$s o/s</string>
     <!-- tag(Redesign_2023) -->

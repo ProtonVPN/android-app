@@ -260,7 +260,6 @@
     <string name="learn_more">Даведацца больш</string>
     <string name="netshield_status_on">Уключана</string>
     <string name="netshield_status_off">Выключана</string>
-    <string name="netshield_free_title">Прагляд без рэкламы з NetShield</string>
     <string name="netshield_free_description">Блакіроўка рэкламы, праграм сачэння і шкодных праграм на вэб-сайтах і ў праграмах</string>
     <string name="netshield_business_title">Блакіроўка рэкламы з дапамогай NetShield</string>
     <string name="netshield_business_description">Пры паляпшэнні да VPN Business</string>
@@ -556,6 +555,8 @@
     <string name="search_recents_header_title">Нядаўна прагледжаныя (%1$d)</string>
     <string name="search_clear_history">Ачысціць гісторыю</string>
     <string name="search_clear_history_dialog">Ваша гісторыя пошуку будзе страчана. Працягнуць?</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">Ачысціць</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Наведайце <a href="https://protonvpn.com/pricing">protonvpn.com</a>, каб даведацца больш.</string>
     <string name="free_upsell_header_title">Тарыфны план VPN Plus забяспечвае пакрыццё ўсяго свету</string>
@@ -843,6 +844,13 @@
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
     <string name="connection_info_secure_core_entry_switzerland">праз Швейцарыю</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">праз Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not

@@ -258,7 +258,6 @@
     <string name="learn_more">გაიგეთ მეტი</string>
     <string name="netshield_status_on">ჩართ</string>
     <string name="netshield_status_off">გამორთ</string>
-    <string name="netshield_free_title">იმუშავეთ ინტერნეტში რეკლამების გარეშე NetShield-თან ერთად</string>
     <string name="netshield_free_description">დაბლოკეთ რეკლამები, ტრეკერები და საზიანო პროგრამები ვებგვერდებზე და აპებში</string>
     <string name="netshield_business_title">დაბლოკეთ რეკლამები NetShield-ით</string>
     <string name="netshield_business_description">როცა ტარიფს VPN Business-ზე აწევთ</string>
@@ -540,6 +539,8 @@
     <string name="search_recents_header_title">ახლახან ნანახი (%1$d)</string>
     <string name="search_clear_history">ისტორიის გასუფთავება</string>
     <string name="search_clear_history_dialog">თქვენი ძებნის ისტორია დაიკარგება. გავაგრძელო?</string>
+    <!-- Content description for an icon button that clears search query in the input field. -->
+    <string name="search_clear_query_content_description">გასუფთავება</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">მეტი ინფორმაციისთვის ეწვიეთ<a href="https://protonvpn.com/pricing">protonvpn.com</a>-ს.</string>
     <string name="free_upsell_header_title">იქონიეთ წვდომა ყველაფერზე VPN Plus-თან ერთად</string>
@@ -811,6 +812,13 @@
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
     <string name="connection_info_secure_core_entry_switzerland">შვეიცარიის გავლით</string>
+    <!--
+         Label describing a Secure Core connection via the fastest Secure Core country.
+         It is displayed below country name, for example:
+         Italy
+         via Secure Core
+    -->
+    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not
