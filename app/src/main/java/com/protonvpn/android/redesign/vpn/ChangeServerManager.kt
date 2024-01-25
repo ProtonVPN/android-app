@@ -70,7 +70,7 @@ class ChangeServerManager @Inject constructor(
             vpnConnectionManager.connect(
                 vpnUiDelegate,
                 ConnectIntent.Server(server.serverId, emptySet()),
-                ConnectTrigger.QuickConnect("Change server")
+                ConnectTrigger.ChangeServer
             )
 
             val currentCount = changeServerPrefs.changeCounter + 1

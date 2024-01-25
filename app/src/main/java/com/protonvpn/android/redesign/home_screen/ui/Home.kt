@@ -81,6 +81,8 @@ import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
+import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnErrorUIManager
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -190,8 +192,8 @@ fun HomeView(
         )
 
         val vpnUiDelegate = LocalVpnUiDelegate.current
-        val connectAction = remember<() -> Unit>(vpnUiDelegate) {
-            { coroutineScope.launch { viewModel.connect(vpnUiDelegate) } }
+        val connectionCardConnectAction = remember<() -> Unit>(vpnUiDelegate) {
+            { coroutineScope.launch { viewModel.connect(vpnUiDelegate, ConnectTrigger.ConnectionCard) } }
         }
         val recentClickedAction = remember<(RecentItemViewState) -> Unit>(vpnUiDelegate) {
             { item -> coroutineScope.launch { viewModel.onRecentClicked(item, vpnUiDelegate) } }
@@ -226,8 +228,8 @@ fun HomeView(
                     viewState = recentsViewState,
                     expandState = recentsExpandState,
                     changeServerButton = changeServerButton,
-                    onConnectClicked = connectAction,
-                    onDisconnectClicked = viewModel::disconnect,
+                    onConnectClicked = connectionCardConnectAction,
+                    onDisconnectClicked = { viewModel.disconnect(DisconnectTrigger.ConnectionCard) },
                     onOpenConnectionPanelClicked = onConnectionCardClick,
                     onRecentClicked = recentClickedAction,
                     onRecentPinToggle = viewModel::togglePinned,

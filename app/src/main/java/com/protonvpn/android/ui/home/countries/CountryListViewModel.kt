@@ -429,12 +429,18 @@ class CountryListViewModel @Inject constructor(
                 _navigateToHome.emit(Unit)
             }
             ProtonLogger.log(UiConnect, triggerDescription)
-            // Note: Profile trigger is incorrect and will result in wrong telemetry category.
-            vpnConnectionManager.connect(vpnUiDelegate, connectIntent, ConnectTrigger.Profile(triggerDescription))
+            val trigger = when {
+                connectIntent is ConnectIntent.Server -> ConnectTrigger.Server(triggerDescription)
+                else -> ConnectTrigger.Country(triggerDescription)
+            }
+            vpnConnectionManager.connect(vpnUiDelegate, connectIntent, trigger)
         } else {
             ProtonLogger.log(UiDisconnect, triggerDescription)
-            // Note: Profile trigger is incorrect and will result in wrong telemetry category.
-            vpnConnectionManager.disconnect(DisconnectTrigger.Profile(triggerDescription))
+            val trigger = when {
+                connectIntent is ConnectIntent.Server -> DisconnectTrigger.Server(triggerDescription)
+                else -> DisconnectTrigger.Country(triggerDescription)
+            }
+            vpnConnectionManager.disconnect(trigger)
         }
     }
 
