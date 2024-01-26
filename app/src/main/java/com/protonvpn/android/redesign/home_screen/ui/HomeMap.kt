@@ -20,9 +20,14 @@ package com.protonvpn.android.redesign.home_screen.ui
 
 import android.graphics.PointF
 import android.graphics.RectF
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.viewinterop.AndroidView
 import com.protonvpn.android.redesign.base.ui.vpnGreen
 import com.protonvpn.android.tv.main.CountryHighlight
@@ -35,8 +40,22 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.relativePadding
 import kotlinx.coroutines.CoroutineScope
 import me.proton.core.compose.theme.ProtonTheme
+import kotlin.math.roundToInt
 
 private const val MAP_FADE_IN_DURATION = 250L
+private val MapEasing = CubicBezierEasing(0f, 0f, 0.5f, 1f)
+
+class MapParallaxAlignment(
+    private val recentsExpandProgress: Float
+) : Alignment {
+    override fun align(size: IntSize, space: IntSize, layoutDirection: LayoutDirection): IntOffset {
+        val maxExpand = 0.7f
+        val displacementRatio = 0.05f
+        val parallaxProgress = recentsExpandProgress.coerceAtMost(maxExpand) / maxExpand
+        val offset = space.height * displacementRatio * MapEasing.transform(parallaxProgress)
+        return IntOffset(0, -offset.roundToInt())
+    }
+}
 
 @Composable
 fun HomeMap(
