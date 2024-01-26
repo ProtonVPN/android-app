@@ -126,6 +126,7 @@
     <string name="state_connected">Connected</string>
     <string name="state_disconnecting">Disconnecting…</string>
     <string name="state_error">Error</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">Couldn\'t connect to the VPN. Please check your connection and try again.</string>
     <string name="error_peer_auth_failed">@string/error_server_unreachable</string>
     <string name="error_auth_failed">User authentication failed.</string>
