@@ -26,6 +26,7 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.view.MenuProvider
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +37,8 @@ import com.protonvpn.android.databinding.LogItemBinding
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.R as CoreR
 
@@ -70,12 +73,13 @@ class LogActivity : BaseActivityV2() {
             }
         })
 
-        lifecycleScope.launch {
-            ProtonLogger.getLogLinesForDisplay().collect {
+        ProtonLogger.getLogLinesForDisplay()
+            .flowWithLifecycle(lifecycle)
+            .onEach {
                 adapter.addLogItem(it)
                 if (isScrolledToBottom) recyclerView.scrollToPosition(adapter.itemCount - 1)
             }
-        }
+            .launchIn(lifecycleScope)
     }
 
     private fun shareLogFile() {
