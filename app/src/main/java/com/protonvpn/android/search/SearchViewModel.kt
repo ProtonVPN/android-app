@@ -54,6 +54,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -108,7 +109,6 @@ class SearchViewModel @Inject constructor(
             .thenBy(collator, Search.Match<*>::text)
 
     val query = savedStateHandle.getLiveData("search_query", "")
-    val currentQuery = query.value
 
     private var recentsAddJob: Job? = null
     private val _queryFromRecents = MutableLiveData<String>()
@@ -118,15 +118,13 @@ class SearchViewModel @Inject constructor(
         combine(
             query.asFlow().distinctUntilChanged(),
             uiStateStorage.state.map { it.searchHistory },
-            currentUser.vpnUserFlow,
+            currentUser.vpnUserFlow.filterNotNull(),
             vpnStatusProviderUI.status
         ) { query, searchHistory, vpnUser, vpnStatus ->
             val isConnectedOrConnecting =
                 vpnStatus.state.isEstablishingConnection || vpnStatus.state == VpnState.Connected
             mapState(query, searchHistory, vpnUser, vpnStatus.server?.takeIf { isConnectedOrConnecting })
         }
-    private val eventCloseFlow = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
-    val eventCloseLiveData = eventCloseFlow.asLiveData() // Expose flow once HomeActivity is converted to kotlin.
 
     suspend fun getSecureCore() = userSettings.effectiveSettings.first().secureCore
     val countryCount get() = serverManager.getVpnCountries().size
@@ -182,13 +180,12 @@ class SearchViewModel @Inject constructor(
     private fun connect(vpnUiDelegate: VpnUiDelegate, connectIntent: ConnectIntent) {
         query.value?.let { saveSearchQuery(it) }
         vpnConnectionManager.connect(vpnUiDelegate, connectIntent, ConnectTrigger.Search("Search UI"))
-        eventCloseFlow.tryEmit(Unit)
     }
 
     private suspend fun mapState(
         query: String,
         searchHistory: List<String>,
-        vpnUser: VpnUser?,
+        vpnUser: VpnUser,
         connectedServer: Server?
     ): ViewState {
         val secureCore = getSecureCore()
@@ -211,7 +208,7 @@ class SearchViewModel @Inject constructor(
                             countries.sortedWith(comparator).map { mapCountry(it, vpnUser, connectedServer) },
                             cities.sortedWith(comparator).map { mapCity(it, vpnUser, connectedServer) },
                             servers
-                                .sortedWith(getServerTierComparator(vpnUser!!))
+                                .sortedWith(getServerTierComparator(vpnUser))
                                 .map { mapServer(it, vpnUser, connectedServer) },
                             vpnUser.isFreeUser
                         )
