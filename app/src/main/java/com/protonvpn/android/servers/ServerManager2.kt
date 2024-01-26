@@ -35,6 +35,7 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -56,6 +57,10 @@ class ServerManager2 @Inject constructor(
     val serverListVersion = flow {
         serverManager.ensureLoaded()
         emitAll(serverManager.serverListVersion)
+    }
+
+    val isDownloadedAtLeastOnceFlow = serverListVersion.map {
+        serverManager.isDownloadedAtLeastOnce()
     }
 
     suspend fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
