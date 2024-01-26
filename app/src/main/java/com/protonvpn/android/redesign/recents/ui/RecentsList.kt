@@ -106,6 +106,10 @@ class RecentsExpandState(
     val isExpanded: Boolean get() = listOffsetPx == minOffset
 
     val listOffsetPx by listOffsetState
+    val fullExpandProgress: Float get() = when { // 0 when collapsed (at the bottom), 1 when covers the whole viewport.
+        listOffsetPx == Int.MAX_VALUE -> 0f
+        else -> 1f - listOffsetPx.toFloat() / maxOffset
+    }
 
     fun createNestedScrollConnection(coroutineScope: CoroutineScope) =
         object : NestedScrollConnection {

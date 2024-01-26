@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.home_screen.ui
 
 import android.content.Context
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -151,16 +152,26 @@ fun HomeView(
         modifier = Modifier.fillMaxSize()
     ) {
         val (vpnStatusTop, vpnStatusBottom, map) = createRefs()
+        val recentsExpandState = rememberRecentsExpandState()
         if (mapState != null) {
-            HomeMap(
-                modifier = Modifier.constrainAs(map) {
+            Box(modifier = Modifier
+                .constrainAs(map) {
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
-                },
-                coroutineScope,
-                mapState,
-                viewModel.elapsedRealtimeClock,
-            )
+                }
+            ) {
+                val parallaxAlignment = remember(recentsExpandState.fullExpandProgress) {
+                    MapParallaxAlignment(recentsExpandState.fullExpandProgress)
+                }
+                HomeMap(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .align(parallaxAlignment),
+                    coroutineScope,
+                    mapState,
+                    viewModel.elapsedRealtimeClock,
+                )
+            }
         }
         Spacer(
             modifier = Modifier
@@ -200,7 +211,6 @@ fun HomeView(
         }
         val listBgColor = ProtonTheme.colors.backgroundNorm
         val listBgGradientColors = listOf(Color.Transparent, listBgColor)
-        val recentsExpandState = rememberRecentsExpandState()
         eventCollapseRecents.collectAsEffect {
             onEventCollapseRecentsConsumed()
             recentsExpandState.collapse()
