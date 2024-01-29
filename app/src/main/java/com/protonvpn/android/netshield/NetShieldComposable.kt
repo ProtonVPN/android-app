@@ -207,19 +207,19 @@ fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
         BandwidthColumn(
             isDisabledStyle = isGreyedOut || adsCount == 0L,
             title = pluralStringResource(id = R.plurals.netshield_ads_blocked, count = adsCount.toInt()),
-            content = if (adsCount == 0L) "-" else adsCount.toString(),
+            content = adsCount.toString(),
             modifier = modifier.testTag("adsBlocked")
         )
         BandwidthColumn(
             isDisabledStyle = isGreyedOut || trackerCount == 0L,
             title = pluralStringResource(id = R.plurals.netshield_trackers_stopped, count = trackerCount.toInt()),
-            content = if (trackerCount == 0L) "-" else trackerCount.toString(),
+            content = trackerCount.toString(),
             modifier = modifier.testTag("trackersStopped")
         )
         BandwidthColumn(
             isDisabledStyle = isGreyedOut || dataSaved == 0L,
             title = stringResource(id = R.string.netshield_data_saved),
-            content = if (dataSaved == 0L) "-" else ConnectionTools.bytesToSize(dataSaved),
+            content = ConnectionTools.bytesToSize(dataSaved),
             modifier = modifier.testTag("bandwidthSaved")
         )
     }
