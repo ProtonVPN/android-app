@@ -62,7 +62,7 @@ import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionUnspecified
-import me.proton.core.compose.theme.defaultNorm
+import me.proton.core.compose.theme.headlineSmallNorm
 import me.proton.core.presentation.utils.currentLocale
 import java.util.EnumSet
 
@@ -88,7 +88,7 @@ fun ConnectIntentLabels(
     secondaryLabel: ConnectIntentSecondaryLabel?,
     serverFeatures: Set<ServerFeature>,
     isConnected: Boolean,
-    labelStyle: TextStyle = ProtonTheme.typography.defaultNorm,
+    primaryLabelStyle: TextStyle = ProtonTheme.typography.headlineSmallNorm,
     detailsStyle: TextStyle = ProtonTheme.typography.captionUnspecified,
     modifier: Modifier = Modifier
 ) {
@@ -98,7 +98,7 @@ fun ConnectIntentLabels(
         Row {
             Text(
                 primaryLabel.label(),
-                style = labelStyle,
+                style = primaryLabelStyle,
                 modifier = Modifier.testTag("primaryLabel")
             )
             if (isConnected) {
