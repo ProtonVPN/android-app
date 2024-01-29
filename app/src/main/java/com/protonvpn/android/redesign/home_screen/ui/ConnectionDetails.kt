@@ -184,7 +184,7 @@ private fun ColumnScope.ConnectionDetailsConnected(
                 primaryLabel = connectIntent.primaryLabel,
                 secondaryLabel = connectIntent.secondaryLabel,
                 serverFeatures = connectIntent.serverFeatures,
-                labelStyle = ProtonTheme.typography.headlineNorm,
+                primaryLabelStyle = ProtonTheme.typography.headlineNorm,
                 detailsStyle = ProtonTheme.typography.defaultSmallWeak,
                 isConnected = false,
                 modifier = Modifier
