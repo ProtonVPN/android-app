@@ -63,6 +63,7 @@
     <string name="drawerShowLog">ჟურნალის ჩვენება</string>
     <string name="drawerReportProblem">პრობლემის ანგარიშის გადაგზავნა</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">ანგარიშის დეტალები</string>
     <string name="accountSubscription">გამოწერა</string>
     <string name="accountUser">მომხმარებელი:</string>
@@ -818,7 +819,7 @@
          Italy
          via Secure Core
     -->
-    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
+    <string name="connection_info_secure_core_entry_fastest">Secure Core-ის გავლით</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not

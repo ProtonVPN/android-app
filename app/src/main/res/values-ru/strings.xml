@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Показать журнал</string>
     <string name="drawerReportProblem">Сообщить о проблеме</string>
     <string name="drawerAppVersion">Версия %1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">Информация об аккаунте</string>
     <string name="accountSubscription">Подписка</string>
     <string name="accountUser">Пользователь:</string>

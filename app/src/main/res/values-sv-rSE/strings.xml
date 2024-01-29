@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Visa logg</string>
     <string name="drawerReportProblem">Rapportera ett problem</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Dela</string>
     <string name="accountDetails">Kontodetaljer</string>
     <string name="accountSubscription">Prenumeration</string>
     <string name="accountUser">Användare:</string>

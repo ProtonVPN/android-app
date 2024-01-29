@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Паказаць журнал</string>
     <string name="drawerReportProblem">Паведаміць пра праблему</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">Падрабязнасці ўліковага запісу</string>
     <string name="accountSubscription">Падпіска</string>
     <string name="accountUser">Карыстальнік:</string>
@@ -458,7 +459,7 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[Разблакіруйце %1$s у %2$s з дапамогай <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">Пры паляпшэнні да тарыфнага плана Plus</string>
     <string name="upgrade_safe_mode_title">Дазваляць трафік на нестандартныя парты</string>
-    <string name="upgrade_safe_mode_message">У вас дадатковыя або прафесійныя камп\'ютарныя патрабаванні, якія патрабуюць нестандартныя парты? Палепшыце да VPN Plus, каб атрымаць доступ да гэтай і іншых прэміяльных функцый.</string>
+    <string name="upgrade_safe_mode_message">У вас дадатковыя або прафесійныя камп\'ютарныя патрабаванні, дзе неабходна выкарыстоўваць нестандартныя порты? Палепшыце да VPN Plus, каб атрымаць доступ да гэтай і іншых прэміяльных функцый.</string>
     <string name="upgrade_not_now_button">Не зараз</string>
     <string name="upgrade_learn_more">Даведацца больш</string>
     <!-- Format for price per period of time.
@@ -637,7 +638,7 @@
     <string name="server_change_button_time_left_seconds_content_description">Даступна ў %1$s</string>
     <string name="server_change_progress_finished_contend_description">Даступна зараз</string>
     <string name="not_wanted_country_title">Не тая краіна, якую хацелі?</string>
-    <string name="not_wanted_country_description">Палепшыць, каб выбіраць любы сервер</string>
+    <string name="not_wanted_country_description">Палепшыць свой тарыфны план, каб выбіраць любы сервер</string>
     <string name="whats_new_title">Што новага</string>
     <string name="whats_new_new_look_title">Новы выгляд, тая ж абарона</string>
     <string name="whats_new_new_look_description">Мы абнавілі дызайн і перанеслі некаторыя элементы, каб зрабіць праграму больш простай у выкарыстанні.</string>

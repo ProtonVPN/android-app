@@ -63,6 +63,7 @@
     <string name="drawerShowLog">ログを表示</string>
     <string name="drawerReportProblem">問題を報告</string>
     <string name="drawerAppVersion">バージョン%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">アカウントの詳細</string>
     <string name="accountSubscription">サブスクリプション</string>
     <string name="accountUser">ユーザー:</string>

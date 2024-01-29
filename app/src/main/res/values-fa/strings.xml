@@ -63,6 +63,7 @@
     <string name="drawerShowLog">نمایش گزارش</string>
     <string name="drawerReportProblem">گزارش یک اشکال</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">جزئیات حساب کاربری</string>
     <string name="accountSubscription">اشتراک</string>
     <string name="accountUser">کاربر:</string>

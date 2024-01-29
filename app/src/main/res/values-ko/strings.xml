@@ -63,6 +63,7 @@
     <string name="drawerShowLog">로그 보기</string>
     <string name="drawerReportProblem">문제 제보하기</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">공유</string>
     <string name="accountDetails">계정 정보</string>
     <string name="accountSubscription">구독</string>
     <string name="accountUser">사용자:</string>
@@ -802,7 +803,7 @@
          Italy
          via Secure Core
     -->
-    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
+    <string name="connection_info_secure_core_entry_fastest">(Secure Core 사용)</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not

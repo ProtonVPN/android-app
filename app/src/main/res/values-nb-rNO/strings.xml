@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Vis logg</string>
     <string name="drawerReportProblem">Rapporter en feil</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Del</string>
     <string name="accountDetails">Kontodetaljer</string>
     <string name="accountSubscription">Abonnement</string>
     <string name="accountUser">Bruker:</string>
@@ -833,7 +834,7 @@
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">Auto-valgt fra [flagg]</string>
+    <string name="connection_info_auto_selected_free_countries">Auto-valgt fra [flags]</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there

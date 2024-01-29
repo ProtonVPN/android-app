@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Protokoll anzeigen</string>
     <string name="drawerReportProblem">Problem melden</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Teilen</string>
     <string name="accountDetails">Kontodetails</string>
     <string name="accountSubscription">Abonnement</string>
     <string name="accountUser">Benutzer:</string>
@@ -616,7 +617,7 @@
     <string name="whats_new_new_look_title">Neues Aussehen, gleicher Schutz</string>
     <string name="whats_new_new_look_description">Wir haben unser Design aktualisiert und einige Dinge umgestellt, um die App benutzerfreundlicher zu machen.</string>
     <string name="whats_new_recents_title">Einführung von kürzlich Verwendeten</string>
-    <string name="whats_new_recents_description">Jetzt ist es noch einfacher, sich wieder mit deinen Lieblingsservern zu verbinden. Zeige deine letzten Verbindungen auf dem Startbildschirm an, oder hefte sie für schnellen Zugriff an. Recents ersetzt Profile.</string>
+    <string name="whats_new_recents_description">Jetzt ist es noch einfacher, sich wieder mit deinen Lieblingsservern zu verbinden. Zeige deine letzten Verbindungen auf dem Startbildschirm an, oder hefte sie für schnellen Zugriff an. Kürzlich Verwendete ersetzen Profile.</string>
     <string name="whats_new_dismiss_button">Sieh es dir an</string>
     <string name="whats_new_added_countries_title">Neue kostenlose Länder</string>
     <string name="whats_new_added_countries_description">Es gibt jetzt Free-Server in Polen und Rumänien. Um eine Überfüllung der Server zu vermeiden, haben wir die manuelle Länderauswahl entfernt und die automatische Serverauswahl stark verbessert.</string>
@@ -886,7 +887,7 @@
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
-    <string name="connection_card_label_connecting">Verbindet mit …</string>
+    <string name="connection_card_label_connecting">Verbindung wird aufgebaut …</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
          being established. It's shown only in response to user clicking the "Change server" button.
@@ -913,7 +914,7 @@
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_connection_details">verbindungsdetails</string>
+    <string name="connection_card_accessbility_label_connection_details">Verbindungsdetails</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with information about connections in free plan.
          Only used by accessibility services.
