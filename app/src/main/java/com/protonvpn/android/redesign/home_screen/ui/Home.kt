@@ -103,6 +103,7 @@ fun HomeRoute(
 }
 
 private val ListBgGradientHeightBasic = 100.dp
+private val ListBgGradientOffsetBasic = ListBgGradientHeightBasic - 32.dp
 private val ListBgGradientHeightExpanded = 200.dp
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -231,7 +232,7 @@ fun HomeView(
                 val listBgGradientHeight =
                     if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientHeightBasic else ListBgGradientHeightExpanded
                 val listBgGradientOffset =
-                    if (widthSizeClass == WindowWidthSizeClass.Compact) 0.dp else ListBgGradientHeightExpanded / 2
+                    if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientOffsetBasic else ListBgGradientHeightExpanded / 2
                 val listContentPadding =
                     PaddingValues(top = listBgGradientOffset, start = horizontalPadding, end = horizontalPadding)
                 RecentsList(
@@ -265,7 +266,7 @@ fun HomeView(
 
         val vpnStatusTopMinHeight = 48.dp
         val fullCoverThresholdPx = LocalDensity.current.run {
-            (ListBgGradientHeightBasic - vpnStatusTopMinHeight).toPx()
+            (ListBgGradientOffsetBasic - vpnStatusTopMinHeight).toPx()
         }
         val coverAlpha = remember(fullCoverThresholdPx) {
             derivedStateOf { calculateOverlayAlpha(recentsExpandState.listOffsetPx, fullCoverThresholdPx) }
