@@ -63,6 +63,7 @@
     <string name="drawerShowLog">顯示記錄</string>
     <string name="drawerReportProblem">回報問題</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">帳號詳細資料</string>
     <string name="accountSubscription">訂購授權</string>
     <string name="accountUser">使用者：</string>

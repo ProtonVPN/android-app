@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Günlüğü görüntüle</string>
     <string name="drawerReportProblem">Bir sorun bildirin</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">Hesap bilgileri</string>
     <string name="accountSubscription">Abonelik</string>
     <string name="accountUser">Kullanıcı:</string>
@@ -796,7 +797,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <string name="connection_info_secure_core_full_other">%2$s üzerinden %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -818,7 +819,7 @@
          Italy
          via Secure Core
     -->
-    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
+    <string name="connection_info_secure_core_entry_fastest">Secure Core ile</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not

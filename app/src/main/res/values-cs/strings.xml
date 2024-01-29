@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Zobrazit log</string>
     <string name="drawerReportProblem">Nahlásit problém</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">Podrobnosti účtu</string>
     <string name="accountSubscription">Předplatné</string>
     <string name="accountUser">Uživatel:</string>
@@ -556,7 +557,7 @@
     <string name="search_clear_history">Vyčistit historii</string>
     <string name="search_clear_history_dialog">Vaše historie hledání bude ztracena. Pokračovat?</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
-    <string name="search_clear_query_content_description">Clear</string>
+    <string name="search_clear_query_content_description">Smazat</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Pro více informací navštivte <a href="https://protonvpn.com/pricing">protonvpn.com</a>.</string>
     <string name="free_upsell_header_title">Získejte celosvětové pokrytí díky VPN Plus</string>
@@ -712,7 +713,7 @@
          a label "Recents" with this state description will be read by a screen reader as:
          "Collapsed. Recents"
      -->
-    <string name="accessibility_expandable_state_collapsed">collapsed</string>
+    <string name="accessibility_expandable_state_collapsed">sbalené</string>
     <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
          Used only by accessibility services.
          Example:
@@ -762,7 +763,7 @@
          available will be read by a screen reader as:
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
-    <string name="accessibility_action_upgrade">upgrade</string>
+    <string name="accessibility_action_upgrade">navýšit</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -828,7 +829,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <string name="connection_info_secure_core_full_other">%1$s přes %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -850,7 +851,7 @@
          Italy
          via Secure Core
     -->
-    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
+    <string name="connection_info_secure_core_entry_fastest">přes Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not
@@ -1095,15 +1096,15 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_description">Vytížení serveru ukazuje, kolik kapacity serveru je využito.\n\nVysoké vytížení serveru může zpomalit vaše připojení.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_title">Low (1–75%)</string>
+    <string name="connection_details_server_load_low_title">Nízké (1–75%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_description">Lightning fast speeds</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_title">Medium (76–90%)</string>
+    <string name="connection_details_server_load_medium_title">Střední (76–90%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_medium_description">Pravděpodobně neovlivňuje rychlost VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_title">High (91–100%)</string>
+    <string name="connection_details_server_load_high_title">Vysoké (91–100%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_description">VPN může fungovat pomaleji, než je zvykem </string>
     <!-- tag(Redesign_2023) -->

@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Mostrar diário</string>
     <string name="drawerReportProblem">Reportar um problema</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">Detalhes da conta</string>
     <string name="accountSubscription">Subscrição</string>
     <string name="accountUser">Utilizador:</string>

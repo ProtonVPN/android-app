@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Zobraziť záznam</string>
     <string name="drawerReportProblem">Nahlásiť problém</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">Detaily účtu</string>
     <string name="accountSubscription">Predplatné</string>
     <string name="accountUser">Užívateľ:</string>

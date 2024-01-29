@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Näytä loki</string>
     <string name="drawerReportProblem">Ilmoita ongelmasta</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Jaa</string>
     <string name="accountDetails">Tilin tiedot</string>
     <string name="accountSubscription">Tilaus</string>
     <string name="accountUser">Käyttäjä:</string>
@@ -818,7 +819,7 @@
          Italy
          via Secure Core
     -->
-    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
+    <string name="connection_info_secure_core_entry_fastest">Secure Coren kautta</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not

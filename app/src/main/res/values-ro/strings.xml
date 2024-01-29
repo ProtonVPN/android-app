@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Afișare jurnal</string>
     <string name="drawerReportProblem">Raportare o problemă</string>
     <string name="drawerAppVersion">v.%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">Detalii cont</string>
     <string name="accountSubscription">Abonament</string>
     <string name="accountUser">Utilizator:</string>

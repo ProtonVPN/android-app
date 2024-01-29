@@ -63,6 +63,7 @@
     <string name="drawerShowLog">Prikaži zapisnik</string>
     <string name="drawerReportProblem">Prijavite problem</string>
     <string name="drawerAppVersion">v%1$s</string>
+    <string name="action_share">Share</string>
     <string name="accountDetails">Podaci o korisničkom računu</string>
     <string name="accountSubscription">Pretplata</string>
     <string name="accountUser">Korisnik:</string>
