@@ -1062,9 +1062,9 @@
     <!-- tag(Redesign_2023)
          Displays Country name and IP of user if he is not connected.
          First parameter is country, second is IP.
-         Ex: Poland - 192.1.1.1.1
+         Ex: Poland · 192.1.1.1.1
     -->
-    <string name="vpn_status_disabled_location">%1$s - %2$s</string>
+    <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Szczegóły połączenia</string>
     <!-- tag(Redesign_2023) -->
