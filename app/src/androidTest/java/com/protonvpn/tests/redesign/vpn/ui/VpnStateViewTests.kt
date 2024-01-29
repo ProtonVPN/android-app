@@ -44,7 +44,7 @@ class VpnStatusViewTests : FusionComposeTest() {
         node.withText("You are unprotected")
             .assertIsDisplayed()
         node.useUnmergedTree()
-            .withText("Country - 192.168.0.1")
+            .withText("Country · 192.168.0.1")
             .assertIsDisplayed()
     }
 
@@ -58,7 +58,7 @@ class VpnStatusViewTests : FusionComposeTest() {
         node.withText("Protecting your digital identity")
             .assertIsDisplayed()
         node.useUnmergedTree()
-            .withText("Country - 192.168.0.1")
+            .withText("Country · 192.168.0.1")
             .assertIsDisplayed()
     }
 

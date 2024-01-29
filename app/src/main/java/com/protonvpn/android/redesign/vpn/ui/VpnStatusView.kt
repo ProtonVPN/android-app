@@ -61,6 +61,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
@@ -349,12 +351,14 @@ private fun LocationTextAnimated(locationText: LocationText) {
         color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4f),
         shape = ProtonTheme.shapes.medium,
     ) {
+        val country = BidiFormatter.getInstance().unicodeWrap(locationText.country)
         AnimateText(
             targetText = stringResource(
                 R.string.vpn_status_disabled_location,
-                BidiFormatter.getInstance().unicodeWrap(locationText.country),
+                country,
                 locationText.ip
             ),
+            highlightText = country,
             targetCharacter = '*',
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
         )
@@ -372,14 +376,14 @@ private fun VpnDisabledView(state: VpnStatusViewState.Disabled) {
         color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4F),
         shape = ProtonTheme.shapes.medium,
     ) {
+        val (text, highlight) = state.locationText?.let {
+            val country = BidiFormatter.getInstance().unicodeWrap(it.country)
+            stringResource(R.string.vpn_status_disabled_location, country, it.ip) to country
+        } ?: run {
+            stringResource(R.string.stateFragmentUnknownIp).let { it to it }
+        }
         Text(
-            text = state.locationText?.let {
-                stringResource(
-                    R.string.vpn_status_disabled_location,
-                    BidiFormatter.getInstance().unicodeWrap(it.country),
-                    it.ip
-                )
-            } ?: stringResource(R.string.stateFragmentUnknownIp),
+            text = annotatedCountryHighlight(text = text, highlight = highlight),
             style = ProtonTheme.typography.defaultWeak,
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
         )
@@ -391,6 +395,7 @@ private fun VpnDisabledView(state: VpnStatusViewState.Disabled) {
 private fun AnimateText(
     modifier: Modifier = Modifier,
     targetText: String,
+    highlightText: String,
     duration: Int = 50,
     targetCharacter: Char = '*',
     preserveCharacters: CharArray = charArrayOf('.', ' ', '-')
@@ -418,7 +423,11 @@ private fun AnimateText(
         Layout(
             content = {
                 Text(
-                    displayText.value,
+                    annotatedCountryHighlight(
+                        text = targetText,
+                        highlight = highlightText,
+                        displayText = displayText.value
+                    ),
                     style = ProtonTheme.typography.defaultWeak,
                     modifier = Modifier.onGloballyPositioned {
                         if (fixedWidth.value == null) {
@@ -537,5 +546,22 @@ private fun PreviewHelper(state: VpnStatusViewState, modifier: Modifier = Modifi
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         VpnStatusTop(state = state, transitionValue = { 1f })
         VpnStatusBottom(state = state, transitionValue = { 1f }, NetShieldActions({}, {}, {}, {}))
+    }
+}
+
+@Composable
+private fun annotatedCountryHighlight(
+    text: String,
+    highlight: String,
+    displayText: String = text,
+) = buildAnnotatedString {
+    append(displayText)
+    val startIndex = text.indexOf(highlight)
+    if (startIndex >= 0) {
+        addStyle(
+            style = SpanStyle(color = ProtonTheme.colors.textNorm),
+            start = startIndex,
+            end = startIndex + highlight.length
+        )
     }
 }
