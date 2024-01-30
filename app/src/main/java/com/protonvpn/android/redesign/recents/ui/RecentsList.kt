@@ -107,7 +107,12 @@ class RecentsExpandState(
 
     val listOffsetPx by listOffsetState
     val fullExpandProgress: Float get() = when { // 0 when collapsed (at the bottom), 1 when covers the whole viewport.
+        // Not all values initialized yet.
         listOffsetPx == Int.MAX_VALUE -> 0f
+        maxHeightPx == 0 -> 0f
+        peekHeightState.intValue == 0 -> 0f
+
+        maxOffset == 0 -> 0f
         else -> 1f - listOffsetPx.toFloat() / maxOffset
     }
 
