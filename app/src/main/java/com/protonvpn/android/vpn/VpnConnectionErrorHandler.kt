@@ -158,6 +158,7 @@ class VpnConnectionErrorHandler @Inject constructor(
 ) {
     private var handlingAuthError = false
     private val stuckHandler = StuckConnectionHandler(elapsedMs)
+    private var lastServerErrorHandledMs : Long? = null
 
     val switchConnectionFlow = MutableSharedFlow<VpnFallbackResult.Switch>()
 
@@ -230,8 +231,24 @@ class VpnConnectionErrorHandler @Inject constructor(
             connectionParams,
             true,
             SwitchServerReason.ServerUnreachable
+        ) ?: VpnFallbackResult.Error(ErrorType.UNREACHABLE)
+
+    suspend fun onServerError(connectionParams: ConnectionParams): VpnFallbackResult {
+        val sinceLastHandled = lastServerErrorHandledMs?.let { elapsedMs() - it }
+        if (sinceLastHandled != null && sinceLastHandled < SERVER_ERROR_COOLDOWN_MS) {
+            ProtonLogger.log(ConnServerSwitchFailed, "Server error cooldown")
+            return VpnFallbackResult.Error(ErrorType.UNREACHABLE)
+        }
+        val fallback = fallbackToCompatibleServer(
+            connectionParams.profile,
+            connectionParams,
+            false,
+            SwitchServerReason.ServerUnreachable
         )
-            ?: VpnFallbackResult.Error(ErrorType.UNREACHABLE)
+        if (fallback != null)
+            lastServerErrorHandledMs = elapsedMs()
+        return fallback ?: VpnFallbackResult.Error(ErrorType.UNREACHABLE)
+    }
 
     private suspend fun fallbackToCompatibleServer(
         orgProfile: Profile,
@@ -565,5 +582,6 @@ class VpnConnectionErrorHandler @Inject constructor(
 
     companion object {
         private const val FALLBACK_SERVERS_COUNT = 5
+        val SERVER_ERROR_COOLDOWN_MS = TimeUnit.MINUTES.toMillis(2)
     }
 }

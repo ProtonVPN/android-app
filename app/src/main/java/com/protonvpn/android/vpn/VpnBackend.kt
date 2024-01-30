@@ -150,7 +150,8 @@ abstract class VpnBackend(
                     setError(ErrorType.POLICY_VIOLATION_LOW_PLAN)
                 agentConstants.errorCodePolicyViolationDelinquent ->
                     setError(ErrorType.POLICY_VIOLATION_DELINQUENT)
-                agentConstants.errorCodeServerError ->
+                agentConstants.errorCodeServerError,
+                agentConstants.errorCodeUnknown ->
                     setError(ErrorType.SERVER_ERROR)
                 agentConstants.errorCodeRestrictedServer ->
                     // Server should unblock eventually, but we need to keep track and provide watchdog if necessary.
