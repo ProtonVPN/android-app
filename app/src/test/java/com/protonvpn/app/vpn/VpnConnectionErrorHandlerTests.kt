@@ -58,6 +58,7 @@ import com.protonvpn.android.vpn.StuckConnectionHandler
 import com.protonvpn.android.vpn.SwitchServerReason
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
+import com.protonvpn.android.vpn.VpnConnectionErrorHandler.Companion.SERVER_ERROR_COOLDOWN_MS
 import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
@@ -413,6 +414,34 @@ class VpnConnectionErrorHandlerTests {
     fun testUnreachableOrgServerResponded() = testScope.runTest {
         preparePings(failSecureCore = true) // All servers respond
         assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), handler.onUnreachableError(directConnectionParams))
+    }
+
+    @Test
+    fun testSwitchOnServerError() = testScope.runTest {
+        preparePings(failSecureCore = true) // All servers respond
+        val fallback = handler.onServerError(directConnectionParams)
+
+        // After server error we should switch to a different one
+        fallback.let {
+            assertIs<VpnFallbackResult.Switch.SwitchServer>(it)
+            assertNotEquals(directConnectServer.serverId, it.toServer.serverName)
+        }
+    }
+
+    @Test
+    fun testServerErrorCooldown() = testScope.runTest {
+        preparePings(failSecureCore = true) // All servers respond
+        var fallback = handler.onServerError(directConnectionParams)
+        assertIs<VpnFallbackResult.Switch.SwitchServer>(fallback)
+
+        advanceTimeBy(SERVER_ERROR_COOLDOWN_MS / 2)
+        fallback = handler.onServerError(directConnectionParams)
+        assertIs<VpnFallbackResult.Error>(fallback)
+        assertEquals(ErrorType.UNREACHABLE, fallback.type)
+
+        advanceTimeBy(SERVER_ERROR_COOLDOWN_MS / 2)
+        fallback = handler.onServerError(directConnectionParams)
+        assertIs<VpnFallbackResult.Switch.SwitchServer>(fallback)
     }
 
     @Test

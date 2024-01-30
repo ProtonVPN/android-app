@@ -230,6 +230,8 @@ class VpnConnectionManager @Inject constructor(
         val result = when (errorType) {
             ErrorType.UNREACHABLE_INTERNAL, ErrorType.LOOKUP_FAILED_INTERNAL ->
                 vpnErrorHandler.onUnreachableError(params)
+            ErrorType.SERVER_ERROR ->
+                vpnErrorHandler.onServerError(params)
             ErrorType.AUTH_FAILED_INTERNAL, ErrorType.POLICY_VIOLATION_LOW_PLAN ->
                 vpnErrorHandler.onAuthError(params)
             else ->
@@ -666,7 +668,8 @@ class VpnConnectionManager @Inject constructor(
             ErrorType.AUTH_FAILED_INTERNAL,
             ErrorType.LOOKUP_FAILED_INTERNAL,
             ErrorType.UNREACHABLE_INTERNAL,
-            ErrorType.POLICY_VIOLATION_LOW_PLAN
+            ErrorType.POLICY_VIOLATION_LOW_PLAN,
+            ErrorType.SERVER_ERROR
         )
     }
 }
