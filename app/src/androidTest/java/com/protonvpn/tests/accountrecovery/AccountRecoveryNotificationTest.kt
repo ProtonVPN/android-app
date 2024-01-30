@@ -7,6 +7,8 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.actions.compose.HomeRobot
 import com.protonvpn.actions.compose.interfaces.verify
 import com.protonvpn.android.ui.onboarding.SplashActivity
+import com.protonvpn.mocks.FakeIsAccountRecoveryEnabled
+import com.protonvpn.mocks.FakeIsNotificationsEnabled
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHiltInjectRule
@@ -24,6 +26,7 @@ import me.proton.core.test.quark.Quark
 import me.proton.test.fusion.FusionConfig
 import org.junit.Before
 import org.junit.Rule
+import org.junit.rules.ExternalResource
 import org.junit.runner.RunWith
 import javax.inject.Inject
 
@@ -41,9 +44,23 @@ class AccountRecoveryNotificationTest : MinimalAccountRecoveryNotificationTest {
     val injectRule = ProtonHiltInjectRule(hiltRule)
 
     @get:Rule(order = 3)
+    val initFeaturesRule = object : ExternalResource() {
+        override fun before() {
+            isAccountRecoveryEnabled.enabled = true
+            isNotificationsEnabled.enabled = true
+        }
+    }
+
+    @get:Rule(order = 4)
     val composeTestRule: ComposeTestRule = createAndroidComposeRule<SplashActivity>().apply {
         FusionConfig.Compose.testRule.set(this)
     }
+
+    @Inject
+    lateinit var isAccountRecoveryEnabled: FakeIsAccountRecoveryEnabled
+
+    @Inject
+    lateinit var isNotificationsEnabled: FakeIsNotificationsEnabled
 
     @Inject
     override lateinit var accountStateHandler: AccountStateHandler

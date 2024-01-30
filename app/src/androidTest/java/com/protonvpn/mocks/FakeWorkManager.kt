@@ -149,7 +149,7 @@ class FakeWorkManager : WorkManager() {
     }
 
     override fun getWorkInfosForUniqueWork(uniqueWorkName: String): ListenableFuture<MutableList<WorkInfo>> {
-        TODO("Not yet implemented")
+        return Futures.immediateFuture(mutableListOf())
     }
 
     override fun getWorkInfosLiveData(workQuery: WorkQuery): LiveData<MutableList<WorkInfo>> {

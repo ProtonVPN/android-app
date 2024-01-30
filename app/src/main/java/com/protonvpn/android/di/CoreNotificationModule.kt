@@ -84,11 +84,6 @@ public interface CoreNotificationModule {
     ): GetNotificationChannelId
 
     @Binds
-    public fun bindIsNotificationsEnabled(
-        vpnImpl: IsVpnNotificationEnabled
-    ): IsNotificationsEnabled
-
-    @Binds
     public fun bindIsNotificationsPermissionRequestEnabled(
         impl: IsNotificationsPermissionRequestEnabledImpl
     ): IsNotificationsPermissionRequestEnabled
@@ -127,4 +122,13 @@ public interface CoreNotificationModule {
 public interface CoreNotificationDeeplinkModule {
     @Binds
     public fun bindDeeplinkIntentProvider(impl: DeeplinkIntentProviderImpl): DeeplinkIntentProvider
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface CoreNotificationFeaturesModule {
+    @Binds
+    fun bindIsNotificationsEnabled(
+        vpnImpl: IsVpnNotificationEnabled
+    ): IsNotificationsEnabled
 }
