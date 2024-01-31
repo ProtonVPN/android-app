@@ -43,9 +43,10 @@ class VpnApiClient(
     override val enableDebugLogging = BuildConfig.DEBUG
     override val shouldUseDoh get() = dohEnabled()
 
-    override val userAgent: String
-        get() = String.format(Locale.US, "ProtonVPN/%s (Android %s; %s %s)",
-                BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.BRAND, Build.MODEL)
+    override val userAgent: String =
+        String.format(Locale.US, "ProtonVPN/%s (Android %s; %s %s)",
+                BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.BRAND,
+                Build.MODEL).replaceNonAscii()
 
     override val connectTimeoutSeconds get() = 5L
     override val readTimeoutSeconds get() = 10L
@@ -64,3 +65,11 @@ class VpnApiClient(
         }
     }
 }
+
+private fun String.replaceNonAscii() =
+    if (all { it.code < 128 }) {
+        this
+    } else buildString {
+        for (c in this@replaceNonAscii)
+            append(if (c.code < 128) c else '?')
+    }
