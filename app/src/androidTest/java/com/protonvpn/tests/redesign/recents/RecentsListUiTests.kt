@@ -19,6 +19,8 @@
 
 package com.protonvpn.tests.redesign.recents
 
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
@@ -53,6 +55,7 @@ class RecentsListUiTests : FusionComposeTest() {
         }
         node.withText(R.string.fastest_country).assertIsDisplayed()
         node.withText(R.string.recents_headline).assertDoesNotExist()
+        node.withText(R.string.home_upsell_carousel_headline).assertDoesNotExist()
     }
 
     @Test
@@ -77,6 +80,31 @@ class RecentsListUiTests : FusionComposeTest() {
         node.withText(R.string.fastest_country).assertIsDisplayed()
         node.withText("Switzerland").assertIsDisplayed()
         node.withText(R.string.recents_headline).assertIsDisplayed()
+    }
+
+    @Test
+    fun whenUpsellContentIsPresentThenUpsellHeaderIsShown() {
+        val viewState = RecentsListViewState(
+            VpnConnectionCardViewState(
+                cardLabelRes = R.string.connection_card_label_last_connected,
+                mainButtonLabelRes = R.string.buttonConnect,
+                isConnectedOrConnecting = false,
+                connectIntentViewState = ConnectIntentViewFastest,
+                canOpenConnectionPanel = false,
+                canOpenFreeCountriesPanel = false,
+            ),
+            emptyList(),
+            null
+        )
+        composeRule.setContent {
+            val upsellContent = @Composable {
+                Text("dummy upsell content")
+            }
+            RecentsList(viewState, {}, {}, {}, {}, {}, {}, upsellContent = upsellContent, expandState = null, errorSnackBar = null)
+        }
+        node.withText(R.string.fastest_country).assertIsDisplayed()
+        node.withText(R.string.home_upsell_carousel_headline).assertIsDisplayed()
+        node.withText(R.string.recents_headline).assertDoesNotExist()
     }
 
     companion object {

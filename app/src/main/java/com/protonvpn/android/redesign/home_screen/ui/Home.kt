@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
@@ -76,9 +77,13 @@ import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
+import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeHighlightsCarouselFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeHighlightsHomeCardsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
@@ -89,6 +94,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 import kotlin.math.roundToInt
+import kotlin.reflect.KClass
 
 @Composable
 fun HomeRoute(
@@ -119,6 +125,7 @@ fun HomeView(
     val mapState = viewModel.mapHighlightState.collectAsStateWithLifecycle(initialValue = null).value
     val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
     val changeServerState = viewModel.changeServerViewState.collectAsStateWithLifecycle(null).value
+    val upsellCarouselState = viewModel.upsellCarouselState.collectAsStateWithLifecycle().value
     val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
     val coroutineScope = rememberCoroutineScope()
 
@@ -145,6 +152,17 @@ fun HomeView(
                 state,
                 onChangeServerClick = { viewModel.changeServer(uiDelegate) },
                 onUpgradeButtonShown = viewModel::onChangeServerUpgradeButtonShown,
+            )
+        }
+    }
+    val upsellCarouselContent: (@Composable () -> Unit)? = upsellCarouselState?.let {
+        @Composable {
+            HomeUpsellCarousel(
+                roundedServerCount = it.roundedServerCount,
+                countriesCount = it.countryCount,
+                horizontalMargin = 16.dp,
+                onOpenUpgradeScreen = { focus, upgradeSource -> launchUpgradeDialog(context, focus, upgradeSource) },
+                modifier = Modifier.padding(bottom = 8.dp)
             )
         }
     }
@@ -239,6 +257,7 @@ fun HomeView(
                     viewState = recentsViewState,
                     expandState = recentsExpandState,
                     changeServerButton = changeServerButton,
+                    upsellContent = upsellCarouselContent,
                     onConnectClicked = connectionCardConnectAction,
                     onDisconnectClicked = { viewModel.disconnect(DisconnectTrigger.ConnectionCard) },
                     onOpenConnectionPanelClicked = onConnectionCardClick,
@@ -349,4 +368,12 @@ private fun calculateOverlayAlpha(offset: Int, fullCoverPx: Float): Float {
         offset >= 0 && offset < fullCoverPx -> 1f - offset.toFloat() / fullCoverPx
         else -> 0f
     }
+}
+
+private fun launchUpgradeDialog(context: Context, focusFragment: KClass<out Fragment>, upgradeSource: UpgradeSource) {
+    UpgradeDialogActivity.launch<UpgradeHighlightsHomeCardsFragment>(
+        context,
+        upgradeSource,
+        UpgradeHighlightsCarouselFragment.args(focusFragment),
+    )
 }
