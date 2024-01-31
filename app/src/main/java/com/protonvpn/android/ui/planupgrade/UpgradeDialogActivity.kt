@@ -37,6 +37,7 @@ import androidx.lifecycle.asLiveData
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
+import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
@@ -103,9 +104,17 @@ open class UpgradeDialogActivity : BaseActivityV2() {
             supportFragmentManager.commitNow {
                 add(R.id.fragmentContent, highlightsFragmentClass, highlightsFragmentArgs)
             }
-            val fragment = binding.fragmentContent.getFragment<FragmentWithUpgradeSource>()
-            viewModel.reportUpgradeFlowStart(fragment.upgradeSource)
+            val upgradeSource = getUpgradeSourceFromIntent() ?: getUpgradeSourceFromFragment()
+            viewModel.reportUpgradeFlowStart(upgradeSource)
         }
+    }
+
+    private fun getUpgradeSourceFromIntent(): UpgradeSource? =
+        intent.getSerializableExtraCompat<UpgradeSource>(UPGRADE_SOURCE_EXTRA)
+
+    private fun getUpgradeSourceFromFragment(): UpgradeSource {
+        val fragment = binding.fragmentContent.getFragment<FragmentWithUpgradeSource>()
+        return fragment.upgradeSource
     }
 
     private fun initPaymentsPanelFragment() {
@@ -128,6 +137,7 @@ open class UpgradeDialogActivity : BaseActivityV2() {
     companion object {
         const val FRAGMENT_CLASS_EXTRA = "highlights fragment"
         const val FRAGMENT_ARGS_EXTRA = "highlights fragment args"
+        const val UPGRADE_SOURCE_EXTRA = "upgrade source"
 
         inline fun <reified Activity :UpgradeDialogActivity, reified Fragment : FragmentWithUpgradeSource> createIntent(
             context: Context,
@@ -137,23 +147,27 @@ open class UpgradeDialogActivity : BaseActivityV2() {
             putExtra(FRAGMENT_ARGS_EXTRA, args)
         }
 
-        inline fun <reified Activity : UpgradeDialogActivity, reified Fragment : FragmentWithUpgradeSource> launchActivity(
+        inline fun <reified Activity : UpgradeDialogActivity, reified F : Fragment> createIntent(
             context: Context,
+            upgradeSource: UpgradeSource,
             args: Bundle? = null
-        ) {
-            context.startActivity(createIntent<Activity, Fragment>(context, args))
+        ) = Intent(context, Activity::class.java).apply {
+            putExtra(FRAGMENT_CLASS_EXTRA, F::class.java)
+            putExtra(FRAGMENT_ARGS_EXTRA, args)
+            putExtra(UPGRADE_SOURCE_EXTRA, upgradeSource)
         }
 
-        inline fun <reified Fragment : FragmentWithUpgradeSource> launch(context: Context, args: Bundle? = null)
-            = launchActivity<UpgradeDialogActivity, Fragment>(context, args)
+        inline fun <reified Fragment : FragmentWithUpgradeSource> launch(context: Context, args: Bundle? = null) {
+            context.startActivity(createIntent<UpgradeDialogActivity, Fragment>(context, args))
+        }
 
-        // For Java code:
-        @JvmStatic
-        fun launchSecureCore(context: Context) = launch<UpgradeSecureCoreHighlightsFragment>(context, null)
-
-        @JvmStatic
-        fun launchCountry(context: Context, countryCode: String) =
-            launch<UpgradeCountryHighlightsFragment>(context, UpgradeCountryHighlightsFragment.args(countryCode))
+        inline fun <reified F : Fragment> launch(
+            context: Context,
+            upgradeSource: UpgradeSource,
+            args: Bundle? = null
+        ) {
+            context.startActivity(createIntent<UpgradeDialogActivity, F>(context, upgradeSource, args))
+        }
     }
 }
 
@@ -174,7 +188,13 @@ class UpgradeOnboardingDialogActivity : UpgradeDialogActivity() {
     }
 
     companion object {
-        fun launch(context: Context, args: Bundle? = null) =
-            launchActivity<UpgradeOnboardingDialogActivity, UpgradeHighlightsCarouselFragment>(context, args)
+        fun launch(context: Context, args: Bundle? = null) {
+            val intent = createIntent<UpgradeOnboardingDialogActivity, UpgradeHighlightsOnboardingFragment>(
+                context,
+                UpgradeSource.ONBOARDING,
+                args
+            )
+            context.startActivity(intent)
+        }
     }
 }

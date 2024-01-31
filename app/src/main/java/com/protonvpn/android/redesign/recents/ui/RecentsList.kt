@@ -211,8 +211,9 @@ fun RecentsList(
     errorSnackBar: androidx.compose.material.SnackbarHostState?,
     modifier: Modifier = Modifier,
     changeServerButton: (@Composable ColumnScope.() -> Unit)? = null,
+    upsellContent: (@Composable () -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(),
-    expandState: RecentsExpandState?
+    expandState: RecentsExpandState?,
 ) {
     val itemIds = viewState.toItemIds()
     val itemIdsTransition = updateTransition(targetState = itemIds, label = "item IDs")
@@ -261,12 +262,23 @@ fun RecentsList(
                         )
                     }
                 }
-                if (viewState.recents.isNotEmpty()) {
-                    RecentsTitle(
+                if (viewState.recents.isNotEmpty() || upsellContent != null) {
+                    // Note: so far it's always either upsell content or recents.
+                    // This part will change with the addition of promo banners.
+                    val headlineText =
+                        if (viewState.recents.isNotEmpty()) R.string.recents_headline
+                        else R.string.home_upsell_carousel_headline
+                    ExpandCollapseTitle(
+                        stringResource(headlineText),
                         expandState = expandState,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                     )
                 }
+            }
+        }
+        if (upsellContent != null) {
+            item {
+                upsellContent()
             }
         }
         itemsIndexed(viewState.recents, key = { _, item -> item.id }) { index, item ->
@@ -300,7 +312,8 @@ fun RecentsList(
 }
 
 @Composable
-private fun RecentsTitle(
+private fun ExpandCollapseTitle(
+    text: String,
     expandState: RecentsExpandState?,
     modifier: Modifier = Modifier
 ) {
@@ -336,7 +349,7 @@ private fun RecentsTitle(
     }
 
     Text(
-        stringResource(R.string.recents_headline),
+        text,
         style = ProtonTheme.typography.captionWeak,
         modifier = modifierWithSemantics
     )

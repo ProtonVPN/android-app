@@ -39,6 +39,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.FragmentPlanHighlightsBinding
 import com.protonvpn.android.databinding.FragmentUpgradeHighlightsBinding
@@ -50,10 +51,26 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.toPx
+import com.protonvpn.android.utils.getSerializableCompat
 import com.protonvpn.android.utils.getThemeColor
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.viewBinding
+import kotlin.reflect.KClass
 import me.proton.core.presentation.R as CoreR
+
+
+private val FeatureCarouselFragments = listOf(
+    ::UpgradePlusCountriesHighlightsFragment,
+    ::UpgradeVpnAcceleratorHighlightsFragment,
+    ::UpgradeStreamingHighlightsFragment,
+    ::UpgradeNetShieldHighlightsFragment,
+    ::UpgradeSecureCoreHighlightsFragment,
+    ::UpgradeP2PHighlightsFragment,
+    ::UpgradeDevicesHighlightsFragment,
+    ::UpgradeTorHighlightsFragment,
+    ::UpgradeSplitTunnelingHighlightsFragment,
+    ::UpgradeAllowLanHighlightsFragment,
+)
 
 abstract class PlanHighlightsFragment : Fragment(R.layout.fragment_plan_highlights) {
 
@@ -100,35 +117,41 @@ abstract class PlanHighlightsFragment : Fragment(R.layout.fragment_plan_highligh
     }
 }
 
+private fun FragmentUpgradeHighlightsBinding.set(
+    imageResource: Int?,
+    title: String,
+    message: CharSequence? = null,
+) {
+    imagePicture.isVisible = imageResource != null
+    imageResource?.let { imagePicture.setImageResource(it) }
+
+    textTitle.text = title
+    textMessage.isVisible = message != null
+    message?.let { textMessage.text = it }
+}
+
 abstract class FragmentWithUpgradeSource(
     @LayoutRes layoutId: Int,
     val upgradeSource: UpgradeSource
 ) : Fragment(layoutId)
 
-abstract class UpgradeHighlightsFragment(
+abstract class UpgradeHighlightsFragmentWithSource(
     upgradeSource: UpgradeSource
 ) : FragmentWithUpgradeSource(R.layout.fragment_upgrade_highlights, upgradeSource) {
 
     protected val binding by viewBinding(FragmentUpgradeHighlightsBinding::bind)
     protected val viewModel by viewModels<PlanHighlightsViewModel>()
+}
 
-    protected fun FragmentUpgradeHighlightsBinding.set(
-        imageResource: Int?,
-        title: String,
-        message: CharSequence? = null,
-    ) {
-        imagePicture.isVisible = imageResource != null
-        imageResource?.let { imagePicture.setImageResource(it) }
-
-        textTitle.text = title
-        textMessage.isVisible = message != null
-        message?.let { textMessage.text = it }
-    }
+abstract class UpgradeHighlightsFragment : Fragment(R.layout.fragment_upgrade_highlights) {
+    protected val binding by viewBinding(FragmentUpgradeHighlightsBinding::bind)
+    protected val viewModel by viewModels<PlanHighlightsViewModel>()
 }
 
 @AndroidEntryPoint
-class UpgradeHighlightsCarouselFragment :
-    FragmentWithUpgradeSource(R.layout.fragment_upgrade_highlights_carousel, UpgradeSource.ONBOARDING) {
+abstract class UpgradeHighlightsCarouselFragment(
+    private val carouselFragments: List<() -> Fragment>,
+) : Fragment(R.layout.fragment_upgrade_highlights_carousel) {
 
     private val binding by viewBinding(FragmentUpgradeHighlightsCarouselBinding::bind)
 
@@ -142,7 +165,7 @@ class UpgradeHighlightsCarouselFragment :
             )
         }
 
-        val slideAdapter = SlideAdapter2(this)
+        val slideAdapter = SlideAdapter(this, carouselFragments)
         with(binding.viewPager) {
             visibility = View.INVISIBLE
             // Keep all slides so their heights can be measured.
@@ -172,31 +195,56 @@ class UpgradeHighlightsCarouselFragment :
             }
         }
         binding.indicator.setViewPager(binding.viewPager)
+
+        binding.viewPager.doOnNextLayout {
+            focusFragment(binding.viewPager)
+        }
     }
 
-    private class SlideAdapter2(fragment: Fragment) : FragmentStateAdapter(
+    private fun focusFragment(viewPager: ViewPager2) {
+        val focusedFragmentClass =
+            arguments?.getSerializableCompat<Class<out Fragment>>(EXTRA_FOCUSED_FRAGMENT_CLASS)
+        if (focusedFragmentClass != null) {
+            val index = childFragmentManager.fragments.indexOfFirst { fragment ->
+                focusedFragmentClass.isInstance(fragment)
+            }
+            if (index >= 0) {
+                viewPager.setCurrentItem(index, false)
+            }
+        }
+    }
+
+    private class SlideAdapter(
+        fragment: Fragment,
+        private val fragmentConstructors: List<() -> Fragment>,
+    ) : FragmentStateAdapter(
         fragment.childFragmentManager,
         fragment.viewLifecycleOwner.lifecycle
     ) {
-        private val fragmentConstructors: List<() -> Fragment> = listOf(
-            ::UpgradeVpnPlusHighlightsFragment,
-            ::UpgradePlusCountriesHighlightsFragment,
-            ::UpgradeVpnAcceleratorHighlightsFragment,
-            ::UpgradeNetShieldHighlightsFragment,
-            ::UpgradeSecureCoreHighlightsFragment,
-            ::UpgradeSplitTunnelingHighlightsFragment,
-            ::UpgradeAllowLanHighlightsFragment,
-        )
-
         override fun getItemCount(): Int = fragmentConstructors.size
 
         override fun createFragment(position: Int): Fragment = fragmentConstructors[position]()
+    }
 
+    companion object {
+        const val EXTRA_FOCUSED_FRAGMENT_CLASS = "focusedFragmentClass"
+
+        fun args(focusedFragmentClass: KClass<out Fragment>) = Bundle().apply {
+            putSerializable(EXTRA_FOCUSED_FRAGMENT_CLASS, focusedFragmentClass.java)
+        }
     }
 }
 
 @AndroidEntryPoint
-class UpgradeVpnPlusHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource.ONBOARDING) {
+class UpgradeHighlightsOnboardingFragment : UpgradeHighlightsCarouselFragment(
+    listOf(::UpgradeVpnPlusHighlightsFragment) + FeatureCarouselFragments
+)
+
+@AndroidEntryPoint
+class UpgradeHighlightsHomeCardsFragment : UpgradeHighlightsCarouselFragment(FeatureCarouselFragments)
+
+@AndroidEntryPoint
+class UpgradeVpnPlusHighlightsFragment : UpgradeHighlightsFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -209,7 +257,7 @@ class UpgradeVpnPlusHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource
 }
 
 @AndroidEntryPoint
-class UpgradeNetShieldHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource.NETSHIELD) {
+class UpgradeNetShieldHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.NETSHIELD) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -223,7 +271,7 @@ class UpgradeNetShieldHighlightsFragment : UpgradeHighlightsFragment(UpgradeSour
 }
 
 @AndroidEntryPoint
-class UpgradeSecureCoreHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource.SECURE_CORE) {
+class UpgradeSecureCoreHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.SECURE_CORE) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -237,21 +285,7 @@ class UpgradeSecureCoreHighlightsFragment : UpgradeHighlightsFragment(UpgradeSou
 }
 
 @AndroidEntryPoint
-class UpgradeProfilesHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource.PROFILES) {
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.set(
-            imageResource = R.drawable.upgrade_profiles,
-            title = getString(R.string.upgrade_profiles_title),
-            message = HtmlTools.fromHtml(getString(R.string.upgrade_profiles_text))
-        )
-    }
-}
-
-@AndroidEntryPoint
-class UpgradeVpnAcceleratorHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource.VPN_ACCELERATOR) {
+class UpgradeVpnAcceleratorHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.VPN_ACCELERATOR) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -264,7 +298,61 @@ class UpgradeVpnAcceleratorHighlightsFragment : UpgradeHighlightsFragment(Upgrad
 }
 
 @AndroidEntryPoint
-class UpgradeAllowLanHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource.ALLOW_LAN) {
+class UpgradeStreamingHighlightsFragment : UpgradeHighlightsFragment() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.set(
+            imageResource = R.drawable.upgrade_streaming,
+            title = getString(R.string.upgrade_streaming_title),
+            message = getString(R.string.upgrade_streaming_text)
+        )
+    }
+}
+
+@AndroidEntryPoint
+class UpgradeTorHighlightsFragment : UpgradeHighlightsFragment() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.set(
+            imageResource = R.drawable.upgrade_tor,
+            title = getString(R.string.upgrade_tor_title),
+            message = getString(R.string.upgrade_tor_text)
+        )
+    }
+}
+
+@AndroidEntryPoint
+class UpgradeDevicesHighlightsFragment : UpgradeHighlightsFragment() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val devices = Constants.MAX_CONNECTIONS_IN_PLUS_PLAN
+        val title = resources.getQuantityString(R.plurals.upgrade_devices_title, devices, devices)
+        binding.set(
+            imageResource = R.drawable.upgrade_devices,
+            title = title,
+            message = getString(R.string.upgrade_devices_text)
+        )
+    }
+}
+
+@AndroidEntryPoint
+class UpgradeP2PHighlightsFragment : UpgradeHighlightsFragment() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.set(
+            imageResource = R.drawable.upgrade_p2p,
+            title = getString(R.string.upgrade_p2p_title),
+            message = getString(R.string.upgrade_p2p_text)
+        )
+    }
+}
+
+@AndroidEntryPoint
+class UpgradeAllowLanHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.ALLOW_LAN) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -277,7 +365,7 @@ class UpgradeAllowLanHighlightsFragment : UpgradeHighlightsFragment(UpgradeSourc
 }
 
 @AndroidEntryPoint
-class UpgradeSplitTunnelingHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource.SPLIT_TUNNELING) {
+class UpgradeSplitTunnelingHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.SPLIT_TUNNELING) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -290,7 +378,7 @@ class UpgradeSplitTunnelingHighlightsFragment : UpgradeHighlightsFragment(Upgrad
 }
 
 @AndroidEntryPoint
-class UpgradeCountryHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource.COUNTRIES) {
+class UpgradeCountryHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.COUNTRIES) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -337,7 +425,7 @@ class UpgradeCountryHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource
 }
 
 @AndroidEntryPoint
-class UpgradePlusCountriesHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource.COUNTRIES) {
+class UpgradePlusCountriesHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.COUNTRIES) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -369,7 +457,7 @@ class UpgradePlusCountriesHighlightsFragment : UpgradeHighlightsFragment(Upgrade
 }
 
 @AndroidEntryPoint
-class UpgradeSafeModeHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource.SAFE_MODE) {
+class UpgradeSafeModeHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.SAFE_MODE) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -382,7 +470,7 @@ class UpgradeSafeModeHighlightsFragment : UpgradeHighlightsFragment(UpgradeSourc
 }
 
 @AndroidEntryPoint
-class UpgradeModerateNatHighlightsFragment : UpgradeHighlightsFragment(UpgradeSource.MODERATE_NAT) {
+class UpgradeModerateNatHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.MODERATE_NAT) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

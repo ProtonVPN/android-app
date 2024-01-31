@@ -259,6 +259,11 @@ inline fun <reified T : Serializable> Intent.getSerializableExtraCompat(key: Str
     if (Build.VERSION.SDK_INT >= 34) getSerializableExtra(key, T::class.java)
     else getSerializableExtra(key) as? T
 
+inline fun <reified T : Serializable> Bundle.getSerializableCompat(key: String) : T? =
+    // 34 because there are some bugs in 33 (at least for Parcelable, but let's not risk it)
+    if (Build.VERSION.SDK_INT >= 34) getSerializable(key, T::class.java)
+    else getSerializable(key) as? T
+
 fun formatPrice(amount: Double, currency: String) : String =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         val format = android.icu.text.NumberFormat.getCurrencyInstance()

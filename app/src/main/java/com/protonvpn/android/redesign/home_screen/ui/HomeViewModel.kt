@@ -52,10 +52,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
@@ -77,6 +79,7 @@ class HomeViewModel @Inject constructor(
     serverListUpdaterPrefs: ServerListUpdaterPrefs,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     private val vpnErrorUIManager: VpnErrorUIManager,
+    private val upsellCarouselStateFlow: UpsellCarouselStateFlow,
     @ElapsedRealtimeClock val elapsedRealtimeClock: () -> Long,
 ) : ViewModel() {
 
@@ -104,6 +107,9 @@ class HomeViewModel @Inject constructor(
 
     val changeServerViewState: SharedFlow<ChangeServerViewState?> = changeServerViewStateFlow
         .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
+
+    val upsellCarouselState: StateFlow<UpsellCarouselState?> = upsellCarouselStateFlow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     enum class DialogState {
         CountryInMaintenance, CityInMaintenance, ServerInMaintenance, GatewayInMaintenance, ServerNotAvailable
