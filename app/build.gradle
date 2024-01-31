@@ -773,7 +773,9 @@ dependencies {
     implementation composeBom
     androidTestImplementation composeBom
     implementation 'androidx.compose.animation:animation-android'
-    implementation 'androidx.compose.material3:material3'
+    // Forcing M3 to 1.2.0 because of https://issuetracker.google.com/issues/322826386
+    // Remove the version override on next BOM update.
+    implementation 'androidx.compose.material3:material3:1.2.0-rc01'
     implementation 'androidx.compose.material3:material3-window-size-class'
     implementation "androidx.compose.runtime:runtime-livedata"
     implementation 'androidx.compose.ui:ui'

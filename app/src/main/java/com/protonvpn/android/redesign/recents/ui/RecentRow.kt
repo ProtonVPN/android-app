@@ -30,16 +30,16 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissState
-import androidx.compose.material3.DismissValue
+import androidx.compose.material3.SwipeToDismissBoxState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -260,42 +260,42 @@ private fun SwipeableRecentActions(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    val dismissState = rememberDismissState()
+    val dismissState = rememberSwipeToDismissBoxState()
     ObserveDismissState(dismissState, onWillTogglePin, onTogglePin, onRemove)
-    SwipeToDismiss(
+    SwipeToDismissBox(
         state = dismissState,
-        background = {
+        backgroundContent = {
             when (dismissState.dismissDirection) {
-                DismissDirection.EndToStart -> RemoveActionBackground(Modifier.fillMaxSize())
-                DismissDirection.StartToEnd -> {
+
+                SwipeToDismissBoxValue.EndToStart -> RemoveActionBackground(Modifier.fillMaxSize())
+                SwipeToDismissBoxValue.StartToEnd -> {
                     // The pinned state of background should not change until row returns to the neutral position.
                     val rememberedPinned by remember(dismissState.dismissDirection) { derivedStateOf { isPinned } }
                     PinActionBackground(rememberedPinned, Modifier.fillMaxSize())
                 }
-                null -> Unit
-            }
-        },
-        dismissContent = {
-            val shape = when (dismissState.dismissDirection) {
-                DismissDirection.EndToStart -> RecentRow.removeActionShape
-                DismissDirection.StartToEnd -> RecentRow.pinActionShape
-                null -> RectangleShape
-            }
-            Surface(
-                color = ProtonTheme.colors.backgroundNorm,
-                shape = shape
-            ) {
-                content()
+                SwipeToDismissBoxValue.Settled -> Unit
             }
         },
         modifier = modifier
-    )
+    ) {
+        val shape = when (dismissState.dismissDirection) {
+            SwipeToDismissBoxValue.EndToStart -> RecentRow.removeActionShape
+            SwipeToDismissBoxValue.StartToEnd -> RecentRow.pinActionShape
+            SwipeToDismissBoxValue.Settled -> RectangleShape
+        }
+        Surface(
+            color = ProtonTheme.colors.backgroundNorm,
+            shape = shape
+        ) {
+            content()
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ObserveDismissState(
-    dismissState: DismissState,
+    dismissState: SwipeToDismissBoxState,
     onWillTogglePin: () -> Unit,
     onTogglePin: () -> Unit,
     onRemove: () -> Unit,
@@ -305,7 +305,7 @@ private fun ObserveDismissState(
         snapshotFlow { dismissState.targetValue }
             .distinctUntilChanged()
             .collect {
-                if (it != DismissValue.Default) {
+                if (it != SwipeToDismissBoxValue.Settled) {
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                 }
             }
@@ -314,17 +314,17 @@ private fun ObserveDismissState(
         snapshotFlow { dismissState.currentValue }
             .collect {
                 when (it) {
-                    DismissValue.DismissedToEnd -> {
+                    SwipeToDismissBoxValue.StartToEnd -> {
                         // Notify parent that the item will be pinned right after the swipe animation finishes.
                         // See RecentRow above for more context.
                         onWillTogglePin()
                         dismissState.reset()
                         onTogglePin()
                     }
-                    DismissValue.DismissedToStart -> {
+                    SwipeToDismissBoxValue.EndToStart -> {
                         onRemove()
                     }
-                    DismissValue.Default -> Unit
+                    SwipeToDismissBoxValue.Settled -> Unit
                 }
             }
     }
