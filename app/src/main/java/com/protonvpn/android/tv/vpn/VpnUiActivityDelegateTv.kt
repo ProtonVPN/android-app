@@ -25,6 +25,7 @@ import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import androidx.activity.ComponentActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.tv.TvUpgradeActivity
@@ -81,6 +82,14 @@ class VpnUiActivityDelegateTv(
             setPositiveButton(R.string.error_prepare_vpn_settings) { _, _ ->
                 activity.startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
             }
+        }
+    }
+
+    override fun onNoVpnSupport() {
+        showTvDialog(activity, focusedButton = DialogInterface.BUTTON_NEUTRAL) {
+            setTitle(R.string.dialogVpnNotSupportedOnThisDeviceTitle)
+            setMessage(R.string.dialogVpnNotSupportedOnThisDeviceDescription)
+            setNeutralButton(R.string.close, null)
         }
     }
 }
