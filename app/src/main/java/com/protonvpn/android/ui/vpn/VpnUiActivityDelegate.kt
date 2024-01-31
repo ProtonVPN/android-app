@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.ui.vpn
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Build
 import androidx.activity.ComponentActivity
@@ -46,10 +47,15 @@ abstract class VpnUiActivityDelegate(
                 onPermissionDenied(connectIntent)
             }
         }
-        permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)
+        try {
+            permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)
+        } catch (e: ActivityNotFoundException) {
+            onNoVpnSupport()
+        }
     }
 
     abstract fun onPermissionDenied(connectIntent: AnyConnectIntent)
+    abstract fun onNoVpnSupport()
 
     abstract fun showPlusUpgradeDialog()
     abstract fun showMaintenanceDialog()
@@ -102,6 +108,14 @@ class VpnUiActivityDelegateMobile(
     override fun onProtocolNotSupported() {
         MaterialAlertDialogBuilder(activity)
             .setMessage(R.string.profileProtocolNotAvailable)
+            .setPositiveButton(R.string.close, null)
+            .show()
+    }
+
+    override fun onNoVpnSupport() {
+        MaterialAlertDialogBuilder(activity)
+            .setTitle(R.string.dialogVpnNotSupportedOnThisDeviceTitle)
+            .setMessage(R.string.dialogVpnNotSupportedOnThisDeviceDescription)
             .setPositiveButton(R.string.close, null)
             .show()
     }
