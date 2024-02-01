@@ -26,10 +26,10 @@ public final class ConnectionTools {
         String readableSize;
 
         double b = sizeInBytes;
-        double k = sizeInBytes / 1024.0;
-        double m = ((sizeInBytes / 1024.0) / 1024.0);
-        double g = (((sizeInBytes / 1024.0) / 1024.0) / 1024.0);
-        double t = ((((sizeInBytes / 1024.0) / 1024.0) / 1024.0) / 1024.0);
+        double k = sizeInBytes / 1000.0;
+        double m = ((sizeInBytes / 1000.0) / 1000.0);
+        double g = (((sizeInBytes / 1000.0) / 1000.0) / 1000.0);
+        double t = ((((sizeInBytes / 1000.0) / 1000.0) / 1000.0) / 1000.0);
 
         DecimalFormat dec = new DecimalFormat("0.00");
 

@@ -19,6 +19,7 @@
 package com.protonvpn.android.bus
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import com.protonvpn.android.R
 import com.protonvpn.android.utils.ConnectionTools
@@ -45,12 +46,12 @@ class TrafficUpdate(
     @Composable
     fun speedToString(sizeInBytes: Long): String {
         val b = sizeInBytes.toDouble()
-        val kb = sizeInBytes / 1024.0
-        val mb = ((sizeInBytes / 1024.0) / 1024.0)
-        val gb = (((sizeInBytes / 1024.0) / 1024.0) / 1024.0)
-        val tb = ((((sizeInBytes / 1024.0) / 1024.0) / 1024.0) / 1024.0)
+        val kb = sizeInBytes / 1000.0
+        val mb = ((sizeInBytes / 1000.0) / 1000.0)
+        val gb = (((sizeInBytes / 1000.0) / 1000.0) / 1000.0)
+        val tb = ((((sizeInBytes / 1000.0) / 1000.0) / 1000.0) / 1000.0)
 
-        val dec = DecimalFormat("0.00")
+        val dec = remember { DecimalFormat("0.00") }
 
         return when {
             tb > 1 -> stringResource(R.string.speed_tb_per_second, dec.format(tb))

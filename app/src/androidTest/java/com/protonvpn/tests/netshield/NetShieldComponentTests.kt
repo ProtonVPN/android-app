@@ -60,7 +60,7 @@ class NetShieldComponentTests : FusionComposeTest() {
         node.useUnmergedTree()
             .hasAncestor(node.withTag("bandwidthSaved"))
             .withTag("value")
-            .assertContainsText("9.77 KB")
+            .assertContainsText("10.00 KB")
 
         netShieldStateFlow.value = NetShieldViewState(
             NetShieldProtocol.ENABLED,
@@ -70,6 +70,6 @@ class NetShieldComponentTests : FusionComposeTest() {
         node.useUnmergedTree()
             .hasAncestor(node.withTag("bandwidthSaved"))
             .withTag("value")
-            .assertContainsText("9.54 MB")
+            .assertContainsText("10.00 MB")
     }
 }
