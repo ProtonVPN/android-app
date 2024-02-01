@@ -197,6 +197,19 @@ class MigrateProfileTests {
     }
 
     @Test
+    fun profilesForSecureCoreServersThatDontExistAreSkipped() = testScope.runTest {
+        val secureCoreServer = createServer("nonexistent", isSecureCore = true)
+        testMigration(
+            userProfiles = listOf(
+                createProfile(ServerWrapper.makeWithServer(secureCoreServer), true)
+            ),
+            expectedIntents = listOf(
+                ConnectIntent.FastestInCountry(CountryId.fastest, emptySet()), // Default
+            )
+        )
+    }
+
+    @Test
     fun customQuickConnectProfileIsFirst() = testScope.runTest {
         val userProfiles = listOf(
             createProfile(ServerWrapper.makeFastestForCountry("CH"), false),
