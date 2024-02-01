@@ -121,6 +121,7 @@
     <string name="state_connected">Terhubung</string>
     <string name="state_disconnecting">Memutus sambungan…</string>
     <string name="state_error">Kesalahan</string>
+    <string name="error_server_list_load_failed">Silakan periksa koneksi Anda dan coba lagi.</string>
     <string name="error_server_unreachable">Tidak dapat terhubung ke VPN. Mohon periksa koneksi Anda dan coba lagi.</string>
     <string name="error_auth_failed">Autentikasi pengguna gagal.</string>
     <string name="error_generic">Terdapat kesalahan yang tak terperinci saat menghubungkan.</string>
@@ -1106,4 +1107,6 @@
     <string name="connection_details_minutes_shortened">%1$d mnt</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d dtk</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Koneksi gagal</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Perangkat ini tidak mengizinkan koneksi VPN.</string>
 </resources>

@@ -121,6 +121,7 @@
     <string name="state_connected">Tilkoblet</string>
     <string name="state_disconnecting">Kobler fra…</string>
     <string name="state_error">Feil</string>
+    <string name="error_server_list_load_failed">Vennligst kontroller tilkoblingen og prøv igjen.</string>
     <string name="error_server_unreachable">Kunne ikke koble til VPN-et. Vennligst kontroller tilkoblingen, og prøv på nytt.</string>
     <string name="error_auth_failed">Brukergodkjenning mislyktes.</string>
     <string name="error_generic">Uspesifisert feil under tilkobling.</string>
@@ -1124,4 +1125,6 @@
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sek</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Tilkobling mislyktes</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Denne enheten tillater ikke VPN-tilkoblinger.</string>
 </resources>

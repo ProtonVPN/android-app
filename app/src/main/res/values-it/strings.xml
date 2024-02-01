@@ -63,7 +63,7 @@
     <string name="drawerShowLog">Mostra log</string>
     <string name="drawerReportProblem">Segnala un problema</string>
     <string name="drawerAppVersion">v%1$s</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">Condividi</string>
     <string name="accountDetails">Dettagli account</string>
     <string name="accountSubscription">Abbonamento</string>
     <string name="accountUser">Utente:</string>
@@ -121,6 +121,7 @@
     <string name="state_connected">Connesso</string>
     <string name="state_disconnecting">Disconnessione…</string>
     <string name="state_error">Errore</string>
+    <string name="error_server_list_load_failed">Per favore controlla la connessione e riprova.</string>
     <string name="error_server_unreachable">Impossibile connettersi alla VPN. Controlla la tua connessione e riprova.</string>
     <string name="error_auth_failed">Autenticazione utente fallita.</string>
     <string name="error_generic">Errore non specificato durante la connessione.</string>
@@ -1124,4 +1125,6 @@
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d s</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connessione non riuscita</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Questo dispositivo non permette connessioni VPN</string>
 </resources>

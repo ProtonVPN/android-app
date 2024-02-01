@@ -121,6 +121,7 @@
     <string name="state_connected">Ansluten</string>
     <string name="state_disconnecting">Kopplar från…</string>
     <string name="state_error">Fel</string>
+    <string name="error_server_list_load_failed">Kontrollera din anslutning och försök igen.</string>
     <string name="error_server_unreachable">Kunde inte ansluta till VPN. Kontrollera din anslutning och försök igen.</string>
     <string name="error_auth_failed">Användarautentisering misslyckades.</string>
     <string name="error_generic">Ospecificerat fel vid anslutning.</string>
@@ -1124,4 +1125,6 @@
     <string name="connection_details_minutes_shortened">%1$d min.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sek.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Anslutning misslyckades</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Denna enhet tillåter inte VPN-anslutningar.</string>
 </resources>

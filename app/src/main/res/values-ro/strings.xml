@@ -63,7 +63,7 @@
     <string name="drawerShowLog">Afișare jurnal</string>
     <string name="drawerReportProblem">Raportare o problemă</string>
     <string name="drawerAppVersion">v.%1$s</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">Partajare</string>
     <string name="accountDetails">Detalii cont</string>
     <string name="accountSubscription">Abonament</string>
     <string name="accountUser">Utilizator:</string>
@@ -121,6 +121,7 @@
     <string name="state_connected">Conectat</string>
     <string name="state_disconnecting">Se deconectează…</string>
     <string name="state_error">Eroare</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">Nu s-a putut conecta la VPN. Verificați conexiunea și reîncercați.</string>
     <string name="error_auth_failed">Autentificare utilizator eșuată.</string>
     <string name="error_generic">Eroare nespecificată la conectare.</string>
@@ -628,7 +629,7 @@
     <string name="not_wanted_country_description">Schimbați planul abonamentului pentru alege orice server</string>
     <string name="whats_new_title">Ce este nou</string>
     <string name="whats_new_new_look_title">Un aspect nou, aceeași protecție.</string>
-    <string name="whats_new_new_look_description">Am modificat interfața și am mutat unele elemente pentru a face aplicația mai ușor de utilizat.</string>
+    <string name="whats_new_new_look_description">Am modificat interfața și am mutat unele articole pentru a face aplicația mai ușor de utilizat.</string>
     <string name="whats_new_recents_title">Vă prezentăm funcția „Recente”</string>
     <string name="whats_new_recents_description">Acum este și mai ușor să vă reconectați la serverele preferate. Vizualizați cele mai recente conexiuni pe ecranul de pornire sau fixați-le pentru accesare rapidă. Funcția „Recente” înlocuiește „Profiluri”.</string>
     <string name="whats_new_dismiss_button">Aruncați o privire</string>
@@ -1142,4 +1143,6 @@
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sec</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

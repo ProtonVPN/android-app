@@ -121,6 +121,7 @@
     <string name="state_connected">연결됨</string>
     <string name="state_disconnecting">연결을 끊는 중...</string>
     <string name="state_error">오류</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">VPN에 연결할 수 없습니다. 연결 상태를 확인하신 후, 다시 시도해주세요.</string>
     <string name="error_auth_failed">인증에 실패하였습니다.</string>
     <string name="error_generic">연결 도중에 알 수 없는 실패가 발생했습니다.</string>
@@ -888,7 +889,7 @@
          Fastest country
          Germany
      -->
-    <string name="connection_card_label_connected">안전하게 브라우즈하고 있는 위치는</string>
+    <string name="connection_card_label_connected">안전하게 다음 위치에서 탐색 중:</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with details of the current VPN connection.
          Only used by accessibility services.
@@ -1106,4 +1107,6 @@
     <string name="connection_details_minutes_shortened">%1$d 분</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d 초</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>
