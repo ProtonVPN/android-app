@@ -303,7 +303,7 @@ unit tests:
     expire_in: 1 day
     paths:
     - app/build/test-results
-    - app/build/jacoco
+    - app/build/outputs/unit_test_code_coverage
     - app/build/reports/tests
 
 coverage report:
