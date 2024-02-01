@@ -121,6 +121,7 @@
     <string name="state_connected">Conectado</string>
     <string name="state_disconnecting">Desconectando…</string>
     <string name="state_error">Error</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">No se pudo conectar a la VPN. Verifique la conexión y vuelva a intentarlo.</string>
     <string name="error_auth_failed">Error en la autenticación de usuario.</string>
     <string name="error_generic">Error no especificado al conectar.</string>
@@ -1030,7 +1031,7 @@
          First parameter is country, second is IP.
          Ex: Poland · 192.1.1.1.1
     -->
-    <string name="vpn_status_disabled_location">%1$s · %2$s</string>
+    <string name="vpn_status_disabled_location">%1$s • %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Detalles de la conexión</string>
     <!-- tag(Redesign_2023) -->
@@ -1124,4 +1125,6 @@
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d s</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Error de conexión</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Este dispositivo no permite conexiones VPN.</string>
 </resources>

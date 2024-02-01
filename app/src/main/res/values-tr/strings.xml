@@ -63,7 +63,7 @@
     <string name="drawerShowLog">Günlüğü görüntüle</string>
     <string name="drawerReportProblem">Bir sorun bildirin</string>
     <string name="drawerAppVersion">v%1$s</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">Paylaş</string>
     <string name="accountDetails">Hesap bilgileri</string>
     <string name="accountSubscription">Abonelik</string>
     <string name="accountUser">Kullanıcı:</string>
@@ -121,6 +121,7 @@
     <string name="state_connected">Bağlı</string>
     <string name="state_disconnecting">Bağlantı kesiliyor…</string>
     <string name="state_error">Hata</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">VPN bağlantısı kurulamadı. Lütfen bağlantınızı denetleyip yeniden deneyin.</string>
     <string name="error_auth_failed">Kullanıcı kimliği doğrulanamadı.</string>
     <string name="error_generic">Bağlantı kurulurken belirlenemeyen bir sorun çıktı.</string>
@@ -1124,4 +1125,6 @@
     <string name="connection_details_minutes_shortened">%1$d dk</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sn</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

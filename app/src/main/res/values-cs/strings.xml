@@ -63,7 +63,7 @@
     <string name="drawerShowLog">Zobrazit log</string>
     <string name="drawerReportProblem">Nahlásit problém</string>
     <string name="drawerAppVersion">v%1$s</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">Sdílet</string>
     <string name="accountDetails">Podrobnosti účtu</string>
     <string name="accountSubscription">Předplatné</string>
     <string name="accountUser">Uživatel:</string>
@@ -121,6 +121,7 @@
     <string name="state_connected">Připojeno</string>
     <string name="state_disconnecting">Odpojování…</string>
     <string name="state_error">Chyba</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">Nelze se připojit k VPN. Zkontrolujte připojení a zkuste to znovu.</string>
     <string name="error_auth_failed">Ověření uživatele nezdařilo.</string>
     <string name="error_generic">Nespecifikovaná chyba při připojování.</string>
@@ -1098,7 +1099,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_title">Nízké (1–75%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_description">Lightning fast speeds</string>
+    <string name="connection_details_server_load_low_description">Blesková rychlost</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_medium_title">Střední (76–90%)</string>
     <!-- tag(Redesign_2023) -->
@@ -1122,7 +1123,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">Rychlost VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_question">What is VPN speed?</string>
+    <string name="connection_details_vpn_speed_question">Co je VPN rychlost?</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1160,4 +1161,6 @@
     <string name="connection_details_minutes_shortened">%1$d min.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sek.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

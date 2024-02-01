@@ -63,7 +63,7 @@
     <string name="drawerShowLog">Паказаць журнал</string>
     <string name="drawerReportProblem">Паведаміць пра праблему</string>
     <string name="drawerAppVersion">v%1$s</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">Абагуліць</string>
     <string name="accountDetails">Падрабязнасці ўліковага запісу</string>
     <string name="accountSubscription">Падпіска</string>
     <string name="accountUser">Карыстальнік:</string>
@@ -121,6 +121,7 @@
     <string name="state_connected">Падключана</string>
     <string name="state_disconnecting">Адключэнне…</string>
     <string name="state_error">Памылка</string>
+    <string name="error_server_list_load_failed">Праверце сваё падключэнне да інтэрнэту і паспрабуйце яшчэ раз.</string>
     <string name="error_server_unreachable">Немагчыма падключыцца па VPN. Праверце сваё падключэнне да сеткі і паспрабуйце яшчэ раз.</string>
     <string name="error_auth_failed">Збой аўтэнтыфікацыі карыстальніка.</string>
     <string name="error_generic">Падчас падключэння адбылася невядомая памылка.</string>
@@ -1160,4 +1161,6 @@
     <string name="connection_details_minutes_shortened">%1$d хв</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d сек</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Збой падключэння</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Прылада забараняе падключэнні па VPN.</string>
 </resources>

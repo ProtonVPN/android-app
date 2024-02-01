@@ -121,6 +121,7 @@
     <string name="state_connected">Pripojené</string>
     <string name="state_disconnecting">Odpája sa…</string>
     <string name="state_error">Chyba</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">Nemôžem sa pripojiť na VPN. Skontrolujte vaše pripojenie a skúste to znova, prosím.</string>
     <string name="error_auth_failed">Overovanie používateľa zlyhalo.</string>
     <string name="error_generic">Nešpecifikovaná chyba počas pripájania.</string>
@@ -328,7 +329,7 @@
     <string name="tv_login_title_refresh">Platnosť relácie vypršala. Ak chcete začať odznova, kliknite na tlačidlo Obnoviť.</string>
     <string name="tv_upgrade_title">Začnite streamovať s Plus</string>
     <string name="back">Späť</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Ak chcete inovovať na Proton VPN Plus, navštívte stránku <b>%1$s</b>.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[Ak chcete prejsť na Proton VPN Plus, navštívte stránku <b>%1$s</b>.]]></string>
     <string name="tv_upgrade_description">Získajte plán Proton VPN Plus na prístup k viac ako 500 serverom po celom svete a optimalizované možnosti streamovania pre Netflix, Amazon Prime Video, Disney+ a mnoho ďalších.</string>
     <string name="tv_vpn_error_dialog_title">VPN pripojenie zlyhalo</string>
     <string name="tv_signout_label">Odhlásiť sa</string>
@@ -338,7 +339,7 @@
     <string name="tv_quick_connect_recommened">Odporúčané</string>
     <string name="tv_quick_connect_favourite">Obľúbené</string>
     <string name="tv_country_maintenance_dialog_title">Krajina je nedostupná</string>
-    <string name="tv_country_maintenance_dialog_description">Skúste znova neskôr alebo vyberte inú krajinu, prosím.</string>
+    <string name="tv_country_maintenance_dialog_description">Skúste to neskôr alebo vyberte inú krajinu, prosím.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
@@ -353,27 +354,27 @@
     <string name="tv_server_list_action_unavailable">Nedostupné</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator poskytuje sadu jedinečných technológií zvyšujúcich výkon, ktoré môžu zrýchliť VPN pripojenie až o 400%%.<a href="%1$s">Viac informácií</a>.]]></string>
+    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator poskytuje sadu jedinečných technológií zvyšujúcich výkon, ktoré môžu zrýchliť VPN pripojenie až o 400%%.<a href="%1$s">Zistiť viac</a>.]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">Nové nastavenia sa aplikujú pri ďalšom pripojení.</string>
     <string name="settingsReconnectToChangeDialogContent">Toto reštartuje vaše pripojenie.</string>
-    <string name="reconnectToEnableNetshield">Toto reštartuje vaše pripojenie.\n\nNote: Niektoré stránky sa nenačítajú so zapnutým NetShield.</string>
-    <string name="notification_subscription_expired_title">Vaše predplatné Proton VPN expirovalo</string>
-    <string name="notification_subscription_expired_content">Váš plán sme museli znížiť, ale znovu vás pripájame k najrýchlejšiemu serveru dostupnému v rámci tohto plánu.</string>
+    <string name="reconnectToEnableNetshield">Týmto sa reštartuje vaše pripojenie.\n\nPoznámka: Niektoré stránky sa nenačítajú so zapnutým NetShield.</string>
+    <string name="notification_subscription_expired_title">Vaše predplatné Proton VPN vypršalo</string>
+    <string name="notification_subscription_expired_content">Váš plán sme museli znížiť, ale znovu vás pripájame k najrýchlejšiemu dostupnému serveru v rámci tohto plánu.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Vaše predplatné bolo znížené.</string>
     <string name="notification_delinquent_title">Na vašom účte Proton VPN sú nevybavené faktúry</string>
     <string name="notification_delinquent_content">Venujte prosím chvíľu aktualizácii fakturačných údajov, aby vaše predplatné zostalo aktívne.</string>
     <string name="notification_max_sessions_title">Dosiahli ste maximálny počet zariadení</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Ak chcete pripojiť toto zariadenie, odpojte iné zariadenie alebo prejdite na verziu Plus, aby ste mohli súčasne pripojiť až %1$d zariadenie.</item>
+        <item quantity="one">Ak chcete pripojiť toto zariadenie, odpojte iné zariadenie alebo prejdite na verziu Plus, aby ste mohli súčasne pripojiť %1$d zariadenie.</item>
         <item quantity="few">Ak chcete pripojiť toto zariadenie, odpojte iné zariadenie alebo prejdite na verziu Plus, aby ste mohli súčasne pripojiť až %1$d zariadenia.</item>
         <item quantity="many">Ak chcete pripojiť toto zariadenie, odpojte iné zariadenie alebo prejdite na verziu Plus, aby ste mohli súčasne pripojiť až %1$d zariadení.</item>
         <item quantity="other">Ak chcete pripojiť toto zariadenie, odpojte iné zariadenie alebo prejdite na verziu Plus, aby ste mohli súčasne pripojiť až %1$d zariadení.</item>
     </plurals>
-    <string name="notification_max_sessions_content">Pre pripojenie k tomuto zariadeniu, odpojte prosím iné zariadenie.</string>
+    <string name="notification_max_sessions_content">Ak chcete pripojiť toto zariadenie, odpojte iné zariadenie.</string>
     <string name="notification_cancel_to_free">Máte bezplatný plán. K dispozícii sú bezplatné servery a funkcie.</string>
     <string name="notification_cancel_to_basic">Máte plán Basic. K dispozícii sú servery a funkcie Basic &amp; Free.</string>
-    <string name="notification_cancel_to_delinquent">Prístup k prémiovým funkciám budete mať opäť po zaplatení čakajúcich faktúr.</string>
+    <string name="notification_cancel_to_delinquent">Prístup k prémiovým funkciám budete mať opäť po uhradení nezaplatených faktúr.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Zo servera: </string>
     <string name="reconnect_to_server">Na server: </string>
@@ -1160,4 +1161,6 @@
     <string name="connection_details_minutes_shortened">%1$d min.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d s</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

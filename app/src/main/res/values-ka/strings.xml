@@ -63,7 +63,7 @@
     <string name="drawerShowLog">ჟურნალის ჩვენება</string>
     <string name="drawerReportProblem">პრობლემის ანგარიშის გადაგზავნა</string>
     <string name="drawerAppVersion">v%1$s</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">გაზიარება</string>
     <string name="accountDetails">ანგარიშის დეტალები</string>
     <string name="accountSubscription">გამოწერა</string>
     <string name="accountUser">მომხმარებელი:</string>
@@ -121,6 +121,7 @@
     <string name="state_connected">დაკავშირებულია</string>
     <string name="state_disconnecting">გათიშვა…</string>
     <string name="state_error">შეცდომა</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">VPN-თან მიერთების შეცდომა. შეამოწმეთ ინტერნეტთან შეერთება და თავიდან სცადეთ.</string>
     <string name="error_auth_failed">მომხმარებლის ავთენტიკაციის შეცდომა.</string>
     <string name="error_generic">გაუთვალისწინებელი შეცდომა მიერთებისას.</string>
@@ -1124,4 +1125,6 @@
     <string name="connection_details_minutes_shortened">%1$d წთ</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d წმ</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

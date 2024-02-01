@@ -121,6 +121,7 @@
     <string name="state_connected">Connecté</string>
     <string name="state_disconnecting">Déconnexion…</string>
     <string name="state_error">Erreur</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">La connexion au VPN n\'a pas pu être établie. Nous vous invitons à vérifier votre connexion et à réessayer.</string>
     <string name="error_auth_failed">L\'utilisateur n\'a pas pu être authentifié.</string>
     <string name="error_generic">Une erreur inconnue s\'est produite pendant la connexion.</string>
@@ -1124,4 +1125,6 @@
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sec</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

@@ -63,7 +63,7 @@
     <string name="drawerShowLog">Pokaż logi</string>
     <string name="drawerReportProblem">Zgłoś problem</string>
     <string name="drawerAppVersion">Wersja %1$s</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">Udostępnij</string>
     <string name="accountDetails">Szczegóły konta</string>
     <string name="accountSubscription">Subskrypcja</string>
     <string name="accountUser">Użytkownik:</string>
@@ -121,6 +121,7 @@
     <string name="state_connected">Połączono</string>
     <string name="state_disconnecting">Rozłączanie…</string>
     <string name="state_error">Błąd</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">Nie można połączyć z usługą VPN. Sprawdź połączenie i spróbuj ponownie.</string>
     <string name="error_auth_failed">Uwierzytelnianie użytkownika nie powiodło się.</string>
     <string name="error_generic">Wystąpił nieokreślony błąd podczas łączenia.</string>
@@ -829,7 +830,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <string name="connection_info_secure_core_full_other">%1$s przez %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -851,7 +852,7 @@
          Italy
          via Secure Core
     -->
-    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
+    <string name="connection_info_secure_core_entry_fastest">przez Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not
@@ -1160,4 +1161,6 @@
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sek.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

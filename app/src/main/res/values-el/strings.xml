@@ -121,6 +121,7 @@
     <string name="state_connected">Συνδεδεμένο</string>
     <string name="state_disconnecting">Αποσυνδέεται…</string>
     <string name="state_error">Σφάλμα</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">Αδυναμία σύνδεσης στο VPN. Παρακαλούμε ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.</string>
     <string name="error_auth_failed">Η επαλήθευση χρήστη απέτυχε.</string>
     <string name="error_generic">Απροσδιόριστη αποτυχία κατά τη σύνδεση.</string>
@@ -1124,4 +1125,6 @@
     <string name="connection_details_minutes_shortened">%1$d λεπτό</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d δλ</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

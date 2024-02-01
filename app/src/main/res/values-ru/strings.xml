@@ -121,6 +121,7 @@
     <string name="state_connected">Подключено</string>
     <string name="state_disconnecting">Отключение…</string>
     <string name="state_error">Ошибка</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">Не могу подключиться к VPN. Пожалуйста, проверьте своё подключение и попробуйте снова.</string>
     <string name="error_auth_failed">Сбой аутентификации пользователя.</string>
     <string name="error_generic">Неизвестный сбой при подключении.</string>
@@ -1160,4 +1161,6 @@
     <string name="connection_details_minutes_shortened">%1$d мин</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d с</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

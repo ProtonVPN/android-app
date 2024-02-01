@@ -121,6 +121,7 @@
     <string name="state_connected">Yhdistetty</string>
     <string name="state_disconnecting">Katkaistaan yhteyttä…</string>
     <string name="state_error">Virhe</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">VPN-yhteyden muodostus ei onnistunut. Tarkista Internet-yhteytesi ja yritä uudelleen.</string>
     <string name="error_auth_failed">Käyttäjän todennus epäonnistui.</string>
     <string name="error_generic">Määrittelemätön virhe yhdistettäessä.</string>
@@ -261,7 +262,7 @@
     <string name="netshield_status_off">Ei käytössä</string>
     <string name="netshield_free_description">Estä mainoksia, seurantoja ja haittaohjelmia verkkosivustoilla ja sovelluksissa</string>
     <string name="netshield_business_title">Estä mainoksia NetShieldillä</string>
-    <string name="netshield_business_description">Päivittämällä VPN Business -tilaukseen</string>
+    <string name="netshield_business_description">Kun päivität VPN Business -tilaukseen</string>
     <string name="netshield_what_data_means">Mitä NetShieldin tiedonsiirto tarkoittaa</string>
     <string name="netshield_ads_title">Mainokset</string>
     <string name="netshield_ads_details">Mainokset ja näkymättömät mainosseuraajat</string>
@@ -359,10 +360,10 @@
     <string name="notification_max_sessions_title">Olet saavuttanut laitteiden enimmäismäärän</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Katkaise yhteys joltain toiselta laitteeltasi yhdistääksesi tämän laitteen tai päivitä Plus-tilaukseen yhdistääksesi samaan aikaan %1$d laitteen.</item>
-        <item quantity="other">Katkaise yhteys joltain toiselta laitteeltasi yhdistääksesi tämän laitteen tai päivitä Plus-tilaukseen yhdistääksesi samaan aikaan %1$d laitetta.</item>
+        <item quantity="one">Katkaise yhteys joltakin toiselta laitteeltasi yhdistääksesi tämän laitteen tai päivitä Plus-tilaukseen yhdistääksesi samanaikaisesti %1$d laitteen.</item>
+        <item quantity="other">Katkaise yhteys joltakin toiselta laitteeltasi yhdistääksesi tämän laitteen tai päivitä Plus-tilaukseen yhdistääksesi samanaikaisesti jopa %1$d laitetta.</item>
     </plurals>
-    <string name="notification_max_sessions_content">Katkaise jonkin muun laitteen yhteys yhdistääksesi tämän laitteen.</string>
+    <string name="notification_max_sessions_content">Katkaise yhteys joltakin toiselta laitteeltasi yhdistääksesi tämän laitteen.</string>
     <string name="notification_cancel_to_free">Sinulla on ilmainen Free-tilaus. Ilmaispalvelimet ja -ominaisuudet ovat käytettävissä.</string>
     <string name="notification_cancel_to_basic">Sinulla on Basic-tilaus. Basic- ja ilmaispalvelimet sekä -ominaisuudet ovat käytettävissä.</string>
     <string name="notification_cancel_to_delinquent">Voit jälleen käyttää premium-ominaisuuksia, kun avoimet laskut on maksettu.</string>
@@ -393,27 +394,27 @@
         <item quantity="one">%1$d maassa</item>
         <item quantity="other">%1$d maassa</item>
     </plurals>
-    <string name="upsell_upgrade_again">Päivitä tilauksesi uudelleen nauttiaksesi kaikista ominaisuuksista:</string>
+    <string name="upsell_upgrade_again">Tilaa uudelleen nauttiaksesi kaikista ominaisuuksista:</string>
     <string name="upgrade_plus_title">Paranna yksityisyyttäsi</string>
-    <string name="upgrade_plus_message">Saat edistyneitä yksityisyysominaisuuksia ja korkeamman nopeuden VPN Plus -tilauksella.</string>
+    <string name="upgrade_plus_message">Hanki edistyneitä yksityisyytäsi tehostavia ominaisuuksia ja korkeampi nopeus VPN Plus -tilauksella.</string>
     <string name="upgrade_netshield_title">Nauti mainosvapaasta selaamisesta</string>
-    <string name="upgrade_netshield_message"><![CDATA[Estä mainokset, seuraajat ja haittaohjelmat <b>NetShieldin</b> avulla.]]></string>
+    <string name="upgrade_netshield_message"><![CDATA[Estä mainoksia, seurantoja ja haittaohjelmia <b>NetShieldin</b> avulla.]]></string>
     <string name="upgrade_secure_core_title">Tuplaa salaus</string>
     <string name="upgrade_secure_core_message"><![CDATA[Lisää VPN-yhteyteesi toinen salaustaso <b>Secure Corella</b>.]]></string>
-    <string name="upgrade_profiles_title">Pääset nopeasti käsiksi usein käyttämiisi yhteyksiin</string>
+    <string name="upgrade_profiles_title">Tavoita usein käyttämäsi yhteydet nopeasti</string>
     <string name="upgrade_profiles_text"><![CDATA[Avaa <b>profiilit</b> <b>VPN Plus</b> -tilauksella.]]></string>
-    <string name="upgrade_vpn_accelerator_title">Selaa korkeimmilla nopeuksilla</string>
+    <string name="upgrade_vpn_accelerator_title">Selaa vielä korkeammilla nopeuksilla</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Avaa käytettäväksi nopeampia, ruuhkattomia palvelimia jopa nopeudella %1$d Gbps. </string>
+    <string name="upgrade_vpn_accelerator_message">Avaa nopeampia ja ruuhkattomampia palvelimia, joiden nopeudet ovat jopa %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Hanki molempien parhaat puolet</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Jaa liikenne VPN-tunneleihin ja muihin kuin VPN-tunneleihin <b>jaetun tunneloinnin</b> avulla.]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Jaa tietoliikenteesi VPN-tunneliin ja sen ulkopuolelle <b>jaetun tunneloinnin</b> avulla.]]></string>
     <string name="upgrade_customization_title">Avaa edistyneet VPN-mukautukset</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Pääsy <b>lähiverkon (LAN)</b> laitteisiin VPN Plus -tilauksella.]]></string>
-    <string name="upgrade_all_countries_title">Pääsy kaikkiin maihin</string>
+    <string name="upgrade_lan_access_message"><![CDATA[Käytä <b>lähiverkkosi (LAN)</b> laitteita VPN Plus -tilauksella.]]></string>
+    <string name="upgrade_all_countries_title">Käytä kaikkia maita</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -440,7 +441,7 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Avaa %1$s %2$s <b>VPN Plus</b>-tilauksella.]]></string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[Avaa %1$s %2$s <b>VPN Plus</b> -tilauksella.]]></string>
     <string name="upgrade_plus_countries_subtitle">Kun päivität Plus-tilaukseen</string>
     <string name="upgrade_safe_mode_title">Salli tietoliikenne epätyypillisiin portteihin</string>
     <string name="upgrade_safe_mode_message">Onko sinulla vaativia tai ammatillisia tietoteknisiä tarpeita, jotka tarvitsevat epätyypillisiä portteja? Päivitä VPN Plus -tilaukseen käyttääksesi tätä ja muita premium-ominaisuuksia.</string>
@@ -513,7 +514,7 @@
     <string name="dynamic_report_step3">Vaihe 3/3</string>
     <string name="dynamic_report_your_issue_headline">Mikä on ongelmana</string>
     <string name="update_screen_title">Päivitä Proton VPN</string>
-    <string name="update_screen_description">Ongelmien ilmeneminen on todennäköisempää vanhoissa Proton VPN -versioissa.</string>
+    <string name="update_screen_description">Ongelmia esiintyy todennäköisesti useammin vanhemmissa Proton VPN -versioissa.</string>
     <string name="server_search_menu_title">Haku</string>
     <string name="server_search_hint">Maa, kaupunki, palvelin</string>
     <string name="server_search_hint_secure_core">Maa</string>
@@ -612,7 +613,7 @@
     <string name="server_change_button_time_left_seconds_content_description">Saatavilla %1$s</string>
     <string name="server_change_progress_finished_contend_description">Saatavilla nyt</string>
     <string name="not_wanted_country_title">Eikö tämä ole haluamasi maa?</string>
-    <string name="not_wanted_country_description">Valitse mikä tahansa palvelin päivittämällä tilauksesi</string>
+    <string name="not_wanted_country_description">Päivitä tilauksesi ja valitse mikä tahansa palvelin</string>
     <string name="whats_new_title">Mitä uutta</string>
     <string name="whats_new_new_look_title">Uusi ilme, sama suojaus</string>
     <string name="whats_new_new_look_description">Päivitimme ulkoasuamme ja siirtelimme joitain asioita, jotta sovelluksen käyttäminen olisi helpompaa.</string>
@@ -627,7 +628,7 @@
     <string name="welcome_unlimited_title">Tervetuloa Proton Unlimitediin</string>
     <string name="welcome_unlimited_description"><![CDATA[Onnittelut! Olet avannut kaikkien Proton-palveluiden premium-tason suojaus- ja suorituskykyominaisuudet, sekä <b>%1$d&#160;Gt</b> kokonaistallennustilaa.<br><br>Nauti Protonin parhaasta yksityisyydestä.]]></string>
     <string name="welcome_generic_title">Onnittelut</string>
-    <string name="welcome_generic_description">Olet päivittänyt tilauksesi. Nauti laajemmista yksityisyysominaisuuksista ja huipputason suorituskyvystä.</string>
+    <string name="welcome_generic_description">Olet päivittänyt tilauksesi. Nauti edistyneistä yksityisyyttäsi tehostavista ominaisuuksista ja huipputason suorituskyvystä.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
@@ -731,7 +732,7 @@
          available will be read by a screen reader as:
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
-    <string name="accessibility_action_upgrade">päivitä</string>
+    <string name="accessibility_action_upgrade">päivittääksesi tilauksesi</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -940,7 +941,7 @@
     -->
     <string name="recent_action_accessibility_state_pinned">Kiinnitetty</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">Kaikki palvelimet tässä maassa ovat huollossa</string>
+    <string name="message_country_servers_in_maintenance">Kaikki tämän maan palvelimet ovat huollossa</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Kaikki palvelimet tässä kaupungissa ovat huollossa</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1124,4 +1125,6 @@
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d s</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

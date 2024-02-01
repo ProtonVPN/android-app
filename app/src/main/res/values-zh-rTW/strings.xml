@@ -121,6 +121,7 @@
     <string name="state_connected">已連線</string>
     <string name="state_disconnecting">正在中斷連線…</string>
     <string name="state_error">錯誤</string>
+    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
     <string name="error_server_unreachable">無法連線至 VPN。請檢查您的連線並再試一次。</string>
     <string name="error_auth_failed">使用者認證失敗。</string>
     <string name="error_generic">連線時發生不明錯誤。</string>
@@ -818,7 +819,7 @@
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">從 [標籤] 自動選擇</string>
+    <string name="connection_info_auto_selected_free_countries">從 [flags] 自動選擇</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there
@@ -1106,4 +1107,6 @@
     <string name="connection_details_minutes_shortened">%1$d 分鐘</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d 秒鐘</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>
