@@ -133,10 +133,10 @@ fun Profile.toConnectIntent(
             val entryCountry = when {
                 wrapper.isFastestInCountry || wrapper.isRandomInCountry -> CountryId.fastest
                 wrapper.serverId != null ->
-                    CountryId(requireNotNull(serverManager.getServerById(wrapper.serverId)).entryCountry)
+                    serverManager.getServerById(wrapper.serverId)?.let { CountryId(it.entryCountry) }
                 else -> CountryId.fastest
             }
-            ConnectIntent.SecureCore(CountryId(country), entryCountry)
+            entryCountry?.let { ConnectIntent.SecureCore(CountryId(country), entryCountry) }
         }
         wrapper.isFastestInCountry || wrapper.isRandomInCountry ->
             ConnectIntent.FastestInCountry(CountryId(wrapper.country), noFeatures)
