@@ -400,8 +400,8 @@ private fun AnimateText(
     targetCharacter: Char = '*',
     preserveCharacters: CharArray = charArrayOf('.', ' ', '-')
 ) {
-    val displayText = remember { mutableStateOf(targetText) }
-    val fixedWidth = remember { mutableStateOf<Int?>(null) }
+    val displayText = remember(targetText) { mutableStateOf(targetText) }
+    val fixedWidth = remember(targetText) { mutableStateOf<Int?>(null) }
 
     LaunchedEffect(targetText) {
         fixedWidth.value?.let {
