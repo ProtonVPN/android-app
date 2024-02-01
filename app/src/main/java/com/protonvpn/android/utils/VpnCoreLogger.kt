@@ -25,12 +25,12 @@ import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
-import me.proton.core.accountmanager.domain.LogTag as AccountLogTag
-import me.proton.core.humanverification.presentation.LogTag as HvLogTag
 import me.proton.core.util.android.sentry.TimberLogger
-import me.proton.core.crypto.common.keystore.LogTag as KeystoreLogTag
-import me.proton.core.network.domain.LogTag as NetworkLogTag
 import me.proton.core.util.kotlin.Logger
+import me.proton.core.accountmanager.domain.LogTag as AccountLogTag
+import me.proton.core.crypto.common.keystore.LogTag as KeystoreLogTag
+import me.proton.core.humanverification.presentation.LogTag as HvLogTag
+import me.proton.core.network.domain.LogTag as NetworkLogTag
 
 // Core logs full response body in debug, truncate it.
 private const val MAX_DEBUG_MSG_LENGTH = 500
@@ -44,12 +44,12 @@ class VpnCoreLogger : Logger by TimberLogger {
 
     override fun e(tag: String, e: Throwable) {
         TimberLogger.e(tag, e)
-        forwardToProtonLogger(tag, LogLevel.ERROR, messageWithError("no message", e))
+        forwardToProtonLogger(tag, LogLevel.ERROR, messageWithError(tag, "no message", e))
     }
 
     override fun e(tag: String, e: Throwable, message: String) {
         TimberLogger.e(tag, e, message)
-        forwardToProtonLogger(tag, LogLevel.ERROR, messageWithError(message, e))
+        forwardToProtonLogger(tag, LogLevel.ERROR, messageWithError(tag, message, e))
     }
 
     override fun i(tag: String, message: String) {
@@ -59,7 +59,7 @@ class VpnCoreLogger : Logger by TimberLogger {
 
     override fun i(tag: String, e: Throwable, message: String) {
         TimberLogger.i(tag, e, message)
-        forwardToProtonLogger(tag, LogLevel.INFO, messageWithError(message, e))
+        forwardToProtonLogger(tag, LogLevel.INFO, messageWithError(tag, message, e))
     }
 
     override fun w(tag: String, message: String) {
@@ -69,12 +69,12 @@ class VpnCoreLogger : Logger by TimberLogger {
 
     override fun w(tag: String, e: Throwable) {
         TimberLogger.w(tag, e)
-        forwardToProtonLogger(tag, LogLevel.WARN, messageWithError("no message", e))
+        forwardToProtonLogger(tag, LogLevel.WARN, messageWithError(tag,"no message", e))
     }
 
     override fun w(tag: String, e: Throwable, message: String) {
         TimberLogger.w(tag, e, message)
-        forwardToProtonLogger(tag, LogLevel.WARN, messageWithError(message, e))
+        forwardToProtonLogger(tag, LogLevel.WARN, messageWithError(tag, message, e))
     }
 
     override fun d(tag: String, message: String) {
@@ -84,7 +84,7 @@ class VpnCoreLogger : Logger by TimberLogger {
 
     override fun d(tag: String, e: Throwable, message: String) {
         TimberLogger.d(tag, e, message)
-        forwardToProtonLogger(tag, LogLevel.DEBUG, messageWithError(message, e))
+        forwardToProtonLogger(tag, LogLevel.DEBUG, messageWithError(tag, message, e))
     }
 
     override fun v(tag: String, message: String) {
@@ -94,11 +94,16 @@ class VpnCoreLogger : Logger by TimberLogger {
 
     override fun v(tag: String, e: Throwable, message: String) {
         TimberLogger.v(tag, e, message)
-        forwardToProtonLogger(tag, LogLevel.TRACE, messageWithError(message, e))
+        forwardToProtonLogger(tag, LogLevel.TRACE, messageWithError(tag, message, e))
     }
 
-    private fun messageWithError(message: String, e: Throwable) =
-        "$message\n${e.stackTraceToString()}"
+    private fun messageWithError(tag: String, message: String, e: Throwable) =
+        if (tag == NetworkLogTag.API_ERROR) {
+            val exceptionMsg = e.cause?.causeChainString()
+            if (exceptionMsg != null)
+                "$message\n$exceptionMsg" else message
+        } else
+            "$message\n${e.stackTraceToString()}"
 
     private fun categoryForTag(tag: String) = when (tag) {
         AccountLogTag.SESSION_REFRESH -> LogCategory.API
@@ -127,4 +132,13 @@ class VpnCoreLogger : Logger by TimberLogger {
             else -> ProtonLogger.logCustom(sourceLevel, categoryForTag(tag), message)
         }
     }
+}
+
+private fun Throwable.causeChainString(builder: StringBuilder = StringBuilder()) : StringBuilder {
+    builder.append("    Caused by: ${javaClass.simpleName}: $message")
+    cause?.let {
+        builder.append("\n")
+        cause?.causeChainString(builder)
+    }
+    return builder
 }
