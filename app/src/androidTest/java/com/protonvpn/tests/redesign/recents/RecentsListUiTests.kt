@@ -19,34 +19,41 @@
 
 package com.protonvpn.tests.redesign.recents
 
-import androidx.compose.material.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
+import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
+import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
+import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.Test
+import kotlin.math.roundToInt
 
 class RecentsListUiTests : FusionComposeTest() {
 
     @Test
     fun whenNoRecentsThenRecentsHeaderIsHidden() {
         val viewState = RecentsListViewState(
-            VpnConnectionCardViewState(
-                cardLabelRes = R.string.connection_card_label_last_connected,
-                mainButtonLabelRes = R.string.buttonConnect,
-                isConnectedOrConnecting = false,
-                connectIntentViewState = ConnectIntentViewFastest,
-                canOpenConnectionPanel = false,
-                canOpenFreeCountriesPanel = false,
-            ),
+            ConnectionCardViewState,
             emptyList(),
             null
         )
@@ -61,14 +68,7 @@ class RecentsListUiTests : FusionComposeTest() {
     @Test
     fun whenRecentsPresentThenRecentsHeaderIsShown() {
         val viewState = RecentsListViewState(
-            VpnConnectionCardViewState(
-                cardLabelRes = R.string.connection_card_label_last_connected,
-                mainButtonLabelRes = R.string.buttonConnect,
-                isConnectedOrConnecting = false,
-                connectIntentViewState = ConnectIntentViewFastest,
-                canOpenConnectionPanel = false,
-                canOpenFreeCountriesPanel = false,
-            ),
+            ConnectionCardViewState,
             listOf(
                 RecentItemViewState(0, ConnectIntentViewSwitzerland, false, false, RecentAvailability.ONLINE)
             ),
@@ -85,20 +85,13 @@ class RecentsListUiTests : FusionComposeTest() {
     @Test
     fun whenUpsellContentIsPresentThenUpsellHeaderIsShown() {
         val viewState = RecentsListViewState(
-            VpnConnectionCardViewState(
-                cardLabelRes = R.string.connection_card_label_last_connected,
-                mainButtonLabelRes = R.string.buttonConnect,
-                isConnectedOrConnecting = false,
-                connectIntentViewState = ConnectIntentViewFastest,
-                canOpenConnectionPanel = false,
-                canOpenFreeCountriesPanel = false,
-            ),
+            ConnectionCardViewState,
             emptyList(),
             null
         )
         composeRule.setContent {
-            val upsellContent = @Composable {
-                Text("dummy upsell content")
+            val upsellContent = @Composable { modifier: Modifier ->
+                Text("dummy upsell content", modifier = modifier)
             }
             RecentsList(viewState, {}, {}, {}, {}, {}, {}, upsellContent = upsellContent, expandState = null, errorSnackBar = null)
         }
@@ -107,10 +100,60 @@ class RecentsListUiTests : FusionComposeTest() {
         node.withText(R.string.recents_headline).assertDoesNotExist()
     }
 
+    @Test
+    fun whenConnectionCardGetsSmallerItStaysFullyCollapsed() {
+        val viewState = RecentsListViewState(
+            ConnectionCardViewState,
+            emptyList(),
+            null
+        )
+        val changeServerButtonState = mutableStateOf<ChangeServerViewState?>(ChangeServerViewState.Unlocked)
+        val upsellContentText = "dummy upsell content"
+        composeRule.setContent {
+            BoxWithConstraints(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                val expandState = rememberRecentsExpandState()
+                val maxHeightPx = LocalDensity.current.run { maxHeight.toPx() }
+                expandState.setMaxHeight(maxHeightPx.roundToInt())
+                val upsellContent = @Composable { modifier: Modifier ->
+                    Text(upsellContentText, modifier = modifier)
+                }
+
+                val changeServerButton: (@Composable ColumnScope.() -> Unit)? = changeServerButtonState.value?.let {
+                    @Composable {
+                        ChangeServerButton(it, onChangeServerClick = {}, onUpgradeButtonShown = {})
+                    }
+                }
+                RecentsList(
+                    viewState, {}, {}, {}, {}, {}, {},
+                    modifier = Modifier.offset { IntOffset(0, expandState.listOffsetPx) },
+                    changeServerButton = changeServerButton,
+                    upsellContent = upsellContent,
+                    expandState = expandState,
+                    errorSnackBar = null
+                )
+            }
+        }
+        node.withText(R.string.server_change_button_title).assertIsDisplayed()
+        changeServerButtonState.value = null // Connection card gets smaller.
+
+        node.withText(R.string.server_change_button_title).assertDoesNotExist()
+        node.withText(upsellContentText).assertIsNotDisplayed() // Upsell content didn't scroll up.
+    }
+
     companion object {
-        val ConnectIntentViewFastest =
+        private val ConnectIntentViewFastest =
             ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.fastest, null), null, emptySet())
-        val ConnectIntentViewSwitzerland =
+        private val ConnectIntentViewSwitzerland =
             ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.switzerland, null), null, emptySet())
+        private val ConnectionCardViewState = VpnConnectionCardViewState(
+            cardLabelRes = R.string.connection_card_label_last_connected,
+            mainButtonLabelRes = R.string.buttonConnect,
+            isConnectedOrConnecting = false,
+            connectIntentViewState = ConnectIntentViewFastest,
+            canOpenConnectionPanel = false,
+            canOpenFreeCountriesPanel = false,
+        )
     }
 }

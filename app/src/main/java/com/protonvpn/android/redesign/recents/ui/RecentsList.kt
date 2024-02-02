@@ -34,6 +34,7 @@ import androidx.compose.foundation.MutatorMutex
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -43,6 +44,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -66,6 +68,7 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.MaxContentWidth
 import com.protonvpn.android.redesign.base.ui.VpnDivider
+import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -149,18 +152,20 @@ class RecentsExpandState(
     }
 
     fun setPeekHeight(newPeekHeight: Int) {
+        val shouldContract = listOffsetPx == maxOffset
         peekHeightState.intValue = newPeekHeight
-        if (listOffsetPx > maxOffset) {
-            listOffsetState.intValue = maxOffset
+        when {
+            listOffsetPx > maxOffset -> listOffsetState.intValue = maxOffset
+            shouldContract -> listOffsetState.intValue = maxOffset
         }
     }
 
-    suspend fun setListHeight(newListHeight: Int) {
+    fun setListHeight(newListHeight: Int) {
         if (listHeightState.intValue != newListHeight) {
             listHeightState.intValue = newListHeight
             when {
-                listOffsetPx > maxOffset -> animateOffsetTo(maxOffset)
-                listOffsetPx < minOffset -> animateOffsetTo(minOffset)
+                listOffsetPx > maxOffset -> listOffsetState.intValue = maxOffset
+                listOffsetPx < minOffset -> listOffsetState.intValue = minOffset
             }
         }
     }
@@ -195,6 +200,10 @@ class RecentsExpandState(
     }
 }
 
+private enum class PeekThresholdItem {
+    ConnectionCard, Header
+}
+
 @Composable
 fun rememberRecentsExpandState() = rememberSaveable(saver = RecentsExpandState.Saver) { RecentsExpandState() }
 
@@ -211,7 +220,7 @@ fun RecentsList(
     errorSnackBar: androidx.compose.material.SnackbarHostState?,
     modifier: Modifier = Modifier,
     changeServerButton: (@Composable ColumnScope.() -> Unit)? = null,
-    upsellContent: (@Composable () -> Unit)? = null,
+    upsellContent: (@Composable (Modifier) -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(),
     expandState: RecentsExpandState?,
 ) {
@@ -223,24 +232,37 @@ fun RecentsList(
         modifier
             .nestedScroll(expandState.createNestedScrollConnection(scope))
             .onGloballyPositioned {
-                scope.launch { expandState.setListHeight(it.size.height) }
+                expandState.setListHeight(it.size.height)
             }
     } else {
         modifier
     }
+    val peekPositionObserver = Modifier.onGloballyPositioned {
+        expandState?.setPeekHeight(it.boundsInParent().bottom.roundToInt())
+    }
+    val peekThresholdItem by remember {
+        derivedStateOf {
+            when {
+                viewState.recents.isNotEmpty() || upsellContent != null -> PeekThresholdItem.Header
+                else -> PeekThresholdItem.ConnectionCard
+            }
+        }
+    }
     LazyColumn(
         state = expandState?.lazyListState ?: rememberLazyListState(),
-        modifier = listModifier,
+        modifier = listModifier
+            .animateContentSize(),
         contentPadding = contentPadding,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
+            val connectionCardModifier = Modifier
+                .widthIn(max = ProtonTheme.MaxContentWidth)
+                .optional({ peekThresholdItem == PeekThresholdItem.ConnectionCard }, peekPositionObserver)
+                .animateItemPlacement()
+                .animateContentSize()
             Column(
-                modifier = Modifier
-                    .widthIn(max = ProtonTheme.MaxContentWidth)
-                    .onGloballyPositioned { expandState?.setPeekHeight(it.boundsInParent().bottom.roundToInt()) }
-                    .animateItemPlacement()
-                    .animateContentSize()
+                modifier = connectionCardModifier
             ) {
                 VpnConnectionCard(
                     viewState = viewState.connectionCard,
@@ -262,23 +284,30 @@ fun RecentsList(
                         )
                     }
                 }
-                if (viewState.recents.isNotEmpty() || upsellContent != null) {
-                    // Note: so far it's always either upsell content or recents.
-                    // This part will change with the addition of promo banners.
-                    val headlineText =
-                        if (viewState.recents.isNotEmpty()) R.string.recents_headline
-                        else R.string.home_upsell_carousel_headline
-                    ExpandCollapseTitle(
-                        stringResource(headlineText),
-                        expandState = expandState,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                    )
-                }
+            }
+        }
+        if (viewState.recents.isNotEmpty() || upsellContent != null) {
+            // Note: so far it's always either upsell content or recents.
+            // This part will change with the addition of promo banners.
+            item {
+                val headlineText =
+                    if (viewState.recents.isNotEmpty()) R.string.recents_headline
+                    else R.string.home_upsell_carousel_headline
+                ExpandCollapseTitle(
+                    stringResource(headlineText),
+                    expandState = expandState,
+                    modifier = Modifier
+                        .widthIn(max = ProtonTheme.MaxContentWidth)
+                        .fillMaxWidth()
+                        .animateItemPlacement()
+                        .optional({ peekThresholdItem == PeekThresholdItem.Header }, peekPositionObserver)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                )
             }
         }
         if (upsellContent != null) {
             item {
-                upsellContent()
+                upsellContent(Modifier.animateItemPlacement())
             }
         }
         itemsIndexed(viewState.recents, key = { _, item -> item.id }) { index, item ->

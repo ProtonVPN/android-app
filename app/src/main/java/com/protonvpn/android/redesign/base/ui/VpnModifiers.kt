@@ -30,6 +30,11 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import kotlinx.coroutines.delay
 
+// Adds modifier only if predicate returns true.
+fun Modifier.optional(predicate: () -> Boolean, modifier: Modifier): Modifier =
+    if (predicate()) this then modifier
+    else this
+
 /**
  * Draw composable with alpha mark the server/country/recent etc. is unavailable.
  */
