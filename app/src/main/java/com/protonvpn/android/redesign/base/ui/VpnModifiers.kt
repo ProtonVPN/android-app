@@ -19,8 +19,16 @@
 
 package com.protonvpn.android.redesign.base.ui
 
+import androidx.compose.foundation.clickable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
+import kotlinx.coroutines.delay
 
 /**
  * Draw composable with alpha mark the server/country/recent etc. is unavailable.
@@ -33,3 +41,20 @@ fun Modifier.unavailableServerAlpha(
     } else {
         this
     }
+
+fun Modifier.clickableWithDebounce(
+    debounceMs: Long = 500,
+    action: () -> Unit,
+): Modifier = composed {
+    var clickEnabled by remember { mutableStateOf(true) }
+    if (!clickEnabled) {
+        LaunchedEffect(clickEnabled) {
+            delay(debounceMs)
+            clickEnabled = true
+        }
+    }
+    this.clickable(onClick = {
+        clickEnabled = false
+        action()
+    }, enabled = clickEnabled)
+}

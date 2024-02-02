@@ -34,7 +34,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -66,6 +65,7 @@ import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
+import com.protonvpn.android.redesign.base.ui.clickableWithDebounce
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
@@ -118,7 +118,7 @@ fun VpnConnectionCard(
             // chevron icon.
             val panelModifier = if (viewState.canOpenPanel) {
                 val action = if (viewState.canOpenConnectionPanel) onOpenConnectionPanel else openFreeCountriesInfoPanel
-                Modifier.clickable(onClick = action)
+                Modifier.clickableWithDebounce(action = action)
             } else {
                 Modifier
             }
