@@ -155,14 +155,14 @@ fun HomeView(
             )
         }
     }
-    val upsellCarouselContent: (@Composable () -> Unit)? = upsellCarouselState?.let {
-        @Composable {
+    val upsellCarouselContent: (@Composable (Modifier) -> Unit)? = upsellCarouselState?.let { state ->
+        @Composable { modifier ->
             HomeUpsellCarousel(
-                roundedServerCount = it.roundedServerCount,
-                countriesCount = it.countryCount,
+                roundedServerCount = state.roundedServerCount,
+                countriesCount = state.countryCount,
                 horizontalMargin = 16.dp,
                 onOpenUpgradeScreen = { focus, upgradeSource -> launchUpgradeDialog(context, focus, upgradeSource) },
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = modifier.padding(bottom = 8.dp),
             )
         }
     }
