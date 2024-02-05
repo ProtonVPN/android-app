@@ -31,6 +31,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MutatePriority
 import androidx.compose.foundation.MutatorMutex
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -61,9 +62,15 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.ScrollAxisRange
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.expand
 import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.scrollBy
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.semantics.verticalScrollAxisRange
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.MaxContentWidth
@@ -106,7 +113,7 @@ class RecentsExpandState(
     private val minOffset: Int get() = maxHeightPx - listHeightState.intValue
     private val maxOffset: Int get() = maxHeightPx - peekHeightState.intValue
 
-    val isExpanded: Boolean get() = listOffsetPx == minOffset
+    val isCollapsed: Boolean get() = listOffsetPx == maxOffset
 
     val listOffsetPx by listOffsetState
     val fullExpandProgress: Float get() = when { // 0 when collapsed (at the bottom), 1 when covers the whole viewport.
@@ -202,6 +209,54 @@ class RecentsExpandState(
     }
 }
 
+// Note: in theory accessibility on the list with connection card and recents should be handled automatically
+// via nested scroll and the default scroll accessibility.
+// Unfortunately it doesn't work this way: https://issuetracker.google.com/issues/240449680
+@Composable
+private fun Modifier.expandCollapseSemantics(
+    listState: LazyListState,
+    expandState: RecentsExpandState,
+): Modifier {
+    // Lazy lists cannot provide absolute scroll offsets so generate pseudo-offsets that are good enough for
+    // accessibility services to scroll the list. The expanded/coll
+    // Heavily inspired by Modifier.lazyLayoutSemantics and LazyLayoutSemanticState - see their code for more
+    // detailed explanations.
+    fun pseudoScrollOffset() = with(listState) {
+        ((if (expandState.isCollapsed) 0 else 1) + firstVisibleItemScrollOffset + firstVisibleItemIndex * 500).toFloat()
+    }
+    fun maxPseudoScrollOffset() =
+        if (expandState.isCollapsed || listState.canScrollForward) pseudoScrollOffset() + 100 else pseudoScrollOffset()
+    fun isAtTopOfList() = with(listState) { firstVisibleItemScrollOffset + firstVisibleItemIndex == 0 }
+
+    val coroutineScope = rememberCoroutineScope()
+    val expandCollapseSemantics = remember(listState) {
+        val scrollAxisRange = ScrollAxisRange(
+            value = ::pseudoScrollOffset,
+            maxValue = ::maxPseudoScrollOffset,
+            reverseScrolling = false
+        )
+        val scrollAction: (Float) -> Unit = { y ->
+            coroutineScope.launch {
+                when {
+                    expandState.isCollapsed && y > 0 -> expandState.expand()
+                    isAtTopOfList() && !expandState.isCollapsed && y < 0 -> expandState.collapse()
+                    else -> listState.animateScrollBy(y)
+                }
+            }
+        }
+
+
+        Modifier.semantics {
+            verticalScrollAxisRange = scrollAxisRange
+            scrollBy { _, y ->
+                scrollAction(y)
+                true
+            }
+        }
+    }
+    return this.then(expandCollapseSemantics)
+}
+
 private enum class PeekThresholdItem {
     ConnectionCard, Header
 }
@@ -230,9 +285,12 @@ fun RecentsList(
     val itemIdsTransition = updateTransition(targetState = itemIds, label = "item IDs")
 
     val scope = rememberCoroutineScope()
+    val listState = expandState?.lazyListState ?: rememberLazyListState()
+
     val listModifier = if (expandState != null) {
         modifier
             .nestedScroll(expandState.createNestedScrollConnection(scope))
+            .expandCollapseSemantics(listState, expandState)
             .onGloballyPositioned {
                 expandState.setListHeight(it.size.height)
             }
@@ -251,7 +309,7 @@ fun RecentsList(
         }
     }
     LazyColumn(
-        state = expandState?.lazyListState ?: rememberLazyListState(),
+        state = listState,
         modifier = listModifier
             .animateContentSize(),
         contentPadding = contentPadding,
@@ -295,9 +353,9 @@ fun RecentsList(
                 val headlineText =
                     if (viewState.recents.isNotEmpty()) R.string.recents_headline
                     else R.string.home_upsell_carousel_headline
-                ExpandCollapseTitle(
-                    stringResource(headlineText),
-                    expandState = expandState,
+                Text(
+                    stringResource(id = headlineText),
+                    style = ProtonTheme.typography.captionWeak,
                     modifier = Modifier
                         .widthIn(max = ProtonTheme.MaxContentWidth)
                         .fillMaxWidth()
@@ -340,50 +398,6 @@ fun RecentsList(
             }
         }
     }
-}
-
-@Composable
-private fun ExpandCollapseTitle(
-    text: String,
-    expandState: RecentsExpandState?,
-    modifier: Modifier = Modifier
-) {
-    // Note: in theory accessibility on the list with connection card and recents should be handled automatically
-    // via nested scroll and the default scroll accessibility.
-    // Unfortunately it doesn't work this way: https://issuetracker.google.com/issues/240449680
-    // Instead put an expand/collapse action on the "Recents" header.
-    val scope = rememberCoroutineScope()
-    val modifierWithSemantics = if (expandState != null) {
-        val stringExpanded = stringResource(R.string.accessibility_expandable_state_expanded)
-        val stringCollapsed = stringResource(R.string.accessibility_expandable_state_collapsed)
-        val stringActionExpand = stringResource(R.string.accessibility_expandable_action_expand)
-        val stringActionCollapse = stringResource(R.string.accessibility_expandable_action_collapse)
-        modifier.semantics {
-            // Not using SemanticProperties.expand nor collapse because they are put in the actions menu. It's better
-            // to have this action available with minimal number of steps. The disadvantage is that we need to provide
-            // our own labels.
-            stateDescription = if (expandState.isExpanded) stringExpanded else stringCollapsed
-            if (expandState.isExpanded) {
-                onClick(stringActionCollapse) {
-                    scope.launch { expandState.collapse() }
-                    true
-                }
-            } else {
-                onClick(stringActionExpand) {
-                    scope.launch { expandState.expand() }
-                    true
-                }
-            }
-        }
-    } else {
-        modifier
-    }
-
-    Text(
-        text,
-        style = ProtonTheme.typography.captionWeak,
-        modifier = modifierWithSemantics
-    )
 }
 
 private fun RecentsListViewState.toItemIds() =
