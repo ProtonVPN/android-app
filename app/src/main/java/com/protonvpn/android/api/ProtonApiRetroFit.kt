@@ -24,7 +24,6 @@ import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.components.LoaderUI
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.login.GenericResponse
@@ -62,7 +61,6 @@ open class ProtonApiRetroFit(
     ) = manager { postBugReport(TimeoutOverride(writeTimeoutSeconds = 20), params) }
 
     open suspend fun getServerList(
-        loader: LoaderUI?,
         netzone: String?,
         lang: String,
         protocols: List<String>,
@@ -148,23 +146,6 @@ open class ProtonApiRetroFit(
 
     suspend fun putTelemetryGlobalSetting(isEnabled: Boolean): ApiResult<GlobalSettingsResponse> =
         manager { putTelemetryGlobalSetting(UpdateGlobalTelemetry(isEnabled)) }
-
-    private suspend fun <T> makeCall(
-        loader: LoaderUI?,
-        callFun: suspend (ProtonVPNRetrofit) -> T
-    ): ApiResult<T> {
-        loader?.switchToLoading()
-        val result = manager(block = callFun)
-        when (result) {
-            is ApiResult.Success -> {
-                loader?.switchToEmpty()
-            }
-            is ApiResult.Error -> {
-                loader?.switchToRetry(result)
-            }
-        }
-        return result
-    }
 
     private fun createNetZoneHeaders(netzone: String?) =
         mutableMapOf<String, String>().apply {
