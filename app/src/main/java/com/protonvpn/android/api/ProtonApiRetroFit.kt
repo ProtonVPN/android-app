@@ -40,6 +40,7 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.TimeoutOverride
 import me.proton.core.network.domain.session.SessionId
 import okhttp3.RequestBody
+import java.util.Date
 
 open class ProtonApiRetroFit(
     val scope: CoroutineScope,
@@ -65,15 +66,17 @@ open class ProtonApiRetroFit(
         lang: String,
         protocols: List<String>,
         freeOnly: Boolean,
-    ) = makeCall(loader) {
-            it.getServers(
-                TimeoutOverride(readTimeoutSeconds = 20),
-                createNetZoneHeaders(netzone),
-                lang,
-                protocols.joinToString(","),
-                withPartners = true,
-                if (freeOnly) VpnUser.FREE_TIER else null
-            )
+        lastModified: Long,
+    ) = manager {
+        getServers(
+            TimeoutOverride(readTimeoutSeconds = 20),
+            createNetZoneHeaders(netzone) +
+                mapOf("If-Modified-Since" to Date(lastModified).toGMTString()),
+            lang,
+            protocols.joinToString(","),
+            withPartners = true,
+            if (freeOnly) VpnUser.FREE_TIER else null
+        )
     }
 
     open suspend fun getLoads(netzone: String?, freeOnly: Boolean) =

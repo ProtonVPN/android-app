@@ -44,6 +44,7 @@ import com.protonvpn.android.telemetry.StatsBody
 import me.proton.core.network.data.protonApi.BaseRetrofitApi
 import me.proton.core.network.domain.TimeoutOverride
 import okhttp3.RequestBody
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -65,7 +66,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @Query("WithEntriesForProtocols") protocols: String,
         @Query("WithPartnerLogicals") withPartners: Boolean,
         @Query("Tier") userTier: Int?
-    ): ServerList
+    ): Response<ServerList>
 
     @GET("vpn/v1/loads")
     suspend fun getLoads(
