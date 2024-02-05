@@ -407,14 +407,25 @@
         <item quantity="other">%1$d краіны</item>
     </plurals>
     <string name="upsell_upgrade_again">Палепшыць яшчэ раз, каб карыстацца ўсімі функцыямі:</string>
+    <plurals name="upgrade_devices_title">
+        <item quantity="one">Абараніце да %1$d прылады адначасова</item>
+        <item quantity="few">Абараніце да %1$d прылад адначасова</item>
+        <item quantity="many">Абараніце да %1$d прылад адначасова</item>
+        <item quantity="other">Абараніце да %1$d прылад адначасова</item>
+    </plurals>
+    <string name="upgrade_devices_text">Proton VPN даступны на 8 розных платформах.</string>
     <string name="upgrade_plus_title">Палепшыце сваю прыватнасць</string>
     <string name="upgrade_plus_message">Атрымайце дадатковыя функцыі прыватнасці і найвышэйшую хуткасць з VPN Plus.</string>
     <string name="upgrade_netshield_title">Атрымайце асалоду ад прагляду старонак у інтэрнэце без рэкламы</string>
     <string name="upgrade_netshield_message"><![CDATA[Блакіруйце рэкламу, праграмы сачэння і шкодныя праграмы з дапамогай <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Двайное шыфраванне</string>
     <string name="upgrade_secure_core_message"><![CDATA[Дадайце яшчэ адзін слой шыфравання ў сваё злучэнне VPN з дапамогай <b>Secure Core</b>.]]></string>
-    <string name="upgrade_profiles_title">Атрымайце хуткі доступ да падключэнняў, якімі часта карыстаецеся</string>
-    <string name="upgrade_profiles_text"><![CDATA[Атрымайце доступ да <b>профіляў</b> з дапамогай <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_p2p_title">Разблакіруйце аднарангавае (P2P) спампоўванне і абагуленне файлаў </string>
+    <string name="upgrade_p2p_text">Палепшыце хуткасць спампоўвання і запампоўвання не раскрываючы свой IP-адрас.</string>
+    <string name="upgrade_streaming_title">Прагляд у 4K</string>
+    <string name="upgrade_streaming_text">Атрымлівайце асалоду ад прагляду абраных фільмаў і тэлеперадач з любой краіны ў свеце.</string>
+    <string name="upgrade_tor_title">Доступ да сеткі Tor у адзін націск</string>
+    <string name="upgrade_tor_text">Падключэнне да схаваных сэрвісаў і сайтаў onion з дапамогай вашага браўзера.</string>
     <string name="upgrade_vpn_accelerator_title">Прагляд на яшчэ больш высокіх хуткасцях</string>
     <!--
         %1$s - speed in Gbps
@@ -463,6 +474,41 @@
     <string name="upgrade_safe_mode_message">У вас дадатковыя або прафесійныя камп\'ютарныя патрабаванні, дзе неабходна выкарыстоўваць нестандартныя порты? Палепшыце да VPN Plus, каб атрымаць доступ да гэтай і іншых прэміяльных функцый.</string>
     <string name="upgrade_not_now_button">Не зараз</string>
     <string name="upgrade_learn_more">Даведацца больш</string>
+    <string name="upsell_card_countries_title">Пакрыццё па ўсім свеце</string>
+    <!-- Parameters:
+        %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">Больш за %1$d месцазнаходжанняў сервераў у %2$s</string>
+    <string name="upsell_card_customization_title">І многае іншае...</string>
+    <string name="upsell_card_customization_description">Разблакіруйце яшчэ больш функцый прадукцыйнасці і прыватнасці</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="one">Абараняйце да %1$d прылады</item>
+        <item quantity="few">Абараняйце да %1$d прылад</item>
+        <item quantity="many">Абараняйце да %1$d прылад</item>
+        <item quantity="other">Абараняйце да %1$d прылад</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Бяспека і прыватнасць на ўсіх вашых прыладах</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">Блакіроўка рэкламы, шкодных праграм і праграм сачэння</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Дадайце яшчэ адзін слой шыфравання ў ваша падключэнне па VPN</string>
+    <string name="upsell_card_p2p_title">Падтрымка P2P</string>
+    <string name="upsell_card_p2p_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагулення файлаў</string>
+    <string name="upsell_card_speed_title">Хуткі прагляд</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Карыстайцеся інтэрнэтам на самай высокай хуткасці (да %1$d Гбіт/с)</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_description">Праглядайце з двух месцазнаходжанняў адначасова</string>
+    <string name="upsell_card_streaming_title">Трансляцыі</string>
+    <string name="upsell_card_streaming_description">Глядзіце свае абраныя фільмы і тэлеперадачы</string>
+    <string name="upsell_card_tor_title">Tor праз VPN</string>
+    <string name="upsell_card_tor_description">Выкарыстоўвайце сетку Tor праз ваша падключэнне да VPN для дадатковай прыватнасці</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -963,6 +1009,8 @@
          Displayed above the list of recently made connections.
      -->
     <string name="recents_headline">Нядаўнія</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">Даследуйце VPN Plus</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Замацаваць</string>
     <!-- tag(Redesign_2023) -->
@@ -1027,7 +1075,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Удасканаліць Proton</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_fight_censorship_title">Дапамажыце нам змагацца з цэнзурай</string>
+    <string name="settings_fight_censorship_title">Дапамагаць нам змагацца з цэнзурай</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">Ацаніць Proton VPN</string>
     <!-- tag(Redesign_2023) -->
@@ -1162,5 +1210,5 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d сек</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Збой падключэння</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Прылада забараняе падключэнні па VPN.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Гэтая прылада забараняе падключэнні па VPN.</string>
 </resources>

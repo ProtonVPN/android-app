@@ -395,14 +395,23 @@
         <item quantity="other">%1$d land</item>
     </plurals>
     <string name="upsell_upgrade_again">Oppgrader igjen for å nyte alle funksjonene:</string>
+    <plurals name="upgrade_devices_title">
+        <item quantity="one">Beskytt %1$d enhet om gangen</item>
+        <item quantity="other">Beskytt %1$d enheter om gangen</item>
+    </plurals>
+    <string name="upgrade_devices_text">Proton VPN er tilgjengelig på 8 forskjellige plattformer.</string>
     <string name="upgrade_plus_title">Oppgrader personvernet</string>
     <string name="upgrade_plus_message">Få avanserte personvernfunksjoner og høyere hastighet med VPN Plus.</string>
     <string name="upgrade_netshield_title">Kos deg med reklamefri surfing</string>
     <string name="upgrade_netshield_message"><![CDATA[Blokkér annonser, sporere og skadelig programvare med <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Doble krypteringen</string>
     <string name="upgrade_secure_core_message"><![CDATA[Legg til et ekstra krypteringslag til VPN-tilkoblingen din med <b>Secure Core</b>.]]></string>
-    <string name="upgrade_profiles_title">Få rask tilgang til dine hyppige tilkoblinger</string>
-    <string name="upgrade_profiles_text"><![CDATA[Lås opp <b>profiler</b> med <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_p2p_title">Lås opp node-til-node-nedlastinger (P2P) og fildeling </string>
+    <string name="upgrade_p2p_text">Forbedre opplastings- og nedlastingshastighetene mens du skjuler IP-adressen din.</string>
+    <string name="upgrade_streaming_title">Strøm i 4K</string>
+    <string name="upgrade_streaming_text">Nyt favorittfilmene og TV-programmene dine fra hvor som helst i verden.</string>
+    <string name="upgrade_tor_title">Få tilgang til Tor-nettverket med ett trykk</string>
+    <string name="upgrade_tor_text">Koble til skjulte tjenester og onion-sider med din vanlige nettleser.</string>
     <string name="upgrade_vpn_accelerator_title">Surf med enda høyere hastigheter</string>
     <!--
         %1$s - speed in Gbps
@@ -447,6 +456,39 @@
     <string name="upgrade_safe_mode_message">Har du avanserte eller profesjonelle databehandlingsbehov som krever ikke-standardporter? Oppgrader til VPN Plus for å få dette og andre premiumfunksjoner.</string>
     <string name="upgrade_not_now_button">Ikke nå</string>
     <string name="upgrade_learn_more">Lær mer</string>
+    <string name="upsell_card_countries_title">Verdensomspennende dekning</string>
+    <!-- Parameters:
+        %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">%1$d+ tjenerplasseringer i %2$s</string>
+    <string name="upsell_card_customization_title">Og mye mer…</string>
+    <string name="upsell_card_customization_description">Få tilgang til enda flere ytelses- og personvernfunksjoner</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="one">Beskytt %1$d enhet</item>
+        <item quantity="other">Beskytt %1$d enheter</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Sikkerhet og personvern på alle enhetene dine</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">Blokkér reklamer, skadevare og sporere</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Legg til et ekstra krypteringslag til VPN-tilkoblingen din.</string>
+    <string name="upsell_card_p2p_title">P2P-støtte</string>
+    <string name="upsell_card_p2p_description">Last ned filer gjennom BitTorrent og andre fildelingsprotokoller</string>
+    <string name="upsell_card_speed_title">Raskere surfing</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Surf med enda høyere hastigheter (opptil %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">Delt Tunnelering</string>
+    <string name="upsell_card_split_tunneling_description">Surf samtidig fra to plasseringer</string>
+    <string name="upsell_card_streaming_title">Strømming</string>
+    <string name="upsell_card_streaming_description">Se favorittfilmene og TV-programmene dine</string>
+    <string name="upsell_card_tor_title">TOR over VPN</string>
+    <string name="upsell_card_tor_description">Bruk Tor-nettverket over VPN-tilkoblingen for ekstra personvern</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -929,6 +971,8 @@
          Displayed above the list of recently made connections.
      -->
     <string name="recents_headline">Nylige</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">Oppdag VPN Plus</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Fest</string>
     <!-- tag(Redesign_2023) -->

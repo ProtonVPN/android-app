@@ -401,14 +401,24 @@
         <item quantity="other">%1$d država</item>
     </plurals>
     <string name="upsell_upgrade_again">Nadogradite ponovno i uživajte u svim značajkama:</string>
+    <plurals name="upgrade_devices_title">
+        <item quantity="one">Protect %1$d device at once</item>
+        <item quantity="few">Protect %1$d devices at once</item>
+        <item quantity="other">Protect %1$d devices at once</item>
+    </plurals>
+    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
     <string name="upgrade_plus_title">Upgrade your privacy</string>
     <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
     <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
     <string name="upgrade_netshield_message"><![CDATA[Block ads, trackers and malware with <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Double the encryption</string>
     <string name="upgrade_secure_core_message"><![CDATA[Add another layer of encryption to your VPN connection with <b>Secure Core</b>.]]></string>
-    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
-    <string name="upgrade_profiles_text"><![CDATA[Unlock <b>profiles</b> with <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
+    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
+    <string name="upgrade_streaming_title">Stream in 4K</string>
+    <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
+    <string name="upgrade_tor_title">Access the Tor network in one tap</string>
+    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
     <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds</string>
     <!--
         %1$s - speed in Gbps
@@ -455,6 +465,40 @@
     <string name="upgrade_safe_mode_message">Have advanced or professional computing needs that require non-standard ports? Upgrade to VPN Plus to access this and other premium features.</string>
     <string name="upgrade_not_now_button">Ne sada</string>
     <string name="upgrade_learn_more">Saznajte više</string>
+    <string name="upsell_card_countries_title">Worldwide cover</string>
+    <!-- Parameters:
+        %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
+    <string name="upsell_card_customization_title">And much more…</string>
+    <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="one">Protect %1$d device</item>
+        <item quantity="few">Protect %1$d devices</item>
+        <item quantity="other">Protect %1$d devices</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Security and privacy on all your devices</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Add another layer of encryption to your VPN connection</string>
+    <string name="upsell_card_p2p_title">P2P support</string>
+    <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
+    <string name="upsell_card_speed_title">Faster browsing</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
+    <string name="upsell_card_streaming_title">Streaming</string>
+    <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
+    <string name="upsell_card_tor_title">Tor over VPN</string>
+    <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -946,6 +990,8 @@
          Displayed above the list of recently made connections.
      -->
     <string name="recents_headline">Recents</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">Discover VPN Plus</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Pin</string>
     <!-- tag(Redesign_2023) -->
@@ -1143,6 +1189,6 @@
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sec</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Neuspjela veza</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

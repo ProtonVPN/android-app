@@ -121,7 +121,7 @@
     <string name="state_connected">Під\'єднано</string>
     <string name="state_disconnecting">Від\'єднання…</string>
     <string name="state_error">Помилка</string>
-    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
+    <string name="error_server_list_load_failed">Перевірте ваше з\'єднання і повторіть спробу.</string>
     <string name="error_server_unreachable">Не вдалося під\'єднатися до VPN. Перевірте з\'єднання та повторіть спробу.</string>
     <string name="error_auth_failed">Помилка автентифікації користувача.</string>
     <string name="error_generic">Невідома помилка під час з\'єднання.</string>
@@ -407,14 +407,25 @@
         <item quantity="other">%1$d країн</item>
     </plurals>
     <string name="upsell_upgrade_again">Передплатіть тарифний план знову, щоб користуватись усіма можливостями:</string>
+    <plurals name="upgrade_devices_title">
+        <item quantity="one">Protect %1$d device at once</item>
+        <item quantity="few">Protect %1$d devices at once</item>
+        <item quantity="many">Protect %1$d devices at once</item>
+        <item quantity="other">Protect %1$d devices at once</item>
+    </plurals>
+    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
     <string name="upgrade_plus_title">Вдоскональте свою приватність</string>
     <string name="upgrade_plus_message">Отримайте розширені функції приватності та вищу швидкість з VPN Plus.</string>
     <string name="upgrade_netshield_title">Насолоджуйтеся відсутністю реклами</string>
     <string name="upgrade_netshield_message"><![CDATA[Блокуйте рекламу, стеження й зловмисні програми з <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Посильте шифрування</string>
     <string name="upgrade_secure_core_message"><![CDATA[Додайте ще один рівень шифрування вашого VPN-з\'єднання з <b>Secure Core</b>.]]></string>
-    <string name="upgrade_profiles_title">Отримайте швидкий доступ до частих з\'єднань</string>
-    <string name="upgrade_profiles_text"><![CDATA[Розблокуйте <b>профілі</b> з <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
+    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
+    <string name="upgrade_streaming_title">Stream in 4K</string>
+    <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
+    <string name="upgrade_tor_title">Access the Tor network in one tap</string>
+    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
     <string name="upgrade_vpn_accelerator_title">Користуйтеся інтернетом зі ще вищою швидкістю</string>
     <!--
         %1$s - speed in Gbps
@@ -463,6 +474,41 @@
     <string name="upgrade_safe_mode_message">Маєте додаткові чи професійні обчислювальні потреби, які потребують нестандартних портів? Перейдіть до VPN Plus, щоб отримати доступ до цієї та інших преміальних функцій.</string>
     <string name="upgrade_not_now_button">Не зараз</string>
     <string name="upgrade_learn_more">Докладніше</string>
+    <string name="upsell_card_countries_title">Worldwide cover</string>
+    <!-- Parameters:
+        %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
+    <string name="upsell_card_customization_title">And much more…</string>
+    <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="one">Protect %1$d device</item>
+        <item quantity="few">Protect %1$d devices</item>
+        <item quantity="many">Protect %1$d devices</item>
+        <item quantity="other">Protect %1$d devices</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Security and privacy on all your devices</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Add another layer of encryption to your VPN connection</string>
+    <string name="upsell_card_p2p_title">P2P support</string>
+    <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
+    <string name="upsell_card_speed_title">Faster browsing</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
+    <string name="upsell_card_streaming_title">Streaming</string>
+    <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
+    <string name="upsell_card_tor_title">Tor over VPN</string>
+    <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -963,6 +1009,8 @@
          Displayed above the list of recently made connections.
      -->
     <string name="recents_headline">Нещодавні</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">Discover VPN Plus</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Прикріпити</string>
     <!-- tag(Redesign_2023) -->
@@ -975,21 +1023,21 @@
     -->
     <string name="recent_action_accessibility_state_pinned">Прикріплено</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
+    <string name="message_country_servers_in_maintenance">Усі сервери в цій країні на обслуговуванні</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">All servers in this city are under maintenance</string>
+    <string name="message_city_servers_in_maintenance">Усі сервери в цьому місті на обслуговуванні</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Сервер обслуговується</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_not_available">Server not available</string>
+    <string name="message_server_not_available">Сервер недоступний</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
-    <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
+    <string name="message_gateway_in_maintenance">Мережевий шлюз на обслуговуванні</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out">Sign out</string>
+    <string name="settings_sign_out">Вийти</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_title">Settings</string>
+    <string name="settings_title">Налаштування</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_features">Features</string>
+    <string name="settings_category_features">Функції</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
@@ -997,61 +1045,61 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_connection_category">Connection</string>
+    <string name="settings_connection_category">З\'єднання</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_protocol_title">Protocol</string>
+    <string name="settings_protocol_title">Протокол</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced Settings</string>
+    <string name="settings_advanced_settings_title">Розширені налаштування</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_general">General</string>
+    <string name="settings_category_general">Загальні</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_account">Account</string>
+    <string name="settings_category_account">Обліковий запис</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_notifications_title">Сповіщення</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_theme_title">Тема</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_beta_access_title">Beta Access</string>
+    <string name="settings_beta_access_title">Бета-доступ</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_title">Віджет</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_support">Support</string>
+    <string name="settings_category_support">Підтримка</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Help Center</string>
+    <string name="settings_help_center_title">Довідковий центр</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Повідомити про проблему</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug Logs</string>
+    <string name="settings_debug_logs_title">Журнали налагодження</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_improve_proton">Improve Proton</string>
+    <string name="settings_category_improve_proton">Покращити Proton</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_fight_censorship_title">Допоможіть нам протистояти цензурі</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_rate_us_title">Rate Proton VPN</string>
+    <string name="settings_rate_us_title">Оцінити Proton VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_restore_defaults_title">Restore default settings</string>
+    <string name="settings_restore_defaults_title">Відновити типові налаштування</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Sign Out</string>
+    <string name="settings_sign_out_title">Вийти</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">Версія програми: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Ліцензії третіх сторін</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Sign out?</string>
+    <string name="dialog_sign_out_title">Вийти?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_message">You\'ll be disconnected from VPN.</string>
+    <string name="dialog_sign_out_message">Ви будете від\'єднані від VPN.</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">Надалі не запитувати</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_action">Sign out</string>
+    <string name="dialog_sign_out_action">Вийти</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Скасувати</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
-    <string name="vpn_status_connected">Protected</string>
+    <string name="vpn_status_connected">Захищено</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->
@@ -1067,51 +1115,51 @@
     -->
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_subtitle">Connection details</string>
+    <string name="connection_details_subtitle">Подробиці з\'єднання</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_show_ip">Show IP</string>
+    <string name="accessibility_show_ip">Показати IP-адресу</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_back">Back</string>
+    <string name="accessibility_back">Назад</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_my_ip">My IP</string>
+    <string name="connection_details_my_ip">Моя IP-адреса</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
     -->
-    <string name="connection_details_connected_for">Connected for</string>
+    <string name="connection_details_connected_for">Тривалість з\'єднання</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">Сервер</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_gateway">Gateway</string>
+    <string name="connection_details_gateway">Мережевий шлюз</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_country">Country</string>
+    <string name="connection_details_country">Країна</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">Місто</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
-    <string name="connection_details_server_load">Server load</string>
+    <string name="connection_details_server_load">Навантаження сервера</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_question">What is server load?</string>
+    <string name="connection_details_server_load_question">Що таке навантаження сервера?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">Server load shows how close a server is to its maximum capacity. \n\nA high server load can slow down your connection.</string>
+    <string name="connection_details_server_load_description">Навантаження сервера показує відсоток використання максимальної потужності. \n\nВисоке навантаження може сповільнювати ваше з\'єднання.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_title">Low (1–75%)</string>
+    <string name="connection_details_server_load_low_title">Низьке (1–75%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_description">Lightning fast speeds</string>
+    <string name="connection_details_server_load_low_description">Блискавична швидкість</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_title">Medium (76–90%)</string>
+    <string name="connection_details_server_load_medium_title">Середнє (76–90%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_description">Unlikely to affect VPN speed</string>
+    <string name="connection_details_server_load_medium_description">Майже не впливає на швидкість VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_title">High (91–100%)</string>
+    <string name="connection_details_server_load_high_title">Високе (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
+    <string name="connection_details_server_load_high_description">VPN може працювати повільніше </string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol">Protocol</string>
+    <string name="connection_details_protocol">Протокол</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol_description">A protocol is a set of instructions your device follows to connect and communicate with a server.</string>
+    <string name="connection_details_protocol_description">Протокол – це набір інструкцій, яких дотримується ваш пристрій для з\'єднання й обміну даними з сервером.</string>
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
@@ -1119,35 +1167,35 @@
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
-    <string name="connection_details_download">Download</string>
+    <string name="connection_details_download">Завантажити</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_section_vpn_speed">VPN speed</string>
+    <string name="connection_details_section_vpn_speed">Швидкість VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_question">What is VPN speed?</string>
+    <string name="connection_details_vpn_speed_question">Що таке швидкість VPN?</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
-    <string name="connection_details_learn_more">Learn more</string>
+    <string name="connection_details_learn_more">Докладніше</string>
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
-    <string name="connection_details_unknown_ip">Unknown</string>
+    <string name="connection_details_unknown_ip">Невідомо</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
+    <string name="connection_details_vpn_speed_description">Цей графік показує швидкість поточного завантаження і вивантаження. VPN-з\'єднання не повинно впливати на типову активність онлайн.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_bits_per_second">%1$s b/s</string>
+    <string name="speed_bits_per_second">%1$s б/с</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_kb_per_second">%1$s kb/s</string>
+    <string name="speed_kb_per_second">%1$s Кб/с</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_mb_per_second">%1$s Mb/s</string>
+    <string name="speed_mb_per_second">%1$s Мб/с</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_gb_per_second">%1$s Gb/s</string>
+    <string name="speed_gb_per_second">%1$s Мб/с</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_tb_per_second">%1$s Tb/s</string>
+    <string name="speed_tb_per_second">%1$s Тб/с</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
-    <string name="error_vpn_waiting_for_network">Waiting for network</string>
+    <string name="error_vpn_waiting_for_network">Очікування мережі</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
         <item quantity="one">%1$d день</item>
@@ -1156,11 +1204,11 @@
         <item quantity="other">%1$d днів</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d hr</string>
+    <string name="connection_details_hours_shortened">%1$d год</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <string name="connection_details_minutes_shortened">%1$d хв</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d sec</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
+    <string name="connection_details_seconds_shortened">%1$d с</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Не вдалося встановити з\'єднання</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Цей пристрій не дозволяє VPN-з\'єднання.</string>
 </resources>
