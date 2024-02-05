@@ -67,6 +67,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
+import retrofit2.Response
+import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -167,13 +169,21 @@ class ServerListUpdater @Inject constructor(
             .launchIn(scope)
         currentUser.eventVpnLogin
             .onEach {
+                // Force update regardless of the timestamp on login.
+                // TODO: after removing network loader replace with forceRefresh input
+                prefs.serverListLastModified = 0
                 if (serverManager.streamingServicesModel == null)
                     periodicUpdateManager.executeNow(streamingServicesUpdate)
                 periodicUpdateManager.executeNow(serverListUpdate)
             }
             .launchIn(scope)
         userPlanManager.planChangeFlow
-            .onEach { periodicUpdateManager.executeNow(serverListUpdate) }
+            .onEach {
+                // Force update regardless of the timestamp on plan change.
+                // TODO: after removing network loader replace with forceRefresh input
+                prefs.serverListLastModified = 0
+                periodicUpdateManager.executeNow(serverListUpdate)
+            }
             .launchIn(scope)
         restrictionsConfig.restrictionFlow
             .drop(1) // Skip initial value, observe only updates.
@@ -252,19 +262,41 @@ class ServerListUpdater @Inject constructor(
         return result
     }
 
-    suspend fun updateServerList(loader: NetworkLoader? = null): ApiResult<ServerList> =
+    suspend fun updateServerList(loader: NetworkLoader? = null): ApiResult<ServerList?> =
         periodicUpdateManager.executeNow(serverListUpdate, loader)
 
-    data class ServerListResult(val apiResult: ApiResult<ServerList>, val freeOnly: Boolean)
+    data class ServerListResult(
+        val apiResult: ApiResult<ServerList?>,
+        val freeOnly: Boolean,
+        val lastModified: Date?,
+    )
     private suspend fun updateServerListInternal(netzone: String?, lang: String): ServerListResult {
         val realProtocolsNames = ProtocolSelection.REAL_PROTOCOLS.map {
             it.apiName
         }
         val freeOnly = freeOnlyUpdateNeeded()
-        return ServerListResult(
-            api.getServerList(null, netzone, lang, realProtocolsNames, freeOnly),
-            freeOnly
-        )
+        return api.getServerList(
+            netzone,
+            lang,
+            realProtocolsNames,
+            freeOnly,
+            prefs.serverListLastModified
+        ).toServerListResult(freeOnly)
+    }
+
+    private fun ApiResult<Response<ServerList>>.toServerListResult(freeOnly: Boolean): ServerListResult {
+        var lastModified: Date? = null
+        val apiResult = when(this) {
+            is ApiResult.Error.Http ->
+                if (httpCode == HTTP_NOT_MODIFIED_304) ApiResult.Success(null) else this
+            is ApiResult.Error ->
+                this
+            is ApiResult.Success -> {
+                lastModified = value.headers().getDate("Last-Modified")
+                ApiResult.Success(value.body())
+            }
+        }
+        return ServerListResult(apiResult, freeOnly, lastModified)
     }
 
     private suspend fun updateStreamingServices(): ApiResult<StreamingServicesResponse> =
@@ -273,7 +305,7 @@ class ServerListUpdater @Inject constructor(
         }
 
     @VisibleForTesting
-    suspend fun updateServers(networkLoader: NetworkLoader?): ApiResult<ServerList> {
+    suspend fun updateServers(networkLoader: NetworkLoader?): ApiResult<ServerList?> {
         val loaderUI = networkLoader?.networkFrameLayout
 
         loaderUI?.setRetryListener {
@@ -298,22 +330,26 @@ class ServerListUpdater @Inject constructor(
 
         if (serverListResult.apiResult is ApiResult.Success) {
             prefs.lastNetzoneForLogicals = netzone
-            val resultList = serverListResult.apiResult.value.serverList
-            serverManager.ensureLoaded()
-            val newList = if (serverListResult.freeOnly)
-                serverManager.allServers.updateTier(resultList, VpnUser.FREE_TIER)
-            else
-                resultList
-            serverManager.setServers(newList, lang)
+            val resultList = serverListResult.apiResult.value?.serverList
+            if (resultList != null) {
+                serverManager.ensureLoaded()
+                val newList = if (serverListResult.freeOnly)
+                    serverManager.allServers.updateTier(resultList, VpnUser.FREE_TIER)
+                else
+                    resultList
+                serverManager.setServers(newList, lang)
+            }
             if (!serverListResult.freeOnly)
                 prefs.lastFullUpdateTimestamp = wallClock()
+            if (serverListResult.lastModified != null)
+                prefs.serverListLastModified = serverListResult.lastModified.time
         }
         loaderUI?.switchToEmpty()
         return serverListResult.apiResult
     }
 
-    private fun ApiResult<ServerList>.havePartnership(): Boolean =
-        this is ApiResult.Success && value.serverList.any { it.isPartneshipServer }
+    private fun ApiResult<ServerList?>.havePartnership(): Boolean =
+        this is ApiResult.Success && value?.serverList?.any { it.isPartneshipServer } == true
 
     private fun migrateIpAddress() {
         if (prefs.ipAddress.isEmpty()) {
@@ -329,6 +365,7 @@ class ServerListUpdater @Inject constructor(
         private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
         val FULL_SERVER_LIST_CALL_DELAY = TimeUnit.DAYS.toMillis(2)
         private val STREAMING_CALL_DELAY = TimeUnit.DAYS.toMillis(2)
+        private const val HTTP_NOT_MODIFIED_304 = 304
     }
 }
 

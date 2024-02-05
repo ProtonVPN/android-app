@@ -41,6 +41,7 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.TimeoutOverride
 import me.proton.core.network.domain.session.SessionId
 import okhttp3.RequestBody
+import java.util.Date
 
 open class ProtonApiRetroFit(
     val scope: CoroutineScope,
@@ -62,15 +63,16 @@ open class ProtonApiRetroFit(
     ) = manager { postBugReport(TimeoutOverride(writeTimeoutSeconds = 20), params) }
 
     open suspend fun getServerList(
-        loader: LoaderUI?,
         netzone: String?,
         lang: String,
         protocols: List<String>,
         freeOnly: Boolean,
-    ) = makeCall(loader) {
-            it.getServers(
+        lastModified: Long,
+    ) = manager {
+            getServers(
                 TimeoutOverride(readTimeoutSeconds = 20),
-                createNetZoneHeaders(netzone),
+                createNetZoneHeaders(netzone) +
+                    mapOf("If-Modified-Since" to Date(lastModified).toGMTString()),
                 lang,
                 protocols.joinToString(","),
                 withPartners = true,
