@@ -129,6 +129,8 @@ class RecentsExpandState(
             ): Offset = if (available.y > 0) handleAvailableScroll(available) else Offset.Zero
 
             private fun handleAvailableScroll(available: Offset): Offset {
+                if (maxHeightPx == 0) return Offset.Zero // Max height hasn't been initialized yet.
+
                 val newOffset = (listOffsetPx + available.y).coerceIn(minOffset.toFloat(), maxOffset.toFloat())
                 val deltaToConsume = newOffset - listOffsetPx
                 coroutineScope.launch {

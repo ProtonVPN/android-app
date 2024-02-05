@@ -301,12 +301,13 @@ private fun UpsellCard(
             Image(
                 painter = painterResource(id = imageRes),
                 contentDescription = null,
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = 8.dp),
             )
             Text(
                 title,
                 style = ProtonTheme.typography.defaultSmallNorm,
                 overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(bottom = 4.dp),
             )
             Text(description, style = ProtonTheme.typography.captionWeak)
         }
@@ -318,7 +319,7 @@ private object UpsellCarouselPageSize : PageSize {
     override fun Density.calculateMainAxisPageSize(availableSpace: Int, pageSpacing: Int): Int {
         val maxSize = 300.dp
         val pageSize = (availableSpace - 2*pageSpacing - 12.dp.toPx()) / 2
-        return pageSize.coerceAtMost(maxSize.toPx()).roundToInt()
+        return pageSize.coerceIn(0f, maxSize.toPx()).roundToInt()
     }
 }
 
