@@ -738,37 +738,6 @@
      -->
     <string name="accessibility_external_link_suffix">external link</string>
 
-    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when expanded.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" with this state description will be read by a screen reader as:
-         "Expanded. Recents"
-     -->
-    <string name="accessibility_expandable_state_expanded">expanded</string>
-    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" with this state description will be read by a screen reader as:
-         "Collapsed. Recents"
-     -->
-    <string name="accessibility_expandable_state_collapsed">collapsed</string>
-    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" on an expanded element with state "expanded" this action label will be
-         read by a screen reader as:
-         "Expanded. Recents. Double tap to collapse"
-     -->
-    <string name="accessibility_expandable_action_collapse">collapse</string>
-    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" on an expanded element with state "collapsed" and this action label will
-         be read by a screen reader as:
-         "Collapsed. Recents. Double tap to expand"
-     -->
-    <string name="accessibility_expandable_action_expand">expand</string>
-
     <string name="no_logs_banner_title">Certified no-logs VPN</string>
     <string name="no_logs_banner_description">Your VPN activity is protected by Swiss privacy laws. We’ll never track you online or share your information with third parties.</string>
 
