@@ -31,3 +31,9 @@ val ProtonColors.upsellGradientStart: Color
 
 val ProtonColors.upsellGradientEnd: Color
     get() = Color(0x006E4BFF)
+
+val ProtonColors.upsellBorderGradientStart: Color
+    get() = Color(0xff4B29D9)
+
+val ProtonColors.upsellBorderGradientEnd: Color
+    get() = Color(0xff2CDCCB)

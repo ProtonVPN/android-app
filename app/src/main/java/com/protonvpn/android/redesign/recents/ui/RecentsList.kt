@@ -44,6 +44,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -61,6 +62,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.ScrollAxisRange
@@ -71,6 +73,7 @@ import androidx.compose.ui.semantics.scrollBy
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.semantics.verticalScrollAxisRange
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.MaxContentWidth
@@ -258,7 +261,7 @@ private fun Modifier.expandCollapseSemantics(
 }
 
 private enum class PeekThresholdItem {
-    ConnectionCard, Header
+    ConnectionCard, Header, PromoBanner
 }
 
 @Composable
@@ -277,6 +280,8 @@ fun RecentsList(
     errorSnackBar: androidx.compose.material.SnackbarHostState?,
     modifier: Modifier = Modifier,
     changeServerButton: (@Composable ColumnScope.() -> Unit)? = null,
+    promoBanner: (@Composable (Modifier) -> Unit)? = null,
+    promoBannerPeekOffset: Dp = 0.dp,
     upsellContent: (@Composable (Modifier) -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(),
     expandState: RecentsExpandState?,
@@ -300,13 +305,10 @@ fun RecentsList(
     val peekPositionObserver = Modifier.onGloballyPositioned {
         expandState?.setPeekHeight(it.boundsInParent().bottom.roundToInt())
     }
-    val peekThresholdItem by remember {
-        derivedStateOf {
-            when {
-                viewState.recents.isNotEmpty() || upsellContent != null -> PeekThresholdItem.Header
-                else -> PeekThresholdItem.ConnectionCard
-            }
-        }
+    val peekThresholdItem = when {
+        promoBanner != null -> PeekThresholdItem.PromoBanner
+        viewState.recents.isNotEmpty() || upsellContent != null -> PeekThresholdItem.Header
+        else -> PeekThresholdItem.ConnectionCard
     }
     LazyColumn(
         state = listState,
@@ -346,6 +348,21 @@ fun RecentsList(
                 }
             }
         }
+        if (promoBanner != null) {
+            item {
+                val peekHeightPx = with(LocalDensity.current) { promoBannerPeekOffset.toPx() }
+                val bannerPeekObserver = Modifier.onGloballyPositioned {
+                    expandState?.setPeekHeight((it.boundsInParent().top + peekHeightPx).roundToInt())
+                }
+                promoBanner(
+                    Modifier
+                        .widthIn(max = ProtonTheme.MaxContentWidth)
+                        .fillMaxWidth()
+                        .animateItemPlacement()
+                        .optional({ peekThresholdItem == PeekThresholdItem.PromoBanner }, bannerPeekObserver)
+                )
+            }
+        }
         if (viewState.recents.isNotEmpty() || upsellContent != null) {
             // Note: so far it's always either upsell content or recents.
             // This part will change with the addition of promo banners.
@@ -366,9 +383,7 @@ fun RecentsList(
             }
         }
         if (upsellContent != null) {
-            item {
-                upsellContent(Modifier.animateItemPlacement())
-            }
+            item {upsellContent(Modifier.animateItemPlacement()) }
         }
         itemsIndexed(viewState.recents, key = { _, item -> item.id }) { index, item ->
             val isVisible = remember {

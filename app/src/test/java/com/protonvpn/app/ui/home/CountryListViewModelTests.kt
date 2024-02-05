@@ -229,7 +229,7 @@ class CountryListViewModelTests {
         val action = ApiNotificationOfferButton(url = "https://proton.me", actionBehaviors = listOf("autologin"))
         val notification = mockOffer(
             id = "banner",
-            type = ApiNotificationTypes.TYPE_COUNTRY_LIST_BANNER,
+            type = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER,
             end = 10,
             panel = mockFullScreenImagePanel(
                 "https://proton.me/banner.png",
