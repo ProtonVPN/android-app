@@ -39,13 +39,6 @@
     println(...);
 }
 
-# Keep event bus
--keepattributes *Annotation*
--keepclassmembers class ** {
-    @com.squareup.otto.Subscribe public *;
-    @com.squareup.otto.Produce public *;
-}
-
 # Keep kotlinx serializable classes.
 -keep @kotlinx.serialization.Serializable public class * {
     *;
