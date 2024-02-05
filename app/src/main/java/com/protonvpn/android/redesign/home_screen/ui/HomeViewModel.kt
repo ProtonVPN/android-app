@@ -18,9 +18,13 @@
  */
 package com.protonvpn.android.redesign.home_screen.ui
 
+import android.app.Activity
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.data.RecentConnection
@@ -41,6 +45,12 @@ import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.tv.main.CountryHighlight
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
+import com.protonvpn.android.ui.promooffers.HomeScreenPromoBannerFlow
+import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
+import com.protonvpn.android.ui.promooffers.PromoOfferButtonActions
+import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
+import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -49,6 +59,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -79,7 +90,10 @@ class HomeViewModel @Inject constructor(
     serverListUpdaterPrefs: ServerListUpdaterPrefs,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     private val vpnErrorUIManager: VpnErrorUIManager,
-    private val upsellCarouselStateFlow: UpsellCarouselStateFlow,
+    upsellCarouselStateFlow: UpsellCarouselStateFlow,
+    promoBannerFlow: HomeScreenPromoBannerFlow,
+    private val promoOfferButtonActions: PromoOfferButtonActions,
+    private val promoOffersPrefs: PromoOffersPrefs,
     @ElapsedRealtimeClock val elapsedRealtimeClock: () -> Long,
 ) : ViewModel() {
 
@@ -104,6 +118,9 @@ class HomeViewModel @Inject constructor(
 
     val vpnStateViewFlow: SharedFlow<VpnStatusViewState> = vpnStatusViewStateFlow
         .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
+
+    val promoBannerStateFlow: StateFlow<PromoOfferBannerState?> = promoBannerFlow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     val changeServerViewState: SharedFlow<ChangeServerViewState?> = changeServerViewStateFlow
         .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
@@ -174,6 +191,20 @@ class HomeViewModel @Inject constructor(
 
     fun removeRecent(item: RecentItemViewState) {
         recentsManager.remove(item.id)
+    }
+
+    suspend fun openPromoOffer(banner: PromoOfferBannerState, context: Context) {
+        val url = promoOfferButtonActions.getButtonUrl(banner.action)
+
+        if (url != null) { // It's not null on correctly defined notifications.
+            upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER, banner.reference)
+            upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.EXTERNAL)
+            context.openUrl(url)
+        }
+    }
+
+    fun dismissPromoOffer(banner: PromoOfferBannerState) {
+        promoOffersPrefs.addVisitedOffer(banner.notificationId)
     }
 
     private fun RecentConnection.toMaintenanceDialogType() =

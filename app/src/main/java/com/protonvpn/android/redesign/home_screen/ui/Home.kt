@@ -83,8 +83,9 @@ import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeHighlightsCarouselFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeHighlightsHomeCardsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.ui.promooffers.PromoOfferBanner
+import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -111,6 +112,7 @@ fun HomeRoute(
 private val ListBgGradientHeightBasic = 100.dp
 private val ListBgGradientOffsetBasic = ListBgGradientHeightBasic - 32.dp
 private val ListBgGradientHeightExpanded = 200.dp
+private val PromoOfferBannerState?.peekOffset get() = if (this?.isDismissible == true) 60.dp else 44.dp
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
@@ -126,6 +128,7 @@ fun HomeView(
     val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
     val changeServerState = viewModel.changeServerViewState.collectAsStateWithLifecycle(null).value
     val upsellCarouselState = viewModel.upsellCarouselState.collectAsStateWithLifecycle().value
+    val promoBannerState = viewModel.promoBannerStateFlow.collectAsStateWithLifecycle().value
     val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
     val coroutineScope = rememberCoroutineScope()
 
@@ -152,6 +155,16 @@ fun HomeView(
                 state,
                 onChangeServerClick = { viewModel.changeServer(uiDelegate) },
                 onUpgradeButtonShown = viewModel::onChangeServerUpgradeButtonShown,
+            )
+        }
+    }
+    val promoBanner: (@Composable (Modifier) -> Unit)? = promoBannerState?.let { state ->
+        @Composable { modifier ->
+            PromoOfferBanner(
+                state = state,
+                onClick = { viewModel.openPromoOffer(state, context) },
+                onDismiss = { viewModel.dismissPromoOffer(state) },
+                modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
             )
         }
     }
@@ -257,6 +270,8 @@ fun HomeView(
                     viewState = recentsViewState,
                     expandState = recentsExpandState,
                     changeServerButton = changeServerButton,
+                    promoBanner = promoBanner,
+                    promoBannerPeekOffset = promoBannerState?.peekOffset ?: 0.dp,
                     upsellContent = upsellCarouselContent,
                     onConnectClicked = connectionCardConnectAction,
                     onDisconnectClicked = { viewModel.disconnect(DisconnectTrigger.ConnectionCard) },
@@ -344,7 +359,6 @@ private fun HomeDialog(dialog: DialogState?, onDismiss: () -> Unit) {
         )
     }
 }
-
 
 private fun Modifier.recentsScrollOverlayBackground(
     alpha: State<Float>

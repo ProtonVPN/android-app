@@ -55,6 +55,7 @@ object ApiNotificationTestHelper {
         alternativeText: String = "",
         button: ApiNotificationOfferButton? = null,
         showCountdown: Boolean = false,
+        isDismissible: Boolean = false,
     ): ApiNotificationOfferPanel {
         val images =
             if (imageUrl != null) listOf(ApiNotificationOfferImageSource(imageUrl, "png"))
@@ -63,6 +64,7 @@ object ApiNotificationTestHelper {
             fullScreenImage = ApiNotificationOfferFullScreenImage(images, alternativeText),
             button = button,
             showCountdown = showCountdown,
+            isDismissible = isDismissible,
         )
     }
 

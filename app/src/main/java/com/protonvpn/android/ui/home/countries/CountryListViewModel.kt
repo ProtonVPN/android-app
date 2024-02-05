@@ -206,7 +206,7 @@ class CountryListViewModel @Inject constructor(
         promoOffersPrefs.visitedOffersFlow
     ) { notifications, dismissedOffers ->
         notifications.firstOrNull {
-            it.type == ApiNotificationTypes.TYPE_COUNTRY_LIST_BANNER && !dismissedOffers.contains(it.id)
+            it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER && !dismissedOffers.contains(it.id)
         }
     }
 

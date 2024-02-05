@@ -24,7 +24,7 @@ import kotlinx.serialization.Serializable
 object ApiNotificationTypes {
     const val TYPE_TOOLBAR = 0
     const val TYPE_ONE_TIME_POPUP = 1
-    const val TYPE_COUNTRY_LIST_BANNER = 2
+    const val TYPE_HOME_SCREEN_BANNER = 2
 }
 
 @Serializable
