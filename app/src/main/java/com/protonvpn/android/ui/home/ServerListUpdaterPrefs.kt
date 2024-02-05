@@ -25,6 +25,7 @@ import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
+import me.proton.core.util.android.sharedpreferences.long
 import me.proton.core.util.android.sharedpreferences.observe
 import me.proton.core.util.android.sharedpreferences.string
 import me.proton.core.util.kotlin.EMPTY_STRING
@@ -43,7 +44,7 @@ class ServerListUpdaterPrefs @Inject constructor(
     var lastKnownCountry: String? by string()
     var lastKnownIsp: String? by string()
     var lastNetzoneForLogicals: String? by string()
-    var lastFullUpdateTimestamp: Long = 0L
+    var lastFullUpdateTimestamp: Long by long(0)
 
     // Removed (keeping for reference to avoid reusing names by mistake):
     // var loadsUpdateTimestamp: Long by long(0)
