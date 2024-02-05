@@ -56,7 +56,7 @@
  @com.google.gson.annotations.SerializedName <fields>;
 }
 -keepattributes Signature
--keepattributes RuntimeVisibleAnnotations,AnnotationDefault
+-keepattributes RuntimeVisibleAnnotations,AnnotationDefault,RuntimeVisibleParameterAnnotations
 -keep class com.google.gson.reflect.TypeToken { *; }
 -keep class * extends com.google.gson.reflect.TypeToken
 
@@ -89,6 +89,19 @@
 # https://github.com/square/retrofit/pull/3886
 -if interface * { @retrofit2.http.* public *** *(...); }
 -keep,allowoptimization,allowshrinking,allowobfuscation class <3>
+# With R8 full mode generic signatures are stripped for classes that are not kept.
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
+# Retain service method parameters when optimizing.
+-keepclassmembers,allowshrinking,allowobfuscation interface * {
+    @retrofit2.http.* <methods>;
+}
+# With R8 full mode, it sees no subtypes of Retrofit interfaces since they are created with a Proxy
+# and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
+-if interface * { @retrofit2.http.* <methods>; }
+-keep,allowobfuscation interface <1>
+# Keep inherited services.
+-if interface * { @retrofit2.http.* <methods>; }
+-keep,allowobfuscation interface * extends <1>
 
 # Logback
 # (we only use a small part, the rules can be further optimized)
