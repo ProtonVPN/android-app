@@ -52,6 +52,7 @@ import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -64,12 +65,15 @@ import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
+import okhttp3.Headers
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import retrofit2.Response
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 private const val TEST_IP = "1.2.3.4"
@@ -113,12 +117,18 @@ class ServerListUpdaterTests {
     private lateinit var vpnStateMonitor: VpnStateMonitor
 
     private lateinit var serverListUpdater: ServerListUpdater
+    private var lastModifiedOverride: Long? = null
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+
+        lastModifiedOverride = null
         val testDispatcher = UnconfinedTestDispatcher()
         testScope = TestScope(testDispatcher)
+        // Move wall clock away from epoch
+        testScope.advanceTimeBy(TimeUnit.DAYS.toMillis(100))
+
         serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         serverListUpdaterPrefs.ipAddress = OLD_IP
         vpnStateMonitor = VpnStateMonitor()
@@ -142,9 +152,16 @@ class ServerListUpdaterTests {
         every { mockServerManager.allServers } answers { allServers }
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
         coEvery { mockApi.getServerList(any(), any(), any(), any(), any()) } answers {
-            val freeOnly = arg<Boolean>(4)
+            val freeOnly = arg<Boolean>(3)
+            val lastModified = arg<Long>(4)
             val list = if (freeOnly) FREE_LIST_MODIFIED else FULL_LIST
-            ApiResult.Success(ServerList(list))
+            val serverLastModified = lastModifiedOverride ?: testScope.currentTime
+            if (serverLastModified > lastModified) {
+                val headers = Headers.Builder().add("Last-Modified", Date(serverLastModified)).build()
+                ApiResult.Success(Response.success(ServerList(list), headers))
+            } else {
+                ApiResult.Error.Http(304, "Not Modified")
+            }
         }
         coEvery { mockPartnershipsRepository.refresh() } returns Unit
 
@@ -168,7 +185,8 @@ class ServerListUpdaterTests {
             emptyFlow(),
             remoteConfig,
             RestrictionsConfig(testScope.backgroundScope, restrictionsFlow),
-        ) { testScope.currentTime + TimeUnit.DAYS.toMillis(100) } // Move wall clock away from epoch
+            testScope::currentTime
+        )
     }
 
     @Test
@@ -234,13 +252,35 @@ class ServerListUpdaterTests {
         serverListUpdater.updateServers(null)
 
         coVerifyOrder {
-            mockApi.getServerList(any(), any(), any(), any(), freeOnly = false)
+            mockApi.getServerList(any(), any(), any(), freeOnly = false, any())
             mockServerManager.setServers(withArg { assertEquals(FULL_LIST, it) }, any())
 
-            mockApi.getServerList(any(), any(), any(), any(), freeOnly = true)
+            mockApi.getServerList(any(), any(), any(), freeOnly = true, any())
             mockServerManager.setServers(withArg { assertTrue(it.isModifiedList()) }, any())
 
-            mockApi.getServerList(any(), any(), any(), any(), freeOnly = false)
+            mockApi.getServerList(any(), any(), any(), freeOnly = false, any())
+        }
+    }
+
+    @Test
+    fun `no refresh if client already have newest version`() = testScope.runTest {
+        val result1 = serverListUpdater.updateServers(null)
+        assertTrue(result1 is ApiResult.Success && result1.value != null)
+
+        // Version will not change for the next call
+        lastModifiedOverride = serverListUpdaterPrefs.serverListLastModified
+
+        val result2 = serverListUpdater.updateServers(null)
+        assertTrue(result2 is ApiResult.Success && result2.value == null)
+
+        // Make new version available
+        lastModifiedOverride = lastModifiedOverride?.let { it + TimeUnit.HOURS.toMillis(1) }
+        val result3 = serverListUpdater.updateServers(null)
+        assertTrue(result3 is ApiResult.Success && result3.value != null)
+        assertEquals(lastModifiedOverride, serverListUpdaterPrefs.serverListLastModified)
+
+        coVerify(exactly = 2) {
+            mockServerManager.setServers(any(), any())
         }
     }
 

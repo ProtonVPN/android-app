@@ -46,6 +46,7 @@ class ServerListUpdaterPrefs @Inject constructor(
     var lastKnownIsp: String? by string()
     var lastNetzoneForLogicals: String? by string()
     var lastFullUpdateTimestamp: Long by long(0)
+    var serverListLastModified: Long by long(0)
 
     // Removed (keeping for reference to avoid reusing names by mistake):
     // var loadsUpdateTimestamp: Long by long(0)
