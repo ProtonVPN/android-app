@@ -121,7 +121,7 @@
     <string name="state_connected">Yhdistetty</string>
     <string name="state_disconnecting">Katkaistaan yhteyttä…</string>
     <string name="state_error">Virhe</string>
-    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
+    <string name="error_server_list_load_failed">Tarkista yhteytesi ja yritä uudelleen.</string>
     <string name="error_server_unreachable">VPN-yhteyden muodostus ei onnistunut. Tarkista Internet-yhteytesi ja yritä uudelleen.</string>
     <string name="error_auth_failed">Käyttäjän todennus epäonnistui.</string>
     <string name="error_generic">Määrittelemätön virhe yhdistettäessä.</string>
@@ -256,7 +256,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Nämä tilastot eivät sisällä IP-osoitettasi, eikä sinua ole mahdollista tunnistaa niiden perusteella. Emme koskaa jaa niitä ulkopuolisille tahoille. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="netShieldEnabledWarning">Huomioi, että jotkin verkkosivustot eivät välttämättä toimi sisällön eston seurauksena oikein.</string>
     <string name="netShieldDescription">Estä mainoksia, seurantoja ja haittaohjelmia</string>
-    <string name="netshield_settings_description_not_html">Suojaa itsesi mainoksilta, haittaohjelmilta ja seuraajilta verkkosivuilla ja sovelluksissa. Jos verkkosivut eivät lataudu, kokeile kytkeä NetShield pois päältä.%1$s</string>
+    <string name="netshield_settings_description_not_html">Suojaudu mainoksilta, haittaohjelmilta ja seurannoilta verkkosivustoilla ja sovelluksissa. Jos verkkosivut eivät lataudu, kokeile auttaako NetShieldin käytöstäpoisto. %1$s</string>
     <string name="learn_more">Lue lisää</string>
     <string name="netshield_status_on">Käytössä</string>
     <string name="netshield_status_off">Ei käytössä</string>
@@ -395,14 +395,23 @@
         <item quantity="other">%1$d maassa</item>
     </plurals>
     <string name="upsell_upgrade_again">Tilaa uudelleen nauttiaksesi kaikista ominaisuuksista:</string>
+    <plurals name="upgrade_devices_title">
+        <item quantity="one">Suojaa samanaikaisesti %1$d laite</item>
+        <item quantity="other">Suojaa samanaikaisesti %1$d laitetta</item>
+    </plurals>
+    <string name="upgrade_devices_text">Proton VPN on saatavilla 8 eri alustalle.</string>
     <string name="upgrade_plus_title">Paranna yksityisyyttäsi</string>
     <string name="upgrade_plus_message">Hanki edistyneitä yksityisyytäsi tehostavia ominaisuuksia ja korkeampi nopeus VPN Plus -tilauksella.</string>
     <string name="upgrade_netshield_title">Nauti mainosvapaasta selaamisesta</string>
     <string name="upgrade_netshield_message"><![CDATA[Estä mainoksia, seurantoja ja haittaohjelmia <b>NetShieldin</b> avulla.]]></string>
     <string name="upgrade_secure_core_title">Tuplaa salaus</string>
     <string name="upgrade_secure_core_message"><![CDATA[Lisää VPN-yhteyteesi toinen salaustaso <b>Secure Corella</b>.]]></string>
-    <string name="upgrade_profiles_title">Tavoita usein käyttämäsi yhteydet nopeasti</string>
-    <string name="upgrade_profiles_text"><![CDATA[Avaa <b>profiilit</b> <b>VPN Plus</b> -tilauksella.]]></string>
+    <string name="upgrade_p2p_title">Avaa peer-to-peer (P2P) lataukset ja tiedostojaot</string>
+    <string name="upgrade_p2p_text">Paranna lähetys- ja latausnopeuksiasi samalla kun piilotat IP-osoitteesi.</string>
+    <string name="upgrade_streaming_title">Suoratoista 4K-tarkkuudella</string>
+    <string name="upgrade_streaming_text">Nauti suosikkielokuvistasi ja -sarjoistasi kaikkialta maailmasta.</string>
+    <string name="upgrade_tor_title">Käytä Tor-verkkoa yhdellä napautuksella</string>
+    <string name="upgrade_tor_text">Yhdistä piilotettuihin palveluihin ja avaa Onion-sivustot tavallisella selaimellasi.</string>
     <string name="upgrade_vpn_accelerator_title">Selaa vielä korkeammilla nopeuksilla</string>
     <!--
         %1$s - speed in Gbps
@@ -447,6 +456,39 @@
     <string name="upgrade_safe_mode_message">Onko sinulla vaativia tai ammatillisia tietoteknisiä tarpeita, jotka tarvitsevat epätyypillisiä portteja? Päivitä VPN Plus -tilaukseen käyttääksesi tätä ja muita premium-ominaisuuksia.</string>
     <string name="upgrade_not_now_button">Ei nyt</string>
     <string name="upgrade_learn_more">Lue lisää</string>
+    <string name="upsell_card_countries_title">Maailmalaajuinen kattavuus</string>
+    <!-- Parameters:
+        %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">%1$d+ palvelinsijaintia %2$s.</string>
+    <string name="upsell_card_customization_title">Ja paljon muuta…</string>
+    <string name="upsell_card_customization_description">Avaa vielä enemmän suorituskyky- ja yksityisyysominaisuuksia.</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="one">Suojaa %1$d laite</item>
+        <item quantity="other">Suojaa %1$d laitetta</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Tietoturvaa ja yksityisyyttä kaikilla laitteillasi.</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">Estä haittaohjelmia, mainoksia ja seurantoja.</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Lisää VPN-yhteyteesi toinen salauskerros.</string>
+    <string name="upsell_card_p2p_title">P2P-tuki</string>
+    <string name="upsell_card_p2p_description">Lataa tiedostoja mm. BitTorrentin kaltaisilla tiedonsiirtoprotokollilla.</string>
+    <string name="upsell_card_speed_title">Selaa nopeammin</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Selaa entistä korkeammilla nopeuksilla (jopa %1$d Gbps).</string>
+    <string name="upsell_card_split_tunneling_title">Jaettu tunnelointi</string>
+    <string name="upsell_card_split_tunneling_description">Selaa kahdesta sijainnista yhtä aikaa.</string>
+    <string name="upsell_card_streaming_title">Suoratoisto</string>
+    <string name="upsell_card_streaming_description">Katsele suosikkielokuviasi ja -sarjojasi.</string>
+    <string name="upsell_card_tor_title">Tor + VPN</string>
+    <string name="upsell_card_tor_description">Käytä Tor-verkkoa VPN-yhteytesi välityksellä ja tehosta tietosuojaasi.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -632,8 +674,8 @@
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Yhdistä enintään %1$d laitetta saman aikaisesti</item>
-        <item quantity="other">Yhdistä enintään %1$d laite saman aikaisesti</item>
+        <item quantity="one">Yhdistä samanaikaisesti %1$d laite</item>
+        <item quantity="other">Yhdistä samanaikaisesti %1$d laitetta</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -929,6 +971,8 @@
          Displayed above the list of recently made connections.
      -->
     <string name="recents_headline">Viimeisimmät</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">Tutustu VPN Plus -tilaukseen</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Kiinnitä</string>
     <!-- tag(Redesign_2023) -->
@@ -1125,6 +1169,6 @@
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d s</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Yhteys epäonnistui</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Tämä laite ei salli VPN-yhteyksiä.</string>
 </resources>

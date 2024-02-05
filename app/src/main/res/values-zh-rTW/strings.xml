@@ -63,7 +63,7 @@
     <string name="drawerShowLog">顯示記錄</string>
     <string name="drawerReportProblem">回報問題</string>
     <string name="drawerAppVersion">v%1$s</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">共享</string>
     <string name="accountDetails">帳號詳細資料</string>
     <string name="accountSubscription">訂購授權</string>
     <string name="accountUser">使用者：</string>
@@ -121,7 +121,7 @@
     <string name="state_connected">已連線</string>
     <string name="state_disconnecting">正在中斷連線…</string>
     <string name="state_error">錯誤</string>
-    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
+    <string name="error_server_list_load_failed">請檢查你的連接並重試。</string>
     <string name="error_server_unreachable">無法連線至 VPN。請檢查您的連線並再試一次。</string>
     <string name="error_auth_failed">使用者認證失敗。</string>
     <string name="error_generic">連線時發生不明錯誤。</string>
@@ -389,14 +389,22 @@
         <item quantity="other">%1$d 個國家</item>
     </plurals>
     <string name="upsell_upgrade_again">再次升級以享受下列種種功能：</string>
+    <plurals name="upgrade_devices_title">
+        <item quantity="other">Protect %1$d devices at once</item>
+    </plurals>
+    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
     <string name="upgrade_plus_title">升級您的隱私</string>
     <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
     <string name="upgrade_netshield_title">享受吳廣告的瀏覽體驗</string>
     <string name="upgrade_netshield_message"><![CDATA[Block ads, trackers and malware with <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">雙重加密</string>
     <string name="upgrade_secure_core_message"><![CDATA[Add another layer of encryption to your VPN connection with <b>Secure Core</b>.]]></string>
-    <string name="upgrade_profiles_title">快速存取您的常用連線</string>
-    <string name="upgrade_profiles_text"><![CDATA[Unlock <b>profiles</b> with <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
+    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
+    <string name="upgrade_streaming_title">Stream in 4K</string>
+    <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
+    <string name="upgrade_tor_title">Access the Tor network in one tap</string>
+    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
     <string name="upgrade_vpn_accelerator_title">使用更快的速度瀏覽</string>
     <!--
         %1$s - speed in Gbps
@@ -439,6 +447,38 @@
     <string name="upgrade_safe_mode_message">有進階或專業運算需求須要使用非標準連接埠嗎？升級至 VPN Plus 以存取此功能以及其他尊享功能。</string>
     <string name="upgrade_not_now_button">現在不要</string>
     <string name="upgrade_learn_more">瞭解更多</string>
+    <string name="upsell_card_countries_title">Worldwide cover</string>
+    <!-- Parameters:
+        %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
+    <string name="upsell_card_customization_title">And much more…</string>
+    <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="other">Protect %1$d devices</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Security and privacy on all your devices</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Add another layer of encryption to your VPN connection</string>
+    <string name="upsell_card_p2p_title">P2P support</string>
+    <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
+    <string name="upsell_card_speed_title">Faster browsing</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
+    <string name="upsell_card_streaming_title">Streaming</string>
+    <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
+    <string name="upsell_card_tor_title">Tor over VPN</string>
+    <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -486,7 +526,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">歡迎使用 Proton VPN</string>
-    <string name="onboarding_welcome_description">Browse privately, access blocked content, and enjoy digital freedom.</string>
+    <string name="onboarding_welcome_description">私密瀏覽、存取被封鎖的內容並享受數位自由。</string>
     <string name="onboarding_welcome_action">開始使用</string>
     <string name="onboarding_available_on_plus">適用於 Plus 方案</string>
     <string name="upgrade_success_get_started_button">開始</string>
@@ -534,7 +574,7 @@
     <string name="search_clear_history">清除歷程紀錄</string>
     <string name="search_clear_history_dialog">您的搜尋歷程紀錄將會消失。要繼續嗎？</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
-    <string name="search_clear_query_content_description">Clear</string>
+    <string name="search_clear_query_content_description">清除</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">造訪 <a href="https://protonvpn.com/pricing">protonvpn.com</a> 查閱更多資訊。</string>
     <string name="free_upsell_header_title">使用 VPN Plus 來獲得全球的覆蓋</string>
@@ -912,6 +952,8 @@
          Displayed above the list of recently made connections.
      -->
     <string name="recents_headline">最近</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">Discover VPN Plus</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">釘選</string>
     <!-- tag(Redesign_2023) -->
@@ -964,31 +1006,31 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_beta_access_title">測試版體驗</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_title">元件</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_support">Support</string>
+    <string name="settings_category_support">支援</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Help Center</string>
+    <string name="settings_help_center_title">幫助中心</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">回報問題</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug Logs</string>
+    <string name="settings_debug_logs_title">除錯日誌</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Improve Proton</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_fight_censorship_title">助我們一臂之力抵抗審查</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_rate_us_title">Rate Proton VPN</string>
+    <string name="settings_rate_us_title">評價 Proton VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_restore_defaults_title">Restore default settings</string>
+    <string name="settings_restore_defaults_title">還原至預設設定</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Sign Out</string>
+    <string name="settings_sign_out_title">登出</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">應用程式版本：%1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">第三方授權</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Sign out?</string>
+    <string name="dialog_sign_out_title">登出？</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_message">You\'ll be disconnected from VPN.</string>
     <!-- tag(Redesign_2023) -->
@@ -1014,9 +1056,9 @@
          First parameter is country, second is IP.
          Ex: Poland · 192.1.1.1.1
     -->
-    <string name="vpn_status_disabled_location">%1$s · %2$s</string>
+    <string name="vpn_status_disabled_location">%1$s • %2$s</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_subtitle">Connection details</string>
+    <string name="connection_details_subtitle">連結詳細資訊</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">顯示 IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1028,11 +1070,11 @@
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
     -->
-    <string name="connection_details_connected_for">Connected for</string>
+    <string name="connection_details_connected_for">已連線到</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">伺服器</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_gateway">Gateway</string>
+    <string name="connection_details_gateway">閘道器</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_country">國家</string>
     <!-- tag(Redesign_2023) -->
@@ -1040,21 +1082,21 @@
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
-    <string name="connection_details_server_load">Server load</string>
+    <string name="connection_details_server_load">伺服器負載</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_question">What is server load?</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_description">Server load shows how close a server is to its maximum capacity. \n\nA high server load can slow down your connection.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_title">Low (1–75%)</string>
+    <string name="connection_details_server_load_low_title">低 (1–75%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_description">Lightning fast speeds</string>
+    <string name="connection_details_server_load_low_description">光速快</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_title">Medium (76–90%)</string>
+    <string name="connection_details_server_load_medium_title">中 (76–90%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_medium_description">Unlikely to affect VPN speed</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_title">High (91–100%)</string>
+    <string name="connection_details_server_load_high_title">高 (91–100%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
     <!-- tag(Redesign_2023) -->
@@ -1064,13 +1106,13 @@
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
-    <string name="connection_details_upload">Upload</string>
+    <string name="connection_details_upload">上傳</string>
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
-    <string name="connection_details_download">Download</string>
+    <string name="connection_details_download">下載</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_section_vpn_speed">VPN speed</string>
+    <string name="connection_details_section_vpn_speed">VPN 速度</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">甚麼是 VPN 速度?</string>
     <!-- tag(Redesign_2023)
@@ -1107,6 +1149,6 @@
     <string name="connection_details_minutes_shortened">%1$d 分鐘</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d 秒鐘</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">連線失敗</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>

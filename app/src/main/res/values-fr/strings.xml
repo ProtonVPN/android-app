@@ -121,7 +121,7 @@
     <string name="state_connected">Connecté</string>
     <string name="state_disconnecting">Déconnexion…</string>
     <string name="state_error">Erreur</string>
-    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
+    <string name="error_server_list_load_failed">Veuillez vérifier votre connexion et essayer à nouveau.</string>
     <string name="error_server_unreachable">La connexion au VPN n\'a pas pu être établie. Nous vous invitons à vérifier votre connexion et à réessayer.</string>
     <string name="error_auth_failed">L\'utilisateur n\'a pas pu être authentifié.</string>
     <string name="error_generic">Une erreur inconnue s\'est produite pendant la connexion.</string>
@@ -395,14 +395,23 @@
         <item quantity="other">%1$d pays</item>
     </plurals>
     <string name="upsell_upgrade_again">Passez de nouveau à la version supérieure pour profiter de toutes les fonctionnalités :</string>
+    <plurals name="upgrade_devices_title">
+        <item quantity="one">Protégez %1$d appareils en même temps</item>
+        <item quantity="other">Protégez %1$d appareils en même temps</item>
+    </plurals>
+    <string name="upgrade_devices_text">Proton VPN est disponible sur 8 plateformes différentes.</string>
     <string name="upgrade_plus_title">Faites passer le respect de votre vie privée au niveau supérieur</string>
     <string name="upgrade_plus_message">Bénéficiez de fonctionnalités avancées de protection de la vie privée et gagnez en vitesse avec VPN Plus.</string>
     <string name="upgrade_netshield_title">Profitez d\'une navigation sans publicité</string>
     <string name="upgrade_netshield_message"><![CDATA[Bloquez les publicités, les traqueurs et les logiciels malveillants avec <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Doublez le chiffrement</string>
     <string name="upgrade_secure_core_message"><![CDATA[Ajoutez une couche de chiffrement à votre connexion VPN avec <b>Secure Core</b>.]]></string>
-    <string name="upgrade_profiles_title">Accédez rapidement aux connexions que vous utilisez souvent</string>
-    <string name="upgrade_profiles_text"><![CDATA[Accédez aux <b>profils</b> en passant à <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_p2p_title">Débloquez les téléchagements peer-to-peer (P2P) et le partage de fichiers</string>
+    <string name="upgrade_p2p_text">Améliorez vos vitesses de téléchargement tout en masquant votre adresse IP.</string>
+    <string name="upgrade_streaming_title">Streaming en 4K</string>
+    <string name="upgrade_streaming_text">Profitez de vos films et séries préférées partout dans le monde.</string>
+    <string name="upgrade_tor_title">Accédez au réseau Tor en un clin d\'œil</string>
+    <string name="upgrade_tor_text">Connectez-vous à des services masqués et des sites onion avec votre navigateur habituel.</string>
     <string name="upgrade_vpn_accelerator_title">Profitez d\'une navigation ultra-rapide</string>
     <!--
         %1$s - speed in Gbps
@@ -447,6 +456,39 @@
     <string name="upgrade_safe_mode_message">Vous avez des besoins informatiques avancés ou professionnels qui nécessitent des ports non standard ? Passez à VPN Plus pour accéder à cette fonctionnalité et à d\'autres fonctionnalités premium.</string>
     <string name="upgrade_not_now_button">Plus tard</string>
     <string name="upgrade_learn_more">En savoir plus</string>
+    <string name="upsell_card_countries_title">Couverture mondiale</string>
+    <!-- Parameters:
+        %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
+        %2$s - replaced with "upgrade_plus_countries"
+
+        Example:
+        1700+ server locations in 63 countries -->
+    <string name="upsell_card_countries_description">Plus de %1$d emplacements de serveur dans %2$s</string>
+    <string name="upsell_card_customization_title">Et bien plus encore…</string>
+    <string name="upsell_card_customization_description">Débloquez encore plus de fonctionnalités performantes et respectant la vie privée</string>
+    <plurals name="upsell_card_devices_title">
+        <item quantity="one">Protégez %1$d appareil.</item>
+        <item quantity="other">Protégez %1$d appareils.</item>
+    </plurals>
+    <string name="upsell_card_devices_description">Sécurité et respect de la vie privée sur tous vos appareils</string>
+    <string name="upsell_card_netshield_title">NetShield</string>
+    <string name="upsell_card_netshield_description">Bloquez les traqueurs, logiciels malveillants et publicités</string>
+    <string name="upsell_card_secure_core_title">Secure Core</string>
+    <string name="upsell_card_secure_core_description">Ajoutez une couche de chiffrement à votre connexion VPN.</string>
+    <string name="upsell_card_p2p_title">Support P2P</string>
+    <string name="upsell_card_p2p_description">Téléchargez des fichiers depuis BitTorrent ou d\'autres protocoles de partage de fichier.</string>
+    <string name="upsell_card_speed_title">Navigation plus rapide</string>
+    <!-- Parameters:
+        %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
+        Example:
+        Browse at even higher speeds (up to 10&160;Gbps) -->
+    <string name="upsell_card_speed_description">Naviguez à des vitesses encore plus élevées (jusqu\'à %1$d Gbit/s)</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_description">Naviguez depuis 2 emplacements à la fois</string>
+    <string name="upsell_card_streaming_title">Streaming</string>
+    <string name="upsell_card_streaming_description">Regardez vos films et séries préférées</string>
+    <string name="upsell_card_tor_title">Tor via VPN</string>
+    <string name="upsell_card_tor_description">Ajoutez le réseau Tor sur votre connexion VPN pour plus de protection</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -929,6 +971,8 @@
          Displayed above the list of recently made connections.
      -->
     <string name="recents_headline">Connexions récentes</string>
+    <!-- Displayed above the list of VPN Plus features in the home screen -->
+    <string name="home_upsell_carousel_headline">Découvrez VPN Plus</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Épingler</string>
     <!-- tag(Redesign_2023) -->
@@ -1125,6 +1169,6 @@
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sec</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">La connexion n\'a pas abouti.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Cet appareil n\'autorise pas les connexions VPN.</string>
 </resources>
