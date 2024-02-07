@@ -22,11 +22,11 @@ package com.protonvpn.app.ui.onboarding
 import android.app.Activity
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.redesign.main_screen.ui.MainActivity
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
-import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -110,7 +110,7 @@ class OnboardingTelemetryTests {
             runCurrent()
             foregroundActivityFlow.value = null
             runCurrent()
-            foregroundActivityFlow.value = mockk<MobileMainActivity>()
+            foregroundActivityFlow.value = mockk<MainActivity>()
             runCurrent()
         }
 
