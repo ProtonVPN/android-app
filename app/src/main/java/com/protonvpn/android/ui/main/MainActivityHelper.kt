@@ -39,9 +39,7 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
             onAddAccountClosed = activity::finish
             onAssignConnectionHandler = this@MainActivityHelper::onAssignConnectionNeeded
 
-            // CREATED is needed as MobileMainActivity will most of the time be covered by HomeActivity - this should be
-            // removed once home is introduced to MobileMainActivity as a fragment (as already the case for TV)
-            eventForceUpdate.launchAndCollectIn(activity, Lifecycle.State.CREATED) {
+            eventForceUpdate.launchAndCollectIn(activity) {
                 activity.startActivity(ForceUpdateActivity(activity, it, Constants.FORCE_UPDATE_URL))
             }
 

@@ -19,16 +19,12 @@
 
 package com.protonvpn.tests.upgrade
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.GrantPermissionRule
-import com.protonvpn.android.ui.main.MobileMainActivity
-import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testRules.LoginTestRule
-import com.protonvpn.testRules.ProtonHiltAndroidRule
-import com.protonvpn.testRules.ProtonHiltInjectRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.domain.entity.AppStore
@@ -43,21 +39,10 @@ import org.junit.runner.RunWith
 @HiltAndroidTest
 class UpgradeTests : MinimalUpgradeTests {
 
-    @get:Rule(order = 0)
-    val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
-
-    @get:Rule(order = 1)
-    val injectRule = ProtonHiltInjectRule(hiltRule)
-
-    @get:Rule(order = 2)
-    val loginRule = LoginTestRule(TestUser.freeUser)
-
-    @get:Rule(order = 3)
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule
-        .grant(android.Manifest.permission.POST_NOTIFICATIONS)
-
-    @get:Rule(order = 4)
-    val activityRule = ActivityScenarioRule(MobileMainActivity::class.java)
+    @get:Rule
+    val activityRule = realBackendComposeRule()
+        .around(LoginTestRule(TestUser.freeUser))
+        .around(GrantPermissionRule.grant(android.Manifest.permission.POST_NOTIFICATIONS))
 
     override val quark: Quark = requireNotNull(TestSetup.quark)
 

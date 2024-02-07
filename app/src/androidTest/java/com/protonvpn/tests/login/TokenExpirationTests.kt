@@ -19,38 +19,30 @@
 
 package com.protonvpn.tests.login
 
-import androidx.test.core.app.ActivityScenario
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.ui.main.MobileMainActivity
 import com.protonvpn.data.Timeouts
-import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testRules.LoginTestRule
-import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import me.proton.core.accountmanager.data.SessionManagerImpl
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 import javax.inject.Inject
 import kotlin.test.assertNotNull
 
 //TODO: Adapt this test case to redesign when more options to trigger API call will be given
-@OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 class TokenExpirationTests {
-    private val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
 
     private lateinit var loginRobot: LoginRobot
 
     @get:Rule
-    val rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Backend))
+    val rule = realBackendComposeRule()
         .around(LoginTestRule(TestUser.plusUser))
 
     @Inject lateinit var currentUser: CurrentUser
@@ -61,10 +53,6 @@ class TokenExpirationTests {
             TestSetup.quark,
             "Quark can be null. Make sure this test is not being run on production."
         )
-        TestSetup.quark.jailUnban()
-        hiltRule.inject()
-        hiltRule.startApplicationAndWaitForIdle()
-        ActivityScenario.launch(MobileMainActivity::class.java)
         loginRobot = LoginRobot()
     }
 

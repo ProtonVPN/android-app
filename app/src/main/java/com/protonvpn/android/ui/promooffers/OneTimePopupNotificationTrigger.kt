@@ -24,16 +24,14 @@ import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.ui.ForegroundActivityTracker
-import com.protonvpn.android.ui.main.MobileMainActivity
+import com.protonvpn.android.utils.withPrevious
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.stateIn
 import me.proton.core.accountmanager.domain.AccountManager
 import javax.inject.Inject
@@ -47,7 +45,6 @@ class PromoActivityOpener @Inject constructor() {
 }
 
 @Singleton
-@OptIn(ExperimentalCoroutinesApi::class)
 class OneTimePopupNotificationTrigger @Inject constructor(
     mainScope: CoroutineScope,
     foregroundActivityTracker: ForegroundActivityTracker,
@@ -63,14 +60,14 @@ class OneTimePopupNotificationTrigger @Inject constructor(
         .stateIn(mainScope, SharingStarted.Eagerly, false)
 
     init {
-        foregroundActivityTracker.foregroundActivityFlow
-            .filterNot { activity -> activity is MobileMainActivity }
-            .scan(null) { previousActivity: Activity?, activity ->
-                if (previousActivity == null && activity != null && isLoggedIn.value) {
-                    onOneTimeNotificationOpportunity(activity)
-                }
-                activity
-            }.launchIn(mainScope)
+        combine(
+            isLoggedIn,
+            foregroundActivityTracker.foregroundActivityFlow.withPrevious()
+        ) { loggedIn, (previousActivity, activity) ->
+            if (loggedIn && previousActivity == null && activity != null) {
+                onOneTimeNotificationOpportunity(activity)
+            }
+        }.launchIn(mainScope)
     }
 
     private suspend fun onOneTimeNotificationOpportunity(activity: Activity) {
