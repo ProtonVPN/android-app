@@ -24,10 +24,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.appconfig.ApiNotification
-import com.protonvpn.android.appconfig.ApiNotificationManager
-import com.protonvpn.android.appconfig.ApiNotificationOfferButton
-import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.VpnUser
@@ -49,7 +45,6 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.ServerListUpdater
-import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
 import com.protonvpn.android.utils.AndroidUtils.whenNotNullNorEmpty
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.withPrevious
@@ -60,19 +55,14 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 private const val SECTION_REGULAR = "regular"
@@ -99,16 +89,6 @@ data class ServerListSectionModel(
 sealed class ServerListItemModel
 
 object FreeUpsellBannerModel : ServerListItemModel()
-
-data class PromoOfferBannerModel(
-    val imageUrl: String,
-    val alternativeText: String,
-    val action: ApiNotificationOfferButton,
-    val isDismissible: Boolean,
-    val endTimestamp: Long?,
-    val notificationId: String,
-    val reference: String?,
-) : ServerListItemModel()
 
 data class FastestConnectionModel(
     @StringRes val name: Int,
@@ -169,14 +149,7 @@ class CountryListViewModel @Inject constructor(
     private val userSettingManager: CurrentUserLocalSettingsManager,
     private val currentUser: CurrentUser,
     restrictConfig: RestrictionsConfig,
-    apiNotificationManager: ApiNotificationManager,
-    private val promoOffersPrefs: PromoOffersPrefs,
 ) : ViewModel() {
-
-    private sealed interface UpsellBanner {
-        object FreeDefault : UpsellBanner
-        class Promo(val notification: ApiNotification) : UpsellBanner
-    }
 
     val vpnStatus = vpnStatusProviderUI.status.asLiveData()
 
@@ -197,33 +170,6 @@ class CountryListViewModel @Inject constructor(
     fun hasAccessToSecureCore() =
         currentUser.vpnUserCached()?.isUserPlusOrAbove == true
 
-    // After a banner is dismissed any other banners (e.g. the default one) are suppressed until the activity is
-    // started again.
-    private val suppressBanners = MutableStateFlow(false)
-
-    private val promoBannerFlow = combine(
-        apiNotificationManager.activeListFlow,
-        promoOffersPrefs.visitedOffersFlow
-    ) { notifications, dismissedOffers ->
-        notifications.firstOrNull {
-            it.type == ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER && !dismissedOffers.contains(it.id)
-        }
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val bannerFlow: Flow<UpsellBanner?> = suppressBanners.flatMapLatest { suppressed ->
-        if (suppressed) {
-            flowOf(null)
-        } else {
-            combine(currentUser.vpnUserFlow, promoBannerFlow) { user, promoBanner ->
-                when {
-                    promoBanner != null -> UpsellBanner.Promo(promoBanner)
-                    user?.isFreeUser == true -> UpsellBanner.FreeDefault
-                    else -> null
-                }
-            }
-        }
-    }.distinctUntilChanged()
     private val userTierFlow = currentUser.vpnUserFlow.map { it?.userTier }.distinctUntilChanged()
 
     // Scroll to top on downgrade
@@ -237,21 +183,19 @@ class CountryListViewModel @Inject constructor(
         serverManager.serverListVersion,
         restrictConfig.restrictionFlow,
         userTierFlow,
-        bannerFlow,
-    ) { secureCore, _, restrictions, userTier, banner ->
-        ServerListState(sections = getItemsFor(secureCore, restrictions, userTier, banner))
+    ) { secureCore, _, restrictions, userTier ->
+        ServerListState(sections = getItemsFor(secureCore, restrictions, userTier))
     }
 
     private fun getItemsFor(
         secureCore: Boolean,
         restrictions: Restrictions,
         userTier: Int?,
-        banner: UpsellBanner?,
     ): List<ServerListSectionModel> =
         if (userTier == VpnUser.FREE_TIER)
-            getItemsForFreeUser(secureCore, restrictions, banner)
+            getItemsForFreeUser(secureCore, restrictions)
         else
-            getItemsForPremiumUser(userTier, secureCore, restrictions, banner)
+            getItemsForPremiumUser(userTier, secureCore, restrictions)
 
     private fun List<ServerGroup>.asListItems(
         userTier: Int?,
@@ -272,9 +216,7 @@ class CountryListViewModel @Inject constructor(
     private fun getItemsForFreeUser(
         secureCore: Boolean,
         restrictions: Restrictions,
-        banner: UpsellBanner?
     ): List<ServerListSectionModel> = buildList {
-        val upsellBanner = createBannerList(banner)
         add(
             ServerListSectionModel(
                 R.string.listFreeCountries,
@@ -284,7 +226,7 @@ class CountryListViewModel @Inject constructor(
         )
         val allCountries = getCountriesForList(secureCore)
         val plusCountries = allCountries.asListItems(VpnUser.FREE_TIER, secureCore, restrictions)
-        val items = upsellBanner + plusCountries
+        val items = listOf(FreeUpsellBannerModel) + plusCountries
         add(
             ServerListSectionModel(
                 R.string.listPremiumCountries_new_plans,
@@ -298,19 +240,16 @@ class CountryListViewModel @Inject constructor(
         userTier: Int?,
         secureCore: Boolean,
         restrictions: Restrictions,
-        banner: UpsellBanner?
     ) = buildList {
         val gateways = getGatewayGroupsForList(secureCore)
             .asListItems(userTier, secureCore, restrictions, sectionId = SECTION_GATEWAYS)
         if (gateways.isNotEmpty())
             add(ServerListSectionModel(R.string.listGateways, gateways))
-        val promoOfferBanner = createBannerList(banner)
+        val countries = getCountriesForList(secureCore).asListItems(userTier, secureCore, restrictions)
         add(
             ServerListSectionModel(
                 R.string.listAllCountries,
-                promoOfferBanner
-                        + getFastestConnections(secureCore)
-                        + getCountriesForList(secureCore).asListItems(userTier, secureCore, restrictions)
+                getFastestConnections(secureCore) + countries
             )
         )
     }
@@ -329,11 +268,6 @@ class CountryListViewModel @Inject constructor(
 
     fun getServerPartnerships(server: Server): List<Partner> =
         partnershipsRepository.getServerPartnerships(server)
-
-    fun onUpsellBannerDismissed(notificationId: String) {
-        promoOffersPrefs.addVisitedOffer(notificationId)
-        suppressBanners.value = true
-    }
 
     data class ServerGroupTitle(val titleRes: Int, val infoType: InformationActivity.InfoType?)
 
@@ -443,34 +377,6 @@ class CountryListViewModel @Inject constructor(
             vpnConnectionManager.disconnect(trigger)
         }
     }
-
-    private fun createBannerList(banner: UpsellBanner?): List<ServerListItemModel> {
-        val bannerModel = when(banner) {
-            is UpsellBanner.FreeDefault -> FreeUpsellBannerModel
-            is UpsellBanner.Promo -> createPromoOfferBanner(banner.notification)
-            null -> null
-        }
-        return bannerModel?.let { listOf(it) } ?: emptyList()
-    }
-
-    private fun createPromoOfferBanner(notification: ApiNotification): ServerListItemModel? =
-        if (notification.offer?.panel?.button?.url?.isNotEmpty() == true &&
-            notification.offer.panel.fullScreenImage?.source?.isNotEmpty() == true
-        ) {
-            val fullScreenImage = notification.offer.panel.fullScreenImage
-            val imageSource = fullScreenImage.source.first()
-            PromoOfferBannerModel(
-                imageSource.url,
-                fullScreenImage.alternativeText,
-                notification.offer.panel.button,
-                notification.offer.panel.isDismissible,
-                TimeUnit.SECONDS.toMillis(notification.endTime).takeIf { notification.offer.panel.showCountdown },
-                notification.id,
-                notification.reference,
-            )
-        } else {
-            null
-        }
 
     private fun List<Server>.sortedForUi() =
         this.sortedBy { it.displayCity }
