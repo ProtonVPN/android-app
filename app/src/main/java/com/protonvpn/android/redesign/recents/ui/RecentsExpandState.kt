@@ -92,7 +92,10 @@ class RecentsExpandState(
             ): Offset = if (available.y > 0) handleAvailableScroll(available) else Offset.Zero
 
             private fun handleAvailableScroll(available: Offset): Offset {
-                if (maxHeightPx == 0) return Offset.Zero // Max height hasn't been initialized yet.
+                // listHeightState, peekHeightState and maxHeightState are being updated independently via
+                // onGloballyPositioned. It's therefore possible that during more complex state changes the values
+                // are temporarily in an incorrect state. Avoid computations (and exceptions) if that's the case.
+                if (maxHeightPx == 0 || minOffset > maxOffset) return Offset.Zero
 
                 val newOffset = (listOffsetPx + available.y).coerceIn(minOffset.toFloat(), maxOffset.toFloat())
                 val deltaToConsume = newOffset - listOffsetPx
