@@ -474,7 +474,7 @@
     <string name="upsell_card_netshield_title">NetShield</string>
     <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">Add another layer of encryption to your VPN connection</string>
+    <string name="upsell_card_secure_core_description">اضافه کردن یک لایه دیگر رمزنگاری به ارتباط VPN شما</string>
     <string name="upsell_card_p2p_title">P2P support</string>
     <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
     <string name="upsell_card_speed_title">Faster browsing</string>

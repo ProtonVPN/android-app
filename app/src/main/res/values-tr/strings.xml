@@ -121,7 +121,7 @@
     <string name="state_connected">Bağlı</string>
     <string name="state_disconnecting">Bağlantı kesiliyor…</string>
     <string name="state_error">Hata</string>
-    <string name="error_server_list_load_failed">Lütfen bağlantınızı kontrol edip tekrar deneyin.</string>
+    <string name="error_server_list_load_failed">Lütfen bağlantınızı denetleyip yeniden deneyin.</string>
     <string name="error_server_unreachable">VPN bağlantısı kurulamadı. Lütfen bağlantınızı denetleyip yeniden deneyin.</string>
     <string name="error_auth_failed">Kullanıcı kimliği doğrulanamadı.</string>
     <string name="error_generic">Bağlantı kurulurken belirlenemeyen bir sorun çıktı.</string>
@@ -396,22 +396,22 @@
     </plurals>
     <string name="upsell_upgrade_again">Tüm özelliklerin tadını çıkarmak için yeniden yükseltin:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">Aynı anda %1$d aygıtı koruyun</item>
+        <item quantity="other">Aynı anda %1$d aygıtı koruyun</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
+    <string name="upgrade_devices_text">Proton VPN 8 farklı platformda kullanılabilir.</string>
     <string name="upgrade_plus_title">Gizlilik düzeyinizi yükseltin</string>
     <string name="upgrade_plus_message">VPN Plus tarifesi ile gelişmiş gizlilik özelliklerine ve daha yüksek hızlara erişin.</string>
     <string name="upgrade_netshield_title">Reklamsız gezinmenin tadını çıkarın</string>
     <string name="upgrade_netshield_message"><![CDATA[<b>NetShield</b> ile reklamları, izleyicileri ve kötü niyetli yazılımları engelleyin.]]></string>
     <string name="upgrade_secure_core_title">Gizliliğinizi iki katına çıkarın</string>
     <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b> ile VPN bağlantınıza ek bir güvenlik katmanı ekleyin.]]></string>
-    <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
-    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
-    <string name="upgrade_streaming_title">Stream in 4K</string>
-    <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
-    <string name="upgrade_tor_title">Access the Tor network in one tap</string>
-    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
+    <string name="upgrade_p2p_title">Eşler arası (P2P) indirmeleri ve dosya paylaşımını kullanın </string>
+    <string name="upgrade_p2p_text">IP adresinizi gizlerken yükleme ve indirme hızlarınızı iyileştirin.</string>
+    <string name="upgrade_streaming_title">4K yayın akışlarını izleyin</string>
+    <string name="upgrade_streaming_text">Dünya üzerinde her yerdeki beğendiğiniz film ve TV dizilerini izleyin.</string>
+    <string name="upgrade_tor_title">Tek dokunmayla Tor ağına erişin</string>
+    <string name="upgrade_tor_text">Her gün kullandığınız tarayıcı ile gizli hizmetlere ve onion sitelerine bağlanın.</string>
     <string name="upgrade_vpn_accelerator_title">Daha yüksek hızlarla gezinin</string>
     <!--
         %1$s - speed in Gbps
@@ -456,39 +456,39 @@
     <string name="upgrade_safe_mode_message">Standart olmayan bağlantı noktaları kullanmanızı gerektiren gelişmiş veya profesyonel bilgi işlem gereksinimleriniz mi var? Bu ve diğer ücretli özelliklere erişmek için VPN Plus tarifesine yükseltin.</string>
     <string name="upgrade_not_now_button">Şimdi değil</string>
     <string name="upgrade_learn_more">Ayrıntılı bilgi alın</string>
-    <string name="upsell_card_countries_title">Worldwide cover</string>
+    <string name="upsell_card_countries_title">Dünya çapında kapsama</string>
     <!-- Parameters:
         %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
-    <string name="upsell_card_customization_title">And much more…</string>
-    <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
+    <string name="upsell_card_countries_description">%2$s ülkede bulunan %1$d+ sunucu konumu</string>
+    <string name="upsell_card_customization_title">Ve çok daha fazlası…</string>
+    <string name="upsell_card_customization_description">Diğer başarım ve gizlilik özelliklerine erişebilirsiniz.</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Protect %1$d device</item>
-        <item quantity="other">Protect %1$d devices</item>
+        <item quantity="one">%1$d aygıtı koruyun</item>
+        <item quantity="other">%1$d aygıtı koruyun</item>
     </plurals>
-    <string name="upsell_card_devices_description">Security and privacy on all your devices</string>
+    <string name="upsell_card_devices_description">Tüm aygıtlarınız için güvenlik ve gizlilik</string>
     <string name="upsell_card_netshield_title">NetShield</string>
-    <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
+    <string name="upsell_card_netshield_description">Reklamları, kötü amaçlı yazılımları ve etkinlik izleyicileri engelleyin</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">Add another layer of encryption to your VPN connection</string>
-    <string name="upsell_card_p2p_title">P2P support</string>
-    <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
-    <string name="upsell_card_speed_title">Faster browsing</string>
+    <string name="upsell_card_secure_core_description">VPN bağlantınıze ek bir şifreleme düzeyi ekleyebilirsiniz</string>
+    <string name="upsell_card_p2p_title">P2P desteği</string>
+    <string name="upsell_card_p2p_description">Dosyaları BitTorrent ve diğer dosya paylaşım iletişim kuralları üzerinden indirin</string>
+    <string name="upsell_card_speed_title">Daha hızlı gezinin</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
-    <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
-    <string name="upsell_card_streaming_title">Streaming</string>
-    <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
-    <string name="upsell_card_tor_title">Tor over VPN</string>
-    <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="upsell_card_speed_description">Daha da yüksek hızlarda gezinin (%1$d Gb/sn değerine varan)</string>
+    <string name="upsell_card_split_tunneling_title">Ayrılmış tünelleme</string>
+    <string name="upsell_card_split_tunneling_description">Aynı anda iki farklı konumdan gezinin</string>
+    <string name="upsell_card_streaming_title">Yayın akışı</string>
+    <string name="upsell_card_streaming_description">Beğendiğiniz film ve TV dizilerini izleyin</string>
+    <string name="upsell_card_tor_title">VPN üzerinden Tor</string>
+    <string name="upsell_card_tor_description">Ek gizlilik sağlamak için VPN bağlantınızı Tor ağından geçirin</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -972,7 +972,7 @@
      -->
     <string name="recents_headline">Son kullanılanlar</string>
     <!-- Displayed above the list of VPN Plus features in the home screen -->
-    <string name="home_upsell_carousel_headline">Discover VPN Plus</string>
+    <string name="home_upsell_carousel_headline">VPN Plus özelliklerini keşfedin</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Sabitle</string>
     <!-- tag(Redesign_2023) -->

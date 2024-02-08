@@ -63,7 +63,7 @@
     <string name="drawerShowLog">ログを表示</string>
     <string name="drawerReportProblem">問題を報告</string>
     <string name="drawerAppVersion">バージョン%1$s</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">共有</string>
     <string name="accountDetails">アカウントの詳細</string>
     <string name="accountSubscription">サブスクリプション</string>
     <string name="accountUser">ユーザー:</string>
@@ -121,7 +121,7 @@
     <string name="state_connected">接続完了</string>
     <string name="state_disconnecting">切断中…</string>
     <string name="state_error">エラー</string>
-    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
+    <string name="error_server_list_load_failed">インターネット接続を確認し、もう一度やり直してください。</string>
     <string name="error_server_unreachable">VPN に接続できません。接続を確認して再度お試しください。</string>
     <string name="error_auth_failed">ユーザー認証に失敗しました。</string>
     <string name="error_generic">接続中に未知の問題が発生しました。</string>
@@ -255,7 +255,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[この統計にあなたの IP アドレスは含まれず、あなたを特定することはできません。この統計は第三者に共有しません。<a href="%1$s">詳細</a>]]></string>
     <string name="netShieldEnabledWarning">コンテンツのブロックにより一部のサイトが正常に動作しない恐れがあります。</string>
     <string name="netShieldDescription">広告、トラッカー、マルウェアをブロック </string>
-    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">ウェブサイトやアプリ上の広告、マルウェア、トラッカーから身を守ります。ウェブサイトが読み込まれない場合は、NetShield を無効にしてみてください。%1$s</string>
     <string name="learn_more">詳細</string>
     <string name="netshield_status_on">有効</string>
     <string name="netshield_status_off">オフ</string>
@@ -264,11 +264,11 @@
     <string name="netshield_business_description">VPN Business にアップグレードしましょう</string>
     <string name="netshield_what_data_means">What NetShield data means</string>
     <string name="netshield_ads_title">広告</string>
-    <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
+    <string name="netshield_ads_details">広告と見えない広告トラッカー</string>
     <string name="netshield_trackers_title">トラッカー</string>
-    <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
-    <string name="netshield_data_title">Data</string>
-    <string name="netshield_data_details">The amount of unwanted data from ads, trackers, and malware blocked by NetShield</string>
+    <string name="netshield_trackers_details">あなたのインターネット活動に関する情報を保存・共有するクッキーやその他のトラッカー</string>
+    <string name="netshield_data_title">データ</string>
+    <string name="netshield_data_details">NetShieldによってブロックされた広告、トラッカー、マルウェアによる不要なデータの量</string>
     <string name="accessibility_netshield_status_on_click">NetShield の設定を入力します</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="other">件の広告をブロック</item>
@@ -276,7 +276,7 @@
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
         <item quantity="other">件のトラッカーを停止</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">のデータを節約</string>
     <string name="netShieldBlockMalwareOnly">マルウェアのみブロック</string>
     <string name="netShieldFullBlock">マルウェア、トラッキング、広告をブロック</string>
     <string name="dialogDontShowAgain">次回から表示しない</string>
@@ -390,21 +390,21 @@
     </plurals>
     <string name="upsell_upgrade_again">再度すべての機能を利用するにはアップデートしてください:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="other">%1$d台のデバイスを一度に保護</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
+    <string name="upgrade_devices_text">Proton VPNは8つの異なるプラットフォームでご利用いただけます。</string>
     <string name="upgrade_plus_title">プライバシーをアップグレードする</string>
     <string name="upgrade_plus_message">VPN Plus を使用すると、高度なプライバシー機能と高速性を実現できます。</string>
     <string name="upgrade_netshield_title">広告なしのブラウジングをお楽しみください</string>
     <string name="upgrade_netshield_message"><![CDATA[<b>NetShield</b> で広告、トラッカー、マルウェアをブロックします。]]></string>
     <string name="upgrade_secure_core_title">暗号化を2倍にする</string>
     <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b> を使用して、VPN 接続に別の暗号化層を追加します。]]></string>
-    <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
-    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
-    <string name="upgrade_streaming_title">Stream in 4K</string>
-    <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
-    <string name="upgrade_tor_title">Access the Tor network in one tap</string>
-    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
+    <string name="upgrade_p2p_title">ピアツーピア(P2P)でのダウンロードとファイル共有が可能になる </string>
+    <string name="upgrade_p2p_text">あなたのIPアドレスを隠したままアップロードとダウンロード速度が向上します。</string>
+    <string name="upgrade_streaming_title">4Kでストリーミング</string>
+    <string name="upgrade_streaming_text">世界中どこからでもお気に入りの映画やテレビ番組を楽しめます。</string>
+    <string name="upgrade_tor_title">Torネットワークへワンタップでアクセス</string>
+    <string name="upgrade_tor_text">普段使っているブラウザで、隠れたサービスやオニオンサイトに接続できます。</string>
     <string name="upgrade_vpn_accelerator_title">さらに高速なブラウジング</string>
     <!--
         %1$s - speed in Gbps
@@ -447,7 +447,7 @@
     <string name="upgrade_safe_mode_message">非標準なポートを使用する高度および専門的なコンピューティングを必要としていますか? VPN Plus にアップグレードしてこれを含めたプレミアムな機能を利用することができます。</string>
     <string name="upgrade_not_now_button">後で</string>
     <string name="upgrade_learn_more">詳細</string>
-    <string name="upsell_card_countries_title">Worldwide cover</string>
+    <string name="upsell_card_countries_title">世界中をカバー</string>
     <!-- Parameters:
         %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"
@@ -464,7 +464,7 @@
     <string name="upsell_card_netshield_title">NetShield</string>
     <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">Add another layer of encryption to your VPN connection</string>
+    <string name="upsell_card_secure_core_description">VPN接続にもう1つの暗号化レイヤーを追加する</string>
     <string name="upsell_card_p2p_title">P2P support</string>
     <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
     <string name="upsell_card_speed_title">Faster browsing</string>
@@ -473,11 +473,11 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_title">スプリットトンネル</string>
     <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
-    <string name="upsell_card_streaming_title">Streaming</string>
+    <string name="upsell_card_streaming_title">ストリーミング</string>
     <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
-    <string name="upsell_card_tor_title">Tor over VPN</string>
+    <string name="upsell_card_tor_title">VPN経由Tor</string>
     <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
@@ -487,7 +487,7 @@
         50 PLN /month
         $100 /year
     -->
-    <string name="payment_price_with_period">%1$s /%2$s</string>
+    <string name="payment_price_with_period">%1$s/%2$s</string>
     <string name="payment_price_per_month">月</string>
     <string name="payment_price_per_year">年</string>
     <string name="payment_price_per_2years">2年</string>
@@ -574,7 +574,7 @@
     <string name="search_clear_history">履歴を消去</string>
     <string name="search_clear_history_dialog">検索履歴は失われます。続行しますか?</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
-    <string name="search_clear_query_content_description">Clear</string>
+    <string name="search_clear_query_content_description">クリア</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">詳細は <a href="https://protonvpn.com/pricing">protonvpn.com</a> をご覧ください。</string>
     <string name="free_upsell_header_title">VPN Plusで世界中をカバー</string>
@@ -638,7 +638,7 @@
         Available in 23 seconds.
       -->
     <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
-    <string name="server_change_progress_finished_contend_description">Available now</string>
+    <string name="server_change_progress_finished_contend_description">今すぐ入手可能</string>
     <string name="not_wanted_country_title">望んだ国ではなかった？</string>
     <string name="not_wanted_country_description">アップグレードで好きなサーバーを選べる</string>
     <string name="whats_new_title">最新情報</string>
