@@ -7,7 +7,6 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.actions.compose.HomeRobot
 import com.protonvpn.actions.compose.interfaces.verify
 import com.protonvpn.android.ui.onboarding.SplashActivity
-import com.protonvpn.mocks.FakeIsNotificationsEnabled
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHiltInjectRule
@@ -22,6 +21,7 @@ import me.proton.core.eventmanager.domain.EventManagerProvider
 import me.proton.core.eventmanager.domain.repository.EventMetadataRepository
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.notification.domain.repository.NotificationRepository
+import me.proton.core.notification.test.fake.FakeIsNotificationsEnabled
 import me.proton.core.test.quark.Quark
 import me.proton.test.fusion.FusionConfig
 import org.junit.Before

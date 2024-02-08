@@ -21,6 +21,8 @@ object HomeRobot : Robot {
 
     fun navigateToHome(): HomeRobot = homeButton.clickTo(this)
 
+    fun navigateToSettings(): SettingsRobot = settingsButton.clickTo(SettingsRobot)
+
     fun confirmLogout(): AddAccountRobot {
         confirmButton.click()
         return AddAccountRobot()

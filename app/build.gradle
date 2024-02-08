@@ -749,6 +749,10 @@ configurations {
     detekt
 }
 
+configurations.configureEach {
+    exclude group: "me.proton.core", module: "notification-dagger"
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     debugImplementation 'androidx.test.espresso.idling:idling-concurrent:3.5.1'
@@ -866,19 +870,11 @@ dependencies {
     implementation "me.proton.core:user-settings-dagger:$core_version"
     implementation "me.proton.core:user-settings-data:$core_version"
     implementation "me.proton.core:account:$core_version"
-    implementation("me.proton.core:account-manager-data:$core_version") {
-        // account-recovery modules are pulling in notification-dagger.
-        exclude group: "me.proton.core", module: "notification"
-        exclude group: "me.proton.core", module: "notification-dagger"
-    }
+    implementation "me.proton.core:account-manager-data:$core_version"
     implementation "me.proton.core:account-manager-domain:$core_version"
     implementation "me.proton.core:account-manager-presentation:$core_version"
     implementation "me.proton.core:account-manager-presentation-compose:$core_version"
-    implementation("me.proton.core:account-recovery:$core_version") {
-        // account-recovery modules are pulling in notification-dagger.
-        exclude group: "me.proton.core", module: "notification"
-        exclude group: "me.proton.core", module: "notification-dagger"
-    }
+    implementation "me.proton.core:account-recovery:$core_version"
     implementation "me.proton.core:auth:$core_version"
     implementation "me.proton.core:challenge:$core_version"
     implementation "me.proton.core:crypto:$core_version"
@@ -903,13 +899,10 @@ dependencies {
     releaseImplementation "me.proton.core:configuration-dagger-staticdefaults:$core_version"
 
     androidTestImplementation "me.proton.core:test-quark:$core_version"
-    androidTestImplementation("me.proton.core:account-recovery-test:$core_version") {
-        // account-recovery modules are pulling in notification-dagger.
-        exclude group: "me.proton.core", module: "notification"
-        exclude group: "me.proton.core", module: "notification-dagger"
-    }
+    androidTestImplementation("me.proton.core:account-recovery-test:$core_version")
     androidTestImplementation "me.proton.core:auth-test:$core_version"
     androidTestImplementation "me.proton.core:plan-test:$core_version"
+    androidTestImplementation "me.proton.core:notification-test:$core_version"
 
 
     testImplementation("me.proton.core:test-kotlin:$core_version") {
