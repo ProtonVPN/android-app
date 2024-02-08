@@ -30,7 +30,7 @@ data class NetShieldViewState(
         NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.drawable.ic_netshield_on
     }
     val titleRes = when (protocol) {
-        NetShieldProtocol.DISABLED -> R.string.netshield_status_off
-        NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.string.netshield_status_on
+        NetShieldProtocol.DISABLED -> R.string.feature_off
+        NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.string.feature_on
     }
 }
