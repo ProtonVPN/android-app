@@ -19,15 +19,21 @@
 
 package com.protonvpn.android.redesign.settings.ui
 
+import android.content.Intent
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -63,14 +69,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
-import com.protonvpn.android.databinding.ComposableSettingsBinding
+import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.account.AccountActivity
+import com.protonvpn.android.ui.drawer.LogActivity
+import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragment
+import com.protonvpn.android.ui.settings.OssLicensesActivity
+import com.protonvpn.android.ui.settings.SettingsAlwaysOnActivity
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
+import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultSmallStrongUnspecified
 import me.proton.core.compose.theme.defaultSmallWeak
@@ -78,18 +92,84 @@ import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.presentation.R as CoreR
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun SettingsRoute(signOut: () -> Unit) {
     val context = LocalContext.current
     val viewModel: SettingsViewModel = hiltViewModel()
     val viewState = viewModel.viewState.collectAsState().value
+
+    val protocolLauncher =
+        startActivityForResult(contract = ProtocolSelectionActivity.createContract(), onResult = {
+            // TODO there needs to be confirmation dialog for reconnection here
+            it?.let { viewModel.updateProtocol(it) }
+        })
     SettingsView(
         viewState = viewState,
-        onAccountClick = {
-            context.launchActivity<AccountActivity>()
-        },
-        signOut = signOut
+        settingsActions = SettingsActions(
+            onAccountClick = {
+                context.launchActivity<AccountActivity>()
+            },
+            signOut = signOut,
+            onNetShieldClick = {
+                // TODO
+            },
+            onNetShieldUpgradeClick = {
+                UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context)
+            },
+            onSplitTunnelClick = {
+                // TODO
+            },
+            onSplitTunnelUpgrade = {
+                UpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(context)
+            },
+            onAlwaysOnClick = {
+                context.startActivity(Intent(context, SettingsAlwaysOnActivity::class.java))
+            },
+            onProtocolClick = {
+                protocolLauncher.launch(viewState.currenProtocolSelection)
+            },
+            onVpnAcceleratorClick = {
+                // TODO
+            },
+            onAdvancedSettingsClick = {
+                // TODO
+            },
+            onNotificationsClick = {
+                // TODO
+            },
+            onOnHelpCenterClick = {
+                context.openUrl(context.getString(R.string.contact_support_link))
+            },
+            onReportBugClick = {
+                context.startActivity(Intent(context, DynamicReportActivity::class.java))
+            },
+            onDebugLogsClick = {
+                context.startActivity(Intent(context, LogActivity::class.java))
+            },
+            onHelpFightClick = {
+                // TODO
+            },
+            onRateUsClick = {
+                // TODO
+            },
+            onThirdPartyLicensesClick = {
+                context.startActivity(Intent(context, OssLicensesActivity::class.java))
+            }
+        ),
     )
+}
+
+@Composable
+fun <I, O> startActivityForResult(
+    contract: ActivityResultContract<I, O>,
+    onResult: (O) -> Unit,
+): ActivityResultLauncher<I> {
+    val launcher = rememberLauncherForActivityResult(contract) { result: O ->
+        onResult(result)
+    }
+
+    return launcher
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -143,9 +223,8 @@ fun CollapsibleToolbarScaffold(
 
 @Composable
 private fun SettingsView(
-    onAccountClick: () -> Unit,
-    signOut: () -> Unit,
     viewState: SettingsViewModel.SettingsViewState,
+    settingsActions: SettingsActions,
     modifier: Modifier = Modifier
 ) {
     val userState = viewState.userInfo
@@ -160,38 +239,116 @@ private fun SettingsView(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
+
+            AccountCategory(
+                userState = userState,
+                onAccountClick = settingsActions.onAccountClick,
+                signOut = settingsActions.signOut
+            )
+            FeatureCategory(
+                viewState = viewState,
+                onNetShieldClick = settingsActions.onNetShieldClick,
+                onNetShieldUpgrade = settingsActions.onNetShieldUpgradeClick,
+                onSplitTunnelClick = settingsActions.onSplitTunnelClick,
+                onSplitTunnelUpgrade = settingsActions.onSplitTunnelUpgrade,
+                onAlwaysOnClick = settingsActions.onAlwaysOnClick
+            )
             Category(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                title = stringResource(id = R.string.settings_category_account)
+                stringResource(id = R.string.settings_connection_category)
             ) {
-                SettingRowWithComposables(
-                    leadingComposable = {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .size(30.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(ProtonTheme.colors.brandNorm)
-                        ) {
-                            Text(
-                                text = userState.shortenedName,
-                                style = ProtonTheme.typography.defaultNorm
-                            )
-                        }
-                    },
-                    title = userState.displayName,
-                    subtitle = userState.email,
-                    onClick = onAccountClick,
+                SettingRowWithIcon(
+                    icon = me.proton.core.auth.R.drawable.ic_proton_servers,
+                    title = stringResource(id = R.string.settings_protocol_title),
+                    onClick = settingsActions.onProtocolClick,
+                    subtitle = stringResource(id = viewState.currenProtocolSelection.displayName)
                 )
                 SettingRowWithIcon(
-                    icon = CoreR.drawable.ic_proton_arrow_in_to_rectangle,
-                    title = stringResource(id = R.string.settings_sign_out),
-                    onClick = signOut
+                    icon = me.proton.core.auth.R.drawable.ic_proton_rocket,
+                    title = stringResource(id = R.string.settings_vpn_accelerator_title),
+                    onClick = settingsActions.onVpnAcceleratorClick,
+                    subtitle = stringResource(id = if (viewState.vpnAcceleratorEnabled) R.string.feature_on else R.string.feature_off)
+                )
+                SettingRowWithIcon(
+                    icon = me.proton.core.auth.R.drawable.ic_proton_sliders,
+                    title = stringResource(id = R.string.settings_advanced_settings_title),
+                    onClick = settingsActions.onAdvancedSettingsClick,
                 )
             }
+            Category(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                stringResource(id = R.string.settings_category_general)
+            ) {
+                SettingRowWithIcon(
+                    icon = me.proton.core.auth.R.drawable.ic_proton_bell,
+                    title = stringResource(id = R.string.settings_notifications_title),
+                    onClick = settingsActions.onNotificationsClick,
+                )
+            }
+            Category(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                stringResource(id = R.string.settings_category_support)
+            ) {
+                SettingRowWithIcon(
+                    icon = me.proton.core.auth.R.drawable.ic_proton_life_ring,
+                    title = stringResource(id = R.string.settings_help_center_title),
+                    trailingIcon = me.proton.core.auth.R.drawable.ic_proton_arrow_out_square,
+                    onClick = settingsActions.onOnHelpCenterClick,
+                )
+                SettingRowWithIcon(
+                    icon = me.proton.core.auth.R.drawable.ic_proton_bug,
+                    onClick = settingsActions.onReportBugClick,
+                    title = stringResource(id = R.string.settings_report_issue_title)
+                )
+                SettingRowWithIcon(
+                    icon = me.proton.core.auth.R.drawable.ic_proton_code,
+                    onClick = settingsActions.onDebugLogsClick,
+                    title = stringResource(id = R.string.settings_debug_logs_title)
+                )
+            }
+            Category(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                stringResource(id = R.string.settings_category_improve_proton)
+            ) {
+                SettingRowWithIcon(
+                    icon = me.proton.core.auth.R.drawable.ic_proton_users,
+                    title = stringResource(id = R.string.settings_fight_censorship_title)
+                )
+                SettingRowWithIcon(
+                    icon = me.proton.core.auth.R.drawable.ic_proton_star,
+                    title = stringResource(id = R.string.settings_rate_us_title),
+                    trailingIcon = me.proton.core.auth.R.drawable.ic_proton_arrow_out_square,
+                    onClick = {
 
-            // To be swapped to phase2 composable
-            AndroidViewBinding(ComposableSettingsBinding::inflate)
+                    }
+                )
+
+                Spacer(modifier = Modifier.size(8.dp))
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable { settingsActions.onThirdPartyLicensesClick() },
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(
+                        id = R.string.settings_app_version,
+                        BuildConfig.VERSION_NAME
+                    ),
+                    style = ProtonTheme.typography.captionNorm,
+                    modifier = Modifier.padding(8.dp)
+                )
+                Text(
+                    text = stringResource(id = R.string.settings_third_party_licenses),
+                    color = ProtonTheme.colors.textAccent,
+                    style = ProtonTheme.typography.captionNorm,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
             Text(
                 text = stringResource(R.string.drawerAppVersion, BuildConfig.VERSION_NAME),
                 style = ProtonTheme.typography.defaultSmallWeak,
@@ -204,7 +361,84 @@ private fun SettingsView(
 }
 
 @Composable
-private fun ColumnScope.Category(
+private fun FeatureCategory(
+    modifier: Modifier = Modifier,
+    viewState: SettingsViewModel.SettingsViewState,
+    onNetShieldClick: () -> Unit,
+    onNetShieldUpgrade: () -> Unit,
+    onSplitTunnelClick: () -> Unit,
+    onSplitTunnelUpgrade: () -> Unit,
+    onAlwaysOnClick: () -> Unit,
+) {
+    Category(
+        modifier = modifier.padding(start = 16.dp, end = 16.dp),
+        stringResource(id = R.string.settings_category_features)
+    ) {
+        SettingRowWithIcon(
+            icon = if (viewState.netshieldEnabled) R.drawable.ic_netshield_on else R.drawable.ic_netshield_off,
+            title = stringResource(id = R.string.settings_netshield_title),
+            subtitle = stringResource(id = if (viewState.netshieldEnabled) R.string.feature_on else R.string.feature_off),
+            trailingIcon = if (viewState.userInfo.isFreeUser) R.drawable.vpn_plus_badge else null,
+            trailingIconTint = false,
+            onClick = if (viewState.userInfo.isFreeUser) onNetShieldUpgrade else onNetShieldClick
+        )
+
+        SettingRowWithIcon(
+            icon = if (viewState.splitTunnelingEnabled) R.drawable.ic_split_tunneling_on else R.drawable.ic_split_tunneling_off,
+            title = stringResource(id = R.string.settings_split_tunneling_title),
+            subtitle = stringResource(id = if (viewState.splitTunnelingEnabled) R.string.feature_on else R.string.feature_off),
+            trailingIcon = if (viewState.userInfo.isFreeUser) R.drawable.vpn_plus_badge else null,
+            trailingIconTint = false,
+            onClick = if (viewState.userInfo.isFreeUser) onSplitTunnelUpgrade else onSplitTunnelClick
+        )
+        SettingRowWithIcon(
+            icon = R.drawable.ic_kill_switch,
+            title = stringResource(id = R.string.settings_kill_switch_title),
+            onClick = onAlwaysOnClick
+        )
+    }
+}
+
+@Composable
+private fun AccountCategory(
+    modifier: Modifier = Modifier,
+    userState: SettingsViewModel.UserViewState,
+    onAccountClick: () -> Unit,
+    signOut: () -> Unit,
+) {
+    Category(
+        modifier = modifier.padding(start = 16.dp, end = 16.dp),
+        title = stringResource(id = R.string.settings_category_account)
+    ) {
+        SettingRowWithComposables(
+            leadingComposable = {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(ProtonTheme.colors.brandNorm)
+                ) {
+                    Text(
+                        text = userState.shortenedName,
+                        style = ProtonTheme.typography.defaultNorm
+                    )
+                }
+            },
+            title = userState.displayName,
+            subtitle = userState.email,
+            onClick = onAccountClick,
+        )
+        SettingRowWithIcon(
+            icon = CoreR.drawable.ic_proton_arrow_in_to_rectangle,
+            title = stringResource(id = R.string.settings_sign_out),
+            onClick = signOut
+        )
+    }
+}
+
+@Composable
+private fun Category(
     modifier: Modifier = Modifier,
     title: String,
     content: @Composable () -> Unit
@@ -232,8 +466,8 @@ private fun SettingRowWithComposables(
 
     if (onClick != null) {
         baseModifier = baseModifier
+            .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = onClick)
-
     }
     baseModifier = baseModifier.padding(vertical = 16.dp, horizontal = 16.dp)
 
@@ -271,11 +505,10 @@ private fun SettingRowWithComposables(
 fun SettingRowWithIcon(
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
-    iconTint: Color = ProtonTheme.colors.iconNorm,
     title: String,
     subtitle: String? = null,
     @DrawableRes trailingIcon: Int? = null,
-    trailingIconTint: Color = ProtonTheme.colors.iconWeak,
+    trailingIconTint: Boolean = true,
     onClick: (() -> Unit)? = null
 ) {
     SettingRowWithComposables(
@@ -283,7 +516,8 @@ fun SettingRowWithIcon(
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = null,
-                tint = iconTint,
+                tint = Color.Unspecified,
+                modifier = Modifier.size(30.dp)
             )
         },
         trailingComposable = {
@@ -291,7 +525,7 @@ fun SettingRowWithIcon(
                 Icon(
                     painter = painterResource(id = it),
                     contentDescription = null,
-                    tint = trailingIconTint,
+                    tint = if (trailingIconTint) ProtonTheme.colors.iconWeak else Color.Unspecified,
                     modifier = Modifier
                         .padding(end = 8.dp)
                 )
@@ -303,6 +537,26 @@ fun SettingRowWithIcon(
         modifier = modifier
     )
 }
+
+private data class SettingsActions(
+    val onAccountClick: () -> Unit,
+    val signOut: () -> Unit,
+    val onNetShieldClick: () -> Unit,
+    val onNetShieldUpgradeClick: () -> Unit,
+    val onSplitTunnelClick: () -> Unit,
+    val onSplitTunnelUpgrade: () -> Unit,
+    val onAlwaysOnClick: () -> Unit,
+    val onProtocolClick: () -> Unit,
+    val onVpnAcceleratorClick: () -> Unit,
+    val onAdvancedSettingsClick: () -> Unit,
+    val onNotificationsClick: () -> Unit,
+    val onOnHelpCenterClick: () -> Unit,
+    val onReportBugClick: () -> Unit,
+    val onDebugLogsClick: () -> Unit,
+    val onHelpFightClick: () -> Unit,
+    val onRateUsClick: () -> Unit,
+    val onThirdPartyLicensesClick: () -> Unit,
+)
 
 @Preview
 @Composable

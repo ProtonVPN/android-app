@@ -57,32 +57,57 @@ class SettingsViewModel @Inject constructor(
 ) : ViewModel() {
 
     data class SettingsViewState(
-        val netshieldState: NetShieldProtocol,
+        val netshieldEnabled: Boolean,
+        val splitTunnelingEnabled: Boolean,
+        val vpnAcceleratorEnabled: Boolean,
+        val currenProtocolSelection: ProtocolSelection,
         val userInfo: UserViewState
-        )
+    )
 
     data class UserViewState(
+        val isFreeUser: Boolean,
         val shortenedName: String,
         val displayName: String,
         val email: String
     )
 
+    private val userViewStateFlow = combine(
+        currentUser.vpnUserFlow,
+        currentUser.userFlow.filterNotNull()
+    ) { vpnUser, user ->
+        UserViewState(
+            shortenedName = getInitials(user.uiName()) ?: "",
+            displayName = user.uiName() ?: "",
+            email = user.email ?: "",
+            isFreeUser = vpnUser?.isFreeUser == true
+        )
+    }
+
     val viewState =
-        combine(currentUser.vpnUserFlow, currentUser.userFlow.filterNotNull(), userSettings.netShield) { vpnUser, user, netshield ->
+        combine(
+            userViewStateFlow,
+            userSettings.netShield,
+            userSettings.vpnAccelerator,
+            userSettings.splitTunneling,
+            userSettings.protocol,
+        ) { userViewState, netShield, vpnAccelerator, splitTunneling, protocol ->
             SettingsViewState(
-                netshield,
-                UserViewState(
-                    getInitials(user.uiName()) ?: "",
-                    user.uiName() ?: "",
-                    user.email ?: ""
-                )
+                netshieldEnabled = netShield != NetShieldProtocol.DISABLED,
+                vpnAcceleratorEnabled = vpnAccelerator,
+                splitTunnelingEnabled = splitTunneling.isEnabled,
+                currenProtocolSelection = protocol,
+                userInfo = userViewState,
             )
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
             initialValue = SettingsViewState(
-                NetShieldProtocol.DISABLED,
-                UserViewState(
+                netshieldEnabled = false,
+                splitTunnelingEnabled = false,
+                vpnAcceleratorEnabled = false,
+                currenProtocolSelection = ProtocolSelection.SMART,
+                userInfo = UserViewState(
+                    false,
                     "",
                     "",
                     ""
