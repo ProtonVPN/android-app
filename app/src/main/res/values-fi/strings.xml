@@ -262,7 +262,7 @@
     <string name="netshield_status_off">Ei käytössä</string>
     <string name="netshield_free_description">Estä mainoksia, seurantoja ja haittaohjelmia verkkosivustoilla ja sovelluksissa</string>
     <string name="netshield_business_title">Estä mainoksia NetShieldillä</string>
-    <string name="netshield_business_description">Kun päivität VPN Business -tilaukseen</string>
+    <string name="netshield_business_description">Päivittämällä VPN Business -tilaukseen</string>
     <string name="netshield_what_data_means">Mitä NetShieldin tiedonsiirto tarkoittaa</string>
     <string name="netshield_ads_title">Mainokset</string>
     <string name="netshield_ads_details">Mainokset ja näkymättömät mainosseuraajat</string>
@@ -451,7 +451,7 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Avaa %1$s %2$s <b>VPN Plus</b> -tilauksella.]]></string>
-    <string name="upgrade_plus_countries_subtitle">Kun päivität Plus-tilaukseen</string>
+    <string name="upgrade_plus_countries_subtitle">Päivittämällä Plus-tilaukseen</string>
     <string name="upgrade_safe_mode_title">Salli tietoliikenne epätyypillisiin portteihin</string>
     <string name="upgrade_safe_mode_message">Onko sinulla vaativia tai ammatillisia tietoteknisiä tarpeita, jotka tarvitsevat epätyypillisiä portteja? Päivitä VPN Plus -tilaukseen käyttääksesi tätä ja muita premium-ominaisuuksia.</string>
     <string name="upgrade_not_now_button">Ei nyt</string>

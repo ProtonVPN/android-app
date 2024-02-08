@@ -390,21 +390,21 @@
     </plurals>
     <string name="upsell_upgrade_again">다시 업그레이드하고 모든 기능들을 즐기세요:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="other">%1$d개의 장치를 한 번에 보호하세요</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
+    <string name="upgrade_devices_text">Proton VPN은 8개의 다른 플랫폼에서 사용할 수 있습니다.</string>
     <string name="upgrade_plus_title">프라이버시를 업그레이드하세요</string>
     <string name="upgrade_plus_message">VPN Plus에서 고급 프라이버시 보호 기능과 더욱 빠른 속도를 제공합니다.</string>
     <string name="upgrade_netshield_title">광고 없는 브라우징</string>
     <string name="upgrade_netshield_message"><![CDATA[<b>NetShield</b>가 광고와 트래커, 멀웨어를 차단합니다.]]></string>
     <string name="upgrade_secure_core_title">암호화가 두 배로</string>
     <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b>가 당신의 VPN 연결에 한 겹의 암호화를 더합니다.]]></string>
-    <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
-    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
-    <string name="upgrade_streaming_title">Stream in 4K</string>
-    <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
-    <string name="upgrade_tor_title">Access the Tor network in one tap</string>
-    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
+    <string name="upgrade_p2p_title">피어 투 피어 (P2P) 다운로드와 파일 공유를 잠금 해제하세요 </string>
+    <string name="upgrade_p2p_text">업로드와 다운로드 속도를 개선하면서 IP 주소는 숨깁니다.</string>
+    <string name="upgrade_streaming_title">4K로 스트리밍</string>
+    <string name="upgrade_streaming_text">전세계에 있는 영화와 TV 콘텐츠를 즐겨보세요.</string>
+    <string name="upgrade_tor_title">한 번의 탭으로 Tor 네트워크에 접근하세요</string>
+    <string name="upgrade_tor_text">쓰던 브라우저에서 히든 서비스와 어니언 사이트로 연결하십시오.</string>
     <string name="upgrade_vpn_accelerator_title">더욱 빠른 브라우징</string>
     <!--
         %1$s - speed in Gbps
@@ -447,38 +447,38 @@
     <string name="upgrade_safe_mode_message">비표준 포트가 필요한 고급 또는 전문 컴퓨팅 요구 사항이 있나요? VPN Plus로 업그레이드하여 이것과 다른 프리미엄 기능들을 이용하세요.</string>
     <string name="upgrade_not_now_button">다음에</string>
     <string name="upgrade_learn_more">자세히 알아보기</string>
-    <string name="upsell_card_countries_title">Worldwide cover</string>
+    <string name="upsell_card_countries_title">전세계 커버리지</string>
     <!-- Parameters:
         %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
-    <string name="upsell_card_customization_title">And much more…</string>
-    <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
+    <string name="upsell_card_countries_description">%2$s개 국가의 %1$d개 이상 서버</string>
+    <string name="upsell_card_customization_title">그리고 훨씬 더 많습니다…</string>
+    <string name="upsell_card_customization_description">더 많은 프라이버시 기능과 성능을 잠금 해제하세요</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="other">Protect %1$d devices</item>
+        <item quantity="other">%1$d개 디바이스 보호</item>
     </plurals>
-    <string name="upsell_card_devices_description">Security and privacy on all your devices</string>
+    <string name="upsell_card_devices_description">사용자의 모든 기기에서 누리는 보안과 프라이버시</string>
     <string name="upsell_card_netshield_title">NetShield</string>
-    <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
+    <string name="upsell_card_netshield_description">광고, 멀웨어 및 트래커 차단</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">Add another layer of encryption to your VPN connection</string>
-    <string name="upsell_card_p2p_title">P2P support</string>
-    <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
-    <string name="upsell_card_speed_title">Faster browsing</string>
+    <string name="upsell_card_secure_core_description">VPN 연결에 암호화 계층 추가</string>
+    <string name="upsell_card_p2p_title">P2P 지원</string>
+    <string name="upsell_card_p2p_description">BitTorrent와 다른 파일 공유 프로토콜로 파일을 다운로드하세요</string>
+    <string name="upsell_card_speed_title">더 빠른 브라우징</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
-    <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
-    <string name="upsell_card_streaming_title">Streaming</string>
-    <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
-    <string name="upsell_card_tor_title">Tor over VPN</string>
-    <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="upsell_card_speed_description">더 빠른 속도로 브라우징 하세요 (최대 %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">분할 터널링</string>
+    <string name="upsell_card_split_tunneling_description">한 번에 두 곳의 위치에서 브라우징하세요</string>
+    <string name="upsell_card_streaming_title">스트리밍</string>
+    <string name="upsell_card_streaming_description">선호하는 영화와 TV 쇼를 시청하세요</string>
+    <string name="upsell_card_tor_title">VPN 연결에서 Tor</string>
+    <string name="upsell_card_tor_description">더 높은 프라이버시를 위해 VPN 연결에서 Tor 네트워크를 사용하세요</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -953,7 +953,7 @@
      -->
     <string name="recents_headline">최근</string>
     <!-- Displayed above the list of VPN Plus features in the home screen -->
-    <string name="home_upsell_carousel_headline">Discover VPN Plus</string>
+    <string name="home_upsell_carousel_headline">VPN Plus 살펴보기</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">고정</string>
     <!-- tag(Redesign_2023) -->

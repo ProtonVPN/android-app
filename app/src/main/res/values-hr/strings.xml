@@ -493,7 +493,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Podijeljeno tuneliranje</string>
     <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>

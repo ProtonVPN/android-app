@@ -402,23 +402,23 @@
     </plurals>
     <string name="upsell_upgrade_again">Remodernizați planul pentru a accesa toate funcțiile:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="few">Protect %1$d devices at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">Protejați %1$d dispozitiv</item>
+        <item quantity="few">Protejați %1$d dispozitive simultan</item>
+        <item quantity="other">Protejați %1$d de dispozitive simultan</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
+    <string name="upgrade_devices_text">Proton VPN este disponibil pe 8 platforme simultan.</string>
     <string name="upgrade_plus_title">Îmbunătățiți-vă confidențialitatea</string>
     <string name="upgrade_plus_message">Obțineți funcții avansate de confidențialitate și viteze maxime cu VPN Plus.</string>
     <string name="upgrade_netshield_title">Bucurați-vă de navigare pe internet fără reclame</string>
     <string name="upgrade_netshield_message"><![CDATA[Blocați reclamele, utilitarele de urmărire și programele malware cu <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Dublați criptarea</string>
     <string name="upgrade_secure_core_message"><![CDATA[Adăugați încă un nivel de criptare cu conexiunea VPN prin <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
-    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
-    <string name="upgrade_streaming_title">Stream in 4K</string>
-    <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
-    <string name="upgrade_tor_title">Access the Tor network in one tap</string>
-    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
+    <string name="upgrade_p2p_title">Deblocați descărcările și partajările persoană-la-persoană (P2P)</string>
+    <string name="upgrade_p2p_text">Îmbunătățiți-vă viteza de încărcare și descărcare ascunzându-vă și adresa IP.</string>
+    <string name="upgrade_streaming_title">Vizionați în 4K</string>
+    <string name="upgrade_streaming_text">Bucurați-vă de filmele și emisiunile TV favorite de oriunde din lume.</string>
+    <string name="upgrade_tor_title">Accesați rețeaua Tor cu o singură atingere</string>
+    <string name="upgrade_tor_text">Conectați-vă la serviciile ascunse și site-urile onion cu navigatorul web obișnuit.</string>
     <string name="upgrade_vpn_accelerator_title">Navigați cu viteze și mai mari</string>
     <!--
         %1$s - speed in Gbps
@@ -465,40 +465,40 @@
     <string name="upgrade_safe_mode_message">Aveți nevoi avansate sau profesionale de calcul care necesită porturi non-standard? Treceți la VPN Plus pentru a activa aceasta și alte funcții premium.</string>
     <string name="upgrade_not_now_button">Nu acum</string>
     <string name="upgrade_learn_more">Detalii</string>
-    <string name="upsell_card_countries_title">Worldwide cover</string>
+    <string name="upsell_card_countries_title">Acoperire mondială</string>
     <!-- Parameters:
         %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
-    <string name="upsell_card_customization_title">And much more…</string>
-    <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
+    <string name="upsell_card_countries_description">Peste %1$d de servere în %2$s</string>
+    <string name="upsell_card_customization_title">Și multe altele…</string>
+    <string name="upsell_card_customization_description">Deblocați și mai multă performanță și funcții de confidențialitate</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Protect %1$d device</item>
-        <item quantity="few">Protect %1$d devices</item>
-        <item quantity="other">Protect %1$d devices</item>
+        <item quantity="one">Protejați %1$d dispozitiv</item>
+        <item quantity="few">Protejați %1$d dispozitive</item>
+        <item quantity="other">Protejați %1$d de dispozitive</item>
     </plurals>
-    <string name="upsell_card_devices_description">Security and privacy on all your devices</string>
+    <string name="upsell_card_devices_description">Securitate și intimitate pe toate dispozitivele</string>
     <string name="upsell_card_netshield_title">NetShield</string>
-    <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
+    <string name="upsell_card_netshield_description">Blocați reclame, malware și instrumente de urmărire</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">Add another layer of encryption to your VPN connection</string>
-    <string name="upsell_card_p2p_title">P2P support</string>
-    <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
-    <string name="upsell_card_speed_title">Faster browsing</string>
+    <string name="upsell_card_secure_core_description">Adăugați încă un nivel de criptare a conexiunii VPN</string>
+    <string name="upsell_card_p2p_title">Suport P2P</string>
+    <string name="upsell_card_p2p_description">Descărcați fișiere prin BitTorrent și alte protocoale de partajare fișiere</string>
+    <string name="upsell_card_speed_title">Navigare pe internet mai rapidă</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
-    <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
-    <string name="upsell_card_streaming_title">Streaming</string>
-    <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
-    <string name="upsell_card_tor_title">Tor over VPN</string>
-    <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="upsell_card_speed_description">Navigați pe web la viteze și mai mari (până la %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">Divizare trafic</string>
+    <string name="upsell_card_split_tunneling_description">Navigați pe internet din două locuri deodată</string>
+    <string name="upsell_card_streaming_title">Transmisii în flux</string>
+    <string name="upsell_card_streaming_description">Vizionați filmele și emisiunile TV favorite</string>
+    <string name="upsell_card_tor_title">Tor prin VPN</string>
+    <string name="upsell_card_tor_description">Utilizați rețeaua Tor prin conexiunea VPN pentru intimitate suplimentară</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -991,7 +991,7 @@
      -->
     <string name="recents_headline">Recente</string>
     <!-- Displayed above the list of VPN Plus features in the home screen -->
-    <string name="home_upsell_carousel_headline">Discover VPN Plus</string>
+    <string name="home_upsell_carousel_headline">Descoperiți VPN Plus</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Fixare</string>
     <!-- tag(Redesign_2023) -->

@@ -456,7 +456,7 @@
     <string name="upgrade_safe_mode_message">Har du avancerade eller professionella datorbehov som kräver icke-standardiserade portar? Uppgradera till VPN Plus för att få åtkomst till denna och andra premiumfunktioner.</string>
     <string name="upgrade_not_now_button">Inte nu</string>
     <string name="upgrade_learn_more">Lär dig mer</string>
-    <string name="upsell_card_countries_title">Worldwide cover</string>
+    <string name="upsell_card_countries_title">Världsomspännande täckning</string>
     <!-- Parameters:
         %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"

@@ -121,7 +121,7 @@
     <string name="state_connected">Συνδεδεμένο</string>
     <string name="state_disconnecting">Αποσυνδέεται…</string>
     <string name="state_error">Σφάλμα</string>
-    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
+    <string name="error_server_list_load_failed">Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.</string>
     <string name="error_server_unreachable">Αδυναμία σύνδεσης στο VPN. Παρακαλούμε ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.</string>
     <string name="error_auth_failed">Η επαλήθευση χρήστη απέτυχε.</string>
     <string name="error_generic">Απροσδιόριστη αποτυχία κατά τη σύνδεση.</string>
@@ -396,22 +396,22 @@
     </plurals>
     <string name="upsell_upgrade_again">Αναβάθμιση ξανά, προς απόλαυση όλων των χαρακτηριστικών:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">Προστατέψτε %1$d συσκευή ταυτόχρονα</item>
+        <item quantity="other">Προστατέψτε %1$d συσκευές ταυτόχρονα</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
+    <string name="upgrade_devices_text">Το Proton VPN είναι διαθέσιμο σε 8 διαφορετικές πλατφόρμες.</string>
     <string name="upgrade_plus_title">Αναβαθμίστε το απόρρητό σας</string>
     <string name="upgrade_plus_message">Αποκτήστε προηγμένες λειτουργίες απορρήτου και υψηλότερη ταχύτητα με το VPN Plus.</string>
     <string name="upgrade_netshield_title">Απολαύστε περιήγηση χωρίς διαφημίσεις</string>
     <string name="upgrade_netshield_message"><![CDATA[Αποκλεισμός διαφημίσεων, ιχνηλατών και κακόβουλου λογισμικού με το <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Διπλασιάστε την κρυπτογράφηση</string>
     <string name="upgrade_secure_core_message"><![CDATA[Προσθέστε άλλο ένα επίπεδο κρυπτογράφησης στη σύνδεσή σας VPN με το <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
-    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
-    <string name="upgrade_streaming_title">Stream in 4K</string>
-    <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
-    <string name="upgrade_tor_title">Access the Tor network in one tap</string>
-    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
+    <string name="upgrade_p2p_title">Ξεκλείδωμα ομότιμων λήψεων (P2P) και κοινής χρήσης αρχείων </string>
+    <string name="upgrade_p2p_text">Βελτιώστε τις ταχύτητες μεταφόρτωσης και λήψης ενώ αποκρύπτετε τη διεύθυνση IP σας.</string>
+    <string name="upgrade_streaming_title">Ροή σε 4K</string>
+    <string name="upgrade_streaming_text">Απολαύστε τις αγαπημένες σας ταινίες και τηλεοπτικές εκπομπές από οπουδήποτε στον κόσμο.</string>
+    <string name="upgrade_tor_title">Αποκτήστε πρόσβαση στο δίκτυο Tor με ένα πάτημα</string>
+    <string name="upgrade_tor_text">Συνδεθείτε σε κρυφές υπηρεσίες και ιστότοπους onion με το κανονικό σας πρόγραμμα περιήγησης.</string>
     <string name="upgrade_vpn_accelerator_title">Περιηγηθείτε σε ακόμα υψηλότερες ταχύτητες</string>
     <!--
         %1$s - speed in Gbps
@@ -456,39 +456,39 @@
     <string name="upgrade_safe_mode_message">Έχετε προχωρημένες ή επαγγελματικές υπολογιστικές ανάγκες που απαιτούν μη τυποποιημένες θύρες; Αναβαθμίστε σε VPN Plus για πρόσβαση σε αυτό και άλλα προνομιακά χαρακτηριστικά.</string>
     <string name="upgrade_not_now_button">Όχι τώρα</string>
     <string name="upgrade_learn_more">Μάθετε περισσότερα</string>
-    <string name="upsell_card_countries_title">Worldwide cover</string>
+    <string name="upsell_card_countries_title">Παγκόσμια κάλυψη</string>
     <!-- Parameters:
         %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
-    <string name="upsell_card_customization_title">And much more…</string>
-    <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
+    <string name="upsell_card_countries_description">%1$d+ τοποθεσίες διακομιστή σε %2$s</string>
+    <string name="upsell_card_customization_title">Και πολλά ακόμα…</string>
+    <string name="upsell_card_customization_description">Ξεκλειδώστε ακόμα περισσότερες δυνατότητες απόδοσης και απορρήτου</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Protect %1$d device</item>
-        <item quantity="other">Protect %1$d devices</item>
+        <item quantity="one">Προστατέψτε %1$d συσκευή</item>
+        <item quantity="other">Προστατέψτε %1$d συσκευές</item>
     </plurals>
-    <string name="upsell_card_devices_description">Security and privacy on all your devices</string>
+    <string name="upsell_card_devices_description">Ασφάλεια και απόρρητο σε όλες τις συσκευές σας</string>
     <string name="upsell_card_netshield_title">NetShield</string>
-    <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
+    <string name="upsell_card_netshield_description">Αποκλεισμός διαφημίσεων, κακόβουλου λογισμικού και ιχνηλατών</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">Add another layer of encryption to your VPN connection</string>
-    <string name="upsell_card_p2p_title">P2P support</string>
-    <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
-    <string name="upsell_card_speed_title">Faster browsing</string>
+    <string name="upsell_card_secure_core_description">Επιπρόσθετο επίπεδο κρυπτογράφησης στη σύνδεση VPN σας</string>
+    <string name="upsell_card_p2p_title">Υποστήριξη P2P</string>
+    <string name="upsell_card_p2p_description">Λήψη αρχείων μέσω BitTorrent και άλλων πρωτοκόλλων κοινής χρήσης αρχείων</string>
+    <string name="upsell_card_speed_title">Ταχύτερη περιήγηση</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
-    <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
-    <string name="upsell_card_streaming_title">Streaming</string>
-    <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
-    <string name="upsell_card_tor_title">Tor over VPN</string>
-    <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="upsell_card_speed_description">Περιηγηθείτε με ακόμα υψηλότερες ταχύτητες (έως %1$d Gbps)</string>
+    <string name="upsell_card_split_tunneling_title">Διαίρεση σήραγγας</string>
+    <string name="upsell_card_split_tunneling_description">Περιήγηση από δύο τοποθεσίες ταυτόχρονα</string>
+    <string name="upsell_card_streaming_title">Ροή</string>
+    <string name="upsell_card_streaming_description">Παρακολουθήστε τις αγαπημένες σας ταινίες και τηλεοπτικές εκπομπές</string>
+    <string name="upsell_card_tor_title">Tor μέσω VPN</string>
+    <string name="upsell_card_tor_description">Χρησιμοποιήστε το δίκτυο Tor μέσω της σύνδεσής σας VPN για επιπλέον ιδιωτικότητα</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -972,7 +972,7 @@
      -->
     <string name="recents_headline">Πρόσφατες</string>
     <!-- Displayed above the list of VPN Plus features in the home screen -->
-    <string name="home_upsell_carousel_headline">Discover VPN Plus</string>
+    <string name="home_upsell_carousel_headline">Ανακαλύψτε το VPN Plus</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Καρφίτσωμα</string>
     <!-- tag(Redesign_2023) -->
@@ -1170,5 +1170,5 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d δλ</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Αποτυχία σύνδεσης</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Αυτή η συσκευή δεν επιτρέπει συνδέσεις VPN.</string>
 </resources>
