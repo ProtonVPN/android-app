@@ -87,7 +87,7 @@ import me.proton.core.presentation.R as CoreR
 sealed class VpnStatusViewState {
     data class Connected(
         val isSecureCoreServer: Boolean,
-        val banner: StatusBanner,
+        val banner: StatusBanner?,
     ) : VpnStatusViewState()
 
     data class WaitingForNetwork(
@@ -215,7 +215,9 @@ fun VpnStatusBottom(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             when (state) {
                 is VpnStatusViewState.Connected -> {
-                    VpnConnectedView(state, netShieldActions, transitionValue)
+                    if (state.banner != null) {
+                        VpnConnectedView(state.banner, netShieldActions, transitionValue)
+                    } // otherwise don't display anything.
                 }
 
                 is VpnStatusViewState.Connecting -> {
@@ -269,7 +271,7 @@ private fun VpnConnectedViewTop(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun VpnConnectedView(
-    connectedState: VpnStatusViewState.Connected,
+    banner: StatusBanner,
     netShieldActions: NetShieldActions,
     transitionValue: () -> Float
 ) {
@@ -285,10 +287,10 @@ private fun VpnConnectedView(
             }
             .padding(top = 8.dp)
     ) {
-        when (connectedState.banner) {
+        when (banner) {
             is StatusBanner.NetShieldBanner -> {
                 NetShieldView(
-                    state = connectedState.banner.netShieldState,
+                    state = banner.netShieldState,
                     onNavigateToSubsetting = { isModalVisible = !isModalVisible }
                 )
             }
@@ -306,12 +308,12 @@ private fun VpnConnectedView(
             StatusBanner.UpgradePlus -> UpgradeNetShieldFree(netShieldActions.onUpgradeNetShield)
         }
     }
-    if (isModalVisible && connectedState.banner is StatusBanner.NetShieldBanner) {
+    if (isModalVisible && banner is StatusBanner.NetShieldBanner) {
         ModalBottomSheet(
             sheetState = bottomSheetState,
             content = {
                 NetShieldBottomComposable(
-                    currentNetShield = connectedState.banner.netShieldState.protocol,
+                    currentNetShield = banner.netShieldState.protocol,
                     onNetShieldLearnMore = netShieldActions.onNetShieldLearnMore,
                     onValueChanged = netShieldActions.onNetShieldValueChanged
                 )

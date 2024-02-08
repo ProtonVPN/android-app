@@ -25,6 +25,8 @@ import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
+import com.protonvpn.android.ui.promooffers.HomeScreenPromoBannerFlow
+import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
@@ -32,6 +34,7 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import java.util.Locale
 import javax.inject.Inject
 
@@ -42,6 +45,7 @@ class VpnStatusViewStateFlow(
     effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     currentUser: CurrentUser,
     changeServerViewStateFlow: Flow<ChangeServerViewState?>,
+    homeScreenPromoBannerFlow: Flow<PromoOfferBannerState?>
 ) : Flow<VpnStatusViewState> {
 
     @Inject
@@ -52,13 +56,15 @@ class VpnStatusViewStateFlow(
         effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
         currentUser: CurrentUser,
         changeServerViewStateFlow: ChangeServerViewStateFlow,
+        homeScreenPromoBannerFlow: HomeScreenPromoBannerFlow,
     ) : this(
         vpnStatusProvider,
         serverListUpdaterPrefs,
         vpnConnectionManager,
         effectiveCurrentUserSettings,
         currentUser,
-        changeServerViewStateFlow as Flow<ChangeServerViewState>
+        changeServerViewStateFlow as Flow<ChangeServerViewState?>,
+        homeScreenPromoBannerFlow as Flow<PromoOfferBannerState?>
     )
 
     private val locationTextFlow = combine(
@@ -68,25 +74,27 @@ class VpnStatusViewStateFlow(
         getLocationText(country, ipAddress)
     }
 
-    private val bannerFlow: Flow<StatusBanner> =
+    private val bannerFlow: Flow<StatusBanner?> =
         combine(
             effectiveCurrentUserSettings.netShield,
             vpnConnectionManager.netShieldStats,
             currentUser.vpnUserFlow,
-            changeServerViewStateFlow
-        ) { state, stats, user, changeServer ->
-            if (changeServer is ChangeServerViewState.Locked) {
-                StatusBanner.UnwantedCountry
-            } else {
-                when (user.getNetShieldAvailability()) {
-                    NetShieldAvailability.AVAILABLE -> StatusBanner.NetShieldBanner(
-                        NetShieldViewState(state, stats)
-                    )
+            changeServerViewStateFlow,
+            homeScreenPromoBannerFlow.map { it != null },
+        ) { state, stats, user, changeServer, hasPromoBanner ->
+            val availability = user.getNetShieldAvailability()
+            when {
+                hasPromoBanner && availability != NetShieldAvailability.AVAILABLE -> null
+                changeServer is ChangeServerViewState.Locked -> StatusBanner.UnwantedCountry
+                else -> when (availability) {
+                        NetShieldAvailability.AVAILABLE -> StatusBanner.NetShieldBanner(
+                            NetShieldViewState(state, stats)
+                        )
 
-                    NetShieldAvailability.UPGRADE_VPN_BUSINESS -> StatusBanner.UpgradeBusiness
-                    NetShieldAvailability.UPGRADE_VPN_PLUS -> StatusBanner.UpgradePlus
+                        NetShieldAvailability.UPGRADE_VPN_BUSINESS -> StatusBanner.UpgradeBusiness
+                        NetShieldAvailability.UPGRADE_VPN_PLUS -> StatusBanner.UpgradePlus
+                    }
                 }
-            }
         }
 
     private val vpnFlow = combine(
