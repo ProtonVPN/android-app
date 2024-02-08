@@ -44,24 +44,9 @@ class PromoOffersPrefs @Inject constructor(
     val visitedOffersFlow: Flow<List<String>> =
         preferences.observe<List<String>>(VISITED_OFFERS_KEY).map { it ?: emptyList() }
 
-    init {
-        migrateFromStorage()
-    }
-
     fun addVisitedOffer(id: String) {
         if (!visitedOffers.contains(id)) {
             visitedOffers = visitedOffers + id
-        }
-    }
-
-    private fun migrateFromStorage() {
-        val oldVisitedOffers = Storage.load(
-            PromoOfferNotificationViewModel.VisitedOffers::class.java,
-            PromoOfferNotificationViewModel.VisitedOffers()
-        )
-        if (oldVisitedOffers.isNotEmpty()) {
-            visitedOffers = oldVisitedOffers.toList()
-            Storage.delete(PromoOfferNotificationViewModel.VisitedOffers::class.java)
         }
     }
 }

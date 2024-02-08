@@ -138,7 +138,7 @@ class OneTimePopupNotificationTriggerTests {
     @Test
     fun `only notifications of TYPE_ONE_TIME_POPUP are triggered`() = testScope.runTest {
         activeNotificationsFlow.value =
-            listOf(createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_TOOLBAR))
+            listOf(createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER))
 
         foregroundActivityFlow.value = mockk()
         verify(exactly = 0) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
@@ -147,7 +147,7 @@ class OneTimePopupNotificationTriggerTests {
     @Test
     fun `when multiple notifications are active then only the first TYPE_ONE_TIME_POPUP is triggered`() = testScope.runTest {
         activeNotificationsFlow.value = listOf(
-            createTestNotification("toolbar", ApiNotificationTypes.TYPE_TOOLBAR),
+            createTestNotification("banner", ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER),
             createTestNotification("popup 1", ApiNotificationTypes.TYPE_ONE_TIME_POPUP),
             createTestNotification("popup 2", ApiNotificationTypes.TYPE_ONE_TIME_POPUP),
         )

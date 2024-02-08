@@ -252,7 +252,7 @@ class PromoOfferActivityTests {
         verify.checkIfElementIsDisplayedById(R.id.buttonOpenOffer)
     }
 
-    private fun launchOfferActivityWithPanel(panelJson: String, type: Int = ApiNotificationTypes.TYPE_TOOLBAR) {
+    private fun launchOfferActivityWithPanel(panelJson: String, type: Int = ApiNotificationTypes.TYPE_ONE_TIME_POPUP) {
         val notificationJson = createNotificationJsonWithPanel(panelJson, type)
         apiNotificationManager.setTestNotificationsResponseJson(createNotificationsResponseJson(notificationJson))
         runBlocking {

@@ -36,7 +36,7 @@ object ApiNotificationTestHelper {
         id: String,
         start: Long = 0L,
         end: Long = Long.MAX_VALUE,
-        type: Int = ApiNotificationTypes.TYPE_TOOLBAR,
+        type: Int = ApiNotificationTypes.TYPE_HOME_SCREEN_BANNER,
         label: String = "Offer",
         iconUrl: String = "file:///android_asset/no_such_file.png",
         panel: ApiNotificationOfferPanel? = null,
