@@ -159,30 +159,6 @@ class CountryListFragment : Fragment(R.layout.fragment_country_list) {
             }
             add(Section(upsellItem))
         }
-        is PromoOfferBannerModel ->
-            add(Section(createPromoBannerItem(item)))
-    }
-
-    private fun createPromoBannerItem(model: PromoOfferBannerModel): PromoOfferBannerItem {
-        val clickAction: suspend () -> Unit = {
-            val url = promoOfferButtonActions.getButtonUrl(model.action)
-
-            if (url != null) { // It's not null on correctly defined notifications.
-                upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER, model.reference)
-                upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.EXTERNAL)
-                requireActivity().openUrl(url)
-            }
-        }
-        return with(model) {
-            PromoOfferBannerItem(
-                imageUrl,
-                alternativeText,
-                endTimestamp,
-                clickAction,
-                { viewModel.onUpsellBannerDismissed(model.notificationId) }.takeIf { isDismissible },
-                viewLifecycleOwner
-            )
-        }
     }
 
     private fun ServerListSectionModel.InfoType.toAction() : (() -> Unit) = when(this) {
