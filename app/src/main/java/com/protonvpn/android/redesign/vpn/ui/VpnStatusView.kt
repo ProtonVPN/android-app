@@ -25,6 +25,7 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,12 +36,12 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -68,6 +69,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.netshield.NetShieldBottomComposable
 import com.protonvpn.android.netshield.NetShieldProtocol
@@ -278,8 +280,9 @@ private fun VpnConnectedView(
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var isModalVisible by remember { mutableStateOf(false) }
     Surface(
-        color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.7F),
+        color = ProtonTheme.colors.backgroundSecondary.copy(alpha = 0.86F),
         shape = ProtonTheme.shapes.large,
+        border = TranslucentSurfaceBorder,
         modifier = Modifier
             .offset { IntOffset(x = 0, y = (transitionValue() * 16.dp.toPx()).toInt()) }
             .graphicsLayer {
@@ -323,6 +326,11 @@ private fun VpnConnectedView(
                 isModalVisible = !isModalVisible
             })
     }
+}
+
+private val TranslucentSurfaceBorder: BorderStroke @Composable get() {
+    val colors = with (ProtonTheme.colors) { listOf(shade100.copy(alpha = 0.08f), shade100.copy(alpha = 0.02f)) }
+    return BorderStroke(1.dp, Brush.verticalGradient(colors))
 }
 
 @Composable
@@ -545,9 +553,11 @@ private fun PreviewVpnConnectedSecureCoreState() {
 
 @Composable
 private fun PreviewHelper(state: VpnStatusViewState, modifier: Modifier = Modifier) {
-    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        VpnStatusTop(state = state, transitionValue = { 1f })
-        VpnStatusBottom(state = state, transitionValue = { 1f }, NetShieldActions({}, {}, {}, {}))
+    LightAndDarkPreview {
+        Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+            VpnStatusTop(state = state, transitionValue = { 1f })
+            VpnStatusBottom(state = state, transitionValue = { 1f }, NetShieldActions({}, {}, {}, {}))
+        }
     }
 }
 
