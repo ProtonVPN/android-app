@@ -25,6 +25,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.protonvpn.android.R
@@ -87,11 +88,15 @@ abstract class BaseActivityV2 : AppCompatActivity(), VpnUiDelegateProvider {
 suspend fun ComponentActivity.suspendForPermissions(permissionIntent: Intent?): Boolean {
     if (permissionIntent == null) return true
     val granted = suspendCancellableCoroutine<Boolean> { continuation ->
-        val permissionCall = activityResultRegistry.register(
+        var permissionCall: ActivityResultLauncher<Int>? = null
+
+        permissionCall = activityResultRegistry.register(
             "VPNPermission", PermissionContract(permissionIntent)
         ) { permissionGranted ->
+            permissionCall?.unregister()
             continuation.resume(permissionGranted)
         }
+        continuation.invokeOnCancellation { permissionCall.unregister() }
         permissionCall.launch(PermissionContract.VPN_PERMISSION_ACTIVITY)
     }
     return granted
