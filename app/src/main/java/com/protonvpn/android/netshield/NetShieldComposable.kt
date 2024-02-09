@@ -125,7 +125,7 @@ fun UpgradePromo(
             )
             Text(
                 text = stringResource(descriptionRes),
-                style = ProtonTheme.typography.defaultWeak,
+                style = ProtonTheme.typography.defaultNorm,
             )
         }
 
@@ -183,18 +183,18 @@ fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit)
             )
         }
         AnimatedVisibility(state.bandwidthShown) {
-            BandwidthStatsRow(
-                stats = state.netShieldStats,
-                isGreyedOut = state.isGreyedOut
-            )
+            BandwidthStatsRow(stats = state.netShieldStats)
         }
     }
 }
 
 @Composable
-fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
+fun BandwidthStatsRow(
+    stats: NetShieldStats,
+    modifier: Modifier = Modifier,
+) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
             .semantics(mergeDescendants = true, properties = {})
     ) {
@@ -205,19 +205,16 @@ fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
             .weight(1f)
             .padding(2.dp)
         BandwidthColumn(
-            isDisabledStyle = isGreyedOut || adsCount == 0L,
             title = pluralStringResource(id = R.plurals.netshield_ads_blocked, count = adsCount.toInt()),
             content = adsCount.toString(),
             modifier = modifier.testTag("adsBlocked")
         )
         BandwidthColumn(
-            isDisabledStyle = isGreyedOut || trackerCount == 0L,
             title = pluralStringResource(id = R.plurals.netshield_trackers_stopped, count = trackerCount.toInt()),
             content = trackerCount.toString(),
             modifier = modifier.testTag("trackersStopped")
         )
         BandwidthColumn(
-            isDisabledStyle = isGreyedOut || dataSaved == 0L,
             title = stringResource(id = R.string.netshield_data_saved),
             content = ConnectionTools.bytesToSize(dataSaved),
             modifier = modifier.testTag("bandwidthSaved")
@@ -227,7 +224,6 @@ fun BandwidthStatsRow(isGreyedOut: Boolean, stats: NetShieldStats) {
 
 @Composable
 private fun BandwidthColumn(
-    isDisabledStyle: Boolean,
     title: String,
     content: String,
     modifier: Modifier = Modifier
@@ -239,7 +235,7 @@ private fun BandwidthColumn(
     ) {
         Text(
             text = content,
-            style = if (isDisabledStyle) ProtonTheme.typography.defaultSmallWeak else ProtonTheme.typography.defaultSmallStrongNorm,
+            style = ProtonTheme.typography.defaultSmallStrongNorm,
             textAlign = TextAlign.Center,
             modifier = Modifier.testTag("value")
         )

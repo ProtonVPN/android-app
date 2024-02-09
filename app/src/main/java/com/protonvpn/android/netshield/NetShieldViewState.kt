@@ -25,7 +25,6 @@ data class NetShieldViewState(
     val netShieldStats: NetShieldStats
 ) {
     val bandwidthShown = protocol != NetShieldProtocol.DISABLED
-    val isGreyedOut = protocol != NetShieldProtocol.ENABLED_EXTENDED
     val iconRes = when (protocol) {
         NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
         NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.drawable.ic_netshield_on
