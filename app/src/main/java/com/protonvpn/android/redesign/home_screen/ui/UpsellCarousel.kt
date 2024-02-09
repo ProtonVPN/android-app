@@ -24,10 +24,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
@@ -37,9 +35,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -63,6 +65,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeStreamingHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeTorHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragment
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.ViewUtils.toDp
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultSmallNorm
@@ -133,6 +136,7 @@ fun HomeUpsellCarousel(
     modifier: Modifier = Modifier,
 ) {
     val pageScope = remember(roundedServerCount, countriesCount) { PageScope(roundedServerCount, countriesCount) }
+    var minHeight by remember { mutableFloatStateOf(0F) }
     HorizontalPager(
         state = rememberPagerState { Pages.size },
         contentPadding = PaddingValues(horizontal = horizontalMargin),
@@ -140,11 +144,11 @@ fun HomeUpsellCarousel(
         pageSize = UpsellCarouselPageSize,
         beyondBoundsPageCount = Pages.size,
         verticalAlignment = Alignment.Top,
-        modifier = modifier,
+        modifier = modifier.onGloballyPositioned { minHeight = it.size.height.toDp() },
     ) { pageIndex ->
         val pageSizeModifier = Modifier
             .fillMaxWidth()
-            .height(IntrinsicSize.Max) // Doesn't work with LazyLayout that Pager is using.
+            .heightIn(min = minHeight.dp)
         val page = Pages[pageIndex]
         with(page) {
             pageScope.content(
