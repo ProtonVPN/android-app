@@ -36,6 +36,7 @@ import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.logging.ApiLogResponse
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.LoadsResponse
@@ -286,13 +287,23 @@ class ServerListUpdater @Inject constructor(
                 if (httpCode == HTTP_NOT_MODIFIED_304) ApiResult.Success(null) else this
             is ApiResult.Error ->
                 this
-            is ApiResult.Success -> {
-                lastModified = value.headers().getDate("Last-Modified")
-                ApiResult.Success(value.body())
+            is ApiResult.Success -> with(value) {
+                if (value.isSuccessful) {
+                    lastModified = value.headers().getDate("Last-Modified")
+                    ApiResult.Success(value.body())
+                } else {
+                    ProtonLogger.log(ApiLogResponse, "HTTP ${code()} ${message()} ${raw().request.method} ${raw().request.url} (took ${raw().durationMs}ms)")
+                    if (code() == HTTP_NOT_MODIFIED_304)
+                        ApiResult.Success(null)
+                    else
+                        ApiResult.Error.Http(code(), message())
+                }
             }
         }
         return ServerListResult(apiResult, freeOnly, lastModified)
     }
+
+    private val okhttp3.Response.durationMs get() = receivedResponseAtMillis - sentRequestAtMillis
 
     private suspend fun updateStreamingServices(): ApiResult<StreamingServicesResponse> =
         api.getStreamingServices().apply {
