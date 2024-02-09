@@ -52,7 +52,6 @@ import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,6 +65,9 @@ import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
 import okhttp3.Headers
+import okhttp3.Protocol
+import okhttp3.Request
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -85,6 +87,14 @@ private const val MODIFIED_REGION = "NEW REGION"
 private val FULL_LIST = MockedServers.serverList
 private val FREE_LIST_MODIFIED = listOf(
     MockedServers.serverList.first { it.serverName == "SE#3" }.copy(region = MODIFIED_REGION)
+)
+private val RESPONSE_304 : Response<ServerList> = Response.error("".toResponseBody(),
+    okhttp3.Response.Builder()
+        .request(Request.Builder().url("https://localhost").get().build())
+        .code(304)
+        .message("Not Modified")
+        .protocol(Protocol.HTTP_1_1)
+        .build()
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -160,7 +170,7 @@ class ServerListUpdaterTests {
                 val headers = Headers.Builder().add("Last-Modified", Date(serverLastModified)).build()
                 ApiResult.Success(Response.success(ServerList(list), headers))
             } else {
-                ApiResult.Error.Http(304, "Not Modified")
+                ApiResult.Success(RESPONSE_304)
             }
         }
         coEvery { mockPartnershipsRepository.refresh() } returns Unit
