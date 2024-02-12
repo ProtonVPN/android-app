@@ -24,55 +24,30 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.Transition
-import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.MutatePriority
-import androidx.compose.foundation.MutatorMutex
-import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.CollectionInfo
-import androidx.compose.ui.semantics.ScrollAxisRange
-import androidx.compose.ui.semantics.collectionInfo
-import androidx.compose.ui.semantics.expand
-import androidx.compose.ui.semantics.onClick
-import androidx.compose.ui.semantics.scrollBy
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.stateDescription
-import androidx.compose.ui.semantics.verticalScrollAxisRange
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
@@ -80,8 +55,6 @@ import com.protonvpn.android.redesign.base.ui.MaxContentWidth
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 import kotlin.math.roundToInt
@@ -113,8 +86,9 @@ fun RecentsList(
     changeServerButton: (@Composable ColumnScope.() -> Unit)? = null,
     promoBanner: (@Composable (Modifier) -> Unit)? = null,
     promoBannerPeekOffset: Dp = 0.dp,
-    upsellContent: (@Composable (Modifier) -> Unit)? = null,
-    contentPadding: PaddingValues = PaddingValues(),
+    upsellContent: (@Composable (Modifier, Dp) -> Unit)? = null,
+    topPadding: Dp = 0.dp,
+    horizontalPadding: Dp = 0.dp,
     expandState: RecentsExpandState?,
 ) {
     val itemIds = viewState.toItemIds()
@@ -145,7 +119,6 @@ fun RecentsList(
         state = listState,
         modifier = listModifier
             .animateContentSize(),
-        contentPadding = contentPadding,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
@@ -154,6 +127,7 @@ fun RecentsList(
                 .optional({ peekThresholdItem == PeekThresholdItem.ConnectionCard }, peekPositionObserver)
                 .animateItemPlacement()
                 .animateContentSize()
+                .padding(start = horizontalPadding, end = horizontalPadding, top = topPadding)
             Column(
                 modifier = connectionCardModifier
             ) {
@@ -189,6 +163,7 @@ fun RecentsList(
                     Modifier
                         .widthIn(max = ProtonTheme.MaxContentWidth)
                         .fillMaxWidth()
+                        .padding(horizontal = horizontalPadding)
                         .animateItemPlacement()
                         .optional({ peekThresholdItem == PeekThresholdItem.PromoBanner }, bannerPeekObserver)
                 )
@@ -209,12 +184,17 @@ fun RecentsList(
                         .fillMaxWidth()
                         .animateItemPlacement()
                         .optional({ peekThresholdItem == PeekThresholdItem.Header }, peekPositionObserver)
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .padding(
+                            horizontal = horizontalPadding + 16.dp,
+                            vertical = 8.dp
+                        )
                 )
             }
         }
         if (upsellContent != null) {
-            item {upsellContent(Modifier.animateItemPlacement()) }
+            item {
+                upsellContent(Modifier.animateItemPlacement(), horizontalPadding)
+            }
         }
         itemsIndexed(viewState.recents, key = { _, item -> item.id }) { index, item ->
             val isVisible = remember {
@@ -226,6 +206,7 @@ fun RecentsList(
                 enter = slideInVertically { height -> -height } + fadeIn(),
                 exit = ExitTransition.None,
                 modifier = Modifier
+                    .padding(horizontal = horizontalPadding)
                     .widthIn(max = ProtonTheme.MaxContentWidth)
                     .animateItemPlacement(),
             ) {
