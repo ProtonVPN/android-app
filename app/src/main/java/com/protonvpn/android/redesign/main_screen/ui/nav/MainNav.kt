@@ -52,6 +52,7 @@ import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen.settings
+import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 
 enum class MainTarget {
     Home, Countries, Settings;
@@ -69,20 +70,20 @@ enum class MainTarget {
 @Composable
 fun rememberMainNav(
     coreNavigation: CoreNavigation,
-    rootController: NavHostController,
+    rootNav: RootNav,
     selfController: NavHostController = rememberNavController(),
 ) = remember(selfController) {
     MainNav(
         selfNav = selfController,
         coreNavigation = coreNavigation,
-        rootNav = rootController
+        rootNav = rootNav
     )
 }
 
 class MainNav(
     selfNav: NavHostController,
     private val coreNavigation: CoreNavigation,
-    private val rootNav: NavHostController,
+    private val rootNav: RootNav,
 ) : BaseNav<MainNav>(selfNav, "main") {
 
     fun navigate(target: MainTarget) {
@@ -121,7 +122,7 @@ class MainNav(
                 when (target) {
                     MainTarget.Home -> home(
                         mainScreenViewModel = mainScreenViewModel,
-                        onConnectionCardClick = { rootNav.navigate(ConnectionDetailsScreen.route) }
+                        onConnectionCardClick = { rootNav.navigate(ConnectionDetailsScreen) }
                     )
 
                     MainTarget.Countries -> countryList(
@@ -130,11 +131,14 @@ class MainNav(
                             navigate(MainTarget.Home)
                         },
                         onNavigateToSearch = {
-                            rootNav.navigate(SearchRouteScreen.route)
+                            rootNav.navigate(SearchRouteScreen)
                         }
                     )
 
-                    MainTarget.Settings -> settings(coreNavigation)
+                    MainTarget.Settings -> settings(
+                        coreNavigation,
+                        onNavigateToSubSetting = { type -> rootNav.navigate(SubSettingsScreen, type) }
+                    )
                 }
             }
         }
@@ -165,7 +169,7 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
 
     fun SafeNavGraphBuilder<RootNav>.mainScreen(
         coreNavigation: CoreNavigation,
-        rootNav: NavHostController
+        rootNav: RootNav
     ) = addToGraph(this) {
         val mainNav = rememberMainNav(coreNavigation, rootNav)
         MainScreenNavigation(Modifier, mainNav)

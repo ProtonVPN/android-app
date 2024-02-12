@@ -25,7 +25,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -72,6 +71,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.account.AccountActivity
 import com.protonvpn.android.ui.drawer.LogActivity
@@ -92,9 +92,11 @@ import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.presentation.R as CoreR
 
-@RequiresApi(Build.VERSION_CODES.N)
 @Composable
-fun SettingsRoute(signOut: () -> Unit) {
+fun SettingsRoute(
+    signOut: () -> Unit,
+    onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit
+) {
     val context = LocalContext.current
     val viewModel: SettingsViewModel = hiltViewModel()
     val viewState = viewModel.viewState.collectAsState().value
@@ -124,13 +126,14 @@ fun SettingsRoute(signOut: () -> Unit) {
                 UpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(context)
             },
             onAlwaysOnClick = {
-                context.startActivity(Intent(context, SettingsAlwaysOnActivity::class.java))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    context.startActivity(Intent(context, SettingsAlwaysOnActivity::class.java))
             },
             onProtocolClick = {
                 protocolLauncher.launch(viewState.currenProtocolSelection)
             },
             onVpnAcceleratorClick = {
-                // TODO
+                onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
             },
             onAdvancedSettingsClick = {
                 // TODO
@@ -391,11 +394,13 @@ private fun FeatureCategory(
             trailingIconTint = false,
             onClick = if (viewState.userInfo.isFreeUser) onSplitTunnelUpgrade else onSplitTunnelClick
         )
-        SettingRowWithIcon(
-            icon = R.drawable.ic_kill_switch,
-            title = stringResource(id = R.string.settings_kill_switch_title),
-            onClick = onAlwaysOnClick
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            SettingRowWithIcon(
+                icon = R.drawable.ic_kill_switch,
+                title = stringResource(id = R.string.settings_kill_switch_title),
+                onClick = onAlwaysOnClick
+            )
+        }
     }
 }
 
