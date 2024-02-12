@@ -163,7 +163,7 @@
     <string name="noVpnPermissionGrantPermissionTitle">Berikan VPN izin</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Sistem Android membutuhkan izin Anda untuk dapat terhubung ke Proton VPN. Untuk memberikan izin, ketuk \"OK\" pada saat Android menampilkan layar \"Connection request\".</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Nonaktifkan fitur always-on milik aplikasi VPN lain</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Sistem Android tidak mendukung penggunaan beberapa aplikasi VPN secara bersamaan. Harap nonaktifkan fitur always-on milik aplikasi selain Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Sistem Android tidak mendukung penggunaan beberapa aplikasi VPN secara bersamaan. Nonaktifkan fitur always-on milik aplikasi selain Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Aplikasi Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Aplikasi VPN lain</string>
     <string name="noVpnPermissionOpenSettings">Buka pengaturan VPN Android</string>
@@ -357,7 +357,7 @@
     <string name="notification_max_sessions_title">Anda telah mencapai batas jumlah perangkat maksimum yang dapat Anda sambungkan</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="other">Mohon putuskan sambungan yang telah ada agar perangkat ini dapat tersambung atau tingkatkan akun Anda ke Plus untuk dapat menyambungkan hingga %1$d perangkat dalam satu waktu.</item>
+        <item quantity="other">Silakan putuskan perangkat lain agar perangkat ini dapat terhubung, atau tingkatkan ke Plus untuk dapat menghubungkan hingga %1$d perangkat secara bersamaan.</item>
     </plurals>
     <string name="notification_max_sessions_content">Mohon putuskan perangkat lain agar perangkat ini dapat terhubung.</string>
     <string name="notification_cancel_to_free">Anda sedang berada dalam paket Free. Anda akan dapat menikmati berbagai server dan fitur Free yang tersedia.</string>

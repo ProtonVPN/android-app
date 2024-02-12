@@ -248,9 +248,9 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Abrir definições Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">A ativação do Kill switch desativará o túnel dividido, uma vez que o Kill switch bloqueia todas as ligações fora do túnel VPN.</string>
     <string name="settingsSmartProtocolDescription">Utilizar automaticamente o protocolo e porta que ofereçam a melhor ligação.</string>
-    <string name="settingsEnableTelemetryTitle">Partilhar estatísticas anônimas de utilização</string>
+    <string name="settingsEnableTelemetryTitle">Partilhar estatísticas anónimas de utilização</string>
     <string name="settingsEnableTelemetryDescription">Os dados de utilização ajudam-nos a ultrapassar bloqueios de VPN e a melhorar a aplicação.</string>
-    <string name="settingsSendCrashReportsTitle">Partilhar relatórios de acidente anônimo</string>
+    <string name="settingsSendCrashReportsTitle">Partilhar relatórios de acidente anónimo</string>
     <string name="settingsSendCrashReportsDescription">Os relatórios de falhas ajudam-nos a corrigir erros, a detetar firewalls e a evitar bloqueios de VPN.</string>
     <string name="settingsTelemetryScreenTitle">Estatísticas de utilização</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm o seu endereço IP e não podem ser utilizadas para o identificar. Nunca as partilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
@@ -453,7 +453,7 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[Unlock %1$s in %2$s with <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">Quando fizer \"upgrade\" para o Plus</string>
     <string name="upgrade_safe_mode_title">Permitir tráfego em portas incomuns</string>
-    <string name="upgrade_safe_mode_message">Tem necessidades informáticas avançadas ou profissionais que requerem portas não standard? Actualize para o VPN Plus para aceder a esta e outras funcionalidades premium.</string>
+    <string name="upgrade_safe_mode_message">Tem necessidades informáticas avançadas ou profissionais que requerem portas não standard? Atualize para o VPN Plus para aceder a esta e outras funcionalidades premium.</string>
     <string name="upgrade_not_now_button">Agora não</string>
     <string name="upgrade_learn_more">Saiba mais</string>
     <string name="upsell_card_countries_title">Worldwide cover</string>
@@ -483,7 +483,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Tunelamento dividido</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
@@ -662,7 +662,7 @@
     <string name="whats_new_recents_title">Introducing Recents</string>
     <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
     <string name="whats_new_dismiss_button">Take a look</string>
-    <string name="whats_new_added_countries_title">Novos países gratuitos</string>
+    <string name="whats_new_added_countries_title">Novos países Free</string>
     <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
     <string name="welcome_plus_title">Bem-vindo à VPN Plus</string>
     <string name="welcome_plus_description">Aproveite funcionalidades de privacidade extra, desempenho de alta qualidade, e uma personalização da VPN de outro nível.</string>
@@ -1045,7 +1045,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out_title">Sign Out</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_app_version">Versão da aplicação: %1$s</string>
+    <string name="settings_app_version">Versão da app: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Licenças de terceiros</string>
     <!-- tag(Redesign_2023) -->

@@ -455,30 +455,30 @@
         Example:
         1700+ server locations in 63 countries -->
     <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
-    <string name="upsell_card_customization_title">And much more…</string>
-    <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
+    <string name="upsell_card_customization_title">他にもいろいろ...</string>
+    <string name="upsell_card_customization_description">パフォーマンスとプライバシー機能をさらに強化</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="other">Protect %1$d devices</item>
+        <item quantity="other">%1$d台のデバイスを保護</item>
     </plurals>
-    <string name="upsell_card_devices_description">Security and privacy on all your devices</string>
+    <string name="upsell_card_devices_description">すべてのデバイスにセキュリティとプライバシー</string>
     <string name="upsell_card_netshield_title">NetShield</string>
-    <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
+    <string name="upsell_card_netshield_description">マルウェア、広告、トラッカーをブロック</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">VPN接続にもう1つの暗号化レイヤーを追加する</string>
-    <string name="upsell_card_p2p_title">P2P support</string>
-    <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
-    <string name="upsell_card_speed_title">Faster browsing</string>
+    <string name="upsell_card_p2p_title">P2P対応</string>
+    <string name="upsell_card_p2p_description">BitTorrentやその他のファイル共有プロトコルでファイルをダウンロードする</string>
+    <string name="upsell_card_speed_title">高速なブラウジング</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
+    <string name="upsell_card_speed_description">さらに高速なブラウジング(最大 %1$d Gbps)</string>
     <string name="upsell_card_split_tunneling_title">スプリットトンネル</string>
-    <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
+    <string name="upsell_card_split_tunneling_description">一度に2つの場所からブラウズ</string>
     <string name="upsell_card_streaming_title">ストリーミング</string>
-    <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
+    <string name="upsell_card_streaming_description">好きな映画やテレビ番組を視聴</string>
     <string name="upsell_card_tor_title">VPN経由Tor</string>
-    <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="upsell_card_tor_description">VPN接続にTorネットワークを使用することで、プライバシーをさらに守ることができます</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -526,7 +526,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN へようこそ</string>
-    <string name="onboarding_welcome_description">Browse privately, access blocked content, and enjoy digital freedom.</string>
+    <string name="onboarding_welcome_description">プライベートなブラウジング、ブロックされたコンテンツへのアクセス、デジタルの自由を楽しんでください。</string>
     <string name="onboarding_welcome_action">利用開始</string>
     <string name="onboarding_available_on_plus">Plus で利用可能</string>
     <string name="upgrade_success_get_started_button">始めましょう！</string>
@@ -629,7 +629,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
+    <string name="server_change_button_time_left_content_description">%1$s %2$s 内で可能</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -637,18 +637,18 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
+    <string name="server_change_button_time_left_seconds_content_description">%1$s 内で可能</string>
     <string name="server_change_progress_finished_contend_description">今すぐ入手可能</string>
     <string name="not_wanted_country_title">望んだ国ではなかった？</string>
     <string name="not_wanted_country_description">アップグレードで好きなサーバーを選べる</string>
     <string name="whats_new_title">最新情報</string>
     <string name="whats_new_new_look_title">新しい外観、変わらない保護</string>
-    <string name="whats_new_new_look_description">We updated our designs and moved some things around to make the app easier to use.</string>
+    <string name="whats_new_new_look_description">私たちはデザインを更新し、アプリを使いやすくするためにいくつかのものを移動させました。</string>
     <string name="whats_new_recents_title">Introducing Recents</string>
-    <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
-    <string name="whats_new_dismiss_button">Take a look</string>
+    <string name="whats_new_recents_description">お気に入りのサーバーへの再接続がさらに簡単になりました。最近の接続をホーム画面に表示したり、ピン留めしてすばやくアクセスできます。最近の接続はプロファイルに置き換わります。</string>
+    <string name="whats_new_dismiss_button">確認する</string>
     <string name="whats_new_added_countries_title">新しい自由の国</string>
-    <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
+    <string name="whats_new_added_countries_description">ポーランドとルーマニアに無料サーバーができました。サーバーの混雑を防ぐため、手動での国選択を廃止し、自動サーバー選択を大幅に改善しました。</string>
     <string name="welcome_plus_title">VPN Plusへようこそ</string>
     <string name="welcome_plus_description">特別なプライバシー機能、超高速パフォーマンス、そしてハイレベルなVPNカスタマイズをお楽しみください。</string>
     <string name="welcome_plus_feature_security">高度なセキュリティ機能</string>
@@ -699,14 +699,14 @@
          a label "Recents" with this state description will be read by a screen reader as:
          "Expanded. Recents"
      -->
-    <string name="accessibility_expandable_state_expanded">expanded</string>
+    <string name="accessibility_expandable_state_expanded">展開しました</string>
     <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
          Used only by accessibility services.
          Example:
          a label "Recents" with this state description will be read by a screen reader as:
          "Collapsed. Recents"
      -->
-    <string name="accessibility_expandable_state_collapsed">collapsed</string>
+    <string name="accessibility_expandable_state_collapsed">折りたたむ</string>
     <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
          Used only by accessibility services.
          Example:
@@ -714,7 +714,7 @@
          read by a screen reader as:
          "Expanded. Recents. Double tap to collapse"
      -->
-    <string name="accessibility_expandable_action_collapse">collapse</string>
+    <string name="accessibility_expandable_action_collapse">閉じる</string>
     <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
          Used only by accessibility services.
          Example:
@@ -722,15 +722,15 @@
          be read by a screen reader as:
          "Collapsed. Recents. Double tap to expand"
      -->
-    <string name="accessibility_expandable_action_expand">expand</string>
-    <string name="no_logs_banner_title">Certified no-logs VPN</string>
-    <string name="no_logs_banner_description">Your VPN activity is protected by Swiss privacy laws. We’ll never track you online or share your information with third parties.</string>
+    <string name="accessibility_expandable_action_expand">開く</string>
+    <string name="no_logs_banner_title">認証済みのノーログVPN</string>
+    <string name="no_logs_banner_description">あなたのVPN活動はスイスのプライバシー法により保護されています。お客様のオンライン情報を追跡したり、第三者と共有したりすることは決してありません。</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
-    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_home">ホーム</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
-    <string name="bottom_nav_countries">Countries</string>
+    <string name="bottom_nav_countries">国</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
-    <string name="botton_nav_settings">Settings</string>
+    <string name="botton_nav_settings">設定</string>
     <!-- tag(Redesign_2023)
          Text added to button labels that open a UI element (e.g. a panel).
          Only used by accessibility services.
@@ -739,7 +739,7 @@
          reader as:
          "Connection details, button. Double tap to open"
     -->
-    <string name="accessibility_action_open">open</string>
+    <string name="accessibility_action_open">開く</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that initiate a VPN connection.
          Only used by accessibility services.
@@ -747,7 +747,7 @@
          a list item for country Switzerland will be read by a screen reader as:
          "Switzerland. Double tap to connect"
         -->
-    <string name="accessibility_action_connect">connect</string>
+    <string name="accessibility_action_connect">接続</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that redirect the user to upgrade their subscription plan.
          Only used by accessibility services.
@@ -775,7 +775,7 @@
          reader as:
          "unavailable, Switzerland"
      -->
-    <string name="accessibility_item_unavailable">unavailable</string>
+    <string name="accessibility_item_unavailable">使用不可</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when there is active connection to it.
          Only used by accessibility services.
@@ -784,7 +784,7 @@
          will be read by a screen reader as:
          "Switzerland, connected"
      -->
-    <string name="accessibility_item_connected">connected</string>
+    <string name="accessibility_item_connected">接続完了</string>
     <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
@@ -792,28 +792,28 @@
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">最速の国</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
-    <string name="fastest_free_server">Fastest free server</string>
+    <string name="fastest_free_server">最速の無料サーバー</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Iceland
      -->
-    <string name="connection_info_secure_core_full_iceland">%1$s via Iceland</string>
+    <string name="connection_info_secure_core_full_iceland">アイスランド経由で%1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Sweden
      -->
-    <string name="connection_info_secure_core_full_sweden">%1$s via Sweden</string>
+    <string name="connection_info_secure_core_full_sweden">スェーデン経由で%1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_switzerland">%1$s via Switzerland</string>
+    <string name="connection_info_secure_core_full_switzerland">スイス経由で%1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection.
          This text will only be used if a new entry country is added and the application is not
@@ -822,17 +822,17 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
+    <string name="connection_info_secure_core_full_other">%1$sに%2$s経由</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
-    <string name="connection_info_secure_core_entry_iceland">via Iceland</string>
+    <string name="connection_info_secure_core_entry_iceland">アイスランド経由</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
      -->
-    <string name="connection_info_secure_core_entry_sweden">via Sweden</string>
+    <string name="connection_info_secure_core_entry_sweden">スウェーデン経由</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -844,7 +844,7 @@
          Italy
          via Secure Core
     -->
-    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
+    <string name="connection_info_secure_core_entry_fastest">Secure Coreを経由</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not
@@ -852,14 +852,14 @@
          %1$s - entry country name in nominative case
          Example: via Switzerland
     -->
-    <string name="connection_info_secure_core_entry_other">via %1$s</string>
+    <string name="connection_info_secure_core_entry_other">%1$s 経由</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          three countries. Displayed directly below fastest_free_server.
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">Auto-selected from [flags]</string>
+    <string name="connection_info_auto_selected_free_countries">[flags]から自動選択</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there
@@ -870,7 +870,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">[flags]と%1$dから自動選択</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -878,7 +878,7 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="other">Auto-selected from %1$d countries</item>
+        <item quantity="other">%1$dヶ国から自動選択</item>
     </plurals>
     <!-- tag(Redesign_2023)
          Help button above the connection card.
@@ -895,7 +895,7 @@
          Recommended
          Fastest country
      -->
-    <string name="connection_card_label_recommended">Recommended</string>
+    <string name="connection_card_label_recommended">おすすめ</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1110,45 +1110,45 @@
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
-    <string name="connection_details_download">Download</string>
+    <string name="connection_details_download">ダウンロード</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_section_vpn_speed">VPN speed</string>
+    <string name="connection_details_section_vpn_speed">VPN速度</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_question">What is VPN speed?</string>
+    <string name="connection_details_vpn_speed_question">VPNの速度とは？</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
-    <string name="connection_details_learn_more">Learn more</string>
+    <string name="connection_details_learn_more">より詳しく</string>
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
-    <string name="connection_details_unknown_ip">Unknown</string>
+    <string name="connection_details_unknown_ip">不明</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
+    <string name="connection_details_vpn_speed_description">このグラフは、現在のアップロードとダウンロードの速度を示しています。VPN接続によって、通常のオンライン・アクティビティの速度が低下することはほとんどありません。</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_bits_per_second">%1$s b/s</string>
+    <string name="speed_bits_per_second">%1$s b/秒</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_kb_per_second">%1$s kb/s</string>
+    <string name="speed_kb_per_second">%1$s kb/秒</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_mb_per_second">%1$s Mb/s</string>
+    <string name="speed_mb_per_second">%1$s Mb/秒</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_gb_per_second">%1$s Gb/s</string>
+    <string name="speed_gb_per_second">%1$s Gb/秒</string>
     <!-- tag(Redesign_2023) -->
-    <string name="speed_tb_per_second">%1$s Tb/s</string>
+    <string name="speed_tb_per_second">%1$s Tb/秒</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
-    <string name="error_vpn_waiting_for_network">Waiting for network</string>
+    <string name="error_vpn_waiting_for_network">ネットワークを待機中</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
         <item quantity="other">%1$d 日</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d hr</string>
+    <string name="connection_details_hours_shortened">%1$d 時間</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <string name="connection_details_minutes_shortened">%1$d 分</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d sec</string>
+    <string name="connection_details_seconds_shortened">%1$d 秒</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">接続に失敗</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">このデバイスはVPN接続を許可していません。</string>
 </resources>
