@@ -396,8 +396,8 @@
     </plurals>
     <string name="upsell_upgrade_again">Erneut upgraden, um alle Funktionen nutzen zu können:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="other">Schütze %1$d Geräte auf einmal</item>
+        <item quantity="one">Verbinde %1$d Gerät gleichzeitig</item>
+        <item quantity="other">Verbinde %1$d Geräte gleichzeitig</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN ist auf 8 verschiedenen Plattformen verfügbar.</string>
     <string name="upgrade_plus_title">Verbessere deine Privatsphäre</string>

@@ -481,7 +481,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">Больш за %1$d месцазнаходжанняў сервераў у %2$s</string>
+    <string name="upsell_card_countries_description">Больш за %1$d месцазнаходжанняў для сервераў у %2$s</string>
     <string name="upsell_card_customization_title">І многае іншае...</string>
     <string name="upsell_card_customization_description">Разблакіруйце яшчэ больш функцый прадукцыйнасці і прыватнасці</string>
     <plurals name="upsell_card_devices_title">

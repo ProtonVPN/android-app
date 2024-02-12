@@ -425,7 +425,7 @@
     <string name="upgrade_streaming_title">Streamuj w 4K</string>
     <string name="upgrade_streaming_text">Ciesz się ulubionymi filmami i programami telewizyjnymi gdziekolwiek jesteś.</string>
     <string name="upgrade_tor_title">Dostęp do sieci Tor jednym kliknięciem</string>
-    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
+    <string name="upgrade_tor_text">Połącz się z ukrytymi usługami i stronami onion za pomocą normalnej przeglądarki.</string>
     <string name="upgrade_vpn_accelerator_title">Przeglądaj Internet z najwyższą prędkością</string>
     <!--
         %1$s - speed in Gbps
