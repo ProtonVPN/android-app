@@ -19,12 +19,11 @@
 
 package com.protonvpn.android.redesign.countries.ui.nav
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
+import com.protonvpn.android.redesign.base.ui.nav.addToGraphWithSlideAnim
 import com.protonvpn.android.redesign.countries.ui.CountryListRoute
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
@@ -42,36 +41,9 @@ object CountryListScreen : ScreenNoArg<MainNav>("country_list") {
 
 object SearchRouteScreen : ScreenNoArg<RootNav>("searchScreen") {
 
-    private const val TRANSITION_DURATION_MILLIS = 400
-
     fun SafeNavGraphBuilder<RootNav>.searchScreen(
         onBackIconClick: () -> Unit
-    ) = addToGraph(
-        this,
-        enterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Up,
-                animationSpec = tween(TRANSITION_DURATION_MILLIS)
-            )
-        },
-        exitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Down,
-                animationSpec = tween(TRANSITION_DURATION_MILLIS)
-            )
-        },
-        popEnterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Up,
-                animationSpec = tween(TRANSITION_DURATION_MILLIS)
-            )
-        },
-        popExitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Down,
-                animationSpec = tween(TRANSITION_DURATION_MILLIS)
-            )
-        }) {
+    ) = addToGraphWithSlideAnim(this) {
         SearchRoute(onBackIconClick)
     }
 }

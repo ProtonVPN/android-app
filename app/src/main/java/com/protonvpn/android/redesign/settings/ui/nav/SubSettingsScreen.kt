@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Proton AG
+ * Copyright (c) 2024 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -19,19 +19,22 @@
 
 package com.protonvpn.android.redesign.settings.ui.nav
 
+import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
-import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
+import com.protonvpn.android.redesign.base.ui.nav.Screen
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
-import com.protonvpn.android.redesign.app.ui.CoreNavigation
-import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
-import com.protonvpn.android.redesign.settings.ui.SettingsRoute
+import com.protonvpn.android.redesign.settings.ui.SubSettingsRoute
 
-object SettingsScreen : ScreenNoArg<MainNav>("settings") {
+object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsScreen") {
 
-    fun SafeNavGraphBuilder<MainNav>.settings(
-        coreNavigation: CoreNavigation,
-        onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
-    ) = addToGraph(this) {
-        SettingsRoute(coreNavigation.signOut, onNavigateToSubSetting)
+    enum class Type {
+        VpnAccelerator
+    }
+
+    fun SafeNavGraphBuilder<RootNav>.subSettings(
+        onClose: () -> Unit
+    ) = addToGraph(this) { entry ->
+        val type = getArgs<Type>(entry)
+        SubSettingsRoute(type, onClose)
     }
 }

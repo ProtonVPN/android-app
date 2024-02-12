@@ -24,6 +24,7 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
@@ -110,6 +111,51 @@ fun <N : BaseNav<N>> Screen<*, N>.addToGraph(
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition,
         arguments = navArgs,
+        content = content
+    )
+}
+
+private const val TRANSITION_DURATION_MILLIS = 400
+
+fun <N : BaseNav<N>> Screen<*, N>.addToGraphWithSlideAnim(
+    builder: SafeNavGraphBuilder<N>,
+    vertical: Boolean = true,
+    content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
+) {
+    val inDirection = if (vertical)
+        AnimatedContentTransitionScope.SlideDirection.Up
+    else
+        AnimatedContentTransitionScope.SlideDirection.Left
+    val outDirection = if (vertical)
+        AnimatedContentTransitionScope.SlideDirection.Down
+    else
+        AnimatedContentTransitionScope.SlideDirection.Right
+    addToGraph(
+        builder,
+        enterTransition = {
+            slideIntoContainer(
+                inDirection,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        },
+        exitTransition = {
+            slideOutOfContainer(
+                outDirection,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        },
+        popEnterTransition = {
+            slideIntoContainer(
+                inDirection,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                outDirection,
+                animationSpec = tween(TRANSITION_DURATION_MILLIS)
+            )
+        },
         content = content
     )
 }

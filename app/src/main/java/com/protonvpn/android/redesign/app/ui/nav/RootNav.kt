@@ -23,18 +23,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
+import com.protonvpn.android.redesign.base.ui.nav.Screen
+import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.countries.ui.nav.SearchRouteScreen.searchScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.ConnectionDetailsScreen.connectionStatus
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen.mainScreen
+import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen.subSettings
 
 enum class RootTarget {
-    Main, ConnectionDetails, SearchScreen;
+    Main, ConnectionDetails, SearchScreen, SubSettings;
 }
 
 class RootNav(
-    private val selfNav: NavHostController,
+    selfNav: NavHostController,
 ) : BaseNav<RootNav>(selfNav, "rootNav") {
 
     @Composable
@@ -51,7 +54,7 @@ class RootNav(
                     RootTarget.Main -> {
                         mainScreen(
                             coreNavigation,
-                            selfNav
+                            this@RootNav
                         )
                     }
                     RootTarget.SearchScreen -> {
@@ -60,8 +63,19 @@ class RootNav(
                     RootTarget.ConnectionDetails -> {
                         connectionStatus(onClosePanel = ::popBackStack)
                     }
+                    RootTarget.SubSettings -> {
+                        subSettings(onClose = ::popBackStack)
+                    }
                 }
             }
         }
+    }
+
+    inline fun <reified T: Any> navigate(screen: Screen<T, RootNav>, arg: T) {
+        navigateInternal(screen, arg)
+    }
+
+    fun navigate(screen: ScreenNoArg<RootNav>) {
+        navigateInternal(screen)
     }
 }

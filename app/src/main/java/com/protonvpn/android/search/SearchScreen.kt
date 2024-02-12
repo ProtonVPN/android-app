@@ -23,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -43,6 +42,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -53,6 +53,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ComposableSearchViewBinding
 import kotlinx.coroutines.flow.Flow
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun SearchRoute(onBackIconClick: () -> Unit) {
@@ -112,7 +113,10 @@ fun SearchableTopAppBar(
     TopAppBar(
         navigationIcon = {
             IconButton(onClick = onCloseClicked) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(id = R.string.back))
+                Icon(
+                    painter = painterResource(id = CoreR.drawable.ic_arrow_back),
+                    contentDescription = stringResource(id = R.string.back)
+                )
             }
         },
         title = {

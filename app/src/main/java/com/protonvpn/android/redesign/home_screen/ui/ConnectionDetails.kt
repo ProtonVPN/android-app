@@ -40,9 +40,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -98,10 +95,10 @@ import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.headlineNorm
 import me.proton.core.compose.theme.overlineWeak
 import me.proton.core.compose.theme.subheadlineNorm
-import me.proton.core.presentation.R as CoreR
 import kotlin.math.roundToInt
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun ConnectionDetailsRoute(
@@ -156,7 +153,7 @@ private fun ColumnScope.ConnectionDetailsConnected(
         navigationIcon = {
             IconButton(onClick = { onClosePanel() }) {
                 Icon(
-                    Icons.Filled.ArrowBack,
+                    painterResource(id = CoreR.drawable.ic_arrow_back),
                     contentDescription = stringResource(id = R.string.accessibility_back)
                 )
             }
@@ -719,7 +716,8 @@ fun IpView(
                 }
             }
             Icon(
-                imageVector = Icons.Default.ArrowForward, contentDescription = null
+                painter = painterResource(id = CoreR.drawable.ic_arrow_forward),
+                contentDescription = null
             )
 
             Box(
