@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -53,7 +54,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -168,12 +171,12 @@ fun HomeView(
             )
         }
     }
-    val upsellCarouselContent: (@Composable (Modifier) -> Unit)? = upsellCarouselState?.let { state ->
-        @Composable { modifier ->
+    val upsellCarouselContent: (@Composable (Modifier, Dp) -> Unit)? = upsellCarouselState?.let { state ->
+        @Composable { modifier, paddingValues ->
             HomeUpsellCarousel(
                 roundedServerCount = state.roundedServerCount,
                 countriesCount = state.countryCount,
-                horizontalMargin = 16.dp,
+                horizontalMargin = paddingValues + 16.dp,
                 onOpenUpgradeScreen = { focus, upgradeSource -> launchUpgradeDialog(context, focus, upgradeSource) },
                 modifier = modifier.padding(bottom = 8.dp),
             )
@@ -264,8 +267,6 @@ fun HomeView(
                     if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientHeightBasic else ListBgGradientHeightExpanded
                 val listBgGradientOffset =
                     if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientOffsetBasic else ListBgGradientHeightExpanded / 2
-                val listContentPadding =
-                    PaddingValues(top = listBgGradientOffset, start = horizontalPadding, end = horizontalPadding)
                 RecentsList(
                     viewState = recentsViewState,
                     expandState = recentsExpandState,
@@ -279,7 +280,8 @@ fun HomeView(
                     onRecentClicked = recentClickedAction,
                     onRecentPinToggle = viewModel::togglePinned,
                     onRecentRemove = viewModel::removeRecent,
-                    contentPadding = listContentPadding,
+                    horizontalPadding = horizontalPadding,
+                    topPadding = listBgGradientOffset,
                     errorSnackBar = snackbarHostState,
                     modifier = Modifier
                         .offset { IntOffset(0, recentsExpandState.listOffsetPx) }

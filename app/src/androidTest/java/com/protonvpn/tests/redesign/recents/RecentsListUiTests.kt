@@ -19,17 +19,17 @@
 
 package com.protonvpn.tests.redesign.recents
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
@@ -90,7 +90,7 @@ class RecentsListUiTests : FusionComposeTest() {
             null
         )
         composeRule.setContent {
-            val upsellContent = @Composable { modifier: Modifier ->
+            val upsellContent = @Composable { modifier: Modifier, padding: Dp ->
                 Text("dummy upsell content", modifier = modifier)
             }
             RecentsList(viewState, {}, {}, {}, {}, {}, {}, upsellContent = upsellContent, expandState = null, errorSnackBar = null)
@@ -116,7 +116,7 @@ class RecentsListUiTests : FusionComposeTest() {
                 val expandState = rememberRecentsExpandState()
                 val maxHeightPx = LocalDensity.current.run { maxHeight.toPx() }
                 expandState.setMaxHeight(maxHeightPx.roundToInt())
-                val upsellContent = @Composable { modifier: Modifier ->
+                val upsellContent = @Composable { modifier: Modifier, padding: Dp ->
                     Text(upsellContentText, modifier = modifier)
                 }
 
