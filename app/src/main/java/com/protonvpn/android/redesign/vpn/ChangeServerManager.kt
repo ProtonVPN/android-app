@@ -24,7 +24,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.ui.home.vpn.ChangeServerPrefs
-import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState

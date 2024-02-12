@@ -49,7 +49,7 @@ class ServersStoreTests {
     private lateinit var testDispatcher: TestDispatcher
     private val testFile = File("servers")
     private val tmpFile = File("servers${FileObjectStore.TMP_SUFFIX}")
-    private val countries = listOf(VpnCountry("US", MockedServers.serverList, false))
+    private val countries = listOf(VpnCountry("US", MockedServers.serverList))
     private val servers = MockedServers.serverList
 
     private suspend fun createAndLoadServersStore(testFile: File = File("servers")) =

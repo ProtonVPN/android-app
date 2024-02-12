@@ -22,7 +22,6 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.data.haveAccessWith
 import com.protonvpn.android.utils.CountryTools
-import kotlinx.serialization.Transient
 import java.io.Serializable
 
 sealed class ServerGroup {
@@ -65,7 +64,6 @@ class GatewayGroup(
 data class VpnCountry(
     val flag: String,
     override val serverList: List<Server>,
-    private val isSecureCoreEntryCountry: Boolean,
 ) : ServerGroup(), Serializable {
 
     val countryName: String
