@@ -98,7 +98,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         coEvery { mockServerManager.getServerById(any()) } answers {
             allServers.find { it.serverId == firstArg() }
         }
-        coEvery { mockServerManager.getFreeCountries() } returns listOf(VpnCountry("ch", listOf(serverCh, serverChFree), false))
+        coEvery { mockServerManager.getFreeCountries() } returns listOf(VpnCountry("ch", listOf(serverCh, serverChFree)))
         every { mockTranslator.getCity(any()) } answers { firstArg() }
 
         getConnectIntentViewState = GetConnectIntentViewState(mockServerManager, mockTranslator)

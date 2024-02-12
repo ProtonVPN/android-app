@@ -128,9 +128,6 @@ class ServerManager @Inject constructor(
     /** Get the number of all servers. Not very efficient. */
     val allServerCount get() = allServers.count()
 
-    val fastestProfile get() = profileManager.fastestProfile
-    val randomProfile get() = profileManager.randomServerProfile
-
     val defaultConnection: Profile get() = profileManager.getDefaultOrFastest()
 
     val freeCountries get() = getVpnCountries()
@@ -196,7 +193,6 @@ class ServerManager @Inject constructor(
     override fun toString(): String {
         val lastUpdateTimestampLog = lastUpdateTimestamp.takeIf { it != 0L }?.let { ProtonLogger.formatTime(it) }
         return "vpnCountries: ${grouped.vpnCountries.size} gateways: ${grouped.gateways.size}" +
-            " entry: ${grouped.secureCoreEntryCountries.size}" +
             " exit: ${grouped.secureCoreExitCountries.size} " +
             "ServerManager Updated: $lastUpdateTimestampLog"
     }
@@ -284,8 +280,6 @@ class ServerManager @Inject constructor(
     fun getVpnCountries(): List<VpnCountry> = grouped.vpnCountries.sortedByLocaleAware { it.countryName }
 
     fun getGateways(): List<GatewayGroup> = grouped.gateways
-
-    fun getSecureCoreEntryCountries(): List<VpnCountry> = grouped.secureCoreEntryCountries
 
     @Deprecated("Use the suspending getVpnExitCountry from ServerManager2")
     fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
@@ -466,8 +460,6 @@ class GroupedServers(
         private set
     var secureCoreExitCountries: List<VpnCountry> = emptyList()
         private set
-    var secureCoreEntryCountries: List<VpnCountry> = emptyList()
-        private set
     var gateways: List<GatewayGroup> = emptyList()
         private set
 
@@ -484,20 +476,15 @@ class GroupedServers(
             val mapKey = if (uppercase) key.uppercase() else key
             getOrPut(mapKey) { mutableListOf() } += server
         }
-        fun MutableMap<String, MutableList<Server>>.toVpnCountries(areSecureCoreEntryCountries: Boolean = false) =
-            // TODO: remove the use of areSecureCoreEntryCountries when the old map code is removed.
-            map { (country, servers) ->
-                VpnCountry(country, servers.sortedWith(serverComparator), areSecureCoreEntryCountries)
-            }
+        fun MutableMap<String, MutableList<Server>>.toVpnCountries() =
+            map { (country, servers) -> VpnCountry(country, servers.sortedWith(serverComparator)) }
 
         val vpnCountries = mutableMapOf<String, MutableList<Server>>()
         val gateways = mutableMapOf<String, MutableList<Server>>()
-        val secureCoreEntryCountries = mutableMapOf<String, MutableList<Server>>()
         val secureCoreExitCountries = mutableMapOf<String, MutableList<Server>>()
         for (server in serverStore.allServers) {
             when {
                 server.isSecureCoreServer -> {
-                    secureCoreEntryCountries.addServer(server.entryCountry, server)
                     secureCoreExitCountries.addServer(server.exitCountry, server)
                 }
 
@@ -511,7 +498,6 @@ class GroupedServers(
         }
 
         this.vpnCountries = vpnCountries.toVpnCountries()
-        this.secureCoreEntryCountries = secureCoreEntryCountries.toVpnCountries()
         this.secureCoreExitCountries = secureCoreExitCountries.toVpnCountries()
         this.gateways = gateways.map { (name, servers) -> GatewayGroup(name, servers) }
     }
