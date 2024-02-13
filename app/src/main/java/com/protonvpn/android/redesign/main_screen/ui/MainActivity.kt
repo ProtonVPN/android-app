@@ -30,6 +30,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -98,18 +99,29 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
         val splashScreen = installSplashScreen()
         helper.onCreate(accountViewModel)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        setContent {
-            accountViewModel.showOnboarding.collectAsEffect {
+
+        accountViewModel.eventShowOnboarding
+            .flowWithLifecycle(lifecycle)
+            .onEach {
                 accountViewModel.onOnboardingShown()
                 startActivity(Intent(this, OnboardingActivity::class.java))
             }
+            .launchIn(lifecycleScope)
+
+        // Keep this state outside the composable to use it in splashScreen.setKeepOnScreenCondition
+        var accountState by mutableStateOf<AccountViewModel.State>(AccountViewModel.State.Processing)
+        accountViewModel.state
+            .flowWithLifecycle(lifecycle)
+            .onEach { accountState = it }
+            .launchIn(lifecycleScope)
+
+        splashScreen.setKeepOnScreenCondition {
+            accountState == AccountViewModel.State.Processing ||
+                accountState == AccountViewModel.State.StepNeeded
+        }
+        setContent {
             VpnTheme {
-                val state by accountViewModel.state.collectAsStateWithLifecycle()
-                splashScreen.setKeepOnScreenCondition {
-                    state == AccountViewModel.State.Processing ||
-                        state == AccountViewModel.State.StepNeeded
-                }
-                when (state) {
+                when (accountState) {
                     AccountViewModel.State.Initial,
                     AccountViewModel.State.LoginNeeded -> {}
 
