@@ -154,7 +154,6 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
     ) {
         val bottomTarget = mainNav.currentBottomBarTargetAsState()
         Scaffold(
-            modifier = modifier.background(ProtonTheme.colors.backgroundNorm),
             contentWindowInsets = WindowInsets.navigationBars,
             bottomBar = {
                 BottomBarView(selectedTarget = bottomTarget, navigateTo = mainNav::navigate)
