@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.home_screen.ui
 
 import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.ColumnScope
@@ -71,6 +72,7 @@ import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
+import com.protonvpn.android.redesign.main_screen.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
@@ -105,7 +107,13 @@ fun HomeRoute(
     mainScreenViewModel: MainScreenViewModel,
     onConnectionCardClick: () -> Unit
 ) {
+    val activity = LocalContext.current as ComponentActivity
+    val activityViewModel: MainActivityViewModel = hiltViewModel(viewModelStoreOwner = activity)
+    // The MainActivity keeps the splash screen on until VPN status is available so that it can be shown here
+    // instantly. That's why the flow from MainActivityViewModel is used, and not an independent flow in HomeViewModel.
+    val vpnStatusViewState = activityViewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
     HomeView(
+        vpnStatusViewState,
         mainScreenViewModel.eventCollapseRecents,
         { mainScreenViewModel.consumeEventCollapseRecents() },
         onConnectionCardClick
@@ -120,13 +128,13 @@ private val PromoOfferBannerState?.peekOffset get() = if (this?.isDismissible ==
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun HomeView(
+    vpnState: VpnStatusViewState,
     eventCollapseRecents: SharedFlow<Unit>,
     onEventCollapseRecentsConsumed: () -> Unit,
     onConnectionCardClick: () -> Unit
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle(null).value
-    val vpnState = viewModel.vpnStateViewFlow.collectAsStateWithLifecycle(VpnStatusViewState.Loading).value
     val mapState = viewModel.mapHighlightState.collectAsStateWithLifecycle(initialValue = null).value
     val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
     val changeServerState = viewModel.changeServerViewState.collectAsStateWithLifecycle(null).value

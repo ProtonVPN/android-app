@@ -65,11 +65,12 @@ import kotlinx.coroutines.flow.onEach
 import me.proton.core.compose.component.ProtonCenteredProgress
 import javax.inject.Inject
 
+// TODO: move MainActivity out of main_screen, it hosts the whole application UI.
 @AndroidEntryPoint
 class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     private val accountViewModel: AccountViewModel by viewModels()
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val activityViewModel: MainActivityViewModel by viewModels()
 
     @Inject
     lateinit var whatsNewDialogController: WhatsNewDialogController
@@ -117,10 +118,12 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
         splashScreen.setKeepOnScreenCondition {
             accountState == AccountViewModel.State.Processing ||
-                accountState == AccountViewModel.State.StepNeeded
+                accountState == AccountViewModel.State.StepNeeded ||
+                accountState == AccountViewModel.State.Ready && !activityViewModel.isMinimalStateReady
         }
         setContent {
             VpnTheme {
+                val isMinimalStateReady by activityViewModel.isMinimalStateReadyFlow.collectAsStateWithLifecycle()
                 when (accountState) {
                     AccountViewModel.State.Initial,
                     AccountViewModel.State.LoginNeeded -> {}
@@ -140,8 +143,14 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                                 }
                             }
                         )
-                        CompositionLocalProvider(LocalVpnUiDelegate provides this@MainActivity.vpnActivityDelegate) {
-                            VpnApp(coreNavigation = coreNavigation)
+                        if (isMinimalStateReady) {
+                            // Show the app UI only when it's ready, otherwise accessibility services will focus
+                            // incorrectly on partially set up UI (even when the splash screen is covering it).
+                            CompositionLocalProvider(
+                                LocalVpnUiDelegate provides this@MainActivity.vpnActivityDelegate
+                            ) {
+                                VpnApp(coreNavigation = coreNavigation)
+                            }
                         }
 
                         if (showSignOutDialog.value) {
@@ -171,7 +180,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     private fun retryConnectionAfterPermissions(connectIntent: AnyConnectIntent) {
         // ConnectionCard is the most likely trigger, although not always correct.
-        homeViewModel.connect(vpnActivityDelegate, connectIntent, ConnectTrigger.ConnectionCard)
+        activityViewModel.connect(vpnActivityDelegate, connectIntent, ConnectTrigger.ConnectionCard)
     }
 
     override fun getVpnUiDelegate(): VpnUiActivityDelegate = vpnActivityDelegate

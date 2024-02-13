@@ -18,13 +18,10 @@
  */
 package com.protonvpn.android.redesign.home_screen.ui
 
-import android.app.Activity
 import android.content.Context
-import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.data.RecentConnection
@@ -33,12 +30,10 @@ import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
-import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewStateFlow
-import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.telemetry.UpgradeSource
@@ -59,7 +54,6 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -116,9 +110,6 @@ class HomeViewModel @Inject constructor(
     val recentsViewState = recentsListViewStateFlow
         .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
 
-    val vpnStateViewFlow: SharedFlow<VpnStatusViewState> = vpnStatusViewStateFlow
-        .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
-
     val promoBannerStateFlow: StateFlow<PromoOfferBannerState?> = promoBannerFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
@@ -146,9 +137,6 @@ class HomeViewModel @Inject constructor(
             userSettingsManager.updateNetShield(netShieldProtocol)
         }
 
-    fun connect(vpnUiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent, trigger: ConnectTrigger) {
-        vpnConnectionManager.connect(vpnUiDelegate, connectIntent, trigger)
-    }
     suspend fun connect(vpnUiDelegate: VpnUiDelegate, trigger: ConnectTrigger) {
         vpnConnectionManager.connect(vpnUiDelegate, quickConnectIntent(), trigger)
     }
