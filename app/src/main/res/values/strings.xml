@@ -1196,4 +1196,6 @@
 
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
 </resources>

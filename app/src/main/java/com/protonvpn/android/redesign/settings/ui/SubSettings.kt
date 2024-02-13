@@ -30,25 +30,40 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
+import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.DebugUtils
+import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.presentation.R as CoreR
 
 @Composable
-fun SubSettingsRoute(type: SubSettingsScreen.Type, onClose: () -> Unit) {
+fun SubSettingsRoute(
+    type: SubSettingsScreen.Type,
+    onClose: () -> Unit,
+) {
+    val viewModel: SettingsViewModel = hiltViewModel()
+    val context = LocalContext.current
     when (type) {
-        SubSettingsScreen.Type.VpnAccelerator -> VpnAccelerator(onClose)
-    }
-}
-
-@Composable
-fun VpnAccelerator(onClose: () -> Unit) {
-    SubSetting(title = stringResource(id = R.string.settings_vpn_accelerator_title), onClose = onClose) {
-        
+        SubSettingsScreen.Type.VpnAccelerator -> {
+            val value = viewModel.vpnAcceleratorValue.collectAsStateWithLifecycle(initialValue = null).value
+            DebugUtils.debugAssert { value?.restricted != true }
+            if (value != null) {
+                VpnAccelerator(
+                    onClose,
+                    value.value,
+                    { context.openUrl(Constants.VPN_ACCELERATOR_INFO_URL) },
+                    viewModel::toggleVpnAccelerator,
+                )
+            }
+        }
     }
 }
 

@@ -54,7 +54,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -69,6 +68,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
@@ -79,6 +79,7 @@ import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragment
 import com.protonvpn.android.ui.settings.OssLicensesActivity
 import com.protonvpn.android.ui.settings.SettingsAlwaysOnActivity
 import com.protonvpn.android.utils.AndroidUtils.launchActivity
@@ -99,7 +100,7 @@ fun SettingsRoute(
 ) {
     val context = LocalContext.current
     val viewModel: SettingsViewModel = hiltViewModel()
-    val viewState = viewModel.viewState.collectAsState().value
+    val viewState = viewModel.viewState.collectAsStateWithLifecycle(initialValue = null).value ?: return
 
     val protocolLauncher =
         startActivityForResult(contract = ProtocolSelectionActivity.createContract(), onResult = {
@@ -130,10 +131,13 @@ fun SettingsRoute(
                     context.startActivity(Intent(context, SettingsAlwaysOnActivity::class.java))
             },
             onProtocolClick = {
-                protocolLauncher.launch(viewState.currenProtocolSelection)
+                protocolLauncher.launch(viewState.currentProtocolSelection)
             },
             onVpnAcceleratorClick = {
                 onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
+            },
+            onVpnAcceleratorUpgrade = {
+                UpgradeDialogActivity.launch<UpgradeVpnAcceleratorHighlightsFragment>(context)
             },
             onAdvancedSettingsClick = {
                 // TODO
@@ -264,13 +268,16 @@ private fun SettingsView(
                     icon = me.proton.core.auth.R.drawable.ic_proton_servers,
                     title = stringResource(id = R.string.settings_protocol_title),
                     onClick = settingsActions.onProtocolClick,
-                    subtitle = stringResource(id = viewState.currenProtocolSelection.displayName)
+                    subtitle = stringResource(id = viewState.currentProtocolSelection.displayName)
                 )
                 SettingRowWithIcon(
                     icon = me.proton.core.auth.R.drawable.ic_proton_rocket,
                     title = stringResource(id = R.string.settings_vpn_accelerator_title),
-                    onClick = settingsActions.onVpnAcceleratorClick,
-                    subtitle = stringResource(id = if (viewState.vpnAcceleratorEnabled) R.string.feature_on else R.string.feature_off)
+                    onClick = if (viewState.vpnAcceleratorEnabled.restricted)
+                        settingsActions.onVpnAcceleratorUpgrade else settingsActions.onVpnAcceleratorClick,
+                    trailingIcon = viewState.restrictIconOrNull(viewState.vpnAcceleratorEnabled),
+                    trailingIconTint = false,
+                    subtitle = stringResource(id = if (viewState.vpnAcceleratorEnabled.value) R.string.feature_on else R.string.feature_off)
                 )
                 SettingRowWithIcon(
                     icon = me.proton.core.auth.R.drawable.ic_proton_sliders,
@@ -378,21 +385,22 @@ private fun FeatureCategory(
         stringResource(id = R.string.settings_category_features)
     ) {
         SettingRowWithIcon(
-            icon = if (viewState.netshieldEnabled) R.drawable.ic_netshield_on else R.drawable.ic_netshield_off,
+            icon = if (viewState.netshieldEnabled.value) R.drawable.ic_netshield_on else R.drawable.ic_netshield_off,
             title = stringResource(id = R.string.settings_netshield_title),
-            subtitle = stringResource(id = if (viewState.netshieldEnabled) R.string.feature_on else R.string.feature_off),
-            trailingIcon = if (viewState.userInfo.isFreeUser) R.drawable.vpn_plus_badge else null,
+            subtitle = stringResource(id = if (viewState.netshieldEnabled.value) R.string.feature_on else R.string.feature_off),
+            trailingIcon = viewState.restrictIconOrNull(viewState.netshieldEnabled),
             trailingIconTint = false,
-            onClick = if (viewState.userInfo.isFreeUser) onNetShieldUpgrade else onNetShieldClick
+            onClick = if (viewState.netshieldEnabled.restricted)
+                onNetShieldUpgrade else onNetShieldClick
         )
-
         SettingRowWithIcon(
-            icon = if (viewState.splitTunnelingEnabled) R.drawable.ic_split_tunneling_on else R.drawable.ic_split_tunneling_off,
+            icon = if (viewState.splitTunnelingEnabled.value) R.drawable.ic_split_tunneling_on else R.drawable.ic_split_tunneling_off,
             title = stringResource(id = R.string.settings_split_tunneling_title),
-            subtitle = stringResource(id = if (viewState.splitTunnelingEnabled) R.string.feature_on else R.string.feature_off),
-            trailingIcon = if (viewState.userInfo.isFreeUser) R.drawable.vpn_plus_badge else null,
+            subtitle = stringResource(id = if (viewState.splitTunnelingEnabled.value) R.string.feature_on else R.string.feature_off),
+            trailingIcon = viewState.restrictIconOrNull(viewState.splitTunnelingEnabled),
             trailingIconTint = false,
-            onClick = if (viewState.userInfo.isFreeUser) onSplitTunnelUpgrade else onSplitTunnelClick
+            onClick = if (viewState.splitTunnelingEnabled.restricted)
+                onSplitTunnelUpgrade else onSplitTunnelClick
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             SettingRowWithIcon(
@@ -553,6 +561,7 @@ private data class SettingsActions(
     val onAlwaysOnClick: () -> Unit,
     val onProtocolClick: () -> Unit,
     val onVpnAcceleratorClick: () -> Unit,
+    val onVpnAcceleratorUpgrade: () -> Unit,
     val onAdvancedSettingsClick: () -> Unit,
     val onNotificationsClick: () -> Unit,
     val onOnHelpCenterClick: () -> Unit,
