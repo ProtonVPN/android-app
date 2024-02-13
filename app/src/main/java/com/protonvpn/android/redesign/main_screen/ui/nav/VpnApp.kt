@@ -57,5 +57,6 @@ fun VpnApp(
                 coreNavigation = coreNavigation
             )
         }
+        null -> { /* Nothing */ }
     }
 }
