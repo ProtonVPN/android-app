@@ -30,6 +30,7 @@ import me.proton.core.domain.entity.AppStore
 import me.proton.core.payment.domain.usecase.PaymentProvider
 import me.proton.core.plan.domain.entity.DynamicPlan
 import me.proton.core.plan.domain.entity.DynamicPlanInstance
+import me.proton.core.plan.domain.entity.DynamicPlanPrice
 import me.proton.core.plan.domain.entity.DynamicPlanState
 import me.proton.core.plan.domain.entity.DynamicPlanVendor
 import me.proton.core.plan.presentation.entity.PlanCycle
@@ -124,7 +125,8 @@ private fun createVpnUser(subscribed: Int) = TestVpnUser.create(subscribed = sub
 
 fun createDynamicPlan(
     name: String,
-    instances: List<Pair<PlanCycle, AppStore>> = DEFAULT_CYCLES.map { it to AppStore.GooglePlay }
+    instances: List<Pair<PlanCycle, AppStore>> = DEFAULT_CYCLES.map { it to AppStore.GooglePlay },
+    prices: Map</*cycle-months*/Int, Map</*currency*/String, DynamicPlanPrice>> = emptyMap()
 ) = DynamicPlan(
     name,
     0,
@@ -132,11 +134,15 @@ fun createDynamicPlan(
     "$name title",
     null,
     instances = instances.associate { (cycle, appStore) ->
-        cycle.cycleDurationMonths to createDynamicPlanInstance(cycle, appStore)
+        cycle.cycleDurationMonths to createDynamicPlanInstance(cycle, appStore, prices[cycle.cycleDurationMonths])
     }
 )
 
-private fun createDynamicPlanInstance(cycle: PlanCycle, appStore: AppStore) = DynamicPlanInstance(
-    cycle.cycleDurationMonths, "", Instant.MAX, mapOf(),
+private fun createDynamicPlanInstance(
+    cycle: PlanCycle,
+    appStore: AppStore,
+    currencyToPrice: Map<String, DynamicPlanPrice>?
+) = DynamicPlanInstance(
+    cycle.cycleDurationMonths, "", Instant.MAX, currencyToPrice ?: emptyMap(),
     mapOf(appStore to DynamicPlanVendor(cycle.toProductId(appStore), ""))
 )

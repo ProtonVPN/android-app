@@ -29,6 +29,7 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
@@ -39,6 +40,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import me.proton.core.payment.domain.PurchaseManager
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -67,6 +69,9 @@ class UpgradeDialogSuccessTests {
     private lateinit var userPlanManager: UserPlanManager
     private lateinit var testScope: TestScope
 
+    @MockK
+    private lateinit var purchaseManager: PurchaseManager
+
     @RelaxedMockK
     private lateinit var showDialog: ((Context, String, Boolean) -> Unit)
     @Before
@@ -79,6 +84,7 @@ class UpgradeDialogSuccessTests {
         )
         currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
         every { foregroundActivityTracker.foregroundActivityFlow } returns foregroundActivityFlow
+        coEvery { purchaseManager.getPurchase(any()) } returns null
 
         showUpgradeSuccess = ShowUpgradeSuccess(
             testScope.backgroundScope,
@@ -86,7 +92,8 @@ class UpgradeDialogSuccessTests {
             userPlanManager,
             currentUser,
             mockk(relaxed = true),
-            showDialog
+            showDialog,
+            purchaseManager
         )
     }
 

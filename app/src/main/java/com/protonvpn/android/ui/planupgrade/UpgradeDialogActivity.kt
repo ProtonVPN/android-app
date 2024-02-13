@@ -52,8 +52,6 @@ open class UpgradeDialogActivity : BaseActivityV2() {
     protected val viewModel by viewModels<UpgradeDialogViewModel>()
     protected val binding by viewBinding(ActivityUpsellDialogBinding::inflate)
 
-    @Inject lateinit var showUpgradeSuccess: ShowUpgradeSuccess
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -74,8 +72,9 @@ open class UpgradeDialogActivity : BaseActivityV2() {
                 CommonUpgradeDialogViewModel.State.UpgradeDisabled -> {}
                 CommonUpgradeDialogViewModel.State.LoadingPlans -> {}
                 is CommonUpgradeDialogViewModel.State.LoadError -> {}
-                is CommonUpgradeDialogViewModel.State.PlanLoaded -> {}
+                is CommonUpgradeDialogViewModel.State.PurchaseReady -> {}
                 CommonUpgradeDialogViewModel.State.PlansFallback -> {}
+                is CommonUpgradeDialogViewModel.State.GiapPurchaseError -> {}
                 is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
                     onPaymentSuccess(state.newPlanName, state.upgradeFlowType)
                 }
@@ -85,12 +84,6 @@ open class UpgradeDialogActivity : BaseActivityV2() {
 
     @CallSuper
     protected open fun onPaymentSuccess(newPlanName: String, upgradeFlowType: UpgradeFlowType) {
-        showUpgradeSuccess.showPlanUpgradeSuccess(
-            this,
-            newPlanName,
-            refreshVpnInfo = true,
-            upgradeFlowType = upgradeFlowType
-        )
         setResult(Activity.RESULT_OK)
         finish()
     }

@@ -314,6 +314,16 @@
                 android:value="androidx.startup"
                 tools:node="remove" />
 
+            <meta-data
+                android:name="me.proton.core.paymentiap.presentation.GooglePurchaseHandlerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+
+            <meta-data
+                android:name="me.proton.core.plan.presentation.PurchaseHandlerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+
         </provider>
     </application>
 

@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.ui.planupgrade
 
-import android.content.res.Resources
+import android.app.Activity
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.telemetry.UpgradeTelemetry
@@ -27,25 +27,28 @@ import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.GiapPlanInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadDefaultGooglePlan
 import com.protonvpn.android.ui.planupgrade.usecase.OneClickPaymentsEnabled
+import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.formatPrice
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.domain.entity.UserId
-import me.proton.core.payment.domain.entity.ProductId
-import me.proton.core.payment.presentation.entity.BillingInput
-import me.proton.core.payment.presentation.entity.PlanShortDetails
-import me.proton.core.paymentiap.domain.entity.GoogleProductPrice
+import me.proton.core.plan.domain.entity.DynamicPlan
+import me.proton.core.plan.domain.usecase.PerformGiapPurchase
 import me.proton.core.plan.presentation.PlansOrchestrator
 import me.proton.core.plan.presentation.entity.PlanCycle
-import me.proton.core.plan.presentation.viewmodel.filterByCycle
-import me.proton.core.util.kotlin.filterNullValues
+import me.proton.core.util.kotlin.filterNotNullValues
 import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
@@ -58,13 +61,18 @@ class UpgradeDialogViewModel(
     upgradeTelemetry: UpgradeTelemetry,
     private val loadDefaultGiapPlan: suspend () -> GiapPlanInfo?,
     private val oneClickPaymentsEnabled: suspend () -> Boolean,
-    private val loadOnStart: Boolean
+    private val loadOnStart: Boolean,
+    private val performGiapPurchase: PerformGiapPurchase<Activity>,
+    userPlanManager: UserPlanManager,
+    waitForSubscription: WaitForSubscription
 ) : CommonUpgradeDialogViewModel(
     userId,
     authOrchestrator,
     plansOrchestrator,
     isInAppUpgradeAllowed::invoke,
-    upgradeTelemetry
+    upgradeTelemetry,
+    userPlanManager,
+    waitForSubscription
 ) {
 
     @Inject
@@ -75,7 +83,10 @@ class UpgradeDialogViewModel(
         isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
         upgradeTelemetry: UpgradeTelemetry,
         loadDefaultGiapPlan: LoadDefaultGooglePlan,
-        oneClickPaymentsEnabled: OneClickPaymentsEnabled
+        oneClickPaymentsEnabled: OneClickPaymentsEnabled,
+        performGiapPurchase: PerformGiapPurchase<Activity>,
+        userPlanManager: UserPlanManager,
+        waitForSubscription: WaitForSubscription
     ) : this(
         currentUser.userFlow.map { it?.userId },
         authOrchestrator,
@@ -84,7 +95,10 @@ class UpgradeDialogViewModel(
         upgradeTelemetry,
         loadDefaultGiapPlan::invoke,
         oneClickPaymentsEnabled::invoke,
-        true
+        true,
+        performGiapPurchase,
+        userPlanManager,
+        waitForSubscription
     )
 
     private lateinit var loadedPlan : GiapPlanInfo
@@ -120,7 +134,8 @@ class UpgradeDialogViewModel(
             val giapPlan = loadDefaultGiapPlan()
             if (giapPlan != null) {
                 loadedPlan = giapPlan
-                state.value = State.PlanLoaded(GiapPlanModel(giapPlan))
+                val prices = calculatePriceInfos(loadedPlan.cycles, loadedPlan.dynamicPlan)
+                state.value = State.PurchaseReady(GiapPlanModel(loadedPlan), prices)
                 selectedCycle.value = giapPlan.preselectedCycle
             } else {
                 state.value = State.PlansFallback
@@ -131,44 +146,7 @@ class UpgradeDialogViewModel(
         }
     }
 
-    suspend fun getBillingInput(
-        resources: Resources
-    ): BillingInput? {
-        val currentState = state.value
-        if (currentState !is State.PlanLoaded)
-            return null
-        val cycle = selectedCycle.value ?: return null
-        val plan = (currentState.plan as GiapPlanModel).giapPlanInfo
-        val userId = userId.first()?.id ?: return null
-        val selectedPlan = plan.getSelectedPlan(resources, cycle.cycleDurationMonths)
-        return BillingInput(
-            userId,
-            plan = PlanShortDetails(
-                name = selectedPlan.planName,
-                displayName = selectedPlan.planDisplayName,
-                subscriptionCycle = cycle.toSubscriptionCycle(),
-                currency = selectedPlan.currency.toSubscriptionCurrency(),
-                services = selectedPlan.services,
-                type = selectedPlan.type,
-                vendors = selectedPlan.vendorNames.filterByCycle(cycle)
-            ),
-            paymentMethodId = null
-        )
-    }
-
-    fun onPurchaseSuccess(upgradeFlowType: UpgradeFlowType) {
-        state.value = State.PurchaseSuccess(
-            newPlanName = loadedPlan.name,
-            newPlanDisplayName = loadedPlan.displayName,
-            upgradeFlowType = upgradeFlowType
-        )
-    }
-
     fun onErrorInFragment() {
-        removeProgressFromPurchaseReady()
-    }
-
-    fun onUserCancelled() {
         removeProgressFromPurchaseReady()
     }
 
@@ -176,11 +154,36 @@ class UpgradeDialogViewModel(
         state.update { if (it is State.PurchaseReady) it.copy(inProgress = false) else it }
     }
 
-    fun onPricesAvailable(idToPrice: Map<ProductId, GoogleProductPrice>) {
-        val prices = calculatePriceInfos(loadedPlan.cycles, idToPrice)
-        require(prices.isNotEmpty())
-        state.value = State.PurchaseReady(GiapPlanModel(loadedPlan), prices)
-    }
+    fun pay(activity: Activity, flowType: UpgradeFlowType) = flow {
+        val currentState = state.value
+        require(currentState is State.PurchaseReady)
+        val cycle = requireNotNull(selectedCycle.value) { "Missing plan cycle." }
+        val userId = requireNotNull(userId.first()) { "Missing user ID."}
+        val plan = (currentState.plan as GiapPlanModel).giapPlanInfo
+
+        val purchaseResult = performGiapPurchase(
+            activity,
+            cycle.cycleDurationMonths,
+            plan.dynamicPlan,
+            userId
+        )
+        when (purchaseResult) {
+            is PerformGiapPurchase.Result.Error.GiapUnredeemed -> {
+                emit(State.PlansFallback)
+                onStartFallbackUpgrade()
+            }
+            is PerformGiapPurchase.Result.Error.UserCancelled -> emit(currentState.copy(inProgress = false))
+            is PerformGiapPurchase.Result.Error -> emit(State.GiapPurchaseError)
+            is PerformGiapPurchase.Result.GiapSuccess -> {
+                onPaymentFinished(plan.name, flowType)
+                emit(State.PurchaseSuccess(plan.name, flowType))
+            }
+        }
+    }.catch {
+        state.value = State.LoadError(it)
+    }.onEach {
+        state.value = it
+    }.launchIn(viewModelScope)
 
     companion object {
 
@@ -194,32 +197,41 @@ class UpgradeDialogViewModel(
         @VisibleForTesting
         fun calculatePriceInfos(
             cycles: List<CycleInfo>,
-            priceDetails: Map<ProductId, GoogleProductPrice>
+            dynamicPlan: DynamicPlan,
         ): Map<PlanCycle, PriceInfo> {
+            val currencies = dynamicPlan.instances
+                .flatMap { (_, instance) -> instance.price.map { it.value.currency } }
+                .toSet()
+            // The prices coming from Google Play will have a single currency:
+            val currency = currencies.first()
+
             val perMonthPrices = cycles.associate { cycleInfo ->
-                val id = ProductId(cycleInfo.productId)
                 val months = cycleInfo.cycle.cycleDurationMonths
-                val amount = priceDetails[id]?.priceAmount
+                val amount = dynamicPlan.instances[months]?.price?.get(currency)?.current?.centsToUnits()
                 val perMonthPrice = if (months > 0 && amount != null && amount > 0.0)
                     amount / months else null
                 cycleInfo.cycle to perMonthPrice
-            }.filterNullValues()
+            }.filterNotNullValues()
 
             val maxPerMonthPrice = perMonthPrices.values.maxOrNull()
 
             return cycles.associate { cycleInfo ->
-                val info = priceDetails[ProductId(cycleInfo.productId)]?.let { details ->
+                val info = dynamicPlan.instances[cycleInfo.cycle.cycleDurationMonths]?.let { planInstance ->
                     val perMonthPrice = perMonthPrices[cycleInfo.cycle]
+                    val priceAmount = planInstance.price.getValue(currency).current.centsToUnits()
                     PriceInfo(
-                        formattedPrice = formatPrice(details.priceAmount, details.currency),
+                        formattedPrice = formatPrice(priceAmount, currency),
                         savePercent = calculateSavingsPercentage(perMonthPrice, maxPerMonthPrice),
                         formattedPerMonthPrice =
-                            if (perMonthPrice != null && cycleInfo.cycle.cycleDurationMonths != 1)
-                                formatPrice(perMonthPrice, details.currency) else null
+                        if (perMonthPrice != null && cycleInfo.cycle.cycleDurationMonths != 1)
+                            formatPrice(perMonthPrice, currency) else null
                     )
                 }
                 cycleInfo.cycle to info
-            }.filterNullValues().toSortedMap(compareByDescending { it.cycleDurationMonths })
+            }.filterNotNullValues().toSortedMap(compareByDescending { it.cycleDurationMonths })
         }
     }
 }
+
+@Suppress("MagicNumber")
+private fun Int.centsToUnits(): Double = this / 100.0

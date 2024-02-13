@@ -25,6 +25,8 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
+import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
+import com.protonvpn.android.utils.UserPlanManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -46,7 +48,9 @@ abstract class CommonUpgradeDialogViewModel(
     private val authOrchestrator: AuthOrchestrator,
     private val plansOrchestrator: PlansOrchestrator,
     protected val isInAppUpgradeAllowed: () -> Boolean,
-    private val upgradeTelemetry: UpgradeTelemetry
+    private val upgradeTelemetry: UpgradeTelemetry,
+    private val userPlanManager: UserPlanManager,
+    private val waitForSubscription: WaitForSubscription
 ) : ViewModel() {
 
     data class PriceInfo(
@@ -59,16 +63,15 @@ abstract class CommonUpgradeDialogViewModel(
         object UpgradeDisabled : State()
         object LoadingPlans : State()
         class LoadError(val error: Throwable) : State()
-        open class PlanLoaded(open val plan: PlanModel) : State()
         data class PurchaseReady(
-            override val plan: PlanModel,
+            val plan: PlanModel,
             val priceInfo: Map<PlanCycle, PriceInfo>,
             val inProgress: Boolean = false,
-        ) : PlanLoaded(plan)
+        ) : State()
         object PlansFallback : State() // Conditions for short flow were not met, start normal account flow
+        object GiapPurchaseError: State()
         data class PurchaseSuccess(
             val newPlanName: String,
-            val newPlanDisplayName: String,
             val upgradeFlowType: UpgradeFlowType
         ) : State()
     }
@@ -83,17 +86,19 @@ abstract class CommonUpgradeDialogViewModel(
         plansOrchestrator.register(activity)
 
         plansOrchestrator.onUpgradeResult { result ->
-            state.update { current ->
-                if (result != null && result.billingResult.subscriptionCreated) {
-                    State.PurchaseSuccess(
-                        newPlanName = result.planId,
-                        newPlanDisplayName = result.planDisplayName,
-                        upgradeFlowType = UpgradeFlowType.REGULAR
-                    )
-                } else if (current is State.PurchaseReady) {
-                    current.copy(inProgress = false)
-                } else {
-                    current // This should always be PlansFallback
+            viewModelScope.launch {
+                state.update { current ->
+                    if (result != null && result.billingResult.paySuccess) {
+                        onPaymentFinished(result.planId, UpgradeFlowType.REGULAR)
+                        State.PurchaseSuccess(
+                            newPlanName = result.planId,
+                            upgradeFlowType = UpgradeFlowType.REGULAR
+                        )
+                    } else if (current is State.PurchaseReady) {
+                        current.copy(inProgress = false)
+                    } else {
+                        current // This should always be PlansFallback
+                    }
                 }
             }
         }
@@ -102,6 +107,12 @@ abstract class CommonUpgradeDialogViewModel(
     fun onPaymentStarted(upgradeFlowType: UpgradeFlowType) {
         state.update { if (it is State.PurchaseReady) it.copy(inProgress = true) else it }
         upgradeTelemetry.onUpgradeAttempt(upgradeFlowType)
+    }
+
+    suspend fun onPaymentFinished(newPlanName: String, upgradeFlowType: UpgradeFlowType) {
+        upgradeTelemetry.onUpgradeSuccess(newPlanName, upgradeFlowType)
+        waitForSubscription(newPlanName, userId.first())
+        userPlanManager.refreshVpnInfo()
     }
 
     fun onStartFallbackUpgrade() = viewModelScope.launch {
