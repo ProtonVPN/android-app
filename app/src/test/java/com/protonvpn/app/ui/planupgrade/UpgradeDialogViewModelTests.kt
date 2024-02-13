@@ -19,14 +19,18 @@
 
 package com.protonvpn.app.ui.planupgrade
 
+import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
+import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel.State
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.GiapPlanInfo
 import com.protonvpn.android.utils.formatPrice
 import com.protonvpn.app.upgrade.createDynamicPlan
+import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,13 +41,16 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.domain.entity.UserId
-import me.proton.core.payment.domain.entity.ProductId
-import me.proton.core.paymentiap.domain.entity.GoogleProductPrice
+import me.proton.core.plan.domain.entity.DynamicPlanInstance
+import me.proton.core.plan.domain.entity.DynamicPlanPrice
+import me.proton.core.plan.domain.usecase.PerformGiapPurchase
 import me.proton.core.plan.presentation.entity.PlanCycle
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.time.Instant
+import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class UpgradeDialogViewModelTests {
@@ -51,8 +58,9 @@ class UpgradeDialogViewModelTests {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    private val userIdFlow = MutableStateFlow<UserId?>(null)
+    private val userIdFlow = MutableStateFlow<UserId?>(UserId("test_user_id"))
 
+    private lateinit var performGiapPurchase: PerformGiapPurchase<Activity>
     private lateinit var testScope: TestScope
     private lateinit var viewModel: UpgradeDialogViewModel
 
@@ -69,7 +77,13 @@ class UpgradeDialogViewModelTests {
         isInAppAllowed = true
         oneClickPaymentsEnabled = true
         giapPlan = GiapPlanInfo(
-            createDynamicPlan("myplan"),
+            createDynamicPlan(
+                "myplan",
+                prices = mapOf(
+                    Pair(1, mapOf("USD" to DynamicPlanPrice("", currency = "USD", current = 10_00))),
+                    Pair(12, mapOf("USD" to DynamicPlanPrice("", currency = "USD", current = 100_00)))
+                )
+            ),
             "myplan",
             "My Plan",
             listOf(
@@ -78,6 +92,7 @@ class UpgradeDialogViewModelTests {
             ),
             PlanCycle.MONTHLY
         )
+        performGiapPurchase = mockk()
         viewModel = UpgradeDialogViewModel(
             userId = userIdFlow,
             authOrchestrator = mockk(relaxed = true),
@@ -86,38 +101,38 @@ class UpgradeDialogViewModelTests {
             upgradeTelemetry = mockk(relaxed = true),
             loadDefaultGiapPlan = { giapPlan },
             oneClickPaymentsEnabled = { oneClickPaymentsEnabled },
-            false
+            loadOnStart = false,
+            performGiapPurchase = performGiapPurchase,
+            userPlanManager = mockk(relaxed = true),
+            waitForSubscription = mockk(relaxed = true)
         )
     }
 
     @Test
     fun `load default plan and purchase`() = testScope.runTest {
+        coEvery { performGiapPurchase(any(), any(), any(), any()) } returns
+                mockk<PerformGiapPurchase.Result.GiapSuccess>()
+
         viewModel.loadPlans()
 
         Assert.assertEquals(PlanCycle.MONTHLY, viewModel.selectedCycle.value)
-        val loadedPlan = (viewModel.state.value as? CommonUpgradeDialogViewModel.State.PlanLoaded)?.plan
-        Assert.assertEquals("myplan", loadedPlan?.name)
 
-        viewModel.onPricesAvailable(
-            mapOf(
-                ProductId("m") to productPrice(10),
-                ProductId("y") to productPrice(100)
-            )
-        )
-        Assert.assertTrue((viewModel.state.value as? CommonUpgradeDialogViewModel.State.PurchaseReady)?.inProgress == false)
+        val loadedPlan = assertIs<State.PurchaseReady>(viewModel.state.value).plan
+        Assert.assertEquals("myplan", loadedPlan.name)
+        Assert.assertFalse(assertIs<State.PurchaseReady>(viewModel.state.value).inProgress)
 
         viewModel.onPaymentStarted(UpgradeFlowType.REGULAR)
-        Assert.assertTrue((viewModel.state.value as? CommonUpgradeDialogViewModel.State.PurchaseReady)?.inProgress == true)
+        Assert.assertTrue(assertIs<State.PurchaseReady>(viewModel.state.value).inProgress)
 
         // Fail before succeeding
         viewModel.onErrorInFragment()
-        Assert.assertTrue((viewModel.state.value as? CommonUpgradeDialogViewModel.State.PurchaseReady)?.inProgress == false)
+        Assert.assertFalse(assertIs<State.PurchaseReady>(viewModel.state.value).inProgress)
 
         // Try again and succeed
         viewModel.onPaymentStarted(UpgradeFlowType.ONE_CLICK)
-        viewModel.onPurchaseSuccess(UpgradeFlowType.ONE_CLICK)
+        viewModel.pay(mockk(), UpgradeFlowType.ONE_CLICK)
         Assert.assertEquals(
-            CommonUpgradeDialogViewModel.State.PurchaseSuccess("myplan", "My Plan", UpgradeFlowType.ONE_CLICK),
+            State.PurchaseSuccess("myplan", UpgradeFlowType.ONE_CLICK),
             viewModel.state.value
         )
     }
@@ -126,21 +141,21 @@ class UpgradeDialogViewModelTests {
     fun `in-app payments disabled`() = testScope.runTest {
         isInAppAllowed = false
         viewModel.loadPlans()
-        Assert.assertTrue(viewModel.state.value is CommonUpgradeDialogViewModel.State.UpgradeDisabled)
+        Assert.assertTrue(viewModel.state.value is State.UpgradeDisabled)
     }
 
     @Test
     fun `enter fallback when 1-click payments disabled`() = testScope.runTest {
         oneClickPaymentsEnabled = false
         viewModel.loadPlans()
-        Assert.assertTrue(viewModel.state.value is CommonUpgradeDialogViewModel.State.PlansFallback)
+        Assert.assertTrue(viewModel.state.value is State.PlansFallback)
     }
 
     @Test
     fun `enter fallback on plan load fail`() = testScope.runTest {
         giapPlan = null
         viewModel.loadPlans()
-        Assert.assertTrue(viewModel.state.value is CommonUpgradeDialogViewModel.State.PlansFallback)
+        Assert.assertTrue(viewModel.state.value is State.PlansFallback)
     }
 
     @Test
@@ -150,10 +165,28 @@ class UpgradeDialogViewModelTests {
                 CycleInfo(PlanCycle.MONTHLY, "m"),
                 CycleInfo(PlanCycle.YEARLY, "y")
             ),
-            mapOf(
-                ProductId("m") to productPrice(10),
-                ProductId("y") to productPrice(100)
-            )
+            mockk {
+                every { instances } returns mapOf(
+                    Pair(
+                        1, // months
+                        DynamicPlanInstance(
+                            cycle = 1,
+                            description = "1 month",
+                            periodEnd = Instant.MAX,
+                            price = mapOf("USD" to DynamicPlanPrice(id = "id", currency = "USD", current = 10_00))
+                        )
+                    ),
+                    Pair(
+                        12, // months
+                        DynamicPlanInstance(
+                            cycle = 12,
+                            description = "12 month",
+                            periodEnd = Instant.MAX,
+                            price = mapOf("USD" to DynamicPlanPrice(id = "id", currency = "USD", current = 100_00))
+                        )
+                    )
+                )
+            }
         )
         Assert.assertEquals(
             // Checks also the descending order by the cycle length in the map
@@ -171,9 +204,3 @@ class UpgradeDialogViewModelTests {
         )
     }
 }
-
-private fun productPrice(price: Int) = GoogleProductPrice(
-    priceAmountMicros = price * 1000000L,
-    currency = "USD",
-    formattedPriceAndCurrency = formatPrice(price.toDouble(), "USD")
-)

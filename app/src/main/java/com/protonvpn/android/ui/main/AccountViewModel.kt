@@ -55,6 +55,7 @@ import me.proton.core.account.domain.entity.isReady
 import me.proton.core.account.domain.entity.isStepNeeded
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.presentation.observe
+import me.proton.core.accountmanager.presentation.onAccountCreateAccountNeeded
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressFailed
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressNeeded
 import me.proton.core.accountmanager.presentation.onSessionSecondFactorNeeded
@@ -146,6 +147,7 @@ class AccountViewModel @Inject constructor(
                 .onSessionSecondFactorNeeded { startSecondFactorWorkflow(it) }
                 .onAccountCreateAddressNeeded { startChooseAddressWorkflow(it) }
                 .onAccountCreateAddressFailed { accountManager.disableAccount(it.userId) }
+                .onAccountCreateAccountNeeded { startSignupWorkflow(requiredAccountType, cancellable = false) }
                 .onUserKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER, "UserKeyCheckFailed") }
                 .onUserAddressKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER,"UserAddressKeyCheckFailed") }
         }

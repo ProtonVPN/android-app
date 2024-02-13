@@ -20,6 +20,7 @@ package com.protonvpn.android;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.getAppExitReasonForLog;
 import static com.protonvpn.android.utils.MissingSplitsKt.disableIfMissingSplits;
+import static com.protonvpn.android.utils.PurchaseHandlerKt.initPurchaseHandler;
 import static kotlinx.coroutines.CoroutineScopeKt.MainScope;
 
 import android.app.Application;
@@ -80,6 +81,7 @@ import kotlinx.coroutines.ExecutorsKt;
 import me.proton.core.accountmanager.data.AccountStateHandler;
 import me.proton.core.eventmanager.data.CoreEventManagerStarter;
 import me.proton.core.humanverification.presentation.HumanVerificationStateHandler;
+import me.proton.core.plan.data.PurchaseStateHandler;
 import me.proton.core.util.kotlin.CoreLogger;
 
 /**
@@ -110,6 +112,7 @@ public class ProtonApplication extends Application {
         PeriodicUpdateManager getPeriodicUpdateManager();
         PowerStateLogger getPowerStateLogger();
         PurchasesEnabledUpdater getPurchasesEnabledUpdater();
+        PurchaseStateHandler getPurchaseStateHandler();
         QuickTileDataStoreUpdater getQuickTileDataStoreUpdater();
         RecentsListValidator getRecentsValidator();
         ReviewTracker getReviewTracker();
@@ -173,6 +176,7 @@ public class ProtonApplication extends Application {
         dependencies.getNotificationPermissionManager();
         dependencies.getQuickTileDataStoreUpdater().start();
         dependencies.getPurchasesEnabledUpdater().start();
+        dependencies.getPurchaseStateHandler().start();
         dependencies.getRecentsValidator();
         dependencies.getReviewTracker();
         dependencies.getUpdateSecureCoreToMatchConnectedServer();
@@ -189,6 +193,7 @@ public class ProtonApplication extends Application {
         if (!dependencies.getIsTv().invoke()) {
             dependencies.getOneTimePopupNotificationTrigger();
         }
+        initPurchaseHandler(this);
     }
 
     private void initPreferences() {

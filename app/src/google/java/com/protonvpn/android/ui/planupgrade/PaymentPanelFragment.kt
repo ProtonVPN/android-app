@@ -26,8 +26,8 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
@@ -39,29 +39,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.ApiResult
-import me.proton.core.payment.domain.entity.GooglePurchaseToken
-import me.proton.core.payment.domain.entity.PaymentType
-import me.proton.core.payment.domain.entity.ProductId
-import me.proton.core.payment.presentation.entity.BillingInput
-import me.proton.core.payment.presentation.viewmodel.BillingCommonViewModel
-import me.proton.core.payment.presentation.viewmodel.BillingCommonViewModel.Companion.buildPlansList
-import me.proton.core.payment.presentation.viewmodel.BillingViewModel
-import me.proton.core.paymentiap.domain.entity.GoogleProductPrice
-import me.proton.core.paymentiap.presentation.ui.BaseBillingIAPFragment
-import me.proton.core.plan.domain.entity.SubscriptionManagement
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.presentation.utils.errorSnack
 import me.proton.core.presentation.utils.getUserMessage
 import me.proton.core.payment.presentation.R as PaymentR
 
 @AndroidEntryPoint
-class PaymentPanelFragment : BaseBillingIAPFragment(0) {
+class PaymentPanelFragment : Fragment() {
 
     private val viewModel by activityViewModels<UpgradeDialogViewModel>()
-    private val billingViewModel: BillingViewModel by viewModels({ requireActivity() })
 
     // Needs to be class member for onError().
     private var panelViewState: MutableStateFlow<ViewState>? = null
@@ -87,9 +75,6 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
                             state.inProgress
                         )
                 }
-                is CommonUpgradeDialogViewModel.State.PlanLoaded -> {
-                    queryGooglePlans(state.plan.cycles.map { ProductId(it.productId) })
-                }
                 is CommonUpgradeDialogViewModel.State.LoadError ->
                     onError(state.error.getUserMessage(resources), state.error)
                 is CommonUpgradeDialogViewModel.State.PlansFallback ->
@@ -102,29 +87,11 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
                 }
                 CommonUpgradeDialogViewModel.State.UpgradeDisabled ->
                     currentViewState.value = ViewState.UpgradeDisabled
+                is CommonUpgradeDialogViewModel.State.GiapPurchaseError -> {
+                    onError(null, null)
+                }
                 is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
                     // do nothing, will be handled by parent activity
-                }
-            }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        billingViewModel.subscriptionResult.onEach { state ->
-            when (state) {
-                is BillingCommonViewModel.State.Error.General -> {
-                    onError(state.error.getUserMessage(resources), state.error)
-                }
-                BillingCommonViewModel.State.Error.SignUpWithPaymentMethodUnsupported -> {
-                    onError(getString(PaymentR.string.payments_error_signup_paymentmethod), null)
-                }
-                BillingCommonViewModel.State.Idle,
-                BillingCommonViewModel.State.Processing,
-                is BillingCommonViewModel.State.Incomplete.TokenApprovalNeeded, // This can only happen for credit card
-                is BillingCommonViewModel.State.Success.SignUpTokenReady,
-                is BillingCommonViewModel.State.Success.SubscriptionPlanValidated,
-                is BillingCommonViewModel.State.Success.TokenCreated -> {
-                }
-                is BillingCommonViewModel.State.Success.SubscriptionCreated -> {
-                    viewModel.onPurchaseSuccess(UpgradeFlowType.ONE_CLICK)
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -147,45 +114,10 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
         }
     }
 
-    override fun onPricesAvailable(details: Map<ProductId, GoogleProductPrice>) {
-        viewModel.onPricesAvailable(details)
-    }
-
-    override fun onPurchaseSuccess(
-        productId: String,
-        purchaseToken: GooglePurchaseToken,
-        orderId: String,
-        customerId: String,
-        billingInput: BillingInput
-    ) {
-        billingViewModel.subscribe(
-            userId = billingInput.user,
-            planNames = billingInput.existingPlans.buildPlansList(
-                billingInput.plan.name, billingInput.plan.services, billingInput.plan.type),
-            codes = billingInput.codes,
-            currency = billingInput.plan.currency,
-            cycle = billingInput.plan.subscriptionCycle,
-            paymentType = PaymentType.GoogleIAP(
-                productId = productId,
-                purchaseToken = purchaseToken,
-                orderId = orderId,
-                packageName = requireContext().packageName,
-                customerId = customerId
-            ),
-            subscriptionManagement = SubscriptionManagement.GOOGLE_MANAGED
-        )
-    }
-
     private fun onPayClicked() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val billingInput = viewModel.getBillingInput(resources)
-            if (billingInput != null) {
-                viewModel.onPaymentStarted(UpgradeFlowType.ONE_CLICK)
-                pay(billingInput)
-            } else {
-                onError(null, null)
-            }
-        }
+        val flowType = UpgradeFlowType.ONE_CLICK
+        viewModel.onPaymentStarted(flowType)
+        viewModel.pay(requireActivity(), flowType)
     }
 
     private fun onUpgradeClicked() {
@@ -220,17 +152,6 @@ class PaymentPanelFragment : BaseBillingIAPFragment(0) {
 
     private fun shouldReportToSentry(throwable: Throwable?): Boolean =
         throwable == null || (throwable as? ApiException)?.error !is ApiResult.Error.Connection
-
-    private fun shouldReportToSentry(@StringRes errorRes: Int) =
-        errorRes != me.proton.core.paymentiap.presentation.R.string.payments_iap_error_billing_client_unavailable
-
-    override fun onError(@StringRes errorRes: Int) {
-        onError(getString(errorRes), null, shouldReportToSentry(errorRes))
-    }
-
-    override fun onUserCanceled() {
-        viewModel.onUserCancelled()
-    }
 
     @StringRes
     private fun planPerCycleResId(cycle: PlanCycle): Int = when(cycle) {

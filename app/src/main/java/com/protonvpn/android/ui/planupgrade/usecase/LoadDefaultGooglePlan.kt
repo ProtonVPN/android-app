@@ -32,7 +32,7 @@ import me.proton.core.payment.domain.usecase.GetAvailablePaymentProviders
 import me.proton.core.payment.domain.usecase.PaymentProvider
 import me.proton.core.plan.domain.entity.DynamicPlan
 import me.proton.core.plan.domain.entity.DynamicPlanState
-import me.proton.core.plan.domain.usecase.GetDynamicPlans
+import me.proton.core.plan.domain.usecase.GetDynamicPlansAdjustedPrices
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.plan.presentation.entity.getSelectedPlan
 import javax.inject.Inject
@@ -42,7 +42,7 @@ data class CycleInfo(
     val productId: String,
 )
 data class GiapPlanInfo(
-    private val dynamicPlan: DynamicPlan,
+    val dynamicPlan: DynamicPlan,
     val name: String,
     val displayName: String,
     val cycles: List<CycleInfo>,
@@ -63,7 +63,7 @@ class LoadDefaultGooglePlan(
 
     @Inject constructor(
         currentUser: CurrentUser,
-        getDynamicPlans: GetDynamicPlans,
+        getDynamicPlans: GetDynamicPlansAdjustedPrices,
         getAvailablePaymentProviders: GetAvailablePaymentProviders
     ) : this(
         vpnUserFlow = currentUser.vpnUserFlow,

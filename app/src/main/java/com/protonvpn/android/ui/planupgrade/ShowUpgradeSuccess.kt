@@ -30,17 +30,19 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import me.proton.core.payment.domain.PurchaseManager
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ShowUpgradeSuccess constructor(
+class ShowUpgradeSuccess(
     mainScope: CoroutineScope,
     foregroundActivityTracker: ForegroundActivityTracker,
     userPlanManager: UserPlanManager,
     private val currentUser: CurrentUser,
     private val upgradeTelemetry: UpgradeTelemetry,
-    private val startUpgradeActivity: (Context, String, Boolean) -> Unit
+    private val startUpgradeActivity: (Context, String, Boolean) -> Unit,
+    private val purchaseManager: PurchaseManager
 ) {
     private var doNotShowForPlan: String = ""
 
@@ -50,7 +52,8 @@ class ShowUpgradeSuccess constructor(
         foregroundActivityTracker: ForegroundActivityTracker,
         userPlanManager: UserPlanManager,
         currentUser: CurrentUser,
-        upgradeTelemetry: UpgradeTelemetry
+        upgradeTelemetry: UpgradeTelemetry,
+        purchaseManager: PurchaseManager
     ) : this(
         mainScope,
         foregroundActivityTracker,
@@ -60,7 +63,8 @@ class ShowUpgradeSuccess constructor(
         { context, newPlan, refreshVpnInfo ->
             val intent = CongratsPlanActivity.createIntent(context, newPlan, refreshVpnInfo)
             context.startActivity(intent)
-        }
+        },
+        purchaseManager
     )
 
     init {
@@ -70,11 +74,15 @@ class ShowUpgradeSuccess constructor(
                     foregroundActivityTracker.foregroundActivityFlow.filterNotNull().first()
                 val upgradedUser = planUpgrade.newUser
                 if (shouldShowUpgradeSuccess(upgradedUser)) {
+                    val newPlan = upgradedUser.userTierName
+                    val purchase = purchaseManager.observePurchase(newPlan).first()
+                    if (purchase == null) {
+                        upgradeTelemetry.onUpgradeSuccess(newPlan, UpgradeFlowType.EXTERNAL)
+                    }
                     showPlanUpgradeSuccess(
                         activity,
-                        upgradedUser.userTierName,
+                        newPlan,
                         refreshVpnInfo = false,
-                        upgradeFlowType = UpgradeFlowType.EXTERNAL
                     )
                 } else {
                     doNotShowForPlan = ""
@@ -88,10 +96,9 @@ class ShowUpgradeSuccess constructor(
     }
 
     fun showPlanUpgradeSuccess(
-        context: Context, newPlan: String, refreshVpnInfo: Boolean, upgradeFlowType: UpgradeFlowType
+        context: Context, newPlan: String, refreshVpnInfo: Boolean
     ) {
         doNotShowForPlan = newPlan
-        upgradeTelemetry.onUpgradeSuccess(newPlan, upgradeFlowType)
         startUpgradeActivity(context, newPlan, refreshVpnInfo)
     }
 }
