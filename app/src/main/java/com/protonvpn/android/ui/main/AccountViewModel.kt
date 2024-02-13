@@ -94,7 +94,7 @@ class AccountViewModel @Inject constructor(
         object Processing : State()
     }
 
-    val showOnboarding = combine(
+    val eventShowOnboarding = combine(
         appFeaturesPrefs.showOnboardingUserIdFlow.distinctUntilChanged(),
         accountManager.getPrimaryUserId().distinctUntilChanged()
     ) { onboardingUserId, primaryUserId ->
