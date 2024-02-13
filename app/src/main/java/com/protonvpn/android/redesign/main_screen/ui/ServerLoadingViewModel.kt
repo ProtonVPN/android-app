@@ -59,7 +59,7 @@ class ServerLoadingViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = LoaderState.Loading
+        initialValue = null
     )
 
     fun updateServerList() {

@@ -19,9 +19,11 @@
 package com.protonvpn.app.redesign.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.redesign.main_screen.ui.ServerLoadingViewModel
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -29,6 +31,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -37,16 +40,20 @@ import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.network.domain.ApiResult
 import org.junit.After
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertIs
 
-class ServerLoadingViewModelTest {
+@OptIn(ExperimentalCoroutinesApi::class)
+class ServerLoadingViewModelTests {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -57,6 +64,9 @@ class ServerLoadingViewModelTest {
 
     @RelaxedMockK
     private lateinit var serverListUpdater: ServerListUpdater
+
+    private val apiSuccess = ApiResult.Success(ServerList(emptyList()))
+    private val apiError = ApiResult.Error.Timeout(true, null)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
@@ -69,6 +79,11 @@ class ServerLoadingViewModelTest {
         coEvery { serverListUpdater.updateServerList() } returns ApiResult.Success(mockk())
     }
 
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+
     @Test
     fun `state is loaded if servers are downloaded at least once`() = runTest {
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(true)
@@ -77,10 +92,7 @@ class ServerLoadingViewModelTest {
         coVerify { serverListUpdater.updateServerList() wasNot Called }
 
         val state = viewModel.serverLoadingState.first()
-        Assert.assertTrue(
-            "Expected state to be Loaded, but was ${state::class.simpleName}",
-            state is ServerLoadingViewModel.LoaderState.Loaded
-        )
+        assertIs<ServerLoadingViewModel.LoaderState.Loaded>(state)
     }
 
     @Test
@@ -89,10 +101,7 @@ class ServerLoadingViewModelTest {
         viewModel.updateServerList()
 
         val state = viewModel.serverLoadingState.first()
-        Assert.assertTrue(
-            "Expected state to be Loaded, but was ${state::class.simpleName}",
-            state is ServerLoadingViewModel.LoaderState.Loaded
-        )
+        assertIs<ServerLoadingViewModel.LoaderState.Loaded>(state)
     }
 
     @Test
@@ -102,15 +111,30 @@ class ServerLoadingViewModelTest {
         val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
 
         val state = viewModel.serverLoadingState.first()
-        Assert.assertTrue(
-            "Expected state to be Error, but was ${state::class.simpleName}",
-            state is ServerLoadingViewModel.LoaderState.Error
-        )
+        assertIs<ServerLoadingViewModel.LoaderState.Error>(state)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
+    @Test
+    fun `error state is cleared when retrying`() = runTest {
+        val suspendedResponse = CompletableDeferred<ApiResult<ServerList>>()
+        coEvery { serverListUpdater.updateServerList() } returns apiError
+        val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
+
+        val states = runWhileCollecting(viewModel.serverLoadingState) {
+            runCurrent()
+
+            coEvery { serverListUpdater.updateServerList() } coAnswers { suspendedResponse.await() }
+            viewModel.updateServerList()
+            runCurrent()
+
+            suspendedResponse.complete(apiSuccess)
+            runCurrent()
+        }
+        val expected = listOf(
+            ServerLoadingViewModel.LoaderState.Error,
+            ServerLoadingViewModel.LoaderState.Loading,
+            ServerLoadingViewModel.LoaderState.Loaded,
+        )
+        assertEquals(expected, states)
     }
 }
