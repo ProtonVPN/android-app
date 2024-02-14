@@ -254,8 +254,6 @@
     <string name="settingsSendCrashReportsDescription">Programkrasjrapporter hjelper oss med å rette feil, oppdage brannmurer og unngå VPN-blokkeringer.</string>
     <string name="settingsTelemetryScreenTitle">Bruksstatistikk</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Disse statistikkene inneholder ikke IP-adressen din, og de kan ikke brukes til å identifisere deg. Vi deler dem aldri med tredjeparter. <a href="%1$s">Lær mer</a>]]></string>
-    <string name="netShieldEnabledWarning">Vær oppmerksom på at noen nettsteder kanskje ikke fungerer fullt ut på grunn av blokkert innhold.</string>
-    <string name="netShieldDescription">Blokkér reklamer, sporere og skadelig programvare </string>
     <string name="netshield_settings_description_not_html">Beskytt deg mot annonser, skadelig programvare og sporere på nettsteder og apper. Hvis nettsteder ikke lastes inn, kan du prøve å deaktivere NetShield. %1$s</string>
     <string name="learn_more">Lær mer</string>
     <string name="netshield_status_on">På</string>
@@ -280,8 +278,6 @@
         <item quantity="other">Sporere stoppet</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data spart</string>
-    <string name="netShieldBlockMalwareOnly">Blokkér kun skadevare</string>
-    <string name="netShieldFullBlock">Blokkér skadelig programvare, sporing, annonser</string>
     <string name="dialogDontShowAgain">Ikke vis igjen</string>
     <string name="guestHoleActivated">Tilgangen til Proton VPN kan være begrenset i ditt område, så dette vil ta lengre tid enn vanlig. Vennligst vent mens vi omgår dette problemet.</string>
     <string name="guestHoleNotificationContent">Prøver å omgå nettverksproblemer. Dette vil hjelpe deg med å få tilgang til Proton VPN.</string>

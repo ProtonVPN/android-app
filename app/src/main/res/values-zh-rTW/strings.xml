@@ -253,8 +253,6 @@
     <string name="settingsSendCrashReportsDescription">故障報告協助我們修復臭蟲、偵測防火牆與避免 VPN 封鎖。</string>
     <string name="settingsTelemetryScreenTitle">使用統計資料</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[這些統計資料不包含您的 IP 位址，且其無法用於識別您的身份。我們永遠不會將它們與第三方分享。<a href="%1$s">取得更多資訊</a>]]></string>
-    <string name="netShieldEnabledWarning">請注意：攔截內容後，某些網站或會未能完全運作。</string>
-    <string name="netShieldDescription">攔截廣告、追蹤和惡意軟體</string>
     <string name="netshield_settings_description_not_html">保護您免受網站與應用程式中的廣告、惡意程式與追蹤器騷擾。若網站無法載入，請嘗試停用 NetShield。%1$s</string>
     <string name="learn_more">了解更多</string>
     <string name="netshield_status_on">開啟</string>
@@ -277,8 +275,6 @@
         <item quantity="other">追蹤器已停止</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">資料已儲存</string>
-    <string name="netShieldBlockMalwareOnly">僅攔截惡意軟體</string>
-    <string name="netShieldFullBlock">攔截惡意軟體、追蹤、廣告</string>
     <string name="dialogDontShowAgain">不要再顯示</string>
     <string name="guestHoleActivated">您所在的地區或有限度存取 Proton VPN，故需時較長。請稍候，我們正嘗試應對此問題。</string>
     <string name="guestHoleNotificationContent">嘗試迴避網路問題。這將可以協助您存取 Proton VPN。</string>

@@ -254,8 +254,6 @@
     <string name="settingsSendCrashReportsDescription">Çökme bildirimleri sorunları gidermemize, güvenlik duvarlarını algılamamıza ve VPN engellemelerini aşmamıza yardımcı olur.</string>
     <string name="settingsTelemetryScreenTitle">Kullanım istatistikleri</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Bu istatistikler IP adresinizi içermez ve kim olduğunuzu belirlemek için kullanılamaz. Bu verileri asla üçüncü taraflar ile paylaşmayız. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
-    <string name="netShieldEnabledWarning">Engellenen içerikler nedeniyle bazı sitelerin tam olarak çalışmayacağını unutmayın.</string>
-    <string name="netShieldDescription">Reklam, etkinlik izleyiciler ve kötü amaçlı yazılımların engellenmesini sağlar </string>
     <string name="netshield_settings_description_not_html">Kendinizi siteler ile uygulamalarda bulunabilecek reklam, kötü amaçlı yazılım ve izleyicilerden koruyun. Siteler yüklenmezse NetShield özelliğini kapatmayı deneyin. %1$s</string>
     <string name="learn_more">Ayrıntılı bilgi alın</string>
     <string name="netshield_status_on">Açık</string>
@@ -280,8 +278,6 @@
         <item quantity="other">İzleyiciler durduruldu</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Kazanılan veri</string>
-    <string name="netShieldBlockMalwareOnly">Yalnızca kötü amaçlı yazılımlar engellensin</string>
-    <string name="netShieldFullBlock">Kötü amaçlı yazılımlar, etkinlik izleyiciler ve reklamlar engellensin</string>
     <string name="dialogDontShowAgain">Bir daha görüntülenmesin</string>
     <string name="guestHoleActivated">Bölgenizde Proton VPN erişimi sınırlı olabilir. Bu nedenle bu işlem normalden daha uzun sürecek. Lütfen biz bu sorunu çözerken bekleyin.</string>
     <string name="guestHoleNotificationContent">Ağ sorunları aşılmaya çalışılıyor. Bu işlem Proton VPN hizmetine erişmenize yardımcı olacak.</string>

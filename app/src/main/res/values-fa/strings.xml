@@ -254,8 +254,6 @@
     <string name="settingsSendCrashReportsDescription">Crash reports help us fix bugs, detect firewalls, and avoid VPN blocks.</string>
     <string name="settingsTelemetryScreenTitle">Usage statistics</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
-    <string name="netShieldEnabledWarning">در نظر داشته باشید که برخی وبسایت‌ها به دلیل محتوای مسدود شده، ممکن است بطور کامل کار نکنند.</string>
-    <string name="netShieldDescription">مسدود کردن آگهی‌ها، ردیاب‌ها و بدافزارها</string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="learn_more">Learn more</string>
     <string name="netshield_status_on">روشن</string>
@@ -280,8 +278,6 @@
         <item quantity="other">Trackers stopped</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
-    <string name="netShieldBlockMalwareOnly">فقط بدافزار مسدود شود</string>
-    <string name="netShieldFullBlock">مسدود کردن بدافزار، ردیابی، آگهی‌ها</string>
     <string name="dialogDontShowAgain">دوباره نشان نده</string>
     <string name="guestHoleActivated">دسترسی به Proton VPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. مادامیکه ما در مورد این مشکل کار می‌کنیم لطفا منتظر بمانید.</string>
     <string name="guestHoleNotificationContent">در تلاش برای دور زدن مشکلات شبکه. این به شما کمک خواهد کرد که به Proton VPN دسترسی پیدا کنید.</string>

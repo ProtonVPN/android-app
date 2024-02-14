@@ -254,8 +254,6 @@
     <string name="settingsSendCrashReportsDescription">Virheraportit auttavat meitä korjaaman vikoja, havaitsemaan palomuureja ja kiertämään VPN-estoja.</string>
     <string name="settingsTelemetryScreenTitle">Käyttötilastot</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Nämä tilastot eivät sisällä IP-osoitettasi, eikä sinua ole mahdollista tunnistaa niiden perusteella. Emme koskaa jaa niitä ulkopuolisille tahoille. <a href="%1$s">Lue lisää</a>]]></string>
-    <string name="netShieldEnabledWarning">Huomioi, että jotkin verkkosivustot eivät välttämättä toimi sisällön eston seurauksena oikein.</string>
-    <string name="netShieldDescription">Estä mainoksia, seurantoja ja haittaohjelmia</string>
     <string name="netshield_settings_description_not_html">Suojaudu mainoksilta, haittaohjelmilta ja seurannoilta verkkosivustoilla ja sovelluksissa. Jos verkkosivut eivät lataudu, kokeile auttaako NetShieldin käytöstäpoisto. %1$s</string>
     <string name="learn_more">Lue lisää</string>
     <string name="netshield_status_on">Käytössä</string>
@@ -280,8 +278,6 @@
         <item quantity="other">Seurantaa estetty</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Tiedonsiirtoa säästetty</string>
-    <string name="netShieldBlockMalwareOnly">Estä vain haittaohjelmia</string>
-    <string name="netShieldFullBlock">Estä haittaohjelmia, seurantoja ja mainoksia</string>
     <string name="dialogDontShowAgain">Älä näytä uudelleen</string>
     <string name="guestHoleActivated">ProtonVPN:n käyttöä on saatettu rajoittaa alueellasi, joten tämä kestää tavallista kauemmin. Odota, kun ongelma pyritään ohittamaan.</string>
     <string name="guestHoleNotificationContent">Verkkoyhteyden ongelmia yritetään kiertää. Tämä auttaa Proton VPN-yhteyden muodostuksessa.</string>

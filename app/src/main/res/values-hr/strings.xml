@@ -255,8 +255,6 @@
     <string name="settingsSendCrashReportsDescription">Crash reports help us fix bugs, detect firewalls, and avoid VPN blocks.</string>
     <string name="settingsTelemetryScreenTitle">Usage statistics</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
-    <string name="netShieldEnabledWarning">Imajte na umu da neke web stranice možda neće funkcionirati u potpunosti zbog blokiranog sadržaja.</string>
-    <string name="netShieldDescription">Blokirajte oglase, pratitelje i neželjene programe </string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="learn_more">Learn more</string>
     <string name="netshield_status_on">Oključeno</string>
@@ -283,8 +281,6 @@
         <item quantity="other">Trackers stopped</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
-    <string name="netShieldBlockMalwareOnly">Blokiraj samo zlonamjerne programe</string>
-    <string name="netShieldFullBlock">Blokirajte zlonamjerne programe, pratitelje, oglase</string>
     <string name="dialogDontShowAgain">Ne prikazuj ponovno</string>
     <string name="guestHoleActivated">Pristup Proton VPN-u možda je ograničen na vašem području, tako da će ovo trajati duže nego inače. Pričekajte dok riješimo ovaj problem.</string>
     <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access Proton VPN.</string>

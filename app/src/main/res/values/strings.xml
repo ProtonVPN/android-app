@@ -266,8 +266,6 @@
     <string name="settingsSendCrashReportsDescription">Crash reports help us fix bugs, detect firewalls, and avoid VPN blocks.</string>
     <string name="settingsTelemetryScreenTitle">Usage statistics</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
-    <string name="netShieldEnabledWarning">Beware some websites might not fully work because of blocked contents.</string>
-    <string name="netShieldDescription">Block advertisements, trackers and malware </string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="learn_more">Learn more</string>
     <string name="netshield_feature_name" translatable="false">NetShield</string>
@@ -294,8 +292,7 @@
         <item quantity="other">Trackers stopped</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
-    <string name="netShieldBlockMalwareOnly">Block malware only</string>
-    <string name="netShieldFullBlock">Block malware, tracking, ads</string>
+    <string name="netshield_setting_warning">Some websites may not load properly when ads and trackers are blocked.</string>
     <string name="dialogDontShowAgain">Don\'t show again</string>
     <string name="guestHoleActivated">The access to Proton VPN may be limited in your area so this will take longer than usual. Please wait while we work around this problem.</string>
     <string name="guestHoleNotificationContent">Trying to circumvent network issues. This will help you access Proton VPN.</string>

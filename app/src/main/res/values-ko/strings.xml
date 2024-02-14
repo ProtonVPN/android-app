@@ -253,8 +253,6 @@
     <string name="settingsSendCrashReportsDescription">충돌 보고서는 버그를 수정하고 방화벽을 감지하며 VPN 차단을 방지하는 데 도움이 됩니다.</string>
     <string name="settingsTelemetryScreenTitle">사용 통계</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[이 통계에는 당신의 IP 주소가 담기지 않으며 식별에 사용할 수 없습니다. 제 3자에게 공유하지도 않습니다. <a href="%1$s">자세히 알아보기</a>]]></string>
-    <string name="netShieldEnabledWarning">차단된 콘텐츠로 인하여 일부 웹사이트는 제대로 기능하지 않을 수도 있습니다.</string>
-    <string name="netShieldDescription">광고, 트래커, 그리고 멀웨어를 차단하세요</string>
     <string name="netshield_settings_description_not_html">웹사이트와 앱에서 광고와 멀웨어, 그리고 트래커로부터 보호받으세요. 웹사이트를 불러오는 데 문제가 있다면 NetShield를 비활성화해보세요. %1$s</string>
     <string name="learn_more">더 알아보기</string>
     <string name="netshield_status_on">켜짐</string>
@@ -277,8 +275,6 @@
         <item quantity="other">트래커가 멈춤</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">데이터 절약됨</string>
-    <string name="netShieldBlockMalwareOnly">멀웨어만 차단</string>
-    <string name="netShieldFullBlock">멀웨어, 트래커, 광고 차단</string>
     <string name="dialogDontShowAgain">다음부터 표시하지 않음</string>
     <string name="guestHoleActivated">Proton VPN에 대한 액세스가 귀하의 지역에서 제한될 수 있으므로 평소보다 더 오래 걸릴 수 있습니다. 이 문제를 해결하는 동안 기다려 주세요.</string>
     <string name="guestHoleNotificationContent">네트워크 문제를 우회하려고 노력하고 있습니다. 이는 Proton VPN에 접근하는데 도움을 줄 것입니다.</string>

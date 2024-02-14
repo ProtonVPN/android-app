@@ -115,7 +115,7 @@ fun SettingsRoute(
             },
             signOut = signOut,
             onNetShieldClick = {
-                // TODO
+                onNavigateToSubSetting(SubSettingsScreen.Type.NetShield)
             },
             onNetShieldUpgradeClick = {
                 UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context)

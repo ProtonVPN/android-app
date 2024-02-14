@@ -253,8 +253,6 @@
     <string name="settingsSendCrashReportsDescription">クラッシュレポートはバグを修正し、ファイアウォールを検出し、VPN 検閲を回避するために使用されます。</string>
     <string name="settingsTelemetryScreenTitle">使用統計</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[この統計にあなたの IP アドレスは含まれず、あなたを特定することはできません。この統計は第三者に共有しません。<a href="%1$s">詳細</a>]]></string>
-    <string name="netShieldEnabledWarning">コンテンツのブロックにより一部のサイトが正常に動作しない恐れがあります。</string>
-    <string name="netShieldDescription">広告、トラッカー、マルウェアをブロック </string>
     <string name="netshield_settings_description_not_html">ウェブサイトやアプリ上の広告、マルウェア、トラッカーから身を守ります。ウェブサイトが読み込まれない場合は、NetShield を無効にしてみてください。%1$s</string>
     <string name="learn_more">詳細</string>
     <string name="netshield_status_on">有効</string>
@@ -277,8 +275,6 @@
         <item quantity="other">件のトラッカーを停止</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">のデータを節約</string>
-    <string name="netShieldBlockMalwareOnly">マルウェアのみブロック</string>
-    <string name="netShieldFullBlock">マルウェア、トラッキング、広告をブロック</string>
     <string name="dialogDontShowAgain">次回から表示しない</string>
     <string name="guestHoleActivated">お住いの地域では Proton VPN へのアクセスが制限されている可能性があるため、通常よりも処理に時間がかかります。この問題の回避を試みていますので少々お待ちください。</string>
     <string name="guestHoleNotificationContent">ネットワークの問題の回避を試みてください。これで Proton VPN にアクセスできるかもしれません。</string>

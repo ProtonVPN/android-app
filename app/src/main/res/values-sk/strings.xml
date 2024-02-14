@@ -256,8 +256,6 @@
     <string name="settingsSendCrashReportsDescription">Hlásenia o pádoch nám pomáhajú opravovať chyby, detekovať firewally a vyhýbať sa blokovaniu VPN.</string>
     <string name="settingsTelemetryScreenTitle">Štatistiky používania</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Tieto štatistiky neobsahujú vašu IP adresu a nemôžu byť použité na vašu identifikáciu. Nikdy ich nebudeme zdieľať s tretími stranami. <a href="%1$s">Zistiť viac</a>]]></string>
-    <string name="netShieldEnabledWarning">Dajte si pozor na to, že niektoré webové stránky nemusia plne fungovať kvôli blokovanému obsahu.</string>
-    <string name="netShieldDescription">Blokovanie reklám, sledovačov a škodlivého softvéru </string>
     <string name="netshield_settings_description_not_html">Chráňte sa pred reklamou, malware a sledovacími prvkami na webových stránkach a v aplikáciách. Ak sa stránky nenačítajú, skúste vypnúť NetShield. %1$s</string>
     <string name="learn_more">Zistiť viac</string>
     <string name="netshield_status_on">Zapnuté</string>
@@ -286,8 +284,6 @@
         <item quantity="other">Sledovačov zastavených</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Ušetrené dáta</string>
-    <string name="netShieldBlockMalwareOnly">Blokovať iba malvér</string>
-    <string name="netShieldFullBlock">Blokovanie malvéru, sledovania a reklám</string>
     <string name="dialogDontShowAgain">Viac nezobrazovať</string>
     <string name="guestHoleActivated">Prístup k Proton VPN môže byť vo vašej oblasti obmedzený, takže to bude trvať dlhšie ako zvyčajne. Počkajte, kým tento problém vyriešime.</string>
     <string name="guestHoleNotificationContent">Snažíme sa obísť problémy so sieťou. Pomôže vám to získať prístup k sieti Proton VPN.</string>

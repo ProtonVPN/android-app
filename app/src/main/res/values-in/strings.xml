@@ -253,8 +253,6 @@
     <string name="settingsSendCrashReportsDescription">Laporan crash membantu kami dalam memperbaiki bug, mendeteksi firewall, dan menangkal pemblokiran VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statistik penggunaan</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga manapun. <a href="%1$s">Pelajari lebih lanjute</a>]]></string>
-    <string name="netShieldEnabledWarning">Harap dicamkan bahwa beberapa situs web mungkin tidak akan sepenuhnya berfungsi karena konten yang diblokir.</string>
-    <string name="netShieldDescription">Memblokir iklan, pelacak, dan malware </string>
     <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. Apabila situs web yang ingin Anda kunjungi tidak termuat, cobalah untuk menonaktifkan NetShield. %1$s</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
     <string name="netshield_status_on">Aktif</string>
@@ -277,8 +275,6 @@
         <item quantity="other">Pelacak yang dihentikan</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data yang disimpan</string>
-    <string name="netShieldBlockMalwareOnly">Blokir malware saja</string>
-    <string name="netShieldFullBlock">Blokir malware, pelacak, iklan</string>
     <string name="dialogDontShowAgain">Jangan tampilkan lagi</string>
     <string name="guestHoleActivated">Akses menuju Proton VPN di wilayah Anda sedang terbatas, sehingga tindakan ini akan memakan waktu yang lebih lama dibanding biasanya. Mohon tunggu selagi kami memperbaiki masalah ini.</string>
     <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah-masalah jaringan yang ada. Tindakan ini dapat melancarkan koneksi Proton VPN Anda.</string>

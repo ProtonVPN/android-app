@@ -254,8 +254,6 @@
     <string name="settingsSendCrashReportsDescription">ავარიის ანგარიშები გვეხმარება შეცდომების გამოსწორებაში, ფეიერვოლების აღმოჩენაში და VPN ბლოკების თავიდან აცილებაში.</string>
     <string name="settingsTelemetryScreenTitle">გამოყენების სტატისტიკა</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[ეს სტატისტიკა თქვენს IP-ს არ შეიცავს და ის თქვენს ამოსაცნობად გამოყენებული ვერ იქნება. ჩვენ მას მესამე პირებს არასოდეს ვუზიარებთ. <a href="%1$s">გაიგეთ მეტი</a>]]></string>
-    <string name="netShieldEnabledWarning">დაბლოკილი შემცველობის გამო ზოგიერთმა საიტმა შეიძლება, არ იმუშაოს.</string>
-    <string name="netShieldDescription">დაბლოკეთ რეკლამები, ტრეკერები და არასასურველი პროგრამები </string>
     <string name="netshield_settings_description_not_html">დაიცავით თავი რეკლამებისგან, ბოროტი პროგრამებისგან და ტრეკერებისგან, რომლებიც ვებგვერდებზე და აპებშია ჩაშენებული. თუ ვვებგვერდი არ იტვირთება, სცადეთ, NetSheld-ი გამორთოთ. %1$s</string>
     <string name="learn_more">გაიგეთ მეტი</string>
     <string name="netshield_status_on">ჩართ</string>
@@ -280,8 +278,6 @@
         <item quantity="other">შეჩერებული ტრეკერი</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">მინაცემები შენახულია</string>
-    <string name="netShieldBlockMalwareOnly">მხოლოდ malware-ის დაბლოკვა</string>
-    <string name="netShieldFullBlock">დაბლოკეთ მავნე პროგრამები, ტრეკერები და რეკლამა</string>
     <string name="dialogDontShowAgain">აღარ მაჩვენო</string>
     <string name="guestHoleActivated">როგორც ჩანს, თქვენს რეგიონში Proton VPN-მდე წვდომა შეზღუდულია, ამიტომ მიერთების პროცესს ჩვეულებრივზე მეტი ხანი დასჭირდება. დაიცადეთ, სანამ მოვაგვარებთ ამ პრობლემას.</string>
     <string name="guestHoleNotificationContent">ქსელის პრობლემის გვერდის ავლის მცდელობა. ეს Proton VPN-თან წვდომაში დაგეხმარებათ.</string>

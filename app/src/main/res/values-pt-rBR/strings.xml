@@ -254,8 +254,6 @@
     <string name="settingsSendCrashReportsDescription">Os relatórios de erros nos ajudam a corrigir erros, detectar firewalls e evitar bloqueios de VPN.</string>
     <string name="settingsTelemetryScreenTitle">Estatísticas de uso</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm seu endereço IP, e não podem ser usadas para te identificar. Nunca as compartilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
-    <string name="netShieldEnabledWarning">Cuidado, alguns sites podem não funcionar completamente por causa de conteúdos bloqueados.</string>
-    <string name="netShieldDescription">Bloquear anúncios, rastreadores e malware </string>
     <string name="netshield_settings_description_not_html">Proteja-se contra anúncios, malware e rastreadores em sites e aplicativos. Se os sites não carregarem, tente desativar o NetShield.%1$s</string>
     <string name="learn_more">Saiba mais</string>
     <string name="netshield_status_on">Ativado</string>
@@ -280,8 +278,6 @@
         <item quantity="other">Rastreadores parados</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dados economizados</string>
-    <string name="netShieldBlockMalwareOnly">Bloquear apenas malware</string>
-    <string name="netShieldFullBlock">Bloquear malware, rastreadores e anúncios</string>
     <string name="dialogDontShowAgain">Não mostrar novamente</string>
     <string name="guestHoleActivated">O acesso ao Proton VPN pode estar limitado em sua região, portanto isso levará mais tempo do que o normal. Aguarde enquanto nós trabalhamos em torno deste problema.</string>
     <string name="guestHoleNotificationContent">Tentando contornar problemas de rede. Isso ajudará você a acessar o Proton VPN.</string>

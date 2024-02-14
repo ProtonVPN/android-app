@@ -256,8 +256,6 @@
     <string name="settingsSendCrashReportsDescription">Raporty o awariach pomagają nam naprawić błędy, wykryć zapory sieciowe i ominąć blokady VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statystyki użytkowania</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Te statystyki nie zawierają adresu IP i nie mogą zostać użyte do identyfikacji użytkownika. Dane nie zostaną udostępnione stronom trzecim. <a href="%1$s">Dowiedz się więcej</a>]]></string>
-    <string name="netShieldEnabledWarning">Niektóre strony mogą nie działać poprawnie z powodu zablokowanych treści.</string>
-    <string name="netShieldDescription">Zablokuj reklamy, elementy śledzące i złośliwe oprogramowanie </string>
     <string name="netshield_settings_description_not_html">Chroń się przed reklamami, złośliwym oprogramowaniem i elementami śledzącymi na stronach internetowych oraz w aplikacjach. Jeśli strony internetowe się nie ładują, spróbuj wyłączyć funkcję NetShield. %1$s</string>
     <string name="learn_more">Dowiedz się więcej</string>
     <string name="netshield_status_on">Włączone</string>
@@ -286,8 +284,6 @@
         <item quantity="other">elementów śledzących zatrzymanych</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">zaoszczędzonych danych</string>
-    <string name="netShieldBlockMalwareOnly">Zablokuj złośliwe oprogramowanie</string>
-    <string name="netShieldFullBlock">Zablokuj złośliwe oprogramowanie, elementy śledzące i reklamy</string>
     <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>
     <string name="guestHoleActivated">Dostęp do usługi Proton VPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
     <string name="guestHoleNotificationContent">Próba obejścia problemów z siecią. To pomoże uzyskać dostęp do usługi Proton VPN.</string>

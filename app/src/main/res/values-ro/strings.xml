@@ -255,8 +255,6 @@
     <string name="settingsSendCrashReportsDescription">Rapoartele de erori ne ajută să reparăm erorile, să detectăm paravanele de protecție și să evităm blocările VPN-ului.</string>
     <string name="settingsTelemetryScreenTitle">Statistici de utilizare</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Aceste statistici nu vă conțin adresa IP și nu pot fi utilizate să vă identifice. Nu le vom partaja cu terțe părți. <a href="%1$s">Detalii</a>]]></string>
-    <string name="netShieldEnabledWarning">Rețineți că unele site-uri nu funcționeză complet datorită conținutului blocat.</string>
-    <string name="netShieldDescription">Blochează reclame, urmăritori și malware </string>
     <string name="netshield_settings_description_not_html">Protejați-vă de reclame, programe malițioase și urmărirea de pe paginile web și din aplicații. Dacă paginile web nu se încarcă, încercați cu NetShield dezactivat. %1$s.</string>
     <string name="learn_more">Detalii</string>
     <string name="netshield_status_on">Pornit</string>
@@ -283,8 +281,6 @@
         <item quantity="other">Urmăritori opriți</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Date salvate</string>
-    <string name="netShieldBlockMalwareOnly">Blocare doar malware</string>
-    <string name="netShieldFullBlock">Blocare malware, reclame și instrumente de urmărire</string>
     <string name="dialogDontShowAgain">Nu mai arăta</string>
     <string name="guestHoleActivated">Accesul la Proton VPN poate fi limitat în zona dvs., așa că va dura mai mult decât de obicei. Așteptați până când rezolvăm această problemă.</string>
     <string name="guestHoleNotificationContent">Se încearcă evitarea problemelor de rețea. Acest lucru vă va ajuta să accesați Proton VPN.</string>
