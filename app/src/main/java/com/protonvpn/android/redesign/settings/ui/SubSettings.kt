@@ -37,6 +37,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
+import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatHighlightsFragment
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.openUrl
@@ -48,18 +51,20 @@ import me.proton.core.presentation.R as CoreR
 fun SubSettingsRoute(
     type: SubSettingsScreen.Type,
     onClose: () -> Unit,
+    onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
 ) {
     val viewModel: SettingsViewModel = hiltViewModel()
     val context = LocalContext.current
     when (type) {
+
         SubSettingsScreen.Type.VpnAccelerator -> {
-            val viewState =
-                viewModel.vpnAcceleratorValue.collectAsStateWithLifecycle(initialValue = null).value
-            DebugUtils.debugAssert { viewState?.isRestricted != true }
-            if (viewState != null) {
+            val vpnAccelerator =
+                viewModel.vpnAccelerator.collectAsStateWithLifecycle(initialValue = null).value
+            DebugUtils.debugAssert { vpnAccelerator?.isRestricted != true }
+            if (vpnAccelerator != null) {
                 VpnAccelerator(
                     onClose,
-                    viewState.value,
+                    vpnAccelerator,
                     { context.openUrl(Constants.VPN_ACCELERATOR_INFO_URL) },
                     viewModel::toggleVpnAccelerator,
                 )
@@ -67,14 +72,42 @@ fun SubSettingsRoute(
         }
 
         SubSettingsScreen.Type.NetShield -> {
-            val viewState =
-                viewModel.netShieldValue.collectAsStateWithLifecycle(initialValue = null).value
-            if (viewState != null) {
+            val netShield = viewModel.netShield.collectAsStateWithLifecycle(initialValue = null).value
+            if (netShield != null) {
                 NetShieldSetting(
                     onClose = onClose,
-                    value = viewState.value,
+                    netShield = netShield,
                     onLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
                     onNetShieldToggle = { viewModel.toggleNetShield() }
+                )
+            }
+        }
+
+        SubSettingsScreen.Type.Advanced -> {
+            val advancedViewState = viewModel.advancedSettings.collectAsStateWithLifecycle(initialValue = null).value
+            if (advancedViewState != null) {
+                AdvancedSettings(
+                    onClose = onClose,
+                    altRouting = advancedViewState.altRouting,
+                    allowLan = advancedViewState.lanConnections,
+                    natType = advancedViewState.natType,
+                    onAltRoutingChange = viewModel::toggleAltRouting,
+                    onAllowLanChange = viewModel::toggleLanConnections,
+                    onNatTypeLearnMore = { context.openUrl(Constants.MODERATE_NAT_INFO_URL) },
+                    onNavigateToNatType = { onNavigateToSubSetting(SubSettingsScreen.Type.NatType) },
+                    onAllowLanRestricted = { UpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(context) },
+                    onNatTypeRestricted = { UpgradeDialogActivity.launch<UpgradeModerateNatHighlightsFragment>(context) },
+                )
+            }
+        }
+
+        SubSettingsScreen.Type.NatType -> {
+            val nat = viewModel.natType.collectAsStateWithLifecycle(initialValue = null).value
+            if (nat != null) {
+                NatTypeSettings(
+                    onClose = onClose,
+                    nat = nat,
+                    onNatTypeChange = viewModel::setNatType,
                 )
             }
         }

@@ -131,7 +131,7 @@ fun SettingsRoute(
                     context.startActivity(Intent(context, SettingsAlwaysOnActivity::class.java))
             },
             onProtocolClick = {
-                protocolLauncher.launch(viewState.currentProtocolSelection.value)
+                protocolLauncher.launch(viewState.protocol.value)
             },
             onVpnAcceleratorClick = {
                 onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
@@ -140,7 +140,7 @@ fun SettingsRoute(
                 UpgradeDialogActivity.launch<UpgradeVpnAcceleratorHighlightsFragment>(context)
             },
             onAdvancedSettingsClick = {
-                // TODO
+                onNavigateToSubSetting(SubSettingsScreen.Type.Advanced)
             },
             onNotificationsClick = {
                 // TODO
@@ -266,18 +266,18 @@ private fun SettingsView(
             ) {
                 SettingRowWithIcon(
                     icon = me.proton.core.auth.R.drawable.ic_proton_servers,
-                    title = stringResource(id = viewState.currentProtocolSelection.titleRes),
+                    title = stringResource(id = viewState.protocol.titleRes),
                     onClick = settingsActions.onProtocolClick,
-                    subtitle = stringResource(id = viewState.currentProtocolSelection.subtitleRes)
+                    subtitle = stringResource(id = viewState.protocol.subtitleRes)
                 )
                 SettingRowWithIcon(
-                    icon = viewState.vpnAcceleratorViewState.iconRes,
-                    title = stringResource(id = viewState.vpnAcceleratorViewState.titleRes),
-                    onClick = if (viewState.vpnAcceleratorViewState.isRestricted)
+                    icon = viewState.vpnAccelerator.iconRes,
+                    title = stringResource(id = viewState.vpnAccelerator.titleRes),
+                    onClick = if (viewState.vpnAccelerator.isRestricted)
                         settingsActions.onVpnAcceleratorUpgrade else settingsActions.onVpnAcceleratorClick,
-                    trailingIcon = viewState.vpnAcceleratorViewState.upgradeIconRes,
+                    trailingIcon = viewState.vpnAccelerator.upgradeIconRes,
                     trailingIconTint = false,
-                    subtitle = stringResource(id = viewState.vpnAcceleratorViewState.subtitleRes)
+                    subtitle = stringResource(id = viewState.vpnAccelerator.subtitleRes)
                 )
                 SettingRowWithIcon(
                     icon = me.proton.core.auth.R.drawable.ic_proton_sliders,
@@ -385,21 +385,21 @@ private fun FeatureCategory(
         stringResource(id = R.string.settings_category_features)
     ) {
         SettingRowWithIcon(
-            icon = viewState.netShieldSettingViewState.iconRes,
-            title = stringResource(id = viewState.netShieldSettingViewState.titleRes),
-            subtitle = stringResource(id = viewState.netShieldSettingViewState.subtitleRes),
-            trailingIcon = viewState.netShieldSettingViewState.upgradeIconRes,
+            icon = viewState.netShield.iconRes,
+            title = stringResource(id = viewState.netShield.titleRes),
+            subtitle = stringResource(id = viewState.netShield.subtitleRes),
+            trailingIcon = viewState.netShield.upgradeIconRes,
             trailingIconTint = false,
-            onClick = if (viewState.netShieldSettingViewState.isRestricted)
+            onClick = if (viewState.netShield.isRestricted)
                 onNetShieldUpgrade else onNetShieldClick
         )
         SettingRowWithIcon(
-            icon = viewState.splitTunnelingViewState.iconRes,
-            title = stringResource(id = viewState.splitTunnelingViewState.titleRes),
-            subtitle = stringResource(id = viewState.splitTunnelingViewState.subtitleRes),
-            trailingIcon = viewState.splitTunnelingViewState.upgradeIconRes,
+            icon = viewState.splitTunneling.iconRes,
+            title = stringResource(id = viewState.splitTunneling.titleRes),
+            subtitle = stringResource(id = viewState.splitTunneling.subtitleRes),
+            trailingIcon = viewState.splitTunneling.upgradeIconRes,
             trailingIconTint = false,
-            onClick = if (viewState.splitTunnelingViewState.isRestricted)
+            onClick = if (viewState.splitTunneling.isRestricted)
                 onSplitTunnelUpgrade else onSplitTunnelClick
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

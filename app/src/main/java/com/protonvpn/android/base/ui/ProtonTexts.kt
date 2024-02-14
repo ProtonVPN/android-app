@@ -32,7 +32,8 @@ fun AnnotatedClickableText(
     modifier: Modifier = Modifier,
     fullText: String,
     annotatedPart: String,
-    onAnnotatedClick: () -> Unit
+    onAnnotatedClick: () -> Unit,
+    onAnnotatedOutsideClick: (() -> Unit)?
 ) {
     val annotatedString = buildAnnotatedString {
         val startIndex = fullText.indexOf(annotatedPart)
@@ -65,7 +66,7 @@ fun AnnotatedClickableText(
         onClick = { offset ->
             annotatedString.getStringAnnotations("URL", offset, offset).firstOrNull()?.let {
                 onAnnotatedClick()
-            }
+            } ?: onAnnotatedOutsideClick?.invoke()
         }
     )
 }

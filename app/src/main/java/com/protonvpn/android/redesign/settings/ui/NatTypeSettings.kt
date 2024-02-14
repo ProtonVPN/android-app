@@ -18,46 +18,40 @@
  */
 package com.protonvpn.android.redesign.settings.ui
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.captionWeak
+import me.proton.core.compose.theme.defaultSmallWeak
 
 @Composable
-fun NetShieldSetting(
+fun NatTypeSettings(
     onClose: () -> Unit,
-    netShield: SettingsViewModel.SettingViewState.NetShield,
-    onLearnMore: () -> Unit,
-    onNetShieldToggle: () -> Unit,
+    nat: SettingsViewModel.SettingViewState.Nat,
+    onNatTypeChange: (NatType) -> Unit,
 ) {
     SubSetting(
-        title = stringResource(id = netShield.titleRes),
+        title = stringResource(id = nat.titleRes),
         onClose = onClose
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.netshield_settings_promo),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        )
-        netShield.ToToggle(
-            onToggle = onNetShieldToggle,
-            onAnnotatedClick = onLearnMore
-        )
-
         Text(
-            text = stringResource(id = R.string.netshield_setting_warning),
-            style = ProtonTheme.typography.captionWeak,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
+            text = stringResource(id = R.string.settings_advanced_nat_type_description_no_learn),
+            style = ProtonTheme.typography.defaultSmallWeak,
         )
+        NatType.values().forEach { type ->
+            SettingsRadioItem(
+                modifier = Modifier,
+                itemValue = type,
+                selectedValue = nat.value,
+                onSelected = onNatTypeChange,
+                label = stringResource(id = type.labelRes),
+                description = stringResource(id = type.descriptionRes),
+            )
+        }
     }
 }

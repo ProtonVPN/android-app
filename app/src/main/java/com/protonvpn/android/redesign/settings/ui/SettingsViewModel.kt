@@ -40,6 +40,17 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+enum class NatType(val labelRes: Int, val descriptionRes: Int) {
+   Strict(
+       labelRes = R.string.settings_advanced_nat_type_strict,
+       descriptionRes = R.string.settings_advanced_nat_type_strict_description
+   ),
+   Moderate(
+       labelRes = R.string.settings_advanced_nat_type_moderate,
+       descriptionRes = R.string.settings_advanced_nat_type_moderate_description
+   )
+}
+
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     val currentUser: CurrentUser,
@@ -52,59 +63,100 @@ class SettingsViewModel @Inject constructor(
 
     sealed class SettingViewState<T>(
         val value: T,
-        val isRestricted: Boolean = false,
+        val isRestricted: Boolean,
         @StringRes val titleRes: Int,
         @StringRes val subtitleRes: Int,
-        @DrawableRes val iconRes: Int
+        @StringRes val descriptionRes: Int,
+        @StringRes val annotationRes: Int? = null,
+        @DrawableRes open val iconRes: Int? = null,
     ) {
         val upgradeIconRes = if (isRestricted) R.drawable.vpn_plus_badge else null
-        class NetShieldSettingViewState(netShieldEnabled: Boolean, isFreeUser: Boolean) :
-            SettingViewState<Boolean>(
-                value = netShieldEnabled,
-                isRestricted = isFreeUser,
-                titleRes = R.string.netshield_feature_name,
-                subtitleRes = if (netShieldEnabled) R.string.feature_on else R.string.feature_off,
-                iconRes = if (netShieldEnabled) R.drawable.ic_netshield_on else R.drawable.ic_netshield_off
-            )
 
-        class SplitTunnelingSettingViewState(
+        class NetShield(
+            netShieldEnabled: Boolean,
+            isFreeUser: Boolean,
+            override val iconRes: Int = if (netShieldEnabled) R.drawable.ic_netshield_on else R.drawable.ic_netshield_off
+        ) : SettingViewState<Boolean>(
+            value = netShieldEnabled,
+            isRestricted = isFreeUser,
+            titleRes = R.string.netshield_feature_name,
+            subtitleRes = if (netShieldEnabled) R.string.feature_on else R.string.feature_off,
+            descriptionRes = R.string.netshield_settings_description_not_html,
+            annotationRes = R.string.learn_more
+        )
+
+        class SplitTunneling(
             splitTunnelingEnabled: Boolean,
-            isFreeUser: Boolean
+            isFreeUser: Boolean,
+            override val iconRes: Int = if (splitTunnelingEnabled) R.drawable.ic_split_tunneling_on else R.drawable.ic_split_tunneling_off
         ) : SettingViewState<Boolean>(
             value = splitTunnelingEnabled,
             isRestricted = isFreeUser,
             titleRes = R.string.settings_split_tunneling_title,
             subtitleRes = if (splitTunnelingEnabled) R.string.feature_on else R.string.feature_off,
-            iconRes = if (splitTunnelingEnabled) R.drawable.ic_split_tunneling_on else R.drawable.ic_split_tunneling_off
+            descriptionRes = R.string.settings_split_tunneling_description,
+            annotationRes = R.string.learn_more
         )
 
-        class VpnAcceleratorSettingViewState(
+        class VpnAccelerator(
             vpnAcceleratorEnabled: Boolean,
-            isFreeUser: Boolean
+            isFreeUser: Boolean,
+            override val iconRes: Int = me.proton.core.auth.R.drawable.ic_proton_rocket
         ) : SettingViewState<Boolean>(
             value = vpnAcceleratorEnabled,
             isRestricted = isFreeUser,
             titleRes = R.string.settings_vpn_accelerator_title,
             subtitleRes = if (vpnAcceleratorEnabled) R.string.feature_on else R.string.feature_off,
-            iconRes = me.proton.core.auth.R.drawable.ic_proton_rocket
+            descriptionRes = R.string.settings_vpn_accelerator_description,
+            annotationRes = R.string.learn_more
         )
 
-        class ProtocolSelectionViewState(
+        class Protocol(
             protocol: ProtocolSelection,
         ) : SettingViewState<ProtocolSelection>(
             value = protocol,
             isRestricted = false,
             titleRes = R.string.settings_protocol_title,
             subtitleRes = protocol.displayName,
-            iconRes = me.proton.core.auth.R.drawable.ic_proton_servers
+            iconRes = me.proton.core.auth.R.drawable.ic_proton_servers,
+            descriptionRes = R.string.settings_protocol_description,
+            annotationRes = R.string.learn_more
+        )
+
+        class AltRouting(enabled: Boolean) : SettingViewState<Boolean>(
+            value = enabled,
+            isRestricted = false,
+            titleRes = R.string.settings_advanced_alternative_routing_title,
+            subtitleRes = if (enabled) R.string.feature_on else R.string.feature_off,
+            descriptionRes = R.string.settings_advanced_alternative_routing_description,
+        )
+
+        class LanConnections(enabled: Boolean, isFreeUser: Boolean) : SettingViewState<Boolean>(
+            value = enabled,
+            isRestricted = isFreeUser,
+            titleRes = R.string.settings_advanced_allow_lan_title,
+            subtitleRes = if (enabled) R.string.feature_on else R.string.feature_off,
+            descriptionRes = R.string.settings_advanced_allow_lan_description,
+        )
+
+        class Nat(natType: NatType, isFreeUser: Boolean) : SettingViewState<NatType>(
+            value = natType,
+            isRestricted = isFreeUser,
+            titleRes = R.string.settings_advanced_nat_type_title,
+            subtitleRes = natType.labelRes,
+            descriptionRes = R.string.settings_advanced_nat_type_description,
+            annotationRes = R.string.learn_more
         )
     }
 
     data class SettingsViewState(
-        val netShieldSettingViewState: SettingViewState<Boolean>,
-        val splitTunnelingViewState: SettingViewState<Boolean>,
-        val vpnAcceleratorViewState: SettingViewState<Boolean>,
-        val currentProtocolSelection: SettingViewState<ProtocolSelection>,
+        val netShield: SettingViewState.NetShield,
+        val splitTunneling: SettingViewState.SplitTunneling,
+        val vpnAccelerator: SettingViewState.VpnAccelerator,
+        val protocol: SettingViewState.Protocol,
+        val altRouting: SettingViewState.AltRouting,
+        val lanConnections: SettingViewState.LanConnections,
+        val natType: SettingViewState.Nat,
         val userInfo: UserViewState
     )
     data class UserViewState(
@@ -133,10 +185,13 @@ class SettingsViewModel @Inject constructor(
         ) { userViewState, settings ->
             val isFree = userViewState.isFreeUser
             SettingsViewState(
-                netShieldSettingViewState = SettingViewState.NetShieldSettingViewState(settings.netShield != NetShieldProtocol.DISABLED, isFree),
-                vpnAcceleratorViewState = SettingViewState.VpnAcceleratorSettingViewState(settings.vpnAccelerator, isFree),
-                splitTunnelingViewState =  SettingViewState.SplitTunnelingSettingViewState(settings.splitTunneling.isEnabled, isFree),
-                currentProtocolSelection = SettingViewState.ProtocolSelectionViewState(settings.protocol),
+                netShield = SettingViewState.NetShield(settings.netShield != NetShieldProtocol.DISABLED, isFree),
+                vpnAccelerator = SettingViewState.VpnAccelerator(settings.vpnAccelerator, isFree),
+                splitTunneling =  SettingViewState.SplitTunneling(settings.splitTunneling.isEnabled, isFree),
+                protocol = SettingViewState.Protocol(settings.protocol),
+                altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
+                lanConnections = SettingViewState.LanConnections(settings.lanConnections, isFree),
+                natType = SettingViewState.Nat(if (settings.randomizedNat) NatType.Strict else NatType.Moderate, isFree),
                 userInfo = userViewState,
             )
         }
@@ -147,6 +202,29 @@ class SettingsViewModel @Inject constructor(
             ?.mapNotNull { it.firstOrNull()?.uppercase() }
             ?.joinToString("")
     }
+
+    val vpnAccelerator = viewState.map { it.vpnAccelerator }.distinctUntilChanged()
+    val netShield = viewState.map { it.netShield }.distinctUntilChanged()
+    private val altRouting = viewState.map { it.altRouting }.distinctUntilChanged()
+    private val lanConnections = viewState.map { it.lanConnections }.distinctUntilChanged()
+    val natType = viewState.map { it.natType }.distinctUntilChanged()
+
+    data class AdvancedSettingsViewState(
+        val altRouting: SettingViewState.AltRouting,
+        val lanConnections: SettingViewState.LanConnections,
+        val natType: SettingViewState.Nat
+    )
+    val advancedSettings = combine(
+        altRouting,
+        lanConnections,
+        natType
+    ) { altRouting, lanConnections, natType ->
+        AdvancedSettingsViewState(
+            altRouting = altRouting,
+            lanConnections = lanConnections,
+            natType = natType
+        )
+    }.distinctUntilChanged()
 
     fun toggleNetShield() {
         viewModelScope.launch {
@@ -160,12 +238,27 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    val vpnAcceleratorValue = viewState.map { it.vpnAcceleratorViewState }.distinctUntilChanged()
-    val netShieldValue = viewState.map { it.netShieldSettingViewState }.distinctUntilChanged()
+    fun setNatType(type: NatType) {
+        viewModelScope.launch {
+            userSettingsManager.setRandomizedNat(type == NatType.Strict)
+        }
+    }
 
     fun toggleVpnAccelerator() {
         viewModelScope.launch {
             userSettingsManager.toggleVpnAccelerator()
+        }
+    }
+
+    fun toggleAltRouting() {
+        viewModelScope.launch {
+            userSettingsManager.toggleAltRouting()
+        }
+    }
+
+    fun toggleLanConnections() {
+        viewModelScope.launch {
+            userSettingsManager.toggleLanConnections()
         }
     }
 }
