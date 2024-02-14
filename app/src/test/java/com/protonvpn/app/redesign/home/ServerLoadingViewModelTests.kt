@@ -20,7 +20,7 @@ package com.protonvpn.app.redesign.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.models.vpn.ServerList
-import com.protonvpn.android.redesign.main_screen.ui.ServerLoadingViewModel
+import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.test.shared.runWhileCollecting
@@ -45,7 +45,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.network.domain.ApiResult
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule

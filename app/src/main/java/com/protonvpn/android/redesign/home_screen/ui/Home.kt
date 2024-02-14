@@ -72,7 +72,7 @@ import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
-import com.protonvpn.android.redesign.main_screen.ui.MainActivityViewModel
+import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList

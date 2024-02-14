@@ -30,7 +30,7 @@ import com.protonvpn.android.redesign.countries.ui.CountryRoute
 import com.protonvpn.android.redesign.countries.ui.ServersRoute
 import com.protonvpn.android.redesign.main_screen.ui.nav.BottomSheetNav
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
-import com.protonvpn.android.redesign.main_screen.ui.nav.RootNav
+import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.search.SearchRoute
 import kotlinx.serialization.Serializable
 

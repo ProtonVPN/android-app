@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.main_screen.ui.nav
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
@@ -48,11 +47,11 @@ import com.protonvpn.android.redesign.home_screen.ui.nav.ConnectionDetailsScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen.home
 import com.protonvpn.android.redesign.main_screen.ui.BottomBarView
-import com.protonvpn.android.redesign.main_screen.ui.CoreNavigation
+import com.protonvpn.android.redesign.app.ui.CoreNavigation
+import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen.settings
-import me.proton.core.compose.theme.ProtonTheme
 
 enum class MainTarget {
     Home, Countries, Settings;
