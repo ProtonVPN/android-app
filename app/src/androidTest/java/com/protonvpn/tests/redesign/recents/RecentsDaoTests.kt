@@ -127,6 +127,30 @@ class RecentsDaoTests {
     }
 
     @Test
+    fun unpinningRecentlyConnectedRecentKeepsItFirst() = runTest{
+        val recentlyConnected = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
+        val other = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
+        val recents = with(recentsDao) {
+            // Setup
+            insertOrUpdateForConnection(userId1, other, 100)
+            val otherId = getMostRecentConnection(userId1).first()!!.id
+            insertOrUpdateForConnection(userId1, recentlyConnected, 200)
+            val recentlyConnectedId = getMostRecentConnection(userId1).first()!!.id
+            pin(otherId, 1000)
+            pin(recentlyConnectedId, 2000)
+
+            // Simulate connection
+            insertOrUpdateForConnection(userId1, recentlyConnected, 3000)
+            // Unpin them to see if it breaks the ordering
+            unpin(recentlyConnectedId)
+            unpin(otherId)
+
+            getRecentsList(userId1).first()
+        }
+        assertEquals(listOf(recentlyConnected, other), recents.map { it.connectIntent })
+    }
+
+    @Test
     fun connectionHistoryUpdatedSeparatelyForEachUser() = runTest {
         insertIntents(userId1, intentFastest to 100, intentSweden to 200, intentIceland to 300)
         insertIntents(userId2, intentSweden to 100, intentIceland to 200, intentFastest to 300)

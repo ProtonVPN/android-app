@@ -52,13 +52,18 @@ abstract class RecentsDao {
 
     // Unpinned items get a fake lastConnectionAttemptTimestamp that is 1ms after the second most recent connection to
     // put them at the top of the recents list (outside the connection card).
+    // Unless they are already the most recently connected to.
     @Query(
         """
         UPDATE recents
            SET isPinned = 0,
-               lastConnectionAttemptTimestamp = 1 + IFNULL(
-                    (SELECT lastConnectionAttemptTimestamp FROM recents ORDER BY lastConnectionAttemptTimestamp DESC LIMIT -1 OFFSET 1),
-                    0)
+               lastConnectionAttemptTimestamp = MAX(
+                    lastConnectionAttemptTimestamp,
+                    1 + IFNULL(
+                        (SELECT lastConnectionAttemptTimestamp FROM recents ORDER BY lastConnectionAttemptTimestamp DESC LIMIT -1 OFFSET 1),
+                        0
+                    )
+               )
          WHERE id = :id
         """
     )
