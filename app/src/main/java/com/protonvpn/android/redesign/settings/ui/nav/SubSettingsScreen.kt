@@ -28,7 +28,7 @@ import com.protonvpn.android.redesign.settings.ui.SubSettingsRoute
 object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsScreen") {
 
     enum class Type {
-        VpnAccelerator
+        VpnAccelerator, NetShield
     }
 
     fun SafeNavGraphBuilder<RootNav>.subSettings(

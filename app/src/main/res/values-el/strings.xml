@@ -254,8 +254,6 @@
     <string name="settingsSendCrashReportsDescription">Οι αναφορές σφαλμάτων μάς βοηθούν να διορθώνουμε σφάλματα, να εντοπίζουμε τείχη προστασίας και να αποφεύγουμε τα μπλοκαρίσματα VPN.</string>
     <string name="settingsTelemetryScreenTitle">Στατιστικά χρήσης</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Αυτά τα στατιστικά στοιχεία δεν περιέχουν τη διεύθυνση IP σας και δεν μπορούν να χρησιμοποιηθούν για την αναγνώρισή σας. Δε θα τα μοιραστούμε ποτέ με τρίτους. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
-    <string name="netShieldEnabledWarning">Προσοχή, ορισμένοι ιστότοποι ενδέχεται να μην λειτουργούν πλήρως, λόγω αποκλεισμένου περιεχομένου.</string>
-    <string name="netShieldDescription">Αποκλεισμός διαφημίσεων, ιχνηλατών και κακόβουλου λογισμικού </string>
     <string name="netshield_settings_description_not_html">Προστατέψτε τον εαυτό σας από διαφημίσεις, κακόβουλο λογισμικό και ιχνηλάτες στις ιστοσελίδες και στις εφαρμογές. Εάν οι ιστοσελίδες δε φορτώνουν, προσπαθήστε ξανά απενεργοποιώντας το NetShield. %1$s</string>
     <string name="learn_more">Μάθετε περισσότερα</string>
     <string name="netshield_status_on">Ενεργό</string>
@@ -280,8 +278,6 @@
         <item quantity="other">Οι ιχνηλάτες σταματήθηκαν</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Δεδομένα εξοικονομήθηκαν</string>
-    <string name="netShieldBlockMalwareOnly">Αποκλεισμός malware μόνο</string>
-    <string name="netShieldFullBlock">Αποκλεισμός κακόβουλου λογισμικού, παρακολούθησης, διαφημίσεων</string>
     <string name="dialogDontShowAgain">Να μην εμφανιστεί ξανά</string>
     <string name="guestHoleActivated">Η πρόσβαση στο Proton VPN ενδέχεται να είναι περιορισμένη στην περιοχή σας, αυτό θα διαρκέσει περισσότερο από το συνηθισμένο. Παρακαλούμε περιμένετε όσο δουλεύουμε πάνω σε αυτό το πρόβλημα.</string>
     <string name="guestHoleNotificationContent">Γίνεται προσπάθεια παράκαμψης των προβλημάτων δικτύου. Έτσι θα μπορέσετε να αποκτήσετε πρόσβαση στο Proton VPN.</string>

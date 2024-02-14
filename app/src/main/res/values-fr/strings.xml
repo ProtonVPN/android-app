@@ -254,8 +254,6 @@
     <string name="settingsSendCrashReportsDescription">Les rapports de plantage nous aident à corriger les bugs, à détecter les pare-feux et à éviter le blocage de VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statistiques d\'utilisation</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ces statistiques ne contiennent pas votre adresse IP, elles ne peuvent pas être utilisées pour vous identifier. Nous ne les partagerons jamais avec des tiers. <a href="%1$s">En savoir plus</a>]]></string>
-    <string name="netShieldEnabledWarning">Attention, certains sites internet pourraient ne pas fonctionner correctement à cause du contenu bloqué.</string>
-    <string name="netShieldDescription">Bloquer les publicités, traqueurs et logiciels malveillants </string>
     <string name="netshield_settings_description_not_html">Protégez-vous des publicités, des logiciels malveillants et des traqueurs sur les sites internet et les applications. Si les sites internet ne se chargent pas, essayez de désactiver NetShield. %1$s</string>
     <string name="learn_more">En savoir plus</string>
     <string name="netshield_status_on">Activé</string>
@@ -280,8 +278,6 @@
         <item quantity="other">Traqueurs bloqués</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Données non téléchargées</string>
-    <string name="netShieldBlockMalwareOnly">Bloquer uniquement les logiciels malveillants</string>
-    <string name="netShieldFullBlock">Bloquer les logiciels malveillants, traqueurs et publicités</string>
     <string name="dialogDontShowAgain">Ne plus afficher</string>
     <string name="guestHoleActivated">L\'accès à Proton VPN peut être restreint dans votre région et cela prendra donc plus de temps que d\'habitude. Veuillez patienter pendant que nous contournons ce problème.</string>
     <string name="guestHoleNotificationContent">Nous essayons de contourner les problèmes de réseau. Cela vous aidera à accéder à Proton VPN.</string>

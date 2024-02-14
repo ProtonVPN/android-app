@@ -126,6 +126,8 @@ class SettingsViewModel @Inject constructor(
     }
 
     val vpnAcceleratorValue = viewState.map { it.vpnAcceleratorEnabled }.distinctUntilChanged()
+    val netShieldValue = viewState.map { it.netshieldEnabled }.distinctUntilChanged()
+
     fun toggleVpnAccelerator() {
         viewModelScope.launch {
             userSettingsManager.toggleVpnAccelerator()

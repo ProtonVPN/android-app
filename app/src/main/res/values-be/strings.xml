@@ -256,8 +256,6 @@
     <string name="settingsSendCrashReportsDescription">Справаздачы пра збоі дапамагаюць нам выпраўляць памылкі, вызначаць міжсеткавыя экраны, а таксама пазбягаць блакіровак VPN.</string>
     <string name="settingsTelemetryScreenTitle">Статыстыка выкарыстання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
-    <string name="netShieldEnabledWarning">Будзьце ўважлівы, бо некаторыя сайты могуць працаваць не належным чынам па прычыне заблакіраванага змесціва.</string>
-    <string name="netShieldDescription">Блакіраваць рэкламу, праграмы сачэння і шкодныя праграмы </string>
     <string name="netshield_settings_description_not_html">Абараніце сябе ад рэкламы, шкодных праграм і праграм сачэння на вэб-сайтах і ў праграмах. Калі вэб-сайты не грузяцца, паспрабуйце адключыць NetShield. %1$s</string>
     <string name="learn_more">Даведацца больш</string>
     <string name="netshield_status_on">Уключана</string>
@@ -286,8 +284,6 @@
         <item quantity="other">праграм сачэння спынены</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Захавана даных</string>
-    <string name="netShieldBlockMalwareOnly">Блакіраваць толькі шкодныя праграмы</string>
-    <string name="netShieldFullBlock">Блакіраваць шкодныя праграмы, праграмы сачэння і рэкламу</string>
     <string name="dialogDontShowAgain">Больш не паказваць</string>
     <string name="guestHoleActivated">Доступ да Proton VPN можа быць абмежаваны ў вашым рэгіёне і таму, гэта зойме больш часу, чым звычайна. Пачакайце, пакуль мы шукаем альтэрнатыўны маршрут для падключэння.</string>
     <string name="guestHoleNotificationContent">Паспрабаваць абысці праблемы з сеткай. Гэта дапаможа вам атрымаць доступ да Proton VPN.</string>
