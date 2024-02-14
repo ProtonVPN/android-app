@@ -31,7 +31,7 @@ import com.protonvpn.android.databinding.ItemServerListBinding
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.Flag
-import com.protonvpn.android.redesign.main_screen.ui.MainActivity
+import com.protonvpn.android.redesign.app.ui.MainActivity
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.utils.BindableItemEx
 import com.protonvpn.android.utils.CountryTools

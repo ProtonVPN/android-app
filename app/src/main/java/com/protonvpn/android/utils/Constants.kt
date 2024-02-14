@@ -21,7 +21,7 @@ package com.protonvpn.android.utils
 import android.app.Activity
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.netshield.NetShieldProtocol
-import com.protonvpn.android.redesign.main_screen.ui.MainActivity
+import com.protonvpn.android.redesign.app.ui.MainActivity
 import com.protonvpn.android.tv.main.TvMainActivity
 
 object Constants {

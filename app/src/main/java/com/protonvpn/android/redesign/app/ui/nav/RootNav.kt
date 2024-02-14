@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Proton AG
+ * Copyright (c) 2024. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.main_screen.ui.nav
+package com.protonvpn.android.redesign.app.ui.nav
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,7 +25,8 @@ import androidx.navigation.NavHostController
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.countries.ui.nav.SearchRouteScreen.searchScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.ConnectionDetailsScreen.connectionStatus
-import com.protonvpn.android.redesign.main_screen.ui.CoreNavigation
+import com.protonvpn.android.redesign.app.ui.CoreNavigation
+import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen.mainScreen
 
 enum class RootTarget {

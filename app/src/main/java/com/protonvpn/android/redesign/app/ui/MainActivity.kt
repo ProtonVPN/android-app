@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Proton AG
+ * Copyright (c) 2024. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.main_screen.ui
+package com.protonvpn.android.redesign.app.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -45,9 +45,6 @@ import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
-import com.protonvpn.android.redesign.base.ui.collectAsEffect
-import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel
-import com.protonvpn.android.redesign.main_screen.ui.nav.VpnApp
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import com.protonvpn.android.ui.main.AccountViewModel
@@ -65,7 +62,6 @@ import kotlinx.coroutines.flow.onEach
 import me.proton.core.compose.component.ProtonCenteredProgress
 import javax.inject.Inject
 
-// TODO: move MainActivity out of main_screen, it hosts the whole application UI.
 @AndroidEntryPoint
 class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 

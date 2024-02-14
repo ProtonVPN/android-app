@@ -28,7 +28,7 @@ import com.protonvpn.android.redesign.home_screen.ui.ConnectionDetailsRoute
 import com.protonvpn.android.redesign.home_screen.ui.HomeRoute
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
-import com.protonvpn.android.redesign.main_screen.ui.nav.RootNav
+import com.protonvpn.android.redesign.app.ui.nav.RootNav
 
 object HomeScreen : ScreenNoArg<MainNav>("home") {
     fun SafeNavGraphBuilder<MainNav>.home(

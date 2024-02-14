@@ -22,7 +22,7 @@ package com.protonvpn.app.ui.onboarding
 import android.app.Activity
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.redesign.main_screen.ui.MainActivity
+import com.protonvpn.android.redesign.app.ui.MainActivity
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.ui.ForegroundActivityTracker

@@ -21,10 +21,9 @@
 
 package com.protonvpn.testRules
 
-import android.app.Activity
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.protonvpn.android.redesign.main_screen.ui.MainActivity
+import com.protonvpn.android.redesign.app.ui.MainActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import me.proton.test.fusion.FusionConfig

@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.main_screen.ui.nav
+package com.protonvpn.android.redesign.app.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,11 +26,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.R
-import com.protonvpn.android.redesign.main_screen.ui.CoreNavigation
-import com.protonvpn.android.redesign.main_screen.ui.FullScreenError
-import com.protonvpn.android.redesign.main_screen.ui.FullScreenLoading
-import com.protonvpn.android.redesign.main_screen.ui.ServerLoadingViewModel
-import com.protonvpn.android.redesign.main_screen.ui.ServerLoadingViewModel.LoaderState
+import com.protonvpn.android.redesign.app.ui.CoreNavigation
+import com.protonvpn.android.redesign.app.ui.FullScreenError
+import com.protonvpn.android.redesign.app.ui.FullScreenLoading
+import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel
+import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel.LoaderState
+import com.protonvpn.android.redesign.app.ui.nav.RootNav
 
 @Composable
 fun VpnApp(
