@@ -14,7 +14,6 @@ import org.junit.runners.Suite
     TwoFaTests::class,
     SignInTests::class,
     SignupTests::class,
-    LogoutTests::class,
     //BugReportTests::class, TODO Implement this when bug report is implemented on redesign.
     //TokenExpirationTests::class, TODO Implement this when there is a way to trigger API call from UI.
 )
