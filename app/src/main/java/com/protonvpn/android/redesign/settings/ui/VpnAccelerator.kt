@@ -21,29 +21,21 @@ package com.protonvpn.android.redesign.settings.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.protonvpn.android.R
 
 @Composable
 fun VpnAccelerator(
     onClose: () -> Unit,
-    value: Boolean,
+    vpnAccelerator: SettingsViewModel.SettingViewState.VpnAccelerator,
     onLearnMore: () -> Unit,
     onToggle: () -> Unit,
 ) {
     SubSetting(
-        title = stringResource(id = R.string.settings_vpn_accelerator_title),
+        title = stringResource(id = vpnAccelerator.titleRes),
         onClose = onClose
     ) {
-        SettingsToggleItem(
-            name = stringResource(id = R.string.settings_vpn_accelerator_title),
-            description = stringResource(
-                id = R.string.settings_vpn_accelerator_description,
-                stringResource(id = R.string.learn_more)
-            ),
-            annotatedPart = stringResource(id = R.string.learn_more),
-            onAnnotatedClick = onLearnMore,
-            value = value,
+        vpnAccelerator.ToToggle(
             onToggle = onToggle,
+            onAnnotatedClick = onLearnMore,
         )
     }
 }

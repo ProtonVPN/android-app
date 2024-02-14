@@ -85,6 +85,15 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun toggleVpnAccelerator() =
         update { current -> current.copy(vpnAccelerator = !current.vpnAccelerator) }
 
+    suspend fun toggleAltRouting() =
+        update { current -> current.copy(apiUseDoh = !current.apiUseDoh) }
+
+    suspend fun toggleLanConnections() =
+        update { current -> current.copy(lanConnections = !current.lanConnections) }
+
+    suspend fun setRandomizedNat(value: Boolean) =
+        update { current -> current.copy(randomizedNat = value) }
+
     suspend fun toggleSplitTunnelingEnabled() =
         update { current ->
             current.copy(splitTunneling = current.splitTunneling.copy(isEnabled = !current.splitTunneling.isEnabled))

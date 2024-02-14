@@ -276,6 +276,7 @@ fun NetShieldBottomComposable(
             )),
             annotatedPart = stringResource(id = R.string.learn_more),
             onAnnotatedClick = onNetShieldLearnMore,
+            onAnnotatedOutsideClick = null,
             modifier = Modifier.padding(vertical = 8.dp)
         )
 

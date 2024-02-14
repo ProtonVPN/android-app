@@ -30,6 +30,7 @@ import com.protonvpn.android.redesign.home_screen.ui.nav.ConnectionDetailsScreen
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen.mainScreen
+import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen.subSettings
 
 enum class RootTarget {
@@ -64,7 +65,10 @@ class RootNav(
                         connectionStatus(onClosePanel = ::popBackStack)
                     }
                     RootTarget.SubSettings -> {
-                        subSettings(onClose = ::popBackStack)
+                        subSettings(
+                            onClose = ::popBackStack,
+                            onNavigateToSubSetting = { navigate(SubSettingsScreen, it) }
+                        )
                     }
                 }
             }
