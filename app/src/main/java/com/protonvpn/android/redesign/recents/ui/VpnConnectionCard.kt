@@ -215,16 +215,11 @@ private fun AnimatedContentTransitionScope<ConnectIntentViewState>.getTransition
     val isSameThingOrIdentical =
         initialState == targetState || ids.currentState.connectionCard == ids.targetState.connectionCard
     val fromRecents = ids.currentState.recents.contains(ids.targetState.connectionCard)
-    val toRecents = ids.targetState.recents.contains(ids.currentState.connectionCard)
     val enter = when (!isSameThingOrIdentical && fromRecents) {
         true -> slideInVertically { height -> height } + fadeIn()
         else -> EnterTransition.None
     }
-    val exit = when (!isSameThingOrIdentical && toRecents) {
-        true -> slideOutVertically { height -> height } + fadeOut()
-        else -> ExitTransition.None
-    }
-    return enter togetherWith exit
+    return enter togetherWith ExitTransition.None
 }
 
 @Composable
