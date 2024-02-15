@@ -104,33 +104,30 @@ fun SettingsItem(
     modifier: Modifier = Modifier,
     name: String,
     description: String,
-    value: SettingsViewModel.SettingValue<Boolean>,
+    value: SettingsViewModel.SettingViewState<Boolean>,
     annotatedPart: String? = null,
     onAnnotatedClick: (() -> Unit)? = null,
     onToggle: () -> Unit,
     onRestricted: () -> Unit,
 ) {
-    when (value) {
-        is SettingsViewModel.SettingValue.Restricted -> {
-            BaseSettingsItem(modifier, name, description, annotatedPart, onAnnotatedClick) {
-                Icon(
-                    modifier = Modifier.clickable(onClick = onRestricted),
-                    painter = painterResource(id = R.drawable.vpn_plus_badge),
-                    tint = Color.Unspecified,
-                    contentDescription = null,
-                )
-            }
-        }
-        is SettingsViewModel.SettingValue.Available -> {
-            SettingsToggleItem(
-                modifier = modifier,
-                name = name,
-                description = description,
-                value = value.value,
-                annotatedPart = annotatedPart,
-                onAnnotatedClick = onAnnotatedClick,
-                onToggle = onToggle
+    if (value.isRestricted) {
+        BaseSettingsItem(modifier, name, description, annotatedPart, onAnnotatedClick) {
+            Icon(
+                modifier = Modifier.clickable(onClick = onRestricted),
+                painter = painterResource(id = R.drawable.vpn_plus_badge),
+                tint = Color.Unspecified,
+                contentDescription = null,
             )
         }
+    } else {
+        SettingsToggleItem(
+            modifier = modifier,
+            name = name,
+            description = description,
+            value = value.value,
+            annotatedPart = annotatedPart,
+            onAnnotatedClick = onAnnotatedClick,
+            onToggle = onToggle
+        )
     }
 }
