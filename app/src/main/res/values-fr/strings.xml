@@ -406,7 +406,7 @@
     <string name="upgrade_netshield_message"><![CDATA[Bloquez les publicités, les traqueurs et les logiciels malveillants avec <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Doublez le chiffrement</string>
     <string name="upgrade_secure_core_message"><![CDATA[Ajoutez une couche de chiffrement à votre connexion VPN avec <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Débloquez les téléchagements peer-to-peer (P2P) et le partage de fichiers</string>
+    <string name="upgrade_p2p_title">Débloquez les téléchargements peer-to-peer (P2P) et le partage de fichiers </string>
     <string name="upgrade_p2p_text">Améliorez vos vitesses de téléchargement tout en masquant votre adresse IP.</string>
     <string name="upgrade_streaming_title">Streaming en 4K</string>
     <string name="upgrade_streaming_text">Profitez de vos films et séries préférées partout dans le monde.</string>
@@ -458,7 +458,7 @@
     <string name="upgrade_learn_more">En savoir plus</string>
     <string name="upsell_card_countries_title">Couverture mondiale</string>
     <!-- Parameters:
-        %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
+        %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"
 
         Example:
@@ -488,7 +488,7 @@
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Regardez vos films et séries préférées</string>
     <string name="upsell_card_tor_title">Tor via VPN</string>
-    <string name="upsell_card_tor_description">Ajoutez le réseau Tor sur votre connexion VPN pour plus de protection</string>
+    <string name="upsell_card_tor_description">Ajoutez le réseau Tor sur votre connexion VPN pour plus de protection de votre vie privée</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -603,6 +603,9 @@
         <item quantity="one">Accédez au contenu bloqué géographiquement dans %1$d pays en passant à VPN Plus.</item>
         <item quantity="other">Accédez au contenu bloqué géographiquement dans %1$d pays en passant à VPN Plus.</item>
     </plurals>
+    <!-- Content description used by accessibility services for a button for dismissing (hiding)
+         a notification banner (usually used for special offers). -->
+    <string name="notification_banner_dismiss_accessibility_label">Fermer la bannière</string>
     <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
          %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
          %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
@@ -711,36 +714,6 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">lien externe</string>
-    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when expanded.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" with this state description will be read by a screen reader as:
-         "Expanded. Recents"
-     -->
-    <string name="accessibility_expandable_state_expanded">développé</string>
-    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" with this state description will be read by a screen reader as:
-         "Collapsed. Recents"
-     -->
-    <string name="accessibility_expandable_state_collapsed">réduit</string>
-    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" on an expanded element with state "expanded" this action label will be
-         read by a screen reader as:
-         "Expanded. Recents. Double tap to collapse"
-     -->
-    <string name="accessibility_expandable_action_collapse">réduire</string>
-    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" on an expanded element with state "collapsed" and this action label will
-         be read by a screen reader as:
-         "Collapsed. Recents. Double tap to expand"
-     -->
-    <string name="accessibility_expandable_action_expand">développer</string>
     <string name="no_logs_banner_title">Le VPN qui n\'enregistre pas vos activités.</string>
     <string name="no_logs_banner_description">Quand vous utilisez le VPN, vos activités en ligne sont protégées par les lois suisses sur la protection de la vie privée. Nous ne suivrons jamais vos activités et nous ne partagerons jamais vos informations avec des tiers.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
