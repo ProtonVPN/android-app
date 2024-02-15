@@ -32,9 +32,10 @@ import me.proton.core.domain.entity.UserId
 @Dao
 abstract class RecentsDao {
 
-    fun getRecentsList(userId: UserId): Flow<List<RecentConnection>> = getRecentsEntityList(userId).map { recents ->
-        recents.map { entity -> entity.toRecentConnection() }
-    }
+    fun getRecentsList(userId: UserId, limit: Int = -1): Flow<List<RecentConnection>> =
+        getRecentsEntityList(userId, limit).map { recents ->
+            recents.map { entity -> entity.toRecentConnection() }
+        }
 
     fun getMostRecentConnection(userId: UserId): Flow<RecentConnection?> = getMostRecentConnectionEntity(userId).map {
         it?.toRecentConnection()
@@ -133,8 +134,9 @@ abstract class RecentsDao {
                  CASE WHEN isPinned THEN lastPinnedTimestamp
                                     ELSE -lastConnectionAttemptTimestamp
                  END ASC
+         LIMIT :limit
         """)
-    protected abstract fun getRecentsEntityList(userId: UserId): Flow<List<RecentConnectionEntity>>
+    protected abstract fun getRecentsEntityList(userId: UserId, limit: Int = -1): Flow<List<RecentConnectionEntity>>
 
     @Query("SELECT * FROM recents WHERE userId = :userId ORDER BY lastConnectionAttemptTimestamp DESC LIMIT 1")
     protected abstract fun getMostRecentConnectionEntity(userId: UserId): Flow<RecentConnectionEntity?>

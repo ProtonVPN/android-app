@@ -34,7 +34,6 @@ import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewStateFlow
-import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
@@ -45,6 +44,7 @@ import com.protonvpn.android.ui.promooffers.HomeScreenPromoBannerFlow
 import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.ui.promooffers.PromoOfferButtonActions
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
+import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
@@ -73,8 +73,8 @@ private const val DialogStateKey = "dialog"
 class HomeViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     recentsListViewStateFlow: RecentsListViewStateFlow,
-    vpnStatusViewStateFlow: VpnStatusViewStateFlow,
     private val recentsManager: RecentsManager,
+    private val uiStateStorage: UiStateStorage,
     private val vpnConnectionManager: VpnConnectionManager,
     private val quickConnectIntent: GetQuickConnectIntent,
     changeServerViewStateFlow: ChangeServerViewStateFlow,
@@ -150,6 +150,7 @@ class HomeViewModel @Inject constructor(
     suspend fun onRecentClicked(item: RecentItemViewState, vpnUiDelegate: VpnUiDelegate) {
         val recent = recentsManager.getRecentById(item.id)
         if (recent != null) {
+            uiStateStorage.update { it.copy(hasUsedRecents = true) }
             when (item.availability) {
                 RecentAvailability.UNAVAILABLE_PLAN -> eventNavigateToUpgrade.tryEmit(Unit)
                 RecentAvailability.UNAVAILABLE_PROTOCOL -> dialogState = DialogState.ServerNotAvailable

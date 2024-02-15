@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.main_screen.ui
 
 import androidx.lifecycle.ViewModel
+import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -29,11 +30,11 @@ import javax.inject.Inject
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(): ViewModel() {
 
-    private val _eventCollapseRecents = MutableSharedFlow<Unit>(replay = 1)
-    val eventCollapseRecents: SharedFlow<Unit> = _eventCollapseRecents
+    private val _eventCollapseRecents = MutableSharedFlow<ShowcaseRecents>(replay = 1)
+    val eventCollapseRecents: SharedFlow<ShowcaseRecents> = _eventCollapseRecents
 
-    fun requestCollapseRecents() {
-        _eventCollapseRecents.tryEmit(Unit)
+    fun requestCollapseRecents(showcaseRecents: ShowcaseRecents) {
+        _eventCollapseRecents.tryEmit(showcaseRecents)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

@@ -40,6 +40,8 @@ import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
+import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -148,13 +150,14 @@ class CountryListViewModel @Inject constructor(
     private val userSettings: EffectiveCurrentUserSettings,
     private val userSettingManager: CurrentUserLocalSettingsManager,
     private val currentUser: CurrentUser,
+    private val shouldShowcaseRecents: ShouldShowcaseRecents,
     restrictConfig: RestrictionsConfig,
 ) : ViewModel() {
 
     val vpnStatus = vpnStatusProviderUI.status.asLiveData()
 
-    private val _navigateToHome = MutableSharedFlow<Unit>()
-    val navigateToHomeEvent: SharedFlow<Unit> get() = _navigateToHome
+    private val _navigateToHome = MutableSharedFlow<ShowcaseRecents>()
+    val navigateToHomeEvent: SharedFlow<ShowcaseRecents> get() = _navigateToHome
 
     private val _dismissLoading = MutableSharedFlow<Unit>()
     val dismissLoading: SharedFlow<Unit> get() = _dismissLoading
@@ -360,7 +363,7 @@ class CountryListViewModel @Inject constructor(
         if (!isConnectedTo(connectIntent)) {
             // Navigate to home screen after connection, compose is bridged through SharedFlow
             viewModelScope.launch {
-                _navigateToHome.emit(Unit)
+                _navigateToHome.emit(shouldShowcaseRecents(connectIntent))
             }
             ProtonLogger.log(UiConnect, triggerDescription)
             val trigger = when {

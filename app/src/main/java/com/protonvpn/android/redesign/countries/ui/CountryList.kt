@@ -41,6 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ComposableCountryListBinding
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
+import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.ui.home.InformationActivity
 import com.protonvpn.android.ui.home.countries.CountryListViewModel
 import me.proton.core.compose.theme.ProtonTheme
@@ -49,16 +50,16 @@ import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun CountryListRoute(
-    onNavigateToHomeOnConnect: () -> Unit,
+    onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     onNavigateToSearch: () -> Unit,
 ) {
     val context = LocalContext.current as AppCompatActivity
     val viewModel: CountryListViewModel = hiltViewModel(viewModelStoreOwner = context)
 
     // Bridge back navigation to home screen upon connection
-    viewModel.navigateToHomeEvent.collectAsEffect(block = {
-        onNavigateToHomeOnConnect()
-    })
+    viewModel.navigateToHomeEvent.collectAsEffect { showcaseRecents ->
+        onNavigateToHomeOnConnect(showcaseRecents)
+    }
     CountryList(onNavigateToSearch = onNavigateToSearch, onNavigateToInformation = {
         context.startActivity(
             InformationActivity.createIntent(

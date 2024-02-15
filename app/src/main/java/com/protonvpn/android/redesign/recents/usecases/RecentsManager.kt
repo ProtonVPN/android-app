@@ -51,8 +51,8 @@ class RecentsManager @Inject constructor(
         emitAll(currentUser.vpnUserFlow)
     }.shareIn(mainScope, SharingStarted.Eagerly, 1)
 
-    fun getRecentsList(): Flow<List<RecentConnection>> = currentVpnUser.flatMapLatestNotNull { user ->
-        recentsDao.getRecentsList(user.userId)
+    fun getRecentsList(limit: Int = -1): Flow<List<RecentConnection>> = currentVpnUser.flatMapLatestNotNull { user ->
+        recentsDao.getRecentsList(user.userId, limit)
     }
 
     fun getMostRecentConnection(): Flow<RecentConnection?> = currentVpnUser.flatMapLatestNotNull { user ->
