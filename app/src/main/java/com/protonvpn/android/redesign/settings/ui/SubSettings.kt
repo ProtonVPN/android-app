@@ -53,13 +53,13 @@ fun SubSettingsRoute(
     val context = LocalContext.current
     when (type) {
         SubSettingsScreen.Type.VpnAccelerator -> {
-            val value =
+            val viewState =
                 viewModel.vpnAcceleratorValue.collectAsStateWithLifecycle(initialValue = null).value
-            DebugUtils.debugAssert { value?.restricted != true }
-            if (value != null) {
+            DebugUtils.debugAssert { viewState?.isRestricted != true }
+            if (viewState != null) {
                 VpnAccelerator(
                     onClose,
-                    value.value,
+                    viewState.value,
                     { context.openUrl(Constants.VPN_ACCELERATOR_INFO_URL) },
                     viewModel::toggleVpnAccelerator,
                 )
@@ -67,14 +67,14 @@ fun SubSettingsRoute(
         }
 
         SubSettingsScreen.Type.NetShield -> {
-            val netShieldValue =
+            val viewState =
                 viewModel.netShieldValue.collectAsStateWithLifecycle(initialValue = null).value
-            if (netShieldValue != null) {
+            if (viewState != null) {
                 NetShieldSetting(
                     onClose = onClose,
-                    value = netShieldValue.value,
+                    value = viewState.value,
                     onLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
-                    onNetShieldChange = { viewModel.setNetShieldProtocol(it) }
+                    onNetShieldToggle = { viewModel.toggleNetShield() }
                 )
             }
         }

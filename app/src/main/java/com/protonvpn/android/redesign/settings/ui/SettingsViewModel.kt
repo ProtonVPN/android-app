@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.redesign.settings.ui
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
@@ -48,30 +50,63 @@ class SettingsViewModel @Inject constructor(
     val profileManager: ProfileManager,
 ) : ViewModel() {
 
-    sealed class SettingValue<T>(val value: T) {
-        class Restricted<T>(value: T) : SettingValue<T>(value)
-        class Available<T>(value: T) : SettingValue<T>(value)
+    sealed class SettingViewState<T>(
+        val value: T,
+        val isRestricted: Boolean = false,
+        @StringRes val titleRes: Int,
+        @StringRes val subtitleRes: Int,
+        @DrawableRes val iconRes: Int
+    ) {
+        val upgradeIconRes = if (isRestricted) R.drawable.vpn_plus_badge else null
+        class NetShieldSettingViewState(netShieldEnabled: Boolean, isFreeUser: Boolean) :
+            SettingViewState<Boolean>(
+                value = netShieldEnabled,
+                isRestricted = isFreeUser,
+                titleRes = R.string.netshield_feature_name,
+                subtitleRes = if (netShieldEnabled) R.string.feature_on else R.string.feature_off,
+                iconRes = if (netShieldEnabled) R.drawable.ic_netshield_on else R.drawable.ic_netshield_off
+            )
 
-        val restricted get() = this is Restricted
+        class SplitTunnelingSettingViewState(
+            splitTunnelingEnabled: Boolean,
+            isFreeUser: Boolean
+        ) : SettingViewState<Boolean>(
+            value = splitTunnelingEnabled,
+            isRestricted = isFreeUser,
+            titleRes = R.string.settings_split_tunneling_title,
+            subtitleRes = if (splitTunnelingEnabled) R.string.feature_on else R.string.feature_off,
+            iconRes = if (splitTunnelingEnabled) R.drawable.ic_split_tunneling_on else R.drawable.ic_split_tunneling_off
+        )
 
-        companion object {
-            fun <T> fromValue(value: T, restricted: Boolean, isUserRestricted: Boolean) =
-                if (restricted && isUserRestricted) Restricted(value) else Available(value)
-        }
+        class VpnAcceleratorSettingViewState(
+            vpnAcceleratorEnabled: Boolean,
+            isFreeUser: Boolean
+        ) : SettingViewState<Boolean>(
+            value = vpnAcceleratorEnabled,
+            isRestricted = isFreeUser,
+            titleRes = R.string.settings_vpn_accelerator_title,
+            subtitleRes = if (vpnAcceleratorEnabled) R.string.feature_on else R.string.feature_off,
+            iconRes = me.proton.core.auth.R.drawable.ic_proton_rocket
+        )
+
+        class ProtocolSelectionViewState(
+            protocol: ProtocolSelection,
+        ) : SettingViewState<ProtocolSelection>(
+            value = protocol,
+            isRestricted = false,
+            titleRes = R.string.settings_protocol_title,
+            subtitleRes = protocol.displayName,
+            iconRes = me.proton.core.auth.R.drawable.ic_proton_servers
+        )
     }
 
     data class SettingsViewState(
-        val netshieldEnabled: SettingValue<Boolean>,
-        val splitTunnelingEnabled: SettingValue<Boolean>,
-        val vpnAcceleratorEnabled: SettingValue<Boolean>,
-        val currentProtocolSelection: ProtocolSelection,
+        val netShieldSettingViewState: SettingViewState<Boolean>,
+        val splitTunnelingViewState: SettingViewState<Boolean>,
+        val vpnAcceleratorViewState: SettingViewState<Boolean>,
+        val currentProtocolSelection: SettingViewState<ProtocolSelection>,
         val userInfo: UserViewState
-    ) {
-        fun <T> restrictIconOrNull(value: SettingValue<T>) =
-            if (userInfo.isFreeUser && value is SettingValue.Restricted)
-                R.drawable.vpn_plus_badge else null
-    }
-
+    )
     data class UserViewState(
         val isFreeUser: Boolean,
         val shortenedName: String,
@@ -98,10 +133,10 @@ class SettingsViewModel @Inject constructor(
         ) { userViewState, settings ->
             val isFree = userViewState.isFreeUser
             SettingsViewState(
-                netshieldEnabled = SettingValue.fromValue(settings.netShield != NetShieldProtocol.DISABLED, true, isFree),
-                vpnAcceleratorEnabled = SettingValue.fromValue(settings.vpnAccelerator, true, isFree),
-                splitTunnelingEnabled =  SettingValue.fromValue(settings.splitTunneling.isEnabled, true, isFree),
-                currentProtocolSelection = settings.protocol,
+                netShieldSettingViewState = SettingViewState.NetShieldSettingViewState(settings.netShield != NetShieldProtocol.DISABLED, isFree),
+                vpnAcceleratorViewState = SettingViewState.VpnAcceleratorSettingViewState(settings.vpnAccelerator, isFree),
+                splitTunnelingViewState =  SettingViewState.SplitTunnelingSettingViewState(settings.splitTunneling.isEnabled, isFree),
+                currentProtocolSelection = SettingViewState.ProtocolSelectionViewState(settings.protocol),
                 userInfo = userViewState,
             )
         }
@@ -113,9 +148,9 @@ class SettingsViewModel @Inject constructor(
             ?.joinToString("")
     }
 
-    fun setNetShieldProtocol(netShieldProtocol: NetShieldProtocol) {
+    fun toggleNetShield() {
         viewModelScope.launch {
-            userSettingsManager.updateNetShield(netShieldProtocol)
+            userSettingsManager.toggleNetShield()
         }
     }
 
@@ -125,8 +160,8 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    val vpnAcceleratorValue = viewState.map { it.vpnAcceleratorEnabled }.distinctUntilChanged()
-    val netShieldValue = viewState.map { it.netshieldEnabled }.distinctUntilChanged()
+    val vpnAcceleratorValue = viewState.map { it.vpnAcceleratorViewState }.distinctUntilChanged()
+    val netShieldValue = viewState.map { it.netShieldSettingViewState }.distinctUntilChanged()
 
     fun toggleVpnAccelerator() {
         viewModelScope.launch {

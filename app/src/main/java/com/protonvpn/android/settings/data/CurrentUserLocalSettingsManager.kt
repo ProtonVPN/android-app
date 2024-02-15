@@ -67,6 +67,12 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun updateNetShield(newNetShieldProtocol: NetShieldProtocol) =
         update { current -> current.copy(netShield = newNetShieldProtocol) }
 
+    suspend fun toggleNetShield() = update { current ->
+        val newNetShieldState =
+            if (current.netShield == NetShieldProtocol.DISABLED) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED
+        current.copy(netShield = newNetShieldState)
+    }
+
     suspend fun updateProtocol(newProtocol: ProtocolSelection) =
         update { current -> current.copy(protocol = newProtocol) }
 

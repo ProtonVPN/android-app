@@ -28,7 +28,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.netshield.NetShieldProtocol
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 
@@ -37,7 +36,7 @@ fun NetShieldSetting(
     onClose: () -> Unit,
     value: Boolean,
     onLearnMore: () -> Unit,
-    onNetShieldChange: (NetShieldProtocol) -> Unit,
+    onNetShieldToggle: () -> Unit,
 ) {
     SubSetting(
         title = stringResource(id = R.string.netshield_feature_name),
@@ -59,7 +58,7 @@ fun NetShieldSetting(
             annotatedPart = stringResource(id = R.string.learn_more),
             onAnnotatedClick = onLearnMore,
             value = value,
-            onToggle = { onNetShieldChange(if (!value) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED) },
+            onToggle = onNetShieldToggle,
         )
 
         Text(
