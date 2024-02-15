@@ -28,14 +28,17 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
@@ -87,6 +90,7 @@ import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.defaultNorm
+import me.proton.core.compose.theme.defaultSmallNorm
 import me.proton.core.compose.theme.defaultSmallStrongUnspecified
 import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.defaultStrongNorm
@@ -428,13 +432,14 @@ private fun AccountCategory(
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .size(30.dp)
+                        .size(28.dp)
                         .clip(RoundedCornerShape(8.dp))
                         .background(ProtonTheme.colors.brandNorm)
+                        .padding(2.dp)
                 ) {
                     Text(
                         text = userState.shortenedName,
-                        style = ProtonTheme.typography.defaultNorm
+                        style = ProtonTheme.typography.defaultSmallNorm
                     )
                 }
             },
@@ -486,10 +491,10 @@ private fun SettingRowWithComposables(
 
     Row(
         modifier = baseModifier,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = if (subtitle != null) Alignment.Top else Alignment.CenterVertically
     ) {
         Box(
-            modifier = Modifier.width(30.dp),
+            modifier = Modifier.width(32.dp),
             contentAlignment = Alignment.Center
         ) {
             leadingComposable()
@@ -497,13 +502,15 @@ private fun SettingRowWithComposables(
         Column(
             modifier = Modifier
                 .padding(start = 16.dp)
-                .weight(1f)
+                .weight(1f),
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = title,
-                style = ProtonTheme.typography.defaultNorm
+                style = ProtonTheme.typography.defaultNorm,
             )
             subtitle?.let {
+                Spacer(modifier = Modifier.size(4.dp))
                 Text(
                     text = it,
                     style = ProtonTheme.typography.defaultWeak
@@ -530,7 +537,6 @@ fun SettingRowWithIcon(
                 painter = painterResource(id = icon),
                 contentDescription = null,
                 tint = Color.Unspecified,
-                modifier = Modifier.size(30.dp)
             )
         },
         trailingComposable = {

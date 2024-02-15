@@ -76,7 +76,7 @@ class SettingsViewModel @Inject constructor(
         class NetShield(
             netShieldEnabled: Boolean,
             isFreeUser: Boolean,
-            override val iconRes: Int = if (netShieldEnabled) R.drawable.ic_netshield_on else R.drawable.ic_netshield_off
+            override val iconRes: Int = if (netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.feature_netshield_off
         ) : SettingViewState<Boolean>(
             value = netShieldEnabled,
             isRestricted = isFreeUser,
@@ -89,7 +89,7 @@ class SettingsViewModel @Inject constructor(
         class SplitTunneling(
             val splitTunnelingSettings: SplitTunnelingSettings,
             isFreeUser: Boolean,
-            override val iconRes: Int = if (splitTunnelingSettings.isEnabled) R.drawable.ic_split_tunneling_on else R.drawable.ic_split_tunneling_off
+            override val iconRes: Int = if (splitTunnelingSettings.isEnabled) R.drawable.feature_splittunneling_on else R.drawable.feature_splittunneling_off
         ) : SettingViewState<Boolean>(
             value = splitTunnelingSettings.isEnabled,
             isRestricted = isFreeUser,

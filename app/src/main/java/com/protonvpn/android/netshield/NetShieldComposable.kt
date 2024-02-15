@@ -161,7 +161,6 @@ fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit)
                 painter = painterResource(id = state.iconRes),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(24.dp)
                     .padding(end = 4.dp)
             )
             Text(
