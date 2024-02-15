@@ -458,7 +458,7 @@
     <string name="upgrade_learn_more">Lär dig mer</string>
     <string name="upsell_card_countries_title">Världsomspännande täckning</string>
     <!-- Parameters:
-        %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
+        %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"
 
         Example:
@@ -603,6 +603,9 @@
         <item quantity="one">Lås upp geoblockerat innehåll från %1$d land med VPN Plus</item>
         <item quantity="other">Lås upp geoblockerat innehåll från %1$d länder med VPN Plus</item>
     </plurals>
+    <!-- Content description used by accessibility services for a button for dismissing (hiding)
+         a notification banner (usually used for special offers). -->
+    <string name="notification_banner_dismiss_accessibility_label">Avfärda banner</string>
     <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
          %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
          %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
@@ -711,36 +714,6 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">extern länk</string>
-    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when expanded.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" with this state description will be read by a screen reader as:
-         "Expanded. Recents"
-     -->
-    <string name="accessibility_expandable_state_expanded">expanderad</string>
-    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" with this state description will be read by a screen reader as:
-         "Collapsed. Recents"
-     -->
-    <string name="accessibility_expandable_state_collapsed">minimerad</string>
-    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" on an expanded element with state "expanded" this action label will be
-         read by a screen reader as:
-         "Expanded. Recents. Double tap to collapse"
-     -->
-    <string name="accessibility_expandable_action_collapse">mimimera</string>
-    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" on an expanded element with state "collapsed" and this action label will
-         be read by a screen reader as:
-         "Collapsed. Recents. Double tap to expand"
-     -->
-    <string name="accessibility_expandable_action_expand">expandera</string>
     <string name="no_logs_banner_title">Certified no-logs VPN</string>
     <string name="no_logs_banner_description">Din VPN-aktivitet skyddas av schweiziska integritetslagar. Vi kommer aldrig att spåra dig online eller dela din information med tredje part.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->

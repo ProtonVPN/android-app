@@ -81,7 +81,7 @@
     <string name="settingsSectionAdvanced">고급</string>
     <string name="settingsAutoStartTitle">Android로 시작하기</string>
     <string name="settingsAutoStartDescription">Proton VPN은 각 시스템이 시작될 때 자동으로 시작됩니다</string>
-    <string name="settingsBypassLocalTitle">VPN 연결</string>
+    <string name="settingsBypassLocalTitle">LAN 연결</string>
     <string name="settingsDnsLeakProtectionTitle">DNS 유출 방지</string>
     <string name="settingsDnsLeakDescription">제3자에게 DNS 쿼리 세부 정보 누출 방지 (항상 켜짐)</string>
     <string name="settingsDefaultMtu">1375</string>
@@ -449,7 +449,7 @@
     <string name="upgrade_learn_more">자세히 알아보기</string>
     <string name="upsell_card_countries_title">전세계 커버리지</string>
     <!-- Parameters:
-        %1$s - number of servers rounded up to 100s (e.g. 600, 1200)
+        %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"
 
         Example:
@@ -592,6 +592,9 @@
     <plurals name="search_upsell_banner_message">
         <item quantity="other">VPN Plus로 %1$d개 국가서 차단된 컨텐츠를 해제하세요</item>
     </plurals>
+    <!-- Content description used by accessibility services for a button for dismissing (hiding)
+         a notification banner (usually used for special offers). -->
+    <string name="notification_banner_dismiss_accessibility_label">배너 무시</string>
     <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
          %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
          %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
@@ -693,36 +696,6 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">외부 링크</string>
-    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when expanded.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" with this state description will be read by a screen reader as:
-         "Expanded. Recents"
-     -->
-    <string name="accessibility_expandable_state_expanded">펼침</string>
-    <!-- tag(Redesign_2023): description of state of an expandable view (e.g. bottom sheet) when collapsed.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" with this state description will be read by a screen reader as:
-         "Collapsed. Recents"
-     -->
-    <string name="accessibility_expandable_state_collapsed">축소됨</string>
-    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" on an expanded element with state "expanded" this action label will be
-         read by a screen reader as:
-         "Expanded. Recents. Double tap to collapse"
-     -->
-    <string name="accessibility_expandable_action_collapse">축소</string>
-    <!-- tag(Redesign_2023): added to clickable elements that collapse an expandable view.
-         Used only by accessibility services.
-         Example:
-         a label "Recents" on an expanded element with state "collapsed" and this action label will
-         be read by a screen reader as:
-         "Collapsed. Recents. Double tap to expand"
-     -->
-    <string name="accessibility_expandable_action_expand">펼치기</string>
     <string name="no_logs_banner_title">노-로그 인증을 받은 VPN</string>
     <string name="no_logs_banner_description">사용자의 VPN 활동은 스위스의 개인정보 보호법대로 보호됩니다. 저희는 당신을 온라인 상에서 추적하거나 정보를 제 3자와 공유하지 않습니다.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
