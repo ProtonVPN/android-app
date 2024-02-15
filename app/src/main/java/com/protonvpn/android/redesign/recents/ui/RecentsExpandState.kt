@@ -41,8 +41,10 @@ import androidx.compose.ui.semantics.scrollBy
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.verticalScrollAxisRange
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * The recents list is initially positioned to only show the connection card and it can be expanded to its full height
@@ -117,6 +119,20 @@ class RecentsExpandState(
         // maybe won't be too noticeable. If needed it should be possible to run a single animation to scroll both.
         lazyListState.animateScrollToItem(0)
         animateOffsetTo(maxOffset)
+    }
+
+    suspend fun peekBelowTheFold(peekHeightPx: Float) {
+        delay(0.5.seconds)
+        mutatorMutex.mutate {
+            val startOffset = listOffsetState.intValue.toFloat()
+            animate(startOffset, maxOffset - peekHeightPx) { v, _ ->
+                listOffsetState.intValue = v.roundToInt()
+            }
+            delay(1.5.seconds)
+            animate(listOffsetState.intValue.toFloat(), maxOffset.toFloat()) { v, _ ->
+                listOffsetState.intValue = v.roundToInt()
+            }
+        }
     }
 
     fun setPeekHeight(newPeekHeight: Int) {

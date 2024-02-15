@@ -126,8 +126,8 @@ class MainNav(
                     )
 
                     MainTarget.Countries -> countryList(
-                        onNavigateToHomeOnConnect = {
-                            mainScreenViewModel.requestCollapseRecents()
+                        onNavigateToHomeOnConnect = { showcaseRecents ->
+                            mainScreenViewModel.requestCollapseRecents(showcaseRecents)
                             navigate(MainTarget.Home)
                         },
                         onNavigateToSearch = {

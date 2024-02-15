@@ -102,6 +102,8 @@ import me.proton.core.compose.theme.ProtonTheme
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 
+typealias ShowcaseRecents = Boolean
+
 @Composable
 fun HomeRoute(
     mainScreenViewModel: MainScreenViewModel,
@@ -129,7 +131,7 @@ private val PromoOfferBannerState?.peekOffset get() = if (this?.isDismissible ==
 @Composable
 fun HomeView(
     vpnState: VpnStatusViewState,
-    eventCollapseRecents: SharedFlow<Unit>,
+    eventCollapseRecents: SharedFlow<ShowcaseRecents>,
     onEventCollapseRecentsConsumed: () -> Unit,
     onConnectionCardClick: () -> Unit
 ) {
@@ -254,9 +256,13 @@ fun HomeView(
         }
         val listBgColor = ProtonTheme.colors.backgroundNorm
         val listBgGradientColors = listOf(Color.Transparent, listBgColor)
-        eventCollapseRecents.collectAsEffect {
+        val recentsShowcaseRevealHeight = with (LocalDensity.current) { 56.dp.toPx() }
+        eventCollapseRecents.collectAsEffect { showcaseRecents ->
             onEventCollapseRecentsConsumed()
             recentsExpandState.collapse()
+            if (showcaseRecents) {
+                recentsExpandState.peekBelowTheFold(recentsShowcaseRevealHeight)
+            }
         }
         BoxWithConstraints {
             val viewportSize = DpSize(maxWidth, maxHeight)

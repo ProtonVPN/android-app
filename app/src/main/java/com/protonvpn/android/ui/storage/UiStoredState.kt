@@ -36,7 +36,8 @@ import javax.inject.Singleton
  */
 @Serializable
 data class UiStoredState(
-    val searchHistory: List<String> = emptyList()
+    val hasUsedRecents: Boolean = false,
+    val searchHistory: List<String> = emptyList(),
 ) {
     companion object {
         val Default = UiStoredState()

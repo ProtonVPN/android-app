@@ -31,13 +31,14 @@ import com.protonvpn.android.redesign.countries.ui.ServersRoute
 import com.protonvpn.android.redesign.main_screen.ui.nav.BottomSheetNav
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
+import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.search.SearchRoute
 import kotlinx.serialization.Serializable
 
 object CountryListScreen : ScreenNoArg<MainNav>("country_list") {
 
     fun SafeNavGraphBuilder<MainNav>.countryList(
-        onNavigateToHomeOnConnect: () -> Unit,
+        onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
         onNavigateToSearch: () -> Unit,
     ) = addToGraph(this) {
         CountryListRoute(onNavigateToHomeOnConnect, onNavigateToSearch)

@@ -155,6 +155,7 @@ class CountryListViewModelTests {
             EffectiveCurrentUserSettings(scope.backgroundScope, effectiveSettingsFlow),
             userSettingsManager,
             mockCurrentUser,
+            mockk(),
             RestrictionsConfig(scope.backgroundScope, restrictionsFlow),
         )
     }
