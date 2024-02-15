@@ -28,6 +28,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -86,14 +87,14 @@ class SettingsViewModel @Inject constructor(
         )
 
         class SplitTunneling(
-            splitTunnelingEnabled: Boolean,
+            val splitTunnelingSettings: SplitTunnelingSettings,
             isFreeUser: Boolean,
-            override val iconRes: Int = if (splitTunnelingEnabled) R.drawable.ic_split_tunneling_on else R.drawable.ic_split_tunneling_off
+            override val iconRes: Int = if (splitTunnelingSettings.isEnabled) R.drawable.ic_split_tunneling_on else R.drawable.ic_split_tunneling_off
         ) : SettingViewState<Boolean>(
-            value = splitTunnelingEnabled,
+            value = splitTunnelingSettings.isEnabled,
             isRestricted = isFreeUser,
             titleRes = R.string.settings_split_tunneling_title,
-            subtitleRes = if (splitTunnelingEnabled) R.string.feature_on else R.string.feature_off,
+            subtitleRes = if (splitTunnelingSettings.isEnabled) R.string.feature_on else R.string.feature_off,
             descriptionRes = R.string.settings_split_tunneling_description,
             annotationRes = R.string.learn_more
         )
@@ -187,7 +188,7 @@ class SettingsViewModel @Inject constructor(
             SettingsViewState(
                 netShield = SettingViewState.NetShield(settings.netShield != NetShieldProtocol.DISABLED, isFree),
                 vpnAccelerator = SettingViewState.VpnAccelerator(settings.vpnAccelerator, isFree),
-                splitTunneling =  SettingViewState.SplitTunneling(settings.splitTunneling.isEnabled, isFree),
+                splitTunneling = SettingViewState.SplitTunneling(settings.splitTunneling, isFree),
                 protocol = SettingViewState.Protocol(settings.protocol),
                 altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
                 lanConnections = SettingViewState.LanConnections(settings.lanConnections, isFree),
@@ -208,6 +209,7 @@ class SettingsViewModel @Inject constructor(
     private val altRouting = viewState.map { it.altRouting }.distinctUntilChanged()
     private val lanConnections = viewState.map { it.lanConnections }.distinctUntilChanged()
     val natType = viewState.map { it.natType }.distinctUntilChanged()
+    val splitTunneling = viewState.map { it.splitTunneling }.distinctUntilChanged()
 
     data class AdvancedSettingsViewState(
         val altRouting: SettingViewState.AltRouting,
@@ -259,6 +261,12 @@ class SettingsViewModel @Inject constructor(
     fun toggleLanConnections() {
         viewModelScope.launch {
             userSettingsManager.toggleLanConnections()
+        }
+    }
+
+    fun toggleSplitTunneling() {
+        viewModelScope.launch {
+            userSettingsManager.toggleSplitTunneling()
         }
     }
 }

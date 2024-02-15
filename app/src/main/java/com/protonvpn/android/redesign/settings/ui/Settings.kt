@@ -121,7 +121,7 @@ fun SettingsRoute(
                 UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context)
             },
             onSplitTunnelClick = {
-                // TODO
+                onNavigateToSubSetting(SubSettingsScreen.Type.SplitTunneling)
             },
             onSplitTunnelUpgrade = {
                 UpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(context)

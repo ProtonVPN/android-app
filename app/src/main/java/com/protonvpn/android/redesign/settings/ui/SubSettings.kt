@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.redesign.settings.ui
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +41,8 @@ import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatHighlightsFragment
+import com.protonvpn.android.ui.settings.SettingsExcludeAppsActivity
+import com.protonvpn.android.ui.settings.SettingsExcludeIpsActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.openUrl
@@ -56,7 +59,6 @@ fun SubSettingsRoute(
     val viewModel: SettingsViewModel = hiltViewModel()
     val context = LocalContext.current
     when (type) {
-
         SubSettingsScreen.Type.VpnAccelerator -> {
             val vpnAccelerator =
                 viewModel.vpnAccelerator.collectAsStateWithLifecycle(initialValue = null).value
@@ -108,6 +110,19 @@ fun SubSettingsRoute(
                     onClose = onClose,
                     nat = nat,
                     onNatTypeChange = viewModel::setNatType,
+                )
+            }
+        }
+        SubSettingsScreen.Type.SplitTunneling -> {
+            val splitTunnelingSettings = viewModel.splitTunneling.collectAsStateWithLifecycle(initialValue = null).value
+            if (splitTunnelingSettings != null) {
+                SplitTunnelingSubSetting(
+                    onClose = onClose,
+                    splitTunneling = splitTunnelingSettings,
+                    onLearnMore = { context.openUrl(Constants.SPLIT_TUNNELING_INFO_URL) },
+                    onSplitTunnelToggle = { viewModel.toggleSplitTunneling() },
+                    onExcludedAppsClick = { context.startActivity(Intent(context, SettingsExcludeAppsActivity::class.java)) },
+                    onExcludedIpsClick = { context.startActivity(Intent(context, SettingsExcludeIpsActivity::class.java)) }
                 )
             }
         }
