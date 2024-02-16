@@ -19,8 +19,10 @@
 
 package com.protonvpn.android.redesign.vpn.ui
 
+import androidx.compose.runtime.Immutable
 import com.protonvpn.android.redesign.vpn.ServerFeature
 
+@Immutable
 data class ConnectIntentViewState(
     val primaryLabel: ConnectIntentPrimaryLabel,
     val secondaryLabel: ConnectIntentSecondaryLabel?,

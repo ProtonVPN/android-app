@@ -91,7 +91,7 @@ fun RecentsList(
     horizontalPadding: Dp = 0.dp,
     expandState: RecentsExpandState?,
 ) {
-    val itemIds = viewState.toItemIds()
+    val itemIds = remember(viewState) { viewState.toItemIds() }
     val itemIdsTransition = updateTransition(targetState = itemIds, label = "item IDs")
 
     val scope = rememberCoroutineScope()

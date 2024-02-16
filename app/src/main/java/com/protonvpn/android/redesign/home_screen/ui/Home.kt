@@ -251,6 +251,9 @@ fun HomeView(
         val connectionCardConnectAction = remember<() -> Unit>(vpnUiDelegate) {
             { coroutineScope.launch { viewModel.connect(vpnUiDelegate, ConnectTrigger.ConnectionCard) } }
         }
+        val connectionCardDisconnectAction = remember(viewModel) {
+            { viewModel.disconnect(DisconnectTrigger.ConnectionCard) }
+        }
         val recentClickedAction = remember<(RecentItemViewState) -> Unit>(vpnUiDelegate) {
             { item -> coroutineScope.launch { viewModel.onRecentClicked(item, vpnUiDelegate) } }
         }
@@ -289,7 +292,7 @@ fun HomeView(
                     promoBannerPeekOffset = promoBannerState?.peekOffset ?: 0.dp,
                     upsellContent = upsellCarouselContent,
                     onConnectClicked = connectionCardConnectAction,
-                    onDisconnectClicked = { viewModel.disconnect(DisconnectTrigger.ConnectionCard) },
+                    onDisconnectClicked = connectionCardDisconnectAction,
                     onOpenConnectionPanelClicked = onConnectionCardClick,
                     onRecentClicked = recentClickedAction,
                     onRecentPinToggle = viewModel::togglePinned,
