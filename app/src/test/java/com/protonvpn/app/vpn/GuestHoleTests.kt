@@ -20,6 +20,7 @@ package com.protonvpn.app.vpn
 
 import androidx.activity.ComponentActivity
 import com.protonvpn.android.api.GuestHole
+import com.protonvpn.android.api.GuestHoleSuppressor
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
@@ -40,7 +41,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
@@ -51,7 +51,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class GuestHoleTests {
 
     private lateinit var scope: TestScope
@@ -62,6 +61,7 @@ class GuestHoleTests {
     private lateinit var appFeaturesPrefs: AppFeaturesPrefs
     private lateinit var vpnStateMonitor: VpnStateMonitor
 
+    @MockK lateinit var mockGhSuppressor: GuestHoleSuppressor
     @MockK lateinit var serverManager: ServerManager
     @MockK lateinit var vpnConnectionManager: VpnConnectionManager
     @MockK lateinit var foregroundActivityTracker: ForegroundActivityTracker
@@ -99,10 +99,11 @@ class GuestHoleTests {
         coEvery { vpnConnectionManager.disconnectAndWait(any()) } answers {
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
         }
+        every { mockGhSuppressor.disableGh() } returns false
 
         guestHole = GuestHole(scope, TestDispatcherProvider(dispatcher), { serverManager },
             vpnStateMonitor, { null }, { vpnConnectionManager }, mockk(relaxed = true),
-            foregroundActivityTracker, appFeaturesPrefs)
+            foregroundActivityTracker, appFeaturesPrefs, mockGhSuppressor)
         guestHole.shuffler = { it }
     }
 
@@ -134,6 +135,14 @@ class GuestHoleTests {
         assertTrue(vpnStateMonitor.isConnected)
         guestHole.releaseNeedGuestHole("login")
         assertFalse(vpnStateMonitor.isConnected)
+    }
+
+    @Test
+    fun whenSuppressedGuestHoleDoesntOpen() = scope.runTest {
+        every { mockGhSuppressor.disableGh() } returns true
+        var unblocked = false
+        guestHole.onAlternativesUnblock { unblocked = true }
+        assertFalse(unblocked)
     }
 
     @Test
