@@ -25,6 +25,7 @@ import androidx.test.filters.SdkSuppress
 import com.proton.gopenpgp.localAgent.LocalAgent
 import com.proton.gopenpgp.localAgent.NativeClient
 import com.protonvpn.android.api.GuestHole
+import com.protonvpn.android.api.GuestHoleSuppressor
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.FeatureFlags
@@ -151,6 +152,9 @@ class VpnConnectionTests {
     @RelaxedMockK
     lateinit var mockAgent: AgentConnectionInterface
 
+    @MockK
+    lateinit var mockGhSuppressor: GuestHoleSuppressor
+
     @RelaxedMockK
     lateinit var mockVpnUiDelegate: VpnUiDelegate
 
@@ -216,6 +220,7 @@ class VpnConnectionTests {
         currentUserProvider = TestCurrentUserProvider(vpnUser = TestUser.badUser.vpnUser, sessionId = SessionId("1"))
         val currentUser = CurrentUser(scope.backgroundScope, currentUserProvider)
 
+        every { mockGhSuppressor.disableGh() } returns false
         every { mockVpnUiDelegate.shouldSkipAccessRestrictions() } returns false
         every { mockVpnBackgroundUiDelegate.shouldSkipAccessRestrictions() } returns false
 
@@ -423,7 +428,8 @@ class VpnConnectionTests {
             dagger.Lazy { manager },
             mockk(relaxed = true),
             foregroundActivityTracker,
-            appFeaturesPrefs
+            appFeaturesPrefs,
+            mockGhSuppressor,
         )
 
         every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
@@ -449,7 +455,8 @@ class VpnConnectionTests {
             dagger.Lazy { manager },
             mockk(relaxed = true),
             foregroundActivityTracker,
-            appFeaturesPrefs
+            appFeaturesPrefs,
+            mockGhSuppressor,
         )
         every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
         mockOpenVpn.stateOnConnect = VpnState.Connected
@@ -483,7 +490,8 @@ class VpnConnectionTests {
             dagger.Lazy { manager },
             mockk(relaxed = true),
             foregroundActivityTracker,
-            appFeaturesPrefs
+            appFeaturesPrefs,
+            mockGhSuppressor,
         )
 
         manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)

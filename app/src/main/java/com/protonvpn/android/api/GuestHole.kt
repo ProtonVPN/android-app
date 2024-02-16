@@ -73,7 +73,8 @@ class GuestHole @Inject constructor(
     private val vpnConnectionManager: dagger.Lazy<VpnConnectionManager>,
     private val notificationHelper: NotificationHelper,
     private val foregroundActivityTracker: ForegroundActivityTracker,
-    private val appFeaturesPrefs: AppFeaturesPrefs
+    private val appFeaturesPrefs: AppFeaturesPrefs,
+    private val guestHoleSuppressor: GuestHoleSuppressor,
 ) : DohAlternativesListener {
 
     @VisibleForTesting
@@ -155,7 +156,7 @@ class GuestHole @Inject constructor(
     @WorkerThread
     override suspend fun onAlternativesUnblock(alternativesBlockCall: suspend () -> Unit) {
         withContext(dispatcherProvider.Main) {
-            unblock(alternativesBlockCall)
+            unblock(alternativesBlockCall, "onAlternativesUnblock")
         }
     }
 
@@ -164,7 +165,7 @@ class GuestHole @Inject constructor(
             val keepGuestHole = guestHoleLocks.locked()
             logMessage("alternatives failed, keepGuestHole=$keepGuestHole")
             if (keepGuestHole)
-                unblock(null)
+                unblock(null, "alternatives fail")
         }
     }
 
@@ -172,19 +173,19 @@ class GuestHole @Inject constructor(
         if (!isGuestHoleActive && openForHumanVerification?.await() == true) {
             withContext(dispatcherProvider.Main) {
                 if (guestHoleLocks.locked()) {
-                    logMessage("opening Guest Hole for human verification")
-                    unblock(null)
+                    unblock(null, "human verification")
                 }
             }
         }
     }
 
-    private suspend fun unblock(backendCall: (suspend () -> Unit)?) {
-        if (!vpnMonitor.isDisabled) {
-            logMessage("Ignoring Guest-hole on VPN connection")
+    private suspend fun unblock(backendCall: (suspend () -> Unit)?, reason: String) {
+        logMessage("Opening Guest Hole: $reason")
+        if (!vpnMonitor.isDisabled || guestHoleSuppressor.disableGh()) {
+            val ignoreReason = if (guestHoleSuppressor.disableGh()) "suppressed" else "VPN connected"
+            logMessage("Ignoring Guest Hole: $ignoreReason")
             return
         }
-        logMessage("Guesthole for DOH")
         coroutineScope {
             job = launch {
                 // Do not execute guesthole for calls running in background, due to inability to call permission intent
