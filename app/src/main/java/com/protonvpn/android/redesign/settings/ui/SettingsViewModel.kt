@@ -26,8 +26,11 @@ import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
+import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -56,6 +59,7 @@ enum class NatType(val labelRes: Int, val descriptionRes: Int) {
 class SettingsViewModel @Inject constructor(
     val currentUser: CurrentUser,
     val userSettingsManager: CurrentUserLocalSettingsManager,
+    val effectiveUserSettings: EffectiveCurrentUserSettings,
     val vpnConnectionManager: VpnConnectionManager,
     val vpnStatusProviderUI: VpnStatusProviderUI,
     val appConfig: AppConfig,
@@ -70,16 +74,16 @@ class SettingsViewModel @Inject constructor(
         @StringRes val descriptionRes: Int,
         @StringRes val annotationRes: Int? = null,
         @DrawableRes open val iconRes: Int? = null,
+        @DrawableRes val upgradeIconRes: Int? = if (isRestricted) R.drawable.vpn_plus_badge else null
     ) {
-        val upgradeIconRes = if (isRestricted) R.drawable.vpn_plus_badge else null
-
         class NetShield(
             netShieldEnabled: Boolean,
-            isFreeUser: Boolean,
+            netShieldAvailability: NetShieldAvailability,
             override val iconRes: Int = if (netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.feature_netshield_off
         ) : SettingViewState<Boolean>(
             value = netShieldEnabled,
-            isRestricted = isFreeUser,
+            isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,
+            upgradeIconRes = if (netShieldAvailability == NetShieldAvailability.UPGRADE_VPN_PLUS) R.drawable.vpn_plus_badge else null,
             titleRes = R.string.netshield_feature_name,
             subtitleRes = if (netShieldEnabled) R.string.feature_on else R.string.feature_off,
             descriptionRes = R.string.netshield_settings_description_not_html,
@@ -100,14 +104,15 @@ class SettingsViewModel @Inject constructor(
         )
 
         class VpnAccelerator(
-            vpnAcceleratorEnabled: Boolean,
+            vpnAcceleratorSettingValue: Boolean,
             isFreeUser: Boolean,
             override val iconRes: Int = me.proton.core.auth.R.drawable.ic_proton_rocket
         ) : SettingViewState<Boolean>(
-            value = vpnAcceleratorEnabled,
+            value = vpnAcceleratorSettingValue && !isFreeUser,
             isRestricted = isFreeUser,
+            iconRes = me.proton.core.auth.R.drawable.ic_proton_rocket,
             titleRes = R.string.settings_vpn_accelerator_title,
-            subtitleRes = if (vpnAcceleratorEnabled) R.string.feature_on else R.string.feature_off,
+            subtitleRes = if (vpnAcceleratorSettingValue && !isFreeUser) R.string.feature_on else R.string.feature_off,
             descriptionRes = R.string.settings_vpn_accelerator_description,
             annotationRes = R.string.learn_more
         )
@@ -167,26 +172,28 @@ class SettingsViewModel @Inject constructor(
         val email: String
     )
 
-    private val userViewStateFlow = combine(
-        currentUser.vpnUserFlow,
-        currentUser.userFlow.filterNotNull()
-    ) { vpnUser, user ->
-        UserViewState(
-            shortenedName = getInitials(user.uiName()) ?: "",
-            displayName = user.uiName() ?: "",
-            email = user.email ?: "",
-            isFreeUser = vpnUser?.isFreeUser == true
-        )
-    }
-
     val viewState =
         combine(
-            userViewStateFlow,
-            userSettingsManager.rawCurrentUserSettingsFlow
-        ) { userViewState, settings ->
-            val isFree = userViewState.isFreeUser
+            currentUser.vpnUserFlow,
+            currentUser.userFlow.filterNotNull(),
+            // Keep in mind UI for some settings can't rely directly on effective settings.
+            effectiveUserSettings.effectiveSettings,
+        ) { vpnUser, user, settings ->
+            val isFree = vpnUser?.isFreeUser == true
+            val netShieldAvailability = vpnUser.getNetShieldAvailability()
+
+            val userViewState = UserViewState(
+                shortenedName = getInitials(user.uiName()) ?: "",
+                displayName = user.uiName() ?: "",
+                email = user.email ?: "",
+                isFreeUser = isFree
+            )
+
             SettingsViewState(
-                netShield = SettingViewState.NetShield(settings.netShield != NetShieldProtocol.DISABLED, isFree),
+                netShield = SettingViewState.NetShield(
+                    settings.netShield != NetShieldProtocol.DISABLED,
+                    netShieldAvailability
+                ),
                 vpnAccelerator = SettingViewState.VpnAccelerator(settings.vpnAccelerator, isFree),
                 splitTunneling = SettingViewState.SplitTunneling(settings.splitTunneling, isFree),
                 protocol = SettingViewState.Protocol(settings.protocol),
