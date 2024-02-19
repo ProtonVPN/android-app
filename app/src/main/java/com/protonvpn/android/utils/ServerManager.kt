@@ -235,6 +235,11 @@ class ServerManager @Inject constructor(
         onServersUpdate()
     }
 
+    fun updateTimestamp() {
+        lastUpdateTimestamp = wallClock()
+        Storage.save(this, ServerManager::class.java)
+    }
+
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
         ensureLoaded()
         allServers.flatMap { it.connectingDomains.asSequence() }

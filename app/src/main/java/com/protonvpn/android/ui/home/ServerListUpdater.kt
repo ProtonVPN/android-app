@@ -344,6 +344,8 @@ class ServerListUpdater @Inject constructor(
                 else
                     resultList
                 serverManager.setServers(newList, lang)
+            } else {
+                serverManager.updateTimestamp()
             }
             if (!serverListResult.freeOnly)
                 prefs.lastFullUpdateTimestamp = wallClock()
