@@ -32,7 +32,9 @@ import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
+import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.userstorage.ProfileManager
+import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -57,13 +59,14 @@ enum class NatType(val labelRes: Int, val descriptionRes: Int) {
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    val currentUser: CurrentUser,
-    val userSettingsManager: CurrentUserLocalSettingsManager,
-    val effectiveUserSettings: EffectiveCurrentUserSettings,
-    val vpnConnectionManager: VpnConnectionManager,
-    val vpnStatusProviderUI: VpnStatusProviderUI,
-    val appConfig: AppConfig,
-    val profileManager: ProfileManager,
+    private val currentUser: CurrentUser,
+    private val userSettingsManager: CurrentUserLocalSettingsManager,
+    private val effectiveUserSettings: EffectiveCurrentUserSettings,
+    private val vpnConnectionManager: VpnConnectionManager,
+    private val vpnStatusProviderUI: VpnStatusProviderUI,
+    private val appConfig: AppConfig,
+    private val profileManager: ProfileManager,
+    buildConfigInfo: BuildConfigInfo,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -163,7 +166,8 @@ class SettingsViewModel @Inject constructor(
         val altRouting: SettingViewState.AltRouting,
         val lanConnections: SettingViewState.LanConnections,
         val natType: SettingViewState.Nat,
-        val userInfo: UserViewState
+        val userInfo: UserViewState,
+        val buildInfo: String?,
     )
     data class UserViewState(
         val isFreeUser: Boolean,
@@ -171,6 +175,9 @@ class SettingsViewModel @Inject constructor(
         val displayName: String,
         val email: String
     )
+
+    // The configuration doesn't change during runtime.
+    private val buildConfigText = if (BuildConfigUtils.displayInfo()) buildConfigInfo() else null
 
     val viewState =
         combine(
@@ -201,6 +208,7 @@ class SettingsViewModel @Inject constructor(
                 lanConnections = SettingViewState.LanConnections(settings.lanConnections, isFree),
                 natType = SettingViewState.Nat(if (settings.randomizedNat) NatType.Strict else NatType.Moderate, isFree),
                 userInfo = userViewState,
+                buildInfo = buildConfigText
             )
         }
 
