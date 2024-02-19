@@ -32,6 +32,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createAccountUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -223,27 +224,6 @@ class UpgradeTelemetryTests {
             mockTelemetry.event(UPSELL_GROUP, "upsell_success", any(), any())
         }
     }
-
-    // We should upstream such helpers to Account modules.
-    private fun createAccountUser(createdAtUtc: Long = 0L) = User(
-        UserId("id"),
-        email = null,
-        name = null,
-        displayName = null,
-        currency = "EUR",
-        credit = 0,
-        createdAtUtc = createdAtUtc,
-        usedSpace = 0,
-        maxSpace = 0,
-        maxUpload = 0,
-        role = null,
-        private = false,
-        subscribed = 0,
-        services = 0,
-        delinquent = null,
-        recovery = null,
-        keys = emptyList()
-    )
 
     companion object {
         private const val UPSELL_GROUP = "vpn.any.upsell"

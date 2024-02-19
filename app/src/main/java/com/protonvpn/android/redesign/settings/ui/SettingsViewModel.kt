@@ -23,7 +23,6 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.netshield.NetShieldAvailability
@@ -33,11 +32,8 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.ui.settings.BuildConfigInfo
-import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.vpn.ProtocolSelection
-import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -59,13 +55,9 @@ enum class NatType(val labelRes: Int, val descriptionRes: Int) {
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val currentUser: CurrentUser,
+    currentUser: CurrentUser,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
-    private val effectiveUserSettings: EffectiveCurrentUserSettings,
-    private val vpnConnectionManager: VpnConnectionManager,
-    private val vpnStatusProviderUI: VpnStatusProviderUI,
-    private val appConfig: AppConfig,
-    private val profileManager: ProfileManager,
+    effectiveUserSettings: EffectiveCurrentUserSettings,
     buildConfigInfo: BuildConfigInfo,
 ) : ViewModel() {
 
