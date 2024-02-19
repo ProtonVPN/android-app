@@ -34,7 +34,11 @@ data class SplitTunnelingSettings(
     val isEnabled: Boolean = false,
     val excludedIps: List<String> = emptyList(),
     val excludedApps: List<String> = emptyList()
-)
+) {
+    val isEmpty = !isEnabled || (excludedApps.isEmpty() && excludedIps.isEmpty())
+    fun isEffectivelySameAs(other: SplitTunnelingSettings?): Boolean =
+        this == other || (isEmpty && other?.isEmpty == true)
+}
 
 @Serializable
 data class LocalUserSettings(

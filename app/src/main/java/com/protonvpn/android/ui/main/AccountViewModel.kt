@@ -34,7 +34,7 @@ import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.VpnLogin.Companion.GUEST_HOLE_ID
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.redesign.settings.data.SharedSettingsPrefs
+import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,7 +44,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -81,9 +80,9 @@ class AccountViewModel @Inject constructor(
     private val product: Product,
     private val humanVerificationGuestHoleCheck: HumanVerificationGuestHoleCheck,
     private val logoutUseCase: Logout,
-    private val sharedSettingsPrefs: SharedSettingsPrefs,
     private val vpnStatus: VpnStatusProviderUI,
-    private val appFeaturesPrefs: AppFeaturesPrefs
+    private val appFeaturesPrefs: AppFeaturesPrefs,
+    private val dontShowAgainStore: DontShowAgainStore
 ) : ViewModel() {
 
     sealed class State {
@@ -173,12 +172,15 @@ class AccountViewModel @Inject constructor(
         )
     }
 
-    val showDialogOnSignOut get() =
-        !sharedSettingsPrefs.dialogSignOutNotAskAgain && !vpnStatus.isDisabled
+    suspend fun showDialogOnSignOut() =
+        dontShowAgainStore.getChoice(DontShowAgainStore.Type.SignOutWhileConnected) ==
+            DontShowAgainStore.Choice.ShowDialog
+        && !vpnStatus.isDisabled
 
     fun signOut(notAskAgain: Boolean? = null) = mainScope.launch {
         if (notAskAgain == true) {
-            sharedSettingsPrefs.dialogSignOutNotAskAgain = true
+            dontShowAgainStore.setChoice(
+                DontShowAgainStore.Type.SignOutWhileConnected, DontShowAgainStore.Choice.Positive)
         }
         logoutUseCase()
     }

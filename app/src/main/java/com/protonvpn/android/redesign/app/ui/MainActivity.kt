@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -59,6 +60,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import me.proton.core.compose.component.ProtonCenteredProgress
 import javax.inject.Inject
 
@@ -118,6 +120,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                 accountState == AccountViewModel.State.Ready && !activityViewModel.isMinimalStateReady
         }
         setContent {
+            val coroutineScope = rememberCoroutineScope()
             VpnTheme {
                 val isMinimalStateReady by activityViewModel.isMinimalStateReadyFlow.collectAsStateWithLifecycle()
                 when (accountState) {
@@ -132,10 +135,12 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                         val showSignOutDialog = rememberSaveable { mutableStateOf(false) }
                         val coreNavigation = CoreNavigation(
                             signOut = {
-                                if (accountViewModel.showDialogOnSignOut) {
-                                    showSignOutDialog.value = true
-                                } else {
-                                    accountViewModel.signOut()
+                                coroutineScope.launch {
+                                    if (accountViewModel.showDialogOnSignOut()) {
+                                        showSignOutDialog.value = true
+                                    } else {
+                                        accountViewModel.signOut()
+                                    }
                                 }
                             }
                         )

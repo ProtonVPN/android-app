@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.redesign.settings.ui
 
-import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
@@ -58,6 +59,17 @@ fun SubSettingsRoute(
 ) {
     val viewModel: SettingsViewModel = hiltViewModel()
     val context = LocalContext.current
+    val vpnUiDelegate = LocalVpnUiDelegate.current
+
+    val onSplitTunnelUpdated = { savedChange: Boolean? ->
+        if (savedChange == true)
+            viewModel.onSplitTunnelingUpdated(vpnUiDelegate)
+    }
+    val splitTunnelIpLauncher = rememberLauncherForActivityResult(
+        SettingsExcludeIpsActivity.createContract(), onSplitTunnelUpdated)
+    val splitTunnelAppsLauncher = rememberLauncherForActivityResult(
+        SettingsExcludeAppsActivity.createContract(), onSplitTunnelUpdated)
+
     when (type) {
         SubSettingsScreen.Type.VpnAccelerator -> {
             val vpnAccelerator =
@@ -94,7 +106,7 @@ fun SubSettingsRoute(
                     allowLan = advancedViewState.lanConnections,
                     natType = advancedViewState.natType,
                     onAltRoutingChange = viewModel::toggleAltRouting,
-                    onAllowLanChange = viewModel::toggleLanConnections,
+                    onAllowLanChange = { viewModel.toggleLanConnections(vpnUiDelegate) },
                     onNatTypeLearnMore = { context.openUrl(Constants.MODERATE_NAT_INFO_URL) },
                     onNavigateToNatType = { onNavigateToSubSetting(SubSettingsScreen.Type.NatType) },
                     onAllowLanRestricted = { UpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(context) },
@@ -113,6 +125,7 @@ fun SubSettingsRoute(
                 )
             }
         }
+
         SubSettingsScreen.Type.SplitTunneling -> {
             val splitTunnelingSettings = viewModel.splitTunneling.collectAsStateWithLifecycle(initialValue = null).value
             if (splitTunnelingSettings != null) {
@@ -120,12 +133,20 @@ fun SubSettingsRoute(
                     onClose = onClose,
                     splitTunneling = splitTunnelingSettings,
                     onLearnMore = { context.openUrl(Constants.SPLIT_TUNNELING_INFO_URL) },
-                    onSplitTunnelToggle = { viewModel.toggleSplitTunneling() },
-                    onExcludedAppsClick = { context.startActivity(Intent(context, SettingsExcludeAppsActivity::class.java)) },
-                    onExcludedIpsClick = { context.startActivity(Intent(context, SettingsExcludeIpsActivity::class.java)) }
+                    onSplitTunnelToggle = { viewModel.toggleSplitTunneling(vpnUiDelegate) },
+                    onExcludedAppsClick = { splitTunnelAppsLauncher.launch(Unit) },
+                    onExcludedIpsClick = { splitTunnelIpLauncher.launch(Unit) }
                 )
             }
         }
+    }
+
+    val showReconnectDialogType = viewModel.showReconnectDialogFlow.collectAsStateWithLifecycle().value
+    if (showReconnectDialogType != null) {
+        ReconnectDialog(
+            onOk = { notShowAgain -> viewModel.dismissReconnectDialog(notShowAgain, showReconnectDialogType) },
+            onReconnect = { notShowAgain -> viewModel.onReconnectClicked(vpnUiDelegate, notShowAgain, showReconnectDialogType) }
+        )
     }
 }
 
