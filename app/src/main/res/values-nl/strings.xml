@@ -63,7 +63,7 @@
     <string name="drawerShowLog">Log weergeven</string>
     <string name="drawerReportProblem">Een probleem melden</string>
     <string name="drawerAppVersion">v%1$s</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">Delen</string>
     <string name="accountDetails">Accountinformatie</string>
     <string name="accountSubscription">Abonnement</string>
     <string name="accountUser">Gebruiker:</string>
@@ -77,7 +77,7 @@
     <string name="settingsSectionConnection">Verbinding</string>
     <string name="settingsSectionSecurity">Beveiliging</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
-    <string name="settingsSectionSupport">Support</string>
+    <string name="settingsSectionSupport">Ondersteuning</string>
     <string name="settingsSectionAdvanced">Geavanceerd</string>
     <string name="settingsAutoStartTitle">Starten samen met Android</string>
     <string name="settingsAutoStartDescription">Proton VPN zal automatisch starten tijdens het starten van uw systeem</string>
@@ -257,14 +257,14 @@
     <string name="netShieldEnabledWarning">Let op: sommige websites werken mogelijk niet volledig vanwege geblokkeerde inhoud.</string>
     <string name="netShieldDescription">Blokkeer advertenties, trackers en malware </string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
-    <string name="learn_more">Learn more</string>
+    <string name="learn_more">Lees meer</string>
     <string name="netshield_status_on">Aan</string>
     <string name="netshield_status_off">Uit</string>
     <string name="netshield_free_description">Blokkeer advertenties, trackers en malware op websites en apps</string>
     <string name="netshield_business_title">Blokkeer advertenties met NetShield</string>
     <string name="netshield_business_description">Wanneer u upgradet naar VPN Zakelijk</string>
     <string name="netshield_what_data_means">What NetShield data means</string>
-    <string name="netshield_ads_title">Ads</string>
+    <string name="netshield_ads_title">Advertenties</string>
     <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
     <string name="netshield_trackers_title">Trackers</string>
     <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
@@ -464,7 +464,7 @@
         Example:
         1700+ server locations in 63 countries -->
     <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
-    <string name="upsell_card_customization_title">And much more…</string>
+    <string name="upsell_card_customization_title">En nog veel meer…</string>
     <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Protect %1$d device</item>
@@ -584,7 +584,7 @@
     <string name="search_clear_history">Geschiedenis wissen</string>
     <string name="search_clear_history_dialog">Uw zoekgeschiedenis zal verloren gaan. Doorgaan?</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
-    <string name="search_clear_query_content_description">Clear</string>
+    <string name="search_clear_query_content_description">Wissen</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Bezoek <a href="https://protonvpn.com/pricing">protonvpn.com</a> voor meer informatie.</string>
     <string name="free_upsell_header_title">Krijg wereldwijde dekking met VPN Plus</string>
@@ -719,9 +719,9 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Home</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
-    <string name="bottom_nav_countries">Countries</string>
+    <string name="bottom_nav_countries">Landen</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
-    <string name="botton_nav_settings">Settings</string>
+    <string name="botton_nav_settings">Instellingen</string>
     <!-- tag(Redesign_2023)
          Text added to button labels that open a UI element (e.g. a panel).
          Only used by accessibility services.
@@ -875,7 +875,7 @@
     <!-- tag(Redesign_2023)
          Help button above the connection card.
      -->
-    <string name="connection_card_help">Help</string>
+    <string name="connection_card_help">Hulp</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          the recommended one.
@@ -949,9 +949,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Pin</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_unpin">Unpin</string>
+    <string name="recent_action_unpin">Losmaken</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_remove">Remove</string>
+    <string name="recent_action_remove">Verwijderen</string>
     <!-- tag(Redesign_2023)
          State description of a pinned recent item.
          Only used by accessibility service.
@@ -968,9 +968,9 @@
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out">Sign out</string>
+    <string name="settings_sign_out">Uitloggen</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_title">Settings</string>
+    <string name="settings_title">Instellingen</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Features</string>
     <!-- tag(Redesign_2023) -->
@@ -988,11 +988,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_advanced_settings_title">Advanced Settings</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_general">General</string>
+    <string name="settings_category_general">Algemeen</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_account">Account</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_notifications_title">Meldingen</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_theme_title">Thema</string>
     <!-- tag(Redesign_2023) -->
@@ -1000,7 +1000,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_widget_title">Widget</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_support">Support</string>
+    <string name="settings_category_support">Ondersteuning</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Help Center</string>
     <!-- tag(Redesign_2023) -->
@@ -1016,7 +1016,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_restore_defaults_title">Herstel standaardinstellingen</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Sign Out</string>
+    <string name="settings_sign_out_title">Uitloggen</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">App versie: %1$s</string>
     <!-- tag(Redesign_2023) -->
@@ -1028,7 +1028,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">Niet opnieuw vragen</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_action">Sign out</string>
+    <string name="dialog_sign_out_action">Uitloggen</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Cancel</string>
     <!-- tag(Redesign_2023)
@@ -1054,7 +1054,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Show IP</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_back">Back</string>
+    <string name="accessibility_back">Terug</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">My IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1068,9 +1068,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_gateway">Gateway</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_country">Country</string>
+    <string name="connection_details_country">Land</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_city">City</string>
+    <string name="connection_details_city">Stad</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1094,15 +1094,15 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocol</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol_description">Een protocol is een instructieset die je apparaat gebruikt om met een server te verbinden en te communiceren</string>
+    <string name="connection_details_protocol_description">Een protocol is een instructieset die uw apparaat gebruikt om met een server te verbinden en te communiceren.</string>
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
-    <string name="connection_details_upload">Upload</string>
+    <string name="connection_details_upload">Uploaden</string>
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
-    <string name="connection_details_download">Download</string>
+    <string name="connection_details_download">Downloaden</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN speed</string>
     <!-- tag(Redesign_2023) -->
@@ -1114,7 +1114,7 @@
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
-    <string name="connection_details_unknown_ip">Unknown</string>
+    <string name="connection_details_unknown_ip">Onbekend</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
     <!-- tag(Redesign_2023) -->

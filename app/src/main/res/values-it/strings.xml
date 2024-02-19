@@ -32,7 +32,7 @@
     <string name="secureCoreSpeedInfoTitle">Una nota sulla velocità…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core offre il livello più elevato di sicurezza e privacy, ma potrebbe ridurre la velocità del tuo Internet. Se necessiti di maggiori prestazioni, puoi disabilitare Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Attiva Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Disconnettere?</string>
+    <string name="logoutConfirmDialogTitle">Vuoi disconnettere l\'account?</string>
     <string name="logoutConfirmDialogMessage">Uscire dall\'account disconnetterà il dispositivo dalla VPN.</string>
     <string name="logoutConfirmDialogButton">Disconnetti</string>
     <string name="yes">Si</string>

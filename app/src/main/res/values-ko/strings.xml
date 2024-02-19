@@ -80,10 +80,10 @@
     <string name="settingsSectionSupport">지원</string>
     <string name="settingsSectionAdvanced">고급</string>
     <string name="settingsAutoStartTitle">Android로 시작하기</string>
-    <string name="settingsAutoStartDescription">Proton VPN은 각 시스템이 시작될 때 자동으로 시작됩니다</string>
+    <string name="settingsAutoStartDescription">Proton VPN이 시스템 시작마다 자동으로 실행됩니다</string>
     <string name="settingsBypassLocalTitle">LAN 연결</string>
     <string name="settingsDnsLeakProtectionTitle">DNS 유출 방지</string>
-    <string name="settingsDnsLeakDescription">제3자에게 DNS 쿼리 세부 정보 누출 방지 (항상 켜짐)</string>
+    <string name="settingsDnsLeakDescription">제3자에게 DNS 쿼리 세부 정보 유출 방지 (항상 켜짐)</string>
     <string name="settingsDefaultMtu">1375</string>
     <string name="settingsMtuSizeTitle">MTU 크기</string>
     <string name="settingsMtuDescription">기본값이 특정 네트워크에 적합하지 않은 경우 1280~1500 범위의 값을 입력합니다. 이 기능이 무엇인지 알고 있는 경우에만 변경하세요.</string>
@@ -106,7 +106,7 @@
     <string name="listAllCountries">모든 지역 (%1$d)</string>
     <string name="listGateways">게이트웨이</string>
     <string name="listFreeCountries">무료 지역 (%1$d)</string>
-    <string name="listPremiumCountries">Basic &amp; Plus 위치 (%1$d)</string>
+    <string name="listPremiumCountries">Basic &amp; Plus 지역 (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus 지역 (%1$d)</string>
     <string name="listFastestServer">가장 빠른 서버</string>
     <string name="listFreeServers">Free 서버 (%1$d)</string>
@@ -117,9 +117,9 @@
     <string name="tabsCountries">국가</string>
     <string name="log_title">로그</string>
     <string name="disconnect">연결 해제</string>
-    <string name="state_connecting">연결 중...</string>
+    <string name="state_connecting">연결 중…</string>
     <string name="state_connected">연결됨</string>
-    <string name="state_disconnecting">연결을 끊는 중...</string>
+    <string name="state_disconnecting">연결을 끊는 중…</string>
     <string name="state_error">오류</string>
     <string name="error_server_list_load_failed">인터넷 연결을 확인한 후 다시 시도하세요.</string>
     <string name="error_server_unreachable">VPN에 연결할 수 없습니다. 연결 상태를 확인하신 후, 다시 시도해주세요.</string>
@@ -231,7 +231,7 @@
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[당신의 국가는 Proton 서비스를 사용하는 것을 막고 있을지도 모릅니다. Proton 서비스를 사용하기 위하여 <a href=\'%1$s\'>Tor</a>를 사용해보세요.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN 항상 켜기 &amp; 킬 스위치</string>
     <string name="settingsAlwaysOnKillSwitchDescription">연결이 끊어지면 Proton VPN이 어떻게 작동해야 될지 설정하세요</string>
-    <string name="settingsAlwaysOnWindowHeader">상시 VPN 및 킬 스위치를 켜는 법:</string>
+    <string name="settingsAlwaysOnWindowHeader">연결 유지 VPN 및 킬 스위치 활성화 방법:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. 아래에 있는 버튼을 눌러 당신의 기기 <b>설정</b> 앱을 엽니다]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Proton VPN을 찾으시고 %1$s 버튼을 누르세요</string>
@@ -253,12 +253,12 @@
     <string name="settingsSendCrashReportsDescription">충돌 보고서는 버그를 수정하고 방화벽을 감지하며 VPN 차단을 방지하는 데 도움이 됩니다.</string>
     <string name="settingsTelemetryScreenTitle">사용 통계</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[이러한 통계에는 IP 주소가 포함되어 있지 않으며 귀하를 식별하는 데 사용할 수 없습니다. 이 정보를 다른 사람에게 공유하지 않습니다. <a href="%1$s">자세히 알아보기</a>]]></string>
-    <string name="netShieldEnabledWarning">차단된 컨텐츠 때문에 몇몇 웹사이트가 제대로 작동하지 않을 수 있다는 점을 알아두세요.</string>
+    <string name="netShieldEnabledWarning">차단된 콘텐츠로 인하여 일부 웹사이트는 제대로 기능하지 않을 수도 있습니다.</string>
     <string name="netShieldDescription">광고, 트래커, 그리고 멀웨어를 차단하세요</string>
-    <string name="netshield_settings_description_not_html">자신을 광고, 멀웨어, 그리고 트래커와 웹사이트 및 앱으로 부터 보호하세요. 웹사이트를 불러올 수 없다면, NetShield 해제를 시도해 보세요. %1$s</string>
+    <string name="netshield_settings_description_not_html">웹사이트와 앱에서 광고와 멀웨어, 그리고 트래커로부터 보호받으세요. 웹사이트를 불러오는 데 문제가 있다면 NetShield를 비활성화해보세요. %1$s</string>
     <string name="learn_more">더 알아보기</string>
-    <string name="netshield_status_on">켜기</string>
-    <string name="netshield_status_off">끄기</string>
+    <string name="netshield_status_on">켜짐</string>
+    <string name="netshield_status_off">꺼짐</string>
     <string name="netshield_free_description">웹사이트 및 앱에서 광고, 트래커와 멀웨어를 차단하세요</string>
     <string name="netshield_business_title">NetShield로 광고를 차단하세요</string>
     <string name="netshield_business_description">VPN Business 요금제로 업그레이드하면</string>
@@ -266,7 +266,7 @@
     <string name="netshield_ads_title">광고</string>
     <string name="netshield_ads_details">광고와 보이지 않는 광고 트래커</string>
     <string name="netshield_trackers_title">트래커</string>
-    <string name="netshield_trackers_details">인터넷 활동의 정보 저장 및 공유 활동하는 쿠키 및 타 트래커</string>
+    <string name="netshield_trackers_details">당신의 인터넷 활동에 대한 정보를 저장하고 공유하는 쿠키와 기타 트래커</string>
     <string name="netshield_data_title">데이터</string>
     <string name="netshield_data_details">NetShield로 차단된 광고, 트래커, 멀웨어의 개수</string>
     <string name="accessibility_netshield_status_on_click">NetShield 설정에 로그인</string>
@@ -302,7 +302,7 @@
     <string name="tv_detail_default_connection_checkbox_short">선호</string>
     <string name="tv_detail_connect_streaming">Plus 플랜과 함께 스트리밍</string>
     <string name="tv_detail_connect">연결</string>
-    <string name="tv_detail_description_streaming_country">당신이 좋아하는 컨텐츠를 스트리밍 하세요. Proton VPN Plus 플랜을 이용하여 더 많은 앱에 액세스 하세요.</string>
+    <string name="tv_detail_description_streaming_country">Proton VPN Plus 플랜으로 좋아하는 스트리밍과 더 많은 앱으로의 접근을.</string>
     <string name="tv_detail_description_no_streaming_country">Proton VPN Plus 플랜을 이용하여 당신이 좋아하는 컨텐츠를 더 많이 스트리밍 하세요.</string>
     <string name="tv_detail_description_country_not_available">이 국가는 이용 가능하지 않습니다. Proton VPN Plus 플랜을 이용하여 더 많은 스트리밍 옵션을 해제하세요.</string>
     <string name="tv_detail_description_plus">당신의 앱으로 당신이 좋아하는 비디오, 영화, 스포츠를 스트리밍 하세요.</string>
@@ -399,12 +399,12 @@
     <string name="upgrade_netshield_message"><![CDATA[<b>NetShield</b>가 광고와 트래커, 멀웨어를 차단합니다.]]></string>
     <string name="upgrade_secure_core_title">암호화가 두 배로</string>
     <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b>가 당신의 VPN 연결에 한 겹의 암호화를 더합니다.]]></string>
-    <string name="upgrade_p2p_title">피어 투 피어 (P2P) 다운로드와 파일 공유를 잠금 해제하세요 </string>
+    <string name="upgrade_p2p_title">P2P (peer-to-peer) 다운로드와 파일 공유를 잠금 해제하세요 </string>
     <string name="upgrade_p2p_text">업로드와 다운로드 속도를 개선하면서 IP 주소는 숨깁니다.</string>
     <string name="upgrade_streaming_title">4K로 스트리밍</string>
     <string name="upgrade_streaming_text">전세계에 있는 영화와 TV 콘텐츠를 즐겨보세요.</string>
     <string name="upgrade_tor_title">한 번의 탭으로 Tor 네트워크에 접근하세요</string>
-    <string name="upgrade_tor_text">쓰던 브라우저에서 히든 서비스와 어니언 사이트로 연결하십시오.</string>
+    <string name="upgrade_tor_text">일반 브라우저로 숨겨진 서비스와 onion 사이트에 연결하세요.</string>
     <string name="upgrade_vpn_accelerator_title">더욱 빠른 브라우징</string>
     <!--
         %1$s - speed in Gbps
@@ -455,7 +455,7 @@
         Example:
         1700+ server locations in 63 countries -->
     <string name="upsell_card_countries_description">%2$s개 국가의 %1$d개 이상 서버</string>
-    <string name="upsell_card_customization_title">그리고 훨씬 더 많습니다…</string>
+    <string name="upsell_card_customization_title">이게 다가 아닙니다…</string>
     <string name="upsell_card_customization_description">더 많은 프라이버시 기능과 성능을 잠금 해제하세요</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="other">%1$d개 디바이스 보호</item>
@@ -477,8 +477,8 @@
     <string name="upsell_card_split_tunneling_description">한 번에 두 곳의 위치에서 브라우징하세요</string>
     <string name="upsell_card_streaming_title">스트리밍</string>
     <string name="upsell_card_streaming_description">선호하는 영화와 TV 쇼를 시청하세요</string>
-    <string name="upsell_card_tor_title">VPN 연결에서 Tor</string>
-    <string name="upsell_card_tor_description">더 높은 프라이버시를 위해 VPN 연결에서 Tor 네트워크를 사용하세요</string>
+    <string name="upsell_card_tor_title">Tor over VPN</string>
+    <string name="upsell_card_tor_description">추가적인 개인 정보 보호를 위해 VPN 연결을 통해 Tor 네트워크를 사용하세요</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -546,7 +546,7 @@
     <string name="dynamic_report_step3">3/3 단계</string>
     <string name="dynamic_report_your_issue_headline">문제가 무엇인가요</string>
     <string name="update_screen_title">Proton VPN 업데이트</string>
-    <string name="update_screen_description">Proton VPN의 이전 버전에서 문제를 겪고 계신 것 같습니다.</string>
+    <string name="update_screen_description">이전 버전의 Proton VPN에서는 문제를 겪기 쉽습니다.</string>
     <string name="server_search_menu_title">검색</string>
     <string name="server_search_hint">국가, 도시, 서버</string>
     <string name="server_search_hint_secure_core">국가</string>
@@ -648,7 +648,7 @@
     <string name="whats_new_new_look_title">새로운 비주얼, 동일한 보안</string>
     <string name="whats_new_new_look_description">디자인을 업데이트하고 앱을 더 쉽게 사용할 수 있도록 몇 가지를 옮겼습니다.</string>
     <string name="whats_new_recents_title">최근 항목 보기를 소개합니다.</string>
-    <string name="whats_new_recents_description">선호하는 서버에 다시 연결하는 것이 더 쉬워졌습니다. 홈 화면에서 최근 연결을 보거나 빠른 연결을 위해 고정하세요. 최근 항목이 프로파일에 재병렬됩니다.</string>
+    <string name="whats_new_recents_description">선호하는 서버로의 연결이 더욱 쉬워졌습니다. 홈 화면에서 가장 최근의 연결을 보거나, 빠른 접속을 위해 고정할 수 있습니다. 최근 항목은 프로필을 대체합니다.</string>
     <string name="whats_new_dismiss_button">자세히 살펴보기</string>
     <string name="whats_new_added_countries_title">새로운 무료 서버 국가</string>
     <string name="whats_new_added_countries_description">폴란드와 루마니아에 무료 서버가 신설되었습니다. 서버 밀집 해소를 위해, 수동 국가 선택을 제거하고 자동 서버 선택을 크게 개선했습니다.</string>
