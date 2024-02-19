@@ -420,7 +420,7 @@ class VpnConnectionErrorHandlerTests {
         // After server error we should switch to a different one
         fallback.let {
             assertIs<VpnFallbackResult.Switch.SwitchServer>(it)
-            assertNotEquals(directConnectServer.serverId, it.toServer.serverName)
+            assertNotEquals(directConnectionParams.server.serverId, it.toServer.serverName)
         }
     }
 

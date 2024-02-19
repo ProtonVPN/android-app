@@ -283,6 +283,11 @@ class ServerListUpdaterTests {
         val result2 = serverListUpdater.updateServers(null)
         assertTrue(result2 is ApiResult.Success && result2.value == null)
 
+        // Make sure 304 will update server list refresh timestamp
+        coVerify(exactly = 1) {
+            mockServerManager.updateTimestamp()
+        }
+
         // Make new version available
         lastModifiedOverride = lastModifiedOverride?.let { it + TimeUnit.HOURS.toMillis(1) }
         val result3 = serverListUpdater.updateServers(null)
