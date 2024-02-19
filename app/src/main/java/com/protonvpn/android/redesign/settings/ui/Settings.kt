@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
@@ -87,6 +88,7 @@ import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
+import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultSmallNorm
 import me.proton.core.compose.theme.defaultSmallStrongUnspecified
@@ -341,9 +343,9 @@ private fun SettingsView(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(8.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { settingsActions.onThirdPartyLicensesClick() },
+                    .clickable { settingsActions.onThirdPartyLicensesClick() }
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -351,23 +353,23 @@ private fun SettingsView(
                         id = R.string.settings_app_version,
                         BuildConfig.VERSION_NAME
                     ),
-                    style = ProtonTheme.typography.captionNorm,
-                    modifier = Modifier.padding(8.dp)
+                    style = ProtonTheme.typography.captionWeak,
                 )
                 Text(
                     text = stringResource(id = R.string.settings_third_party_licenses),
                     color = ProtonTheme.colors.textAccent,
                     style = ProtonTheme.typography.captionNorm,
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(top = 8.dp)
                 )
             }
-            Text(
-                text = stringResource(R.string.drawerAppVersion, BuildConfig.VERSION_NAME),
-                style = ProtonTheme.typography.defaultSmallWeak,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(vertical = 8.dp)
-            )
+            if (viewState.buildInfo != null) {
+                Text(
+                    text = viewState.buildInfo,
+                    style = ProtonTheme.typography.defaultSmallWeak,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                )
+            }
+            Spacer(Modifier.height(24.dp))
         }
     }
 }
