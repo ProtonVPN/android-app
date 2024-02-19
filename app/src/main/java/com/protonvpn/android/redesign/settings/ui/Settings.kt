@@ -112,9 +112,16 @@ fun SettingsRoute(
     signOut: () -> Unit,
     onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit
 ) {
-    val context = LocalContext.current
     val viewModel: SettingsViewModel = hiltViewModel()
-    val viewState = viewModel.viewState.collectAsStateWithLifecycle(initialValue = null).value ?: return
+    val viewState = viewModel.viewState.collectAsStateWithLifecycle(initialValue = null).value
+
+    if (viewState == null) {
+        // Return a composable even when viewState == null to avoid transition glitches
+        Box(modifier = Modifier.fillMaxSize()) {}
+        return
+    }
+
+    val context = LocalContext.current
     val vpnUiDelegate = LocalVpnUiDelegate.current
 
     val protocolLauncher =

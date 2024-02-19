@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.settings.ui
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -70,73 +71,79 @@ fun SubSettingsRoute(
     val splitTunnelAppsLauncher = rememberLauncherForActivityResult(
         SettingsExcludeAppsActivity.createContract(), onSplitTunnelUpdated)
 
-    when (type) {
-        SubSettingsScreen.Type.VpnAccelerator -> {
-            val vpnAccelerator =
-                viewModel.vpnAccelerator.collectAsStateWithLifecycle(initialValue = null).value
-            DebugUtils.debugAssert { vpnAccelerator?.isRestricted != true }
-            if (vpnAccelerator != null) {
-                VpnAccelerator(
-                    onClose,
-                    vpnAccelerator,
-                    { context.openUrl(Constants.VPN_ACCELERATOR_INFO_URL) },
-                    viewModel::toggleVpnAccelerator,
-                )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = ProtonTheme.colors.backgroundNorm)
+    ) {
+        when (type) {
+            SubSettingsScreen.Type.VpnAccelerator -> {
+                val vpnAccelerator =
+                    viewModel.vpnAccelerator.collectAsStateWithLifecycle(initialValue = null).value
+                DebugUtils.debugAssert { vpnAccelerator?.isRestricted != true }
+                if (vpnAccelerator != null) {
+                    VpnAccelerator(
+                        onClose,
+                        vpnAccelerator,
+                        { context.openUrl(Constants.VPN_ACCELERATOR_INFO_URL) },
+                        viewModel::toggleVpnAccelerator,
+                    )
+                }
             }
-        }
 
-        SubSettingsScreen.Type.NetShield -> {
-            val netShield = viewModel.netShield.collectAsStateWithLifecycle(initialValue = null).value
-            if (netShield != null) {
-                NetShieldSetting(
-                    onClose = onClose,
-                    netShield = netShield,
-                    onLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
-                    onNetShieldToggle = { viewModel.toggleNetShield() }
-                )
+            SubSettingsScreen.Type.NetShield -> {
+                val netShield = viewModel.netShield.collectAsStateWithLifecycle(initialValue = null).value
+                if (netShield != null) {
+                    NetShieldSetting(
+                        onClose = onClose,
+                        netShield = netShield,
+                        onLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
+                        onNetShieldToggle = { viewModel.toggleNetShield() }
+                    )
+                }
             }
-        }
 
-        SubSettingsScreen.Type.Advanced -> {
-            val advancedViewState = viewModel.advancedSettings.collectAsStateWithLifecycle(initialValue = null).value
-            if (advancedViewState != null) {
-                AdvancedSettings(
-                    onClose = onClose,
-                    altRouting = advancedViewState.altRouting,
-                    allowLan = advancedViewState.lanConnections,
-                    natType = advancedViewState.natType,
-                    onAltRoutingChange = viewModel::toggleAltRouting,
-                    onAllowLanChange = { viewModel.toggleLanConnections(vpnUiDelegate) },
-                    onNatTypeLearnMore = { context.openUrl(Constants.MODERATE_NAT_INFO_URL) },
-                    onNavigateToNatType = { onNavigateToSubSetting(SubSettingsScreen.Type.NatType) },
-                    onAllowLanRestricted = { UpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(context) },
-                    onNatTypeRestricted = { UpgradeDialogActivity.launch<UpgradeModerateNatHighlightsFragment>(context) },
-                )
+            SubSettingsScreen.Type.Advanced -> {
+                val advancedViewState = viewModel.advancedSettings.collectAsStateWithLifecycle(initialValue = null).value
+                if (advancedViewState != null) {
+                    AdvancedSettings(
+                        onClose = onClose,
+                        altRouting = advancedViewState.altRouting,
+                        allowLan = advancedViewState.lanConnections,
+                        natType = advancedViewState.natType,
+                        onAltRoutingChange = viewModel::toggleAltRouting,
+                        onAllowLanChange = { viewModel.toggleLanConnections(vpnUiDelegate) },
+                        onNatTypeLearnMore = { context.openUrl(Constants.MODERATE_NAT_INFO_URL) },
+                        onNavigateToNatType = { onNavigateToSubSetting(SubSettingsScreen.Type.NatType) },
+                        onAllowLanRestricted = { UpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(context) },
+                        onNatTypeRestricted = { UpgradeDialogActivity.launch<UpgradeModerateNatHighlightsFragment>(context) },
+                    )
+                }
             }
-        }
 
-        SubSettingsScreen.Type.NatType -> {
-            val nat = viewModel.natType.collectAsStateWithLifecycle(initialValue = null).value
-            if (nat != null) {
-                NatTypeSettings(
-                    onClose = onClose,
-                    nat = nat,
-                    onNatTypeChange = viewModel::setNatType,
-                )
+            SubSettingsScreen.Type.NatType -> {
+                val nat = viewModel.natType.collectAsStateWithLifecycle(initialValue = null).value
+                if (nat != null) {
+                    NatTypeSettings(
+                        onClose = onClose,
+                        nat = nat,
+                        onNatTypeChange = viewModel::setNatType,
+                    )
+                }
             }
-        }
 
-        SubSettingsScreen.Type.SplitTunneling -> {
-            val splitTunnelingSettings = viewModel.splitTunneling.collectAsStateWithLifecycle(initialValue = null).value
-            if (splitTunnelingSettings != null) {
-                SplitTunnelingSubSetting(
-                    onClose = onClose,
-                    splitTunneling = splitTunnelingSettings,
-                    onLearnMore = { context.openUrl(Constants.SPLIT_TUNNELING_INFO_URL) },
-                    onSplitTunnelToggle = { viewModel.toggleSplitTunneling(vpnUiDelegate) },
-                    onExcludedAppsClick = { splitTunnelAppsLauncher.launch(Unit) },
-                    onExcludedIpsClick = { splitTunnelIpLauncher.launch(Unit) }
-                )
+            SubSettingsScreen.Type.SplitTunneling -> {
+                val splitTunnelingSettings = viewModel.splitTunneling.collectAsStateWithLifecycle(initialValue = null).value
+                if (splitTunnelingSettings != null) {
+                    SplitTunnelingSubSetting(
+                        onClose = onClose,
+                        splitTunneling = splitTunnelingSettings,
+                        onLearnMore = { context.openUrl(Constants.SPLIT_TUNNELING_INFO_URL) },
+                        onSplitTunnelToggle = { viewModel.toggleSplitTunneling(vpnUiDelegate) },
+                        onExcludedAppsClick = { splitTunnelAppsLauncher.launch(Unit) },
+                        onExcludedIpsClick = { splitTunnelIpLauncher.launch(Unit) }
+                    )
+                }
             }
         }
     }
@@ -158,9 +165,7 @@ fun SubSetting(
     content: @Composable () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = ProtonTheme.colors.backgroundNorm)
+        modifier = Modifier.fillMaxSize()
     ) {
         TopAppBar(
             title = {
