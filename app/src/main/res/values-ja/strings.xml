@@ -932,7 +932,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_unpin">Unpin</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_remove">Remove</string>
+    <string name="recent_action_remove">削除</string>
     <!-- tag(Redesign_2023)
          State description of a pinned recent item.
          Only used by accessibility service.
@@ -969,25 +969,25 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_advanced_settings_title">Advanced Settings</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_general">General</string>
+    <string name="settings_category_general">一般</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_account">Account</string>
+    <string name="settings_category_account">アカウント</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_notifications_title">通知</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_theme_title">テーマ</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_beta_access_title">Beta Access</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_title">ウィジェット</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_support">Support</string>
+    <string name="settings_category_support">サポート</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Help Center</string>
+    <string name="settings_help_center_title">ヘルプセンター</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">問題を報告</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug Logs</string>
+    <string name="settings_debug_logs_title">デバッグログ</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Improve Proton</string>
     <!-- tag(Redesign_2023) -->
@@ -997,21 +997,21 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_restore_defaults_title">デフォルト設定を復元する</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Sign Out</string>
+    <string name="settings_sign_out_title">サインアウト</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">アプリのバージョン: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">サードパーティライセンス</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Sign out?</string>
+    <string name="dialog_sign_out_title">サインアウトしますか？</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_message">VPN から切断されます。</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">今後表示しない</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_action">Sign out</string>
+    <string name="dialog_sign_out_action">サインアウト</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_action_cancel">Cancel</string>
+    <string name="dialog_action_cancel">キャンセル</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1033,21 +1033,21 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">接続の詳細</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_show_ip">Show IP</string>
+    <string name="accessibility_show_ip">IP を表示</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_back">Back</string>
+    <string name="accessibility_back">戻る</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_my_ip">My IP</string>
+    <string name="connection_details_my_ip">あなたの IP</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip">VPN の IP</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
     -->
     <string name="connection_details_connected_for">Connected for</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server">Server</string>
+    <string name="connection_details_server">サーバー</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_gateway">Gateway</string>
+    <string name="connection_details_gateway">ゲートウェイ</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_country">Country</string>
     <!-- tag(Redesign_2023) -->
@@ -1061,25 +1061,25 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_description">Server load shows how close a server is to its maximum capacity. \n\nA high server load can slow down your connection.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_title">Low (1–75%)</string>
+    <string name="connection_details_server_load_low_title">低 (1–75%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_description">超高速スピード</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_title">Medium (76–90%)</string>
+    <string name="connection_details_server_load_medium_title">中 (76–90%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_medium_description">VPN 速度に影響を与える可能性は低い</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_title">High (91–100%)</string>
+    <string name="connection_details_server_load_high_title">高 (91–100%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_description">VPN の実行が通常より遅くなる可能性があります </string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol">Protocol</string>
+    <string name="connection_details_protocol">プロトコル</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol_description">プロトコルは、デバイスがサーバーに接続して通信するために従う一連の指示です。</string>
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
-    <string name="connection_details_upload">Upload</string>
+    <string name="connection_details_upload">アップロード</string>
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
