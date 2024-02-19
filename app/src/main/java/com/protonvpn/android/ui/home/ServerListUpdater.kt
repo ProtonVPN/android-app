@@ -169,20 +169,14 @@ class ServerListUpdater @Inject constructor(
             .launchIn(scope)
         currentUser.eventVpnLogin
             .onEach {
-                // Force update regardless of the timestamp on login.
-                // TODO: after removing network loader replace with forceRefresh input
-                prefs.serverListLastModified = 0
                 if (serverManager.streamingServicesModel == null)
                     periodicUpdateManager.executeNow(streamingServicesUpdate)
-                periodicUpdateManager.executeNow(serverListUpdate)
+                updateServerList(forceFreshUpdate = true)
             }
             .launchIn(scope)
         userPlanManager.planChangeFlow
             .onEach {
-                // Force update regardless of the timestamp on plan change.
-                // TODO: after removing network loader replace with forceRefresh input
-                prefs.serverListLastModified = 0
-                periodicUpdateManager.executeNow(serverListUpdate)
+                updateServerList(forceFreshUpdate = true)
             }
             .launchIn(scope)
         restrictionsConfig.restrictionFlow
@@ -258,8 +252,14 @@ class ServerListUpdater @Inject constructor(
         return result
     }
 
-    suspend fun updateServerList(): ApiResult<ServerList?> =
-        periodicUpdateManager.executeNow(serverListUpdate)
+    suspend fun updateServerList(forceFreshUpdate: Boolean = false): ApiResult<ServerList?> {
+        if (forceFreshUpdate) {
+            // Force update regardless of the timestamp.
+            // TODO: after removing network loader replace with forceRefresh input
+            prefs.serverListLastModified = 0
+        }
+        return periodicUpdateManager.executeNow(serverListUpdate)
+    }
 
     data class ServerListResult(
         val apiResult: ApiResult<ServerList?>,

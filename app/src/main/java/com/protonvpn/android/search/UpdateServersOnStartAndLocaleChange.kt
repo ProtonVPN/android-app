@@ -44,7 +44,7 @@ class UpdateServersOnStartAndLocaleChange @Inject constructor(
         appContext.registerBroadcastReceiver(IntentFilter(Intent.ACTION_LOCALE_CHANGED)) {
             scope.launch {
                 if (currentUser.isLoggedIn())
-                    serverListUpdater.updateServerList()
+                    serverListUpdater.updateServerList(forceFreshUpdate = true)
             }
         }
     }
