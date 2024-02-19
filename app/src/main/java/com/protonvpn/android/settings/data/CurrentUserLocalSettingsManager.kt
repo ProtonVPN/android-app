@@ -99,11 +99,6 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun setRandomizedNat(value: Boolean) =
         update { current -> current.copy(randomizedNat = value) }
 
-    suspend fun toggleSplitTunnelingEnabled() =
-        update { current ->
-            current.copy(splitTunneling = current.splitTunneling.copy(isEnabled = !current.splitTunneling.isEnabled))
-        }
-
     suspend fun updateExcludedApps(excludedApps: List<String>) =
         update { current -> current.copy(splitTunneling = current.splitTunneling.copy(excludedApps = excludedApps)) }
 

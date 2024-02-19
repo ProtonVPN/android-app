@@ -30,43 +30,6 @@ import com.protonvpn.android.databinding.DialogContentWithCheckboxBinding
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.openProtonUrl
 
-@JvmOverloads
-fun showGenericReconnectDialog(
-    context: Context,
-    @StringRes messageRes: Int,
-    showDialogPrefsKey: String,
-    @StringRes positiveButtonRes: Int = R.string.reconnect,
-    reconnectCallback: () -> Unit
-) = showDialogWithDontShowAgain(
-    context,
-    titleRes = 0,
-    messageRes = messageRes,
-    positiveButtonRes = positiveButtonRes,
-    negativeButtonRes = R.string.cancel,
-    showDialogPrefsKey = showDialogPrefsKey,
-    onAccepted = reconnectCallback
-)
-
-fun showDialogWithDontShowAgain(
-    context: Context,
-    @StringRes titleRes: Int,
-    @StringRes messageRes: Int,
-    @StringRes positiveButtonRes: Int,
-    @StringRes negativeButtonRes: Int,
-    showDialogPrefsKey: String,
-    learnMoreUrl: String? = null,
-    onAccepted: () -> Unit
-) = showDialogWithDontShowAgain(
-    context,
-    if (titleRes != 0) context.getString(titleRes) else null,
-    context.getString(messageRes),
-    positiveButtonRes,
-    negativeButtonRes,
-    showDialogPrefsKey,
-    learnMoreUrl,
-    onAccepted
-)
-
 fun showDialogWithDontShowAgain(
     context: Context,
     title: CharSequence?,

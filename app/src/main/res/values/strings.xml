@@ -1222,4 +1222,5 @@
     <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
+    <string name="settings_dialog_reconnect">New settings will apply next time you connect.</string>
 </resources>

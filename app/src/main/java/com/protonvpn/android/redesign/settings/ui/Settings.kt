@@ -28,8 +28,6 @@ import android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
 import android.provider.Settings.EXTRA_APP_PACKAGE
 import android.provider.Settings.EXTRA_CHANNEL_ID
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
@@ -79,6 +77,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
+import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.account.AccountActivity
@@ -115,12 +115,13 @@ fun SettingsRoute(
     val context = LocalContext.current
     val viewModel: SettingsViewModel = hiltViewModel()
     val viewState = viewModel.viewState.collectAsStateWithLifecycle(initialValue = null).value ?: return
+    val vpnUiDelegate = LocalVpnUiDelegate.current
 
     val protocolLauncher =
-        startActivityForResult(contract = ProtocolSelectionActivity.createContract(), onResult = {
-            // TODO there needs to be confirmation dialog for reconnection here
-            it?.let { viewModel.updateProtocol(it) }
-        })
+        rememberLauncherForActivityResult(contract = ProtocolSelectionActivity.createContract()) { protocol ->
+            if (protocol != null)
+                viewModel.updateProtocol(vpnUiDelegate, protocol)
+        }
     SettingsView(
         viewState = viewState,
         settingsActions = remember {
@@ -192,18 +193,36 @@ fun SettingsRoute(
             )
         }
     )
+
+    val showReconnectDialogType = viewModel.showReconnectDialogFlow.collectAsStateWithLifecycle().value
+    if (showReconnectDialogType != null) {
+        ReconnectDialog(
+            onOk = { notShowAgain -> viewModel.dismissReconnectDialog(notShowAgain, showReconnectDialogType) },
+            onReconnect = { notShowAgain -> viewModel.onReconnectClicked(vpnUiDelegate, notShowAgain, showReconnectDialogType)
+        })
+    }
 }
 
 @Composable
-fun <I, O> startActivityForResult(
-    contract: ActivityResultContract<I, O>,
-    onResult: (O) -> Unit,
-): ActivityResultLauncher<I> {
-    val launcher = rememberLauncherForActivityResult(contract) { result: O ->
-        onResult(result)
-    }
-
-    return launcher
+fun ReconnectDialog(
+    onOk: (notShowAgain: Boolean) -> Unit,
+    onReconnect: (notShowAgain: Boolean) -> Unit
+) {
+    ProtonAlert(
+        title = null,
+        text = stringResource(id = R.string.settings_dialog_reconnect),
+        checkBox = stringResource(id = R.string.dialogDontShowAgain),
+        confirmLabel = stringResource(id = R.string.reconnect_now),
+        onConfirm = { notShowAgain ->
+            onReconnect(notShowAgain)
+        },
+        dismissLabel = stringResource(id = R.string.ok),
+        onDismissButton = { notShowAgain ->
+            onOk(notShowAgain)
+        },
+        checkBoxInitialValue = false,
+        onDismissRequest = { onOk(false) }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

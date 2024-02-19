@@ -20,6 +20,7 @@ package com.protonvpn.android.redesign.settings.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
@@ -33,14 +34,20 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.ui.settings.BuildConfigInfo
+import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
 
 enum class NatType(val labelRes: Int, val descriptionRes: Int) {
@@ -54,13 +61,19 @@ enum class NatType(val labelRes: Int, val descriptionRes: Int) {
    )
 }
 
+private const val ReconnectDialogStateKey = "reconnect_dialog"
+
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     currentUser: CurrentUser,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     effectiveUserSettings: EffectiveCurrentUserSettings,
     buildConfigInfo: BuildConfigInfo,
     private val installedAppsProvider: InstalledAppsProvider,
+    private val vpnConnectionManager: VpnConnectionManager,
+    private val vpnStatusProviderUI: VpnStatusProviderUI,
+    private val dontShowAgainStore: DontShowAgainStore
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -174,6 +187,9 @@ class SettingsViewModel @Inject constructor(
     // The configuration doesn't change during runtime.
     private val buildConfigText = if (BuildConfigUtils.displayInfo()) buildConfigInfo() else null
 
+    private var showReconnectDialog by savedStateHandle.state<DontShowAgainStore.Type?>(null, ReconnectDialogStateKey)
+    val showReconnectDialogFlow = savedStateHandle.getStateFlow<DontShowAgainStore.Type?>(ReconnectDialogStateKey, null)
+
     val viewState =
         combine(
             currentUser.vpnUserFlow,
@@ -248,9 +264,14 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun updateProtocol(protocol: ProtocolSelection) {
+    fun updateProtocol(uiDelegate: VpnUiDelegate, newProtocol: ProtocolSelection) {
         viewModelScope.launch {
-            userSettingsManager.updateProtocol(protocol)
+            userSettingsManager.update { current ->
+                if (current.protocol != newProtocol) viewModelScope.launch {
+                    reconnectionCheck(uiDelegate, DontShowAgainStore.Type.ProtocolChangeWhenConnected)
+                }
+                current.copy(protocol = newProtocol)
+            }
         }
     }
 
@@ -272,15 +293,60 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun toggleLanConnections() {
+    fun toggleLanConnections(uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
             userSettingsManager.toggleLanConnections()
+            reconnectionCheck(uiDelegate, DontShowAgainStore.Type.LanConnectionsChangeWhenConnected)
         }
     }
 
-    fun toggleSplitTunneling() {
+    fun toggleSplitTunneling(uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
-            userSettingsManager.toggleSplitTunneling()
+            userSettingsManager.update { current ->
+                val oldValue = current.splitTunneling
+                val newValue = oldValue.copy(isEnabled = !oldValue.isEnabled)
+                if (!oldValue.isEffectivelySameAs(newValue)) viewModelScope.launch {
+                    reconnectionCheck(uiDelegate, DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected)
+                }
+                current.copy(splitTunneling = newValue)
+            }
+        }
+    }
+
+    fun onSplitTunnelingUpdated(uiDelegate: VpnUiDelegate) {
+        viewModelScope.launch {
+            reconnectionCheck(uiDelegate, DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected)
+        }
+    }
+
+    private fun reconnect(uiDelegate: VpnUiDelegate) {
+        vpnConnectionManager.reconnect("user via settings change", uiDelegate)
+    }
+
+    private suspend fun reconnectionCheck(uiDelegate: VpnUiDelegate, type: DontShowAgainStore.Type) {
+        if (vpnStatusProviderUI.isEstablishingOrConnected) {
+            when (dontShowAgainStore.getChoice(type)) {
+                DontShowAgainStore.Choice.Positive -> reconnect(uiDelegate)
+                DontShowAgainStore.Choice.Negative -> {} // No action
+                DontShowAgainStore.Choice.ShowDialog -> showReconnectDialog = type
+            }
+        }
+    }
+
+    fun onReconnectClicked(uiDelegate: VpnUiDelegate, dontShowAgain: Boolean, type: DontShowAgainStore.Type) {
+        showReconnectDialog = null
+        viewModelScope.launch {
+            if (dontShowAgain)
+                dontShowAgainStore.setChoice(type, DontShowAgainStore.Choice.Positive)
+            reconnect(uiDelegate)
+        }
+    }
+
+    fun dismissReconnectDialog(dontShowAgain: Boolean, type: DontShowAgainStore.Type) {
+        showReconnectDialog = null
+        viewModelScope.launch {
+            if (dontShowAgain)
+                dontShowAgainStore.setChoice(type, DontShowAgainStore.Choice.Negative)
         }
     }
 }
