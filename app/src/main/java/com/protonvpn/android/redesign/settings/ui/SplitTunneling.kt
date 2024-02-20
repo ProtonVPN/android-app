@@ -67,7 +67,7 @@ fun SplitTunnelingSubSetting(
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_mobile,
                     title = stringResource(id = R.string.settings_split_tunneling_excluded_apps),
-                    subtitle = formatExcludedItems(splitTunnelingSettings.excludedApps),
+                    subtitle = formatExcludedItems(splitTunneling.splitTunnelAppNames),
                     onClick = onExcludedAppsClick
                 )
 

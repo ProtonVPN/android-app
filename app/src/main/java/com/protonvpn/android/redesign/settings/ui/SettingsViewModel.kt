@@ -25,6 +25,7 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
+import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
@@ -59,6 +60,7 @@ class SettingsViewModel @Inject constructor(
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     effectiveUserSettings: EffectiveCurrentUserSettings,
     buildConfigInfo: BuildConfigInfo,
+    private val installedAppsProvider: InstalledAppsProvider,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -87,6 +89,7 @@ class SettingsViewModel @Inject constructor(
 
         class SplitTunneling(
             val splitTunnelingSettings: SplitTunnelingSettings,
+            val splitTunnelAppNames: List<String>,
             isFreeUser: Boolean,
             override val iconRes: Int = if (splitTunnelingSettings.isEnabled) R.drawable.feature_splittunneling_on else R.drawable.feature_splittunneling_off
         ) : SettingViewState<Boolean>(
@@ -194,7 +197,11 @@ class SettingsViewModel @Inject constructor(
                     netShieldAvailability
                 ),
                 vpnAccelerator = SettingViewState.VpnAccelerator(settings.vpnAccelerator, isFree),
-                splitTunneling = SettingViewState.SplitTunneling(settings.splitTunneling, isFree),
+                splitTunneling = SettingViewState.SplitTunneling(
+                    splitTunnelingSettings = settings.splitTunneling,
+                    splitTunnelAppNames = installedAppsProvider.getNamesOfInstalledApps(settings.splitTunneling.excludedApps).map { it.toString() },
+                    isFreeUser = isFree
+                ),
                 protocol = SettingViewState.Protocol(settings.protocol),
                 altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
                 lanConnections = SettingViewState.LanConnections(settings.lanConnections, isFree),
