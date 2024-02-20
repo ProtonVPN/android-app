@@ -22,7 +22,6 @@ package com.protonvpn.android.redesign.settings.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
@@ -76,20 +75,20 @@ fun BaseSettingsItem(
                 style = ProtonTheme.typography.defaultSmallWeak,
             )
         }
-        Spacer(modifier = Modifier.padding(top = 16.dp))
+        val paddingModifier = Modifier.padding(end = 8.dp, top = 16.dp)
         if (descriptionAnnotation != null) {
             AnnotatedClickableText(
                 fullText = description,
                 annotatedPart = descriptionAnnotation.annotatedPart,
                 onAnnotatedClick = descriptionAnnotation.onAnnotatedClick,
                 onAnnotatedOutsideClick = descriptionAnnotation.onAnnotatedOutsideClick,
-                modifier = Modifier.padding(end = 8.dp)
+                modifier = paddingModifier
             )
         } else {
             Text(
                 text = description,
                 style = ProtonTheme.typography.captionWeak,
-                modifier = Modifier.padding(end = 8.dp)
+                modifier = paddingModifier
             )
         }
     }
