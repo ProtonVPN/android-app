@@ -4,7 +4,6 @@ import com.protonvpn.actions.compose.interfaces.Robot
 import com.protonvpn.android.R
 import me.proton.core.test.android.robots.auth.AddAccountRobot
 import me.proton.test.fusion.Fusion.node
-import kotlin.time.Duration.Companion.seconds
 
 object HomeRobot : Robot {
 
@@ -29,7 +28,7 @@ object HomeRobot : Robot {
 
     fun logout(): AddAccountRobot {
         settingsButton.click()
-        signOutButton.click()
+        signOutButton.scrollTo().click()
         return AddAccountRobot()
     }
 
