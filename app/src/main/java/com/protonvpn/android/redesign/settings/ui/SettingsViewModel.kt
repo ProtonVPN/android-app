@@ -82,7 +82,7 @@ class SettingsViewModel @Inject constructor(
             isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,
             upgradeIconRes = if (netShieldAvailability == NetShieldAvailability.UPGRADE_VPN_PLUS) R.drawable.vpn_plus_badge else null,
             titleRes = R.string.netshield_feature_name,
-            subtitleRes = if (netShieldEnabled) R.string.feature_on else R.string.feature_off,
+            subtitleRes = if (netShieldEnabled) R.string.netshield_state_on else R.string.netshield_state_off,
             descriptionRes = R.string.netshield_settings_description_not_html,
             annotationRes = R.string.learn_more
         )
@@ -96,7 +96,7 @@ class SettingsViewModel @Inject constructor(
             value = splitTunnelingSettings.isEnabled,
             isRestricted = isFreeUser,
             titleRes = R.string.settings_split_tunneling_title,
-            subtitleRes = if (splitTunnelingSettings.isEnabled) R.string.feature_on else R.string.feature_off,
+            subtitleRes = if (splitTunnelingSettings.isEnabled) R.string.split_tunneling_state_on else R.string.split_tunneling_state_off,
             descriptionRes = R.string.settings_split_tunneling_description,
             annotationRes = R.string.learn_more
         )
@@ -110,7 +110,7 @@ class SettingsViewModel @Inject constructor(
             isRestricted = isFreeUser,
             iconRes = me.proton.core.auth.R.drawable.ic_proton_rocket,
             titleRes = R.string.settings_vpn_accelerator_title,
-            subtitleRes = if (vpnAcceleratorSettingValue && !isFreeUser) R.string.feature_on else R.string.feature_off,
+            subtitleRes = if (vpnAcceleratorSettingValue && !isFreeUser) R.string.vpn_accelerator_state_on else R.string.vpn_accelerator_state_off,
             descriptionRes = R.string.settings_vpn_accelerator_description,
             annotationRes = R.string.learn_more
         )
@@ -131,7 +131,7 @@ class SettingsViewModel @Inject constructor(
             value = enabled,
             isRestricted = false,
             titleRes = R.string.settings_advanced_alternative_routing_title,
-            subtitleRes = if (enabled) R.string.feature_on else R.string.feature_off,
+            subtitleRes = if (enabled) R.string.alt_routing_state_on else R.string.alt_routing_state_off,
             descriptionRes = R.string.settings_advanced_alternative_routing_description,
         )
 
@@ -139,7 +139,7 @@ class SettingsViewModel @Inject constructor(
             value = enabled,
             isRestricted = isFreeUser,
             titleRes = R.string.settings_advanced_allow_lan_title,
-            subtitleRes = if (enabled) R.string.feature_on else R.string.feature_off,
+            subtitleRes = if (enabled) R.string.lan_state_on else R.string.lan_state_off,
             descriptionRes = R.string.settings_advanced_allow_lan_description,
         )
 

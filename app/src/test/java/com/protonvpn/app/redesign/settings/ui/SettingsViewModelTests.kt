@@ -27,6 +27,7 @@ import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
@@ -65,6 +66,8 @@ class SettingsViewModelTests {
 
     @MockK
     private lateinit var mockSettingsManager: CurrentUserLocalSettingsManager
+    @RelaxedMockK
+    private lateinit var mockInstalledAppsProvider: InstalledAppsProvider
 
     private lateinit var effectiveSettings: EffectiveCurrentUserSettings
     private lateinit var rawSettingsFlow: MutableStateFlow<LocalUserSettings>
@@ -114,6 +117,7 @@ class SettingsViewModelTests {
             mockSettingsManager,
             effectiveSettings,
             mockBuildConfigInfo,
+            mockInstalledAppsProvider,
         )
     }
 
@@ -122,7 +126,7 @@ class SettingsViewModelTests {
         rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
-            true, R.string.netshield_feature_name, R.string.feature_on, false, null,
+            true, R.string.netshield_feature_name, R.string.netshield_state_on, false, null,
             state.netShield
         )
     }
@@ -132,7 +136,7 @@ class SettingsViewModelTests {
         rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.DISABLED) }
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
-            false, R.string.netshield_feature_name, R.string.feature_off, false, null,
+            false, R.string.netshield_feature_name, R.string.netshield_state_off, false, null,
             state.netShield
         )
     }
@@ -143,7 +147,7 @@ class SettingsViewModelTests {
         testUserProvider.vpnUser = freeUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
-            false, R.string.netshield_feature_name, R.string.feature_off, true, R.drawable.vpn_plus_badge,
+            false, R.string.netshield_feature_name, R.string.netshield_state_off, true, R.drawable.vpn_plus_badge,
             state.netShield
         )
     }
@@ -154,7 +158,7 @@ class SettingsViewModelTests {
         testUserProvider.vpnUser = businessEssentialUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
-            false, R.string.netshield_feature_name, R.string.feature_off, true, null,
+            false, R.string.netshield_feature_name, R.string.netshield_state_off, true, null,
             state.netShield
         )
     }
@@ -165,7 +169,7 @@ class SettingsViewModelTests {
         testUserProvider.vpnUser = freeUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
-            false, R.string.settings_vpn_accelerator_title, R.string.feature_off, true, R.drawable.vpn_plus_badge,
+            false, R.string.settings_vpn_accelerator_title, R.string.vpn_accelerator_state_off, true, R.drawable.vpn_plus_badge,
             state.vpnAccelerator
         )
     }
@@ -176,7 +180,7 @@ class SettingsViewModelTests {
         testUserProvider.vpnUser = freeUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
-            false, R.string.settings_vpn_accelerator_title, R.string.feature_off, true, R.drawable.vpn_plus_badge,
+            false, R.string.settings_vpn_accelerator_title, R.string.vpn_accelerator_state_off, true, R.drawable.vpn_plus_badge,
             state.vpnAccelerator
         )
     }
@@ -187,7 +191,7 @@ class SettingsViewModelTests {
         testUserProvider.vpnUser = plusUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
-            true, R.string.settings_vpn_accelerator_title, R.string.feature_on, false, null,
+            true, R.string.settings_vpn_accelerator_title, R.string.vpn_accelerator_state_on, false, null,
             state.vpnAccelerator
         )
     }
@@ -198,7 +202,7 @@ class SettingsViewModelTests {
         testUserProvider.vpnUser = plusUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
-            false, R.string.settings_vpn_accelerator_title, R.string.feature_off, false, null,
+            false, R.string.settings_vpn_accelerator_title, R.string.vpn_accelerator_state_off, false, null,
             state.vpnAccelerator
         )
     }
