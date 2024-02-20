@@ -111,7 +111,6 @@ class MainNav(
     @Composable
     fun NavHost(
         modifier: Modifier,
-        bottomSheetNav: BottomSheetNav
     ) {
         val mainScreenViewModel = hiltViewModel<MainScreenViewModel>()
         SafeNavHost(
@@ -148,8 +147,6 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
     private fun MainScreenNavigation(
         modifier: Modifier,
         mainNav: MainNav,
-        bottomSheetNav: BottomSheetNav,
-        mainNavHostInitialized: MutableState<Boolean>
     ) {
         val bottomTarget = mainNav.currentBottomBarTargetAsState()
         Scaffold(
@@ -162,25 +159,15 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
                 modifier
                     .fillMaxSize()
                     .padding(paddingValues),
-                bottomSheetNav
             )
-            mainNavHostInitialized.value = true
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
     fun SafeNavGraphBuilder<RootNav>.mainScreen(
         coreNavigation: CoreNavigation,
         rootNav: NavHostController
     ) = addToGraph(this) {
         val mainNav = rememberMainNav(coreNavigation, rootNav)
-        val bottomSheetNav = rememberBottomSheetNav()
-        val mainNavHostInitialized = remember { mutableStateOf(false) }
-        MainScreenNavigation(Modifier, mainNav, bottomSheetNav, mainNavHostInitialized)
-        if (mainNavHostInitialized.value) {
-            // Global bottom sheet need to be defined on the top of hierarchy so it's not drawn under
-            // the bottom bar. Bottom sheet M3 will not have this limitation.
-            BottomSheetNavigation(Modifier, bottomSheetNav)
-        }
+        MainScreenNavigation(Modifier, mainNav)
     }
 }
