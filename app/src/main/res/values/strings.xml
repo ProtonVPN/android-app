@@ -269,8 +269,16 @@
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="learn_more">Learn more</string>
     <string name="netshield_feature_name" translatable="false">NetShield</string>
-    <string name="feature_on" comment="Text describes whever feature is active or not. Not used for turning the feature On">On</string>
-    <string name="feature_off" comment="Text describes whever feature is active or not. Not used for turning the feature Off">Off</string>
+    <string name="netshield_state_on" comment="Describes state, not action">On</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Off</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">On</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Off</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">On</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Off</string>
+    <string name="lan_state_on" comment="Describes state, not action">On</string>
+    <string name="lan_state_off" comment="Describes state, not action">Off</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">On</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Off</string>
     <string name="netshield_free_title" translatable="false">NetShield</string>
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
     <string name="netshield_business_title">Block ads with NetShield</string>
