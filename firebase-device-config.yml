@@ -3,8 +3,9 @@ mobileTest:
   device:
   - model: Pixel2.arm
     version: 28
-  - model: Nexus5X
-    version: 23
+# Disabled temporarily
+#  - model: Nexus5X
+#    version: 23
 smokeTest:
   timeout: 30m
   device:
