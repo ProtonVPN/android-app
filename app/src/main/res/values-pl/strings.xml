@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">Wsparcie</string>
     <string name="settingsSectionAdvanced">Zaawansowane</string>
-    <string name="settingsAutoStartTitle">Uruchamiaj przy starcie systemu</string>
-    <string name="settingsAutoStartDescription">Aplikacja Proton VPN uruchomi się automatycznie przy każdym uruchomieniu systemu</string>
     <string name="settingsBypassLocalTitle">Połączenia LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Zabezpieczenie przed wyciekiem zapytań DNS</string>
     <string name="settingsDnsLeakDescription">Zapobiega wyciekaniu zapytań DNS do stron trzecich (zawsze włączone)</string>

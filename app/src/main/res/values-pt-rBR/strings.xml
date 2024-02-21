@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">Suporte</string>
     <string name="settingsSectionAdvanced">Avançado</string>
-    <string name="settingsAutoStartTitle">Iniciar com o Android</string>
-    <string name="settingsAutoStartDescription">O Proton VPN irá iniciar automaticamente a cada inicialização do sistema</string>
     <string name="settingsBypassLocalTitle">Conexões LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Proteção de vazamento DNS</string>
     <string name="settingsDnsLeakDescription">Impede o vazamento de detalhes de consulta de DNS para terceiros (sempre ligado)</string>

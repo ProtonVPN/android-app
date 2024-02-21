@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">Support</string>
     <string name="settingsSectionAdvanced">پیشرفته</string>
-    <string name="settingsAutoStartTitle">آغاز با اندروید</string>
-    <string name="settingsAutoStartDescription">Proton VPN بعد از هر شروع سیستم به صورت خودکار اجرا خواهد شد</string>
     <string name="settingsBypassLocalTitle">اتصالات LAN</string>
     <string name="settingsDnsLeakProtectionTitle">محافظت از نشت DNS</string>
     <string name="settingsDnsLeakDescription">جلوگیری از نشت پرسمان DNS به اشخاص ثالث (همیشه فعال)</string>

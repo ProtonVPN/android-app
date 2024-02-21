@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">Asistență</string>
     <string name="settingsSectionAdvanced">Avansat</string>
-    <string name="settingsAutoStartTitle">Pornire cu Android</string>
-    <string name="settingsAutoStartDescription">Proton VPN va porni automat cu fiecare pornire a sistemului</string>
     <string name="settingsBypassLocalTitle">Conexiuni LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Protecție divulgări DNS</string>
     <string name="settingsDnsLeakDescription">Prevenirea dezvăluirii interogărilor DNS către terți (întotdeauna actvată)</string>

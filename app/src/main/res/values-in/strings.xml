@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">Layanan Dukungan</string>
     <string name="settingsSectionAdvanced">Lanjutan</string>
-    <string name="settingsAutoStartTitle">Awali dengan Android</string>
-    <string name="settingsAutoStartDescription">Proton VPN akan berjalan secara otomatis setiap kali sistem Android dinyalakan</string>
     <string name="settingsBypassLocalTitle">Koneksi LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Perlindungan Kebocoran DNS</string>
     <string name="settingsDnsLeakDescription">Mencegah agar rincian kueri DNS Anda tidak bocor ke pihak ketiga (selalu aktif)</string>

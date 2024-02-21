@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.settings.data
 
-import android.os.Build
 import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.appconfig.RestrictionsConfig
@@ -100,7 +99,6 @@ class EffectiveCurrentUserSettingsFlow constructor(
             else -> settings.safeMode
         }
         settings.copy(
-            connectOnBoot = Build.VERSION.SDK_INT < 26 && settings.connectOnBoot,
             defaultProfileId = if (!restrictions.quickConnect || isTv()) settings.defaultProfileId else null,
             lanConnections = isTv() || (!restrictions.lan && settings.lanConnections),
             netShield = if (netShieldAvailable && features.netShieldEnabled) {

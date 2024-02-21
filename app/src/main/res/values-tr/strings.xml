@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">Destek</string>
     <string name="settingsSectionAdvanced">Gelişmiş</string>
-    <string name="settingsAutoStartTitle">Android ile başlat</string>
-    <string name="settingsAutoStartDescription">Proton VPN sistem başlatıldığında otomatik olarak başlayacak</string>
     <string name="settingsBypassLocalTitle">Yerel ağ bağlantıları</string>
     <string name="settingsDnsLeakProtectionTitle">DNS sızıntı koruması</string>
     <string name="settingsDnsLeakDescription">DNS sorgusu bilgilerinin üçüncü taraflara sızmasını önler (hep açık)</string>

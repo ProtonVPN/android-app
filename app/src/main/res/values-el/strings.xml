@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">Υποστήριξη</string>
     <string name="settingsSectionAdvanced">Προχωρημένα</string>
-    <string name="settingsAutoStartTitle">Έναρξη με το Android</string>
-    <string name="settingsAutoStartDescription">Το Proton VPN θα ξεκινάει αυτόματα με κάθε εκκίνηση του συστήματος</string>
     <string name="settingsBypassLocalTitle">Τοπικές συνδέσεις (LAN)</string>
     <string name="settingsDnsLeakProtectionTitle">Προστασία Διαρροής DNS</string>
     <string name="settingsDnsLeakDescription">Αποτροπή διαρροής λεπτομερειών DNS query σε τρίτους (πάντα ενεργοποιημένο)</string>

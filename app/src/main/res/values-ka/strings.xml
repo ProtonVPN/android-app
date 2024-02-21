@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">მხარდაჭერა</string>
     <string name="settingsSectionAdvanced">დამატებით</string>
-    <string name="settingsAutoStartTitle">Android-თან ერთად გაშვება</string>
-    <string name="settingsAutoStartDescription">Proton VPN სისტემასთან ერთად გაეშვება ხოლმე</string>
     <string name="settingsBypassLocalTitle">LAN შეერთებები</string>
     <string name="settingsDnsLeakProtectionTitle">DNS გაპარებისგან დაცვა</string>
     <string name="settingsDnsLeakDescription">DNS მოთხოვნის დეტალების უცხო პირების ხელში ჩავარდნის ხელის შეშლა (ყოველთვის ჩართულია)</string>

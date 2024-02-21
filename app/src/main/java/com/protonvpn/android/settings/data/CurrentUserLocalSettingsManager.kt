@@ -55,9 +55,6 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun updateApiUseDoh(isEnabled: Boolean) =
         update { current -> current.copy(apiUseDoh = isEnabled) }
 
-    suspend fun updateConnectOnBoot(isEnabled: Boolean) =
-        update { current -> current.copy(connectOnBoot = isEnabled) }
-
     suspend fun updateDefaultProfile(id: UUID?) =
         update { current -> current.copy(defaultProfileId = id) }
 
@@ -148,7 +145,6 @@ private class UserDataMigration(
 
             LocalUserSettings(
                 apiUseDoh = userData.apiUseDoH,
-                connectOnBoot = userData.connectOnBoot,
                 defaultProfileId = userData.defaultProfileId,
                 lanConnections = userData.bypassLocalTraffic,
                 mtuSize = userData.mtuSize,
