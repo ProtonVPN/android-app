@@ -27,6 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.base.ui.BaseSettingsItem
+import com.protonvpn.android.redesign.base.ui.ClickableTextAnnotation
 
 @Composable
 fun AdvancedSettings(

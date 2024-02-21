@@ -17,13 +17,13 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.settings.ui
+package com.protonvpn.android.redesign.base.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -31,12 +31,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.theme.ProtonTheme
@@ -105,7 +101,7 @@ fun SettingsToggleItem(
     onToggle: () -> Unit
 ) {
     BaseSettingsItem(
-        modifier.clickable(onClick = onToggle),
+        modifier.toggleable(value, onValueChange = { onToggle() }),
         name,
         description,
         subTitle,
@@ -124,56 +120,6 @@ fun SettingsToggleItem(
 }
 
 @Composable
-fun SettingsItem(
-    modifier: Modifier = Modifier,
-    name: String,
-    description: String,
-    value: SettingsViewModel.SettingViewState<Boolean>,
-    subTitle: String? = null,
-    descriptionAnnotation: Pair<String, () -> Unit>? = null,
-    onToggle: () -> Unit,
-    onRestricted: () -> Unit,
-) {
-    if (value.isRestricted) {
-            BaseSettingsItem(
-                modifier.clickable(onClick = onRestricted),
-                name,
-                description,
-                subTitle,
-                descriptionAnnotation?.let {
-                    ClickableTextAnnotation(
-                        annotatedPart = it.first,
-                        onAnnotatedClick = it.second,
-                        onAnnotatedOutsideClick = onRestricted
-                    )
-                }
-            ) {
-                Icon(
-                painter = painterResource(id = R.drawable.vpn_plus_badge),
-                tint = Color.Unspecified,
-                contentDescription = null,
-            )
-        }
-    } else {
-        SettingsToggleItem(
-            modifier = modifier,
-            name = name,
-            description = description,
-            value = value.value,
-            subTitle = subTitle,
-            descriptionAnnotation = descriptionAnnotation?.let {
-                    ClickableTextAnnotation(
-                        annotatedPart = it.first,
-                        onAnnotatedClick = it.second,
-                        onAnnotatedOutsideClick = onToggle
-                    )
-                },
-            onToggle = onToggle
-        )
-    }
-}
-
-@Composable
 fun <T> SettingsRadioItem(
     modifier: Modifier,
     itemValue: T,
@@ -184,7 +130,10 @@ fun <T> SettingsRadioItem(
 ) {
     Row(
         modifier = modifier
-            .clickable(onClick = { onSelected(itemValue) })
+            .selectable(
+                selected = itemValue == selectedValue,
+                onClick = { onSelected(itemValue) }
+            )
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -203,33 +152,6 @@ fun <T> SettingsRadioItem(
         RadioButton(selected = itemValue == selectedValue, onClick = null)
     }
 }
-
-@Composable
-fun SettingsViewModel.SettingViewState<Boolean>.ToToggle(
-    modifier: Modifier = Modifier,
-    onToggle: () -> Unit,
-    onAnnotatedClick: () -> Unit = {},
-    onRestricted: () -> Unit = {},
-) = SettingsItem(
-    modifier = modifier,
-    name = stringResource(id = titleRes),
-    description = descriptionText(),
-    descriptionAnnotation = annotationRes?.let { stringResource(id = it) to onAnnotatedClick },
-    value = this,
-    onToggle = onToggle,
-    onRestricted = onRestricted,
-)
-
-@Composable
-fun <T> SettingsViewModel.SettingViewState<T>.descriptionText() =
-    if (annotationRes != null) {
-        stringResource(
-            id = descriptionRes,
-            stringResource(id = annotationRes)
-        )
-    } else {
-        stringResource(id = descriptionRes)
-    }
 
 @Preview
 @Composable
