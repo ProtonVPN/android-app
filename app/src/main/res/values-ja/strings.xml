@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">サポート</string>
     <string name="settingsSectionAdvanced">拡張</string>
-    <string name="settingsAutoStartTitle">Android起動時に自動起動</string>
-    <string name="settingsAutoStartDescription">Proton VPN がシステム起動時に自動で実行されます</string>
     <string name="settingsBypassLocalTitle">LAN 接続</string>
     <string name="settingsDnsLeakProtectionTitle">DNS 漏洩防止</string>
     <string name="settingsDnsLeakDescription">DNS クエリの内容が外部に漏洩するのを防ぎます。(常に有効)</string>

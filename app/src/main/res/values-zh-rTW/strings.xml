@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">支援</string>
     <string name="settingsSectionAdvanced">進階</string>
-    <string name="settingsAutoStartTitle">開機時啟動</string>
-    <string name="settingsAutoStartDescription">Proton VPN 將在每次系統啟動時自動開始</string>
     <string name="settingsBypassLocalTitle">區域網路連線</string>
     <string name="settingsDnsLeakProtectionTitle">DNS 洩漏預防</string>
     <string name="settingsDnsLeakDescription">防止 DNS 查詢詳情外洩給第三方 (總是開啟)</string>

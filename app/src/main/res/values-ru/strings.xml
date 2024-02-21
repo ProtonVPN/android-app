@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">Поддержка</string>
     <string name="settingsSectionAdvanced">Продвинутые</string>
-    <string name="settingsAutoStartTitle">Запускать вместе с Android</string>
-    <string name="settingsAutoStartDescription">Proton VPN будет автоматически запускаться при каждом запуске системы</string>
     <string name="settingsBypassLocalTitle">Подключения по LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Защита от утечки DNS</string>
     <string name="settingsDnsLeakDescription">Предотвратить утечку данных DNS-запроса третьим лицам (включено всегда)</string>

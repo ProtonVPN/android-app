@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">지원</string>
     <string name="settingsSectionAdvanced">고급</string>
-    <string name="settingsAutoStartTitle">Android로 시작하기</string>
-    <string name="settingsAutoStartDescription">Proton VPN이 시스템 시작마다 자동으로 실행됩니다</string>
     <string name="settingsBypassLocalTitle">LAN 연결</string>
     <string name="settingsDnsLeakProtectionTitle">DNS 유출 방지</string>
     <string name="settingsDnsLeakDescription">제3자에게 DNS 쿼리 세부 정보 유출 방지 (항상 켜짐)</string>

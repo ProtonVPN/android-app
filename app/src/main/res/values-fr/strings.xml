@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">Support</string>
     <string name="settingsSectionAdvanced">Avancé</string>
-    <string name="settingsAutoStartTitle">Démarrer avec Android</string>
-    <string name="settingsAutoStartDescription">Proton VPN se lancera automatiquement à chaque démarrage du système.</string>
     <string name="settingsBypassLocalTitle">Connexions LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Protection contre les fuites DNS</string>
     <string name="settingsDnsLeakDescription">Empêche la fuite des détails de requête DNS vers des tiers (toujours actif).</string>

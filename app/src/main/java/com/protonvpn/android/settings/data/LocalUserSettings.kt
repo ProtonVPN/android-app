@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.settings.data
 
-import android.os.Build
 import com.protonvpn.android.logging.itemCountToLog
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.netshield.NetShieldProtocol
@@ -43,7 +42,6 @@ data class SplitTunnelingSettings(
 @Serializable
 data class LocalUserSettings(
     val apiUseDoh: Boolean = true,
-    val connectOnBoot: Boolean = false,
     @Serializable(with = UUIDSerializer::class)
     val defaultProfileId: UUID? = null,
     val lanConnections: Boolean = false,
@@ -82,9 +80,5 @@ fun LocalUserSettings.toLogList(profileManager: ProfileManager): List<String> {
         "Use DoH for API: ${apiUseDoh.toLog()}",
         "VPN Accelerator: ${vpnAccelerator.toLog()}",
     )
-    val conditional = buildList {
-        if (Build.VERSION.SDK_INT < 26)
-            add("Connect on boot: ${connectOnBoot.toLog()}")
-    }
-    return regularSettings + conditional
+    return regularSettings
 }

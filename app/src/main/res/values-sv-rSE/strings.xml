@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">Support</string>
     <string name="settingsSectionAdvanced">Avancerad</string>
-    <string name="settingsAutoStartTitle">Börja med Android</string>
-    <string name="settingsAutoStartDescription">Proton VPN kommer starta automatiskt vid varje systemstart</string>
     <string name="settingsBypassLocalTitle">LAN-anslutningar</string>
     <string name="settingsDnsLeakProtectionTitle">Skydd mot DNS-läckage</string>
     <string name="settingsDnsLeakDescription">Förhindra läckage av detaljer kring DNS-frågor till tredje part (alltid på)</string>

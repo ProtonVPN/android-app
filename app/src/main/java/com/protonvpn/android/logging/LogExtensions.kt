@@ -41,7 +41,6 @@ enum class Setting(val logName: String) {
     RESTRICTED_NAT("Restricted NAT"),
     VPN_ACCELERATOR_ENABLED("VPN Accelerator enabled"),
     API_DOH("Use DoH for API"),
-    CONNECT_ON_BOOT("Connect on boot"),
     TELEMETRY("Telemetry")
 }
 

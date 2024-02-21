@@ -79,8 +79,6 @@
     <!-- tag(Redesign_2023) Support section title in settings screen -->
     <string name="settingsSectionSupport">Tuki</string>
     <string name="settingsSectionAdvanced">Lisäasetukset</string>
-    <string name="settingsAutoStartTitle">Suorita Androidin käynnistyessä</string>
-    <string name="settingsAutoStartDescription">Proton VPN käynnistyy automaattisesti aina kun laite käynnistyy</string>
     <string name="settingsBypassLocalTitle">LAN-yhteydet</string>
     <string name="settingsDnsLeakProtectionTitle">DNS-vuotosuojaus</string>
     <string name="settingsDnsLeakDescription">Estää DNS-pyyntöjen sisältöä vuotamasta ulkopuolisille tahoille (aina käytössä)</string>
