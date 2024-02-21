@@ -41,6 +41,7 @@ import kotlin.time.Duration.Companion.seconds
 
 sealed class ChangeServerViewState {
     object Unlocked : ChangeServerViewState()
+    object Disabled : ChangeServerViewState()
     data class Locked(
         val remainingTimeInSeconds: Int,
         val totalCooldownSeconds: Int,
@@ -94,14 +95,19 @@ class ChangeServerViewStateFlow @Inject constructor(
     private val freeUserChangeServerState: Flow<ChangeServerViewState?> =
         combine(
             vpnStateProviderUI.uiStatus,
-            changeServerManager.isChangingServer
-        ) { vpnStatus, isChanging ->
-            // Combine to pair to be able to use flatMapLatest
+            changeServerManager.isChangingServer,
+            changeServerManager.hasTroubleConnecting,
+        ) { vpnStatus, isChanging, hasTroubleConnecting ->
+            // Combine to triple to be able to use flatMapLatest
             // Convert to combineTransformLatest if it gets implemented: https://github.com/Kotlin/kotlinx.coroutines/issues/1484
-            Pair(vpnStatus, isChanging)
-        }.flatMapLatest { (vpnStatus, isChanging) ->
+            Triple(vpnStatus, isChanging, hasTroubleConnecting)
+        }.flatMapLatest { (vpnStatus, isChanging, hasTroubleConnecting) ->
             when {
-                vpnStatus.state.isEstablishingConnection && isChanging || vpnStatus.state is VpnState.Connected ->
+                vpnStatus.state.isEstablishingConnection && hasTroubleConnecting ->
+                    flowOf(ChangeServerViewState.Unlocked)
+                vpnStatus.state.isEstablishingConnection && isChanging ->
+                    flowOf(ChangeServerViewState.Disabled)
+                vpnStatus.state is VpnState.Connected ->
                     restrictedStateFlow
                 else ->
                     flowOf(null)

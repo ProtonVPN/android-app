@@ -85,6 +85,7 @@ fun ChangeServerButton(
         onClick = {
             when (state) {
                 is ChangeServerViewState.Unlocked -> onChangeServerClick()
+                is ChangeServerViewState.Disabled -> {}
                 is ChangeServerViewState.Locked -> {
                     dialogShown = true
                     onUpgradeButtonShown()
@@ -92,16 +93,21 @@ fun ChangeServerButton(
             }
         },
         contained = false,
-        colors = ButtonDefaults.protonOutlinedNeutralButtonColors(backgroundColor = ProtonTheme.colors.backgroundSecondary),
+        enabled = state != ChangeServerViewState.Disabled,
+        colors = ButtonDefaults.protonOutlinedNeutralButtonColors(
+            backgroundColor = ProtonTheme.colors.backgroundSecondary,
+            disabledBackgroundColor = ProtonTheme.colors.backgroundSecondary,
+            disabledContentColor = ProtonTheme.colors.textHint,
+        ),
         border = BorderStroke(1.dp, color = ProtonTheme.colors.separatorNorm),
         modifier = modifier,
     ) {
         when (state) {
-            is ChangeServerViewState.Unlocked ->{
+            is ChangeServerViewState.Unlocked,
+            is ChangeServerViewState.Disabled ->{
                 Text(
                     stringResource(id = R.string.server_change_button_title),
                     style = ProtonTheme.typography.defaultUnspecified,
-                    color = ProtonTheme.colors.textNorm,
                     textAlign = TextAlign.Center
                 )
             }
