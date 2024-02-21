@@ -55,6 +55,7 @@ import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewDialogController
+import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -109,7 +110,13 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
             .flowWithLifecycle(lifecycle)
             .onEach {
                 accountViewModel.onOnboardingShown()
-                startActivity(Intent(this, OnboardingActivity::class.java))
+                when (it) {
+                    AccountViewModel.OnboardingEvent.None -> Unit
+                    AccountViewModel.OnboardingEvent.ShowOnboarding ->
+                        startActivity(Intent(this, OnboardingActivity::class.java))
+                    AccountViewModel.OnboardingEvent.ShowUpgradeOnboarding ->
+                        UpgradeOnboardingDialogActivity.launch(this)
+                }
             }
             .launchIn(lifecycleScope)
 
