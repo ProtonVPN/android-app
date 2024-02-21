@@ -35,7 +35,10 @@ import com.protonvpn.android.auth.usecase.VpnLogin.Companion.GUEST_HOLE_ID
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.userstorage.DontShowAgainStore
+import com.protonvpn.android.ui.main.usecase.PromotedFromGuestUser
+import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -43,7 +46,7 @@ import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -61,10 +64,14 @@ import me.proton.core.accountmanager.presentation.onAccountCreateAddressNeeded
 import me.proton.core.accountmanager.presentation.onSessionSecondFactorNeeded
 import me.proton.core.accountmanager.presentation.onUserAddressKeyCheckFailed
 import me.proton.core.accountmanager.presentation.onUserKeyCheckFailed
+import me.proton.core.auth.domain.usecase.IsCredentialLessEnabled
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
 import me.proton.core.domain.entity.Product
+import me.proton.core.plan.domain.usecase.GetDynamicSubscription
+import me.proton.core.user.domain.UserManager
+import me.proton.core.user.domain.extension.hasSubscription
 import javax.inject.Inject
 
 @HiltViewModel
@@ -83,7 +90,12 @@ class AccountViewModel @Inject constructor(
     private val logoutUseCase: Logout,
     private val vpnStatus: VpnStatusProviderUI,
     private val appFeaturesPrefs: AppFeaturesPrefs,
-    private val dontShowAgainStore: DontShowAgainStore
+    private val dontShowAgainStore: DontShowAgainStore,
+    private val isCredentialLessEnabled: IsCredentialLessEnabled,
+    private val isInAppUpgradeAllowedUseCase: IsInAppUpgradeAllowedUseCase,
+    private val promotedFromGuestUser: PromotedFromGuestUser,
+    private val userManager: UserManager,
+    private val userPlanManager: UserPlanManager,
 ) : ViewModel() {
 
     sealed class State {
@@ -94,12 +106,35 @@ class AccountViewModel @Inject constructor(
         object Processing : State()
     }
 
+    enum class OnboardingEvent {
+        None,
+        ShowOnboarding,
+        ShowUpgradeOnboarding
+    }
+
     val eventShowOnboarding = combine(
         appFeaturesPrefs.showOnboardingUserIdFlow.distinctUntilChanged(),
         accountManager.getPrimaryUserId().distinctUntilChanged()
     ) { onboardingUserId, primaryUserId ->
-        primaryUserId != null && primaryUserId.id == onboardingUserId
-    }.filter { it }.map { Unit }
+        if (primaryUserId != null && primaryUserId.id == onboardingUserId) {
+            primaryUserId
+        } else {
+            null
+        }
+    }.filterNotNull().map { userId ->
+        if (promotedFromGuestUser() && userManager.getUser(userId).hasSubscription()) {
+            // CongratsPlanActivity will be shown automatically by ShowUpgradeSuccess,
+            // after refreshing:
+            userPlanManager.refreshVpnInfo()
+            OnboardingEvent.None
+        } else if (!isCredentialLessEnabled()) {
+            OnboardingEvent.ShowOnboarding
+        } else if (isInAppUpgradeAllowedUseCase()) {
+            OnboardingEvent.ShowUpgradeOnboarding
+        } else {
+            OnboardingEvent.None
+        }
+    }
 
     val eventForceUpdate get() = vpnApiClient.eventForceUpdate
     var onAddAccountClosed: (() -> Unit)? = null
@@ -139,7 +174,14 @@ class AccountViewModel @Inject constructor(
                         guestHole.get().releaseNeedGuestHole(GUEST_HOLE_ID)
                         onAddAccountClosed?.invoke()
                     }
-                } else if (result.workflow == AddAccountWorkflow.SignUp) {
+                } else if (result.workflow == AddAccountWorkflow.SignUp ||
+                    result.workflow == AddAccountWorkflow.CredentialLess
+                ) {
+                    appFeaturesPrefs.showOnboardingUserId = result.userId
+                }
+            }
+            setOnSignUpResult { result ->
+                if (result != null) {
                     appFeaturesPrefs.showOnboardingUserId = result.userId
                 }
             }
