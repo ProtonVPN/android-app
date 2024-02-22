@@ -63,7 +63,7 @@
     <string name="drawerShowLog">Zobrazit log</string>
     <string name="drawerReportProblem">Nahlásit problém</string>
     <string name="drawerAppVersion">v%1$s</string>
-    <string name="action_share">Sdílet</string>
+    <string name="action_share">Sdílení</string>
     <string name="accountDetails">Podrobnosti účtu</string>
     <string name="accountSubscription">Předplatné</string>
     <string name="accountUser">Uživatel:</string>
@@ -422,7 +422,7 @@
     <string name="upgrade_secure_core_message"><![CDATA[Přidejte k připojení VPN další vrstvu šifrování pomocí nástroje <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
     <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
-    <string name="upgrade_streaming_title">Streamovat ve 4k</string>
+    <string name="upgrade_streaming_title">Streamování ve 4K</string>
     <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
     <string name="upgrade_tor_title">Access the Tor network in one tap</string>
     <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
@@ -1144,7 +1144,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">Rychlost VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_question">Co je VPN rychlost?</string>
+    <string name="connection_details_vpn_speed_question">Co je rychlost VPN?</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1182,6 +1182,6 @@
     <string name="connection_details_minutes_shortened">%1$d min.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sek.</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Připojení se nezdařilo</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceTitle">Připojení selhalo</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 </resources>
