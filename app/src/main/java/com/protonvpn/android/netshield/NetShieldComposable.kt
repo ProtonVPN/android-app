@@ -32,14 +32,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,6 +45,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
+import com.protonvpn.android.base.ui.ProtonSwitch
 import com.protonvpn.android.utils.ConnectionTools
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
@@ -61,9 +61,7 @@ import me.proton.core.compose.theme.captionStrongNorm
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultSmallStrongNorm
-import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.defaultStrongNorm
-import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.compose.theme.overlineWeak
 import me.proton.core.presentation.R as CoreR
 
@@ -251,23 +249,26 @@ fun NetShieldBottomComposable(
     onValueChanged: (protocol: NetShieldProtocol) -> Unit,
     onNetShieldLearnMore: () -> Unit
 ) {
-    val switchState = remember {
-        mutableStateOf(currentNetShield != NetShieldProtocol.DISABLED)
-    }
+    val switchEnabled = currentNetShield != NetShieldProtocol.DISABLED
 
     Column(
         modifier = Modifier.padding(horizontal = 16.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.toggleable(
+                value = switchEnabled,
+                role = Role.Switch,
+                onValueChange = { isEnabled ->
+                    onValueChanged(if (isEnabled) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED)
+                }
+            )
+        ) {
             androidx.compose.material.Text(
                 text = stringResource(id = R.string.settings_netshield_title),
                 style = ProtonTheme.typography.defaultNorm,
                 modifier = Modifier.weight(1f)
             )
-            Switch(checked = switchState.value, onCheckedChange = {
-                switchState.value = it
-                onValueChanged(if (it) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED)
-            })
-
+            ProtonSwitch(checked = switchEnabled, onCheckedChange = null)
         }
         AnnotatedClickableText(
             fullText = stringResource(id = R.string.netshield_settings_description_not_html, stringResource(

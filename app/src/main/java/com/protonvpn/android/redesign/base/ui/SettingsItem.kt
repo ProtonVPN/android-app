@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.AnnotatedClickableText
+import com.protonvpn.android.base.ui.ProtonSwitch
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
@@ -107,14 +108,9 @@ fun SettingsToggleItem(
         subTitle,
         descriptionAnnotation
     ) {
-        Switch(
+        ProtonSwitch(
             checked = value,
             onCheckedChange = null,
-            colors = SwitchDefaults.colors().copy(
-                uncheckedBorderColor = ProtonTheme.colors.shade50,
-                uncheckedTrackColor = ProtonTheme.colors.shade50,
-                uncheckedThumbColor = ProtonTheme.colors.shade80,
-            )
         )
     }
 }
