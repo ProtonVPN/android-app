@@ -162,7 +162,13 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    suspend fun startLogin() {
+    suspend fun showDialogOnSignOut() =
+        dontShowAgainStore.getChoice(DontShowAgainStore.Type.SignOutWhileConnected) ==
+            DontShowAgainStore.Choice.ShowDialog
+        && !vpnStatus.isDisabled
+
+
+    suspend fun addAccount() {
         viewModelScope.launch { api.getAvailableDomains() }
         authOrchestrator.startAddAccountWorkflow(
             requiredAccountType = requiredAccountType,
@@ -172,10 +178,18 @@ class AccountViewModel @Inject constructor(
         )
     }
 
-    suspend fun showDialogOnSignOut() =
-        dontShowAgainStore.getChoice(DontShowAgainStore.Type.SignOutWhileConnected) ==
-            DontShowAgainStore.Choice.ShowDialog
-        && !vpnStatus.isDisabled
+    fun signUp() {
+        authOrchestrator.startSignupWorkflow(
+            creatableAccountType = requiredAccountType
+        )
+    }
+
+    fun signIn() {
+        authOrchestrator.startLoginWorkflow(
+            requiredAccountType = requiredAccountType,
+            username = Storage.getString(LAST_USER, null)
+        )
+    }
 
     fun signOut(notAskAgain: Boolean? = null) = mainScope.launch {
         if (notAskAgain == true) {

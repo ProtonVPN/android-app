@@ -81,7 +81,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     private val helper = object : MainActivityHelper(this) {
 
         override suspend fun onLoginNeeded() {
-            accountViewModel.startLogin()
+            accountViewModel.addAccount()
         }
 
         override suspend fun onReady() {
@@ -134,7 +134,9 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                     AccountViewModel.State.Ready -> {
                         val showSignOutDialog = rememberSaveable { mutableStateOf(false) }
                         val coreNavigation = CoreNavigation(
-                            signOut = {
+                            onSignUp = { accountViewModel.signUp() },
+                            onSignIn = { accountViewModel.signIn() },
+                            onSignOut = {
                                 coroutineScope.launch {
                                     if (accountViewModel.showDialogOnSignOut()) {
                                         showSignOutDialog.value = true
@@ -188,7 +190,9 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 }
 
 class CoreNavigation(
-    val signOut: () -> Unit
+    val onSignUp: () -> Unit,
+    val onSignIn: () -> Unit,
+    val onSignOut: () -> Unit
 )
 
 @Composable
