@@ -44,6 +44,17 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/buttonChangeServer"
+        style="@style/ProtonButton.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/server_change_button_title"
+        android:theme="@style/ThemeOverlay.ProtonButton.Neutral"
+        app:layout_constraintBottom_toTopOf="@id/buttonCancel"
+        android:visibility="gone" />
+
+    <Button
         android:id="@+id/buttonCancel"
         style="@style/ProtonButton.OutlinedButton"
         android:layout_width="match_parent"

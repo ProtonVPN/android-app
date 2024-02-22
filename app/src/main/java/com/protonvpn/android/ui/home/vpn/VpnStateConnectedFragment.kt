@@ -72,7 +72,7 @@ class VpnStateConnectedFragment :
 
     private val binding by viewBinding(FragmentVpnStateConnectedBinding::bind)
     private val viewModel: VpnStateConnectedViewModel by viewModels()
-    private val changeServerViewModel: ChangeServerViewModel by viewModels()
+    private val changeServerViewModel: ChangeServerViewModel by viewModels(ownerProducer = { requireActivity() })
 
     private val downloadDataSet by lazy(LazyThreadSafetyMode.NONE) {
         initDataSet(MaterialColors.getColor(requireView(), R.attr.proton_notification_success))
