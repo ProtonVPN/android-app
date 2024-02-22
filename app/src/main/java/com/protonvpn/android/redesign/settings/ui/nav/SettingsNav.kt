@@ -32,6 +32,11 @@ object SettingsScreen : ScreenNoArg<MainNav>("settings") {
         coreNavigation: CoreNavigation,
         onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
     ) = addToGraph(this) {
-        SettingsRoute(coreNavigation.signOut, onNavigateToSubSetting)
+        SettingsRoute(
+            onSignUpClick = coreNavigation.onSignUp,
+            onSignInClick = coreNavigation.onSignIn,
+            onSignOutClick = coreNavigation.onSignOut,
+            onNavigateToSubSetting = onNavigateToSubSetting
+        )
     }
 }

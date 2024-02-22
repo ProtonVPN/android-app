@@ -25,7 +25,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
@@ -43,7 +42,6 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.savedstate.state
@@ -173,7 +171,6 @@ class SettingsViewModel @Inject constructor(
         val altRouting: SettingViewState.AltRouting,
         val lanConnections: SettingViewState.LanConnections,
         val natType: SettingViewState.Nat,
-        val userInfo: UserViewState,
         val buildInfo: String?,
     )
     data class UserViewState(
@@ -192,20 +189,11 @@ class SettingsViewModel @Inject constructor(
     val viewState =
         combine(
             currentUser.vpnUserFlow,
-            currentUser.userFlow.filterNotNull(),
             // Keep in mind UI for some settings can't rely directly on effective settings.
             effectiveUserSettings.effectiveSettings,
-        ) { vpnUser, user, settings ->
+        ) { vpnUser, settings ->
             val isFree = vpnUser?.isFreeUser == true
-            val netShieldAvailability = vpnUser.getNetShieldAvailability()
-
-            val userViewState = UserViewState(
-                shortenedName = getInitials(user.uiName()) ?: "",
-                displayName = user.uiName() ?: "",
-                email = user.email ?: "",
-                isFreeUser = isFree
-            )
-            val netShieldSetting = when (netShieldAvailability) {
+            val netShieldSetting = when (val netShieldAvailability = vpnUser.getNetShieldAvailability()) {
                 NetShieldAvailability.HIDDEN -> null
                 else -> SettingViewState.NetShield(
                     settings.netShield != NetShieldProtocol.DISABLED,
@@ -225,17 +213,9 @@ class SettingsViewModel @Inject constructor(
                 altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
                 lanConnections = SettingViewState.LanConnections(settings.lanConnections, isFree),
                 natType = SettingViewState.Nat(if (settings.randomizedNat) NatType.Strict else NatType.Moderate, isFree),
-                userInfo = userViewState,
                 buildInfo = buildConfigText
             )
         }
-
-    private fun getInitials(name: String?): String? {
-        return name?.split(" ")
-            ?.take(2) // UI does not support 3 chars initials
-            ?.mapNotNull { it.firstOrNull()?.uppercase() }
-            ?.joinToString("")
-    }
 
     val vpnAccelerator = viewState.map { it.vpnAccelerator }.distinctUntilChanged()
     val netShield = viewState.map { it.netShield }.distinctUntilChanged()
