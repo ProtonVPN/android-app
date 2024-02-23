@@ -125,11 +125,7 @@ class SettingsViewModelTests {
                 changeServerConfig
             )
         }
-        val featureFlags = FeatureFlags().copy(
-            netShieldEnabled = true,
-            vpnAccelerator = true
-        )
-        val getFeatureFlags = GetFeatureFlags(MutableStateFlow(featureFlags))
+        val getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags()))
 
         rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
 

@@ -191,7 +191,6 @@ class MockAppModule {
         supportsProtocol: SupportsProtocol,
         getConnectingDomain: GetConnectingDomain,
         foregroundActivityTracker: ForegroundActivityTracker,
-        serverListUpdaterPrefs: ServerListUpdaterPrefs,
     ): VpnBackendProvider =
         if (TestSettings.mockedConnectionUsed) {
             ProtonVpnBackendProvider(
@@ -201,7 +200,6 @@ class MockAppModule {
                     networkManager,
                     certificateRepository,
                     userSettings,
-                    appConfig,
                     VpnProtocol.OpenVPN,
                     localAgentUnreachableTracker,
                     currentUser,
@@ -215,7 +213,6 @@ class MockAppModule {
                     networkManager,
                     certificateRepository,
                     userSettings,
-                    appConfig,
                     VpnProtocol.WireGuard,
                     localAgentUnreachableTracker,
                     currentUser,

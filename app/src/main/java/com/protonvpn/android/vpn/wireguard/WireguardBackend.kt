@@ -71,7 +71,6 @@ import javax.inject.Singleton
 class WireguardBackend @Inject constructor(
     @ApplicationContext val context: Context,
     networkManager: NetworkManager,
-    appConfig: AppConfig,
     effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     certificateRepository: CertificateRepository,
     dispatcherProvider: VpnDispatcherProvider,
@@ -83,7 +82,7 @@ class WireguardBackend @Inject constructor(
     foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
-    appConfig, effectiveCurrentUserSettings, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
+    effectiveCurrentUserSettings, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
     dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, foregroundActivityTracker, okHttp
 ) {
     private val wireGuardIo = dispatcherProvider.newSingleThreadDispatcherForInifiniteIo()

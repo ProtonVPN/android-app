@@ -27,8 +27,6 @@ data class FeatureFlags(
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "ServerRefresh") val maintenanceTrackerEnabled: Boolean = true,
     @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "NetShield") val netShieldEnabled: Boolean = false,
-    @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "GuestHoles") val guestHoleEnabled: Boolean = false,
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "PollNotificationAPI") val pollApiNotifications: Boolean = false,
@@ -37,17 +35,20 @@ data class FeatureFlags(
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "StreamingServicesLogos") val streamingServicesLogos: Boolean = false,
     @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "VpnAccelerator") val vpnAccelerator: Boolean = false,
-    @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "WireGuardTls") val wireguardTlsEnabled: Boolean = true,
-    @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "SafeMode") val safeMode: Boolean = false,
-    @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "NetShieldStats") val netShieldV2: Boolean = false, // TODO: no longer implemented: remove it, comment out or add a comment?
-    @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "Telemetry") val telemetry: Boolean = true,
-    @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "ShowNewFreePlan") val deprecatedShowNewFreePlan: Boolean = false,
+    // Deprecated:
+//    @Serializable(with = IntToBoolSerializer::class)
+//    @SerialName(value = "NetShield") val netShieldEnabled: Boolean = false,
+//    @Serializable(with = IntToBoolSerializer::class)
+//    @SerialName(value = "NetShieldStats") val netShieldV2: Boolean = false,
+//    @Serializable(with = IntToBoolSerializer::class)
+//    @SerialName(value = "VpnAccelerator") val vpnAccelerator: Boolean = false,
+//    @Serializable(with = IntToBoolSerializer::class)
+//    @SerialName(value = "SafeMode") val safeMode: Boolean = false,
+//    @Serializable(with = IntToBoolSerializer::class)
+//    @SerialName(value = "ShowNewFreePlan") val showNewFreePlan: Boolean = false,
+//    @Serializable(with = IntToBoolSerializer::class)
+//    @SerialName(value = "Telemetry") val telemetry: Boolean = true,
 ) : java.io.Serializable {
     @Deprecated("Remove")
     val showNewFreePlan = true

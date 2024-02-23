@@ -56,7 +56,6 @@ enum class UpgradeSource {
     P2P,
     PORT_FORWARDING,
     PROFILES,
-    SAFE_MODE,
     SECURE_CORE,
     SPLIT_TUNNELING,
     STREAMING,

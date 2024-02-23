@@ -56,7 +56,6 @@ class MockVpnBackend(
     networkManager: NetworkManager,
     certificateRepository: CertificateRepository,
     userSettings: EffectiveCurrentUserSettings,
-    appConfig: AppConfig,
     val protocol: VpnProtocol,
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
@@ -65,7 +64,6 @@ class MockVpnBackend(
     val getConnectingDomain: GetConnectingDomain,
 ) : VpnBackend(
     userSettings = userSettings,
-    appConfig = appConfig,
     networkManager = networkManager,
     certificateRepository = certificateRepository,
     vpnProtocol = protocol,

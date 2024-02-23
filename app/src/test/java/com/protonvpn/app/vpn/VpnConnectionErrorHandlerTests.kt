@@ -166,7 +166,6 @@ class VpnConnectionErrorHandlerTests {
         every { userPlanManager.infoChangeFlow } returns infoChangeFlow
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 2, maxConnect = 2) }
         every { appConfig.isMaintenanceTrackerEnabled() } returns true
-        every { appConfig.getFeatureFlags().vpnAccelerator } returns true
         every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
         every { networkManager.isConnectedToNetwork() } returns true
         coEvery { api.getSession() } returns ApiResult.Success(SessionListResponse(1000, listOf()))

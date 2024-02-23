@@ -49,7 +49,6 @@ data class LocalUserSettings(
     val netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
     val protocol: ProtocolSelection = ProtocolSelection.SMART,
     val randomizedNat: Boolean = true,
-    val safeMode: Boolean? = true,
     val secureCore: Boolean = false,
     val splitTunneling: SplitTunnelingSettings = SplitTunnelingSettings(),
     val telemetry: Boolean = true,
@@ -70,7 +69,6 @@ fun LocalUserSettings.toLogList(profileManager: ProfileManager): List<String> {
         "NetShield: $netShield",
         "Protocol: ${protocol.apiName}",
         "Restricted NAT: ${randomizedNat.toLog()}",
-        "Safe mode: ${safeMode.toLog()}",
         "Secure Core: ${secureCore.toLog()}",
         with(splitTunneling) {
             "Split tunneling: ${isEnabled.toLog()}," +

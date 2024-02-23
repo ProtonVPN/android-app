@@ -26,21 +26,17 @@ import java.util.UUID
 
 class UserData private constructor() : Serializable {
 
-    val connectOnBoot = false
-
     var mtuSize = 1375
         private set
     val useSplitTunneling = false
     val splitTunnelApps: List<String> = emptyList()
     val splitTunnelIpAddresses: List<String> = emptyList()
     val defaultProfileId: UUID? = null
-    val showVpnAcceleratorNotifications = true
     val bypassLocalTraffic = false
 
     val secureCoreEnabled = false
     val apiUseDoH: Boolean = true
     val vpnAcceleratorEnabled: Boolean = true
-    val safeModeEnabled: Boolean = true
     val randomizedNatEnabled: Boolean = true
     val protocol: ProtocolSelection = ProtocolSelection(VpnProtocol.Smart)
     val telemetryEnabled: Boolean = true
