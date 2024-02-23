@@ -83,7 +83,6 @@ class SettingsTelemetryFragment : Fragment(R.layout.fragment_telemetry_settings)
     }
 
     private fun initEnableTelemetryToggle() = with(binding.switchEnableTelemetry) {
-        isVisible = appConfig.getFeatureFlags().telemetry
         lifecycleScope.launch {
             isChecked = userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry
             jumpDrawablesToCurrentState()

@@ -73,9 +73,6 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun updateProtocol(newProtocol: ProtocolSelection) =
         update { current -> current.copy(protocol = newProtocol) }
 
-    suspend fun toggleSafeMode() =
-        update { current -> current.copy(safeMode = current.safeMode != true) }
-
     suspend fun updateSecureCore(isEnabled: Boolean) =
         update { current -> current.copy(secureCore = isEnabled) }
 
@@ -151,7 +148,6 @@ private class UserDataMigration(
                 netShield = userData.netShieldProtocol ?: LocalUserSettings.Default.netShield,
                 protocol = protocol,
                 randomizedNat = userData.randomizedNatEnabled,
-                safeMode = userData.safeModeEnabled,
                 secureCore = userData.secureCoreEnabled,
                 splitTunneling = SplitTunnelingSettings(
                     userData.useSplitTunneling,

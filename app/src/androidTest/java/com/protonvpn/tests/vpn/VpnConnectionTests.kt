@@ -954,7 +954,6 @@ class VpnConnectionTests {
             networkManager,
             certificateRepository,
             userSettings,
-            appConfig,
             protocol,
             mockLocalAgentUnreachableTracker,
             currentUser,

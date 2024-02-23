@@ -465,8 +465,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Unlock %1$s in %2$s with <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">When you upgrade to Plus</string>
-    <string name="upgrade_safe_mode_title">Allow traffic to non-standard ports</string>
-    <string name="upgrade_safe_mode_message">Have advanced or professional computing needs that require non-standard ports? Upgrade to VPN Plus to access this and other premium features.</string>
     <string name="upgrade_not_now_button">Not now</string>
     <string name="upgrade_learn_more">Learn more</string>
     <string name="upsell_card_countries_title">Worldwide cover</string>

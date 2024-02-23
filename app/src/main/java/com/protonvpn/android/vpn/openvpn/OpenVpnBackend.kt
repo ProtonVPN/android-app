@@ -60,7 +60,6 @@ import javax.inject.Singleton
 class OpenVpnBackend @Inject constructor(
     @ApplicationContext private val appContext: Context,
     networkManager: NetworkManager,
-    appConfig: AppConfig,
     effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope,
@@ -72,7 +71,6 @@ class OpenVpnBackend @Inject constructor(
     foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
-    appConfig,
     effectiveCurrentUserSettings,
     certificateRepository,
     networkManager,

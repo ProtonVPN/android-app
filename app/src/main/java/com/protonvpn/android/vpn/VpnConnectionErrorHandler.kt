@@ -215,8 +215,6 @@ class VpnConnectionErrorHandler @Inject constructor(
         Features, Tier, Gateway, City, Country, SecureCore
     }
 
-    private val smartReconnectEnabled get() = appConfig.getFeatureFlags().vpnAccelerator
-
     suspend fun onServerNotAvailable(connectIntent: AnyConnectIntent) =
         fallbackToCompatibleServer(connectIntent, null, false, SwitchServerReason.ServerUnavailable)
 
@@ -256,11 +254,6 @@ class VpnConnectionErrorHandler @Inject constructor(
         includeOriginalServer: Boolean,
         reason: SwitchServerReason
     ): VpnFallbackResult.Switch? {
-        if (!smartReconnectEnabled) {
-            ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Smart Reconnect disabled")
-            return null
-        }
-
         if (orgIntent is AnyConnectIntent.GuestHole) {
             ProtonLogger.logCustom(LogCategory.CONN_SERVER_SWITCH, "Ignoring reconnection for Guest Hole")
             return null
@@ -585,22 +578,10 @@ class VpnConnectionErrorHandler @Inject constructor(
                 findNewServer = true
             }
         }
-        if (findNewServer) {
-            return if (smartReconnectEnabled) {
-                onServerInMaintenance(connectionParams.connectIntent, connectionParams)
-            } else {
-                ProtonLogger.log(
-                    ConnServerSwitchServerSelected,
-                    "Smart reconnect disabled, fall back to default connection"
-                )
-                val fallbackIntent = ConnectIntent.Default
-                val fallbackServer = serverManager.getServerForConnectIntent(fallbackIntent, currentUser.vpnUser())
-                fallbackServer?.let {
-                    VpnFallbackResult.Switch.SwitchConnectIntent(connectionParams.server, fallbackServer, fallbackIntent)
-                }
-            }
+        return if (findNewServer) {
+            onServerInMaintenance(connectionParams.connectIntent, connectionParams)
         } else {
-            return null
+            null
         }
     }
 

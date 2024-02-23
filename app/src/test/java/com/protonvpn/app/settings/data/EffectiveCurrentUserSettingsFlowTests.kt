@@ -117,7 +117,6 @@ class EffectiveCurrentUserSettingsFlowTests {
 
     @Test
     fun `NetShield only available to paying users`() = testScope.runTest {
-        featureFlagsFlow.update { it.copy(netShieldEnabled = true) }
         testUserProvider.vpnUser = freeUser
         rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED) }
         assertEquals(NetShieldProtocol.DISABLED, effectiveSettings().netShield)
@@ -127,17 +126,7 @@ class EffectiveCurrentUserSettingsFlowTests {
     }
 
     @Test
-    fun `NetShield only available when feature flag enabled`() = testScope.runTest {
-        rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED) }
-        featureFlagsFlow.update { it.copy(netShieldEnabled = false) }
-        assertEquals(NetShieldProtocol.DISABLED, effectiveSettings().netShield)
-
-        featureFlagsFlow.update { it.copy(netShieldEnabled = true) }
-        assertEquals(NetShieldProtocol.ENABLED, effectiveSettings().netShield)
-    }
-    @Test
     fun `NetShield on TV returns F1`() = testScope.runTest {
-        featureFlagsFlow.update { it.copy(netShieldEnabled = true) }
         rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
         assertEquals(effectiveSettings().netShield, NetShieldProtocol.ENABLED_EXTENDED)
 
@@ -146,41 +135,8 @@ class EffectiveCurrentUserSettingsFlowTests {
     }
 
     @Test
-    fun `SafeMode is defined only when feature flag enabled`() = testScope.runTest {
-        featureFlagsFlow.update { it.copy(safeMode = false) }
-        rawSettingsFlow.update { it.copy(safeMode = true) }
-        assertNull(effectiveSettings().safeMode)
-
-        rawSettingsFlow.update { it.copy(safeMode = false) }
-        assertNull(effectiveSettings().safeMode)
-
-        featureFlagsFlow.update { it.copy(safeMode = true) }
-        assertEquals(false, effectiveSettings().safeMode)
-
-        rawSettingsFlow.update { it.copy(safeMode = true) }
-        assertEquals(true, effectiveSettings().safeMode)
-    }
-
-    @Test
-    fun `SafeMode enabled when restricted`() = testScope.runTest {
-        featureFlagsFlow.update { it.copy(safeMode = true) }
-        rawSettingsFlow.update { it.copy(safeMode = false) }
-        assertEquals(false, effectiveSettings().safeMode)
-        restrictionFlow.value = restrictionFlow.value.copy(safeMode = true)
-        assertEquals(true, effectiveSettings().safeMode)
-
-        // But when feature flag is off it should be null
-        featureFlagsFlow.update { it.copy(safeMode = false) }
-        assertEquals(null, effectiveSettings().safeMode)
-    }
-
-    @Test
-    fun `telemetry setting in effect only when feature flag enabled`() = testScope.runTest {
-        featureFlagsFlow.update { it.copy(telemetry = false) }
+    fun `telemetry setting`() = testScope.runTest {
         rawSettingsFlow.update { it.copy(telemetry = true) }
-        assertFalse(effectiveSettings().telemetry)
-
-        featureFlagsFlow.update { it.copy(telemetry = true) }
         assertTrue(effectiveSettings().telemetry)
 
         rawSettingsFlow.update { it.copy(telemetry = false) }
@@ -188,18 +144,7 @@ class EffectiveCurrentUserSettingsFlowTests {
     }
 
     @Test
-    fun `VPN Accelerator can only be disabled when feature is enabled`() = testScope.runTest {
-        rawSettingsFlow.update { it.copy(vpnAccelerator = false) }
-        featureFlagsFlow.update { it.copy(vpnAccelerator = false) }
-        assertTrue(effectiveSettings().vpnAccelerator)
-
-        featureFlagsFlow.update { it.copy(vpnAccelerator = true) }
-        assertFalse(effectiveSettings().vpnAccelerator)
-    }
-
-    @Test
-    fun `VPN Accelerator matches user setting when feature enabled`() = testScope.runTest {
-        featureFlagsFlow.update { it.copy(vpnAccelerator = true) }
+    fun `VPN Accelerator matches user setting`() = testScope.runTest {
         rawSettingsFlow.update { it.copy(vpnAccelerator = true) }
         assertTrue(effectiveSettings().vpnAccelerator)
 
@@ -209,7 +154,6 @@ class EffectiveCurrentUserSettingsFlowTests {
 
     @Test
     fun `VPN Accelerator enabled when restricted`() = testScope.runTest {
-        featureFlagsFlow.update { it.copy(vpnAccelerator = true) }
         rawSettingsFlow.update { it.copy(vpnAccelerator = false) }
         assertFalse(effectiveSettings().vpnAccelerator)
         restrictionFlow.value = restrictionFlow.value.copy(vpnAccelerator = true)

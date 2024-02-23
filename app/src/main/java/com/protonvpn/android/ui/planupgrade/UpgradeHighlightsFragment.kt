@@ -457,19 +457,6 @@ class UpgradePlusCountriesHighlightsFragment : UpgradeHighlightsFragmentWithSour
 }
 
 @AndroidEntryPoint
-class UpgradeSafeModeHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.SAFE_MODE) {
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.set(
-            imageResource = R.drawable.upgrade_non_standard_ports,
-            title = getString(R.string.upgrade_safe_mode_title),
-            message = getString(R.string.upgrade_safe_mode_message),
-        )
-    }
-}
-
-@AndroidEntryPoint
 class UpgradeModerateNatHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.MODERATE_NAT) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

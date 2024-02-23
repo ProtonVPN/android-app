@@ -60,7 +60,6 @@ class EffectiveCurrentUserSettings(
     val defaultProfileId = distinct { it.defaultProfileId }
     val netShield = distinct { it.netShield }
     val protocol = distinct { it.protocol }
-    val safeMode = distinct { it.safeMode }
     val secureCore = distinct { it.secureCore }
     val telemetry = distinct { it.telemetry }
     val vpnAccelerator = distinct { it.vpnAccelerator }
@@ -89,25 +88,19 @@ class EffectiveCurrentUserSettingsFlow constructor(
         currentUser.vpnUserFlow,
         restrictionFlow
     ) { settings, features, vpnUser, restrictions ->
-        val effectiveVpnAccelerator = !features.vpnAccelerator || restrictions.vpnAccelerator || settings.vpnAccelerator
+        val effectiveVpnAccelerator = restrictions.vpnAccelerator || settings.vpnAccelerator
         val netShieldAvailable = vpnUser.getNetShieldAvailability() == NetShieldAvailability.AVAILABLE
         val effectiveSplitTunneling = if (restrictions.splitTunneling)
             SplitTunnelingSettings(isEnabled = false) else settings.splitTunneling
-        val effectiveSafeMode = when {
-            !features.safeMode -> null
-            restrictions.safeMode -> true // safe mode enabled when setting is restricted
-            else -> settings.safeMode
-        }
         settings.copy(
             defaultProfileId = if (!restrictions.quickConnect || isTv()) settings.defaultProfileId else null,
             lanConnections = isTv() || (!restrictions.lan && settings.lanConnections),
-            netShield = if (netShieldAvailable && features.netShieldEnabled) {
+            netShield = if (netShieldAvailable) {
                 if (isTv()) NetShieldProtocol.ENABLED else settings.netShield
             } else {
                 NetShieldProtocol.DISABLED
             },
-            safeMode = effectiveSafeMode,
-            telemetry = features.telemetry && settings.telemetry,
+            telemetry = settings.telemetry,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling
         )

@@ -83,14 +83,13 @@ data class Restrictions(
     val vpnAccelerator: Boolean,
     val lan: Boolean,
     val splitTunneling: Boolean,
-    val safeMode: Boolean,
     val changeServerConfig: ChangeServerConfig,
 ) {
     constructor(restrict: Boolean, changeServerConfig: ChangeServerConfig)
-        : this(restrict, restrict, restrict, restrict, restrict, restrict, restrict, restrict, changeServerConfig)
+        : this(restrict, restrict, restrict, restrict, restrict, restrict, restrict, changeServerConfig)
 
     val isRestricted: Boolean =
-        serverList || map || profile || quickConnect || vpnAccelerator || lan || splitTunneling || safeMode
+        serverList || map || profile || quickConnect || vpnAccelerator || lan || splitTunneling
 }
 
 data class ChangeServerConfig(

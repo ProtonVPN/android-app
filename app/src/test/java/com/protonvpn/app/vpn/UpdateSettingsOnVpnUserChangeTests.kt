@@ -137,7 +137,6 @@ class UpdateSettingsOnVpnUserChangeTests {
             settings.copy(
                 netShield = NetShieldProtocol.ENABLED_EXTENDED,
                 randomizedNat = false,
-                safeMode = false,
                 secureCore = true
             )
         }
@@ -146,7 +145,6 @@ class UpdateSettingsOnVpnUserChangeTests {
 
         val updatedSettings = userSettingsManager.rawCurrentUserSettingsFlow.first()
         assertFalse(updatedSettings.secureCore)
-        assertEquals(true, updatedSettings.safeMode)
         assertTrue(updatedSettings.randomizedNat)
         assertEquals(NetShieldProtocol.ENABLED_EXTENDED, updatedSettings.netShield)
     }
@@ -197,7 +195,6 @@ class UpdateSettingsOnVpnUserChangeTests {
                 defaultProfileId = defaultProfile.id,
                 netShield = NetShieldProtocol.ENABLED_EXTENDED,
                 randomizedNat = false,
-                safeMode = false,
                 secureCore = true
             )
         }

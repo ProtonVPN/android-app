@@ -26,7 +26,6 @@ import com.proton.gopenpgp.localAgent.Features
 import com.proton.gopenpgp.localAgent.LocalAgent
 import com.proton.gopenpgp.localAgent.NativeClient
 import com.proton.gopenpgp.localAgent.StatusMessage
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.logging.ConnError
@@ -101,7 +100,6 @@ interface AgentConnectionInterface {
 }
 
 abstract class VpnBackend(
-    val appConfig: AppConfig,
     val userSettings: EffectiveCurrentUserSettings,
     val certificateRepository: CertificateRepository,
     val networkManager: NetworkManager,
@@ -195,20 +193,18 @@ abstract class VpnBackend(
         }
 
         override fun onTlsSessionStarted() {
-            if (appConfig.getFeatureFlags().netShieldV2) {
-                require(gatherStatsJob == null)
-                gatherStatsJob = mainScope.launch {
-                    combine(
-                        foregroundActivityTracker.isInForegroundFlow,
-                        currentUser.vpnUserFlow.map { it?.isFreeUser != true }
-                    ) { isInForeground, isNotFreeUser ->
-                        isInForeground && isNotFreeUser
-                    }.collectLatest { shouldSendGetStatus ->
-                        if (shouldSendGetStatus) {
-                            while (true) {
-                                agent?.sendGetStatus(true)
-                                delay(LOCAL_AGENT_STATUS_DELAY_MS)
-                            }
+            require(gatherStatsJob == null)
+            gatherStatsJob = mainScope.launch {
+                combine(
+                    foregroundActivityTracker.isInForegroundFlow,
+                    currentUser.vpnUserFlow.map { it?.isFreeUser != true }
+                ) { isInForeground, isNotFreeUser ->
+                    isInForeground && isNotFreeUser
+                }.collectLatest { shouldSendGetStatus ->
+                    if (shouldSendGetStatus) {
+                        while (true) {
+                            agent?.sendGetStatus(true)
+                            delay(LOCAL_AGENT_STATUS_DELAY_MS)
                         }
                     }
                 }
@@ -352,7 +348,6 @@ abstract class VpnBackend(
             .onEach { settings ->
                 features.setInt(FEATURES_NETSHIELD, settings.netShield.ordinal.toLong())
                 features.setBool(FEATURES_RANDOMIZED_NAT, settings.randomizedNat)
-                features.applySafeMode(settings.safeMode)
                 features.setBool(FEATURES_SPLIT_TCP, settings.vpnAccelerator)
                 agent?.setFeatures(features)
             }
@@ -371,11 +366,6 @@ abstract class VpnBackend(
             }
             processCombinedState(value, agent?.state)
         }
-    }
-
-    private fun Features.applySafeMode(safeMode: Boolean?) {
-        if (safeMode != null) setBool(FEATURES_SAFE_MODE, safeMode)
-        else remove(FEATURES_SAFE_MODE)
     }
 
     private suspend fun prepareFeaturesForAgentConnection() {
