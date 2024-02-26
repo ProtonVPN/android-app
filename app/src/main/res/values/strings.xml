@@ -279,8 +279,6 @@
     <string name="alt_routing_state_off" comment="Describes state, not action">Off</string>
     <string name="netshield_free_title" translatable="false">NetShield</string>
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
-    <string name="netshield_business_title">Block ads with NetShield</string>
-    <string name="netshield_business_description">When you upgrade to VPN Business</string>
     <string name="netshield_what_data_means">What NetShield data means</string>
     <string name="netshield_ads_title">Ads</string>
     <string name="netshield_ads_details">Adverts and invisible ad trackers</string>

@@ -76,7 +76,6 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.netshield.NetShieldView
 import com.protonvpn.android.netshield.NetShieldViewState
-import com.protonvpn.android.netshield.UpgradeNetShieldBusiness
 import com.protonvpn.android.netshield.UpgradeNetShieldFree
 import com.protonvpn.android.netshield.UpgradePromo
 import com.protonvpn.android.redesign.base.ui.vpnGreen
@@ -113,7 +112,6 @@ sealed class StatusBanner {
     ) : StatusBanner()
 
     object UpgradePlus : StatusBanner()
-    object UpgradeBusiness : StatusBanner()
     object UnwantedCountry : StatusBanner()
 }
 
@@ -307,7 +305,6 @@ private fun VpnConnectedView(
                 )
             }
 
-            StatusBanner.UpgradeBusiness -> UpgradeNetShieldBusiness()
             StatusBanner.UpgradePlus -> UpgradeNetShieldFree(netShieldActions.onUpgradeNetShield)
         }
     }

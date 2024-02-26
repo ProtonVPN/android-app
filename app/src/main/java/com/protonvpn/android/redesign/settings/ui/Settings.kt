@@ -455,14 +455,16 @@ private fun FeatureCategory(
         modifier = modifier.padding(start = 16.dp, end = 16.dp),
         stringResource(id = R.string.settings_category_features)
     ) {
-        SettingRowWithIcon(
-            icon = viewState.netShield.iconRes,
-            title = stringResource(id = viewState.netShield.titleRes),
-            subtitle = stringResource(id = viewState.netShield.subtitleRes),
-            trailingIcon = viewState.netShield.upgradeIconRes,
-            trailingIconTint = false,
-            onClick = if (viewState.netShield.isRestricted) onNetShieldUpgrade else onNetShieldClick
-        )
+        if (viewState.netShield != null) {
+            SettingRowWithIcon(
+                icon = viewState.netShield.iconRes,
+                title = stringResource(id = viewState.netShield.titleRes),
+                subtitle = stringResource(id = viewState.netShield.subtitleRes),
+                trailingIcon = viewState.netShield.upgradeIconRes,
+                trailingIconTint = false,
+                onClick = if (viewState.netShield.isRestricted) onNetShieldUpgrade else onNetShieldClick
+            )
+        }
         SettingRowWithIcon(
             icon = viewState.splitTunneling.iconRes,
             title = stringResource(id = viewState.splitTunneling.titleRes),

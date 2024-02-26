@@ -71,6 +71,8 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModelTests {
@@ -159,20 +161,22 @@ class SettingsViewModelTests {
     @Test
     fun `netshield enabled for plus users`() = testScope.runTest {
         rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
-        val state = settingsViewModel.viewState.first()
+        val netShieldState = settingsViewModel.viewState.first().netShield
+        assertNotNull(netShieldState)
         assertCommonProperties(
             true, R.string.netshield_feature_name, R.string.netshield_state_on, false, null,
-            state.netShield
+            netShieldState
         )
     }
 
     @Test
     fun `netshield disabled for plus users`() = testScope.runTest {
         rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.DISABLED) }
-        val state = settingsViewModel.viewState.first()
+        val netShieldState = settingsViewModel.viewState.first().netShield
+        assertNotNull(netShieldState)
         assertCommonProperties(
             false, R.string.netshield_feature_name, R.string.netshield_state_off, false, null,
-            state.netShield
+            netShieldState
         )
     }
 
@@ -180,22 +184,20 @@ class SettingsViewModelTests {
     fun `netshield disabled for free users even if setting is on`() = testScope.runTest {
         rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
         testUserProvider.vpnUser = freeUser
-        val state = settingsViewModel.viewState.first()
+        val netShieldState = settingsViewModel.viewState.first().netShield
+        assertNotNull(netShieldState)
         assertCommonProperties(
             false, R.string.netshield_feature_name, R.string.netshield_state_off, true, R.drawable.vpn_plus_badge,
-            state.netShield
+            netShieldState
         )
     }
 
     @Test
-    fun `netshield disabled for B2B-essentials users even if setting is on`() = testScope.runTest {
+    fun `netshield hidden for B2B-essentials users`() = testScope.runTest {
         rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
         testUserProvider.vpnUser = businessEssentialUser
         val state = settingsViewModel.viewState.first()
-        assertCommonProperties(
-            false, R.string.netshield_feature_name, R.string.netshield_state_off, true, null,
-            state.netShield
-        )
+        assertNull(state.netShield)
     }
 
     @Test

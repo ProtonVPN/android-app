@@ -91,7 +91,7 @@ class VpnStatusViewStateFlow(
                             NetShieldViewState(state, stats)
                         )
 
-                        NetShieldAvailability.UPGRADE_VPN_BUSINESS -> StatusBanner.UpgradeBusiness
+                        NetShieldAvailability.HIDDEN -> null
                         NetShieldAvailability.UPGRADE_VPN_PLUS -> StatusBanner.UpgradePlus
                     }
                 }
