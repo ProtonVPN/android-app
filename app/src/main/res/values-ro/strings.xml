@@ -344,8 +344,6 @@
     <string name="tv_server_list">Listă servere</string>
     <string name="tv_server_list_action_unavailable">Indisponibil</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator activează un set de tehnologii unice de îmbunătățire a performanței, care pot crește viteza din VPN cu până la 400%%. <a href="%1$s">Detalii</a>.]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">Noile setări vor fi aplicate la următoarea conectare.</string>
     <string name="settingsReconnectToChangeDialogContent">Aceasta va reporni conexiunea.</string>
     <string name="reconnectToEnableNetshield">Aceasta va reporni conexiunea.\n\nNotă: Unele pagini web s-ar putea să nu se încarce dacă NetShield este activat.</string>

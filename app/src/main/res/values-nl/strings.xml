@@ -341,8 +341,6 @@
     <string name="tv_server_list">Serverlijst</string>
     <string name="tv_server_list_action_unavailable">Niet beschikbaar</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator maakt gebruik van een set van unieke prestatieverbeterende technologieën die de VPN-snelheid kunnen verhogen tot 400%%. <a href="%1$s">Lees meer</a>.]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
     <string name="settingsReconnectToChangeDialogContent">Dit zal uw verbinding herstarten.</string>
     <string name="reconnectToEnableNetshield">Hierdoor wordt uw verbinding opnieuw opgestart.\n\nLet op: Sommige sites worden mogelijk niet geladen als NetShield is ingeschakeld.</string>

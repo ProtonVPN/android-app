@@ -347,8 +347,6 @@
     <string name="tv_server_list">Zoznam serverov</string>
     <string name="tv_server_list_action_unavailable">Nedostupné</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator poskytuje sadu jedinečných technológií zvyšujúcich výkon, ktoré môžu zrýchliť VPN pripojenie až o 400%%.<a href="%1$s">Zistiť viac</a>.]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">Nové nastavenia sa aplikujú pri ďalšom pripojení.</string>
     <string name="settingsReconnectToChangeDialogContent">Toto reštartuje vaše pripojenie.</string>
     <string name="reconnectToEnableNetshield">Týmto sa reštartuje vaše pripojenie.\n\nPoznámka: Niektoré stránky sa nenačítajú so zapnutým NetShield.</string>

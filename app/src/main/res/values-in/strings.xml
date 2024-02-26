@@ -338,8 +338,6 @@
     <string name="tv_server_list">Daftar server</string>
     <string name="tv_server_list_action_unavailable">Tidak tersedia</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator mengaktifkan serangkaian teknologi peningkatan kinerja unik yang dapat meningkatkan kecepatan VPN hingga 400%%. <a href="%1$s">Pelajari lebih lanjut</a>.]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
     <string name="settingsReconnectToChangeDialogContent">Tindakan ini akan menyambungkan ulang koneksi internet Anda.</string>
     <string name="reconnectToEnableNetshield">Tindakan ini akan menyambungkan ulang koneksi Anda.\n\nCatatan: Beberapa situs mungkin tidak akan dapat termuat dengan NetShield yang aktif.</string>

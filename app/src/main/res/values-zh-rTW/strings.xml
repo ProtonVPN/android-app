@@ -338,8 +338,6 @@
     <string name="tv_server_list">伺服器列表</string>
     <string name="tv_server_list_action_unavailable">不可用</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator 支援一套獨特的效能強化技術，能將 VPN 的速度增加多達 400%%。<a href="%1$s">取得更多資訊</a>。]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">新的設定將於下次連線時套用。</string>
     <string name="settingsReconnectToChangeDialogContent">這樣將會重啟您的連線。</string>
     <string name="reconnectToEnableNetshield">這樣將會重啟您的連線。\n\n請注意：當 NetShield 開啟時，或會導致某些網站未能載入。</string>

@@ -341,8 +341,6 @@
     <string name="tv_server_list">სერვერების სია</string>
     <string name="tv_server_list_action_unavailable">ხელმიუწვდომელია</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN-ის ამაჩქარებელი ჩართავს წარმადობის გაზრდის უნიკალურ ტექნოლოგიებს, რომლებსაც VPN-ის სიჩქარის 400%%-მდე გაზრდა შეუძლიათ. <a href="%1$s">გაიგეთ მეტი</a>.]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">ახალი პარამეტრები ძალაში შემდეგი შეერთებისას შევა.</string>
     <string name="settingsReconnectToChangeDialogContent">შეერთება გადაიტვირთება.</string>
     <string name="reconnectToEnableNetshield">კავშირი თავიდან დამყარდება. \n\nგაფრთხილება: ზოგიერთი საიტი არ იტვირთება, როცა NetShield-ი ჩართულია.</string>
