@@ -51,6 +51,7 @@ import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.Session
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.user.domain.entity.Role
+import me.proton.core.user.domain.entity.Type
 import me.proton.core.user.domain.entity.User
 
 class UserDataHelper {
@@ -89,6 +90,31 @@ class UserDataHelper {
         }
     }
 
+    private fun getUser(userId: UserId, user: TestUser) = User(
+        userId = userId,
+        email = user.email,
+        name = user.email,
+        displayName = user.email,
+        currency = "CHF",
+        type = Type.Proton,
+        credit = 0,
+        createdAtUtc = 0L,
+        usedSpace = 0L,
+        maxSpace = 1L,
+        maxUpload = 1L,
+        role = Role.NoOrganization,
+        private = false,
+        services = 0,
+        subscribed = 0,
+        delinquent = null,
+        recovery = null,
+        keys = emptyList(),
+        maxBaseSpace = null,
+        maxDriveSpace = null,
+        usedBaseSpace = null,
+        usedDriveSpace = null
+    )
+
     fun setUserData(user: TestUser) = runBlocking(Main) {
         val sessionId = SessionId("sessionId")
         val userId = UserId("userId")
@@ -98,9 +124,7 @@ class UserDataHelper {
             Session.Authenticated(userId, sessionId, "accessToken", "refreshToken", emptyList()))
 
         vpnUserDao.insertOrUpdate(user.vpnInfoResponse.toVpnUserEntity(userId, sessionId, 0))
-        userRepository.setMockUser(User(userId, user.email, user.email, user.email, "CHF", 0, 0, 0,
-            1, 1, Role.NoOrganization, false, 0, 0, null, null,
-            emptyList()))
+        userRepository.setMockUser(getUser(userId, user))
     }
 
     fun setProtocol(protocol: VpnProtocol, transmission: TransmissionProtocol? = null) = runBlocking(Main) {

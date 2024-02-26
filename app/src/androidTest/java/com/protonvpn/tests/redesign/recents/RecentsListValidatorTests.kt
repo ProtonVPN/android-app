@@ -56,6 +56,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.yield
 import me.proton.core.domain.entity.UserId
+import me.proton.core.user.domain.entity.Type
 import me.proton.core.user.domain.entity.User
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -204,6 +205,28 @@ class RecentsListValidatorTests {
         }
     }
 
-    private fun createUser(userId: UserId) =
-        User(userId, "email", "name", null, "USD", 0, 0L, 0L, 0L, 0, null, false, 0, 0, null, null, emptyList())
+    private fun createUser(userId: UserId) = User(
+        userId = userId,
+        email = "email",
+        name = "name",
+        displayName = null,
+        currency = "USD",
+        credit = 0,
+        type = Type.Proton,
+        createdAtUtc = 0L,
+        usedSpace = 0L,
+        maxSpace = 0L,
+        maxUpload = 0L,
+        role = null,
+        private = false,
+        services = 0,
+        subscribed = 0,
+        delinquent = null,
+        recovery = null,
+        keys = emptyList(),
+        maxBaseSpace = null,
+        maxDriveSpace = null,
+        usedBaseSpace = null,
+        usedDriveSpace = null
+    )
 }
