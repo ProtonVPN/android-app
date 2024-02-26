@@ -19,7 +19,6 @@
 package com.protonvpn.app.vpn
 
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
@@ -40,11 +39,9 @@ import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createServer
-import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,7 +52,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertIs
@@ -160,11 +156,11 @@ class VpnStatusViewStateFlowTest {
     }
 
     @Test
-    fun `vpn-essential plan shows business upgrade banner`() = runTest {
+    fun `vpn-essential plan shows no netshields stats nor any banner`() = runTest {
         statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
         assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
         testUserProvider.vpnUser = TestUser.businessEssential.vpnUser
-        assert((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).banner is StatusBanner.UpgradeBusiness)
+        assertEquals(VpnStatusViewState.Connected(false, null), vpnStatusViewStateFlow.first())
     }
 
     @Test

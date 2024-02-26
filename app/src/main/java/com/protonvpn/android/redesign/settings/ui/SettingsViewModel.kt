@@ -87,12 +87,12 @@ class SettingsViewModel @Inject constructor(
     ) {
         class NetShield(
             netShieldEnabled: Boolean,
-            netShieldAvailability: NetShieldAvailability,
+            isRestricted: Boolean,
             override val iconRes: Int = if (netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.feature_netshield_off
         ) : SettingViewState<Boolean>(
             value = netShieldEnabled,
-            isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,
-            upgradeIconRes = if (netShieldAvailability == NetShieldAvailability.UPGRADE_VPN_PLUS) R.drawable.vpn_plus_badge else null,
+            isRestricted = isRestricted,
+            upgradeIconRes = if (isRestricted) R.drawable.vpn_plus_badge else null,
             titleRes = R.string.netshield_feature_name,
             subtitleRes = if (netShieldEnabled) R.string.netshield_state_on else R.string.netshield_state_off,
             descriptionRes = R.string.netshield_settings_description_not_html,
@@ -166,7 +166,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     data class SettingsViewState(
-        val netShield: SettingViewState.NetShield,
+        val netShield: SettingViewState.NetShield?,
         val splitTunneling: SettingViewState.SplitTunneling,
         val vpnAccelerator: SettingViewState.VpnAccelerator,
         val protocol: SettingViewState.Protocol,
@@ -205,12 +205,16 @@ class SettingsViewModel @Inject constructor(
                 email = user.email ?: "",
                 isFreeUser = isFree
             )
+            val netShieldSetting = when (netShieldAvailability) {
+                NetShieldAvailability.HIDDEN -> null
+                else -> SettingViewState.NetShield(
+                    settings.netShield != NetShieldProtocol.DISABLED,
+                    isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE
+                )
+            }
 
             SettingsViewState(
-                netShield = SettingViewState.NetShield(
-                    settings.netShield != NetShieldProtocol.DISABLED,
-                    netShieldAvailability
-                ),
+                netShield = netShieldSetting,
                 vpnAccelerator = SettingViewState.VpnAccelerator(settings.vpnAccelerator, isFree),
                 splitTunneling = SettingViewState.SplitTunneling(
                     splitTunnelingSettings = settings.splitTunneling,

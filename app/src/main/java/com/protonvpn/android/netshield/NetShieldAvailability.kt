@@ -22,12 +22,12 @@ package com.protonvpn.android.netshield
 import com.protonvpn.android.auth.data.VpnUser
 
 enum class NetShieldAvailability {
-    AVAILABLE, UPGRADE_VPN_PLUS, UPGRADE_VPN_BUSINESS
+    AVAILABLE, UPGRADE_VPN_PLUS, HIDDEN
 }
 
 fun VpnUser?.getNetShieldAvailability() = when {
     this == null || isFreeUser -> NetShieldAvailability.UPGRADE_VPN_PLUS
-    !isFreeUser && planName == VPN_PLAN_NO_NETSHIELD -> NetShieldAvailability.UPGRADE_VPN_BUSINESS
+    !isFreeUser && planName == VPN_PLAN_NO_NETSHIELD -> NetShieldAvailability.HIDDEN
     else -> NetShieldAvailability.AVAILABLE
 }
 

@@ -75,16 +75,6 @@ fun UpgradeNetShieldFree(
     navigateToUpgrade = navigateToUpgrade
 )
 
-@Preview
-@Composable
-fun UpgradeNetShieldBusiness() =
-    UpgradePromo(
-        titleRes = R.string.netshield_business_title,
-        descriptionRes = R.string.netshield_business_description,
-        badgeIconRes = R.drawable.vpn_business_badge,
-        navigateToUpgrade = null
-    )
-
 @Composable
 fun UpgradePromo(
     @StringRes titleRes: Int,
