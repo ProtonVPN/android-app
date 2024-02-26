@@ -347,8 +347,6 @@
     <string name="tv_server_list">Список серверів</string>
     <string name="tv_server_list_action_unavailable">Недоступно</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator пропонує набір унікальних технологій поліпшення швидкодії, які можуть пришвидшити роботу VPN до 400%%. <a href="%1$s">Докладніше</a>.]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">Нові налаштування застосуються при наступному з\'єднанні.</string>
     <string name="settingsReconnectToChangeDialogContent">Це перезапустить ваше з\'єднання.</string>
     <string name="reconnectToEnableNetshield">Це перезапустить ваше з\'єднання.\n\nПримітка: Деякі сайти можуть не завантажуватися з увімкненим NetShіeld.</string>

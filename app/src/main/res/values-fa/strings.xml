@@ -341,8 +341,6 @@
     <string name="tv_server_list">لیست سرور</string>
     <string name="tv_server_list_action_unavailable">غیرقابل دسترس</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[قابلیت VPN Accelerator مجموعه‌ای منحصر به فرد از فناوری‌های بهبود کارایی است که می‌تواند سرعت VPN را تا ٪۴۰۰ افزایش دهد. <a href="%1$s">بیشتر بدانید</a>.]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">تنظیمات جدید هنگام اتصال بعدی شما اعمال خواهند شد.</string>
     <string name="settingsReconnectToChangeDialogContent">این کار اتصال شما را مجدداً راه‌اندازی خواهد کرد.</string>
     <string name="reconnectToEnableNetshield">این کار اتصال شما را مجدداً راه‌اندازی خواهد کرد.\n\nتوجه: ممکن است برخی از سایت‌ها در صورت روشن بودن NetShield بارگذاری نشوند.</string>

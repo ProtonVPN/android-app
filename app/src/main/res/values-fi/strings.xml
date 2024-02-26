@@ -341,8 +341,6 @@
     <string name="tv_server_list">Palvelinluettelo</string>
     <string name="tv_server_list_action_unavailable">Ei käytettävissä</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator hyödyntää ainutlaatuisia suorituskykyä parantavia tekniikoita, jotka voivat kohottaa VPN-nopeuksia jopa 400 %%. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
     <string name="settingsReconnectToChangeDialogContent">Tämä muodostaa yhteyden uudelleen.</string>
     <string name="reconnectToEnableNetshield">Tämä muodostaa yhteyden uudelleen.\n\nHuomioi: jotkin sivustot eivät välttämättä lataudu NetShieldin ollessa käytössä.</string>

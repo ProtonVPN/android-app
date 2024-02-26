@@ -338,8 +338,6 @@
     <string name="tv_server_list">서버 목록</string>
     <string name="tv_server_list_action_unavailable">사용할 수 없음</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app. -->
-    <string name="settingsVpnAcceleratorDescription"><![CDATA[VPN Accelerator는 특별한 성능 향상 기술을 활성화 시켜 VPN 속도를 최대 400%% 상승 시킵니다. <a href="%1$s">자세히 알아보기</a>.]]></string>
     <string name="settingsReconnectToApplySettingsDialogContent">다음에 연결할 때 새 설정이 적용됩니다.</string>
     <string name="settingsReconnectToChangeDialogContent">연결이 다시 시작됩니다.</string>
     <string name="reconnectToEnableNetshield">연결이 재시작됩니다.\n\n경고: 일부 사이트가 NetShield 활성화 시 로드되지 않을 수 있습니다.</string>
