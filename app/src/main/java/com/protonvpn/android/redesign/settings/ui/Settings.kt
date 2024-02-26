@@ -330,7 +330,7 @@ private fun SettingsView(
                 stringResource(id = R.string.settings_connection_category)
             ) {
                 SettingRowWithIcon(
-                    icon = me.proton.core.auth.R.drawable.ic_proton_servers,
+                    icon = CoreR.drawable.ic_proton_servers,
                     title = stringResource(id = viewState.protocol.titleRes),
                     onClick = onProtocolClick,
                     subtitle = stringResource(id = viewState.protocol.subtitleRes)
@@ -345,7 +345,7 @@ private fun SettingsView(
                     subtitle = stringResource(id = viewState.vpnAccelerator.subtitleRes)
                 )
                 SettingRowWithIcon(
-                    icon = me.proton.core.auth.R.drawable.ic_proton_sliders,
+                    icon = CoreR.drawable.ic_proton_sliders,
                     title = stringResource(id = R.string.settings_advanced_settings_title),
                     onClick = onAdvancedSettingsClick,
                 )
@@ -356,7 +356,7 @@ private fun SettingsView(
                     stringResource(id = R.string.settings_category_general)
                 ) {
                     SettingRowWithIcon(
-                        icon = me.proton.core.auth.R.drawable.ic_proton_bell,
+                        icon = CoreR.drawable.ic_proton_bell,
                         title = stringResource(id = R.string.settings_notifications_title),
                         onClick = onNotificationsClick,
                     )
@@ -367,18 +367,18 @@ private fun SettingsView(
                 stringResource(id = R.string.settings_category_support)
             ) {
                 SettingRowWithIcon(
-                    icon = me.proton.core.auth.R.drawable.ic_proton_life_ring,
+                    icon = CoreR.drawable.ic_proton_life_ring,
                     title = stringResource(id = R.string.settings_help_center_title),
-                    trailingIcon = me.proton.core.auth.R.drawable.ic_proton_arrow_out_square,
+                    trailingIcon = CoreR.drawable.ic_proton_arrow_out_square,
                     onClick = onOnHelpCenterClick,
                 )
                 SettingRowWithIcon(
-                    icon = me.proton.core.auth.R.drawable.ic_proton_bug,
+                    icon = CoreR.drawable.ic_proton_bug,
                     onClick = onReportBugClick,
                     title = stringResource(id = R.string.settings_report_issue_title)
                 )
                 SettingRowWithIcon(
-                    icon = me.proton.core.auth.R.drawable.ic_proton_code,
+                    icon = CoreR.drawable.ic_proton_code,
                     onClick = onDebugLogsClick,
                     title = stringResource(id = R.string.settings_debug_logs_title)
                 )
@@ -388,14 +388,14 @@ private fun SettingsView(
                 stringResource(id = R.string.settings_category_improve_proton)
             ) {
                 SettingRowWithIcon(
-                    icon = me.proton.core.auth.R.drawable.ic_proton_users,
+                    icon = CoreR.drawable.ic_proton_users,
                     title = stringResource(id = R.string.settings_fight_censorship_title),
                     onClick = onHelpFightClick
                 )
                 SettingRowWithIcon(
-                    icon = me.proton.core.auth.R.drawable.ic_proton_star,
+                    icon = CoreR.drawable.ic_proton_star,
                     title = stringResource(id = R.string.settings_rate_us_title),
-                    trailingIcon = me.proton.core.auth.R.drawable.ic_proton_arrow_out_square,
+                    trailingIcon = CoreR.drawable.ic_proton_arrow_out_square,
                     onClick = onRateUsClick
                 )
 
