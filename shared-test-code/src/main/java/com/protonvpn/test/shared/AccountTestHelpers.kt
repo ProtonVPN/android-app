@@ -20,6 +20,7 @@
 package com.protonvpn.test.shared
 
 import me.proton.core.domain.entity.UserId
+import me.proton.core.user.domain.entity.Type
 import me.proton.core.user.domain.entity.User
 
 // We should upstream such helpers to Account modules.
@@ -29,6 +30,7 @@ fun createAccountUser(createdAtUtc: Long = 0L) = User(
     name = null,
     displayName = null,
     currency = "EUR",
+    type = Type.Proton,
     credit = 0,
     createdAtUtc = createdAtUtc,
     usedSpace = 0,
