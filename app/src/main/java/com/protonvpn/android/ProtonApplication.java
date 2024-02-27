@@ -27,7 +27,6 @@ import android.content.Context;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.evernote.android.state.StateSaver;
 import com.protonvpn.android.api.DohEnabled;
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager;
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout;
@@ -142,8 +141,6 @@ public class ProtonApplication extends Application {
             );
 
             NotificationHelper.Companion.initNotificationChannel(this);
-
-            StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
 
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
