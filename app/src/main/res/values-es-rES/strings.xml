@@ -254,11 +254,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen tu dirección IP y no pueden ser utilizadas para identificarte. Nosotros nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
     <string name="netshield_settings_description_not_html">Protégete contra anuncios, malware y rastreadores en sitios web y aplicaciones. Si los sitios web no cargan, intenta desactivar NetShield. %1$s</string>
     <string name="learn_more">Más información</string>
-    <string name="netshield_status_on">Activado</string>
-    <string name="netshield_status_off">Desactivado</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Activado</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Desactivado</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Activado</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Desactivado</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Activado</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Desactivado</string>
+    <string name="lan_state_on" comment="Describes state, not action">Activado</string>
+    <string name="lan_state_off" comment="Describes state, not action">Desactivado</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Activado</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Desactivado</string>
     <string name="netshield_free_description">Bloquea anuncios, rastreadores y software malicioso en sitios web y apps</string>
-    <string name="netshield_business_title">Bloquea anuncios con NetShield</string>
-    <string name="netshield_business_description">Cuando mejora a VPN Business</string>
     <string name="netshield_what_data_means">Lo que significan los datos de NetShield</string>
     <string name="netshield_ads_title">Anuncios</string>
     <string name="netshield_ads_details">Anuncios y rastreadores de anuncios invisibles</string>
@@ -276,6 +282,7 @@
         <item quantity="other">Rastreadores detenidos</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Datos ahorrados</string>
+    <string name="netshield_setting_warning">Algunos sitios web podrían no cargarse correctamente cuando se bloquean los anuncios y rastreadores.</string>
     <string name="dialogDontShowAgain">No mostrar de nuevo</string>
     <string name="guestHoleActivated">El acceso a Proton VPN puede estar limitado en tu área, por lo que esto tardará más tiempo de lo habitual. Espera mientras encontramos una solución a este problema.</string>
     <string name="guestHoleNotificationContent">Tratar de eludir los problemas de la red. Esto te ayudará a acceder a Proton VPN.</string>
@@ -1136,4 +1143,27 @@
     <string name="connection_details_seconds_shortened">%1$d seg</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Error de conexión</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Este dispositivo no permite conexiones VPN.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Aumenta la velocidad de tu conexión hasta 400%% con tecnologías que mejoran el rendimiento. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">Enrutado alternativo</string>
+    <string name="settings_advanced_alternative_routing_description">Si los servicios de Proton están bloqueados debido a restricciones de red, intentaremos usar enrutamiento de red alternativo para conectarte a nuestros sitios.</string>
+    <string name="settings_advanced_allow_lan_title">Conexiones LAN</string>
+    <string name="settings_advanced_allow_lan_description">Te permite conectarte a impresoras, altavoces y otros dispositivos en tu red local.</string>
+    <string name="settings_advanced_nat_type_title">Tipo de NAT</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Selecciona un tipo de traducción de dirección de red para tu conexión. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Selecciona un tipo de traducción de dirección de red para tu conexión.</string>
+    <string name="settings_advanced_nat_type_strict">Estricta (tipo 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Moderado (tipo 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Restringe los datos que entran en la red. Esta opción es más segura pero puede dificultar más las conexiones de juegos por pares.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Alguna restricción en los datos que entran en tu red. Esta opción es mejor para juegos en línea.</string>
+    <string name="settings_split_tunneling_description">Personaliza tu conexión al decidir cuáles aplicaciones y direcciones IP serán protegidas con VPN. %1$s</string>
+    <string name="settings_protocol_description">Un protocolo VPN determina cómo se mueven los datos entre un servidor VPN y tu dispositivo. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Aplicaciones excluidas</string>
+    <string name="settings_split_tunneling_excluded_ips">Direcciones IP excluidas</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ninguna</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s y %3$d más</string>
+    <string name="settings_dialog_reconnect">La nueva configuración se aplicará la próxima vez que te conectes.</string>
 </resources>

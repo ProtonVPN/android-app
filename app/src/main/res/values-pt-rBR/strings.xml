@@ -119,7 +119,7 @@
     <string name="state_connected">Conectado</string>
     <string name="state_disconnecting">Desconectando…</string>
     <string name="state_error">Erro</string>
-    <string name="error_server_list_load_failed">Por favor, verifique sua conexão e tente novamente.</string>
+    <string name="error_server_list_load_failed">Verifique sua conexão e tente novamente.</string>
     <string name="error_server_unreachable">Não foi possível conectar à VPN. Verifique sua conexão e tente novamente.</string>
     <string name="error_auth_failed">Erro na autenticação do usuário.</string>
     <string name="error_generic">Ocorreu um erro desconhecido durante a conexão.</string>
@@ -254,11 +254,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm seu endereço IP, e não podem ser usadas para te identificar. Nunca as compartilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="netshield_settings_description_not_html">Proteja-se contra anúncios, malware e rastreadores em sites e aplicativos. Se os sites não carregarem, tente desativar o NetShield.%1$s</string>
     <string name="learn_more">Saiba mais</string>
-    <string name="netshield_status_on">Ativado</string>
-    <string name="netshield_status_off">Desativado</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Ativado</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Desativado</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Ativado</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Desativado</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Ativado</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Desativado</string>
+    <string name="lan_state_on" comment="Describes state, not action">Ativado</string>
+    <string name="lan_state_off" comment="Describes state, not action">Desativado</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Ativado</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Desativado</string>
     <string name="netshield_free_description">Bloqueia anúncios, rastreadores e malware em sites e aplicativos</string>
-    <string name="netshield_business_title">Bloqueie anúncios com NetShield</string>
-    <string name="netshield_business_description">Quando você atualizar para o VPN Business</string>
     <string name="netshield_what_data_means">O que significam os dados do NetShield</string>
     <string name="netshield_ads_title">Anúncios</string>
     <string name="netshield_ads_details">Anúncios e rastreadores de anúncios invisíveis</string>
@@ -276,6 +282,7 @@
         <item quantity="other">Rastreadores parados</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dados economizados</string>
+    <string name="netshield_setting_warning">Alguns sites podem não carregar corretamente quando anúncios e rastreadores estiverem bloqueados.</string>
     <string name="dialogDontShowAgain">Não mostrar novamente</string>
     <string name="guestHoleActivated">O acesso ao Proton VPN pode estar limitado em sua região, portanto isso levará mais tempo do que o normal. Aguarde enquanto nós trabalhamos em torno deste problema.</string>
     <string name="guestHoleNotificationContent">Tentando contornar problemas de rede. Isso ajudará você a acessar o Proton VPN.</string>
@@ -1136,4 +1143,27 @@
     <string name="connection_details_seconds_shortened">%1$d s</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Erro na conexão</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Este dispositivo não permite conexões (VPN).</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Aumente a velocidade da sua conexão em até 400%% com tecnologias de melhoria de performance. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">Roteamento alternativo</string>
+    <string name="settings_advanced_alternative_routing_description">Se os serviços da Proton forem bloqueados por restrições da rede, tentaremos usar roteamento alternativo de rede para conectar você aos nossos sites.</string>
+    <string name="settings_advanced_allow_lan_title">Conexões LAN</string>
+    <string name="settings_advanced_allow_lan_description">Permite que você se conecte a impressoras, alto-falantes e outros dispositivos na mesma rede local.</string>
+    <string name="settings_advanced_nat_type_title">Tipo NAT</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Selecione um tipo de tradução de endereço de rede para a sua conexão. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Selecione um tipo de tradução de endereço de rede para sua conexão.</string>
+    <string name="settings_advanced_nat_type_strict">Estrito (tipo 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Moderado (tipo 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Restringe os dados que entram na sua rede. Essa opção é mais segura, mas pode tornar as conexões de jogos peer-to-peer mais difíceis.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Algumas restrições nos dados que entram na sua rede. Esta é a melhor opção para jogar games on-line.</string>
+    <string name="settings_split_tunneling_description">Customize sua conexão decidindo quais aplicativos e endereços IP serão protegidos pela VPN. %1$s</string>
+    <string name="settings_protocol_description">Um protocolo de VPN determina como os dados trafegam entre o servidor VPN e o seu dispositivo. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Aplicativos excluídos</string>
+    <string name="settings_split_tunneling_excluded_ips">Endereços de IP excluídos</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Nenhum</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s e mais %3$d</string>
+    <string name="settings_dialog_reconnect">As novas configurações serão aplicadas na próxima vez que você se conectar.</string>
 </resources>

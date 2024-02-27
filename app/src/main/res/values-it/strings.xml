@@ -254,11 +254,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Queste statistiche non contengono il tuo indirizzo IP e non possono essere utilizzate per identificarti. Non le condivideremo mai con terze parti. <a href="%1$s">Scopri di più</a>]]></string>
     <string name="netshield_settings_description_not_html">Proteggiti da annunci, malware e tracker su siti web e app. Se i siti web non si caricano, prova a disabilitare NetShield. %1$s</string>
     <string name="learn_more">Scopri di più</string>
-    <string name="netshield_status_on">Attivo</string>
-    <string name="netshield_status_off">Inattivo</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Abilitato</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Disabilitato</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Abilitato</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Disabilitato</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Abilitato</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Disabilitato</string>
+    <string name="lan_state_on" comment="Describes state, not action">Abilitato</string>
+    <string name="lan_state_off" comment="Describes state, not action">Disabilitato</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Abilitato</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Disabilitato</string>
     <string name="netshield_free_description">Blocca annunci, tracker e malware su siti web e applicazioni</string>
-    <string name="netshield_business_title">Blocca gli annunci con NetShield</string>
-    <string name="netshield_business_description">Quando effettui l\'upgrade a VPN Business</string>
     <string name="netshield_what_data_means">Cosa significano i dati di NetShield</string>
     <string name="netshield_ads_title">Annunci</string>
     <string name="netshield_ads_details">Annunci e tracker pubblicitari invisibili</string>
@@ -276,6 +282,7 @@
         <item quantity="other">Tracker bloccati</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dati risparmiati</string>
+    <string name="netshield_setting_warning">Alcuni siti web potrebbero non essere caricati correttamente quando gli annunci e i tracker sono bloccati.</string>
     <string name="dialogDontShowAgain">Non mostrare nuovamente</string>
     <string name="guestHoleActivated">L\'accesso a Proton VPN potrebbe essere limitato nella tua zona, quindi richiederà più tempo del solito. Attendi mentre aggiriamo questo problema.</string>
     <string name="guestHoleNotificationContent">Evita i problemi di rete. Questo ti aiuterà ad accedere a Proton VPN.</string>
@@ -499,7 +506,7 @@
     <string name="payment_select_your_plan">Seleziona il tuo piano</string>
     <string name="payment_button_get_vpn_plus">Ottieni VPN Plus</string>
     <!-- Information activity -->
-    <string name="activity_information_title">Informazione</string>
+    <string name="activity_information_title">Informazioni</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Server Plus</string>
     <string name="activity_information_gateways_title">Che cos\'è un gateway?</string>
@@ -1136,4 +1143,27 @@
     <string name="connection_details_seconds_shortened">%1$d s</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connessione non riuscita</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Questo dispositivo non consente connessioni VPN.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Aumenta la velocità della tua connessione fino al 400%% con tecnologie di miglioramento delle prestazioni. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">Percorso alternativo</string>
+    <string name="settings_advanced_alternative_routing_description">Se i servizi Proton vengono bloccati a causa di restrizioni di rete, proveremo a utilizzare un percorso di rete alternativo per connetterti ai nostri siti.</string>
+    <string name="settings_advanced_allow_lan_title">Connessioni LAN</string>
+    <string name="settings_advanced_allow_lan_description">Consente la connessione a stampanti, altoparlanti e altri dispositivi nella rete locale del tuo dispositivo.</string>
+    <string name="settings_advanced_nat_type_title">Tipo di NAT</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Seleziona un tipo di traduzione dell\'indirizzo di rete per la tua connessione. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Seleziona un tipo di traduzione dell\'indirizzo di rete per la tua connessione.</string>
+    <string name="settings_advanced_nat_type_strict">Rigoroso (tipo 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Moderato (tipo 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Limita i dati che entrano nella tua rete. Questa opzione è più sicura, ma può rendere più difficili le connessioni di gioco peer-to-peer.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Limita alcuni dei dati che entrano nella tua rete. Questa opzione è la migliore per i videogiochi online.</string>
+    <string name="settings_split_tunneling_description">Personalizza la tua connessione decidendo quali app e indirizzi IP vengono protetti dalla VPN. %1$s</string>
+    <string name="settings_protocol_description">Un protocollo VPN determina il modo in cui i dati si spostano tra un server VPN e il tuo dispositivo. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Applicazioni escluse</string>
+    <string name="settings_split_tunneling_excluded_ips">Indirizzi IP esclusi</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Nessuno</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s, +%3$d</string>
+    <string name="settings_dialog_reconnect">Le nuove impostazioni verranno applicate la prossima volta che ti connetti alla VPN.</string>
 </resources>

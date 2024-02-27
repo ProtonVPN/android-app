@@ -254,11 +254,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Bu istatistikler IP adresinizi içermez ve kim olduğunuzu belirlemek için kullanılamaz. Bu verileri asla üçüncü taraflar ile paylaşmayız. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="netshield_settings_description_not_html">Kendinizi siteler ile uygulamalarda bulunabilecek reklam, kötü amaçlı yazılım ve izleyicilerden koruyun. Siteler yüklenmezse NetShield özelliğini kapatmayı deneyin. %1$s</string>
     <string name="learn_more">Ayrıntılı bilgi alın</string>
-    <string name="netshield_status_on">Açık</string>
-    <string name="netshield_status_off">Kapalı</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Açık</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Kapalı</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Açık</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Kapalı</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Açık</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Kapalı</string>
+    <string name="lan_state_on" comment="Describes state, not action">Açık</string>
+    <string name="lan_state_off" comment="Describes state, not action">Kapalı</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Açık</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Kapalı</string>
     <string name="netshield_free_description">Siteler ile uygulamalarda bulunabilecek reklamları, izleyicileri ve kötü amaçlı yazılımları engelleyin</string>
-    <string name="netshield_business_title">NetShield ile reklamları engelleyin</string>
-    <string name="netshield_business_description">VPN Business tarifesine yükselttiğinizde</string>
     <string name="netshield_what_data_means">NetShield verilerinin anlamı nedir</string>
     <string name="netshield_ads_title">Reklamlar</string>
     <string name="netshield_ads_details">Reklamlar ve görünmez reklam izleyiciler</string>
@@ -276,6 +282,7 @@
         <item quantity="other">İzleyiciler durduruldu</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Kazanılan veri</string>
+    <string name="netshield_setting_warning">Reklamlar ve izleyiciler engellendiğinde bazı siteler düzgün yüklenmeyebilir.</string>
     <string name="dialogDontShowAgain">Bir daha görüntülenmesin</string>
     <string name="guestHoleActivated">Bölgenizde Proton VPN erişimi sınırlı olabilir. Bu nedenle bu işlem normalden daha uzun sürecek. Lütfen biz bu sorunu çözerken bekleyin.</string>
     <string name="guestHoleNotificationContent">Ağ sorunları aşılmaya çalışılıyor. Bu işlem Proton VPN hizmetine erişmenize yardımcı olacak.</string>
@@ -1136,4 +1143,27 @@
     <string name="connection_details_seconds_shortened">%1$d sn</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Bağlantı kurulamadı</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Bu aygıt VPN bağlantılarına izin vermiyor.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Başarım artırıcı teknolojilerle bağlantı hızınızı 400%% oranına kadar artırın. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">Alternatif yöneltme</string>
+    <string name="settings_advanced_alternative_routing_description">Ağ kısıtlamaları nedeniyle Proton hizmetleri engelleniyorsa sitelerimize bağlanmanız için alternatif ağ yöneltmesini kullanmayı deneyeceğiz.</string>
+    <string name="settings_advanced_allow_lan_title">Yerel ağ bağlantıları</string>
+    <string name="settings_advanced_allow_lan_description">Aygıtınızın aynı yerel ağdaki yazıcı, hoparlör gibi diğer aygıtlara bağlanmasını sağlar.</string>
+    <string name="settings_advanced_nat_type_title">NAT Type</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Bağlantınız için bir ağ adresi dönüştürme (NAT) türü seçin. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Bağlantınız için bir ağ adresi dönüştürme (NAT) türü seçin.</string>
+    <string name="settings_advanced_nat_type_strict">Kısıtlı (Type 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Ilımlı (Type 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Ağınıza giren verileri kısıtlar. Bu seçenek daha güvenlidir ancak eşler arası oyun bağlantılarında sorun çıkarabilir.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Ağınıza giren bazı verileri kısıtlar. Bu seçenek çevrim içi video oyunları için en iyisidir.</string>
+    <string name="settings_split_tunneling_description">Hangi uygulamaların ve IP adreslerinin VPN tarafından korunacağına karar vererek bağlantınızı özelleştirin. %1$s</string>
+    <string name="settings_protocol_description">Bir VPN iletişim kuralı, VPN sunucu ile aygıtınız arasında verilerin nasıl aktarılacağını belirler. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Katılmayacak uygulamalar</string>
+    <string name="settings_split_tunneling_excluded_ips">Katılmayacak IP adresleri</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Yok</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s ve %3$d diğer</string>
+    <string name="settings_dialog_reconnect">Yeni ayarlar kurulacak bir sonraki bağlantıya uygulanacak.</string>
 </resources>

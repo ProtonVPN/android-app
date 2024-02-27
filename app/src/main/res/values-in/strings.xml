@@ -224,7 +224,7 @@
     <string name="troubleshootContactUsSectionTitle">Masih butuh bantuan lebih lanjut? Hubungi kami secara langsung</string>
     <string name="troubleshootCustomerSupport">Layanan dukungan</string>
     <string name="settingsAllowAlternativeRoutingTitle">Pengalihan lalu lintas alternatif</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Apabila Proton diblokir, aplikasi VPN akan berusaha untuk terhubung ke server Proton melalui jalur lalu lintas alternatif. <a href="%1$s">Pelajari lebih lanjut</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Apabila layanan Proton diblokir, aplikasi VPN akan berusaha untuk terhubung ke server Proton melalui jalur lalu lintas alternatif. <a href="%1$s">Pelajari lebih lanjut</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Pemblokiran pemerintah</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Negara Anda mungkin memblokir akses ke Proton. Cobalah untuk menggunakan <a href=\'%1$s\'>Tor</a> untuk mengakses Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
@@ -253,11 +253,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga manapun. <a href="%1$s">Pelajari lebih lanjute</a>]]></string>
     <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. Apabila situs web yang ingin Anda kunjungi tidak termuat, cobalah untuk menonaktifkan NetShield. %1$s</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
-    <string name="netshield_status_on">Aktif</string>
-    <string name="netshield_status_off">Nonaktif</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Aktif</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Nonaktif</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Aktif</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Nonaktif</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Aktif</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Nonaktif</string>
+    <string name="lan_state_on" comment="Describes state, not action">Aktif</string>
+    <string name="lan_state_off" comment="Describes state, not action">Nonaktif</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Aktif</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Nonaktif</string>
     <string name="netshield_free_description">Blokir iklan, pelacak, dan malware pada berbagai situs web dan aplikasi</string>
-    <string name="netshield_business_title">Blokir iklan dengan NetShield</string>
-    <string name="netshield_business_description">Ketika Anda meningkatkan ke VPN Business</string>
     <string name="netshield_what_data_means">Makna dari data NetShield</string>
     <string name="netshield_ads_title">Iklan</string>
     <string name="netshield_ads_details">Iklan dan pelacak iklan tersembunyi</string>
@@ -273,6 +279,7 @@
         <item quantity="other">Pelacak yang dihentikan</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data yang disimpan</string>
+    <string name="netshield_setting_warning">Beberapa situs web mungkin tidak akan termuat dengan benar ketika iklan dan pelacak diblokir.</string>
     <string name="dialogDontShowAgain">Jangan tampilkan lagi</string>
     <string name="guestHoleActivated">Akses menuju Proton VPN di wilayah Anda sedang terbatas, sehingga tindakan ini akan memakan waktu yang lebih lama dibanding biasanya. Mohon tunggu selagi kami memperbaiki masalah ini.</string>
     <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah-masalah jaringan yang ada. Tindakan ini dapat melancarkan koneksi Proton VPN Anda.</string>
@@ -397,15 +404,15 @@
     <string name="upgrade_streaming_text">Nikmati berbagai film dan tayangan TV kesayangan Anda di mana pun Anda berada.</string>
     <string name="upgrade_tor_title">Akses jaringan Tor dengan sekali ketuk</string>
     <string name="upgrade_tor_text">Hubungkan diri Anda ke berbagai layanan tersembunyi dan situs onion melalui browser yang biasa Anda gunakan.</string>
-    <string name="upgrade_vpn_accelerator_title">Jelajahi dengan kecepatan lebih tinggi</string>
+    <string name="upgrade_vpn_accelerator_title">Jelajahi internet pada kecepatan yang jauh lebih tinggi</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
     <string name="upgrade_vpn_accelerator_message">Dapatkan akses ke server yang lebih cepat dan lebih lowong dengan kecepatan koneksi hingga %1$d Gbps.</string>
-    <string name="upgrade_split_tunneling_title">Dapatkan yang terbaik</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Bagi trafik Anda ke tunnel VPN dan non-VPN dengan <b>split tunneling</b>.]]></string>
+    <string name="upgrade_split_tunneling_title">Dapatkan yang terbaik dari koneksi VPN dan non-VPN</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Pisahkan lalu lintas jaringan Anda ke dalam tunnel VPN dan non-VPN dengan <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Akses opsi kustomisasi VPN lanjutan</string>
     <string name="upgrade_lan_access_message"><![CDATA[Akses perangkat melalui <b>Local Area Network (LAN)</b> Anda dengan VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Akses seluruh negara</string>
@@ -1116,4 +1123,27 @@
     <string name="connection_details_seconds_shortened">%1$d dtk</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Koneksi gagal</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Perangkat ini tidak mengizinkan koneksi VPN.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Tingkatkan kecepatan koneksi Anda hingga 400%% dengan teknologi pemicu performa. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">Pengalihan lalu lintas alternatif</string>
+    <string name="settings_advanced_alternative_routing_description">Apabila layanan Proton diblokir karena pembatasan jaringan, kami akan mencoba untuk menghubungkan Anda ke situs kami melalui rute jaringan alternatif.</string>
+    <string name="settings_advanced_allow_lan_title">Koneksi LAN</string>
+    <string name="settings_advanced_allow_lan_description">Memungkinkan Anda untuk terhubung ke printer, speaker, dan perangkat lainnya pada jaringan lokal milik perangkat Anda.</string>
+    <string name="settings_advanced_nat_type_title">Jenis NAT</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Pilih jenis terjemahan alamat jaringan (NAT) untuk koneksi Anda. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Pilih jenis terjemahan alamat jaringan (NAT) untuk koneksi Anda.</string>
+    <string name="settings_advanced_nat_type_strict">Ketat (Type 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Moderat (Type 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Membatasi seluruh data yang memasuki jaringan Anda. Opsi ini lebih aman, namun dapat mempersulit koneksi peer-to-peer antar aplikasi permainan.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Membatasi sebagian data yang memasuki jaringan Anda. Opsi ini merupakan opsi terbaik untuk permainan video online.</string>
+    <string name="settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi dan alamat IP mana saja yang akan terlindung oleh VPN. %1$s</string>
+    <string name="settings_protocol_description">Protokol VPN menentukan bagaimana data antara server VPN dan perangkat Anda akan saling berpindah. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Aplikasi yang dikecualikan</string>
+    <string name="settings_split_tunneling_excluded_ips">Alamat IP yang dikecualikan</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Tidak ada</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s, dan %3$d lainnya</string>
+    <string name="settings_dialog_reconnect">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
 </resources>

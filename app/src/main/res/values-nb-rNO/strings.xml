@@ -254,11 +254,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Disse statistikkene inneholder ikke IP-adressen din, og de kan ikke brukes til å identifisere deg. Vi deler dem aldri med tredjeparter. <a href="%1$s">Lær mer</a>]]></string>
     <string name="netshield_settings_description_not_html">Beskytt deg mot annonser, skadelig programvare og sporere på nettsteder og apper. Hvis nettsteder ikke lastes inn, kan du prøve å deaktivere NetShield. %1$s</string>
     <string name="learn_more">Lær mer</string>
-    <string name="netshield_status_on">På</string>
-    <string name="netshield_status_off">Av</string>
+    <string name="netshield_state_on" comment="Describes state, not action">På</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Av</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">På</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Av</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">På</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Av</string>
+    <string name="lan_state_on" comment="Describes state, not action">På</string>
+    <string name="lan_state_off" comment="Describes state, not action">Av</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">På</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Av</string>
     <string name="netshield_free_description">Blokkér annonser, sporere og skadelig programvare på nettsteder og apper</string>
-    <string name="netshield_business_title">Blokkér annonser med NetShield</string>
-    <string name="netshield_business_description">Når du oppgraderer til VPN Business</string>
     <string name="netshield_what_data_means">Hva som menes med NetShield-data</string>
     <string name="netshield_ads_title">Annonser</string>
     <string name="netshield_ads_details">Annonser og usynlige annonsesporere</string>
@@ -276,6 +282,7 @@
         <item quantity="other">Sporere stoppet</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data spart</string>
+    <string name="netshield_setting_warning">Noen nettsteder lastes kanskje ikke inn riktig når annonser og sporere er blokkert.</string>
     <string name="dialogDontShowAgain">Ikke vis igjen</string>
     <string name="guestHoleActivated">Tilgangen til Proton VPN kan være begrenset i ditt område, så dette vil ta lengre tid enn vanlig. Vennligst vent mens vi omgår dette problemet.</string>
     <string name="guestHoleNotificationContent">Prøver å omgå nettverksproblemer. Dette vil hjelpe deg med å få tilgang til Proton VPN.</string>
@@ -1136,4 +1143,27 @@
     <string name="connection_details_seconds_shortened">%1$d sek</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Tilkobling mislyktes</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Denne enheten tillater ikke VPN-tilkoblinger.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Øk tilkoblingshastigheten med opptil 400 %% med ytelsesforbedrende teknologier. %1$s.</string>
+    <string name="settings_advanced_alternative_routing_title">Alternativ ruting</string>
+    <string name="settings_advanced_alternative_routing_description">Hvis Proton-tjenester er blokkert på grunn av nettverksbegrensninger, prøver vi å bruke alternativ nettverksruting for å koble deg til nettstedene våre.</string>
+    <string name="settings_advanced_allow_lan_title">LAN-forbindelser</string>
+    <string name="settings_advanced_allow_lan_description">Lar deg koble til skrivere, høyttalere og andre enheter i enhetens lokale nettverk.</string>
+    <string name="settings_advanced_nat_type_title">NAT-type</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Velg en nettverksadresseoversettelsestype for tilkoblingen. %1$s.</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Velg en nettverksadresseoversettelsestype for tilkoblingen.</string>
+    <string name="settings_advanced_nat_type_strict">Streng (type 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Moderat (type 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Begrenser dataene som kommer inn i nettverket. Dette alternativet er sikrere, men kan gjøre node-til-node-spilltilkoblinger vanskeligere.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Noen begrensninger på data som kommer inn i nettverket ditt. Dette alternativet er best for nettvideospill.</string>
+    <string name="settings_split_tunneling_description">Tilpass tilkoblingen din ved å bestemme hvilke apper og IP-adresser som er beskyttet av VPN. %1$s.</string>
+    <string name="settings_protocol_description">En VPN-protokoll bestemmer hvordan data beveger seg mellom en VPN-tjener og enheten din. %1$s.</string>
+    <string name="settings_split_tunneling_excluded_apps">Ekskluderte apper</string>
+    <string name="settings_split_tunneling_excluded_ips">Ekskluderte IP-adresser</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ingen</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s og %3$d til</string>
+    <string name="settings_dialog_reconnect">Nye innstillinger vil gjelde neste gang du kobler til.</string>
 </resources>

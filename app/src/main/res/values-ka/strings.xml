@@ -254,11 +254,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[ეს სტატისტიკა თქვენს IP-ს არ შეიცავს და ის თქვენს ამოსაცნობად გამოყენებული ვერ იქნება. ჩვენ მას მესამე პირებს არასოდეს ვუზიარებთ. <a href="%1$s">გაიგეთ მეტი</a>]]></string>
     <string name="netshield_settings_description_not_html">დაიცავით თავი რეკლამებისგან, ბოროტი პროგრამებისგან და ტრეკერებისგან, რომლებიც ვებგვერდებზე და აპებშია ჩაშენებული. თუ ვვებგვერდი არ იტვირთება, სცადეთ, NetSheld-ი გამორთოთ. %1$s</string>
     <string name="learn_more">გაიგეთ მეტი</string>
-    <string name="netshield_status_on">ჩართ</string>
-    <string name="netshield_status_off">გამორთ</string>
+    <string name="netshield_state_on" comment="Describes state, not action">ჩართ</string>
+    <string name="netshield_state_off" comment="Describes state, not action">გამორთ</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">ჩართ</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">გამორთ</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">ჩართ</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">გამორთ</string>
+    <string name="lan_state_on" comment="Describes state, not action">ჩართ</string>
+    <string name="lan_state_off" comment="Describes state, not action">გამორთ</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">ჩართ</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">გამორთ</string>
     <string name="netshield_free_description">დაბლოკეთ რეკლამები, ტრეკერები და საზიანო პროგრამები ვებგვერდებზე და აპებში</string>
-    <string name="netshield_business_title">დაბლოკეთ რეკლამები NetShield-ით</string>
-    <string name="netshield_business_description">როცა ტარიფს VPN Business-ზე აწევთ</string>
     <string name="netshield_what_data_means">რას ნიშნავს NetShield-ის მონაცემები</string>
     <string name="netshield_ads_title">რეკლამა</string>
     <string name="netshield_ads_details">რეკლამა და უჩინარი ტრეკერები</string>
@@ -276,6 +282,7 @@
         <item quantity="other">შეჩერებული ტრეკერი</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">მინაცემები შენახულია</string>
+    <string name="netshield_setting_warning">ზოგიერთი ვებგვერდი, შეიძლება, სწორად არ ჩაიტვირთოს, თუ რეკლამას და ტრეკერებს დაბლოკავთ.</string>
     <string name="dialogDontShowAgain">აღარ მაჩვენო</string>
     <string name="guestHoleActivated">როგორც ჩანს, თქვენს რეგიონში Proton VPN-მდე წვდომა შეზღუდულია, ამიტომ მიერთების პროცესს ჩვეულებრივზე მეტი ხანი დასჭირდება. დაიცადეთ, სანამ მოვაგვარებთ ამ პრობლემას.</string>
     <string name="guestHoleNotificationContent">ქსელის პრობლემის გვერდის ავლის მცდელობა. ეს Proton VPN-თან წვდომაში დაგეხმარებათ.</string>
@@ -1136,4 +1143,27 @@
     <string name="connection_details_seconds_shortened">%1$d წმ</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">შეერთების შეცდომა</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">ამ მოწყობილობას VPN მიერთებების მხარდაჭერა არ გააჩნია.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">გაზარდეთ თქვენი მიერთების სიჩქარე 400%%-ით წარმადობის გაუმჯობესების ტექნოლოგიების საშუალებით. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">ალტერნატიული რაუტინგი</string>
+    <string name="settings_advanced_alternative_routing_description">თუ Proton-ის სერვისები დაბლოკილია ქსელის შეზღუდვების გამო, ჩვენ ალტერნატიულ ქსელის რაუტინგს ვცდით, რომ ჩვენს საიტებთან დაგაკავშიროთ.</string>
+    <string name="settings_advanced_allow_lan_title">LAN შეერთებები</string>
+    <string name="settings_advanced_allow_lan_description">საშუალებას გაძლევთ, დაუკავშირდეთ პრინტერებს, დინამიკებს და სხვა მოწყობილობებს თქვენი მოწყობილობის ლოკალურ ქსელში.</string>
+    <string name="settings_advanced_nat_type_title">NAT-ის ტიპი</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">აირჩიეთ NAT-ის ტიპი თქვენი მიერთებისთვის. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">აირჩიეთ ქსელის თარგმანის ტიპი თქვენი მიერთებისთვის.</string>
+    <string name="settings_advanced_nat_type_strict">მკაცრი (ტიპი 3)</string>
+    <string name="settings_advanced_nat_type_moderate">საშუალო (ტიპი 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">ზღუდავს თქვენს ქსელში შემომავალ ინფორმაციას. ეს პარამეტრი ფრო დაცულია, მაგრამ გამჭოლი მიერთების გამომყენებელი თამაშების მუშაობა უფრო ძნელი იქნება.</string>
+    <string name="settings_advanced_nat_type_moderate_description">მცირე შეზღუდვები თქვენს ქსელში შემომავალი მონაცემებისთვის. ეს პარამეტრი საუკეთესოა ონლაინ-თამაშებისთვის.</string>
+    <string name="settings_split_tunneling_description">მოირგეთ თქვენი მიერთება, გადაწყვიტეთ, რომელი აპები და IP მისამართები იქნებიან VPN-ით დაცული. %1$s</string>
+    <string name="settings_protocol_description">VPN პროტოკოლი განსაზღვრავს, როგორ მოძრაობს მონაცემები VPN სერვერსა და თქვენს მოწყობილობას შორის.%1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">გამორიცხული აპები</string>
+    <string name="settings_split_tunneling_excluded_ips">გამორიცხული IP მისამართები</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">არცერთი</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s და კიდევ %3$d</string>
+    <string name="settings_dialog_reconnect">ახალი პარამეტრები ძალაში შემდეგი შეერთებისას შევა.</string>
 </resources>
