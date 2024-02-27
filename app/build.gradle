@@ -747,7 +747,6 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'me.relex:circleindicator:2.1.6@aar'
-    implementation 'com.evernote:android-state:1.4.1'
     implementation 'androidx.work:work-runtime:2.9.0'
     implementation 'androidx.work:work-runtime-ktx:2.9.0'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
@@ -916,8 +915,6 @@ dependencies {
     implementation 'androidx.hilt:hilt-work:1.1.0'
     kapt 'androidx.hilt:hilt-compiler:1.1.0'
 
-    kapt 'com.evernote:android-state-processor:1.4.1'
-
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:$mockk_version"
     androidTestImplementation "io.mockk:mockk-android:$mockk_version"
@@ -968,10 +965,7 @@ dependencies {
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.3.0-alpha05'
 
     // Fusion
-    androidTestImplementation "me.proton.test:fusion:0.9.52"
+    androidTestImplementation "me.proton.test:fusion:0.9.62"
 
     implementation project(path: ':openvpn')
-
-    // Fusion
-    androidTestImplementation "me.proton.test:fusion:0.9.62"
 }
