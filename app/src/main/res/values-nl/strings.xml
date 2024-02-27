@@ -254,11 +254,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Deze statistieken bevatten uw IP-adres niet, en kunnen niet gebruikt worden om u te identificeren. We zullen deze nooit delen met derden. <a href="%1$s">Meer informatie</a>]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="learn_more">Lees meer</string>
-    <string name="netshield_status_on">Aan</string>
-    <string name="netshield_status_off">Uit</string>
+    <string name="netshield_state_on" comment="Describes state, not action">On</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Off</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">On</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Off</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">On</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Off</string>
+    <string name="lan_state_on" comment="Describes state, not action">On</string>
+    <string name="lan_state_off" comment="Describes state, not action">Off</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">On</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Off</string>
     <string name="netshield_free_description">Blokkeer advertenties, trackers en malware op websites en apps</string>
-    <string name="netshield_business_title">Blokkeer advertenties met NetShield</string>
-    <string name="netshield_business_description">Wanneer u upgradet naar VPN Zakelijk</string>
     <string name="netshield_what_data_means">What NetShield data means</string>
     <string name="netshield_ads_title">Advertenties</string>
     <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
@@ -276,6 +282,7 @@
         <item quantity="other">Trackers gestopt</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
+    <string name="netshield_setting_warning">Sommige websites worden mogelijk niet correct geladen als advertenties en trackers worden geblokkeerd.</string>
     <string name="dialogDontShowAgain">Niet meer weergeven</string>
     <string name="guestHoleActivated">De toegang tot Proton VPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
     <string name="guestHoleNotificationContent">Proberen om de netwerkproblemen te omzeilen. Dit zal u helpen toegang te verkrijgen tot Proton VPN.</string>
@@ -479,7 +486,7 @@
     <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
-    <string name="upsell_card_tor_title">Tor over VPN</string>
+    <string name="upsell_card_tor_title">Tor via VPN</string>
     <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
@@ -895,7 +902,7 @@
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
-    <string name="connection_card_label_connecting">Connecting to…</string>
+    <string name="connection_card_label_connecting">Verbinding maken met…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
          being established. It's shown only in response to user clicking the "Change server" button.
@@ -964,7 +971,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Instellingen</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_features">Features</string>
+    <string name="settings_category_features">Functies</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
@@ -1000,7 +1007,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_debug_logs_title">Debug Logs</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_improve_proton">Improve Proton</string>
+    <string name="settings_category_improve_proton">Verbeter Proton</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_fight_censorship_title">Help ons censuur te bestrijden</string>
     <!-- tag(Redesign_2023) -->
@@ -1022,7 +1029,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_action">Uitloggen</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_action_cancel">Cancel</string>
+    <string name="dialog_action_cancel">Annuleren</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1076,11 +1083,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_description">Razend snel</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_title">Medium (76–90%)</string>
+    <string name="connection_details_server_load_medium_title">Medium (76-90%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_medium_description">Waarschijnlijk geen invloed op de VPN-snelheid</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_title">High (91–100%)</string>
+    <string name="connection_details_server_load_high_title">Hoog (91-100%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_description">VPN werkt mogelijk langzamer dan normaal </string>
     <!-- tag(Redesign_2023) -->
@@ -1136,4 +1143,27 @@
     <string name="connection_details_seconds_shortened">%1$d sec</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Verbinding mislukt</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">Alternatieve routing</string>
+    <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
+    <string name="settings_advanced_allow_lan_title">LAN-verbindingen</string>
+    <string name="settings_advanced_allow_lan_description">Allows you to connect to printers, speakers, and other devices in your device’s local network.</string>
+    <string name="settings_advanced_nat_type_title">NAT type</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Selecteer een netwerkadresomzettingstype voor uw verbinding.</string>
+    <string name="settings_advanced_nat_type_strict">Strikt (type 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Gematigd (type 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Beperkt de gegevens die uw netwerk binnenkomen. Deze optie is veiliger, maar kan peer-to-peer gamingverbindingen bemoeilijken.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Enige beperking op data die uw netwerk binnenkomen. Deze optie is de beste voor videogaming.</string>
+    <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
+    <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
+    <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
+    <string name="settings_dialog_reconnect">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
 </resources>

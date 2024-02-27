@@ -256,11 +256,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="netshield_settings_description_not_html">Абараніце сябе ад рэкламы, шкодных праграм і праграм сачэння на вэб-сайтах і ў праграмах. Калі вэб-сайты не грузяцца, паспрабуйце адключыць NetShield. %1$s</string>
     <string name="learn_more">Даведацца больш</string>
-    <string name="netshield_status_on">Уключана</string>
-    <string name="netshield_status_off">Выключана</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Уключана</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Выключана</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Уключана</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Выключана</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Уключана</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Выключана</string>
+    <string name="lan_state_on" comment="Describes state, not action">Уключана</string>
+    <string name="lan_state_off" comment="Describes state, not action">Выключана</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Уключана</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Выключана</string>
     <string name="netshield_free_description">Блакіроўка рэкламы, праграм сачэння і шкодных праграм на вэб-сайтах і ў праграмах</string>
-    <string name="netshield_business_title">Блакіроўка рэкламы з дапамогай NetShield</string>
-    <string name="netshield_business_description">Пры паляпшэнні да VPN Business</string>
     <string name="netshield_what_data_means">Што азначаюць даныя NetShield</string>
     <string name="netshield_ads_title">Рэклама</string>
     <string name="netshield_ads_details">Рэклама і нябачныя праграмы сачэння</string>
@@ -282,6 +288,7 @@
         <item quantity="other">праграм сачэння спынены</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Захавана даных</string>
+    <string name="netshield_setting_warning">Некаторыя вэб-сайты могуць некарэктна загружацца, калі рэклама і праграмы сачэння заблакіраваны.</string>
     <string name="dialogDontShowAgain">Больш не паказваць</string>
     <string name="guestHoleActivated">Доступ да Proton VPN можа быць абмежаваны ў вашым рэгіёне і таму, гэта зойме больш часу, чым звычайна. Пачакайце, пакуль мы шукаем альтэрнатыўны маршрут для падключэння.</string>
     <string name="guestHoleNotificationContent">Паспрабаваць абысці праблемы з сеткай. Гэта дапаможа вам атрымаць доступ да Proton VPN.</string>
@@ -1176,4 +1183,27 @@
     <string name="connection_details_seconds_shortened">%1$d сек</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Збой падключэння</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Гэтая прылада забараняе падключэнні па VPN.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Павялічце хуткасць свайго падключэння да 400 %% дзякуючы тэхналогіям павышэння прадукцыйнасці. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">Альтэрнатыўная маршрутызацыя</string>
+    <string name="settings_advanced_alternative_routing_description">Калі сэрвісы Proton заблакіраваны па прычыне абмежаванняў сеткі, мы паспрабуем скарыстацца альтэрнатыўным сеткавым маршрутам для падключэння да нашых сайтаў.</string>
+    <string name="settings_advanced_allow_lan_title">Падключэнні па лакальнай сетцы</string>
+    <string name="settings_advanced_allow_lan_description">Дазваляе вам падключацца да прынтараў, дынамікаў і іншых прылад, якія знаходзяцца ў вашай лакальнай сетцы.</string>
+    <string name="settings_advanced_nat_type_title">Тып NAT</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Выберыце тып пераўтварэння сеткавых адрасоў для вашага падключэння. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Выберыце тып пераўтварэння сеткавых адрасоў для вашага падключэння.</string>
+    <string name="settings_advanced_nat_type_strict">Абмежаваны (тып 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Умераны (тып 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Абмяжоўвае даныя, якія трапляюць у вашу сетку. Гэты параметр больш бяспечны, але можа прывесці да ўзнікнення праблем у гульнях, якія патрабуюць аднарангавага падключэння.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Некаторыя абмежаванні на даныя, якія трапляюць у вашу сетку. Гэты параметр найлепш пасуе для сеткавых гульняў.</string>
+    <string name="settings_split_tunneling_description">Наладзіць падключэнне вырашыўшы, якія праграмы і IP-адрасы будуць абаронены VPN. %1$s</string>
+    <string name="settings_protocol_description">Пратакол VPN вызначае, як даныя перамяшчаюцца паміж серверам VPN і вашай прыладай. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Выключаныя праграмы</string>
+    <string name="settings_split_tunneling_excluded_ips">Выключаныя IP-адрасы</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Няма</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s і яшчэ %3$d</string>
+    <string name="settings_dialog_reconnect">Новыя налады будуць ужыты пры наступным падключэнні.</string>
 </resources>

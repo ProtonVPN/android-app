@@ -254,11 +254,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ces statistiques ne contiennent pas votre adresse IP, elles ne peuvent pas être utilisées pour vous identifier. Nous ne les partagerons jamais avec des tiers. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="netshield_settings_description_not_html">Protégez-vous des publicités, des logiciels malveillants et des traqueurs sur les sites internet et les applications. Si les sites internet ne se chargent pas, essayez de désactiver NetShield. %1$s</string>
     <string name="learn_more">En savoir plus</string>
-    <string name="netshield_status_on">Activé</string>
-    <string name="netshield_status_off">Désactivé</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Activé</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Désactivé</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Activé</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Désactivé</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Activé</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Désactivé</string>
+    <string name="lan_state_on" comment="Describes state, not action">Activé</string>
+    <string name="lan_state_off" comment="Describes state, not action">Désactivé</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Activé</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Désactivé</string>
     <string name="netshield_free_description">Bloquez les publicités, les traqueurs et les logiciels malveillants sur les sites internet et les applications.</string>
-    <string name="netshield_business_title">Bloquer les publicités avec NetShield</string>
-    <string name="netshield_business_description">En passant à l\'abonnement VPN Business</string>
     <string name="netshield_what_data_means">Voici ce que signifient les données de NetShield</string>
     <string name="netshield_ads_title">Publicités</string>
     <string name="netshield_ads_details">Publicités et traqueurs de publicité invisibles</string>
@@ -276,6 +282,7 @@
         <item quantity="other">Traqueurs bloqués</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Données non téléchargées</string>
+    <string name="netshield_setting_warning">Certains sites internet peuvent ne pas se charger correctement quand les publicités et les traqueurs sont bloqués.</string>
     <string name="dialogDontShowAgain">Ne plus afficher</string>
     <string name="guestHoleActivated">L\'accès à Proton VPN peut être restreint dans votre région et cela prendra donc plus de temps que d\'habitude. Veuillez patienter pendant que nous contournons ce problème.</string>
     <string name="guestHoleNotificationContent">Nous essayons de contourner les problèmes de réseau. Cela vous aidera à accéder à Proton VPN.</string>
@@ -1136,4 +1143,27 @@
     <string name="connection_details_seconds_shortened">%1$d sec</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">La connexion n\'a pas abouti.</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Cet appareil n\'autorise pas les connexions VPN.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Augmentez votre vitesse de connexion jusqu\'à 400 %% grâce à des technologies d\'amélioration des performances. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">Routage alternatif</string>
+    <string name="settings_advanced_alternative_routing_description">Si les services Proton sont bloqués en raison de restrictions du réseau, nous essaierons d\'utiliser un routage alternatif du réseau pour vous connecter à nos sites.</string>
+    <string name="settings_advanced_allow_lan_title">Connexions LAN</string>
+    <string name="settings_advanced_allow_lan_description">Vous permet de vous connecter à des imprimantes, des enceintes et d\'autres appareils du réseau local de votre appareil.</string>
+    <string name="settings_advanced_nat_type_title">Type de NAT</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Sélectionnez un type de traduction d\'adresse réseau pour votre connexion. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Sélectionnez un type de traduction d\'adresse réseau pour votre connexion.</string>
+    <string name="settings_advanced_nat_type_strict">Strict (type 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Modéré (type 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Restreint les données entrant dans votre réseau. Cette option est plus sûre, mais peut compliquer les connexions de jeux vidéo en pair à pair.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Certaines restrictions sur les données entrant dans votre réseau. Cette option est idéale pour les jeux vidéo en ligne.</string>
+    <string name="settings_split_tunneling_description">Personnalisez votre connexion en décidant quelles applications et adresses IP sont protégées par le VPN. %1$s</string>
+    <string name="settings_protocol_description">Un protocole VPN détermine la manière dont les données circulent entre un serveur VPN et votre appareil. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Applications exclues</string>
+    <string name="settings_split_tunneling_excluded_ips">Adresses IP exclues</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Aucune</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s et %3$d autres</string>
+    <string name="settings_dialog_reconnect">Les nouveaux paramètres s\'appliqueront lors de votre prochaine connexion.</string>
 </resources>

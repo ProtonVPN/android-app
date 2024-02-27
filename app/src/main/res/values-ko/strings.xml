@@ -253,11 +253,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[이 통계에는 당신의 IP 주소가 담기지 않으며 식별에 사용할 수 없습니다. 제 3자에게 공유하지도 않습니다. <a href="%1$s">자세히 알아보기</a>]]></string>
     <string name="netshield_settings_description_not_html">웹사이트와 앱에서 광고와 멀웨어, 그리고 트래커로부터 보호받으세요. 웹사이트를 불러오는 데 문제가 있다면 NetShield를 비활성화해보세요. %1$s</string>
     <string name="learn_more">더 알아보기</string>
-    <string name="netshield_status_on">켜짐</string>
-    <string name="netshield_status_off">꺼짐</string>
+    <string name="netshield_state_on" comment="Describes state, not action">켬</string>
+    <string name="netshield_state_off" comment="Describes state, not action">끔</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">켬</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">끔</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">켬</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">끔</string>
+    <string name="lan_state_on" comment="Describes state, not action">켬</string>
+    <string name="lan_state_off" comment="Describes state, not action">끔</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">켬</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">끔</string>
     <string name="netshield_free_description">웹사이트 및 앱에서 광고, 트래커와 멀웨어를 차단하세요</string>
-    <string name="netshield_business_title">NetShield로 광고를 차단하세요</string>
-    <string name="netshield_business_description">VPN Business 요금제로 업그레이드하면</string>
     <string name="netshield_what_data_means">NetShield 데이터의 의미</string>
     <string name="netshield_ads_title">광고</string>
     <string name="netshield_ads_details">광고와 보이지 않는 광고 트래커</string>
@@ -273,6 +279,7 @@
         <item quantity="other">트래커가 멈춤</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">데이터 절약됨</string>
+    <string name="netshield_setting_warning">일부 웹사이트는 광고 그리고 트래커 차단 중에 제대로 로드되지 않을 수도 있습니다.</string>
     <string name="dialogDontShowAgain">다음부터 표시하지 않음</string>
     <string name="guestHoleActivated">Proton VPN에 대한 액세스가 귀하의 지역에서 제한될 수 있으므로 평소보다 더 오래 걸릴 수 있습니다. 이 문제를 해결하는 동안 기다려 주세요.</string>
     <string name="guestHoleNotificationContent">네트워크 문제를 우회하려고 노력하고 있습니다. 이는 Proton VPN에 접근하는데 도움을 줄 것입니다.</string>
@@ -1116,4 +1123,27 @@
     <string name="connection_details_seconds_shortened">%1$d 초</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">연결 실패</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">이 디바이스가 VPN 연결을 허용하지 않습니다.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">성능 강화 기술을 통해 연결 속도가 400%%까지 빨라집니다. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">대체 라우팅</string>
+    <string name="settings_advanced_alternative_routing_description">Proton 서비스가 네트워크 제한으로 막혔다면, 대체 네트워크 라우딩을 이용해서 연결해보세요.</string>
+    <string name="settings_advanced_allow_lan_title">LAN 연결</string>
+    <string name="settings_advanced_allow_lan_description">로컬 네트워크에 있는 프린터, 스피커 및 기타 기기에 연결할 수 있게 합니다.</string>
+    <string name="settings_advanced_nat_type_title">NAT 방식</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">네트워크 주소 변환 방식을 선택하십시오. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">네트워크 주소 변환 방식을 선택하십시오.</string>
+    <string name="settings_advanced_nat_type_strict">엄격하게 (3번)</string>
+    <string name="settings_advanced_nat_type_moderate">일반형 (type 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">네트워크에 들어오는 데이터를 통제합니다. 확실한 만큼 피어 투 피어 (P2P) 게이밍 접속이 어려워질 수 있습니다.</string>
+    <string name="settings_advanced_nat_type_moderate_description">네트워크에 들어오는 데이터를 약간 통제합니다. 온라인 비디오 게이밍에 최적입니다.</string>
+    <string name="settings_split_tunneling_description">VPN이 보호할 앱과 IP 주소를 지정하여 연결을 커스텀할 수 있습니다. %1$s</string>
+    <string name="settings_protocol_description">VPN 프로토콜은 서버와 여러분의 장치 사이에서 데이터가 이동하는 방식을 정의합니다. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">제외된 앱</string>
+    <string name="settings_split_tunneling_excluded_ips">제외된 IP 주소</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">없음</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s 외 %3$d개</string>
+    <string name="settings_dialog_reconnect">다음에 연결할 때 새 설정이 적용됩니다.</string>
 </resources>

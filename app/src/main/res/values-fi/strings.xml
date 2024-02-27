@@ -254,11 +254,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Nämä tilastot eivät sisällä IP-osoitettasi, eikä sinua ole mahdollista tunnistaa niiden perusteella. Emme koskaa jaa niitä ulkopuolisille tahoille. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="netshield_settings_description_not_html">Suojaudu mainoksilta, haittaohjelmilta ja seurannoilta verkkosivustoilla ja sovelluksissa. Jos verkkosivut eivät lataudu, kokeile auttaako NetShieldin käytöstäpoisto. %1$s</string>
     <string name="learn_more">Lue lisää</string>
-    <string name="netshield_status_on">Käytössä</string>
-    <string name="netshield_status_off">Ei käytössä</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Käytössä</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Ei käytössä</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Käytössä</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Ei käytössä</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Käytössä</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Ei käytössä</string>
+    <string name="lan_state_on" comment="Describes state, not action">Käytössä</string>
+    <string name="lan_state_off" comment="Describes state, not action">Ei käytössä</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Käytössä</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Ei käytössä</string>
     <string name="netshield_free_description">Estä mainoksia, seurantoja ja haittaohjelmia verkkosivustoilla ja sovelluksissa</string>
-    <string name="netshield_business_title">Estä mainoksia NetShieldillä</string>
-    <string name="netshield_business_description">Päivittämällä VPN Business -tilaukseen</string>
     <string name="netshield_what_data_means">Mitä NetShieldin tiedonsiirto tarkoittaa</string>
     <string name="netshield_ads_title">Mainokset</string>
     <string name="netshield_ads_details">Mainokset ja näkymättömät mainosseuraajat</string>
@@ -276,6 +282,7 @@
         <item quantity="other">Seurantaa estetty</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Tiedonsiirtoa säästetty</string>
+    <string name="netshield_setting_warning">Jotkin verkkosivustot eivät ehkä lataudu kunnolla, kun mainokset ja seuraajat on estetty.</string>
     <string name="dialogDontShowAgain">Älä näytä uudelleen</string>
     <string name="guestHoleActivated">ProtonVPN:n käyttöä on saatettu rajoittaa alueellasi, joten tämä kestää tavallista kauemmin. Odota, kun ongelma pyritään ohittamaan.</string>
     <string name="guestHoleNotificationContent">Verkkoyhteyden ongelmia yritetään kiertää. Tämä auttaa Proton VPN-yhteyden muodostuksessa.</string>
@@ -1136,4 +1143,27 @@
     <string name="connection_details_seconds_shortened">%1$d s</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Yhteys epäonnistui</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Tämä laite ei salli VPN-yhteyksiä.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Nopeuta yhteyttäsi jopa 400 %% suorituskykyä parantavien tekniikoiden avulla. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">Vaihtoehtoinen reititys</string>
+    <string name="settings_advanced_alternative_routing_description">Jos Proton-palvelut on estetty verkkorajoitusten takia, yritämme käyttää vaihtoehtoista verkkoreititystä, jotta voit silti muodostaa yhteyden sivustoihimme.</string>
+    <string name="settings_advanced_allow_lan_title">LAN-yhteydet</string>
+    <string name="settings_advanced_allow_lan_description">Sallii yhteyden muodostamisen tulostimiin, kaiuttimiin ja muihin lähiverkossasi oleviin laitteisiin.</string>
+    <string name="settings_advanced_nat_type_title">NAT-tyyppi</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Valitse yhteydellesi osoitteenmuunnostyyppi. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Valitse NAT-tyyppi yhteydellesi.</string>
+    <string name="settings_advanced_nat_type_strict">Tiukka (tyyppi 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Keskitasoinen (tyyppi 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Rajoittaa verkkoosi tulevaa tiedonsiirtoa. Tämä vaihtoehto on turvallisempi, mutta se voi hankaloittaa vertaisverkkopeliyhteyksiä.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Joitakin rajoituksia verkkoon saapuvalle tiedonsiirrolle. Tämä vaihtoehto sopii parhaiten verkkopelaamiseen.</string>
+    <string name="settings_split_tunneling_description">Mukauta yhteyttäsi päättämällä, mitkä sovellukset ja IP-osoitteet suojataan VPN:llä. %1$s</string>
+    <string name="settings_protocol_description">VPN-protokolla määrittää, miten tiedonsiirto VPN-palvelimen ja laitteesi välillä tapahtuu. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Poissuljetut sovellukset</string>
+    <string name="settings_split_tunneling_excluded_ips">Poissuljetut IP-osoitteet</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ei mitään</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s ja %3$d muuta</string>
+    <string name="settings_dialog_reconnect">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
 </resources>

@@ -255,11 +255,17 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Aceste statistici nu vă conțin adresa IP și nu pot fi utilizate să vă identifice. Nu le vom partaja cu terțe părți. <a href="%1$s">Detalii</a>]]></string>
     <string name="netshield_settings_description_not_html">Protejați-vă de reclame, programe malițioase și urmărirea de pe paginile web și din aplicații. Dacă paginile web nu se încarcă, încercați cu NetShield dezactivat. %1$s.</string>
     <string name="learn_more">Detalii</string>
-    <string name="netshield_status_on">Pornit</string>
-    <string name="netshield_status_off">Oprit</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Pornit</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Oprit</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Pornit</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Oprit</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Pornit</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Oprit</string>
+    <string name="lan_state_on" comment="Describes state, not action">Pornită</string>
+    <string name="lan_state_off" comment="Describes state, not action">Oprită</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Pornită</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Oprită</string>
     <string name="netshield_free_description">Blocați reclame, urmăritori și malware pe pagini web și aplicații</string>
-    <string name="netshield_business_title">Blocare reclame cu NetShield</string>
-    <string name="netshield_business_description">Dacă treceți la VPN Business</string>
     <string name="netshield_what_data_means">Ce înseamnă datele NetShield</string>
     <string name="netshield_ads_title">Reclame</string>
     <string name="netshield_ads_details">Reclame și instrumente invizibile de urmărire</string>
@@ -279,6 +285,7 @@
         <item quantity="other">Urmăritori opriți</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Date salvate</string>
+    <string name="netshield_setting_warning">Este posibil ca unele site-uri web să nu se încarce corect atunci când anunțurile și instrumentele de urmărire sunt blocate.</string>
     <string name="dialogDontShowAgain">Nu mai arăta</string>
     <string name="guestHoleActivated">Accesul la Proton VPN poate fi limitat în zona dvs., așa că va dura mai mult decât de obicei. Așteptați până când rezolvăm această problemă.</string>
     <string name="guestHoleNotificationContent">Se încearcă evitarea problemelor de rețea. Acest lucru vă va ajuta să accesați Proton VPN.</string>
@@ -1156,4 +1163,27 @@
     <string name="connection_details_seconds_shortened">%1$d sec</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Conexiunea a eșuat</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Acest dispozitiv nu permite conexiuni prin VPN.</string>
+    <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
+         (this doesn't apply to other percent sign characters, e.g. ٪)
+         %1$s - will have translated learn_more value -->
+    <string name="settings_vpn_accelerator_description">Măriți viteza de conectare cu până la 400 %% cu tehnologii de îmbunătățire a performanței. %1$s</string>
+    <string name="settings_advanced_alternative_routing_title">Rută alternativă</string>
+    <string name="settings_advanced_alternative_routing_description">Dacă serviciile Proton sunt blocate din cauza restricțiilor de rețea, vom încerca să utilizăm o rută alternativă de rețea pentru a vă conecta la site-urile noastre.</string>
+    <string name="settings_advanced_allow_lan_title">Conexiuni LAN</string>
+    <string name="settings_advanced_allow_lan_description">Vă permite să vă conectați la imprimante, boxe și alte dispozitive din rețeaua locală a dispozitivului.</string>
+    <string name="settings_advanced_nat_type_title">Tip NAT</string>
+    <!-- %1$s - will have translated learn_more value -->
+    <string name="settings_advanced_nat_type_description">Selectați un tip de traducere a adreselor de rețea pentru conexiunea proprie. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Selectați un tip de traducere a adreselor de rețea pentru conexiunea proprie.</string>
+    <string name="settings_advanced_nat_type_strict">Strict (tip 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Moderat (tip 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Restricționează datele care intră în rețeaua proprie. Această opțiune este mai sigură, dar poate face mai dificilă conexiunile jocurilor cu utilizatori multipli.</string>
+    <string name="settings_advanced_nat_type_moderate_description">O anumită restricție la datele care intră în rețeaua personală. Această opțiune este cea mai bună pentru jocurile video online.</string>
+    <string name="settings_split_tunneling_description">Personalizați-vă conexiunea decizând ce aplicații și adrese IP sunt protejate de VPN. %1$s</string>
+    <string name="settings_protocol_description">Un protocol VPN determină modul în care datele se mută între un server VPN și dispozitivul personal. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Aplicații excluse</string>
+    <string name="settings_split_tunneling_excluded_ips">Adrese IP excluse</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Niciuna</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s și încă %3$d</string>
+    <string name="settings_dialog_reconnect">Noile setări vor fi aplicate la următoarea conectare.</string>
 </resources>
