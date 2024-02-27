@@ -54,8 +54,6 @@ private const val NOTIFICATION_ID = "notification 1"
 class OneTimePopupNotificationTriggerTests {
 
     @MockK
-    private lateinit var mockForegroundActivityTracker: ForegroundActivityTracker
-    @MockK
     private lateinit var mockApiNotificationManager: ApiNotificationManager
     @MockK
     private lateinit var mockAccountManager: AccountManager
@@ -75,6 +73,7 @@ class OneTimePopupNotificationTriggerTests {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
         promoOffersPrefs = PromoOffersPrefs(MockSharedPreferencesProvider())
+        testScope = TestScope(UnconfinedTestDispatcher())
 
         primaryUserIdFlow = MutableStateFlow(UserId("user"))
         every { mockAccountManager.getPrimaryUserId() } returns primaryUserIdFlow
@@ -83,12 +82,11 @@ class OneTimePopupNotificationTriggerTests {
         every { mockApiNotificationManager.activeListFlow } returns activeNotificationsFlow
 
         foregroundActivityFlow = MutableStateFlow(null)
-        every { mockForegroundActivityTracker.foregroundActivityFlow } returns foregroundActivityFlow
+        val foregroundActivityTracker = ForegroundActivityTracker(testScope.backgroundScope, foregroundActivityFlow)
 
-        testScope = TestScope(UnconfinedTestDispatcher())
         oneTimePopupNotificationTrigger = OneTimePopupNotificationTrigger(
             mainScope = testScope.backgroundScope,
-            foregroundActivityTracker = mockForegroundActivityTracker,
+            foregroundActivityTracker = foregroundActivityTracker,
             apiNotificationManager = mockApiNotificationManager,
             accountManager = mockAccountManager,
             promoOffersPrefs = promoOffersPrefs,

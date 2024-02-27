@@ -25,8 +25,8 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -41,13 +41,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ForegroundActivityTracker @Inject constructor(
+class ForegroundActivityTracker(
     mainScope: CoroutineScope,
-    app: Application,
+    foregroundActivityFlow: Flow<Activity?>
 ) {
+    @Inject constructor(
+        mainScope: CoroutineScope,
+        app: Application,
+    ) : this(mainScope, createForegroundActivityFlow(app))
+
     private val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
 
-    val foregroundActivityFlow = createForegroundActivityFlow(app)
+    val foregroundActivityFlow = foregroundActivityFlow
         .stateIn(mainScope, SharingStarted.Eagerly, null)
     val isInForegroundFlow = foregroundActivityFlow.map {
         it != null
@@ -69,25 +74,26 @@ class ForegroundActivityTracker @Inject constructor(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private fun createForegroundActivityFlow(app: Application) = callbackFlow {
-        val lifecycleCallbacks = object : DefaultActivityLifecycleCallbacks {
-            private var currentActivity: Activity? = null
-            override fun onActivityStarted(activity: Activity) {
-                currentActivity = activity
-                trySend(activity)
-            }
+    companion object {
+        private fun createForegroundActivityFlow(app: Application) = callbackFlow {
+            val lifecycleCallbacks = object : DefaultActivityLifecycleCallbacks {
+                private var currentActivity: Activity? = null
+                override fun onActivityStarted(activity: Activity) {
+                    currentActivity = activity
+                    trySend(activity)
+                }
 
-            override fun onActivityStopped(activity: Activity) {
-                if (activity == currentActivity) {
-                    trySend(null)
-                    currentActivity = null
+                override fun onActivityStopped(activity: Activity) {
+                    if (activity == currentActivity) {
+                        trySend(null)
+                        currentActivity = null
+                    }
                 }
             }
-        }
-        app.registerActivityLifecycleCallbacks(lifecycleCallbacks)
-        awaitClose {
-            app.unregisterActivityLifecycleCallbacks(lifecycleCallbacks)
+            app.registerActivityLifecycleCallbacks(lifecycleCallbacks)
+            awaitClose {
+                app.unregisterActivityLifecycleCallbacks(lifecycleCallbacks)
+            }
         }
     }
 }

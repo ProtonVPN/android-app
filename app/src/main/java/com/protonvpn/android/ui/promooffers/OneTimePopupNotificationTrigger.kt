@@ -62,10 +62,12 @@ class OneTimePopupNotificationTrigger @Inject constructor(
     init {
         combine(
             isLoggedIn,
-            foregroundActivityTracker.foregroundActivityFlow.withPrevious()
-        ) { loggedIn, (previousActivity, activity) ->
-            if (loggedIn && previousActivity == null && activity != null) {
-                onOneTimeNotificationOpportunity(activity)
+            // Don't use withPrevious() with foregroundActivityFlow because it will leak activities.
+            foregroundActivityTracker.isInForegroundFlow.withPrevious()
+        ) { loggedIn, (wasInForeground, isInForeground) ->
+            val foregroundActiviy = foregroundActivityTracker.foregroundActivity
+            if (loggedIn && !wasInForeground && isInForeground && foregroundActiviy != null) {
+                onOneTimeNotificationOpportunity(foregroundActiviy)
             }
         }.launchIn(mainScope)
     }
