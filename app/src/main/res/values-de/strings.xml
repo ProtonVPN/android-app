@@ -254,16 +254,16 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Diese Statistiken enthalten weder deine IP-Adresse noch können diese dazu verwendet werden, um dich zu identifizieren. Wir werden die Statistiken nie an Dritte weitergeben. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="netshield_settings_description_not_html">Schütze dich vor Werbung, Malware und Trackern auf Websites und in Apps. Wenn Websites nicht geladen werden, versuche NetShield zu deaktivieren. %1$s</string>
     <string name="learn_more">Mehr erfahren</string>
-    <string name="netshield_state_on" comment="Describes state, not action">On</string>
-    <string name="netshield_state_off" comment="Describes state, not action">Off</string>
-    <string name="split_tunneling_state_on" comment="Describes state, not action">On</string>
-    <string name="split_tunneling_state_off" comment="Describes state, not action">Off</string>
-    <string name="vpn_accelerator_state_on" comment="Describes state, not action">On</string>
-    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Off</string>
-    <string name="lan_state_on" comment="Describes state, not action">On</string>
-    <string name="lan_state_off" comment="Describes state, not action">Off</string>
-    <string name="alt_routing_state_on" comment="Describes state, not action">On</string>
-    <string name="alt_routing_state_off" comment="Describes state, not action">Off</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Ein</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Aus</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Ein</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Aus</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Ein</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Aus</string>
+    <string name="lan_state_on" comment="Describes state, not action">Ein</string>
+    <string name="lan_state_off" comment="Describes state, not action">Aus</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Ein</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Aus</string>
     <string name="netshield_free_description">Blockiere Werbung, Tracker und Malware auf Websites und Apps.</string>
     <string name="netshield_what_data_means">Was die NetShield-Daten bedeuten</string>
     <string name="netshield_ads_title">Werbung</string>
@@ -1146,24 +1146,24 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Steigere deine Verbindungsgeschwindigkeit mit leistungssteigernden Technologien um bis zu 400%%. %1$s</string>
     <string name="settings_advanced_alternative_routing_title">Alternatives Routing</string>
-    <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
+    <string name="settings_advanced_alternative_routing_description">Wenn Proton-Dienste aufgrund von Netzbeschränkungen blockiert sind, versuchen wir, dich über eine alternative Netzweiterleitung mit unseren Websites zu verbinden.</string>
     <string name="settings_advanced_allow_lan_title">LAN‐Verbindungen</string>
-    <string name="settings_advanced_allow_lan_description">Allows you to connect to printers, speakers, and other devices in your device’s local network.</string>
-    <string name="settings_advanced_nat_type_title">NAT type</string>
+    <string name="settings_advanced_allow_lan_description">Ermöglicht es dir, eine Verbindung zu Druckern, Lautsprechern und anderen Geräten im lokalen Netzwerk deines Geräts herzustellen.</string>
+    <string name="settings_advanced_nat_type_title">NAT-Typ</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
+    <string name="settings_advanced_nat_type_description">Wähle einen NAT-Typ für deine Verbindung. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Wähle einen NAT-Typ für deine Verbindung.</string>
     <string name="settings_advanced_nat_type_strict">Strikt (Typ 3)</string>
     <string name="settings_advanced_nat_type_moderate">Moderat (Typ 2)</string>
     <string name="settings_advanced_nat_type_strict_description">Schränkt den Datenverkehr in deinem Netzwerk ein. Diese Option ist sicherer, kann aber Peer-to-Peer Videospiel-Verbindungen erschweren.</string>
     <string name="settings_advanced_nat_type_moderate_description">Gewisse Beschränkungen für den Datenverkehr in deinem Netz. Diese Option eignet sich am besten für Online-Videospiele.</string>
-    <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
-    <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
-    <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
-    <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
-    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
-    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
+    <string name="settings_split_tunneling_description">Passe deine Verbindung an, indem du entscheidest, welche Anwendungen und IP-Adressen durch VPN geschützt werden. %1$s</string>
+    <string name="settings_protocol_description">Ein VPN-Protokoll bestimmt, wie Daten zwischen einem VPN-Server und deinem Gerät übertragen werden. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Ausgeschlossene Apps</string>
+    <string name="settings_split_tunneling_excluded_ips">Ausgeschlossene IP-Adressen</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Keine</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s und %3$d mehr</string>
     <string name="settings_dialog_reconnect">Die neuen Einstellungen werden erst nach dem nächsten Verbindungsaufbau übernommen.</string>
 </resources>
