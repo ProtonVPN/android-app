@@ -48,6 +48,8 @@ import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.countries.ui.CountryListViewModelDataAdapter
+import com.protonvpn.android.redesign.countries.ui.CountryListViewModelDataAdapterLegacy
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
 import com.protonvpn.android.tv.IsTvCheck
@@ -335,5 +337,9 @@ object AppModule {
         @Singleton
         @Binds
         fun provideCurrentUserProvider(provider: DefaultCurrentUserProvider): CurrentUserProvider
+
+        @Singleton
+        @Binds
+        fun provideCountryListViewModelDataAdapter(impl: CountryListViewModelDataAdapterLegacy): CountryListViewModelDataAdapter
     }
 }
