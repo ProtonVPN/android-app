@@ -136,6 +136,12 @@ build google debug:
   script:
     - export BLACK_TOKEN="$(curl --silent $BLACK_TOKEN_URL)"
     - echo "API host ${TEST_ENV_DOMAIN}"
+    - echo "API token ${BLACK_TOKEN}"
+    - |
+      if [[ "$BLACK_TOKEN" == *$'\n'* || "$BLACK_TOKEN" == *" "* ]]; then
+        echo "Invalid token: ${BLACK_TOKEN}"
+        exit 1
+      fi
     - mkdir -p app/src/androidTest/assets/sensitive
     - cat $TEST_INTERNAL_API > app/src/androidTest/assets/sensitive/internal_apis.json
     - ./gradlew assembleBlackGooglePlayStoreDebug
