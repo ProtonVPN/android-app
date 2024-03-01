@@ -137,7 +137,7 @@ public final class Storage {
             String json = preferences.getString(key, null);
             fromJson = GSON.fromJson(json, objClass);
         }
-        catch (Exception e) {
+        catch (Exception | NoClassDefFoundError e) {
             DebugUtils.INSTANCE.fail("GSON load exception: " + e.getMessage());
             return null;
         }
