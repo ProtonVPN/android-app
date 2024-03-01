@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.app.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.redesign.countries.ui.usecase.NewCountryListEnabled
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
@@ -31,6 +32,7 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -38,12 +40,21 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(
     vpnStatusViewStateFlow: VpnStatusViewStateFlow,
     private val vpnConnectionManager: VpnConnectionManager,
+    newCountryListEnabled: NewCountryListEnabled,
 ) : ViewModel() {
 
     val vpnStateViewFlow: StateFlow<VpnStatusViewState> = vpnStatusViewStateFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), VpnStatusViewState.Loading)
 
-    val isMinimalStateReadyFlow: StateFlow<Boolean> = vpnStateViewFlow.mapState { it != VpnStatusViewState.Loading}
+    val showNewCountryList =
+        newCountryListEnabled().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+
+    val isMinimalStateReadyFlow: StateFlow<Boolean> = combine(
+        vpnStateViewFlow,
+        showNewCountryList
+    ) { vpnStateView, showNewCountryList ->
+        vpnStateView != VpnStatusViewState.Loading && showNewCountryList != null
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
 
     // Must be fast, it's used in SplashScreen.setKeepOnScreenCondition
     val isMinimalStateReady: Boolean get() = isMinimalStateReadyFlow.value
