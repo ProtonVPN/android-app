@@ -19,13 +19,16 @@
 
 package com.protonvpn.android.redesign
 
+import android.os.Parcelable
 import androidx.compose.runtime.Immutable
+import kotlinx.parcelize.Parcelize
 
 // TODO: this class should replace raw String used for representing the country code including the logic
 //  for converting GB to UK that we have in several places.
 @Immutable
 @JvmInline
-value class CountryId private constructor(val countryCode: String) {
+@Parcelize
+value class CountryId private constructor(val countryCode: String) : Parcelable {
 
     val isFastest: Boolean
         get() = countryCode == ""
@@ -46,3 +49,11 @@ value class CountryId private constructor(val countryCode: String) {
             }
     }
 }
+
+@Parcelize
+data class CityStateId(val name: String, val isState: Boolean) : Parcelable
+
+@Immutable
+@JvmInline
+@Parcelize
+value class ServerId(val id: String) : Parcelable
