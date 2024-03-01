@@ -63,6 +63,8 @@ class ServerManager2 @Inject constructor(
         serverManager.isDownloadedAtLeastOnce()
     }
 
+    val allServersFlow get() = serverListVersion.map { serverManager.allServers }
+
     suspend fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
         serverManager.ensureLoaded()
         return serverManager.getServerForProfile(profile, vpnUser, currentUserSettings.secureCore.first())
