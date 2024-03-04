@@ -21,16 +21,25 @@ package com.protonvpn.android.redesign.countries.ui
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.protonElevation
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
@@ -53,6 +63,7 @@ import com.protonvpn.android.ui.onboarding.heroNorm
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.compose.theme.defaultUnspecified
 import me.proton.core.presentation.utils.currentLocale
 import me.proton.core.presentation.R as CoreR
 
@@ -92,6 +103,8 @@ fun NewCountryListRoute(
     val navigateToHome = { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) }
     val navigateToUpsell = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
 
+    val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value ?: return
+
     Column(
         modifier = Modifier
             .windowInsetsPadding(WindowInsets.statusBars)
@@ -116,17 +129,17 @@ fun NewCountryListRoute(
                     .padding(horizontal = 16.dp)
                     .padding(top = 14.dp, bottom = 8.dp)
             )
+
+            FiltersRow(buttonActions = mainState.filterButtons)
+            Spacer(modifier = Modifier.size(8.dp))
         }
 
-        val countries = viewModel.stateFlow.collectAsStateWithLifecycle().value?.toList()
-        if (countries != null) {
-            CountryList(
-                modifier = Modifier.weight(1f),
-                countries,
-                onCountryClick = { viewModel.onItemConnect(uiDelegate, it, navigateToHome, navigateToUpsell) },
-                onOpenCountry = { viewModel.onItemOpen(it) }
-            )
-        }
+        CountryList(
+            modifier = Modifier.weight(1f),
+            mainState.items,
+            onCountryClick = { viewModel.onItemConnect(uiDelegate, it, navigateToHome, navigateToUpsell) },
+            onOpenCountry = { viewModel.onItemOpen(it) }
+        )
     }
 
     val subScreenState = viewModel.subScreenStateFlow.collectAsStateWithLifecycle().value
@@ -138,6 +151,55 @@ fun NewCountryListRoute(
             onNavigateToItem = { item -> viewModel.onItemOpen(item) },
             onItemClicked = { viewModel.onItemConnect(uiDelegate, it, navigateToHome, navigateToUpsell) },
             onClose = { viewModel.onClose() }
+        )
+    }
+}
+
+@Composable
+fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier) {
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier,
+    ) {
+        items(
+            items = buttonActions,
+            itemContent = { filterButton ->
+                Button(
+                    onClick = filterButton.onClick,
+                    modifier = Modifier.heightIn(min = ButtonDefaults.MinHeight),
+                    elevation = ButtonDefaults.protonElevation(),
+                    shape = ProtonTheme.shapes.medium,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (filterButton.isSelected) ProtonTheme.colors.brandNorm else ProtonTheme.colors.interactionWeakNorm,
+                    ),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+                    val iconRes = when (filterButton.filter) {
+                        ServerFilterType.All -> null
+                        ServerFilterType.SecureCore -> CoreR.drawable.ic_proton_locks
+                        ServerFilterType.P2P -> CoreR.drawable.ic_proton_arrow_right_arrow_left
+                        ServerFilterType.Tor -> CoreR.drawable.ic_proton_brand_tor
+                    }
+                    iconRes?.let {
+                        Icon(
+                            painter = painterResource(id = it),
+                            contentDescription = null,
+                        )
+                        Spacer(modifier = Modifier.size(4.dp))
+                    }
+                    val filterTitleRes = when (filterButton.filter) {
+                        ServerFilterType.All -> R.string.country_filter_all
+                        ServerFilterType.SecureCore -> R.string.country_filter_secure_core
+                        ServerFilterType.P2P -> R.string.country_filter_p2p
+                        ServerFilterType.Tor -> R.string.country_filter_tor
+                    }
+                    Text(
+                        text = stringResource(id = filterTitleRes),
+                        style = ProtonTheme.typography.defaultUnspecified
+                    )
+                }
+            }
         )
     }
 }

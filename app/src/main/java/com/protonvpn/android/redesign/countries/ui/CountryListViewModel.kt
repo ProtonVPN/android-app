@@ -59,6 +59,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 private const val CountryScreenStateKey = "country_screen_state"
+private const val CountrySubScreenStateKey = "country_sub_screen_state"
 
 @HiltViewModel
 class CountryListViewModel @Inject constructor(
@@ -66,26 +67,42 @@ class CountryListViewModel @Inject constructor(
     private val dataAdapter: CountryListViewModelDataAdapter,
     private val vpnConnectionManager: VpnConnectionManager,
     private val shouldShowcaseRecents: ShouldShowcaseRecents,
-    private val currentUser: CurrentUser,
-    private val vpnStatus: VpnStatusProviderUI,
+    currentUser: CurrentUser,
+    vpnStatus: VpnStatusProviderUI,
 ) : ViewModel() {
 
-    private var subScreenSaveState by savedStateHandle.state<SubScreenSaveState?>(null, CountryScreenStateKey)
-    private val subScreenSaveStateFlow = savedStateHandle.getStateFlow<SubScreenSaveState?>(CountryScreenStateKey, null)
+    private var mainSaveState by savedStateHandle.state<CountryScreenSavedState>(CountryScreenSavedState(ServerFilterType.All), CountryScreenStateKey)
+    private val mainSaveStateFlow = savedStateHandle.getStateFlow<CountryScreenSavedState?>(CountryScreenStateKey, mainSaveState)
+
+    private var subScreenSaveState by savedStateHandle.state<SubScreenSaveState?>(null, CountrySubScreenStateKey)
+    private val subScreenSaveStateFlow = savedStateHandle.getStateFlow(CountrySubScreenStateKey, subScreenSaveState)
 
     // Helper flows
     val localeFlow = MutableStateFlow<Locale?>(null)
-    private val userTierFlow get() = currentUser.vpnUserFlow.map { it?.maxTier }
-    private val connectedServerFlow get() =
+    private val userTierFlow = currentUser.vpnUserFlow.map { it?.maxTier }
+    private val connectedServerFlow =
         vpnStatus.uiStatus
-            .map { status -> status.server.takeIf { status.state == VpnState.Connected }}
+            .map { status -> status.server.takeIf { status.state == VpnState.Connected } }
             .distinctUntilChanged()
 
     // Screen states
-    val stateFlow = dataAdapter
-        .countries(ServerListFilter())
-        .toItemState()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+    val stateFlow = mainSaveStateFlow
+        .filterNotNull()
+        .flatMapLatest { savedState ->
+            dataAdapter
+                .countries(ServerListFilter(type = savedState.serverType))
+                .toItemState()
+                .map { items ->
+                    CountryScreenState(
+                        savedState = savedState,
+                        items = items,
+                        filterButtons = getFilterButtons(selectedFilter = savedState.serverType) {
+                            mainSaveState = CountryScreenSavedState(it)
+                        }
+                    )
+                }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+
     val subScreenStateFlow = subScreenSaveStateFlow.flatMapLatest { savedState ->
         if (savedState != null) {
             when (savedState.type) {
@@ -186,7 +203,23 @@ class CountryListViewModel @Inject constructor(
     fun onClose() {
         subScreenSaveState = null
     }
+
+    private fun getFilterButtons(selectedFilter: ServerFilterType, onItemSelect: (ServerFilterType) -> Unit): List<FilterButton> =
+        ServerFilterType.entries.map { filter ->
+            FilterButton(
+                filter = filter,
+                isSelected = filter == selectedFilter,
+                onClick = { onItemSelect(filter) }
+            )
+        }
 }
+
+@Parcelize
+data class FilterButton(
+    val filter: ServerFilterType,
+    val isSelected: Boolean = false,
+    val onClick: () -> Unit
+) : Parcelable
 
 val CountryListItemState.canOpen: Boolean get() = when(data) {
     is CountryListItemData.Server -> false
@@ -224,6 +257,17 @@ data class ServerListFilter(
 ): Parcelable
 
 enum class SubScreenType { City, Server }
+
+@Parcelize
+data class CountryScreenSavedState(
+    val serverType: ServerFilterType,
+): Parcelable
+
+data class CountryScreenState(
+    val savedState: CountryScreenSavedState,
+    val filterButtons: List<FilterButton>,
+    val items: List<CountryListItemState>,
+)
 
 @Parcelize
 data class SubScreenSaveState(
