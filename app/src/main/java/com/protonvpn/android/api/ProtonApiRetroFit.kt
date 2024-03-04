@@ -19,7 +19,6 @@
 package com.protonvpn.android.api
 
 import android.os.Build
-
 import com.protonvpn.android.appconfig.AppConfigResponse
 import com.protonvpn.android.appconfig.UserCountryProvider
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
@@ -145,9 +144,6 @@ open class ProtonApiRetroFit @Inject constructor(
 
     suspend fun postStats(events: List<StatsEvent>): ApiResult<GenericResponse> =
         manager { postStats(StatsBody(events)) }
-
-    suspend fun getGlobalSettings(sessionId: SessionId): ApiResult<GlobalSettingsResponse> =
-        manager(sessionId) { getGlobalSettings() }
 
     suspend fun putTelemetryGlobalSetting(isEnabled: Boolean): ApiResult<GlobalSettingsResponse> =
         manager { putTelemetryGlobalSetting(UpdateGlobalTelemetry(isEnabled)) }

@@ -27,6 +27,7 @@ import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsPrefs
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.GlobalUserSettings
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.IsCredentiallessUser
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.IsTvCheck
@@ -34,23 +35,25 @@ import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.domain.session.SessionId
+import me.proton.core.usersettings.domain.usecase.GetUserSettings
 import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -71,6 +74,10 @@ class GlobalSettingsManagerTests {
     private lateinit var mockGlobalSettingUpdateScheduler: GlobalSettingUpdateScheduler
     @MockK
     private lateinit var mockIsTvCheck: IsTvCheck
+    @MockK
+    private lateinit var mockGetUserSettings: GetUserSettings
+    @MockK
+    private lateinit var mockIsCredentiallessUser: IsCredentiallessUser
 
     private lateinit var currentUser: CurrentUser
     private lateinit var testUserProvider: TestCurrentUserProvider
@@ -98,6 +105,7 @@ class GlobalSettingsManagerTests {
 
         globalSettingsPrefs = GlobalSettingsPrefs(MockSharedPreferencesProvider())
         every { mockIsTvCheck.invoke() } returns false
+        coEvery { mockIsCredentiallessUser.invoke(any()) } returns false
 
         globalSettingsManager = GlobalSettingsManager(
             testScope.backgroundScope,
@@ -106,7 +114,9 @@ class GlobalSettingsManagerTests {
             globalSettingsPrefs,
             userSettingsManager,
             mockIsTvCheck,
-            mockGlobalSettingUpdateScheduler
+            mockGlobalSettingUpdateScheduler,
+            mockGetUserSettings,
+            mockIsCredentiallessUser,
         )
     }
 
@@ -136,9 +146,10 @@ class GlobalSettingsManagerTests {
     @Test
     fun `enabling global telemetry setting doesn't change the local one`() = testScope.runTest {
         globalSettingsPrefs.telemetryEnabled = false
-        val response = GlobalSettingsResponse(GlobalUserSettings(telemetryEnabled = true))
-        coEvery { mockApi.getGlobalSettings(any()) } returns ApiResult.Success(response)
-        globalSettingsManager.refresh(user1.sessionId)
+        coEvery { mockGetUserSettings(any<SessionId>(), any()) } returns mockk {
+            every { telemetry } returns true
+        }
+        globalSettingsManager.refresh(user1.userId, user1.sessionId)
 
         assertTrue(globalSettingsPrefs.telemetryEnabled)
         assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
@@ -149,9 +160,10 @@ class GlobalSettingsManagerTests {
         globalSettingsPrefs.telemetryEnabled = true
         userSettingsManager.updateTelemetry(true)
 
-        val response = GlobalSettingsResponse(GlobalUserSettings(telemetryEnabled = false))
-        coEvery { mockApi.getGlobalSettings(any()) } returns ApiResult.Success(response)
-        globalSettingsManager.refresh(user1.sessionId)
+        coEvery { mockGetUserSettings(any<SessionId>(), any()) } returns mockk {
+            every { telemetry } returns false
+        }
+        globalSettingsManager.refresh(user1.userId, user1.sessionId)
 
         assertFalse(globalSettingsPrefs.telemetryEnabled)
         assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
@@ -189,5 +201,21 @@ class GlobalSettingsManagerTests {
         assertTrue(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
         assertFalse(globalSettingsPrefs.telemetryEnabled)
         coVerify(exactly = 0) { mockGlobalSettingUpdateScheduler.updateRemoteTelemetry(true) }
+    }
+
+    @Test
+    fun `when user is credentialless don't fetch nor set global settings`() = testScope.runTest {
+        // Given:
+        coEvery { mockIsCredentiallessUser.invoke(any()) } returns true
+        globalSettingsPrefs.telemetryEnabled = false
+        userSettingsManager.getRawUserSettingsStore(user1).updateData { it.copy(telemetry = false) }
+
+        // When
+        userSettingsManager.getRawUserSettingsStore(user2).updateData { it.copy(telemetry = true) }
+        globalSettingsManager.refresh(user2.userId, user2.sessionId)
+
+        // Then
+        coVerify(exactly = 0) { mockGlobalSettingUpdateScheduler.updateRemoteTelemetry(any()) }
+        coVerify { mockGetUserSettings wasNot Called }
     }
 }

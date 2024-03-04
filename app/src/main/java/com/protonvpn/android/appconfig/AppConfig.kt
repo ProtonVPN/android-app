@@ -169,8 +169,12 @@ class AppConfig @Inject constructor(
     private suspend fun updateInternal(userId: UserId?): ApiResult<Any> {
         val sessionId = sessionProvider.getSessionId(userId)
         val result = api.getAppConfig(sessionId, getNetZone())
-        if (sessionId != null) {
-            globalSettingsManager.refresh(sessionId)
+        if (userId != null && sessionId != null) {
+            coroutineScope {
+                launch { // Run in parallel, we don't care about the results.
+                    globalSettingsManager.refresh(userId, sessionId)
+                }
+            }
         }
 
         val flagsResult = suspend {
