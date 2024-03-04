@@ -139,9 +139,6 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
     @GET("vpn/v1/partners")
     suspend fun getPartnerships(): PartnersResponse
 
-    @GET("core/v4/settings")
-    suspend fun getGlobalSettings(): GlobalSettingsResponse
-
     @PUT("core/v4/settings/telemetry")
     suspend fun putTelemetryGlobalSetting(@Body body: UpdateGlobalTelemetry): GlobalSettingsResponse
 

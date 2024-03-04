@@ -24,17 +24,21 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.login.TvLoginViewModel
+import com.protonvpn.mocks.MockUserRepository
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createAccountUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testsHelper.UserDataHelper
 import com.protonvpn.testsTv.actions.TvLoginRobot
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
+import javax.inject.Inject
 
 private const val FORK_SELECTOR = "fork_selector"
 private const val FORK_USER_CODE = "1234ABCD"
@@ -66,6 +70,9 @@ class LoginTestsTv {
         .outerRule(hiltRule)
         .around(activityRule)
 
+    @Inject
+    lateinit var mockUserRepository: MockUserRepository
+
     private val loginRobot = TvLoginRobot()
     private lateinit var userDataHelper: UserDataHelper
 
@@ -73,7 +80,9 @@ class LoginTestsTv {
     fun setUp() {
         hiltRule.inject()
         userDataHelper = UserDataHelper()
-        activityRule.scenario
+        runBlocking {
+            mockUserRepository.setMockUser(createAccountUser())
+        }
     }
 
     @Test
