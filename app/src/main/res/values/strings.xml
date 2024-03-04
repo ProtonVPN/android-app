@@ -1072,6 +1072,16 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Cancel</string>
 
+
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">All</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
+
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->

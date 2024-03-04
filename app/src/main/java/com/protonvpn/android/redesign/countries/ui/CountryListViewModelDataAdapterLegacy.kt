@@ -41,6 +41,10 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
         filter: ServerListFilter,
     ): Flow<List<CountryListItemData.Country>> =
         serverManager2.allServersFlow.map { servers ->
+            val entryCountryId = if (filter.type == ServerFilterType.SecureCore)
+                CountryId.fastest
+            else
+                null
             val countries = servers
                 .asFilteredSequence(filter)
                 .map { it.exitCountry }
@@ -50,7 +54,8 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
                 serverManager2
                     .getVpnExitCountry(countryCode, false)
                     ?.serverList
-                    ?.toCountryItem(countryCode)
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.toCountryItem(countryCode, entryCountryId)
             }
         }
 
@@ -88,9 +93,9 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
     }
 }
 
-fun List<Server>.toCountryItem(countryCode: String) = CountryListItemData.Country(
+fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?) = CountryListItemData.Country(
     countryId = CountryId(countryCode),
-    entryCountryId = null,
+    entryCountryId = entryCountryId,
     inMaintenance = all { !it.online },
     tier = minOf { it.tier }
 )

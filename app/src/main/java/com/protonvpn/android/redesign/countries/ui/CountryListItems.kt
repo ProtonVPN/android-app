@@ -113,7 +113,8 @@ fun CountryListItem(
 
 @Composable
 private fun CountryListItemState.subLabel() = when (data) {
-    is CountryListItemData.Country -> data.entryCountryId?.let { viaCountry(it) }
+    is CountryListItemData.Country ->
+        data.entryCountryId?.takeIf { !it.isFastest }?.let { viaCountry(it) }
     is CountryListItemData.City -> null
     is CountryListItemData.Server -> null
 }
