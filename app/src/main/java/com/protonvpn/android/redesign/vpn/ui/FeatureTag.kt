@@ -62,7 +62,7 @@ fun FeatureTag(
     }
 }
 
-private fun ServerFeature.iconRes() = when (this) {
+fun ServerFeature.iconRes() = when (this) {
     ServerFeature.Tor -> CoreR.drawable.ic_proton_brand_tor
     ServerFeature.P2P -> CoreR.drawable.ic_proton_arrow_right_arrow_left
 }

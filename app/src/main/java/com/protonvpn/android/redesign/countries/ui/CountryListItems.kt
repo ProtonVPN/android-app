@@ -48,6 +48,7 @@ import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.home_screen.ui.ServerLoadBar
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.ui.iconRes
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
@@ -155,7 +156,7 @@ private fun ServerFeaturesRow(features: Set<ServerFeature>) {
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
                         .size(14.dp),
-                    painter = painterResource(id = feature.iconRes),
+                    painter = painterResource(id = feature.iconRes()),
                     tint = ProtonTheme.colors.iconWeak,
                     contentDescription = null
                 )
@@ -194,15 +195,10 @@ private fun LoadPercentText(loadPercent: Int, alpha: Float) {
     )
 }
 
-val CountryListItemState.openIconRes get() = when {
+private val CountryListItemState.openIconRes get() = when {
     data.inMaintenance -> CoreR.drawable.ic_proton_wrench
     canOpen -> CoreR.drawable.ic_proton_three_dots_horizontal
     else -> null
-}
-
-val ServerFeature.iconRes get() = when (this) {
-    ServerFeature.P2P -> CoreR.drawable.ic_proton_arrow_right_arrow_left
-    ServerFeature.Tor -> CoreR.drawable.ic_proton_brand_tor
 }
 
 @Composable
@@ -270,7 +266,8 @@ fun ServerItemPreview(
                 serverFeatures = setOf(ServerFeature.P2P, ServerFeature.Tor),
                 isVirtualLocation = true,
                 inMaintenance = inMaintenance,
-                tier = 0
+                tier = 0,
+                entryCountryId = null
             ),
             available = available,
             connected = true,

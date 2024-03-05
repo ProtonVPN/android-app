@@ -21,7 +21,6 @@ package com.protonvpn.android.redesign.countries.ui
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
-import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 
 // Server data as needed by the UI, doesn't have dynamic properties like isConnected or
@@ -50,6 +49,7 @@ sealed class CountryListItemData {
         override val countryId: CountryId,
         override val inMaintenance: Boolean,
         override val tier: Int,
+        val entryCountryId: CountryId?,
         val serverId: ServerId,
         val name: String,
         val loadPercent: Int,

@@ -29,7 +29,9 @@ import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.hasFlag
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import java.util.BitSet
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -37,11 +39,22 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
     private val serverManager2: ServerManager2,
 ) : CountryListViewModelDataAdapter {
 
+    override suspend fun availableTypesFor(countryId: CountryId?): Set<ServerFilterType> {
+        val servers = serverManager2.allServersFlow.first()
+        val availableTypes = initAvailableTypes()
+        for (server in servers) {
+            if (countryId == null || server.exitCountry == countryId.countryCode)
+                availableTypes.update(server)
+        }
+        return availableTypes.toAvailableTypes()
+    }
+
     override fun countries(
         filter: ServerListFilter,
     ): Flow<List<CountryListItemData.Country>> =
         serverManager2.allServersFlow.map { servers ->
-            val entryCountryId = if (filter.type == ServerFilterType.SecureCore)
+            val secureCore = filter.type == ServerFilterType.SecureCore
+            val entryCountryId = if (secureCore)
                 CountryId.fastest
             else
                 null
@@ -52,7 +65,7 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
                 .toList()
             countries.mapNotNull { countryCode ->
                 serverManager2
-                    .getVpnExitCountry(countryCode, false)
+                    .getVpnExitCountry(countryCode, secureCore)
                     ?.serverList
                     ?.takeIf { it.isNotEmpty() }
                     ?.toCountryItem(countryCode, entryCountryId)
@@ -66,19 +79,38 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
             val filteredServers = servers.asFilteredSequence(filter)
             val hasRegions = filteredServers.any { it.region != null }
             val groupBySelector = if (hasRegions) Server::region else Server::city
+            val availableTypes = initAvailableTypes()
             filteredServers
                 .groupBy(groupBySelector)
-                .mapNotNull { (cityOrRegion, servers) -> toCityItem(hasRegions, cityOrRegion, servers) }
+                .mapNotNull { (cityOrRegion, servers) ->
+                    availableTypes.update(servers)
+                    toCityItem(hasRegions, cityOrRegion, servers)
+                }
         }
 
     override fun servers(
         filter: ServerListFilter,
     ): Flow<List<CountryListItemData.Server>> =
         serverManager2.allServersFlow.map { servers ->
+            val availableTypes = initAvailableTypes()
             servers
                 .asFilteredSequence(filter)
+                .onEach { availableTypes.update(it) }
                 .map(Server::toServerItem)
                 .toList()
+        }
+
+    override fun entryCountries(country: CountryId): Flow<List<CountryListItemData.Country>> =
+        serverManager2.allServersFlow.map { _ ->
+            val servers = serverManager2.getVpnExitCountry(country.countryCode, true)?.serverList
+            if (servers == null)
+                emptyList()
+            else {
+                val entryCountries = servers.groupBy { it.entryCountry }
+                entryCountries.map { (entryCode, servers) ->
+                    servers.toCountryItem(country.countryCode, CountryId(entryCode))
+                }
+            }
         }
 
     private fun List<Server>.asFilteredSequence(filter: ServerListFilter) =
@@ -93,14 +125,14 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
     }
 }
 
-fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?) = CountryListItemData.Country(
+private fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?) = CountryListItemData.Country(
     countryId = CountryId(countryCode),
     entryCountryId = entryCountryId,
     inMaintenance = all { !it.online },
     tier = minOf { it.tier }
 )
 
-fun Server.toServerItem() = CountryListItemData.Server(
+private fun Server.toServerItem() = CountryListItemData.Server(
     countryId = CountryId(exitCountry),
     serverId = ServerId(serverId),
     name = serverName,
@@ -108,10 +140,11 @@ fun Server.toServerItem() = CountryListItemData.Server(
     serverFeatures = serverFeatures,
     isVirtualLocation = hostCountry != null && hostCountry != exitCountry,
     inMaintenance = !online,
-    tier = tier
+    tier = tier,
+    entryCountryId = if (isSecureCoreServer) CountryId(entryCountry) else null
 )
 
-fun toCityItem(isRegion: Boolean, cityOrRegion: String?, servers: List<Server>) : CountryListItemData.City? {
+private fun toCityItem(isRegion: Boolean, cityOrRegion: String?, servers: List<Server>) : CountryListItemData.City? {
     if (cityOrRegion == null || servers.isEmpty())
         return null
 
@@ -127,24 +160,37 @@ fun toCityItem(isRegion: Boolean, cityOrRegion: String?, servers: List<Server>) 
 }
 
 
-val Server.serverFeatures get() = buildSet {
+private val Server.serverFeatures get() = buildSet {
     if (features.hasFlag(SERVER_FEATURE_P2P))
         add(ServerFeature.P2P)
     if (features.hasFlag(SERVER_FEATURE_TOR))
         add(ServerFeature.Tor)
 }
 
-fun CityStateId.matches(server: Server) =
+private fun CityStateId.matches(server: Server) =
     name == if (isState) server.region else server.city
 
-fun ServerFilterType.isMatching(server: Server) = when (this) {
+private fun ServerFilterType.isMatching(server: Server) = when (this) {
     ServerFilterType.All -> !server.isSecureCoreServer
     ServerFilterType.SecureCore -> server.isSecureCoreServer
     ServerFilterType.Tor -> server.isTor
     ServerFilterType.P2P -> server.isP2pServer
 }
 
-fun ServerListFilter.isMatching(server: Server) =
+private fun ServerListFilter.isMatching(server: Server) =
     type.isMatching(server) &&
         (country == null || country.countryCode == server.exitCountry) &&
         (cityStateId == null || cityStateId.matches(server))
+
+private fun initAvailableTypes() =
+    BitSet(ServerFilterType.entries.size).apply { set(ServerFilterType.All.ordinal) }
+
+private fun BitSet.update(server: Server) {
+    if (server.isSecureCoreServer) set(ServerFilterType.SecureCore.ordinal)
+    if (server.isTor) set(ServerFilterType.Tor.ordinal)
+    if (server.isP2pServer) set(ServerFilterType.P2P.ordinal)
+}
+
+private fun BitSet.update(servers: List<Server>) = servers.forEach { update(it) }
+
+private fun BitSet.toAvailableTypes() = ServerFilterType.entries.filter { get(it.ordinal) }.toSet()
