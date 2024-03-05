@@ -19,6 +19,7 @@
 
 package com.protonvpn.testSuites
 
+import com.protonvpn.tests.api.FeatureFlagUserCountryTests
 import com.protonvpn.tests.bugReport.MockedBugReportTests
 import com.protonvpn.tests.logging.ProtonLoggerImplTests
 import com.protonvpn.tests.login.LogoutTests
@@ -35,6 +36,7 @@ import org.junit.runners.Suite
 //    HomeActivityPromoOfferTests::class,
 //    PartnershipTests::class,
 //    PromoOfferActivityTests::class,
+    FeatureFlagUserCountryTests::class,
     // Note: when we have a lot of isolated tests they can be run in a separate CI job without test orchestrator.
     IsolatedTestsSuite::class,
     LogoutTests::class,

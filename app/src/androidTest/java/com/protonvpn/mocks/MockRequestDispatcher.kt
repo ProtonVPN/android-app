@@ -43,6 +43,7 @@ class MockRequestDispatcher : Dispatcher() {
     }
 
     private val rules = CopyOnWriteArrayList<Rule>()
+    val recordedRequests = CopyOnWriteArrayList<RecordedRequest>()
 
     fun prependRules(rulesScope: MockRuleBuilder.() -> Unit) = insertRules(prepend = true, rulesScope)
 
@@ -58,6 +59,7 @@ class MockRequestDispatcher : Dispatcher() {
     }
 
     override fun dispatch(request: RecordedRequest): MockResponse {
+        recordedRequests.add(request)
         // If you get the UnmockedApiCallException it probably means some new API call has been added to the
         // application. This API call needs to be mocked either in TestApiConfig (if it's generic) or in a
         // specific test case that triggers the call.

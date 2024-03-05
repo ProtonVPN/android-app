@@ -30,13 +30,15 @@ import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.DefaultUserCountryProvider
 import com.protonvpn.android.appconfig.GlideImagePrefetcher
 import com.protonvpn.android.appconfig.ImagePrefetcher
+import com.protonvpn.android.appconfig.UserCountryProvider
+import com.protonvpn.android.appconfig.VpnFeatureFlagContextProvider
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingUpdateScheduler
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsUpdateWorker
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerScheduler
@@ -83,6 +85,7 @@ import kotlinx.coroutines.MainScope
 import me.proton.core.account.domain.entity.AccountType
 import me.proton.core.domain.entity.AppStore
 import me.proton.core.domain.entity.Product
+import me.proton.core.featureflag.domain.repository.FeatureFlagContextProvider
 import me.proton.core.network.data.ApiProvider
 import me.proton.core.network.data.client.ExtraHeaderProviderImpl
 import me.proton.core.network.data.di.AlternativeApiPins
@@ -143,14 +146,6 @@ object AppModuleProd {
 
     @Singleton
     @Provides
-    fun provideAPI(
-        scope: CoroutineScope,
-        apiManager: VpnApiManager,
-        telephonyManager: TelephonyManager?
-    ) = ProtonApiRetroFit(scope, apiManager, telephonyManager)
-
-    @Singleton
-    @Provides
     fun provideVpnBackendManager(
         appConfig: AppConfig,
         wireguardBackend: WireguardBackend,
@@ -202,6 +197,9 @@ object AppModuleProd {
         @Singleton
         @Binds
         fun provideLocalDataStoreFactory(factory: DefaultLocalDataStoreFactory): LocalDataStoreFactory
+
+        @Binds
+        fun bindUserCountryProvider(provider: DefaultUserCountryProvider): UserCountryProvider
     }
 }
 
@@ -337,9 +335,12 @@ object AppModule {
         @Singleton
         @Binds
         fun provideCurrentUserProvider(provider: DefaultCurrentUserProvider): CurrentUserProvider
-
+        
         @Singleton
         @Binds
         fun provideCountryListViewModelDataAdapter(impl: CountryListViewModelDataAdapterLegacy): CountryListViewModelDataAdapter
+
+        @Binds
+        fun provideFeatureFlagContextProvider(provider: VpnFeatureFlagContextProvider): FeatureFlagContextProvider
     }
 }
