@@ -120,7 +120,7 @@ class HomeViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     enum class DialogState {
-        CountryInMaintenance, CityInMaintenance, ServerInMaintenance, GatewayInMaintenance, ServerNotAvailable
+        CountryInMaintenance, CityInMaintenance, RegionInMaintenance, ServerInMaintenance, GatewayInMaintenance, ServerNotAvailable
     }
 
     private var dialogState by savedStateHandle.state<DialogState?>(null, DialogStateKey)
@@ -200,6 +200,7 @@ class HomeViewModel @Inject constructor(
         when (connectIntent) {
             is ConnectIntent.FastestInCountry -> DialogState.CountryInMaintenance
             is ConnectIntent.FastestInCity -> DialogState.CityInMaintenance
+            is ConnectIntent.FastestInRegion -> DialogState.RegionInMaintenance
             is ConnectIntent.SecureCore,
             is ConnectIntent.Server -> DialogState.ServerInMaintenance
             is ConnectIntent.Gateway ->

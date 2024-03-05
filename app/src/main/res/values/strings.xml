@@ -999,6 +999,8 @@
     <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">All servers in this city are under maintenance</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Server under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1075,6 +1077,8 @@
 
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">All</string>
+    <string name="country_filter_cities">Cities</string>
+    <string name="country_filter_states">States</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
     <!-- tag(Redesign_2023) -->

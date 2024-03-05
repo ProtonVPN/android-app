@@ -25,10 +25,10 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import me.proton.core.util.kotlin.takeIfNotBlank
 
-// TODO: fastest in state/region (VPNAND-1329)
 enum class ConnectIntentType {
     FASTEST,
     FASTEST_IN_CITY,
+    FASTEST_IN_REGION,
     SECURE_CORE,
     GATEWAY,
     SPECIFIC_SERVER,
@@ -40,6 +40,7 @@ data class ConnectIntentData(
     val exitCountry: String?,
     val entryCountry: String?,
     val city: String?,
+    val region: String?,
     val gatewayName: String?,
     val serverId: String?,
     val features: Set<ServerFeature>
@@ -57,6 +58,13 @@ fun ConnectIntentData.toConnectIntent(): ConnectIntent =
             ConnectIntent.FastestInCity(
                 country = exitCountry.toCountryId(),
                 cityEn = requireNotNull(city),
+                features = features
+            )
+
+        ConnectIntentType.FASTEST_IN_REGION ->
+            ConnectIntent.FastestInRegion(
+                country = exitCountry.toCountryId(),
+                regionEn = requireNotNull(region),
                 features = features
             )
 
@@ -95,7 +103,8 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 city = null,
                 gatewayName = null,
                 serverId = null,
-                features = features
+                features = features,
+                region = null,
             )
         is ConnectIntent.FastestInCity ->
             ConnectIntentData(
@@ -105,7 +114,19 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 city = cityEn,
                 gatewayName = null,
                 serverId = null,
-                features = features
+                features = features,
+                region = null,
+            )
+        is ConnectIntent.FastestInRegion ->
+            ConnectIntentData(
+                connectIntentType = ConnectIntentType.FASTEST_IN_REGION,
+                exitCountry = country.toDataString(),
+                entryCountry = null,
+                city = null,
+                gatewayName = null,
+                serverId = null,
+                features = features,
+                region = regionEn,
             )
         is ConnectIntent.SecureCore ->
             ConnectIntentData(
@@ -115,7 +136,8 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 city = null,
                 gatewayName = null,
                 serverId = null,
-                features = features
+                features = features,
+                region = null,
             )
         is ConnectIntent.Gateway ->
             ConnectIntentData(
@@ -125,7 +147,8 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 city = null,
                 gatewayName = gatewayName,
                 serverId = serverId,
-                features = features
+                features = features,
+                region = null,
             )
         is ConnectIntent.Server ->
             ConnectIntentData(
@@ -135,7 +158,8 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 city = null,
                 gatewayName = null,
                 serverId = serverId,
-                features = features
+                features = features,
+                region = null,
             )
     }
 
@@ -147,7 +171,8 @@ fun AnyConnectIntent.toData() = when (this) {
         city = null,
         serverId = serverId,
         gatewayName = null,
-        features = emptySet()
+        features = emptySet(),
+        region = null,
     )
     is ConnectIntent -> this.toData()
 }

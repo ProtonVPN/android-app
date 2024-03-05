@@ -43,6 +43,7 @@ class GetConnectIntentViewState @Inject constructor(
                 else fastestInCountry(connectIntent, connectedServer)
             }
             is ConnectIntent.FastestInCity -> fastestInCity(connectIntent, connectedServer)
+            is ConnectIntent.FastestInRegion -> fastestInRegion(connectIntent, connectedServer)
             is ConnectIntent.SecureCore -> secureCore(connectIntent, connectedServer)
             is ConnectIntent.Gateway -> gateway(connectIntent, connectedServer)
             is ConnectIntent.Server -> specificServer(connectIntent, connectedServer)
@@ -70,6 +71,18 @@ class GetConnectIntentViewState @Inject constructor(
                 ConnectIntentSecondaryLabel.FastestFreeServer(serverManager.getFreeCountries().size)
             },
             serverFeatures = emptySet()
+        )
+
+    private fun fastestInRegion(connectIntent: ConnectIntent.FastestInRegion, connectedServer: Server? = null) =
+        ConnectIntentViewState(
+            primaryLabel = ConnectIntentPrimaryLabel.Country(
+                exitCountry = connectedServer?.entryCountry?.let { CountryId(it) } ?: connectIntent.country,
+                entryCountry = null,
+            ),
+            secondaryLabel = ConnectIntentSecondaryLabel.RawText(
+                connectedServer?.displayRegion ?: connectedServer?.displayCity ?: translator.getRegion(connectIntent.regionEn)
+            ),
+            serverFeatures = effectiveServerFeatures(connectIntent, connectedServer)
         )
 
     private fun fastestInCity(connectIntent: ConnectIntent.FastestInCity, connectedServer: Server? = null) =
@@ -182,7 +195,7 @@ class GetConnectIntentViewState @Inject constructor(
             }
         } else {
             listOfNotNull(
-                region ?: displayCity,
+                displayRegion ?: displayCity,
                 serverName.dropWhile { it != '#' }
             ).joinToString(" ")
         }

@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.countries.ui
 
 import androidx.activity.ComponentActivity
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -130,7 +131,10 @@ fun NewCountryListRoute(
                     .padding(top = 14.dp, bottom = 8.dp)
             )
 
-            FiltersRow(buttonActions = mainState.filterButtons)
+            FiltersRow(
+                buttonActions = mainState.filterButtons,
+                allLabelRes = R.string.country_filter_all
+            )
             Spacer(modifier = Modifier.size(8.dp))
         }
 
@@ -156,7 +160,7 @@ fun NewCountryListRoute(
 }
 
 @Composable
-fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier) {
+fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier, @StringRes allLabelRes: Int) {
     LazyRow(
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -189,7 +193,7 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier)
                         Spacer(modifier = Modifier.size(4.dp))
                     }
                     val filterTitleRes = when (filterButton.filter) {
-                        ServerFilterType.All -> R.string.country_filter_all
+                        ServerFilterType.All -> allLabelRes
                         ServerFilterType.SecureCore -> R.string.country_filter_secure_core
                         ServerFilterType.P2P -> R.string.country_filter_p2p
                         ServerFilterType.Tor -> R.string.country_filter_tor

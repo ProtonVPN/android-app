@@ -22,9 +22,11 @@
 package com.protonvpn.android.redesign.countries.ui
 
 import android.os.Parcelable
+import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CityStateId
@@ -107,7 +109,8 @@ class CountryListViewModel @Inject constructor(
 
     val subScreenStateFlow = subScreenSaveStateFlow.flatMapLatest { savedState ->
         if (savedState != null) {
-            val availableTypes = dataAdapter.availableTypesFor(savedState.filter.country)
+            val availableTypes = dataAdapter.availableTypesFor(savedState.countryId)
+            val haveStates = dataAdapter.haveStates(savedState.countryId)
             when (savedState.type) {
                 SubScreenType.City -> when(savedState.filter.type) {
                     ServerFilterType.All, ServerFilterType.P2P -> dataAdapter.cities(savedState.filter)
@@ -121,7 +124,12 @@ class CountryListViewModel @Inject constructor(
                         getSubScreenFilterButtons(availableTypes, savedState.filter.type, savedState)
                     else -> null
                 }
-                SubScreenState(savedState, filterButtons, items)
+                SubScreenState(
+                    savedState,
+                    filterButtons,
+                    items,
+                    if (haveStates) R.string.country_filter_states else R.string.country_filter_cities
+                )
             }
         } else {
             flowOf(null)
@@ -263,8 +271,12 @@ private fun CountryListItemData.displayLabel(locale: Locale): String = when(this
 }
 
 private fun CountryListItemState.getConnectionIntent(filter: ServerListFilter): ConnectIntent = when(data) {
-    is CountryListItemData.City ->
-        ConnectIntent.FastestInCity(data.countryId, data.cityStateId.name, filter.toFeatures())
+    is CountryListItemData.City -> {
+        if (data.cityStateId.isState)
+            ConnectIntent.FastestInRegion(data.countryId, data.cityStateId.name, filter.toFeatures())
+        else
+            ConnectIntent.FastestInCity(data.countryId, data.cityStateId.name, filter.toFeatures())
+    }
     is CountryListItemData.Server ->
         data.entryCountryId?.let { ConnectIntent.SecureCore(data.countryId, it) } ?:
             ConnectIntent.Server(data.serverId.id, data.serverFeatures)
@@ -319,12 +331,15 @@ data class SubScreenState(
     val savedState: SubScreenSaveState,
     val filterButtons: List<FilterButton>?,
     val items: List<CountryListItemState>,
+    @StringRes val allLabelRes: Int,
 )
 
 // Adapter separating server data storage from view model.
 interface CountryListViewModelDataAdapter {
 
-    suspend fun availableTypesFor(countryId: CountryId?): Set<ServerFilterType>
+    suspend fun availableTypesFor(country: CountryId?): Set<ServerFilterType>
+
+    suspend fun haveStates(country: CountryId): Boolean
 
     fun countries(filter: ServerListFilter):
         Flow<List<CountryListItemData.Country>>

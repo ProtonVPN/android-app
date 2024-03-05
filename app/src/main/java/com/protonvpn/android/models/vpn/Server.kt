@@ -101,7 +101,9 @@ data class Server(
         get() = features.hasFlag(SERVER_FEATURE_STREAMING)
 
     fun getCityTranslation() = translations?.get("City")
+    fun getRegionTranslation() = translations?.get("Region")
     val displayCity get() = getCityTranslation() ?: city
+    val displayRegion get() = getRegionTranslation() ?: region
 
     @Transient
     val serverNumber: Int = computeServerNumber()

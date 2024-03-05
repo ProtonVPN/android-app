@@ -39,11 +39,11 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
     private val serverManager2: ServerManager2,
 ) : CountryListViewModelDataAdapter {
 
-    override suspend fun availableTypesFor(countryId: CountryId?): Set<ServerFilterType> {
+    override suspend fun availableTypesFor(country: CountryId?): Set<ServerFilterType> {
         val servers = serverManager2.allServersFlow.first()
         val availableTypes = initAvailableTypes()
         for (server in servers) {
-            if (countryId == null || server.exitCountry == countryId.countryCode)
+            if (country == null || server.exitCountry == country.countryCode)
                 availableTypes.update(server)
         }
         return availableTypes.toAvailableTypes()
@@ -112,6 +112,11 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
                 }
             }
         }
+
+    override suspend fun haveStates(country: CountryId): Boolean {
+        val servers = serverManager2.getVpnExitCountry(country.countryCode, true)?.serverList ?: return false
+        return servers.any { it.region != null }
+    }
 
     private fun List<Server>.asFilteredSequence(filter: ServerListFilter) =
         asSequence().filter { filter.isMatching(it) }
