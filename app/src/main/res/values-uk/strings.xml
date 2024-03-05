@@ -1154,16 +1154,6 @@
     <string name="connection_details_unknown_ip">Невідомо</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Цей графік показує швидкість поточного завантаження і вивантаження. VPN-з\'єднання не повинно впливати на типову активність онлайн.</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_bits_per_second">%1$s б/с</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_kb_per_second">%1$s Кб/с</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_mb_per_second">%1$s Мб/с</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_gb_per_second">%1$s Мб/с</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_tb_per_second">%1$s Тб/с</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

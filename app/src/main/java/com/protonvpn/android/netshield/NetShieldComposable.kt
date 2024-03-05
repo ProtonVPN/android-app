@@ -54,7 +54,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonSwitch
-import com.protonvpn.android.utils.ConnectionTools
+import com.protonvpn.android.base.ui.volumeBytesToString
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionStrongNorm
@@ -187,24 +187,24 @@ fun BandwidthStatsRow(
     ) {
         val adsCount = stats.adsBlocked
         val trackerCount = stats.trackersBlocked
-        val dataSaved = stats.savedBytes
-        val modifier = Modifier
+        val dataBytesSaved = stats.savedBytes
+        val columnModifier = Modifier
             .weight(1f)
             .padding(2.dp)
         BandwidthColumn(
             title = pluralStringResource(id = R.plurals.netshield_ads_blocked, count = adsCount.toInt()),
             content = adsCount.toString(),
-            modifier = modifier.testTag("adsBlocked")
+            modifier = columnModifier.testTag("adsBlocked")
         )
         BandwidthColumn(
             title = pluralStringResource(id = R.plurals.netshield_trackers_stopped, count = trackerCount.toInt()),
             content = trackerCount.toString(),
-            modifier = modifier.testTag("trackersStopped")
+            modifier = columnModifier.testTag("trackersStopped")
         )
         BandwidthColumn(
             title = stringResource(id = R.string.netshield_data_saved),
-            content = ConnectionTools.bytesToSize(dataSaved),
-            modifier = modifier.testTag("bandwidthSaved")
+            content = dataBytesSaved.volumeBytesToString(),
+            modifier = columnModifier.testTag("bandwidthSaved")
         )
     }
 }

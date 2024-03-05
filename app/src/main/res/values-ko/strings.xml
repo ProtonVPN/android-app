@@ -1097,16 +1097,6 @@
     <string name="connection_details_unknown_ip">알 수 없음</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">이 그래프는 지금의 업로드와 다운로드 활동의 속도를 보여줍니다. VPN 접속은 보통 일반적인 온라인 활동에 지장을 주지 않습니다.</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_bits_per_second">%1$s b/초</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_kb_per_second">%1$s kB/초</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_mb_per_second">%1$s Mb/초</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_gb_per_second">%1$s Gb/초</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_tb_per_second">%1$s Tb/초</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

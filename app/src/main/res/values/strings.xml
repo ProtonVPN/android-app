@@ -1162,16 +1162,17 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
 
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_bits_per_second">%1$s b/s</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_kb_per_second">%1$s kb/s</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_mb_per_second">%1$s Mb/s</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_gb_per_second">%1$s Gb/s</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_tb_per_second">%1$s Tb/s</string>
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
 
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN

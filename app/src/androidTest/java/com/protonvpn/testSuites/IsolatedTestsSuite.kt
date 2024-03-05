@@ -19,6 +19,7 @@
 
 package com.protonvpn.testSuites
 
+import com.protonvpn.tests.base.ui.SpeedAndSizeFormatTests
 import com.protonvpn.tests.netshield.NetShieldComponentTests
 import com.protonvpn.tests.promooffer.PromoOfferCountDownTests
 import com.protonvpn.tests.redesign.base.ui.ProtonTextFieldTests
@@ -48,6 +49,7 @@ import org.junit.runners.Suite
     RecentsDaoTests::class,
     RecentsListUiTests::class,
     RecentsListValidatorTests::class,
+    SpeedAndSizeFormatTests::class,
     VpnStatusViewTests::class,
 )
 class IsolatedTestsSuite
