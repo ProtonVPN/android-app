@@ -25,6 +25,7 @@ import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
+import me.proton.core.featureflag.data.remote.response.GetUnleashTogglesResponse
 import me.proton.core.network.data.protonApi.GenericResponse
 import me.proton.core.network.domain.HttpResponseCodes
 import me.proton.core.network.domain.ResponseCodes
@@ -83,12 +84,15 @@ sealed class TestApiConfig {
                     respond(GenericResponse(ResponseCodes.OK))
                 }
 
+                rule(get, path eq "/feature/v2/frontend") {
+                    respond(GetUnleashTogglesResponse(ResponseCodes.OK, emptyList()))
+                }
+
                 // Endpoints that require a simple 1000 response code
                 listOf(
                     "/tests/ping",
                     "/core/v4/domains/available",
                     "/data/v1/stats",
-                    "/feature/v2/frontend"
                 ).forEach { code1000Path ->
                     rule(path eq code1000Path) { respond(GenericResponse(ResponseCodes.OK)) }
                 }

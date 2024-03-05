@@ -19,8 +19,9 @@
 package com.protonvpn.android.api
 
 import android.os.Build
-import android.telephony.TelephonyManager
+
 import com.protonvpn.android.appconfig.AppConfigResponse
+import com.protonvpn.android.appconfig.UserCountryProvider
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.UpdateGlobalTelemetry
 import com.protonvpn.android.auth.data.VpnUser
@@ -34,18 +35,18 @@ import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
 import com.protonvpn.android.telemetry.StatsBody
 import com.protonvpn.android.telemetry.StatsEvent
-import com.protonvpn.android.utils.mobileCountryCode
-import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.TimeoutOverride
 import me.proton.core.network.domain.session.SessionId
 import okhttp3.RequestBody
 import java.util.Date
+import javax.inject.Inject
+import javax.inject.Singleton
 
-open class ProtonApiRetroFit(
-    val scope: CoroutineScope,
+@Singleton
+open class ProtonApiRetroFit @Inject constructor(
     private val manager: VpnApiManager,
-    private val telephonyManager: TelephonyManager?
+    private val userCountryProvider: UserCountryProvider,
 ) {
 
     open suspend fun getAppConfig(sessionId: SessionId?, netzone: String?): ApiResult<AppConfigResponse> =
@@ -152,7 +153,7 @@ open class ProtonApiRetroFit(
 
     private fun createNetZoneHeaders(netzone: String?) =
         mutableMapOf<String, String>().apply {
-            val mcc = telephonyManager?.mobileCountryCode()
+            val mcc = userCountryProvider.getTelephonyCountryCode()
             if (mcc != null)
                 put(ProtonVPNRetrofit.HEADER_COUNTRY, mcc)
             if (!netzone.isNullOrEmpty())
