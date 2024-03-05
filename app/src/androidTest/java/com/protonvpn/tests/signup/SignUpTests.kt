@@ -23,6 +23,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
+import com.protonvpn.actions.HumanVerificationRobot
 import com.protonvpn.actions.OnboardingRobot
 import com.protonvpn.actions.SignupRobot
 import com.protonvpn.android.redesign.app.ui.MainActivity
@@ -32,6 +33,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.test.MinimalSignUpExternalTests
 import me.proton.core.auth.test.robot.AddAccountRobot
 import me.proton.core.auth.test.robot.signup.CongratsRobot
+import me.proton.core.auth.test.robot.signup.RecoveryMethodRobot
 import me.proton.core.auth.test.robot.signup.SetPasswordRobot
 import me.proton.core.auth.test.robot.signup.SignUpRobot
 import me.proton.core.auth.test.rule.AcceptExternalRule
@@ -50,6 +52,8 @@ import javax.inject.Inject
 @HiltAndroidTest
 class SignupTests : MinimalSignUpExternalTests {
 
+    lateinit var humanVerificationRobot: HumanVerificationRobot
+
     @get:Rule
     val rule = realBackendRule()
         .around(AcceptExternalRule { extraHeaderProvider })
@@ -63,6 +67,7 @@ class SignupTests : MinimalSignUpExternalTests {
     @Before
     fun setUp() {
         TestSetup.quark?.jailUnban()
+        humanVerificationRobot = HumanVerificationRobot()
     }
 
     override val isCongratsDisplayed = false
@@ -83,8 +88,9 @@ class SignupTests : MinimalSignUpExternalTests {
             .clickNext()
         SetPasswordRobot
             .fillAndClickNext("123123123")
+
         SignupRobot().enterRecoveryEmail("${testUsername}@proton.ch")
-        SignupRobot().verifyViaSms()
+        humanVerificationRobot.verifyViaSms()
 
         CongratsRobot.takeIf { isCongratsDisplayed }?.apply {
             uiElementsDisplayed()
