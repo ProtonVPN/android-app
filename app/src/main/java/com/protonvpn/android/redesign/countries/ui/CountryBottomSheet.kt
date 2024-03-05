@@ -23,8 +23,10 @@ package com.protonvpn.android.redesign.countries.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -93,6 +95,10 @@ fun BottomSheetScreen(
                 modifier = Modifier.padding(start = 12.dp).weight(1f),
                 style = ProtonTheme.typography.headlineNorm
             )
+        }
+        screen.filterButtons?.let {
+            FiltersRow(buttonActions = it)
+            Spacer(modifier = Modifier.size(8.dp))
         }
         LazyColumn {
             screen.items.forEach { item ->

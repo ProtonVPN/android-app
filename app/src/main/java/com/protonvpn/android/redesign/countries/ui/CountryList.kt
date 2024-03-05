@@ -137,8 +137,8 @@ fun NewCountryListRoute(
         CountryList(
             modifier = Modifier.weight(1f),
             mainState.items,
-            onCountryClick = { viewModel.onItemConnect(uiDelegate, it, navigateToHome, navigateToUpsell) },
-            onOpenCountry = { viewModel.onItemOpen(it) }
+            onCountryClick = { viewModel.onItemConnect(uiDelegate, it, mainState.savedState.filter, navigateToHome, navigateToUpsell) },
+            onOpenCountry = { viewModel.onItemOpen(it, mainState.savedState.filter.type) }
         )
     }
 
@@ -148,8 +148,8 @@ fun NewCountryListRoute(
             modifier = Modifier,
             screen = subScreenState,
             onNavigateBack = { onHide -> viewModel.onNavigateBack(onHide) },
-            onNavigateToItem = { item -> viewModel.onItemOpen(item) },
-            onItemClicked = { viewModel.onItemConnect(uiDelegate, it, navigateToHome, navigateToUpsell) },
+            onNavigateToItem = { item -> viewModel.onItemOpen(item, subScreenState.savedState.filter.type) },
+            onItemClicked = { viewModel.onItemConnect(uiDelegate, it, subScreenState.savedState.filter, navigateToHome, navigateToUpsell) },
             onClose = { viewModel.onClose() }
         )
     }
