@@ -97,7 +97,7 @@ fun BottomSheetScreen(
             )
         }
         screen.filterButtons?.let {
-            FiltersRow(buttonActions = it)
+            FiltersRow(buttonActions = it, allLabelRes = screen.allLabelRes)
             Spacer(modifier = Modifier.size(8.dp))
         }
         LazyColumn {

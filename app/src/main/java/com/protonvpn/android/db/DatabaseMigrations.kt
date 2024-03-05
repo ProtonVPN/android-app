@@ -23,6 +23,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import me.proton.core.account.data.db.AccountDatabase
 import me.proton.core.challenge.data.db.ChallengeDatabase
+import me.proton.core.data.room.db.extension.addTableColumn
 import me.proton.core.eventmanager.data.db.EventMetadataDatabase
 import me.proton.core.featureflag.data.db.FeatureFlagDatabase
 import me.proton.core.humanverification.data.db.HumanVerificationDatabase
@@ -181,6 +182,17 @@ object DatabaseMigrations {
         override fun migrate(database: SupportSQLiteDatabase) {
             UserDatabase.MIGRATION_5.migrate(database)
             AccountDatabase.MIGRATION_7.migrate(database)
+        }
+    }
+
+    val MIGRATION_27_28 = object : Migration(27, 28) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.addTableColumn(
+                table = "recents",
+                column = "region",
+                type = "TEXT",
+                defaultValue = null
+            )
         }
     }
 }

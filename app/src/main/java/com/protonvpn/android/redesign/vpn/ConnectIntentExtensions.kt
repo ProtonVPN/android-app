@@ -33,6 +33,8 @@ fun Server?.isCompatibleWith(intent: ConnectIntent): Boolean {
             intent.country.matches(exitCountry) && !isSecureCoreServer
         is ConnectIntent.FastestInCity ->
             intent.country.matches(exitCountry) && intent.cityEn == city && !isSecureCoreServer
+        is ConnectIntent.FastestInRegion ->
+            intent.country.matches(exitCountry) && intent.regionEn == region && !isSecureCoreServer
         is ConnectIntent.SecureCore ->
             intent.entryCountry.matches(entryCountry) && intent.exitCountry.matches(exitCountry) && isSecureCoreServer
         is ConnectIntent.Gateway ->

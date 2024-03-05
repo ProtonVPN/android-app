@@ -409,6 +409,11 @@ class ServerManager @Inject constructor(
                 onFastestInCity(country, country.serverList.filter { it.city == connectIntent.cityEn })
             } ?: fallbackResult
         }
+        is ConnectIntent.FastestInRegion -> {
+            getVpnExitCountry(connectIntent.country.countryCode, false)?.let { country ->
+                onFastestInCity(country, country.serverList.filter { it.region == connectIntent.regionEn })
+            } ?: fallbackResult
+        }
         is ConnectIntent.SecureCore ->
             if (connectIntent.exitCountry.isFastest) {
                 onFastest(true)
