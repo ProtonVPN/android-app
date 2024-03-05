@@ -22,17 +22,21 @@ package com.protonvpn.tests.login
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.filters.SdkSuppress
+import com.protonvpn.actions.HumanVerificationRobot
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.actions.compose.HomeRobot
 import com.protonvpn.actions.compose.interfaces.verify
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
+import com.protonvpn.testsHelper.AtlasEnvVarHelper
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.serialization.SerializationException
 import me.proton.core.test.android.robots.auth.AddAccountRobot
 import me.proton.core.test.quark.data.User
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -54,12 +58,14 @@ class LoginTests {
 
     private lateinit var loginRobot: LoginRobot
     private lateinit var addAccountRobot: AddAccountRobot
+    private lateinit var humanVerificationRobot: HumanVerificationRobot
 
     @Before
     fun setUp() {
         TestSetup.quark?.jailUnban()
         loginRobot = LoginRobot()
         addAccountRobot = AddAccountRobot()
+        humanVerificationRobot = HumanVerificationRobot()
         AddAccountRobot().signIn()
     }
 
@@ -95,6 +101,18 @@ class LoginTests {
             .logout()
         addAccountRobot.signIn()
             .verify { view.withText(TestUser.plusUser.email).checkDisplayed() }
+    }
+
+    @Test
+    //Can't complete captcha on API23 due to animations bug in test framework.
+    @SdkSuppress(minSdkVersion = 28)
+    fun loginWithHumanVerification()
+    {
+        AtlasEnvVarHelper().withAtlasEnvVar({ forceCaptchaOnLogin() }) {
+            loginRobot.signIn(TestUser.plusUser)
+            humanVerificationRobot.verifyViaCaptcha()
+            HomeRobot.verify { isLoggedIn() }
+        }
     }
 
     @Test
