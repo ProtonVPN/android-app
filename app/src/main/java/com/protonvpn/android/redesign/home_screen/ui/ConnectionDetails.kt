@@ -76,6 +76,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnOutlinedButton
+import com.protonvpn.android.base.ui.speedBytesToString
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
@@ -197,8 +198,8 @@ private fun ColumnScope.ConnectionDetailsConnected(
         viewState.trafficUpdate?.let { trafficUpdate ->
             Spacer(Modifier.height(16.dp))
             ConnectionSpeedRow(
-                trafficUpdate.speedToString(sizeInBytes = trafficUpdate.downloadSpeed),
-                trafficUpdate.speedToString(sizeInBytes = trafficUpdate.uploadSpeed),
+                trafficUpdate.downloadSpeed.speedBytesToString(),
+                trafficUpdate.uploadSpeed.speedBytesToString(),
                 onOpenUrl = onOpenUrl
             )
         }

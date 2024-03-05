@@ -36,6 +36,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.speedBytesToString
+import com.protonvpn.android.base.ui.volumeBytesToString
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.tv.IsTvCheck
@@ -220,7 +222,7 @@ class NotificationHelper @Inject constructor(
             if (state is Error)
                 HtmlTools.fromHtml(state.type.mapToErrorMessage(appContext, state.description))
             else
-                trafficUpdate?.notificationString
+                trafficUpdate?.notificationString(appContext)
 
         val builder =
                 NotificationCompat.Builder(context, CHANNEL_ID)
@@ -278,6 +280,14 @@ class NotificationHelper @Inject constructor(
                 cancel(Constants.NOTIFICATION_ID)
             }
         }
+    }
+
+    private fun TrafficUpdate.notificationString(context: Context): String {
+        val sessionDownloadString = sessionDownload.volumeBytesToString(context)
+        val sessionUploadString = sessionUpload.volumeBytesToString(context)
+        val downloadSpeedString = downloadSpeed.speedBytesToString(context)
+        val uploadSpeedString = uploadSpeed.speedBytesToString(context)
+        return "↓ $sessionDownloadString | $downloadSpeedString  ↑ $sessionUploadString | $uploadSpeedString"
     }
 
     private fun getIconForState(state: VpnState): Int {

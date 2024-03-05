@@ -1116,16 +1116,6 @@
     <string name="connection_details_unknown_ip">Bilinmiyor</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Bu çizelge güncel yükleme ve indirme hızlarınızı görüntüler. VPN bağlantınızın normal çevrim içi etkinliği yavaşlatması beklenmez.</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_bits_per_second">%1$s b/s</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_kb_per_second">%1$s kb/s</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_mb_per_second">%1$s Mb/s</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_gb_per_second">%1$s Gb/s</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_tb_per_second">%1$s Tb/s</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

@@ -1097,16 +1097,6 @@
     <string name="connection_details_unknown_ip">不明</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">このグラフは、現在のアップロードとダウンロードの速度を示しています。VPN接続によって、通常のオンライン・アクティビティの速度が低下することはほとんどありません。</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_bits_per_second">%1$s b/秒</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_kb_per_second">%1$s kb/秒</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_mb_per_second">%1$s Mb/秒</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_gb_per_second">%1$s Gb/秒</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="speed_tb_per_second">%1$s Tb/秒</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
