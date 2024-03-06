@@ -59,6 +59,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.protonElevation
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
+import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.ui.onboarding.heroNorm
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
@@ -219,6 +220,7 @@ fun CountryList(
         countries.forEach { country ->
             item {
                 CountryListItem(country, onOpenCountry, onCountryClick)
+                VpnDivider()
             }
         }
     }

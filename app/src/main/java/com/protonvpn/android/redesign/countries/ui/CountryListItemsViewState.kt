@@ -62,5 +62,4 @@ data class CountryListItemState(
     val data: CountryListItemData,
     val available: Boolean,
     val connected: Boolean,
-    val label: String,
 )

@@ -49,6 +49,7 @@ import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.home_screen.ui.ServerLoadBar
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.iconRes
+import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
@@ -78,7 +79,7 @@ fun CountryListItem(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = item.label,
+                    text = item.label(),
                     style = ProtonTheme.typography.defaultNorm
                 )
                 if (item.connected) {
@@ -110,6 +111,13 @@ fun CountryListItem(
             }
         }
     }
+}
+
+@Composable
+private fun CountryListItemState.label() : String = when (data) {
+    is CountryListItemData.Country -> data.countryId.label()
+    is CountryListItemData.City -> data.name
+    is CountryListItemData.Server -> data.name
 }
 
 @Composable
@@ -219,7 +227,6 @@ fun CountryItemPreview(
             ),
             available = available,
             connected = connected,
-            label = "United States",
         ),
         onItemOpen = {},
         onItemClick = {}
@@ -243,7 +250,6 @@ fun CityItemPreview(
             ),
             available = available,
             connected = connected,
-            label = "Arizona",
         ),
         onItemOpen = {},
         onItemClick = {}
@@ -271,7 +277,6 @@ fun ServerItemPreview(
             ),
             available = available,
             connected = true,
-            label = "US-NY#1",
         ),
         onItemOpen = {},
         onItemClick = {}
