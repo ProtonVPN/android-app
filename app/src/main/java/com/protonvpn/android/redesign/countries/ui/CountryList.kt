@@ -24,17 +24,15 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -45,7 +43,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
@@ -61,11 +58,11 @@ import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
-import com.protonvpn.android.ui.onboarding.heroNorm
+import com.protonvpn.android.redesign.settings.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.defaultUnspecified
+import me.proton.core.compose.theme.defaultSmallUnspecified
 import me.proton.core.presentation.utils.currentLocale
 import me.proton.core.presentation.R as CoreR
 
@@ -101,62 +98,77 @@ fun NewCountryListRoute(
     LaunchedEffect(Unit) {
         viewModel.localeFlow.value = locale
     }
-
+    val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value ?: return
     val navigateToHome = { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) }
     val navigateToUpsell = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
-
-    val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value ?: return
-
-    Column(
-        modifier = Modifier
-            .windowInsetsPadding(WindowInsets.statusBars)
-            .fillMaxSize()
-    ) {
-        Column {
-            Icon(
-                painter = painterResource(id = CoreR.drawable.ic_proton_magnifier),
-                contentDescription = stringResource(R.string.accessibility_action_search),
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(top = 4.dp, bottom = 4.dp, end = 12.dp)
-                    .clip(CircleShape)
-                    .clickable(onClick = onNavigateToSearch)
-                    .padding(12.dp),
-            )
-            Text(
-                text = stringResource(id = R.string.tabsCountries),
-                style = ProtonTheme.typography.heroNorm,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 14.dp, bottom = 8.dp)
-            )
-
-            FiltersRow(
-                buttonActions = mainState.filterButtons,
-                allLabelRes = R.string.country_filter_all
-            )
-            Spacer(modifier = Modifier.size(8.dp))
-        }
-
-        CountryList(
-            modifier = Modifier.weight(1f),
-            mainState.items,
-            onCountryClick = { viewModel.onItemConnect(uiDelegate, it, mainState.savedState.filter, navigateToHome, navigateToUpsell) },
-            onOpenCountry = { viewModel.onItemOpen(it, mainState.savedState.filter.type) }
+    fun createOnItemOpen(filter: ServerFilterType): (CountryListItemState) -> Unit = { item ->
+        viewModel.onItemOpen(item, filter)
+    }
+    fun createOnConnectAction(filter: ServerListFilter): (CountryListItemState) -> Unit = { item ->
+        viewModel.onItemConnect(
+            vpnUiDelegate = uiDelegate,
+            item = item,
+            filter = filter,
+            navigateToHome = navigateToHome,
+            navigateToUpsell = navigateToUpsell
         )
     }
 
+    ToolbarWithFilters(
+        onNavigateToSearch = onNavigateToSearch,
+        toolbarFilters = mainState.filterButtons,
+        content = {
+            CountryList(
+                modifier = Modifier.padding(it),
+                mainState.items,
+                onCountryClick = createOnConnectAction(mainState.savedState.filter),
+                onOpenCountry = createOnItemOpen(mainState.savedState.filter.type)
+            )
+        }
+    )
+
     val subScreenState = viewModel.subScreenStateFlow.collectAsStateWithLifecycle().value
+
     if (subScreenState != null) {
         CountryBottomSheet(
             modifier = Modifier,
             screen = subScreenState,
             onNavigateBack = { onHide -> viewModel.onNavigateBack(onHide) },
-            onNavigateToItem = { item -> viewModel.onItemOpen(item, subScreenState.savedState.filter.type) },
-            onItemClicked = { viewModel.onItemConnect(uiDelegate, it, subScreenState.savedState.filter, navigateToHome, navigateToUpsell) },
+            onNavigateToItem = createOnItemOpen(subScreenState.savedState.filter.type),
+            onItemClicked = createOnConnectAction(subScreenState.savedState.filter),
             onClose = { viewModel.onClose() }
         )
+    }
+}
+
+@Composable
+fun ToolbarWithFilters(
+    onNavigateToSearch: () -> Unit,
+    toolbarFilters: List<FilterButton>,
+    content: @Composable (PaddingValues) -> Unit,
+) {
+    CollapsibleToolbarScaffold(
+        titleResId = R.string.tabsCountries,
+        contentWindowInsets = WindowInsets.statusBars,
+        toolbarActions = {
+            Icon(
+                painter = painterResource(id = CoreR.drawable.ic_proton_magnifier),
+                contentDescription = stringResource(R.string.accessibility_action_search),
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .clickable(onClick = onNavigateToSearch)
+                    .padding(12.dp),
+            )
+        },
+        toolbarAdditionalContent = {
+            FiltersRow(
+                buttonActions = toolbarFilters,
+                allLabelRes = R.string.country_filter_all,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+        },
+    ) { padding ->
+        content(padding)
     }
 }
 
@@ -190,8 +202,9 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier,
                         Icon(
                             painter = painterResource(id = it),
                             contentDescription = null,
+                            modifier = Modifier.size(20.dp)
                         )
-                        Spacer(modifier = Modifier.size(4.dp))
+                        Spacer(modifier = Modifier.width(4.dp))
                     }
                     val filterTitleRes = when (filterButton.filter) {
                         ServerFilterType.All -> allLabelRes
@@ -201,7 +214,7 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier,
                     }
                     Text(
                         text = stringResource(id = filterTitleRes),
-                        style = ProtonTheme.typography.defaultUnspecified
+                        style = ProtonTheme.typography.defaultSmallUnspecified
                     )
                 }
             }
