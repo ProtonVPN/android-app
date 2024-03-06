@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,14 +47,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
@@ -62,11 +62,13 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -85,6 +87,7 @@ import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.account.AccountActivity
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
+import com.protonvpn.android.ui.onboarding.heroNorm
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragment
@@ -103,7 +106,6 @@ import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultSmallStrongUnspecified
 import me.proton.core.compose.theme.defaultSmallWeak
-import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.domain.entity.UserId
 import me.proton.core.presentation.utils.openMarketLink
@@ -240,13 +242,14 @@ fun ReconnectDialog(
         onDismissRequest = { onOk(false) }
     )
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CollapsibleToolbarScaffold(
     modifier: Modifier = Modifier,
     @StringRes titleResId: Int,
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
+    toolbarActions: @Composable RowScope.() -> Unit = {},
+    toolbarAdditionalContent: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
     val scrollBehavior =
@@ -264,25 +267,36 @@ fun CollapsibleToolbarScaffold(
     val topAppBarTextSize =
         (collapsedTextSize + (expandedTextSize - collapsedTextSize) * (1 - scrollBehavior.state.collapsedFraction)).sp
 
+    val expandedColor = ProtonTheme.colors.backgroundNorm
+    val collapsedColor = ProtonTheme.colors.backgroundSecondary
+    val topAppBarColor by remember {
+        derivedStateOf {
+            lerp(expandedColor, collapsedColor, scrollBehavior.state.collapsedFraction)
+        }
+    }
     Scaffold(
         topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(id = titleResId),
-                        style = ProtonTheme.typography.defaultStrongNorm,
-                        fontSize = topAppBarTextSize
-                    )
-                },
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = ProtonTheme.colors.backgroundNorm,
-                    scrolledContainerColor = ProtonTheme.colors.backgroundSecondary,
-                    navigationIconContentColor = topAppBarElementColor,
-                    titleContentColor = topAppBarElementColor,
-                    actionIconContentColor = topAppBarElementColor,
-                ),
-                scrollBehavior = scrollBehavior
-            )
+            Column(modifier = Modifier.background(color = topAppBarColor)) {
+                MediumTopAppBar(
+                    title = {
+                            Text(
+                                text = stringResource(id = titleResId),
+                                style = ProtonTheme.typography.heroNorm,
+                                fontSize = topAppBarTextSize
+                            )
+                    },
+                    actions = toolbarActions,
+                    colors = TopAppBarDefaults.largeTopAppBarColors(
+                        containerColor = topAppBarColor,
+                        scrolledContainerColor = topAppBarColor,
+                        navigationIconContentColor = topAppBarElementColor,
+                        titleContentColor = topAppBarElementColor,
+                        actionIconContentColor = topAppBarElementColor,
+                    ),
+                    scrollBehavior = scrollBehavior
+                )
+                toolbarAdditionalContent()
+            }
         },
         contentWindowInsets = contentWindowInsets,
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -317,7 +331,6 @@ private fun SettingsView(
     onThirdPartyLicensesClick: () -> Unit,
 ) {
     CollapsibleToolbarScaffold(
-        modifier = modifier.windowInsetsPadding(WindowInsets.statusBars),
         titleResId = R.string.settings_title,
         contentWindowInsets = WindowInsets.statusBars
     ) { innerPadding ->
