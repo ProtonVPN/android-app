@@ -103,7 +103,8 @@ sealed class TestApiConfig {
                     "/core/v4/experiments/NetShield",
                     "/core/v4/pushes/active",
                     "/core/v4/settings",
-                    "/core/v4/users"
+                    "/core/v4/users",
+                    "/core/v4/features"
                 ).forEach { unimportantPath ->
                     rule(path eq unimportantPath) { respond(HttpResponseCodes.HTTP_UNPROCESSABLE) }
                 }

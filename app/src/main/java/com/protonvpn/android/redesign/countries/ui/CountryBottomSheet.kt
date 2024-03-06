@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.vpn.ui.label
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.headlineNorm
@@ -104,6 +105,7 @@ fun BottomSheetScreen(
             screen.items.forEach { item ->
                 item {
                     CountryListItem(item, onItemOpen, onItemClick)
+                    VpnDivider()
                 }
             }
         }

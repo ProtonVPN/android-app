@@ -35,6 +35,7 @@ import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.isCompatibleWith
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -53,6 +54,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
@@ -71,11 +73,11 @@ class CountryListViewModel @Inject constructor(
     private val vpnConnectionManager: VpnConnectionManager,
     private val shouldShowcaseRecents: ShouldShowcaseRecents,
     currentUser: CurrentUser,
-    vpnStatus: VpnStatusProviderUI,
+    vpnStatusProviderUI: VpnStatusProviderUI,
 ) : ViewModel() {
 
     private var mainSaveState by savedStateHandle.state<CountryScreenSavedState>(defaultMainState, CountryScreenStateKey)
-    private val mainSaveStateFlow = savedStateHandle.getStateFlow<CountryScreenSavedState?>(CountryScreenStateKey, mainSaveState)
+    private val mainSaveStateFlow = savedStateHandle.getStateFlow(CountryScreenStateKey, mainSaveState)
 
     private var subScreenSaveState by savedStateHandle.state<SubScreenSaveState?>(null, CountrySubScreenStateKey)
     private val subScreenSaveStateFlow = savedStateHandle.getStateFlow(CountrySubScreenStateKey, subScreenSaveState)
@@ -83,58 +85,76 @@ class CountryListViewModel @Inject constructor(
     // Helper flows
     val localeFlow = MutableStateFlow<Locale?>(null)
     private val userTierFlow = currentUser.vpnUserFlow.map { it?.maxTier }
+        .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), 1)
     private val connectedServerFlow =
-        vpnStatus.uiStatus
+        vpnStatusProviderUI.uiStatus
             .map { status -> status.server.takeIf { status.state == VpnState.Connected } }
             .distinctUntilChanged()
 
     // Screen states
-    val stateFlow = mainSaveStateFlow
-        .filterNotNull()
-        .flatMapLatest { savedState ->
-            val availableTypes = dataAdapter.availableTypesFor(savedState.filter.country)
-            dataAdapter
-                .countries(savedState.filter)
-                .toItemState()
-                .map { items ->
-                    CountryScreenState(
-                        savedState = savedState,
-                        items = items,
-                        filterButtons = getFilterButtons(availableTypes, savedState.filter.type) {
-                            mainSaveState = CountryScreenSavedState(ServerListFilter(type = it))
-                        }
-                    )
+    val stateFlow =
+        combine(
+            mainSaveStateFlow,
+            userTierFlow,
+            localeFlow.filterNotNull(),
+            connectedServerFlow,
+        ) { savedState, userTier, locale, connectedServer ->
+            dataAdapter.countries(savedState.filter).map { countries ->
+                val availableTypes = dataAdapter.availableTypesFor(savedState.filter.country)
+                val mainScreenItems = buildList {
+                    add(fastestCountryItem(savedState.filter))
+                    addAll(countries.sortedByLabel(locale))
+                }.map {
+                    it.toState(userTier, savedState.filter, connectedServer)
                 }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
-
-    val subScreenStateFlow = subScreenSaveStateFlow.flatMapLatest { savedState ->
-        if (savedState != null) {
-            val availableTypes = dataAdapter.availableTypesFor(savedState.countryId)
-            val haveStates = dataAdapter.haveStates(savedState.countryId)
-            when (savedState.type) {
-                SubScreenType.City -> when(savedState.filter.type) {
-                    ServerFilterType.All, ServerFilterType.P2P -> dataAdapter.cities(savedState.filter)
-                    ServerFilterType.SecureCore -> dataAdapter.entryCountries(savedState.countryId)
-                    ServerFilterType.Tor -> dataAdapter.servers(savedState.filter)
-                }
-                SubScreenType.Server -> dataAdapter.servers(savedState.filter)
-            }.toItemState().map { items ->
-                val filterButtons = when (savedState.type) {
-                    SubScreenType.City ->
-                        getSubScreenFilterButtons(availableTypes, savedState.filter.type, savedState)
-                    else -> null
-                }
-                SubScreenState(
-                    savedState,
-                    filterButtons,
-                    items,
-                    if (haveStates) R.string.country_filter_states else R.string.country_filter_cities
+                CountryScreenState(
+                    savedState = savedState,
+                    items = mainScreenItems,
+                    filterButtons = getFilterButtons(availableTypes, savedState.filter.type) {
+                        mainSaveState = CountryScreenSavedState(ServerListFilter(type = it))
+                    }
                 )
             }
-        } else {
-            flowOf(null)
-        }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+        }.flatMapLatest { it }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+
+    val subScreenStateFlow =
+        combine(
+            subScreenSaveStateFlow,
+            userTierFlow,
+            localeFlow.filterNotNull(),
+            connectedServerFlow,
+        ) { savedState, userTier, locale, connectedServer ->
+            if (savedState != null) {
+                val availableTypes = dataAdapter.availableTypesFor(savedState.countryId)
+                val haveStates = dataAdapter.haveStates(savedState.countryId)
+                val dataFlow = when (savedState.type) {
+                    SubScreenType.City -> when (savedState.filter.type) {
+                        ServerFilterType.All, ServerFilterType.P2P -> dataAdapter.cities(savedState.filter)
+                        ServerFilterType.SecureCore -> dataAdapter.entryCountries(savedState.countryId)
+                        ServerFilterType.Tor -> dataAdapter.servers(savedState.filter)
+                    }
+                    SubScreenType.Server -> dataAdapter.servers(savedState.filter)
+                }
+                dataFlow.map { dataItems ->
+                    val items = dataItems.sortedByLabel(locale).map {
+                        it.toState(userTier, savedState.filter, connectedServer)
+                    }
+                    val filterButtons = when (savedState.type) {
+                        SubScreenType.City ->
+                            getSubScreenFilterButtons(availableTypes, savedState.filter.type, savedState)
+                        SubScreenType.Server -> null
+                    }
+                    SubScreenState(
+                        savedState,
+                        filterButtons,
+                        items,
+                        if (haveStates) R.string.country_filter_states else R.string.country_filter_cities
+                    )
+                }
+            } else {
+                flowOf(null)
+            }
+        }.flatMapLatest { it }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     private fun getSubScreenFilterButtons(
         availableTypes: Set<ServerFilterType>,
@@ -146,22 +166,22 @@ class CountryListViewModel @Inject constructor(
             subScreenSaveState = savedState.copy(filter = newFilter)
         }
 
-    private fun Flow<List<CountryListItemData>>.toItemState(): Flow<List<CountryListItemState>> =
-        combine(
-            this,
-            userTierFlow,
-            connectedServerFlow,
-            localeFlow.filterNotNull(),
-        ) { items, userTier, connectedServer, locale ->
-            items.map { data ->
-                CountryListItemState(
-                    data = data,
-                    available = userTier == null || userTier >= data.tier,
-                    connected = connectedServer != null && dataAdapter.includesServer(data, connectedServer),
-                    label = data.displayLabel(locale)
-                )
-            }.sortedByLocaleAware { it.label }
+    private fun List<CountryListItemData>.sortedByLabel(locale: Locale): List<CountryListItemData> {
+        val sortLabel = HashMap<CountryListItemData, String>()
+        return sortedByLocaleAware { data ->
+            sortLabel.getOrPut(data) { data.sortLabel(locale) }
         }
+    }
+
+    private fun CountryListItemData.toState(
+        userTier: Int?,
+        filter: ServerListFilter,
+        connectedServer: Server?
+    ) = CountryListItemState(
+        data = this,
+        available = userTier == null || (countryId.isFastest || (userTier > 0 && userTier >= tier)),
+        connected = connectedServer != null && connectedServer.isCompatibleWith(getConnectIntent(filter)),
+    )
 
     private fun onOpenCountry(type: ServerFilterType, countryId: CountryId) {
         subScreenSaveState = SubScreenSaveState(
@@ -206,7 +226,7 @@ class CountryListViewModel @Inject constructor(
             subScreenSaveState = null
             if (!item.data.inMaintenance) {
                 if (item.available) {
-                    val intent = item.getConnectionIntent(filter)
+                    val intent = item.data.getConnectIntent(filter)
                     val trigger = ConnectTrigger.Server("")
                     if (!item.connected)
                         vpnConnectionManager.connect(vpnUiDelegate, intent, trigger)
@@ -261,28 +281,37 @@ val CountryListItemState.canOpen: Boolean get() = when(data) {
     is CountryListItemData.Server -> false
     is CountryListItemData.City -> !data.inMaintenance
     is CountryListItemData.Country -> !data.inMaintenance &&
+        !data.countryId.isFastest &&
         (data.entryCountryId == null || data.entryCountryId == CountryId.fastest)
 }
 
-private fun CountryListItemData.displayLabel(locale: Locale): String = when(this) {
-    is CountryListItemData.Country -> countryId.toDisplayName(locale)
+private fun fastestCountryItem(filter: ServerListFilter): CountryListItemData.Country =
+    CountryListItemData.Country(
+        countryId = CountryId.fastest,
+        inMaintenance = false,
+        tier = 0,
+        entryCountryId = if (filter.type == ServerFilterType.SecureCore) CountryId.fastest else null
+    )
+
+private fun CountryListItemData.sortLabel(locale: Locale): String = when(this) {
+    is CountryListItemData.Country -> CountryTools.getFullName(locale, countryId.countryCode)
     is CountryListItemData.City -> name
     is CountryListItemData.Server -> name
 }
 
-private fun CountryListItemState.getConnectionIntent(filter: ServerListFilter): ConnectIntent = when(data) {
+private fun CountryListItemData.getConnectIntent(filter: ServerListFilter): ConnectIntent = when(this) {
     is CountryListItemData.City -> {
-        if (data.cityStateId.isState)
-            ConnectIntent.FastestInRegion(data.countryId, data.cityStateId.name, filter.toFeatures())
+        if (cityStateId.isState)
+            ConnectIntent.FastestInRegion(countryId, cityStateId.name, filter.toFeatures())
         else
-            ConnectIntent.FastestInCity(data.countryId, data.cityStateId.name, filter.toFeatures())
+            ConnectIntent.FastestInCity(countryId, cityStateId.name, filter.toFeatures())
     }
     is CountryListItemData.Server ->
-        data.entryCountryId?.let { ConnectIntent.SecureCore(data.countryId, it) } ?:
-            ConnectIntent.Server(data.serverId.id, data.serverFeatures)
+        entryCountryId?.let { ConnectIntent.SecureCore(countryId, it) } ?:
+            ConnectIntent.Server(serverId.id, serverFeatures)
     is CountryListItemData.Country ->
-        data.entryCountryId?.let { ConnectIntent.SecureCore(data.countryId, it) } ?:
-            ConnectIntent.FastestInCountry(data.countryId, filter.toFeatures())
+        entryCountryId?.let { ConnectIntent.SecureCore(countryId, it) } ?:
+            ConnectIntent.FastestInCountry(countryId, filter.toFeatures())
 }
 
 private fun ServerListFilter.toFeatures(): Set<ServerFeature> = when (type) {
@@ -290,9 +319,6 @@ private fun ServerListFilter.toFeatures(): Set<ServerFeature> = when (type) {
     ServerFilterType.Tor -> setOf(ServerFeature.Tor)
     else -> emptySet()
 }
-
-private fun CountryId.toDisplayName(locale: Locale) =
-    CountryTools.getFullName(locale, countryCode)
 
 enum class ServerFilterType {
     All, SecureCore, P2P, Tor;
@@ -352,7 +378,5 @@ interface CountryListViewModelDataAdapter {
 
     fun entryCountries(country: CountryId):
         Flow<List<CountryListItemData.Country>>
-
-    fun includesServer(data: CountryListItemData, server: Server): Boolean
 }
 
