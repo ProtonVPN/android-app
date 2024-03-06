@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,6 +37,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.VpnDivider
@@ -55,6 +58,8 @@ fun CountryBottomSheet(
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     val countryViewStateHolder = rememberSaveableStateHolder()
+    val screenHeight = LocalContext.current.resources.displayMetrics.heightPixels.dp / LocalDensity.current.density
+    val halfScreenHeight = screenHeight / 2
 
     ModalBottomSheetWithBackNavigation(
         modifier = modifier,
@@ -73,6 +78,7 @@ fun CountryBottomSheet(
                 screen = screen,
                 onItemOpen = onNavigateToItem,
                 onItemClick = onItemClicked,
+                modifier = Modifier.heightIn(min = halfScreenHeight)
             )
         }
     }
@@ -80,12 +86,13 @@ fun CountryBottomSheet(
 
 @Composable
 fun BottomSheetScreen(
+    modifier: Modifier = Modifier,
     screen: SubScreenState,
     onItemOpen: (CountryListItemState) -> Unit,
     onItemClick: (CountryListItemState) -> Unit,
 ) {
     val countryId = screen.savedState.countryId
-    Column {
+    Column(modifier = modifier) {
         Row(
             modifier = Modifier.padding(16.dp).fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
