@@ -124,9 +124,9 @@ class ServerManagerTests {
     }
 
     @Test
-    fun doNotChooseOfflineServerFromAll() {
-        Assert.assertEquals(
-            "DE#1", manager.getBestScoreServer(false)!!.serverName
+    fun doNotChooseOfflineServerFromAll() = testScope.runTest {
+        assertEquals(
+            "DE#1", manager.getBestScoreServer(false, currentUser.vpnUser())!!.serverName
         )
     }
 

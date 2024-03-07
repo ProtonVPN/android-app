@@ -216,8 +216,7 @@ class RecentsListViewStateFlow @Inject constructor(
                 if (!isSecureCore || vpnUser?.isFreeUser != true) RecentAvailability.ONLINE
                 else RecentAvailability.UNAVAILABLE_PLAN
             },
-            onFastestInGroup = { serverGroup, _ -> serverGroup.serverList.getAvailability(vpnUser, protocol) },
-            onFastestInCity = { _, servers -> servers.getAvailability(vpnUser, protocol) },
+            onFastestInGroup = { servers -> servers.getAvailability(vpnUser, protocol) },
             onServer = { server -> listOf(server).getAvailability(vpnUser, protocol) },
             fallbackResult = RecentAvailability.UNAVAILABLE_PLAN
         )

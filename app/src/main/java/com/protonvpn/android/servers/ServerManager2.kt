@@ -105,13 +105,12 @@ class ServerManager2 @Inject constructor(
     suspend fun <T> forConnectIntent(
         connectIntent: AnyConnectIntent,
         onFastest: (isSecureCore: Boolean) -> T,
-        onFastestInGroup: (ServerGroup, isSecureCore: Boolean) -> T,
-        onFastestInCity: (VpnCountry, List<Server>) -> T,
+        onFastestInGroup: (List<Server>) -> T,
         onServer: (Server) -> T,
         fallbackResult: T
     ): T {
         serverManager.ensureLoaded()
-        return serverManager.forConnectIntent(connectIntent, onFastest, onFastestInGroup, onFastestInCity, onServer, fallbackResult)
+        return serverManager.forConnectIntent(connectIntent, onFastest, onFastestInGroup, onServer, fallbackResult)
     }
 
     suspend fun getServerById(id: String): Server? {
