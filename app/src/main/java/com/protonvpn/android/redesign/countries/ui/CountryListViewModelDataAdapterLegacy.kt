@@ -114,7 +114,7 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
         }
 
     override suspend fun haveStates(country: CountryId): Boolean {
-        val servers = serverManager2.getVpnExitCountry(country.countryCode, true)?.serverList ?: return false
+        val servers = serverManager2.getVpnExitCountry(country.countryCode, false)?.serverList ?: return false
         return servers.any { it.region != null }
     }
 
