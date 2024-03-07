@@ -307,13 +307,6 @@ class ServerManager @Inject constructor(
         return map[true] ?: map[false]
     }
 
-    @Deprecated(
-        "This method uses a cached VpnUser that could be stale.",
-        ReplaceWith("getBestScoreServer(secureCore, vpnUser)")
-    )
-    fun getBestScoreServer(secureCore: Boolean): Server? =
-        getBestScoreServer(secureCore, currentUser.vpnUserCached())
-
     fun getBestScoreServer(serverList: List<Server>, vpnUser: VpnUser?): Server? {
         val map = serverList.asSequence()
             .filter { !it.isTor && it.online && supportsProtocol(it, protocolCached) }
@@ -374,8 +367,7 @@ class ServerManager @Inject constructor(
         forConnectIntent(
             connectIntent,
             onFastest = { isSecureCore -> getBestScoreServer(isSecureCore, vpnUser) },
-            onFastestInGroup = { serverGroup, isSecureCore -> getBestScoreServer(serverGroup.serverList, vpnUser) },
-            onFastestInCity = { vpnCountry, servers -> getBestScoreServer(servers, vpnUser) },
+            onFastestInGroup = { servers -> getBestScoreServer(servers, vpnUser) },
             onServer = { server -> server },
             fallbackResult = null
         )
@@ -390,8 +382,7 @@ class ServerManager @Inject constructor(
     fun <T> forConnectIntent(
         connectIntent: AnyConnectIntent,
         onFastest: (isSecureCore: Boolean) -> T,
-        onFastestInGroup: (ServerGroup, isSecureCore: Boolean) -> T,
-        onFastestInCity: (VpnCountry, List<Server>) -> T,
+        onFastestInGroup: (List<Server>) -> T,
         onServer: (Server) -> T,
         fallbackResult: T
     ): T = when(connectIntent) {
@@ -402,16 +393,16 @@ class ServerManager @Inject constructor(
                 getVpnExitCountry(
                     connectIntent.country.countryCode,
                     false
-                )?.let { onFastestInGroup(it, false) } ?: fallbackResult
+                )?.let { onFastestInGroup(it.serverList) } ?: fallbackResult
             }
         is ConnectIntent.FastestInCity -> {
             getVpnExitCountry(connectIntent.country.countryCode, false)?.let { country ->
-                onFastestInCity(country, country.serverList.filter { it.city == connectIntent.cityEn })
+                onFastestInGroup(country.serverList.filter { it.city == connectIntent.cityEn })
             } ?: fallbackResult
         }
         is ConnectIntent.FastestInRegion -> {
             getVpnExitCountry(connectIntent.country.countryCode, false)?.let { country ->
-                onFastestInCity(country, country.serverList.filter { it.region == connectIntent.regionEn })
+                onFastestInGroup(country.serverList.filter { it.region == connectIntent.regionEn })
             } ?: fallbackResult
         }
         is ConnectIntent.SecureCore ->
@@ -420,7 +411,7 @@ class ServerManager @Inject constructor(
             } else {
                 val exitCountry = getVpnExitCountry(connectIntent.exitCountry.countryCode, true)
                 if (connectIntent.entryCountry.isFastest) {
-                    exitCountry?.let { onFastestInGroup(it, true) } ?: fallbackResult
+                    exitCountry?.let { onFastestInGroup(it.serverList) } ?: fallbackResult
                 } else {
                     exitCountry?.serverList?.find {
                         it.entryCountry == connectIntent.entryCountry.countryCode
@@ -433,7 +424,7 @@ class ServerManager @Inject constructor(
             } else {
                 getGateways()
                     .find { it.name() == connectIntent.gatewayName }
-                    ?.let { onFastestInGroup(it, false) }
+                    ?.let { onFastestInGroup(it.serverList) }
                     ?: fallbackResult
             }
         is ConnectIntent.Server -> getServerById(connectIntent.serverId)?.let { onServer(it) } ?: fallbackResult
