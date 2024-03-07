@@ -50,7 +50,11 @@ fun createServer(
     gatewayName: String? = null,
     translations: Map<String, String?>? = null,
     isSecureCore: Boolean = false, // For convenience, adds SERVER_FEATURE_SECURE_CORE
-    connectingDomains: List<ConnectingDomain> = listOf(dummyConnectingDomain)
+    connectingDomains: List<ConnectingDomain> = listOf(dummyConnectingDomain),
+    isOnline: Boolean = true,
+    region: String? = null,
+    load: Float = 50f,
+    hostCountry: String? = null
 ) = Server(
         serverId = serverId,
         entryCountry = entryCountry.uppercase(),
@@ -58,15 +62,15 @@ fun createServer(
         serverName = serverName,
         rawGatewayName = gatewayName,
         connectingDomains = connectingDomains,
-        hostCountry = null,
+        hostCountry = hostCountry,
         domain = "dummy.protonvpn.net",
-        load = 50f,
+        load = load,
         tier = tier,
-        region = null,
+        region = region,
         city = city,
-        features = if (isSecureCore) features or SERVER_FEATURE_SECURE_CORE else features,
+        features = if (isSecureCore || entryCountry != exitCountry) features or SERVER_FEATURE_SECURE_CORE else features,
         location = Location("", ""),
         translations = translations,
         score = score,
-        isOnline = true,
+        isOnline = isOnline,
     )
