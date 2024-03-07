@@ -33,8 +33,8 @@
     <string name="secureCoreSpeedInfoMessage">فناوری Secure Core بالاترین سطح امنیت و حریم خصوصی را ارائه می‌دهد، اما ممکن است سرعت اینترنت شما را کاهش دهد. اگر به کارایی بیشتری احتیاج دارید، می‌توانید Secure Core را غیرفعال کنید.</string>
     <string name="secureCoreActivateDialogButton">فعال کردن Secure Core</string>
     <string name="logoutConfirmDialogTitle">خارج می‌شوید؟</string>
-    <string name="logoutConfirmDialogMessage">Signing out will disconnect your device from the VPN.</string>
-    <string name="logoutConfirmDialogButton">Sign out</string>
+    <string name="logoutConfirmDialogMessage">خروج از حساب، دستگاه شما را از VPN قطع می‌کنند.</string>
+    <string name="logoutConfirmDialogButton">خروج از حساب</string>
     <string name="yes">بلی</string>
     <string name="no">خیر</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
@@ -56,14 +56,14 @@
     <string name="quickConnect">اتصال سریع</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%1$s%%</string>
+    <string name="serverLoad">%1$s٪</string>
     <string name="cancel">لغو</string>
     <string name="close">بستن</string>
     <string name="drawerHelp">راهنمایی</string>
     <string name="drawerShowLog">نمایش گزارش</string>
     <string name="drawerReportProblem">گزارش یک اشکال</string>
-    <string name="drawerAppVersion">v%1$s</string>
-    <string name="action_share">Share</string>
+    <string name="drawerAppVersion">نسخه %1$s</string>
+    <string name="action_share">اشتراک گذاری</string>
     <string name="accountDetails">جزئیات حساب کاربری</string>
     <string name="accountSubscription">اشتراک</string>
     <string name="accountUser">کاربر:</string>
@@ -77,7 +77,7 @@
     <string name="settingsSectionConnection">اتصال</string>
     <string name="settingsSectionSecurity">امنیت</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
-    <string name="settingsSectionSupport">Support</string>
+    <string name="settingsSectionSupport">پشتیبانی</string>
     <string name="settingsSectionAdvanced">پیشرفته</string>
     <string name="settingsBypassLocalTitle">اتصالات LAN</string>
     <string name="settingsDnsLeakProtectionTitle">محافظت از نشت DNS</string>
@@ -102,7 +102,7 @@
     <string name="offerTooltipShowOffer">دیدن پیشنهاد</string>
     <string name="listItemMaintenance">تحت عملیات نگهداری</string>
     <string name="listAllCountries">همهٔ محل‌ها (%1$d)</string>
-    <string name="listGateways">Gateways</string>
+    <string name="listGateways">دروازه‌ها</string>
     <string name="listFreeCountries">محل‌های رایگان (%1$d)</string>
     <string name="listPremiumCountries">محل‌های Basic و Plus (%1$d)</string>
     <string name="listPremiumCountries_new_plans">محل‌های Plus (%1$d)</string>
@@ -119,14 +119,14 @@
     <string name="state_connected">متصل</string>
     <string name="state_disconnecting">در حال قطع اتصال…</string>
     <string name="state_error">خطا</string>
-    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
+    <string name="error_server_list_load_failed">لطفاً اتصالتان را بررسی کنید و دوباره امتحان کنید.</string>
     <string name="error_server_unreachable">اتصال به VPN ممکن نبود. لطفاً اتصال خود را بررسی و دوباره امتحان کنید.</string>
     <string name="error_auth_failed">احراز هویت موفق نبود.</string>
     <string name="error_generic">خطای نامعلوم در حال اتصال رخ داد.</string>
     <string name="error_generic_with_reason">Proton VPN نتوانست یک اتصال VPN برقرار کند. لطفاً، پس از چند ثانیه دوباره تلاش کنید. <br/><br/> جزئیات: %1$s</string>
     <string name="reconnect">اتصال مجدد</string>
     <string name="reconnect_now">حالا مجددا متصل شوید</string>
-    <string name="try_reconnecting">Try reconnecting</string>
+    <string name="try_reconnecting">اتصال دوباره را امتحان کنید</string>
     <string name="connect">اتصال</string>
     <string name="upgrade">ارتقا</string>
     <string name="retry">تلاش مجدد</string>
@@ -153,7 +153,7 @@
     <string name="saveButton">ذخیره</string>
     <string name="protocolLabel">پروتکل</string>
     <string name="protocol">پروتکل:</string>
-    <string name="ipWithPlaceholder">IP: %1$s</string>
+    <string name="ipWithPlaceholder">نشانی IP: %1$s</string>
     <string name="activityLicensesTitle">گواهینامه‌های شخص ثالث</string>
     <string name="stateFragmentUnknownIp">ناشناخته</string>
     <string name="noVpnPermissionMainTitle">اقدامی برای اتصال به VPN لازم است</string>
@@ -165,9 +165,9 @@
     <string name="noVpnPermissionProtonAppLabel">برنامهٔ ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">برنامه‌های VPN دیگر</string>
     <string name="noVpnPermissionOpenSettings">تنظیمات VPN را در Android باز کنید</string>
-    <string name="noNotificationPermissionGrantTitle">Don’t get caught out…</string>
-    <string name="noNotificationPermissionGrantDescription">Enable notifications to get alerted about changes to your connection status.</string>
-    <string name="noNotificationPermissionGrantNowTitle">Enable notifications</string>
+    <string name="noNotificationPermissionGrantTitle">بی‌خبر نمانید...</string>
+    <string name="noNotificationPermissionGrantDescription">اعلان‌ها را فعال کنید تا از تغییرات در وضیعت اتصالتان باخبر شوید.</string>
+    <string name="noNotificationPermissionGrantNowTitle">اعلان‌ها را فعال کنید</string>
     <string name="error_prepare_vpn_description"><![CDATA[لطفاً حالت همیشه روشن VPN را برای تمام برنامه‌های VPN دیگر در تنظیمات VPN سیستم اندروید غیرفعال کنید، زیرا مانع برقراری اتصال Proton VPN می‌شود. لطفاً همچنین در صورت ظاهر شدن صفحهٔ درخواست مجوز‌های VPN، اجازهٔ VPN را اعطا نمایید. ممکن است نیاز باشد برنامه‌های VPN دیگر را برای جلوگیری از تداخل به کلی حذف کنید. سپس، لطفاً دوباره امتحان کنید. <a href="%1$s">بیشتر بدانید</a>]]></string>
     <string name="error_prepare_vpn_settings">به تنظیمات VPN اندروید بروید</string>
     <string name="error_prepare_vpn_title">خطا: مشکل مجوز VPN</string>
@@ -181,7 +181,7 @@
     <string name="profileFastest">سریع‌ترین</string>
     <string name="profileRandom">تصادفی</string>
     <string name="settingsSplitTunnelingDescription">قابلیت split tunneling اجازه می‌دهد تا نشانی‌های IP یا برنامه‌های مشخص از ترافیک VPN جدا شوند.</string>
-    <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
+    <string name="settingsSplitTunnelingTitle">تونل‌سازی بخشی</string>
     <string name="loaderErrorNoInternet">اتصال اینترنت برقرار نیست</string>
     <string name="loaderErrorGeneric">مشکلی پیش آمد</string>
     <string name="loaderLoadingServers">بارگیری سرورها…</string>
@@ -246,43 +246,43 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">باز کردن تنظیمات اندروید</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">فعال‌سازی kill switch قابلیت split tunneling را غیرفعال خواهد کرد، چون kill switch همهٔ اتصالات خارج از تونل VPN را مسدود می‌کند</string>
     <string name="settingsSmartProtocolDescription">استفاده خودکار از پروتکل و درگاهی که بهترین اتصال را ارائه می‌دهد</string>
-    <string name="settingsEnableTelemetryTitle">Share anonymous usage statistics</string>
-    <string name="settingsEnableTelemetryDescription">Usage data helps us overcome VPN blocks and improve app performance.</string>
-    <string name="settingsSendCrashReportsTitle">Share anonymous crash reports</string>
-    <string name="settingsSendCrashReportsDescription">Crash reports help us fix bugs, detect firewalls, and avoid VPN blocks.</string>
-    <string name="settingsTelemetryScreenTitle">Usage statistics</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
-    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
-    <string name="learn_more">Learn more</string>
-    <string name="netshield_state_on" comment="Describes state, not action">On</string>
-    <string name="netshield_state_off" comment="Describes state, not action">Off</string>
-    <string name="split_tunneling_state_on" comment="Describes state, not action">On</string>
-    <string name="split_tunneling_state_off" comment="Describes state, not action">Off</string>
-    <string name="vpn_accelerator_state_on" comment="Describes state, not action">On</string>
-    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Off</string>
-    <string name="lan_state_on" comment="Describes state, not action">On</string>
-    <string name="lan_state_off" comment="Describes state, not action">Off</string>
-    <string name="alt_routing_state_on" comment="Describes state, not action">On</string>
-    <string name="alt_routing_state_off" comment="Describes state, not action">Off</string>
-    <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
-    <string name="netshield_what_data_means">What NetShield data means</string>
-    <string name="netshield_ads_title">Ads</string>
-    <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
-    <string name="netshield_trackers_title">Trackers</string>
-    <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
-    <string name="netshield_data_title">Data</string>
-    <string name="netshield_data_details">The amount of unwanted data from ads, trackers, and malware blocked by NetShield</string>
-    <string name="accessibility_netshield_status_on_click">Enter NetShield settings</string>
+    <string name="settingsEnableTelemetryTitle">آمارهای استفاده به‌طور ناشناس در اشتراک بگذارید</string>
+    <string name="settingsEnableTelemetryDescription">داده‌های استفاده در غلبه بر مسدود سازی‌های VPN و بهبود یابی عملکرد برنامه به ما کمک می‌کند.</string>
+    <string name="settingsSendCrashReportsTitle">گزارش‌های فروپاشی را به‌طور ناشناس در اشتراک بگذارید</string>
+    <string name="settingsSendCrashReportsDescription">گزارش‌های فروپاشی به ما کمک می‌کند تا اشکالات را رفع کنیم، دیوارهای آتش را شناسایی کنیم و از مسدود شدن VPN جلوگیری کنیم.</string>
+    <string name="settingsTelemetryScreenTitle">آمارهای استفاده</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[این آمارها نشانی IP شما را شامل‌ نمی‌شوند، و برای شناسایی شما قابل استفاده نیستند. ما هرگز آن‌ها را با اشخاص ثالث در اشتراک نمی‌گذاریم. <a href="%1$s"> بیشتر بدانید </a>]]></string>
+    <string name="netshield_settings_description_not_html">از خودتان در برابر تبلیغات، بدافزارها، و ردیاب‌های درون وب‌سایت‌ها و برنامه‌ها محافظت کنید. اگر وب‌سایت‌ها بارگیری نمی‌شوند، خاموش کردن NetShield را امتحان کنید. %1$s</string>
+    <string name="learn_more">بیشتر بدانید</string>
+    <string name="netshield_state_on" comment="Describes state, not action">روشن</string>
+    <string name="netshield_state_off" comment="Describes state, not action">خاموش</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">روشن</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">خاموش</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">روشن</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">خاموش</string>
+    <string name="lan_state_on" comment="Describes state, not action">روشن</string>
+    <string name="lan_state_off" comment="Describes state, not action">خاموش</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">روشن</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">خاموش</string>
+    <string name="netshield_free_description">تبلیغات، ردیاب‌ها، و بدافزارها را در وب‌سایت‌ها و برنامه‌ها مسدود می‌کند</string>
+    <string name="netshield_what_data_means">داده‌های NetShield به چه معنا هستند</string>
+    <string name="netshield_ads_title">تبلیغات</string>
+    <string name="netshield_ads_details">تبلیغات و ردیاب‌های مخفی آن‌ها</string>
+    <string name="netshield_trackers_title">ردیاب‌ها</string>
+    <string name="netshield_trackers_details">کوکی‌ها و سایر ردیاب‌ها که اطلاعاتی در مورد فعالیت‌های اینترنتی شما ذخیره و اشتراک گذاری می‌کنند</string>
+    <string name="netshield_data_title">داده‌ها</string>
+    <string name="netshield_data_details">مقدار داده‌های ناخواسته مسدود شده توسط NetShield از تبلیغات، ردیاب‌ها، و بدافزارها</string>
+    <string name="accessibility_netshield_status_on_click">وارد تنظیمات NetShield شوید</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Ad blocked</item>
-        <item quantity="other">Ads blocked</item>
+        <item quantity="one">تبلیغ مسدود شد</item>
+        <item quantity="other">تبلیغات مسدود شدند</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Tracker stopped</item>
-        <item quantity="other">Trackers stopped</item>
+        <item quantity="one">ردیاب متوقف شد</item>
+        <item quantity="other">ردیاب‌ها متوقف شدند</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
-    <string name="netshield_setting_warning">Some websites may not load properly when ads and trackers are blocked.</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">داده‌های صرفه‌جویی شده</string>
+    <string name="netshield_setting_warning">بعضی وب‌سایت‌ها ممکن است درست بارگیری نشوند هنگامی که تبلیغات و ردیاب‌ها مسدود هستند.</string>
     <string name="dialogDontShowAgain">دوباره نشان نده</string>
     <string name="guestHoleActivated">دسترسی به Proton VPN ممکن است در ناحیه شما محدود شده باشد پس این بیش از معمول طول خواهد کشید. مادامیکه ما در مورد این مشکل کار می‌کنیم لطفا منتظر بمانید.</string>
     <string name="guestHoleNotificationContent">در تلاش برای دور زدن مشکلات شبکه. این به شما کمک خواهد کرد که به Proton VPN دسترسی پیدا کنید.</string>
@@ -395,12 +395,12 @@
     </plurals>
     <string name="upsell_upgrade_again">برای استفاده از همهٔ ویژگی‌ها دوباره ارتقا دهید:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">محافظت یک‌جا از %1$d دستگاه</item>
+        <item quantity="other">محافظت یک‌جا از %1$d دستگاه</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
-    <string name="upgrade_plus_title">Upgrade your privacy</string>
-    <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
+    <string name="upgrade_devices_text">Proton VPN در ۸ پلتفرم مختلف در دسترس است.</string>
+    <string name="upgrade_plus_title">حريم خصوصی خود را ارتقا دهید</string>
+    <string name="upgrade_plus_message">با VPN Plus ویژگی‌های حریم خصوصی پیشرفته و سرعت بیشتر بگیرید.</string>
     <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
     <string name="upgrade_netshield_message"><![CDATA[Block ads, trackers and malware with <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Double the encryption</string>
@@ -451,8 +451,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Unlock %1$s in %2$s with <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">زمانی که شما به Plus ارتقا دهید</string>
-    <string name="upgrade_safe_mode_title">امکان عبور ترافیک از پورت‌های غیر استاندارد</string>
-    <string name="upgrade_safe_mode_message">آیا نیازهای پردازشی پیشرفته یا حرفه‌ای دارید که درگاه‌های غیر-استاندارد لازم دارند؟ طرح خود را به VPN Plus ارتقا دهید تا به این قابلیت و قابلیت‌های ویژهٔ دیگر دسترسی پیدا کنید.</string>
     <string name="upgrade_not_now_button">الان نه</string>
     <string name="upgrade_learn_more">بیشتر بدانید</string>
     <string name="upsell_card_countries_title">Worldwide cover</string>
@@ -1116,6 +1114,16 @@
     <string name="connection_details_unknown_ip">Unknown</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

@@ -451,8 +451,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Accédez à %1$s dans %2$s en passant à <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">En passant à l\'abonnement Plus</string>
-    <string name="upgrade_safe_mode_title">Autoriser le trafic vers les ports non standard</string>
-    <string name="upgrade_safe_mode_message">Vous avez des besoins informatiques avancés ou professionnels qui nécessitent des ports non standard ? Passez à VPN Plus pour accéder à cette fonctionnalité et à d\'autres fonctionnalités premium.</string>
     <string name="upgrade_not_now_button">Plus tard</string>
     <string name="upgrade_learn_more">En savoir plus</string>
     <string name="upsell_card_countries_title">Couverture mondiale</string>
@@ -963,7 +961,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Serveur en maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_not_available">Serveur indisponible</string>
+    <string name="message_server_not_available">Le serveur n\'est pas disponible.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">La passerelle est en maintenance.</string>
     <!-- tag(Redesign_2023) -->
@@ -1116,7 +1114,16 @@
     <string name="connection_details_unknown_ip">Inconnu</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Ce graphique représente la vitesse de vos téléchargements actuels. Il est peu probable que votre connexion VPN ralentisse vos activités en ligne habituelles.</string>
-
+    <string name="speed_bytes_per_second">%1$s o/s</string>
+    <string name="speed_kilobytes_per_second">%1$s Ko/s</string>
+    <string name="speed_megabytes_per_second">%1$s Mo/s</string>
+    <string name="speed_gigabytes_per_second">%1$s Go/s</string>
+    <string name="speed_terabytes_per_second">%1$s To/s</string>
+    <string name="traffic_volume_bytes">%1$s o</string>
+    <string name="traffic_volume_kilobytes">%1$s Ko</string>
+    <string name="traffic_volume_megabytes">%1$s Mo</string>
+    <string name="traffic_volume_gigabytes">%1$s Go</string>
+    <string name="traffic_volume_terabytes">%1$s To</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

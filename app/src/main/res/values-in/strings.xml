@@ -442,8 +442,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Dapatkan akses ke %1$s di %2$s dengan <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">Pada saat Anda meningkatkan ke Plus</string>
-    <string name="upgrade_safe_mode_title">Izinkan lalu lintas data melalui port non-standar</string>
-    <string name="upgrade_safe_mode_message">Memiliki keperluan tertentu yang memerlukan penggunaan port non-standar? Tingkatkan akun Anda ke VPN Plus agar Anda dapat menggunakan fitur ini dan berbagai fitur premium lainnya.</string>
     <string name="upgrade_not_now_button">Tidak sekarang</string>
     <string name="upgrade_learn_more">Pelajari lebih lanjut</string>
     <string name="upsell_card_countries_title">Jangkauan global</string>
@@ -1097,6 +1095,16 @@
     <string name="connection_details_unknown_ip">Tidak diketahui</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Grafik ini menampilkan kecepatan aktivitas unggahan dan unduhan Anda saat ini. Pada umumnya, koneksi VPN tidak akan memperlambat aktivitas online normal Anda.</string>
+    <string name="speed_bytes_per_second">%1$s B/dtk</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/dtk</string>
+    <string name="speed_megabytes_per_second">%1$s MB/dtk</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/dtk</string>
+    <string name="speed_terabytes_per_second">%1$s TB/dtk</string>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

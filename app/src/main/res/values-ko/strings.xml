@@ -154,7 +154,7 @@
     <string name="protocolLabel">프로토콜</string>
     <string name="protocol">프로토콜:</string>
     <string name="ipWithPlaceholder">아이피: %1$s</string>
-    <string name="activityLicensesTitle">제3자 라이센스</string>
+    <string name="activityLicensesTitle">제3자 라이선스</string>
     <string name="stateFragmentUnknownIp">알 수 없음</string>
     <string name="noVpnPermissionMainTitle">VPN 연결 동작이 필요합니다</string>
     <string name="noVpnPermissionMainMessage">Proton VPN에 연결하려면, 다음을 수행해 주세요:</string>
@@ -442,8 +442,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[<b>VPN Plus</b>로 %2$s 내의 %1$s 잠금 해제]]></string>
     <string name="upgrade_plus_countries_subtitle">Plus 요금제로 업그레이드하세요</string>
-    <string name="upgrade_safe_mode_title">비표준 포트의 트래픽 허용</string>
-    <string name="upgrade_safe_mode_message">비표준 포트가 필요한 고급 또는 전문 컴퓨팅 요구 사항이 있나요? VPN Plus로 업그레이드하여 이것과 다른 프리미엄 기능들을 이용하세요.</string>
     <string name="upgrade_not_now_button">다음에</string>
     <string name="upgrade_learn_more">더 알아보기</string>
     <string name="upsell_card_countries_title">전세계 커버리지</string>
@@ -1097,6 +1095,16 @@
     <string name="connection_details_unknown_ip">알 수 없음</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">이 그래프는 지금의 업로드와 다운로드 활동의 속도를 보여줍니다. VPN 접속은 보통 일반적인 온라인 활동에 지장을 주지 않습니다.</string>
+    <string name="speed_bytes_per_second">%1$s B/초</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/초</string>
+    <string name="speed_megabytes_per_second">%1$s MB/초</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/초</string>
+    <string name="speed_terabytes_per_second">%1$s TB/초</string>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

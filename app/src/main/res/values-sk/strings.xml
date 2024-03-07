@@ -469,8 +469,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odomknite %1$s v %2$s s <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">Po navýšení na tarif Plus</string>
-    <string name="upgrade_safe_mode_title">Umožniť prevádzku na neštandardných portoch</string>
-    <string name="upgrade_safe_mode_message">Máte pokročilé alebo profesionálne počítačové potreby, ktoré vyžadujú neštandardné porty? Ak chcete získať prístup k týmto a ďalším prémiovým funkciám, prejdite na VPN Plus.</string>
     <string name="upgrade_not_now_button">Teraz nie</string>
     <string name="upgrade_learn_more">Zistiť viac</string>
     <string name="upsell_card_countries_title">Worldwide cover</string>
@@ -1154,6 +1152,16 @@
     <string name="connection_details_unknown_ip">Neznáme</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Tento graf zobrazuje rýchlosť vášho aktuálneho odosielania a sťahovania. Je nepravdepodobné, že by vaše pripojenie VPN spomalilo bežnú online aktivitu.</string>
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

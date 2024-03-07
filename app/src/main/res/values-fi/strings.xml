@@ -451,8 +451,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Avaa %1$s %2$s <b>VPN Plus</b> -tilauksella.]]></string>
     <string name="upgrade_plus_countries_subtitle">Päivittämällä Plus-tilaukseen</string>
-    <string name="upgrade_safe_mode_title">Salli tietoliikenne epätyypillisiin portteihin</string>
-    <string name="upgrade_safe_mode_message">Onko sinulla vaativia tai ammatillisia tietoteknisiä tarpeita, jotka tarvitsevat epätyypillisiä portteja? Päivitä VPN Plus -tilaukseen käyttääksesi tätä ja muita premium-ominaisuuksia.</string>
     <string name="upgrade_not_now_button">Ei nyt</string>
     <string name="upgrade_learn_more">Lue lisää</string>
     <string name="upsell_card_countries_title">Maailmalaajuinen kattavuus</string>
@@ -1116,6 +1114,16 @@
     <string name="connection_details_unknown_ip">Tuntematon</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Tämä kaavio näyttää nykyisen lähetys- ja lataustoimintasi nopeuden. VPN-yhteytesi ei todennäköisesti hidasta normaalia verkkotoimintaa.</string>
+    <string name="speed_bytes_per_second">%1$s t/s</string>
+    <string name="speed_kilobytes_per_second">%1$s Kt/s</string>
+    <string name="speed_megabytes_per_second">%1$s Mt/s</string>
+    <string name="speed_gigabytes_per_second">%1$s Gt/s</string>
+    <string name="speed_terabytes_per_second">%1$s Tt/s</string>
+    <string name="traffic_volume_bytes">%1$s t</string>
+    <string name="traffic_volume_kilobytes">%1$s Kt</string>
+    <string name="traffic_volume_megabytes">%1$s Mt</string>
+    <string name="traffic_volume_gigabytes">%1$s Gt</string>
+    <string name="traffic_volume_terabytes">%1$s Tt</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

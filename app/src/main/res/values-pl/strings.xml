@@ -469,8 +469,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odblokuj %1$s w %2$s w planie <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">Po ulepszeniu planu do wersji Plus</string>
-    <string name="upgrade_safe_mode_title">Zezwalaj na ruch do niestandardowych portów</string>
-    <string name="upgrade_safe_mode_message">Masz zaawansowane lub profesjonalne potrzeby, które wymagają niestandardowych portów? Ulepsz do planu VPN Plus, aby uzyskać dostęp do funkcji premium.</string>
     <string name="upgrade_not_now_button">Nie teraz</string>
     <string name="upgrade_learn_more">Dowiedz się więcej</string>
     <string name="upsell_card_countries_title">Globalny zasięg</string>
@@ -1154,6 +1152,16 @@
     <string name="connection_details_unknown_ip">Nieznany</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Wykres pokazuje aktualną prędkość wysyłania i pobierania. Połączenie VPN ma mały wpływ na spowolnienie normalnej aktywności online.</string>
+    <string name="speed_bytes_per_second">%1$s b/s</string>
+    <string name="speed_kilobytes_per_second">%1$s kb/s</string>
+    <string name="speed_megabytes_per_second">%1$s Mb/s</string>
+    <string name="speed_gigabytes_per_second">%1$s Gb/s</string>
+    <string name="speed_terabytes_per_second">%1$s Tb/s</string>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s kB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

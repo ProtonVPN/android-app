@@ -460,8 +460,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Deblocați %1$s în %2$s cu <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">Când treceți la Plus</string>
-    <string name="upgrade_safe_mode_title">Permitere trafic la porturile nonstandard</string>
-    <string name="upgrade_safe_mode_message">Aveți nevoi avansate sau profesionale de calcul care necesită porturi non-standard? Treceți la VPN Plus pentru a activa aceasta și alte funcții premium.</string>
     <string name="upgrade_not_now_button">Nu acum</string>
     <string name="upgrade_learn_more">Detalii</string>
     <string name="upsell_card_countries_title">Acoperire mondială</string>
@@ -1135,6 +1133,16 @@
     <string name="connection_details_unknown_ip">Necunoscut</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Acest grafic arată viteza activității curente de încărcare și descărcare. Conexiunea prin VPN nu ar trebui să vă încetinească activitatea normală online.</string>
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KiB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MiB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GiB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TiB/s</string>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KiB</string>
+    <string name="traffic_volume_megabytes">%1$s MiB</string>
+    <string name="traffic_volume_gigabytes">%1$s GiB</string>
+    <string name="traffic_volume_terabytes">%1$s TiB</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

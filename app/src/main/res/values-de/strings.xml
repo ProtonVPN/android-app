@@ -451,8 +451,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Schalte %1$s in %2$s mit <b>VPN Plus</b> frei.]]></string>
     <string name="upgrade_plus_countries_subtitle">Wenn du auf Plus upgradest</string>
-    <string name="upgrade_safe_mode_title">Datenverkehr zu nicht standardisierten Ports zulassen</string>
-    <string name="upgrade_safe_mode_message">Hast du fortgeschrittene oder professionelle Computeranforderungen, die nicht standardisierte Ports erfordern? Mit einem Upgrade auf VPN Plus erhältst du Zugang zu diesen und anderen Premium-Funktionen.</string>
     <string name="upgrade_not_now_button">Nicht jetzt</string>
     <string name="upgrade_learn_more">Mehr erfahren</string>
     <string name="upsell_card_countries_title">Weltweite Abdeckung</string>
@@ -1116,6 +1114,16 @@
     <string name="connection_details_unknown_ip">Unbekannt</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Diese Grafik zeigt die Geschwindigkeit deiner aktuellen Upload- und Download-Aktivitäten an. Es ist unwahrscheinlich, dass deine VPN-Verbindung die normale Online-Aktivität verlangsamt.</string>
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
