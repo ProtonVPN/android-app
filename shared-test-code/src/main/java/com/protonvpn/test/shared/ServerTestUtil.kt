@@ -44,6 +44,7 @@ fun createServer(
     exitCountry: String = "PL",
     entryCountry: String = exitCountry,
     city: String? = null,
+    region: String? = null,
     score: Double = 0.5,
     tier: Int = 0,
     features: Int = 0,
@@ -52,7 +53,6 @@ fun createServer(
     isSecureCore: Boolean = false, // For convenience, adds SERVER_FEATURE_SECURE_CORE
     connectingDomains: List<ConnectingDomain> = listOf(dummyConnectingDomain),
     isOnline: Boolean = true,
-    region: String? = null,
     load: Float = 50f,
     hostCountry: String? = null
 ) = Server(
