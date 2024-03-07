@@ -19,12 +19,15 @@
 
 package com.protonvpn.android.redesign.vpn
 
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.utils.hasFlag
 import java.util.EnumSet
 
-enum class ServerFeature {
-    P2P,
-    Tor;
+enum class ServerFeature(val flag: Int) {
+    P2P(SERVER_FEATURE_P2P),
+    Tor(SERVER_FEATURE_TOR);
 
     companion object {
         fun fromServer(server: Server): Set<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java).apply {
@@ -33,3 +36,6 @@ enum class ServerFeature {
         }
     }
 }
+
+fun Server.satisfiesFeatures(requiredFeatures: Set<ServerFeature>): Boolean =
+    requiredFeatures.all { required -> features.hasFlag(required.flag) }

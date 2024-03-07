@@ -212,7 +212,7 @@ class RecentsListViewStateFlow @Inject constructor(
     ): RecentAvailability =
         serverManager.forConnectIntent(
             connectIntent,
-            onFastest = { isSecureCore ->
+            onFastest = { isSecureCore, _ ->
                 if (!isSecureCore || vpnUser?.isFreeUser != true) RecentAvailability.ONLINE
                 else RecentAvailability.UNAVAILABLE_PLAN
             },

@@ -23,9 +23,15 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.SavedProfilesV3
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
@@ -60,7 +66,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.io.File
+import java.util.EnumSet
 import java.util.Locale
+import kotlin.test.assertNotNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ServerManagerTests {
@@ -119,15 +127,15 @@ class ServerManagerTests {
     @Test
     fun doNotChooseOfflineServerFromCountry() {
         val country = manager.getVpnExitCountry("CA", false)
-        val countryBestServer = manager.getBestScoreServer(country!!)
+        val countryBestServer = manager.getBestScoreServer(country!!.serverList)
         Assert.assertEquals("CA#2", countryBestServer!!.serverName)
     }
 
     @Test
     fun doNotChooseOfflineServerFromAll() = testScope.runTest {
-        assertEquals(
-            "DE#1", manager.getBestScoreServer(false, currentUser.vpnUser())!!.serverName
-        )
+        val server = manager.getBestScoreServer(false, serverFeatures = emptySet(), currentUser.vpnUser())
+        assertNotNull(server)
+        assertEquals("DE#1", server.serverName)
     }
 
     @Test
@@ -147,5 +155,48 @@ class ServerManagerTests {
         )
         Assert.assertNotNull(server)
         Assert.assertEquals("CA#2", server?.serverName)
+    }
+
+    @Test
+    fun testGetBestServerWithFeatures() = testScope.runTest {
+        fun createSeattleServer(serverId: String, score: Double, features: Int, entryCountry: String? = null) =
+            createServer(
+                serverId,
+                exitCountry = "US",
+                entryCountry = entryCountry ?: "US",
+                region = "Washington",
+                city = "Seattle",
+                score = score,
+                features = features
+            )
+
+        suspend fun testIntent(expectedServerId: String, connectIntent: ConnectIntent) {
+            val server = serverManager2.getServerForConnectIntent(connectIntent, vpnUser)
+            assertEquals(expectedServerId, server?.serverId)
+        }
+
+        val servers = listOf(
+            // The best server has no features.
+            createSeattleServer("1", score = .1, features = 0),
+            createSeattleServer("2", score = 0.5, features = SERVER_FEATURE_P2P),
+            createSeattleServer("3", score = 0.5, features = SERVER_FEATURE_TOR),
+            createSeattleServer("4", score = 1.0, features = SERVER_FEATURE_TOR or SERVER_FEATURE_P2P),
+            createSeattleServer("SC", score = .1, features = SERVER_FEATURE_SECURE_CORE, entryCountry = "CH")
+        )
+        manager.setServers(servers, null)
+
+        testIntent("2", ConnectIntent.FastestInCountry(CountryId.fastest, EnumSet.of(ServerFeature.P2P)))
+        testIntent(
+            "4",
+            ConnectIntent.FastestInCountry(CountryId.fastest, EnumSet.of(ServerFeature.P2P, ServerFeature.Tor))
+        )
+        testIntent("2", ConnectIntent.FastestInCountry(CountryId("US"), EnumSet.of(ServerFeature.P2P)))
+        testIntent("3", ConnectIntent.FastestInCountry(CountryId("US"), EnumSet.of(ServerFeature.Tor)))
+        testIntent("2", ConnectIntent.FastestInRegion(CountryId("US"), "Washington", EnumSet.of(ServerFeature.P2P)))
+        testIntent("2", ConnectIntent.FastestInCity(CountryId("US"), "Seattle", EnumSet.of(ServerFeature.P2P)))
+
+        // Secure Core is a bit special but also uses features, make sure it's not filtered out.
+        testIntent("SC", ConnectIntent.SecureCore(CountryId("US"), entryCountry = CountryId("CH")))
+        testIntent("SC", ConnectIntent.SecureCore(CountryId("US"), entryCountry = CountryId.fastest))
     }
 }
