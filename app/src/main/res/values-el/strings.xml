@@ -451,8 +451,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Ξεκλειδώστε %1$s σε %2$s με το <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">Όταν γίνει αναβάθμισή στο πλάνο Plus</string>
-    <string name="upgrade_safe_mode_title">Άδεια διακίνησης σε μη τυποποιημένες θύρες</string>
-    <string name="upgrade_safe_mode_message">Έχετε προχωρημένες ή επαγγελματικές υπολογιστικές ανάγκες που απαιτούν μη τυποποιημένες θύρες; Αναβαθμίστε σε VPN Plus για πρόσβαση σε αυτό και άλλα προνομιακά χαρακτηριστικά.</string>
     <string name="upgrade_not_now_button">Όχι τώρα</string>
     <string name="upgrade_learn_more">Μάθετε περισσότερα</string>
     <string name="upsell_card_countries_title">Παγκόσμια κάλυψη</string>
@@ -1116,6 +1114,16 @@
     <string name="connection_details_unknown_ip">Άγνωστο</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Αυτό το γράφημα δείχνει την ταχύτητα της τρέχουσας δραστηριότητας μεταφόρτωσης και λήψης. Η σύνδεσή σας VPN είναι απίθανο να επιβραδύνει την κανονική δραστηριότητα στο διαδίκτυο.</string>
+    <string name="speed_bytes_per_second">%1$s B/δλ</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/δλ</string>
+    <string name="speed_megabytes_per_second">%1$s MB/δλ</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/δλ</string>
+    <string name="speed_terabytes_per_second">%1$s TB/δλ</string>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

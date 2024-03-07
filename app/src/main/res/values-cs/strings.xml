@@ -256,18 +256,18 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Tyto statistiky neobsahují vaši IP adresu a nelze je použít k vaší identifikaci. Nikdy je nebudeme sdílet se třetími stranami. <a href="%1$s">Více informací</a>]]></string>
     <string name="netshield_settings_description_not_html">Chraňte se před reklamou, malware a sledovacími prvky na webových stránkách a v aplikacích. Pokud se stránky nenačítají, zkuste vypnout NetShield. %1$s</string>
     <string name="learn_more">Více informací</string>
-    <string name="netshield_state_on" comment="Describes state, not action">On</string>
-    <string name="netshield_state_off" comment="Describes state, not action">Off</string>
-    <string name="split_tunneling_state_on" comment="Describes state, not action">On</string>
-    <string name="split_tunneling_state_off" comment="Describes state, not action">Off</string>
-    <string name="vpn_accelerator_state_on" comment="Describes state, not action">On</string>
-    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Off</string>
-    <string name="lan_state_on" comment="Describes state, not action">On</string>
-    <string name="lan_state_off" comment="Describes state, not action">Off</string>
-    <string name="alt_routing_state_on" comment="Describes state, not action">On</string>
-    <string name="alt_routing_state_off" comment="Describes state, not action">Off</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Zap.</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Vyp.</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Zap.</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Vyp.</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Zap.</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Vyp.</string>
+    <string name="lan_state_on" comment="Describes state, not action">Zap.</string>
+    <string name="lan_state_off" comment="Describes state, not action">Vyp.</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Zap.</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Vyp.</string>
     <string name="netshield_free_description">Blokujte reklamy, sledovací prvky a malware na webových stránkách a v aplikacích</string>
-    <string name="netshield_what_data_means">What NetShield data means</string>
+    <string name="netshield_what_data_means">Co data NetShield znamenají</string>
     <string name="netshield_ads_title">Reklamy</string>
     <string name="netshield_ads_details">Reklamy a skryté sledovací prvky reklam</string>
     <string name="netshield_trackers_title">Sledovací prvky</string>
@@ -407,12 +407,12 @@
     </plurals>
     <string name="upsell_upgrade_again">Znovu navyšte tarif pro využití všech funkcí:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="few">Protect %1$d devices at once</item>
-        <item quantity="many">Protect %1$d devices at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">Chraňte až %1$d zařízení současně</item>
+        <item quantity="few">Chraňte až %1$d zařízení současně</item>
+        <item quantity="many">Chraňte až %1$d zařízení současně</item>
+        <item quantity="other">Chraňte až %1$d zařízení současně</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
+    <string name="upgrade_devices_text">Proton VPN je k dispozici na 8 různých platformách.</string>
     <string name="upgrade_plus_title">Navyšte své soukromí</string>
     <string name="upgrade_plus_message">Získejte pokročilé funkce ochrany soukromí a vyšší rychlost díky VPN Plus.</string>
     <string name="upgrade_netshield_title">Užijte si procházení internetu bez reklam</string>
@@ -469,8 +469,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odblokujte %1$s v %2$s s <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">Po navýšení na tarif Plus</string>
-    <string name="upgrade_safe_mode_title">Umožnit provoz na nestandardních portech</string>
-    <string name="upgrade_safe_mode_message">Máte pokročilé nebo profesionální počítačové potřeby, které vyžadují nestandardní porty? Chcete-li získat přístup k těmto a dalším prémiovým funkcím, přejděte na VPN Plus.</string>
     <string name="upgrade_not_now_button">Nyní ne</string>
     <string name="upgrade_learn_more">Více informací</string>
     <string name="upsell_card_countries_title">Celosvětové pokrytí</string>
@@ -494,7 +492,7 @@
     <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">Přidejte další úroveň šifrování vašemu VPN připojení</string>
-    <string name="upsell_card_p2p_title">P2P support</string>
+    <string name="upsell_card_p2p_title">Podpora P2P</string>
     <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
     <string name="upsell_card_speed_title">Faster browsing</string>
     <!-- Parameters:
@@ -1154,7 +1152,16 @@
     <string name="connection_details_unknown_ip">Neznámá</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Tento graf zobrazuje rychlost vašeho aktuálního odesílání a stahování. Je nepravděpodobné, že by vaše připojení k síti VPN zpomalovalo vaši běžnou online aktivitu.</string>
-
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

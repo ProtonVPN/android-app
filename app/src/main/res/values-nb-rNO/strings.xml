@@ -451,8 +451,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Lås opp %1$s i %2$s med <b>VPN Plus</b>]]></string>
     <string name="upgrade_plus_countries_subtitle">Når du oppgraderer til Plus</string>
-    <string name="upgrade_safe_mode_title">Tillat trafikk på ikke-standard porter</string>
-    <string name="upgrade_safe_mode_message">Har du avanserte eller profesjonelle databehandlingsbehov som krever ikke-standardporter? Oppgrader til VPN Plus for å få dette og andre premiumfunksjoner.</string>
     <string name="upgrade_not_now_button">Ikke nå</string>
     <string name="upgrade_learn_more">Lær mer</string>
     <string name="upsell_card_countries_title">Verdensomspennende dekning</string>
@@ -1116,6 +1114,16 @@
     <string name="connection_details_unknown_ip">Ukjent</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Denne grafen viser hastigheten på gjeldende opplastings- og nedlastingsaktivitet. VPN-tilkoblingen din vil sannsynligvis ikke bremse normal nettaktivitet.</string>
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->

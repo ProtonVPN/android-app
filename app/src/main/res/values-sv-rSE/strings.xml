@@ -451,8 +451,6 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Lås upp %1$s i %2$s med <b>VPN Plus</b>.]]></string>
     <string name="upgrade_plus_countries_subtitle">När du uppgraderar till Plus</string>
-    <string name="upgrade_safe_mode_title">Tillåt trafik till icke-standardiserade portar</string>
-    <string name="upgrade_safe_mode_message">Har du avancerade eller professionella datorbehov som kräver icke-standardiserade portar? Uppgradera till VPN Plus för att få åtkomst till denna och andra premiumfunktioner.</string>
     <string name="upgrade_not_now_button">Inte nu</string>
     <string name="upgrade_learn_more">Lär dig mer</string>
     <string name="upsell_card_countries_title">Världsomspännande täckning</string>
@@ -1116,7 +1114,16 @@
     <string name="connection_details_unknown_ip">Okänd</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Detta diagram visar hastigheten på din nuvarande upp- och nedladdningsaktivitet. Din VPN-anslutning kommer sannolikt inte att sakta ner normal onlineaktivitet.</string>
-
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="traffic_volume_kilobytes">%1$s KB</string>
+    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_gigabytes">%1$s GB</string>
+    <string name="traffic_volume_terabytes">%1$s TB</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
@@ -1139,7 +1146,7 @@
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Öka din anslutningshastighet med upp till 400 %% med prestandaförbättrade teknologier. %1$s</string>
     <string name="settings_advanced_alternative_routing_title">Alternativ routing</string>
-    <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
+    <string name="settings_advanced_alternative_routing_description">Om Proton-tjänster blockeras på grund av nätverksbegränsningar kommer vi försöka använda alternativ nätverksdirigering för att ansluta dig till våra webbplatser.</string>
     <string name="settings_advanced_allow_lan_title">LAN-anslutningar</string>
     <string name="settings_advanced_allow_lan_description">Låter dig ansluta till skrivare, högtalare och andra enheter i din enhets lokala nätverk.</string>
     <string name="settings_advanced_nat_type_title">NAT type</string>
