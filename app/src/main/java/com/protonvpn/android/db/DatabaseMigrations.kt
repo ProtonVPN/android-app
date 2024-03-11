@@ -195,4 +195,10 @@ object DatabaseMigrations {
             )
         }
     }
+
+    val MIGRATION_28_29 = object : Migration(28, 29) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            PaymentDatabase.MIGRATION_1.migrate(database)
+        }
+    }
 }
