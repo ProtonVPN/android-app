@@ -420,10 +420,10 @@
     <string name="upgrade_secure_core_title">Double the encryption</string>
     <string name="upgrade_secure_core_message"><![CDATA[Добавьте еще один уровень шифрования к вашему VPN-подключению с помощью <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
-    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
-    <string name="upgrade_streaming_title">Stream in 4K</string>
+    <string name="upgrade_p2p_text">Улучшите скорость загрузки и скачивания, скрывая при этом свой IP-адрес.</string>
+    <string name="upgrade_streaming_title">Трансляция в 4K</string>
     <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
-    <string name="upgrade_tor_title">Access the Tor network in one tap</string>
+    <string name="upgrade_tor_title">Доступ к сети Tor одним нажатием</string>
     <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
     <string name="upgrade_vpn_accelerator_title">Просматривайте веб-страницы на еще более высоких скоростях</string>
     <!--
@@ -782,6 +782,11 @@
         -->
     <string name="accessibility_action_upgrade">улучшить</string>
     <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">search</string>
+    <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
          Only used by accessibility services.
@@ -996,6 +1001,8 @@
     <string name="message_country_servers_in_maintenance">Все серверы в этой стране на техобслуживании</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Все серверы в этом городе на техобслуживании</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Сервер на обслуживании</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1066,6 +1073,16 @@
     <string name="dialog_sign_out_action">Выйти</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Отменить</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">All</string>
+    <string name="country_filter_cities">Cities</string>
+    <string name="country_filter_states">States</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1152,16 +1169,16 @@
     <string name="connection_details_unknown_ip">Неизвестный</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Этот график показывает скорость загрузки и скачивания в настоящий момент. Ваше подключение к VPN вряд ли замедлит нормальную работу в Интернете.</string>
-    <string name="speed_bytes_per_second">%1$s B/s</string>
-    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
-    <string name="speed_megabytes_per_second">%1$s MB/s</string>
-    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
-    <string name="speed_terabytes_per_second">%1$s TB/s</string>
-    <string name="traffic_volume_bytes">%1$s B</string>
-    <string name="traffic_volume_kilobytes">%1$s KB</string>
-    <string name="traffic_volume_megabytes">%1$s MB</string>
-    <string name="traffic_volume_gigabytes">%1$s GB</string>
-    <string name="traffic_volume_terabytes">%1$s TB</string>
+    <string name="speed_bytes_per_second">%1$s Б/c.</string>
+    <string name="speed_kilobytes_per_second">%1$s КБ/c.</string>
+    <string name="speed_megabytes_per_second">%1$s МБ/c.</string>
+    <string name="speed_gigabytes_per_second">%1$s ГБ/c.</string>
+    <string name="speed_terabytes_per_second">%1$s ТБ/c.</string>
+    <string name="traffic_volume_bytes">%1$s Б</string>
+    <string name="traffic_volume_kilobytes">%1$s КБ</string>
+    <string name="traffic_volume_megabytes">%1$s МБ</string>
+    <string name="traffic_volume_gigabytes">%1$s ГБ</string>
+    <string name="traffic_volume_terabytes">%1$s ТБ</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
@@ -1180,11 +1197,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d с</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Сбой подключения</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Это устройство не разрешает подключения к VPN.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Увеличьте скорость подключения до 400 %% благодаря технологиям повышения производительности. %1$s</string>
     <string name="settings_advanced_alternative_routing_title">Альтернативная маршрутизация</string>
     <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
     <string name="settings_advanced_allow_lan_title">Подключения по LAN</string>
@@ -1199,8 +1216,8 @@
     <string name="settings_advanced_nat_type_moderate_description">Некоторое ограничение на поступление данных в вашу сеть. Этот вариант лучше всего подходит для сетевых видеоигр.</string>
     <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
     <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
-    <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
-    <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
+    <string name="settings_split_tunneling_excluded_apps">Исключённые приложения</string>
+    <string name="settings_split_tunneling_excluded_ips">Исключённые IP-адреса</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_dialog_reconnect">Новые настройки будут применены при следующем подключении.</string>

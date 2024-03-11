@@ -728,6 +728,11 @@
         -->
     <string name="accessibility_action_upgrade">업그레이드</string>
     <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">검색</string>
+    <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
          Only used by accessibility services.
@@ -939,6 +944,8 @@
     <string name="message_country_servers_in_maintenance">이 국가 내의 모든 서버는 유지 보수 상태입니다.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">이 도시 내의 모든 서버는 유지 보수 상태입니다.</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">서버가 점검 중입니다</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1009,6 +1016,16 @@
     <string name="dialog_sign_out_action">로그아웃</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">취소</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">전체</string>
+    <string name="country_filter_cities">도시</string>
+    <string name="country_filter_states">주</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
