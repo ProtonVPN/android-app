@@ -73,5 +73,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
     implementation "androidx.test.ext:junit:1.1.5"
     implementation "androidx.test:runner:1.5.2"
-    implementation "androidx.test.uiautomator:uiautomator:2.3.0-alpha05"
+    implementation "androidx.test.uiautomator:uiautomator:2.3.0"
 }
