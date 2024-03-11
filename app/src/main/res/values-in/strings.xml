@@ -249,7 +249,7 @@
     <string name="settingsEnableTelemetryDescription">Statistik pemakaian membantu kami dalam menangkal pemblokiran VPN dan meningkatkan performa aplikasi.</string>
     <string name="settingsSendCrashReportsTitle">Bagikan laporan crash anonim</string>
     <string name="settingsSendCrashReportsDescription">Laporan crash membantu kami dalam memperbaiki bug, mendeteksi firewall, dan menangkal pemblokiran VPN.</string>
-    <string name="settingsTelemetryScreenTitle">Statistik penggunaan</string>
+    <string name="settingsTelemetryScreenTitle">Statistik pemakaian</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga manapun. <a href="%1$s">Pelajari lebih lanjute</a>]]></string>
     <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. Apabila situs web yang ingin Anda kunjungi tidak termuat, cobalah untuk menonaktifkan NetShield. %1$s</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
@@ -728,6 +728,11 @@
         -->
     <string name="accessibility_action_upgrade">tingkatkan</string>
     <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">cari</string>
+    <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
          Only used by accessibility services.
@@ -939,6 +944,8 @@
     <string name="message_country_servers_in_maintenance">Seluruh server di negara ini sedang dalam pemeliharaan</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Seluruh server di kota ini sedang dalam pemeliharaan</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">Seluruh server di negara bagian ini sedang dalam pemeliharaan</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Server dalam pemeliharaan</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1009,6 +1016,16 @@
     <string name="dialog_sign_out_action">Keluar dari akun</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Batalkan</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">Semua</string>
+    <string name="country_filter_cities">Kota</string>
+    <string name="country_filter_states">Negara Bagian</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->

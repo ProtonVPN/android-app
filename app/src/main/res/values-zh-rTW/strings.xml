@@ -728,6 +728,11 @@
         -->
     <string name="accessibility_action_upgrade">升級</string>
     <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">search</string>
+    <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
          Only used by accessibility services.
@@ -762,7 +767,7 @@
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">最快的國家</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
-    <string name="fastest_free_server">最快速的伺免費服器</string>
+    <string name="fastest_free_server">最快速的免費伺服器</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -939,6 +944,8 @@
     <string name="message_country_servers_in_maintenance">此國家所有伺服器俱在維護中</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">此城市所有伺服器俱在維護中</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">伺服器維護中</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1009,6 +1016,16 @@
     <string name="dialog_sign_out_action">登出</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">取消</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">All</string>
+    <string name="country_filter_cities">Cities</string>
+    <string name="country_filter_states">States</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1095,12 +1112,12 @@
     <string name="connection_details_unknown_ip">未知</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">此圖表顯示您目前上、下載活動的速度。您的 VPN 連線不大減慢正常線上活動。</string>
-    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_bytes_per_second">%1$s位元組每秒</string>
     <string name="speed_kilobytes_per_second">%1$s KB/s</string>
-    <string name="speed_megabytes_per_second">%1$s MB/s</string>
-    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
-    <string name="speed_terabytes_per_second">%1$s TB/s</string>
-    <string name="traffic_volume_bytes">%1$s B</string>
+    <string name="speed_megabytes_per_second">%1$s Mb/s</string>
+    <string name="speed_gigabytes_per_second">%1$s Gb/s</string>
+    <string name="speed_terabytes_per_second">%1$s Tb/s</string>
+    <string name="traffic_volume_bytes">%1$s位元組</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
     <string name="traffic_volume_megabytes">%1$s MB</string>
     <string name="traffic_volume_gigabytes">%1$s GB</string>

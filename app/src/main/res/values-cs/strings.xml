@@ -782,6 +782,11 @@
         -->
     <string name="accessibility_action_upgrade">navýšit</string>
     <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">search</string>
+    <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
          Only used by accessibility services.
@@ -996,6 +1001,8 @@
     <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">All servers in this city are under maintenance</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Na serveru probíhá údržba</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1066,6 +1073,16 @@
     <string name="dialog_sign_out_action">Odhlásit se</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Zpět</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">Vše</string>
+    <string name="country_filter_cities">Města</string>
+    <string name="country_filter_states">Státy</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1180,7 +1197,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sek.</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Připojení selhalo</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Toto zařízení neumožňuje připojení VPN.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->

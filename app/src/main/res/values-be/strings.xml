@@ -614,7 +614,7 @@
     <string name="free_connections_info_server_locations">Размяшчэнні сервераў Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Тарыфны план VPN Plus забяспечвае пакрыццё ўсяго свету</string>
     <string name="free_connection_info_title">Бясплатныя падключэнні</string>
-    <string name="search_upsell_banner_title">Прагляд трансляцый з любога месца ў свеце</string>
+    <string name="search_upsell_banner_title">Прагляд трансляцый з любой краіны ў свеце.</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Доступ да змесціва, якое заблакіравана па геаграфічнай прыкмеце ў %1$d краіне з VPN Plus.</item>
@@ -781,6 +781,11 @@
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
     <string name="accessibility_action_upgrade">палепшыць</string>
+    <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">пошук</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -996,6 +1001,8 @@
     <string name="message_country_servers_in_maintenance">Усе серверы ў гэтай краіне на тэхнічным абслугоўванні</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Усе серверы ў гэтым горадзе на тэхнічным абслугоўванні</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">Усе серверы ў гэтым штаце на тэхнічным абслугоўванні</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Сервер на тэхнічным абслугоўванні</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1066,6 +1073,16 @@
     <string name="dialog_sign_out_action">Выйсці</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Скасаваць</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">Усе</string>
+    <string name="country_filter_cities">Гарады</string>
+    <string name="country_filter_states">Штаты</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->

@@ -746,6 +746,11 @@
         -->
     <string name="accessibility_action_upgrade">mejorar</string>
     <!-- tag(Redesign_2023)
+     Text added to clickable elements that initiate a search.
+     Only used by accessibility services.
+    -->
+    <string name="accessibility_action_search">search</string>
+    <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
          Only used by accessibility services.
@@ -958,6 +963,8 @@
     <string name="message_country_servers_in_maintenance">Todos los servidores de este país están en mantenimiento.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Todos los servidores de esta ciudad están en mantenimiento.</string>
+    <!-- State means here US state, like California -->
+    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Servidores en mantenimiento</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1028,6 +1035,16 @@
     <string name="dialog_sign_out_action">Cerrar sesión</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Cancelar</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_all">All</string>
+    <string name="country_filter_cities">Cities</string>
+    <string name="country_filter_states">States</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_secure_core">Secure Core</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_p2p">P2P</string>
+    <!-- tag(Redesign_2023) -->
+    <string name="country_filter_tor">Tor</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
