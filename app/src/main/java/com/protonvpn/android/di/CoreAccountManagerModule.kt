@@ -31,9 +31,9 @@ import me.proton.core.accountmanager.data.AccountMigratorImpl
 import me.proton.core.accountmanager.data.SessionManagerImpl
 import me.proton.core.accountmanager.data.SessionProviderImpl
 import me.proton.core.accountmanager.domain.AccountManager
+import me.proton.core.accountmanager.domain.AccountWorkflowHandler
 import me.proton.core.accountmanager.domain.SessionManager
 import me.proton.core.accountmanager.domain.migrator.AccountMigrator
-import me.proton.core.auth.domain.AccountWorkflowHandler
 import me.proton.core.auth.domain.repository.AuthRepository
 import me.proton.core.network.domain.session.SessionListener
 import me.proton.core.network.domain.session.SessionProvider
