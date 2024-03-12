@@ -27,6 +27,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CityStateId
@@ -87,11 +88,13 @@ class CountryListViewModel @Inject constructor(
 ) {
     override fun getMainDataItems(
         savedState: CountryScreenSavedState,
+        userTier: Int?,
         locale: Locale,
     ) : Flow<List<CountryListItemData>> =
         dataAdapter.countries(savedState.filter).map { countries ->
             buildList {
-                add(fastestCountryItem(savedState.filter))
+                if (userTier != null && userTier > VpnUser.FREE_TIER)
+                    add(fastestCountryItem(savedState.filter))
                 addAll(countries.sortedByLabel(locale))
             }
         }
@@ -127,6 +130,7 @@ abstract class BaseCountryListViewModel(
 
     abstract fun getMainDataItems(
         savedState: CountryScreenSavedState,
+        userTier: Int?,
         locale: Locale,
     ) : Flow<List<CountryListItemData>>
 
@@ -138,7 +142,7 @@ abstract class BaseCountryListViewModel(
             localeFlow.filterNotNull(),
             connectedServerFlow,
         ) { savedState, userTier, locale, connectedServer ->
-            getMainDataItems(savedState, locale).map { dataItems ->
+            getMainDataItems(savedState, userTier, locale).map { dataItems ->
                 val mainScreenItems = dataItems.map {
                     it.toState(userTier, savedState.filter, connectedServer)
                 }

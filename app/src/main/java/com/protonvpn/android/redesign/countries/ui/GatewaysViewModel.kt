@@ -50,6 +50,7 @@ class GatewaysViewModel @Inject constructor(
 ) {
     override fun getMainDataItems(
         savedState: CountryScreenSavedState,
+        userTier: Int?,
         locale: Locale,
     ) : Flow<List<CountryListItemData>> = dataAdapter.gateways(savedState.filter).map { gateways ->
         gateways.sortedByLabel(locale)
