@@ -163,7 +163,8 @@ class RecentsListViewStateFlow @Inject constructor(
             RecentItemViewState(
                 id = id,
                 isPinned = isPinned,
-                isConnected = connectedIntent == connectIntent && connectedServer.isCompatibleWith(connectIntent),
+                isConnected = connectedIntent == connectIntent &&
+                    connectedServer.isCompatibleWith(connectIntent, matchFastest = true),
                 availability = getAvailability(connectIntent, vpnUser, protocol),
                 connectIntent = getConnectIntentViewState(connectIntent, vpnUser?.isFreeUser == true)
             )

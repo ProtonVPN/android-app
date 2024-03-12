@@ -22,13 +22,12 @@ package com.protonvpn.android.redesign.vpn
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CountryId
 
-fun Server?.isCompatibleWith(intent: ConnectIntent): Boolean {
+fun Server?.isCompatibleWith(intent: ConnectIntent, matchFastest: Boolean): Boolean {
     if (this == null) return false
 
-    fun CountryId.matches(serverCountryCode: String) = isFastest || countryCode == serverCountryCode
+    fun CountryId.matches(serverCountryCode: String) = (matchFastest && isFastest) || countryCode == serverCountryCode
 
-    val compatibleFeatures = ServerFeature.fromServer(this).containsAll(intent.features)
-    return compatibleFeatures && when(intent) {
+    return satisfiesFeatures(intent.features) && when(intent) {
         is ConnectIntent.FastestInCountry ->
             intent.country.matches(exitCountry) && !isSecureCoreServer
         is ConnectIntent.FastestInCity ->

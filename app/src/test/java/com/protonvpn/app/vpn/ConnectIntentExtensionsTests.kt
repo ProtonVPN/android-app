@@ -34,20 +34,6 @@ import kotlin.test.Test
 class ConnectIntentExtensionsTests {
 
     @Test
-    fun `every non-SC server matches fastest in the world`() {
-        val intent = ConnectIntent.Fastest
-        testIsServerCompatibleWithConnectIntent(
-            intent, createServer("A", exitCountry = "DE"), true
-        )
-        testIsServerCompatibleWithConnectIntent(
-            intent, createServer("A", exitCountry = "UK"), true
-        )
-        testIsServerCompatibleWithConnectIntent(
-            intent, createServer("A", exitCountry = "UK", isSecureCore = true), false
-        )
-    }
-
-    @Test
     fun `non-SC server matches fastest in country`() {
         val intent = ConnectIntent.FastestInCountry(CountryId.switzerland, emptySet())
         testIsServerCompatibleWithConnectIntent(
@@ -72,37 +58,6 @@ class ConnectIntentExtensionsTests {
         )
         testIsServerCompatibleWithConnectIntent(
             intent, createServer("A", exitCountry = "PL"), false
-        )
-    }
-
-    @Test
-    fun `SC server matches fastest SC`() {
-        val intent = ConnectIntent.SecureCore(CountryId.fastest, CountryId.fastest)
-        testIsServerCompatibleWithConnectIntent(
-            intent, createServer("A", exitCountry = "PL", entryCountry = "CH", isSecureCore = true), true
-        )
-        testIsServerCompatibleWithConnectIntent(
-            intent, createServer("A", exitCountry = "US", entryCountry = "IS", isSecureCore = true), true
-        )
-        testIsServerCompatibleWithConnectIntent(
-            intent, createServer("A", exitCountry = "US", isSecureCore = false), false
-        )
-    }
-
-    @Test
-    fun `SC server matches fastest SC to country`() {
-        val intent = ConnectIntent.SecureCore(entryCountry = CountryId.fastest, exitCountry = CountryId("US"))
-        testIsServerCompatibleWithConnectIntent(
-            intent, createServer("A", exitCountry = "US", entryCountry = "CH", isSecureCore = true), true
-        )
-        testIsServerCompatibleWithConnectIntent(
-            intent, createServer("A", exitCountry = "US", entryCountry = "IS", isSecureCore = true), true
-        )
-        testIsServerCompatibleWithConnectIntent(
-            intent, createServer("A", exitCountry = "LT", entryCountry = "IS", isSecureCore = true), false
-        )
-        testIsServerCompatibleWithConnectIntent(
-            intent, createServer("A", exitCountry = "US", isSecureCore = false), false
         )
     }
 
@@ -189,11 +144,84 @@ class ConnectIntentExtensionsTests {
         )
     }
 
+    @Test
+    fun `no server matches fastest country intent`() {
+        val intent = ConnectIntent.Fastest
+        testIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "CH"), false
+        )
+
+        testIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "PL", entryCountry = "CH"), false
+        )
+    }
+
+    @Test
+    fun `no server matches fastest SC country intent`() {
+        val intent = ConnectIntent.SecureCore(CountryId.fastest, CountryId.fastest)
+        testIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "PL", entryCountry = "CH", isSecureCore = true), false
+        )
+    }
+
+    @Test
+    fun `match fastest - every non-SC server matches fastest in the world`() {
+        val intent = ConnectIntent.Fastest
+        testMatchFastestIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "DE"), true
+        )
+        testMatchFastestIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "UK"), true
+        )
+        testMatchFastestIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "UK", isSecureCore = true), false
+        )
+    }
+
+    @Test
+    fun `match fastest - SC server matches fastest SC to country`() {
+        val intent = ConnectIntent.SecureCore(entryCountry = CountryId.fastest, exitCountry = CountryId("US"))
+        testMatchFastestIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "US", entryCountry = "CH", isSecureCore = true), true
+        )
+        testMatchFastestIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "US", entryCountry = "IS", isSecureCore = true), true
+        )
+        testMatchFastestIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "LT", entryCountry = "IS", isSecureCore = true), false
+        )
+        testMatchFastestIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "US", isSecureCore = false), false
+        )
+    }
+
+    @Test
+    fun `match fastest - SC server matches fastest SC`() {
+        val intent = ConnectIntent.SecureCore(CountryId.fastest, CountryId.fastest)
+        testMatchFastestIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "PL", entryCountry = "CH", isSecureCore = true), true
+        )
+        testMatchFastestIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "US", entryCountry = "IS", isSecureCore = true), true
+        )
+        testMatchFastestIsServerCompatibleWithConnectIntent(
+            intent, createServer("A", exitCountry = "US", isSecureCore = false), false
+        )
+    }
+
     private fun testIsServerCompatibleWithConnectIntent(
         intent: ConnectIntent,
         server: Server?,
         expectedResult: Boolean
     ) {
-        assertEquals(expectedResult, server.isCompatibleWith(intent))
+        assertEquals(expectedResult, server.isCompatibleWith(intent, matchFastest = false))
+    }
+
+    private fun testMatchFastestIsServerCompatibleWithConnectIntent(
+        intent: ConnectIntent,
+        server: Server?,
+        expectedResult: Boolean
+    ) {
+        assertEquals(expectedResult, server.isCompatibleWith(intent, matchFastest = true))
     }
 }
