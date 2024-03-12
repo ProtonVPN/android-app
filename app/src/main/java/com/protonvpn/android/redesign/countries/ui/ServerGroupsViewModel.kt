@@ -84,13 +84,18 @@ abstract class ServerGroupsViewModel(
     private var subScreenSaveState by savedStateHandle.state<SubScreenSaveState?>(null, subStateKey)
     private val subScreenSaveStateFlow = savedStateHandle.getStateFlow(subStateKey, subScreenSaveState)
 
+    private data class ActiveConnection(
+        val intent: ConnectIntent?,
+        val server: Server?,
+    )
+
     // Helper flows
     val localeFlow = MutableStateFlow<Locale?>(null)
     private val userTierFlow = currentUser.vpnUserFlow.map { it?.maxTier }
         .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), 1)
-    private val connectedServerFlow =
+    private val currentConnectionFlow =
         vpnStatusProviderUI.uiStatus
-            .map { status -> status.server.takeIf { status.state == VpnState.Connected } }
+            .map { status -> ActiveConnection(status.connectIntent, status.server).takeIf { status.state == VpnState.Connected } }
             .distinctUntilChanged()
 
     abstract fun getMainDataItems(
@@ -105,11 +110,11 @@ abstract class ServerGroupsViewModel(
             mainSaveStateFlow,
             userTierFlow,
             localeFlow.filterNotNull(),
-            connectedServerFlow,
-        ) { savedState, userTier, locale, connectedServer ->
+            currentConnectionFlow,
+        ) { savedState, userTier, locale, currentConnection ->
             getMainDataItems(savedState, userTier, locale).map { dataItems ->
                 val mainScreenItems = dataItems.map {
-                    it.toState(userTier, savedState.filter, connectedServer)
+                    it.toState(userTier, savedState.filter, currentConnection)
                 }
                 mainScreenState(savedState, mainScreenItems)
             }
@@ -120,12 +125,12 @@ abstract class ServerGroupsViewModel(
             subScreenSaveStateFlow,
             userTierFlow,
             localeFlow.filterNotNull(),
-            connectedServerFlow,
-        ) { savedState, userTier, locale, connectedServer ->
+            currentConnectionFlow,
+        ) { savedState, userTier, locale, currentConnection ->
             if (savedState != null) {
                 getSubScreenDataItems(savedState, locale).map { dataItems ->
                     val items = dataItems.map {
-                        it.toState(userTier, savedState.filter, connectedServer)
+                        it.toState(userTier, savedState.filter, currentConnection)
                     }
                     subScreenState(savedState, items)
                 }
@@ -232,12 +237,20 @@ abstract class ServerGroupsViewModel(
     private fun ServerGroupItemData.toState(
         userTier: Int?,
         filter: ServerListFilter,
-        connectedServer: Server?
-    ) = ServerGroupItemState(
-        data = this,
-        available = userTier == null || (countryId?.isFastest == true || (userTier > 0 && userTier >= tier)),
-        connected = connectedServer != null && connectedServer.isCompatibleWith(getConnectIntent(filter)),
-    )
+        connection: ActiveConnection?,
+    ): ServerGroupItemState {
+        val itemConnectIntent = getConnectIntent(filter)
+        val isItemFastest = itemConnectIntent.matchesFastestItem()
+        val isConnectIntentFastest = connection?.intent?.matchesFastestItem() ?: false
+        return ServerGroupItemState(
+            data = this,
+            available = userTier == null || (countryId?.isFastest == true || (userTier > 0 && userTier >= tier)),
+            connected = connection?.server.isCompatibleWith(
+                itemConnectIntent,
+                matchFastest = !isItemFastest || isConnectIntentFastest
+            ),
+        )
+    }
 
     private fun onOpenCountry(type: ServerFilterType, countryId: CountryId) {
         subScreenSaveState = SubScreenSaveState(
@@ -315,6 +328,12 @@ abstract class ServerGroupsViewModel(
 
     fun onClose() {
         subScreenSaveState = null
+    }
+
+    private fun ConnectIntent.matchesFastestItem() = when(this) {
+        is ConnectIntent.FastestInCountry -> country == CountryId.fastest
+        is ConnectIntent.SecureCore -> exitCountry == CountryId.fastest && entryCountry == CountryId.fastest
+        else -> false
     }
 }
 
