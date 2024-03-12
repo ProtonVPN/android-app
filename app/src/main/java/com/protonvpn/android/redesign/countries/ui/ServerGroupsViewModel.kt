@@ -290,11 +290,11 @@ abstract class ServerGroupsViewModel(
             subScreenSaveState = null
             if (!item.data.inMaintenance) {
                 if (item.available) {
-                    val intent = item.data.getConnectIntent(filter)
+                    val connectIntent = item.data.getConnectIntent(filter).takeIf { !item.connected }
                     val trigger = ConnectTrigger.Server("")
-                    if (!item.connected)
-                        vpnConnectionManager.connect(vpnUiDelegate, intent, trigger)
-                    navigateToHome(shouldShowcaseRecents(intent))
+                    if (connectIntent != null)
+                        vpnConnectionManager.connect(vpnUiDelegate, connectIntent, trigger)
+                    navigateToHome(connectIntent != null && shouldShowcaseRecents(connectIntent))
                 } else {
                     navigateToUpsell()
                 }
@@ -441,4 +441,3 @@ interface ServerListViewModelDataAdapter {
 
     fun gateways(filter: ServerListFilter): Flow<List<ServerGroupItemData.Gateway>>
 }
-
