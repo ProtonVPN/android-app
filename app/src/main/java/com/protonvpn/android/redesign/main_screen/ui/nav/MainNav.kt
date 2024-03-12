@@ -19,21 +19,25 @@
 
 package com.protonvpn.android.redesign.main_screen.ui.nav
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.protonvpn.android.redesign.app.ui.CoreNavigation
+import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
+import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
@@ -42,24 +46,26 @@ import com.protonvpn.android.redesign.base.ui.nav.baseRoute
 import com.protonvpn.android.redesign.base.ui.nav.popToStartNavOptions
 import com.protonvpn.android.redesign.countries.ui.nav.CountryListScreen
 import com.protonvpn.android.redesign.countries.ui.nav.CountryListScreen.countryList
+import com.protonvpn.android.redesign.countries.ui.nav.GatewaysScreen
+import com.protonvpn.android.redesign.countries.ui.nav.GatewaysScreen.gateways
 import com.protonvpn.android.redesign.countries.ui.nav.SearchRouteScreen
+import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.home_screen.ui.nav.ConnectionDetailsScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen.home
 import com.protonvpn.android.redesign.main_screen.ui.BottomBarView
-import com.protonvpn.android.redesign.app.ui.CoreNavigation
-import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen.settings
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 
 enum class MainTarget {
-    Home, Countries, Settings;
+    Home, Gateways, Countries, Settings;
 
     companion object {
         fun fromRoute(baseRoute: String?) = when (baseRoute) {
             HomeScreen.route -> Home
+            GatewaysScreen.route -> Gateways
             CountryListScreen.route -> Countries
             SettingsScreen.route -> Settings
             else -> null
@@ -93,6 +99,9 @@ class MainNav(
             MainTarget.Home ->
                 navigateInternal(HomeScreen, navOptions)
 
+            MainTarget.Gateways ->
+                navigateInternal(GatewaysScreen, navOptions)
+
             MainTarget.Countries ->
                 navigateInternal(CountryListScreen, navOptions)
 
@@ -118,21 +127,23 @@ class MainNav(
             modifier = modifier,
             startScreen = HomeScreen,
         ) {
-            MainTarget.values().forEach { target ->
+            val onNavigateToHomeOnConnect = { showcaseRecents : ShowcaseRecents ->
+                mainScreenViewModel.requestCollapseRecents(showcaseRecents)
+                navigate(MainTarget.Home)
+            }
+            MainTarget.entries.forEach { target ->
                 when (target) {
                     MainTarget.Home -> home(
                         mainScreenViewModel = mainScreenViewModel,
                         onConnectionCardClick = { rootNav.navigate(ConnectionDetailsScreen) }
                     )
 
+                    MainTarget.Gateways ->
+                        gateways(onNavigateToHomeOnConnect = onNavigateToHomeOnConnect)
+
                     MainTarget.Countries -> countryList(
-                        onNavigateToHomeOnConnect = { showcaseRecents ->
-                            mainScreenViewModel.requestCollapseRecents(showcaseRecents)
-                            navigate(MainTarget.Home)
-                        },
-                        onNavigateToSearch = {
-                            rootNav.navigate(SearchRouteScreen)
-                        }
+                        onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
+                        onNavigateToSearch = { rootNav.navigate(SearchRouteScreen) }
                     )
 
                     MainTarget.Settings -> settings(
@@ -153,10 +164,17 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
         mainNav: MainNav,
     ) {
         val bottomTarget = mainNav.currentBottomBarTargetAsState()
+        val activity = LocalContext.current as ComponentActivity
+        val activityViewModel: MainActivityViewModel = hiltViewModel(viewModelStoreOwner = activity)
+        val showGateways = activityViewModel.showGatewaysFlow.collectAsStateWithLifecycle().value ?: false
         Scaffold(
             contentWindowInsets = WindowInsets.navigationBars,
             bottomBar = {
-                BottomBarView(selectedTarget = bottomTarget, navigateTo = mainNav::navigate)
+                BottomBarView(
+                    selectedTarget = bottomTarget,
+                    showGateways = showGateways,
+                    navigateTo = mainNav::navigate
+                )
             }
         ) { paddingValues ->
             mainNav.NavHost(

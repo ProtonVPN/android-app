@@ -69,6 +69,7 @@ class CountryListViewModelDataAdapterTests {
                 createServer(exitCountry = "FR", features = SERVER_FEATURE_P2P or SERVER_FEATURE_TOR),
                 createServer(exitCountry = "DE", entryCountry = "SE", isSecureCore = true, tier = 2, isOnline = false),
                 createServer(exitCountry = "DE", entryCountry = "IS", isSecureCore = true, tier = 3, isOnline = false),
+                createServer(exitCountry = "JP", gatewayName = "gateway"), // Country with just gateways shouldn't show for countries
             ),
             null
         )
@@ -109,6 +110,7 @@ class CountryListViewModelDataAdapterTests {
                 createServer(exitCountry = "PL", city = "Warsaw", translations = mapOf("City" to "Warszawa"), tier = 1),
                 createServer(exitCountry = "PL", city = "Warsaw", translations = mapOf("City" to "Warszawa"), tier = 2, isOnline = false),
                 createServer(exitCountry = "PL", city = "Cracow", isOnline = false, features = SERVER_FEATURE_TOR),
+                createServer(exitCountry = "PL", city = "Wroclaw", gatewayName = "gateway"), // City with only gateways shouldn't show
                 createServer(exitCountry = "US", region = "California", city = "Los Angeles"),
                 createServer(exitCountry = "US", region = "California", city = "San Francisco"),
                 createServer(exitCountry = "US", region = "Alabama", city = "Birmingham"),
@@ -154,6 +156,7 @@ class CountryListViewModelDataAdapterTests {
                 createServer(exitCountry = "PL", city = "Warsaw", serverName = "PL#2", serverId = "w2", tier = 2, features = SERVER_FEATURE_TOR),
                 createServer(exitCountry = "PL", city = "Cracow", serverName = "PL#3", serverId = "c1", entryCountry = "IS", isSecureCore = true, isOnline = false, load = 70f),
                 createServer(exitCountry = "PL", city = "Cracow", serverName = "PL#4", serverId = "c2", hostCountry = "DE"),
+                createServer(exitCountry = "PL", gatewayName = "gateway", city = "Cracow", serverName = "PL-G#1"), // Gateway server shouldn't show unless gateway filter is set
                 createServer(exitCountry = "US", region = "California", serverName = "US-CA#1", serverId = "cal1"),
                 createServer(exitCountry = "US", region = "California", serverName = "US-CA#2", serverId = "cal2"),
             ),
@@ -164,6 +167,7 @@ class CountryListViewModelDataAdapterTests {
         val plAllCracowServers = adapter.servers(ServerListFilter(country = CountryId("PL"), cityStateId = CityStateId("Cracow", false))).first()
         val plScCracowServers = adapter.servers(ServerListFilter(country = CountryId("PL"), cityStateId = CityStateId("Cracow", false), type = ServerFilterType.SecureCore)).first()
         val californiaServers = adapter.servers(ServerListFilter(country = CountryId("US"), cityStateId = CityStateId("California", true))).first()
+        val gatewayServers = adapter.servers(ServerListFilter(gatewayName = "gateway")).first()
 
         assertEquals(
             listOf(
@@ -176,7 +180,8 @@ class CountryListViewModelDataAdapterTests {
                     isVirtualLocation = false,
                     inMaintenance = false,
                     tier = 1,
-                    entryCountryId = null
+                    entryCountryId = null,
+                    gatewayName = null
                 ),
                 CountryListItemData.Server(
                     countryId = CountryId("PL"),
@@ -187,7 +192,8 @@ class CountryListViewModelDataAdapterTests {
                     isVirtualLocation = false,
                     inMaintenance = false,
                     tier = 2,
-                    entryCountryId = null
+                    entryCountryId = null,
+                    gatewayName = null
                 ),
             ),
             plWarsawServers
@@ -203,7 +209,8 @@ class CountryListViewModelDataAdapterTests {
                     isVirtualLocation = true,
                     inMaintenance = false,
                     tier = 0,
-                    entryCountryId = null
+                    entryCountryId = null,
+                    gatewayName = null
                 ),
             ),
             plAllCracowServers
@@ -219,13 +226,16 @@ class CountryListViewModelDataAdapterTests {
                     isVirtualLocation = false,
                     inMaintenance = true,
                     tier = 0,
-                    entryCountryId = CountryId("IS")
+                    entryCountryId = CountryId("IS"),
+                    gatewayName = null
                 ),
                 // No secure core server for category All
             ),
             plScCracowServers
         )
         assertEquals(listOf("US-CA#1", "US-CA#2"), californiaServers.map { it.name })
+        assertEquals(listOf("PL-G#1"), gatewayServers.map { it.name })
+        assertEquals(listOf("gateway"), gatewayServers.map { it.gatewayName })
     }
 
     @Test
@@ -239,8 +249,8 @@ class CountryListViewModelDataAdapterTests {
             ),
             null
         )
-        assertEquals(false, adapter.haveStates(CountryId("PL")))
-        assertEquals(true, adapter.haveStates(CountryId("US")))
+        assertEquals(false, adapter.haveStates(ServerListFilter(CountryId("PL"))))
+        assertEquals(true, adapter.haveStates(ServerListFilter(CountryId("US"))))
     }
 
     @Test
@@ -311,6 +321,26 @@ class CountryListViewModelDataAdapterTests {
             ),
             deEntries
         )
+    }
+
+    @Test
+    fun testGateways() = runTest {
+        serverManager.setServers(
+            listOf(
+                createServer(exitCountry = "US"),
+                createServer(exitCountry = "US", gatewayName = "gateway1", isOnline = false, tier = 1),
+                createServer(exitCountry = "JP", gatewayName = "gateway2"),
+                createServer(exitCountry = "JP", gatewayName = "gateway2"),
+            ),
+            null
+        )
+
+        val gateways = adapter.gateways(ServerListFilter()).first()
+
+        assertEquals(listOf(
+            CountryListItemData.Gateway(gatewayName = "gateway1", inMaintenance = true, tier = 1),
+            CountryListItemData.Gateway(gatewayName = "gateway2", inMaintenance = false, tier = 0),
+        ), gateways)
     }
 }
 

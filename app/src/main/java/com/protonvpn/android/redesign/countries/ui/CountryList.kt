@@ -79,18 +79,25 @@ fun CountryListRoute(
     ) {
         when (showNewUI) {
             null -> {}
-            true -> NewCountryListRoute(onNavigateToHomeOnConnect, onNavigateToSearch)
+            true -> BaseCountryListRoute(
+                onNavigateToHomeOnConnect,
+                onNavigateToSearch,
+                hiltViewModel<CountryListViewModel>(),
+                R.string.countries_title
+            )
             false -> OldCountryListRoute(onNavigateToHomeOnConnect, onNavigateToSearch)
         }
     }
 }
 
+// This route is shared by both Gateways and Countries main screens.
 @Composable
-fun NewCountryListRoute(
+fun BaseCountryListRoute(
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
-    onNavigateToSearch: () -> Unit,
+    onNavigateToSearch: (() -> Unit)?,
+    viewModel: BaseCountryListViewModel,
+    @StringRes titleRes: Int,
 ) {
-    val viewModel = hiltViewModel<CountryListViewModel>()
     val uiDelegate = LocalVpnUiDelegate.current
     val context = LocalContext.current
 
@@ -117,12 +124,13 @@ fun NewCountryListRoute(
     ToolbarWithFilters(
         onNavigateToSearch = onNavigateToSearch,
         toolbarFilters = mainState.filterButtons,
+        titleRes = titleRes,
         content = {
             CountryList(
                 modifier = Modifier.padding(it),
                 mainState.items,
                 onCountryClick = createOnConnectAction(mainState.savedState.filter),
-                onOpenCountry = createOnItemOpen(mainState.savedState.filter.type)
+                onOpenCountry = createOnItemOpen(mainState.savedState.filter.type),
             )
         }
     )
@@ -143,15 +151,16 @@ fun NewCountryListRoute(
 
 @Composable
 fun ToolbarWithFilters(
-    onNavigateToSearch: () -> Unit,
-    toolbarFilters: List<FilterButton>,
+    onNavigateToSearch: (() -> Unit)?,
+    toolbarFilters: List<FilterButton>?,
+    @StringRes titleRes: Int,
     content: @Composable (PaddingValues) -> Unit,
 ) {
     CollapsibleToolbarScaffold(
-        titleResId = R.string.tabsCountries,
+        titleResId = titleRes,
         contentWindowInsets = WindowInsets.statusBars,
         toolbarActions = {
-            Icon(
+            if (onNavigateToSearch != null) Icon(
                 painter = painterResource(id = CoreR.drawable.ic_proton_magnifier),
                 contentDescription = stringResource(R.string.accessibility_action_search),
                 modifier = Modifier
@@ -161,7 +170,7 @@ fun ToolbarWithFilters(
             )
         },
         toolbarAdditionalContent = {
-            FiltersRow(
+            if (toolbarFilters != null) FiltersRow(
                 buttonActions = toolbarFilters,
                 allLabelRes = R.string.country_filter_all,
                 modifier = Modifier.padding(vertical = 8.dp)

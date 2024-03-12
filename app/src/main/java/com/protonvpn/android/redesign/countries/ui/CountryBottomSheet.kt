@@ -40,7 +40,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.redesign.base.ui.GatewayIndicator
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.vpn.ui.label
 import me.proton.core.compose.theme.ProtonTheme
@@ -91,21 +93,17 @@ fun BottomSheetScreen(
     onItemOpen: (CountryListItemState) -> Unit,
     onItemClick: (CountryListItemState) -> Unit,
 ) {
-    val countryId = screen.savedState.countryId
+    val countryId = screen.savedState.filter.country
+    val gatewayName = screen.savedState.filter.gatewayName
     Column(modifier = modifier) {
-        Row(
-            modifier = Modifier.padding(16.dp).fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Flag(exitCountry = countryId)
-            Text(
-                text = countryId.label(),
-                modifier = Modifier.padding(start = 12.dp).weight(1f),
-                style = ProtonTheme.typography.headlineNorm
-            )
-        }
-        screen.filterButtons?.let {
-            FiltersRow(buttonActions = it, allLabelRes = screen.allLabelRes)
+        BottomSheetTitleRow(
+            isGateway = screen.savedState.type != SubScreenType.GatewayServers,
+            countryId = countryId,
+            gatewayName = gatewayName,
+            modifier = Modifier.padding(16.dp).fillMaxWidth()
+        )
+        if (screen.filterButtons != null && screen.allLabelRes != null) {
+            FiltersRow(buttonActions = screen.filterButtons, allLabelRes = screen.allLabelRes)
             Spacer(modifier = Modifier.size(8.dp))
         }
         LazyColumn {
@@ -116,5 +114,31 @@ fun BottomSheetScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun BottomSheetTitleRow(
+    isGateway: Boolean,
+    countryId: CountryId?,
+    gatewayName: String?,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (isGateway) {
+            GatewayIndicator(country = countryId)
+        } else {
+            Flag(exitCountry = countryId ?: CountryId.fastest)
+        }
+        Text(
+            text = countryId?.label() ?: gatewayName ?: "",
+            modifier = Modifier
+                .padding(start = 12.dp)
+                .weight(1f),
+            style = ProtonTheme.typography.headlineNorm
+        )
     }
 }

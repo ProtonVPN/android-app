@@ -25,6 +25,7 @@ import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
 import com.protonvpn.android.redesign.base.ui.nav.addToGraphWithSlideAnim
 import com.protonvpn.android.redesign.countries.ui.CountryListRoute
+import com.protonvpn.android.redesign.countries.ui.GatewaysRoute
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
 import com.protonvpn.android.search.SearchRoute
@@ -36,6 +37,15 @@ object CountryListScreen : ScreenNoArg<MainNav>("country_list") {
         onNavigateToSearch: () -> Unit,
     ) = addToGraph(this) {
         CountryListRoute(onNavigateToHomeOnConnect, onNavigateToSearch)
+    }
+}
+
+object GatewaysScreen : ScreenNoArg<MainNav>("gateways") {
+
+    fun SafeNavGraphBuilder<MainNav>.gateways(
+        onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
+    ) = addToGraph(this) {
+        GatewaysRoute(onNavigateToHomeOnConnect)
     }
 }
 
