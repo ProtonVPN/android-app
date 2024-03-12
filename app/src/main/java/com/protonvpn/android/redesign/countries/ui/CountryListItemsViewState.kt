@@ -26,7 +26,7 @@ import com.protonvpn.android.redesign.vpn.ServerFeature
 // Server data as needed by the UI, doesn't have dynamic properties like isConnected or
 // isAvailableForCurrentUser, those will be calculated by view model as ItemState
 sealed class CountryListItemData {
-    abstract val countryId: CountryId
+    abstract val countryId: CountryId?
     abstract val inMaintenance: Boolean
     abstract val tier: Int
 
@@ -50,12 +50,21 @@ sealed class CountryListItemData {
         override val inMaintenance: Boolean,
         override val tier: Int,
         val entryCountryId: CountryId?,
+        val gatewayName: String?,
         val serverId: ServerId,
         val name: String,
         val loadPercent: Int,
         val serverFeatures: Set<ServerFeature>,
         val isVirtualLocation: Boolean,
     ) : CountryListItemData()
+
+    data class Gateway(
+        override val inMaintenance: Boolean,
+        override val tier: Int,
+        val gatewayName: String,
+    ) : CountryListItemData() {
+        override val countryId: CountryId? get() = null
+    }
 }
 
 data class CountryListItemState(

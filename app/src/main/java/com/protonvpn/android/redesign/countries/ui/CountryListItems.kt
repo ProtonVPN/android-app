@@ -45,6 +45,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
 import com.protonvpn.android.redesign.base.ui.ActiveDot
 import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.redesign.base.ui.GatewayIndicator
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.home_screen.ui.ServerLoadBar
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -118,6 +119,7 @@ private fun CountryListItemState.label() : String = when (data) {
     is CountryListItemData.Country -> data.countryId.label()
     is CountryListItemData.City -> data.name
     is CountryListItemData.Server -> data.name
+    is CountryListItemData.Gateway -> data.gatewayName
 }
 
 @Composable
@@ -126,6 +128,7 @@ private fun CountryListItemState.subLabel() = when (data) {
         data.entryCountryId?.takeIf { !it.isFastest }?.let { viaCountry(it) }
     is CountryListItemData.City -> null
     is CountryListItemData.Server -> null
+    is CountryListItemData.Gateway -> null
 }
 
 @Composable
@@ -141,7 +144,17 @@ private fun CountryListItemState.Icon(modifier: Modifier) {
             painter = painterResource(id = CoreR.drawable.ic_proton_map_pin),
             contentDescription = null
         )
-        is CountryListItemData.Server -> {}
+        is CountryListItemData.Gateway -> GatewayIndicator(
+            country = data.countryId,
+            modifier = modifier
+        )
+        is CountryListItemData.Server -> if (data.gatewayName != null) {
+            Flag(
+                modifier = modifier,
+                exitCountry = data.countryId,
+                entryCountry = data.entryCountryId,
+            )
+        }
     }
 }
 
@@ -273,7 +286,8 @@ fun ServerItemPreview(
                 isVirtualLocation = true,
                 inMaintenance = inMaintenance,
                 tier = 0,
-                entryCountryId = null
+                entryCountryId = null,
+                gatewayName = null
             ),
             available = available,
             connected = true,
@@ -317,6 +331,48 @@ fun ServerItemPreviews() {
             ServerItemPreview(load = 100)
             ServerItemPreview(inMaintenance = true)
             ServerItemPreview(available = false)
+        }
+    }
+}
+
+@Preview
+@Composable
+fun GatewayItemPreviews() {
+    VpnTheme(isDark = true) {
+        Column(modifier = Modifier.background(ProtonTheme.colors.backgroundNorm)) {
+            CountryListItem(
+                item = CountryListItemState(
+                    data = CountryListItemData.Gateway(
+                        gatewayName = "MyCompany",
+                        inMaintenance = false,
+                        tier = 0
+                    ),
+                    available = true,
+                    connected = true,
+                ),
+                onItemOpen = {},
+                onItemClick = {}
+            )
+            CountryListItem(
+                item = CountryListItemState(
+                    data = CountryListItemData.Server(
+                        countryId = CountryId("us"),
+                        serverId = ServerId("gateway-us-01"),
+                        name = "MyCompany#1",
+                        loadPercent = 50,
+                        serverFeatures = setOf(),
+                        isVirtualLocation = false,
+                        inMaintenance = false,
+                        tier = 0,
+                        entryCountryId = null,
+                        gatewayName = "MyCompany"
+                    ),
+                    available = true,
+                    connected = true,
+                ),
+                onItemOpen = {},
+                onItemClick = {}
+            )
         }
     }
 }

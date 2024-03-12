@@ -25,7 +25,6 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
@@ -65,6 +64,7 @@ class ServerManager2 @Inject constructor(
     }
 
     val allServersFlow get() = serverListVersion.map { serverManager.allServers }
+    val gatewaysFlow get() = serverListVersion.map { serverManager.getGateways() }
 
     suspend fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
         serverManager.ensureLoaded()

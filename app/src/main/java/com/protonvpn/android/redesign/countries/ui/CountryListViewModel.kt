@@ -62,25 +62,59 @@ import me.proton.core.presentation.savedstate.state
 import java.util.Locale
 import javax.inject.Inject
 
-private const val CountryScreenStateKey = "country_screen_state"
-private const val CountrySubScreenStateKey = "country_sub_screen_state"
+private const val MainScreenStateKey = "main_screen_state"
+private const val SubScreenStateKey = "sub_screen_state"
+
 private val defaultMainState = CountryScreenSavedState(ServerListFilter(type = ServerFilterType.All))
 
 @HiltViewModel
 class CountryListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val dataAdapter: CountryListViewModelDataAdapter,
+    dataAdapter: CountryListViewModelDataAdapter,
+    vpnConnectionManager: VpnConnectionManager,
+    shouldShowcaseRecents: ShouldShowcaseRecents,
+    currentUser: CurrentUser,
+    vpnStatusProviderUI: VpnStatusProviderUI,
+) : BaseCountryListViewModel(
+    "country_list",
+    savedStateHandle,
+    dataAdapter,
+    vpnConnectionManager,
+    shouldShowcaseRecents,
+    currentUser,
+    vpnStatusProviderUI,
+    showFilters = true
+) {
+    override fun getMainDataItems(
+        savedState: CountryScreenSavedState,
+        locale: Locale,
+    ) : Flow<List<CountryListItemData>> =
+        dataAdapter.countries(savedState.filter).map { countries ->
+            buildList {
+                add(fastestCountryItem(savedState.filter))
+                addAll(countries.sortedByLabel(locale))
+            }
+        }
+}
+
+abstract class BaseCountryListViewModel(
+    screenId: String,
+    savedStateHandle: SavedStateHandle,
+    protected val dataAdapter: CountryListViewModelDataAdapter,
     private val vpnConnectionManager: VpnConnectionManager,
     private val shouldShowcaseRecents: ShouldShowcaseRecents,
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
+    private val showFilters: Boolean,
 ) : ViewModel() {
 
-    private var mainSaveState by savedStateHandle.state<CountryScreenSavedState>(defaultMainState, CountryScreenStateKey)
-    private val mainSaveStateFlow = savedStateHandle.getStateFlow(CountryScreenStateKey, mainSaveState)
+    private val mainStateKey = "$screenId:$MainScreenStateKey"
+    private var mainSaveState by savedStateHandle.state<CountryScreenSavedState>(defaultMainState, mainStateKey)
+    private val mainSaveStateFlow = savedStateHandle.getStateFlow(mainStateKey, mainSaveState)
 
-    private var subScreenSaveState by savedStateHandle.state<SubScreenSaveState?>(null, CountrySubScreenStateKey)
-    private val subScreenSaveStateFlow = savedStateHandle.getStateFlow(CountrySubScreenStateKey, subScreenSaveState)
+    private val subStateKey = "$screenId:$SubScreenStateKey"
+    private var subScreenSaveState by savedStateHandle.state<SubScreenSaveState?>(null, subStateKey)
+    private val subScreenSaveStateFlow = savedStateHandle.getStateFlow(subStateKey, subScreenSaveState)
 
     // Helper flows
     val localeFlow = MutableStateFlow<Locale?>(null)
@@ -91,6 +125,11 @@ class CountryListViewModel @Inject constructor(
             .map { status -> status.server.takeIf { status.state == VpnState.Connected } }
             .distinctUntilChanged()
 
+    abstract fun getMainDataItems(
+        savedState: CountryScreenSavedState,
+        locale: Locale,
+    ) : Flow<List<CountryListItemData>>
+
     // Screen states
     val stateFlow =
         combine(
@@ -99,21 +138,11 @@ class CountryListViewModel @Inject constructor(
             localeFlow.filterNotNull(),
             connectedServerFlow,
         ) { savedState, userTier, locale, connectedServer ->
-            dataAdapter.countries(savedState.filter).map { countries ->
-                val availableTypes = dataAdapter.availableTypesFor(savedState.filter.country)
-                val mainScreenItems = buildList {
-                    add(fastestCountryItem(savedState.filter))
-                    addAll(countries.sortedByLabel(locale))
-                }.map {
+            getMainDataItems(savedState, locale).map { dataItems ->
+                val mainScreenItems = dataItems.map {
                     it.toState(userTier, savedState.filter, connectedServer)
                 }
-                CountryScreenState(
-                    savedState = savedState,
-                    items = mainScreenItems,
-                    filterButtons = getFilterButtons(availableTypes, savedState.filter.type) {
-                        mainSaveState = CountryScreenSavedState(ServerListFilter(type = it))
-                    }
-                )
+                mainScreenState(savedState, mainScreenItems)
             }
         }.flatMapLatest { it }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
@@ -125,36 +154,55 @@ class CountryListViewModel @Inject constructor(
             connectedServerFlow,
         ) { savedState, userTier, locale, connectedServer ->
             if (savedState != null) {
-                val availableTypes = dataAdapter.availableTypesFor(savedState.countryId)
-                val haveStates = dataAdapter.haveStates(savedState.countryId)
-                val dataFlow = when (savedState.type) {
-                    SubScreenType.City -> when (savedState.filter.type) {
-                        ServerFilterType.All, ServerFilterType.P2P -> dataAdapter.cities(savedState.filter)
-                        ServerFilterType.SecureCore -> dataAdapter.entryCountries(savedState.countryId)
-                        ServerFilterType.Tor -> dataAdapter.servers(savedState.filter)
-                    }
-                    SubScreenType.Server -> dataAdapter.servers(savedState.filter)
-                }
-                dataFlow.map { dataItems ->
-                    val items = dataItems.sortedByLabel(locale).map {
+                getSubScreenDataItems(savedState, locale).map { dataItems ->
+                    val items = dataItems.map {
                         it.toState(userTier, savedState.filter, connectedServer)
                     }
-                    val filterButtons = when (savedState.type) {
-                        SubScreenType.City ->
-                            getSubScreenFilterButtons(availableTypes, savedState.filter.type, savedState)
-                        SubScreenType.Server -> null
-                    }
-                    SubScreenState(
-                        savedState,
-                        filterButtons,
-                        items,
-                        if (haveStates) R.string.country_filter_states else R.string.country_filter_cities
-                    )
+                    subScreenState(savedState, items)
                 }
             } else {
                 flowOf(null)
             }
         }.flatMapLatest { it }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+
+    private fun getSubScreenDataItems(
+        savedState: SubScreenSaveState,
+        locale: Locale
+    ): Flow<List<CountryListItemData>> =
+        when (savedState.type) {
+            SubScreenType.Cities -> when (savedState.filter.type) {
+                ServerFilterType.All, ServerFilterType.P2P ->
+                    dataAdapter.cities(savedState.filter)
+                ServerFilterType.SecureCore -> {
+                    val country = savedState.filter.country
+                    if (country == null)
+                        flowOf(emptyList())
+                    else
+                        dataAdapter.entryCountries(country)
+                }
+                ServerFilterType.Tor ->
+                    dataAdapter.servers(savedState.filter)
+            }
+            SubScreenType.Servers -> dataAdapter.servers(savedState.filter)
+            SubScreenType.GatewayServers -> dataAdapter.servers(savedState.filter)
+        }.map { it.sortedByLabel(locale) }
+
+    private suspend fun mainScreenState(
+        savedState: CountryScreenSavedState,
+        items: List<CountryListItemState>,
+    ) = CountryScreenState(
+        savedState = savedState,
+        items = items,
+        filterButtons =
+        if (!showFilters)
+            null
+        else getFilterButtons(
+            dataAdapter.availableTypesFor(savedState.filter.country),
+            savedState.filter.type
+        ) {
+            mainSaveState = CountryScreenSavedState(ServerListFilter(type = it))
+        }
+    )
 
     private fun getSubScreenFilterButtons(
         availableTypes: Set<ServerFilterType>,
@@ -166,11 +214,50 @@ class CountryListViewModel @Inject constructor(
             subScreenSaveState = savedState.copy(filter = newFilter)
         }
 
-    private fun List<CountryListItemData>.sortedByLabel(locale: Locale): List<CountryListItemData> {
-        val sortLabel = HashMap<CountryListItemData, String>()
-        return sortedByLocaleAware { data ->
-            sortLabel.getOrPut(data) { data.sortLabel(locale) }
+    private fun getFilterButtons(
+        availableTypes: Set<ServerFilterType>,
+        selectedType: ServerFilterType,
+        onItemSelect: (ServerFilterType) -> Unit
+    ): List<FilterButton> =
+        ServerFilterType.entries
+            // If selected type is not available (no servers), show it anyway, this can happen if
+            // list was updated and some servers are removed from the list.
+            .filter { it in availableTypes || it == selectedType }
+            .map { filter ->
+                FilterButton(
+                    filter = filter,
+                    isSelected = filter == selectedType,
+                    onClick = { onItemSelect(filter) }
+                )
+            }
+
+    private suspend fun subScreenState(
+        savedState: SubScreenSaveState,
+        items: List<CountryListItemState>
+    ): SubScreenState {
+        val filterButtons = if (showFilters) {
+            when (savedState.type) {
+                SubScreenType.Cities -> getSubScreenFilterButtons(
+                    dataAdapter.availableTypesFor(savedState.filter.country),
+                    savedState.filter.type,
+                    savedState
+                )
+                SubScreenType.Servers,
+                SubScreenType.GatewayServers -> null
+            }
+        } else {
+            null
         }
+        return SubScreenState(
+            savedState,
+            filterButtons,
+            items,
+            when {
+                filterButtons == null -> null
+                dataAdapter.haveStates(savedState.filter) -> R.string.country_filter_states
+                else -> R.string.country_filter_cities
+            }
+        )
     }
 
     private fun CountryListItemData.toState(
@@ -179,24 +266,31 @@ class CountryListViewModel @Inject constructor(
         connectedServer: Server?
     ) = CountryListItemState(
         data = this,
-        available = userTier == null || (countryId.isFastest || (userTier > 0 && userTier >= tier)),
+        available = userTier == null || (countryId?.isFastest == true || (userTier > 0 && userTier >= tier)),
         connected = connectedServer != null && connectedServer.isCompatibleWith(getConnectIntent(filter)),
     )
 
     private fun onOpenCountry(type: ServerFilterType, countryId: CountryId) {
         subScreenSaveState = SubScreenSaveState(
-            countryId = countryId,
-            type = SubScreenType.City,
+            type = SubScreenType.Cities,
             filter = ServerListFilter(country = countryId, type = type),
             previousScreen = null,
             rememberStateKey = "country_view"
         )
     }
 
+    private fun onOpenGateway(gatewayName: String) {
+        subScreenSaveState = SubScreenSaveState(
+            type = SubScreenType.GatewayServers,
+            filter = ServerListFilter(gatewayName = gatewayName),
+            previousScreen = null,
+            rememberStateKey = "gateway_view"
+        )
+    }
+
     private fun onOpenCity(type: ServerFilterType, countryId: CountryId, cityStateId: CityStateId) {
         subScreenSaveState = SubScreenSaveState(
-            countryId = countryId,
-            type = SubScreenType.Server,
+            type = SubScreenType.Servers,
             filter = ServerListFilter(
                 country = countryId,
                 cityStateId = cityStateId,
@@ -211,6 +305,7 @@ class CountryListViewModel @Inject constructor(
         when (item.data) {
             is CountryListItemData.Country -> onOpenCountry(type, item.data.countryId)
             is CountryListItemData.City -> onOpenCity(type, item.data.countryId, item.data.cityStateId)
+            is CountryListItemData.Gateway -> onOpenGateway(item.data.gatewayName)
             is CountryListItemData.Server -> {} // shouldn't happen
         }
     }
@@ -252,22 +347,6 @@ class CountryListViewModel @Inject constructor(
     fun onClose() {
         subScreenSaveState = null
     }
-
-    private fun getFilterButtons(
-        availableTypes: Set<ServerFilterType>,
-        selectedType: ServerFilterType,
-        onItemSelect: (ServerFilterType) -> Unit
-    ): List<FilterButton> =
-        ServerFilterType.entries
-            // If selected type is not available (no servers), show it anyway, this can happen if
-            // list was updated and some servers are removed from the list.
-            .filter { it in availableTypes || it == selectedType }
-            .map { filter -> FilterButton(
-                filter = filter,
-                isSelected = filter == selectedType,
-                onClick = { onItemSelect(filter) }
-            )
-        }
 }
 
 @Parcelize
@@ -279,6 +358,7 @@ data class FilterButton(
 
 val CountryListItemState.canOpen: Boolean get() = when(data) {
     is CountryListItemData.Server -> false
+    is CountryListItemData.Gateway -> !data.inMaintenance
     is CountryListItemData.City -> !data.inMaintenance
     is CountryListItemData.Country -> !data.inMaintenance &&
         !data.countryId.isFastest &&
@@ -293,10 +373,16 @@ private fun fastestCountryItem(filter: ServerListFilter): CountryListItemData.Co
         entryCountryId = if (filter.type == ServerFilterType.SecureCore) CountryId.fastest else null
     )
 
+internal fun List<CountryListItemData>.sortedByLabel(locale: Locale): List<CountryListItemData> {
+    val sortLabel = associateWith { data -> data.sortLabel(locale) }
+    return sortedByLocaleAware { data -> sortLabel[data]!! }
+}
+
 private fun CountryListItemData.sortLabel(locale: Locale): String = when(this) {
     is CountryListItemData.Country -> CountryTools.getFullName(locale, countryId.countryCode)
     is CountryListItemData.City -> name
     is CountryListItemData.Server -> name
+    is CountryListItemData.Gateway -> gatewayName
 }
 
 private fun CountryListItemData.getConnectIntent(filter: ServerListFilter): ConnectIntent = when(this) {
@@ -307,11 +393,16 @@ private fun CountryListItemData.getConnectIntent(filter: ServerListFilter): Conn
             ConnectIntent.FastestInCity(countryId, cityStateId.name, filter.toFeatures())
     }
     is CountryListItemData.Server ->
-        entryCountryId?.let { ConnectIntent.SecureCore(countryId, it) } ?:
-            ConnectIntent.Server(serverId.id, serverFeatures)
+        when {
+            entryCountryId != null -> ConnectIntent.SecureCore(countryId, entryCountryId)
+            gatewayName != null -> ConnectIntent.Gateway(gatewayName, serverId.id)
+            else -> ConnectIntent.Server(serverId.id, serverFeatures)
+        }
     is CountryListItemData.Country ->
         entryCountryId?.let { ConnectIntent.SecureCore(countryId, it) } ?:
             ConnectIntent.FastestInCountry(countryId, filter.toFeatures())
+
+    is CountryListItemData.Gateway -> ConnectIntent.Gateway(gatewayName, null)
 }
 
 private fun ServerListFilter.toFeatures(): Set<ServerFeature> = when (type) {
@@ -328,10 +419,11 @@ enum class ServerFilterType {
 data class ServerListFilter(
     val country: CountryId? = null,
     val cityStateId: CityStateId? = null,
+    val gatewayName: String? = null,
     val type: ServerFilterType = ServerFilterType.All
 ): Parcelable
 
-enum class SubScreenType { City, Server }
+enum class SubScreenType { Cities, Servers, GatewayServers }
 
 @Parcelize
 data class CountryScreenSavedState(
@@ -340,13 +432,12 @@ data class CountryScreenSavedState(
 
 data class CountryScreenState(
     val savedState: CountryScreenSavedState,
-    val filterButtons: List<FilterButton>,
+    val filterButtons: List<FilterButton>?,
     val items: List<CountryListItemState>,
 )
 
 @Parcelize
 data class SubScreenSaveState(
-    val countryId: CountryId,
     val type: SubScreenType,
     val filter: ServerListFilter,
     val previousScreen: SubScreenSaveState?,
@@ -357,7 +448,7 @@ data class SubScreenState(
     val savedState: SubScreenSaveState,
     val filterButtons: List<FilterButton>?,
     val items: List<CountryListItemState>,
-    @StringRes val allLabelRes: Int,
+    @StringRes val allLabelRes: Int?,
 )
 
 // Adapter separating server data storage from view model.
@@ -365,7 +456,7 @@ interface CountryListViewModelDataAdapter {
 
     suspend fun availableTypesFor(country: CountryId?): Set<ServerFilterType>
 
-    suspend fun haveStates(country: CountryId): Boolean
+    suspend fun haveStates(filter: ServerListFilter): Boolean
 
     fun countries(filter: ServerListFilter):
         Flow<List<CountryListItemData.Country>>
@@ -378,5 +469,7 @@ interface CountryListViewModelDataAdapter {
 
     fun entryCountries(country: CountryId):
         Flow<List<CountryListItemData.Country>>
+
+    fun gateways(filter: ServerListFilter): Flow<List<CountryListItemData.Gateway>>
 }
 

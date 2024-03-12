@@ -113,13 +113,25 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
             }
         }
 
-    override suspend fun haveStates(country: CountryId): Boolean {
-        val servers = serverManager2.getVpnExitCountry(country.countryCode, false)?.serverList ?: return false
-        return servers.any { it.region != null }
-    }
+    override suspend fun haveStates(filter: ServerListFilter): Boolean =
+        serverManager2.allServersFlow.first().asFilteredSequence(filter).any { it.region != null }
 
-    private fun List<Server>.asFilteredSequence(filter: ServerListFilter) =
-        asSequence().filter { filter.isMatching(it) }
+    override fun gateways(filter: ServerListFilter): Flow<List<CountryListItemData.Gateway>> =
+        serverManager2.allServersFlow.map { servers ->
+            val gateways = servers.asFilteredSequence(filter, forceIncludeGateways = true).groupBy { it.gatewayName }
+            gateways.mapNotNull { (gatewayName, servers) ->
+                if (gatewayName == null)
+                    null
+                else CountryListItemData.Gateway(
+                    gatewayName = gatewayName,
+                    inMaintenance = servers.all { !it.online },
+                    tier = servers.minOf { it.tier }
+                )
+            }
+        }
+
+    private fun List<Server>.asFilteredSequence(filter: ServerListFilter, forceIncludeGateways: Boolean = false) =
+        asSequence().filter { filter.isMatching(it, forceIncludeGateways) }
 }
 
 private fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?) = CountryListItemData.Country(
@@ -138,7 +150,8 @@ private fun Server.toServerItem() = CountryListItemData.Server(
     isVirtualLocation = hostCountry != null && hostCountry != exitCountry,
     inMaintenance = !online,
     tier = tier,
-    entryCountryId = if (isSecureCoreServer) CountryId(entryCountry) else null
+    entryCountryId = if (isSecureCoreServer) CountryId(entryCountry) else null,
+    gatewayName = gatewayName,
 )
 
 private fun toCityItem(isRegion: Boolean, cityOrRegion: String?, servers: List<Server>) : CountryListItemData.City? {
@@ -174,10 +187,13 @@ private fun ServerFilterType.isMatching(server: Server) = when (this) {
     ServerFilterType.P2P -> server.isP2pServer
 }
 
-private fun ServerListFilter.isMatching(server: Server) =
+// if forceIncludeGateways == false gateways will be ignored if not set by the filter
+private fun ServerListFilter.isMatching(server: Server, forceIncludeGateways: Boolean) =
     type.isMatching(server) &&
         (country == null || country.countryCode == server.exitCountry) &&
-        (cityStateId == null || cityStateId.matches(server))
+        (cityStateId == null || cityStateId.matches(server)) &&
+        ((forceIncludeGateways && gatewayName == null) || gatewayName == server.gatewayName)
+
 
 private fun initAvailableTypes() = EnumSet.of(ServerFilterType.All)
 

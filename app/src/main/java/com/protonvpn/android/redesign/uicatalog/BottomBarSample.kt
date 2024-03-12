@@ -37,7 +37,8 @@ class BottomBarSample : SampleScreen("Bottom Bar", "bottom bar") {
             val target = rememberSaveable { mutableStateOf(MainTarget.Home) }
             BottomBarView(
                 Modifier.align(Alignment.BottomCenter),
-                target.value
+                showGateways = true,
+                target.value,
             ) {
                 target.value = it
             }

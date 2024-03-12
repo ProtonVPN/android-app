@@ -25,6 +25,7 @@ import com.protonvpn.android.redesign.countries.ui.usecase.NewCountryListEnabled
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -32,6 +33,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -40,6 +42,7 @@ class MainActivityViewModel @Inject constructor(
     vpnStatusViewStateFlow: VpnStatusViewStateFlow,
     private val vpnConnectionManager: VpnConnectionManager,
     newCountryListEnabled: NewCountryListEnabled,
+    serverManager2: ServerManager2,
 ) : ViewModel() {
 
     val vpnStateViewFlow: StateFlow<VpnStatusViewState> = vpnStatusViewStateFlow
@@ -48,11 +51,19 @@ class MainActivityViewModel @Inject constructor(
     val showNewCountryList =
         newCountryListEnabled().stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
+    val showGatewaysFlow = combine(
+        serverManager2.gatewaysFlow,
+        showNewCountryList
+    ) { gateways, showNewList -> showNewList == true && gateways.isNotEmpty() }
+        .distinctUntilChanged()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+
     val isMinimalStateReadyFlow: StateFlow<Boolean> = combine(
         vpnStateViewFlow,
-        showNewCountryList
-    ) { vpnStateView, showNewCountryList ->
-        vpnStateView != VpnStatusViewState.Loading && showNewCountryList != null
+        showNewCountryList,
+        showGatewaysFlow,
+    ) { vpnStateView, showNewCountryList, showGateways ->
+        vpnStateView != VpnStatusViewState.Loading && showNewCountryList != null && showGateways != null
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
 
     // Must be fast, it's used in SplashScreen.setKeepOnScreenCondition

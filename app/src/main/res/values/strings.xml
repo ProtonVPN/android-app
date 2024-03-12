@@ -743,6 +743,7 @@
 
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_gateways">Gateways</string>
 
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Countries</string>
@@ -1012,6 +1013,8 @@
     <string name="settings_sign_out">Sign out</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Settings</string>
+    <string name="gateways_title">Gateways</string>
+    <string name="countries_title">Countries</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Features</string>
     <!-- tag(Redesign_2023) -->
