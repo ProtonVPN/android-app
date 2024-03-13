@@ -31,12 +31,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -83,6 +85,7 @@ import kotlinx.coroutines.delay
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.compose.theme.defaultWeak
+import me.proton.core.compose.theme.headlineNorm
 import me.proton.core.presentation.R as CoreR
 
 sealed class VpnStatusViewState {
@@ -119,6 +122,8 @@ data class LocationText(
     val country: String,
     val ip: String,
 )
+
+private val STATUS_ICON_SIZE = 32.dp
 
 fun Modifier.vpnStatusOverlayBackground(
     state: VpnStatusViewState,
@@ -188,7 +193,7 @@ fun VpnStatusTop(
                 CircularProgressIndicator(
                     color = ProtonTheme.colors.iconNorm,
                     strokeWidth = 2.dp,
-                    modifier = contentModifier.size(24.dp)
+                    modifier = contentModifier.size(STATUS_ICON_SIZE)
                 )
 
             is VpnStatusViewState.Disabled -> {
@@ -196,7 +201,7 @@ fun VpnStatusTop(
                     painter = painterResource(id = CoreR.drawable.ic_proton_lock_open_filled_2),
                     contentDescription = null,
                     tint = ProtonTheme.colors.notificationError,
-                    modifier = contentModifier
+                    modifier = contentModifier.size(STATUS_ICON_SIZE)
                 )
             }
             is VpnStatusViewState.Loading -> {}
@@ -258,11 +263,12 @@ private fun VpnConnectedViewTop(
             ),
             tint = ProtonTheme.colors.vpnGreen,
             contentDescription = null,
-            modifier = Modifier.padding(end = 8.dp)
+            modifier = Modifier.size(STATUS_ICON_SIZE)
         )
+        Spacer(Modifier.width(8.dp))
         Text(
             text = stringResource(R.string.vpn_status_connected),
-            style = ProtonTheme.typography.defaultStrongNorm,
+            style = ProtonTheme.typography.headlineNorm,
             color = ProtonTheme.colors.vpnGreen,
         )
     }
