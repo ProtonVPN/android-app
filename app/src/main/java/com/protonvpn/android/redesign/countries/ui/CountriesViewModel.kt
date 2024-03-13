@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.countries.ui
 
 import androidx.lifecycle.SavedStateHandle
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -31,7 +32,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class GatewaysViewModel @Inject constructor(
+class CountriesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     dataAdapter: ServerListViewModelDataAdapter,
     vpnConnectionManager: VpnConnectionManager,
@@ -39,20 +40,25 @@ class GatewaysViewModel @Inject constructor(
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
 ) : ServerGroupsViewModel(
-    "gateways",
+    "country_list",
     savedStateHandle,
     dataAdapter,
     vpnConnectionManager,
     shouldShowcaseRecents,
     currentUser,
     vpnStatusProviderUI,
-    showFilters = false
+    showFilters = true
 ) {
     override fun getMainDataItems(
         savedState: CountryScreenSavedState,
         userTier: Int?,
         locale: Locale,
-    ) : Flow<List<ServerGroupItemData>> = dataAdapter.gateways(savedState.filter).map { gateways ->
-        gateways.sortedByLabel(locale)
-    }
+    ) : Flow<List<ServerGroupItemData>> =
+        dataAdapter.countries(savedState.filter).map { countries ->
+            buildList {
+                if (userTier != null && userTier > VpnUser.FREE_TIER)
+                    add(fastestCountryItem(savedState.filter))
+                addAll(countries.sortedByLabel(locale))
+            }
+        }
 }

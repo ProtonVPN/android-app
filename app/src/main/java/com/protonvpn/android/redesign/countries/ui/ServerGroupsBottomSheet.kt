@@ -49,12 +49,12 @@ import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.headlineNorm
 
 @Composable
-fun CountryBottomSheet(
+fun ServerGroupsBottomSheet(
     modifier: Modifier,
     screen: SubScreenState,
     onNavigateBack: suspend (suspend () -> Unit) -> Unit,
-    onNavigateToItem: (CountryListItemState) -> Unit,
-    onItemClicked: (CountryListItemState) -> Unit,
+    onNavigateToItem: (ServerGroupItemState) -> Unit,
+    onItemClicked: (ServerGroupItemState) -> Unit,
     onClose: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -87,11 +87,11 @@ fun CountryBottomSheet(
 }
 
 @Composable
-fun BottomSheetScreen(
+private fun BottomSheetScreen(
     modifier: Modifier = Modifier,
     screen: SubScreenState,
-    onItemOpen: (CountryListItemState) -> Unit,
-    onItemClick: (CountryListItemState) -> Unit,
+    onItemOpen: (ServerGroupItemState) -> Unit,
+    onItemClick: (ServerGroupItemState) -> Unit,
 ) {
     val countryId = screen.savedState.filter.country
     val gatewayName = screen.savedState.filter.gatewayName
@@ -109,7 +109,7 @@ fun BottomSheetScreen(
         LazyColumn {
             screen.items.forEach { item ->
                 item {
-                    CountryListItem(item, onItemOpen, onItemClick)
+                    ServerGroupItem(item, onItemOpen, onItemClick)
                     VpnDivider()
                 }
             }
@@ -118,7 +118,7 @@ fun BottomSheetScreen(
 }
 
 @Composable
-fun BottomSheetTitleRow(
+private fun BottomSheetTitleRow(
     isGateway: Boolean,
     countryId: CountryId?,
     gatewayName: String?,

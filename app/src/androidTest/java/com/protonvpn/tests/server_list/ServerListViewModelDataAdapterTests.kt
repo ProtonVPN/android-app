@@ -24,8 +24,8 @@ import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
-import com.protonvpn.android.redesign.countries.ui.CountryListItemData
-import com.protonvpn.android.redesign.countries.ui.CountryListViewModelDataAdapter
+import com.protonvpn.android.redesign.countries.ui.ServerGroupItemData
+import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.ServerFilterType
 import com.protonvpn.android.redesign.countries.ui.ServerListFilter
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -43,7 +43,7 @@ import javax.inject.Inject
 import kotlin.test.assertEquals
 
 @HiltAndroidTest
-class CountryListViewModelDataAdapterTests {
+class ServerListViewModelDataAdapterTests {
 
     @get:Rule
     val protonRule = ProtonHiltAndroidRule(this, TestApiConfig.Mocked())
@@ -52,7 +52,7 @@ class CountryListViewModelDataAdapterTests {
     lateinit var serverManager: ServerManager
 
     @Inject
-    lateinit var adapter: CountryListViewModelDataAdapter
+    lateinit var adapter: ServerListViewModelDataAdapter
 
     @Before
     fun setup() {
@@ -83,7 +83,7 @@ class CountryListViewModelDataAdapterTests {
         assertEquals(listOf("PL", "FR"), torCountries.map { it.countryId.countryCode })
         assertEquals(listOf("FR"), p2pCountries.map { it.countryId.countryCode })
         assertEquals(
-            CountryListItemData.Country(
+            ServerGroupItemData.Country(
                 countryId = CountryId("DE"),
                 inMaintenance = true,
                 tier = 2,
@@ -92,7 +92,7 @@ class CountryListViewModelDataAdapterTests {
             secureCoreCountries.first()
         )
         assertEquals(
-            CountryListItemData.Country(
+            ServerGroupItemData.Country(
                 countryId = CountryId("PL"),
                 inMaintenance = false,
                 tier = 0,
@@ -124,14 +124,14 @@ class CountryListViewModelDataAdapterTests {
 
         assertEquals(
             listOf(
-                CountryListItemData.City(
+                ServerGroupItemData.City(
                     countryId = CountryId("PL"),
                     cityStateId = CityStateId("Warsaw", false),
                     inMaintenance = false,
                     tier = 1,
                     name = "Warszawa"
                 ),
-                CountryListItemData.City(
+                ServerGroupItemData.City(
                     countryId = CountryId("PL"),
                     cityStateId = CityStateId("Cracow", false),
                     inMaintenance = true,
@@ -171,7 +171,7 @@ class CountryListViewModelDataAdapterTests {
 
         assertEquals(
             listOf(
-                CountryListItemData.Server(
+                ServerGroupItemData.Server(
                     countryId = CountryId("PL"),
                     serverId = ServerId("w1"),
                     name = "PL#1",
@@ -183,7 +183,7 @@ class CountryListViewModelDataAdapterTests {
                     entryCountryId = null,
                     gatewayName = null
                 ),
-                CountryListItemData.Server(
+                ServerGroupItemData.Server(
                     countryId = CountryId("PL"),
                     serverId = ServerId("w2"),
                     name = "PL#2",
@@ -200,7 +200,7 @@ class CountryListViewModelDataAdapterTests {
         )
         assertEquals(
             listOf(
-                CountryListItemData.Server(
+                ServerGroupItemData.Server(
                     countryId = CountryId("PL"),
                     serverId = ServerId("c2"),
                     name = "PL#4",
@@ -217,7 +217,7 @@ class CountryListViewModelDataAdapterTests {
         )
         assertEquals(
             listOf(
-                CountryListItemData.Server(
+                ServerGroupItemData.Server(
                     countryId = CountryId("PL"),
                     serverId = ServerId("c1"),
                     name = "PL#3",
@@ -295,7 +295,7 @@ class CountryListViewModelDataAdapterTests {
 
         assertEquals(
             listOf(
-                CountryListItemData.Country(
+                ServerGroupItemData.Country(
                     countryId = CountryId("PL"),
                     inMaintenance = false,
                     tier = 0,
@@ -306,13 +306,13 @@ class CountryListViewModelDataAdapterTests {
         )
         assertEquals(
             listOf(
-                CountryListItemData.Country(
+                ServerGroupItemData.Country(
                     countryId = CountryId("DE"),
                     inMaintenance = false,
                     tier = 0,
                     entryCountryId = CountryId("IS"),
                 ),
-                CountryListItemData.Country(
+                ServerGroupItemData.Country(
                     countryId = CountryId("DE"),
                     inMaintenance = false,
                     tier = 0,
@@ -338,8 +338,8 @@ class CountryListViewModelDataAdapterTests {
         val gateways = adapter.gateways(ServerListFilter()).first()
 
         assertEquals(listOf(
-            CountryListItemData.Gateway(gatewayName = "gateway1", inMaintenance = true, tier = 1),
-            CountryListItemData.Gateway(gatewayName = "gateway2", inMaintenance = false, tier = 0),
+            ServerGroupItemData.Gateway(gatewayName = "gateway1", inMaintenance = true, tier = 1),
+            ServerGroupItemData.Gateway(gatewayName = "gateway2", inMaintenance = false, tier = 0),
         ), gateways)
     }
 }

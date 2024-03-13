@@ -35,9 +35,9 @@ import java.util.EnumSet
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class CountryListViewModelDataAdapterLegacy @Inject constructor(
+class ServerListViewModelDataAdapterLegacy @Inject constructor(
     private val serverManager2: ServerManager2,
-) : CountryListViewModelDataAdapter {
+) : ServerListViewModelDataAdapter {
 
     override suspend fun availableTypesFor(country: CountryId?): Set<ServerFilterType> {
         val servers = serverManager2.allServersFlow.first()
@@ -51,7 +51,7 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
 
     override fun countries(
         filter: ServerListFilter,
-    ): Flow<List<CountryListItemData.Country>> =
+    ): Flow<List<ServerGroupItemData.Country>> =
         serverManager2.allServersFlow.map { servers ->
             val secureCore = filter.type == ServerFilterType.SecureCore
             val entryCountryId = if (secureCore)
@@ -74,7 +74,7 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
 
     override fun cities(
         filter: ServerListFilter,
-    ): Flow<List<CountryListItemData.City>> =
+    ): Flow<List<ServerGroupItemData.City>> =
         serverManager2.allServersFlow.map { servers ->
             val filteredServers = servers.asFilteredSequence(filter)
             val hasRegions = filteredServers.any { it.region != null }
@@ -90,7 +90,7 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
 
     override fun servers(
         filter: ServerListFilter,
-    ): Flow<List<CountryListItemData.Server>> =
+    ): Flow<List<ServerGroupItemData.Server>> =
         serverManager2.allServersFlow.map { servers ->
             val availableTypes = initAvailableTypes()
             servers
@@ -100,7 +100,7 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
                 .toList()
         }
 
-    override fun entryCountries(country: CountryId): Flow<List<CountryListItemData.Country>> =
+    override fun entryCountries(country: CountryId): Flow<List<ServerGroupItemData.Country>> =
         serverManager2.allServersFlow.map { _ ->
             val servers = serverManager2.getVpnExitCountry(country.countryCode, true)?.serverList
             if (servers == null)
@@ -116,13 +116,13 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
     override suspend fun haveStates(filter: ServerListFilter): Boolean =
         serverManager2.allServersFlow.first().asFilteredSequence(filter).any { it.region != null }
 
-    override fun gateways(filter: ServerListFilter): Flow<List<CountryListItemData.Gateway>> =
+    override fun gateways(filter: ServerListFilter): Flow<List<ServerGroupItemData.Gateway>> =
         serverManager2.allServersFlow.map { servers ->
             val gateways = servers.asFilteredSequence(filter, forceIncludeGateways = true).groupBy { it.gatewayName }
             gateways.mapNotNull { (gatewayName, servers) ->
                 if (gatewayName == null)
                     null
-                else CountryListItemData.Gateway(
+                else ServerGroupItemData.Gateway(
                     gatewayName = gatewayName,
                     inMaintenance = servers.all { !it.online },
                     tier = servers.minOf { it.tier }
@@ -134,14 +134,14 @@ class CountryListViewModelDataAdapterLegacy @Inject constructor(
         asSequence().filter { filter.isMatching(it, forceIncludeGateways) }
 }
 
-private fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?) = CountryListItemData.Country(
+private fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?) = ServerGroupItemData.Country(
     countryId = CountryId(countryCode),
     entryCountryId = entryCountryId,
     inMaintenance = all { !it.online },
     tier = minOf { it.tier }
 )
 
-private fun Server.toServerItem() = CountryListItemData.Server(
+private fun Server.toServerItem() = ServerGroupItemData.Server(
     countryId = CountryId(exitCountry),
     serverId = ServerId(serverId),
     name = serverName,
@@ -154,13 +154,13 @@ private fun Server.toServerItem() = CountryListItemData.Server(
     gatewayName = gatewayName,
 )
 
-private fun toCityItem(isRegion: Boolean, cityOrRegion: String?, servers: List<Server>) : CountryListItemData.City? {
+private fun toCityItem(isRegion: Boolean, cityOrRegion: String?, servers: List<Server>) : ServerGroupItemData.City? {
     if (cityOrRegion == null || servers.isEmpty())
         return null
 
     val server = servers.first()
     //TODO: what to do with servers without a region if hasRegions is true
-    return CountryListItemData.City(
+    return ServerGroupItemData.City(
         countryId = CountryId(server.exitCountry),
         cityStateId = CityStateId(cityOrRegion, isRegion),
         name = (if (isRegion) server.displayRegion else server.displayCity) ?: cityOrRegion,
