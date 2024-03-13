@@ -19,15 +19,12 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
-import androidx.activity.ComponentActivity
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -50,11 +47,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.protonElevation
-import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
@@ -66,36 +61,12 @@ import me.proton.core.compose.theme.defaultSmallUnspecified
 import me.proton.core.presentation.utils.currentLocale
 import me.proton.core.presentation.R as CoreR
 
-@Composable
-fun CountryListRoute(
-    onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
-    onNavigateToSearch: () -> Unit,
-) {
-    val activity = LocalContext.current as ComponentActivity
-    val activityViewModel: MainActivityViewModel = hiltViewModel(viewModelStoreOwner = activity)
-    val showNewUI = activityViewModel.showNewCountryList.collectAsStateWithLifecycle().value
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        when (showNewUI) {
-            null -> {}
-            true -> BaseCountryListRoute(
-                onNavigateToHomeOnConnect,
-                onNavigateToSearch,
-                hiltViewModel<CountryListViewModel>(),
-                R.string.countries_title
-            )
-            false -> OldCountryListRoute(onNavigateToHomeOnConnect, onNavigateToSearch)
-        }
-    }
-}
-
 // This route is shared by both Gateways and Countries main screens.
 @Composable
-fun BaseCountryListRoute(
+fun ServerGroupsRoute(
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     onNavigateToSearch: (() -> Unit)?,
-    viewModel: BaseCountryListViewModel,
+    viewModel: ServerGroupsViewModel,
     @StringRes titleRes: Int,
 ) {
     val uiDelegate = LocalVpnUiDelegate.current
@@ -108,10 +79,10 @@ fun BaseCountryListRoute(
     val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value ?: return
     val navigateToHome = { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) }
     val navigateToUpsell = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
-    fun createOnItemOpen(filter: ServerFilterType): (CountryListItemState) -> Unit = { item ->
+    fun createOnItemOpen(filter: ServerFilterType): (ServerGroupItemState) -> Unit = { item ->
         viewModel.onItemOpen(item, filter)
     }
-    fun createOnConnectAction(filter: ServerListFilter): (CountryListItemState) -> Unit = { item ->
+    fun createOnConnectAction(filter: ServerListFilter): (ServerGroupItemState) -> Unit = { item ->
         viewModel.onItemConnect(
             vpnUiDelegate = uiDelegate,
             item = item,
@@ -126,7 +97,7 @@ fun BaseCountryListRoute(
         toolbarFilters = mainState.filterButtons,
         titleRes = titleRes,
         content = {
-            CountryList(
+            ServerGroup(
                 modifier = Modifier.padding(it),
                 mainState.items,
                 onCountryClick = createOnConnectAction(mainState.savedState.filter),
@@ -138,7 +109,7 @@ fun BaseCountryListRoute(
     val subScreenState = viewModel.subScreenStateFlow.collectAsStateWithLifecycle().value
 
     if (subScreenState != null) {
-        CountryBottomSheet(
+        ServerGroupsBottomSheet(
             modifier = Modifier,
             screen = subScreenState,
             onNavigateBack = { onHide -> viewModel.onNavigateBack(onHide) },
@@ -232,16 +203,16 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier,
 }
 
 @Composable
-fun CountryList(
+fun ServerGroup(
     modifier: Modifier,
-    countries: List<CountryListItemState>,
-    onOpenCountry: (CountryListItemState) -> Unit,
-    onCountryClick: (CountryListItemState) -> Unit
+    countries: List<ServerGroupItemState>,
+    onOpenCountry: (ServerGroupItemState) -> Unit,
+    onCountryClick: (ServerGroupItemState) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
         countries.forEach { country ->
             item {
-                CountryListItem(country, onOpenCountry, onCountryClick)
+                ServerGroupItem(country, onOpenCountry, onCountryClick)
                 VpnDivider()
             }
         }

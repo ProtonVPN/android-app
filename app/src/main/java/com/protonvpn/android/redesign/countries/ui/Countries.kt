@@ -19,27 +19,38 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 
 @Composable
-fun GatewaysRoute(
+fun CountriesRoute(
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
+    onNavigateToSearch: () -> Unit,
 ) {
-    val viewModel : GatewaysViewModel = hiltViewModel()
+    val activity = LocalContext.current as ComponentActivity
+    val activityViewModel: MainActivityViewModel = hiltViewModel(viewModelStoreOwner = activity)
+    val showNewUI = activityViewModel.showNewCountryList.collectAsStateWithLifecycle().value
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        ServerGroupsRoute(
-            onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
-            onNavigateToSearch = null,
-            viewModel = viewModel,
-            titleRes = R.string.gateways_title,
-        )
+        when (showNewUI) {
+            null -> {}
+            true -> ServerGroupsRoute(
+                onNavigateToHomeOnConnect,
+                onNavigateToSearch,
+                hiltViewModel<CountriesViewModel>(),
+                R.string.countries_title
+            )
+            false -> OldCountryListRoute(onNavigateToHomeOnConnect, onNavigateToSearch)
+        }
     }
 }

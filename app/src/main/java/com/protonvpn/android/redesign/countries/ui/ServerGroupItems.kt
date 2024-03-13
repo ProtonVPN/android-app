@@ -58,10 +58,10 @@ import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.presentation.R as CoreR
 
 @Composable
-fun CountryListItem(
-    item: CountryListItemState,
-    onItemOpen: (CountryListItemState) -> Unit,
-    onItemClick: (CountryListItemState) -> Unit,
+fun ServerGroupItem(
+    item: ServerGroupItemState,
+    onItemOpen: (ServerGroupItemState) -> Unit,
+    onItemClick: (ServerGroupItemState) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -115,40 +115,40 @@ fun CountryListItem(
 }
 
 @Composable
-private fun CountryListItemState.label() : String = when (data) {
-    is CountryListItemData.Country -> data.countryId.label()
-    is CountryListItemData.City -> data.name
-    is CountryListItemData.Server -> data.name
-    is CountryListItemData.Gateway -> data.gatewayName
+private fun ServerGroupItemState.label() : String = when (data) {
+    is ServerGroupItemData.Country -> data.countryId.label()
+    is ServerGroupItemData.City -> data.name
+    is ServerGroupItemData.Server -> data.name
+    is ServerGroupItemData.Gateway -> data.gatewayName
 }
 
 @Composable
-private fun CountryListItemState.subLabel() = when (data) {
-    is CountryListItemData.Country ->
+private fun ServerGroupItemState.subLabel() = when (data) {
+    is ServerGroupItemData.Country ->
         data.entryCountryId?.takeIf { !it.isFastest }?.let { viaCountry(it) }
-    is CountryListItemData.City -> null
-    is CountryListItemData.Server -> null
-    is CountryListItemData.Gateway -> null
+    is ServerGroupItemData.City -> null
+    is ServerGroupItemData.Server -> null
+    is ServerGroupItemData.Gateway -> null
 }
 
 @Composable
-private fun CountryListItemState.Icon(modifier: Modifier) {
+private fun ServerGroupItemState.Icon(modifier: Modifier) {
     when (data) {
-        is CountryListItemData.Country -> Flag(
+        is ServerGroupItemData.Country -> Flag(
             modifier = modifier,
             exitCountry = data.countryId,
             entryCountry = data.entryCountryId,
         )
-        is CountryListItemData.City -> Icon(
+        is ServerGroupItemData.City -> Icon(
             modifier = modifier,
             painter = painterResource(id = CoreR.drawable.ic_proton_map_pin),
             contentDescription = null
         )
-        is CountryListItemData.Gateway -> GatewayIndicator(
+        is ServerGroupItemData.Gateway -> GatewayIndicator(
             country = data.countryId,
             modifier = modifier
         )
-        is CountryListItemData.Server -> if (data.gatewayName != null) {
+        is ServerGroupItemData.Server -> if (data.gatewayName != null) {
             Flag(
                 modifier = modifier,
                 exitCountry = data.countryId,
@@ -159,8 +159,8 @@ private fun CountryListItemState.Icon(modifier: Modifier) {
 }
 
 @Composable
-private fun CountryListItemState.Info(modifier: Modifier) {
-    if (data is CountryListItemData.Server) {
+private fun ServerGroupItemState.Info(modifier: Modifier) {
+    if (data is ServerGroupItemData.Server) {
         Row(modifier) {
             ServerFeaturesRow(data.serverFeatures)
             LoadInfo(data.loadPercent, data.inMaintenance)
@@ -216,7 +216,7 @@ private fun LoadPercentText(loadPercent: Int, alpha: Float) {
     )
 }
 
-private val CountryListItemState.openIconRes get() = when {
+private val ServerGroupItemState.openIconRes get() = when {
     data.inMaintenance -> CoreR.drawable.ic_proton_wrench
     canOpen -> CoreR.drawable.ic_proton_three_dots_horizontal
     else -> null
@@ -229,10 +229,10 @@ fun CountryItemPreview(
     available: Boolean = true,
     connected: Boolean = false,
 ) {
-    CountryListItem(
+    ServerGroupItem(
         modifier = Modifier.padding(6.dp),
-        item = CountryListItemState(
-            data = CountryListItemData.Country(
+        item = ServerGroupItemState(
+            data = ServerGroupItemData.Country(
                 countryId = CountryId("us"),
                 entryCountryId = entry,
                 inMaintenance = inMaintenance,
@@ -252,9 +252,9 @@ fun CityItemPreview(
     available: Boolean = true,
     connected: Boolean = false,
 ) {
-    CountryListItem(
-        item = CountryListItemState(
-            data = CountryListItemData.City(
+    ServerGroupItem(
+        item = ServerGroupItemState(
+            data = ServerGroupItemData.City(
                 countryId = CountryId("us"),
                 cityStateId = CityStateId("Arizona", isState = true),
                 name = "Arizona",
@@ -275,9 +275,9 @@ fun ServerItemPreview(
     available: Boolean = true,
     load: Int = 50
 ) {
-    CountryListItem(
-        item = CountryListItemState(
-            data = CountryListItemData.Server(
+    ServerGroupItem(
+        item = ServerGroupItemState(
+            data = ServerGroupItemData.Server(
                 countryId = CountryId("us"),
                 serverId = ServerId("us-ny-01"),
                 name = "US-NY#1",
@@ -340,9 +340,9 @@ fun ServerItemPreviews() {
 fun GatewayItemPreviews() {
     VpnTheme(isDark = true) {
         Column(modifier = Modifier.background(ProtonTheme.colors.backgroundNorm)) {
-            CountryListItem(
-                item = CountryListItemState(
-                    data = CountryListItemData.Gateway(
+            ServerGroupItem(
+                item = ServerGroupItemState(
+                    data = ServerGroupItemData.Gateway(
                         gatewayName = "MyCompany",
                         inMaintenance = false,
                         tier = 0
@@ -353,9 +353,9 @@ fun GatewayItemPreviews() {
                 onItemOpen = {},
                 onItemClick = {}
             )
-            CountryListItem(
-                item = CountryListItemState(
-                    data = CountryListItemData.Server(
+            ServerGroupItem(
+                item = ServerGroupItemState(
+                    data = ServerGroupItemData.Server(
                         countryId = CountryId("us"),
                         serverId = ServerId("gateway-us-01"),
                         name = "MyCompany#1",

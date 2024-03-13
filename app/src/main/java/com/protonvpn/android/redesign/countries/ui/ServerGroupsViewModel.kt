@@ -27,7 +27,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CityStateId
@@ -44,7 +43,6 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -61,49 +59,16 @@ import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import me.proton.core.presentation.savedstate.state
 import java.util.Locale
-import javax.inject.Inject
 
 private const val MainScreenStateKey = "main_screen_state"
 private const val SubScreenStateKey = "sub_screen_state"
 
 private val defaultMainState = CountryScreenSavedState(ServerListFilter(type = ServerFilterType.All))
 
-@HiltViewModel
-class CountryListViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    dataAdapter: CountryListViewModelDataAdapter,
-    vpnConnectionManager: VpnConnectionManager,
-    shouldShowcaseRecents: ShouldShowcaseRecents,
-    currentUser: CurrentUser,
-    vpnStatusProviderUI: VpnStatusProviderUI,
-) : BaseCountryListViewModel(
-    "country_list",
-    savedStateHandle,
-    dataAdapter,
-    vpnConnectionManager,
-    shouldShowcaseRecents,
-    currentUser,
-    vpnStatusProviderUI,
-    showFilters = true
-) {
-    override fun getMainDataItems(
-        savedState: CountryScreenSavedState,
-        userTier: Int?,
-        locale: Locale,
-    ) : Flow<List<CountryListItemData>> =
-        dataAdapter.countries(savedState.filter).map { countries ->
-            buildList {
-                if (userTier != null && userTier > VpnUser.FREE_TIER)
-                    add(fastestCountryItem(savedState.filter))
-                addAll(countries.sortedByLabel(locale))
-            }
-        }
-}
-
-abstract class BaseCountryListViewModel(
+abstract class ServerGroupsViewModel(
     screenId: String,
     savedStateHandle: SavedStateHandle,
-    protected val dataAdapter: CountryListViewModelDataAdapter,
+    protected val dataAdapter: ServerListViewModelDataAdapter,
     private val vpnConnectionManager: VpnConnectionManager,
     private val shouldShowcaseRecents: ShouldShowcaseRecents,
     currentUser: CurrentUser,
@@ -132,7 +97,7 @@ abstract class BaseCountryListViewModel(
         savedState: CountryScreenSavedState,
         userTier: Int?,
         locale: Locale,
-    ) : Flow<List<CountryListItemData>>
+    ) : Flow<List<ServerGroupItemData>>
 
     // Screen states
     val stateFlow =
@@ -172,7 +137,7 @@ abstract class BaseCountryListViewModel(
     private fun getSubScreenDataItems(
         savedState: SubScreenSaveState,
         locale: Locale
-    ): Flow<List<CountryListItemData>> =
+    ): Flow<List<ServerGroupItemData>> =
         when (savedState.type) {
             SubScreenType.Cities -> when (savedState.filter.type) {
                 ServerFilterType.All, ServerFilterType.P2P ->
@@ -193,7 +158,7 @@ abstract class BaseCountryListViewModel(
 
     private suspend fun mainScreenState(
         savedState: CountryScreenSavedState,
-        items: List<CountryListItemState>,
+        items: List<ServerGroupItemState>,
     ) = CountryScreenState(
         savedState = savedState,
         items = items,
@@ -237,7 +202,7 @@ abstract class BaseCountryListViewModel(
 
     private suspend fun subScreenState(
         savedState: SubScreenSaveState,
-        items: List<CountryListItemState>
+        items: List<ServerGroupItemState>
     ): SubScreenState {
         val filterButtons = if (showFilters) {
             when (savedState.type) {
@@ -264,11 +229,11 @@ abstract class BaseCountryListViewModel(
         )
     }
 
-    private fun CountryListItemData.toState(
+    private fun ServerGroupItemData.toState(
         userTier: Int?,
         filter: ServerListFilter,
         connectedServer: Server?
-    ) = CountryListItemState(
+    ) = ServerGroupItemState(
         data = this,
         available = userTier == null || (countryId?.isFastest == true || (userTier > 0 && userTier >= tier)),
         connected = connectedServer != null && connectedServer.isCompatibleWith(getConnectIntent(filter)),
@@ -305,18 +270,18 @@ abstract class BaseCountryListViewModel(
         )
     }
 
-    fun onItemOpen(item: CountryListItemState, type: ServerFilterType) {
+    fun onItemOpen(item: ServerGroupItemState, type: ServerFilterType) {
         when (item.data) {
-            is CountryListItemData.Country -> onOpenCountry(type, item.data.countryId)
-            is CountryListItemData.City -> onOpenCity(type, item.data.countryId, item.data.cityStateId)
-            is CountryListItemData.Gateway -> onOpenGateway(item.data.gatewayName)
-            is CountryListItemData.Server -> {} // shouldn't happen
+            is ServerGroupItemData.Country -> onOpenCountry(type, item.data.countryId)
+            is ServerGroupItemData.City -> onOpenCity(type, item.data.countryId, item.data.cityStateId)
+            is ServerGroupItemData.Gateway -> onOpenGateway(item.data.gatewayName)
+            is ServerGroupItemData.Server -> {} // shouldn't happen
         }
     }
 
     fun onItemConnect(
         vpnUiDelegate: VpnUiDelegate,
-        item: CountryListItemState,
+        item: ServerGroupItemState,
         filter: ServerListFilter,
         navigateToHome: (ShowcaseRecents) -> Unit,
         navigateToUpsell: () -> Unit,
@@ -360,53 +325,53 @@ data class FilterButton(
     val onClick: () -> Unit
 ) : Parcelable
 
-val CountryListItemState.canOpen: Boolean get() = when(data) {
-    is CountryListItemData.Server -> false
-    is CountryListItemData.Gateway -> !data.inMaintenance
-    is CountryListItemData.City -> !data.inMaintenance
-    is CountryListItemData.Country -> !data.inMaintenance &&
+val ServerGroupItemState.canOpen: Boolean get() = when(data) {
+    is ServerGroupItemData.Server -> false
+    is ServerGroupItemData.Gateway -> !data.inMaintenance
+    is ServerGroupItemData.City -> !data.inMaintenance
+    is ServerGroupItemData.Country -> !data.inMaintenance &&
         !data.countryId.isFastest &&
         (data.entryCountryId == null || data.entryCountryId == CountryId.fastest)
 }
 
-private fun fastestCountryItem(filter: ServerListFilter): CountryListItemData.Country =
-    CountryListItemData.Country(
+internal fun fastestCountryItem(filter: ServerListFilter): ServerGroupItemData.Country =
+    ServerGroupItemData.Country(
         countryId = CountryId.fastest,
         inMaintenance = false,
         tier = 0,
         entryCountryId = if (filter.type == ServerFilterType.SecureCore) CountryId.fastest else null
     )
 
-internal fun List<CountryListItemData>.sortedByLabel(locale: Locale): List<CountryListItemData> {
+internal fun List<ServerGroupItemData>.sortedByLabel(locale: Locale): List<ServerGroupItemData> {
     val sortLabel = associateWith { data -> data.sortLabel(locale) }
     return sortedByLocaleAware { data -> sortLabel[data]!! }
 }
 
-private fun CountryListItemData.sortLabel(locale: Locale): String = when(this) {
-    is CountryListItemData.Country -> CountryTools.getFullName(locale, countryId.countryCode)
-    is CountryListItemData.City -> name
-    is CountryListItemData.Server -> name
-    is CountryListItemData.Gateway -> gatewayName
+private fun ServerGroupItemData.sortLabel(locale: Locale): String = when(this) {
+    is ServerGroupItemData.Country -> CountryTools.getFullName(locale, countryId.countryCode)
+    is ServerGroupItemData.City -> name
+    is ServerGroupItemData.Server -> name
+    is ServerGroupItemData.Gateway -> gatewayName
 }
 
-private fun CountryListItemData.getConnectIntent(filter: ServerListFilter): ConnectIntent = when(this) {
-    is CountryListItemData.City -> {
+private fun ServerGroupItemData.getConnectIntent(filter: ServerListFilter): ConnectIntent = when(this) {
+    is ServerGroupItemData.City -> {
         if (cityStateId.isState)
             ConnectIntent.FastestInRegion(countryId, cityStateId.name, filter.toFeatures())
         else
             ConnectIntent.FastestInCity(countryId, cityStateId.name, filter.toFeatures())
     }
-    is CountryListItemData.Server ->
+    is ServerGroupItemData.Server ->
         when {
             entryCountryId != null -> ConnectIntent.SecureCore(countryId, entryCountryId)
             gatewayName != null -> ConnectIntent.Gateway(gatewayName, serverId.id)
             else -> ConnectIntent.Server(serverId.id, serverFeatures)
         }
-    is CountryListItemData.Country ->
+    is ServerGroupItemData.Country ->
         entryCountryId?.let { ConnectIntent.SecureCore(countryId, it) } ?:
             ConnectIntent.FastestInCountry(countryId, filter.toFeatures())
 
-    is CountryListItemData.Gateway -> ConnectIntent.Gateway(gatewayName, null)
+    is ServerGroupItemData.Gateway -> ConnectIntent.Gateway(gatewayName, null)
 }
 
 private fun ServerListFilter.toFeatures(): Set<ServerFeature> = when (type) {
@@ -437,7 +402,7 @@ data class CountryScreenSavedState(
 data class CountryScreenState(
     val savedState: CountryScreenSavedState,
     val filterButtons: List<FilterButton>?,
-    val items: List<CountryListItemState>,
+    val items: List<ServerGroupItemState>,
 )
 
 @Parcelize
@@ -451,29 +416,29 @@ data class SubScreenSaveState(
 data class SubScreenState(
     val savedState: SubScreenSaveState,
     val filterButtons: List<FilterButton>?,
-    val items: List<CountryListItemState>,
+    val items: List<ServerGroupItemState>,
     @StringRes val allLabelRes: Int?,
 )
 
 // Adapter separating server data storage from view model.
-interface CountryListViewModelDataAdapter {
+interface ServerListViewModelDataAdapter {
 
     suspend fun availableTypesFor(country: CountryId?): Set<ServerFilterType>
 
     suspend fun haveStates(filter: ServerListFilter): Boolean
 
     fun countries(filter: ServerListFilter):
-        Flow<List<CountryListItemData.Country>>
+        Flow<List<ServerGroupItemData.Country>>
 
     fun cities(filter: ServerListFilter):
-        Flow<List<CountryListItemData.City>>
+        Flow<List<ServerGroupItemData.City>>
 
     fun servers(filter: ServerListFilter):
-        Flow<List<CountryListItemData.Server>>
+        Flow<List<ServerGroupItemData.Server>>
 
     fun entryCountries(country: CountryId):
-        Flow<List<CountryListItemData.Country>>
+        Flow<List<ServerGroupItemData.Country>>
 
-    fun gateways(filter: ServerListFilter): Flow<List<CountryListItemData.Gateway>>
+    fun gateways(filter: ServerListFilter): Flow<List<ServerGroupItemData.Gateway>>
 }
 

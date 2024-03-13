@@ -24,7 +24,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.android.api.ProtonApiRetroFit
-import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ChangeServerConfig
 import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.appconfig.RestrictionsConfig
