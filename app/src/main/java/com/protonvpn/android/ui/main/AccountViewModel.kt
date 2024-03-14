@@ -34,16 +34,15 @@ import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.VpnLogin.Companion.GUEST_HOLE_ID
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.userstorage.DontShowAgainStore
-import com.protonvpn.android.ui.main.usecase.PromotedFromGuestUser
 import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
+import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
@@ -70,8 +69,6 @@ import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
 import me.proton.core.domain.entity.Product
 import me.proton.core.plan.domain.usecase.GetDynamicSubscription
-import me.proton.core.user.domain.UserManager
-import me.proton.core.user.domain.extension.hasSubscription
 import javax.inject.Inject
 
 @HiltViewModel
@@ -93,9 +90,7 @@ class AccountViewModel @Inject constructor(
     private val dontShowAgainStore: DontShowAgainStore,
     private val isCredentialLessEnabled: IsCredentialLessEnabled,
     private val isInAppUpgradeAllowedUseCase: IsInAppUpgradeAllowedUseCase,
-    private val promotedFromGuestUser: PromotedFromGuestUser,
-    private val userManager: UserManager,
-    private val userPlanManager: UserPlanManager,
+    private val getDynamicSubscription: GetDynamicSubscription,
 ) : ViewModel() {
 
     sealed class State {
@@ -106,10 +101,11 @@ class AccountViewModel @Inject constructor(
         object Processing : State()
     }
 
-    enum class OnboardingEvent {
-        None,
-        ShowOnboarding,
-        ShowUpgradeOnboarding
+    sealed class OnboardingEvent {
+        data object None: OnboardingEvent()
+        data object ShowOnboarding: OnboardingEvent()
+        data object ShowUpgradeOnboarding: OnboardingEvent()
+        data class ShowUpgradeSuccess(val planName: String): OnboardingEvent()
     }
 
     val eventShowOnboarding = combine(
@@ -122,11 +118,9 @@ class AccountViewModel @Inject constructor(
             null
         }
     }.filterNotNull().map { userId ->
-        if (promotedFromGuestUser() && userManager.getUser(userId).hasSubscription()) {
-            // CongratsPlanActivity will be shown automatically by ShowUpgradeSuccess,
-            // after refreshing:
-            userPlanManager.refreshVpnInfo()
-            OnboardingEvent.None
+        val paidPlanName = getDynamicSubscription(userId).name
+        if (paidPlanName != null) {
+            OnboardingEvent.ShowUpgradeSuccess(paidPlanName)
         } else if (!isCredentialLessEnabled()) {
             OnboardingEvent.ShowOnboarding
         } else if (isInAppUpgradeAllowedUseCase()) {
@@ -134,6 +128,8 @@ class AccountViewModel @Inject constructor(
         } else {
             OnboardingEvent.None
         }
+    }.catch {
+        emit(OnboardingEvent.None)
     }
 
     val eventForceUpdate get() = vpnApiClient.eventForceUpdate

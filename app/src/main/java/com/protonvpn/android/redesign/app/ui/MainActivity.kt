@@ -55,6 +55,7 @@ import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewActivity
 import com.protonvpn.android.ui.onboarding.WhatsNewDialogController
+import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess
 import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
@@ -72,6 +73,9 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     private val accountViewModel: AccountViewModel by viewModels()
     private val activityViewModel: MainActivityViewModel by viewModels()
+
+    @Inject
+    lateinit var showUpgradeSuccess: ShowUpgradeSuccess
 
     @Inject
     lateinit var whatsNewDialogController: WhatsNewDialogController
@@ -111,11 +115,19 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
             .onEach {
                 accountViewModel.onOnboardingShown()
                 when (it) {
-                    AccountViewModel.OnboardingEvent.None -> Unit
-                    AccountViewModel.OnboardingEvent.ShowOnboarding ->
+                    is AccountViewModel.OnboardingEvent.None -> Unit
+                    is AccountViewModel.OnboardingEvent.ShowOnboarding ->
                         startActivity(Intent(this, OnboardingActivity::class.java))
-                    AccountViewModel.OnboardingEvent.ShowUpgradeOnboarding ->
+
+                    is AccountViewModel.OnboardingEvent.ShowUpgradeOnboarding ->
                         UpgradeOnboardingDialogActivity.launch(this)
+
+                    is AccountViewModel.OnboardingEvent.ShowUpgradeSuccess ->
+                        showUpgradeSuccess.showPlanUpgradeSuccess(
+                            this,
+                            it.planName,
+                            refreshVpnInfo = false
+                        )
                 }
             }
             .launchIn(lifecycleScope)
