@@ -67,7 +67,7 @@ class VpnLogin @Inject constructor(
         requireNotNull(sessionId)
         // Note: all API calls need explicit sessionId!
         val vpnInfoDeferred = async { api.getVPNInfo(sessionId) }
-        val appConfigDeferred = async { appConfig.forceUpdate(sessionId) }
+        val appConfigDeferred = async { appConfig.forceUpdate(user.userId) }
         val certificateDeferred = async { fetchCertificate(sessionId) }
 
         when (val vpnResult = vpnInfoDeferred.await()) {

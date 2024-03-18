@@ -36,14 +36,17 @@ import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.tv.login.TvLoginViewState
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.currentTime
@@ -72,13 +75,14 @@ class TvLoginViewModelTests {
     @MockK
     private lateinit var serverManager: ServerManager
     @RelaxedMockK
-    private lateinit var currentUser: CurrentUser
-    @RelaxedMockK
     private lateinit var vpnUserDao: VpnUserDao
     @RelaxedMockK
     private lateinit var accountManager: AccountManager
     @RelaxedMockK
     private lateinit var guestHole: GuestHole
+
+    private lateinit var currentUser: CurrentUser
+    private lateinit var testScope: TestScope
 
     private val selector = "selector"
     private val forkedSessionResponse = ForkedSessionResponse(
@@ -104,6 +108,9 @@ class TvLoginViewModelTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        testScope = TestScope()
+        currentUser = CurrentUser(testScope.backgroundScope, TestCurrentUserProvider(null))
+
         coEvery { api.getAvailableDomains() } returns ApiResult.Success(GenericResponse(1000))
 
         coEvery { api.getSessionForkSelector() } returns ApiResult.Success(
@@ -114,7 +121,7 @@ class TvLoginViewModelTests {
     }
 
     @Test
-    fun successfulLogin() = runTest {
+    fun successfulLogin() = testScope.runTest {
         val viewModel = TvLoginViewModel(currentUser, vpnUserDao, appConfig, api, serverListUpdater, serverManager,
             accountManager, monoClockMs = { currentTime }, wallClock = { currentTime }, guestHole = guestHole)
         val insertedVpnUser = slot<VpnUser>()
@@ -137,7 +144,7 @@ class TvLoginViewModelTests {
     }
 
     @Test
-    fun vpnConnectionAllocationNeeded() = runTest {
+    fun vpnConnectionAllocationNeeded() = testScope.runTest {
         val viewModel = TvLoginViewModel(currentUser, vpnUserDao, appConfig, api,
             serverListUpdater, serverManager, accountManager, monoClockMs = { currentTime }, wallClock= { currentTime },
             guestHole = guestHole)

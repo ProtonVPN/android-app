@@ -52,7 +52,6 @@ import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.Session
-import me.proton.core.network.domain.session.SessionId
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Qualifier
@@ -81,11 +80,12 @@ class TvLoginViewModel @Inject constructor(
     val displayStreamingIcons get() = appConfig.getFeatureFlags().streamingServicesLogos
 
     suspend fun onEnterScreen(scope: CoroutineScope) {
-        if (currentUser.isLoggedIn()) {
+        val user = currentUser.user()
+        if (user != null) {
             if (serverManager.isDownloadedAtLeastOnce())
                 state.value = TvLoginViewState.Success
             else scope.launch {
-                loadInitialConfig(currentUser.sessionId())
+                loadInitialConfig(user.userId)
             }
         } else {
             state.value = TvLoginViewState.Welcome
@@ -182,16 +182,16 @@ class TvLoginViewModel @Inject constructor(
                     else -> {
                         vpnUserDao.insertOrUpdate(
                             infoResult.value.toVpnUserEntity(userId, loginResponse.sessionId, wallClock()))
-                        loadInitialConfig(loginResponse.sessionId)
+                        loadInitialConfig(userId)
                     }
                 }
             }
         }
     }
 
-    private suspend fun loadInitialConfig(sessionId: SessionId?) {
+    private suspend fun loadInitialConfig(userId: UserId) {
         state.value = TvLoginViewState.Loading
-        appConfig.forceUpdate(sessionId)
+        appConfig.forceUpdate(userId)
         when (val result = serverListUpdater.updateServerList()) {
             is ApiResult.Success -> {
                 guestHole.releaseNeedGuestHole(VpnLogin.GUEST_HOLE_ID)
